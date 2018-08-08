@@ -49,50 +49,30 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	protected $tcpdf;
 
 	/**
-	 * Array of standard font names.
-	 * @protected
-	 */
-	protected $coreFonts;
-
-	/**
 	 * __construct
 	 *
-	 * @param  mixed &$subject
-	 * @param  array $config
+	 * @param   mixed $subject subject
+	 * @param   array $config  config
 	 */
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
-		$this->tcpdf = new PlgRedshop_PdfTcPDFHelper();
+		$this->tcpdf = new PlgRedshop_PdfTcPDFHelper;
 		$this->tcpdf->setFontSubsetting(true);
 		$this->tcpdf->SetAuthor(JText::_('LIB_REDSHOP_PDF_CREATOR'));
 		$this->tcpdf->SetCreator(JText::_('LIB_REDSHOP_PDF_CREATOR'));
 		$this->tcpdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 		$this->tcpdf->SetMargins(8, 8, 8);
-		$this->coreFonts = array(
-			'courier'      => 'courier',
-			'courierb'     => 'courierB',
-			'courieri'     => 'courierI',
-			'courierbi'    => 'courierBI',
-			'helvetica'    => 'helvetica',
-			'helveticab'   => 'helveticaB',
-			'helveticai'   => 'helveticaI',
-			'helveticabi'  => 'helveticaBI',
-			'times'        => 'times',
-			'timesb'       => 'timesB',
-			'timesi'       => 'timesI',
-			'timesbi'      => 'timesBI',
-			'symbol'       => 'symbol',
-			'zapfdingbats' => 'zapfdingbats'
-		);
 	}
 
 	/**
 	 * settingTCPDF
 	 *
-	 * @param  integer $setHeaderFont
-	 * @param  integer $setFont
+	 * @param   integer $setHeaderFont setHeaderFont
+	 * @param   integer $setFont       setFont
+	 *
+	 * @return void
 	 */
 	public function settingTCPDF($setHeaderFont = 8, $setFont = 6)
 	{
@@ -104,7 +84,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		}
 		else
 		{
-			$this->fontName = empty($this->coreFonts[$this->fontFile]) ? 'times' : $this->coreFonts[$this->fontFile];
+			$this->fontName = empty($this->fontFile) ? 'times' : $this->fontFile;
 		}
 
 		$this->tcpdf->SetFont($this->fontName, '', $setFont);
@@ -115,15 +95,28 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	/**
 	 * get font
 	 *
-	 * @param  string $params
+	 * @param   string $params params
 	 *
 	 * @return boolean
 	 */
 	public function getFont($params)
 	{
-
 		if (!strstr($params, 'ttf'))
 		{
+			if (substr($params, -1) == 'i')
+			{
+				if (substr($params, -2) == 'bi')
+				{
+					$this->fontFile = str_replace('bi', 'BI', $params);
+
+					return false;
+				}
+
+				$this->fontFile = strrev(ucfirst(strrev($params)));
+
+				return false;
+			}
+
 			$this->fontFile = $params;
 
 			return false;
@@ -164,7 +157,6 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$this->settingTCPDF();
 		$this->tcpdf->writeHTML($pdfHtml);
 
-
 		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/';
 
 		if (!$isEmail)
@@ -176,7 +168,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		}
 
 		$invoiceFolder .= $orderId;
-		$invoicePdf    = 'invoice-' . round(microtime(true) * 1000);
+		$invoicePdf     = 'invoice-' . round(microtime(true) * 1000);
 
 		// Delete currently order invoice
 		if (JFolder::exists($invoiceFolder))
