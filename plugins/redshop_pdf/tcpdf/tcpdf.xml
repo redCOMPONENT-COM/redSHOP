@@ -18,31 +18,19 @@
         <language tag="en-GB">en-GB/en-GB.plg_redshop_pdf_tcpdf.ini</language>
         <language tag="en-GB">en-GB/en-GB.plg_redshop_pdf_tcpdf.sys.ini</language>
     </languages>
-    <config addfieldpath="/libraries/redshop/form/fields">
+    <config addfieldpath="/libraries/redshop/form/field">
         <fields name="params">
             <fieldset name="basic">
-                <field
-                        name="fontPDF"
-                        type="list"
-                        class="btn-group"
-                        default="1"
-                        label="PLG_REDSHOP_PDF_TCPDF_FONT_LABLE"
-                        description="PLG_REDSHOP_PDF_TCPDF_FONT_LABEL_DESC">
-                    <option value="courier">Courier</option>
-                    <option value="courierB">Courier Bold</option>
-                    <option value="courierBI">Courier Bold Italic</option>
-                    <option value="courierI">Courier Italic</option>
-                    <option value="helvetica">Helvetica</option>
-                    <option value="helveticaB">Helvetica Bold</option>
-                    <option value="helveticaBI">Helvetica Bold Italic</option>
-                    <option value="helveticaI">Helvetica Italic</option>
-                    <option value="symbol">Symbol</option>
-                    <option value="times">Times New Roman</option>
-                    <option value="timesB">Times New Roman Bold</option>
-                    <option value="timesBI">Times New Roman Bold Italic</option>
-                    <option value="timesI">Times New Roman Italic</option>
-                    <option value="zapfdingbats">Zapf Dingbats</option>
-                </field>
+                <field 
+                    name="fontPDF" 
+                    type="redshop.fontlist" 
+                    default="" 
+                    label="Select a file" 
+                    description="" 
+                    directory="plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts" 
+                    filter="php"
+                    exclude=""
+                    stripext="true" />
             </fieldset>
         </fields>
     </config>
