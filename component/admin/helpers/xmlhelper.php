@@ -1480,13 +1480,12 @@ class xmlHelper
 
 									if ($category_id != 0)
 									{
-										$query = 'DELETE FROM ' . $this->_table_prefix . 'product_category_xref '
-											. "WHERE product_id=" . (int) $product_id . " "
-											. "AND category_id=" . (int) $category_id . " ";
+										\Redshop\Repositories\Products::delete(array(
+											'product_id' => $product_id,
+											'category_id' => $category_id
+										));
 
-										$db->setQuery($query)->execute();
-
-										$query = "INSERT IGNORE INTO " . "#__redshop_product_category_xref "
+										$query = "INSERT IGNORE INTO #__redshop_product_category_xref "
 											. "(category_id,product_id) "
 											. "VALUES (" . (int) $category_id . ", " . (int) $product_id . ")";
 

@@ -80,7 +80,7 @@ class Product
 	 */
 	public static function getProductByNumber($productNumber)
 	{
-		$db = \JFactory::getDbo();
+		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__redshop_product'))
