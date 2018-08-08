@@ -270,8 +270,10 @@ class xmlHelper
 	public function getXMLExportInfo($xmlexport_id = 0)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x "
-			. "WHERE x.xmlexport_id=" . (int) $xmlexport_id;
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__redshop_xml_export', 'x'))
+			->where($db->quoteName('x.xmlexport_id') . ' = ' . (int) $xmlexport_id);
 
 		return $db->setQuery($query)->loadObjectList();
 	}
@@ -279,7 +281,7 @@ class xmlHelper
 	public function getXMLExportIpAddress($xmlexport_id = 0)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export_ipaddress AS x "
+		$query = "SELECT * FROM " . "#__redshop_xml_export_ipaddress AS x "
 			. "WHERE x.xmlexport_id=" . (int) $xmlexport_id;
 
 		return $db->setQuery($query)->loadObjectlist();
@@ -288,7 +290,7 @@ class xmlHelper
 	public function insertXMLExportlog($xmlexport_id = 0, $filename = "")
 	{
 		$db    = JFactory::getDbo();
-		$query = "INSERT INTO " . $this->_table_prefix . "xml_export_log "
+		$query = "INSERT INTO " . "#__redshop_xml_export_log "
 			. "(xmlexport_id, xmlexport_filename, xmlexport_date) "
 			. "VALUES "
 			. "(" . (int) $xmlexport_id . ", " . $db->quote($filename) . "," . $db->quote(time()) . ") ";
@@ -299,7 +301,7 @@ class xmlHelper
 	public function updateXMLExportFilename($xmlexport_id = 0, $filename = "")
 	{
 		$db    = JFactory::getDbo();
-		$query = "UPDATE " . $this->_table_prefix . "xml_export "
+		$query = "UPDATE " . "#__redshop_xml_export "
 			. "SET filename=" . $db->quote($filename) . " "
 			. "WHERE xmlexport_id=" . (int) $xmlexport_id;
 
@@ -309,7 +311,7 @@ class xmlHelper
 	public function getXMLImportInfo($xmlimport_id = 0)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT * FROM " . $this->_table_prefix . "xml_import "
+		$query = "SELECT * FROM " . "#__redshop_xml_import "
 			. "WHERE xmlimport_id=" . (int) $xmlimport_id;
 
 		return $db->setQuery($query)->loadObjectList();
@@ -318,7 +320,7 @@ class xmlHelper
 	public function insertXMLImportlog($xmlimport_id = 0, $filename = "")
 	{
 		$db    = JFactory::getDbo();
-		$query = "INSERT INTO " . $this->_table_prefix . "xml_import_log "
+		$query = "INSERT INTO " . "#__redshop_xml_import_log "
 			. "(xmlimport_id, xmlimport_filename, xmlimport_date) "
 			. "VALUES "
 			. "(" . (int) $xmlimport_id . ", " . $db->quote($filename) . "," . (int) time() . ") ";
@@ -329,7 +331,7 @@ class xmlHelper
 	public function updateXMLImportFilename($xmlimport_id = 0, $filename = "")
 	{
 		$db    = JFactory::getDbo();
-		$query = "UPDATE " . $this->_table_prefix . "xml_import "
+		$query = "UPDATE " . "#__redshop_xml_import "
 			. "SET filename=" . $db->quote($filename) . " "
 			. "WHERE xmlimport_id=" . (int) $xmlimport_id;
 
@@ -663,8 +665,8 @@ class xmlHelper
 
 						elseif ($prop == "delivertime")
 						{
-							$query = "SELECT * FROM " . $this->_table_prefix . "stockroom AS s "
-								. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
+							$query = "SELECT * FROM " . "#__redshop_stockroom AS s "
+								. "LEFT JOIN " . "#__redshop_product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
 								. "WHERE product_id=" . (int) $product_id . " "
 								. "ORDER BY s.stockroom_id ASC ";
 
@@ -1125,7 +1127,7 @@ class xmlHelper
 					{
 						$datalist[$i]['product_number'] = $oldproduct_number;
 
-						$query      = "SELECT product_id FROM " . $this->_table_prefix . "product "
+						$query      = "SELECT product_id FROM " . "#__redshop_product "
 							. "WHERE product_number=" . $db->quote($oldproduct_number);
 						$product_id = $db->setQuery($query)->loadResult();
 
@@ -1164,9 +1166,9 @@ class xmlHelper
 
 											if (trim($stockstring) != "")
 											{
-												$query = "UPDATE " . $this->_table_prefix . "stockroom AS s "
-													. ", " . $this->_table_prefix . "product_stockroom_xref AS sx "
-													. ", " . $this->_table_prefix . "product AS p "
+												$query = "UPDATE " . "#__redshop_stockroom AS s "
+													. ", " . "#__redshop_product_stockroom_xref AS sx "
+													. ", " . "#__redshop_product AS p "
 													. "SET $stockstring "
 													. "WHERE sx.stockroom_id=s.stockroom_id "
 													. "AND sx.product_id=p.product_id "
@@ -1178,28 +1180,28 @@ class xmlHelper
 
 												if (!$affected_rows)
 												{
-													$query = "SELECT stockroom_id FROM " . $this->_table_prefix . "stockroom "
+													$query = "SELECT stockroom_id FROM " . "#__redshop_stockroom "
 														. "WHERE stockroom_name=" . $db->quote($value[$j]['stockroom_name']) . "";
 													$db->setQuery($query);
 													$stockroom_id = $db->loadResult();
 
 													if (!$stockroom_id)
 													{
-														$query = "INSERT IGNORE INTO " . $this->_table_prefix . "stockroom "
+														$query = "INSERT IGNORE INTO " . "#__redshop_stockroom "
 															. "(stockroom_name) VALUES (" . $db->quote($value[$j]['stockroom_name']) . ")";
 														$db->setQuery($query);
 														$db->execute();
 														$stockroom_id = $db->insertid();
 													}
 
-													$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_stockroom_xref "
+													$query = "INSERT IGNORE INTO " . "#__redshop_product_stockroom_xref "
 														. "(stockroom_id,product_id,quantity) VALUES (" . (int) $stockroom_id . "," . (int) $product_id . ",0)";
 
 													$db->setQuery($query)->execute();
 
-													$query = "UPDATE " . $this->_table_prefix . "stockroom AS s "
-														. ", " . $this->_table_prefix . "product_stockroom_xref AS sx "
-														. ", " . $this->_table_prefix . "product AS p "
+													$query = "UPDATE " . "#__redshop_stockroom AS s "
+														. ", " . "#__redshop_product_stockroom_xref AS sx "
+														. ", " . "#__redshop_product AS p "
 														. "SET $stockstring "
 														. "WHERE sx.stockroom_id=s.stockroom_id "
 														. "AND sx.product_id=p.product_id "
@@ -1226,8 +1228,8 @@ class xmlHelper
 
 											if (trim($prdextstring) != "")
 											{
-												$query = "UPDATE " . $this->_table_prefix . "fields_data AS fa "
-													. ", " . $this->_table_prefix . "product AS p "
+												$query = "UPDATE " . "#__redshop_fields_data AS fa "
+													. ", " . "#__redshop_product AS p "
 													. "SET $prdextstring "
 													. "WHERE p.product_id=fa.itemid "
 													. "AND fa.section='1' "
@@ -1239,13 +1241,13 @@ class xmlHelper
 
 												if (!$affected_rows)
 												{
-													$query = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
+													$query = "INSERT IGNORE INTO " . "#__redshop_fields_data "
 														. "(fieldid,itemid,section) VALUES (" . $db->quote($value[$j]['fieldid']) . "," . (int) $product_id . ",1)";
 
 													$db->setQuery($query)->execute();
 
-													$query = "UPDATE " . $this->_table_prefix . "fields_data AS fa "
-														. ", " . $this->_table_prefix . "product AS p "
+													$query = "UPDATE " . "#__redshop_fields_data AS fa "
+														. ", " . "#__redshop_product AS p "
 														. "SET $prdextstring "
 														. "WHERE p.product_id=fa.itemid "
 														. "AND fa.section='1' "
@@ -1264,7 +1266,7 @@ class xmlHelper
 						if (count($prdarray) > 0)
 						{
 							$upstring = implode(", ", $prdarray);
-							$query    = "UPDATE " . $this->_table_prefix . "product "
+							$query    = "UPDATE " . "#__redshop_product "
 								. "SET $upstring "
 								. "WHERE product_number=" . $db->quote($oldproduct_number) . " ";
 
@@ -1282,7 +1284,7 @@ class xmlHelper
 
 							elseif (isset($catarray['category_name']))
 							{
-								$query = "SELECT category_id FROM " . $this->_table_prefix . "category "
+								$query = "SELECT category_id FROM " . "#__redshop_category "
 									. "WHERE category_name=" . $db->quote($catarray['category_name']) . " ";
 
 								$category_id = $db->setQuery($query)->loadResult();
@@ -1290,13 +1292,13 @@ class xmlHelper
 
 							if ($category_id == 0 && isset($catarray['category_name']) && $catarray['category_name'] != "")
 							{
-								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category "
+								$query = "INSERT IGNORE INTO " . "#__redshop_category "
 									. "(category_name) VALUES (" . $db->quote($catarray['category_name']) . ")";
 
 								$db->setQuery($query)->execute();
 								$category_id = $db->insertid();
 
-								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category_xref "
+								$query = "INSERT IGNORE INTO " . "#__redshop_category_xref "
 									. "(category_parent_id,category_child_id) "
 									. "VALUES ('0', " . (int) $category_id . ")";
 
@@ -1311,7 +1313,7 @@ class xmlHelper
 
 								$db->setQuery($query)->execute();
 
-								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_category_xref "
+								$query = "INSERT IGNORE INTO " . "#__redshop_product_category_xref "
 									. "(category_id,product_id) "
 									. "VALUES (" . (int) $category_id . ", " . (int) $product_id . ")";
 
@@ -1348,7 +1350,7 @@ class xmlHelper
 								$fieldstring = implode(", ", $prdkeysarray);
 								$valuestring = implode("', '", $prdvalsarray);
 								$valuestring = "'" . $valuestring . "'";
-								$query       = "INSERT IGNORE INTO " . $this->_table_prefix . "product "
+								$query       = "INSERT IGNORE INTO " . "#__redshop_product "
 									. "($fieldstring) VALUES ($valuestring)";
 
 								$db->setQuery($query)->execute();
@@ -1382,14 +1384,14 @@ class xmlHelper
 
 													if (trim($fieldstring) != "")
 													{
-														$query = "SELECT stockroom_id FROM " . $this->_table_prefix . "stockroom "
+														$query = "SELECT stockroom_id FROM " . "#__redshop_stockroom "
 															. "WHERE stockroom_name=" . $db->quote($value[$j]['stockroom_name']) . "";
 
 														$stockroom_id = $db->setQuery($query)->loadResult();
 
 														if (!$stockroom_id)
 														{
-															$query = "INSERT IGNORE INTO " . $this->_table_prefix . "stockroom "
+															$query = "INSERT IGNORE INTO " . "#__redshop_stockroom "
 																. "(stockroom_name) VALUES (" . $db->quote($value[$j]['stockroom_name']) . ")";
 
 															$db->setQuery($query)->execute();
@@ -1401,7 +1403,7 @@ class xmlHelper
 															$fieldstring .= ",stockroom_id,product_id";
 															$valuestring .= "," . (int) $stockroom_id . ", " . (int) $product_id . "";
 
-															$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_stockroom_xref "
+															$query = "INSERT IGNORE INTO " . "#__redshop_product_stockroom_xref "
 																. "($fieldstring) VALUES ($valuestring)";
 
 															$db->setQuery($query)->execute();
@@ -1433,7 +1435,7 @@ class xmlHelper
 													{
 														$fieldstring .= ",itemid,section";
 														$valuestring .= "," . (int) $product_id . ", '1' ";
-														$query       = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
+														$query       = "INSERT IGNORE INTO " . "#__redshop_fields_data "
 															. "($fieldstring) VALUES ($valuestring)";
 
 														$db->setQuery($query)->execute();
@@ -1455,7 +1457,7 @@ class xmlHelper
 
 									elseif (isset($catarray['category_name']))
 									{
-										$query = "SELECT category_id FROM " . $this->_table_prefix . "category "
+										$query = "SELECT category_id FROM " . "#__redshop_category "
 											. "WHERE category_name=" . $db->quote($catarray['category_name']) . " ";
 
 										$category_id = $db->setQuery($query)->loadResult();
@@ -1463,13 +1465,13 @@ class xmlHelper
 
 									if ($category_id == 0 && isset($catarray['category_name']) && $catarray['category_name'] != "")
 									{
-										$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category "
+										$query = "INSERT IGNORE INTO " . "#__redshop_category "
 											. "(category_name) VALUES (" . $db->quote($catarray['category_name']) . ")";
 
 										$db->setQuery($query)->execute();
 										$category_id = $db->insertid();
 
-										$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category_xref "
+										$query = "INSERT IGNORE INTO " . "#__redshop_category_xref "
 											. "(category_parent_id,category_child_id) "
 											. "VALUES ('0', " . (int) $category_id . ")";
 
@@ -1484,7 +1486,7 @@ class xmlHelper
 
 										$db->setQuery($query)->execute();
 
-										$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_category_xref "
+										$query = "INSERT IGNORE INTO " . "#__redshop_product_category_xref "
 											. "(category_id,product_id) "
 											. "VALUES (" . (int) $category_id . ", " . (int) $product_id . ")";
 
@@ -1543,8 +1545,8 @@ class xmlHelper
 
 											if (trim($oitemstring) != "")
 											{
-												$query = "UPDATE " . $this->_table_prefix . "order_item AS oi "
-													. ", " . $this->_table_prefix . "orders AS o "
+												$query = "UPDATE " . "#__redshop_order_item AS oi "
+													. ", " . "#__redshop_orders AS o "
 													. "SET $oitemstring "
 													. "WHERE oi.order_id=o.order_id "
 													. "AND o.order_number=" . $db->quote($oldorder_number) . " "
@@ -1568,8 +1570,8 @@ class xmlHelper
 
 									if (trim($billingstring) != "")
 									{
-										$query = "UPDATE " . $this->_table_prefix . "order_users_info AS ou "
-											. ", " . $this->_table_prefix . "orders AS o "
+										$query = "UPDATE " . "#__redshop_order_users_info AS ou "
+											. ", " . "#__redshop_orders AS o "
 											. "SET $billingstring "
 											. "WHERE ou.order_id=o.order_id "
 											. "AND o.order_number=" . $db->quote($oldorder_number) . " "
@@ -1591,8 +1593,8 @@ class xmlHelper
 
 									if (trim($shippingstring) != "")
 									{
-										$query = "UPDATE " . $this->_table_prefix . "order_users_info AS ou "
-											. ", " . $this->_table_prefix . "orders AS o "
+										$query = "UPDATE " . "#__redshop_order_users_info AS ou "
+											. ", " . "#__redshop_orders AS o "
 											. "SET $shippingstring "
 											. "WHERE ou.order_id=o.order_id "
 											. "AND o.order_number=" . $db->quote($oldorder_number) . " "
@@ -1607,7 +1609,7 @@ class xmlHelper
 						if (count($ordarray) > 0)
 						{
 							$upstring = implode(", ", $ordarray);
-							$query    = "UPDATE " . $this->_table_prefix . "orders "
+							$query    = "UPDATE " . "#__redshop_orders "
 								. "SET $upstring "
 								. "WHERE order_number=" . $db->quote($oldorder_number) . " ";
 
@@ -1635,7 +1637,7 @@ class xmlHelper
 								$fieldstring = implode(", ", $ordkeysarray);
 								$valuestring = implode("', '", $ordvalsarray);
 								$valuestring = "'" . $valuestring . "'";
-								$query       = "INSERT IGNORE INTO " . $this->_table_prefix . "orders "
+								$query       = "INSERT IGNORE INTO " . "#__redshop_orders "
 									. "($fieldstring) VALUES ($valuestring)";
 
 								$db->setQuery($query)->execute();
@@ -1672,7 +1674,7 @@ class xmlHelper
 														$fieldstring .= ",order_id";
 														$valuestring .= ",'" . $order_id . "'";
 
-														$query = "INSERT IGNORE INTO " . $this->_table_prefix . "order_item "
+														$query = "INSERT IGNORE INTO " . "#__redshop_order_item "
 															. "($fieldstring) VALUES ($valuestring)";
 
 														$db->setQuery($query)->execute();
@@ -1703,7 +1705,7 @@ class xmlHelper
 												$fieldstring .= ",order_id";
 												$valuestring .= ",'" . $order_id . "'";
 
-												$query = "INSERT IGNORE INTO " . $this->_table_prefix . "order_users_info "
+												$query = "INSERT IGNORE INTO " . "#__redshop_order_users_info "
 													. "($fieldstring) VALUES ($valuestring)";
 
 												$db->setQuery($query)->execute();
@@ -1732,7 +1734,7 @@ class xmlHelper
 												$fieldstring .= ",order_id";
 												$valuestring .= ",'" . $order_id . "'";
 
-												$query = "INSERT IGNORE INTO " . $this->_table_prefix . "order_users_info "
+												$query = "INSERT IGNORE INTO " . "#__redshop_order_users_info "
 													. "($fieldstring) VALUES ($valuestring)";
 
 												$db->setQuery($query)->execute();
@@ -1855,17 +1857,17 @@ class xmlHelper
 
 		if ($strfield != "")
 		{
-			$query = "SELECT " . $strfield . ", p.product_id FROM " . $this->_table_prefix . "product AS p "
-				. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id=p.product_id "
-				. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=x.category_id "
-				. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id  "
-				. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON sx.product_id=p.product_id "
-				. "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id =sx.stockroom_id  "
+			$query = "SELECT " . $strfield . ", p.product_id FROM " . "#__redshop_product AS p "
+				. "LEFT JOIN " . "#__redshop_product_category_xref AS x ON x.product_id=p.product_id "
+				. "LEFT JOIN " . "#__redshop_category AS c ON c.category_id=x.category_id "
+				. "LEFT JOIN " . "#__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id  "
+				. "LEFT JOIN " . "#__redshop_product_stockroom_xref AS sx ON sx.product_id=p.product_id "
+				. "LEFT JOIN " . "#__redshop_stockroom AS s ON s.stockroom_id =sx.stockroom_id  "
 				. "WHERE p.published=1 "
 				. $andcat
 				. "GROUP BY p.product_id "
 				. "ORDER BY p.product_id ASC ";
-			$list = $db->setQuery($query)->loadAssocList();
+			$list  = $db->setQuery($query)->loadAssocList();
 		}
 
 		return $list;
@@ -1899,7 +1901,7 @@ class xmlHelper
 			return $list;
 		}
 
-		$query = "SELECT " . $strfield . ", order_id FROM " . $this->_table_prefix . "orders "
+		$query = "SELECT " . $strfield . ", order_id FROM " . "#__redshop_orders "
 			. "ORDER BY order_id ASC ";
 
 		return $db->setQuery($query)->loadObjectlist();
@@ -1907,9 +1909,9 @@ class xmlHelper
 
 	public function getOrderUserInfoList($xmlarray = array(), $orderId = 0, $addresstype = "BT")
 	{
-		if (empty($xmlarray) )
+		if (empty($xmlarray))
 		{
-			return  array();
+			return array();
 		}
 
 		$db    = JFactory::getDbo();
@@ -1970,8 +1972,8 @@ class xmlHelper
 			return array();
 		}
 
-		$query = "SELECT " . implode(", ", $field) . " FROM " . $this->_table_prefix . "stockroom AS s "
-			. "LEFT JOIN " . $this->_table_prefix . "product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
+		$query = "SELECT " . implode(", ", $field) . " FROM " . "#__redshop_stockroom AS s "
+			. "LEFT JOIN " . "#__redshop_product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
 			. "WHERE product_id=" . (int) $product_id . " "
 			. "ORDER BY s.stockroom_id ASC ";
 		$db->setQuery($query);
