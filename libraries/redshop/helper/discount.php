@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperDiscount
 {
-
 	/**
 	 * Method for get discount
 	 *
@@ -62,6 +61,8 @@ class RedshopHelperDiscount
 
 			$startDate = $discount->get('start_date', 0);
 			$endDate   = $discount->get('end_date', 0);
+			$condition = $discount->get('condition', 0);
+			$amount    = $discount->get('amount', 0);
 
 			/**
 			 * Discount condition
@@ -75,7 +76,16 @@ class RedshopHelperDiscount
 				|| (!$startDate && $endDate && $endDate >= $currentTime)
 				|| ($startDate && $startDate <= $currentTime && $endDate && $endDate >= $currentTime))
 			{
-				$potentialDiscount = $discount;
+				if (($condition == 1 && $amount >= $subTotal)
+					|| ($condition == 2 && $amount == $subTotal)
+					|| ($condition == 3 && $amount <= $subTotal))
+				{
+					$potentialDiscount = $discount;
+				}
+				else
+				{
+					continue;
+				}
 			}
 			else
 			{
@@ -146,7 +156,7 @@ class RedshopHelperDiscount
 			$cartItem['customer_amount'] = $data['customer_amount'];
 		}
 
-		$giftCard      = productHelper::getInstance()->getGiftcardData($data['giftcard_id']);
+		$giftCard      = RedshopEntityGiftcard::getInstance($data['giftcard_id'])->getItem();
 		$giftCardPrice = $giftCard && $giftCard->customer_amount ? $cartItem['customer_amount'] : $giftCard->giftcard_price;
 
 		$fields = RedshopHelperExtrafields::getSectionFieldList(RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD);

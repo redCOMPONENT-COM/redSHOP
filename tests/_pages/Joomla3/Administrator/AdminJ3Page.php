@@ -11,14 +11,39 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 abstract class AdminJ3Page
 {
+    /**
+     * @var string
+     */
+    public static $installURL = '/administrator/index.php?option=com_installer';
+
+    /**
+     * @var array
+     */
+    public static $link = ['link' => 'Install from URL'];
+
+    /**
+     * @var string
+     */
+    public static $urlID = "#install_url";
+
+    /**
+     * @var array
+     */
+    public static $installButton = "#installbutton_url";
+
+    /**
+     * @var array
+     */
+    public static $installDemoContent = "#btn-demo-content";
+
 	/**
 	 * @var array
 	 */
-	public static $buttonStatic = ['xpath' => "//body//div[2]//section//div//div//div//div//p[3]/a[3]"];
+	public static $buttonStatic = "//body//div[2]//section//div//div//div//div//p[3]/a[3]";
 
 	/**
 	 * @var string
@@ -65,25 +90,45 @@ abstract class AdminJ3Page
 	 */
 	public static $messageCheckInSuccess = 'successfully checked in';
 
+    /**
+     * @var string
+     */
+	public static $messageInstallSuccess = 'installed successfully';
+
+    /**
+     * @var string
+     */
+	public static $messageDemoContentSuccess = 'Data Installed Successfully';
+
 	/**
 	 * @var array
 	 */
-	public static $checkAllXpath = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
+	public static $checkAllXpath = "//thead//input[@name='checkall-toggle' or @name='toggle']";
 
 	/**
 	 * @var string
 	 */
 	public static $resultRow = "//tbody/tr[1]";
 
-	/**
-	 * @var array
-	 */
-	public static $searchField = ['id' => 'filter_search'];
+    /**
+     * @var array
+     */
+	public static $checkInButtonList = "//a[contains(concat(\' \', @class, \' \'), \'hasPopover\')]";
+
+    /**
+     * @var array
+     */
+	public static $resetButton = "//input[@id='reset']";
 
 	/**
 	 * @var array
 	 */
-	public static $idFieldName = ['id' => 'jform_name'];
+	public static $searchField = "#filter_search";
+
+	/**
+	 * @var array
+	 */
+	public static $idFieldName = "#jform_name";
 
 	/**
 	 * @var string
@@ -93,34 +138,34 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $listId = ['id' => 's2id_list_limit'];
+	public static $listId = "#s2id_list_limit";
 
 	/**
 	 * @var array
 	 */
-	public static $listSearchId = ['id' => 's2id_autogen1_search'];
+	public static $listSearchId = "#s2id_autogen1_search";
 
 	/**
 	 * Unpublish button.
 	 *
 	 * @var string
 	 */
-	public static $statePath = ['xpath' => '//a[contains(@class, \'btn-state-item\')]'];
+	public static $statePath = "//a[contains(@class, 'btn-state-item')]";
 
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPathBlock = ['xpath' => '//a[contains(@class, \'btn-checkin\')]'];
+	public static $stateCheckInPathBlock = "//a[contains(@class, 'btn-checkin')]";
 
 	/**
 	 * @var array
 	 */
-	public static $stateCheckInPath = ['xpath' => '//a[contains(@class, \'btn-edit-item\')]'];
+	public static $stateCheckInPath = "//a[contains(@class, 'btn-edit-item')]";
 
 	/**
 	 * @var array
 	 */
-	public static $headPage = ['xpath' => "//h1"];
+	public static $headPage = "//h1";
 
 	/**
 	 * @var string
@@ -156,6 +201,11 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $selectorToolBar = '.btn-toolbar';
+
+    /**
+     * @var array
+     */
+	public static $idInstallSuccess =  "#system-message-container";
 
 	/**
 	 * @var string
@@ -268,7 +318,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $productFirst = ['xpath' => '//div[@class=\'product_name\']/a'];
+	public static $productFirst = "//div[@class='product_name']/a";
 
 	/**
 	 * @var string
@@ -337,15 +387,37 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $saveInfoUser = ['xpath'=> '//input[@name=\'submitbtn\']'];
+	public static $saveInfoUser = "//input[@value='Save']";
+
 	/**
 	 * @var array
 	 */
-	public static $paymentPayPad = ['xpath' => "//div[@id='rs_payment_paypal']"];
+	public static $paymentPayPad = "//input[@id='rs_payment_paypal1']";
+
+    /**
+     * @var array
+     */
+	public static $paymentId = ['rs_payment_paypal'];
+
 	/**
 	 * @var array
 	 */
-	public static $acceptTerms = ['xpath' => "//input[@id='termscondition']"];
+	public static $bankTransfer = "//input[@id='rs_payment_banktransfer0']";
+
+    /**
+     * @var string
+     */
+	public static $bankTransferId = ['rs_payment_banktransfer'];
+
+    /**
+     * @var string
+     */
+	public static $scriftClickTransfer = 'document.getElementById("rs_payment_banktransfer0").checked = true;';
+
+	/**
+	 * @var array
+	 */
+	public static $acceptTerms = "//input[@id='termscondition']";
 	/**
 	 * @var string
 	 */
@@ -355,18 +427,21 @@ abstract class AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $priceDiscount="//div[@class='form-group'][2]//div[1]";
+	public static $priceDiscount = "//div[@class='form-group'][2]//div[1]";
 
 	/**
 	 * @var array
 	 */
-	public static $priceVAT = ['xpath' => '//div[@class=\'form-group\'][3]//div[1]'];
+	public static $priceVAT = "//div[@class='form-group'][3]//div[1]";
 	/**
 	 * @var array
 	 */
-	public static $priceEnd = ['id' => 'spnTotal'];
+	public static $priceEnd = "#spnTotal";
 
-	public static $shippingRate=['id'=>'spnShippingrate'];
+	/**
+	 * @var array
+	 */
+	public static $shippingRate = "//span[@id='spnShippingrate']";
 
 	/**
 	 * @var string
@@ -384,4 +459,27 @@ abstract class AdminJ3Page
 	{
 		return ['xpath' => "//span[contains(text(), '" . $value . "')]"];
 	}
+
+    /**
+     * Function get value
+     * @param String $value Value string
+     *
+     * @return array
+     */
+	public static function xPathATag($value)
+    {
+        return ['xpath' => "//a[contains(text(), '" . $value . "')]"];
+    }
+
+    /**
+     * Function get ID
+     *
+     * @param String $id
+     *
+     * @return string
+     */
+    public static function radioCheckID($id)
+    {
+	    return "document.getElementById('".$id."').checked = true;";
+    }
 }

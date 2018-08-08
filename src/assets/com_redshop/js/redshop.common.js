@@ -128,7 +128,7 @@ function userfieldValidation(extrafieldname)
 		{
 			extrafields_req = extrafields[ex].getAttribute('required');
 			extrafields_lbl = extrafields[ex].getAttribute('userfieldlbl');
-			if(extrafields_req==1 && extrafields_lbl!=null)
+			if((extrafields_req==1 || extrafields_req=="required") && extrafields_lbl!=null)
 			{
 				if(extrafields[ex].type=='checkbox')
 				{

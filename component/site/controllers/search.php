@@ -133,7 +133,7 @@ class RedshopControllerSearch extends RedshopController
 		$post  = $input->post->getArray();
 		$data  = $post['redform'];
 
-		$model->setState("filter.data", $post);
+		$model->setState('filter.data', $post);
 		$list       = $model->getItem();
 		$pagination = $model->getFilterPagination();
 		$total      = $model->getFilterTotal();
@@ -146,8 +146,8 @@ class RedshopControllerSearch extends RedshopController
 			. '&Itemid=' . $post['Itemid']
 			. '&categories=' . (isset($data['category']) ? implode(',', $data['category']) : '')
 			. '&manufacturers=' . (isset($data['manufacturer']) ? implode(',', $data['manufacturer']) : '')
-			. '&filterprice[min]=' . $data['filterprice']['min']
-			. '&filterprice[max]=' . $data['filterprice']['max']
+			. '&filterprice[min]=' . (isset($data['filterprice']) ? $data['filterprice']['min'] : '')
+			. '&filterprice[max]=' . (isset($data['filterprice']) ? $data['filterprice']['max'] : '')
 			. '&template_id=' . $data['template_id']
 			. '&keyword=' . $data['keyword']
 			. '&order_by=' . $post['order_by']
@@ -173,11 +173,11 @@ class RedshopControllerSearch extends RedshopController
 		echo RedshopLayoutHelper::render(
 			'filter.result',
 			array(
-				"products"   => $list,
-				"model"      => $model,
-				"post"       => $data,
-				"pagination" => $pagination,
-				"orderBy"    => $post['order_by'],
+				'products'   => $list,
+				'model'      => $model,
+				'post'       => $data,
+				'pagination' => $pagination,
+				'orderBy'    => $post['order_by'],
 				'total'      => $total,
 				'templateId' => $data['template_id'],
 				'url'        => $url,
@@ -218,16 +218,9 @@ class RedshopControllerSearch extends RedshopController
 
 		if (!empty($cid))
 		{
-			$productList = array();
-
-			foreach ($pids as $key => $product)
-			{
-				$detail        = RedshopHelperProduct::getProductById($product);
-				$productList[] = $detail;
-			}
-
-			$manuList = array();
-			$catList  = array();
+			$productList = RedshopHelperProduct::getProductsByIds($pids);
+			$manuList    = array();
+			$catList     = array();
 
 			foreach ($productList as $k => $value)
 			{
@@ -247,16 +240,9 @@ class RedshopControllerSearch extends RedshopController
 		}
 		elseif (!empty($mid))
 		{
-			$productList = array();
-
-			foreach ($pids as $key => $product)
-			{
-				$detail        = RedshopHelperProduct::getProductById($product);
-				$productList[] = $detail;
-			}
-
-			$manuList = array();
-			$catList  = array();
+			$productList = RedshopHelperProduct::getProductsByIds($pids);
+			$manuList    = array();
+			$catList     = array();
 
 			foreach ($productList as $k => $value)
 			{
@@ -276,16 +262,9 @@ class RedshopControllerSearch extends RedshopController
 		}
 		elseif ($formData['view'] == 'search')
 		{
-			$productList = array();
-
-			foreach ($pids as $key => $product)
-			{
-				$detail        = RedshopHelperProduct::getProductById($product);
-				$productList[] = $detail;
-			}
-
-			$manuList = array();
-			$catList  = array();
+			$productList = RedshopHelperProduct::getProductsByIds($pids);
+			$manuList    = array();
+			$catList     = array();
 
 			foreach ($productList as $k => $value)
 			{

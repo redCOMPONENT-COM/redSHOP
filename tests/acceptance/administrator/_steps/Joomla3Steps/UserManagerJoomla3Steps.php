@@ -31,7 +31,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @return void
      */
-    public function addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function)
+    public function addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function = 'save')
     {
         $I = $this;
         $I->amOnPage(\UserManagerJoomla3Page::$URL);
@@ -39,6 +39,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\UserManagerJoomla3Page::$newButton);
         switch ($function) {
             case 'save':
+	        default:
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -58,7 +59,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->executeJS('window.scrollTo(0,0)');
                 $I->click(\UserManagerJoomla3Page::$linkUser);
-                $I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
+                $I->see($firstName);
                 $I->executeJS('window.scrollTo(0,0)');
                 $I->click(\UserManagerJoomla3Page::$linkUser);
                 break;
@@ -77,12 +78,15 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
                 $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->fillField(\UserManagerJoomla3Page::$address, 'address');
+                $I->fillField(\UserManagerJoomla3Page::$city, 'city');
+                $I->fillField(\UserManagerJoomla3Page::$zipcode,'5000');
+                $I->fillField(\UserManagerJoomla3Page::$phone, '4234324');
                 $I->click(\UserManagerJoomla3Page::$saveButton);
                 $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
                 break;
         }
-
     }
 
 
@@ -154,6 +158,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->acceptPopup();
                 break;
             case 'readyUser':
+                $I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -344,9 +349,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\UserManagerJoomla3Page::$saveCloseButton);
         $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
         $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
-        $I->see($updatedName, \UserManagerJoomla3Page::$firstResultRow);
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(\UserManagerJoomla3Page::$linkUser);
+        $I->see($updatedName);
     }
 
     public function editUserReady($firstName = 'Test', $updatedName = 'Updated Name')

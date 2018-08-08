@@ -66,15 +66,15 @@ class RedshopHelperProductAccessory
 		}
 
 		$product           = RedshopHelperProduct::getProductById($productId);
-		$accessoryTemplate = productHelper::getInstance()->getAccessoryTemplate($templateContent);
+		$accessoryTemplate = \Redshop\Template\Helper::getAccessory($templateContent);
 
-		if (count($accessoryTemplate) <= 0)
+		if (null === $accessoryTemplate)
 		{
 			return $templateContent;
 		}
 
 		$accessoryTemplateData = $accessoryTemplate->template_desc;
-		$attributeTemplate     = (object) productHelper::getInstance()->getAttributeTemplate($accessoryTemplateData);
+		$attributeTemplate     = (object) \Redshop\Template\Helper::getAttribute($accessoryTemplateData);
 
 		if (empty($accessory))
 		{
@@ -170,7 +170,7 @@ class RedshopHelperProductAccessory
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage))
 						{
-							$thumbUrl = RedShopHelperImages::getImagePath(
+							$thumbUrl = RedshopHelperMedia::getImagePath(
 								$accessoryImage,
 								'',
 								'thumb',
@@ -250,7 +250,7 @@ class RedshopHelperProductAccessory
 				// Add manufacturer
 				if (strpos($accessoryWrapper, "{manufacturer_name}") !== false || strpos($accessoryWrapper, "{manufacturer_link}") !== false)
 				{
-					$manufacturer = productHelper::getInstance()->getSection("manufacturer", $accessory[$a]->manufacturer_id);
+					$manufacturer = RedshopEntityManufacturer::getInstance($accessory[$a]->manufacturer_id)->getItem();
 
 					if (count($manufacturer) > 0)
 					{
@@ -261,7 +261,7 @@ class RedshopHelperProductAccessory
 
 						$manufacturerLink = "<a class='btn btn-primary' href='" . $manufacturerUrl . "'>"
 							. JText::_("VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
-						$accessoryWrapper = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $accessoryWrapper);
+						$accessoryWrapper = str_replace("{manufacturer_name}", $manufacturer->name, $accessoryWrapper);
 						$accessoryWrapper = str_replace("{manufacturer_link}", $manufacturerLink, $accessoryWrapper);
 					}
 					else
@@ -272,7 +272,7 @@ class RedshopHelperProductAccessory
 				}
 
 				// Get accessory final price with VAT rules
-				$accessoryPriceWithoutVAT = productHelper::getInstance()->getAccessoryPrice(
+				$accessoryPriceWithoutVAT = \Redshop\Product\Accessory::getPrice(
 					$productId,
 					$accessory[$a]->newaccessory_price,
 					$accessory[$a]->accessory_main_price,
@@ -281,7 +281,7 @@ class RedshopHelperProductAccessory
 
 				if (strpos($accessoryWrapper, "{without_vat}") === false)
 				{
-					$accessoryPrices = productHelper::getInstance()->getAccessoryPrice(
+					$accessoryPrices = \Redshop\Product\Accessory::getPrice(
 						$productId,
 						$accessory[$a]->newaccessory_price,
 						$accessory[$a]->accessory_main_price
@@ -347,7 +347,7 @@ class RedshopHelperProductAccessory
 					$selectAtt
 				);
 
-				$accessoryWrapper = productHelper::getInstance()->replaceProductInStock($accessory[$a]->child_product_id, $accessoryWrapper);
+				$accessoryWrapper = Redshop\Product\Stock::replaceInStock($accessory[$a]->child_product_id, $accessoryWrapper);
 
 				// Accessory attribute  End
 				$accessoryChecked = "";
@@ -597,7 +597,7 @@ class RedshopHelperProductAccessory
 			}
 		}
 
-		$accessoryMiddle   = productHelper::getInstance()->replaceProductInStock($product->product_id, $accessoryMiddle);
+		$accessoryMiddle   = Redshop\Product\Stock::replaceInStock($product->product_id, $accessoryMiddle);
 		$accessoryTemplate = $accessoryStart . $accessoryMiddle . $accessoryEnd;
 	}
 }

@@ -52,29 +52,29 @@ class RedshopMenu
 	/**
 	 * Store section
 	 *
-	 * @var    null
+	 * @var    string
 	 *
 	 * @since  2.0.3
 	 */
-	protected $section = null;
+	protected $section;
 
 	/**
 	 * Store title
 	 *
-	 * @var    null
+	 * @var    string
 	 *
 	 * @since  2.0.3
 	 */
-	protected $title = null;
+	protected $title;
 
 	/**
 	 * Store hidden menu
 	 *
-	 * @var    null
+	 * @var    array
 	 *
 	 * @since  2.0.3
 	 */
-	protected $menuhide = null;
+	protected $menuHide;
 
 	/**
 	 * Protected menu constructor. Must use getInstance() method.
@@ -83,13 +83,13 @@ class RedshopMenu
 	 */
 	public function __construct()
 	{
-		$this->menuhide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
+		$this->menuHide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
 	}
 
 	/**
 	 * Set section value for an instance
 	 *
-	 * @param   integer  $section  Section value
+	 * @param   string  $section  Section value
 	 *
 	 * @return  self
 	 *
@@ -105,7 +105,7 @@ class RedshopMenu
 	/**
 	 * Set title value for an instance
 	 *
-	 * @param   integer  $title  Title value
+	 * @param   string  $title  Title value
 	 *
 	 * @return  self
 	 *
@@ -198,7 +198,7 @@ class RedshopMenu
 			$item->active  = $active;
 			$item->param   = $param;
 			$item->icon    = $icon;
-			$item->disable = in_array($title, $this->menuhide);
+			$item->disable = in_array($title, $this->menuHide);
 
 			if ($this->section)
 			{
@@ -235,9 +235,8 @@ class RedshopMenu
 			$item->active  = $active;
 			$item->param   = $param;
 			$item->icon    = $icon;
-			$item->disable = in_array($title, $this->menuhide);
-
-			array_push($this->items, $item);
+			$item->disable = in_array($title, $this->menuHide);
+			$this->items[] = $item;
 		}
 
 		return $this;

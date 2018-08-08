@@ -80,9 +80,6 @@ else // If user logged in than display this code.
 
 function display_products($rows)
 {
-	$url        = JURI::base();
-	$extra_data = productHelper::getInstance();
-
 	$producthelper = productHelper::getInstance();
 
 	for ($i = 0, $in = count($rows); $i < $in; $i++)
@@ -90,16 +87,15 @@ function display_products($rows)
 		$row           = $rows[$i];
 		$Itemid        = $this->redHelper->getItemid($row->product_id);
 		$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
-		$product_price = $producthelper->getProductPrice($row->product_id);
+		$product_price = Redshop\Product\Price::getPrice($row->product_id);
 
 		$productArr             = $producthelper->getProductNetPrice($row->product_id);
 		$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
 		if ($row->product_full_image)
 		{
-			echo $thum_image = "<div class='mod_wishlist_product_image' >" .
-				$thum_image = $producthelper->getProductImage($row->product_id, $link, "100", "100") . "
-			</div>";
+			echo "<div class='mod_wishlist_product_image' >"
+				. Redshop\Product\Image\Image::getImage($row->product_id, $link, "100", "100") . '</div>';
 		}
 
 		echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
@@ -135,7 +131,7 @@ function display_products($rows)
 
 		echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";
 
-		echo $addtocartdata = $producthelper->replaceCartTemplate($row->product_id);
+		echo $addtocartdata = Redshop\Cart\Render::replace($row->product_id);
 
 		echo "<div>" . $addtocartdata . "</div>";
 	}

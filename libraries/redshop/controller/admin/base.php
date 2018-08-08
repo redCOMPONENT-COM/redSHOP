@@ -48,7 +48,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		parent::__construct($config);
 
 		// J2.5 compatibility
-		if (empty($this->input))
+		if (null === $this->input)
 		{
 			$this->input = JFactory::getApplication()->input;
 		}
@@ -260,16 +260,14 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 
 			return false;
 		}
-		else
-		{
-			// Check in succeeded.
-			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 
-			// Set redirect
-			$this->setRedirect($this->getRedirectToListRoute(), $message);
+		// Check in succeeded.
+		$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 
-			return true;
-		}
+		// Set redirect
+		$this->setRedirect($this->getRedirectToListRoute(), $message);
+
+		return true;
 	}
 
 	/**
@@ -284,7 +282,7 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
-		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
+		$inc = $this->getTask() === 'orderup' ? -1 : 1;
 
 		$model  = $this->getModel();
 		$return = $model->reorder($ids, $inc);
@@ -300,16 +298,13 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			return false;
 		}
 
-		else
-		{
-			// Reorder succeeded.
-			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+		// Reorder succeeded.
+		$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
 
-			// Set redirect
-			$this->setRedirect($this->getRedirectToListRoute(), $message);
+		// Set redirect
+		$this->setRedirect($this->getRedirectToListRoute(), $message);
 
-			return true;
-		}
+		return true;
 	}
 
 	/**
@@ -346,16 +341,13 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 			return false;
 		}
 
-		else
-		{
-			// Reorder succeeded.
-			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+		// Reorder succeeded.
+		$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
 
-			// Set redirect
-			$this->setRedirect($this->getRedirectToListRoute());
+		// Set redirect
+		$this->setRedirect($this->getRedirectToListRoute());
 
-			return true;
-		}
+		return true;
 	}
 
 	/**
@@ -367,18 +359,14 @@ abstract class RedshopControllerAdminBase extends JControllerAdmin
 	 */
 	protected function getRedirectToListRoute($append = null)
 	{
-		$returnUrl = $this->input->get('return', '', 'Base64');
+		$returnUrl = (string) $this->input->get('return', '', 'Base64');
 
 		if ($returnUrl)
 		{
-			$returnUrl = base64_decode($returnUrl);
+			return JRoute::_(base64_decode($returnUrl) . $append, false);
+		}
 
-			return JRoute::_($returnUrl . $append, false);
-		}
-		else
-		{
-			return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
-		}
+		return JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $append, false);
 	}
 
 	/**

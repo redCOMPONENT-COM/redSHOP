@@ -213,7 +213,7 @@ class SiteHelper
 	 * @param   integer  $addWish       Add wish
 	 *
 	 * @return  array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function listAllUserFields($fieldSection = "", $sectionId = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
 		$fieldType = '', $idx = 'NULL', $isAtt = 0, $productId = 0, $myWish = '', $addWish = 0

@@ -311,6 +311,7 @@ class App
 	 * Try to find if temp configuration file is available. This function is for wizard.
 	 *
 	 * @return  boolean  True when file is exist.
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -332,6 +333,7 @@ class App
 	 * Check if temp file is write-able or not.
 	 *
 	 * @return  boolean  True if file is write-able.
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -729,6 +731,7 @@ class App
 			"CURRENCY_LAYER_ACCESS_KEY"                    => $data['currency_layer_access_key'],
 			"MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload'],
 			"WISHLIST_LIST"                                => $data["wishlist_list"],
+			"PRODUCT_DEFAULT_CATEGORY"                     => $data["product_default_category"]
 		);
 
 		$configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];

@@ -10,22 +10,29 @@
 defined('_JEXEC') or die;
 
 /**
- * Class Account_billtoModelaccount_billto
+ * Class RedshopModelAccount_Billto
  *
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelAccount_billto extends RedshopModel
+class RedshopModelAccount_Billto extends RedshopModel
 {
+	/**
+	 * @var  object
+	 */
 	public $_data = null;
 
+	/**
+	 * Init billing address data
+	 *
+	 * @return   mixed
+	 */
 	public function _initData()
 	{
-		if (empty($GLOBALS['billingaddresses']))
+		if (Redshop\User\Billing\Billing::getGlobal() === null)
 		{
-			$session = JFactory::getSession();
-			$auth    = $session->get('auth');
+			$auth = JFactory::getSession()->get('auth');
 
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
@@ -84,22 +91,30 @@ class RedshopModelAccount_billto extends RedshopModel
 
 			return $detail;
 		}
+
+		return null;
 	}
 
+	/**
+	 * Method for store billing address
+	 *
+	 * @param   array  $post  Data
+	 *
+	 * @return  boolean|Tableuser_detail
+	 * @throws  Exception
+	 */
 	public function store($post)
 	{
 		$post['billisship']    = 1;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 
-		$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
+		$joomlaUser = RedshopHelperJoomla::updateJoomlaUser($post);
 
-		if (!$joomlauser)
+		if (!$joomlaUser)
 		{
 			return false;
 		}
 
-		$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id);
-
-		return $reduser;
+		return RedshopHelperUser::storeRedshopUser($post, $joomlaUser->id);
 	}
 }

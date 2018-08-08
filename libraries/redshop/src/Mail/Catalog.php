@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail Catalog helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Catalog
 {
@@ -25,7 +25,7 @@ class Catalog
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendRequest($catalog)
 	{

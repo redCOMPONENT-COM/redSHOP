@@ -125,7 +125,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 		if ($logo['name'] != "")
 		{
-			$logoname = RedShopHelperImages::cleanFileName($logo['name']);
+			$logoname = RedshopHelperMedia::cleanFileName($logo['name']);
 
 			// Image Upload
 			$logotype = JFile::getExt($logo['name']);
@@ -144,7 +144,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			if ($data['shopper_group_logo_tmp'] != null)
 			{
 				$image_split                = explode('/', $data['shopper_group_logo_tmp']);
-				$logoname                   = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
+				$logoname                   = RedshopHelperMedia::cleanFileName($image_split[count($image_split) - 1]);
 				$data['shopper_group_logo'] = $logoname;
 
 				// Image copy
@@ -330,8 +330,8 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer
-		WHERE published=1 ORDER BY `manufacturer_name`';
+		$query = 'SELECT id as value,name as text FROM ' . $this->_table_prefix . 'manufacturer
+		WHERE published=1 ORDER BY `name`';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();

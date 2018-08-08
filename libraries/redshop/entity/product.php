@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityProduct extends RedshopEntity
 {
-	/**
-	 * @var   RedshopEntitiesCollection  Collections of categories
-	 */
-	protected $categories = null;
+	use \Redshop\Entity\Traits\Product\Related,
+		\Redshop\Entity\Traits\Product\Categories,
+		\Redshop\Entity\Traits\Product\Media,
+		\Redshop\Entity\Traits\Product\Stock;
 
 	/**
-	 * @var   RedshopEntitiesCollection  Collections of related products
+	 * @var   RedshopEntitiesCollection  Collections of child products
 	 */
-	protected $relatedProducts = null;
+	protected $childProducts = null;
 
 	/**
 	 * Get the associated table
@@ -41,166 +41,52 @@ class RedshopEntityProduct extends RedshopEntity
 	}
 
 	/**
-	 * @param   boolean  $reload  Force reload even it's cached
+	 * Method for get child products
+	 *
+	 * @param   boolean $reload Force reload even it's cached
 	 *
 	 * @return  RedshopEntitiesCollection
 	 *
 	 * @since   2.1.0
 	 */
-	public function getCategories($reload = false)
+	public function getChildProducts($reload = false)
 	{
-		if (null === $this->categories || $reload === true)
+		if (null === $this->childProducts || $reload === true)
 		{
-			$this->loadCategories();
+			$this->loadChild();
 		}
 
-		return $this->categories;
+		return $this->childProducts;
 	}
 
 	/**
-	 * @param   boolean  $reload  Force reload even it's cached
-	 *
-	 * @return  RedshopEntitiesCollection
-	 *
-	 * @since   2.1.0
-	 */
-	public function getRelatedProducts($reload = false)
-	{
-		if (null === $this->relatedProducts || $reload === true)
-		{
-			$this->loadRelated();
-		}
-
-		return $this->relatedProducts;
-	}
-
-	/**
-	 * @param   array    $ids             Array of categories' ids
-	 * @param   boolean  $removeAssigned  Remove all assigned categories
-	 *
-	 * @return  mixed                     A database cursor resource on success, boolean false on failure.
-	 */
-	public function setCategories($ids, $removeAssigned = false)
-	{
-		// Merge with assigned categories
-		if ($removeAssigned === false)
-		{
-			$categoryIds = array_merge($this->getCategories()->ids(), $ids);
-		}
-		else
-		{
-			// Or just reset it with new ids
-			$categoryIds = $ids;
-		}
-
-		$categoryIds = array_unique($categoryIds);
-
-		$db = JFactory::getDbo();
-
-		// Delete old assigned categories
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('product_id') . ' = ' . (int) $this->get('product_id'));
-		$db->setQuery($query)->execute();
-
-		// Assign new category
-		$query->clear()
-			->insert($db->qn('#__redshop_product_category_xref'))
-			->columns($db->qn(array('category_id', 'product_id')));
-
-		foreach ($categoryIds as $id)
-		{
-			$query->values((int) $id . ' , ' . (int) $this->get('product_id'));
-		}
-
-		if (!$db->setQuery($query)->execute())
-		{
-			return false;
-		}
-
-		// Reload new categories for this product
-		$this->loadCategories();
-
-		return true;
-	}
-
-	/**
-	 * Method for check if this product exist in category.
-	 *
-	 * @param   integer  $id  ID of category
-	 *
-	 * @return  boolean
-	 */
-	public function inCategory($id)
-	{
-		return in_array($id, is_array($this->getCategories()->ids()) ? $this->getCategories()->ids() : array());
-	}
-
-	/**
-	 * Method for load child categories
+	 * Method to load child product
 	 *
 	 * @return  self
 	 *
 	 * @since   2.1.0
 	 */
-	protected function loadCategories()
+	protected function loadChild()
 	{
 		if (!$this->hasId())
 		{
 			return $this;
 		}
 
-		$this->categories = new RedshopEntitiesCollection;
-
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('category_id'))
-			->from($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('product_id') . ' = ' . (int) $this->getId());
-
-		$results = $db->setQuery($query)->loadColumn();
-
-		if (empty($results))
-		{
-			return $this;
-		}
-
-		foreach ($results as $categoryId)
-		{
-			$this->categories->add(RedshopEntityCategory::getInstance($categoryId));
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Method to get related products
-	 *
-	 * @return  self
-	 *
-	 * @since   2.1.0
-	 */
-	protected function loadRelated()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
-
-		$this->relatedProducts = new RedshopEntitiesCollection;
+		$this->childProducts = new RedshopEntitiesCollection;
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('related_id'))
-			->from($db->quoteName('#__redshop_product_related'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $this->getId());
+		$query->select($db->quoteName('product_id'))
+			->from($db->quoteName('#__redshop_product'))
+			->where($db->quoteName('product_parent_id') . ' = ' . (int) $this->getId());
 
 		$productIds = $db->setQuery($query)->loadColumn();
 
 		foreach ($productIds as $productId)
 		{
-			$this->relatedProducts->add(self::getInstance($productId));
+			$this->childProducts->add(self::getInstance($productId));
 		}
 
 		return $this;
@@ -209,8 +95,8 @@ class RedshopEntityProduct extends RedshopEntity
 	/**
 	 * Assign a product with a custom field
 	 *
-	 * @param   integer  $fieldId  Field id
-	 * @param   string   $value    Field value
+	 * @param   integer $fieldId Field id
+	 * @param   string  $value   Field value
 	 *
 	 * @return boolean
 	 */
@@ -243,5 +129,74 @@ class RedshopEntityProduct extends RedshopEntity
 				'section'  => 1
 			)
 		);
+	}
+
+	/**
+	 * @param   float   $productPrice Product price
+	 * @param   integer $userId       User id
+	 * @param   integer $taxExempt    Tax
+	 *
+	 * @return  boolean|float|integer
+	 *
+	 * @since   2.1.0
+	 */
+	public function getTax($productPrice = 0.0, $userId = 0, $taxExempt = 0)
+	{
+		if (!$this->hasId())
+		{
+			return false;
+		}
+
+		$redshopUser = \JFactory::getSession()->get('rs_user');
+
+		if ($userId == 0)
+		{
+			$user   = \JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$productTax  = 0;
+		$redshopUser = empty($redshopUser) ? array('rs_is_user_login' => 0) : $redshopUser;
+
+		if ($redshopUser['rs_is_user_login'] == 0 && $userId != 0)
+		{
+			\RedshopHelperUser::createUserSession($userId);
+		}
+
+		$vatRateData = \RedshopHelperTax::getVatRates($this->getId(), $userId);
+		$taxRate     = !empty($vatRateData) ? $vatRateData->tax_rate : 0;
+
+		if ($productPrice <= 0)
+		{
+			$productPrice = $this->get('product_price', $productPrice);
+		}
+
+		$productPrice = \RedshopHelperProductPrice::priceRound((float) $productPrice);
+
+		if ($taxExempt)
+		{
+			return $productPrice * $taxRate;
+		}
+
+		if (!$taxRate)
+		{
+			return \RedshopHelperProductPrice::priceRound($productTax);
+		}
+
+		if (!$userId)
+		{
+			$productTax = $productPrice * $taxRate;
+		}
+		else
+		{
+			$userInformation = \RedshopHelperUser::getUserInformation($userId);
+
+			if (null === $userInformation || $userInformation->requesting_tax_exempt !== 1 || !$userInformation->tax_exempt_approved)
+			{
+				$productTax = $productPrice * $taxRate;
+			}
+		}
+
+		return \RedshopHelperProductPrice::priceRound($productTax);
 	}
 }

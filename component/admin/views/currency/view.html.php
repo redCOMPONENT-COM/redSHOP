@@ -18,15 +18,4 @@ defined('_JEXEC') or die;
  */
 class RedshopViewCurrency extends RedshopViewForm
 {
-	/**
-	 * Method for get page title.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.11
-	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT') . ' <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-	}
 }

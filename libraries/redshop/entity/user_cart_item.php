@@ -18,15 +18,4 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityUser_Cart_Item extends RedshopEntity
 {
-	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Usercart_Item', 'Table');
-	}
 }

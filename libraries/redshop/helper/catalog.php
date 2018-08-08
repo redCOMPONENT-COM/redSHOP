@@ -110,7 +110,8 @@ class RedshopHelperCatalog
 
 		$body = str_replace("{name}", $catalog->name, $mailBody);
 		$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
-		$body = RedshopHelperMail::imgInMail($body);
+
+		Redshop\Mail\Helper::imgInMail($body);
 
 		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, 1, null, $mailBcc))
 		{
@@ -180,7 +181,7 @@ class RedshopHelperCatalog
 		$body = str_replace("{days}", Redshop::getConfig()->get('DISCOUNT_DURATION'), $body);
 		$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
 		$body = str_replace("{coupon_code}", $token, $body);
-		$body = RedshopHelperMail::imgInMail($body);
+		Redshop\Mail\Helper::imgInMail($body);
 
 		$db = JFactory::getDbo();
 
@@ -287,7 +288,7 @@ class RedshopHelperCatalog
 		$body = str_replace("{name}", $catalog->name, $mailBody);
 		$body = str_replace("{discount}", Redshop::getConfig()->get('DISCOUNT_PERCENTAGE'), $body);
 		$body = str_replace("{coupon_code}", $couponCode, $body);
-		$body = RedshopHelperMail::imgInMail($body);
+		Redshop\Mail\Helper::imgInMail($body);
 
 		if (JFactory::getMailer()->sendMail($from, $fromName, $catalog->email, $subject, $body, 1, null, $mailBcc))
 		{

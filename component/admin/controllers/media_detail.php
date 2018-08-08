@@ -25,7 +25,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	/**
 	 * Media Detail Constructor
 	 *
-	 * @param   array  $default  [desctiption]
+	 * @param   array  $default  Config
 	 */
 	public function __construct($default = array())
 	{
@@ -36,7 +36,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	/**
 	 * Edit Media
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function edit()
 	{
@@ -54,7 +54,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	/**
 	 * Save Media Detail
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function save($apply = 0)
 	{
@@ -265,7 +265,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && $post['hdn_download_file'] == "")
 		{
 			$model->store($post);
-			$msg  = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
+			$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 					. $post['section_id'] . '&showbuttons=1&section_name='
@@ -301,10 +302,6 @@ class RedshopControllerMedia_Detail extends RedshopController
 					if ($post['media_type'] == 'download')
 					{
 						$post['media_name'] = $post['hdn_download_file_path'];
-
-						$down_src = $download_path;
-
-						$down_dest = $post['media_name'];
 					}
 					else
 					{
@@ -471,7 +468,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								{
 									$post['media_name'] = $product_download_root . RedshopHelperMedia::cleanFileName($newscan[$j]);
 
-									if ($row = $model->store($post))
+									if ($model->store($post))
 									{
 										$originaldir = $post['media_name'];
 										copy($btsrc, $originaldir);
@@ -678,8 +675,6 @@ class RedshopControllerMedia_Detail extends RedshopController
 											JFolder::delete($target . '/' . $name[0]);
 											JFolder::delete($target);
 											JFile::delete($dest);
-
-											return true;
 										}
 
 										$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
@@ -973,7 +968,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	/**
 	 * Remove Media Detail
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function remove()
 	{
@@ -1020,7 +1015,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	/**
 	 * Cancel Media Detail
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function cancel()
 	{
@@ -1034,9 +1029,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 	 * @param   string   $folder    Folder Name
 	 * @param   integer  $relative  Folder is in relative directory then 1 else 0
 	 *
-	 * @return  integer             [description]
+	 * @return  integer             1 for writable. 0 for not.
 	 */
-	public function writableCell($folder, $relative = 1)
+	public static function writableCell($folder, $relative = 1)
 	{
 		if ($relative)
 		{
@@ -1051,7 +1046,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	/**
 	 * Save Media Ordering
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function saveorder()
 	{
@@ -1101,7 +1096,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	/**
 	 * Set Ordering to plus one up
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function orderup()
 	{
@@ -1148,7 +1143,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	/**
 	 * Set Ordering Minus one down
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function orderdown()
 	{

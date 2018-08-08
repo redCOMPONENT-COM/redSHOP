@@ -179,7 +179,7 @@ class RedshopHelperCartTag
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function replaceCartItem($data, $cart = array(), $isReplaceButton = false, $quotationMode = 0)
 	{
@@ -222,7 +222,7 @@ class RedshopHelperCartTag
 			if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
 			{
 				$giftCardId    = $cart[$i]['giftcard_id'];
-				$giftcard      = productHelper::getInstance()->getGiftcardData($giftCardId);
+				$giftcard      = RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
 				$link          = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftCardId . '&Itemid=' . $itemId);
 				$receiverInfor = '<div class="reciverInfo">' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL') . ': ' . $cart[$i]['reciver_name']
 					. '<br />' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL') . ': ' . $cart[$i]['reciver_email'] . '</div>';
@@ -353,7 +353,7 @@ class RedshopHelperCartTag
 
 				$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productId);
 
-				if (count($itemData) > 0)
+				if (!empty($itemData))
 				{
 					$itemId = $itemData->id;
 				}
@@ -446,7 +446,7 @@ class RedshopHelperCartTag
 				// Trigger to change product image.
 				$dispatcher->trigger('onSetCartOrderItemImage', array(&$cart, &$productImage, $product, $i));
 
-				$isApplyVAT        = productHelper::getInstance()->getApplyVatOrNot($data);
+				$isApplyVAT        = \Redshop\Template\Helper::isApplyVat($data);
 				$productTotalPrice = "<div class='product_price'>";
 
 				if (!$quotationMode || ($quotationMode && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))

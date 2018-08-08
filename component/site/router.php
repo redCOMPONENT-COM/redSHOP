@@ -26,6 +26,7 @@ class RedshopRouter extends JComponentRouterBase
 	 * @param   array  $query  An array of URL arguments
 	 *
 	 * @return  array          The URL arguments to use to assemble the subsequent URL.
+	 * @throws  Exception
 	 */
 	public function build(&$query)
 	{
@@ -279,7 +280,7 @@ class RedshopRouter extends JComponentRouterBase
 			case 'account_shipto':
 				$segments[] = 'account_shipto';
 
-				if ($task == 'addshipping')
+				if ($task == 'addshipping' || $task == 'remove')
 				{
 					$segments[] = $task;
 
@@ -510,7 +511,7 @@ class RedshopRouter extends JComponentRouterBase
 						}
 						else
 						{
-							$segments[] = str_replace($specialChars, '-', $manufacturer->get('manufacturer_name'));
+							$segments[] = str_replace($specialChars, '-', $manufacturer->get('name'));
 						}
 					}
 				}
@@ -538,51 +539,58 @@ class RedshopRouter extends JComponentRouterBase
 
 				$segments[] = 'account';
 
-				if ($layout == 'mytags')
+				if (!empty($task))
 				{
-					$segments[] = $layout;
-
-					if ($tagId)
+					$segments[] = $task;
+				}
+				else
+				{
+					if ($layout == 'mytags')
 					{
-						$segments[] = $tagId;
+						$segments[] = $layout;
 
-						$tag = RedshopEntityProduct_Tag::getInstance($tagId);
-						$segments[] = str_replace($specialChars, '-', $tag->get('tags_name'));
-
-						if ($tagId && isset($edit))
+						if ($tagId)
 						{
-							$segments[] = 'edit';
+							$segments[] = $tagId;
+
+							$tag = RedshopEntityProduct_Tag::getInstance($tagId);
+							$segments[] = str_replace($specialChars, '-', $tag->get('tags_name'));
+
+							if ($tagId && isset($edit))
+							{
+								$segments[] = 'edit';
+							}
+
+							if ($tagId && isset($remove))
+							{
+								$segments[] = 'remove';
+							}
+						}
+					}
+					elseif ($layout == 'mywishlist')
+					{
+						$segments[] = $layout;
+
+						if (isset($wishlistId))
+						{
+							$segments[] = $wishlistId;
 						}
 
-						if ($tagId && isset($remove))
+						if (isset($remove) && isset($pid))
 						{
-							$segments[] = 'remove';
+							$segments[] = $pid;
+							$segments[] = 'delete';
 						}
 					}
-				}
-				elseif ($layout == 'mywishlist')
-				{
-					$segments[] = $layout;
-
-					if (isset($wishlistId))
+					elseif ($layout == 'compare')
 					{
-						$segments[] = $wishlistId;
-					}
+						$segments[] = $layout;
 
-					if (isset($remove) && isset($pid))
-					{
-						$segments[] = $pid;
-						$segments[] = 'delete';
-					}
-				}
-				elseif ($layout == 'compare')
-				{
-					$segments[] = $layout;
-
-					if (isset($remove) && isset($pid))
-					{
-						$segments[] = $pid;
-						$segments[] = 'delete';
+						if (isset($remove) && isset($pid))
+						{
+							$segments[] = $pid;
+							$segments[] = 'delete';
+						}
 					}
 				}
 
@@ -744,54 +752,61 @@ class RedshopRouter extends JComponentRouterBase
 
 				if (isset($segments[1]))
 				{
-					$vars['layout'] = $segments[1];
-
-					if ($segments[1] == 'mytags')
+					if ($segments[1] == 'deleteAccount')
 					{
-						if (isset($segments[2]))
-						{
-							$vars['tagid'] = $segments[2];
+						$vars['task'] = $segments[1];
+					}
+					else
+					{
+						$vars['layout'] = $segments[1];
 
-							if (isset($segments[4]))
+						if ($segments[1] == 'mytags')
+						{
+							if (isset($segments[2]))
 							{
-								if ($segments[4] == 'edit')
+								$vars['tagid'] = $segments[2];
+
+								if (isset($segments[4]))
 								{
-									$vars['edit'] = 1;
-								}
-								else
-								{
-									$vars['remove'] = 1;
+									if ($segments[4] == 'edit')
+									{
+										$vars['edit'] = 1;
+									}
+									else
+									{
+										$vars['remove'] = 1;
+									}
 								}
 							}
 						}
-					}
-					elseif ($segments[1] == 'mywishlist')
-					{
-						if (isset($segments[2]))
+						elseif ($segments[1] == 'mywishlist')
 						{
-							$vars['wishlist_id'] = $segments[2];
-						}
+							if (isset($segments[2]))
+							{
+								$vars['wishlist_id'] = $segments[2];
+							}
 
-						if (isset($segments[3]))
-						{
-							$vars['pid'] = $segments[3];
-						}
+							if (isset($segments[3]))
+							{
+								$vars['pid'] = $segments[3];
+							}
 
-						if (isset($segments[4]))
-						{
-							$vars['remove'] = 1;
+							if (isset($segments[4]))
+							{
+								$vars['remove'] = 1;
+							}
 						}
-					}
-					elseif ($segments[1] == 'compare')
-					{
-						if (isset($segments[2]))
+						elseif ($segments[1] == 'compare')
 						{
-							$vars['pid'] = $segments[2];
-						}
+							if (isset($segments[2]))
+							{
+								$vars['pid'] = $segments[2];
+							}
 
-						if (isset($segments[3]))
-						{
-							$vars['remove'] = 1;
+							if (isset($segments[3]))
+							{
+								$vars['remove'] = 1;
+							}
 						}
 					}
 				}
@@ -920,9 +935,9 @@ class RedshopRouter extends JComponentRouterBase
 							{
 								$db    = JFactory::getDbo();
 								$query = $db->getQuery(true)
-									->select($db->qn('id'))
-									->from($db->qn('#__redshop_category'))
-									->where($db->qn('name') . ' = ' . $db->q($segments[$secondLast]));
+								            ->select($db->qn('id'))
+								            ->from($db->qn('#__redshop_category'))
+								            ->where($db->qn('name') . ' = ' . $db->q($segments[$secondLast]));
 
 								$vars['cid'] = $db->setQuery($query)->loadResult();
 							}

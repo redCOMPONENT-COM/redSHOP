@@ -31,6 +31,7 @@ class RedshopViewPrices_detail extends RedshopViewAdmin
 		$text         = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vatrates48');
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
 		if ($isNew)
@@ -42,11 +43,9 @@ class RedshopViewPrices_detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$this->lists['product_id']   = $this->detail->product_id;
-		$this->lists['product_name'] = $this->detail->product_name;
-
-				$shoppergroup              = new shoppergroup;
-		$this->lists['shopper_group_name'] = $shoppergroup->list_all("shopper_group_id", 0, array((int) $this->detail->shopper_group_id));
+		$this->lists['product_id']         = $this->detail->product_id;
+		$this->lists['product_name']       = $this->detail->product_name;
+		$this->lists['shopper_group_name'] = RedshopHelperShopper_Group::listAll("shopper_group_id", 0, array((int) $this->detail->shopper_group_id));
 
 		$this->request_url = JFactory::getURI()->toString();
 

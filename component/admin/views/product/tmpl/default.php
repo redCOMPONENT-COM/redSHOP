@@ -291,7 +291,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
         <?php    for ($j = 0, $k = count($this->list_in_products); $j < $k; $j++)
         {
-            $field_arr = $extra_field->getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
+            $field_arr = RedshopHelperExtrafields::getSectionFieldDataList($this->list_in_products[$j]->id, 1, $row->product_id);
             $field_value = '';
             if (count($field_arr) > 0)
             {
@@ -329,7 +329,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			?>
 		</td>
 		<td>
-			<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('manufacturer_name', ''); ?>
+			<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('name', ''); ?>
 		</td>
 		<td>
 			<a href="index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=0&pid=<?php echo $row->product_id ?>"><?php echo JText::_('COM_REDSHOP_ADD_REVIEW'); ?></a>

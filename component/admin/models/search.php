@@ -152,12 +152,12 @@ class RedshopModelSearch extends RedshopModel
 				case 'manufacturer':
 					$query->select(
 						array(
-							$db->qn('manufacturer_id', 'id'),
-							$db->qn('manufacturer_name', 'text')
+							$db->qn('id', 'id'),
+							$db->qn('name', 'text')
 						)
 					)
 						->from($db->qn('#__redshop_manufacturer'))
-						->where($db->qn('manufacturer_name') . $search);
+						->where($db->qn('name') . $search);
 					break;
 				case 'catalog':
 					$query->select(

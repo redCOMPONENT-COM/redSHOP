@@ -31,7 +31,7 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 */
 	public function addState($countryName = 'Test Country', $stateName = 'Test State', $twoCode = '12', $threeCode = '123')
 	{
-		$client = $this;
+		$client           = $this;
 		$stateManagerPage = new \StatePage;
 
 		$client->amOnPage(\StatePage::$url);
@@ -65,13 +65,15 @@ class StateSteps extends AdminManagerJoomla3Steps
 		$client = $this;
 		$client->amOnPage(\StatePage::$url);
 		$client->searchState($stateName);
+		$client->checkAllResults();
+		$client->click(\StatePage::$buttonCheckIn);
+		$client->searchState($stateName);
 		$client->click($stateName);
 		$client->waitForElement(\StatePage::$fieldName, 30);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->fillField(\StatePage::$fieldName, $stateNewName);
-		$client->click(\StatePage::$buttonSaveClose);
+		$client->click(\StatePage::$buttonSave);
 		$client->waitForText(\StatePage::$messageItemSaveSuccess, 60, \StatePage::$selectorSuccess);
-		$client->see(\StatePage::$messageItemSaveSuccess, \StatePage::$selectorSuccess);
 	}
 
 	/**
@@ -90,8 +92,8 @@ class StateSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\StatePage::$buttonDelete);
 		$client->acceptPopup();
-//		$client->waitForText(\StatePage::$messageDeleteSuccess, 60, \StatePage::$selectorSuccess);
-//		$client->see(\StatePage::$messageDeleteSuccess, \StatePage::$selectorSuccess);
+		$client->waitForText(\StatePage::$messageDeleteSuccess, 60, \StatePage::$selectorSuccess);
+		$client->see(\StatePage::$messageDeleteSuccess, \StatePage::$selectorSuccess);
 		$client->fillField(\StatePage::$searchField, $stateName);
 		$client->pressKey(\StatePage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($stateName, \StatePage::$resultRow);

@@ -12,16 +12,35 @@ defined('_JEXEC') or die;
 
 class RedshopModelCatalog extends RedshopModel
 {
+	/**
+	 * @var null
+	 */
 	public $_data = null;
 
+	/**
+	 * @var integer
+	 */
 	public $_total = null;
 
+	/**
+	 * @var JPagination
+	 */
 	public $_pagination = null;
 
+	/**
+	 * @var null|string
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * @var null|string
+	 */
 	public $_context = null;
 
+	/**
+	 * RedshopModelCatalog constructor.
+	 * @throws Exception
+	 */
 	public function __construct()
 	{
 		parent::__construct();

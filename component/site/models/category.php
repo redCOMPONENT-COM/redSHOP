@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Class categoryModelcategory
  *
@@ -251,8 +250,8 @@ class RedshopModelCategory extends RedshopModel
 		{
 			$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('pcx.category_id') . ' = ' . $db->qn('c.id'))
 				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
-				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
-				->where($db->qn('m.manufacturer_id') . ' = ' . (int) $manufacturer_id)
+				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.id') . ' = ' . $db->qn('p.manufacturer_id'))
+				->where($db->qn('m.id') . ' = ' . (int) $manufacturer_id)
 				->group($db->qn('c.id'));
 		}
 
@@ -296,7 +295,7 @@ class RedshopModelCategory extends RedshopModel
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftjoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
 			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pc.category_id'))
-			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.id') . ' = ' . $db->qn('p.manufacturer_id'))
 			->where($db->qn('p.published') . ' = 1')
 			->where($db->qn('p.expired') . ' = 0')
 			->where($db->qn('pc.category_id') . ' = ' . $db->q((int) $categoryId))
@@ -321,6 +320,8 @@ class RedshopModelCategory extends RedshopModel
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
+		JPluginHelper::importPlugin('redshop_product');
+
 		$db      = JFactory::getDbo();
 		$user    = JFactory::getUser();
 		$orderBy = $this->buildProductOrderBy();
@@ -355,7 +356,7 @@ class RedshopModelCategory extends RedshopModel
 			$query->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
-		$query->select($db->qn('p.product_id'))
+		$query->select('DISTINCT(p.product_id)')
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
 			->where($db->qn('p.published') . ' = 1')
@@ -390,6 +391,8 @@ class RedshopModelCategory extends RedshopModel
 			$query->where($finderCondition);
 		}
 
+		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query));
+
 		$queryCount = clone $query;
 		$queryCount->clear('select')->clear('group')
 			->select('COUNT(DISTINCT(p.product_id))');
@@ -423,7 +426,7 @@ class RedshopModelCategory extends RedshopModel
 					)
 				)
 				->leftJoin('#__redshop_category AS c ON c.id = pc.category_id')
-				->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id')
+				->leftJoin('#__redshop_manufacturer AS m ON m.id = p.manufacturer_id')
 				->where('pc.category_id IN (' . implode(',', $categories) . ')');
 
 			$products = $db->setQuery($query)->loadObjectList('concat_id');
@@ -666,8 +669,6 @@ class RedshopModelCategory extends RedshopModel
 	{
 		$category_template = $this->getState('category_template');
 
-		$redTemplate = Redtemplate::getInstance();
-
 		if ($this->_id)
 		{
 			$selected_template = $this->_maincat->template;
@@ -682,11 +683,11 @@ class RedshopModelCategory extends RedshopModel
 				$selected_template .= "," . $this->_maincat->more_template;
 			}
 
-			$alltemplate = $redTemplate->getTemplate("category", $selected_template);
+			$alltemplate = RedshopHelperTemplate::getTemplate("category", $selected_template);
 		}
 		else
 		{
-			$alltemplate = $redTemplate->getTemplate("frontpage_category");
+			$alltemplate = RedshopHelperTemplate::getTemplate("frontpage_category");
 		}
 
 		return $alltemplate;
@@ -728,17 +729,17 @@ class RedshopModelCategory extends RedshopModel
 		$cid = JFactory::getApplication()->input->getInt('cid', 0);
 		$db  = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT (' . $db->qn('m.manufacturer_id') . ')')
+			->select('DISTINCT (' . $db->qn('m.id') . ')')
 			->select('m.*')
 			->from($db->qn('#__redshop_manufacturer', 'm'))
-			->leftjoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . 'p.manufacturer_id')
+			->leftjoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('m.id') . ' = ' . 'p.manufacturer_id')
 			->where($db->qn('p.manufacturer_id') . ' != 0')
 			->where($db->qn('m.published') . ' = 1')
 			->order($db->qn('ordering') . ' ASC');
 
 		if ($mid != 0)
 		{
-			$query->where($db->qn('m.manufacturer_id') . ' = ' . $db->qn((int) $mid));
+			$query->where($db->qn('m.id') . ' = ' . $db->qn((int) $mid));
 		}
 
 		if ($cid != 0)

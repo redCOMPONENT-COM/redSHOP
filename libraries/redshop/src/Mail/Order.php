@@ -17,7 +17,7 @@ use Redshop\Order\Template;
 /**
  * Mail Order helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Order
 {
@@ -29,7 +29,7 @@ class Order
 	 *
 	 * @return  boolean
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendMail($orderId, $onlyAdmin = false)
 	{
@@ -206,7 +206,7 @@ class Order
 
 			if ($useManufacturerEmail)
 			{
-				$manufacturer = \productHelper::getInstance()->getSection("manufacturer", $product->manufacturer_id);
+				$manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
 
 				if (!empty($manufacturer)
 					&& !empty($manufacturer->manufacturer_email)
@@ -220,7 +220,7 @@ class Order
 
 			if ($useSupplierEmail)
 			{
-				$supplier = \productHelper::getInstance()->getSection("supplier", $product->supplier_id);
+				$supplier = \RedshopEntitySupplier::getInstance($product->supplier_id)->getItem();
 
 				if (!empty($supplier)
 					&& !empty($supplier->supplier_email)
@@ -244,7 +244,7 @@ class Order
 	 * @return  boolean
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendSpecialDiscountMail($orderId)
 	{
@@ -258,7 +258,6 @@ class Order
 			return false;
 		}
 
-		$productHelper = \productHelper::getInstance();
 		$config        = \JFactory::getConfig();
 		$mailBcc       = array();
 
@@ -349,7 +348,7 @@ class Order
 				}
 
 				$product      = \Redshop::product((int) $orderItem->product_id);
-				$manufacturer = $productHelper->getSection("manufacturer", $product->manufacturer_id);
+				$manufacturer = \RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem();
 
 				if (!empty($manufacturer)
 					&& !empty($manufacturer->manufacturer_email)

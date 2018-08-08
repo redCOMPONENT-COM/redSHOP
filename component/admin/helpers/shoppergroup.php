@@ -68,7 +68,8 @@ class shoppergroup
 	 * @param   integer  $cid               Parent ID
 	 * @param   integer  $level             Position
 	 *
-	 * @return array
+	 * @return  array
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperShopper_Group::getShopperGroupListArray() instead
 	 */

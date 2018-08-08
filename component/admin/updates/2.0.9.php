@@ -48,6 +48,7 @@ class RedshopUpdate209 extends RedshopInstallUpdate
 	 * Method for migrate voucher data to new table
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   2.0.9
 	 */
@@ -67,20 +68,44 @@ class RedshopUpdate209 extends RedshopInstallUpdate
 			return;
 		}
 
+		$templates = $this->migrateOldTemplate($templates);
+
+		if (empty($templates))
+		{
+			return;
+		}
+
+		$this->migrateOverrideTemplate($templates);
+	}
+
+	/**
+	 * Template View selector
+	 *
+	 * @param   array $templates Templates
+	 *
+	 * @return  array              List of template table which already migrate correct data.
+	 *
+	 * @since   2.0.9
+	 */
+	protected function migrateOldTemplate($templates = array())
+	{
 		$oldPaths = array();
+		$tables   = array();
 
 		// Copy old template files to new structure.
 		foreach ($templates as $template)
 		{
-			// Skip if template already migrate
-			if (!empty($template->file_name))
-			{
-				continue;
-			}
-
 			/** @var RedshopTableTemplate $table */
 			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
 			$table->bind((array) $template);
+
+			// Skip if template already migrate
+			if (!empty($template->file_name))
+			{
+				$tables[] = $table;
+
+				continue;
+			}
 
 			$table->file_name = $table->generateTemplateFileName($table->id, $table->name);
 
@@ -89,13 +114,10 @@ class RedshopUpdate209 extends RedshopInstallUpdate
 				continue;
 			}
 
-			$view = $this->getTemplateView($template->section);
-
+			$view       = $this->getTemplateView($template->section);
 			$oldPaths[] = JPath::clean(JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section);
-
 			$sourceFile = JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section . '/' . $template->name . '.php';
 			$sourceFile = JPath::clean($sourceFile);
-
 			$targetFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/' . $table->file_name . '.php');
 
 			if (JFile::exists($sourceFile))
@@ -107,6 +129,8 @@ class RedshopUpdate209 extends RedshopInstallUpdate
 
 				JFile::copy($sourceFile, $targetFile);
 			}
+
+			$tables[] = $table;
 		}
 
 		// Delete old folders.
@@ -119,12 +143,61 @@ class RedshopUpdate209 extends RedshopInstallUpdate
 				JFolder::delete($path);
 			}
 		}
+
+		return $tables;
 	}
 
 	/**
 	 * Template View selector
 	 *
-	 * @param   string  $section  Template Section
+	 * @param   array $templates Templates
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.0.9
+	 */
+	protected function migrateOverrideTemplate($templates = array())
+	{
+		$joomlaTemplate = $this->getActiveSiteTemplate();
+
+		foreach ($templates as $template)
+		{
+			/** @var RedshopTableTemplate $template */
+			$view         = $this->getTemplateView($template->section);
+			$overrideFile = JPATH_SITE . '/templates/' . $joomlaTemplate . '/html/com_redshop/';
+
+			if ($template->section != 'categoryproduct')
+			{
+				$overrideFile .= $view . '/' . $template->section . '/' . $template->name . '.php';
+			}
+			else
+			{
+				$overrideFile .= $template->section . '/' . $template->name . '.php';
+			}
+
+			$overrideFile = JPath::clean($overrideFile);
+
+			if (!JFile::exists($overrideFile))
+			{
+				continue;
+			}
+
+			$target = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $template->section . '/' . $template->file_name . '.php');
+
+			if (JFile::exists($target))
+			{
+				JFile::delete($target);
+			}
+
+			JFile::move($overrideFile, $target);
+		}
+	}
+
+	/**
+	 * Template View selector
+	 *
+	 * @param   string  $section  Template section
 	 *
 	 * @return  string            Template Joomla view name
 	 *
@@ -218,5 +291,24 @@ class RedshopUpdate209 extends RedshopInstallUpdate
 		}
 
 		return $view;
+	}
+
+	/**
+	 * Method for get "default" template use on Front-end
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.9
+	 */
+	protected function getActiveSiteTemplate()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('template'))
+			->from($db->qn('#__template_styles'))
+			->where($db->qn('client_id') . ' = 0')
+			->where($db->qn('home') . ' = 1');
+
+		return $db->setQuery($query)->loadResult();
 	}
 }

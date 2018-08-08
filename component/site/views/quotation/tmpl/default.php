@@ -22,7 +22,7 @@ $detail     = $this->detail;
 $user       = JFactory::getUser();
 $extraField = extraField::getInstance();
 
-$quotation_template = $redTemplate->getTemplate("quotation_request");
+$quotation_template = RedshopHelperTemplate::getTemplate("quotation_request");
 
 if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "")
 {
@@ -70,7 +70,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_desc   = $template_start . $template_middle . $template_end;
 }
 
-$template_desc = $carthelper->replaceLabel($template_desc);
+$template_desc = Redshop\Cart\Render\Label::replace($template_desc);
 
 if ($user->id)
 {
@@ -103,7 +103,7 @@ else
 	}
 	else
 	{
-		$template_desc = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "", "", $template_desc);
+		$template_desc = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "", $template_desc);
 	}
 
 	$billing .= '</div>';

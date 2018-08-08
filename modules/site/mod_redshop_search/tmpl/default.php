@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 	<div class="product_search">
 		<?php if ($showProductSearchTitle == 'yes'): ?>
 			<div class="product_search_title">
-				<?php echo JText::_('COM_REDSHOP_PRODUCT_SEARCH'); ?>
+				<?php echo JText::_('MOD_REDSHOP_SEARCH_PRODUCT_SEARCH'); ?>
 			</div>
 		<?php endif; ?>
 
@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 
 		<?php if ($showCategory == 'yes'):	?>
 			<div class="product_search_catdata">
-				<?php echo JText::_('COM_REDSHOP_SELECT_CATEGORIES');?><br>
+				<?php echo JText::_('MOD_REDSHOP_SEARCH_SELECT_CATEGORIES');?><br>
 				<div class="product_search_catdata_category"><?php echo $lists['catdata'];?></div>
 				<?php if ($showManufacturer == 'yes'): ?>
 					<div class="product_search_catdata_product" id="product_search_catdata_product"
@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
 
 		<?php if ($showManufacturer == 'yes' && $showCategory == 'no'): ?>
 			<div class="product_search_manufacturedata">
-				<?php echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE');?><br>
+				<?php echo JText::_('MOD_REDSHOP_SEARCH_SELECT_MANUFACTURE');?><br>
 				<div class="product_search_manufacturedata_manufacture">
 					<?php echo $lists['manufacturedata'];?>
 				</div>
@@ -69,7 +69,7 @@ defined('_JEXEC') or die;
 		<?php if ($showSearchField == 'yes'): ?>
 			<?php if ($showKeywordTitle == 'yes'): ?>
 				<div class="product_search_input">
-					<?php echo JText::_('COM_REDSHOP_KEYWORD'); ?>
+					<?php echo JText::_('MOD_REDSHOP_SEARCH_KEYWORD'); ?>
 				<?php endif; ?>
 					<br>
 					<input type="text" class="span12" name="keyword" id="keyword" value="<?php echo $keyword; ?>" onclick="this.value=''"/>
@@ -78,11 +78,9 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 		<?php endif; ?>
 
-		<?php if (!$enableAjaxsearch):?>
-			<div class="product_search_button">
-				<input type="submit" name="Search" value=<?php echo JText::_('COM_REDSHOP_SEARCH'); ?> id="Search" />
-			</div>
-		<?php endif; ?>
+		<div class="product_search_button">
+			<input type="submit" name="Search" value=<?php echo JText::_('MOD_REDSHOP_SEARCH_SEARCH'); ?> id="Search" />
+		</div>
 	</div>
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="search"/>
@@ -148,7 +146,7 @@ if ($enableAjaxsearch)
 
 			urlArgstring = urlArg.join('&');
 			new bsn.AutoSuggest('keyword', {
-				script: 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
+				script: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
 				varname: 'keyword',
 				json: true,
 				cache: false,

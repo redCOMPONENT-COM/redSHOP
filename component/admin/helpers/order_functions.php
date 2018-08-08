@@ -239,6 +239,7 @@ class order_functions
 	 * Update order status and trigger emails based on status.
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::updateStatus() instead
 	 */
@@ -322,49 +323,49 @@ class order_functions
 			return array(RedshopHelperOrder::getPaymentInfo($orderId));
 		}
 
-		return RedshopHelperOrder::getOrderPaymentDetail($paymentOrderId);
+		return array(RedshopHelperOrder::getOrderPaymentDetail($paymentOrderId));
 	}
 
 	/**
 	 * Get Order Partial Payment
 	 *
-	 * @param   integer  $order_id  Order ID
+	 * @param   integer $orderId Order ID
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderPartialPayment() instead
 	 */
-	public function getOrderPartialPayment($order_id)
+	public function getOrderPartialPayment($orderId)
 	{
-		return RedshopHelperOrder::getOrderPartialPayment($order_id);
+		return RedshopHelperOrder::getOrderPartialPayment($orderId);
 	}
 
 	/**
 	 * Get Shipping Method Info
 	 *
-	 * @param   string  $shipping_class  Shipping class
+	 * @param   string $shippingClass Shipping class
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getShippingMethodInfo() instead
 	 */
-	public function getShippingMethodInfo($shipping_class = '')
+	public function getShippingMethodInfo($shippingClass = '')
 	{
-		return RedshopHelperOrder::getShippingMethodInfo($shipping_class);
+		return RedshopHelperOrder::getShippingMethodInfo($shippingClass);
 	}
 
 	/**
 	 * Get payment method info
 	 *
-	 * @param   string  $payment_method_class  Payment method class
+	 * @param   string $paymentMethodClass Payment method class
 	 *
 	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getPaymentMethodInfo() instead
 	 */
-	public function getPaymentMethodInfo($payment_method_class = '')
+	public function getPaymentMethodInfo($paymentMethodClass = '')
 	{
-		return RedshopHelperOrder::getPaymentMethodInfo($payment_method_class);
+		return RedshopHelperOrder::getPaymentMethodInfo($paymentMethodClass);
 	}
 
 	/**
@@ -412,75 +413,75 @@ class order_functions
 	/**
 	 * Order Shipping User info
 	 *
-	 * @param   integer  $order_id  Order Id
+	 * @param   integer $orderId Order Id
 	 *
 	 * @deprecated 1.6   Use RedshopHelperOrder::getOrderShippingUserInfo($orderId) instead
 	 *
 	 * @return  object   Order Shipping Information object
 	 */
-	public function getOrderShippingUserInfo($order_id)
+	public function getOrderShippingUserInfo($orderId)
 	{
-		return RedshopHelperOrder::getOrderShippingUserInfo($order_id);
+		return RedshopHelperOrder::getOrderShippingUserInfo($orderId);
 	}
 
 	/**
 	 * Get User full name
 	 *
-	 * @param   integer  $user_id  User ID
+	 * @param   integer $userId User ID
 	 *
 	 * @return  string
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getUserFullName() instead
 	 */
-	public function getUserFullname($user_id)
+	public function getUserFullname($userId)
 	{
-		return RedshopHelperOrder::getUserFullName($user_id);
+		return RedshopHelperOrder::getUserFullName($userId);
 	}
 
 	/**
 	 * Get order item accessory detail
 	 *
-	 * @param   integer  $order_item_id  Order Item ID
+	 * @param   integer $orderItemId Order Item ID
 	 *
 	 * @return  null/object
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderItemAccessoryDetail() instead
 	 */
-	public function getOrderItemAccessoryDetail($order_item_id = 0)
+	public function getOrderItemAccessoryDetail($orderItemId = 0)
 	{
-		return RedshopHelperOrder::getOrderItemAccessoryDetail($order_item_id);
+		return RedshopHelperOrder::getOrderItemAccessoryDetail($orderItemId);
 	}
 
 	/**
 	 * Get order item attribute detail
 	 *
-	 * @param   integer  $order_item_id      Order Item ID
-	 * @param   integer  $is_accessory       Is accessory
-	 * @param   string   $section            Section text
-	 * @param   integer  $parent_section_id  Parent section ID
+	 * @param   integer $orderItemId     Order Item ID
+	 * @param   integer $isAccessory     Is accessory
+	 * @param   string  $section         Section text
+	 * @param   integer $parentSectionId Parent section ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderItemAttributeDetail() instead
 	 */
-	public function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
+	public function getOrderItemAttributeDetail($orderItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
 	{
-		return RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, $section, $parent_section_id);
+		return RedshopHelperOrder::getOrderItemAttributeDetail($orderItemId, $isAccessory, $section, $parentSectionId);
 	}
 
 	/**
 	 * Get Order User Field Data
 	 *
-	 * @param   integer  $order_item_id  Order Item ID
-	 * @param   integer  $section        Section ID
+	 * @param   integer $orderItemId Order Item ID
+	 * @param   integer $section     Section ID
 	 *
 	 * @return  object
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderUserFieldData() instead
 	 */
-	public function getOrderUserfieldData($order_item_id = 0, $section = 0)
+	public function getOrderUserfieldData($orderItemId = 0, $section = 0)
 	{
-		return RedshopHelperOrder::getOrderUserFieldData($order_item_id, $section);
+		return RedshopHelperOrder::getOrderUserFieldData($orderItemId, $section);
 	}
 
 	/**
@@ -498,15 +499,15 @@ class order_functions
 	/**
 	 * Random Generate Encrypt Key
 	 *
-	 * @param   string  $p_length  Length of string
+	 * @param   string $length Length of string
 	 *
 	 * @return  string
 	 *
 	 * @deprecated  2.0.3  Use \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey() instead
 	 */
-	public function random_gen_enc_key($p_length = '30')
+	public function random_gen_enc_key($length = '30')
 	{
-		return \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey((int) $p_length);
+		return \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey((int) $length);
 	}
 
 	/**
@@ -541,44 +542,44 @@ class order_functions
 	/**
 	 * Send download by email
 	 *
-	 * @param   integer  $order_id  Order ID
+	 * @param   integer $orderId Order ID
 	 *
 	 * @return  boolean
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::sendDownload() instead
 	 */
-	public function SendDownload($order_id = 0)
+	public function SendDownload($orderId = 0)
 	{
-		return RedshopHelperOrder::sendDownload($order_id);
+		return RedshopHelperOrder::sendDownload($orderId);
 	}
 
 	/**
 	 * Get download product
 	 *
-	 * @param   integer  $order_id  Order ID
+	 * @param   integer $orderId Order ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getDownloadProduct() instead
 	 */
-	public function getDownloadProduct($order_id)
+	public function getDownloadProduct($orderId)
 	{
-		return RedshopHelperOrder::getDownloadProduct($order_id);
+		return RedshopHelperOrder::getDownloadProduct($orderId);
 	}
 
 	/**
 	 * Get download product log
 	 *
-	 * @param   integer  $order_id  Order Id
-	 * @param   string   $did       Download id
+	 * @param   integer $orderId Order Id
+	 * @param   string  $did     Download id
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getDownloadProductLog() instead
 	 */
-	public function getDownloadProductLog($order_id, $did = '')
+	public function getDownloadProductLog($orderId, $did = '')
 	{
-		return RedshopHelperOrder::getDownloadProductLog($order_id, $did);
+		return RedshopHelperOrder::getDownloadProductLog($orderId, $did);
 	}
 
 	/**
@@ -586,7 +587,7 @@ class order_functions
 	 *
 	 * @param   string  $payment  Payment type
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getParameters() instead
 	 */
@@ -746,15 +747,15 @@ class order_functions
 	/**
 	 * Order status update
 	 *
-	 * @param   integer  $order_id  Order ID
-	 * @param   array    $post      Post array
+	 * @param   integer $orderId Order ID
+	 * @param   array   $post    Post array
 	 *
 	 * @return  boolean/mixed
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::orderStatusUpdate() instead
 	 */
-	public function orderStatusUpdate($order_id, $post = array())
+	public function orderStatusUpdate($orderId, $post = array())
 	{
-		return RedshopHelperOrder::orderStatusUpdate($order_id, $post);
+		return RedshopHelperOrder::orderStatusUpdate($orderId, $post);
 	}
 }

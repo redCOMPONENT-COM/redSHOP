@@ -38,7 +38,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
 		/** @var RedshopModelConfiguration $model */
 		$model         = $this->getModel('configuration');
@@ -46,11 +47,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 		$this->config = $model->getData();
 
-		$redhelper   = redhelper::getInstance();
-		$config      = Redconfiguration::getInstance();
-		$extra_field = extra_field::getInstance();
-		$userhelper  = rsUserHelper::getInstance();
-		$lists       = array();
+		$config = Redconfiguration::getInstance();
+		$lists  = array();
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages(true);
@@ -601,35 +599,35 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" size="1" ', 'value', 'text', $this->config->get('DEFAULT_ACCESSORY_ORDERING_METHOD')
 		);
 
-		$lists['shipping_after'] = $extra_field->rs_booleanlist(
+		$lists['shipping_after'] = RedshopHelperExtrafields::rsBooleanList(
 			'shipping_after',
 			'class="form-control"',
 			$this->config->get('SHIPPING_AFTER', 'total'),
 			JText::_('COM_REDSHOP_TOTAL'),
 			JText::_('COM_REDSHOP_SUBTOTAL_LBL'),
-			'',
+			false,
 			'total',
 			'subtotal'
 		);
 
-		$lists['payment_calculation_on'] = $extra_field->rs_booleanlist(
+		$lists['payment_calculation_on'] = RedshopHelperExtrafields::rsBooleanList(
 			'payment_calculation_on',
 			'class="form-control"',
 			$this->config->get('PAYMENT_CALCULATION_ON', 'total'),
 			JText::_('COM_REDSHOP_TOTAL'),
 			JText::_('COM_REDSHOP_SUBTOTAL_LBL'),
-			'',
+			false,
 			'total',
 			'subtotal'
 		);
 
-		$lists['calculate_vat_on'] = $extra_field->rs_booleanlist(
+		$lists['calculate_vat_on'] = RedshopHelperExtrafields::rsBooleanList(
 			'calculate_vat_on',
 			'class="form-control"',
 			$this->config->get('CALCULATE_VAT_ON', 'BT'),
 			JText::_('COM_REDSHOP_BILLING_ADDRESS_LBL'),
 			JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'),
-			'',
+			false,
 			'BT',
 			'ST'
 		);
@@ -686,6 +684,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['invoice_mail_enable']     = JHtml::_('redshopselect.booleanlist', 'invoice_mail_enable', 'class="form-control"', $this->config->get('INVOICE_MAIL_ENABLE'));
 		$lists['wishlist_login_required'] = JHtml::_('redshopselect.booleanlist', 'wishlist_login_required', 'class="form-control"', $this->config->get('WISHLIST_LOGIN_REQUIRED'));
 		$lists['wishlist_list']           = JHtml::_('redshopselect.booleanlist', 'wishlist_list', 'class="form-control"', $this->config->get('WISHLIST_LIST'));
+
+		// Product general
+		$lists['product_default_category']           = JHtml::_('redshopselect.booleanlist', 'product_default_category', 'class="form-control" size="1"', $this->config->get('PRODUCT_DEFAULT_CATEGORY'));
 
 		$invoice_mail_send_option           = array();
 		$invoice_mail_send_option[0]        = new stdClass;

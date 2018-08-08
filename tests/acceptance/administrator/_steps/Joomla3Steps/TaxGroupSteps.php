@@ -90,7 +90,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxGroupPage::$nameEditPage);
 		$client->fillField(\TaxGroupPage::$fieldName, "");
-		$client->click(\TaxGroupPage::$buttonSave);
+		$client->click(\TaxGroupPage::$buttonSaveTax);
 		$client->waitForText(\TaxGroupPage::$messageErrorFieldMissing, 60, \TaxGroupPage::$selectorMissing);
 		$client->waitForElement(\TaxGroupPage::$fieldName, 30);
 	}
@@ -153,7 +153,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\TaxGroupPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForElement(\TaxGroupPage::$searchField,30);
+		$client->waitForElement(\TaxGroupPage::$searchField, 30);
 		$client->see(\TaxGroupPage::$messageDeleteSuccess, \TaxGroupPage::$selectorSuccess);
 		$client->fillField(\TaxGroupPage::$searchField, $VATGroupsName);
 		$client->pressKey(\TaxGroupPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
@@ -222,4 +222,32 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->waitForText(\TaxGroupPage::$namePage, 30, \TaxGroupPage::$headPage);
 		$client->filterListBySearching($VATGroupName);
 	}
+
+    public function checkButton($name)
+    {
+        $I = $this;
+        $I->amOnPage(\TaxGroupPage::$url);
+        switch ($name)
+        {
+            case 'copy':
+                $I->click(\TaxGroupPage::$buttonCopy);
+                $I->acceptPopup();
+                break;
+            case 'delete':
+                $I->click(\TaxGroupPage::$buttonDelete);
+                $I->acceptPopup();
+                break;
+            case 'publish':
+                $I->click(\TaxGroupPage::$buttonPublish);
+                $I->acceptPopup();
+                break;
+            case 'unpublish':
+                $I->click(\TaxGroupPage::$buttonUnpublish);
+                $I->acceptPopup();
+                break;
+            default:
+                break;
+        }
+        $I->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
+    }
 }

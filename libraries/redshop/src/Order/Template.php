@@ -66,8 +66,8 @@ class Template
 		$totalDiscount    = $row->coupon_discount + $row->order_discount + $row->special_discount + $row->tax_after_discount + $row->voucher_discount;
 		$totalForDiscount = !\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') ? $subTotalExcludeVAT : $row->order_subtotal;
 
-		$template   = \rsCarthelper::getInstance()->replaceLabel($template);
-		$isApplyVAT = \productHelper::getInstance()->getApplyVatOrNot($template);
+		$template   = \Redshop\Cart\Render\Label::replace($template);
+		$isApplyVAT = \Redshop\Template\Helper::isApplyVat($template);
 
 		// Order sub-total
 		$search[] = "{order_subtotal}";
@@ -232,7 +232,7 @@ class Template
 		$replace[] = !empty($row->requisition_number) ? $row->requisition_number : "N/A";
 
 		$template = \RedshopHelperBillingTag::replaceBillingAddress($template, $billingAddresses, $sendMail);
-		$template = \RedshopHelperShippingTag::replaceShippingAddress($template, $shippingAddresses, $sendMail);
+		$template = \Redshop\Shipping\Tag::replaceShippingAddress($template, $shippingAddresses, $sendMail);
 
 		$template = self::replaceOrderStatusLog($template, $row->order_id);
 
@@ -252,8 +252,9 @@ class Template
 	 * @param   array   $replace   Array of replace
 	 *
 	 * @return  void
+	 * @throws  \Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	protected static function replaceOrderLabel($template, &$search, &$replace)
 	{
@@ -320,13 +321,14 @@ class Template
 		$search [] = "{product_attribute_calculated_price}";
 		$replace[] = "";
 	}
+
 	/**
 	 * @param   string   $template  Template
 	 * @param   integer  $orderId   Order ID
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	protected static function replaceOrderStatusLog($template, $orderId)
 	{
@@ -355,14 +357,15 @@ class Template
 	/**
 	 * Method for replace products inside template
 	 *
-	 * @param   string  $template           Template html
-	 * @param   float   $subTotalExcludeVAT Sub-total exclude VAT
-	 * @param   integer $orderId            Order ID
-	 * @param   boolean $sendMail           Is in send mail
+	 * @param   string   $template            Template html
+	 * @param   float    $subTotalExcludeVAT  Sub-total exclude VAT
+	 * @param   integer  $orderId             Order ID
+	 * @param   boolean  $sendMail            Is in send mail
 	 *
-	 * @return void
+	 * @return  void
+	 * @throws  \Exception
 	 *
-	 * @since  2.1.0
+	 * @since   2.1.0
 	 */
 	public static function replaceProducts(&$template, &$subTotalExcludeVAT, $orderId = 0, $sendMail = false)
 	{
@@ -378,7 +381,7 @@ class Template
 		$endHtml            = explode('{product_loop_end}', $startHtml[1]);
 		$templateEnd        = $endHtml[1];
 		$templateMiddle     = $endHtml[0];
-		$cart               = \rsCarthelper::getInstance()->repalceOrderItems($templateMiddle, $orderItems, $sendMail);
+		$cart               = \Redshop\Order\Item::replaceItems($templateMiddle, $orderItems, $sendMail);
 		$template           = $productHtml . $cart[0] . $templateEnd;
 		$subTotalExcludeVAT = $cart[1];
 	}
@@ -533,7 +536,7 @@ class Template
 			}
 		}
 
-		$template = \RedshopHelperShippingTag::replaceShippingMethod($orderEntity->getItem(), $template);
+		$template = \Redshop\Shipping\Tag::replaceShippingMethod($orderEntity->getItem(), $template);
 	}
 
 	/**
@@ -569,8 +572,11 @@ class Template
 				$downloadToken    = $downloadProduct->download_id;
 				$productName      = $downloadProduct->product_name;
 				$mailToken        = $productName . ": <a href='"
-					. \JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken . "'>"
-					. $downloadFileName . "</a>";
+					. \JRoute::_(
+						\JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken,
+						false
+					)
+					. "'>" . $downloadFileName . "</a>";
 
 				$tokenHtml .= "</tr><td>(" . $number . ") " . $mailToken . "</td></tr>";
 			}

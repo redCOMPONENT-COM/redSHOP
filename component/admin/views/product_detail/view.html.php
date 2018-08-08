@@ -27,13 +27,40 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	 */
 	public $request_url;
 
+	/**
+	 * @var object
+	 */
 	public $productSerialDetail;
 
+	/**
+	 * @var JInput
+	 */
 	public $input;
 
+	/**
+	 * @var productHelper
+	 */
 	public $producthelper;
 
+	/**
+	 * @var  JEventDispatcher
+	 */
 	public $dispatcher;
+
+	/**
+	 * @var  RedshopModelProduct_Detail
+	 */
+	public $model;
+
+	/**
+	 * @var  object
+	 */
+	public $detail;
+
+	/**
+	 * @var  object
+	 */
+	public $tabmenu;
 
 	/**
 	 * Do we have to display a sidebar ?
@@ -45,9 +72,10 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a JError object.
+	 * @throws  Exception
 	 *
 	 * @see     fetch()
 	 * @since   11.1
@@ -188,7 +216,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 							foreach ($sel_type['tags'] as $sel_tagid => $sel_tag)
 							{
 								$selected = in_array($sel_tagid, $dependent_tag) ? "selected" : "";
-								$html    .= '<option value="' . $sel_tagid . '" ' . $selected . ' >' . $sel_tag['tag_name'] . '</option>';
+								$html     .= '<option value="' . $sel_tagid . '" ' . $selected . ' >' . $sel_tag['tag_name'] . '</option>';
 							}
 
 							$html .= '</optgroup>';
@@ -204,31 +232,24 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			}
 		}
 
-		$html         .= '</div>';
-		$lists['tags'] = $html;
+		$html              .= '</div>';
+		$lists['tags']     = $html;
+		$templates         = RedshopHelperTemplate::getTemplate("product");
+		$manufacturers     = $model->getmanufacturers();
+		$supplier          = $model->getsupplier();
+		$productCategories = $this->input->post->get('product_category', array(), 'array');
 
-		$templates = RedshopHelperTemplate::getTemplate("product");
-
-		$manufacturers = $model->getmanufacturers();
-
-		$supplier = $model->getsupplier();
-
-		$product_categories = $this->input->post->get('product_category', array(), 'array');
-
-		if (!empty($product_categories))
+		if (!empty($productCategories))
 		{
-			$productcats = $product_categories;
+			$productcats = $productCategories;
 		}
 		else
 		{
 			$productcats = $model->getproductcats();
 		}
 
-		$attributes = $model->getattributes();
-
+		$attributes    = $model->getattributes();
 		$attributesSet = $model->getAttributeSetList();
-
-		$product_category = new product_category;
 
 		// Merging select option in the select box
 		$temps          = array();
@@ -289,18 +310,23 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		if (!$loadedFromAPlugin)
 		{
-			/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.fields.min.js', false, true);
+			/** @scrutinizer ignore-deprecated */
+			JHtml::script('com_redshop/redshop.fields.min.js', false, true);
 		}
 
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/json.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/json.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
-			/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/redshop.update.min.css', array(), true);
+			/** @scrutinizer ignore-deprecated */
+			JHtml::stylesheet('com_redshop/redshop.update.min.css', array(), true);
 		}
 
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.attribute-manipulation.min.js', false, true);
 
 		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
 		{
@@ -311,15 +337,15 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		$layout = $this->input->getString('layout', '');
 
-		if ($layout == 'property_images')
+		if ($layout === 'property_images')
 		{
 			$this->setLayout('property_images');
 		}
-		elseif ($layout == 'attribute_color')
+		elseif ($layout === 'attribute_color')
 		{
 			$this->setLayout('attribute_color');
 		}
-		elseif ($layout == 'productstockroom')
+		elseif ($layout === 'productstockroom')
 		{
 			$this->setLayout('productstockroom');
 		}
@@ -350,23 +376,22 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		if ($detail->product_id > 0)
 		{
-			$ItemData  = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
+			$menu           = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
+			$mainCategoryId = $detail->cat_in_sefurl;
 
-			$catidmain = $detail->cat_in_sefurl;
-
-			if (count($ItemData) > 0)
+			if (!empty($menu))
 			{
-				$pItemid = $ItemData->id;
+				$pItemid = $menu->id;
 			}
 			else
 			{
-				$pItemid = RedshopHelperRouter::getItemId($detail->product_id, $catidmain);
+				$pItemid = RedshopHelperRouter::getItemId($detail->product_id, $mainCategoryId);
 			}
 
-			$link  = JURI::root();
+			$link  = JUri::root();
 			$link .= 'index.php?option=com_redshop';
 			$link .= '&view=product&pid=' . $detail->product_id;
-			$link .= '&cid=' . $catidmain;
+			$link .= '&cid=' . $mainCategoryId;
 			$link .= '&Itemid=' . $pItemid;
 
 			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
@@ -375,14 +400,14 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		$model = $this->getModel('product_detail');
 
-		$accessory_product = array();
+		$accessoryProducts = array();
 
 		if ($detail->product_id)
 		{
-			$accessory_product = $this->producthelper->getProductAccessory(0, $detail->product_id);
+			$accessoryProducts = RedshopHelperAccessory::getProductAccessories(0, $detail->product_id);
 		}
 
-		$lists['accessory_product']        = $accessory_product;
+		$lists['accessory_product']        = $accessoryProducts;
 		$lists['QUANTITY_SELECTBOX_VALUE'] = $detail->quantity_selectbox_value;
 
 		// For preselected.
@@ -400,7 +425,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$lists['related_product'] = JHtml::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
 			array(
 				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
-				'select2.options' => array('multiple' => 'true')
+				'select2.options'     => array('multiple' => 'true')
 			)
 		);
 
@@ -419,7 +444,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			'class="inputbox" size="1"  ', 'value', 'text', $detail->product_tax_id
 		);
 
-		$categories                         = $product_category->list_all("product_category[]", 0, $productcats, 10, false, true);
+		$categories                         = RedshopHelperCategory::listAll("product_category[]", 0, $productcats, 10, false, true);
 		$lists['categories']                = $categories;
 		$detail->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
 
@@ -428,7 +453,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		$detail->use_individual_payment_method = isset($detail->use_individual_payment_method) ? $detail->use_individual_payment_method : null;
 
-		$lists['use_individual_payment_method'] = JHtml::_('select.booleanlist', 'use_individual_payment_method', 'class="inputbox"', $detail->use_individual_payment_method);
+		$lists['use_individual_payment_method'] = JHtml::_(
+			'select.booleanlist', 'use_individual_payment_method', 'class="inputbox"', $detail->use_individual_payment_method
+		);
 
 		$lists['manufacturers'] = JHtml::_('select.genericlist', $manufacturers, 'manufacturer_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->manufacturer_id
@@ -591,8 +618,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$productSerialDetail = $model->getProdcutSerialNumbers();
 
 		// Joomla tags
-		$tagsHelper = new JHelperTags;
-		$jtags      = $tagsHelper->searchTags();
+		$jtags = JHelperTags::searchTags();
 
 		$currentTags = null;
 
@@ -603,7 +629,9 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			$currentTags = explode(',', $currentTags);
 		}
 
-		$lists['jtags'] = JHtml::_('select.genericlist', $jtags, 'jtags[]', 'class="inputbox" size="10" multiple="multiple"', 'value', 'text', $currentTags);
+		$lists['jtags'] = JHtml::_(
+			'select.genericlist', $jtags, 'jtags[]', 'class="inputbox" size="10" multiple="multiple"', 'value', 'text', $currentTags
+		);
 
 		$this->model               = $model;
 		$this->lists               = $lists;
@@ -619,6 +647,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 	 * Tab Menu
 	 *
 	 * @return  object  Tab menu
+	 * @throws  Exception
 	 *
 	 * @since   1.7
 	 */
@@ -633,16 +662,16 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			->addItem(
 				'#general_data',
 				'COM_REDSHOP_PRODUCT_INFORMATION',
-				($selectedTabPosition == 'general_data') ? true : false,
+				($selectedTabPosition === 'general_data') ? true : false,
 				'general_data'
 			);
 
-		if ($this->detail->product_type != 'product' && !empty($this->detail->product_type))
+		if ($this->detail->product_type !== 'product' && !empty($this->detail->product_type))
 		{
 			$tabMenu->addItem(
 				'#producttype',
 				'COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB',
-				($selectedTabPosition == 'producttype') ? true : false,
+				($selectedTabPosition === 'producttype') ? true : false,
 				'producttype'
 			);
 		}
@@ -650,22 +679,22 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$tabMenu->addItem(
 			'#extrafield',
 			'COM_REDSHOP_FIELDS',
-			($selectedTabPosition == 'extrafield') ? true : false,
+			($selectedTabPosition === 'extrafield') ? true : false,
 			'extrafield'
 		)->addItem(
 			'#product_images',
 			'COM_REDSHOP_PRODUCT_IMAGES',
-			($selectedTabPosition == 'product_images') ? true : false,
+			($selectedTabPosition === 'product_images') ? true : false,
 			'product_images'
 		)->addItem(
 			'#product_attribute',
 			'COM_REDSHOP_PRODUCT_ATTRIBUTES',
-			($selectedTabPosition == 'product_attribute') ? true : false,
+			($selectedTabPosition === 'product_attribute') ? true : false,
 			'product_attribute'
 		)->addItem(
 			'#product_accessory',
 			'COM_REDSHOP_ACCESSORY_RELATED_PRODUCT',
-			($selectedTabPosition == 'product_accessory') ? true : false,
+			($selectedTabPosition === 'product_accessory') ? true : false,
 			'product_accessory'
 		);
 
@@ -674,7 +703,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			$tabMenu->addItem(
 				'#productfinder',
 				'COM_REDSHOP_REDPRODUCTFINDER_ASSOCIATION',
-				($selectedTabPosition == 'productfinder') ? true : false,
+				$selectedTabPosition === 'productfinder',
 				'productfinder'
 			);
 		}
@@ -682,16 +711,16 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$tabMenu->addItem(
 			'#product_meta_data',
 			'COM_REDSHOP_META_DATA_TAB',
-			($selectedTabPosition == 'product_meta_data') ? true : false,
+			$selectedTabPosition === 'product_meta_data',
 			'product_meta_data'
 		);
 
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		if (Redshop::getConfig()->getBool('USE_STOCKROOM'))
 		{
 			$tabMenu->addItem(
 				'#productstockroom',
 				'COM_REDSHOP_STOCKROOM_TAB',
-				($selectedTabPosition == 'productstockroom') ? true : false,
+				$selectedTabPosition === 'productstockroom',
 				'productstockroom'
 			);
 		}
@@ -699,14 +728,14 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$tabMenu->addItem(
 			'#calculator',
 			'COM_REDSHOP_DISCOUNT_CALCULATOR',
-			($selectedTabPosition == 'calculator') ? true : false,
+			$selectedTabPosition === 'calculator',
 			'calculator'
 		);
 
 		$tabMenu->addItem(
 			'#product_payment_method',
 			'COM_REDSHOP_TEMPLATE_PAYMENT_METHOD',
-			($selectedTabPosition == 'product_payment_method') ? true : false,
+			$selectedTabPosition === 'product_payment_method',
 			'product_payment_method'
 		);
 
@@ -715,7 +744,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			$tabMenu->addItem(
 				'#economic_settings',
 				'COM_REDSHOP_ECONOMIC_SETTINGS',
-				($selectedTabPosition == 'economic_settings') ? true : false,
+				$selectedTabPosition === 'economic_settings',
 				'economic_settings'
 			);
 		}

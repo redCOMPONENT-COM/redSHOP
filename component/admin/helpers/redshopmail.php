@@ -167,6 +167,7 @@ class redshopMail
 	 * @param   integer  $orderId  Order Information Id
 	 *
 	 * @return  boolean  True on sending email successfully.
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMail::sendInvoiceMail($orderId) instead
 	 */
@@ -229,11 +230,14 @@ class redshopMail
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  2.0.0.3  Use RedshopHelperMail::imgInMail($message) instead
+	 * @deprecated  2.0.0.3  Use Redshop\Mail\Helper::imgInMail
+	 * @see Redshop\Mail\Helper::imgInMail
 	 */
 	public function imginmail($message)
 	{
-		return RedshopHelperMail::imgInMail($message);
+		Redshop\Mail\Helper::imgInMail($message);
+
+		return $message;
 	}
 
 	/**

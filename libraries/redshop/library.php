@@ -10,7 +10,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use \Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -30,6 +30,12 @@ define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . '/components/com_redshop/ass
 define('REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT', REDSHOP_FRONT_IMAGES_RELPATH . 'product/');
 define('REDSHOP_FRONT_DOCUMENT_ABSPATH', JUri::root() . 'components/com_redshop/assets/document/');
 define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/document/');
+
+define('REDSHOP_MEDIA_IMAGE_RELPATH', JPATH_ROOT . '/media/com_redshop/images/');
+define('REDSHOP_MEDIA_IMAGE_ABSPATH', JUri::root() . 'media/com_redshop/images/');
+
+// Address
+define('REDSHOP_ADDRESS_TYPE_SHIPPING', 'ST');
 
 // Require our Composer libraries
 $composerAutoload = __DIR__ . '/vendor/autoload.php';
@@ -84,7 +90,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 RedshopHelperUtility::defineDynamicVariables();
 
 // Load backward compatible php defined config.
-if (Redshop::getConfig()->get('BACKWARD_COMPATIBLE_PHP') == 1)
+if (Redshop::getConfig()->getBool('BACKWARD_COMPATIBLE_PHP'))
 {
 	$configs = Redshop::getConfig()->toArray();
 

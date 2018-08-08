@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class DiscountPage extends AdminJ3Page
 {
@@ -25,20 +25,25 @@ class DiscountPage extends AdminJ3Page
 	 */
 	public static $url = '/administrator/index.php?option=com_redshop&view=discounts';
 
-	/**
-	 * @var array
-	 */
-	public static $fieldName = ['id' => 'jform_name'];
+    /**
+     * @var array
+     */
+	public static $saveDiscount = "//button[@onclick=\"Joomla.submitbutton('discount.apply');\"]";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldAmount = ['id' => 'jform_amount'];
+	public static $fieldName = "#jform_name";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldDiscountAmount = ['id' => 'jform_discount_amount'];
+	public static $fieldAmount = "#jform_amount";
+
+	/**
+	 * @var array
+	 */
+	public static $fieldDiscountAmount = "#jform_discount_amount";
 
 	/**
 	 * @var array
@@ -53,17 +58,17 @@ class DiscountPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldShopperGroup = ['id' => 'jform_shopper_group'];
+	public static $fieldShopperGroup = "#jform_shopper_group";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldStartDate = ['id' => 'jform_start_date'];
+	public static $fieldStartDate = "#jform_start_date";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldEndDate = ['id' => 'jform_end_date'];
+	public static $fieldEndDate = "#jform_end_date";
 
 	/**
 	 * @var string
@@ -78,7 +83,7 @@ class DiscountPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $discountCheckBox = ['xpath' => '//tr/td[2]'];
+	public static $discountCheckBox = "//tr/td[2]";
 
 	/**
 	 * @return string

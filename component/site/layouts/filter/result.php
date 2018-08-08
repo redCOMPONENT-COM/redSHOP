@@ -18,6 +18,7 @@ $model      = $displayData["model"];
 $app        = JFactory::getApplication();
 $input      = $app->input;
 
+/** @var RedshopModelCategory $categoryModel */
 $categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
 $categoryModel->setId($cid);
 $categoryData = $categoryModel->getData();
@@ -41,7 +42,7 @@ $list = array(
 $orderBy = JHtml::_(
 	'select.genericlist',
 	$list, 'orderBy',
-	'class="inputbox" size="1" onchange="order(this);" ',
+	'class="inputbox form-control" size="1" onchange="setSliderMinMax(this);" ',
 	'value',
 	'text',
 	$displayData['orderBy']
@@ -60,7 +61,7 @@ $extraFieldCategory = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 
 $templateArray     = RedshopHelperTemplate::getTemplate("category", $templateId);
 $templateDesc      = $templateArray[0]->template_desc;
-$attributeTemplate = $productHelper->getAttributeTemplate($templateDesc);
+$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateDesc);
 
 // Begin replace template
 $templateDesc   = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $templateDesc);
@@ -263,7 +264,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		if (strpos($dataAdd, '{category_total_product}') !== false)
 		{
-			$totalprd = $producthelper->getProductCategory($row->id);
+			$totalprd = $productHelper->getProductCategory($row->id);
 			$dataAdd  = str_replace("{category_total_product}", count($totalprd), $dataAdd);
 			$dataAdd  = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $dataAdd);
 		}
@@ -398,24 +399,26 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateD2      = explode("{product_loop_end}", $templateD1[1]);
 	$templateProduct = $templateD2[0];
 
-	$attributeTemplate = $productHelper->getAttributeTemplate($templateProduct);
+	$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateProduct);
+	$products          = RedshopHelperProduct::getProductsByIds($products);
+	$productIds        = array();
 
 	// Loop product lists
-	foreach ($products as $k => $pid)
+	foreach ($products as $product)
 	{
-		$product = RedshopHelperProduct::getProductById($pid);
-		$catid   = $product->category_id;
+		$catid        = $product->category_id;
+		$productIds[] = $product->product_id;
 
 		// Count accessory
 		$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
 		$totacc        = count($accessorylist);
-		$netPrice      = $productHelper->getProductNetPrice($pid);
+		$netPrice      = $productHelper->getProductNetPrice($product->product_id);
 		$productPrice  = $netPrice['productPrice'];
 
 		$dataAdd = $templateProduct;
 
 		// ProductFinderDatepicker Extra Field Start
-		$dataAdd  = $productHelper->getProductFinderDatepickerValue($templateProduct, $product->product_id, $fieldArray);
+		$dataAdd  = $productHelper->getProductFinderDatepickerValue($dataAdd, $product->product_id, $fieldArray);
 		$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperRouter::getItemId($product->product_id, $cid);
 
@@ -440,7 +443,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		if (!empty($keyword))
 		{
-			$productName = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productName);
+			$productName = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productName);
 		}
 
 		if (strstr($dataAdd, '{product_name_nolink}'))
@@ -480,7 +483,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			if (!empty($keyword))
 			{
-				$productShortDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productShortDesc);
+				$productShortDesc = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productShortDesc);
 			}
 
 			$dataAdd = str_replace("{product_s_desc}", $productShortDesc, $dataAdd);
@@ -496,7 +499,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			if (!empty($keyword))
 			{
-				$productDesc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $productDesc);
+				$productDesc = preg_replace("/($keyword)/i", "<b class='search_hightlight'>$1</b>", $productDesc);
 			}
 
 			$dataAdd = str_replace("{product_desc}", $productDesc, $dataAdd);
@@ -505,7 +508,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		if (strstr($dataAdd, '{product_rating_summary}'))
 		{
 			// Product Review/Rating Fetching reviews
-			$finalAvgReviewData = $productHelper->getProductRating($product->product_id);
+			$finalAvgReviewData = Redshop\Product\Rating::getRating($product->product_id);
 			$dataAdd            = str_replace("{product_rating_summary}", $finalAvgReviewData, $dataAdd);
 		}
 
@@ -590,10 +593,10 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		$hiddenThumbImage = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pwThumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $phThumb . "'>";
-		$thumbImage       = $productHelper->getProductImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1);
+		$thumbImage       = Redshop\Product\Image\Image::getImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1);
 
 		// Product image flying addwishlist time start
-		$thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $productHelper->getProductImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1) . "</span>";
+		$thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . Redshop\Product\Image\Image::getImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1) . "</span>";
 
 		// Product image flying addwishlist time end
 		$dataAdd = str_replace($pImgTag, $thumbImage . $hiddenThumbImage, $dataAdd);
@@ -712,7 +715,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Checking for child products
-		$childProducts = $productHelper->getChildProduct($product->product_id);
+		$childProducts = RedshopHelperProduct::getChildProduct($product->product_id);
 
 		if (count($childProducts) > 0)
 		{
@@ -772,7 +775,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// Check product for not for sale
 		$dataAdd = $productHelper->getProductNotForSaleComment($product, $dataAdd, $attributes);
 
-		$dataAdd = $productHelper->replaceProductInStock(
+		$dataAdd = Redshop\Product\Stock::replaceInStock(
 			$product->product_id,
 			$dataAdd,
 			$attributes,
@@ -801,7 +804,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		}
 
 		// Get cart template
-		$dataAdd = $productHelper->replaceCartTemplate(
+		$dataAdd = Redshop\Cart\Render::replace(
 			$product->product_id,
 			$catid,
 			0,
@@ -810,12 +813,10 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$isChilds,
 			$userfieldArr,
 			$totalatt,
-			$totacc,
-			0,
-			""
+			$totacc
 		);
 
-		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $pid, "1", $dataAdd);
+		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $product->product_id, "1", $dataAdd);
 
 		$results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
 
@@ -854,8 +855,58 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		$templateDesc = str_replace("{product_display_limit}", $limitBox, $templateDesc);
 	}
 
+	if (strpos($templateDesc, '{filter_by}') !== false)
+	{
+		/** @var JApplicationSite $app */
+		$app        = JFactory::getApplication();
+		$data       = $app->input->get('redform', array(), 'ARRAY');
+		$min        = isset($data['filterprice']['min']) ? (float) $data['filterprice']['min'] : 0.0;
+		$max        = isset($data['filterprice']['max']) ? (float) $data['filterprice']['max'] : 0.0;
+		$templateId = isset($data['template_id']) ? (int) $data['template_id'] : 0;
+
+		if (isset($data['cid']))
+		{
+			$app->input->set('cid', $data['cid']);
+		}
+
+		$temps = array(
+			(object) array(
+				'id'   => 0,
+				'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
+			)
+		);
+
+		$manufacturers = array_merge($temps, $categoryModel->getManufacturer());
+		$manufacturers = JHtml::_(
+			'select.genericlist',
+			$manufacturers,
+			'manufacturer_id',
+			'class="inputbox form-control" onchange="javascript:setSliderMinMaxForManufactur();" ',
+			'id',
+			'name',
+			$categoryModel->getState('manufacturer_id')
+		);
+
+		$filterByForm = "<form name='filterby_form' action='' method='post'>";
+		$filterByForm .= $manufacturers;
+		$filterByForm .= "<input type='hidden' name='texpricemin' id='manuf_texpricemin' value='" . $min . "' />";
+		$filterByForm .= "<input type='hidden' name='texpricemax' id='manuf_texpricemax' value='" . $max . "' />";
+		$filterByForm .= "<input type='hidden' name='order_by' id='order_by' value='"
+			. $app->getUserStateFromRequest($model->context . '.order_by', 'order_by') . "' />";
+		$filterByForm .= '<input type="hidden" name="limitstart" value="0" />';
+		$filterByForm .= "<input type='hidden' name='category_template' id='category_template' value='" . $templateId . "' />";
+		$filterByForm .= "</form>";
+
+		$templateDesc = str_replace(
+			array('{filter_by_lbl}', '{filter_by}'),
+			array(JText::_('COM_REDSHOP_SELECT_FILTER_BY'), $filterByForm),
+			$templateDesc
+		);
+	}
+
 	$templateDesc = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $templateDesc);
 	$templateDesc = str_replace("{order_by}", $orderBy, $templateDesc);
+	$templateDesc = str_replace("{filter_by_lbl}", '', $templateDesc);
 	$templateDesc = str_replace("{product_loop_start}", "", $templateDesc);
 	$templateDesc = str_replace("{product_loop_end}", "", $templateDesc);
 	$templateDesc = str_replace("{category_main_name}", $categoryDetail->name, $templateDesc);
@@ -874,7 +925,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
 	$templateDesc = RedshopHelperText::replaceTexts($templateDesc);
 	$templateDesc .= '<div id="new-url" style="display: none">' . $displayData['url'] . '</div>';
-	$templateDesc .= '<input type="hidden" name="pids" value="' . implode(',', $products) . '"/>';
+	$templateDesc .= '<input type="hidden" name="pids" value="' . implode(',', $productIds) . '"/>';
 }
 
 // End Replace Products

@@ -66,7 +66,7 @@ class Utility
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function getProductTags($section = \RedshopHelperExtrafields::SECTION_PRODUCT, $templateHtml = '')
 	{
@@ -107,5 +107,200 @@ class Utility
 		}
 
 		return $results;
+	}
+
+	/**
+	 * Method for convert Unit
+	 *
+	 * @param   string  $globalUnit  Base conversation unit
+	 * @param   string  $calcUnit    Unit ratio which to convert
+	 *
+	 * @return  float                Unit ratio
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getUnitConversation($globalUnit, $calcUnit)
+	{
+		if (empty($globalUnit) || empty($calcUnit) || $globalUnit == $calcUnit)
+		{
+			return 1.0;
+		}
+
+		switch ($calcUnit)
+		{
+			case "mm": // Millimeters
+				switch ($globalUnit)
+				{
+					case "cm":
+						return 0.1;
+
+					case "m":
+						return 0.001;
+
+					case "inch":
+						return 0.0393700787;
+
+					case "feet":
+						return 0.0032808399;
+
+					default:
+						return 1.0;
+				}
+
+				break;
+
+			case "cm": // Centimeters
+				switch ($globalUnit)
+				{
+					case "mm":
+						return 10;
+
+					case "m":
+						return 0.01;
+
+					case "inch":
+						return 0.393700787;
+
+					case "feet":
+						return 0.032808399;
+
+					default:
+						return 1;
+				}
+
+				break;
+
+			case "m": // Meters
+				switch ($globalUnit)
+				{
+					case "mm":
+						return 1000;
+
+					case "cm":
+						return 100;
+
+					case "inch":
+						return 39.3700787;
+
+					case "feet":
+						return 3.2808399;
+
+					default:
+						return 1;
+				}
+
+				break;
+
+			case "inch": // Inches
+				switch ($globalUnit)
+				{
+					case "mm":
+						return 25.4;
+
+					case "cm":
+						return 2.54;
+
+					case "m":
+						return 0.0254;
+
+					case "feet":
+						return 0.0833333333;
+
+					default:
+						return 1;
+				}
+
+				break;
+
+			case "feet": // Feets
+				switch ($globalUnit)
+				{
+					case "mm":
+						return 304.8;
+
+					case "cm":
+						return 30.48;
+
+					case "m":
+						return 0.3048;
+
+					case "inch":
+						return 12;
+
+					default:
+						return 1;
+				}
+
+				break;
+
+			case "kg": // Kilograms
+				switch ($globalUnit)
+				{
+					case "pounds":
+					case "lbs":
+						return 2.20462262;
+
+					case "gram":
+						return 1000;
+
+					default:
+						return 1;
+				}
+
+				break;
+
+			case "pounds": // UK Pounds
+			case "lbs":
+				switch ($globalUnit)
+				{
+					case "gram":
+						return 453.59237;
+
+					case "kg":
+						return 0.45359237;
+
+					default:
+						return 1;
+				}
+
+				break;
+
+			case "gram":
+				switch ($globalUnit)
+				{
+					case "pounds":
+					case "lbs":
+						return 0.00220462262;
+
+					case "kg":
+						return 0.001;
+
+					default:
+						return 1;
+				}
+
+				break;
+
+			default:
+				return 1;
+		}
+	}
+
+	/**
+	 * Method to get string between inputs
+	 *
+	 * @param   string  $start   Starting string where you need to start search
+	 * @param   string  $end     Ending string where you need to end search
+	 * @param   string  $string  Target string from where need to search
+	 *
+	 * @return  array            Matched string array
+	 *
+	 * @since   2.1.0
+	 */
+	public static function findStringBetween($start, $end, $string)
+	{
+		preg_match_all('/' . preg_quote($start, '/') . '([^\.)]+)' . preg_quote($end, '/') . '/i', $string, $m);
+
+		return $m[1];
 	}
 }

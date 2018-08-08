@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Redshop\Economic\RedshopEconomic;
 
 /**
@@ -200,9 +199,9 @@ class RedshopControllerCheckout extends RedshopController
 	 */
 	public function getShippingInformation()
 	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
-		$plugin = $input->getCmd('plugin', '');
+		$app    = JFactory::getApplication();
+		$plugin = $app->input->getCmd('plugin', '');
+
 		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
@@ -429,7 +428,7 @@ class RedshopControllerCheckout extends RedshopController
 		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$shipping_rate_id = $input->post->getString('shipping_rate_id', '');
-			$shippingdetail   = RedshopShippingRate::decrypt($shipping_rate_id);
+			$shippingdetail   = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
 
 			if (count($shippingdetail) < 4)
 			{
@@ -550,7 +549,7 @@ class RedshopControllerCheckout extends RedshopController
 				 * Note: ( Only when redirect payment gateway are in motion, not for credit card gateway)
 				 *
 				 */
-				$paymentmethod = $this->_order_functions->getPaymentMethodInfo($payment_method_id);
+				$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
 				$paymentmethod = $paymentmethod[0];
 				$params        = new \Joomla\Registry\Registry($paymentmethod->params);
 				$is_creditcard = $params->get('is_creditcard', 0);
@@ -596,7 +595,7 @@ class RedshopControllerCheckout extends RedshopController
 		$model           = $this->getModel('checkout');
 		$session         = JFactory::getSession();
 		$paymentMethodId = $input->post->getCmd('payment_method_id', '');
-		$paymentMethod   = $this->_order_functions->getPaymentMethodInfo($paymentMethodId);
+		$paymentMethod   = RedshopHelperOrder::getPaymentMethodInfo($paymentMethodId);
 		$paymentParams   = new JRegistry($paymentMethod[0]->params);
 		$isCreditcard    = $paymentParams->get('is_creditcard', 0);
 
@@ -803,7 +802,7 @@ class RedshopControllerCheckout extends RedshopController
 		ob_clean();
 		$app = JFactory::getApplication();
 		$shipping_rate_id    = $app->input->post->getCmd('shipping_rate_id', '');
-		$shippingmethod      = $this->_order_functions->getShippingMethodInfo($shipping_rate_id);
+		$shippingmethod      = RedshopHelperOrder::getShippingMethodInfo($shipping_rate_id);
 		$shippingparams      = new JRegistry($shippingmethod[0]->params);
 		$extrafield_shipping = $shippingparams->get('extrafield_shipping', '');
 

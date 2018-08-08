@@ -21,6 +21,9 @@ defined('_JEXEC') or die;
  */
 class RedshopModelProduct extends RedshopModel
 {
+	/**
+	 * @var null
+	 */
 	public $_id = null;
 
 	public $_data = null;
@@ -88,12 +91,12 @@ class RedshopModelProduct extends RedshopModel
 			->select($db->qn('c.name', 'category_name'))
 			->select($db->qn('c.category_full_image'))
 			->select($db->qn('c.category_back_full_image'))
-			->select($db->qn('m.manufacturer_name'))
+			->select($db->qn('m.name', 'manufacturer_name'))
 			->select($db->qn('pcx.ordering'))
 			->select($db->qn('ppx.payment_id'))
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftjoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
-			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.id') . ' = ' . $db->qn('p.manufacturer_id'))
 			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
 			->leftjoin($db->qn('#__redshop_product_payment_xref', 'ppx') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('ppx.product_id'))
 			->where($db->qn('p.product_id') . ' = ' . $db->q((int) $this->_id));
@@ -117,11 +120,9 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getProductTemplate()
 	{
-		$redTemplate = Redtemplate::getInstance();
-
-		if (empty ($this->_template))
+		if (empty($this->_template))
 		{
-			$this->_template = $redTemplate->getTemplate("product", $this->_data->product_template);
+			$this->_template = RedshopHelperTemplate::getTemplate("product", $this->_data->product_template);
 			$this->_template = $this->_template[0];
 		}
 
@@ -218,7 +219,6 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		$producthelper = productHelper::getInstance();
-		$redshopMail   = redshopMail::getInstance();
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
@@ -232,7 +232,7 @@ class RedshopModelProduct extends RedshopModel
 		$username   = $data['username'];
 		$product_id = $data['product_id'];
 
-		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
+		$mailbody = Redshop\Mail\Helper::getTemplate(0, "review_mail");
 
 		$data_add = $message;
 
@@ -256,7 +256,8 @@ class RedshopModelProduct extends RedshopModel
 		$data_add    = str_replace("{title}", $message, $data_add);
 		$data_add    = str_replace("{comment}", $comment, $data_add);
 		$data_add    = str_replace("{username}", $username, $data_add);
-		$data_add    = $redshopMail->imginmail($data_add);
+
+		Redshop\Mail\Helper::imgInMail($data_add);
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "")
 		{
@@ -545,8 +546,7 @@ class RedshopModelProduct extends RedshopModel
 
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
-		$producthelper = productHelper::getInstance();
-		$info          = $producthelper->getChildProduct($parentid);
+		$info = RedshopHelperProduct::getChildProduct($parentid);
 
 		for ($i = 0, $in = count($info); $i < $in; $i++)
 		{

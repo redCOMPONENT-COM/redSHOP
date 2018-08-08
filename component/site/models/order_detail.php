@@ -36,8 +36,8 @@ class RedshopModelOrder_detail extends RedshopModel
 	/**
 	 * Check Order Information Access Token
 	 *
-	 * @param   integer  $oid   Order Id
-	 * @param   string   $encr  Encryped String - Token
+	 * @param   integer $oid  Order Id
+	 * @param   string  $encr Encryped String - Token
 	 *
 	 * @return  integer  User Info id - redSHOP User Id if validate.
 	 */
@@ -101,25 +101,27 @@ class RedshopModelOrder_detail extends RedshopModel
 	 */
 	public function billingaddresses()
 	{
-		$app = JFactory::getApplication();
-		$order_functions = order_functions::getInstance();
-		$user            = JFactory::getUser();
-		$session         = JFactory::getSession();
-
+		$user    = JFactory::getUser();
+		$session = JFactory::getSession();
 		$auth = $session->get('auth');
-		$list = array();
+		$billingAddress = new stdClass;
 
 		if ($user->id)
 		{
-			$list = $order_functions->getBillingAddress($user->id);
+			$billingAddress = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
-			$uid  = - $auth['users_info_id'];
-			$list = $order_functions->getBillingAddress($uid);
+			$uid  = -$auth['users_info_id'];
+			$billingAddress = RedshopHelperOrder::getBillingAddress($uid);
 		}
 
-		return $list;
+		if ($billingAddress === false || $billingAddress === null)
+		{
+			return new stdClass;
+		}
+
+		return $billingAddress;
 	}
 
 	/**
@@ -129,17 +131,16 @@ class RedshopModelOrder_detail extends RedshopModel
 	 */
 	public function getCategoryNameByProductId($pid)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('c.name'))
 			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
 			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
 			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
 			->where($db->qn('c.name') . ' IS NOT NULL')
-			->order($db->qn('c.id') . ' ASC')
-			->setLimit(0, 1);
+			->order($db->qn('c.id') . ' ASC');
 
-		return $db->setQuery($query)->loadResult();
+		return $db->setQuery($query, 0, 1)->loadResult();
 	}
 
 	/**
@@ -183,11 +184,6 @@ class RedshopModelOrder_detail extends RedshopModel
 			. " order_payment_trans_id  = " . $db->quote($payment_transaction_id) . " "
 			. " WHERE order_id  = " . (int) $order_id;
 
-		$db->setQuery($payment_update);
-
-		if (!$db->execute())
-		{
-			return false;
-		}
+		return $db->setQuery($payment_update)->execute();
 	}
 }

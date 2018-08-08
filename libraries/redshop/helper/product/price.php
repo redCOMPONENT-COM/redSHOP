@@ -183,10 +183,10 @@ class RedshopHelperProductPrice
 	 */
 	public static function formattedPrice($productPrice, $convert = true, $currencySymbol = '_NON_')
 	{
-		$currencySymbol = $currencySymbol == '_NON_' ? Redshop::getConfig()->get('REDCURRENCY_SYMBOL') : $currencySymbol;
+		$currencySymbol = $currencySymbol === '_NON_' ? Redshop::getConfig()->get('REDCURRENCY_SYMBOL') : $currencySymbol;
 
 		// Get Current Currency of SHOP
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
 
 		// If convert set true than use conversation
 		if ($convert && $session->get('product_currency'))
@@ -196,15 +196,6 @@ class RedshopHelperProductPrice
 			$currencySymbol  = (int) $productCurrency;
 			$currencySymbol  = !$currencySymbol ?
 				$productCurrency : RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
-
-			if (Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION') == 'behind')
-			{
-				$currencySymbol = " " . (string) $currencySymbol;
-			}
-			else
-			{
-				$currencySymbol = (string) $currencySymbol . " ";
-			}
 		}
 
 		if (!is_numeric($productPrice))
@@ -212,13 +203,25 @@ class RedshopHelperProductPrice
 			return '';
 		}
 
-		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
-		$priceSeperator    = Redshop::getConfig()->get('PRICE_SEPERATOR');
-		$thousandSeperator = Redshop::getConfig()->get('THOUSAND_SEPERATOR', '');
-		$productPrice      = (double) $productPrice;
-		$productPrice      = number_format($productPrice, $priceDecimal, $priceSeperator, $thousandSeperator);
+		// Prepare currency symbol
+		$position = Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION', 'front');
 
-		switch (Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION'))
+		if ($position === 'behind')
+		{
+			$currencySymbol = ' <span class="product-currency-symbol">' . (string) $currencySymbol . '</span>';
+		}
+		else
+		{
+			$currencySymbol = '<span class="product-currency-symbol">' . (string) $currencySymbol . '</span> ';
+		}
+
+		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
+		$priceSeparator    = Redshop::getConfig()->get('PRICE_SEPERATOR');
+		$thousandSeparator = Redshop::getConfig()->get('THOUSAND_SEPERATOR', '');
+		$productPrice      = (double) $productPrice;
+		$productPrice      = number_format($productPrice, $priceDecimal, $priceSeparator, $thousandSeparator);
+
+		switch ($position)
 		{
 			case 'behind':
 				return $productPrice . $currencySymbol;
@@ -256,6 +259,7 @@ class RedshopHelperProductPrice
 	 * @param   array    $attributes    Attributes list.
 	 *
 	 * @return  array
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
@@ -274,7 +278,7 @@ class RedshopHelperProductPrice
 		$priceSavingLabel   = '';
 		$oldPriceExcludeVat = '';
 
-		$result = productHelper::getInstance()->getProductPrices($productId, $userId, $quantity);
+		$result = RedshopHelperProduct::getProductPrices($productId, $userId, $quantity);
 
 		if (!empty($result))
 		{
@@ -291,7 +295,7 @@ class RedshopHelperProductPrice
 			$newPrice = $results[0];
 		}
 
-		$isApplyTax   = productHelper::getInstance()->getApplyVatOrNot($templateHtml, $userId);
+		$isApplyTax   = \Redshop\Template\Helper::isApplyVat($templateHtml, $userId);
 		$specialPrice = self::getProductSpecialPrice($newPrice, productHelper::getInstance()->getProductSpecialId($userId), $productId);
 
 		if (!is_null($specialPrice))
@@ -488,7 +492,8 @@ class RedshopHelperProductPrice
 	 * @param   boolean  $isRel         Is Rel
 	 * @param   array    $attributes    Attributes
 	 *
-	 * @return mixed|string
+	 * @return  mixed|string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.7
 	 */
@@ -513,7 +518,7 @@ class RedshopHelperProductPrice
 		$userId    = !$userId ? JFactory::getUser()->id : $userId;
 		$relPrefix = !$isRel ? '' : 'rel';
 
-		$defaultQuantity = productHelper::getInstance()->GetDefaultQuantity($productId, $templateHtml);
+		$defaultQuantity = \Redshop\Cart\Helper::getDefaultQuantity($productId, $templateHtml);
 		$productPrices   = self::getNetPrice($productId, $userId, $defaultQuantity, $templateHtml, $attributes);
 
 		if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')

@@ -12,7 +12,7 @@ $redconfig = Redconfiguration::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $model = $this->getModel('ratings');
 
-$main_template = $redTemplate->getTemplate("review");
+$main_template = RedshopHelperTemplate::getTemplate("review");
 
 if (count($main_template) > 0 && $main_template[0]->template_desc)
 {

@@ -58,9 +58,6 @@ class RedshopControllerAccount extends RedshopController
 		$itemId     = $input->get('Itemid');
 		$wishListId = $input->get('wishlist_id');
 
-		/** @var RedshopModelAccount $model */
-		$model = $this->getModel('account');
-
 		if ($input->get('emailto') == "")
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_TO');
@@ -77,7 +74,7 @@ class RedshopControllerAccount extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_SUBJECT');
 		}
-		elseif ($model->sendWishlist($input->getArray()))
+		elseif (Redshop\Account\Wishlist::send($input->getArray()))
 		{
 			$msg = JText::_('COM_REDSHOP_SEND_SUCCESSFULLY');
 		}
@@ -124,5 +121,40 @@ class RedshopControllerAccount extends RedshopController
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
 		$this->setRedirect(JRoute::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false), $msg);
+	}
+
+	/**
+	 * Method to delete account user
+	 *
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function deleteAccount()
+	{
+		$app = JFactory::getApplication();
+		$userId = JFactory::getUser()->id;
+
+		/**
+		 * @var RedshopModelAccount $model;
+		 */
+		$model = $this->getModel('account');
+		$itemId = JFactory::getApplication()->input->getInt('Itemid');
+
+		if ($model->deleteAccount($userId))
+		{
+			// Prepare the logout options.
+			$options = array(
+				'clientid' => $app->get('shared_session', '0') ? null : 0,
+			);
+
+			$app->logout(null, $options);
+
+			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false), JText::_('COM_REDSHOP_ACCOUNT_DELETED_SUCCESSFULLY'));
+		}
+		else
+		{
+			$this->setRedirect(JRoute::_("index.php?option=com_redshop&view=account&Itemid=" . $itemId, false), JText::_('COM_REDSHOP_ACCOUNT_DELETED_FAIL'));
+		}
 	}
 }

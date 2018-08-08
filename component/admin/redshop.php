@@ -32,7 +32,7 @@ if (!$config->isExists() && $app->input->getCmd('view') != 'install')
 }
 
 $redHelper = redhelper::getInstance();
-RedshopShippingRate::removeShippingRate();
+Redshop\Shipping\Rate::removeShippingRate();
 $json = JFactory::getApplication()->input->get('json');
 
 $view           = JFactory::getApplication()->input->getCmd('view', '');

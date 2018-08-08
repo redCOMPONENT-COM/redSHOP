@@ -203,6 +203,7 @@ class Redconfiguration
 	 * Check if definition file is available or not.
 	 *
 	 * @return  boolean  True if file is exist.
+	 * @throws  Exception
 	 */
 	public function isDEFFile()
 	{
@@ -227,6 +228,7 @@ class Redconfiguration
 	 * Check for def file is writeable or not.
 	 *
 	 * @return  boolean  True if file is writeable.
+	 * @throws  Exception
 	 */
 	public function isDEFFileWritable()
 	{
@@ -244,6 +246,7 @@ class Redconfiguration
 	 * Restore configuration file from temp file.
 	 *
 	 * @return  boolean  True if file is restored.
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.6
 	 */

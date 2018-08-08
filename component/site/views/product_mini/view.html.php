@@ -34,8 +34,7 @@ class RedshopViewProduct_mini extends RedshopView
 		$keyword      = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 		$category_id  = $app->getUserStateFromRequest($context . 'category_id', 'category_id', '');
 
-		$product_category = new product_category;
-		$categories       = $product_category->getCategoryListArray();
+		$categories = RedshopHelperCategory::getCategoryListArray();
 
 		$temps          = array();
 		$temps[0]->id   = "0";

@@ -24,6 +24,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		$this->input->set('layout', 'default');
 		$this->input->set('hidemainmenu', 1);
 
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 
 		$userlist = $model->getuserlist();
@@ -172,10 +173,11 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 	public function export_acy_data()
 	{
 		ob_clean();
-		$model          = $this->getModel('newslettersubscr_detail');
-		$cid            = $this->input->post->get('cid', array(), 'array');
-		$order_function = order_functions::getInstance();
-		$data           = $model->getnewslettersbsc($cid);
+
+		/** @var RedshopModelNewslettersubscr_detail $model */
+		$model = $this->getModel('newslettersubscr_detail');
+		$cid   = $this->input->post->get('cid', array(), 'array');
+		$data  = $model->getnewslettersbsc($cid);
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
@@ -192,7 +194,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 			if ($data[$i]->user_id != 0)
 			{
-				$subname = $order_function->getUserFullname($data[$i]->user_id);
+				$subname = RedshopHelperOrder::getUserFullName($data[$i]->user_id);
 				echo $subname;
 			}
 			else

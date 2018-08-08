@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail Ask Question helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class AskQuestion
 {
@@ -25,7 +25,7 @@ class AskQuestion
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendMail($answerId)
 	{
@@ -101,11 +101,73 @@ class AskQuestion
 
 		Helper::imgInMail($dataAdd);
 
-		if ($email && Helper::sendEmail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args()))
+		return $email && Helper::sendEmail($from, $fromName, $email, $subject, $dataAdd, 1, null, $mailBcc, null, $mailSection, func_get_args());
+	}
+
+	/**
+	 * Send Mail For Ask Question
+	 *
+	 * @param   array  $data  Question data
+	 *
+	 * @return  boolean
+	 * @throws  \Exception
+	 */
+	public static function sendAskQuestion($data)
+	{
+		if (empty(\Redshop::getConfig()->getString('ADMINISTRATOR_EMAIL')))
 		{
 			return true;
 		}
 
-		return false;
+		$itemId    = $data['Itemid'];
+		$mailBcc   = null;
+		$subject   = '';
+		$message   = $data['your_question'];
+		$productId = $data['product_id'];
+		$mailBody  = Helper::getTemplate(0, 'ask_question_mail');
+		$content   = $message;
+
+		if (!empty($mailBody))
+		{
+			$content = $mailBody[0]->mail_body;
+			$subject = $mailBody[0]->mail_subject;
+
+			if (trim($mailBody[0]->mail_bcc) != '')
+			{
+				$mailBcc = explode(',', $mailBody[0]->mail_bcc);
+			}
+		}
+
+		$product = \RedshopHelperProduct::getProductById($productId);
+		$content = str_replace('{product_name}', $product->product_name, $content);
+		$content = str_replace('{product_desc}', $product->product_desc, $content);
+
+		// Init required properties
+		$data['address']   = isset($data['address']) ? $data['address'] : null;
+		$data['telephone'] = isset($data['telephone']) ? $data['telephone'] : null;
+
+		$link    = \JRoute::_(\JUri::base() . 'index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $itemId);
+		$content = str_replace('{product_link}', '<a href="' . $link . '">' . $product->product_name . '</a>', $content);
+		$content = str_replace('{user_question}', $message, $content);
+		$content = str_replace('{answer}', '', $content);
+		$subject = str_replace('{user_question}', $message, $subject);
+		$subject = str_replace('{shopname}', \Redshop::getConfig()->get('SHOP_NAME'), $subject);
+		$content = str_replace('{user_address}', $data['address'], $content);
+		$content = str_replace('{user_telephone}', $data['telephone'], $content);
+		$content = str_replace('{user_telephone_lbl}', \JText::_('COM_REDSHOP_USER_PHONE_LBL'), $content);
+		$content = str_replace('{user_address_lbl}', \JText::_('COM_REDSHOP_USER_ADDRESS_LBL'), $content);
+
+		Helper::imgInMail($content);
+
+		return \JFactory::getMailer()->sendMail(
+			$data['your_email'],
+			$data['your_name'],
+			explode(',', \Redshop::getConfig()->getString('ADMINISTRATOR_EMAIL')),
+			$subject,
+			$content,
+			true,
+			null,
+			$mailBcc
+		);
 	}
 }

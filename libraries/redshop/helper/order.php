@@ -596,18 +596,23 @@ class RedshopHelperOrder
 	 */
 	public static function updateOrderStatus($orderId, $newStatus)
 	{
-		$db = JFactory::getDbo();
+		$order = RedshopEntityOrder::getInstance($orderId);
 
-		$query = $db->getQuery(true)
-			->update($db->qn('#__redshop_orders'))
-			->set($db->qn('order_status') . ' = ' . $db->quote($newStatus))
-			->set($db->qn('mdate') . ' = ' . (int) time())
-			->where($db->qn('order_id') . ' = ' . (int) $orderId);
-		$db->setQuery($query);
-		$db->execute();
+		if ($order->get('order_status', '') == $newStatus)
+		{
+			return;
+		}
 
+		if ($order->isValid())
+		{
+			$order->set('order_status', $newStatus)
+				->set('mdate', (int) time())
+				->save();
+		}
+		
 		self::generateInvoiceNumber($orderId);
 
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->qn(
@@ -628,7 +633,7 @@ class RedshopHelperOrder
 		$paymentMethod   = $paymentMethod[0];
 
 		// Getting the order details
-		$orderDetail        = self::getOrderDetails($orderId);
+		$orderDetail        = RedshopEntityOrder::getInstance($orderId)->getItem();
 		$paymentParams      = new Registry($paymentMethod->params);
 		$orderStatusCapture = $paymentParams->get('capture_status', '');
 		$orderStatusCode    = $orderStatusCapture;
@@ -702,11 +707,10 @@ class RedshopHelperOrder
 	{
 		$db                        = JFactory::getDbo();
 		$orderDetail               = self::getOrderDetails($orderId);
-		$productHelper             = productHelper::getInstance();
 		$orderProducts             = self::getOrderItemDetail($orderId);
 		$billingInfo               = self::getOrderBillingUserInfo($orderId);
 		$shippingInfo              = self::getOrderShippingUserInfo($orderId);
-		$shippingRateDecryptDetail = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
+		$shippingRateDecryptDetail = Redshop\Shipping\Rate::decrypt($orderDetail->ship_method_id);
 
 		// Get Shipping Delivery Type
 		$shippingDeliveryType = 1;
@@ -771,7 +775,7 @@ class RedshopHelperOrder
 			$totalWeight += (($weight * $orderProducts [$c]->product_quantity) + $accWeight);
 		}
 
-		$unitRatio = $productHelper->getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
+		$unitRatio = \Redshop\Helper\Utility::getUnitConversation('kg', Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT'));
 
 		if ($unitRatio != 0)
 		{
@@ -1715,7 +1719,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  mixed             Object data if success. False otherwise.
+	 * @return  object|false|null             Object data if success. False otherwise.
 	 *
 	 * @since   2.0.3
 	 */
@@ -1843,7 +1847,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $orderItemId  Order Item ID
 	 *
-	 * @return  null/array
+	 * @return  null|array
 	 *
 	 * @since   2.0.3
 	 */
@@ -2146,7 +2150,7 @@ class RedshopHelperOrder
 
 		$mailData = $productStart . $pMiddle . $productEnd;
 		$mailBody = $mailData;
-		$mailBody = RedshopHelperMail::imgInMail($mailBody);
+		Redshop\Mail\Helper::imgInMail($mailBody);
 		$mailSubject = str_replace("{order_number}", $orderDetail->order_number, $mailSubject);
 
 		if ($mailBody && $userEmail != "")
@@ -2230,7 +2234,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   string  $payment  Payment type
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   2.0.3
 	 */
@@ -2386,17 +2390,15 @@ class RedshopHelperOrder
 	{
 		$app = JFactory::getApplication();
 
-		$cartHelper      = rsCarthelper::getInstance();
-		$redshopMail     = redshopMail::getInstance();
-
 		// Changes to parse all tags same as order mail end
 		$userDetail = self::getOrderBillingUserInfo($orderId);
 
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
 		$mailBcc      = null;
+		$mailSection  = "order_status";
 		$mailTemplate = Redshop\Mail\Helper::getTemplate(
-			0, '', '`mail_section` LIKE "order_status" AND `mail_order_status` LIKE "' . $newStatus . '"'
+			0, '', '`mail_section` LIKE "' . $mailSection . '" AND `mail_order_status` LIKE "' . $newStatus . '"'
 		);
 
 		if (count($mailTemplate) > 0)
@@ -2479,7 +2481,7 @@ class RedshopHelperOrder
 				$shippingAddresses = $userDetail;
 			}
 
-			$mailData = RedshopHelperShippingTag::replaceShippingAddress($mailData, $shippingAddresses);
+			$mailData = Redshop\Shipping\Tag::replaceShippingAddress($mailData, $shippingAddresses);
 
 			$search[]  = "{shopname}";
 			$replace[] = Redshop::getConfig()->get('SHOP_NAME');
@@ -2516,7 +2518,7 @@ class RedshopHelperOrder
 			$replace[]      = "<a href='" . $orderDetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_DETAIL_LINK_LBL") . "</a>";
 
 			// Todo: Move to the shipping plugin to return track no and track url
-			$details = RedshopShippingRate::decrypt($orderDetail->ship_method_id);
+			$details = Redshop\Shipping\Rate::decrypt($orderDetail->ship_method_id);
 
 			if (count($details) <= 1)
 			{
@@ -2560,33 +2562,40 @@ class RedshopHelperOrder
 			$replace[] = "<a href='" . $orderTrackURL . "'>" . JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
 
 			$mailBody = str_replace($search, $replace, $mailData);
-			$mailBody = $redshopMail->imginmail($mailBody);
+			Redshop\Mail\Helper::imgInMail($mailBody);
 			$mailSubject = str_replace($search, $replace, $mailSubject);
 
 			if ('' != $userDetail->thirdparty_email && $mailBody)
 			{
-				JFactory::getMailer()->sendMail(
+				Redshop\Mail\Helper::sendEmail(
 					$mailFrom,
 					$fromName,
 					$userDetail->thirdparty_email,
 					$mailSubject,
 					$mailBody,
-					1,
-					null
+					true,
+					null,
+					null,
+					null,
+					$mailSection,
+					func_get_args()
 				);
 			}
 
 			if ('' != $userDetail->user_email && $mailBody)
 			{
-				JFactory::getMailer()->sendMail(
+				Redshop\Mail\Helper::sendEmail(
 					$mailFrom,
 					$fromName,
 					$userDetail->user_email,
 					$mailSubject,
 					$mailBody,
-					1,
+					true,
 					null,
-					$mailBcc
+					$mailBcc,
+					null,
+					$mailSection,
+					func_get_args()
 				);
 			}
 		}
@@ -2766,7 +2775,7 @@ class RedshopHelperOrder
 		if ($orderStatus == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS') && $paymentStatus == "Paid")
 		{
 			$orderDetails   = self::getOrderDetails($orderId);
-			$details        = RedshopShippingRate::decrypt($orderDetails->ship_method_id);
+			$details        = Redshop\Shipping\Rate::decrypt($orderDetails->ship_method_id);
 
 			$shippingParams = new Registry(
 								JPluginHelper::getPlugin(

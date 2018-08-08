@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Mail Quotation helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.0
  */
 class Quotation
 {
@@ -27,7 +27,7 @@ class Quotation
 	 * @return  boolean
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.0
 	 */
 	public static function sendMail($quotationId, $status = 0)
 	{
@@ -265,7 +265,7 @@ class Quotation
 		$message = str_replace('{total_lbl}', $totalLbl, $message);
 		$message = str_replace('{quotation_subtotal_lbl}', $subTotalLbl, $message);
 		$message = str_replace('{quotation_vat_lbl}', $vatLbl, $message);
-		$message = \rsCarthelper::getInstance()->replaceLabel($message);
+		$message = \Redshop\Cart\Render\Label::replace($message);
 
 		$search[]  = "{quotation_note}";
 		$replace[] = $quotation->quotation_note;
@@ -306,7 +306,6 @@ class Quotation
 				$specialDiscountNoVAT = $specialDiscount - $specialDiscountVAT;
 
 				$quotation->quotation_discount = $quotation->quotation_discount + $specialDiscountNoVAT;
-				$tax                           = $tax - $specialDiscountVAT;
 			}
 
 			$quotationSubtotalExclVat       = \RedshopHelperProductPrice::formattedPrice($quotation->quotation_subtotal - $quotation->quotation_tax);

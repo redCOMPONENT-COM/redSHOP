@@ -24,7 +24,7 @@ class RedshopToolbar extends JToolbar
 	 *
 	 * @var    string
 	 */
-	protected $groupTitle = null;
+	protected $groupTitle;
 
 	/**
 	 * Constructor
@@ -36,7 +36,6 @@ class RedshopToolbar extends JToolbar
 	 */
 	public function __construct($name = 'toolbar', $groupTitle = '')
 	{
-
 		$this->groupTitle = $groupTitle;
 
 		// Set base path to find buttons.

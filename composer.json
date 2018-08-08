@@ -5,12 +5,13 @@
     "minimum-stability": "stable",
     "require"    : {
         "php": ">=5.6",
-        "phpmd/phpmd": "^2.6"
+        "phpmd/phpmd": "^2.6",
+        "joomla/joomla-cms": "3.7.5"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "~2",
-        "codeception/codeception": "~2.2",
-        "joomla-projects/joomla-browser": "v3.8.0.3",
+        "codeception/codeception": "2.3.7",
+        "joomla-projects/joomla-browser": "v3.8.1",
         "consolidation/robo": "~1",
         "joomla-projects/joomla-testing-robo": "dev-container-test",
         "joomla-projects/joomla-testing": "dev-container-test",
@@ -18,6 +19,21 @@
         "cloudinary/cloudinary_php": "^1.7",
         "knplabs/github-api": "~1",
         "joomla-projects/selenium-server-standalone": "3.8.1",
-        "nette/reflection": "~2.4"
-    }
+        "nette/reflection": "~2.4",
+        "phpunit/phpunit": "~4.0"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "joomla/joomla-cms",
+                "version": "3.7.5",
+                "source": {
+                    "url": "https://github.com/joomla/joomla-cms.git",
+                    "type": "git",
+                    "reference": "3.7.5"
+                }
+            }
+        }
+    ]
 }

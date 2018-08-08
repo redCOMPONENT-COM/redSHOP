@@ -102,7 +102,8 @@ class RedshopControllerMedia extends RedshopController
 			}
 		}
 
-		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id='
+		$this->setRedirect(
+			'index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id='
 			. $post['media_id'] . '&showbuttons=1', $msg
 		);
 	}
@@ -124,7 +125,8 @@ class RedshopControllerMedia extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_FILE_DELETING');
 		}
 
-		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=' . $media_id
+		$this->setRedirect(
+			'index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=' . $media_id
 			. '&showbuttons=1', $msg
 		);
 	}
@@ -150,14 +152,15 @@ class RedshopControllerMedia extends RedshopController
 
 		if (!$model->saveorder($cid, $order))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
 		if (isset($sectionId))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $sectionId
+			$this->setRedirect(
+				'index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $sectionId
 				. '&showbuttons=1&section_name=' . $sectionName
 				. '&media_section=' . $mediaSection, $msg
 			);
@@ -166,7 +169,7 @@ class RedshopControllerMedia extends RedshopController
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
 			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
+				window.parent.document.location = "<?php echo $link; ?>";
 			</script><?php
 		}
 		else
@@ -202,13 +205,14 @@ class RedshopControllerMedia extends RedshopController
 		{
 			if (!$model->defaultmedia($cid[0], $section_id, $media_section))
 			{
-				$msg = $model->getError();
+				$msg = /** @scrutinizer ignore-deprecated */ $model->getError();
 			}
 		}
 
 		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
+			$this->setRedirect(
+				'index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
@@ -217,7 +221,7 @@ class RedshopControllerMedia extends RedshopController
 			$app->enqueueMessage($msg);
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
 			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
+				window.parent.document.location = "<?php echo $link; ?>";
 			</script><?php
 		}
 		else
@@ -233,125 +237,130 @@ class RedshopControllerMedia extends RedshopController
 	 */
 	public function ajaxUpload()
 	{
+		$app  = JFactory::getApplication();
 		$file = $this->input->files->get('file', array(), 'array');
 		$new  = $this->input->post->get('new');
 
-		if (!empty($file))
+		if (empty($file))
 		{
-			$filename = RedshopHelperMedia::cleanFileName($file['name']);
+			$app->close();
+		}
 
-			// Image Upload
-			$src     = $file['tmp_name'];
-			$tempDir = REDSHOP_FRONT_IMAGES_RELPATH . 'tmp/';
-			JFolder::create($tempDir, 0755);
-			$dest = $tempDir . $filename;
-			JFile::upload($src, $dest);
+		$filename = RedshopHelperMedia::cleanFileName($file['name']);
 
-			$fileId    = '';
-			$mediaType = 'images';
+		// Image Upload
+		$src     = $file['tmp_name'];
+		$tempDir = REDSHOP_MEDIA_IMAGE_RELPATH . 'tmp/';
+		JFolder::create($tempDir, 0755);
+		$dest = $tempDir . $filename;
+		JFile::upload($src, $dest);
 
-			if ($new)
+		$fileId    = '';
+		$mediaType = 'images';
+
+		if ($new)
+		{
+			// Create new media
+			/** @var RedshopModelMedia $model */
+			$model = $this->getModel('media');
+
+			$fileInfor = pathinfo($dest);
+
+			switch ($fileInfor['extension'])
 			{
-				// Create new media
-				/** @var RedshopModelMedia $model */
-				$model = $this->getModel('media');
+				case 'zip':
+				case '7z':
+					$mediaType = 'archives';
+					break;
 
-				$fileinfo = pathinfo($dest);
+				case 'pdf':
+					$mediaType = 'pdfs';
+					break;
 
-				switch ($fileinfo['extension'])
-				{
-					case 'zip':
-					case '7z':
-						$mediaType = 'archives';
-						break;
+				case 'docx':
+				case 'doc':
+					$mediaType = 'words';
+					break;
 
-					case 'pdf':
-						$mediaType = 'pdfs';
-						break;
+				case 'xlsx':
+				case 'xls':
+					$mediaType = 'excels';
+					break;
 
-					case 'docx':
-					case 'doc':
-						$mediaType = 'words';
-						break;
+				case 'pptx':
+				case 'ppt':
+					$mediaType = 'powerpoints';
+					break;
 
-					case 'xlsx':
-					case 'xls':
-						$mediaType = 'excels';
-						break;
+				case 'mp3':
+				case 'flac':
+					$mediaType = 'sounds';
+					break;
 
-					case 'pptx':
-					case 'ppt':
-						$mediaType = 'powerpoints';
-						break;
+				case 'mp4':
+				case 'mkv':
+				case 'flv':
+					$mediaType = 'videos';
+					break;
 
-					case 'mp3':
-					case 'flac':
-						$mediaType = 'sounds';
-						break;
+				case 'txt':
+					$mediaType = 'texts';
+					break;
 
-					case 'mp4':
-					case 'mkv':
-					case 'flv':
-						$mediaType = 'videos';
-						break;
+				case 'jpeg':
+				case 'jpg':
+				case 'png':
+				case 'gif':
+					$mediaType = 'images';
+					break;
 
-					case 'txt':
-						$mediaType = 'texts';
-						break;
-
-					case 'jpeg':
-					case 'jpg':
-					case 'png':
-					case 'gif':
-						$mediaType = 'images';
-						break;
-
-					default:
-						$mediaType = '';
-						break;
-				}
-
-				$fileId = $model->newFile(array
-					(
-						'media_name'     => $filename,
-						'media_section'  => 'tmp',
-						'media_type'     => $mediaType,
-						'media_mimetype' => $file['type']
-					)
-				);
+				default:
+					$mediaType = '';
+					break;
 			}
 
-			$dimension = getimagesize($dest);
-
-			if ($dimension)
-			{
-				$dimension = $dimension[0] . ' x ' . $dimension[1];
-			}
-
-			echo new JResponseJson(
-				array(
-					'success' => true,
-					'file'    => array(
-						'id'        => $fileId,
-						'url'       => 'components/com_redshop/assets/images/tmp/' . $filename,
-						'name'      => $filename,
-						'size'      => RedshopHelperMediaImage::sizeFilter(filesize($dest)),
-						'dimension' => $dimension,
-						'media'     => 'tmp',
-						'mime'      => substr($mediaType, 0, -1),
-						'status'    => ''
-					)
+			$fileId = $model->newFile(
+				array
+				(
+					'media_name'     => $filename,
+					'media_section'  => 'tmp',
+					'media_type'     => $mediaType,
+					'media_mimetype' => $file['type']
 				)
 			);
 		}
 
-		JFactory::getApplication()->close();
+		$dimension = getimagesize($dest);
+
+		if ($dimension)
+		{
+			$dimension = $dimension[0] . ' x ' . $dimension[1];
+		}
+
+		echo new JResponseJson(
+			array(
+				'success' => true,
+				'file'    => array(
+					'id'        => $fileId,
+					'url'       => 'media/com_redshop/images/tmp/' . $filename,
+					'name'      => $filename,
+					'size'      => RedshopHelperMediaImage::sizeFilter(filesize($dest)),
+					'dimension' => $dimension,
+					'media'     => 'tmp',
+					'mime'      => substr($mediaType, 0, -1),
+					'status'    => ''
+				)
+			)
+		);
+
+		$app->close();
 	}
 
 	/**
 	 * AJAX delete a file
 	 *
-	 * @return void
+	 * @return  void
+     * @throws  Exception
 	 */
 	public function ajaxDelete()
 	{
@@ -359,6 +368,7 @@ class RedshopControllerMedia extends RedshopController
 
 		if (!empty($id))
 		{
+			/** @var RedshopModelMedia $model */
 			$model = $this->getModel('media');
 
 			if ($model->deleteFile($id))
@@ -385,7 +395,7 @@ class RedshopControllerMedia extends RedshopController
 	/**
 	 * Publish Media
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function publish()
 	{
@@ -412,7 +422,8 @@ class RedshopControllerMedia extends RedshopController
 
 		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
+			$this->setRedirect(
+				'index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
@@ -421,7 +432,7 @@ class RedshopControllerMedia extends RedshopController
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
 			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
+				window.parent.document.location = "<?php echo $link; ?>";
 			</script><?php
 		}
 		else
@@ -433,7 +444,7 @@ class RedshopControllerMedia extends RedshopController
 	/**
 	 * Unpublish Media
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function unpublish()
 	{
@@ -460,7 +471,8 @@ class RedshopControllerMedia extends RedshopController
 
 		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
+			$this->setRedirect(
+				'index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
@@ -468,7 +480,7 @@ class RedshopControllerMedia extends RedshopController
 		{
 			$link = 'index.php?option=com_redshop&view=manufacturer'; ?>
 			<script language="javascript" type="text/javascript">
-				window.parent.document.location = '<?php echo $link; ?>';
+				window.parent.document.location = "<?php echo $link; ?>";
 			</script><?php
 		}
 		else

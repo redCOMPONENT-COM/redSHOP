@@ -46,7 +46,7 @@ CALL redSHOP_Index_Add('#__redshop_coupons', '#__rs_coupon_order_id', "(`order_i
 CALL redSHOP_Index_Add('#__redshop_category', '#__rs_idx_category_parent', '(`parent_id` ASC)');
 CALL redSHOP_Index_Add('#__redshop_product', '#__prod_pub_exp_parent', '(`product_parent_id` ASC, `published` ASC, `expired` ASC)');
 CALL redSHOP_Index_Add('#__redshop_fields_data', '#__field_data_common', '(`itemid` ASC, `section` ASC)');
-CALL redSHOP_Index_Add('#__redshop_manufacturer', '#__manufacturer_common_idx', '(`manufacturer_id` ASC, `manufacturer_name` ASC, `published` ASC)');
+CALL redSHOP_Index_Add('#__redshop_manufacturer', '#__manufacturer_common_idx', '(`id` ASC, `name` ASC, `published` ASC)');
 CALL redSHOP_Index_Add('#__redshop_product_category_xref', '#__prod_cat_idx1', '(`category_id` ASC, `product_id` ASC)');
 CALL redSHOP_Index_Add('#__redshop_fields', '#__rs_idx_field_common', '(`id` ASC, `name` ASC, `published` ASC, `section` ASC)');
 CALL redSHOP_Index_Remove('#__redshop_fields_data', 'itemid');
@@ -77,6 +77,7 @@ DEFAULT CHARACTER SET = utf8
 COMMENT = 'Custom fields groups';
 
 CALL redSHOP_Column_Update('#__redshop_fields', 'groupId', 'groupId', "INT(11) NULL DEFAULT NULL AFTER `section`");
+CALL redSHOP_Constraint_Remove('#__redshop_fields', '#__rs_field_fk1');
 CALL redSHOP_Index_Add('#__redshop_fields', '#__rs_field_fk1', "(`groupId` ASC)");
 CALL redSHOP_Constraint_Update('#__redshop_fields', '#__rs_field_fk1', 'groupId', '#__redshop_fields_group', 'id', 'CASCADE', 'SET NULL');
 

@@ -74,14 +74,113 @@ class RedshopHelperProduct
 	}
 
 	/**
+	 * Get product information base on list of Ids
+	 *
+	 * @param   array    $productIds  Product ids
+	 * @param   int      $userId      User id
+	 * @param   boolean  $setRelated  Is need to set related or not
+	 *
+	 * @return  array
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getProductsByIds($productIds = array(), $userId = 0, $setRelated = true)
+	{
+		if (!$userId)
+		{
+			$user   = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$productIds = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
+
+		if (empty($productIds))
+		{
+			return array();
+		}
+
+		$results       = array();
+		$newProductIds = array();
+
+		foreach ($productIds as $productId)
+		{
+			$key = $productId . '.' . $userId;
+
+			// Load from static cache if already exist.
+			if (array_key_exists($key, static::$products))
+			{
+				$results[] = static::$products[$key];
+
+				if ($setRelated)
+				{
+					self::setProductRelates(array($key => static::$products[$key]), $userId);
+				}
+
+				continue;
+			}
+
+			// Check if data is already loaded while getting list
+			if (array_key_exists($productId, static::$allProducts))
+			{
+				static::$products[$key] = static::$allProducts[$productId];
+
+				if ($setRelated)
+				{
+					self::setProductRelates(array($key => static::$products[$key]), $userId);
+				}
+
+				continue;
+			}
+
+			$newProductIds[] = $productId;
+		}
+
+		if (empty($newProductIds))
+		{
+			return $results;
+		}
+
+		// Otherwise load product info
+		$db    = JFactory::getDbo();
+		$query = self::getMainProductQuery(false, $userId);
+
+		// Select product
+		$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $productIds) . ')');
+
+		$items = (array) $db->setQuery($query)->loadObjectList();
+
+		if (empty($items))
+		{
+			return $results;
+		}
+
+		foreach ($items as $item)
+		{
+			$key                    = $item->product_id . '.' . $userId;
+			static::$products[$key] = $item;
+			$results[]              = $item;
+
+			if ($setRelated === true)
+			{
+				self::setProductRelates(array($key => static::$products[$key]), $userId);
+			}
+		}
+
+		return $results;
+	}
+
+	/**
 	 * Get product information
 	 *
-	 * @param   int  $productId  Product id
-	 * @param   int  $userId     User id
+	 * @param   integer  $productId   Product id
+	 * @param   integer  $userId      User id
+	 * @param   boolean  $setRelated  Is need to set related or not
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 * @throws  Exception
 	 */
-	public static function getProductById($productId, $userId = 0)
+	public static function getProductById($productId, $userId = 0, $setRelated = true)
 	{
 		if (!$userId)
 		{
@@ -98,8 +197,7 @@ class RedshopHelperProduct
 			{
 				static::$products[$key] = static::$allProducts[$productId];
 			}
-
-			// Otheriwise load product info
+			// Otherwise load product info
 			else
 			{
 				$db    = JFactory::getDbo();
@@ -112,7 +210,7 @@ class RedshopHelperProduct
 				static::$products[$key] = $db->loadObject();
 			}
 
-			if (static::$products[$key])
+			if ($setRelated === true && static::$products[$key])
 			{
 				self::setProductRelates(array($key => static::$products[$key]), $userId);
 			}
@@ -325,7 +423,6 @@ class RedshopHelperProduct
 	 */
 	public static function replaceAccessoryData($productId = 0, $accessory = array(), $userId = 0, $uniqueId = "")
 	{
-		$productHelper  = productHelper::getInstance();
 		$totalAccessory = count($accessory);
 		$accessoryList  = "";
 
@@ -338,7 +435,7 @@ class RedshopHelperProduct
 
 		for ($a = 0, $an = count($accessory); $a < $an; $a++)
 		{
-			$acId = $accessory[$a]->child_product_id;
+			$acId   = $accessory[$a]->child_product_id;
 			$cpData = Redshop::product((int) $acId);
 
 			$accessoryName = RedshopHelperUtility::maxChars(
@@ -348,13 +445,13 @@ class RedshopHelperProduct
 			);
 
 			// Get accessory final price with VAT rules
-			$accessoryPriceList = $productHelper->getAccessoryPrice(
+			$accessoryPriceList = \Redshop\Product\Accessory::getPrice(
 				$productId, $accessory[$a]->newaccessory_price, $accessory[$a]->accessory_main_price
 			);
 
 			$accessoryPrice = $accessoryPriceList[0];
 
-			$accessoryPriceWithoutvat = $productHelper->getAccessoryPrice(
+			$accessoryPriceWithoutvat = \Redshop\Product\Accessory::getPrice(
 				$productId, $accessory[$a]->newaccessory_price,
 				$accessory[$a]->accessory_main_price, 1
 			);
@@ -880,7 +977,7 @@ class RedshopHelperProduct
 	 * Method for get product tax
 	 *
 	 * @param   integer  $productId     Product Id
-	 * @param   integer  $productPrice  Product price
+	 * @param   float    $productPrice  Product price
 	 * @param   integer  $userId        User ID
 	 * @param   integer  $taxExempt     Tax exempt
 	 *
@@ -888,7 +985,7 @@ class RedshopHelperProduct
 	 *
 	 * @since   2.0.6
 	 */
-	public static function getProductTax($productId = 0, $productPrice = 0, $userId = 0, $taxExempt = 0)
+	public static function getProductTax($productId = 0, $productPrice = 0.0, $userId = 0, $taxExempt = 0)
 	{
 		$redshopUser = JFactory::getSession()->get('rs_user');
 
@@ -1155,5 +1252,33 @@ class RedshopHelperProduct
 
 			static::$products[$key]->extraFields[$extraField->fieldid] = $extraField;
 		}
+	}
+
+	/**
+	 * Method for get child products of specific product
+	 *
+	 * @param   integer  $productId  Product ID
+	 *
+	 * @return  array
+	 * @since   2.1.0
+	 */
+	public static function getChildProduct($productId = 0)
+	{
+		$childProducts = RedshopEntityProduct::getInstance($productId)->getChildProducts();
+
+		if ($childProducts->isEmpty())
+		{
+			return array();
+		}
+
+		$results = array();
+
+		foreach ($childProducts->getAll() as $child)
+		{
+			/** @var  RedshopEntityProduct $child */
+			$results[] = $child->getItem();
+		}
+
+		return $results;
 	}
 }

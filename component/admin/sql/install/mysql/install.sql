@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `category_back_full_image` VARCHAR(250) NOT NULL,
   `compare_template_id` VARCHAR(255) NOT NULL,
   `append_to_global_seo` ENUM('append', 'prepend', 'replace') NOT NULL DEFAULT 'append',
-  `alias` VARCHAR(400) NOT NULL,
+  `alias` VARCHAR(255) NOT NULL,
   `path` VARCHAR(255) NOT NULL,
   `asset_id` INT(11) UNSIGNED NULL COMMENT 'FK to the #__assets table.',
   `parent_id` INT(11) NULL DEFAULT 0,
@@ -546,7 +546,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   `desc` LONGTEXT NOT NULL,
   `class` VARCHAR(20) NOT NULL,
   `section` VARCHAR(20) NOT NULL,
-  `groupId` INT(11) NULL DEFAULT NULL,
+  `groupId` INT NULL DEFAULT NULL,
   `maxlength` INT(11) NOT NULL,
   `cols` INT(11) NOT NULL,
   `rows` INT(11) NOT NULL,
@@ -684,26 +684,32 @@ COMMENT = 'redSHOP Mail Center';
 DROP TABLE IF EXISTS `#__redshop_manufacturer` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_manufacturer` (
-  `manufacturer_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `manufacturer_name` VARCHAR(250) NOT NULL,
-  `manufacturer_desc` LONGTEXT NOT NULL,
-  `manufacturer_email` VARCHAR(250) NOT NULL,
-  `product_per_page` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(250) NOT NULL DEFAULT '',
+  `description` TEXT NOT NULL DEFAULT '',
+  `email` VARCHAR(250) NOT NULL DEFAULT '',
+  `product_per_page` INT(11) NOT NULL DEFAULT 0,
   `template_id` INT(11) NOT NULL,
-  `metakey` TEXT NOT NULL,
-  `metadesc` TEXT NOT NULL,
-  `metalanguage_setting` TEXT NOT NULL,
-  `metarobot_info` TEXT NOT NULL,
-  `pagetitle` TEXT NOT NULL,
-  `pageheading` TEXT NOT NULL,
-  `sef_url` TEXT NOT NULL,
-  `published` INT(11) NOT NULL,
-  `ordering` INT(11) NOT NULL,
-  `manufacturer_url` VARCHAR(255) NOT NULL,
-  `excluding_category_list` TEXT NOT NULL,
-  PRIMARY KEY (`manufacturer_id`),
-  INDEX `idx_published` (`published` ASC),
-  INDEX `#__manufacturer_common_idx` (`manufacturer_id` ASC, `manufacturer_name` ASC, `published` ASC))
+  `metakey` TEXT NOT NULL DEFAULT '',
+  `metadesc` TEXT NOT NULL DEFAULT '',
+  `metalanguage_setting` TEXT NOT NULL DEFAULT '',
+  `metarobot_info` TEXT NOT NULL DEFAULT '',
+  `pagetitle` TEXT NOT NULL DEFAULT '',
+  `pageheading` TEXT NOT NULL DEFAULT '',
+  `sef_url` TEXT NOT NULL DEFAULT '',
+  `published` TINYINT(4) NOT NULL DEFAULT 1,
+  `ordering` INT(11) NOT NULL DEFAULT 0,
+  `manufacturer_url` VARCHAR(255) NOT NULL DEFAULT '',
+  `excluding_category_list` TEXT NOT NULL DEFAULT '',
+  `checked_out` INT(11) NULL DEFAULT NULL,
+  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NULL DEFAULT NULL,
+  `created_date` VARCHAR(45) NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` INT(11) NULL DEFAULT NULL,
+  `modified_date` VARCHAR(45) NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  INDEX `#__manufacturer_published` (`published` ASC),
+  INDEX `#__manufacturer_common_idx` (`id` ASC, `name` ASC, `published` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Manufacturer';
@@ -751,13 +757,15 @@ CREATE TABLE IF NOT EXISTS `#__redshop_media` (
   `media_mimetype` VARCHAR(20) NOT NULL,
   `published` TINYINT(4) NOT NULL,
   `ordering` INT(11) NOT NULL,
+  `scope` VARCHAR(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`media_id`),
   INDEX `idx_section_id` (`section_id` ASC),
   INDEX `idx_media_section` (`media_section` ASC),
   INDEX `idx_media_type` (`media_type` ASC),
   INDEX `idx_media_name` (`media_name` ASC),
   INDEX `idx_published` (`published` ASC),
-  INDEX `#__rs_idx_media_common` USING BTREE (`section_id` ASC, `media_section` ASC, `media_type` ASC, `published` ASC, `ordering` ASC))
+  INDEX `#__rs_idx_media_common` USING BTREE (`section_id` ASC, `media_section` ASC, `media_type` ASC, `published` ASC, `ordering` ASC),
+  INDEX `#__rs_idx_media_scope` (`scope` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'redSHOP Media';

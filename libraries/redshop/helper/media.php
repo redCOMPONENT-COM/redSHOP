@@ -192,29 +192,30 @@ class RedshopHelperMedia
 
 			return implode(DIRECTORY_SEPARATOR, $segments);
 		}
-		else
-		{
-			return $fileName;
-		}
+
+		return $fileName;
 	}
 
 	/**
 	 * Get redSHOP images live thumbnail path
 	 *
-	 * @param   string  $imageName    Image Name
-	 * @param   string  $dest         Image Destination path
-	 * @param   string  $command      Commands like thumb, upload etc...
-	 * @param   string  $type         Thumbnail for types like, product, category, subcolor etc...
-	 * @param   integer $width        Thumbnail Width
-	 * @param   integer $height       Thumbnail Height
-	 * @param   integer $proportional Thumbnail Proportional sizing enable / disable.
+	 * @param   string   $imageName    Image Name
+	 * @param   string   $dest         Image Destination path
+	 * @param   string   $command      Commands like thumb, upload etc...
+	 * @param   string   $type         Thumbnail for types like, product, category, subcolor etc...
+	 * @param   integer  $width        Thumbnail Width
+	 * @param   integer  $height       Thumbnail Height
+	 * @param   integer  $proportional Thumbnail Proportional sizing enable / disable.
+	 * @param   string   $section      Use on new structure of media folders.
+	 * @param   integer  $sectionId    Use on new structure of media folders. ID of section.
 	 *
 	 * @return  string   Thumbnail Live path
+	 * @throws  Exception
 	 *
 	 * @since  2.0.0.3
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-	                                    $height = 50, $proportional = -1)
+		$height = 50, $proportional = -1, $section = '', $sectionId = 0)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -229,24 +230,21 @@ class RedshopHelperMedia
 		}
 
 		// Set Default Width
-		if ((int) $width <= 0)
-		{
-			$width = 0;
-		}
+		$width = $width <= 0 ? 50 : $width;
 
 		// Set Default Height
-		if ((int) $height <= 0)
+		$height = $height <= 0 ? 50 : $height;
+
+		// Check section if in new media structure.
+		if (in_array($section, array('manufacturer', 'category')))
 		{
-			$height = 0;
+			$filePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/' . $imageName;
+		}
+		else
+		{
+			$filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
 		}
 
-		if (0 === $width && 0 === $height)
-		{
-			$width  = 50;
-			$height = 50;
-		}
-
-		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
 		$physicalPath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
 
 		// Can not generate image
@@ -257,9 +255,14 @@ class RedshopHelperMedia
 
 		// Prevent space in file path
 		$physicalPath = str_replace(' ', '%20', $physicalPath);
-		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 
-		return $thumbUrl;
+		// Check section if in new media structure.
+		if (in_array($section, array('manufacturer', 'category')))
+		{
+			return REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . basename($physicalPath);
+		}
+
+		return REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . rawurlencode(basename($physicalPath));
 	}
 
 	/**
@@ -273,6 +276,7 @@ class RedshopHelperMedia
 	 * @param   integer $proportional Try to make image proportionally
 	 *
 	 * @return  string   Return destination of new thumbnail
+	 * @throws  Exception
 	 *
 	 * @since  2.0.0.3
 	 */
@@ -302,7 +306,7 @@ class RedshopHelperMedia
 				// IMAGETYPE_PNG
 			case '3':
 
-				// This method should be expanded to be useable for other purposes not just making thumbs
+				// This method should be expanded to be usable for other purposes not just making thumbs
 				// But for now it just makes thumbs and proceed to the else part
 				if ($command != 'thumb')
 				{
@@ -314,6 +318,7 @@ class RedshopHelperMedia
 								return false;
 							}
 							break;
+
 						case 'upload':
 						default:
 							if (!JFile::upload($filePath, $dest))
@@ -354,6 +359,7 @@ class RedshopHelperMedia
 	 * @param   integer $proportional Try to make image proportionally
 	 *
 	 * @return  string   Return destination path
+	 * @throws  Exception
 	 *
 	 * @since  2.0.0.3
 	 */
@@ -432,11 +438,12 @@ class RedshopHelperMedia
 	 * @param   boolean $useLinuxCommands Default is false use @unlink(), if true use 'rm' instead
 	 *
 	 * @return  mixed    If $output is set by 'return': Return new file path, else return boolean
+	 * @throws  Exception
 	 *
 	 * @since  2.0.0.3
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-	                                   $deleteOriginal = true, $useLinuxCommands = false)
+		$deleteOriginal = true, $useLinuxCommands = false)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -736,7 +743,7 @@ class RedshopHelperMedia
 				case 'manufacturer':
 					$query->select('p.*')
 						->leftJoin(
-							$db->qn('#__redshop_manufacturer', 'p') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.section_id')
+							$db->qn('#__redshop_manufacturer', 'p') . ' ON ' . $db->qn('p.id') . ' = ' . $db->qn('m.section_id')
 						);
 					break;
 
@@ -753,13 +760,14 @@ class RedshopHelperMedia
 	/**
 	 *  Generate thumb image with watermark
 	 *
-	 * @param   string  $section         Image section
-	 * @param   string  $imageName       Image name
-	 * @param   string  $thumbWidth      Thumb width
-	 * @param   string  $thumbHeight     Thumb height
-	 * @param   integer $enableWatermark Enable watermark
+	 * @param   string   $section          Image section
+	 * @param   string   $imageName        Image name
+	 * @param   string   $thumbWidth       Thumb width
+	 * @param   string   $thumbHeight      Thumb height
+	 * @param   integer  $enableWatermark  Enable watermark
 	 *
 	 * @return  string
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -838,7 +846,7 @@ class RedshopHelperMedia
 					$dest = imagecreatefromjpeg($destinationFile);
 					$src  = imagecreatefromgif($watermark);
 
-					list($width, $height) = getimagesize($destinationFile);
+					list($width, $height)                   = getimagesize($destinationFile);
 					list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
 					imagecopymerge(
@@ -944,7 +952,7 @@ class RedshopHelperMedia
 	 */
 	public static function getAlternativeText($mediaSection, $sectionId, $mediaName = '', $mediaId = 0, $mediaType = 'images')
 	{
-		if ($mediaSection == 'product' && $mediaType = 'images')
+		if ($mediaSection == 'product' && $mediaType == 'images')
 		{
 			$productData = RedshopHelperProduct::getProductById($sectionId);
 
@@ -974,6 +982,49 @@ class RedshopHelperMedia
 		}
 
 		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Method for get list of medias
+	 *
+	 * @param   string   $section    Media section (product, category,...)
+	 * @param   integer  $sectionId  Media section ID
+	 * @param   string   $scope      Scope of media
+	 * @param   string   $type       Media type.
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getMedia($section = '', $sectionId = 0, $scope = '', $type = '')
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_media'));
+
+		if (!empty($section))
+		{
+			$query->where($db->qn('media_section') . ' = ' . $db->quote($section));
+		}
+
+		if (!empty($sectionId))
+		{
+			$query->where($db->qn('section_id') . ' = ' . (int) $sectionId);
+		}
+
+		if (!empty($scope))
+		{
+			$query->where($db->qn('scope') . ' = ' . $db->quote($scope));
+		}
+
+		if (!empty($type))
+		{
+			$query->where($db->qn('media_type') . ' = ' . $db->quote($type));
+		}
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**

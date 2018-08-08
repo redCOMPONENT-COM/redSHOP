@@ -21,7 +21,7 @@ class RedshopHelperBreadcrumb
 	/**
 	 * Method for generate breadcrumb base on specific section
 	 *
-	 * @param   integer  $sectionId  Section ID
+	 * @param   integer $sectionId Section ID
 	 *
 	 * @return  void
 	 *
@@ -31,8 +31,11 @@ class RedshopHelperBreadcrumb
 	 */
 	public static function generate($sectionId = 0)
 	{
-		$app            = JFactory::getApplication();
-		$pathway        = $app->getPathway();
+		$app = JFactory::getApplication();
+
+		/** @var JPathway $pathway */
+		$pathway = $app->getPathway();
+
 		$view           = $app->input->getCmd('view');
 		$layout         = $app->input->getCmd('layout');
 		$itemId         = $app->input->getInt('Itemid');
@@ -70,16 +73,16 @@ class RedshopHelperBreadcrumb
 				}
 
 				$customPathways = array();
-				$newLink        = "index.php?option=com_redshop&view=category";
+				$newLink        = 'index.php?option=com_redshop&view=category';
 
-				if ($layout == "categoryproduct")
+				if ($layout === 'categoryproduct')
 				{
-					$newLink = "index.php?option=com_redshop&view=category&layout=" . $layout;
+					$newLink = 'index.php?option=com_redshop&view=category&layout=' . $layout;
 				}
 
 				$menu = productHelper::getInstance()->getMenuDetail($newLink);
 
-				if (count($menu) > 0 && $menu->home != 1)
+				if (!empty($menu) && $menu->home !== 1)
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;
@@ -127,13 +130,13 @@ class RedshopHelperBreadcrumb
 
 					if ($sectionId != 0)
 					{
-						$prd  = productHelper::getInstance()->getSection("product", $sectionId);
-						$menu = productHelper::getInstance()->getSection("manufacturer", $prd->manufacturer_id);
+						$prd  = RedshopHelperProduct::getProductById($sectionId);
+						$menu = RedshopEntityManufacturer::getInstance($prd->manufacturer_id)->getItem();
 
-						if (count($menu) > 0)
+						if (!empty($menu))
 						{
 							$main             = new stdClass;
-							$main->name       = $menu->manufacturer_name;
+							$main->name       = $menu->name;
 							$main->link       = JRoute::_(
 								'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $prd->manufacturer_id
 								. '&Itemid=' . $itemId
@@ -152,7 +155,7 @@ class RedshopHelperBreadcrumb
 					$customPathways = array();
 					$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=category");
 
-					if (count($menu) > 0 && $menu->home != 1)
+					if (!empty($menu) && $menu->home != 1)
 					{
 						$main             = new stdClass;
 						$main->name       = $menu->title;
@@ -163,11 +166,11 @@ class RedshopHelperBreadcrumb
 					{
 						$menu = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=product&pid=" . $sectionId);
 
-						if (count($menu) > 0 && $menu->home != 1 && property_exists($menu, 'parent'))
+						if (!empty($menu) && $menu->home != 1 && property_exists($menu, 'parent'))
 						{
 							$parentMenu = productHelper::getInstance()->getMenuInformation($menu->parent);
 
-							if (count($parentMenu) > 0)
+							if (!empty($parentMenu))
 							{
 								$main             = new stdClass;
 								$main->name       = $parentMenu->name;
@@ -179,7 +182,7 @@ class RedshopHelperBreadcrumb
 
 					if ($sectionId != 0)
 					{
-						$prd = productHelper::getInstance()->getSection("product", $sectionId);
+						$prd = RedshopHelperProduct::getProductById($sectionId);
 
 						if (!$categoryId)
 						{
@@ -240,12 +243,12 @@ class RedshopHelperBreadcrumb
 					}
 					else
 					{
-						$menu = productHelper::getInstance()->getSection("manufacturer", $sectionId);
+						$menu = RedshopEntityManufacturer::getInstance($sectionId)->getItem();
 
 						if (count($menu) > 0)
 						{
 							$main             = new stdClass;
-							$main->name       = $menu->manufacturer_name;
+							$main->name       = $menu->name;
 							$main->link       = "";
 							$customPathways[] = $main;
 						}
@@ -279,7 +282,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuInformation(0, 0, "", "account");
 
-				if (count($menu) > 0)
+				if (!empty($menu))
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;
@@ -362,7 +365,7 @@ class RedshopHelperBreadcrumb
 	/**
 	 * Method for get list of pathway
 	 *
-	 * @param   array  $categories  List of category
+	 * @param   array $categories List of category
 	 *
 	 * @return  array               List of pathway
 	 *

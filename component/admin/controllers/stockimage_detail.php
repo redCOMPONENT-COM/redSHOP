@@ -33,6 +33,7 @@ class RedshopControllerStockimage_detail extends RedshopController
 		$cid                      = $this->input->post->get('cid', array(0), 'array');
 		$post ['stock_amount_id'] = $cid [0];
 
+		/** @var RedshopModelStockimage_detail $model */
 		$model = $this->getModel('stockimage_detail');
 
 		if ($model->store($post))
@@ -56,11 +57,12 @@ class RedshopControllerStockimage_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelStockimage_detail $model */
 		$model = $this->getModel('stockimage_detail');
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_DELETED_SUCCESSFULLY');

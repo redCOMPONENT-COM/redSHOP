@@ -466,7 +466,7 @@ JPluginHelper::importPlugin('redshop_product');
                     <td align="center">
 						<?php
 						$carthelper = rsCarthelper::getInstance();
-						echo $shipping_name = RedshopHelperShippingTag::replaceShippingMethod($row, "{shipping_method}");
+						echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod($row, "{shipping_method}");
 						echo "<br />";
 
 						if (!empty($stockroomIds))
@@ -477,7 +477,7 @@ JPluginHelper::importPlugin('redshop_product');
 							$stamp         = mktime(0, 0, 0, date('m', $row->cdate), date('d', $row->cdate) + $max_delivery[0]->max_del_time, date('Y', $row->cdate));
 							$delivery_date = date('d/m/Y', $stamp);
 							$current_date  = date('d/m/Y');
-							$dateDiff      = $stockroomHelper->getdateDiff($stamp, time());
+							$dateDiff      = RedshopHelperStockroom::getDateDiff($stamp, time());
 
 							if ($dateDiff < 0)
 							{
@@ -537,7 +537,7 @@ JPluginHelper::importPlugin('redshop_product');
 				<?php
 				if (Redshop::getConfig()->get('POSTDK_INTEGRATION'))
 				{
-					$details        = RedshopShippingRate::decrypt($row->ship_method_id);
+					$details        = Redshop\Shipping\Rate::decrypt($row->ship_method_id);
 					$shippingParams = new JRegistry;
 
 					if (!empty($details[0]))

@@ -63,7 +63,7 @@ class RedshopHelperClickatell
 		$templateDetail  = RedshopHelperTemplate::getTemplate("clicktell_sms_message");
 
 		$orderShippingClass = 0;
-		$orderShipping      = RedshopShippingRate::decrypt($orderData->ship_method_id);
+		$orderShipping      = Redshop\Shipping\Rate::decrypt($orderData->ship_method_id);
 
 		if (isset($orderShipping[0]))
 		{
@@ -131,7 +131,7 @@ class RedshopHelperClickatell
 	public static function replaceMessage($message, $orderData, $paymentName)
 	{
 		$shippingMethod = '';
-		$details        = RedshopShippingRate::decrypt($orderData->ship_method_id);
+		$details        = Redshop\Shipping\Rate::decrypt($orderData->ship_method_id);
 
 		if (count($details) > 1)
 		{

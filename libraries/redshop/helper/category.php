@@ -248,14 +248,14 @@ class RedshopHelperCategory
 		$db->setQuery($query);
 		$cats = $db->loadObjectList();
 
-		if ($cats)
+		if ($cats && Redshop::getConfig()->getBool('PRODUCT_DEFAULT_CATEGORY'))
 		{
 			$selectedCategories[] = $cats[0]->parent_id;
 		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
-		$html    .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+		$html    .= "<select class=\"inputbox form-control\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
 
 		if ($topLevel)
 		{

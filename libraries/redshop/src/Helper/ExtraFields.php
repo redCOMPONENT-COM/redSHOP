@@ -45,34 +45,35 @@ class ExtraFields
 	{
 		$db = \JFactory::getDbo();
 
-		if (!isset(self::$extraFieldDisplay[$fieldSection]) || !array_key_exists($fieldName, self::$extraFieldDisplay[$fieldSection]))
+		if (!isset(self::$extraFieldDisplay[$fieldSection]))
 		{
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->qn('#__redshop_fields'))
 				->where($db->qn('section') . ' = ' . $db->quote($fieldSection));
 
-			if ($fieldName != "")
-			{
-				$query->where($db->qn('name') . ' IN (' . $fieldName . ')');
-			}
-
-			$db->setQuery($query);
-
-			if (!isset(self::$extraFieldDisplay[$fieldSection]))
-			{
-				self::$extraFieldDisplay[$fieldSection] = array();
-			}
-
-			self::$extraFieldDisplay[$fieldSection][$fieldName] = $db->loadObjectList();
+			self::$extraFieldDisplay[$fieldSection] = $db->setQuery($query)->loadObjectList('name');
 		}
 
-		$rowsData = self::$extraFieldDisplay[$fieldSection][$fieldName];
+		$fieldName = explode(',', str_replace('\'', '', $fieldName));
+		$rows      = array();
 
-		foreach ($rowsData as $row)
+		foreach ($fieldName as $field)
+		{
+			if (isset(self::$extraFieldDisplay[$fieldSection][$field]))
+			{
+				$rows[] = self::$extraFieldDisplay[$fieldSection][$field];
+			}
+		}
+
+		if (empty($rows))
+		{
+			return $templateContent;
+		}
+
+		foreach ($rows as $row)
 		{
 			$dataValue = \RedshopHelperExtrafields::getData($row->id, $fieldSection, $sectionId);
-
 			self::replaceFieldTag($templateContent, $row, $dataValue, $categoryPage);
 		}
 
@@ -99,13 +100,13 @@ class ExtraFields
 			return;
 		}
 
-		$tagLabel = $field->name . "_lbl";
+		$tagLabel = $field->name . '_lbl';
 		$tag      = $field->name;
 
 		if ($isInCategory)
 		{
-			$tagLabel = "producttag:" . $tagLabel;
-			$tag      = "producttag:" . $tag;
+			$tagLabel = 'producttag:' . $tagLabel;
+			$tag      = 'producttag:' . $tag;
 		}
 
 		$ifTagStart = '{if ' . $tag . '}';
@@ -127,11 +128,10 @@ class ExtraFields
 			$templateIfMain    = $templateEndData[0];
 			$hasIfTag          = true;
 
-			unset($templateEndData);
-			unset($templateStartData);
+			unset($templateEndData, $templateStartData);
 		}
 
-		if (empty($fieldValue) || !$field->published || (!$field->show_in_front && \JFactory::getApplication()->isSite()))
+		if (empty($fieldValue) || !$field->published || (!$field->show_in_front && \JFactory::getApplication()->isClient('site')))
 		{
 			if ($hasIfTag)
 			{
@@ -139,8 +139,7 @@ class ExtraFields
 			}
 			else
 			{
-				$templateContent = str_replace('{' . $tagLabel . '}', '', $templateContent);
-				$templateContent = str_replace('{' . $tag . '}', '', $templateContent);
+				$templateContent = str_replace(array('{' . $tagLabel . '}', '{' . $tag . '}'), '', $templateContent);
 			}
 
 			return;
@@ -164,17 +163,17 @@ class ExtraFields
 			case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
 			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_MULTIPLE:
 				$fieldValues = \RedshopEntityField::getInstance($field->id)->getFieldValues();
-				$checkData   = explode(",", $fieldValue->data_txt);
+				$checkData   = explode(',', $fieldValue->data_txt);
 				$htmlData    = array();
 
-				foreach ($fieldValues as $fieldValue)
+				foreach ($fieldValues as $value)
 				{
-					if (!in_array(urlencode($fieldValue->field_value), $checkData))
+					if (!in_array(urlencode($value->field_value), $checkData))
 					{
 						continue;
 					}
 
-					$htmlData[] = urldecode($fieldValue->field_value);
+					$htmlData[] = urldecode($value->field_value);
 				}
 
 				$displayValue = \RedshopLayoutHelper::render(
@@ -187,7 +186,7 @@ class ExtraFields
 				break;
 
 			case \RedshopHelperExtrafields::TYPE_SELECT_COUNTRY_BOX:
-				if ($fieldValue->data_txt != "")
+				if (!empty($fieldValue->data_txt))
 				{
 					$displayValue = \RedshopLayoutHelper::render(
 						'extrafields.display.country',
@@ -210,7 +209,7 @@ class ExtraFields
 					$documentValue = json_decode($fieldValue->data_txt);
 				}
 
-				if (count($documentValue) > 0)
+				if (!empty($documentValue))
 				{
 					foreach ($documentValue as $documentTitle => $fileName)
 					{
@@ -225,6 +224,8 @@ class ExtraFields
 						$displayValue .= \RedshopLayoutHelper::render(
 							'extrafields.display.document',
 							array(
+								'data'  => $fieldValue,
+								'field' => $field,
 								'link'  => $documentLink,
 								'title' => $documentTitle
 							)
@@ -287,10 +288,13 @@ class ExtraFields
 				break;
 		}
 
-		$displayTitle    = $fieldValue->data_txt != "" ? $fieldValue->title : '';
+		$displayTitle    = !empty($fieldValue->data_txt) ? $fieldValue->title : '';
 		$displayValue    = \RedshopHelperTemplate::parseRedshopPlugin($displayValue);
-		$templateContent = str_replace('{' . $tagLabel . '}', \JText::_($displayTitle), $templateContent);
-		$templateContent = str_replace('{' . $tag . '}', $displayValue, $templateContent);
+		$templateContent = str_replace(
+			array('{' . $tagLabel . '}', '{' . $tag . '}'),
+			array(\JText::_($displayTitle), $displayValue),
+			$templateContent
+		);
 	}
 
 	/**

@@ -143,7 +143,6 @@ class AbstractCest
 	{
 		$tester->wantTo('Run after create item with save button ');
 		$tester->wantToTest('After create with save we should delete');
-
 	}
 
 	/**
@@ -210,8 +209,6 @@ class AbstractCest
 
 		$step->wantToTest('edit this item with save &close button');
 		$step->editItem($this->dataNew[$this->nameField], $this->dataEdit, 'save&new');
-
-
 	}
 	
 	/**

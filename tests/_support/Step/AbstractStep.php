@@ -10,6 +10,7 @@ namespace Step;
 
 use Codeception\Scenario;
 use AcceptanceTester\AdminManagerJoomla3Steps;
+use TheSeer\Tokenizer\Exception;
 
 /**
  * Class Redshop
@@ -73,17 +74,21 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$tester->click($pageClass::$buttonSave);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
 				$tester->click($pageClass::$buttonSaveClose);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
 				$tester->click($pageClass::$buttonSaveNew);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->click($pageClass::$buttonCancel);
 				break;
 			default:
 				break;
 		}
-		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 
 	/**
@@ -98,8 +103,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 	{
 		$pageClass = $this->pageClass;
 		$tester    = $this;
-
-		$tester->searchItem($searchName);
+		$tester->searchItemCheckIn($searchName);
 		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
 		$tester->click($searchName);
@@ -111,17 +115,21 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$tester->click($pageClass::$buttonSave);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
 				$tester->click($pageClass::$buttonSaveClose);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
 				$tester->click($pageClass::$buttonSaveNew);
+                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->click($pageClass::$buttonCancel);
 				break;
 			default:
 				break;
 		}
-		$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 	}
 
 	/**
@@ -144,6 +152,30 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->fillField($searchField, $item);
 		$tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
+
+    /**
+     * @param string $item
+     * @param array $searchField
+     */
+    public function searchItemCheckIn($item = '',  $searchField = ['id' => 'filter_search'])
+    {
+        $pageClass = $this->pageClass;
+        $tester    = $this;
+
+        $tester->amOnPage($pageClass::$url);
+        $tester->checkForPhpNoticesOrWarnings();
+        $tester->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
+        $tester->executeJS('window.scrollTo(0,0)');
+        $tester->fillField($searchField, $item);
+        $tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        try{
+            $tester->waitForElement($pageClass::$checkInButtonList, 2);
+            $tester->click($pageClass::$checkInButtonList);
+        }catch (\Exception $e)
+        {
+
+        }
+    }
 
 	/**
 	 * Method for click button "Delete" without choice
@@ -204,8 +236,12 @@ class AbstractStep extends AdminManagerJoomla3Steps
 				case 'redshop.radio':
 					$this->selectOption($field['xpath'], $data[$index]);
 					break;
+				case 'redshop.fieldsection':
+					$this->chooseOnSelect2($field['xpath'], $data[$index]);
+					break;
 
 				case 'redshop.mail_section':
+				case 'redshop.template':
 				case 'categories':
 				case 'template':
 				case 'shoppergrouplist':

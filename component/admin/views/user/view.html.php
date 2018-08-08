@@ -30,7 +30,7 @@ class RedshopViewUser extends RedshopViewAdmin
 		if ($sync)
 		{
 			$this->setLayout('user_sync');
-			$sync_user       = $userhelper->userSynchronization();
+			$sync_user       = RedshopInstall::synchronizeUser();
 			$this->sync_user = $sync_user;
 		}
 		else

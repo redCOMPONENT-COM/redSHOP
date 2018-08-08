@@ -21,11 +21,18 @@ $model = $this->getModel('newslettersubscr_detail');
 			return;
 		}
 
-		if (form.user_id.value == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_SELECT_USER', true ); ?>");
-		} else {
-			submitform(pressbutton);
-		}
+        if (!checkmail(form.email.value))
+        {
+            alert("<?php echo JText::_('COM_REDSHOP_INVALID_EMAIL', true); ?>");
+            return;
+        }
+
+        if (form.user_id.value == 0) {
+            alert("<?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_SELECT_USER', true); ?>");
+            return;
+        }
+
+        submitform(pressbutton);
 	}
 </script>
 
@@ -77,7 +84,7 @@ $model = $this->getModel('newslettersubscr_detail');
 					<td>
 						<?php
 						if ($this->detail->date):
-							$datee = date("d-m-Y", $this->detail->date);
+							$datee = date(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $this->detail->date);
 						else:
 							$datee = null;
 						endif;
@@ -88,7 +95,8 @@ $model = $this->getModel('newslettersubscr_detail');
 							'date',
 							'date',
 							null,
-							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                            true
 						);
 						?>
 					</td>
@@ -100,7 +108,7 @@ $model = $this->getModel('newslettersubscr_detail');
 						</label>
 					</td>
 					<td>
-						<input type="text" name="email" id="email" value="<?php echo $this->detail->email; ?>"
+						<input type="email" name="email" id="email" value="<?php echo $this->detail->email; ?>"
 						       size="75"/>
 						<?php  echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_SUBSCR_EMAIL'), JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_EMAIL'), 'tooltip.png', '', '', false); ?>
 					</td>
@@ -119,7 +127,6 @@ $model = $this->getModel('newslettersubscr_detail');
 	<div class="clr"></div>
 
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->subscription_id; ?>"/>
-	<input type="hidden" name="date" id="date" value="<?php echo time(); ?>">
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="newslettersubscr_detail"/>
 </form>

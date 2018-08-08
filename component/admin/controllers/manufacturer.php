@@ -7,149 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
 
-
+/**
+ * Manufacturer controller
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       2.1.0
+ */
 class RedshopControllerManufacturer extends RedshopControllerForm
 {
-	/**
-	 * Method for cancel
-	 *
-	 * @return  void
-	 */
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
-
-	/**
-	 * logic for save an order
-	 *
-	 * @access public
-	 * @return void
-	 * @throws Exception
-	 */
-	public function saveorder()
-	{
-		$cid   = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		$cid   = ArrayHelper::toInteger($cid);
-		$order = ArrayHelper::toInteger($order);
-
-		/** @var RedshopModelManufacturer $model */
-		$model = $this->getModel('manufacturer');
-		$model->saveOrder($cid, $order);
-
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	/**
-	 * logic for orderup manufacturer
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function orderup()
-	{
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('manufacturer_detail');
-		$model->move(-1);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	/**
-	 * logic for orderdown manufacturer
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function orderdown()
-	{
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('manufacturer_detail');
-		$model->move(1);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return	void
-	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$pks   = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		$pks   = ArrayHelper::toInteger($pks);
-		$order = ArrayHelper::toInteger($order);
-
-		// Get the model
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('Manufacturer_Detail', 'RedshopModel');
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
-	}
-
-	public function publish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('manufacturer_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
-
-	public function unpublish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		/** @var RedshopModelManufacturer_detail $model */
-		$model = $this->getModel('manufacturer_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
-	}
 }
-

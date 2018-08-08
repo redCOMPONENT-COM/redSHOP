@@ -9,32 +9,61 @@
 
 defined('_JEXEC') or die;
 
-
-
-class RedshopViewAccount_billto extends RedshopView
+/**
+ * Account Billing To view
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  View
+ * @since       1.6.0
+ */
+class RedshopViewAccount_Billto extends RedshopView
 {
+	/**
+	 * @var string
+	 */
+	public $request_url;
+
+	/**
+	 * @var array
+	 */
+	public $lists;
+
+	/**
+	 * @var object|boolean
+	 */
+	public $billingaddresses;
+
+	/**
+	 * @var  \Joomla\Registry\Registry
+	 */
+	public $params;
+
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a JError object.
+	 * @return  mixed         A string if successful, otherwise a JError object.
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
+		/** @var JApplicationSite $app */
 		$app    = JFactory::getApplication();
 		$params = $app->getParams('com_redshop');
 
-		$billingaddresses = $GLOBALS['billingaddresses'];
+		$billingAddresses = Redshop\User\Billing\Billing::getGlobal();
 
-		if (empty($billingaddresses))
+		if (empty($billingAddresses))
 		{
-			$model            = $this->getModel('account_billto');
-			$billingaddresses = $model->_initData();
+			/** @var RedshopModelAccount_Billto $model */
+			$model = $this->getModel('account_billto');
+
+			$billingAddresses = $model->_initData();
 		}
 
 		$user    = JFactory::getUser();
-		$uri     = JFactory::getURI();
+		$uri     = JUri::getInstance();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 
@@ -46,10 +75,14 @@ class RedshopViewAccount_billto extends RedshopView
 		}
 
 		JHtml::_('redshopjquery.framework');
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.common.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.registration.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.common.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.registration.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */
+		JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
 
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
@@ -58,23 +91,34 @@ class RedshopViewAccount_billto extends RedshopView
 			$app->close();
 		}
 
-		$lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', @$billingaddresses->requesting_tax_exempt);
+		$lists = array(
+			'requesting_tax_exempt' => JHtml::_(
+				'select.booleanlist',
+				'requesting_tax_exempt',
+				'class="inputbox"',
+				$billingAddresses->requesting_tax_exempt
+			)
+		);
 
-		if ($billingaddresses->is_company)
+		if ($billingAddresses->is_company)
 		{
-			$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(8, $billingaddresses->users_info_id);
+			$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(
+				RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, $billingAddresses->users_info_id
+			);
 		}
 		else
 		{
-			$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(7, $billingaddresses->users_info_id);
+			$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(
+				RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, $billingAddresses->users_info_id
+			);
 		}
 
 		$this->request_url = $uri->toString();
 
 		$this->lists            = $lists;
-		$this->billingaddresses = $billingaddresses;
+		$this->billingaddresses = $billingAddresses;
 		JFilterOutput::cleanText($this->request_url);
-		$this->params           = $params;
+		$this->params = $params;
 
 		parent::display($tpl);
 	}

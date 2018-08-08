@@ -44,7 +44,7 @@ class Response
 	 *
 	 * @since  2.0.1
 	 */
-	protected $messages = null;
+	protected $messages;
 
 	/**
 	 * @var    boolean
@@ -62,7 +62,7 @@ class Response
 	{
 		static $instance;
 
-		if (!isset($instance))
+		if (null === $instance)
 		{
 			$instance = new static;
 		}
@@ -74,7 +74,7 @@ class Response
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.0
 	 */
 	public function __toString()
 	{
@@ -265,6 +265,7 @@ class Response
 
 	/**
 	 * @return  void
+	 * @throws  \Exception
 	 *
 	 * @since  2.1.0
 	 */
