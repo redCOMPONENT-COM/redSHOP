@@ -75,15 +75,15 @@ class ProductsCest
 	}
 
     public function checkButton(ProductManagerSteps $I)
-    {
-        $I->checkButton('edit');
-        $I->checkButton('copy');
-        $I->checkButton('delete');
-        $I->checkButton('publish');
-        $I->checkButton('unpublish');
-        $I->checkButton('assignNewCategory');
-        $I->checkButton('removeCategory');
-    }
+	{
+		$I->checkButton('edit');
+		$I->checkButton('copy');
+		$I->checkButton('delete');
+		$I->checkButton('publish');
+		$I->checkButton('unpublish');
+		$I->checkButton('assignNewCategory');
+		$I->checkButton('removeCategory');
+	}
 
 	public function addCategory(AcceptanceTester $I, $scenario)
 	{

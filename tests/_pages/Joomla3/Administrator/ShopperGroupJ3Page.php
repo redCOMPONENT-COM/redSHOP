@@ -1,92 +1,209 @@
 <?php
 
 /**
- * Shopper Groups
+ * Class ShopperGroupManagerJ3Page
+ *
+ * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
+ *
+ * @since  2.4
  */
 class ShopperGroupJ3Page extends AdminJ3Page
 {
 
     //name page
+    /**
+     * @var string
+     */
     public static $namePageManagement = 'Shopper Group Management';
 
-
     //URL
+
+    /**
+     * @var string
+     */
     public static $URL = '/administrator/index.php?option=com_redshop&view=shopper_group';
 
+    /**
+     * @var string
+     */
     public static $URLEdit = '/administrator/index.php?option=com_redshop&view=shopper_group_detail&task=edit&cid[]=';
 
     //Id
-    public static $shopperName = ['id' => 'shopper_group_name'];
 
-    public static $shopperGroupType = ['id' => 'select2-chosen-1'];
+    /**
+     * @var string
+     */
+    public static $shopperName = "#shopper_group_name";
 
-    public static $shopperType = ['id' => 's2id_autogen1_search'];
+    /**
+     * @var string
+     */
+    public static $shopperGroupType = "#select2-chosen-1";
 
-    public static $customerType = ['id' => 'select2-chosen-2'];
+    /**
+     * @var string
+     */
+    public static $shopperType = "#s2id_autogen1_search";
 
-    public static $customerTypeSearch = ['id' => 's2id_autogen2_search'];
+    /**
+     * @var string
+     */
+    public static $customerType = "#select2-chosen-2";
 
-    public static $shopperGroupPortalYes = ['id' => 'shopper_group_portal1-lbl'];
+    /**
+     * @var string
+     */
+    public static $customerTypeSearch = "#s2id_autogen2_search";
 
-	public static $shopperGroupPortalNo = ['id' => 'shopper_group_portal0-lbl'];
+    /**
+     * @var string
+     */
+    public static $shopperGroupPortalYes = "#shopper_group_portal1-lbl";
 
-    public static $shippingYes = ['id' => 'default_shipping1-lbl'];
+    /**
+     * @var string
+     */
+    public static $shopperGroupPortalNo = "#shopper_group_portal0-lbl";
 
-    public static $shippingNo = ['id' => 'default_shipping0-lbl'];
+    /**
+     * @var string
+     */
+    public static $shippingYes = "#default_shipping1-lbl";
 
-    public static $shippingRate = ['id' => 'default_shipping_rate'];
+    /**
+     * @var string
+     */
+    public static $shippingNo = "#default_shipping0-lbl";
 
+    /**
+     * @var string
+     */
+    public static $shippingRate = "#default_shipping_rate";
 
-    public static $shippingCheckout = ['id' => 'shopper_group_cart_checkout_itemid'];
+    /**
+     * @var string
+     */
+    public static $shippingCheckout = "#shopper_group_cart_checkout_itemid";
 
-    public static $vatNo = ['id' => 'show_price_without_vat0-lbl'];
+    /**
+     * @var string
+     */
+    public static $vatNo = "#show_price_without_vat0-lbl";
 
-    public static $vatYes = ['id' => 'show_price_without_vat1-lbl'];
+    /**
+     * @var string
+     */
+    public static $vatYes = "#show_price_without_vat1-lbl";
 
-    public static $showPrice = ['id' => 's2id_show_price'];
+    /**
+     * @var string
+     */
+    public static $showPrice = "#s2id_show_price";
 
-    public static $showPriceSearch = ['id' => 's2id_autogen6_search'];
+    /**
+     * @var string
+     */
+    public static $showPriceSearch = "#s2id_autogen6_search";
 
-    public static $catalogId = ['id' => 's2id_use_as_catalog'];
+    /**
+     * @var string
+     */
+    public static $catalogId = "#s2id_use_as_catalog";
 
-    public static $catalogSearch = ['id' => 's2id_autogen7_search'];
+    /**
+     * @var string
+     */
+    public static $catalogSearch = "#s2id_autogen7_search";
 
-    public static $quoationNo = ['id' => 'shopper_group_quotation_mode0-lbl'];
+    /**
+     * @var string
+     */
+    public static $quoationNo = "#shopper_group_quotation_mode0-lbl";
 
-    public static $quotationYes = ['id' => 'shopper_group_quotation_mode1-lbl'];
+    /**
+     * @var string
+     */
+    public static $quotationYes = "#shopper_group_quotation_mode1-lbl";
 
-    public static $publishNo = ['id' => 'published0-lbl'];
+    /**
+     * @var string
+     */
+    public static $publishNo = "#published0-lbl";
 
-    public static $publishYes = ['id' => 'published1-lbl'];
+    /**
+     * @var string
+     */
+    public static $publishYes = "#published1-lbl";
 
-    public static $categoryFiled = ['id' => 's2id_shopper_group_categories'];
+    /**
+     * @var string
+     */
+    public static $categoryFiled = "#s2id_shopper_group_categories";
 
 //    public static $categoryFill = ['xpath' => "//div[@id='s2id_shopper_group_categories']//ul/li//input"];
-    
-    public static  $categoryFill = ['xpath'=>"//input[@id='s2id_autogen3']"];
 
+    /**
+     * @var string
+     */
+    public static  $categoryFill = "//input[@id='s2id_autogen3']";
+
+    /**
+     * @var string
+     */
     public static $shopperFirst = " //input[@id='cb0']";
 
+    /**
+     * @var string
+     */
     public static $shopperFours = "//input[@id='cb3']";
 
-    public static $shopperFirstStatus = ['xpath' => "//tr[1]/td[5]/a"];
+    /**
+     * @var string
+     */
+    public static $shopperFirstStatus =  "//tr[1]/td[5]/a";
 
-    public static $nameShopperGroupsFirst = ['xpath' => "//tr[1]/td[3]/a"];
+    /**
+     * @var string
+     */
+    public static $nameShopperGroupsFirst = "//tr[1]/td[3]/a";
 
     //message
+
+    /**
+     * @var string
+     */
     public static $saveSuccess = 'Shopper Group Detail Saved';
 
+    /**
+     * @var string
+     */
     public static $deleteSuccess = 'Shopper Group can not be deleted.';
 
+    /**
+     * @var string
+     */
     public static $unpublishSuccess = 'Shopper Group Detail Unpublished Successfully';
 
+    /**
+     * @var string
+     */
     public static $publishSuccess = 'Shopper Group Detail Published Successfully';
 
+    /**
+     * @var string
+     */
     public static $cannotDelete = 'Shopper Group can not be deleted.';
 
+    /**
+     * Function to get the path for Search Shopper Group
+     *
+     * @param String $typeSearch in Shopper Group Name
+     *
+     * @return string
+     */
     public function returnSearch($typeSearch)
     {
-        $path = ['xpath' => "//span[contains(text(), '" . $typeSearch . "')]"];
+        $path = "//span[contains(text(), '" . $typeSearch . "')]";
         return $path;
     }
 
