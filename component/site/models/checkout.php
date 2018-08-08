@@ -590,7 +590,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!$rowitem->bind($post))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -1764,7 +1764,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!$table->bind($cart))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 			}
 
 			if ($voucher['transaction_voucher_id'])
@@ -1784,7 +1784,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!$table->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}

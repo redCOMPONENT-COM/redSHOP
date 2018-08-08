@@ -66,7 +66,7 @@ class PlgRedshop_ImportManufacturer extends AbstractImportPlugin
 	/**
 	 * Method for get table object.
 	 *
-	 * @return  \JTable
+	 * @return  \JTable|boolean
 	 *
 	 * @since   1.0.0
 	 */
