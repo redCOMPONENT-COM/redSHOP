@@ -29,6 +29,11 @@ class Curl
 		$curl   = curl_init($source);
 		$handle = fopen($destination, "w");
 
+		if (!is_resource($curl) || !is_resource($handle))
+		{
+			return false;
+		}
+
 		curl_setopt($curl, CURLOPT_FILE, $handle);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
