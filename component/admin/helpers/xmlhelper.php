@@ -11,16 +11,7 @@ defined('_JEXEC') or die;
 
 class xmlHelper
 {
-
 	public $_data = null;
-
-	protected $_db;
-
-	public function __construct()
-	{
-		$this->_table_prefix = '#__redshop_';
-		$this->_db           = JFactory::getDbo();
-	}
 
 	/**
 	 *
