@@ -1307,7 +1307,7 @@ class xmlHelper
 
 							if ($category_id != 0)
 							{
-								$query = 'DELETE FROM ' . $this->_table_prefix . 'product_category_xref '
+								$query = 'DELETE FROM ' . '#__redshop_product_category_xref '
 									. "WHERE product_id=" . (int) $product_id . " "
 									. "AND category_id=" . (int) $category_id . " ";
 
