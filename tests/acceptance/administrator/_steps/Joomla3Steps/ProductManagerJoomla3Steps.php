@@ -707,6 +707,16 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($usePage->attributePreSelect($position));
     }
 
+	//The test case for Product not for Sale
+
+	/**
+	 * @param $productName
+	 * @param $productNumber
+	 * @param $prices
+	 * @param $productCategory
+	 *
+	 * @throws \Exception
+	 */
 	public function createProductNotForSale($productName, $productNumber, $prices, $productCategory)
 	{
 		$I = $this;
@@ -727,6 +737,13 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->scrollTo(\ProductManagerPage::$productName);
 		$I->click(\ProductManagerPage::$buttonSave);;
 	}
+
+ /**
+	 * @param $productCategory
+	 * @param $productID
+	 *
+	 * @throws \Exception
+	 */
 	public function productFrontend($productCategory, $productID)
 	{
 		$I = $this;

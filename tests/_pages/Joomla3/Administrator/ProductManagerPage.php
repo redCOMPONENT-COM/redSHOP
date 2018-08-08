@@ -287,7 +287,11 @@ class ProductManagerPage extends AdminJ3Page
      */
     public static $relatedProductId = "#s2id_related_product";
 
-    // product not for sale in frontend
+    /**
+     * @var string
+     *
+     * Product not for Sale in Frontend
+     */
     public static $selectCategory = ".select2-match";
 
     /**
