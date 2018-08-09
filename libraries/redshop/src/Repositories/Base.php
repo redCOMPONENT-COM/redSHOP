@@ -74,8 +74,8 @@ abstract class Base extends QueryBuilder
 	 *
 	 * @return  array|mixed|\RedshopEntitiesCollection
 	 *
-	 * @since  2.1.0
-	 * @throws \ReflectionException
+	 * @since   2.1.0
+	 * @throws  \ReflectionException
 	 */
 	public function getAll($offset = null, $limit = null)
 	{

@@ -59,23 +59,6 @@ class QueryBuilder
 	}
 
 	/**
-	 * @param   integer $offset Offset
-	 * @param   integer $limit  Limit
-	 *
-	 * @return  mixed
-	 *
-	 * @since   2.1.0
-	 */
-	public function getAll($offset = null, $limit = null)
-	{
-		$this->query
-			->select($this->db->quoteName($this->primaryKey))
-			->from($this->db->quoteName($this->table));
-
-		return $this->db->setQuery($this->query, $offset, $limit)->loadColumn();
-	}
-
-	/**
 	 * @param   array $conditions Conditions
 	 *
 	 * @return  $this
@@ -97,5 +80,22 @@ class QueryBuilder
 		}
 
 		return $this;
+	}
+
+	/**
+	 * @param   integer $offset Offset
+	 * @param   integer $limit  Limit
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 */
+	public function getAll($offset = null, $limit = null)
+	{
+		$this->query
+			->select($this->db->quoteName($this->primaryKey))
+			->from($this->db->quoteName($this->table));
+
+		return $this->db->setQuery($this->query, $offset, $limit)->loadColumn();
 	}
 }
