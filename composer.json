@@ -19,7 +19,8 @@
         "cloudinary/cloudinary_php": "^1.7",
         "knplabs/github-api": "~1",
         "joomla-projects/selenium-server-standalone": "3.8.1",
-        "nette/reflection": "~2.4"
+        "nette/reflection": "~2.4",
+        "phpunit/phpunit": "~4.0"
     },
     "repositories": [
         {
