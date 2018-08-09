@@ -28,6 +28,11 @@ class ProductNotForSaleOnFrontendCest
 		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
 		$this->ProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->price = 100;
+		$this->saleYes = 'Yes';
+		$this->saleNo = 'No';
+		$this->showPriceYes = 'Yes';
+		$this->showPriceNo = 'No';
+
 	}
 
 	/**
@@ -52,17 +57,22 @@ class ProductNotForSaleOnFrontendCest
 		$I->wantTo('create category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySaveClose($this->categoryName);
+
 		$I->wantTo('create product with stockroom in Administrator');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductNotForSale($this->productName, $this->ProductNumber, $this->price, $this->categoryName);
-		$I->wantTo('I want to Login Site page');
-		$I->doFrontEndLogin();
+
+//		$I->wantTo('I want to Login Site page');
+//		$I->doFrontEndLogin();
+
 		$I->wantTo("I want to check product have show price in frontend");
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->productFrontend($this->categoryName, $this->productName);
+		$I->productFrontend($this->categoryName, $this->productName, $this->showPriceYes, $this->price);
+
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
+
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
