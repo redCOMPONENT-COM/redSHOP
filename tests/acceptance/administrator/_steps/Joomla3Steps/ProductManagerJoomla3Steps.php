@@ -17,7 +17,6 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-use PHPUnit\Runner\Exception;
 use ProductManagerPage as ProductManagerPage;
 
 class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
@@ -706,7 +705,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField($usePage->attributePriceProperty($position), $price);
 		$I->waitForElement($usePage->attributePreSelect($position),30);
 		$I->click($usePage->attributePreSelect($position));
-    }
+	}
 
 	//The test case for Product not for Sale
 
@@ -733,27 +732,18 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($usePage->returnChoice($productCategory));
 		$I->click($usePage->returnChoice($productCategory));
 		$I->scrollTo(\ProductManagerPage::$saleYes);
-        $I->waitForElement(\ProductManagerPage::$saleYes, 30);
-        $I->click(\ProductManagerPage::$saleYes);
-        $I->waitForElement(\ProductManagerPage::$showPriceNo, 60);
-        $I->wait(1);
-        if ($prices == 'No')
-        {
-            $I->click(\ProductManagerPage::$showPriceNo);
-        }
-        else
-        {
-            $I->click(\ProductManagerPage::$showPriceYes);
-        }
-
-//        try
-//        {
-//            $I->click(\ProductManagerPage::$showPriceNo);
-//        }
-//        catch (Exception e)
-//        {
-//            $I->click(\ProductManagerPage::$showPriceYes);
-//        }
+		$I->waitForElement(\ProductManagerPage::$saleYes, 30);
+		$I->click(\ProductManagerPage::$saleYes);
+		$I->waitForElement(\ProductManagerPage::$showPriceNo, 60);
+		$I->wait(1);
+		if ($prices == 'No')
+		{
+			$I->click(\ProductManagerPage::$showPriceNo);
+		}
+		else
+		{
+			$I->click(\ProductManagerPage::$showPriceYes);
+		}
 
 		$I->scrollTo(\ProductManagerPage::$productName);
 		$I->click(\ProductManagerPage::$buttonSave);
@@ -765,43 +755,29 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @throws \Exception
 	 */
-	public function productFrontend($productCategory, $productID, $showPriceYes, $price)
+	public function productFrontend($productCategory, $productID, $showPriceYes, $priceFrontend)
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$url);
 		$I->waitForElement(\ProductManagerPage::$categoryID, 30);
 		$I->click($productCategory);
 		$I->waitForElement(\ProductManagerPage::$productID, 30);
-        $I->dontSee(\ProductManagerPage::$addToCart);
-        $I->click($productID);
-        $I->dontSee(\ProductManagerPage::$addToCart);
+		$I->dontSee(\ProductManagerPage::$addToCart);
 		if($showPriceYes == 'No')
-        {
-            $I->dontSee(\ProductManagerPage::$addToCart);
-            $I->dontSee(\ProductManagerPage::$productPrice,$price);
-            $I->click($productID);
-            $I->dontSee(\ProductManagerPage::$addToCart);
-            $I->dontSee(\ProductManagerPage::$productPrice, $price);
-
-//            $I->dontSee(\ProductManagerPage::$addToCart);
-//            $I->see(\ProductManagerPage::$productPrice,$price);
-//            $I->click($productID);
-//            $I->dontSee(\ProductManagerPage::$addToCart);
-//            $I->see(\ProductManagerPage::$productPrice,$price);
-        }
-        else
-        {
-            $I->dontSee(\ProductManagerPage::$addToCart);
-            $I->see(\ProductManagerPage::$productPrice,$price);
-            $I->click($productID);
-            $I->dontSee(\ProductManagerPage::$addToCart);
-            $I->see(\ProductManagerPage::$productPrice,$price);
-
-//            $I->dontSee(\ProductManagerPage::$addToCart);
-//            $I->dontSee(\ProductManagerPage::$productPrice,$price);
-//            $I->click($productID);
-//            $I->dontSee(\ProductManagerPage::$addToCart);
-//            $I->dontSee(\ProductManagerPage::$productPrice, $price);
-        }
+		{
+			$I->waitForElement(\ProductManagerPage::$priceFrontend, 30);
+			$I->dontSee($priceFrontend, \ProductManagerPage::$priceFrontend);
+			$I->click($productID);
+			$I->dontSee(\ProductManagerPage::$addToCart);
+			$I->dontSee($priceFrontend, \ProductManagerPage::$priceFrontend);
+		}
+		else
+		{
+			$I->waitForElement(\ProductManagerPage::$priceFrontend, 30);
+			$I->see($priceFrontend, \ProductManagerPage::$priceFrontend);
+			$I->click($productID);
+			$I->dontSee(\ProductManagerPage::$addToCart);
+			$I->see($priceFrontend, \ProductManagerPage::$priceFrontend);
+		}
 	}
 }

@@ -32,7 +32,7 @@ class ProductNotForSaleOnFrontendCest
 		$this->saleNo = 'No';
 		$this->showPriceYes = 'Yes';
 		$this->showPriceNo = 'No';
-
+        $this->priceFrontend = "DKK 100,00";
 	}
 
 	/**
@@ -62,12 +62,9 @@ class ProductNotForSaleOnFrontendCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductNotForSale($this->productName, $this->ProductNumber, $this->price, $this->categoryName);
 
-//		$I->wantTo('I want to Login Site page');
-//		$I->doFrontEndLogin();
-
 		$I->wantTo("I want to check product have show price in frontend");
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->productFrontend($this->categoryName, $this->productName, $this->showPriceYes, $this->price);
+		$I->productFrontend($this->categoryName, $this->productName, $this->showPriceYes, $this->priceFrontend);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);

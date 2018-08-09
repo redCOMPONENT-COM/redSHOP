@@ -323,4 +323,9 @@ class ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $productID = ".category_box_inside";
+
+    /**
+     * @var string
+     */
+    public static $priceFrontend = ".category_product_price";
 }
