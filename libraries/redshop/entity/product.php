@@ -20,6 +20,7 @@ class RedshopEntityProduct extends RedshopEntity
 {
 	use \Redshop\Entity\Traits\Product\Related,
 		\Redshop\Entity\Traits\Product\Categories,
+		\Redshop\Entity\Traits\Product\Attributes,
 		\Redshop\Entity\Traits\Product\Media,
 		\Redshop\Entity\Traits\Product\Stock;
 
