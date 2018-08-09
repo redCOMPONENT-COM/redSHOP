@@ -29,7 +29,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	/**
 	 * Load the language file on instantiation.
 	 *
-	 * @var    boolean
+	 * @var boolean
 	 */
 	protected $autoloadLanguage = true;
 
@@ -84,7 +84,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		}
 		else
 		{
-			$this->fontName = empty($this->fontFile) ? 'times' : $this->fontFile;
+			$this->fontName = array_key_exists($this->fontFile, $this->tcpdf->coreFonts) ? $this->fontFile : 'times';
 		}
 
 		$this->tcpdf->SetFont($this->fontName, '', $setFont);
@@ -133,7 +133,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 * Event for create PDF file of order.
 	 *
 	 * @param   int     $orderId Id of order.
-	 * @param   string  $pdfHtml Html template of PDF
+	 * @param   string  $pdfHtml Html template of PDF.
 	 * @param   string  $code    Code when generate PDF.
 	 * @param   boolean $isEmail Is generate for use in Email?
 	 *

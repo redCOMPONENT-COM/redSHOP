@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 // Load tcPDF library
 require_once __DIR__ . '/vendor/autoload.php';
 
+
+
 /**
  * Extends TCPDF
  *
@@ -20,8 +22,17 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 class PlgRedshop_PdfTcPDFHelper extends TCPDF
 {
-	// Page header
+	/**
+	 * @var mixed
+	 * @since 1.0.0
+	 */
 	public $backgroundImage;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	public $coreFonts;
 
 	/**
 	 * This is the class constructor.
@@ -41,6 +52,7 @@ class PlgRedshop_PdfTcPDFHelper extends TCPDF
 		$isPdfA = false)
 	{
 		parent::__construct($orientation, $unit, $format, $unicode, $encoding, $diskCache, $isPdfA);
+		$this->coreFonts = $this->CoreFonts;
 	}
 
 	/**

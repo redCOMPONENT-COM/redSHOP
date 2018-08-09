@@ -203,7 +203,7 @@ class RedshopControllerSearch extends RedshopController
 
 		$app    = JFactory::getApplication();
 		$input  = $app->input;
-		$params = new Registry($input->post->getRaw('params', ''));
+		$params = new Registry($input->post->getString('params', ''));
 		$pids   = explode(',', $input->post->getString('pids', ''));
 		$form   = urldecode(stripslashes($input->post->get('form', '', 'RAW')));
 		parse_str($form, $formData);
