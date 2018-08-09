@@ -766,18 +766,18 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		if($showPriceYes == 'No')
 		{
 			$I->waitForElement(\ProductManagerPage::$priceFrontend, 30);
-			$I->dontSee($priceFrontend, \ProductManagerPage::$priceFrontend);
+			$I->dontSee('DKK 100,00');
 			$I->click($productID);
 			$I->dontSee(\ProductManagerPage::$addToCart);
-			$I->dontSee($priceFrontend, \ProductManagerPage::$priceFrontend);
+			$I->dontSee('DKK 100,00');
 		}
 		else
 		{
 			$I->waitForElement(\ProductManagerPage::$priceFrontend, 30);
-			$I->see($priceFrontend, \ProductManagerPage::$priceFrontend);
+			$I->see('DKK 100,00');
 			$I->click($productID);
 			$I->dontSee(\ProductManagerPage::$addToCart);
-			$I->see($priceFrontend, \ProductManagerPage::$priceFrontend);
+			$I->see('DKK 100,00');
 		}
 	}
 }
