@@ -49,7 +49,10 @@ else
 	sudo cp -a chromedriver /usr/local/bin
 	sudo chmod +x /usr/local/bin/chromedriver
 
+	# Install Gulp for Package Generation
 	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
+	npm install -g gulp > output.log 2>&1
+	npm install > output.log 2>&1
 	composer global require hirak/prestissimo
 
 	cd libraries/redshop
