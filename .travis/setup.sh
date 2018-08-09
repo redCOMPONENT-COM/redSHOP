@@ -53,7 +53,6 @@ else
 	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
 	npm install -g gulp > output.log 2>&1
 	npm install > output.log 2>&1
-	composer global require hirak/prestissimo
 
 	cd libraries/redshop
 	composer install --prefer-dist
