@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Redshop\Economic\RedshopEconomic;
 
 /**

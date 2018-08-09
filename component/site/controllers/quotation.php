@@ -105,7 +105,6 @@ class RedshopControllerQuotation extends RedshopController
 	{
 		$input  = JFactory::getApplication()->input;
 		$Itemid = $input->get('Itemid');
-		$return = $input->get('return');
 		$model  = $this->getModel('quotation');
 		$post   = $input->post->getArray();
 
