@@ -14,8 +14,32 @@ namespace Redshop\Repositories;
  *
  * @since       2.1.0
  */
-class Product
+class Product extends Base
 {
+	/**
+	 * @var   string
+	 * @since 2.1.0
+	 */
+	protected $table = '#__redshop_product';
+
+	/**
+	 * @var   string
+	 * @since 2.1.0
+	 */
+	protected $primaryKey = 'product_id';
+
+	public static function getRelatedProducts($productId)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('*')
+			->from($db->quoteName('#__redshop_product_related'))
+			->where($db->quoteName('product_id') . ' = ' . (int) $productId);
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
 	/**
 	 * @param   integer $productId ProductId
 	 *
