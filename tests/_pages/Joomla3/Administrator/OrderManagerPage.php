@@ -11,73 +11,154 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class OrderManagerPage extends AdminJ3Page
 {
+    /**
+     * @var string
+     */
     public static $URL = '/administrator/index.php?option=com_redshop&view=order';
-
-
-    public static $userId = "//div[@id='s2id_user_id']/a";
-
-    public static $userSearch = "//input[@id='s2id_autogen1_search']";
-
-    public static $address = ['id' => 'address'];
-
-    public static $zipcode = ['id' => 'zipcode'];
 
     /**
      * @var string
      */
-    public static $fistName = "#firstname";
+    public static $userId = "//div[@id='s2id_user_id']/a";
 
-    public static $city = ['id' => 'city'];
+    /**
+     * @var string
+     */
+    public static $userSearch = "//input[@id='s2id_autogen1_search']";
 
-    public static $phone = ['id' => 'phone'];
+    /**
+     * @var string
+     */
+    public static $address = "#address";
 
-    public static $close = ['id' => 'toolbar-cancel'];
+    /**
+     * @var string
+     */
+    public static $zipcode = "#zipcode";
 
+    /**
+     * @var string
+     */
+    public static $fistName = "//input[@id='firstname']";
 
-    public static $filter = ['id' => 'filter'];
+    /**
+     * @var string
+     */
+    public static $city = "#city";
 
-    public static $applyUser = ['id' => 'toolbar-apply'];
+    /**
+     * @var string
+     */
+    public static $phone = "#phone";
 
+    /**
+     * @var string
+     */
+    public static $close = "#toolbar-cancel";
 
-    public static $productId = ['id' => 's2id_product1'];
+    /**
+     * @var string
+     */
+    public static $filter = "#filter";
 
-    public static $productsSearch = ['id' => 's2id_autogen2_search'];
+    /**
+     * @var string
+     */
+    public static $applyUser = "#toolbar-apply";
 
-    public static $quanlityFirst = ['id' => 'quantityproduct1'];
+    /**
+     * @var string
+     */
+    public static $productId = "#s2id_product1";
 
-    public static $quantityp1 = ['id' => 'quantity'];
+    /**
+     * @var string
+     */
+    public static $productsSearch = "#s2id_autogen2_search";
 
-    public static $nameProductSuccess = ['id' => 'order_product_detail_3'];
+    /**
+     * @var string
+     */
+    public static $quanlityFirst = "#quantityproduct1";
 
-    public static $statusOrder = ['id' => 's2id_status'];
+    /**
+     * @var string
+     */
+    public static $quantityp1 = "#quantity";
 
-    public static $statusSearch = ['id' => 's2id_autogen2_search'];
+    /**
+     * @var string
+     */
+    public static $nameProductSuccess = "#order_product_detail_3";
 
-    public static $statusPaymentStatus = ['id' => 's2id_order_paymentstatus'];
+    /**
+     * @var string
+     */
+    public static $statusOrder = "#s2id_status";
 
-    public static $statusPaymentSearch = ['id' => 's2id_autogen3_search'];
+    /**
+     * @var string
+     */
+    public static $statusSearch = "#s2id_autogen2_search";
 
+    /**
+     * @var string
+     */
+    public static $statusPaymentStatus = "#s2id_order_paymentstatus";
+
+    /**
+     * @var string
+     */
+    public static $statusPaymentSearch = "#s2id_autogen3_search";
+
+    /**
+     * @var array
+     */
     public static $nameButtonStatus = ['name' => 'order_status'];
 
-    public static $deleteFirst = ['xpath' => '//input[@id=\'cb0\']'];
+    /**
+     * @var string
+     */
+    public static $deleteFirst = "//input[@id='cb0']";
 
-    public static $nameXpath = ['xpath' => '//td[4]/a'];
+    /**
+     * @var string
+     */
+    public static $nameXpath = "//td[4]/a";
     
     //button
+
+    /**
+     * @var string
+     */
     public static $buttonSavePay = "Save + Pay";
 
     //selector
+
+    /**
+     * @var string
+     */
     public static $messageSaveSuccess = "Order Status Successfully Saved For Order Number 1";
 
+    /**
+     * @var string
+     */
     public static $messageDeleteSuccess = "Order detail deleted successfully";
 
+    /**
+     * Function to get Path $userName in Order item
+     *
+     * @param $userName
+     *
+     * @return string
+     */
     public function returnSearch($userName)
     {
-        $path = ['xpath' => "//span[contains(text(), '" . $userName . "')]"];
+        $path = "//span[contains(text(), '" . $userName . "')]";
         return $path;
     }
 

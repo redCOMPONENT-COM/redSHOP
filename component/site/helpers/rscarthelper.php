@@ -315,7 +315,6 @@ class rsCarthelper
 		$product_subtotal_excl_vat = $cart ['product_subtotal_excl_vat'];
 		$subtotal                  = $cart ['subtotal'];
 		$discount_ex_vat           = $cart['discount_ex_vat'];
-		$dis_tax                   = 0;
 		$discount_total            = $cart['voucher_discount'] + $cart['coupon_discount'];
 		$discount_amount           = $cart ["cart_discount"];
 		$tax                       = $cart ['tax'];
@@ -333,8 +332,6 @@ class rsCarthelper
 			$cart ['discount_type'] = 0;
 		}
 
-		$check_type                = $cart ['discount_type'];
-		$chktotal                  = 0;
 		$tmp_discount              = $discount_total;
 		$discount_total            = RedshopHelperProductPrice::formattedPrice($discount_total + $discount_amount, true);
 
@@ -633,7 +630,6 @@ class rsCarthelper
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0, $post = array())
 	{
 		$shippingmethod       = RedshopHelperOrder::getShippingMethodInfo();
-		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
 		$d                    = array();
 		$d['user_id']         = $user_id;
@@ -660,13 +656,6 @@ class rsCarthelper
 				$template_rate_middle = $template1[0];
 			}
 
-			$oneShipping = false;
-
-			if (count($shippingmethod) == 1)
-			{
-				$oneShipping = true;
-			}
-
 			$rate_data = "";
 
 			if ($template_middle != "" && count($shippingmethod) > 0)
@@ -684,7 +673,7 @@ class rsCarthelper
 
 					$rate = $shippingrate[$s];
 
-					if (count($rate) > 0)
+					if (!empty($rate))
 					{
 						if (empty($shipping_rate_id))
 						{
@@ -703,7 +692,6 @@ class rsCarthelper
 
 							for ($i = 0, $in = count($rate); $i < $in; $i++)
 							{
-								$glsLocation = '';
 								$checked      = '';
 								$data        .= $template_rate_middle;
 
@@ -779,7 +767,7 @@ class rsCarthelper
 
 						$extrafield_hidden  = "";
 
-						if (count($extrafield_payment) > 0)
+						if (!empty($extrafield_payment))
 						{
 							$countExtrafield = count($extrafield_payment);
 
@@ -807,13 +795,6 @@ class rsCarthelper
 
 		if ($rateExist == 0)
 		{
-			$errorMSG = '';
-
-			if (count($shippingmethod) > 0)
-			{
-				$errorMSG = RedshopHelperShipping::getShippingRateError($d);
-			}
-
 			$template_desc = "<div></div>";
 		}
 		elseif ($rateExist == 1 && empty($extrafield_total) && $classname != "default_shipping_gls")
@@ -1225,7 +1206,7 @@ class rsCarthelper
 		return $template_desc;
 	}
 
-	public function getCartProductPrice($product_id, $cart, $voucher_left)
+	public function getCartProductPrice($product_id, $cart)
 	{
 		$productArr             = array();
 		$affected_product_idArr = array();
@@ -1233,7 +1214,6 @@ class rsCarthelper
 		$product_price          = 0;
 		$product_price_excl_vat = 0;
 		$quantity               = 0;
-		$flag                   = false;
 		$product_idArr          = explode(',', $product_id);
 		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger($product_idArr);
 
@@ -1369,7 +1349,7 @@ class rsCarthelper
 		return RedshopHelperDiscount::calculate($type, $types);
 	}
 
-	public function getVoucherData($voucher_code, $product_id = 0)
+	public function getVoucherData($voucher_code)
 	{
 		$db = JFactory::getDbo();
 
@@ -2237,7 +2217,6 @@ class rsCarthelper
 
 												for ($isp = 0; $isp < $countAccessorySubproperty; $isp++)
 												{
-													$subproperty_price = 0;
 													$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($acc_subproperty_data[$isp]);
 													$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
 
@@ -2466,7 +2445,6 @@ class rsCarthelper
 			for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
 			{
 				$accSubpropertyCart = array();
-				$property_price     = 0;
 				$property           = RedshopHelperProduct_Attribute::getAttributeProperties($orderPropdata[$p]->section_id);
 				$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($orderPropdata[$p]->section_id, $quantity, 'property');
 
@@ -2488,7 +2466,6 @@ class rsCarthelper
 
 				for ($sp = 0, $countSubproperty = count($orderSubpropdata); $sp < $countSubproperty; $sp++)
 				{
-					$subproperty_price = 0;
 					$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($orderSubpropdata[$sp]->section_id);
 					$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($orderSubpropdata[$sp]->section_id, $quantity, 'subproperty');
 
@@ -2707,7 +2684,6 @@ class rsCarthelper
 		$calcUnit   = $cart_mdata = str_replace(",", ".", $calcUnit);
 
 		// Convert unit using helper function
-		$unit = 1;
 		$unit = \Redshop\Helper\Utility::getUnitConversation($globalUnit, $calcUnit);
 
 		$calcHeight *= $unit;
@@ -2727,7 +2703,6 @@ class rsCarthelper
 			$product_diameter = $data->product_diameter * $product_unit;
 		}
 
-		$finalArea = 0;
 		$Area      = 0;
 
 		switch ($calcMethod)
@@ -2798,10 +2773,8 @@ class rsCarthelper
 			$discount_calc_data[0]->price_per_piece    = $product_price_total;
 		}
 
-		$area_price          = 0;
-		$price_per_piece     = 0;
-		$price_per_piece_tax = 0;
-		$conversation_unit   = "m";
+		$area_price       = 0;
+		$pricePerPieceTax = 0;
 
 		if (count($discount_calc_data))
 		{
@@ -2844,19 +2817,12 @@ class rsCarthelper
 			// Applying TAX
 			$chktag              = \Redshop\Template\Helper::isApplyAttributeVat();
 
-			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
-
 			if ($use_range)
 			{
 				$display_final_area = $finalArea / ($unit * $unit);
-
-				$price_per_piece = $area_price * $finalArea;
-
 				$price_per_piece = $area_price;
 
-				$formatted_price_per_area = RedshopHelperProductPrice::formattedPrice($area_price);
-
-				$price_per_piece_tax = RedshopHelperProduct::getProductTax($productId, $price_per_piece, 0, 1);
+				$pricePerPieceTax = RedshopHelperProduct::getProductTax($productId, $price_per_piece, 0, 1);
 
 				echo $display_final_area . "\n";
 
@@ -2872,14 +2838,14 @@ class rsCarthelper
 
 				echo JText::_('COM_REDSHOP_PRICE_TOTAL') . "\n";
 
-				echo $price_per_piece_tax . "\n";
+				echo $pricePerPieceTax . "\n";
 				echo $chktag . "\n";
 			}
 			else
 			{
 				$price_per_piece = $discount_calc_data[0]->price_per_piece;
 
-				$price_per_piece_tax = RedshopHelperProduct::getProductTax($productId, $price_per_piece, 0, 1);
+				$pricePerPieceTax = RedshopHelperProduct::getProductTax($productId, $price_per_piece, 0, 1);
 
 				echo $Area . "<br />" . JText::_('COM_REDSHOP_TOTAL_PIECE') . $total_sheet . "\n";
 
@@ -2895,7 +2861,7 @@ class rsCarthelper
 
 				echo JText::_('COM_REDSHOP_PRICE_TOTAL') . "\n";
 
-				echo $price_per_piece_tax . "\n";
+				echo $pricePerPieceTax . "\n";
 				echo $chktag . "\n";
 			}
 		}
@@ -2906,7 +2872,7 @@ class rsCarthelper
 		}
 
 		$discount_cal['product_price']     = $price_per_piece;
-		$discount_cal['product_price_tax'] = $price_per_piece_tax;
+		$discount_cal['product_price_tax'] = $pricePerPieceTax;
 		$discount_cal['pdcextra_data']     = "";
 
 		if (isset($pdcstring) && count($pdcstring) > 0)

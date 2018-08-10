@@ -52,8 +52,6 @@ class RedshopModelGiftcard extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$app = JFactory::getApplication();
-
 		$and = "";
 
 		if ($this->_id)
