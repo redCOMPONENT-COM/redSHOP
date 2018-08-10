@@ -183,7 +183,7 @@ class RedshopModelSearch extends RedshopModel
 		$this->setState('filter.data', $filter);
 
 		$orderBy = $app->input->getString('order_by', '');
-		//test 
+
 		$this->setState('order_by', $orderBy);
 
 		$this->setState('template_id', isset($filter['template_id']) ? $filter['template_id'] : null);
