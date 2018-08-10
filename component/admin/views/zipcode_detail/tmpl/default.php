@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
+JText::script('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML');
 ?>
 
 

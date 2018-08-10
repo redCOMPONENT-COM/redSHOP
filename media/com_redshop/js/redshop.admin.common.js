@@ -1169,7 +1169,7 @@ function getStateList_Zipcode() {
 
     var  xmlhttp = GetXmlHttpObject();
     if (xmlhttp == null) {
-        alert("Your browser does not support XMLHTTP!");
+        alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
         return;
     }
     var selected = new Array();
