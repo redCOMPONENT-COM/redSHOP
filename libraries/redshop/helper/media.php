@@ -71,18 +71,13 @@ class RedshopHelperMedia
 		{
 			return $size . ' bytes';
 		}
-		else
-		{
-			if ($size >= 1024 && $size < 1024 * 1024)
-			{
-				return sprintf('%01.2f', $size / 1024.0) . ' Kb';
-			}
 
-			else
-			{
-				return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
-			}
+		if ($size >= 1024 && $size < 1024 * 1024)
+		{
+			return sprintf('%01.2f', $size / 1024.0) . ' Kb';
 		}
+
+		return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
 	}
 
 	/**
@@ -134,27 +129,29 @@ class RedshopHelperMedia
 		$totalFile = 0;
 		$totalDir  = 0;
 
-		if (is_dir($dir))
+		if (!is_dir($dir))
 		{
-			$d = dir($dir);
+			array($totalFile, $totalDir);
+		}
 
-			while (false !== ($entry = $d->read()))
+		$d = dir($dir);
+
+		while (false !== ($entry = $d->read()))
+		{
+			if (substr($entry, 0, 1) != '.' && JFile::exists($dir . DIRECTORY_SEPARATOR . $entry)
+				&& strpos($entry, '.html') === false && strpos($entry, '.php') === false
+			)
 			{
-				if (substr($entry, 0, 1) != '.' && JFile::exists($dir . DIRECTORY_SEPARATOR . $entry)
-					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false
-				)
-				{
-					$totalFile++;
-				}
-
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
-				{
-					$totalDir++;
-				}
+				$totalFile++;
 			}
 
-			$d->close();
+			if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
+			{
+				$totalDir++;
+			}
 		}
+
+		$d->close();
 
 		return array($totalFile, $totalDir);
 	}
@@ -186,28 +183,28 @@ class RedshopHelperMedia
 		$fileNameNoExt = substr($fileNameNoExt, 0, 40);
 		$fileName      = time() . '_' . $fileNameNoExt . '.' . $fileExt;
 
-		if (count($segments) > 1)
+		if (empty($segments))
 		{
-			$segments[count($segments) - 1] = $fileName;
-
-			return implode(DIRECTORY_SEPARATOR, $segments);
+			return $fileName;
 		}
 
-		return $fileName;
+		$segments[count($segments) - 1] = $fileName;
+
+		return implode(DIRECTORY_SEPARATOR, $segments);
 	}
 
 	/**
 	 * Get redSHOP images live thumbnail path
 	 *
-	 * @param   string   $imageName    Image Name
-	 * @param   string   $dest         Image Destination path
-	 * @param   string   $command      Commands like thumb, upload etc...
-	 * @param   string   $type         Thumbnail for types like, product, category, subcolor etc...
-	 * @param   integer  $width        Thumbnail Width
-	 * @param   integer  $height       Thumbnail Height
-	 * @param   integer  $proportional Thumbnail Proportional sizing enable / disable.
-	 * @param   string   $section      Use on new structure of media folders.
-	 * @param   integer  $sectionId    Use on new structure of media folders. ID of section.
+	 * @param   string  $imageName    Image Name
+	 * @param   string  $dest         Image Destination path
+	 * @param   string  $command      Commands like thumb, upload etc...
+	 * @param   string  $type         Thumbnail for types like, product, category, subcolor etc...
+	 * @param   integer $width        Thumbnail Width
+	 * @param   integer $height       Thumbnail Height
+	 * @param   integer $proportional Thumbnail Proportional sizing enable / disable.
+	 * @param   string  $section      Use on new structure of media folders.
+	 * @param   integer $sectionId    Use on new structure of media folders. ID of section.
 	 *
 	 * @return  string   Thumbnail Live path
 	 * @throws  Exception
@@ -215,7 +212,7 @@ class RedshopHelperMedia
 	 * @since  2.0.0.3
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-		$height = 50, $proportional = -1, $section = '', $sectionId = 0)
+	                                    $height = 50, $proportional = -1, $section = '', $sectionId = 0)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -224,7 +221,7 @@ class RedshopHelperMedia
 		}
 
 		// Set Default Type
-		if ($type === '' || !$imageName)
+		if (empty($type) || !$imageName)
 		{
 			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 		}
@@ -405,25 +402,25 @@ class RedshopHelperMedia
 	 */
 	public static function createDir($path)
 	{
-		if (!JFolder::exists($path))
+		if (JFolder::exists($path))
 		{
-			if (!JFolder::create($path))
-			{
-				return false;
-			}
-			else
-			{
-				if (!JFile::exists($path . '/index.html'))
-				{
-					// Avoid 'pass by reference' error in J1.6+
-					$content = '<html><body bgcolor="#ffffff"></body></html>';
-
-					JFile::write($path . '/index.html', $content);
-				}
-			}
+			return true;
 		}
 
-		return true;
+		if (!JFolder::create($path))
+		{
+			return false;
+		}
+
+		if (JFile::exists($path . '/index.html'))
+		{
+			return true;
+		}
+
+		// Avoid 'pass by reference' error in J1.6+
+		$content = '<html><body bgcolor="#ffffff"></body></html>';
+
+		return JFile::write($path . '/index.html', $content);
 	}
 
 	/**
@@ -443,7 +440,7 @@ class RedshopHelperMedia
 	 * @since  2.0.0.3
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-		$deleteOriginal = true, $useLinuxCommands = false)
+	                                   $deleteOriginal = true, $useLinuxCommands = false)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -457,10 +454,10 @@ class RedshopHelperMedia
 		}
 
 		// Setting defaults and meta
-		$info                       = getimagesize($file);
+		$info = getimagesize($file);
 		list($widthOld, $heightOld) = $info;
-		$horizontalCenter           = 0;
-		$verticalCenter             = 0;
+		$horizontalCenter = 0;
+		$verticalCenter   = 0;
 
 		// Calculating proportionality resize
 		switch ($proportional)
@@ -633,57 +630,56 @@ class RedshopHelperMedia
 	 *
 	 * @return  string   Destination of new thumbnail
 	 *
-	 * @since  2.0.0.3
+	 * @since   2.0.0.3
 	 */
 	public static function createThumb($fileType, $srcImg, $destImg, $nWidth, $nHeight)
 	{
 		$newImg = null;
 
-		if ($fileType === "gif")
+		if (!in_array($fileType, array('gif', 'jpg', 'jpeg', 'png')))
 		{
-			$im = imagecreatefromgif($destImg);
-
-			// Original picture width is stored
-			$width = imagesx($im);
-
-			// Original picture height is stored
-			$height = imagesy($im);
-			$newImg = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-
-			imagegif($newImg, $srcImg);
-			JPath::setPermissions($srcImg, '0644');
+			return $newImg;
 		}
 
-		if ($fileType === "jpg")
+		switch ($fileType)
 		{
-			$im = imagecreatefromjpeg($destImg);
-
-			// Original picture width is stored
-			$width = imagesx($im);
-
-			// Original picture height is stored
-			$height = imagesy($im);
-			$newImg = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagejpeg($newImg, $srcImg);
-			JPath::setPermissions($srcImg, '0644');
+			case 'gif':
+				$im = imagecreatefromgif($destImg);
+				break;
+			case 'jpg':
+			case 'jpeg':
+				$im = imagecreatefromjpeg($destImg);
+				break;
+			case 'png':
+				$im = imagecreatefrompng($destImg);
+				break;
 		}
 
-		if ($fileType === "png")
+		if (!is_resource($im))
 		{
-			$im = imagecreatefrompng($destImg);
-
-			// Original picture width is stored
-			$width = imagesx($im);
-
-			// Original picture height is stored
-			$height = imagesy($im);
-			$newImg = imagecreatetruecolor($nWidth, $nHeight);
-			imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
-			imagepng($newImg, $srcImg);
-			JPath::setPermissions($srcImg, '0644');
+			return $newImg;
 		}
+
+		$width  = imagesx($im);
+		$height = imagesy($im);
+		$newImg = imagecreatetruecolor($nWidth, $nHeight);
+		imagecopyresized($newImg, $im, 0, 0, 0, 0, $nWidth, $nHeight, $width, $height);
+
+		switch ($fileType)
+		{
+			case 'gif':
+				imagegif($newImg, $srcImg);
+				break;
+			case 'jpg':
+			case 'jpeg':
+				imagejpeg($newImg, $srcImg);
+				break;
+			case 'png':
+				imagepng($newImg, $srcImg);
+				break;
+		}
+
+		JPath::setPermissions($srcImg, '0644');
 
 		return $newImg;
 	}
@@ -760,11 +756,11 @@ class RedshopHelperMedia
 	/**
 	 *  Generate thumb image with watermark
 	 *
-	 * @param   string   $section          Image section
-	 * @param   string   $imageName        Image name
-	 * @param   string   $thumbWidth       Thumb width
-	 * @param   string   $thumbHeight      Thumb height
-	 * @param   integer  $enableWatermark  Enable watermark
+	 * @param   string  $section         Image section
+	 * @param   string  $imageName       Image name
+	 * @param   string  $thumbWidth      Thumb width
+	 * @param   string  $thumbHeight     Thumb height
+	 * @param   integer $enableWatermark Enable watermark
 	 *
 	 * @return  string
 	 * @throws  Exception
@@ -846,7 +842,7 @@ class RedshopHelperMedia
 					$dest = imagecreatefromjpeg($destinationFile);
 					$src  = imagecreatefromgif($watermark);
 
-					list($width, $height)                   = getimagesize($destinationFile);
+					list($width, $height) = getimagesize($destinationFile);
 					list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
 					imagecopymerge(
@@ -940,11 +936,11 @@ class RedshopHelperMedia
 	/**
 	 * Get alternative text for media
 	 *
-	 * @param   string  $mediaSection  Media section
-	 * @param   int     $sectionId     Section id
-	 * @param   string  $mediaName     Media name
-	 * @param   int     $mediaId       Media id
-	 * @param   string  $mediaType     Media type
+	 * @param   string $mediaSection Media section
+	 * @param   int    $sectionId    Section id
+	 * @param   string $mediaName    Media name
+	 * @param   int    $mediaId      Media id
+	 * @param   string $mediaType    Media type
 	 *
 	 * @return  string                 Alternative text from media
 	 *
@@ -987,10 +983,10 @@ class RedshopHelperMedia
 	/**
 	 * Method for get list of medias
 	 *
-	 * @param   string   $section    Media section (product, category,...)
-	 * @param   integer  $sectionId  Media section ID
-	 * @param   string   $scope      Scope of media
-	 * @param   string   $type       Media type.
+	 * @param   string  $section   Media section (product, category,...)
+	 * @param   integer $sectionId Media section ID
+	 * @param   string  $scope     Scope of media
+	 * @param   string  $type      Media type.
 	 *
 	 * @return  mixed
 	 *
@@ -1030,7 +1026,7 @@ class RedshopHelperMedia
 	/**
 	 * Method for clean up image resource.
 	 *
-	 * @param   resource  $res  Image resource
+	 * @param   resource $res Image resource
 	 *
 	 * @return  boolean
 	 * @throws  Exception
