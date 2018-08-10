@@ -107,7 +107,6 @@ class RedshopHelperMedia
 		{
 			$percentage = ($target / $width);
 		}
-
 		else
 		{
 			$percentage = ($target / $height);
@@ -131,32 +130,7 @@ class RedshopHelperMedia
 	 */
 	public static function countFiles($dir)
 	{
-		$totalFile = 0;
-		$totalDir  = 0;
-
-		if (is_dir($dir))
-		{
-			$d = dir($dir);
-
-			while (false !== ($entry = $d->read()))
-			{
-				if (substr($entry, 0, 1) != '.' && JFile::exists($dir . DIRECTORY_SEPARATOR . $entry)
-					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false
-				)
-				{
-					$totalFile++;
-				}
-
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
-				{
-					$totalDir++;
-				}
-			}
-
-			$d->close();
-		}
-
-		return array($totalFile, $totalDir);
+		return \Redshop\Environment\Directory::count($dir);
 	}
 
 	/**
@@ -186,7 +160,7 @@ class RedshopHelperMedia
 		$fileNameNoExt = substr($fileNameNoExt, 0, 40);
 		$fileName      = time() . '_' . $fileNameNoExt . '.' . $fileExt;
 
-		if (count($segments) > 1)
+		if (!empty($segments))
 		{
 			$segments[count($segments) - 1] = $fileName;
 
@@ -199,15 +173,15 @@ class RedshopHelperMedia
 	/**
 	 * Get redSHOP images live thumbnail path
 	 *
-	 * @param   string   $imageName    Image Name
-	 * @param   string   $dest         Image Destination path
-	 * @param   string   $command      Commands like thumb, upload etc...
-	 * @param   string   $type         Thumbnail for types like, product, category, subcolor etc...
-	 * @param   integer  $width        Thumbnail Width
-	 * @param   integer  $height       Thumbnail Height
-	 * @param   integer  $proportional Thumbnail Proportional sizing enable / disable.
-	 * @param   string   $section      Use on new structure of media folders.
-	 * @param   integer  $sectionId    Use on new structure of media folders. ID of section.
+	 * @param   string  $imageName    Image Name
+	 * @param   string  $dest         Image Destination path
+	 * @param   string  $command      Commands like thumb, upload etc...
+	 * @param   string  $type         Thumbnail for types like, product, category, subcolor etc...
+	 * @param   integer $width        Thumbnail Width
+	 * @param   integer $height       Thumbnail Height
+	 * @param   integer $proportional Thumbnail Proportional sizing enable / disable.
+	 * @param   string  $section      Use on new structure of media folders.
+	 * @param   integer $sectionId    Use on new structure of media folders. ID of section.
 	 *
 	 * @return  string   Thumbnail Live path
 	 * @throws  Exception
@@ -215,7 +189,7 @@ class RedshopHelperMedia
 	 * @since  2.0.0.3
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-		$height = 50, $proportional = -1, $section = '', $sectionId = 0)
+	                                    $height = 50, $proportional = -1, $section = '', $sectionId = 0)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -224,7 +198,7 @@ class RedshopHelperMedia
 		}
 
 		// Set Default Type
-		if ($type === '' || !$imageName)
+		if (empty($type) || !$imageName)
 		{
 			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 		}
@@ -236,13 +210,11 @@ class RedshopHelperMedia
 		$height = $height <= 0 ? 50 : $height;
 
 		// Check section if in new media structure.
+		$filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
+
 		if (in_array($section, array('manufacturer', 'category')))
 		{
 			$filePath = REDSHOP_MEDIA_IMAGE_RELPATH . $section . '/' . $sectionId . '/' . $imageName;
-		}
-		else
-		{
-			$filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
 		}
 
 		$physicalPath = self::generateImages($filePath, $dest, $width, $height, $command, $proportional);
@@ -317,8 +289,8 @@ class RedshopHelperMedia
 							{
 								return false;
 							}
-							break;
 
+							break;
 						case 'upload':
 						default:
 							if (!JFile::upload($filePath, $dest))
@@ -405,25 +377,7 @@ class RedshopHelperMedia
 	 */
 	public static function createDir($path)
 	{
-		if (!JFolder::exists($path))
-		{
-			if (!JFolder::create($path))
-			{
-				return false;
-			}
-			else
-			{
-				if (!JFile::exists($path . '/index.html'))
-				{
-					// Avoid 'pass by reference' error in J1.6+
-					$content = '<html><body bgcolor="#ffffff"></body></html>';
-
-					JFile::write($path . '/index.html', $content);
-				}
-			}
-		}
-
-		return true;
+		return \Redshop\Environment\Directory::create($path);
 	}
 
 	/**
@@ -442,8 +396,10 @@ class RedshopHelperMedia
 	 *
 	 * @since  2.0.0.3
 	 */
-	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-		$deleteOriginal = true, $useLinuxCommands = false)
+	public static function resizeImage(
+		$file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
+		$deleteOriginal = true, $useLinuxCommands = false
+	)
 	{
 		// Trying to set an optional argument
 		if ($proportional === -1)
@@ -457,10 +413,10 @@ class RedshopHelperMedia
 		}
 
 		// Setting defaults and meta
-		$info                       = getimagesize($file);
+		$info = getimagesize($file);
 		list($widthOld, $heightOld) = $info;
-		$horizontalCenter           = 0;
-		$verticalCenter             = 0;
+		$horizontalCenter = 0;
+		$verticalCenter   = 0;
 
 		// Calculating proportionality resize
 		switch ($proportional)
@@ -703,56 +659,58 @@ class RedshopHelperMedia
 	{
 		$key = $sectionId . '_' . $section . '_' . $mediaType;
 
-		if (!array_key_exists($key, static::$medias))
+		if (array_key_exists($key, static::$medias))
 		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('m.*')
-				->from($db->qn('#__redshop_media', 'm'))
-				->where($db->qn('m.media_section') . ' = ' . $db->quote($section))
-				->where($db->qn('m.media_type') . ' = ' . $db->quote($mediaType))
-				->where($db->qn('m.section_id') . ' = ' . (int) $sectionId)
-				->where($db->qn('m.published') . ' = 1')
-				->order($db->qn('m.ordering') . ',' . $db->qn('m.media_id') . ' ASC');
-
-			switch ($section)
-			{
-				case 'product':
-					$query->select('p.*')
-						->leftJoin(
-							$db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('m.section_id')
-						);
-					break;
-
-				case 'property':
-					$query->select('p.*')
-						->leftJoin(
-							$db->qn('#__redshop_product_attribute_property', 'p')
-							. ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('m.section_id')
-						);
-					break;
-
-				case 'subproperty':
-					$query->select('p.*')
-						->leftJoin(
-							$db->qn('#__redshop_product_subattribute_color', 'p')
-							. ' ON ' . $db->qn('p.subattribute_color_id') . ' = ' . $db->qn('m.section_id')
-						);
-					break;
-
-				case 'manufacturer':
-					$query->select('p.*')
-						->leftJoin(
-							$db->qn('#__redshop_manufacturer', 'p') . ' ON ' . $db->qn('p.id') . ' = ' . $db->qn('m.section_id')
-						);
-					break;
-
-				default:
-					break;
-			}
-
-			static::$medias[$key] = $db->setQuery($query)->loadObjectList();
+			return static::$medias[$key];
 		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('m.*')
+			->from($db->qn('#__redshop_media', 'm'))
+			->where($db->qn('m.media_section') . ' = ' . $db->quote($section))
+			->where($db->qn('m.media_type') . ' = ' . $db->quote($mediaType))
+			->where($db->qn('m.section_id') . ' = ' . (int) $sectionId)
+			->where($db->qn('m.published') . ' = 1')
+			->order($db->qn('m.ordering') . ',' . $db->qn('m.media_id') . ' ASC');
+
+		switch ($section)
+		{
+			case 'product':
+				$query->select('p.*')
+					->leftJoin(
+						$db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('m.section_id')
+					);
+				break;
+
+			case 'property':
+				$query->select('p.*')
+					->leftJoin(
+						$db->qn('#__redshop_product_attribute_property', 'p')
+						. ' ON ' . $db->qn('p.property_id') . ' = ' . $db->qn('m.section_id')
+					);
+				break;
+
+			case 'subproperty':
+				$query->select('p.*')
+					->leftJoin(
+						$db->qn('#__redshop_product_subattribute_color', 'p')
+						. ' ON ' . $db->qn('p.subattribute_color_id') . ' = ' . $db->qn('m.section_id')
+					);
+				break;
+
+			case 'manufacturer':
+				$query->select('p.*')
+					->leftJoin(
+						$db->qn('#__redshop_manufacturer', 'p') . ' ON ' . $db->qn('p.id') . ' = ' . $db->qn('m.section_id')
+					);
+				break;
+
+			default:
+				break;
+		}
+
+		static::$medias[$key] = $db->setQuery($query)->loadObjectList();
 
 		return static::$medias[$key];
 	}
@@ -760,11 +718,11 @@ class RedshopHelperMedia
 	/**
 	 *  Generate thumb image with watermark
 	 *
-	 * @param   string   $section          Image section
-	 * @param   string   $imageName        Image name
-	 * @param   string   $thumbWidth       Thumb width
-	 * @param   string   $thumbHeight      Thumb height
-	 * @param   integer  $enableWatermark  Enable watermark
+	 * @param   string  $section         Image section
+	 * @param   string  $imageName       Image name
+	 * @param   string  $thumbWidth      Thumb width
+	 * @param   string  $thumbHeight     Thumb height
+	 * @param   integer $enableWatermark Enable watermark
 	 *
 	 * @return  string
 	 * @throws  Exception
@@ -786,6 +744,7 @@ class RedshopHelperMedia
 			if (!file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage))
 			{
 				$pathMainImage = 'noimage.jpg';
+
 				throw new Exception;
 			}
 
@@ -846,7 +805,7 @@ class RedshopHelperMedia
 					$dest = imagecreatefromjpeg($destinationFile);
 					$src  = imagecreatefromgif($watermark);
 
-					list($width, $height)                   = getimagesize($destinationFile);
+					list($width, $height) = getimagesize($destinationFile);
 					list($watermarkWidth, $watermarkHeight) = getimagesize($watermark);
 
 					imagecopymerge(
@@ -906,7 +865,6 @@ class RedshopHelperMedia
 					break;
 
 				default:
-
 					throw new Exception;
 			}
 
@@ -919,11 +877,9 @@ class RedshopHelperMedia
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
 			}
 
-			if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
-			{
-				$fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $pathMainImage;
-			}
-			else
+			$fileName = REDSHOP_FRONT_IMAGES_ABSPATH . $pathMainImage;
+
+			if ((int) $thumbWidth != 0 || (int) $thumbHeight != 0)
 			{
 				$filePath = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
 				$fileName = self::generateImages(
@@ -940,15 +896,16 @@ class RedshopHelperMedia
 	/**
 	 * Get alternative text for media
 	 *
-	 * @param   string  $mediaSection  Media section
-	 * @param   int     $sectionId     Section id
-	 * @param   string  $mediaName     Media name
-	 * @param   int     $mediaId       Media id
-	 * @param   string  $mediaType     Media type
+	 * @param   string $mediaSection Media section
+	 * @param   int    $sectionId    Section id
+	 * @param   string $mediaName    Media name
+	 * @param   int    $mediaId      Media id
+	 * @param   string $mediaType    Media type
 	 *
 	 * @return  string                 Alternative text from media
 	 *
 	 * @since   2.0.7
+	 * @throws Exception
 	 */
 	public static function getAlternativeText($mediaSection, $sectionId, $mediaName = '', $mediaId = 0, $mediaType = 'images')
 	{
@@ -962,8 +919,7 @@ class RedshopHelperMedia
 			}
 		}
 
-		$db = JFactory::getDbo();
-
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('media_alternate_text'))
 			->from($db->qn('#__redshop_media'))
@@ -987,10 +943,10 @@ class RedshopHelperMedia
 	/**
 	 * Method for get list of medias
 	 *
-	 * @param   string   $section    Media section (product, category,...)
-	 * @param   integer  $sectionId  Media section ID
-	 * @param   string   $scope      Scope of media
-	 * @param   string   $type       Media type.
+	 * @param   string  $section   Media section (product, category,...)
+	 * @param   integer $sectionId Media section ID
+	 * @param   string  $scope     Scope of media
+	 * @param   string  $type      Media type.
 	 *
 	 * @return  mixed
 	 *
@@ -1030,7 +986,7 @@ class RedshopHelperMedia
 	/**
 	 * Method for clean up image resource.
 	 *
-	 * @param   resource  $res  Image resource
+	 * @param   resource $res Image resource
 	 *
 	 * @return  boolean
 	 * @throws  Exception
