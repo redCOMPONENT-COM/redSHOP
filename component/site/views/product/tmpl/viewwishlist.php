@@ -80,9 +80,6 @@ else // If user logged in than display this code.
 
 function display_products($rows)
 {
-	$url        = JURI::base();
-	$extra_data = productHelper::getInstance();
-
 	$producthelper = productHelper::getInstance();
 
 	for ($i = 0, $in = count($rows); $i < $in; $i++)
