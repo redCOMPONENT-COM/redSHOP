@@ -306,7 +306,6 @@ class Quotation
 				$specialDiscountNoVAT = $specialDiscount - $specialDiscountVAT;
 
 				$quotation->quotation_discount = $quotation->quotation_discount + $specialDiscountNoVAT;
-				$tax                           = $tax - $specialDiscountVAT;
 			}
 
 			$quotationSubtotalExclVat       = \RedshopHelperProductPrice::formattedPrice($quotation->quotation_subtotal - $quotation->quotation_tax);

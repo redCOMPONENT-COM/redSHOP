@@ -443,6 +443,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		// Accessories product
 		$this->importAccessoriesProduct($productId, $data);
 
+		// Related product
+		$this->importRelatedProduct($productId, $data);
+
 		// Product stock data
 		$this->importProductStock($productId, $data);
 
@@ -671,6 +674,59 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 					->where($db->qn('child_product_id') . ' = ' . $db->quote($childProductId));
 
 				$db->setQuery($query)->execute();
+			}
+		}
+	}
+
+	/**
+	 * Method for insert/update related products
+	 *
+	 * @param   int   $productId Product ID
+	 * @param   array $data      Data
+	 *
+	 * @return  void
+	 *
+	 * @since  1.0.0
+	 */
+	public function importRelatedProduct($productId = 0, $data = array())
+	{
+		if (empty($data) || !$productId || empty($data['related_products']))
+		{
+			return;
+		}
+
+		$relatedNumbers = explode("###", $data['related_products']);
+
+		if (empty($relatedNumbers))
+		{
+			return;
+		}
+
+		$db    = $this->db;
+		$query = $db->getQuery(true);
+
+		$query->clear()
+				->delete($db->qn('#__redshop_product_related'))
+				->where($db->qn('product_id') . ' = ' . $db->quote($productId));
+
+		$db->setQuery($query)->execute();
+
+		foreach ($relatedNumbers as $relatedNumber)
+		{
+			$query->clear()
+				->select($db->qn('product_id'))
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_number') . ' = ' . $db->quote($relatedNumber));
+
+			$relatedId = $db->setQuery($query)->loadresult();
+
+			if ($relatedId)
+			{
+				$insert             = new stdClass;
+				$insert->related_id = $relatedId;
+				$insert->product_id = $productId;
+
+				$db->insertObject('#__redshop_product_related', $insert);
 			}
 		}
 	}

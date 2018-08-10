@@ -14,7 +14,6 @@ JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher   = JDispatcher::getInstance();
 
 $productHelper    = productHelper::getInstance();
-$cartHelper       = rsCarthelper::getInstance();
 $orderFunctions   = order_functions::getInstance();
 $redHelper        = redhelper::getInstance();
 $extraFieldHelper = extra_field::getInstance();
@@ -161,7 +160,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD'); ?>:</td>
 								<td><?php echo JText::_($this->payment_detail->order_payment_name); ?>
-									<?php if (count($model->getccdetail($orderId)) > 0): ?>
+									<?php if (!empty($model->getccdetail($orderId))): ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId); ?>"
 										   class="joom-box btn btn-primary"
 										   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL'); ?></a>
@@ -590,13 +589,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 						</tr>
 						<?php
 						$ordervolume       = 0;
-						$cart              = array();
 						$subtotal_excl_vat = 0;
 
 						for ($i = 0, $in = count($products); $i < $in; $i++)
 						{
-							$cart[$i]['product_id'] = $products[$i]->product_id;
-							$cart[$i]['quantity']   = $products[$i]->product_quantity;
 							$quantity               = $products[$i]->product_quantity;
 							$product_id             = $products[$i]->product_id;
 
@@ -616,7 +612,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$res              = RedshopEntityCategory::getInstance((int) $catId)->getItem();
 							$cname            = '';
 
-							if (count($res) > 0)
+							if (!empty($res))
 							{
 								$cname = $res->name;
 								$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
@@ -633,7 +629,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								$itemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
 								$catIdMain = $productdetail->cat_in_sefurl;
 
-								if (count($itemData) > 0)
+								if (!empty($itemData))
 								{
 									$pItemid = $itemData->id;
 								}
@@ -900,8 +896,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							</tr>
 							<?php
 						}
-						$cart['idx'] = count($cart);
-						RedshopHelperCartSession::setCart($cart); ?>
+						?>
 						<tr>
 							<td>
 								<div class="row-fluid">

@@ -158,7 +158,7 @@ class AbstractExportPlugin extends \JPlugin
 	protected function getData($start, $limit)
 	{
 		$query = $this->getQuery();
-		$data  = $this->db->setQuery($query, $limit, $start)->loadObjectList();
+		$data  = $this->db->setQuery($query, $start, $limit)->loadObjectList();
 
 		$this->processData($data);
 

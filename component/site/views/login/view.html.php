@@ -17,8 +17,6 @@ class RedshopViewLogin extends RedshopView
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		$params = $app->getParams('com_redshop');
-
 		$model = $this->getModel();
 
 		$shoppergroupid = $app->input->getInt('protalid', 0);
