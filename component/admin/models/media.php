@@ -141,7 +141,7 @@ class RedshopModelMedia extends RedshopModel
 			{
 				if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
-					$tmp                = new stdClass();
+					$tmp                = new stdClass;
 					$tmp->name          = $file;
 					$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
@@ -228,7 +228,7 @@ class RedshopModelMedia extends RedshopModel
 		{
 			foreach ($folderList as $folder)
 			{
-				$tmp                = new stdClass();
+				$tmp                = new stdClass;
 				$tmp->name          = basename($folder);
 				$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
@@ -309,11 +309,11 @@ class RedshopModelMedia extends RedshopModel
 	}
 
 	/**
-	 * delete addtional files
+	 * Delete addtional files
 	 *
 	 * @param   integer $fileId fileId
 	 *
-	 * @return    boolean
+	 * @return  boolean
 	 */
 	public function deleteAddtionalFiles($fileId)
 	{
