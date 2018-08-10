@@ -17,7 +17,7 @@ class RedshopModelMedia extends RedshopModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
 	 */
@@ -25,7 +25,7 @@ class RedshopModelMedia extends RedshopModel
 	{
 		parent::__construct($config);
 
-		$jInput         = JFactory::getApplication()->input;
+		$jInput        = JFactory::getApplication()->input;
 		$this->context .= '.' . $jInput->getCmd('media_section', 'none') . '.' . $jInput->getInt('section_id', 0);
 	}
 
@@ -95,8 +95,8 @@ class RedshopModelMedia extends RedshopModel
 		{
 			$current = '';
 		}
-		$input = JFactory::getApplication()->input;
-		$fdownload = $input->getInt('fdownload', '0');
+		$input     = JFactory::getApplication()->input;
+		$fdownload = $input->getInt('fdownload', 0);
 
 		if ($fdownload != 1)
 		{
@@ -267,7 +267,9 @@ class RedshopModelMedia extends RedshopModel
 
 	/**
 	 * store data
-	 * @param  array $data [description]
+	 *
+	 * @param   array $data [description]
+	 *
 	 * @return [type]       [description]
 	 */
 	public function store($data)
@@ -293,6 +295,10 @@ class RedshopModelMedia extends RedshopModel
 
 	/**
 	 * get additionnal Files
+	 *
+	 * @param   integer $media_id media_id
+	 *
+	 * @return object
 	 */
 	public function getAdditionalFiles($media_id)
 	{
@@ -304,8 +310,10 @@ class RedshopModelMedia extends RedshopModel
 
 	/**
 	 * delete addtional files
-	 * 
-	 * @return 	boolean
+	 *
+	 * @param   integer $fileId fileId
+	 *
+	 * @return    boolean
 	 */
 	public function deleteAddtionalFiles($fileId)
 	{
@@ -335,6 +343,11 @@ class RedshopModelMedia extends RedshopModel
 
 	/**
 	 * save order
+	 *
+	 * @param   array $cid   cid
+	 * @param   array $order order
+	 *
+	 * @return void|boolean
 	 */
 	public function saveorder($cid = array(), $order)
 	{
@@ -407,7 +420,7 @@ class RedshopModelMedia extends RedshopModel
 	/**
 	 * Delete media item by ID
 	 *
-	 * @param   integer  $id  [description]
+	 * @param   integer $id [description]
 	 *
 	 * @return  boolean
 	 */
@@ -451,7 +464,7 @@ class RedshopModelMedia extends RedshopModel
 	/**
 	 * Create a media item by ID
 	 *
-	 * @param   array  $file  File array data
+	 * @param   array $file File array data
 	 *
 	 * @return  boolean
 	 */
@@ -483,7 +496,7 @@ class RedshopModelMedia extends RedshopModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 *
@@ -501,8 +514,8 @@ class RedshopModelMedia extends RedshopModel
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
