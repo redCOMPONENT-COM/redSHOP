@@ -19,20 +19,23 @@ defined('_JEXEC') or die;
 class Directory extends \JFolder
 {
 	/**
-	 * @param   string $path Directory path
+	 * Create a folder -- and all necessary parent folders.
+	 *
+	 * @param   string  $path A path to create from the base path.
+	 * @param   integer $mode Directory permissions to set for folders created. 0755 by default.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   2.1.0
 	 */
-	public static function create($path)
+	public static function create($path = '', $mode = 0755)
 	{
 		if (self::exists($path))
 		{
 			return true;
 		}
 
-		if (!self::create($path))
+		if (!parent::create($path, $mode))
 		{
 			return false;
 		}
