@@ -396,34 +396,60 @@ class RedshopEconomic
 
 		if (!empty($debtorHandle[0]))
 		{
-			$debtorEmailHandle = \RedshopHelperUtility::getDispatcher()->trigger('Debtor_FindByEmail', array($eco));
+			self::handleExistingDebtorOnEmailVat($debtorHandle, $eco);
+		}
 
-			if (!empty($debtorEmailHandle[0]))
+		return \RedshopHelperUtility::getDispatcher()->trigger('storeDebtor', array($eco));
+	}
+
+	/**
+	 * Method to check existing Debtor base on duplication of Email/Vat
+	 *
+	 * @param   array $debtor   existing Debtor data
+	 * @param   array $eco      output economic user data
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	public static function handleExistingDebtorOnEmailVat($debtor, &$eco)
+	{
+		self::importEconomic();
+
+		$debtorEmailHandle = \RedshopHelperUtility::getDispatcher()->trigger('Debtor_FindByEmail', array($eco));
+
+		if (!empty($debtorEmailHandle[0]))
+		{
+			$emailArray = $debtorEmailHandle[0]->DebtorHandle;
+
+			if (!empty($emailArray) && count($emailArray) > 1)
 			{
-				$emailarray = $debtorEmailHandle[0]->DebtorHandle;
-
-				if (count($emailarray) > 1)
+				foreach ($emailArray as $email)
 				{
-					for ($i = 0, $in = count($emailarray); $i < $in; $i++)
+					if ($debtor[0]->Number == $email->Number)
 					{
-						if ($debtorHandle[0]->Number == $emailarray[$i]->Number)
-						{
-							$eco['eco_user_number'] = $debtorHandle[0]->Number;
-						}
+						$eco['eco_user_number'] = $debtor[0]->Number;
 					}
 				}
-				elseif (count($emailarray) > 0)
-				{
-					$eco['eco_user_number'] = $emailarray->Number;
-				}
+			}
+			elseif (!empty($emailArray) && count($emailArray) == 1)
+			{
+				$eco['eco_user_number'] = $emailArray->Number;
+			}
+		}
+		else
+		{
+			$debtorVatHandle = \RedshopHelperUtility::getDispatcher()->trigger('Debtor_FindByVAT', array($eco));
+
+			if (!empty($debtorVatHandle[0]))
+			{
+				$eco['eco_user_number'] = $debtorVatHandle[0]->Number;
 			}
 			else
 			{
 				$eco['newuserFlag'] = true;
 			}
 		}
-
-		return \RedshopHelperUtility::getDispatcher()->trigger('storeDebtor', array($eco));
 	}
 
 	/**
