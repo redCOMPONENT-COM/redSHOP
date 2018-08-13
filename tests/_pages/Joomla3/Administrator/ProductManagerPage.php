@@ -307,7 +307,7 @@ class ProductManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $showPriceYes = "#not_for_sale_showprice1";
+    public static $showPriceYes = "//input[@id='not_for_sale_showprice1']";
 
     /**
      * @var string
