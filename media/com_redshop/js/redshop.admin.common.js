@@ -1167,7 +1167,7 @@ function getStateList() {
 
 function getStateList_Zipcode() {
 
-    var  xmlhttp = GetXmlHttpObject();
+    var xmlhttp = GetXmlHttpObject();
     if (xmlhttp == null) {
         alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
         return;

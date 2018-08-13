@@ -165,7 +165,7 @@ class RedshopModelZipcode_detail extends RedshopModel
 			->where('FIND_IN_SET (' . $db->quoteName('c.country_3_code') . ', ' . $db->quote($countryCodes) . ')')
 			->order($db->quoteName('s.state_name') . ' ASC');
 
-		return $this->_db->setQuery($query)->loadObjectList();
+		return $db->setQuery($query)->loadObjectList();
 	}
 
 	/**

@@ -1167,7 +1167,7 @@ function getStateList() {
 
 function getStateList_Zipcode() {
 
-    var  xmlhttp = GetXmlHttpObject();
+    var xmlhttp = GetXmlHttpObject();
     if (xmlhttp == null) {
         alert("Your browser does not support XMLHTTP!");
         return;
