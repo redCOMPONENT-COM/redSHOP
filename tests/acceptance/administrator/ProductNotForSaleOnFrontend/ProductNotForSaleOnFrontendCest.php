@@ -27,12 +27,11 @@ class ProductNotForSaleOnFrontendCest
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
 		$this->ProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->price = 100;
+		$this->price = $this->faker->numberBetween(100, 1000);
 		$this->saleYes = 'Yes';
 		$this->saleNo = 'No';
 		$this->showPriceYes = 'Yes';
 		$this->showPriceNo = 'No';
-        $this->priceFrontend = "DKK 100,00";
 	}
 
 	/**
@@ -64,7 +63,7 @@ class ProductNotForSaleOnFrontendCest
 
 		$I->wantTo("I want to check product have show price in frontend");
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->productFrontend($this->categoryName, $this->productName, $this->showPriceYes, $this->priceFrontend);
+		$I->productFrontend($this->categoryName, $this->productName, $this->showPriceYes, $this->price);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);

@@ -755,7 +755,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @throws \Exception
 	 */
-	public function productFrontend($productCategory, $productID, $showPriceYes, $priceFrontend)
+	public function productFrontend($productCategory, $productID, $showPriceYes, $price)
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$url);
@@ -765,19 +765,19 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->dontSee(\ProductManagerPage::$addToCart);
 		if($showPriceYes == 'No')
 		{
-			$I->waitForElement(\ProductManagerPage::$priceFrontend, 30);
-			$I->dontSee('DKK 100,00');
+			$I->waitForElement(\ProductManagerPage::$productID, 30);
+			$I->dontSee($price);
 			$I->click($productID);
 			$I->dontSee(\ProductManagerPage::$addToCart);
-			$I->dontSee('DKK 100,00');
+			$I->dontSee($price);
 		}
 		else
 		{
-			$I->waitForElement(\ProductManagerPage::$priceFrontend, 30);
-			$I->see('DKK 100,00');
+			$I->waitForElement(\ProductManagerPage::$productID, 30);
+			$I->see($price);
 			$I->click($productID);
 			$I->dontSee(\ProductManagerPage::$addToCart);
-			$I->see('DKK 100,00');
+			$I->see($price);
 		}
 	}
 }
