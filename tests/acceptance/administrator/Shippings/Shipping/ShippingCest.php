@@ -90,23 +90,20 @@ class ShippingCest
 	 */
 	public function createShippingRate(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
-	    $I = new AcceptanceTester\ShippingSteps($scenario);
-		$I->wantTo('Check create new Shipping rate with save button');
-		$I->createShippingRateStandard($this->shippingMethod, $this->shipping);
+	 	$I = new AcceptanceTester\ShippingSteps($scenario);
+	 	$I->wantTo('Check create new Shipping rate with save button');
+	 	$I->createShippingRateStandard($this->shippingMethod, $this->shipping, 'save');
 
-        $I->wantTo('Check create new Shipping rate with save & close button');
-        $I->createShippingRateStandard(
-            $this->shippingMethod, $this->shippingSaveClose, 'saveclose'
-        );
+	 	$I->wantTo('Check create new Shipping rate with save & close button');
+		$I->createShippingRateStandard($this->shippingMethod, $this->shippingSaveClose, 'saveclose');
 
-        $I->wantTo('Edit a shipping Rate');
-        $I->editShippingRateStandard(
-            $this->shipping['shippingName'], $this->shippingNameEdit, $this->shippingRateEdit, 'save'
-        );
+	 	$I->wantTo('Edit a shipping Rate');
+		$I->editShippingRateStandard($this->shipping['shippingName'], $this->shippingNameEdit, $this->shippingRateEdit, 'save');
 
-        $I->wantTo('Edit a shipping Rate with Save Close');
-        $I->editShippingRateStandard(
-            $this->shippingNameEdit, $this->shipping['shippingName'], $this->shipping['shippingRate'], 'saveclose'
-        );
+	 	$I->wantTo('Edit a shipping Rate with Save Close');
+		$I->editShippingRateStandard($this->shippingNameEdit, $this->shipping['shippingName'], $this->shipping['shippingRate'], 'saveclose');
+
+	 	$I->wantTo('Delete a shipping Rate');
+	 	$I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
 	}
 }

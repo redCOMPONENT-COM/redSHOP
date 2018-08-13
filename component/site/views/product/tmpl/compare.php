@@ -9,7 +9,6 @@
 
 use Redshop\Helper\ExtraFields;
 use Redshop\Template\General;
-use Redshop\Template\Helper;
 
 defined('_JEXEC') or die;
 
