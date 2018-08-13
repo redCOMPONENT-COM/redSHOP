@@ -21,7 +21,6 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$cfg   = JFactory::getConfig();
 		$lists = array();
 
 		$model = $this->getModel('attribute_set_detail');
