@@ -26,7 +26,7 @@ class OrderCest
 	{
 		//create user for quotation
 		$this->faker           = Faker\Factory::create();
-		$this->userName        = 'ManageUserAdministratorCest' . rand(10, 100);
+		$this->userName        = $this->faker->bothify('UserOrderCest ?###?');
 		$this->password        = $this->faker->bothify('Password ?##?');
 		$this->email           = $this->faker->email;
 		$this->shopperGroup    = 'Default Private';
@@ -68,13 +68,11 @@ class OrderCest
 
 		$this->status        = "Confirmed";
 		$this->paymentStatus = "Paid";
-
-
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     */
+	/**
+	 * @param AcceptanceTester $I
+	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -89,29 +87,30 @@ class OrderCest
 	 */
 	public function createData(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo('Test User creation in Administrator');
+		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->userName, $this->userName, 'saveclose');
+		$I->searchUser($this->userName);
+
 		$I->wantTo('Create Category in Administrator');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
 		$I->addCategorySave($this->randomCategoryName);
 
-        $I->wantTo('Test Product Save Manager in Administrator');
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('I Want to add product inside the category');
-        $I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->wantTo('Test Product Save Manager in Administrator');
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('I Want to add product inside the category');
+		$I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
-        $I->wantTo('Test User creation in Administrator');
-        $I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
-        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->userName, $this->userName, 'saveclose');
-        $I->searchUser($this->userName);
 
-        $I->wantTo('Test Order creation in Administrator');
-        $I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-        $I->addOrder($this->userName, $this->address, $this->zipcode, $this->city, $this->phone, $this->randomProductName, $this->quantity);
+		$I->wantTo('Test Order creation in Administrator');
+		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I->addOrder($this->userName, $this->address, $this->zipcode, $this->city, $this->phone, $this->randomProductName, $this->quantity);
 
-        $I->wantTo('Test Order Edit status and payment in Administrator');
-        $I->editOrder($this->userName . ' ' . $this->userName, $this->status, $this->paymentStatus, $this->newQuantity);
+		$I->wantTo('Test Order Edit status and payment in Administrator');
+		$I->editOrder($this->userName . ' ' . $this->userName, $this->status, $this->paymentStatus, $this->newQuantity);
 
-        $I->wantTo('Test Order delete by user  in Administrator');
-        $I->deleteOrder($this->userName);
-    }
+		$I->wantTo('Test Order delete by user  in Administrator');
+		$I->deleteOrder($this->userName);
+	}
 }

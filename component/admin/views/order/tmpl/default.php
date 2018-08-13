@@ -261,6 +261,9 @@ JPluginHelper::importPlugin('redshop_product');
             <th width="20%">
 				<?php echo JText::_('COM_REDSHOP_ORDERS_CUSTOMER_NOTE') ?>
             </th>
+            <th>
+                <?php $dispatcher->trigger('onAdminDisplayOrder', array(array(), 'header')) ?>
+            </th>
             <th width="5%">
 				<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
             </th>
@@ -342,6 +345,9 @@ JPluginHelper::importPlugin('redshop_product');
                 </td>
                 <td>
 					<?php echo JHtml::_('redshopgrid.slidetext', $row->customer_note) ?>
+                </td>
+                <td>
+                    <?php $dispatcher->trigger('onAdminDisplayOrder', array(&$row, 'row')) ?>
                 </td>
                 <td>
                     <span class="label order_status_<?php echo strtolower($row->order_status) ?>"><?php echo $row->order_status_name ?></span>

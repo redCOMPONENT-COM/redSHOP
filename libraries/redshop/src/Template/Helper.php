@@ -139,7 +139,7 @@ class Helper
 	/**
 	 * Method for get add-to-cart template
 	 *
-	 * @param   string  $templateHtml  Template HTML
+	 * @param   string $templateHtml Template HTML
 	 *
 	 * @return  null|object
 	 * @throws  \Exception
@@ -350,26 +350,15 @@ class Helper
 	/**
 	 * Method for get cart template
 	 *
-	 * @return  object
-	 * @throws  \Exception
+	 * @return     array
+	 * @throws     \Exception
 	 *
-	 * @since   2.1.0
+	 * @since      2.1.0
+	 * @deprecated Use Redshop\Template\Cart::getCartTemplate()
 	 */
 	public static function getCart()
 	{
-		if (!array_key_exists('cart', self::$templates))
-		{
-			if (\Redshop::getConfig()->get('USE_AS_CATALOG'))
-			{
-				self::$templates['cart'] = \RedshopHelperTemplate::getTemplate('cart');
-			}
-			else
-			{
-				self::$templates['cart'] = \RedshopHelperTemplate::getTemplate('catalogue_cart');
-			}
-		}
-
-		return self::$templates['cart'];
+		return Cart::getCartTemplate();
 	}
 
 	/**

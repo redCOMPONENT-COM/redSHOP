@@ -160,7 +160,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD'); ?>:</td>
 								<td><?php echo JText::_($this->payment_detail->order_payment_name); ?>
-									<?php if (count($model->getccdetail($orderId)) > 0): ?>
+									<?php if (!empty($model->getccdetail($orderId))): ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId); ?>"
 										   class="joom-box btn btn-primary"
 										   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL'); ?></a>
@@ -560,6 +560,28 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 		</div>
 	</div>
 
+	<?php if (!empty($this->lists['order_extra_fields'])): ?>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3><?php echo JText::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
+					</div>
+					<div class="box-body">
+						<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=storeExtraField'); ?>" method="post"
+						      name="adminForm" id="adminForm" enctype="multipart/form-data">
+							<?php echo $this->lists['order_extra_fields'] ?>
+							<input class="button btn btn-primary" name="submit"
+							       value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>" type="submit"/>
+							<input type="hidden" name="order_id" value="<?php echo $billing->order_id; ?>"/>
+							<input type="hidden" name="user_email" value="<?php echo $billing->user_email; ?>"/>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
+
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="box box-primary">
@@ -612,7 +634,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$res              = RedshopEntityCategory::getInstance((int) $catId)->getItem();
 							$cname            = '';
 
-							if (count($res) > 0)
+							if (!empty($res))
 							{
 								$cname = $res->name;
 								$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
@@ -629,7 +651,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								$itemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
 								$catIdMain = $productdetail->cat_in_sefurl;
 
-								if (count($itemData) > 0)
+								if (!empty($itemData))
 								{
 									$pItemid = $itemData->id;
 								}
@@ -687,6 +709,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																	</div>
 																</div>
 															</td>
+															<td>
+		                                                        <?php $dispatcher->trigger('onAdminDisplayOrderItem', array($orderId, $products[$i])) ?>
+	                                                        </td>
 															<td width="15%">
 																<?php
 																echo $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
@@ -1238,28 +1263,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 			</div>
 		</div>
 	</div>
-
-	<?php if (!empty($this->lists['order_extra_fields'])): ?>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<h3><?php echo JText::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
-					</div>
-					<div class="box-body">
-						<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=storeExtraField'); ?>" method="post"
-						      name="adminForm" id="adminForm">
-							<?php echo $this->lists['order_extra_fields'] ?>
-							<input class="button btn btn-primary" name="submit"
-							       value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>" type="submit"/>
-							<input type="hidden" name="order_id" value="<?php echo $billing->order_id; ?>"/>
-							<input type="hidden" name="user_email" value="<?php echo $billing->user_email; ?>"/>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	<?php endif; ?>
 </div>
 <?php echo $this->loadTemplate('plugin'); ?>
 <div id="divCalc"></div>
