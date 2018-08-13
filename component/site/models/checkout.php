@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\RedshopEconomic;
 use Joomla\Registry\Registry;
+use Redshop\Economic\RedshopEconomic;
+use Redshop\Environment;
 
 /**
  * Class checkoutModelcheckout
@@ -21,7 +22,6 @@ use Joomla\Registry\Registry;
  */
 class RedshopModelCheckout extends RedshopModel
 {
-
 	public $_id = null;
 
 	public $_data = null;
@@ -42,6 +42,12 @@ class RedshopModelCheckout extends RedshopModel
 
 	public $_redshopMail = null;
 
+	/**
+	 * RedshopModelCheckout constructor.
+	 * @throws Exception
+	 *
+	 * @since  1.0
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -72,7 +78,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		$noOFGIFTCARD = 0;
-		$idx = 0;
+		$idx          = 0;
 
 		if (isset($cart['idx']))
 		{
@@ -110,47 +116,77 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		RedshopHelperCartSession::setCart($cart);
-		$this->_carthelper->carttodb();
+		RedshopHelperCart::addCartToDatabase();
 	}
 
+	/**
+	 * @param   array $data Data for storing
+	 *
+	 * @return  boolean|Tableuser_detail
+	 *
+	 * @throws  Exception
+	 */
 	public function store($data)
 	{
-		// Disable check captcha if in One Step Checkout mode.
-		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
-		{
-			$captcha = Redshop\Helper\Utility::checkCaptcha($data);
-
-			if (!$captcha)
-			{
-				return false;
-			}
-		}
-
-		if (isset($data['user_id']) && $data['user_id'])
-		{
-			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($data);
-		}
-		else
-		{
-			$joomlauser = RedshopHelperJoomla::createJoomlaUser($data);
-		}
-
-		if (!$joomlauser)
+		if (empty($data))
 		{
 			return false;
 		}
 
-		$reduser = RedshopHelperUser::storeRedshopUser($data, $joomlauser->id);
+		// Disable check captcha if in One Step Checkout mode.
+		if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE') && !Redshop\Helper\Utility::checkCaptcha((string) $data))
+		{
+			return false;
+		}
 
-		return $reduser;
+		return $this->storeRedshopUser($data, $this->storeJoomlaUser($data));
 	}
 
+	/**
+	 * @param   array $data Array of data
+	 *
+	 * @return  boolean|JUser|stdClass
+	 *
+	 * @since   2.1.0
+	 * @throws  Exception
+	 */
+	protected function storeJoomlaUser($data)
+	{
+		if (isset($data['user_id']) && $data['user_id'])
+		{
+			return RedshopHelperJoomla::updateJoomlaUser($data);
+		}
+
+		return RedshopHelperJoomla::createJoomlaUser($data);
+	}
+
+	/**
+	 * @param   array          $data       Array of data
+	 * @param   object|boolean $joomlaUser Joomla! user objecet
+	 *
+	 * @return  boolean|Tableuser_detail
+	 *
+	 * @since   2.1.0
+	 * @throws  Exception
+	 */
+	protected function storeRedshopUser($data, $joomlaUser)
+	{
+		if (!$joomlaUser)
+		{
+			return false;
+		}
+
+		return RedshopHelperUser::storeRedshopUser($data, $joomlaUser->id);
+	}
+
+	/**
+	 * @return boolean|Tableorder_detail
+	 *
+	 * @throws Exception
+	 */
 	public function orderplace()
 	{
-		$app = JFactory::getApplication();
-
-		$order_functions = order_functions::getInstance();
-
+		$app              = JFactory::getApplication();
 		$input            = $app->input;
 		$post             = $input->post->getArray();
 		$Itemid           = $input->post->getInt('Itemid', 0);
@@ -177,10 +213,10 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$user->id && $auth['users_info_id'])
 		{
-			$userId = - $auth['users_info_id'];
+			$userId = -$auth['users_info_id'];
 		}
 
-		$issplit = $session->get('issplit');
+		$isSplit = $session->get('issplit');
 
 		// If user subscribe for the newsletter
 		if (isset($post['newsletter_signup']) && $post['newsletter_signup'] == 1)
@@ -195,10 +231,10 @@ class RedshopModelCheckout extends RedshopModel
 			RedshopHelperNewsletter::removeSubscribe();
 		}
 
-		$order_paymentstatus = 'Unpaid';
-		$users_info_id       = $input->getInt('users_info_id');
-		$shippingaddresses   = $this->shipaddress($users_info_id);
-		$billingaddresses    = $this->billingaddresses();
+		$orderPaymentStatus = 'Unpaid';
+		$users_info_id      = $input->getInt('users_info_id');
+		$shippingaddresses  = $this->shipaddress($users_info_id);
+		$billingaddresses   = $this->billingaddresses();
 
 		if (isset($shippingaddresses))
 		{
@@ -265,7 +301,7 @@ class RedshopModelCheckout extends RedshopModel
 		$paymentInfo->payment_price               = $paymentMethod->params->get('payment_price', '');
 		$paymentInfo->payment_oprand              = $paymentMethod->params->get('payment_oprand', '');
 		$paymentInfo->payment_discount_is_percent = $paymentMethod->params->get('payment_discount_is_percent', '');
-		$paymentAmount = $cart ['total'];
+		$paymentAmount                            = $cart ['total'];
 
 		if (Redshop::getConfig()->get('PAYMENT_CALCULATION_ON') == 'subtotal')
 		{
@@ -303,7 +339,7 @@ class RedshopModelCheckout extends RedshopModel
 		$d['discount']               = $odiscount;
 		$order_total                 = $cart['total'];
 
-		if ($issplit)
+		if ($isSplit)
 		{
 			$order_total = $order_total / 2;
 		}
@@ -317,8 +353,8 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($isBankTransferPaymentType || $paymentMethod->element == "rs_payment_eantransfer")
 		{
-			$order_status        = $paymentMethod->params->get('verify_status', '');
-			$order_paymentstatus = trim("Unpaid");
+			$order_status       = $paymentMethod->params->get('verify_status', '');
+			$orderPaymentStatus = trim("Unpaid");
 		}
 
 		$paymentMethod->element = $paymentElementName;
@@ -342,11 +378,11 @@ class RedshopModelCheckout extends RedshopModel
 		$is_creditcard             = $paymentMethod->params->get('is_creditcard', '');
 		$is_redirected             = $paymentMethod->params->get('is_redirected', 0);
 
-		$input->set('payment_status', $order_paymentstatus);
+		$input->set('payment_status', $orderPaymentStatus);
 
-		$d['order_shipping']         = $order_shipping [3];
+		$d['order_shipping'] = $order_shipping [3];
 		Redshop\User\Billing\Billing::setGlobal($billingaddresses);
-		$timestamp                   = time();
+		$timestamp = time();
 
 		$order_status_log = '';
 
@@ -387,7 +423,7 @@ class RedshopModelCheckout extends RedshopModel
 					$paymentResponse->paymentStatus = 'Paid';
 				}
 
-				$order_paymentstatus = $paymentResponse->paymentStatus;
+				$orderPaymentStatus = $paymentResponse->paymentStatus;
 			}
 			else
 			{
@@ -402,12 +438,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Get the IP Address
-		$ip = 'unknown';
-
-		if (!empty($_SERVER['REMOTE_ADDR']))
-		{
-			$ip = $_SERVER['REMOTE_ADDR'];
-		}
+		$ip = Environment::getUserIp();
 
 		/** @var Tableorder_detail $row */
 		$row = $this->getTable('order_detail');
@@ -450,14 +481,14 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($order_total <= 0)
 		{
-			$order_status        = $paymentMethod->params->get('verify_status', '');
-			$order_paymentstatus = 'Paid';
+			$order_status       = $paymentMethod->params->get('verify_status', '');
+			$orderPaymentStatus = 'Paid';
 		}
 
 		if (Redshop::getConfig()->get('USE_AS_CATALOG'))
 		{
-			$order_status        = 'P';
-			$order_paymentstatus = 'Unpaid';
+			$order_status       = 'P';
+			$orderPaymentStatus = 'Unpaid';
 		}
 
 		$dispatcher->trigger('onOrderStatusChange', array($post, &$order_status));
@@ -468,7 +499,7 @@ class RedshopModelCheckout extends RedshopModel
 		$row->payment_discount     = $payment_amount;
 		$row->payment_oprand       = $payment_oprand;
 		$row->order_status         = $order_status;
-		$row->order_payment_status = $order_paymentstatus;
+		$row->order_payment_status = $orderPaymentStatus;
 		$row->cdate                = $timestamp;
 		$row->mdate                = $timestamp;
 		$row->ship_method_id       = $shipping_rate_id;
@@ -478,7 +509,7 @@ class RedshopModelCheckout extends RedshopModel
 		$row->encr_key             = $random_gen_enc_key;
 		$row->discount_type        = $this->discount_type;
 		$row->order_id             = $app->input->getInt('order_id', 0);
-		$row->barcode              = $order_functions->barcode_randon_number(12, 0);
+		$row->barcode              = null;
 
 		if (!$row->store())
 		{
@@ -500,12 +531,12 @@ class RedshopModelCheckout extends RedshopModel
 			RedshopHelperOrder::generateInvoiceNumber($row->order_id);
 		}
 
-		$order_id = $row->order_id;
+		$orderId = $row->order_id;
 
-		$this->coupon($cart, $order_id);
-		$this->voucher($cart, $order_id);
+		$this->coupon($cart);
+		$this->voucher($cart, $orderId);
 
-		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $order_id;
+		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $orderId;
 		$db->setQuery($query);
 		$db->execute();
 
@@ -522,14 +553,14 @@ class RedshopModelCheckout extends RedshopModel
 
 		if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS'))
 		{
-			RedshopHelperClickatell::clickatellSMS($order_id);
+			RedshopHelperClickatell::clickatellSMS($orderId);
 		}
 
-		$session->set('order_id', $order_id);
+		$session->set('order_id', $orderId);
 
 		// Add order status log
 		$rowOrderStatus                = $this->getTable('order_status_log');
-		$rowOrderStatus->order_id      = $order_id;
+		$rowOrderStatus->order_id      = $orderId;
 		$rowOrderStatus->order_status  = $order_status;
 		$rowOrderStatus->date_changed  = time();
 		$rowOrderStatus->customer_note = $order_status_log;
@@ -555,7 +586,7 @@ class RedshopModelCheckout extends RedshopModel
 			$product     = RedshopHelperProduct::getProductById($product_id);
 
 			/** @var Tableorder_item_detail $rowitem */
-			$rowitem     = $this->getTable('order_item_detail');
+			$rowitem = $this->getTable('order_item_detail');
 
 			if (!$rowitem->bind($post))
 			{
@@ -587,7 +618,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!empty($cart[$i]['attributeImage']) && file_exists(JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage']))
 			{
-				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
+				$rowitem->attribute_image = $orderId . $cart[$i]['attributeImage'];
 				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
 				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $rowitem->attribute_image;
 				copy($old_media, $new_media);
@@ -639,7 +670,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			$retAccArr                    = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $product_id);
 			$cart_accessory               = $retAccArr[0];
-			$rowitem->order_id            = $order_id;
+			$rowitem->order_id            = $orderId;
 			$rowitem->user_info_id        = $users_info_id;
 			$rowitem->order_item_currency = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
 			$rowitem->order_status        = $order_status;
@@ -662,7 +693,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!empty($cart[$i]['reciver_name']))
 			{
-				$rowitem->giftcard_user_name  = $cart[$i]['reciver_name'];
+				$rowitem->giftcard_user_name = $cart[$i]['reciver_name'];
 			}
 
 			if (RedshopHelperProductDownload::checkDownload($rowitem->product_id))
@@ -729,8 +760,8 @@ class RedshopModelCheckout extends RedshopModel
 
 					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
-						$prooprand     = array();
-						$proprice      = array();
+						$prooprand = array();
+						$proprice  = array();
 
 						$propArr       = $attchildArr[$j]['attribute_childs'];
 						$totalProperty = count($propArr);
@@ -738,7 +769,7 @@ class RedshopModelCheckout extends RedshopModel
 						if ($totalProperty)
 						{
 
-							$attribute_id = $attchildArr[$j]['attribute_id'];
+							$attribute_id        = $attchildArr[$j]['attribute_id'];
 							$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
@@ -772,8 +803,8 @@ class RedshopModelCheckout extends RedshopModel
 								$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
 							}
 
-							$property_id = $propArr[$k]['property_id'];
-							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $this->_producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+							$property_id                   = $propArr[$k]['property_id'];
+							$accessory_attribute           .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr                    = $propArr[$k]['property_childs'];
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
@@ -803,11 +834,11 @@ class RedshopModelCheckout extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
+									$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								}
 
-								$subproperty_id = $subpropArr[$l]['subproperty_id'];
-								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $this->_producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+								$subproperty_id                = $subpropArr[$l]['subproperty_id'];
+								$accessory_attribute           .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 								$rowattitem                    = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
 								$rowattitem->order_item_id     = $rowitem->order_item_id;
@@ -1022,7 +1053,7 @@ class RedshopModelCheckout extends RedshopModel
 				$add_day                    = $subscription_detail->period_type == 'days' ? $subscription_detail->subscription_period : 0;
 				$add_month                  = $subscription_detail->period_type == 'month' ? $subscription_detail->subscription_period : 0;
 				$add_year                   = $subscription_detail->period_type == 'year' ? $subscription_detail->subscription_period : 0;
-				$subscribe->order_id        = $order_id;
+				$subscribe->order_id        = $orderId;
 				$subscribe->order_item_id   = $rowitem->order_item_id;
 				$subscribe->product_id      = $product_id;
 				$subscribe->subscription_id = $cart[$i]['subscription_id'];
@@ -1049,7 +1080,7 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
-		$rowpayment->order_id          = $order_id;
+		$rowpayment->order_id          = $orderId;
 		$rowpayment->payment_method_id = $payment_method_id;
 
 		$ccdata = $session->get('ccdata');
@@ -1096,7 +1127,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		// For authorize status
 		JPluginHelper::importPlugin('redshop_payment');
-		JDispatcher::getInstance()->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $order_id));
+		JDispatcher::getInstance()->trigger('onAuthorizeStatus_' . $paymentMethod->element, array($paymentMethod->element, $orderId));
 
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
@@ -1111,7 +1142,7 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
-		$orderuserrow->order_id     = $order_id;
+		$orderuserrow->order_id     = $orderId;
 		$orderuserrow->address_type = 'BT';
 
 		JPluginHelper::importPlugin('redshop_shipping');
@@ -1131,7 +1162,7 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$userrow->load($shippingaddresses->users_info_id);
 		}
-		elseif(!empty($GLOBALS['shippingaddresses']))
+		elseif (!empty($GLOBALS['shippingaddresses']))
 		{
 			$userrow = $GLOBALS['shippingaddresses'];
 		}
@@ -1149,7 +1180,7 @@ class RedshopModelCheckout extends RedshopModel
 			return false;
 		}
 
-		$orderuserrow->order_id     = $order_id;
+		$orderuserrow->order_id     = $orderId;
 		$orderuserrow->address_type = 'ST';
 
 		$dispatcher->trigger('onBeforeUserShippingStore', array(&$orderuserrow));
@@ -1165,8 +1196,8 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			if (count($cart['extrafields_values']) > 0)
 			{
-				$this->_producthelper->insertPaymentShippingField($cart, $order_id, 18);
-				$this->_producthelper->insertPaymentShippingField($cart, $order_id, 19);
+				$this->_producthelper->insertPaymentShippingField($cart, $orderId, 18);
+				$this->_producthelper->insertPaymentShippingField($cart, $orderId, 19);
 			}
 		}
 
@@ -1224,122 +1255,15 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Method for send giftcard email to customer.
 	 *
-	 * @param   int  $order_id  ID of order.
+	 * @param   int $orderId ID of order.
 	 *
 	 * @return  void
 	 *
 	 * @throws  Exception
 	 */
-	public function sendGiftCard($order_id)
+	public function sendGiftCard($orderId)
 	{
-		$giftcardmail = Redshop\Mail\Helper::getTemplate(0, "giftcard_mail");
-
-		if (count($giftcardmail) > 0)
-		{
-			$giftcardmail = $giftcardmail[0];
-		}
-
-		$giftCards = RedshopHelperOrder::giftCardItems((int) $order_id);
-
-		foreach ($giftCards as $eachorders)
-		{
-			$giftcardmailsub   = $giftcardmail->mail_subject;
-			$giftcardData      = RedshopEntityGiftcard::getInstance($eachorders->product_id)->getItem();
-			$giftcard_value    = $this->_producthelper->getProductFormattedPrice($giftcardData->giftcard_value, true);
-			$giftcard_price    = $eachorders->product_final_price;
-			$giftcardmail_body = $giftcardmail->mail_body;
-			$giftcardmail_body = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmail_body);
-			$user_fields       = $this->_producthelper->GetProdcutUserfield($eachorders->order_item_id, 13);
-			$giftcardmail_body = str_replace("{product_userfields}", $user_fields, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_price}", $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_email}", $eachorders->giftcard_user_email, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_reciver_name}", $eachorders->giftcard_user_name, $giftcardmail_body);
-			$giftcardmail_body = $this->_producthelper->getValidityDate($giftcardData->giftcard_validity, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_value}", $giftcard_value, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_desc}", $giftcardData->giftcard_desc, $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_validity}", $giftcardData->giftcard_validity, $giftcardmail_body);
-			$giftcardmailsub   = str_replace('{giftcard_name}', $giftcardData->giftcard_name, $giftcardmailsub);
-			$giftcardmailsub   = str_replace('{giftcard_price}', $this->_producthelper->getProductFormattedPrice($giftcard_price), $giftcardmailsub);
-			$giftcardmailsub   = str_replace('{giftcard_value}', $giftcard_value, $giftcardmailsub);
-			$giftcardmailsub   = str_replace('{giftcard_validity}', $giftcardData->giftcard_validity, $giftcardmailsub);
-			$gift_code         = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
-
-			/** @var RedshopTableCoupon $couponItems */
-			$couponItems = RedshopTable::getAdminInstance('Coupon');
-
-			if ($giftcardData->customer_amount)
-			{
-				$giftcardData->giftcard_value = $eachorders->product_final_price;
-			}
-
-			$couponEndDate = mktime(0, 0, 0, date('m'), date('d') + $giftcardData->giftcard_validity, date('Y'));
-
-			$couponItems->code          = $gift_code;
-			$couponItems->type          = 0;
-			$couponItems->value         = $giftcardData->giftcard_value;
-			$couponItems->start_date    = JFactory::getDate()->toSql();
-			$couponItems->end_date      = $couponEndDate === false ? JFactory::getDbo()->getNullDate() : JFactory::getDate($couponEndDate)->toSql();
-			$couponItems->effect        = 0;
-			$couponItems->userid        = 0;
-			$couponItems->amount_left   = 1;
-			$couponItems->published     = 1;
-			$couponItems->free_shipping = $giftcardData->free_shipping;
-
-			if (!$couponItems->store())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return;
-			}
-
-			$giftcardmail_body = str_replace("{giftcard_code_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_CODE_LBL'), $giftcardmail_body);
-			$giftcardmail_body = str_replace("{giftcard_code}", $gift_code, $giftcardmail_body);
-			ob_flush();
-			ob_clean();
-			echo "<div id='redshopcomponent' class='redshop'>";
-			$is_giftcard = 1;
-			$giftcard_attachment = null;
-			$pdfImage = "";
-			$mailImage = '';
-
-			if ($giftcardData->giftcard_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image))
-			{
-				$pdfImage = '<img src="' . REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
-				$mailImage = '<img src="components/com_redshop/assets/images/giftcard/' . $giftcardData->giftcard_image . '" alt="test alt attribute" width="150px" height="150px" border="0" />';
-			}
-
-			if (RedshopHelperPdf::isAvailablePdfPlugins())
-			{
-				$pdfMailBody = $giftcardmail_body;
-				$pdfMailBody = str_replace("{giftcard_image}", $pdfImage, $pdfMailBody);
-
-				JPluginHelper::importPlugin('redshop_pdf');
-
-				$pdfFile = RedshopHelperUtility::getDispatcher()->trigger(
-					'onRedshopCreateGiftCardPdf',
-					array($giftcardData, $pdfMailBody, $backgroundImage)
-				);
-
-				if (!empty($pdfFile))
-				{
-					$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $pdfFile[0] . ".pdf";
-				}
-			}
-
-			$config              = JFactory::getConfig();
-			$from                = $config->get('mailfrom');
-			$fromname            = $config->get('fromname');
-			$giftcardmail_body = str_replace("{giftcard_image}", $mailImage, $giftcardmail_body);
-			Redshop\Mail\Helper::imgInMail($giftcardmail_body);
-
-			JFactory::getMailer()->sendMail(
-				$from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, null, null, $giftcard_attachment
-			);
-		}
+		\Redshop\Mail\Giftcard::sendMail($orderId);
 	}
 
 	/**
@@ -1349,32 +1273,37 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function billingaddresses()
 	{
-		$user    = JFactory::getUser();
-		$session = JFactory::getSession();
-		$auth    = $session->get('auth');
-		$list    = new stdClass;
+		$user           = JFactory::getUser();
+		$session        = JFactory::getSession();
+		$auth           = $session->get('auth');
+		$billingAddress = new stdClass;
 
 		if ($user->id)
 		{
-			$list = RedshopHelperOrder::getBillingAddress($user->id);
+			$billingAddress = RedshopHelperOrder::getBillingAddress($user->id);
 		}
 		elseif ($auth['users_info_id'])
 		{
-			$uid  = - $auth['users_info_id'];
-			$list = RedshopHelperOrder::getBillingAddress($uid);
+			$billingAddress = RedshopHelperOrder::getBillingAddress(-$auth['users_info_id']);
 		}
 
-		return $list;
+		if ($billingAddress === false || $billingAddress === null)
+		{
+			return new stdClass;
+		}
+
+		return $billingAddress;
 	}
 
-	public function shipaddress($users_info_id)
+	public function shipaddress($userInfoId)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
-			. 'WHERE users_info_id = ' . (int) $users_info_id;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__redshop_users_info')
+			->where($db->quoteName('users_info_id') . ' = ' . (int) $userInfoId);
 
-		return $list;
+		return $db->setQuery($query)->loadObject();
 	}
 
 	public function shippingaddresses()
@@ -1382,19 +1311,15 @@ class RedshopModelCheckout extends RedshopModel
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
-		$list    = array();
 
 		if ($user->id)
 		{
-			$list = RedshopHelperOrder::getShippingAddress($user->id);
-		}
-		else
-		{
-			$uid  = - $auth['users_info_id'];
-			$list = RedshopHelperOrder::getShippingAddress($uid);
+			return RedshopHelperOrder::getShippingAddress($user->id);
 		}
 
-		return $list;
+		$uid = -$auth['users_info_id'];
+
+		return RedshopHelperOrder::getShippingAddress($uid);
 	}
 
 	public function getpaymentmethod()
@@ -1498,90 +1423,88 @@ class RedshopModelCheckout extends RedshopModel
 
 			// American Express
 			array(
-				'name'   => 'amex',
-				'length' => '15',
-				'prefixes' => '34,37',
+				'name'       => 'amex',
+				'length'     => '15',
+				'prefixes'   => '34,37',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'Diners Club Carte Blanche',
-				'length' => '14',
-				'prefixes' => '300,301,302,303,304,305',
+				'name'       => 'Diners Club Carte Blanche',
+				'length'     => '14',
+				'prefixes'   => '300,301,302,303,304,305',
 				'checkdigit' => true
 			),
 
 			// Diners Club
 			array(
-				'name'   => 'diners',
-				'length' => '14,16',
-				'prefixes' => '36,54,55',
+				'name'       => 'diners',
+				'length'     => '14,16',
+				'prefixes'   => '36,54,55',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'Discover',
-				'length' => '16',
-				'prefixes' => '6011,622,64,65',
+				'name'       => 'Discover',
+				'length'     => '16',
+				'prefixes'   => '6011,622,64,65',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'Diners Club Enroute',
-				'length' => '15',
-				'prefixes' => '2014,2149',
+				'name'       => 'Diners Club Enroute',
+				'length'     => '15',
+				'prefixes'   => '2014,2149',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'JCB',
-				'length' => '16',
-				'prefixes' => '35',
+				'name'       => 'JCB',
+				'length'     => '16',
+				'prefixes'   => '35',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'Maestro',
-				'length' => '12,13,14,15,16,18,19',
-				'prefixes' => '5018,5020,5038,6304,6759,6761',
+				'name'       => 'Maestro',
+				'length'     => '12,13,14,15,16,18,19',
+				'prefixes'   => '5018,5020,5038,6304,6759,6761',
 				'checkdigit' => true
 			),
 
 			// MasterCard
 			array(
-				'name'   => 'MC',
-				'length' => '16',
-				'prefixes' => '51,52,53,54,55',
+				'name'       => 'MC',
+				'length'     => '16',
+				'prefixes'   => '51,52,53,54,55',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'Solo',
-				'length' => '16,18,19',
-				'prefixes' => '6334,6767',
+				'name'       => 'Solo',
+				'length'     => '16,18,19',
+				'prefixes'   => '6334,6767',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'Switch',
-				'length' => '16,18,19',
-				'prefixes' => '4903,4905,4911,4936,564182,633110,6333,6759',
+				'name'       => 'Switch',
+				'length'     => '16,18,19',
+				'prefixes'   => '4903,4905,4911,4936,564182,633110,6333,6759',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'Visa',
-				'length' => '13,16',
-				'prefixes' => '4',
+				'name'       => 'Visa',
+				'length'     => '13,16',
+				'prefixes'   => '4',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'Visa Electron',
-				'length' => '16',
-				'prefixes' => '417500,4917,4913,4508,4844',
+				'name'       => 'Visa Electron',
+				'length'     => '16',
+				'prefixes'   => '417500,4917,4913,4508,4844',
 				'checkdigit' => true
 			),
 			array(
-				'name' => 'LaserCard',
-				'length' => '16,17,18,19',
-				'prefixes' => '6304,6706,6771,6709',
+				'name'       => 'LaserCard',
+				'length'     => '16,17,18,19',
+				'prefixes'   => '6304,6706,6771,6709',
 				'checkdigit' => true
 			)
 		);
-
-		$ccErrorNo = 0;
 
 		$ccErrors [0] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_UNKNOWN_CCTYPE');
 		$ccErrors [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_PROVIDED');
@@ -1654,7 +1577,7 @@ class RedshopModelCheckout extends RedshopModel
 				if ($calc > 9)
 				{
 					$checksum++;
-					$calc     = $calc - 10;
+					$calc = $calc - 10;
 				}
 
 				// Add the units element to the checksum total
@@ -1737,118 +1660,15 @@ class RedshopModelCheckout extends RedshopModel
 		return true;
 	}
 
-	public function validateCC($cc_num, $type)
+	/**
+	 * @param   string $creditcardNumber Credit card number
+	 * @param   string $type             Type
+	 *
+	 * @since  2.1.0
+	 */
+	public function validateCC($creditcardNumber, $type)
 	{
-		if ($type == "American")
-		{
-			$denum = "American Express";
-		}
-		elseif ($type == "Dinners")
-		{
-			$denum = "Diner's Club";
-		}
-		elseif ($type == "Discover")
-		{
-			$denum = "Discover";
-		}
-		elseif ($type == "Master")
-		{
-			$denum = "Master Card";
-		}
-		elseif ($type == "Visa")
-		{
-			$denum = "Visa";
-		}
-
-		// American Express
-		if ($type == "American")
-		{
-			$pattern = "/^([34|37]{2})([0-9]{13})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-		}
-
-		// Diner's Club
-		elseif ($type == "Dinners")
-		{
-			$pattern = "/^([30|36|38]{2})([0-9]{12})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-
-		}
-
-		// Discover Card
-		elseif ($type == "Discover")
-		{
-			$pattern = "/^([6011]{4})([0-9]{12})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-
-		}
-
-		// Mastercard
-		elseif ($type == "Master")
-		{
-			$pattern = "/^([51|52|53|54|55]{2})([0-9]{14})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-
-		}
-
-		// Visa
-		elseif ($type == "Visa")
-		{
-			$pattern = "/^([4]{1})([0-9]{12,15})$/";
-
-			if (preg_match($pattern, $cc_num))
-			{
-				$verified = true;
-			}
-			else
-			{
-				$verified = false;
-			}
-
-		}
-
-		if ($verified == false)
-		{
-			// Do something here in case the validation fails
-			echo "Credit card invalid. Please make sure that you entered a valid <em>" . $denum . "</em> credit card ";
-		}
-		// If it will pass...do something
-		else
-		{
-			echo "Your <em>" . $denum . "</em> credit card is valid";
-		}
+		echo \Redshop\Validation\Creditcard::isValid($creditcardNumber, $type);
 	}
 
 	public function resetcart()
@@ -1860,7 +1680,7 @@ class RedshopModelCheckout extends RedshopModel
 		$session->set('issplit', null);
 		$session->set('userfield', null);
 		$user = JFactory::getUser();
-		$this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
+		RedshopHelperCart::removeCartFromDatabase($cart_id = 0, $user->id, $delCart = true);
 	}
 
 	/**
@@ -1870,9 +1690,9 @@ class RedshopModelCheckout extends RedshopModel
 	 */
 	public function getCouponPrice()
 	{
-		$cart    = RedshopHelperCartSession::getCart();
-		$db      = JFactory::getDbo();
-		$query   = $db->getQuery(true)
+		$cart  = RedshopHelperCartSession::getCart();
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select($db->qn(array('value', 'type')))
 			->from($db->qn('#__redshop_coupons'))
 			->where($db->qn('id') . ' = ' . (int) $cart['coupon_id'])
@@ -1890,7 +1710,7 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function getCategoryNameByProductId($pid)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('c.name'))
 			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
@@ -1905,73 +1725,79 @@ class RedshopModelCheckout extends RedshopModel
 
 	public function voucher($cart, $order_id)
 	{
-		$session = JFactory::getSession();
-
-		$user        = JFactory::getUser();
-		$vouchertype = array();
-
-		if (isset($cart['voucher']))
+		if (!isset($cart['voucher']))
 		{
-			if ($this->discount_type)
-				$this->discount_type .= '@';
-
-			for ($i = 0, $countVoucher = count($cart['voucher']); $i < $countVoucher; $i++)
-			{
-				$voucher_id             = $cart['voucher'][$i]['voucher_id'];
-				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
-				$transaction_voucher_id = 0;
-				$vouchertype[]          = 'v:' . $cart['voucher'][$i]['voucher_code'];
-				$sql                    = "UPDATE " . $this->_table_prefix . "voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
-					. "WHERE `id`  = " . (int) $voucher_id;
-				$this->_db->setQuery($sql);
-				$this->_db->execute();
-
-				if ($cart['voucher'][$i]['remaining_voucher_discount'] > 0)
-				{
-					$rowvoucher = $this->getTable('transaction_voucher_detail');
-
-					if (!$rowvoucher->bind($cart))
-					{
-						$this->setError($this->_db->getErrorMsg());
-					}
-
-					if ($cart['voucher'][$i]['transaction_voucher_id'])
-					{
-						$transaction_voucher_id = $cart['voucher'][$i]['transaction_voucher_id'];
-					}
-
-					$rowvoucher->transaction_voucher_id = $transaction_voucher_id;
-					$rowvoucher->amount                 = $cart['voucher'][$i]['remaining_voucher_discount'];
-					$rowvoucher->voucher_code           = $cart['voucher'][$i]['voucher_code'];
-					$rowvoucher->user_id                = $user->id;
-					$rowvoucher->order_id               = $order_id;
-					$rowvoucher->voucher_id             = $voucher_id;
-					$rowvoucher->trancation_date        = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$rowvoucher->product_id             = $cart['voucher'][$i]['product_id'];
-					$rowvoucher->published              = 1;
-
-					if (!$rowvoucher->store())
-					{
-						$this->setError($this->_db->getErrorMsg());
-
-						return false;
-					}
-
-				}
-			}
-
-			$this->discount_type .= implode('@', $vouchertype);
+			return;
 		}
 
-		return;
+		if ($this->discount_type)
+		{
+			$this->discount_type .= '@';
+		}
+
+		$user        = JFactory::getUser();
+		$voucherType = array();
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		foreach ($cart['voucher'] as $voucher)
+		{
+			$voucherId            = $voucher['voucher_id'];
+			$voucherVolume        = $voucher['used_voucher'];
+			$transactionVoucherId = 0;
+			$voucherType[]        = 'v:' . $voucher['voucher_code'];
+
+			$query->clear();
+			$query->update($db->quoteName('#__redshop_voucher'))
+				->set($db->quoteName('voucher_left') . ' = ' . $db->quoteName('voucher_left') . ' - ' . (int) $voucherVolume)
+				->where($db->quoteName('id') . ' = ' . (int) $voucherId);
+
+			$db->setQuery($query)->execute();
+
+			if ($voucher['remaining_voucher_discount'] <= 0)
+			{
+				continue;
+			}
+
+			$table = $this->getTable('transaction_voucher_detail');
+
+			if (!$table->bind($cart))
+			{
+				$this->setError($this->_db->getErrorMsg());
+			}
+
+			if ($voucher['transaction_voucher_id'])
+			{
+				$transactionVoucherId = $voucher['transaction_voucher_id'];
+			}
+
+			$table->transaction_voucher_id = $transactionVoucherId;
+			$table->amount                 = $voucher['remaining_voucher_discount'];
+			$table->voucher_code           = $voucher['voucher_code'];
+			$table->user_id                = $user->id;
+			$table->order_id               = $order_id;
+			$table->voucher_id             = $voucherId;
+			$table->trancation_date        = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+			$table->product_id             = $voucher['product_id'];
+			$table->published              = 1;
+
+			if (!$table->store())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+		}
+
+		$this->discount_type .= implode('@', $voucherType);
 	}
 
-	public function coupon($cart, $order_id = 0)
+	public function coupon($cart)
 	{
-		$session = JFactory::getSession();
-
 		$user       = JFactory::getUser();
-		$coupontype = array();
+		$db         = JFactory::getDbo();
+		$couponType = array();
 
 		if (isset($cart['coupon']))
 		{
@@ -1980,86 +1806,92 @@ class RedshopModelCheckout extends RedshopModel
 				$this->discount_type .= '@';
 			}
 
-			for ($i = 0, $countCoupon = count($cart['coupon']); $i < $countCoupon; $i++)
+			foreach ($cart['coupon'] as $coupon)
 			{
-				$coupon_id             = $cart['coupon'][$i]['coupon_id'];
-				$coupon_volume         = $cart['coupon'][$i]['used_coupon'];
+				$coupon_id             = $coupon['coupon_id'];
+				$coupon_volume         = $coupon['used_coupon'];
 				$transaction_coupon_id = 0;
-				$coupontype[]          = 'c:' . $cart['coupon'][$i]['coupon_code'];
+				$couponType[]          = 'c:' . $coupon['coupon_code'];
 
 				$sql = "UPDATE " . $this->_table_prefix . "coupons SET amount_left = amount_left - " . (int) $coupon_volume . " "
 					. "WHERE id = " . (int) $coupon_id;
-				$this->_db->setQuery($sql);
-				$this->_db->execute();
+				$db->setQuery($sql)->execute();
 
-				if ($cart['coupon'][$i]['remaining_coupon_discount'] > 0)
+				if ($coupon['remaining_coupon_discount'] <= 0)
 				{
-					$rowcoupon = $this->getTable('transaction_coupon_detail');
+					continue;
+				}
 
-					if (!$rowcoupon->bind($cart))
-					{
-						$this->setError($this->_db->getErrorMsg());
-					}
+				$rowcoupon = $this->getTable('transaction_coupon_detail');
 
-					if ($cart['coupon'][$i]['transaction_coupon_id'])
-					{
-						$transaction_coupon_id = $cart['coupon'][$i]['transaction_coupon_id'];
-					}
+				if (!$rowcoupon->bind($cart))
+				{
+					$this->setError($this->_db->getErrorMsg());
+				}
 
-					$rowcoupon->transaction_coupon_id = $transaction_coupon_id;
-					$rowcoupon->coupon_value          = $cart['coupon'][$i]['remaining_coupon_discount'];
-					$rowcoupon->coupon_code           = $cart['coupon'][$i]['coupon_code'];
-					$rowcoupon->userid                = $user->id;
-					$rowcoupon->coupon_id             = $coupon_id;
-					$rowcoupon->trancation_date       = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-					$rowcoupon->published             = 1;
+				if ($coupon['transaction_coupon_id'])
+				{
+					$transaction_coupon_id = $coupon['transaction_coupon_id'];
+				}
 
-					if (!$rowcoupon->store())
-					{
-						$this->setError($this->_db->getErrorMsg());
+				$rowcoupon->transaction_coupon_id = $transaction_coupon_id;
+				$rowcoupon->coupon_value          = $coupon['remaining_coupon_discount'];
+				$rowcoupon->coupon_code           = $coupon['coupon_code'];
+				$rowcoupon->userid                = $user->id;
+				$rowcoupon->coupon_id             = $coupon_id;
+				$rowcoupon->trancation_date       = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+				$rowcoupon->published             = 1;
 
-						return false;
-					}
+				if (!$rowcoupon->store())
+				{
+					$this->setError($this->_db->getErrorMsg());
 
+					return false;
 				}
 			}
 
-			$this->discount_type = implode('@', $coupontype);
+			$this->discount_type = implode('@', $couponType);
 		}
 
-		return;
+		return true;
 	}
 
-	public function calculateShipping($shipping_rate_id)
+	/**
+	 * @param   string $shippingRateId Shipping rate
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
+	public function calculateShipping($shippingRateId)
 	{
-		$order_shipping_rate = 0;
-		$shippingVatRate     = 0;
-		$shipArr             = array();
-		$order_shipping      = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
+		$shipArr        = array();
+		$order_shipping = Redshop\Shipping\Rate::decrypt($shippingRateId);
 
-		if (isset($order_shipping[3]))
+		if (!isset($order_shipping[3]))
 		{
-			$shipArr['order_shipping_rate'] = $order_shipping[3];
+			return $shipArr;
+		}
 
-			if (array_key_exists(6, $order_shipping))
-				$shipArr['shipping_vat'] = $order_shipping [6];
+		$shipArr['order_shipping_rate'] = $order_shipping[3];
+
+		if (array_key_exists(6, $order_shipping))
+		{
+			$shipArr['shipping_vat'] = $order_shipping [6];
 		}
 
 		return $shipArr;
 	}
 
-	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "", $post = array())
+	public function displayShoppingCart($templateDesc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customerNote = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "", $post = array())
 	{
-		$session  = JFactory::getSession();
-		$cart     = RedshopHelperCartSession::getCart();
-		$user     = JFactory::getUser();
-		$user_id  = $user->id;
-		$usersess = $session->get('rs_user');
-
+		$session                     = JFactory::getSession();
+		$cart                        = RedshopHelperCartSession::getCart();
+		$usersess                    = $session->get('rs_user');
 		$usersess['rs_user_info_id'] = $users_info_id;
 		unset($cart['shipping']);
 		$session->set('rs_user', $usersess);
-		$cart     = \Redshop\Cart\Cart::modify($cart, $user_id);
+		$cart = \Redshop\Cart\Cart::modify($cart, JFactory::getUser()->id);
 
 		if ($shipping_rate_id && $cart['free_shipping'] != 1)
 		{
@@ -2074,7 +1906,7 @@ class RedshopModelCheckout extends RedshopModel
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_checkout');
 		RedshopHelperUtility::getDispatcher()->trigger(
-			'onDisplayShoppingCart', array(&$cart, &$template_desc, $users_info_id, $shipping_rate_id, $payment_method_id, $post)
+			'onDisplayShoppingCart', array(&$cart, &$templateDesc, $users_info_id, $shipping_rate_id, $payment_method_id, $post)
 		);
 
 		$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
@@ -2087,7 +1919,7 @@ class RedshopModelCheckout extends RedshopModel
 		$payment_price               = $paymentMethod->params->get('payment_price', '');
 		$accepted_credict_card       = $paymentMethod->params->get("accepted_credict_card");
 
-		$paymentInfo                              = new stdclass;
+		$paymentInfo                              = new stdClass;
 		$paymentInfo->payment_price               = $payment_price;
 		$paymentInfo->is_creditcard               = $is_creditcard;
 		$paymentInfo->payment_oprand              = $payment_oprand;
@@ -2107,22 +1939,15 @@ class RedshopModelCheckout extends RedshopModel
 		$cart['total']  = $paymentArray[0];
 		$payment_amount = $paymentArray[1];
 
-		$subtotal_excl_vat      = $cart['product_subtotal_excl_vat'];
-		$subtotal               = $cart['product_subtotal'];
-		$shipping               = $cart['shipping'];
-		$shippingVat            = $cart['shipping_tax'];
-		$tax                    = $cart['tax'];
-
 		if (isset($cart['discount']) === false)
 		{
 			$cart['discount'] = 0;
 		}
 
-		$discount_amount        = $cart['discount'];
 		$cart['payment_oprand'] = $payment_oprand;
 		$cart['payment_amount'] = $payment_amount;
 
-		$template_desc = $this->_carthelper->replaceTemplate($cart, $template_desc, 1);
+		$templateDesc = $this->_carthelper->replaceTemplate($cart, $templateDesc, 1);
 
 		$thirdparty_emailvalue = "";
 
@@ -2135,109 +1960,97 @@ class RedshopModelCheckout extends RedshopModel
 			$thirdparty_emailvalue = $cart['thirdparty_email'];
 		}
 
-		if (strstr($template_desc, "{thirdparty_email}"))
+		if (strstr($templateDesc, "{thirdparty_email}"))
 		{
 			$thirdpartyemail = '<input type="text" name="thirdparty_email" id="thirdparty_email" value="' . $thirdparty_emailvalue . '"/>';
-			$template_desc   = str_replace("{thirdparty_email}", $thirdpartyemail, $template_desc);
-			$template_desc   = str_replace("{thirdparty_email_lbl}", JText::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL'), $template_desc);
+			$templateDesc    = str_replace("{thirdparty_email}", $thirdpartyemail, $templateDesc);
+			$templateDesc    = str_replace("{thirdparty_email_lbl}", JText::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL'), $templateDesc);
 		}
 
-		$customernotevalue = "";
+		$customerNoteValue = $customerNote;;
 
-		if ($customer_note != "")
+		if (empty($customerNote) && isset($cart['customer_note']))
 		{
-			$customernotevalue = $customer_note;
-		}
-		elseif (isset($cart['customer_note']))
-		{
-			$customernotevalue = $cart['customer_note'];
+			$customerNoteValue = $cart['customer_note'];
 		}
 
-		$requisition_number = "";
+		$requisitionNumber = $req_number;
 
-		if ($req_number != "")
+		if (empty($req_number) && isset($cart['requisition_number']))
 		{
-			$requisition_number = $req_number;
-		}
-		elseif (isset($cart['requisition_number']))
-		{
-			$requisition_number = $cart['requisition_number'];
+			$requisitionNumber = $cart['requisition_number'];
 		}
 
-		if (strstr($template_desc, "{customer_note}"))
+		if (strstr($templateDesc, "{customer_note}"))
 		{
-			$customernote  = '<textarea name="customer_note" id="customer_note">' . $customernotevalue . '</textarea>';
-			$template_desc = str_replace("{customer_note}", $customernote, $template_desc);
-			$template_desc = str_replace("{customer_note_lbl}", JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'), $template_desc);
+			$customerNoteHtml = '<textarea name="customer_note" id="customer_note">' . $customerNoteValue . '</textarea>';
+			$templateDesc     = str_replace("{customer_note}", $customerNoteHtml, $templateDesc);
+			$templateDesc     = str_replace("{customer_note_lbl}", JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'), $templateDesc);
 		}
 
-		$template_desc        = str_replace("{customer_message_chk_lbl}", JText::_('COM_REDSHOP_CUSTOMER_MESSAGE_LBL'), $template_desc);
+		$templateDesc         = str_replace("{customer_message_chk_lbl}", JText::_('COM_REDSHOP_CUSTOMER_MESSAGE_LBL'), $templateDesc);
 		$customer_message_chk = "<input type='checkbox' name='rs_customer_message_chk' id ='rs_customer_message_chk' onclick='javascript:displaytextarea(this);'/> ";
 		$customer_message     = "<div id='rs_Divcustomer_messageTA' style='display:none;'><textarea name='rs_customer_message_ta' id ='rs_customer_message_ta' >" . $customer_message . "</textarea></div>";
-		$template_desc        = str_replace("{customer_message_chk}", $customer_message_chk, $template_desc);
-		$template_desc        = str_replace("{customer_message}", $customer_message, $template_desc);
-		$template_desc        = str_replace("{referral_code_lbl}", JText::_('COM_REDSHOP_REFERRAL_CODE_LBL'), $template_desc);
+		$templateDesc         = str_replace("{customer_message_chk}", $customer_message_chk, $templateDesc);
+		$templateDesc         = str_replace("{customer_message}", $customer_message, $templateDesc);
+		$templateDesc         = str_replace("{referral_code_lbl}", JText::_('COM_REDSHOP_REFERRAL_CODE_LBL'), $templateDesc);
 		$referral_code        = "<input type='text' name='txt_referral_code' id='txt_referral_code' value='" . $referral_code . "'/>";
-		$template_desc        = str_replace("{referral_code}", $referral_code, $template_desc);
+		$templateDesc         = str_replace("{referral_code}", $referral_code, $templateDesc);
 
-		if (strstr($template_desc, "{requisition_number}"))
+		if (strstr($templateDesc, "{requisition_number}"))
 		{
-			$req_number       = '';
-			$req_number_lbl   = '';
-			$billingaddresses = $this->billingaddresses();
-
 			$req_number_lbl = JText::_('COM_REDSHOP_REQUISITION_NUMBER');
-			$req_number     = '<input class="inputbox" name="requisition_number" id="requisition_number" value="' . $requisition_number . '" />';
+			$req_number     = '<input class="inputbox" name="requisition_number" id="requisition_number" value="' . $requisitionNumber . '" />';
 
-			$template_desc = str_replace("{requisition_number}", $req_number, $template_desc);
-			$template_desc = str_replace("{requisition_number_lbl}", $req_number_lbl, $template_desc);
+			$templateDesc = str_replace("{requisition_number}", $req_number, $templateDesc);
+			$templateDesc = str_replace("{requisition_number_lbl}", $req_number_lbl, $templateDesc);
 		}
 
-		if (strstr($template_desc, "{shop_more}"))
+		if (strstr($templateDesc, "{shop_more}"))
 		{
 			if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
 			{
-				$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
+				$shopMoreLink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 			}
 			elseif ($catItemId = RedshopHelperRouter::getCategoryItemid())
 			{
-				$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
+				$shopMoreLink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 			}
 			else
 			{
-				$shopmorelink = JRoute::_('index.php');
+				$shopMoreLink = JRoute::_('index.php');
 			}
 
-			$shop_more     = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
-			$template_desc = str_replace("{shop_more}", $shop_more, $template_desc);
+			$shop_more    = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopMoreLink . '\'">';
+			$templateDesc = str_replace("{shop_more}", $shop_more, $templateDesc);
 		}
 
-		if (strstr($template_desc, "{checkout_back_button}"))
+		if (strstr($templateDesc, "{checkout_back_button}"))
 		{
 			$checkout_back = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_BACK_BUTTON') . '" onclick="javascript: history.go(-1);">';
-			$template_desc = str_replace("{checkout_back_button}", $checkout_back, $template_desc);
+			$templateDesc  = str_replace("{checkout_back_button}", $checkout_back, $templateDesc);
 		}
 
 		// CalculatePayment
-		$template_desc = RedshopHelperPayment::replaceConditionTag($template_desc, $payment_amount, 0, $payment_oprand);
+		$templateDesc = RedshopHelperPayment::replaceConditionTag($templateDesc, $payment_amount, 0, $payment_oprand);
 
 		$shippinPrice        = '';
 		$shippinPriceWithVat = '';
 
 		if (!empty($shipping_rate_id) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
-			$shippinPriceWithVat = $this->_producthelper->getProductFormattedPrice($cart ['shipping']);
-			$shippinPrice        = $this->_producthelper->getProductFormattedPrice($cart ['shipping'] - $cart['shipping_vat']);
+			$shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
+			$shippinPrice        = RedshopHelperProductPrice::formattedPrice($cart ['shipping'] - $cart['shipping_vat']);
 		}
 		else
 		{
-			$template_desc = str_replace("{shipping_lbl}", '', $template_desc);
-			$template_desc = str_replace("{tax_with_shipping_lbl}", '', $template_desc);
+			$templateDesc = str_replace("{shipping_lbl}", '', $templateDesc);
+			$templateDesc = str_replace("{tax_with_shipping_lbl}", '', $templateDesc);
 		}
 
-		$template_desc = $this->_carthelper->replaceTermsConditions($template_desc, $Itemid);
-		$template_desc = $this->_carthelper->replaceNewsletterSubscription($template_desc);
-		
+		$templateDesc = $this->_carthelper->replaceTermsConditions($templateDesc, $Itemid);
+		$templateDesc = $this->_carthelper->replaceNewsletterSubscription($templateDesc);
+
 		$checkoutOnClick = Redshop::getConfig()->getBool('ONESTEP_CHECKOUT_ENABLE') ?
 			'if(chkvalidaion() && validation()){checkout_disable(\'checkout_final\');}' : 'if(chkvalidaion()){checkout_disable(\'checkout_final\');}';
 
@@ -2259,14 +2072,14 @@ class RedshopModelCheckout extends RedshopModel
 
 		$checkout .= '</div>';
 
-		$template_desc = str_replace("{checkout}", $checkout, $template_desc);
-		$template_desc = str_replace("{checkout_button}", $checkout, $template_desc);
+		$templateDesc = str_replace("{checkout}", $checkout, $templateDesc);
+		$templateDesc = str_replace("{checkout_button}", $checkout, $templateDesc);
 
 		$qlink             = JRoute::_('index.php?option=com_redshop&view=quotation&tmpl=component&return=1&Itemid=' . $Itemid);
 		$quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton btn btn-primary" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
-		$template_desc     = str_replace("{quotation_request}", $quotation_request, $template_desc);
+		$templateDesc      = str_replace("{quotation_request}", $quotation_request, $templateDesc);
 
-		if (strstr($template_desc, "{coupon_code_lbl}"))
+		if (strstr($templateDesc, "{coupon_code_lbl}"))
 		{
 			$coupon = '';
 
@@ -2276,30 +2089,35 @@ class RedshopModelCheckout extends RedshopModel
 				$coupon       = '<span>' . JText::_('COM_REDSHOP_CART_COUPON_CODE_TBL') . ' <br>' . $cart['coupon_code'] . ' <span class="discount">  ' . $coupon_price . '</span></span>';
 			}
 
-			$template_desc = str_replace("{coupon_code_lbl}", $coupon, $template_desc);
+			$templateDesc = str_replace("{coupon_code_lbl}", $coupon, $templateDesc);
 		}
 
-		$template_desc = Redshop\Cart\Render\Label::replace($template_desc);
-		$template_desc = str_replace("{print}", '', $template_desc);
+		$templateDesc = Redshop\Cart\Render\Label::replace($templateDesc);
+		$templateDesc = str_replace("{print}", '', $templateDesc);
 
 		RedshopHelperCartSession::setCart((array) $cart);
 
-		return $template_desc;
+		return $templateDesc;
 	}
 
 	/**
 	 * Delete order number track
 	 *
+	 * @return boolean
+	 *
+	 * @since  2.1.0
 	 */
 	public function deleteOrdernumberTrack()
 	{
-		$query = "TRUNCATE TABLE " . $this->_table_prefix . "ordernumber_track";
+		$db    = JFactory::getDbo();
+		$query = 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_ordernumber_track');
 
-		$this->_db->setQuery($query);
-
-		if (!$this->_db->execute())
+		if (!$db->setQuery($query)->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$msg = /** @scrutinizer ignore-deprecated */
+				$db->getErrorMsg();
+			/** @scrutinizer ignore-deprecated */
+			$this->setError($msg);
 
 			return false;
 		}
@@ -2310,27 +2128,42 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Count order number track
 	 *
+	 * @return mixed
+	 *
+	 * @since  2.1.0
 	 */
 	public function getOrdernumberTrack()
 	{
-		$query = "SELECT trackdatetime FROM #__redshop_ordernumber_track";
-		$this->_db->setQuery($query, 0, 1);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('trackdatetime'))
+			->where($db->quoteName('#__redshop_ordernumber_track'));
 
-		return $this->_db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
 	/**
 	 * Insert order number track
 	 *
+	 * @return boolean
+	 *
+	 * @since  2.1.0
 	 */
 	public function insertOrdernumberTrack()
 	{
-		$query_in = "INSERT INTO " . $this->_table_prefix . "ordernumber_track SET trackdatetime=now()";
-		$this->_db->setQuery($query_in);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->insert($db->quoteName('#__redshop_ordernumber_track'))
+			->columns($db->quoteName('trackdatetime'))
+			->values('NOW()');
 
-		if (!$this->_db->execute())
+		if (!$db->setQuery($query)->execute())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$msg = /** @scrutinizer ignore-deprecated */
+				$db->getErrorMsg();
+
+			/** @scrutinizer ignore-deprecated */
+			$this->setError($msg);
 
 			return false;
 		}
@@ -2341,34 +2174,35 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Get Unique order number
 	 *
+	 * @return integer
+	 *
+	 * @since  2.1.0
 	 */
 	public function getOrdernumber()
 	{
-		$trackid_time = $this->getOrdernumberTrack();
+		$trackIdTime = $this->getOrdernumberTrack();
 
-		if ($trackid_time != "")
+		if (!empty($trackIdTime))
 		{
-			$to_time       = strtotime(date('Y-m-d H:i:s'));
-			$from_time     = strtotime($trackid_time);
-			$total_minutes = round(abs($to_time - $from_time) / 60, 2);
+			$toTime       = strtotime(date('Y-m-d H:i:s'));
+			$fromTime     = strtotime($trackIdTime);
+			$totalMinutes = round(abs($toTime - $fromTime) / 60, 2);
 
-			if ($total_minutes > 1)
+			if ($totalMinutes > 1)
 			{
 				$this->deleteOrdernumberTrack();
-				$trackid_time = "";
+				$trackIdTime = "";
 			}
 		}
 
-		if ($trackid_time == "")
-		{
-			$this->insertOrdernumberTrack();
-			$order_number = RedshopHelperOrder::generateOrderNumber();
-
-			return $order_number;
-		}
-		else
+		if (!empty($trackIdTime))
 		{
 			return $this->getOrdernumber();
 		}
+
+		$this->insertOrdernumberTrack();
+		$order_number = RedshopHelperOrder::generateOrderNumber();
+
+		return $order_number;
 	}
 }

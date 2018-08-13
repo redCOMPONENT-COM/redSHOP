@@ -34,7 +34,7 @@ $config          = Redconfiguration::getInstance();
 
 $template = $this->template;
 
-if (count($template) > 0 && $template->template_desc != "")
+if (!empty($template) && !empty($template->template_desc))
 {
 	$template_desc = $template->template_desc;
 }
@@ -68,9 +68,9 @@ else
 <div class="product">
     <div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php
-		if (count($this->data) > 0)
+		if (!empty($this->data))
 		{
-			if ($this->data->pageheading != "")
+			if (!empty($this->data->pageheading))
 			{
 				echo $this->escape($this->data->pageheading);
 			}
@@ -145,7 +145,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 	// Next Navigation
 	$nextproducts = $this->model->getPrevNextproduct($this->data->product_id, $this->data->category_id, 1);
 
-	if (count($nextproducts) > 0)
+	if (!empty($nextproducts))
 	{
 		$nextlink = JRoute::_(
 			'index.php?option=com_redshop&view=product&pid=' . $nextproducts->product_id .
@@ -170,7 +170,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 	// Start previous logic
 	$previousproducts = $this->model->getPrevNextproduct($this->data->product_id, $this->data->category_id, -1);
 
-	if (count($previousproducts) > 0)
+	if (!empty($previousproducts))
 	{
 		$prevlink = JRoute::_(
 			'index.php?option=com_redshop&view=product&pid=' . $previousproducts->product_id .
@@ -696,7 +696,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				$wrapperimage_div .= "</marquee>";
 			}
 
-			if (count($wrapper) > 0)
+			if (!empty($wrapper))
 			{
 				$wrapper = array_merge($warray, $wrapper);
 
@@ -748,7 +748,7 @@ if (strstr($template_desc, "{child_products}"))
 		// Get child products
 		$childproducts = $this->model->getAllChildProductArrayList(0, $parentproductid);
 
-		if (count($childproducts) > 0)
+		if (!empty($childproducts))
 		{
 			$childproducts = array_merge(array($productInfo), $childproducts);
 
@@ -783,7 +783,7 @@ if (strstr($template_desc, "{child_products}"))
 // Checking for child products
 $childproduct = RedshopHelperProduct::getChildProduct($this->data->product_id);
 
-if (count($childproduct) > 0)
+if (!empty($childproduct))
 {
 	if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 	{
@@ -956,12 +956,12 @@ else
 }
 
 $template_desc = \Redshop\Helper\Stockroom::replaceProductStockData(
-															$this->data->product_id,
-															$selectedpropertyId,
-															$selectedsubpropertyId,
-															$template_desc,
-															$attributeproductStockStatus
-				);
+	$this->data->product_id,
+	$selectedpropertyId,
+	$selectedsubpropertyId,
+	$template_desc,
+	$attributeproductStockStatus
+);
 
 $product_number_output = '<span id="product_number_variable' . $this->data->product_id . '">' . $pr_number . '</span>';
 $template_desc         = str_replace("{product_number}", $product_number_output, $template_desc);
