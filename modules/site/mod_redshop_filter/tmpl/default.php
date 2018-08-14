@@ -209,9 +209,8 @@ defined('_JEXEC') or die;
 
     function getParams(name){
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        if (results==null){
-            return null;
-        }
+
+        return decodeURI(results[1]) || 0;
     }
 
     jQuery(document).ready(function () {
