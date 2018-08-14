@@ -144,7 +144,7 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 			<?php if ($enableClearButton): ?>
                 <div class="row-fluid">
-                    <button id="clear-btn" class="clear-btn btn btn-default clearfix">
+                    <button id="clear-btn" type="button" class="clear-btn btn btn-default clearfix">
 						<?php echo JText::_('MOD_REDSHOP_FILTER_CLEAR_LABEL') ?>
                     </button>
                 </div>
@@ -209,8 +209,12 @@ defined('_JEXEC') or die;
 
     function getParams(name){
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-
-        return decodeURI(results[1]) || 0;
+        if (results==null){
+            return null;
+        }
+        else{
+            return decodeURI(results[1]) || 0;
+        }
     }
 
     jQuery(document).ready(function () {
