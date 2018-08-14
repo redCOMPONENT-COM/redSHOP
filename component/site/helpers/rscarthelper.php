@@ -1620,6 +1620,8 @@ class rsCarthelper
 			}
 
 			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+
+			empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;
