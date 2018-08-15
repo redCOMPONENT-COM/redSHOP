@@ -28,6 +28,20 @@ class RedshopTableMass_Discount extends RedshopTable
 	protected $_tableName = 'redshop_mass_discount';
 
 	/**
+	 * Start date mass discount
+	 *
+	 * @var  string
+	 */
+	protected $start_date = '';
+
+	/**
+	 * End date mass discount
+	 *
+	 * @var  string
+	 */
+	protected $end_date = '';
+
+	/**
 	 * Called before bind().
 	 *
 	 * Method to bind an associative array or object to the JTable instance.This
