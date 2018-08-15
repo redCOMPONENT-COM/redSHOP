@@ -1243,7 +1243,7 @@ $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_mai
 $link               = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data->product_id);
 
 // Product image
-$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
+$thum_image = "<div style='height: " . $ph_thumb . "px' class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
 	Redshop\Product\Image\Image::getImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
 	"</div>";
 
