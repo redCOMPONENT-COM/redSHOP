@@ -32,14 +32,14 @@ class RedshopTableMass_Discount extends RedshopTable
 	 *
 	 * @var  string
 	 */
-	protected $start_date = '';
+	protected $start_date = null;
 
 	/**
 	 * End date mass discount
 	 *
 	 * @var  string
 	 */
-	protected $end_date = '';
+	protected $end_date = null;
 
 	/**
 	 * Called before bind().
