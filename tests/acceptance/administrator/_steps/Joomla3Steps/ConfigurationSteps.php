@@ -461,7 +461,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
         $decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
         $numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
         $numberOfPriceDecimals = (int)$numberOfPriceDecimals;
-        $NumberZero= null;
+        $NumberZero = null;
         for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
         {
             $NumberZero = $NumberZero."0";

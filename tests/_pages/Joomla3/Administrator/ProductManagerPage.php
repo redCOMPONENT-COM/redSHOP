@@ -13,7 +13,8 @@
  *
  * @since  2.4
  */
-class ProductManagerPage extends AdminJ3Page
+class
+ProductManagerPage extends AdminJ3Page
 {
 
     /**
@@ -155,10 +156,6 @@ class ProductManagerPage extends AdminJ3Page
      */
     public static $vatSearchField = "#s2id_autogen8_search";
 
-    
-//    public static 
-
-    //stockroom for product
 
     /**
      * @var string

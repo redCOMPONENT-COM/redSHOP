@@ -92,7 +92,11 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
-
+	
+	/**
+	 * @param $nameUser
+	 * @throws \Exception
+	 */
 	public function deleteOrder($nameUser)
 	{
 		$I = $this;
