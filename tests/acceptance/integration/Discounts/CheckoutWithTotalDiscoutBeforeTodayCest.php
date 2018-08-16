@@ -149,7 +149,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
             $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
         $I = new OrderManagerJoomla3Steps($scenario);
         $I->wantTo('Add products in cart');
-        $I->addProductToCart($this->randomProductName, $this->userName, $this->password );
+        $I->addProductToCart($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
         $I = new ConfigurationSteps($scenario);
         $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
             $this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);

@@ -142,10 +142,6 @@ ProductManagerPage extends AdminJ3Page
 	 * @var string
 	 */
     public static $giftCode = "#coupon_input";
-	/**
-	 * @var string
-	 */
-    public static $buttonAddToCart = '//span[contains(@class, \'btn-primary\')]';
 
     /**
      * @var string
@@ -210,8 +206,14 @@ ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $buttonProductAttribute = 'Product Attributes';
-    
-    
+	/**
+	 * @var string
+	 */
+    public static $quantity = "//span[@class='update_cart']//label";
+	/**
+	 * @var string
+	 */
+	public static $priceTotalOrderFrontend = "//div[@class='form-group total']//div[@class='col-sm-6']";
     //tab
 
     /**

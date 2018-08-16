@@ -139,9 +139,19 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * @param $password
      * @throws \Exception
      */
-    public function addProductToCart($nameProduct, $username, $password)
+    public function addProductToCart($nameProduct,$price, $username, $password)
     {
 		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
 		$I->checkReview($nameProduct);
 		$I->see($nameProduct);
 		$I->click(\ProductManagerPage::$addToCart);
@@ -151,13 +161,19 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\ProductManagerPage::$password, $password);
 		$I->click(\ProductManagerPage::$buttonLogin);
 		$I->amOnPage(\ProductManagerPage::$cartPageUrL);
-		$priceTotalOnCart = $I->grabTextFrom(\ProductManagerPage::$priceEnd);
-		$I->see('Total: '.$priceTotalOnCart);
+		$quantity = $I->grabTextFrom(\ProductManagerPage::$quantity);
+		$quantity = (int) $quantity;
+		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$I->see($priceTotalOnCart);
 		$I->click(\ProductManagerPage::$buttonCheckOut);
 		$I->waitForElement(\ProductManagerPage::$priceEnd);
-		$I->see('Total: '.$priceTotalOnCart);
+		$priceTotalFinalCheckout = $I->grabTextFrom(\ProductManagerPage::$priceEnd);
+		$I->see('Total: '.$priceTotalFinalCheckout);
 		$I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
 		$I->click(\ProductManagerPage::$acceptTerms);
 		$I->click(\ProductManagerPage::$checkoutFinalStep);
+		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
+		$priceTotalOrderFrontend =  $I->grabTextFrom(\ProductManagerPage::$priceTotalOrderFrontend);
+		$I->see($priceTotalOrderFrontend);
     }
 }
