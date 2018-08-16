@@ -199,9 +199,6 @@ class RedshopTableDiscount_Product extends RedshopTable
 			return false;
 		}
 
-		// Convert start date to same day but at early morning
-		$this->start_date = RedshopHelperDatetime::generateTimestamp($this->start_date, false);
-
 		// Convert end date to same day but at middle night
 		$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
 
