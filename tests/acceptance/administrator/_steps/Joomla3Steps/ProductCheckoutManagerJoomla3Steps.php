@@ -894,19 +894,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($category));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($product));
-//		$length = count($attributes);
-//		$I->wantToTest($length);
-//		$usePage = new \FrontEndProductManagerJoomla3Page();
-//		$attribute  = $attributes[0];
-//		$I->waitForElement($usePage->attributeDropdown(1), 30);
-//		$I->click($usePage->attributeDropdown(1));
-//		$I->waitForElement($usePage-> attributeDropdownSeach(1), 30);
-//		$I->fillField($usePage->attributeDropdownSeach(1), $attribute['attributeName']);
-//		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-//		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,
-//			60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $product]);
 		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
