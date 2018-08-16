@@ -30,10 +30,6 @@ ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-    public static $cartPageUrL = "/index.php?option=com_redshop&view=cart";
-	/**
-	 * @var string
-	 */
     public static $username = '#modlgn-username';
 	/**
 	 * @var string

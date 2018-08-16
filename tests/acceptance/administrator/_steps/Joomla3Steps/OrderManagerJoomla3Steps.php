@@ -141,19 +141,23 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
      */
     public function addProductToCart($nameProduct, $username, $password)
     {
-        $I = $this;
-        $I->checkReview($nameProduct);
-        $I->see($nameProduct);
-        $I->click(\ProductManagerPage::$buttonAddToCart);
-        $I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, '.alert-message');
-        $I->see(\ProductManagerPage::$alertSuccessMessage, '.alert-message');
-        $I->fillField(\ProductManagerPage::$username, $username);
-        $I->fillField(\ProductManagerPage::$password, $password);
-        $I->click(\ProductManagerPage::$buttonLogin);
-        $I->amOnPage(\ProductManagerPage::$cartPageUrL);
-        $I->click(\ProductManagerPage::$buttonCheckOut);
-        $I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
-        $I->click(\ProductManagerPage::$acceptTerms);
-        $I->click(\ProductManagerPage::$checkoutFinalStep);
+		$I = $this;
+		$I->checkReview($nameProduct);
+		$I->see($nameProduct);
+		$I->click(\ProductManagerPage::$addToCart);
+		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, '.alert-message');
+		$I->see(\ProductManagerPage::$alertSuccessMessage, '.alert-message');
+		$I->fillField(\ProductManagerPage::$username, $username);
+		$I->fillField(\ProductManagerPage::$password, $password);
+		$I->click(\ProductManagerPage::$buttonLogin);
+		$I->amOnPage(\ProductManagerPage::$cartPageUrL);
+		$priceTotalOnCart = $I->grabTextFrom(\ProductManagerPage::$priceEnd);
+		$I->see('Total: '.$priceTotalOnCart);
+		$I->click(\ProductManagerPage::$buttonCheckOut);
+		$I->waitForElement(\ProductManagerPage::$priceEnd);
+		$I->see('Total: '.$priceTotalOnCart);
+		$I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
+		$I->click(\ProductManagerPage::$acceptTerms);
+		$I->click(\ProductManagerPage::$checkoutFinalStep);
     }
 }
