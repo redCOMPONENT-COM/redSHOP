@@ -82,6 +82,9 @@ class RedshopModelProduct extends RedshopModel
 
 	/**
 	 * get name supplier
+	 * @param   int  $id id supplier
+	 *
+	 * @return array
 	 */
 	public function getNameSupplierById($id)
 	{
@@ -89,7 +92,7 @@ class RedshopModelProduct extends RedshopModel
 		$query = $db->getQuery(true)
 			->select('name')
 			->from($db->qn('#__redshop_supplier'))
-			->where($db->qn('id') . ' = ' . $db->q((int) $id));
+			->where($db->qn('id') . ' = ' . (int) $id);
 
 		return $db->setQuery($query)->loadResult();
 	}
