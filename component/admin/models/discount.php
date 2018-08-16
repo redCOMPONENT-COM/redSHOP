@@ -43,7 +43,7 @@ class RedshopModelDiscount extends RedshopModelForm
 		}
 
 		$data['start_date'] = (int) $data['start_date'];
-		$data['end_date']   = (int) $data['end_date'];
+		$data['end_date']   = RedshopHelperDatetime::generateTimestamp($data['end_date']);
 
 		return parent::save($data);
 	}
