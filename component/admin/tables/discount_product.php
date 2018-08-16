@@ -183,6 +183,15 @@ class RedshopTableDiscount_Product extends RedshopTable
 			return false;
 		}
 
+		// Check amount and discount amount
+		if (((float) $this->amount - 1) < (float) $this->discount_amount)
+		{
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_AMOUNT_HIGHT_DISCOUNT_AMOUNT'));
+
+			return false;
+		}
+
 		// If discount type is percent. Make sure discount amount not higher than 100.
 		if ($this->discount_type == 1 && $this->discount_amount > 100)
 		{
