@@ -6,6 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace AcceptanceTester;
+use Codeception\Module\AcceptanceHelper as AcceptanceHelper;
 /**
  * Class ProductManagerJoomla3Steps
  *
@@ -17,6 +18,11 @@ namespace AcceptanceTester;
  */
 class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 {
+	/**
+	 * @param $category
+	 * @param $total
+	 * @throws \Exception
+	 */
 	public function checkoutChangeQuantity($category, $total)
 	{
 		$I = $this;
@@ -35,9 +41,10 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$updateCartButton);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->scrollTo(\CheckoutChangeQuantityProductPage::$bankTransfer);
+		$I->pauseExecution();
 		$I->click(\CheckoutChangeQuantityProductPage::$bankTransfer);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions,30);
-		$I->click(\CheckoutChangeQuantityProductPage::$termAndConditions);
+		$I->executeJS("jQuery('#termscondition').click()");
 		$I->scrollTo(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
@@ -52,5 +59,6 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+		
 	}
 }

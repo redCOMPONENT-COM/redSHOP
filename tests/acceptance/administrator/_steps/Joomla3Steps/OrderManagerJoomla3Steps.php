@@ -168,8 +168,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($priceTotalOnCart);
 		$I->click(\ProductManagerPage::$buttonCheckOut);
 		$I->waitForElement(\ProductManagerPage::$priceEnd);
-		$priceTotalFinalCheckout = $I->grabTextFrom(\ProductManagerPage::$priceEnd);
-		$I->see('Total: '.$priceTotalFinalCheckout);
+		$I->see($priceTotalOnCart);
 		$I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
 		$I->click(\ProductManagerPage::$acceptTerms);
 		$I->click(\ProductManagerPage::$checkoutFinalStep);
