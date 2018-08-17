@@ -41,7 +41,6 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$updateCartButton);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->scrollTo(\CheckoutChangeQuantityProductPage::$bankTransfer);
-		$I->pauseExecution();
 		$I->click(\CheckoutChangeQuantityProductPage::$bankTransfer);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions,30);
 		$I->executeJS("jQuery('#termscondition').click()");
