@@ -40,7 +40,6 @@ else
 	sudo sed -e "s?%TRAVIS_BUILD_PHP%?$(phpenv version-name)?g" --in-place /etc/apache2/sites-available/000-default.conf
 	sudo service apache2 restart
 
-
 	# Get ChromeDriver for headless mode
 	driverversion=$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
 	wget "https://chromedriver.storage.googleapis.com/$driverversion/chromedriver_linux64.zip"
@@ -53,7 +52,6 @@ else
 	composer config -g github-oauth.github.com "${GITHUB_TOKEN}"
 	npm install -g gulp > output.log 2>&1
 	npm install > output.log 2>&1
-	composer global require hirak/prestissimo
 
 	cd libraries/redshop
 	composer install --prefer-dist
