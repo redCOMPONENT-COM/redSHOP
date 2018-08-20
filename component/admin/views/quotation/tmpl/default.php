@@ -107,18 +107,22 @@ $model = $this->getModel('quotation');
 				}
 				?>
                 <tr class="<?php echo "row$k"; ?>">
-                    <td align="center"><?php echo $this->pagination->getRowOffset($index); ?></td>
-                    <td align="center"><a href="<?php echo $link; ?>"
-                                          title="<?php echo JText::_('COM_REDSHOP_VIEW_QUOTATION'); ?>"><?php echo $quotation->quotation_id; ?></a>
-                    </td>
-                    <td align="center"><a href="<?php echo $link; ?>"
-                                          title="<?php echo JText::_('COM_REDSHOP_VIEW_QUOTATION'); ?>"><?php echo $quotation->quotation_number; ?></a>
+                    <td align="center"><?php echo $index + 1; ?></td>
+                    <td align="center"><?php echo JHTML::_('grid.id', $index, $quotation->quotation_id); ?></td>
+                    <td align="center">
+                        <a href="<?php echo $link; ?>"
+                           title="<?php echo JText::_('COM_REDSHOP_VIEW_QUOTATION'); ?>"><?php echo $quotation->quotation_number; ?>
+                        </a>
                     </td>
                     <td><?php echo $display; ?></td>
                     <td align="center"><?php echo $status; ?></td>
                     <td align="center"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_total); ?></td>
                     <td align="center"><?php echo $config->convertDateFormat($quotation->quotation_cdate); ?></td>
-                    <td align="center"><?php echo JHTML::_('grid.id', $index, $quotation->quotation_id); ?></td>
+                    <td align="center">
+                        <a href="<?php echo $link; ?>"
+                           title="<?php echo JText::_('COM_REDSHOP_VIEW_QUOTATION'); ?>"><?php echo $quotation->quotation_id; ?>
+                        </a>
+                    </td>
                 </tr>
 				<?php $k = 1 - $k; ?>
 			<?php endforeach; ?>
