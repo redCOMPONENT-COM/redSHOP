@@ -116,10 +116,18 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
 				return false;
 			}
+			elseif (substr($params, -1) == 'b')
+			{
+				$this->fontFile = strrev(ucfirst(strrev($params)));
 
-			$this->fontFile = $params;
+				return false;
+			}
+			else
+			{
+				$this->fontFile = $params;
 
-			return false;
+				return false;
+			}
 		}
 
 		$ext = explode('.', $params);
