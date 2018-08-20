@@ -212,9 +212,8 @@ defined('_JEXEC') or die;
         if (results==null){
             return null;
         }
-        else{
-            return decodeURI(results[1]) || 0;
-        }
+
+        return decodeURI(results[1]) || 0;
     }
 
     jQuery(document).ready(function () {
