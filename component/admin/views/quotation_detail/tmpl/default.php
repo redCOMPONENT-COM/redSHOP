@@ -336,6 +336,8 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 							<td><?php echo $wrapper_name;?></td>
 							<td><input type="number" name="product_excl_pricep<?php echo $unq; ?>"
 							           id="product_excl_pricep<?php echo $unq; ?>" size="10" maxlength="50"
+                                       min="0"
+                                       oninput="this.value=this.value.slice(0,this.maxLength||1);this.value=(this.value < 0) ? 1 : this.value;"
 							           value="<?php echo $producthelper->redpriceDecimal($quo->product_excl_price); ?>"
 							           onchange="getQuotationDetail('p<?php echo $unq; ?>');"></td>
 							<td align="right">
