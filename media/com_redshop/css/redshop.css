@@ -4651,7 +4651,34 @@ div.modal {
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
   .modal-sm {
-    width: 300px; } }
+    width: 300px; }
+  .content-header.fixed .component-title {
+      margin-bottom: 85px;
+  }
+
+  .content-header.fixed .btn-toolbar {
+      position: absolute;
+      width: 100%;
+      z-index: 840;
+      top: 68px;
+  }
+
+  .content-header.fixed .btn-toolbar.fixed {
+      position: fixed;
+      background: #fff;
+      box-shadow: 1px 2px 3px rgba(0,0,0,0.3);
+      width: calc(100% - 250px);
+      top: 0;
+      margin-top: 0 !important;
+      left: 255px;
+      padding-top: 12px;
+      padding-left: 31px;
+  }
+  .sidebar-collapse .content-header.fixed .btn-toolbar.fixed {
+      left: 55px;
+      width: calc(100% - 50px);
+  }
+}
 
 @media (min-width: 992px) {
   .modal-lg {

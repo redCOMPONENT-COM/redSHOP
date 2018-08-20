@@ -119,7 +119,16 @@ redSHOP.prepareStateList = function(countryListEle, stateListEle){
 
 // Write script here to execute on page load - dom ready.
 jQuery(document).ready(function($) {
-
+	if ( $('#toolbar .btn-wrapper').length != 0 ) {
+        $('.content-header').addClass('fixed');
+    }
+    $(window).scroll(function(){
+        if($(window).scrollTop() > 132) {
+            $('#toolbar').addClass('fixed');
+        } else {
+            $('#toolbar').removeClass('fixed');
+        }
+    });
 	if (jQuery(location).attr('search').match(/&layout=receipt/))
 	{
 		if (jQuery('#order_payment_status').length > 0)
