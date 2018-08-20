@@ -114,17 +114,13 @@ class RedshopViewSearch extends RedshopView
 			$input->set('order_by', $app->getUserState('order_by'));
 
 			$dispatcher       = RedshopHelperUtility::getDispatcher();
-			$Redconfiguration = Redconfiguration::getInstance();
 			$producthelper    = productHelper::getInstance();
-			$extraField       = extraField::getInstance();
-			$objhelper        = redhelper::getInstance();
 
 			$Itemid         = $app->input->getInt('Itemid');
 			$search_type    = $app->input->getCmd('search_type');
 			$cid            = $app->input->getInt('category_id');
 			$manufacture_id = $app->input->getInt('manufacture_id');
 
-			$manisrch   = $this->search;
 			$templateid = $app->input->getInt('templateid');
 
 			// Cmd removes space between to words
@@ -139,7 +135,6 @@ class RedshopViewSearch extends RedshopView
 
 			$cat_name = $db->setQuery($query)->loadResult();
 
-			$session = JFactory::getSession();
 			$model   = $this->getModel('search');
 			$total   = $model->getTotal();
 
@@ -304,7 +299,7 @@ class RedshopViewSearch extends RedshopView
 			}
 
 			$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-			$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
+			$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
 			$attribute_template            = \Redshop\Template\Helper::getAttribute($template_desc);
 
 			$total_product = $model->getTotal();
@@ -314,7 +309,7 @@ class RedshopViewSearch extends RedshopView
 			$tagarray            = RedshopHelperText::getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
-			$fieldArray          = $extraField->getSectionFieldList(17, 0, 0);
+			$fieldArray          = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
 			for ($i = 0, $countSearch = count($this->search); $i < $countSearch; $i++)
 			{
@@ -325,7 +320,7 @@ class RedshopViewSearch extends RedshopView
 				$dispatcher->trigger('onPrepareProduct', array(&$data_add, &$params, $this->search[$i]));
 
 				$thum_image = "";
-				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
+				$pname      = RedshopHelperUtility::maxChars($this->search[$i]->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
 
 				if ($search_type == 'product_number')
 				{
@@ -349,7 +344,7 @@ class RedshopViewSearch extends RedshopView
 					}
 				}
 
-				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
+				$pro_s_desc = RedshopHelperUtility::maxChars($pro_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
 
@@ -359,7 +354,7 @@ class RedshopViewSearch extends RedshopView
 				}
 				else
 				{
-					$pItemid = $objhelper->getItemid($this->search[$i]->product_id, $this->search[$i]->category_id);
+					$pItemid = RedshopHelperRouter::getItemId($this->search[$i]->product_id, $this->search[$i]->category_id);
 				}
 
 				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $pItemid);
@@ -465,7 +460,7 @@ class RedshopViewSearch extends RedshopView
 					$data_add = str_replace($rtlntag, $rtlna, $data_add);
 				}
 
-				$data_add = $producthelper->replaceVatinfo($data_add);
+				$data_add = RedshopHelperTax::replaceVatInformation($data_add);
 
 				/************************************
 				 *  Conditional tag
@@ -655,7 +650,7 @@ class RedshopViewSearch extends RedshopView
 				// End
 
 				// Replace wishlistbutton
-				$data_add = $producthelper->replaceWishlistButton($this->search[$i]->product_id, $data_add);
+				$data_add = RedshopHelperWishlist::replaceWishlistTag($this->search[$i]->product_id, $data_add);
 
 				// Replace compare product button
 				$data_add = Redshop\Product\Compare::replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
@@ -675,10 +670,10 @@ class RedshopViewSearch extends RedshopView
 
 					if ($this->search[$i]->attribute_set_id > 0)
 					{
-						$attributes_set = $producthelper->getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
+						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
 					}
 
-					$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->search[$i]->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 
@@ -690,12 +685,12 @@ class RedshopViewSearch extends RedshopView
 
 				$data_add = Redshop\Product\Stock::replaceInStock($this->search[$i]->product_id, $data_add, $attributes, $attribute_template);
 
-				$data_add = $producthelper->replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
+				$data_add = RedshopHelperAttribute::replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 				// Cart Template
 				$data_add = Redshop\Cart\Render::replace($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field);
 
-				$data_add = $producthelper->getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
+				$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
 
 				$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
 				$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
