@@ -431,8 +431,13 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @param   String $name Name of the User which is to be Deleted
      * @param   Boolean $deleteJoomlaUser Boolean Parameter to decide weather to delete Joomla! user as well
-     *
+     * @param $name
      * @return void
+     */
+    /**
+     * @param $name
+     * @param bool $deleteJoomlaUser
+     * @throws \Exception
      */
     public function deleteUser($name, $deleteJoomlaUser = true)
     {
@@ -455,7 +460,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => 'ID']);
         $I->amOnPage(\UserManagerJoomla3Page::$URLJoomla);
         $I->searchForItem($name);
-
         if ($deleteJoomlaUser) {
             $I->dontSee($name, \UserManagerJoomla3Page::$userJoomla);
         } else {
