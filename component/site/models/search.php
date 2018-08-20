@@ -631,42 +631,45 @@ class RedshopModelSearch extends RedshopModel
 			$keyword           = $this->getState('keyword');
 			$defaultSearchType = $app->input->getCmd('search_type', 'product_name');
 
-			if (!empty($manudata['search_type']))
+			if (!empty($keyword))
 			{
-				$defaultSearchType = $manudata['search_type'];
-			}
+				if (!empty($manudata['search_type']))
+				{
+					$defaultSearchType = $manudata['search_type'];
+				}
 
-			switch ($defaultSearchType)
-			{
-				case 'name_number':
-					$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number'), $keyword));
-					break;
-				case 'name_desc':
-					$query->where($this->getSearchCondition(array('p.product_name', 'p.product_desc', 'p.product_s_desc'), $keyword));
-					break;
-				case 'virtual_product_num':
-					$query->where($this->getSearchCondition(array('pap.property_number', 'ps.subattribute_color_number'), $keyword));
-					break;
-				case 'name_number_desc':
-					$query->where(
-						$this->getSearchCondition(
-							array(
-								'p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number',
-								'ps.subattribute_color_number'
-							),
-							$keyword
-						)
-					);
-					break;
-				case 'product_desc':
-					$query->where($this->getSearchCondition(array('p.product_s_desc', 'p.product_desc'), $keyword));
-					break;
-				case 'product_name':
-					$query->where($this->getSearchCondition('p.product_name', $keyword));
-					break;
-				case 'product_number':
-					$query->where($this->getSearchCondition('p.product_number', $keyword));
-					break;
+				switch ($defaultSearchType)
+				{
+					case 'name_number':
+						$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number'), $keyword));
+						break;
+					case 'name_desc':
+						$query->where($this->getSearchCondition(array('p.product_name', 'p.product_desc', 'p.product_s_desc'), $keyword));
+						break;
+					case 'virtual_product_num':
+						$query->where($this->getSearchCondition(array('pap.property_number', 'ps.subattribute_color_number'), $keyword));
+						break;
+					case 'name_number_desc':
+						$query->where(
+							$this->getSearchCondition(
+								array(
+									'p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number',
+									'ps.subattribute_color_number'
+								),
+								$keyword
+							)
+						);
+						break;
+					case 'product_desc':
+						$query->where($this->getSearchCondition(array('p.product_s_desc', 'p.product_desc'), $keyword));
+						break;
+					case 'product_name':
+						$query->where($this->getSearchCondition('p.product_name', $keyword));
+						break;
+					case 'product_number':
+						$query->where($this->getSearchCondition('p.product_number', $keyword));
+						break;
+				}
 			}
 
 			if ($manufacture_id == 0)
