@@ -16260,6 +16260,8 @@ i.tools {
 #adminForm .filterTool .filterItem {
     display: inline-block;
     margin-right: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 #adminForm .filterTool .filterItem .btn-wrapper {
@@ -16318,7 +16320,6 @@ i.tools {
 .filterTool .select2-container .select2-choice {
     height: 40px !important;
     line-height: 40px;
-    margin-top: 3px;
     background-color: #FFFFFF !important;
     box-shadow: none;
 }
