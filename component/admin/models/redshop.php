@@ -83,8 +83,8 @@ class RedshopModelRedshop extends RedshopModel
 					(`id`, `title`, `name`, `type`, `desc`, `class`, `section`, `maxlength`, `cols`, `rows`, `size`, `show_in_front`,`published`, `required`)
 					VALUES
 					(1, 'Userfield Test', 'rs_userfield_test', '1', '', '', '12', '20', '0', '0', '20', '1', '1', '0')";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		// Insert demo manufacturers
 		$this->demoManufacturers();
@@ -107,8 +107,8 @@ class RedshopModelRedshop extends RedshopModel
 			(55, 'redCOMPONENTS.jpg', 'product', 7, 'images', '', 1, ''),
 			(56, 'redCOMPONENTS.jpg', 'product', 6, 'images', '', 1, '')
 			";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_product` (`product_id`, `product_parent_id`, `manufacturer_id`, `supplier_id`, `product_on_sale`, `product_special`, `product_download`, `product_template`, `product_name`, `product_price`, `discount_price`, `discount_stratdate`, `discount_enddate`, `product_number`, `product_type`, `product_s_desc`, `product_desc`, `product_volume`, `product_tax_id`, `published`, `product_thumb_image`, `product_full_image`, `publish_date`, `update_date`, `visited`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `cat_in_sefurl`, `weight`, `expired`, `not_for_sale`, `use_discount_calc`, `discount_calc_method`, `min_order_product_quantity`, `attribute_set_id`, `product_length`, `product_height`, `product_width`, `product_diameter`, `product_availability_date`, `use_range`, `product_tax_group_id`, `product_download_days`, `product_download_limit`, `product_download_clock`, `product_download_clock_min`, `accountgroup_id`, `quantity_selectbox_value`, `checked_out`, `checked_out_time`, `max_order_product_quantity`, `product_download_infinite`, `product_back_full_image`, `product_back_thumb_image`, `product_preview_image`, `product_preview_back_image`, `preorder`, `append_to_global_seo`) VALUES
 					(1, 0, 2, 0, 0, 0, 0, 9, 'redEVENT', 48, 0, 0, 0, '1', 'product', '<p>redEVENT is a Joomla 3 native MVC event component. Build over the popular but yet limited event component eventlist, the redEVENT fork along with its 100% integration to redFORM has taken the ease and flexibility of creating and managing event</p>', '<p><a href=\"http://redcomponent.com/redcomponent/redevent\">redEVENT</a> is a Joomla 3 native MVC event component. Build over the popular but yet limited event component <a href=\"http://www.schlu.net/\">eventlist</a>, the <a href=\"http://redcomponent.com/redcomponent/redevent\">redEVENT</a> fork along with its 100% integration to <a href=\"http://redcomponent.com/redcomponent/redform\">redFORM</a> has taken the ease and flexibility of creating and managing events and bookings to a whole new level.</p>\r\n<p align=\"justify\">Super dynamical with the simple yet powerful and customizable input forms from <a href=\"http://redcomponent.com/redcomponent/redform\">redFORM</a>, you can make small simple signup forms or you can go all the way and do full registration formulars for the attendees to your events. Along with the new options of newsletter integration and dynamical waitinglists along with the ability to manually alter and customise the frontend list of attendees on each event, there never has been more flexibility in Event handling in Joomla then now!</p>\r\n<p align=\"justify\"><a href=\"http://redcomponent.com/redcomponent/redevent\">redEVENT</a> takes it basis on the component <a href=\"http://www.schlu.net/\">Eventlist</a> and the work of Christoph Lukes from <a href=\"http://www.schlu.net/\">Schlu.net</a> and as such we here from <a href=\"http://redcomponent.com/\">redCOMPONENT</a> give credits to Christoph for his work - However as we where met with requirements for a much higher level of functionality and flexibility from our customers and with a vision to integrate the event form handling into <a href=\"http://redcomponent.com/redcomponent/redform\">redFORM</a> we decided to do a full fork of <a href=\"http://www.schlu.net/\">Eventlist</a> and <a href=\"http://redcomponent.com/redcomponent/redevent\">redEVENT</a> was born. <a href=\"http://redcomponent.com/redcomponent/redevent\">redEVENT</a> is developed upon the basis of <a href=\"http://www.schlu.net/\">Eventlist 1.0b</a> however due to the extensive changes made in the component it will not be possible to update the event component along the paths of <a href=\"http://www.schlu.net/\">Eventlist</a> in the future and instead <a href=\"http://redcomponent.com/redcomponent/redevent\">redEVENT</a> will take its own path and live in the wonderful world of <a href=\"http://redcomponent.com/\">Joomla Extensions</a>.</p>\r\n<p><a href=\"http://redcomponent.com/redcomponent/redevent\">redEVENT</a> is released and is in a stable state. The list of abilities in <a href=\"http://redcomponent.com/redcomponent/redevent\">redEVENT</a> that makes it unique compared to its predecessor <a href=\"http://www.schlu.net/\">Eventlist</a>, is included in the following:</p>\r\n<ul>\r\n<li>Unlimited amount of events</li>\r\n<li>Allow registration with or without Joomla User creation</li>\r\n<li>Allow registration and cancellation using Joomla User creation</li>\r\n<li>Waitinglist on individual events - Set waitinglist per event!</li>\r\n<li>Individual confirmation- and registration emails</li>\r\n<li>Confirmation trough email confirmation link</li>\r\n<li>Unlimited amount of Forms, Fields and Inputs by integration to <a href=\"http://redcomponent.com/redcomponent/redform\">redFORM</a></li>\r\n<li>Dynamical options for input type (Radio, Checkbox, Textfield, Textarea, Email, Username, Fullname)</li>\r\n<li>Dynamical frontend attendee lists using the fields you made in the form (you made in redFORM) used by the event</li>\r\n<li>Admin notification and option to send on formular data to the admin</li>\r\n<li>Integration with the open source mailinglist project <a href=\"http://www.phplist.com/\" target=\"_blank\"><span style=\"color: #a10f15;\">PHPlist</span></a> and the Joomla native components <a href=\"http://extensions.chillcreations.com/ccnewsletter/ccnewsletter-spsnewsletter-newsletters-joomla-15.html\" target=\"_blank\">ccNewsletter</a> and <a href=\"http://www.acajoom.com/\" target=\"_blank\">Acajoom</a>.</li>\r\n<li>Add custom styles to input fields trough backend and style in template css</li>\r\n<li>and much more...</li>\r\n</ul>', 0, 0, 1, '', '1262876429_redEVENT-box.jpg', '2014-12-08 15:26:01', '2015-01-12 12:58:09', 23, '', '', '', '', '', '', '', 2, 0.000, 0, 0, 0, '0', 0, 0, '0.00', '0.00', '0.00', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, 0, '', '', '', '', 'global', 'append'),
@@ -125,21 +125,21 @@ class RedshopModelRedshop extends RedshopModel
 					(12, 0, 3, 0, 0, 0, 0, 9, 'redGADGETS', 50, 0, 0, 0, '12', 'product', '<p>redGADGETS is a tech styled shopping template for redSHOP and joomla</p>', '<p><a href=\"http://redcomponent.com/redcomponent/redshop/templates/gadgets\">redGADGETS</a> is a gadgets inspired template that is well suited for your webshops, with its visual tech appearance. Your users will love it.</p>\r\n<p>The combination of a template that is already styled for redSHOP, and the easy to use Quickstart packages, you can have a great looking site in minutes. Ready to adjust to your specific needs.</p>\r\n<p>Try visit the <a href=\"http://templates.redcomponent.com/#redgadgets\"><span style=\"color: #0088cc;\">demo of redGADGETS</span></a> and see the Quickstart package in action.</p>', 0, 0, 1, '', '1421055222_gadgets-demo-400-400.jpg', '2014-12-08 15:26:01', '2015-01-12 11:46:44', 5, '', '', '', '', '', '', '', 4, 0.000, 0, 0, 0, '0', 0, 0, '0.00', '0.00', '0.00', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, 0, '', '', '', '', 'global', 'append'),
 					(13, 0, 3, 0, 0, 0, 0, 9, 'redKIDSWEAR', 50, 0, 0, 0, '13', 'product', '<p>redKIDSWEAR is a shopping template for redSHOP and joomla</p>', '<p><a href=\"http://redcomponent.com/redcomponent/redshop/templates/kidswear\">redKIDSWEAR</a> is a bright and joyful shop template, perfectly suited for a kids clothing shop.</p>\r\n<p>The combination of a template that is already styled for redSHOP, and the easy to use Quickstart packages, you can have a great looking site in minutes. Ready to adjust to your specific needs.</p>\r\n<p>Try visit the <a href=\"http://templates.redcomponent.com/#redkidswear\"><span style=\"color: #0088cc;\">demo of redKIDSWEAR</span></a> and see the Quickstart package in action.</p>', 0, 0, 1, '', '1421055392_kidswear-demo-400-400.jpg', '2014-12-08 15:26:01', '2015-01-12 11:57:02', 8, '', '', '', '', '', '', '', 4, 0.000, 0, 0, 0, '0', 0, 0, '0.00', '0.00', '0.00', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, 0, '', '', '', '', 'global', 'append'),
 					(14, 0, 3, 0, 0, 0, 0, 9, 'redSHOEMANIAC', 50, 0, 0, 0, '14', 'product', '<p>redSHOEMANIAC is a shopping template for redSHOP and joomla</p>', '<p><a href=\"http://redcomponent.com/redcomponent/redshop/templates/shoemaniac\"><span style=\"color: #0088cc;\">redSHOEMANIAC</span></a> is an elegant styled shopping template which is perfectly suited for a shoestore or other accessories.</p>\r\n<p>The combination of a template that is already styled for redSHOP, and the easy to use Quickstart packages, you can have a great looking site in minutes. Ready to adjust to your specific needs.</p>\r\n<p>Try visit the <a href=\"http://templates.redcomponent.com/#redshoemaniac\"><span style=\"color: #0088cc;\">demo of redSHOEMANIAC</span></a> and see the Quickstart package in action.</p>', 0, 0, 1, '', '1421055573_shoemaniac-demo-400-400.jpg', '2014-12-08 15:26:01', '2015-01-12 12:01:33', 16, '', '', '', '', '', '', '', 4, 0.000, 0, 0, 0, '0', 0, 0, '0.00', '0.00', '0.00', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, 0, '', '', '', '', 'global', 'append')";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_accessory` (`accessory_id`, `product_id`, `child_product_id`, `accessory_price`, `oprand`, `setdefault_selected`, `ordering`, `category_id`) VALUES
 					(21, 1, 12, 0, '-', 0, 0, 0),
 					(32, 2, 3, 0, '-', 0, 0, 0),
 					(33, 1, 2, 0, '-', 0, 0, 0)";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_attribute` (`attribute_id`, `attribute_name`, `attribute_required`, `allow_multiple_selection`, `hide_attribute_price`, `product_id`, `ordering`, `attribute_set_id`, `display_type`, `attribute_published`) VALUES
 						(3, 'Subscription', 0, 0, 0, 2, 0, 0, 'dropdown', 1),
 						(4, 'Subscription', 1, 0, 0, 1, 0, 0, 'dropdown', 1)";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_attribute_property` (`property_id`, `attribute_id`, `property_name`, `property_price`, `oprand`, `property_image`, `property_main_image`, `ordering`, `setdefault_selected`, `setrequire_selected`, `setmulti_selected`, `setdisplay_type`, `property_number`) VALUES
 						(3, 3, '1 Year', 100, '+', '3_globus.gif', '', 0, 0, 0, 0, 'dropdown', ''),
@@ -147,14 +147,13 @@ class RedshopModelRedshop extends RedshopModel
 						(5, 3, '3 Year', 100, '+', '', '', 0, 0, 0, 0, 'dropdown', ''),
 						(6, 4, '1 Year', 125, '+', '6_11408.jpg', '', 0, 0, 0, 0, 'dropdown', ''),
 						(8, 4, '2 Year', 175, '+', '', '', 1, 0, 0, 0, 'dropdown', '')";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		// Get the current columns for redshop category_xref
 
 		$q = "SHOW INDEX FROM #__redshop_product_category_xref";
-		$db->setQuery($q);
-		$cols = $db->loadObjectList('Key_name');
+		$cols = $db->setQuery($q)->loadObjectList('Key_name');
 
 		if (is_array($cols))
 		{
@@ -166,8 +165,8 @@ class RedshopModelRedshop extends RedshopModel
 							`category_id` ,
 							`product_id`
 							)";
-				$db->setQuery($q);
-				$db->execute();
+
+				$db->setQuery($q)->execute();
 			}
 		}
 
@@ -186,29 +185,27 @@ class RedshopModelRedshop extends RedshopModel
 						($thirdCatId, 12, 0),
 						($thirdCatId, 13, 0),
 						($thirdCatId, 14, 3)";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		// Get the first user_id from #__redshop_users_info table then insert to userid field of demo rating content in #__redshop_product_rating table
 
 		$query = "SELECT user_id FROM `#__redshop_users_info` LIMIT 1";
-		$db->setQuery($query);
-		$firstId = $db->loadResult();
+		$firstId = $db->setQuery($query)->loadResult();
 
 		if (!empty($firstId))
 		{
 			$query    = "INSERT IGNORE INTO `#__redshop_product_rating`
 				(`rating_id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
 				VALUES (1, 1, 'high quality product', 'Flot flot flot...', " . $firstId . ", 1262695786, 4, 1, 1)";
-			$db->setQuery($query);
-			$db->execute();
+
+			$db->setQuery($query)->execute();
 		}
 
 		// Get the current columns for redshop product related
 
 		$q = "SHOW INDEX FROM #__redshop_product_related";
-		$db->setQuery($q);
-		$cols = $db->loadObjectList('Key_name');
+		$cols = $db->setQuery($q)->loadObjectList('Key_name');
 
 		if (is_array($cols))
 		{
@@ -220,6 +217,7 @@ class RedshopModelRedshop extends RedshopModel
 								`related_id` ,
 								`product_id`
 								)";
+
 				$db->setQuery($q)->execute();
 			}
 		}
@@ -227,13 +225,13 @@ class RedshopModelRedshop extends RedshopModel
 		$query = "INSERT IGNORE INTO `#__redshop_product_related`
 					(`related_id`, `product_id`) VALUES
 					(0, 3),(0, 4),(0, 5),(0, 6),(0, 7),(0, 8),(0, 9),(0, 10),(0, 11),(0, 12),(0, 13),(0, 14),(1, 2),(2, 1),(3, 1),(3, 2)";
+
 		$db->setQuery($query)->execute();
 
 		// Get the current columns for redshop product stockroom
 
 		$q = "SHOW INDEX FROM #__redshop_product_stockroom_xref";
-		$db->setQuery($q);
-		$cols = $db->loadObjectList('Key_name');
+		$cols = $db->setQuery($q)->loadObjectList('Key_name');
 
 		if (is_array($cols))
 		{
@@ -245,6 +243,7 @@ class RedshopModelRedshop extends RedshopModel
 								`product_id` ,
 								`stockroom_id`
 								)";
+
 				$db->setQuery($q)->execute();
 			}
 		}
@@ -252,6 +251,7 @@ class RedshopModelRedshop extends RedshopModel
 		$query = "INSERT IGNORE INTO `#__redshop_product_stockroom_xref`
 					(`product_id`, `stockroom_id`, `quantity`) VALUES
 					(2, 1, 100)";
+
 		$db->setQuery($query)->execute();
 
 		return true;
@@ -271,8 +271,8 @@ class RedshopModelRedshop extends RedshopModel
 			(1, 'redweb.dk', '<p>http://redweb.dk</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 1, ''),
 			(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 2, ''),
 			(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 12, 14, '', '', '', '', '', '', '', 1, 3, '')";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		// Insert media
 		$query = "INSERT IGNORE INTO `#__redshop_media`
@@ -280,8 +280,8 @@ class RedshopModelRedshop extends RedshopModel
 			VALUES (33, 'redweb-logo.jpg', 'manufacturer', 1, 'images', 'images/jpg', 1, 'redweb.dk'),
 			(34, 'redhost-logo.jpg', 'manufacturer', 2, 'ima1ges', 'images/jpg', 1, 'redhost.dk'),
 			(35, 'redcomponent-logo.jpg', 'manufacturer', 3, 'images', 'images/jpg', 1, 'redcomponent.com')";
-		$db->setQuery($query);
-		$db->execute();
+
+		$db->setQuery($query)->execute();
 
 		// Copy files
 		$file = JPath::clean(REDSHOP_MEDIA_IMAGE_RELPATH . 'redweb-logo.jpg');
@@ -325,9 +325,7 @@ class RedshopModelRedshop extends RedshopModel
 			->from($this->_db->qn('#__redshop_users_info'))
 			->order($this->_db->qn('users_info_id') . ' DESC');
 
-		$this->_db->setQuery($query, 0, 10);
-
-		return $this->_db->loadObjectlist();
+		return $this->_db->setQuery($query, 0, 10)->loadObjectlist();
 	}
 
 	/**
@@ -338,6 +336,7 @@ class RedshopModelRedshop extends RedshopModel
 	public function getNeworders()
 	{
 		$query = $this->_db->getQuery(true);
+
 		$query->select(
 			array(
 				$this->_db->qn('o.order_id'),
@@ -353,20 +352,15 @@ class RedshopModelRedshop extends RedshopModel
 			->innerJoin($this->_db->qn('#__redshop_order_status', 'os') . ' ON ' . $this->_db->qn('os.order_status_code') . '=' . $this->_db->qn('o.order_status'))
 			->order($this->_db->qn('o.order_id') . ' DESC');
 
-		$this->_db->setQuery($query, 0, 10);
-
-		$rows = $this->_db->loadObjectList();
-
-		return $rows;
+		return $this->_db->setQuery($query, 0, 10)->loadObjectList();
 	}
 
 	public function getUser($user_id)
 	{
 		$this->_table_prefix = '#__';
 		$userquery           = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
-		$this->_db->setQuery($userquery);
 
-		return $this->_db->loadObject();
+		return $this->_db->setQuery($userquery)->loadObject();
 	}
 
 	public function gettotalOrder($id = 0)
@@ -374,9 +368,8 @@ class RedshopModelRedshop extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$userquery           = "SELECT SUM(order_total) AS order_total, count(*) AS tot_order FROM " . $this->_table_prefix . "orders "
 			. "WHERE `user_info_id`='" . $id . "' ";
-		$this->_db->setQuery($userquery);
 
-		return $this->_db->loadObject();
+		return $this->_db->setQuery($userquery)->loadObject();
 	}
 
 	public function gettotalAmount($user_id)
@@ -387,9 +380,8 @@ class RedshopModelRedshop extends RedshopModel
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id =uf.user_id'
 			. ' AND address_type LIKE "BT" '
 			. 'WHERE o.user_id = ' . $user_id . ' and  (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S")';
-		$this->_db->setQuery($query);
 
-		return $this->_db->loadObject();
+		return $this->_db->setQuery($query)->loadObject();
 	}
 
 	public function getavgAmount($user_id)
@@ -398,9 +390,8 @@ class RedshopModelRedshop extends RedshopModel
 		$query               = 'SELECT  (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'WHERE o.user_id =' . $user_id . ' and (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
-		$this->_db->setQuery($query);
 
-		return $this->_db->loadObject();
+		return $this->_db->setQuery($query)->loadObject();
 	}
 
 	public function getUserinfo($user_id)
@@ -408,9 +399,8 @@ class RedshopModelRedshop extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$userquery           = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix .
 			"users_info where address_type='BT' and user_id=" . $user_id;
-		$this->_db->setQuery($userquery);
 
-		return $this->_db->loadObject();
+		return $this->_db->setQuery($userquery)->loadObject();
 	}
 
 	/**
@@ -442,8 +432,6 @@ class RedshopModelRedshop extends RedshopModel
 			SELECT COUNT(' . $db->qn('id') . ')
 			FROM ' . $db->qn('#__redshop_siteviewer') . ')';
 
-		$db->setQuery($query);
-
-		return $db->loadColumn();
+		return $db->setQuery($query)->loadColumn();
 	}
 }
