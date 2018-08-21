@@ -316,7 +316,34 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
-	
+
+	// Enable Quantity in Configuration (Allow user change quantity product in checkout page)
+	public function configChangeQuantityProduct($quantity ='3')
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$I->click(\ConfigurationPage::$cartCheckout);
+		$I->click(\ConfigurationPage::$onePageYes);
+		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartYes, 30);
+		$I->click(\ConfigurationPage::$quantityChangeInCartYes);
+		$I->click(\ConfigurationPage::$quantityInCart);
+		$I->fillField(\ConfigurationPage::$quantityInCart, $quantity) ;
+		$I->click(\ConfigurationPage::$showSameAddressForBillingYes);
+		$I->click(\ConfigurationPage::$buttonSave);
+	}
+	// Disable Quantity in Configuration (Not allow user change quantity when checkout)
+	public function returnConfigChangeQuantityProduct()
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$I->click(\ConfigurationPage::$cartCheckout);
+		$I->click(\ConfigurationPage::$onePageNo);
+		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo, 30);
+		$I->click(\ConfigurationPage::$quantityChangeInCartNo);
+		$I->click(\ConfigurationPage::$showSameAddressForBillingNo);
+		$I->click(\ConfigurationPage::$buttonSave);
+	}
+
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
@@ -412,4 +439,47 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
+    /**
+     * @param $name
+     */
+    public function searchOrder($name)
+    {
+        $I = $this;
+        $I->wantTo('Search the User ');
+        $I->amOnPage(\OrderManagerPage::$URL);
+        $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
+    }
+    /**
+     * @param $price
+     * @param $order
+     */
+    public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName)
+    {
+        $I = $this;
+        $I->amOnPage(\ConfigurationPage::$URL);
+        $currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+        $decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+        $numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+        $numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+        $NumberZero = null;
+        for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+        {
+            $NumberZero = $NumberZero."0";
+        }
+        $I->amOnPage(\OrderManagerPage::$URL);
+        $I->searchOrder($order);
+        $I->click(\OrderManagerPage::$iconEdit);
+        $quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
+        $quantity = (int)$quantity;
+        $priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+        $priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+        $firstName = 'First Name: '.$firstName;
+        $lastName = 'Last Name: '.$lastName;
+        $I->see($firstName);
+        $I->see($lastName);
+        $I->see($productName);
+        $I->see($categoryName);
+        $I->see($priceProduct);
+        $I->see($priceTotal);
+    }
 }

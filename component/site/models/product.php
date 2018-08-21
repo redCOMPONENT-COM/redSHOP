@@ -79,6 +79,24 @@ class RedshopModelProduct extends RedshopModel
 		return $this->_data;
 	}
 
+
+	/**
+	 * get name supplier
+	 * @param   int  $id id supplier
+	 *
+	 * @return array
+	 */
+	public function getNameSupplierById($id)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('name')
+			->from($db->qn('#__redshop_supplier'))
+			->where($db->qn('id') . ' = ' . (int) $id);
+
+		return $db->setQuery($query)->loadResult();
+	}
+
 	public function _buildQuery()
 	{
 		// Shopper group - choose from manufactures Start

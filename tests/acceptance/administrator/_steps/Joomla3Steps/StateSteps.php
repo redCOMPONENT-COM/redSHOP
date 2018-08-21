@@ -67,6 +67,7 @@ class StateSteps extends AdminManagerJoomla3Steps
 		$client->searchState($stateName);
 		$client->checkAllResults();
 		$client->click(\StatePage::$buttonCheckIn);
+		$client->searchState($stateName);
 		$client->click($stateName);
 		$client->waitForElement(\StatePage::$fieldName, 30);
 		$client->checkForPhpNoticesOrWarnings();
@@ -91,8 +92,8 @@ class StateSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\StatePage::$buttonDelete);
 		$client->acceptPopup();
-//		$client->waitForText(\StatePage::$messageDeleteSuccess, 60, \StatePage::$selectorSuccess);
-//		$client->see(\StatePage::$messageDeleteSuccess, \StatePage::$selectorSuccess);
+		$client->waitForText(\StatePage::$messageDeleteSuccess, 60, \StatePage::$selectorSuccess);
+		$client->see(\StatePage::$messageDeleteSuccess, \StatePage::$selectorSuccess);
 		$client->fillField(\StatePage::$searchField, $stateName);
 		$client->pressKey(\StatePage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($stateName, \StatePage::$resultRow);

@@ -103,16 +103,7 @@ class RedshopViewProduct extends RedshopView
 		 *  Include JavaScript.
 		 *  But, first check if a plugin wants to use its own jQuery.
 		 */
-		$stopJQuery = $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
-
-		if (in_array(true, $stopJQuery, true))
-		{
-			$stopJQuery = true;
-		}
-		else
-		{
-			$stopJQuery = false;
-		}
+		$this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
 
 		JHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
 

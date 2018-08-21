@@ -70,4 +70,22 @@ class Product
 
 		return $db->setQuery($query)->loadColumn();
 	}
+
+	/**
+	 * @param   string $productNumber Order number
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0.0
+	 */
+	public static function getProductByNumber($productNumber)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__redshop_product'))
+			->where($db->quoteName('product_number') . ' = ' . $db->quote($productNumber));
+
+		return $db->setQuery($query)->loadObject();
+	}
 }
