@@ -193,12 +193,16 @@ class RedshopModelRedshop extends RedshopModel
 
 		$query = "SELECT user_id FROM `#__redshop_users_info` LIMIT 1";
 		$db->setQuery($query);
-		$first_id = $db->loadResult();
-		$query    = "INSERT IGNORE INTO `#__redshop_product_rating`
-					(`rating_id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
-					VALUES (1, 1, 'high quality product', 'Flot flot flot...', " . $first_id . ", 1262695786, 4, 1, 1)";
-		$db->setQuery($query);
-		$db->execute();
+		$firstId = $db->loadResult();
+
+		if (!empty($firstId))
+		{
+			$query    = "INSERT IGNORE INTO `#__redshop_product_rating`
+				(`rating_id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
+				VALUES (1, 1, 'high quality product', 'Flot flot flot...', " . $firstId . ", 1262695786, 4, 1, 1)";
+			$db->setQuery($query);
+			$db->execute();
+		}
 
 		// Get the current columns for redshop product related
 
