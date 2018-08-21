@@ -132,7 +132,7 @@ $billadd = "";
 
 if ($quotationDetail->user_id != 0)
 {
-	$billadd = JLayoutHelper::render('cart.billing', array('billingAddresses' => $quotationDetail));
+	$billadd = JLayoutHelper::render('cart.billing', /** @scrutinizer ignore-type */ array('billingAddresses' => $quotationDetail));
 }
 else
 {
