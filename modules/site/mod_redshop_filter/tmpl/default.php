@@ -228,10 +228,25 @@ defined('_JEXEC') or die;
         });
 
         jQuery(window).load(function() {
-            var template_id = getParams('template_id');
-            var input_template = jQuery('input[name="redform[template_id]"]').val();
-            if (template_id == input_template) {
-                redSHOP.Module.Filter.submitFormAjax();
+            if (<?php echo $pid ?> == 0)
+            {
+                // Reset keyword field
+                if (<?php echo $enableKeyword ?> == 1) {
+                    jQuery('#<?php echo $module->id ?>-keyworkd').val('');
+                }
+
+                // Reset manufacturer options
+                if (<?php echo $enableManufacturer ?> == 1) {
+                    jQuery('input[name="keyword-manufacturer"]').val('');
+                    redSHOP.Module.Filter.populateManufacturerOptions();
+                }
+
+                // Reset filter price
+                if (<?php echo $enablePrice ?> ==1) {
+                    jQuery('input[name="redform[filterprice][min]"]').val(0);
+                    jQuery('input[name="redform[filterprice][max]"]').val('<?php echo $rangeMax ?>');
+                    redSHOP.Module.Filter.rangeSlide(0, <?php echo $rangeMax; ?>, 0, <?php echo $rangeMax; ?>);
+                }
             }
         });
     });
