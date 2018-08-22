@@ -47,7 +47,7 @@ if (!empty($cid))
 
 	if ($limit == 0)
 	{
-		$limit = $categoryModel->getCategoryPagination()->get('limit');
+		$limit = $categoryModel->getCategoryPagination()->limit;
 	}
 
 	$categoryModel->setState('include_sub_categories_products', true);
