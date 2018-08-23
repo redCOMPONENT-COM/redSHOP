@@ -13,7 +13,8 @@
  *
  * @since  2.4
  */
-class ProductManagerPage extends AdminJ3Page
+class
+ProductManagerPage extends AdminJ3Page
 {
 
     /**
@@ -25,11 +26,21 @@ class ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $URL = 'administrator/index.php?option=com_redshop&view=product';
+	
+	/**
+	 * @var string
+	 */
+    public static $username = '#modlgn-username';
+	/**
+	 * @var string
+	 */
+    public static $password = '#modlgn-passwd';
 
     /**
      * @var string
      */
     public static $categorySearch = "#s2id_category_id";
+
 
     /**
      * @var string
@@ -115,15 +126,28 @@ class ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $vatDropdownList = "//div[@id='s2id_product_tax_group_id']";
+	/**
+	 * @var string
+	 */
+    public static $buttonCheckOut = '//input[@value="Checkout"]';
+	/**
+	 * @var string
+	 */
+    public static $buttonLogin = '//button [@name="Submit"]';
+	/**
+	 * @var string
+	 */
+    public static $iconEdit = '//a[@title="Edit order"]';
+	/**
+	 * @var string
+	 */
+    public static $giftCode = "#coupon_input";
 
     /**
      * @var string
      */
     public static $vatSearchField = "#s2id_autogen8_search";
-    
-//    public static 
 
-    //stockroom for product
 
     /**
      * @var string
@@ -182,8 +206,14 @@ class ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $buttonProductAttribute = 'Product Attributes';
-    
-    
+	/**
+	 * @var string
+	 */
+    public static $quantity = "//span[@class='update_cart']//label";
+	/**
+	 * @var string
+	 */
+	public static $priceTotalOrderFrontend = "//div[@class='form-group total']//div[@class='col-sm-6']";
     //tab
 
     /**
