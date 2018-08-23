@@ -184,7 +184,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		}
 
 		// Check amount and discount amount
-		if (((float) $this->amount - 1) < (float) $this->discount_amount)
+		if (((float) $this->amount) < (float) $this->discount_amount)
 		{
 			/** @scrutinizer ignore-deprecated */
 			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_AMOUNT_HIGHT_DISCOUNT_AMOUNT'));
