@@ -101,40 +101,40 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 */
 	public function getFont($params)
 	{
-		if (!strstr($params, 'ttf'))
+		if (strstr($params, 'ttf'))
 		{
-			if (substr($params, -1) == 'i')
-			{
-				if (substr($params, -2) == 'bi')
-				{
-					$this->fontFile = str_replace('bi', 'BI', $params);
+			$ext = explode('.', $params);
 
-					return false;
-				}
+			$this->fontFile = $ext[1] . '.' . $ext[0];
 
-				$this->fontFile = strrev(ucfirst(strrev($params)));
-
-				return false;
-			}
-			elseif (substr($params, -1) == 'b')
-			{
-				$this->fontFile = strrev(ucfirst(strrev($params)));
-
-				return false;
-			}
-			else
-			{
-				$this->fontFile = $params;
-
-				return false;
-			}
+			return true;
 		}
 
-		$ext = explode('.', $params);
+		if (substr($params, -1) == 'i')
+		{
+			if (substr($params, -2) == 'bi')
+			{
+				$this->fontFile = str_replace('bi', 'BI', $params);
 
-		$this->fontFile = $ext[1] . '.' . $ext[0];
+				return false;
+			}
 
-		return true;
+			$this->fontFile = strrev(ucfirst(strrev($params)));
+
+			return false;
+		}
+		elseif (substr($params, -1) == 'b')
+		{
+			$this->fontFile = strrev(ucfirst(strrev($params)));
+
+			return false;
+		}
+		else
+		{
+			$this->fontFile = $params;
+
+			return false;
+		}
 	}
 
 	/**
