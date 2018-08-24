@@ -195,7 +195,7 @@ class RedshopHelperCartDiscount
 
 			$couponRemaining = 0;
 
-			if ($couponValue > $subTotal && $couponIndex == 1)
+			if ($couponValue > $subTotal && $couponIndex === 1)
 			{
 				$couponRemaining = $couponValue - $subTotal;
 				$couponValue     = $subTotal;
