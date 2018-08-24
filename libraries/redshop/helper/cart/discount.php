@@ -147,6 +147,11 @@ class RedshopHelperCartDiscount
 				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 			}
 
+			if ($subTotal <= 0)
+			{
+				$subTotal = 0;
+			}
+
 			if ($discountType == 0)
 			{
 				$avgVAT = 1;
@@ -190,7 +195,7 @@ class RedshopHelperCartDiscount
 
 			$couponRemaining = 0;
 
-			if ($couponValue > $subTotal)
+			if ($couponValue > $subTotal && $couponIndex == 1)
 			{
 				$couponRemaining = $couponValue - $subTotal;
 				$couponValue     = $subTotal;
@@ -372,15 +377,12 @@ class RedshopHelperCartDiscount
 
 		$remainingVoucherDiscount = 0;
 
-		$totalDiscount = $cart['voucher_discount'] + $cart['cart_discount'] + $cart['coupon_discount'];
-		$subTotal      = $productPrice - $cart['coupon_discount'] - $cart['cart_discount'];
-
 		if ($productPrice < $voucherValue)
 		{
 			$remainingVoucherDiscount = $voucherValue - $productPrice;
 			$voucherValue             = $productPrice;
 		}
-		elseif ($totalDiscount > $subTotal)
+		elseif ($cart['voucher_discount'] > 0 && ($productPrice - $cart['voucher_discount']) <= 0)
 		{
 			$remainingVoucherDiscount = $voucherValue;
 			$voucherValue             = 0;
