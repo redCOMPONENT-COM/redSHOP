@@ -16425,6 +16425,27 @@ function _init() {
 }).call(this);
 (function($) {
     $(document).ready(function() {
+        if ( $('#toolbar .btn-wrapper').length != 0 ) {
+            var toolbarHeight = $('#toolbar').height();
+            $(window).resize(function() {
+                toolbarHeight = $('#toolbar').height();
+            });
+            $(window).scroll(function(){
+                if($(window).scrollTop() > 132) {
+                    $('#toolbar').addClass('fixed');
+                    $('.content-header').addClass('fixed');
+                    if( $(window).width() > 767 ) {
+                        $('.content-header .component-title').css({marginBottom: toolbarHeight + 35});
+                    } else {
+                        $('.content-header .component-title').css({marginBottom: 0});
+                    }
+                } else {
+                    $('#toolbar').removeClass('fixed');
+                    $('.content-header').removeClass('fixed');
+                    $('.content-header .component-title').css({marginBottom: 0});
+                }
+            });
+        }
         // We cannot access the body tag so add admin-lte styling classes dynamically
         $('body').addClass('skin-black sidebar-mini');
 
