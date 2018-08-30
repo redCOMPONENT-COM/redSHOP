@@ -26891,10 +26891,7 @@ a.grid_true {
         -o-transition: all 0.1s ease;
         transition: all 0.1s ease;
     }
-    .content-header.fixed .component-title {
-        /*margin-bottom: 135px;*/
-    }
-
+    
     .content-header.fixed .btn-toolbar {
         position: absolute;
         width: 100%;

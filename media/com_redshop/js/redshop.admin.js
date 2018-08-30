@@ -16425,7 +16425,7 @@ function _init() {
 }).call(this);
 (function($) {
     $(document).ready(function() {
-        if ( $('#toolbar .btn-wrapper').length != 0 ) {
+        if($('#toolbar .btn-wrapper').length != 0) {
             var toolbarHeight = $('#toolbar').height();
             $(window).resize(function() {
                 toolbarHeight = $('#toolbar').height();
@@ -16434,7 +16434,7 @@ function _init() {
                 if($(window).scrollTop() > 132) {
                     $('#toolbar').addClass('fixed');
                     $('.content-header').addClass('fixed');
-                    if( $(window).width() > 767 ) {
+                    if($(window).width() > 767) {
                         $('.content-header .component-title').css({marginBottom: toolbarHeight + 35});
                     } else {
                         $('.content-header .component-title').css({marginBottom: 0});
