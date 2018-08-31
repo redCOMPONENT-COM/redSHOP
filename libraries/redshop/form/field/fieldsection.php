@@ -55,6 +55,7 @@ class RedshopFormFieldFieldSection extends JFormFieldList
 		$fieldSections[] = (object) array('value' => '16', 'text' => JText::_('COM_REDSHOP_QUOTATION'));
 		$fieldSections[] = (object) array('value' => '18', 'text' => JText::_('COM_REDSHOP_PAYMENT_GATEWAY'));
 		$fieldSections[] = (object) array('value' => '19', 'text' => JText::_('COM_REDSHOP_SHIPPING_GATEWAY'));
+		$fieldSections[] = (object) array('value' => '20', 'text' => JText::_('COM_REDSHOP_ORDER'));
 
 		$parentOptions = parent::getOptions();
 		$options = array_merge($parentOptions, $fieldSections);

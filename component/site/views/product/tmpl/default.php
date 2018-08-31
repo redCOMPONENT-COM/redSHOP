@@ -472,7 +472,14 @@ $template_desc = str_replace("{manufacturer_link}", $manufacturerLink, $template
 $template_desc = str_replace("{manufacturer_product_link}", $manufacturerPLink, $template_desc);
 $template_desc = str_replace("{manufacturer_name}", $this->data->manufacturer_name, $template_desc);
 
-$template_desc = str_replace("{supplier_name}", "", $template_desc);
+$supplier_name = '';
+
+if ($this->data->supplier_id)
+{
+	$supplier_name = $this->model->getNameSupplierById($this->data->supplier_id);
+}
+
+$template_desc = str_replace("{supplier_name}", $supplier_name, $template_desc);
 
 if (strstr($template_desc, "{product_delivery_time}"))
 {
@@ -1243,7 +1250,7 @@ $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_mai
 $link               = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data->product_id);
 
 // Product image
-$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
+$thum_image = "<div style='height: " . $ph_thumb . "px' class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
 	Redshop\Product\Image\Image::getImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
 	"</div>";
 
