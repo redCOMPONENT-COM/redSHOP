@@ -389,4 +389,33 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"], 30);
 		$I->click(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"]);
 	}
+    /**
+     * @param $name
+     * @param $totalAmount
+     * @param $condition
+     * @param $discountType
+     * @param $discountAmount
+     * @param $startDate
+     * @param $endDate
+     * @param $shopperGroup
+     * @throws \Exception
+     */
+    public function addTotalDiscountSaveClose($name, $totalAmount, $condition, $discountType, $discountAmount, $startDate, $endDate, $shopperGroup)
+    {
+        $client = $this;
+        $client->amOnPage(\DiscountPage::$url);
+        $client->checkForPhpNoticesOrWarnings();
+        $client->click(\DiscountPage::$buttonNew);
+        $client->waitForElement(\DiscountPage::$fieldAmount, 30);
+        $client->fillField(\DiscountPage::$fieldName, $name);
+        $client->fillField(\DiscountPage::$fieldAmount, $totalAmount);
+        $client->selectOption(\DiscountPage::$fieldCondition, $condition);
+        $client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
+        $client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
+        $client->fillField(\DiscountPage::$fieldStartDate, $startDate);
+        $client->fillField(\DiscountPage::$fieldEndDate, $endDate);
+        $client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
+        $client->click(\DiscountPage::$buttonSaveClose);
+        $client->waitForText(\DiscountPage::$messageItemSaveSuccess, 30, \DiscountPage::$selectorSuccess);
+    }
 }
