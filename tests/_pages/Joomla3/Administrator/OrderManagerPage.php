@@ -124,6 +124,11 @@ class OrderManagerPage extends AdminJ3Page
      * @var string
      */
     public static $deleteFirst = "//input[@id='cb0']";
+	
+	/**
+	 * @var string
+	 */
+    public static $iconEdit = '//a[@title="Edit order"]';
 
     /**
      * @var string
