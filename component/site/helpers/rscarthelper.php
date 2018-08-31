@@ -793,6 +793,11 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
+		if ($rateExist == 0)
+		{
+			$template_desc = "<div></div>";
+		}
+
 		JPluginHelper::importPlugin('redshop_checkout');
 		JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
 
