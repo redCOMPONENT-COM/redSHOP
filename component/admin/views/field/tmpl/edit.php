@@ -16,8 +16,8 @@ $editor = JEditor::getInstance();
 
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (task) {
-        var form          = document.adminForm;
-        var field_type    = document.getElementById("jform_type").value;
+        var form = document.adminForm;
+        var field_type = document.getElementById("jform_type").value;
         var field_section = document.getElementById("jform_section").value;
 
         if (task == "field.cancel") {
@@ -72,35 +72,35 @@ $editor = JEditor::getInstance();
     };
 
     function loadFieldGroup() {
-        (function($){
+        (function ($) {
             var $fieldGroup = $("#jform_groupId");
 
             $.ajax({
-                url   : "index.php?option=com_redshop&task=field_groups.ajaxGetFieldsGroup",
+                url: "index.php?option=com_redshop&task=field_groups.ajaxGetFieldsGroup",
                 method: "POST",
-                data  : {
+                data: {
                     "<?php echo JSession::getFormToken() ?>": 1,
-                    "section"                               : $("#jform_section").val(),
-                    "selected"                              : <?php echo (int) $this->item->groupId ?>
+                    "section": $("#jform_section").val(),
+                    "selected": <?php echo (int) $this->item->groupId ?>
                 },
-                beforeSend: function(){
+                beforeSend: function () {
                     $fieldGroup.prop("disabled", true).addClass("disabled");
                 }
             })
-            .done(function (response) {
-                $("#jform_groupId option").remove();
-                $fieldGroup.html(response);
-            })
-            .always(function(){
-                $fieldGroup.prop("disabled", false).removeClass("disabled");
-                $fieldGroup.select2({width: "auto"});
-            });
+                .done(function (response) {
+                    $("#jform_groupId option").remove();
+                    $fieldGroup.html(response);
+                })
+                .always(function () {
+                    $fieldGroup.prop("disabled", false).removeClass("disabled");
+                    $fieldGroup.select2({width: "auto"});
+                });
         })(jQuery);
     }
 
     function sectionValidation() {
         (function ($) {
-            var field_type    = $("#jform_type").val();
+            var field_type = $("#jform_type").val();
             var field_section = $("#jform_section").val();
 
             // Field_section
@@ -180,14 +180,14 @@ $editor = JEditor::getInstance();
                 "index.php?option=com_redshop&task=field.ajaxGetAllFieldName",
                 {
                     "<?php echo JSession::getFormToken() ?>": 1,
-                    "field_id"                              : "<?php echo $this->item->id ?>"
+                    "field_id": "<?php echo $this->item->id ?>"
                 },
                 function (response) {
                     fieldNames = response.split(",");
                 });
 
             document.formvalidator.setHandler("fieldNames", function (value) {
-                value   = value.replace(" ", "_");
+                value = value.replace(" ", "_");
                 var tmp = value.split("_");
 
                 if (tmp[0] != "rs") {
@@ -197,9 +197,9 @@ $editor = JEditor::getInstance();
                 return !fieldNames.contains(value);
             });
 
-            <?php if (!empty($this->item->id) && !empty($this->item->section)): ?>
+			<?php if (!empty($this->item->id) && !empty($this->item->section)): ?>
             loadFieldGroup();
-            <?php endif; ?>
+			<?php endif; ?>
         });
     })(jQuery);
 </script>
@@ -263,8 +263,8 @@ $editor = JEditor::getInstance();
                         </tr>
                         </thead>
                         <tbody>
-						<?php if (count($this->lists['extra_data']) > 0) : ?>
-							<?php for ($k = 0, $extraCount = count($this->lists['extra_data']); $k < $extraCount; $k++) : ?>
+						<?php if (!empty($this->lists['extra_data'])) : ?>
+							<?php foreach ($this->lists['extra_data'] as $index => $extraData): ?>
                                 <tr>
                                     <td>
                                         <input
@@ -272,7 +272,7 @@ $editor = JEditor::getInstance();
                                                 class="divfieldText hide form-control"
                                                 name="extra_name[]"
                                                 id="extra_name<?php echo $k ?>"
-                                                value="<?php echo htmlentities($this->lists['extra_data'][$k]->field_name); ?>"
+                                                value="<?php echo htmlentities($extraData->field_name); ?>"
                                         />
                                         <input
                                                 type="file"
@@ -285,23 +285,23 @@ $editor = JEditor::getInstance();
                                                 type="text"
                                                 name="extra_value[]"
                                                 class="form-control"
-                                                value="<?php echo $this->lists['extra_data'][$k]->field_value; ?>"
+                                                value="<?php echo $extraData->field_value; ?>"
                                                 id="extra_value<?php echo $k ?>"
                                         />
                                         <input
                                                 type="hidden"
-                                                value="<?php echo htmlentities($this->lists['extra_data'][$k]->value_id); ?>"
+                                                value="<?php echo htmlentities($extraData->value_id); ?>"
                                                 name="value_id[]"
                                                 id="value_id<?php echo $k ?>"
                                         />
                                     </td>
                                     <td>
-										<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
+										<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $extraData->field_name) && $extraData->field_name != '') : ?>
                                             <img
                                                     width="100"
                                                     height="100"
                                                     class="img-polaroid"
-                                                    src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"
+                                                    src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $extraData->field_name; ?>"
                                             />
 										<?php endif; ?>
                                     </td>
@@ -312,7 +312,7 @@ $editor = JEditor::getInstance();
 										<?php endif; ?>
                                     </td>
                                 </tr>
-							<?php endfor; ?>
+							<?php endforeach; ?>
 						<?php else: ?>
 							<?php $k = 1; ?>
                             <tr>
