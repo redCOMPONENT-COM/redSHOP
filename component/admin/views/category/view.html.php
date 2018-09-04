@@ -23,7 +23,7 @@ class RedshopViewCategory extends RedshopViewForm
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed         A string if successful, otherwise an Error object.
 	 *
@@ -114,6 +114,7 @@ class RedshopViewCategory extends RedshopViewForm
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @throws  Exception
 	 */
 	protected function addToolbar()
 	{
@@ -121,7 +122,7 @@ class RedshopViewCategory extends RedshopViewForm
 		$isNew = ($this->item->id < 1);
 		$user  = JFactory::getUser();
 
-		if ($isNew && (count($user->authorise('com_redshop', 'core.create')) > 0))
+		if ($isNew && (!empty($user->authorise('com_redshop', 'core.create'))))
 		{
 			JToolbarHelper::apply('category.apply');
 			JToolbarHelper::save('category.save');
@@ -131,13 +132,13 @@ class RedshopViewCategory extends RedshopViewForm
 		else
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-			if ((count($user->authorise('com_redshop', 'core.edit')) > 0))
+			if ((!empty($user->authorise('com_redshop', 'core.edit'))))
 			{
 				JToolbarHelper::apply('category.apply');
 				JToolbarHelper::save('category.save');
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ((count($user->authorise('com_redshop', 'core.create')) > 0))
+				if ((!empty($user->authorise('com_redshop', 'core.create'))))
 				{
 					JToolbarHelper::save2new('category.save2new');
 				}
@@ -148,9 +149,9 @@ class RedshopViewCategory extends RedshopViewForm
 			$itemId = (int) RedshopHelperRouter::getCategoryItemid($this->item->id);
 
 			$link = JURI::root() . 'index.php?option=com_redshop'
-					. '&view=&view=category&layout=detail'
-					. '&cid=' . $this->item->id
-					. '&Itemid=' . $itemId;
+				. '&view=&view=category&layout=detail'
+				. '&cid=' . $this->item->id
+				. '&Itemid=' . $itemId;
 
 			RedshopToolbarHelper::link($link, 'preview', 'JGLOBAL_PREVIEW', '_blank');
 		}
