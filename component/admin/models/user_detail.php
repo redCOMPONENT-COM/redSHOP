@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 
-
 class RedshopModelUser_detail extends RedshopModel
 {
 	public $_id = null;
@@ -29,8 +28,8 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function __construct()
 	{
-		$app = JFactory::getApplication();
 		parent::__construct();
+		$app = JFactory::getApplication();
 
 		$this->_table_prefix = '#__redshop_';
 		$this->_context      = 'order_id';
@@ -81,7 +80,7 @@ class RedshopModelUser_detail extends RedshopModel
 				$this->_uid = $this->_data->user_id;
 			}
 
-			if (count($this->_data) > 0 && !$this->_data->email)
+			if (!empty($this->_data) && !$this->_data->email)
 			{
 				$this->_data->email = $this->_data->user_email;
 			}
@@ -238,8 +237,8 @@ class RedshopModelUser_detail extends RedshopModel
 	/**
 	 * Delete redSHOP and Joomla! users
 	 *
-	 * @param   array  $cid                Array of user ids
-	 * @param   bool   $deleteJoomlaUsers  Delete Joomla! users
+	 * @param   array $cid               Array of user ids
+	 * @param   bool  $deleteJoomlaUsers Delete Joomla! users
 	 *
 	 * @return boolean
 	 *
