@@ -136,28 +136,29 @@ if ($showbuttons)
 					<?php $checkCid = $input->get('cid', []); ?>
 					var checkCid = '<?php echo count($checkCid)? 'true': 'false'; ?>';
 
-					if (checkCid == 'false' && form.file.value == '' && form.media_bank_image.value == '' && form.hdn_download_file.value == '')
-					{
-						return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
-					}
+					if (form.file.value && form.media_bank_image.value && form.media_bank_image.value) {
+                        if (checkCid == 'false' && form.file.value == '' && form.media_bank_image.value == '' && form.hdn_download_file.value == '') {
+                            return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+                        }
 
-					if (mediaSection == 'product') {
-						if (form.hdn_download_file.value == '' && form.file == '') {
-							return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
-						}
-					}
-					// Make sure media type is selected
-					if (form.media_type.value == 0) {
-						return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true); ?>');
-					}
-					// Make sure section is selected
-					if (form.media_section.value == 0) {
-						return cancelSubmit('<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true); ?>');
-					}
+                        if (mediaSection == 'product') {
+                            if (form.hdn_download_file.value == '' && form.file == '') {
+                                return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_FILE', true); ?>');
+                            }
+                        }
+                        // Make sure media type is selected
+                        if (form.media_type.value == 0) {
+                            return cancelSubmit('<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true); ?>');
+                        }
+                        // Make sure section is selected
+                        if (form.media_section.value == 0) {
+                            return cancelSubmit('<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true); ?>');
+                        }
 
-					if (form.section_id.value == '' && form.media_section.value != 'media') {
-						return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true); ?>');
-					}
+                        if (form.section_id.value == '' && form.media_section.value != 'media') {
+                            return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true); ?>');
+                        }
+                    }
 			}
 			// Have done now submit it
 			Joomla.submitform(pressbutton);
@@ -301,7 +302,7 @@ if ($showbuttons)
 										</div>
 									</div>
 									<div id='selected_file'></div>
-									<input type="hidden" name="hdn_download_file" id="hdn_download_file"/>
+									<input type="hidden" name="hdn_download_file" id="hdn_download_file" value=""/>
 									<input type="hidden" name="hdn_download_file_path" id="hdn_download_file_path"/>
 								</td>
 								<td><?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER'); ?></td>

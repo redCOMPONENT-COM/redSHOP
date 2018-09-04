@@ -268,10 +268,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 			$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
-					. $post['section_id'] . '&showbuttons=1&section_name='
-					. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
-			);
+			if ($apply == 1)
+			{
+				$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $post['media_id'], $msg);
+			}
+			else
+			{
+				$this->setRedirect('index.php?option=com_redshop&view=media');
+			}
 		}
 		else
 		{
