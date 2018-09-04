@@ -108,7 +108,7 @@ JHtml::_('behavior.formvalidation');
             return;
         } else if (form.discount_stratdate.value != '') {
             if (form.discount_enddate.value != '') {
-                if (form.discount_enddate.value < form.discount_stratdate.value) {
+                if (parseDate(form.discount_enddate.value) < parseDate(form.discount_stratdate.value)) {console.log('3');
                     alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
                     return;
                 }
