@@ -302,7 +302,7 @@ if ($showbuttons)
 										</div>
 									</div>
 									<div id='selected_file'></div>
-									<input type="hidden" name="hdn_download_file" id="hdn_download_file" value=""/>
+									<input type="hidden" name="hdn_download_file" id="hdn_download_file"/>
 									<input type="hidden" name="hdn_download_file_path" id="hdn_download_file_path"/>
 								</td>
 								<td><?php echo JText::_('COM_REDSHOP_DOWNLOAD_FOLDER'); ?></td>
