@@ -63,6 +63,11 @@ JHtml::_('behavior.formvalidation');
 		var form = document.adminForm;
 
 		function parseDate(date) {
+            var format = "<?php echo Redshop::getConfig()->get('DEFAULT_DATEFORMAT') ?>";
+            if (format != 'd-m-Y')
+            {
+                var date = moment(date).format('DD-MM-YYYY');
+            }
 		   var parts = date.split("-");
 		   return new Date(parts[2], parts[1] - 1, parts[0]);
 		}
@@ -108,7 +113,7 @@ JHtml::_('behavior.formvalidation');
             return;
         } else if (form.discount_stratdate.value != '') {
             if (form.discount_enddate.value != '') {
-                if (parseDate(form.discount_enddate.value) < parseDate(form.discount_stratdate.value)) {console.log('3');
+                if (parseDate(form.discount_enddate.value) < parseDate(form.discount_stratdate.value)) {
                     alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE_END_DATE_CONDITION', true); ?>");
                     return;
                 }
