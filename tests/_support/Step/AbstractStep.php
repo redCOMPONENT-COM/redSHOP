@@ -109,7 +109,9 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->searchItemCheckIn($searchName);
 		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
+		$tester->wait(0.5);
 		$tester->click($searchName);
+		$tester->wait(0.5);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->waitForElement($pageClass::$selectorPageTitle, 30);
 		$tester->fillFormData($this->getFormFields(), $data);
