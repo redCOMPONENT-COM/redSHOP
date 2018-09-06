@@ -138,7 +138,7 @@ class OrderManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $fieldAttribute = "//*[@class='inputbox']";
+    public static $fieldAttribute = "//[@class='inputbox']";
 
     /**
      * @var string
