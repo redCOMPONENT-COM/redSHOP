@@ -27,65 +27,57 @@ class CheckPaymentMethodBankTransferCest
 	 */
 	public function __construct()
 	{
-		$this->faker                         = Faker\Factory::create();
+		$this->faker						= Faker\Factory::create();
 		$this->randomCategoryName        	= $this->faker->bothify('CategoryTesting ??####?');
-		$this->randomProductName            = $this->faker->bothify('TestingProductManagement ??####?');
-		$this->minimumPerProduct            = 2;
-		$this->minimumQuantity              = 2;
-		$this->maximumQuantity              = 5;
-		$this->productStart                 = "2018-05-05";
-		$this->productEnd                   = "2018-07-08";
-		$this->randomProductNumber          = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice           = rand(9, 19);
-		$this->discountPriceThanPrice       = 100;
-		$this->statusProducts               = 'Product on sale';
-		$this->searchCategory               = 'Category';
-		$this->newProductName               = 'New-Test Product' . rand(99, 999);
-		$this->priceProductForThan          = 10;
-		$this->totalAmount                  = $this->faker->numberBetween(100, 999);
-		$this->discountAmount               = $this->faker->numberBetween(10, 100);
+		$this->randomProductName			= $this->faker->bothify('TestingProductManagement ??####?');
+		$this->minimumPerProduct			= 2;
+		$this->minimumQuantity				= 2;
+		$this->maximumQuantity				= 5;
+		$this->productStart					= "2018-05-05";
+		$this->productEnd					= "2018-07-08";
+		$this->randomProductNumber			= $this->faker->numberBetween(999, 9999);
+		$this->randomProductPrice			= rand(9, 19);
+		$this->discountPriceThanPrice		= 100;
+		$this->statusProducts				= 'Product on sale';
+		$this->searchCategory				= 'Category';
+		$this->newProductName				= 'New-Test Product' . rand(99, 999);
+		$this->priceProductForThan			= 10;
+		$this->totalAmount					= $this->faker->numberBetween(100, 999);
+		$this->discountAmount				= $this->faker->numberBetween(10, 100);
 		
-		$this->product                    = array();
-		$this->product['name']            = $this->newProductName;
-		$this->product['number']          = $this->randomProductNumber;
-		$this->product['category']        = $this->randomCategoryName;
-		$this->product['price']           = $this->randomProductPrice;
-		$this->product['discountPrice']   = $this->faker->numberBetween(100, 1000);
-		$this->product['maximumQuantity'] = $this->maximumQuantity;
-		$this->product['minimumQuantity'] = $this->minimumQuantity;
 		
-		$this->userName                   = $this->faker->bothify('UserAdministratorCest ?##?');
-		$this->password                   = $this->faker->bothify('Password ?##?');
-		$this->email                      = $this->faker->email;
-		$this->emailsave                  = $this->faker->email;
-		$this->shopperGroup               = 'Default Private';
-		$this->group                      = 'Registered';
-		$this->firstName                  = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-		$this->lastName                   = 'Last';
-		$this->firstNameSave              = "FirstName";
-		$this->lastNameSave               = "LastName";
-		$this->emailWrong                 = "email";
-		$this->userNameDelete             = $this->firstName;
-		$this->searchOrder                = $this->firstName.' '.$this->lastName ;
-		$this->paymentMethod1			  = 'RedSHOP - Bank Transfer Payment';
-		$this->paymentMethod2			  = 'PayPal';
+		$this->userName						= $this->faker->bothify('UserAdministratorCest ?##?');
+		$this->password						= $this->faker->bothify('Password ?##?');
+		$this->email						= $this->faker->email;
+		$this->emailsave					= $this->faker->email;
+		$this->shopperGroup					= 'Default Private';
+		$this->group						= 'Registered';
+		$this->firstName					= $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName						= 'Last';
+		$this->firstNameSave				= "FirstName";
+		$this->lastNameSave					= "LastName";
+		$this->emailWrong					= "email";
+		$this->userNameDelete				= $this->firstName;
+		$this->searchOrder					= $this->firstName.' '.$this->lastName ;
+		$this->paymentMethod1				= 'RedSHOP - Bank Transfer Payment';
+		$this->paymentMethod2				= 'PayPal';
 		
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->addcart						= 'product';
+		$this->allowPreOrder				= 'yes';
+		$this->cartTimeOut					= $this->faker->numberBetween(100, 10000);
+		$this->enabldAjax					= 'no';
+		$this->defaultCart					= null;
+		$this->buttonCartLead				= 'Back to current view';
+		$this->onePage						= 'yes';
+		$this->showShippingCart				= 'no';
+		$this->attributeImage				= 'no';
+		$this->quantityChange				= 'no';
+		$this->quantityInCart				= 0;
+		$this->minimunOrder					= 0;
+		$this->enableQuation				= 'no';
+		$this->onePageNo					= 'no';
+		$this->onePageYes					= 'yes';
 	}
 	/**
 	 * Method for clean data.
