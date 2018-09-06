@@ -175,45 +175,47 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
 		$I->see($priceTotalOnCart);
     }
-//
-//    public function addOrderWithAttribute($nameUser, $nameProduct, $valueAttribute, $priceTotalOnCart)
-//    {
-//        $I = $this;
-//        $I->amOnPage(\OrderManagerPage::$URL);
-//        $I->click(\OrderManagerPage::$buttonNew);
-//        $I->click(\OrderManagerPage::$userId);
-//        $I->waitForElement(\OrderManagerPage::$userSearch, 30);
-//        $userOrderPage = new \OrderManagerPage();
-//        $I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-//        $I->waitForElement($userOrderPage->returnSearch($nameUser));
-//        $I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
-//        $I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
-//        $I->waitForElement(\OrderManagerPage::$fistName, 30);
-//        $I->see($nameUser);
-//        $I->wait(3);
-//        $I->waitForElement(\OrderManagerPage::$applyUser, 30);
-//        $I->executeJS("jQuery('.button-apply').click()");
-//        $I->waitForElement(\OrderManagerPage::$productId, 30);
-//        $I->scrollTo(\OrderManagerPage::$productId);
-//        $I->waitForElement(\OrderManagerPage::$productId, 30);
-//        $I->click(\OrderManagerPage::$productId);
-//        $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
-//        $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
-//        $I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
-//        $I->click($userOrderPage->returnSearch($nameProduct));
-//        $I->waitForElement(\OrderManagerPage::$fieldattribute, 30);
-//        $I->pauseExecution();
-//        $I->click(\OrderManagerPage::$fieldattribute);
-//        $I->pauseExecution();
-//
-//
-////        $option = $I->grabTextFrom('select option:nth-child(2)');
-////        $I->selectOption("Z", $option);
-//
-//        $I->pauseExecution();
-//        $I->see($priceTotalOnCart);
-//        $I->click(\OrderManagerPage::$buttonSave);
-//        $I->waitForElement(\OrderManagerPage::$close, 30);
-//        $I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
-//    }
+
+    public function addOrderWithAttribute($nameUser, $nameProduct, $subtotal, $price)
+    {
+        $I = $this;
+        $I->amOnPage(\OrderManagerPage::$URL);
+        $I->click(\OrderManagerPage::$buttonNew);
+        $I->click(\OrderManagerPage::$userId);
+        $I->waitForElement(\OrderManagerPage::$userSearch, 30);
+        $userOrderPage = new \OrderManagerPage();
+        $I->fillField(\OrderManagerPage::$userSearch, $nameUser);
+        $I->waitForElement($userOrderPage->returnSearch($nameUser));
+        $I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
+        $I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->waitForElement(\OrderManagerPage::$fistName, 30);
+        $I->see($nameUser);
+        $I->wait(3);
+        $I->waitForElement(\OrderManagerPage::$applyUser, 30);
+        $I->executeJS("jQuery('.button-apply').click()");
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
+        $I->scrollTo(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
+        $I->click(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
+        $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
+        $I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
+        $I->click($userOrderPage->returnSearch($nameProduct));
+        $I->waitForElement(\OrderManagerPage::$adminSubtotalPriceEnd, 30);
+        $I->pauseExecution();
+        $I->see($subtotal);
+        $I->pauseExecution();
+        $I->waitForElement(\OrderManagerPage::$fieldAttribute, 30);
+        $I->click(\OrderManagerPage::$valueAttribute);
+        $I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
+        $I->pauseExecution();
+        $I->click(\OrderManagerPage::$buttonSave);
+        $I->pauseExecution();
+
+
+        $I->waitForElement(\OrderManagerPage::$buttonSave, 30);
+        $I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
+//        $I->see($subtotal);
+        $I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
+    }
 }

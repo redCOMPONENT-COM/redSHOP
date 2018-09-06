@@ -134,7 +134,27 @@ class OrderManagerPage extends AdminJ3Page
      * @var string
      */
     public static $nameXpath = "//td[4]/a";
-    
+
+    /**
+     * @var string
+     */
+    public static $fieldAttribute = "//*[@class='inputbox']";
+
+    /**
+     * @var string
+     */
+    public static $valueAttribute = "//*[@class='inputbox']/option[2]";
+
+    /**
+     * @var string
+     */
+    public static $adminSubtotalPriceEnd = "#tdtotalprdproduct1";
+
+    /**
+     * @var string
+     */
+    public static $adminFinalPriceEnd = "#divFinalTotal";
+
     //button
 
     /**
