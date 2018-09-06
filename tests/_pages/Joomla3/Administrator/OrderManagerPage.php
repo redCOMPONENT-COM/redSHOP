@@ -148,12 +148,12 @@ class OrderManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $adminSubtotalPriceEnd = "#tdtotalprdproduct1";
+    public static $adminSubtotalPriceEnd = "#prdpriceproduct1";
 
     /**
      * @var string
      */
-    public static $adminFinalPriceEnd = "#divFinalTotal";
+    public static $adminFinalPriceEnd = "#tdtotalprdproduct1";
 
     //button
 
