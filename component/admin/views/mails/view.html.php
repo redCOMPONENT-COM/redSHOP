@@ -30,8 +30,7 @@ class RedshopViewMails extends RedshopViewList
 	 * @since   2.0.6
 	 */
 	public function onRenderColumn($config, $index, $row)
-	{media/com_redshop/js/redshop.admin.common.js
-
+	{
 		if ($config['dataCol'] === 'mail_section')
 		{
 			return RedshopHelperTemplate::getMailSections($row->mail_section);
