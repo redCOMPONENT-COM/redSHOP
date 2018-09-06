@@ -1376,6 +1376,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 				{
 					$pdata->use_individual_payment_method = '';
 				}
+				else
+				{
+					$post['payment_method'] = RedshopHelperPayment::getPaymentByIdProduct($pdata->product_id);
+				}
 
 				$post['product_parent_id']             = $pdata->product_parent_id;
 				$post['manufacturer_id']               = $pdata->manufacturer_id;
@@ -1514,7 +1518,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 						}
 					}
 				}
-
+				echo "<pre>";
+				print_r($post);
+				echo "</pre>";
+				die();
 				// Field_section 1 :Product.
 				RedshopHelperExtrafields::copyProductExtraField($pdata->product_id, $row->product_id);
 

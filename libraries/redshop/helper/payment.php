@@ -235,6 +235,35 @@ class RedshopHelperPayment
 	}
 
 	/**
+	 * Get payment method by id product
+	 *
+	 * @param   integer  $productId  Only product to show
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public static function getPaymentByIdProduct($productId)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('payment_id'))
+			->from($db->qn('#__redshop_product_payment_xref'))
+			->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+		$payment = $db->setQuery($query)->loadObjectList();
+		$result = array();
+
+		foreach ($payment as $value)
+		{
+			array_push($result, $value->payment_id);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * List payment into dropdown
 	 *
 	 * @param   array   $selectedPayments  Only show selected payments
