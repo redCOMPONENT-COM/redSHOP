@@ -81,7 +81,7 @@ class OrderBackendProductAttributeCest
 
 		$I->wantTo('Create Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->addOrderWithAttribute($this->userName, $this->productName, $this->subtotal, $this->price, $this->priceAttribute);
+		$I->addOrderWithAttribute($this->userName, $this->productName, $this->price, $this->priceAttribute);
 
 		$I->wantTo('Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);

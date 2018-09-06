@@ -176,7 +176,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($priceTotalOnCart);
 	}
 
-	public function addOrderWithAttribute($nameUser, $nameProduct, $subtotal, $price, $priceAttribute)
+	public function addOrderWithAttribute($nameUser, $nameProduct, $price, $priceAttribute)
 	{
 		$I = $this;
 		$I->amOnPage(\OrderManagerPage::$URL);
@@ -201,9 +201,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
 		$I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
 		$I->click($userOrderPage->returnSearch($nameProduct));
-		$I->waitForElement(\OrderManagerPage::$adminSubtotalPriceEnd, 30);
-		$I->wait(0.02);
-		$I->see($subtotal);
+		$I->wait(0.1);
+		$I->see($price);
 		$I->waitForElement(\OrderManagerPage::$fieldAttribute, 30);
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
