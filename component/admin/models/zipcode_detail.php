@@ -83,6 +83,14 @@ class RedshopModelZipcode_detail extends RedshopModel
 
 	public function store($data)
 	{
+		if (empty($data['country_code']) || empty($data['state_code']))
+		{
+			return false;
+		}
+
+		$data['country_code'] = implode(',', $data['country_code']);
+		$data['state_code']   = implode(',', $data['state_code']);
+
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
@@ -136,5 +144,46 @@ class RedshopModelZipcode_detail extends RedshopModel
 		$countries = $this->_db->loadObjectList();
 
 		return RedshopHelperUtility::convertLanguageString($countries);
+	}
+
+	/**
+	 * Get list state of country
+	 *
+	 * @param   string $countryCodes Country Codes
+	 *
+	 * @return  array|boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getStateList($countryCodes)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select(array($db->quoteName('s.state_name', 'text'), $db->quoteName('s.state_2_code', 'value')))
+			->from($db->quoteName('#__redshop_state', 's'))
+			->join('LEFT', $db->quoteName('#__redshop_country', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('s.country_id'))
+			->where('FIND_IN_SET (' . $db->quoteName('c.country_3_code') . ', ' . $db->quote($countryCodes) . ')')
+			->order($db->quoteName('s.state_name') . ' ASC');
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * Get list state of country
+	 *
+	 * @param   array $data Data
+	 *
+	 * @return  array|boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getStateDropdown($data)
+	{
+		if (empty($data['country_codes']))
+		{
+			return array();
+		}
+
+		return $this->getStateList($data['country_codes']);
 	}
 }
