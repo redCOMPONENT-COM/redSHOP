@@ -68,7 +68,9 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
         $this->emailWrong                 = "email";
         $this->userNameDelete             = $this->firstName;
         $this->searchOrder                = $this->firstName.' '.$this->lastName ;
-
+        $this->paymentMethod1			  = 'RedSHOP - Bank Transfer Payment';
+		$this->paymentMethod2			  = 'PayPal';
+        
         //configuration enable one page checkout
         $this->addcart          = 'product';
         $this->allowPreOrder    = 'yes';
@@ -162,7 +164,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
     public function checkOrder(ConfigurationSteps $I)
     {
         $I->wantTo('Check Order');
-        $I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName, $this->randomProductName, $this->randomCategoryName);
+        $I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName,  $this->randomProductName, $this->randomCategoryName, $this->paymentMethod1);
     }
 	
 	/**
