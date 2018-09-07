@@ -152,7 +152,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
     public function checkOrder(ConfigurationSteps $I)
     {
         $I->wantTo('Check Order');
-        $I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName,  $this->randomProductName, $this->randomCategoryName, $this->paymentMethod1);
+        $I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName,  $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
     }
 	
 	/**
