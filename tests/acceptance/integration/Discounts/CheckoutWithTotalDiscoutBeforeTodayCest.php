@@ -57,8 +57,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
         $this->emailWrong                 = "email";
         $this->userNameDelete             = $this->firstName;
         $this->searchOrder                = $this->firstName.' '.$this->lastName ;
-        $this->paymentMethod1             = 'RedSHOP - Bank Transfer Payment';
-        $this->paymentMethod2             = 'PayPal';
+        $this->paymentMethod             = 'RedSHOP - Bank Transfer Payment';
         
         //configuration enable one page checkout
         $this->addcart          = 'product';
