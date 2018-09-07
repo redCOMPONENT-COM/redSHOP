@@ -107,9 +107,11 @@ class ProductsCheckoutFrontEndCest
 	 * @param   Array             $shipmentDetail  Shipment Detail Array
 	 * @param   string            $productName     Name of the Product which we are going to Checkout
 	 * @param   string            $categoryName    Name of the Product Category
-	 *
+	 * @throws Exception
 	 * @return void
 	 */
+	
+	
 	private function checkOutProductWithBankTransfer(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $productName, $categoryName )
 	{
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -133,7 +135,7 @@ class ProductsCheckoutFrontEndCest
 		$I->addressInformation($addressDetail);
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->click(\AdminJ3Page::$checkoutButton);
 		$I->waitForElement($productFrontEndManagerPage->product($productName),30);
