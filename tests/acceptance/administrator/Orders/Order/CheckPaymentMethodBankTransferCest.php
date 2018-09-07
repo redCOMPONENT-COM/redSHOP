@@ -65,7 +65,7 @@ class CheckPaymentMethodBankTransferCest
 		//configuration enable one page checkout
 		$this->addcart          = 'product';
 		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->fake->numberBetween(100, 10000);
+		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
 		$this->enabldAjax       = 'no';
 		$this->defaultCart      = null;
 		$this->buttonCartLead   = 'Back to current view';
