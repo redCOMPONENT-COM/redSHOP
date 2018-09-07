@@ -135,7 +135,7 @@ class ProductsCheckoutFrontEndCest
 		$I->addressInformation($addressDetail);
 		$I->shippingInformation($shipmentDetail);
 		$I->click("Proceed");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->click(\AdminJ3Page::$checkoutButton);
 		$I->waitForElement($productFrontEndManagerPage->product($productName),30);
