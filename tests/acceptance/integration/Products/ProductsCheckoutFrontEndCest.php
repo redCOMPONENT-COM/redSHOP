@@ -27,7 +27,7 @@ class ProductsCheckoutFrontEndCest
 	 */
 	public function __construct()
 	{
-		$this->categoryName                 = 'TestingCategory';
+		$this->categoryName                 = 'TestingCategory' . rand(9, 999);
 		$this->ramdoCategoryNameAssign      = 'CategoryAssign' . rand(99, 999);
 		$this->productName                  = 'Testing ProductManagement' . rand(99, 999);
 		$this->minimumPerProduct            = 2;
