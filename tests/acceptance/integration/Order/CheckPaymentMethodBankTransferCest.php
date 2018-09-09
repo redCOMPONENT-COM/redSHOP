@@ -100,6 +100,9 @@ class CheckPaymentMethodBankTransferCest
 	{
 		$I->doAdministratorLogin();
 		
+		$I->wantTo('Enable PayPal');
+		$I->enablePlugin('PayPal');
+		
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserSteps($scenario);
 		$I->addUser($this->userName, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
