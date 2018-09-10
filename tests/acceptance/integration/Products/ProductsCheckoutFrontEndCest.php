@@ -27,7 +27,7 @@ class ProductsCheckoutFrontEndCest
 	 */
 	public function __construct()
 	{
-		$this->categoryName                 = 'TestingCategory';
+		$this->categoryName                 = 'TestingCategory' . rand(9, 999);
 		$this->ramdoCategoryNameAssign      = 'CategoryAssign' . rand(99, 999);
 		$this->productName                  = 'Testing ProductManagement' . rand(99, 999);
 		$this->minimumPerProduct            = 2;
@@ -52,6 +52,24 @@ class ProductsCheckoutFrontEndCest
 		$this->quantityStock                = 4;
 		$this->PreorderStock                = 2;
 		$this->priceProductForThan          = 10;
+
+
+//configuration enable one page checkout
+		$this->addcart          = 'product';
+		$this->allowPreOrder    = 'yes';
+		$this->cartTimeOut      = rand(100, 10000);
+		$this->enabldAjax       = 'no';
+		$this->defaultCart      = null;
+		$this->buttonCartLead   = 'Back to current view';
+		$this->onePage          = 'yes';
+		$this->showShippingCart = 'no';
+		$this->attributeImage   = 'no';
+		$this->quantityChange   = 'no';
+		$this->quantityInCart   = 0;
+		$this->minimunOrder     = 0;
+		$this->enableQuation    = 'no';
+		$this->onePageNo        = 'no';
+		$this->onePageYes       = 'yes';
 
 	}
 	public function deleteData($scenario)
@@ -79,9 +97,18 @@ class ProductsCheckoutFrontEndCest
 		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 	}
-
+	
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 */
 	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
 	{
+		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		
 		$I = new AcceptanceTester($scenario);
 		$I->wantTo('Test Product Checkout on Front End with Bank Transfer');
 		$customerInformation = array(
@@ -96,6 +123,10 @@ class ProductsCheckoutFrontEndCest
 			"phone"      => "8787878787"
 		);
 		$this->checkOutProductWithBankTransfer($I, $scenario, $customerInformation, $customerInformation, $this->productName, $this->categoryName);
+		
+		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 	}
 
 	/**
@@ -107,9 +138,11 @@ class ProductsCheckoutFrontEndCest
 	 * @param   Array             $shipmentDetail  Shipment Detail Array
 	 * @param   string            $productName     Name of the Product which we are going to Checkout
 	 * @param   string            $categoryName    Name of the Product Category
-	 *
+	 * @throws Exception
 	 * @return void
 	 */
+	
+	
 	private function checkOutProductWithBankTransfer(AcceptanceTester $I, $scenario, $addressDetail, $shipmentDetail, $productName, $categoryName )
 	{
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
