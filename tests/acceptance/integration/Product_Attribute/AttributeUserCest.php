@@ -262,9 +262,6 @@ class AttributeUserCest
 		$client->wantTo('Delete Category in Administrator');
 		$client = new CategorySteps($scenario);
 		$client->deleteCategory($this->category);
-		$client->wantTo('Delete Shopper Group in Administrator');
-		$client = new ShopperGroupSteps($scenario);
-		$client->deleteAllShopperGroups();
 		$client->wantTo('Delete User creation in Administrator');
 		$client = new \AcceptanceTester\UserManagerJoomla3Steps(($scenario));
 		$client->deleteUser($this->firstName);
