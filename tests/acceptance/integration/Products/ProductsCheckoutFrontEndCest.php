@@ -53,6 +53,24 @@ class ProductsCheckoutFrontEndCest
 		$this->PreorderStock                = 2;
 		$this->priceProductForThan          = 10;
 
+
+//configuration enable one page checkout
+		$this->addcart          = 'product';
+		$this->allowPreOrder    = 'yes';
+		$this->cartTimeOut      = rand(100, 10000);
+		$this->enabldAjax       = 'no';
+		$this->defaultCart      = null;
+		$this->buttonCartLead   = 'Back to current view';
+		$this->onePage          = 'yes';
+		$this->showShippingCart = 'no';
+		$this->attributeImage   = 'no';
+		$this->quantityChange   = 'no';
+		$this->quantityInCart   = 0;
+		$this->minimunOrder     = 0;
+		$this->enableQuation    = 'no';
+		$this->onePageNo        = 'no';
+		$this->onePageYes       = 'yes';
+
 	}
 	public function deleteData($scenario)
 	{
@@ -87,6 +105,10 @@ class ProductsCheckoutFrontEndCest
 	 */
 	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
 	{
+		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		
 		$I = new AcceptanceTester($scenario);
 		$I->wantTo('Test Product Checkout on Front End with Bank Transfer');
 		$customerInformation = array(
@@ -101,6 +123,10 @@ class ProductsCheckoutFrontEndCest
 			"phone"      => "8787878787"
 		);
 		$this->checkOutProductWithBankTransfer($I, $scenario, $customerInformation, $customerInformation, $this->productName, $this->categoryName);
+		
+		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 	}
 
 	/**
