@@ -1518,10 +1518,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						}
 					}
 				}
-				echo "<pre>";
-				print_r($post);
-				echo "</pre>";
-				die();
+
 				// Field_section 1 :Product.
 				RedshopHelperExtrafields::copyProductExtraField($pdata->product_id, $row->product_id);
 
@@ -1688,6 +1685,63 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$property_array                       = $this->store_pro($property_save);
 				$property_id                          = $property_array->property_id;
 				$listImages                           = $this->getImageInfor($att_property[$prop]->property_id, 'property');
+
+				$query        = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_price`
+					  WHERE `section_id` = ' . $att_property[$prop]->property_id;
+
+				$this->_db->setQuery($query);
+				$price_prop = $this->_db->loadObjectList();
+
+				for ($i = 0, $in = count($price_prop); $i < $in; $i++)
+				{
+					$attribute_price_detail             = $this->getTable('attributeprices_detail');
+					$attr_price['price_id ']                  = 0;
+					$attr_price['section_id']                 = $property_id;
+					$attr_price['product_price']              = $price_prop[$i]->product_price;
+					$attr_price['section']                    = $price_prop[$i]->section;
+					$attr_price['product_currency']           = $price_prop[$i]->product_currency;
+					$attr_price['cdate']                      = $price_prop[$i]->cdate;
+					$attr_price['shopper_group_id']           = $price_prop[$i]->shopper_group_id;
+					$attr_price['price_quantity_start']       = $price_prop[$i]->price_quantity_start;
+					$attr_price['price_quantity_end']         = $price_prop[$i]->price_quantity_end;
+					$attr_price['discount_price']             = $price_prop[$i]->discount_price;
+					$attr_price['discount_start_date']        = $price_prop[$i]->discount_start_date;
+					$attr_price['discount_end_date']          = $price_prop[$i]->discount_end_date;
+
+					if (!$attribute_price_detail->bind($attr_price))
+					{
+						/** @scrutinizer ignore-deprecated */
+						$this->setError($this->_db->getErrorMsg());
+
+						return false;
+					}
+
+					if (!$attribute_price_detail->store())
+					{
+						/** @scrutinizer ignore-deprecated */
+						$this->setError($this->_db->getErrorMsg());
+
+						return false;
+					}
+				}
+
+				$query        = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_stockroom_xref`
+					  WHERE `section_id` = ' . $att_property[$prop]->property_id;
+
+				$this->_db->setQuery($query);
+				$stock_prop = $this->_db->loadObjectList();
+
+				for ($i = 0, $in = count($stock_prop); $i < $in; $i++)
+				{
+					$attr_stock['section_id']              = $property_id;
+					$attr_stock['section']                  = $stock_prop[$i]->section;
+					$attr_stock['stockroom_id'][$i]         = $stock_prop[$i]->stockroom_id;
+					$attr_stock['quantity'][$i]             = $stock_prop[$i]->quantity;
+					$attr_stock['preorder_stock'][$i]       = $stock_prop[$i]->preorder_stock;
+					$attr_stock['ordered_preorder'][$i]     = $stock_prop[$i]->ordered_preorder;
+
+					$this->SaveAttributeStockroom($attr_stock);
+				}
 
 				// Update image names and copy
 				if (!empty($att_property[$prop]->property_image))
@@ -3314,6 +3368,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$quantity         = $post['quantity'][$i];
 			$stock_update     = false;
 			$list             = $this->getQuantity($post['section'], $sid, $post['section_id']);
+
+			if ($list[0]->section_id == 0)
+			{
+				$list = array();
+			}
 
 			if (count($list) > 0)
 			{
