@@ -144,7 +144,7 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 			<?php if ($enableClearButton): ?>
                 <div class="row-fluid">
-                    <button id="clear-btn" class="clear-btn btn btn-default clearfix">
+                    <button id="clear-btn" type="button" class="clear-btn btn btn-default clearfix">
 						<?php echo JText::_('MOD_REDSHOP_FILTER_CLEAR_LABEL') ?>
                     </button>
                 </div>
@@ -178,14 +178,16 @@ defined('_JEXEC') or die;
     }
 
     function restricted(form, pids, params) {
-        jQuery.ajax({
-            type: "POST",
-            url: "<?php echo JUri::root() ?>index.php?option=com_redshop&task=search.restrictedData",
-            data: {pids: pids, params: params, form: form},
-            success: function (restrictedData) {
-                jQuery('#redproductfinder-form-<?php echo $module->id;?>').html(restrictedData);
-            },
-        });
+        jQuery('body').on(function(event) {
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo JUri::root() ?>index.php?option=com_redshop&task=search.restrictedData",
+                data: {pids: pids, params: params, form: form},
+                success: function (restrictedData) {
+                    jQuery('#redproductfinder-form-<?php echo $module->id;?>').html(restrictedData);
+                },
+            });
+        }); 
     }
 
     function order(select) {
@@ -205,6 +207,15 @@ defined('_JEXEC') or die;
         redSHOP.Module.Filter.submitFormAjax();
     }
 
+    function getParams(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+            return null;
+        }
+
+        return decodeURI(results[1]) || 0;
+    }
+
     jQuery(document).ready(function () {
         redSHOP.Module.Filter.setup({
             "domId": "<?php echo $module->id ?>",
@@ -214,6 +225,29 @@ defined('_JEXEC') or die;
             "rangeMax": <?php echo $rangeMax; ?>,
             "currentMin": <?php echo $currentMin ?>,
             "currentMax": <?php echo $currentMax ?>
+        });
+
+        jQuery(window).load(function() {
+            if (<?php echo $pid ?> == 0)
+            {
+                // Reset keyword field
+                if (<?php echo $enableKeyword ?> == 1) {
+                    jQuery('#<?php echo $module->id ?>-keyworkd').val('');
+                }
+
+                // Reset manufacturer options
+                if (<?php echo $enableManufacturer ?> == 1) {
+                    jQuery('input[name="keyword-manufacturer"]').val('');
+                    redSHOP.Module.Filter.populateManufacturerOptions();
+                }
+
+                // Reset filter price
+                if (<?php echo $enablePrice ?> ==1) {
+                    jQuery('input[name="redform[filterprice][min]"]').val(0);
+                    jQuery('input[name="redform[filterprice][max]"]').val('<?php echo $rangeMax ?>');
+                    redSHOP.Module.Filter.rangeSlide(0, <?php echo $rangeMax; ?>, 0, <?php echo $rangeMax; ?>);
+                }
+            }
         });
     });
 </script>

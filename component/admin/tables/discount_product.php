@@ -183,6 +183,15 @@ class RedshopTableDiscount_Product extends RedshopTable
 			return false;
 		}
 
+		// Check amount and discount amount
+		if (((float) $this->amount) < (float) $this->discount_amount)
+		{
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_AMOUNT_HIGHT_DISCOUNT_AMOUNT'));
+
+			return false;
+		}
+
 		// If discount type is percent. Make sure discount amount not higher than 100.
 		if ($this->discount_type == 1 && $this->discount_amount > 100)
 		{
@@ -192,12 +201,15 @@ class RedshopTableDiscount_Product extends RedshopTable
 		}
 
 		// Make sure start date always lower than end date.
-		if (!empty($this->start_date) && !empty($this->end_date) && $this->start_date >= $this->end_date)
+		if (!empty($this->start_date) && !empty($this->end_date) && $this->start_date > $this->end_date)
 		{
 			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_DISCOUNT_PRODUCT_ERROR_START_DATE_SAME_HIGH_END_DATE'));
 
 			return false;
 		}
+
+		// Convert end date to same day but at middle night
+		$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
 
 		// Check shopper groups
 		if (empty($this->getOption('shopperGroups', array())))

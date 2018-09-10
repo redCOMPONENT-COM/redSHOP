@@ -116,6 +116,12 @@
         var check = [];
 
         redSHOP.Module.Filter.form.find('#manu #manufacture-list input').on('change', function () {
+            $(this).on("keypress", function (event) {
+                if (event.keyCode === 13) {
+                    return false;
+                }
+            });
+
             check.push($(this).val());
             redSHOP.Module.Filter.submitForm(this);
         });
