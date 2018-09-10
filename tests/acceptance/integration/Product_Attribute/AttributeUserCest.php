@@ -262,9 +262,6 @@ class AttributeUserCest
 		$client->wantTo('Delete Category in Administrator');
 		$client = new CategorySteps($scenario);
 		$client->deleteCategory($this->category);
-		$client->wantTo('Delete shipping rate in Administrator');
-		$client = new ShippingSteps($scenario);
-		$client->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
 		$client->wantTo('Delete Shopper Group in Administrator');
 		$client = new ShopperGroupSteps($scenario);
 		$client->deleteAllShopperGroups();
