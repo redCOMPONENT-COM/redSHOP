@@ -79,7 +79,12 @@ class ProductsCheckoutFrontEndCest
 		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 	}
-
+	
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 */
 	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
 	{
 		$I = new AcceptanceTester($scenario);
