@@ -453,7 +453,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
      * @param $price
      * @param $order
      */
-    public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName)
+    public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
     {
         $I = $this;
         $I->amOnPage(\ConfigurationPage::$URL);
@@ -477,6 +477,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
         $lastName = 'Last Name: '.$lastName;
         $I->see($firstName);
         $I->see($lastName);
+        $I->see($paymentMethod);
         $I->see($productName);
         $I->see($categoryName);
         $I->see($priceProduct);
