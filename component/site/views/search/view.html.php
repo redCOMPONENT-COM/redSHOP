@@ -244,15 +244,6 @@ class RedshopViewSearch extends RedshopView
 			$template_org = str_replace("{total_product}", $total, $template_org);
 			$template_org = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $template_org);
 
-			$keywordTxt = $keyword;
-
-			if (empty($keywordTxt))
-			{
-				$keywordTxt = JText::_('JALL');
-			}
-
-			$template_org = str_replace("{keyword}", $keywordTxt, $template_org);
-
 			// Replace redproductfilder filter tag
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
