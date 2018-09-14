@@ -408,6 +408,34 @@ class Cart
 		);
 
 		$selectProp                           = \productHelper::getInstance()->getSelectedAttributeArray($data);
+
+		if (\JFactory::getApplication()->input->getString('task') == 'reorder' && !empty($generateAttributeCart))
+		{
+			foreach ($generateAttributeCart as $idxRe => $itemRe)
+			{
+				if (!empty($itemRe['attribute_childs']))
+				{
+					$propertyReOrderItemArr[] = $itemRe['attribute_childs'][0]['property_id'];
+
+					if (!empty($itemRe['attribute_childs'][0]['property_childs']))
+					{
+						$subPropertyReOrderItemArr[] = $itemRe['attribute_childs'][0]['property_childs'][0]['subproperty_id'];
+					}
+					else
+					{
+						$subPropertyReOrderItemArr[] = '';
+					}
+				}
+			}
+
+			$propertyReOrderItemStr = implode('##', $propertyReOrderItemArr);
+			$subPropertyReOrderItemStr = implode('##', $subPropertyReOrderItemArr);
+
+			$dataReOrder['property_data'] = $propertyReOrderItemStr;
+			$dataReOrder['subproperty_data'] = $subPropertyReOrderItemStr;
+			$selectProp = \productHelper::getInstance()->getSelectedAttributeArray($dataReOrder);
+		}
+
 		$data['product_old_price']            = $retAttArr[5] + $retAttArr[6];
 		$data['product_old_price_excl_vat']   = $retAttArr[5];
 		$data['product_price']                = $retAttArr[1];
