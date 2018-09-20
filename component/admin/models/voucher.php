@@ -29,6 +29,13 @@ class RedshopModelVoucher extends RedshopModelForm
 	 */
 	public function save($data)
 	{
+		if ($data['start_date'] > $data['end_date'])
+		{
+			$this->setError(JText::_('COM_REDSHOP_END_DATE_MUST_MORE_THAN_START_DATE'));
+
+			return false;
+		}
+
 		if (!empty($data['start_date']))
 		{
 			$data['start_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['start_date']);
