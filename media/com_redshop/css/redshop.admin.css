@@ -1,5 +1,4 @@
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-@import url(//fonts.googleapis.com/css?family=Roboto:300,400,600,700,300italic,400italic,600italic);
 html {
     font-family: sans-serif;
     -ms-text-size-adjust: 100%;
@@ -160,10 +159,6 @@ input[type="search"]::-webkit-search-decoration {
     -webkit-appearance: none;
 }
 
-input, button, select, textarea {
-    font-family: 'Roboto', sans-serif !important;
-}
-
 fieldset {
     border: 1px solid #c0c0c0;
     margin: 0 2px;
@@ -275,7 +270,6 @@ html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-    font-family: 'Roboto', sans-serif !important;
     font-size: 14px !important;
     line-height: 1.42857143;
     color: #293235;
@@ -7495,8 +7489,6 @@ body {
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 400;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -7637,21 +7629,6 @@ body.hold-transition .main-header .logo {
     min-height: 0;
 }
 
-/* H1 - H6 font */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-    font-family: 'Roboto', sans-serif !important;
-}
 /* General Links */
 a {
     color: #337ab7;
@@ -16505,17 +16482,54 @@ td .controls .checkbox {
     margin: 0 10px 0 0;
 }
 
-.attr_tbody {
-    border-top: 1px solid #080808;
-    padding: 5px 0 0 0;
+.mainTableAttributes .showhidearrow
+{
+    color: black;
+    margin: 10px 0;
+    display: block;
+    float: left;
 }
 
-.showhidearrow {
+.add_property
+{
+    float: right;
     display: block;
+    margin: 10px 0 !important;
+}
+
+.attr_tbody {
+    background-color: #eee;
+    padding: 10px;
+    margin: 10px 0;
+    clear: both;
+}
+
+.attr_tbody .form-group
+{
+    display: block;
+    margin-bottom: 10px;
+}
+
+.attr_tbody .form-group label
+{
+    width: 40%;
+}
+
+.delete_attribute, .add_subproperty, .delete_property
+{
+    float: right;
+    margin-left: 10px;
 }
 
 .attribute_table {
     margin: 0 0 15px 0 !important;
+}
+
+.property_table
+{
+    
+    clear: both;
+    margin-top: 10px;
 }
 
 .oneAttribute {
@@ -16523,6 +16537,28 @@ td .controls .checkbox {
     background: #E7EEF4;
     border: 1px solid #ccc;
     margin-left: 0 !important;
+}
+
+.oneAttribute .rowAttribute
+{
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.oneAttribute .rowAttribute .attributeoptions
+{
+
+}
+
+.oneAttribute .rowAttribute .form-group
+{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.oneAttribute .rowAttribute .form-group label
+{
+   width: 40%;
 }
 
 .attribute_table_pro {
@@ -16544,12 +16580,42 @@ td .controls .checkbox {
 }
 
 .sub_attribute_table {
+    
+}
+
+.sub_property_table
+{
     padding: 10px 0;
+    margin-top: 10px;
     border-top: 1px solid #3a87ad;
 }
 
-.subAttrMedia {
-    margin: 5px 0 0 0 !important;
+.sub_attribute_table label
+{
+    display: block !important;
+    white-space: nowrap;
+}
+
+.sub_attribute_table.row > div
+{
+    padding: 0 5px 0 15px;
+}
+
+
+.imageBlock
+{
+    padding: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    margin: 0 15px;
+    border: 1px solid #ccc;
+}
+
+
+
+.joom-box img
+{
+    margin-bottom: 5px;
 }
 
 .attrSecondRow {
@@ -18670,7 +18736,7 @@ textarea::-webkit-input-placeholder {
 
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
-    float: left;
+    /*float: left;*/
 }
 
 .controls > .radio:first-child,
@@ -22861,6 +22927,7 @@ a.badge:focus {
     .hidden-phone {
         display: none !important;
     }
+
     #adminForm .filterTool .filterItem #filter_date_range_wrapper {
         width: 202px;
     }
