@@ -44,7 +44,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$editInline, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$eidtInLineYes);
+        $I->executeJS("jQuery('Yes').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -57,7 +57,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$editInline, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$editInLineNo);
+        $I->executeJS("jQuery('No').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -70,7 +70,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$comparisonNo);
+        $I->executeJS("jQuery('No').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -83,7 +83,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$comparisonYes);
+        $I->executeJS("jQuery('Yes').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -95,7 +95,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$price);
 		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->click(\ConfigurationPage::$showPriceNo);
+        $I->executeJS("jQuery('No').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -107,7 +107,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$price);
 		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->click(\ConfigurationPage::$showPriceYes);
+        $I->executeJS("jQuery('Yes').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
