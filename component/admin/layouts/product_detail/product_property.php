@@ -274,8 +274,8 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 					<div class="form-group">
 						<label><?php echo JText::_('COM_REDSHOP_SUBATTRIBUTE_REQUIRED'); ?></label>
 						<input type="checkbox" value="1"
-							name="<?php echo $propPref; ?>[default_sel]"
-						<?php echo ($property->setdefault_selected == 1) ? 'checked="checked"' : ''; ?> />
+							name="<?php echo $propPref; ?>[req_sub_att]"
+						<?php echo ($property->setrequire_selected == 1) ? 'checked="checked"' : ''; ?> />
 					</div>
 				</div>
 				

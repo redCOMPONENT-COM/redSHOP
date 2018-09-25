@@ -189,6 +189,7 @@ if ($data->lists['attributes'])
 						'property' => $property,
 						'propPref' => $propPref,
 						'productId' => $productId,
+						'attributeId' => $attributeId,
 						'data' => $data
 					)
 				);
@@ -197,6 +198,8 @@ if ($data->lists['attributes'])
 		</div>
 		</div>
 			
+
+		
 	<?php
 	}
 }
