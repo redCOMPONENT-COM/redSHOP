@@ -17,8 +17,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-        $I->waitForElement(\ConfigurationPage::$stockRoomYes,30);
-        $I->executeJS("jQuery('Yes').click()");
+		$I->executeJS("jQuery('Yes').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -440,48 +439,48 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
-    /**
-     * @param $name
-     */
-    public function searchOrder($name)
-    {
-        $I = $this;
-        $I->wantTo('Search the User ');
-        $I->amOnPage(\OrderManagerPage::$URL);
-        $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
-    }
-    /**
-     * @param $price
-     * @param $order
-     */
-    public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
-    {
-        $I = $this;
-        $I->amOnPage(\ConfigurationPage::$URL);
-        $currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
-        $decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
-        $numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
-        $numberOfPriceDecimals = (int)$numberOfPriceDecimals;
-        $NumberZero = null;
-        for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
-        {
-            $NumberZero = $NumberZero."0";
-        }
-        $I->amOnPage(\OrderManagerPage::$URL);
-        $I->searchOrder($order);
-        $I->click(\OrderManagerPage::$iconEdit);
-        $quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
-        $quantity = (int)$quantity;
-        $priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
-        $priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
-        $firstName = 'First Name: '.$firstName;
-        $lastName = 'Last Name: '.$lastName;
-        $I->see($firstName);
-        $I->see($lastName);
-        $I->see($paymentMethod);
-        $I->see($productName);
-        $I->see($categoryName);
-        $I->see($priceProduct);
-        $I->see($priceTotal);
-    }
+	/**
+	 * @param $name
+	 */
+	public function searchOrder($name)
+	{
+		$I = $this;
+		$I->wantTo('Search the User ');
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
+	}
+	/**
+	 * @param $price
+	 * @param $order
+	 */
+	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->searchOrder($order);
+		$I->click(\OrderManagerPage::$iconEdit);
+		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$firstName = 'First Name: '.$firstName;
+		$lastName = 'Last Name: '.$lastName;
+		$I->see($firstName);
+		$I->see($lastName);
+		$I->see($paymentMethod);
+		$I->see($productName);
+		$I->see($categoryName);
+		$I->see($priceProduct);
+		$I->see($priceTotal);
+	}
 }
