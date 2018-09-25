@@ -31,7 +31,7 @@ class RedshopModelCoupon extends RedshopModelForm
 	{
 		if ($data['start_date'] > $data['end_date'])
 		{
-			$this->setError(JText::_('COM_REDSHOP_END_DATE_MUST_MORE_THAN_START_DATE'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_START_DATE_MUST_BE_SOONER_OR_EQUAL_TO_END_DATE'));
 
 			return false;
 		}
