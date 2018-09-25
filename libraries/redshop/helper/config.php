@@ -287,6 +287,10 @@ class RedshopHelperConfig
 
 			return JFile::copy($this->getConfigurationDistFilePath(), $this->getConfigurationFilePath());
 		}
+		else
+		{
+			$this->fixCurrentConfig();
+		}
 
 		return true;
 	}
@@ -532,5 +536,24 @@ class RedshopHelperConfig
 	public function getFloat($name = '', $default = 0.0)
 	{
 		return empty($this->config) ? (float) $default : (float) $this->config->get($name, $default);
+	}
+
+	/**
+	 * Method for fixing any wrong config that might cause the component to work improperly
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.8
+	 */
+	public function fixCurrentConfig()
+	{
+		if (!empty($this->config))
+		{
+			if ((string) $this->get('DEFAULT_DATEFORMAT') === '0')
+			{
+				$this->config->set('DEFAULT_DATEFORMAT', 'Y-m-d');
+				$this->save($this->config);
+			}
+		}
 	}
 }

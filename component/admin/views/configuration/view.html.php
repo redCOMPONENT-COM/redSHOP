@@ -675,9 +675,16 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" ', 'value', 'text', $this->config->get('CURRENCY_SYMBOL_POSITION')
 		);
 
-		$default_dateformat          = $config->getDateFormat();
-		$lists['default_dateformat'] = JHtml::_('select.genericlist', $default_dateformat, 'default_dateformat',
-			'class="form-control" ', 'value', 'text', $this->config->get('DEFAULT_DATEFORMAT')
+		$options_dateformat          = $config->getDateFormat();
+		$selected_dateformat         = $this->config->get('DEFAULT_DATEFORMAT');
+
+		if ((string) $selected_dateformat === '0')
+		{
+			$selected_dateformat = 'Y-m-d';
+		}
+
+		$lists['default_dateformat'] = JHtml::_('select.genericlist', $options_dateformat, 'default_dateformat',
+			'class="form-control" ', 'value', 'text', $selected_dateformat
 		);
 
 		$lists['discount_enable']         = JHtml::_('redshopselect.booleanlist', 'discount_enable', 'class="form-control" ', $this->config->get('DISCOUNT_ENABLE'));
