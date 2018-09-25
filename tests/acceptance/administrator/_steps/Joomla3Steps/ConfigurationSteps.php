@@ -30,7 +30,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$stockRoomNo);
+		$I->executeJS("jQuery('No').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
