@@ -105,7 +105,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$tester->executeJS("jQuery('#shopper_group_quotation_mode0-lbl').click()");
 		}
 
-		$tester->click(\ShopperGroupJ3Page::$publishYes);
+		$tester->executeJS("jQuery('#published1-lbl').click()");
 
 		switch ($function)
 		{

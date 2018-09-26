@@ -29,6 +29,16 @@ class CheckoutChangeQuantityProductPage extends AdminJ3Page
 	 */
 	public static $bankTransfer = "#rs_payment_banktransfer";
 
+    /**
+     * @var string
+     */
+	public static $term = "#termscondition";
+
+    /**
+     * @var string
+     */
+	public static $finalStep = "#checkout_final";
+
 	/**
 	 * @var array
 	 */
