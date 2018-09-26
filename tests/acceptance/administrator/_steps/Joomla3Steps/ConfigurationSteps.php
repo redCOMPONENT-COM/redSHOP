@@ -322,12 +322,12 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->executeJS("jquery('#onestep_checkout_enable1-lbl').click()");
+		$I->executeJS("jQuery('#onestep_checkout_enable1-lbl').click()");
 		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartYes, 30);
-		$I->executeJS("jquery('#quantity_text_display1-lbl).click()");
+		$I->executeJS("jQuery('#quantity_text_display1-lbl').click()");
 		$I->click(\ConfigurationPage::$quantityInCart);
 		$I->fillField(\ConfigurationPage::$quantityInCart, $quantity) ;
-		$I->executeJS("jquery('optional_shipping_address1-lbl').click()");
+		$I->executeJS("jQuery('optional_shipping_address1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 	}
 	// Disable Quantity in Configuration (Not allow user change quantity when checkout)
@@ -336,10 +336,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->executeJS("jquery('#onestep_checkout_enable0-lbl).click()");
+		$I->executeJS("jQuery('#onestep_checkout_enable0-lbl).click()");
 		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo, 30);
-		$I->executeJS("jquery('#quantity_text_display0-lbl).click()");
-		$I->executeJS("jquery('#optional_shipping_address0-lbl).click()");
+		$I->executeJS("jQuery('#quantity_text_display0-lbl).click()");
+		$I->executeJS("jQuery('#optional_shipping_address0-lbl).click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 	}
 
