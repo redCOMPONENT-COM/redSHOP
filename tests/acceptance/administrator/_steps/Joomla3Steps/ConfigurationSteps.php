@@ -336,10 +336,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->executeJS("jQuery('#onestep_checkout_enable0-lbl).click()");
+		$I->executeJS("jQuery('#onestep_checkout_enable0-lbl').click()");
 		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo, 30);
-		$I->executeJS("jQuery('#quantity_text_display0-lbl).click()");
-		$I->executeJS("jQuery('#optional_shipping_address0-lbl).click()");
+		$I->executeJS("jQuery('#quantity_text_display0-lbl').click()");
+		$I->executeJS("jQuery('#optional_shipping_address0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 	}
 
