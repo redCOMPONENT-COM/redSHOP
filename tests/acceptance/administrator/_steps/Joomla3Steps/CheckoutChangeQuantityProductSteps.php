@@ -44,7 +44,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$bankTransfer);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions,30);
 		$I->executeJS("jQuery('#termscondition').click()");
-		$I->scrollTo(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep,30);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
