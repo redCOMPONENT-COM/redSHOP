@@ -17,7 +17,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('Yes').click()");
+		$I->executeJS("jQuery('#use_stockroom1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -30,7 +30,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('No').click()");
+		$I->executeJS("jQuery('#use_stockroom0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -44,7 +44,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$editInline, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('Yes').click()");
+		$I->executeJS("jQuery('#inline_editing1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -57,7 +57,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$editInline, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('No').click()");
+		$I->executeJS("jQuery('#inline_editing0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -70,7 +70,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('No').click()");
+		$I->executeJS("jQuery('#inline_editing0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -82,8 +82,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
-		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('Yes').click()");
+		$I->executeJS("jQuery('#compare_products1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -95,7 +94,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$price);
 		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->executeJS("jQuery('No').click()");
+		$I->executeJS("jQuery('#show_price0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -107,7 +106,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$price);
 		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->executeJS("jQuery('Yes').click()");
+		$I->executeJS("jQuery('#show_price1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -169,12 +168,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($vatAfter)
 		{
 			case 'after':
-				$I->waitForElement(\ConfigurationPage::$applyDiscountAfter, 5);
-				$I->executeJS("jQuery('After').click()");
+				$I->executeJS("jQuery('#apply_vat_on_discount0-lbl').click()");
 				break;
 			case 'before':
-				$I->waitForElement(\ConfigurationPage::$applyDiscountBefore,5);
-				$I->executeJS("jQuery('Before').click()");
+				$I->executeJS("jQuery('#apply_vat_on_discount1-lbl').click()");
 				break;
 		}
 
@@ -185,12 +182,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($calculationBase)
 		{
 			case 'billing':
-				$I->waitForElement(\ConfigurationPage::$calculationBaseBilling,5);
-				$I->executeJS("jQuery('Billing address').click()");
+				$I->executeJS("jQuery('#calculate_vat_onBT-lbl').click()");
 				break;
 			case 'shipping':
-				$I->waitForElement(\ConfigurationPage::$calculationBaseShipping,5);
-				$I->executeJS("jQuery('Shipping address').click()");
+				$I->executeJS("jQuery('#calculate_vat_onST-lbl').click()");
 				break;
 		}
 
@@ -199,12 +194,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($requiVAT)
 		{
 			case 'yes':
-				$I->waitForElement(\ConfigurationPage::$vatNumberYes, 5);
-				$I->executeJS("jQuery('Yes').click()");
+				$I->executeJS("jQuery('#required_vat_number1-lbl').click()");
 				break;
 			case 'no':
-				$I->waitForElement(\ConfigurationPage::$vatNumberNo, 5);
-				$I->executeJS("jQuery('No').click()");
+				$I->executeJS("jQuery('#required_vat_number0-lbl').click()");
 				break;
 		}
 
@@ -222,35 +215,29 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($addcart)
 		{
 			case 'product':
-				$I->waitForElement(\ConfigurationPage::$addCartProduct, 5);
-				$I->executeJS("jQuery('Add to cart per product').click()");
+				$I->executeJS("jQuery('#individual_add_to_cart_enable0-lbl').click()");
 				break;
 			case 'attribute':
-				$I->waitForElement(\ConfigurationPage::$addCartAttibute, 5);
-				$I->executeJS("jQuery('Add to cart per attribute').click()");
+				$I->executeJS("jQuery('#individual_add_to_cart_enable1-lbl').click()");
 				break;
 		}
 		switch ($allowPreOrder)
 		{
 			case 'yes':
-				$I->waitForElement(\ConfigurationPage::$allowPreOrOderYes, 5);
-				$I->executeJS("jQuery('Yes').click()");
+				$I->executeJS("jQuery('#allow_pre_order1-lbl').click()");
 				break;
 
 			case 'no':
-				$I->waitForElement(\ConfigurationPage::$allowPreorderNo, 5);
-				$I->executeJS("jQuery('No').click()");
+				$I->executeJS("jQuery('#allow_pre_order0-lbl').click()");
 				break;
 		}
 		switch ($enableQuation)
 		{
 			case 'yes':
-				$I->waitForElement(\ConfigurationPage::$enableQuotationYes, 5);
-				$I->executeJS("jQuery('Yes').click()");
+				$I->executeJS("jQuery('#default_quotation_mode1-lbl').click()");
 				break;
 			case 'no':
-				$I->waitForElement(\ConfigurationPage::$enableQuotationNo, 5);
-				$I->executeJS("jQuery('No').click()");
+				$I->executeJS("jQuery('#default_quotation_mode0-lbl').click()");
 				break;
 		}
 
@@ -259,12 +246,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($enabldAjax)
 		{
 			case 'yes':
-				$I->waitForElement(\ConfigurationPage::$enableAjaxYes, 5);
-				$I->executeJS("jQuery('Yes').click()");
+				$I->executeJS("jQuery('#ajax_cart_box1-lbl').click()");
 				break;
 			case 'no':
-				$I->waitForElement(\ConfigurationPage::$enableAjaxNo, 5);
-				$I->executeJS("jQuery('No').click()");
+				$I->executeJS("jQuery('#ajax_cart_box0-lbl').click()");
 				break;
 		}
 		//choice default cart/checkout item ID
@@ -287,48 +272,40 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($onePage)
 		{
 			case 'yes':
-				$I->waitForElement(\ConfigurationPage::$onePageYes,5);
-				$I->executeJS("jQuery('Yes').click()");
+				$I->executeJS("jQuery('#onestep_checkout_enable1-lbl').click()");
 				break;
 			case 'no':
-				$I->waitForElement(\ConfigurationPage::$onePageNo,5);
-				$I->executeJS("jQuery('No').click()");
+				$I->executeJS("jQuery('#onestep_checkout_enable0-lbl').click()");
 				break;
 		}
 
 		switch ($showShippingCart)
 		{
 			case 'yes':
-				$I->waitForElement(\ConfigurationPage::$showShippingCartYes,5);
-				$I->executeJS("jQuery('Yes').click()");
+				$I->executeJS("jQuery('#show_shipping_in_cart1-lbl').click()");
 				break;
 			case 'no':
-				$I->waitForElement(\ConfigurationPage::$showShippingCartNo,5);
-				$I->executeJS("jQuery('No').click()");
+				$I->executeJS("jQuery('#show_shipping_in_cart0-lbl').click()");
 				break;
 		}
 
 		switch ($attributeImage)
 		{
 			case 'yes':
-				$I->waitForElement(\ConfigurationPage::$attributeImageInCartYes, 5);
-				$I->executeJS("jQuery('Yes').click()");
+				$I->executeJS("jQuery('#wanttoshowattributeimage1-lbl').click()");
 				break;
 			case 'no':
-				$I->waitForElement(\ConfigurationPage::$attributeImageInCartNo,5);
-				$I->executeJS("jQuery('No').click()");
+				$I->executeJS("jQuery('#wanttoshowattributeimage0-lbl').click()");
 				break;
 		}
 
 		switch ($quantityChange)
 		{
 			case 'yes':
-				$I->waitForElement(\ConfigurationPage::$quantityChangeInCartYes, 5);
-				$I->executeJS("jQuery('Yes').click()");
+				$I->executeJS("jQuery('#quantity_text_display1-lbl').click()");
 				break;
 			case 'no':
-				$I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo,5);
-				$I->executeJS("jQuery('No').click()");
+				$I->executeJS("jQuery('#quantity_text_display0-lbl').click()");
 				break;
 		}
 		$I->fillField(\ConfigurationPage::$quantityInCart, $quantityInCart);
@@ -390,11 +367,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['enableCoupon'] == 'yes')
 					{
-						$I->waitForElement(\ConfigurationPage::$enableCouponYes,5);
-						$I->executeJS("jQuery('Yes').click()");
+						$I->executeJS("jQuery('#coupons_enable1-lbl').click()");
 					}else{
-						$I->waitForElement(\ConfigurationPage::$enableCouponNo,5);
-						$I->executeJS("jQuery('No').click()");
+						$I->executeJS("jQuery('#coupons_enable0-lbl').click()");
 					}
 				}
 
@@ -402,11 +377,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['couponInfo'] == 'yes')
 					{
-						$I->waitForElement(\ConfigurationPage::$enableCouponInfoYes,5);
-						$I->executeJS("jQuery('Yes').click()");
+						$I->executeJS("jQuery('#couponinfo1-lbl').click()");
 					}else{
-						$I->waitForElement(\ConfigurationPage::$enableCouponInfoNo,5);
-						$I->executeJS("jQuery('No').click()");
+						$I->executeJS("jQuery('#couponinfo0-lbl').click()");
 					}
 				}
 
@@ -414,11 +387,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['enableVoucher'] == 'yes')
 					{
-						$I->waitForElement(\ConfigurationPage::$enableVoucherYes,5);
-						$I->executeJS("jQuery('Yes').click()");
+						$I->executeJS("jQuery('#vouchers_enable1-lbl').click()");
 					}else{
-						$I->waitForElement(\ConfigurationPage::$enableVoucherNo,5);
-						$I->executeJS("jQuery('No').click()");
+						$I->executeJS("jQuery('#vouchers_enable0-lbl').click()");
 					}
 				}
 
@@ -427,11 +398,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['spendTime'] == 'yes')
 					{
-						$I->waitForElement(\ConfigurationPage::$spendTimeDiscountYes,5);
-						$I->executeJS("jQuery('Yes').click()");
+						$I->executeJS("jQuery('#special_discount_mail_send1-lbl').click()");
 					}else{
-						$I->waitForElement(\ConfigurationPage::$spendTimeDiscountNo,5);
-						$I->executeJS("jQuery('No').click()");
+						$I->executeJS("jQuery('#special_discount_mail_send0-lbl').click()");
 					}
 				}
 
@@ -439,11 +408,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['applyForProductDiscount'] == 'yes')
 					{
-						$I->waitForElement(\ConfigurationPage::$applyDiscountForProductAlreadyDiscountYes,5);
-						$I->executeJS("jQuery('Yes').click()");
+						$I->executeJS("jQuery('#apply_voucher_coupon_already_discount1-lbl').click()");
 					}else{
-						$I->waitForElement(\ConfigurationPage::$applyDiscountForProductAlreadyDiscountNo,5);
-						$I->executeJS("jQuery('No').click()");
+						$I->executeJS("jQuery('#apply_voucher_coupon_already_discount0-lbl').click()");
 					}
 				}
 
@@ -451,11 +418,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['calculate'] == 'total')
 					{
-						$I->waitForElement(\ConfigurationPage::$calculateShippingBasedTotal, 5);
-						$I->executeJS("jQuery('Total').click()");
+						$I->executeJS("jQuery('#shipping_aftertotal-lbl').click()");
 					}else{
-						$I->waitForElement(\ConfigurationPage::$calculateShippingBasedSubTotal,5);
-						$I->executeJS("jQuery('Subtotal').click()");
+						$I->executeJS("jQuery('#shipping_aftersubtotal-lbl').click()");
 					}
 				}
 
