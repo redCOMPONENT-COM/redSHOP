@@ -916,6 +916,11 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 		'product'
 	);
 
+	if (isset($pluginResults['mainImageResponse']))
+	{
+		$preselectedresult['product_mainimg'] = $pluginResults['mainImageResponse'];
+	}
+
 	$productAvailabilityDate = strstr($template_desc, "{product_availability_date}");
 	$stockNotifyFlag         = strstr($template_desc, "{stock_notify_flag}");
 	$stockStatus             = strstr($template_desc, "{stock_status");
