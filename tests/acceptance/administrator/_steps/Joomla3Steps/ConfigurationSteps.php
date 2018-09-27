@@ -216,9 +216,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($addcart)
 		{
 			case 'product':
+				$I->waitForElement(\ConfigurationPage::$addCartProduct,30);
 				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
+				$I->waitForElement(\ConfigurationPage::$addCartAttibute, 30);
 				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
@@ -273,9 +275,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($onePage)
 		{
 			case 'yes':
+				$I->waitForElement(\ConfigurationPage::$onePageYes, 30);
 				$I->click(\ConfigurationPage::$onePageYes);
 				break;
 			case 'no':
+				$I->waitForElement(\ConfigurationPage::$onePageNo, 30);
 				$I->click(\ConfigurationPage::$onePageNo);
 				break;
 		}
