@@ -17,7 +17,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$stockRoomYes);
+		$I->executeJS("jQuery('#use_stockroom1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -30,7 +30,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$stockRoomNo);
+		$I->executeJS("jQuery('#use_stockroom0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -44,7 +44,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$editInline, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$eidtInLineYes);
+		$I->executeJS("jQuery('#inline_editing1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -57,7 +57,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$editInline, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$editInLineNo);
+		$I->executeJS("jQuery('#inline_editing0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -70,7 +70,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$comparisonNo);
+		$I->executeJS("jQuery('#inline_editing0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -82,8 +82,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
-		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$comparisonYes);
+		$I->executeJS("jQuery('#compare_products1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -95,7 +94,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$price);
 		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->click(\ConfigurationPage::$showPriceNo);
+		$I->executeJS("jQuery('#show_price0-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -107,7 +106,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$price);
 		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->click(\ConfigurationPage::$showPriceYes);
+		$I->executeJS("jQuery('#show_price1-lbl').click()");
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -169,10 +168,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($vatAfter)
 		{
 			case 'after':
-				$I->click(\ConfigurationPage::$applyDiscountAfter);
+				$I->executeJS("jQuery('#apply_vat_on_discount0-lbl').click()");
 				break;
 			case 'before':
-				$I->click(\ConfigurationPage::$applyDiscountBefore);
+				$I->executeJS("jQuery('#apply_vat_on_discount1-lbl').click()");
 				break;
 		}
 
@@ -183,10 +182,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($calculationBase)
 		{
 			case 'billing':
-				$I->click(\ConfigurationPage::$calculationBaseBilling);
+				$I->executeJS("jQuery('#calculate_vat_onBT-lbl').click()");
 				break;
 			case 'shipping':
-				$I->click(\ConfigurationPage::$calculationBaseShipping);
+				$I->executeJS("jQuery('#calculate_vat_onST-lbl').click()");
 				break;
 		}
 
@@ -195,10 +194,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($requiVAT)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$vatNumberYes);
+				$I->executeJS("jQuery('#required_vat_number1-lbl').click()");
 				break;
 			case 'no':
-				$I->click(\ConfigurationPage::$vatNumberNo);
+				$I->executeJS("jQuery('#required_vat_number0-lbl').click()");
 				break;
 		}
 
@@ -216,29 +215,29 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($addcart)
 		{
 			case 'product':
-				$I->click(\ConfigurationPage::$addCartProduct);
+				$I->executeJS("jQuery('#individual_add_to_cart_enable0-lbl').click()");
 				break;
 			case 'attribute':
-				$I->click(\ConfigurationPage::$addCartAttibute);
+				$I->executeJS("jQuery('#individual_add_to_cart_enable1-lbl').click()");
 				break;
 		}
 		switch ($allowPreOrder)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$allowPreOrOderYes);
+				$I->executeJS("jQuery('#allow_pre_order1-lbl').click()");
 				break;
 
 			case 'no':
-				$I->click(\ConfigurationPage::$allowPreorderNo);
+				$I->executeJS("jQuery('#allow_pre_order0-lbl').click()");
 				break;
 		}
 		switch ($enableQuation)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$enableQuotationYes);
+				$I->executeJS("jQuery('#default_quotation_mode1-lbl').click()");
 				break;
 			case 'no':
-				$I->click(\ConfigurationPage::$enableQuotationNo);
+				$I->executeJS("jQuery('#default_quotation_mode0-lbl').click()");
 				break;
 		}
 
@@ -247,10 +246,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($enabldAjax)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$enableAjaxYes);
+				$I->executeJS("jQuery('#ajax_cart_box1-lbl').click()");
 				break;
 			case 'no':
-				$I->click(\ConfigurationPage::$enableAjaxNo);
+				$I->executeJS("jQuery('#ajax_cart_box0-lbl').click()");
 				break;
 		}
 		//choice default cart/checkout item ID
@@ -273,40 +272,40 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($onePage)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$onePageYes);
+				$I->executeJS("jQuery('#onestep_checkout_enable1-lbl').click()");
 				break;
 			case 'no':
-				$I->click(\ConfigurationPage::$onePageNo);
+				$I->executeJS("jQuery('#onestep_checkout_enable0-lbl').click()");
 				break;
 		}
 
 		switch ($showShippingCart)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$showShippingCartYes);
+				$I->executeJS("jQuery('#show_shipping_in_cart1-lbl').click()");
 				break;
 			case 'no':
-				$I->click(\ConfigurationPage::$showShippingCartNo);
+				$I->executeJS("jQuery('#show_shipping_in_cart0-lbl').click()");
 				break;
 		}
 
 		switch ($attributeImage)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$attributeImageInCartYes);
+				$I->executeJS("jQuery('#wanttoshowattributeimage1-lbl').click()");
 				break;
 			case 'no':
-				$I->click(\ConfigurationPage::$attributeImageInCartNo);
+				$I->executeJS("jQuery('#wanttoshowattributeimage0-lbl').click()");
 				break;
 		}
 
 		switch ($quantityChange)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$quantityChangeInCartYes);
+				$I->executeJS("jQuery('#quantity_text_display1-lbl').click()");
 				break;
 			case 'no':
-				$I->click(\ConfigurationPage::$quantityChangeInCartNo);
+				$I->executeJS("jQuery('#quantity_text_display0-lbl').click()");
 				break;
 		}
 		$I->fillField(\ConfigurationPage::$quantityInCart, $quantityInCart);
@@ -315,33 +314,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
-	}
-
-	// Enable Quantity in Configuration (Allow user change quantity product in checkout page)
-	public function configChangeQuantityProduct($quantity ='3')
-	{
-		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->click(\ConfigurationPage::$onePageYes);
-		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartYes, 30);
-		$I->click(\ConfigurationPage::$quantityChangeInCartYes);
-		$I->click(\ConfigurationPage::$quantityInCart);
-		$I->fillField(\ConfigurationPage::$quantityInCart, $quantity) ;
-		$I->click(\ConfigurationPage::$showSameAddressForBillingYes);
-		$I->click(\ConfigurationPage::$buttonSave);
-	}
-	// Disable Quantity in Configuration (Not allow user change quantity when checkout)
-	public function returnConfigChangeQuantityProduct()
-	{
-		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->click(\ConfigurationPage::$onePageNo);
-		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo, 30);
-		$I->click(\ConfigurationPage::$quantityChangeInCartNo);
-		$I->click(\ConfigurationPage::$showSameAddressForBillingNo);
-		$I->click(\ConfigurationPage::$buttonSave);
 	}
 
 	public function priceDiscount($discount = array())
@@ -368,9 +340,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['enableCoupon'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$enableCouponYes);
+						$I->executeJS("jQuery('#coupons_enable1-lbl').click()");
 					}else{
-						$I->click(\ConfigurationPage::$enableCouponNo);
+						$I->executeJS("jQuery('#coupons_enable0-lbl').click()");
 					}
 				}
 
@@ -378,9 +350,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['couponInfo'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$enableCouponInfoYes);
+						$I->executeJS("jQuery('#couponinfo1-lbl').click()");
 					}else{
-						$I->click(\ConfigurationPage::$enableCouponInfoNo);
+						$I->executeJS("jQuery('#couponinfo0-lbl').click()");
 					}
 				}
 
@@ -388,9 +360,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['enableVoucher'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$enableVoucherYes);
+						$I->executeJS("jQuery('#vouchers_enable1-lbl').click()");
 					}else{
-						$I->click(\ConfigurationPage::$enableVoucherNo);
+						$I->executeJS("jQuery('#vouchers_enable0-lbl').click()");
 					}
 				}
 
@@ -399,9 +371,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['spendTime'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$spendTimeDiscountYes);
+						$I->executeJS("jQuery('#special_discount_mail_send1-lbl').click()");
 					}else{
-						$I->click(\ConfigurationPage::$spendTimeDiscountNo);
+						$I->executeJS("jQuery('#special_discount_mail_send0-lbl').click()");
 					}
 				}
 
@@ -409,9 +381,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['applyForProductDiscount'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$applyDiscountForProductAlreadyDiscountYes);
+						$I->executeJS("jQuery('#apply_voucher_coupon_already_discount1-lbl').click()");
 					}else{
-						$I->click(\ConfigurationPage::$applyDiscountForProductAlreadyDiscountNo);
+						$I->executeJS("jQuery('#apply_voucher_coupon_already_discount0-lbl').click()");
 					}
 				}
 
@@ -419,9 +391,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['calculate'] == 'total')
 					{
-						$I->click(\ConfigurationPage::$calculateShippingBasedTotal);
+						$I->executeJS("jQuery('#shipping_aftertotal-lbl').click()");
 					}else{
-						$I->click(\ConfigurationPage::$calculateShippingBasedSubTotal);
+						$I->executeJS("jQuery('#shipping_aftersubtotal-lbl').click()");
 					}
 				}
 
@@ -439,48 +411,48 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
-    /**
-     * @param $name
-     */
-    public function searchOrder($name)
-    {
-        $I = $this;
-        $I->wantTo('Search the User ');
-        $I->amOnPage(\OrderManagerPage::$URL);
-        $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
-    }
-    /**
-     * @param $price
-     * @param $order
-     */
-    public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
-    {
-        $I = $this;
-        $I->amOnPage(\ConfigurationPage::$URL);
-        $currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
-        $decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
-        $numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
-        $numberOfPriceDecimals = (int)$numberOfPriceDecimals;
-        $NumberZero = null;
-        for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
-        {
-            $NumberZero = $NumberZero."0";
-        }
-        $I->amOnPage(\OrderManagerPage::$URL);
-        $I->searchOrder($order);
-        $I->click(\OrderManagerPage::$iconEdit);
-        $quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
-        $quantity = (int)$quantity;
-        $priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
-        $priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
-        $firstName = 'First Name: '.$firstName;
-        $lastName = 'Last Name: '.$lastName;
-        $I->see($firstName);
-        $I->see($lastName);
-        $I->see($paymentMethod);
-        $I->see($productName);
-        $I->see($categoryName);
-        $I->see($priceProduct);
-        $I->see($priceTotal);
-    }
+	/**
+	 * @param $name
+	 */
+	public function searchOrder($name)
+	{
+		$I = $this;
+		$I->wantTo('Search the User ');
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
+	}
+	/**
+	 * @param $price
+	 * @param $order
+	 */
+	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->searchOrder($order);
+		$I->click(\OrderManagerPage::$iconEdit);
+		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$firstName = 'First Name: '.$firstName;
+		$lastName = 'Last Name: '.$lastName;
+		$I->see($firstName);
+		$I->see($lastName);
+		$I->see($paymentMethod);
+		$I->see($productName);
+		$I->see($categoryName);
+		$I->see($priceProduct);
+		$I->see($priceTotal);
+	}
 }

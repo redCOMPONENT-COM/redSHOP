@@ -51,35 +51,35 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($shopperGroupPortal == 'yes')
 		{
-			$tester->click(\ShopperGroupJ3Page::$shopperGroupPortalYes);
+			$tester->executeJS("jQuery('#shopper_group_portal1-lbl').click()");
 		}
 		else
 		{
-			$tester->click(\ShopperGroupJ3Page::$shopperGroupPortalNo);
+			$tester->executeJS("jQuery('#shopper_group_portal0-lbl').click()");
 		}
 		$tester->click(\ShopperGroupJ3Page::$categoryFiled);
 
 		$tester->fillField(\ShopperGroupJ3Page::$categoryFill, $category);
 		$tester->pressKey(\ShopperGroupJ3Page::$categoryFill, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$tester->waitForElement(\ShopperGroupJ3Page::$shippingYes, 30);
+
 		if ($shipping == 'yes')
 		{
-			$tester->click(\ShopperGroupJ3Page::$shippingYes);
+			$tester->executeJS("jQuery('#default_shipping1-lbl').click()");
 		}
 		else
 		{
-			$tester->click(\ShopperGroupJ3Page::$shippingNo);
+			$tester->executeJS("jQuery('#default_shipping0-lbl').click()");
 		}
 		$tester->fillField(\ShopperGroupJ3Page::$shippingRate, $shippingRate);
 		$tester->fillField(\ShopperGroupJ3Page::$shippingCheckout, $shippingCheckout);
 
 		if ($showVat == 'yes')
 		{
-			$tester->click(\ShopperGroupJ3Page::$vatYes);
+			$tester->executeJS("jQuery('#show_price_without_vat1-lbl').click()");
 		}
 		else
 		{
-			$tester->click(\ShopperGroupJ3Page::$vatNo);
+			$tester->executeJS("jQuery('#show_price_without_vat0-lbl').click()");
 		}
 
 		$tester->click(\ShopperGroupJ3Page::$showPrice);
@@ -98,14 +98,14 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($enableQuotation == 'yes')
 		{
-			$tester->click(\ShopperGroupJ3Page::$quotationYes);
+			$tester->executeJS("jQuery('#shopper_group_quotation_mode1-lbl').click()");
 		}
 		else
 		{
-			$tester->click(\ShopperGroupJ3Page::$quoationNo);
+			$tester->executeJS("jQuery('#shopper_group_quotation_mode0-lbl').click()");
 		}
 
-		$tester->click(\ShopperGroupJ3Page::$publishYes);
+		$tester->executeJS("jQuery('#published1-lbl').click()");
 
 		switch ($function)
 		{
