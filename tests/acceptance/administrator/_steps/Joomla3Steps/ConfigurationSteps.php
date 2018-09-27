@@ -316,31 +316,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
 
-	// Enable Quantity in Configuration (Allow user change quantity product in checkout page)
-	public function configChangeQuantityProduct($quantity ='3')
-	{
-		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->executeJS("jQuery('#onestep_checkout_enable1-lbl').click()");
-		$I->executeJS("jQuery('#quantity_text_display1-lbl').click()");
-		$I->click(\ConfigurationPage::$quantityInCart);
-		$I->fillField(\ConfigurationPage::$quantityInCart, $quantity) ;
-		$I->executeJS("jQuery('optional_shipping_address1-lbl').click()");
-		$I->click(\ConfigurationPage::$buttonSave);
-	}
-	// Disable Quantity in Configuration (Not allow user change quantity when checkout)
-	public function returnConfigChangeQuantityProduct()
-	{
-		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->executeJS("jQuery('#onestep_checkout_enable0-lbl').click()");
-		$I->executeJS("jQuery('#quantity_text_display0-lbl').click()");
-		$I->executeJS("jQuery('#optional_shipping_address0-lbl').click()");
-		$I->click(\ConfigurationPage::$buttonSave);
-	}
-
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
