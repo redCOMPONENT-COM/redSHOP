@@ -42,10 +42,11 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions);;
-		$I->scrollTo(\CheckoutChangeQuantityProductPage::$termAndConditions, 60);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms);;
+		$I->scrollTo(\CheckoutChangeQuantityProductPage::$acceptTerms, 60);
+        $I->wait(0.5);
 		$I->executeJS("jQuery('#termscondition').click()");
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 30);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
 		$I->executeJS("jQuery('#checkout_final').click()");
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressAddress);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
