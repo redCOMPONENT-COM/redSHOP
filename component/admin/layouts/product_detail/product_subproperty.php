@@ -66,7 +66,9 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 		<label>
 			<?php echo JText::_('COM_REDSHOP_PRICE'); ?>
 		</label>
-		<input type="text" class="input-xmini text-center" name="<?php echo $subPropPref; ?>[oprand]" value="<?php echo $subProperty->oprand; ?>" onchange="javascript:oprand_check(this);" />
+		
+		<?php echo JHtml::_('select.genericlist', $data->lists['prop_oprand'], $subPropPref . '[oprand]', 'text-center input-xmini', 'value', 'text', $subProperty->oprand); ?>
+		
 		<input type="text" class="input-mini" name="<?php echo $subPropPref; ?>[price]" value="<?php echo $subProperty->subattribute_color_price; ?>" />
 	</div>
 	<div class="col-sm-1">
@@ -85,13 +87,13 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 		</label>
 		<input class="text-center input-xmini" type="text" name="<?php echo $subPropPref; ?>[order]" value="<?php echo $subProperty->ordering; ?>">
 
-		<a class="joom-box btn btn-small" rel="{handler: 'iframe', size: {x: 950, y: 500}}" title="" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'); ?>">
+		<a class="btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" title="" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'); ?>">
 					<img
 						src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
 						alt=""/><?php echo JText::_('COM_REDSHOP_ADD_PRICE_LBL'); ?>
 				</a>
 				<?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-				<a class="joom-box btn btn-small" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId); ?>&layout=productstockroom&property=subproperty">
+				<a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId); ?>&layout=productstockroom&property=subproperty">
 						<img
 							src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png"/><?php echo JText::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM'); ?>
 					</a>
@@ -116,7 +118,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 
 	<div class="col-sm-1">
 		<input id="deleteSubProp_<?php echo $subProperty->subattribute_color_id; ?>_<?php
-					echo $property->property_id; ?>" value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" class="btn btn-danger delete_subproperty btn-small" type="button" />
+					echo $property->property_id; ?>" value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" class="btn btn-danger delete_subproperty" type="button" />
 	</div>
 
 </div>
@@ -138,25 +140,20 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 						
 						?>
 
-						<div class="col-sm-6">
-							<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $mainImage; ?>">
-								<img src="<?php echo $mainImageThumb; ?>"/>
-							</a>
-						
-						</div>
+						<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $mainImage; ?>">
+							<img src="<?php echo $mainImageThumb; ?>"/>
+						</a>
 						<?php
 					}
 					
 					?>
 
-					<div class="col-sm-6">
-						<a class="joom-box btn btn-small" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
-						   title=""
-						   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id='
-							. $propertyId . '&showbuttons=1&media_section=property'); ?>">
-							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt=""/><?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>
-						</a>
-					</div>
+					<a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
+					   title=""
+					   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+						. $propertyId . '&showbuttons=1&media_section=property'); ?>">
+						<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt=""/><?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -175,16 +172,13 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 					
 					?>
 
-					<div class="col-sm-6">
-						<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $subPropertyImage; ?>">
+					<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $subPropertyImage; ?>">
 						<img id="subpropertyImage<?php echo $keyAttr . $keySubProp; ?>"
-							src="<?php echo $subPropertyImageThumb; ?>"/>
-						</a>
-						<br />
-						<input value="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE'); ?>" type="button" class="btn btn-small deleteSubPropertyMainImage" id="deleteSubPropertyMainImage_<?php echo $subProperty->subattribute_color_id; ?>_<?php
-							echo $keyAttr . $keySubProp; ?>" />
+						src="<?php echo $subPropertyImageThumb; ?>"/>
+					</a>
 
-					</div>
+					<input value="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE'); ?>" type="button" class="btn deleteSubPropertyMainImage" id="deleteSubPropertyMainImage_<?php echo $subProperty->subattribute_color_id; ?>_<?php
+						echo $keyAttr . $keySubProp; ?>" />
 					<?php
 				}
 				else
@@ -194,11 +188,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 					<?php
 					}
 				?>
-
-			
-				<div class="col-sm-6">
-					<input type="file" value="" name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_subproperty_<?php echo $keySubProp; ?>_image" />
-				</div>
+				<input type="file" value="" name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_subproperty_<?php echo $keySubProp; ?>_image" />
 			</div>
 		</div>
 

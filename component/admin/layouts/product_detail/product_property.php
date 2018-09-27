@@ -53,10 +53,10 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 
 ?>
 <a href="#" class="showhidearrow">
-	<?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE'); ?>
+	<?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE'); ?>: <span class="propertyName"><?php echo $property->property_name; ?></span>
 	<img class="arrowimg" src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>arrow.png" alt=""/>
 </a>
-<div class="attr_tbody form-inline divInspectFromHideShow">
+<div class="attr_tbody form-inline divInspectFromHideShow" style="display: none">
 	<input type="hidden" value="<?php echo $totalSubProp; ?>" name="<?php echo $propPref; ?>[count_subprop]" class="count_subprop" />
 	<input type="hidden" value="<?php echo $keyProperty; ?>" name="<?php echo $propPref; ?>[key_prop]" class="key_prop" />
 	<div class="row">
@@ -65,7 +65,7 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 				<label>
 					<?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE'); ?>
 				</label>
-				<input type="text" class="input-medium" name="<?php echo $propPref; ?>[name]" value="<?php echo $property->property_name; ?>" />
+				<input type="text" class="form-control propertyInput" name="<?php echo $propPref; ?>[name]" value="<?php echo $property->property_name; ?>" />
 				<input type="hidden" name="<?php echo $propPref; ?>[property_id]" value="<?php echo $propertyId; ?>" />
 				<input type="hidden" id="propertyImageName<?php echo $keyAttr . $keyProperty; ?>" name="<?php echo $propPref; ?>[property_image]" value="<?php echo $property->property_image; ?>" />
 				<input type="hidden" name="<?php echo $propPref; ?>[mainImage]" id="propmainImage<?php echo $keyAttr . $keyProperty; ?>" value="" />
@@ -77,18 +77,23 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 				<label>
 					<?php echo JText::_('COM_REDSHOP_PRICE'); ?>
 				</label>
-				<input type="text" class="text-center input-xmini" value="<?php echo $property->oprand; ?>" name="<?php echo $propPref; ?>[oprand]" onchange="javascript:oprand_check(this);" />
-				<input type="text" class="input-medium" value="<?php echo $property->property_price; ?>" name="<?php echo $propPref; ?>[price]" />
+			
+				<div class="priceInput">
+					<?php echo JHtml::_('select.genericlist', $data->lists['prop_oprand'], $propPref . '[oprand]', 'class="input-xmini"', 'value', 'text', $property->oprand); ?>
+
+					<input type="text" class="form-control" value="<?php echo $property->property_price; ?>" name="<?php echo $propPref; ?>[price]" />
+				</div>
+				
 			</div>
 
 		</div>
 
 		<div class="col-sm-4">
-			<a class="joom-box btn btn-small" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $propertyId . '&cid=' . $productId . '&section=property'); ?>">
+			<a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $propertyId . '&cid=' . $productId . '&section=property'); ?>">
 						<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png"/> <?php echo JText::_('COM_REDSHOP_ADD_PRICE_LBL'); ?>
 					</a>
 			<?php if (Redshop::getConfig()->get('USE_STOCKROOM')): ?>
-			<a class="joom-box btn btn-small" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'); ?>">
+			<a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=' . $propertyId . '&cid=' . $productId . '&layout=productstockroom&property=property'); ?>">
 								<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>stockroom16.png"/> <?php echo JText::_('COM_REDSHOP_ACTION_MANAGE_STOCKROOM'); ?>
 							</a>
 			<?php endif; ?>
@@ -102,7 +107,7 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 				<label>
 					<?php echo JText::_('COM_REDSHOP_PROPERTY_NUMBER'); ?>
 				</label>
-				<input type="text" class="vpnrequired input-medium" value="<?php echo $property->property_number; ?>" name="<?php echo $propPref; ?>[number]" />
+				<input type="text" class="vpnrequired form-control" value="<?php echo $property->property_number; ?>" name="<?php echo $propPref; ?>[number]" />
 			</div>
 		</div>
 
@@ -111,7 +116,7 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 				<label>
 					<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>
 				</label>
-				<input type="text" class="input-medium" name="<?php echo $propPref; ?>[extra_field]" value="<?php echo $property->extra_field; ?>" />
+				<input type="text" class="form-control" name="<?php echo $propPref; ?>[extra_field]" value="<?php echo $property->extra_field; ?>" />
 			</div>
 		</div>
 
@@ -120,7 +125,7 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 				<label>
 					<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
 				</label>
-				<input type="text" class="text-center input-xmini" name="<?php echo $propPref; ?>[order]" value="<?php echo $property->ordering; ?>" />
+				<input type="number" class="form-control" name="<?php echo $propPref; ?>[order]" value="<?php echo $property->ordering; ?>" />
 			</div>
 		</div>
 	</div>
@@ -136,31 +141,17 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 
 				<div class="imageBlock">
 				
-					<?php
-					if ($mainImage)
-					{
-						
-						?>
-
-						<div class="col-sm-6">
-							<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $mainImage; ?>">
-								<img src="<?php echo $mainImageThumb; ?>"/>
-							</a>
-						</div>
-						<?php
-					}
-					
-					?>
-
-			
-					<div class="col-sm-6">
-						<a class="joom-box btn btn-small" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
-						   title=""
-						   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id='
-							. $propertyId . '&showbuttons=1&media_section=property'); ?>">
-							<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt=""/><?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>
+					<?php if ($mainImage) { ?>
+						<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $mainImage; ?>">
+							<img src="<?php echo $mainImageThumb; ?>"/>
 						</a>
-					</div>
+					<?php } ?>
+
+					<a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
+					   title=""
+					   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+						. $propertyId . '&showbuttons=1&media_section=property'); ?>"><?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -179,16 +170,12 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 						
 						?>
 
-						<div class="col-sm-6">
-							<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $propertyImage; ?>">
+						<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $propertyImage; ?>">
 							<img id="propertyImage<?php echo $keyAttr . $keyProperty; ?>"
 								src="<?php echo $propertyImageThumb; ?>"/>
 						</a>
-						<br />
 						<input id="deletePropertyMainImage_<?php echo $property->property_id; ?>_<?php
-							echo $keyAttr . $keyProperty; ?>" value="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE'); ?>" class="btn btn-small deletePropertyMainImage" type="button" />
-
-						</div>
+							echo $keyAttr . $keyProperty; ?>" value="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE'); ?>" class="btn deletePropertyMainImage" type="button" />
 						<?php
 					}
 					else
@@ -200,9 +187,7 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 					?>
 
 				
-					<div class="col-sm-6">
-						<input type="file" value="" name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_image" />
-					</div>
+					<input type="file" value="" name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_image" />
 				</div>
 			</div>
 
@@ -229,7 +214,6 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 		?>
 
 	<div class="row">
-
 		<div class="col-sm-4">
 			<div class="form-group">
 				<label name="<?php echo $propPref; ?>[preselected]">
@@ -252,8 +236,8 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 		</div>
 		<div class="col-sm-8">
 			<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" id="deleteProperty_<?php echo $propertyId; ?>_<?php
-								echo $attributeId; ?>" class="btn btn-danger delete_property btn-small" type="button" />
-			<a class="btn btn-success add_subproperty btn-small" href="#"><?php echo "+ " . JText::_('COM_REDSHOP_NEW_SUB_PROPERTY'); ?></a>
+								echo $attributeId; ?>" class="btn btn-danger delete_property" type="button" />
+			<a class="btn btn-success add_subproperty" href="#"><?php echo "+ " . JText::_('COM_REDSHOP_NEW_SUB_PROPERTY'); ?></a>
 			
 		</div>
 	</div>
@@ -285,7 +269,7 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 							<?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>
 						</label>
 						<select
-							name="<?php echo $propPref; ?>[setdisplay_type]" class="input-medium">
+							name="<?php echo $propPref; ?>[setdisplay_type]" class="form-control">
 							<option value="dropdown"
 								<?php echo ($property->setdisplay_type == 'dropdown') ? 'selected' : ''; ?>>
 								<?php echo JText::_('COM_REDSHOP_DROPDOWN_LIST'); ?>
@@ -312,11 +296,13 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 			
 			</div>
 
+			<div class="sub_attribute_table">
+
 			<?php
 			if ($totalSubProp != 0)
 			{ ?>
 
-				<div class="sub_attribute_table">
+				
 
 				<?php
 				foreach ($property->subvalue as $keySubProp => $subProperty)
@@ -328,7 +314,12 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 						'product_detail.product_subproperty', 
 						array(
 							'subPropPref' => $subPropPref,
-							'subProperty' => $subProperty
+							'subProperty' => $subProperty,
+							'keyAttr' => $keyAttr,
+							'keyProperty' => $keyProperty,
+							'keySubProp' => $keySubProp,
+							'property' => $property,
+							'data' => $data
 						)
 					);
 				
@@ -336,11 +327,11 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 
 				?>
 
-				</div>
+				
 			<?php }
 			?>
 			
-				
+			</div>
 				
 			
 	</div>

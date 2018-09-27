@@ -33,7 +33,7 @@ defined('_JEXEC') or die;
 						 <?php echo $this->lists['copy_attribute']; ?>
 					</div>
 					
-					<a class="btn btn-success add_attribute btn-small pull-right" href="#"> <?php echo '+ ' . JText::_('COM_REDSHOP_NEW_ATTRIBUTE'); ?></a>
+					<a class="btn btn-success add_attribute pull-right" href="#"> <?php echo '+ ' . JText::_('COM_REDSHOP_NEW_ATTRIBUTE'); ?></a>
 				</fieldset>
 				<hr/>
 				<?php echo RedshopLayoutHelper::render('product_detail.product_attribute', array('this' => $this)); ?>

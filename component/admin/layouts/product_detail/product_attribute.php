@@ -23,6 +23,7 @@ if (isset($data->detail->attribute_set_id))
 	$attributeSetId = $data->detail->attribute_set_id;
 }
 
+JText::script('COM_REDSHOP_ATTRIBUTE_NAME');
 JText::script('COM_REDSHOP_TITLE');
 JText::script('COM_REDSHOP_ATTRIBUTE_REQUIRED');
 JText::script('COM_REDSHOP_PUBLISHED');
@@ -68,7 +69,7 @@ if ($data->lists['attributes'])
 	?>
 
 		<a href="#" class="showhidearrow">
-			<?php echo JText::_('COM_REDSHOP_TITLE'); ?>
+			<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_NAME'); ?>: <span class="attributeName"><?php echo $attributeData['attribute_name']; ?></span>
 			<img class="arrowimg" src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>arrow.png" alt=""/>
 		</a>
 
@@ -86,9 +87,9 @@ if ($data->lists['attributes'])
 						    	<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_NAME'); ?>
 							</label>
 						    	<input type="text"
-							   class="form-control"
-							   name="<?php echo $attrPref; ?>[name]"
-							   value="<?php echo $attributeData['attribute_name']; ?>"/>
+							   		class="form-control attributeInput"
+							   		name="<?php echo $attrPref; ?>[name]"
+							   		value="<?php echo $attributeData['attribute_name']; ?>"/>
 						  </div>
 
 						  <div class="form-group">
@@ -96,7 +97,7 @@ if ($data->lists['attributes'])
 						    	<?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>
 							</label>
 						   <select
-							name="<?php echo $attrPref; ?>[display_type]" class="input-medium">
+							name="<?php echo $attrPref; ?>[display_type]" class="form-control">
 							<option value="dropdown"
 								<?php echo ($displayType == 'dropdown') ? 'selected' : ''; ?>>
 								<?php echo JText::_('COM_REDSHOP_DROPDOWN_LIST'); ?>
@@ -123,7 +124,7 @@ if ($data->lists['attributes'])
 						    <label>
 						    	<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
 							</label>
-						    <input class="text-center input-xmini" type="text" name="<?php echo $attrPref; ?>[ordering]"
+						    <input class="form-control" type="number" name="<?php echo $attrPref; ?>[ordering]"
 							   value="<?php echo $attributeData['ordering']; ?>"/>
 						</div>	
 					</div>
@@ -164,7 +165,7 @@ if ($data->lists['attributes'])
 					</div>
 				</div>
 
-				<input class="btn btn-danger delete_attribute btn-small"
+				<input class="btn btn-danger delete_attribute"
 						   id="deleteAttribute_<?php echo $attributeId; ?>_<?php
 							echo $productId; ?>_<?php
 							echo $attributeSetId; ?>"
@@ -173,7 +174,7 @@ if ($data->lists['attributes'])
 			</div>
 
 		<div class="property_table">
-			<a class="btn btn-success add_property btn-small">
+			<a class="btn btn-success add_property">
 				+ <?php echo JText::_('COM_REDSHOP_ADD_SUB_ATTRIBUTE'); ?>
 			</a>
 			<?php
