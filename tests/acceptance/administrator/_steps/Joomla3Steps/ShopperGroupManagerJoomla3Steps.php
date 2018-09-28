@@ -51,11 +51,11 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($shopperGroupPortal == 'yes')
 		{
-			$tester->executeJS("jQuery('#shopper_group_portal1-lbl').click()");
+			$tester->click(\ShopperGroupJ3Page::$shopperGroupPortalYes);
 		}
 		else
 		{
-			$tester->executeJS("jQuery('#shopper_group_portal0-lbl').click()");
+			$tester->click(\ShopperGroupJ3Page::$shopperGroupPortalNo);
 		}
 		$tester->click(\ShopperGroupJ3Page::$categoryFiled);
 
@@ -64,22 +64,22 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($shipping == 'yes')
 		{
-			$tester->executeJS("jQuery('#default_shipping1-lbl').click()");
+			$tester->click(\ShopperGroupJ3Page::$shippingYes);
 		}
 		else
 		{
-			$tester->executeJS("jQuery('#default_shipping0-lbl').click()");
+			$tester->click(\ShopperGroupJ3Page::$shippingNo);
 		}
 		$tester->fillField(\ShopperGroupJ3Page::$shippingRate, $shippingRate);
 		$tester->fillField(\ShopperGroupJ3Page::$shippingCheckout, $shippingCheckout);
 
 		if ($showVat == 'yes')
 		{
-			$tester->executeJS("jQuery('#show_price_without_vat1-lbl').click()");
+			$tester->click(\ShopperGroupJ3Page::$vatYes);
 		}
 		else
 		{
-			$tester->executeJS("jQuery('#show_price_without_vat0-lbl').click()");
+			$tester->click(\ShopperGroupJ3Page::$vatNo);
 		}
 
 		$tester->click(\ShopperGroupJ3Page::$showPrice);
@@ -98,14 +98,14 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		if ($enableQuotation == 'yes')
 		{
-			$tester->executeJS("jQuery('#shopper_group_quotation_mode1-lbl').click()");
+			$tester->click(\ShopperGroupJ3Page::$quotationYes);
 		}
 		else
 		{
-			$tester->executeJS("jQuery('#shopper_group_quotation_mode0-lbl').click()");
+			$tester->click(\ShopperGroupJ3Page::$quoationNo);
 		}
 
-		$tester->executeJS("jQuery('#published1-lbl').click()");
+		$tester->click(\ShopperGroupJ3Page::$publishYes);
 
 		switch ($function)
 		{
