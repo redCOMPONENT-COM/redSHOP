@@ -25,44 +25,44 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $stockRoomYes = "#use_stockroom1-lbl";
+	public static $stockRoomYes = "#use_stockroom_1-lbl";
 
     /**
      * @var string
      */
-	public static $stockRoomNo = "#use_stockroom0-lbl";
+	public static $stockRoomNo = "#use_stockroom_0-lbl";
 
     /**
      * @var string
      */
-	public static $eidtInLineYes = "#inline_editing1-lbl";
+	public static $eidtInLineYes = "#inline_editing_1-lbl";
 
     /**
      * @var string
      */
-	public static $editInLineNo = "#inline_editing0-lbl";
+	public static $editInLineNo = "#inline_editing_0-lbl";
 
     /**
      * @var string
      */
-	public static $comparisonNo = "#compare_products0-lbl";
+	public static $comparisonNo = "#compare_products_0-lbl";
 
     /**
      * @var string
      */
-	public static $comparisonYes = "#compare_products1-lbl";
+	public static $comparisonYes = "#compare_products_1-lbl";
 
 	//Price
 
     /**
      * @var string
      */
-	public static $showPriceYes = "#show_price1-lbl";
+	public static $showPriceYes = "#show_price_1-lbl";
 
     /**
      * @var string
      */
-	public static $showPriceNo = "#show_price0-lbl";
+	public static $showPriceNo = "#show_price_0-lbl";
 
     /**
      * @var string
@@ -117,12 +117,12 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $applyDiscountAfter = "#apply_vat_on_discount0-lbl";
+	public static $applyDiscountAfter = "#apply_vat_on_discount_0-lbl";
 
     /**
      * @var string
      */
-	public static $applyDiscountBefore = "#apply_vat_on_discount1-lbl";
+	public static $applyDiscountBefore = "#apply_vat_on_discount_1-lbl";
 
     /**
      * @var string
@@ -142,12 +142,12 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $vatNumberNo = "#required_vat_number0-lbl";
+	public static $vatNumberNo = "#required_vat_number_0-lbl";
 
     /**
      * @var string
      */
-	public static $vatNumberYes = "#required_vat_number1-lbl";
+	public static $vatNumberYes = "#required_vat_number_1-lbl";
 
 	//xPath feature
 
@@ -198,32 +198,32 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $addCartProduct = "#individual_add_to_cart_enable0-lbl";
+	public static $addCartProduct = "//label[@id='individual_add_to_cart_enable_0-lbl']";
 
     /**
      * @var string
      */
-	public static $addCartAttibute = "#individual_add_to_cart_enable1-lbl";
+	public static $addCartAttibute = "//label[@id='individual_add_to_cart_enable_1-lbl']";
 
     /**
      * @var string
      */
-	public static $allowPreorderNo = "#allow_pre_order0-lbl";
+	public static $allowPreorderNo = "#allow_pre_order_0-lbl";
 
     /**
      * @var string
      */
-	public static $allowPreOrOderYes = "#allow_pre_order1-lbl";
+	public static $allowPreOrOderYes = "#allow_pre_order_1-lbl";
 
     /**
      * @var string
      */
-	public static $enableQuotationNo = "#default_quotation_mode0-lbl";
+	public static $enableQuotationNo = "#default_quotation_mode_0-lbl";
 
     /**
      * @var string
      */
-	public static $enableQuotationYes = "#default_quotation_mode1-lbl";
+	public static $enableQuotationYes = "#default_quotation_mode_1-lbl";
 
     /**
      * @var string
@@ -233,12 +233,12 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $enableAjaxNo = "#ajax_cart_box0-lbl";
+	public static $enableAjaxNo = "#ajax_cart_box_0-lbl";
 
     /**
      * @var string
      */
-	public static $enableAjaxYes = "#ajax_cart_box1-lbl";
+	public static $enableAjaxYes = "#ajax_cart_box_1-lbl";
 
     /**
      * @var string
@@ -268,42 +268,42 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $onePageNo = "#onestep_checkout_enable0-lbl";
+	public static $onePageNo = "#onestep_checkout_enable_0-lbl";
 
     /**
      * @var string
      */
-	public static $onePageYes = "#onestep_checkout_enable1-lbl";
+	public static $onePageYes = "#onestep_checkout_enable_1-lbl";
 
     /**
      * @var string
      */
-	public static $showShippingCartNo = "#show_shipping_in_cart0-lbl";
+	public static $showShippingCartNo = "#show_shipping_in_cart_0-lbl";
 
     /**
      * @var string
      */
-	public static $showShippingCartYes = "#show_shipping_in_cart1-lbl";
+	public static $showShippingCartYes = "#show_shipping_in_cart_1-lbl";
 
     /**
      * @var string
      */
-	public static $attributeImageInCartYes = "#wanttoshowattributeimage1-lbl";
+	public static $attributeImageInCartYes = "#wanttoshowattributeimage_0-lbl";
 
     /**
      * @var string
      */
-	public static $attributeImageInCartNo = "#wanttoshowattributeimage0-lbl";
+	public static $attributeImageInCartNo = "#wanttoshowattributeimage_1-lbl";
 
     /**
      * @var string
      */
-	public static $quantityChangeInCartNo = "#quantity_text_display0-lbl";
+	public static $quantityChangeInCartNo = "#quantity_text_display_0-lbl";
 
     /**
      * @var string
      */
-	public static $quantityChangeInCartYes = "#quantity_text_display1-lbl";
+	public static $quantityChangeInCartYes = "#quantity_text_display_1-lbl";
 
     /**
      * @var string
@@ -320,21 +320,21 @@ class ConfigurationPage extends AdminJ3Page
      */
 	public static $minimunOrderTotal = "#minimum_order_total";
 
-	public static $showSameAddressForBillingYes = "#optional_shipping_address1-lbl";
+	public static $showSameAddressForBillingYes = "#optional_shipping_address_1-lbl";
 
-	public static $showSameAddressForBillingNo = "#optional_shipping_address0-lbl";
+	public static $showSameAddressForBillingNo = "#optional_shipping_address_0-lbl";
 
 	// price tab and discount
 
     /**
      * @var string
      */
-	public static $enableDiscountNo = "#discount_enable0-lbl";
+	public static $enableDiscountNo = "#discount_enable_0-lbl";
 
     /**
      * @var string
      */
-	public static $enableDiscountYes = "#discount_enable1-lbl";
+	public static $enableDiscountYes = "#discount_enable_1-lbl";
 
     /**
      * @var string
@@ -349,52 +349,52 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $enableCouponYes = "#coupons_enable1-lbl";
+	public static $enableCouponYes = "#coupons_enable_1-lbl";
 
     /**
      * @var string
      */
-	public static $enableCouponNo = "#coupons_enable0-lbl";
+	public static $enableCouponNo = "#coupons_enable_0-lbl";
 
     /**
      * @var string
      */
-	public static $enableCouponInfoYes = "#couponinfo1-lbl";
+	public static $enableCouponInfoYes = "#couponinfo_1-lbl";
 
     /**
      * @var string
      */
-	public static $enableCouponInfoNo = "#couponinfo0-lbl";
+	public static $enableCouponInfoNo = "#couponinfo_0-lbl";
 
     /**
      * @var string
      */
-	public static $enableVoucherYes = "#vouchers_enable1-lbl";
+	public static $enableVoucherYes = "#vouchers_enable_1-lbl";
 
     /**
      * @var string
      */
-	public static $enableVoucherNo = "#vouchers_enable0-lbl";
+	public static $enableVoucherNo = "#vouchers_enable_0-lbl";
 
     /**
      * @var string
      */
-	public static $spendTimeDiscountYes = "#special_discount_mail_send1-lbl";
+	public static $spendTimeDiscountYes = "#special_discount_mail_send_1-lbl";
 
     /**
      * @var string
      */
-	public static $spendTimeDiscountNo = "#special_discount_mail_send0-lbl";
+	public static $spendTimeDiscountNo = "#special_discount_mail_send_0-lbl";
 
     /**
      * @var string
      */
-	public static $applyDiscountForProductAlreadyDiscountYes = "#apply_voucher_coupon_already_discount1-lbl";
+	public static $applyDiscountForProductAlreadyDiscountYes = "#apply_voucher_coupon_already_discount_1-lbl";
 
     /**
      * @var string
      */
-	public static $applyDiscountForProductAlreadyDiscountNo = "apply_voucher_coupon_already_discount0-lbl";
+	public static $applyDiscountForProductAlreadyDiscountNo = "apply_voucher_coupon_already_discount_0-lbl";
 
     /**
      * @var string
