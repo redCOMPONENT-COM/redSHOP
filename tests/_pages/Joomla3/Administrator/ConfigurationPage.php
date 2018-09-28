@@ -399,12 +399,12 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $calculateShippingBasedTotal = "#shipping_aftertotal-lbl";
+	public static $calculateShippingBasedTotal = "#shipping_after_total-lbl";
 
     /**
      * @var string
      */
-	public static $calculateShippingBasedSubTotal = "#shipping_aftersubtotal-lbl";
+	public static $calculateShippingBasedSubTotal = "#shipping_after_subtotal-lbl";
 
     /**
      * @var string
