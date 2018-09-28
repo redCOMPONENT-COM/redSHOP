@@ -1709,7 +1709,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$mImages['media_type']           = 'images';
 					$mImages['media_mimetype']       = $listImages[$li]->media_mimetype;
 					$mImages['published']            = $listImages[$li]->published;
-					$this->copyadditionalImage($mImages);
+					$this->copyadditionalImage($mImages, $property_main_image);
 				}
 
 				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
@@ -1720,25 +1720,38 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				for ($subprop = 0; $subprop < $countSubProperty; $subprop++)
 				{
-					$subproperty_save                              = array();
-					$subproperty_save['subattribute_color_name']   = $subatt_property[$subprop]->subattribute_color_name;
-					$subproperty_save['subattribute_color_title']  = $subatt_property[$subprop]->subattribute_color_title;
-					$subproperty_save['subattribute_color_price']  = $subatt_property[$subprop]->subattribute_color_price;
-					$subproperty_save['oprand']                    = $subatt_property[$subprop]->oprand;
-					$subproperty_save['subattribute_id']           = $property_id;
-					$subproperty_save['ordering']                  = $subatt_property[$subprop]->ordering;
-					$subproperty_save['subattribute_color_number'] = $subatt_property[$subprop]->subattribute_color_number;
-					$subproperty_save['setdefault_selected']       = $subatt_property[$subprop]->setdefault_selected;
-					$subproperty_array                             = $this->store_sub($subproperty_save);
-					$subproperty_id                                = $subproperty_array->subattribute_color_id;
+					$subproperty_save                                  = array();
+					$subproperty_save['subattribute_color_name']       = $subatt_property[$subprop]->subattribute_color_name;
+					$subproperty_save['subattribute_color_title']      = $subatt_property[$subprop]->subattribute_color_title;
+					$subproperty_save['subattribute_color_price']      = $subatt_property[$subprop]->subattribute_color_price;
+					$subproperty_save['oprand']                        = $subatt_property[$subprop]->oprand;
+					$subproperty_save['subattribute_id']               = $property_id;
+					$subproperty_save['ordering']                      = $subatt_property[$subprop]->ordering;
+					$subproperty_save['subattribute_color_number']     = $subatt_property[$subprop]->subattribute_color_number;
+					$subproperty_save['subattribute_color_image']      = $subatt_property[$subprop]->subattribute_color_image;
+					$subproperty_save['subattribute_color_main_image'] = $subatt_property[$subprop]->subattribute_color_main_image;
+					$subproperty_save['setdefault_selected']           = $subatt_property[$subprop]->setdefault_selected;
+
+					$subproperty_array                                 = $this->store_sub($subproperty_save);
+					$subproperty_id                                    = $subproperty_array->subattribute_color_id;
+
+					$new_subattribute_color_image  = null;
+					$subattribute_color_main_image = null;
 
 					if (!empty($subatt_property[$subprop]->subattribute_color_image))
 					{
 						$subattribute_color_image     = 'subcolor/' . $subatt_property[$subprop]->subattribute_color_image;
 						$new_subattribute_color_image = $this->copy_image_from_path($subattribute_color_image, 'subcolor');
-
-						$this->update_subattr_image($subproperty_id, $new_subattribute_color_image);
 					}
+
+					if (!empty($subatt_property[$subprop]->subattribute_color_main_image))
+					{
+						$subattribute_color_main_image = 'subproperty/' . $subatt_property[$subprop]->subattribute_color_main_image;
+						$new_subattribute_color_main_image = $this->copy_image_from_path($subattribute_color_main_image, 'subproperty');
+						$subattribute_color_main_image = $new_subattribute_color_main_image;
+					}
+
+					$this->update_subattr_image($subproperty_id, $new_subattribute_color_image, $subattribute_color_main_image);
 
 					$listsubpropImages     = $this->getImageInfor($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$countSubPropertyImage = count($listsubpropImages);
@@ -1753,7 +1766,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$smImages['media_type']           = 'images';
 						$smImages['media_mimetype']       = $listsubpropImages[$lsi]->media_mimetype;
 						$smImages['published']            = $listsubpropImages[$lsi]->published;
-						$this->copyadditionalImage($smImages);
+						$this->copyadditionalImage($smImages, $subattribute_color_main_image);
 					}
 				}
 			}
@@ -3688,11 +3701,20 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @return  boolean
 	 */
-	public function copyadditionalImage($data)
+	public function copyadditionalImage($data, $mainName = null)
 	{
-		$src_image          = $data['media_name'];
-		$old_imgname        = strstr($data['media_name'], '_') ? strstr($data['media_name'], '_') : $data['media_name'];
-		$new_imgname        = RedshopHelperMedia::cleanFileName($old_imgname);
+		$src_image = $data['media_name'];
+
+		if (!empty($mainName))
+		{
+			$new_imgname = $mainName;
+		}
+		else
+		{
+			$old_imgname = strstr($data['media_name'], '_') ? strstr($data['media_name'], '_') : $data['media_name'];
+			$new_imgname = RedshopHelperMedia::cleanFileName($old_imgname);
+		}
+
 		$data['media_name'] = $new_imgname;
 		$rowmedia           = $this->getTable('media_detail');
 		$data['media_id ']  = 0;
@@ -3707,7 +3729,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$section = $data['media_section'];
 		$path    = $section . '/' . $src_image;
-		$this->copy_image_additionalimage_from_path($path, $data['media_section']);
+
+		if(empty($mainName))
+		{
+			$this->copy_image_additionalimage_from_path($path, $data['media_section']);
+		}
 
 		if (!$rowmedia->store())
 		{
@@ -4688,8 +4714,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$query = "UPDATE " . $this->table_prefix . "product_attribute_property
 				  SET property_image='" . $property_image . "' , property_main_image= '" . $property_main_image . "'
 				  WHERE property_id='" . $property_id . "'";
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+
+		$this->_db->setQuery($query)->execute();
 	}
 
 	/**
@@ -4700,13 +4726,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @return  void
 	 */
-	public function update_subattr_image($subproperty_id, $subattribute_color_image)
+	public function update_subattr_image($subproperty_id, $subattribute_color_image, $subattribute_color_main_image)
 	{
 		$query = "UPDATE " . $this->table_prefix . "product_subattribute_color
-				  SET subattribute_color_image='" . $subattribute_color_image . "'
+				  SET subattribute_color_image='" . $subattribute_color_image . "' , subattribute_color_main_image= '" . $subattribute_color_main_image . "'
 				  WHERE subattribute_color_id='" . $subproperty_id . "'";
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+
+		$this->_db->setQuery($query)->execute();
 	}
 
 	/**
