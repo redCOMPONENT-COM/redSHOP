@@ -61,7 +61,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$tester->fillField(\ShopperGroupJ3Page::$categoryFill, $category);
 		$tester->pressKey(\ShopperGroupJ3Page::$categoryFill, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$tester->waitForElement(\ShopperGroupJ3Page::$shippingYes, 30);
+
 		if ($shipping == 'yes')
 		{
 			$tester->click(\ShopperGroupJ3Page::$shippingYes);
