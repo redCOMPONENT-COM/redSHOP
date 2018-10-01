@@ -264,7 +264,6 @@ class ConfigurationPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $firstCartSearch = "//ul[@id='select2-results-43']";
-
 	/**
 	 * @var string
 	 */
