@@ -54,7 +54,7 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 ?>
 <a href="#" class="showhidearrow">
 	<?php echo JText::_('COM_REDSHOP_SUB_ATTRIBUTE'); ?>: <span class="propertyName"><?php echo $property->property_name; ?></span>
-	<img class="arrowimg" src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>arrow.png" alt=""/>
+	<img class="arrowimg" src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>arrow_d.png" alt=""/>
 </a>
 <div class="attr_tbody form-inline divInspectFromHideShow" style="display: none">
 	<input type="hidden" value="<?php echo $totalSubProp; ?>" name="<?php echo $propPref; ?>[count_subprop]" class="count_subprop" />

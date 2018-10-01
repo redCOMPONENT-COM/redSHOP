@@ -23,7 +23,7 @@
 			+ '<input type="hidden" value="' + sh + '" name="' + propPref + '[key_prop]" class="key_prop" />'
 
 			+ '<a class="btn btn-success add_property btn-small">+ ' + Joomla.JText._('COM_REDSHOP_ADD_SUB_ATTRIBUTE') + '</a>'
-			+ '<a href="#" class="showhidearrow">' + Joomla.JText._('COM_REDSHOP_SUB_ATTRIBUTE') + ': <span class="propertyName"></span><img class="arrowimg" src="media/com_redshop/images/arrow.png" alt=""/></a>'
+			+ '<a href="#" class="showhidearrow">' + Joomla.JText._('COM_REDSHOP_SUB_ATTRIBUTE') + ': <span class="propertyName"></span><img class="arrowimg" src="' + redSHOP.RSConfig._('SITE_URL') + 'media/com_redshop/images/arrow.png" alt=""/></a>'
 
 			+ '<div class="attr_tbody form-inline divInspectFromHideShow">'
 
@@ -115,7 +115,7 @@
 			$countAttr.val(gh + 1);
 			var attrPref = 'attribute[' + gh + ']';
 			$('.mainTableAttributes').append(
-				'<a href="#" class="showhidearrow">' + Joomla.JText._('COM_REDSHOP_ATTRIBUTE_NAME') + ': <span class="attributeName"></span><img class="arrowimg" src="media/com_redshop/images/arrow.png" alt=""/></a>'
+				'<a href="#" class="showhidearrow">' + Joomla.JText._('COM_REDSHOP_ATTRIBUTE_NAME') + ': <span class="attributeName"></span><img class="arrowimg" src="' + redSHOP.RSConfig._('SITE_URL') + 'media/com_redshop/images/arrow.png" alt=""/></a>'
 				+ '<div class="attribute_table divInspectFromHideShow">'
 				+ '<input type="hidden" name="' + attrPref + '[count_prop]" class="count_prop" value="1" />'
 				+ '<input type="hidden" value="' + gh + '" name="' + attrPref + '[key_attr]" class="key_attr" />'
@@ -299,10 +299,10 @@
 			var $divFromHideShow = $(this).next('.divInspectFromHideShow');
 			if ($divFromHideShow.css('display') == 'none') {
 				$divFromHideShow.show();
-				$(this).find('img').attr('src', 'media/com_redshop/images/arrow.png');
+				$(this).find('img').attr('src', redSHOP.RSConfig._('SITE_URL') + 'media/com_redshop/images/arrow.png');
 			} else {
 				$divFromHideShow.hide();
-				$(this).find('img').attr('src', 'media/com_redshop/images/arrow_d.png');
+				$(this).find('img').attr('src', redSHOP.RSConfig._('SITE_URL') + 'media/com_redshop/images/arrow_d.png');
 			}
 		}).on('change', '.attributeInput', function(){
 			console.log(11);
