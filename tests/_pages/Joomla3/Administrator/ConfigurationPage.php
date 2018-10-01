@@ -198,32 +198,32 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $addCartProduct = "#individual_add_to_cart_enable0-lbl";
+	public static $addCartProduct = "#individual_add_to_cart_enable_0-lbl";
 
     /**
      * @var string
      */
-	public static $addCartAttibute = "#individual_add_to_cart_enable1-lbl";
+	public static $addCartAttibute = "#individual_add_to_cart_enable_1-lbl";
 
     /**
      * @var string
      */
-	public static $allowPreorderNo = "#allow_pre_order0-lbl";
+	public static $allowPreorderNo = "#allow_pre_order_0-lbl";
 
     /**
      * @var string
      */
-	public static $allowPreOrOderYes = "#allow_pre_order1-lbl";
+	public static $allowPreOrOderYes = "#allow_pre_order_1-lbl";
 
     /**
      * @var string
      */
-	public static $enableQuotationNo = "#default_quotation_mode0-lbl";
+	public static $enableQuotationNo = "#default_quotation_mode_0-lbl";
 
     /**
      * @var string
      */
-	public static $enableQuotationYes = "#default_quotation_mode1-lbl";
+	public static $enableQuotationYes = "#default_quotation_mode_1-lbl";
 
     /**
      * @var string
@@ -233,12 +233,12 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $enableAjaxNo = "#ajax_cart_box0-lbl";
+	public static $enableAjaxNo = "#ajax_cart_box_0-lbl";
 
     /**
      * @var string
      */
-	public static $enableAjaxYes = "#ajax_cart_box1-lbl";
+	public static $enableAjaxYes = "#ajax_cart_box_1-lbl";
 
     /**
      * @var string
@@ -268,42 +268,42 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $onePageNo = "#onestep_checkout_enable0-lbl";
+	public static $onePageNo = "#onestep_checkout_enable_0-lbl";
 
     /**
      * @var string
      */
-	public static $onePageYes = "#onestep_checkout_enable1-lbl";
+	public static $onePageYes = "#onestep_checkout_enable_1-lbl";
 
     /**
      * @var string
      */
-	public static $showShippingCartNo = "#show_shipping_in_cart0-lbl";
+	public static $showShippingCartNo = "#show_shipping_in_cart_0-lbl";
 
     /**
      * @var string
      */
-	public static $showShippingCartYes = "#show_shipping_in_cart1-lbl";
+	public static $showShippingCartYes = "#show_shipping_in_cart_1-lbl";
 
     /**
      * @var string
      */
-	public static $attributeImageInCartYes = "#wanttoshowattributeimage1-lbl";
+	public static $attributeImageInCartYes = "#wanttoshowattributeimage_1-lbl";
 
     /**
      * @var string
      */
-	public static $attributeImageInCartNo = "#wanttoshowattributeimage0-lbl";
+	public static $attributeImageInCartNo = "#wanttoshowattributeimage_0-lbl";
 
     /**
      * @var string
      */
-	public static $quantityChangeInCartNo = "#quantity_text_display0-lbl";
+	public static $quantityChangeInCartNo = "#quantity_text_display_0-lbl";
 
     /**
      * @var string
      */
-	public static $quantityChangeInCartYes = "#quantity_text_display1-lbl";
+	public static $quantityChangeInCartYes = "#quantity_text_display_1-lbl";
 
     /**
      * @var string
@@ -320,9 +320,9 @@ class ConfigurationPage extends AdminJ3Page
      */
 	public static $minimunOrderTotal = "#minimum_order_total";
 
-	public static $showSameAddressForBillingYes = "#optional_shipping_address1-lbl";
+	public static $showSameAddressForBillingYes = "#optional_shipping_address_1-lbl";
 
-	public static $showSameAddressForBillingNo = "#optional_shipping_address0-lbl";
+	public static $showSameAddressForBillingNo = "#optional_shipping_address_0-lbl";
 
 	// price tab and discount
 
