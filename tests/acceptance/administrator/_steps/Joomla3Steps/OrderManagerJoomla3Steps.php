@@ -219,4 +219,79 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
 		$I->see($priceTotalOnCart);
 	}
+
+    /**
+     * @param $nameProduct
+     * @param $username
+     * @param $password
+     * @param $address
+     * @param $postalCode
+     * @param $city
+     * @param $phone
+     * @param $function
+     * @throws \Exception
+     */
+    public function addProductToCartWithMissingData($nameProduct, $username, $password, $address, $postalCode, $city, $phone, $function)
+    {
+        $I = $this;
+        $I->checkReview($nameProduct);
+        $I->see($nameProduct);
+        $I->click(\ProductManagerPage::$addToCart);
+        $I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
+        $I->see(\ProductManagerPage::$alertSuccessMessage, \ProductManagerPage::$selectorSuccess);
+        $I->fillField(\ProductManagerPage::$username, $username);
+        $I->fillField(\ProductManagerPage::$password, $password);
+        $I->click(\ProductManagerPage::$buttonLogin);
+        $I->amOnPage(\ProductManagerPage::$cartPageUrL);
+        $I->click(\ProductManagerPage::$buttonCheckOut);
+        $I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
+        $I->click(\ProductManagerPage::$acceptTerms);
+        $I->waitForElement(\ProductManagerPage::$checkoutFinalStep, 30);
+        $I->click(\ProductManagerPage::$checkoutFinalStep);
+        $I->see(\ProductManagerPage::$alertErrorPaymentMessage, \ProductManagerPage::$selectorError);
+        $I->waitForElement(\ProductManagerPage::$paymentPayPad, 30);
+        $I->click(\ProductManagerPage::$paymentPayPad);
+        $I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
+        $I->click(\ProductManagerPage::$acceptTerms);
+        $I->waitForElement(\ProductManagerPage::$checkoutFinalStep, 30);
+        $I->click(\ProductManagerPage::$checkoutFinalStep);
+        switch ($function) {
+            case 'address':
+                //missing address
+                $I->fillField(\ProductManagerPage::$customerPostalCode, $postalCode);
+                $I->fillField(\ProductManagerPage::$customerCity, $city);
+                $I->fillField(\ProductManagerPage::$customerPhone, $phone);
+                $I->click(\ProductManagerPage::$buttonSave);
+                $I->see($I->grabTextFrom(\ProductManagerPage::$messageErrorAddress));
+                $I->click(\ProductManagerPage::$buttonLogout);
+                break;
+            case 'postalCode':
+                // missing Postal Code
+                $I->fillField(\ProductManagerPage::$customerAddress, $address);
+                $I->fillField(\ProductManagerPage::$customerCity, $city);
+                $I->fillField(\ProductManagerPage::$customerPhone, $phone);
+                $I->click(\ProductManagerPage::$buttonSave);
+                $I->see($I->grabTextFrom(\ProductManagerPage::$messagePostalCode));
+                $I->click(\ProductManagerPage::$buttonLogout);
+                break;
+            case 'city':
+                // missing City
+                $I->fillField(\ProductManagerPage::$customerAddress, $address);
+                $I->fillField(\ProductManagerPage::$customerPostalCode, $postalCode);
+                $I->fillField(\ProductManagerPage::$customerPhone, $phone);
+                $I->click(\ProductManagerPage::$buttonSave);
+                $I->see($I->grabTextFrom(\ProductManagerPage::$messageCity));
+                $I->click(\ProductManagerPage::$buttonLogout);
+                break;
+            case 'phone':
+                // missing Phone
+                $I->fillField(\ProductManagerPage::$customerAddress, $address);
+                $I->fillField(\ProductManagerPage::$customerPostalCode, $postalCode);
+                $I->fillField(\ProductManagerPage::$customerCity, $city);
+                $I->click(\ProductManagerPage::$buttonSave);
+                $I->see($I->grabTextFrom(\ProductManagerPage::$messagePhone));
+                $I->click(\ProductManagerPage::$buttonLogout);
+                break;
+        }
+    }
 }
