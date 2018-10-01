@@ -132,12 +132,12 @@ class ConfigurationPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $calculationBaseBilling = "#calculate_vat_onBT-lbl";
+	public static $calculationBaseBilling = "#calculate_vat_on_BT-lbl";
 
     /**
      * @var string
      */
-	public static $calculationBaseShipping = "#calculate_vat_onST-lbl";
+	public static $calculationBaseShipping = "#calculate_vat_on_ST-lbl";
 
     /**
      * @var string
