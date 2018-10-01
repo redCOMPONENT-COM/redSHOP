@@ -17,7 +17,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('#use_stockroom1-lbl').click()");
+		$I->click(\ConfigurationPage::$stockRoomYes);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -30,7 +30,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('#use_stockroom0-lbl').click()");
+		$I->click(\ConfigurationPage::$stockRoomNo);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -44,7 +44,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$editInline, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('#inline_editing1-lbl').click()");
+		$I->click(\ConfigurationPage::$eidtInLineYes);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -57,7 +57,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$editInline, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('#inline_editing0-lbl').click()");
+		$I->click(\ConfigurationPage::$editInLineNo);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -70,7 +70,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
 		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->executeJS("jQuery('#inline_editing0-lbl').click()");
+		$I->click(\ConfigurationPage::$comparisonNo);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -82,7 +82,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
-		$I->executeJS("jQuery('#compare_products1-lbl').click()");
+		$I->click(\ConfigurationPage::$showPriceYes);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -94,7 +94,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$price);
 		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->executeJS("jQuery('#show_price0-lbl').click()");
+		$I->click(\ConfigurationPage::$showPriceNo);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -106,7 +106,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$price);
 		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->executeJS("jQuery('#show_price1-lbl').click()");
+		$I->click(\ConfigurationPage::$showPriceYes);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
@@ -168,10 +168,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($vatAfter)
 		{
 			case 'after':
-				$I->executeJS("jQuery('#apply_vat_on_discount0-lbl').click()");
+				$I->click(\ConfigurationPage::$applyDiscountAfter);
 				break;
 			case 'before':
-				$I->executeJS("jQuery('#apply_vat_on_discount1-lbl').click()");
+				$I->click(\ConfigurationPage::$applyDiscountBefore);
 				break;
 		}
 
@@ -182,10 +182,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($calculationBase)
 		{
 			case 'billing':
-				$I->executeJS("jQuery('#calculate_vat_onBT-lbl').click()");
+				$I->click(\ConfigurationPage::$calculationBaseBilling);
 				break;
 			case 'shipping':
-				$I->executeJS("jQuery('#calculate_vat_onST-lbl').click()");
+				$I->click(\ConfigurationPage::$calculationBaseShipping);
 				break;
 		}
 
@@ -194,10 +194,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($requiVAT)
 		{
 			case 'yes':
-				$I->executeJS("jQuery('#required_vat_number1-lbl').click()");
+				$I->click(\ConfigurationPage::$vatNumberYes);
 				break;
 			case 'no':
-				$I->executeJS("jQuery('#required_vat_number0-lbl').click()");
+				$I->click(\ConfigurationPage::$vatNumberNo);
 				break;
 		}
 
