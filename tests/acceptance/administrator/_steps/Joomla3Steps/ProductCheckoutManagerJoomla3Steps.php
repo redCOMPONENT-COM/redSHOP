@@ -913,7 +913,32 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText($vatPrice, 30, \FrontEndProductManagerJoomla3Page::$priceVAT);
 		$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
-
+    /**
+     * @param $productName
+     */
+    public function searchProduct($productName)
+    {
+        $I = $this;
+        $I->wantTo('Search the Product');
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->filterListBySearchingProduct($productName);
+    }
+    /**
+     * @param $name
+     * @throws \Exception
+     */
+    public function checkReview($name)
+    {
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->searchProduct($name);
+        $I->click(['link' => $name]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click(\ProductManagerPage::$buttonReview);
+        $I->switchToNextTab();
+        $I->waitForElement(\ProductManagerPage::$namePageXpath, 30);
+        $I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
+    }
 
     /**
      * @param $nameProduct
@@ -926,7 +951,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * @param $function
      * @throws \Exception
      */
-    public function addProductToCartWithMissingData($nameProduct, $username, $password, $address, $postalCode, $city, $phone, $function)
+    public function addProductToCartWithMissingData($nameProduct, $username, $password, $address, $postalCode, $city, $phone)
     {
         $I = $this;
         $I->checkReview($nameProduct);
@@ -950,43 +975,36 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
         $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-        switch ($function) {
-            case 'address':
-                //missing address
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $postalCode);
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $city);
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $phone);
-                $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
-                $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messageErrorAddress));
-                $I->click(\ProductManagerPage::$buttonLogout);
-                break;
-            case 'postalCode':
-                // missing Postal Code
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $address);
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $city);
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $phone);
-                $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
-                $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$addressPostalCode));
-                $I->click(\ProductManagerPage::$buttonLogout);
-                break;
-            case 'city':
-                // missing City
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $address);
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $postalCode);
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $phone);
-                $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
-                $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messageCity));
-                $I->click(\ProductManagerPage::$buttonLogout);
-                break;
-            case 'phone':
-                // missing Phone
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $address);
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $postalCode);
-                $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $city);
-                $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
-                $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messagePhone));
-                $I->click(\ProductManagerPage::$buttonLogout);
-                break;
-        }
+        //missing address
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $postalCode);
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $city);
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $phone);
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messageErrorAddress));
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $address);
+        //missing postal code
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, '');
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messagePostalCode));
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $postalCode);
+        //missing city
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, '');
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messageCity));
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $city);
+        //missing phone
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '');
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messagePhone));
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $phone);
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+        $I->see(\FrontEndProductManagerJoomla3Page::$orderReceipt);
+        $I->see(\FrontEndProductManagerJoomla3Page::$headBilling);
     }
 }

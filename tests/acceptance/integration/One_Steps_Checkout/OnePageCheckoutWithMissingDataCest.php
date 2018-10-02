@@ -39,6 +39,7 @@ class OnePageCheckoutWithMissingDataCest
         $this->priceProductForThan          = 10;
         $this->totalAmount                  = $this->fake->numberBetween(100, 999);
         $this->discountAmount               = $this->fake->numberBetween(10, 100);
+        $this->paymentMethod                = 'PayPal';
 
         $this->userName                   = $this->fake->bothify('UserTest ?##?');
         $this->password                   = $this->fake->bothify('Password ?##?');
@@ -47,6 +48,8 @@ class OnePageCheckoutWithMissingDataCest
         $this->group                      = 'Registered';
         $this->firstName                  = $this->fake->bothify('UserCest FN ?##?');
         $this->lastName                   = 'Last';
+        $this->userNameDelete             = $this->firstName;
+        $this->searchOrder                = $this->firstName.' '.$this->lastName ;
         $this->address                    = '97 Ha Nam';
         $this->postalCode                 = '2';
         $this->city                       = 'Ha Noi';
@@ -132,11 +135,9 @@ class OnePageCheckoutWithMissingDataCest
             $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
         $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->wantTo('Add products in cart');
-        $I->addProductToCartWithMissingData($this->randomProductName, $this->userName, $this->password, $this->address, $this->postalCode, $this->city, $this->phone, 'address');
-        $I->addProductToCartWithMissingData($this->randomProductName, $this->userName, $this->password, $this->address, $this->postalCode, $this->city, $this->phone, 'postalCode');
-        $I->addProductToCartWithMissingData($this->randomProductName, $this->userName, $this->password, $this->address, $this->postalCode, $this->city, $this->phone, 'city');
-        $I->addProductToCartWithMissingData($this->randomProductName, $this->userName, $this->password, $this->address, $this->postalCode, $this->city, $this->phone, 'phone');
+        $I->addProductToCartWithMissingData($this->randomProductName, $this->userName, $this->password, $this->address, $this->postalCode, $this->city, $this->phone);
         $I = new ConfigurationSteps($scenario);
+        $I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName, $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
         $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
             $this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
     }
