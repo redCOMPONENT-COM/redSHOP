@@ -1,6 +1,6 @@
 <?php
 /**
- * Class OneStepCheckoutWithMissingDataLoginCess
+ * Class OneStepCheckoutWithMissingDataLoginCest
  *
  * @package  AcceptanceTester
  *
@@ -14,10 +14,10 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 
-class OneStepCheckoutWithMissingDataLoginCess
+class OneStepCheckoutWithMissingDataLoginCest
 {
     /**
-     * OneStepCheckoutWithMissingDataLoginCess constructor.
+     * OneStepCheckoutWithMissingDataLoginCest constructor.
      */
     public function __construct()
     {
