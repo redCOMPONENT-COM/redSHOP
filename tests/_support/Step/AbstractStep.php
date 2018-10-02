@@ -73,15 +73,18 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		switch ($function)
 		{
 			case 'save':
+				$tester->wait(0.5);
 				$tester->click($pageClass::$buttonSave);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
                 $tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
+				$tester->wait(0.5);
 				$tester->click($pageClass::$buttonSaveClose);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
+				$tester->wait(0.5);
 				$tester->click($pageClass::$buttonSaveNew);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
                 $tester->click($pageClass::$buttonCancel);
@@ -106,7 +109,9 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->searchItemCheckIn($searchName);
 		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
+		$tester->wait(0.5);
 		$tester->click($searchName);
+		$tester->wait(0.5);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->waitForElement($pageClass::$selectorPageTitle, 30);
 		$tester->fillFormData($this->getFormFields(), $data);
@@ -115,15 +120,18 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$tester->click($pageClass::$buttonSave);
+				$tester->wait(0.5);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
                 $tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
 				$tester->click($pageClass::$buttonSaveClose);
+				$tester->wait(0.5);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
 				$tester->click($pageClass::$buttonSaveNew);
+				$tester->wait(0.5);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
                 $tester->click($pageClass::$buttonCancel);
 				break;

@@ -163,7 +163,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if ($post['discount_enddate'])
 		{
 			$endDate                  = new JDate($post['discount_enddate']);
-			$post['discount_enddate'] = $endDate->toUnix();
+			$post['discount_enddate'] = RedshopHelperDatetime::generateTimestamp($endDate->toUnix());
 		}
 
 		// Setting default value
