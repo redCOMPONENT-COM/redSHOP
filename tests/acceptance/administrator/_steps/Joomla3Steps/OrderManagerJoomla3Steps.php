@@ -140,7 +140,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * @param $password
      * @throws \Exception
      */
-    public function addProductToCart($nameProduct,$price, $username, $password)
+    public function addProductToCart($nameProduct, $price, $username, $password)
     {
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
@@ -156,7 +156,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkReview($nameProduct);
 		$I->see($nameProduct);
 		$I->click(\ProductManagerPage::$addToCart);
-		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, '.alert-message');
+		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
 		$I->see(\ProductManagerPage::$alertSuccessMessage, '.alert-message');
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
@@ -175,4 +175,48 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
 		$I->see($priceTotalOnCart);
     }
+	
+	/**
+	 * @param $nameProduct
+	 * @param $price
+	 * @param $username
+	 * @param $password
+	 * @throws \Exception
+	 */
+	public function addProductToCartWithBankTransfer($nameProduct, $price, $username, $password)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+		$I->checkReview($nameProduct);
+		$I->see($nameProduct);
+		$I->click(\ProductManagerPage::$addToCart);
+		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
+		$I->see(\ProductManagerPage::$alertSuccessMessage);
+		$I->fillField(\ProductManagerPage::$username, $username);
+		$I->fillField(\ProductManagerPage::$password, $password);
+		$I->click(\ProductManagerPage::$buttonLogin);
+		$I->amOnPage(\ProductManagerPage::$cartPageUrL);
+		$quantity = $I->grabTextFrom(\ProductManagerPage::$quantity);
+		$quantity = (int) $quantity;
+		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$I->see($priceTotalOnCart);
+		$I->click(\ProductManagerPage::$buttonCheckOut);
+		$I->waitForElement(\ProductManagerPage::$priceEnd);
+		$I->see($priceTotalOnCart);
+		$I->click(\ProductManagerPage::$bankTransfer);
+		$I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
+		$I->click(\ProductManagerPage::$acceptTerms);
+		$I->click(\ProductManagerPage::$checkoutFinalStep);
+		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
+		$I->see($priceTotalOnCart);
+	}
 }
