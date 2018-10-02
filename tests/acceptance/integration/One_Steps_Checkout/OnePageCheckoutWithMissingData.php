@@ -11,7 +11,7 @@
 
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\OrderManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 class OnePageCheckoutWithMissingDataCest
@@ -22,10 +22,8 @@ class OnePageCheckoutWithMissingDataCest
     public function __construct()
     {
         $this->fake                         = Faker\Factory::create();
-        $this->randomCategoryName           = 'TestingCategory' . rand(99, 999);
-        $this->randomCategoryNameAssign     = 'CategoryAssign' . rand(99, 999);
-        $this->randomProductName            = 'TestingProducts' . rand(99, 999);
-        $this->randomDiscountName           = 'discount total order ' . rand(99, 999);
+        $this->randomCategoryName           = $this->fake->bothify('TestingCategory ?##?');
+        $this->randomProductName            = $this->fake->bothify('TestingProducts ?##?');
         $this->minimumPerProduct            = 2;
         $this->minimumQuantity              = 2;
         $this->maximumQuantity              = 5;
@@ -33,13 +31,11 @@ class OnePageCheckoutWithMissingDataCest
         $this->productEnd                   = "2018-11-08";
         $this->discountStart                = "2018-10-04";
         $this->discountEnd                  = "2018-11-20";
-        $this->randomProductNumber          = rand(999, 9999);
-        $this->randomProductNumberNew       = rand(999, 9999);
-        $this->randomProductPrice           = rand(9, 19);
+        $this->randomProductNumber          = $this->fake->numberBetween(999, 9999);
+        $this->randomProductPrice           = $this->fake->numberBetween(9, 999);
         $this->discountPriceThanPrice       = 100;
         $this->statusProducts               = 'Product on sale';
         $this->searchCategory               = 'Category';
-        $this->newProductName               = 'New-Test Product' . rand(99, 999);
         $this->priceProductForThan          = 10;
         $this->totalAmount                  = $this->fake->numberBetween(100, 999);
         $this->discountAmount               = $this->fake->numberBetween(10, 100);
@@ -51,16 +47,10 @@ class OnePageCheckoutWithMissingDataCest
         $this->group                      = 'Registered';
         $this->firstName                  = $this->fake->bothify('UserCest FN ?##?');
         $this->lastName                   = 'Last';
-        $this->firstNameSave              = "FirstName";
-        $this->lastNameSave               = "LastName";
-        $this->emailWrong                 = "email";
-        $this->userNameDelete             = $this->firstName;
-        $this->searchOrder                = $this->firstName.' '.$this->lastName ;
         $this->address                    = '97 Ha Nam';
         $this->postalCode                 = '2';
         $this->city                       = 'Ha Noi';
         $this->phone                      = $this->fake->bothify('01########');
-
 
         //configuration enable one page checkout
         $this->addcart          = 'product';
@@ -136,12 +126,11 @@ class OnePageCheckoutWithMissingDataCest
      */
     public function addProductToCartWithMissingData(AcceptanceTester $I, $scenario)
     {
-
         $I->wantTo('setup up one page checkout at admin');
         $I = new ConfigurationSteps($scenario);
         $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
             $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
-        $I = new OrderManagerJoomla3Steps($scenario);
+        $I = new ProductCheckoutManagerJoomla3Steps($scenario);
         $I->wantTo('Add products in cart');
         $I->addProductToCartWithMissingData($this->randomProductName, $this->userName, $this->password, $this->address, $this->postalCode, $this->city, $this->phone, 'address');
         $I->addProductToCartWithMissingData($this->randomProductName, $this->userName, $this->password, $this->address, $this->postalCode, $this->city, $this->phone, 'postalCode');
@@ -159,7 +148,6 @@ class OnePageCheckoutWithMissingDataCest
      */
     public function clearAllData(AcceptanceTester $I, $scenario)
     {
-
         $I->wantTo('Deletion Product in Administrator');
         $I = new ProductManagerSteps($scenario);
         $I->deleteProduct($this->randomProductName);

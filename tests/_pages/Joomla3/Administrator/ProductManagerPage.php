@@ -189,39 +189,6 @@ ProductManagerPage extends AdminJ3Page
      */
     public static $messageCancel  =  'Product detail editing cancelled';
 
-    /**
-     * @var string
-     */
-    public static $messageErrorAddress = '#private-address-error';
-    /**
-     * @var string
-     */
-    public static $messagePostalCode = '#private-zipcode-error';
-    /**
-     * @var string
-     */
-    public static $messageCity = '#private-city-error';
-    /**
-     * @var string
-     */
-    public static $messagePhone = '#private-phone-error';
-    /**
-     * @var string
-     */
-    public static $customerAddress = '#private-address';
-    /**
-     * @var string
-     */
-    public static $customerPostalCode = '#private-zipcode';
-    /**
-     * @var string
-     */
-    public static $customerCity = '#private-city';
-    /**
-     * @var string
-     */
-    public static $customerPhone = '#private-phone';
-    
     // button
 
     /**
