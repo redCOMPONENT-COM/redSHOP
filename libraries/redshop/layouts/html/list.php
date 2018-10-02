@@ -48,7 +48,7 @@ $idText = $idtag ? $idtag : $name;
 			$id    = (isset($obj->id) ? $obj->id : null);
 
 			$extra = '';
-			$id    = $id ? $obj->id : $idText . $key;
+			$id    = $id ? $obj->id : $idText . '_' . $key;
 
 			if (is_array($selected))
 			{
