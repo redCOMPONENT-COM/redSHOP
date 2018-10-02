@@ -134,6 +134,10 @@ ProductManagerPage extends AdminJ3Page
 	 * @var string
 	 */
     public static $buttonLogin = '//button [@name="Submit"]';
+    /**
+     * @var string
+     */
+    public static $buttonLogout = '//input [@value="Log out"]';
 	/**
 	 * @var string
 	 */
@@ -184,7 +188,7 @@ ProductManagerPage extends AdminJ3Page
      * @var string
      */
     public static $messageCancel  =  'Product detail editing cancelled';
-    
+
     // button
 
     /**

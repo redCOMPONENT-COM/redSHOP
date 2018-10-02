@@ -132,7 +132,22 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
      * @var string
      */
 	public static $addressCity = "//input[@id='private-city']";
-
+    /**
+     * @var string
+     */
+    public static $messageErrorAddress = '#private-address-error';
+    /**
+     * @var string
+     */
+    public static $messagePostalCode = '#private-zipcode-error';
+    /**
+     * @var string
+     */
+    public static $messageCity = '#private-city-error';
+    /**
+     * @var string
+     */
+    public static $messagePhone = '#private-phone-error';
     /**
      * @var string
      */

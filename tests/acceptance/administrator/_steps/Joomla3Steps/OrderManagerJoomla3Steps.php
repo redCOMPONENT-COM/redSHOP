@@ -219,4 +219,5 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
 		$I->see($priceTotalOnCart);
 	}
+
 }

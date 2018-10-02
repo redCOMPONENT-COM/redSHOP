@@ -315,6 +315,15 @@ abstract class AdminJ3Page
 	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
 
+    /**
+     * @var string
+     */
+    public static $alertErrorPaymentMessage = "Select Payment Method";
+    /**
+     * @var string
+     */
+    public static $alertErrorAddressMessage = "Please enter address";
+
 	/**
 	 * @var array
 	 */
