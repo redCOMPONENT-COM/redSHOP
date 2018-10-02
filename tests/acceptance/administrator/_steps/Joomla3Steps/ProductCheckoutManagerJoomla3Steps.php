@@ -913,4 +913,97 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText($vatPrice, 30, \FrontEndProductManagerJoomla3Page::$priceVAT);
 		$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
+    /**
+     * @param $productName
+     */
+    public function searchProduct($productName)
+    {
+        $I = $this;
+        $I->wantTo('Search the Product');
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->filterListBySearchingProduct($productName);
+    }
+    /**
+     * @param $name
+     * @throws \Exception
+     */
+    public function checkReview($name)
+    {
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->searchProduct($name);
+        $I->click(['link' => $name]);
+        $I->waitForElement(\ProductManagerPage::$productName, 30);
+        $I->click(\ProductManagerPage::$buttonReview);
+        $I->switchToNextTab();
+        $I->waitForElement(\ProductManagerPage::$namePageXpath, 30);
+        $I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
+    }
+    /**
+     * @param $nameProduct
+     * @param $username
+     * @param $password
+     * @param $address
+     * @param $postalCode
+     * @param $city
+     * @param $phone
+     * @param $function
+     * @throws \Exception
+     */
+    public function addProductToCartWithMissingData($nameProduct, $username, $password, $address, $postalCode, $city, $phone)
+    {
+        $I = $this;
+        $I->checkReview($nameProduct);
+        $I->see($nameProduct);
+        $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+        $I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
+        $I->see(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, \ProductManagerPage::$selectorSuccess);
+        $I->fillField(\ProductManagerPage::$username, $username);
+        $I->fillField(\ProductManagerPage::$password, $password);
+        $I->click(\ProductManagerPage::$buttonLogin);
+        $I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+        $I->click(\ProductManagerPage::$buttonCheckOut);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+        $I->see(\FrontEndProductManagerJoomla3Page::$alertErrorPaymentMessage, \ProductManagerPage::$selectorError);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+        //missing address
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $postalCode);
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $city);
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $phone);
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messageErrorAddress));
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $address);
+        //missing postal code
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, '');
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messagePostalCode));
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $postalCode);
+        //missing city
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, '');
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messageCity));
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $city);
+        //missing phone
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '');
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->see($I->grabTextFrom(\FrontEndProductManagerJoomla3Page::$messagePhone));
+        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $phone);
+        $I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+        $I->see(\FrontEndProductManagerJoomla3Page::$orderReceipt);
+        $I->see(\FrontEndProductManagerJoomla3Page::$headBilling);
+    }
 }
