@@ -1629,6 +1629,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copyProductAttribute($cid, $product_id)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT attribute_id,`attribute_id`,`attribute_name`,`attribute_required`, `ordering`
 				  FROM ' . $this->table_prefix . 'product_attribute
 				  WHERE product_id IN ( ' . $cid . ' ) order by ordering asc';
@@ -1686,11 +1687,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$property_id                          = $property_array->property_id;
 				$listImages                           = $this->getImageInfor($att_property[$prop]->property_id, 'property');
 
-				$query        = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_price`
-					  WHERE `section_id` = ' . $att_property[$prop]->property_id;
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn($this->table_prefix . 'product_attribute_price'))
+					->where($db->qn('section_id') . ' = ' . $db->q($att_property[$prop]->property_id));
 
-				$this->_db->setQuery($query);
-				$price_prop = $this->_db->loadObjectList();
+				$price_prop = $db->setQuery($query)->loadObjectList();
 
 				for ($i = 0, $in = count($price_prop); $i < $in; $i++)
 				{
@@ -1725,11 +1727,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 					}
 				}
 
-				$query        = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_stockroom_xref`
-					  WHERE `section_id` = ' . $att_property[$prop]->property_id;
+				$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn($this->table_prefix . 'product_attribute_stockroom_xref'))
+					->where($db->qn('section_id') . ' = ' . $db->q($att_property[$prop]->property_id));
 
-				$this->_db->setQuery($query);
-				$stock_prop = $this->_db->loadObjectList();
+				$stock_prop = $db->setQuery($query)->loadObjectList();
 
 				for ($i = 0, $in = count($stock_prop); $i < $in; $i++)
 				{
@@ -2302,7 +2305,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->bind($data))
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -4075,7 +4078,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
