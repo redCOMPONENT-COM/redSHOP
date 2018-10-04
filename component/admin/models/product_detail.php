@@ -1622,7 +1622,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function copyProductAttribute.
 	 *
-	 * @param   array  $cid         Array of IDs.
+	 * @param   string|int  $cid         Array of IDs.
 	 * @param   int    $product_id  Product ID.
 	 *
 	 * @return boolean
@@ -1657,7 +1657,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -1713,7 +1713,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$attribute_price_detail->bind($attr_price))
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}
@@ -1721,7 +1721,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$attribute_price_detail->store())
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}

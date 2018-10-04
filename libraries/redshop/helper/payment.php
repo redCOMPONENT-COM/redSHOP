@@ -138,7 +138,7 @@ class RedshopHelperPayment
 			->select('COUNT(*)')
 			->from($db->qn('#__redshop_order_payment'))
 			->where($db->qn('order_id') . ' = ' . (int) $orderId)
-			->where($db->qn('order_payment_trans_id') . ' = ' . $db->quote($transactionId));
+			->where($db->qn('order_payment_trans_id') . ' = ' . $db->quote((int) $transactionId));
 
 		$result = $db->setQuery($query)->loadResult();
 
