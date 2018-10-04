@@ -797,10 +797,6 @@ class rsCarthelper
 		{
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && empty($extrafield_total) && $classname != "default_shipping_gls")
-		{
-			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
-		}
 
 		JPluginHelper::importPlugin('redshop_checkout');
 		JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
