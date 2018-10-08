@@ -44,17 +44,6 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
         $this->totalAmount                  = $this->fake->numberBetween(100, 999);
         $this->discountAmount               = $this->fake->numberBetween(10, 100);
 
-        $this->product                    = array();
-        $this->product['name']            = $this->newProductName;
-        $this->product['number']          = $this->randomProductNumber;
-        $this->product['category']        = $this->randomCategoryName;
-        $this->product['price']           = $this->randomProductPrice;
-        $this->product['discountStart']   = $this->discountStart;
-        $this->product['discountEnd']     = $this->discountEnd;
-        $this->product['discountPrice']   = $this->fake->numberBetween(100, 1000);
-        $this->product['maximumQuantity'] = $this->maximumQuantity;
-        $this->product['minimumQuantity'] = $this->minimumQuantity;
-
         $this->userName                   = $this->fake->bothify('ManageUserAdministratorCest ?##?');
         $this->password                   = $this->fake->bothify('Password ?##?');
         $this->email                      = $this->fake->email;
@@ -68,7 +57,8 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
         $this->emailWrong                 = "email";
         $this->userNameDelete             = $this->firstName;
         $this->searchOrder                = $this->firstName.' '.$this->lastName ;
-
+        $this->paymentMethod             = 'RedSHOP - Bank Transfer Payment';
+        
         //configuration enable one page checkout
         $this->addcart          = 'product';
         $this->allowPreOrder    = 'yes';
@@ -162,7 +152,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
     public function checkOrder(ConfigurationSteps $I)
     {
         $I->wantTo('Check Order');
-        $I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName, $this->randomProductName, $this->randomCategoryName);
+        $I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName,  $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
     }
 	
 	/**

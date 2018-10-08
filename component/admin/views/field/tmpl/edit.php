@@ -20,7 +20,7 @@ $editor = JEditor::getInstance();
         var field_type    = document.getElementById("jform_type").value;
         var field_section = document.getElementById("jform_section").value;
 
-        if (task == "field.cancel" || document.formvalidator.isValid(document.getElementById("adminForm"))) {
+        if (task == "field.cancel") {
             Joomla.submitform(task);
         }
         else {
@@ -63,10 +63,6 @@ $editor = JEditor::getInstance();
                         return false;
                     }
                 }
-            }
-
-            if (!document.formvalidator.isValid(form)) {
-                return false;
             }
 
             document.getElementById("jform_section").disabled = false;
