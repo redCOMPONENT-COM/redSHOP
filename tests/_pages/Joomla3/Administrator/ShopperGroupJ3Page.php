@@ -58,22 +58,22 @@ class ShopperGroupJ3Page extends AdminJ3Page
     /**
      * @var string
      */
-    public static $shopperGroupPortalYes = "#shopper_group_portal1-lbl";
+    public static $shopperGroupPortalYes = "#shopper_group_portal_1-lbl";
 
     /**
      * @var string
      */
-    public static $shopperGroupPortalNo = "#shopper_group_portal0-lbl";
+    public static $shopperGroupPortalNo = "#shopper_group_portal_0-lbl";
 
     /**
      * @var string
      */
-    public static $shippingYes = "#default_shipping1-lbl";
+    public static $shippingYes = "#default_shipping_1-lbl";
 
     /**
      * @var string
      */
-    public static $shippingNo = "#default_shipping0-lbl";
+    public static $shippingNo = "#default_shipping_0-lbl";
 
     /**
      * @var string
@@ -88,12 +88,12 @@ class ShopperGroupJ3Page extends AdminJ3Page
     /**
      * @var string
      */
-    public static $vatNo = "#show_price_without_vat0-lbl";
+    public static $vatNo = "#show_price_without_vat_0-lbl";
 
     /**
      * @var string
      */
-    public static $vatYes = "#show_price_without_vat1-lbl";
+    public static $vatYes = "#show_price_without_vat_1-lbl";
 
     /**
      * @var string
@@ -118,22 +118,22 @@ class ShopperGroupJ3Page extends AdminJ3Page
     /**
      * @var string
      */
-    public static $quoationNo = "#shopper_group_quotation_mode0-lbl";
+    public static $quoationNo = "#shopper_group_quotation_mode_0-lbl";
 
     /**
      * @var string
      */
-    public static $quotationYes = "#shopper_group_quotation_mode1-lbl";
+    public static $quotationYes = "#shopper_group_quotation_mode_1-lbl";
 
     /**
      * @var string
      */
-    public static $publishNo = "#published0-lbl";
+    public static $publishNo = "#published_0-lbl";
 
     /**
      * @var string
      */
-    public static $publishYes = "#published1-lbl";
+    public static $publishYes = "#published_1-lbl";
 
     /**
      * @var string
