@@ -46,8 +46,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$currency_data = $model->getCurrencies();
 
 		$this->config = $model->getData();
-
-		$config = Redconfiguration::getInstance();
 		$lists  = array();
 
 		// Load payment languages
@@ -675,7 +673,7 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" ', 'value', 'text', $this->config->get('CURRENCY_SYMBOL_POSITION')
 		);
 
-		$options_dateformat          = $config->getDateFormat();
+		$options_dateformat          = RedshopHelperDatetime::getDateFormat();
 		$selected_dateformat         = $this->config->get('DEFAULT_DATEFORMAT');
 
 		if ((string) $selected_dateformat === '0')
