@@ -108,6 +108,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->acceptPopup();
 		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
 	}
+
 	/**
 	 * @param $productName
 	 */
@@ -156,7 +157,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkReview($nameProduct);
 		$I->see($nameProduct);
 		$I->click(\ProductManagerPage::$addToCart);
-		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, '.alert-message');
 		$I->see(\ProductManagerPage::$alertSuccessMessage, '.alert-message');
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
@@ -201,9 +201,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
 		$I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
 		$I->click($userOrderPage->returnSearch($nameProduct));
-		$I->wait(0.1);
-		$I->see($price);
 		$I->waitForElement(\OrderManagerPage::$fieldAttribute, 30);
+		$I->wait(0.5);
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
 		$adminFinalPriceEnd = $price+$priceAttribute;
@@ -212,5 +211,49 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
 		$I->see($adminFinalPriceEnd);
 		$I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
+    }
+
+	/**
+	 * @param $nameProduct
+	 * @param $price
+	 * @param $username
+	 * @param $password
+	 * @throws \Exception
+	 */
+	public function addProductToCartWithBankTransfer($nameProduct, $price, $username, $password)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+		$I->checkReview($nameProduct);
+		$I->see($nameProduct);
+		$I->click(\ProductManagerPage::$addToCart);
+		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
+		$I->see(\ProductManagerPage::$alertSuccessMessage);
+		$I->fillField(\ProductManagerPage::$username, $username);
+		$I->fillField(\ProductManagerPage::$password, $password);
+		$I->click(\ProductManagerPage::$buttonLogin);
+		$I->amOnPage(\ProductManagerPage::$cartPageUrL);
+		$quantity = $I->grabTextFrom(\ProductManagerPage::$quantity);
+		$quantity = (int) $quantity;
+		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$I->see($priceTotalOnCart);
+		$I->click(\ProductManagerPage::$buttonCheckOut);
+		$I->waitForElement(\ProductManagerPage::$priceEnd);
+		$I->see($priceTotalOnCart);
+		$I->click(\ProductManagerPage::$bankTransfer);
+		$I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
+		$I->click(\ProductManagerPage::$acceptTerms);
+		$I->click(\ProductManagerPage::$checkoutFinalStep);
+		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
+		$I->see($priceTotalOnCart);
 	}
 }
