@@ -133,6 +133,33 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 		}
 
+		// Get supplier_id id
+		if (!empty($data['supplier_name']))
+		{
+			$query = $db->getQuery(true)
+				->select($db->qn("id"))
+				->from($db->qn('#__redshop_supplier'))
+				->where($db->qn('name') . ' = ' . $db->quote($data['supplier_name']));
+
+			$supplierId = (int) $db->setQuery($query)->loadResult();
+
+			if (!empty($supplierId))
+			{
+				$data['supplier_id'] = $supplierId;
+			}
+			else
+			{
+				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+
+				/** @var RedshopTableSupplier $supplier */
+				$supplier            = RedshopTable::getInstance('Supplier', 'RedshopTable');
+				$supplier->name      = $data['supplier_name'];
+				$supplier->published = 1;
+				$supplier->store();
+				$data['supplier_id'] = $supplier->id;
+			}
+		}
+
 		if (empty($data['product_thumb_image']))
 		{
 			unset($data['product_thumb_image']);
