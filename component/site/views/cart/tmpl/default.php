@@ -278,7 +278,6 @@ echo eval ("?>" . $cart_data . "<?php ");
 ?>
 <script type="text/javascript" language="javascript">
 	function all_update(u) {
-	    alert('fdsfds');
 		var q = [];
 		for (var i = 0; i < u; i++) {
 			q[q.length] = parseInt(document.getElementById("quantitybox" + i).value);
