@@ -175,11 +175,9 @@ class RedshopHelperTemplate
 	 * @param   int    $templateId Template Id
 	 * @param   string $name       Template Name
 	 *
-	 * @return  array              Template Array
+	 * @return  array              Template array or null if the query failed.
 	 *
 	 * @since   2.0.0.3
-	 *
-	 * @throws  Exception
 	 */
 	public static function getTemplate($section = '', $templateId = 0, $name = "")
 	{
