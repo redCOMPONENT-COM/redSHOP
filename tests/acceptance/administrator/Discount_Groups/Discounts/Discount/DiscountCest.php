@@ -79,8 +79,8 @@ class DiscountCest
 		$this->amount            = $this->faker->numberBetween(100, 999);
 		$this->discountAmount    = $this->faker->numberBetween(10, 100);
 		$this->newAmount         = $this->faker->numberBetween(100, 999);
-		$this->startDate         = '13-06-2017';
-		$this->endDate           = '13-08-2017';
+		$this->startDate         = '13-06-2019';
+		$this->endDate           = '13-08-2019';
 		$this->shopperGroup      = 'Default Private';
 		$this->discountType      = 0;
 		$this->discountCondition = 1;
