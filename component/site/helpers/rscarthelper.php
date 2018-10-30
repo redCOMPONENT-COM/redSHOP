@@ -865,6 +865,8 @@ class rsCarthelper
 	 * @return  string
 	 *
 	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public function replacePaymentTemplate($templateDesc = "", $paymentMethodId = 0, $isCompany = 0, $eanNumber = 0)
 	{
@@ -1549,6 +1551,8 @@ class rsCarthelper
 	 * @param   array  $cart  Cart data.
 	 *
 	 * @return  mixed
+	 *
+	 * @throws  Exception
 	 */
 	public function modifyDiscount($cart)
 	{
