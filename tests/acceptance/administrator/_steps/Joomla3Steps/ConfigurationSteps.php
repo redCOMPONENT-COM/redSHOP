@@ -10,6 +10,21 @@ namespace AcceptanceTester;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
+
+
+    public function configDefaultTime()
+    {
+        $I = $this;
+        $I->amOnPage(\ConfigurationPage::$URL);
+        $I->click(\ConfigurationPage::$general);
+        $I->waitForElement(\ConfigurationPage::$dateFormat, 30);
+        $I->click(\ConfigurationPage::$dateFormat);
+        $I->click(\ConfigurationPage::$valueDateFormat);
+        $I->click(\ConfigurationPage::$buttonSave);
+        $I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
+        $I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+    }
+
 	public function featureUsedStockRoom()
 	{
 		$I = $this;
@@ -149,7 +164,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->waitForElement($userConfigurationPage->returnChoice($state));
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
-		
+
 		// Get default vat
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);
@@ -455,4 +470,5 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->see($priceProduct);
 		$I->see($priceTotal);
 	}
+
 }

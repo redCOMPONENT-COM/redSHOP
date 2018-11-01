@@ -7,6 +7,7 @@
  */
 
 use AcceptanceTester\DiscountSteps;
+use AcceptanceTester\ConfigurationSteps;
 
 /**
  * Class ManageDiscountAdministratorCest
@@ -92,14 +93,30 @@ class DiscountCest
     {
         $I->doAdministratorLogin();
     }
-	/**
-	 * Function to Test Discount Creation in Backend
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 */
+
+    /**
+     * Function Change Date Time Default in Backend
+     *
+     * @param   AcceptanceTester $client    Acceptance Tester case.
+     * @param   string           $scenario  Scenario for Test.
+     *
+     * @return  void
+     */
+	public function setDateFormat (AcceptanceTester $client, $scenario)
+    {
+        $client->wantTo('Change configuration Date Time on Configuration redSHOP');
+        $client = new ConfigurationSteps($scenario);
+        $client->configDefaultTime();
+    }
+
+    /**
+     * Function to Test Discount Creation in Backend
+     *
+     * @param   AcceptanceTester $client   Acceptance Tester case.
+     * @param   string           $scenario Scenario for test.
+     *
+     * @return  void
+     */
 	public function createDiscount(AcceptanceTester $client, $scenario)
 	{
 		$client = new DiscountSteps($scenario);
