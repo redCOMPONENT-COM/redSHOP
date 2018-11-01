@@ -12,7 +12,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
 
 
-	public function configDefaultTime()
+	public function configDefaultTime($time)
 	{
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
