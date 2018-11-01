@@ -106,7 +106,9 @@ class DiscountCest
 	{
 		$client->wantTo('Change configuration Date Time on Configuration redSHOP');
 		$client = new ConfigurationSteps($scenario);
-		$client->configDefaultTime();
+		$now = \JFactory::getDate();
+		$now = $now->format('d/m/Y');
+		$client->configDefaultTime($now);
 	}
 
 	/**
