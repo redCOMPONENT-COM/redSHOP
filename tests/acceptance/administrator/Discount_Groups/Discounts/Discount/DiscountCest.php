@@ -86,37 +86,37 @@ class DiscountCest
 		$this->discountType      = 0;
 		$this->discountCondition = 1;
 	}
-    /**
-     * @param AcceptanceTester $I
-     */
-    public function _before(AcceptanceTester $I)
-    {
-        $I->doAdministratorLogin();
-    }
+	/**
+	 * @param AcceptanceTester $I
+	 */
+	public function _before(AcceptanceTester $I)
+	{
+		$I->doAdministratorLogin();
+	}
 
-    /**
-     * Function Change Date Time Default in Backend
-     *
-     * @param   AcceptanceTester $client    Acceptance Tester case.
-     * @param   string           $scenario  Scenario for Test.
-     *
-     * @return  void
-     */
+	/**
+	 * Function Change Date Time Default in Backend
+	 *
+	 * @param   AcceptanceTester $client    Acceptance Tester case.
+	 * @param   string           $scenario  Scenario for Test.
+	 *
+	 * @return  void
+	 */
 	public function setDateFormat (AcceptanceTester $client, $scenario)
-    {
-        $client->wantTo('Change configuration Date Time on Configuration redSHOP');
-        $client = new ConfigurationSteps($scenario);
-        $client->configDefaultTime();
-    }
+	{
+		$client->wantTo('Change configuration Date Time on Configuration redSHOP');
+		$client = new ConfigurationSteps($scenario);
+		$client->configDefaultTime();
+	}
 
-    /**
-     * Function to Test Discount Creation in Backend
-     *
-     * @param   AcceptanceTester $client   Acceptance Tester case.
-     * @param   string           $scenario Scenario for test.
-     *
-     * @return  void
-     */
+	/**
+	 * Function to Test Discount Creation in Backend
+	 *
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
+	 */
 	public function createDiscount(AcceptanceTester $client, $scenario)
 	{
 		$client = new DiscountSteps($scenario);
@@ -125,8 +125,8 @@ class DiscountCest
 		);
 		$client->searchDiscount($this->discountName);
 
-        $client->wantToTest('Deletion of Discount in Administrator');
-        $client->deleteDiscount($this->discountName);
+		$client->wantToTest('Deletion of Discount in Administrator');
+		$client->deleteDiscount($this->discountName);
 	}
 
 	/**
@@ -145,9 +145,9 @@ class DiscountCest
 		$client = new DiscountSteps($scenario);
 		$client->addDiscountSave($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType);
 
-        $client->wantTo('Test if State of a Discount gets Updated in Administrator');
-        $client->changeDiscountState($this->discountName);
-        $client->verifyState('unpublished', $client->getDiscountState($this->discountName));
+		$client->wantTo('Test if State of a Discount gets Updated in Administrator');
+		$client->changeDiscountState($this->discountName);
+		$client->verifyState('unpublished', $client->getDiscountState($this->discountName));
 	}
 
 	/**
@@ -168,41 +168,41 @@ class DiscountCest
 		$client->editDiscount($this->discountName, $this->amount, $this->newAmount);
 	}
 
-    /**
-     * Function test discount with start date higher than end date.
-     *
-     * @param   AcceptanceTester $client   Acceptance Tester case.
-     * @param   string           $scenario Scenario for test.
-     *
-     * @depends addDiscountSaveChangeStatus
-     *
-     * @return  void
-     */
-    public function addDiscountBadCases(AcceptanceTester $client, $scenario)
-    {
-        $client->wantTo('Test Discount creation with start date higher than end date.');
-        $client = new DiscountSteps($scenario);
-        $client->addDiscountStartThanEnd(
-            $this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
-        );
+	/**
+	 * Function test discount with start date higher than end date.
+	 *
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @depends addDiscountSaveChangeStatus
+	 *
+	 * @return  void
+	 */
+	public function addDiscountBadCases(AcceptanceTester $client, $scenario)
+	{
+		$client->wantTo('Test Discount creation with start date higher than end date.');
+		$client = new DiscountSteps($scenario);
+		$client->addDiscountStartThanEnd(
+			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 
-        $client->wantTo('Test Discount creation with missing name.');
-        $client->addDiscountMissingName(
-            $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
-        );
+		$client->wantTo('Test Discount creation with missing name.');
+		$client->addDiscountMissingName(
+			$this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 
-        $client->wantTo('Test Discount creation with missing amount.');
-        $client->addDiscountMissingAmount(
-            $this->discountName, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
-        );
+		$client->wantTo('Test Discount creation with missing amount.');
+		$client->addDiscountMissingAmount(
+			$this->discountName, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 
-        $client->wantTo('Test Discount creation with missing shopper groups.');
-        $client->addDiscountMissingShopperGroups(
-            $this->discountName, $this->amount, $this->discountAmount, $this->discountType, $this->startDate, $this->endDate
-        );
+		$client->wantTo('Test Discount creation with missing shopper groups.');
+		$client->addDiscountMissingShopperGroups(
+			$this->discountName, $this->amount, $this->discountAmount, $this->discountType, $this->startDate, $this->endDate
+		);
 
-        $client->wantTo('Test Discount creation with missing all fields.');
-        $client->addDiscountWithAllFieldsEmpty();
-    }
+		$client->wantTo('Test Discount creation with missing all fields.');
+		$client->addDiscountWithAllFieldsEmpty();
+	}
 
 }

@@ -12,18 +12,18 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
 
 
-    public function configDefaultTime()
-    {
-        $I = $this;
-        $I->amOnPage(\ConfigurationPage::$URL);
-        $I->click(\ConfigurationPage::$general);
-        $I->waitForElement(\ConfigurationPage::$dateFormat, 30);
-        $I->click(\ConfigurationPage::$dateFormat);
-        $I->click(\ConfigurationPage::$valueDateFormat);
-        $I->click(\ConfigurationPage::$buttonSave);
-        $I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-        $I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
-    }
+	public function configDefaultTime()
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$I->click(\ConfigurationPage::$general);
+		$I->waitForElement(\ConfigurationPage::$dateFormat, 30);
+		$I->click(\ConfigurationPage::$dateFormat);
+		$I->click(\ConfigurationPage::$valueDateFormat);
+		$I->click(\ConfigurationPage::$buttonSave);
+		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+	}
 
 	public function featureUsedStockRoom()
 	{
@@ -230,10 +230,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($addcart)
 		{
 			case 'product':
-                $I->click(\ConfigurationPage::$addCartProduct);
+				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
-                $I->click(\ConfigurationPage::$addCartAttibute);
+				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
 		switch ($allowPreOrder)

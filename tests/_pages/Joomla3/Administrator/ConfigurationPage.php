@@ -462,28 +462,28 @@ class ConfigurationPage extends AdminJ3Page
 	 */
 	public static $numberOfPriceDecimals = '#price_decimal';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $general = 'General';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $storeSettingtab = "//h3[text()='Store Stettings']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $dateFormat = "#s2id_default_dateformat";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $searchfield = "#s2id_autogen3_search";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $valueDateFormat = "#select2-result-label-56";
 }
