@@ -857,14 +857,16 @@ class rsCarthelper
 	/**
 	 * Replace Payment Methods
 	 *
-	 * @param   string   $templateDesc     Template Content
-	 * @param   integer  $paymentMethodId  Payment Method Id
-	 * @param   integer  $isCompany        Is Company?
-	 * @param   integer  $eanNumber        Ean Number
+	 * @param   string  $templateDesc    Template Content
+	 * @param   integer $paymentMethodId Payment Method Id
+	 * @param   integer $isCompany       Is Company?
+	 * @param   integer $eanNumber       Ean Number
 	 *
 	 * @return  string
 	 *
 	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public function replacePaymentTemplate($templateDesc = "", $paymentMethodId = 0, $isCompany = 0, $eanNumber = 0)
 	{
@@ -1546,9 +1548,11 @@ class rsCarthelper
 	/**
 	 * Method for modify discount
 	 *
-	 * @param   array  $cart  Cart data.
+	 * @param   array $cart Cart data.
 	 *
 	 * @return  mixed
+	 *
+	 * @throws  Exception
 	 */
 	public function modifyDiscount($cart)
 	{

@@ -237,6 +237,8 @@ class RedshopHelperRouter
 	 * @return  integer
 	 *
 	 * @since   2.1.0
+	 *
+	 * @throws  Exception
 	 */
 	public static function getCheckoutItemId()
 	{
