@@ -12,14 +12,14 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
 
 
-	public function configDefaultTime($time)
+	public function configDefaultTime($now)
 	{
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$general);
 		$I->waitForElement(\ConfigurationPage::$dateFormat, 30);
 		$I->click(\ConfigurationPage::$dateFormat);
-		$I->click(\ConfigurationPage::$valueDateFormat);
+		$I->fillField(\ConfigurationPage::$searchfield, $now);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
