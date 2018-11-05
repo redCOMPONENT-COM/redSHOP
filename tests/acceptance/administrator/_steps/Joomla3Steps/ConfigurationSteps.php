@@ -20,6 +20,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationPage::$dateFormat, 30);
 		$I->click(\ConfigurationPage::$dateFormat);
 		$I->fillField(\ConfigurationPage::$searchfield, $now);
+		$I->pressKey(\ConfigurationPage::$searchfield, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
