@@ -483,7 +483,11 @@ class ConfigurationPage extends AdminJ3Page
 	public static $searchfield = "#s2id_autogen3_search";
 
 	/**
-	 * @var string
+	 * @param $value
+	 * @return array
 	 */
-	public static $valueDateFormat = "#select2-result-label-56";
+	public static function returnDate($value)
+	{
+		return ['xpath' => "(//span[contains(text(), '" . $value . "')])[1]"];
+	}
 }
