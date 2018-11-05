@@ -80,8 +80,10 @@ class DiscountCest
 		$this->amount            = $this->faker->numberBetween(100, 999);
 		$this->discountAmount    = $this->faker->numberBetween(10, 100);
 		$this->newAmount         = $this->faker->numberBetween(100, 999);
-		$this->startDate         = \JFactory::getDate();
-		$this->endDate           = \JFactory::getDate(). date('Y', strtotime('+2 month'));
+//		$this->startDate         = \JFactory::getDate();
+//		$this->endDate           = \JFactory::getDate(). date('Y', strtotime('+1 year'));
+        $this->startDate         = '2017-06-13';
+        $this->endDate           = '2017-08-13';
 		$this->shopperGroup      = 'Default Private';
 		$this->discountType      = 0;
 		$this->discountCondition = 1;
@@ -94,22 +96,22 @@ class DiscountCest
 		$I->doAdministratorLogin();
 	}
 
-	/**
-	 * Function Change Date Time Default in Backend
-	 *
-	 * @param   AcceptanceTester $client    Acceptance Tester case.
-	 * @param   string           $scenario  Scenario for Test.
-	 *
-	 * @return  void
-	 */
-	public function setDateFormat (AcceptanceTester $client, $scenario)
-	{
-		$client->wantTo('Change configuration Date Time on Configuration redSHOP');
-		$client = new ConfigurationSteps($scenario);
-		$now = \JFactory::getDate();
-		$now = $now->format('d-m-Y');
-		$client->configDefaultTime($now);
-	}
+//	/**
+//	 * Function Change Date Time Default in Backend
+//	 *
+//	 * @param   AcceptanceTester $client    Acceptance Tester case.
+//	 * @param   string           $scenario  Scenario for Test.
+//	 *
+//	 * @return  void
+//	 */
+//	public function setDateFormat(AcceptanceTester $client, $scenario)
+//	{
+//		$client->wantTo('Change configuration Date Time on Configuration redSHOP');
+//		$client = new ConfigurationSteps($scenario);
+//		$now = \JFactory::getDate();
+//		$now = $now->format('d-m-Y');
+//		$client->configDefaultTime($now);
+//	}
 
 	/**
 	 * Function to Test Discount Creation in Backend
