@@ -79,8 +79,8 @@ class DiscountCest
 		$this->amount            = $this->faker->numberBetween(100, 999);
 		$this->discountAmount    = $this->faker->numberBetween(10, 100);
 		$this->newAmount         = $this->faker->numberBetween(100, 999);
-		$this->startDate         = '13-06-2017';
-		$this->endDate           = '13-08-2017';
+		$this->startDate         = '2018-11-06';
+		$this->endDate           = '2018-12-06';
 		$this->shopperGroup      = 'Default Private';
 		$this->discountType      = 0;
 		$this->discountCondition = 1;
@@ -163,9 +163,6 @@ class DiscountCest
 	 */
 	public function addDiscountBadCases(AcceptanceTester $client, $scenario)
 	{
-		$client->amOnPage(\ConfigurationPage::$URL);
-		$client->scrollTo('#shop_name');
-		$client->see('1233');
 		$client->wantTo('Test Discount creation with start date higher than end date.');
 		$client = new DiscountSteps($scenario);
 		$client->addDiscountStartThanEnd(
