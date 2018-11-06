@@ -189,11 +189,12 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		
 		$client->addValueForField(\DiscountProductPage::$fieldStartDate, $endDate, 10);
+		$client->see('123');
 		$client->addValueForField(\DiscountProductPage::$fieldEndDate, $startDate, 10);
 		
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
-		$client->click(\DiscountProductPage::$buttonSaveClose);
+		$client->click(\DiscountProductPage::$buttonSave);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorStartDateHigherEndDate);
 	}
 
