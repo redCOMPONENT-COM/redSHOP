@@ -213,13 +213,8 @@ class AdminManagerJoomla3Steps extends Redshop
 		{
 			$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
 		}
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
 
-		$price = str_split($prices);
+		$price = str_split($value);
 		foreach ($price as $char)
 		{
 			$I->pressKey($xpath, $char);

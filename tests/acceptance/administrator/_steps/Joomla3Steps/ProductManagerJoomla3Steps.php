@@ -115,7 +115,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
 		$I->waitForElement(ProductManagerPage::$productPrice, 30);
-		$I->addValueForField(ProductManagerPage::$productPrice, $prices, 10);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -299,7 +299,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $price, 10);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -326,7 +326,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $price, 10);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -465,7 +465,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $price, 10);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -501,7 +501,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
 		$I->waitForElement(ProductManagerPage::$productPrice, 30);
-		$I->addValueForField(ProductManagerPage::$productPrice, $price, 10);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -654,7 +654,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
 		$I->fillField(\ProductManagerPage::$productName, $productName);
 		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $prices, 10);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices, 6);
 		$I->click(\ProductManagerPage::$categoryId);
 		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
 		$usePage = new \ProductManagerPage();
@@ -725,7 +725,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(\ProductManagerPage::$productName, $productName);
 		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $prices,10);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices,6);
 		$I->click(\ProductManagerPage::$categoryId);
 		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
 		$usePage = new \ProductManagerPage();
