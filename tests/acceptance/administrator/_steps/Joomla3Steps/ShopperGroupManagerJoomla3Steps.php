@@ -24,7 +24,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 */
 	public function addShopperGroups($shopperName, $shopperType, $shopperCustomer, $shopperGroupPortal, $category,
-	                                 $shipping, $shippingRate, $shippingCheckout, $showVat, $catalog, $showPrice, $enableQuotation, $function)
+									 $shipping, $shippingRate, $shippingCheckout, $showVat, $catalog, $showPrice, $enableQuotation, $function)
 	{
 		$tester = $this;
 		$tester->amOnPage(\ShopperGroupJ3Page::$URL);
