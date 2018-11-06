@@ -969,8 +969,7 @@ function calculateQuotationTotal() {
 	if (document.getElementById("quotation_discount") && (trim(document.getElementById("quotation_discount").value) != "" && !isNaN(document.getElementById("quotation_discount").value))) {
 		q_discount = parseFloat(document.getElementById("quotation_discount").value);
 
-		if (q_discount > total)
-		{
+		if (q_discount > total) {
             q_discount = total;
 		}
 
