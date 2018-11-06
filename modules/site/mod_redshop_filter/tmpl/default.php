@@ -178,16 +178,14 @@ defined('_JEXEC') or die;
     }
 
     function restricted(form, pids, params) {
-        jQuery('body').on(function(event) {
-            jQuery.ajax({
-                type: "POST",
-                url: "<?php echo JUri::root() ?>index.php?option=com_redshop&task=search.restrictedData",
-                data: {pids: pids, params: params, form: form},
-                success: function (restrictedData) {
-                    jQuery('#redproductfinder-form-<?php echo $module->id;?>').html(restrictedData);
-                },
-            });
-        }); 
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo JUri::root() ?>index.php?option=com_redshop&task=search.restrictedData",
+            data: {pids: pids, params: params, form: form},
+            success: function (restrictedData) {
+                jQuery('#redproductfinder-form-<?php echo $module->id;?>').html(restrictedData);
+            },
+        });
     }
 
     function order(select) {
