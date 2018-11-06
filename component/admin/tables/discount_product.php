@@ -209,10 +209,7 @@ class RedshopTableDiscount_Product extends RedshopTable
 		}
 
 		// Convert end date to same day but at middle night
-		if ($this->end_date !== 0)
-		{
-			$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
-		}
+        $this->end_date = $this->end_date !== 0 ? RedshopHelperDatetime::generateTimestamp($this->end_date) : $this->end_date;
 
 		// Check shopper groups
 		if (empty($this->getOption('shopperGroups', array())))
