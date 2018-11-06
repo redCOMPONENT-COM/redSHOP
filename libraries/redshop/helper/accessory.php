@@ -40,7 +40,7 @@ class RedshopHelperAccessory
 		}
 
 		// Check the accessory as product ids are not null
-		if ($data[0] != "" && $data[0] != 0)
+		if (!empty($data[0]))
 		{
 			$collection->accessory_data       = explode("@@", $data[0]);
 			$collection->acc_quantity_data    = explode("@@", $data[1]);

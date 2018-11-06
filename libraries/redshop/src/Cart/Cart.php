@@ -385,7 +385,6 @@ class Cart
 		$calcOutput      = "";
 		$calcOutputs     = array();
 		$productVatPrice = 0;
-		$productVatPrice = 0;
 
 		if (!empty($discounts))
 		{
@@ -458,7 +457,6 @@ class Cart
 		$selectedPropId       = $selectProp[0];
 		$notSelectedSubPropId = $retAttArr[8];
 		$productPreOrder      = $product->preorder;
-		$isPreOrderStock      = $retAttArr[7];
 
 		// Check for the required attributes if selected
 		$handleMessage = \rsCarthelper::getInstance()->handleRequiredSelectedAttributeCartMessage(
@@ -796,7 +794,7 @@ class Cart
 			}
 
 			$cart[$idx]['category_id']   = $data['category_id'];
-			$cart[$idx]['wrapper_id']    = $data['sel_wrapper_id'];
+			$cart[$idx]['wrapper_id']    = !empty($data['sel_wrapper_id']) ? $data['sel_wrapper_id'] : 0;
 			$cart[$idx]['wrapper_price'] = $wrapperPrice + $wrapperVat;
 
 			/**

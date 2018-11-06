@@ -9,6 +9,12 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Layout variables
+ * ==========================
+ * @var  array   $displayData       Layout data
+ * @var  object  $billingAddresses  Billing address
+ */
 extract($displayData);
 
 $order_functions = order_functions::getInstance();

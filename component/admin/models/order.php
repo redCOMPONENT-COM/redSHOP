@@ -118,7 +118,7 @@ class RedshopModelOrder extends RedshopModel
 				. ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('uf.order_id')
 			)
 			->innerJoin($db->qn('#__redshop_order_status', 'os') . ' ON ' . $db->qn('os.order_status_code') . '=' . $this->_db->qn('o.order_status'))
-			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
+//			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
 			->group($db->qn('o.order_id'));
 
 		$filterBy = $this->getState('filter_by');

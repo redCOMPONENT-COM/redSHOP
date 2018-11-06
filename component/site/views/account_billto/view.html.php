@@ -29,7 +29,7 @@ class RedshopViewAccount_Billto extends RedshopView
 	public $lists;
 
 	/**
-	 * @var object
+	 * @var object|boolean
 	 */
 	public $billingaddresses;
 

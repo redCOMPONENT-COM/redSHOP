@@ -249,13 +249,13 @@ abstract class ModRedshopFilter
 	/**
 	 * Get products by category id
 	 *
-	 * @param   int $cid category id
+	 * @param   integer  $cid  category id
 	 *
 	 * @return  array
 	 */
 	public static function getProductByCategory($cid = 0)
 	{
-		if ($cid == 0)
+		if (!$cid)
 		{
 			return array();
 		}
@@ -273,7 +273,7 @@ abstract class ModRedshopFilter
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('product_id'))
+			->select($db->qn('p.product_id'))
 			->from($db->qn('#__redshop_product_category_xref', 'pc'))
 			->innerJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
 			->where($db->qn('pc.category_id') . ' IN (' . implode(',', $categories) . ')')

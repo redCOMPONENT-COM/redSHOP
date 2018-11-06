@@ -33,8 +33,10 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName, 30);
         $I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $name);
         $I->fillField(\StockRoomManagerJoomla3Page::$minimumStockAmount, $minAmount);
-        $I->click(\StockRoomManagerJoomla3Page::$saveCloseButton);
+        $I->waitForElement(\StockRoomManagerJoomla3Page::$saveButton, 30);
+        $I->click(\StockRoomManagerJoomla3Page::$saveButton);
         $I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, \StockRoomManagerJoomla3Page::$selectorSuccess);
+        $I->click(\StockRoomManagerJoomla3Page::$closeButton);
     }
 
     /**

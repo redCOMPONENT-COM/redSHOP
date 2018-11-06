@@ -2,7 +2,7 @@
 
 define('_JEXEC', 1);
 
-define('JPATH_BASE', dirname(__DIR__) . '/tests/joomla-cms3/administrator');
+define('JPATH_BASE', dirname(__DIR__) . '/tests/joomla-cms/administrator');
 
 include_once JPATH_BASE . '/includes/defines.php';
 include_once JPATH_LIBRARIES . '/import.legacy.php';

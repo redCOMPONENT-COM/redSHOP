@@ -413,7 +413,7 @@ class Helper
 					}
 
 					$accPropertyCart[$propIndex] = array(
-						'property_id'     => $accessoriesProperty[$propIndex],
+						'property_id'     => $property[0]->property_id,
 						'attribute_id'    => $property[0]->attribute_id,
 						'property_name'   => $property[0]->text,
 						'property_oprand' => $property[0]->oprand,

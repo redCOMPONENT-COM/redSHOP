@@ -356,7 +356,7 @@ class RedshopModelCategory extends RedshopModel
 			$query->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
-		$query->select($db->qn('p.product_id'))
+		$query->select('DISTINCT(p.product_id)')
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
 			->where($db->qn('p.published') . ' = 1')

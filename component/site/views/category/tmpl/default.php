@@ -17,19 +17,19 @@ $producthelper = productHelper::getInstance();
 $extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
-$url    = JURI::base();
+$url = JURI::base();
 
 /** @var RedshopModelCategory $model */
 $model                = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
 
-if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc != "")
+if (!empty($loadCategorytemplate) && $loadCategorytemplate[0]->template_desc != "")
 {
 	$template_desc = $loadCategorytemplate[0]->template_desc;
 }
 else
 {
-	$template_desc  = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>";
+	$template_desc = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>";
 	$template_desc .= "\r\n{category_frontpage_loop_start}<div class=\"category_front\">\r\n";
 	$template_desc .= "<div class=\"category_front_image\">{category_thumb_image}</div>\r\n";
 	$template_desc .= "<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
@@ -75,9 +75,9 @@ else
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
-$print_tag  = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
+$print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" .
-				JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
+	JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
@@ -116,8 +116,8 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
 	}
 
-	$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
-	$cat_detail     = "";
+	$extraFieldName  = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
+	$cat_detail      = "";
 	$countCategories = count($this->detail);
 
 	if (!$countCategories)
@@ -134,7 +134,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$sgportal = RedshopHelperShopper_Group::getShopperGroupPortal();
 		$portal   = 0;
 
-		if (count($sgportal) > 0)
+		if (!empty($sgportal))
 		{
 			$portal = $sgportal->shopper_group_portal;
 		}

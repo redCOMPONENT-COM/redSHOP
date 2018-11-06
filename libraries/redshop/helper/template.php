@@ -546,6 +546,9 @@ class RedshopHelperTemplate
 			'20' => JText::_('COM_REDSHOP_ORDER')
 		);
 
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onFieldSection', array(&$options));
+
 		return self::prepareSectionOptions($options, $sectionValue);
 	}
 
@@ -576,6 +579,9 @@ class RedshopHelperTemplate
 			'13' => JText::_('COM_REDSHOP_IMAGE_WITH_LINK'),
 			'15' => JText::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS')
 		);
+
+		JPluginHelper::importPlugin('system');
+		RedshopHelperUtility::getDispatcher()->trigger('onFieldTypeSections', array(&$options));
 
 		return self::prepareSectionOptions($options, $sectionValue);
 	}

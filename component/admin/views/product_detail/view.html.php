@@ -379,7 +379,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			$menu           = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
 			$mainCategoryId = $detail->cat_in_sefurl;
 
-			if (count($menu) > 0)
+			if (!empty($menu))
 			{
 				$pItemid = $menu->id;
 			}

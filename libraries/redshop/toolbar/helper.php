@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  Application
  * @since       1.4
  */
-abstract class RedshopToolbarHelper extends JToolBarHelper
+abstract class RedshopToolbarHelper extends JToolbarHelper
 {
 	/**
 	 * Writes a custom option and task button for the button bar.
@@ -31,7 +31,7 @@ abstract class RedshopToolbarHelper extends JToolBarHelper
 	 */
 	public static function link($link = '', $icon = '', $alt = '', $target = '_self')
 	{
-		$bar = RedshopToolbar::getInstance('toolbar');
+		$bar = RedshopToolbar::getInstance();
 		$bar->addButtonPath(__DIR__ . '/button');
 
 		// Strip extension.
@@ -51,8 +51,6 @@ abstract class RedshopToolbarHelper extends JToolBarHelper
 	 */
 	public static function createGroup($groupName, $groupTitle)
 	{
-		$bar = new RedshopToolbar($groupName, $groupTitle);
-
-		return $bar;
+		return new RedshopToolbar($groupName, $groupTitle);
 	}
 }

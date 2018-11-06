@@ -361,7 +361,7 @@ else
 $oneStepTemplateHtml = $model->displayShoppingCart($oneStepTemplateHtml, $usersInfoId, $shippingRateId, $paymentMethodId, $itemId);
 $oneStepTemplateHtml = RedshopHelperTemplate::parseRedshopPlugin($oneStepTemplateHtml);
 ?>
-<?php if (!$user->id && empty($auth['users_info_id'])): ?>
+<?php if (!$user->id && empty($auth['users_info_id']) && Redshop::getConfig()->getInt('REGISTER_METHOD') != 1 && Redshop::getConfig()->getInt('REGISTER_METHOD') != 3): ?>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><?php echo JText::_('COM_REDSHOP_RETURNING_CUSTOMERS') ?></h3>

@@ -10,7 +10,7 @@ CALL redSHOP_Column_Update('#__redshop_category', 'published', 'published', "TIN
 CALL redSHOP_Column_Update('#__redshop_category', 'category_template', 'template', "INT(11) NOT NULL DEFAULT 0");
 CALL redSHOP_Column_Update('#__redshop_category', 'category_more_template', 'more_template', "VARCHAR(255) NOT NULL DEFAULT ''");
 CALL redSHOP_Column_Update('#__redshop_category', 'category_pdate', 'category_pdate', "DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'");
-CALL redSHOP_Column_Update('#__redshop_category', 'alias', 'alias', "VARCHAR(400) NOT NULL DEFAULT '' AFTER `append_to_global_seo`");
+CALL redSHOP_Column_Update('#__redshop_category', 'alias', 'alias', "VARCHAR(255) NOT NULL DEFAULT '' AFTER `append_to_global_seo`");
 CALL redSHOP_Column_Update('#__redshop_category', 'path', 'path', "VARCHAR(255) NOT NULL DEFAULT '' AFTER `alias`");
 CALL redSHOP_Column_Update('#__redshop_category', 'asset_id', 'asset_id', "INT(11) NULL DEFAULT '0' COMMENT 'FK to the #__assets table.'  AFTER `path`");
 CALL redSHOP_Column_Update('#__redshop_category', 'parent_id', 'parent_id', "INT(11) NULL DEFAULT '0' AFTER `asset_id`");

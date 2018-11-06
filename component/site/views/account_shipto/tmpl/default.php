@@ -47,9 +47,13 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 
 		<?php for ($i = 0; $i < count($this->shippingAddresses); $i++): ?>
 			<?php $editLink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingAddresses[$i]->users_info_id . "&Itemid=" . $itemId; ?>
+			<?php $deleteLink = "index.php?option=com_redshop&view=account_shipto&task=remove&infoid=" . $this->shippingAddresses[$i]->users_info_id . "&Itemid=" . $itemId; ?>
 			<tr>A
 				<td>
 					<?php echo "- <a href='" . JRoute::_($editLink) . "'>" . $this->shippingAddresses[$i]->text . "</a>"; ?>
+				</td>
+				<td>
+					<a onclick="return confirm('<?php echo JText::_('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') ?>');" href="<?php echo JRoute::_($deleteLink) ?>"><?php echo JText::_("JGLOBAL_FIELD_REMOVE") ?></a>
 				</td>
 			</tr>
 		<?php endfor; ?>
