@@ -79,8 +79,8 @@ class DiscountCest
 		$this->amount            = $this->faker->numberBetween(100, 999);
 		$this->discountAmount    = $this->faker->numberBetween(10, 100);
 		$this->newAmount         = $this->faker->numberBetween(100, 999);
-		$this->startDate         = '2018-11-06';
-		$this->endDate           = '2018-12-06';
+		$this->startDate         = '13-06-2017';
+		$this->endDate           = '13-08-2017';
 		$this->shopperGroup      = 'Default Private';
 		$this->discountType      = 0;
 		$this->discountCondition = 1;
@@ -100,9 +100,8 @@ class DiscountCest
 	 *
 	 * @return  void
 	 */
-	public function createDiscount(AcceptanceTester $client, $scenario)
+	public function createDiscount(DiscountSteps $client)
 	{
-		$client = new DiscountSteps($scenario);
 		$client->addDiscount(
 			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->discountCondition
 		);
@@ -122,10 +121,9 @@ class DiscountCest
 	 *
 	 * @return  void
 	 */
-	public function addDiscountSaveChangeStatus(AcceptanceTester $client, $scenario)
+	public function addDiscountSaveChangeStatus(DiscountSteps $client)
 	{
 		$client->wantTo('Test Discount creation with save button in Administrator');
-		$client = new DiscountSteps($scenario);
 		$client->addDiscountSave($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType);
 
 		$client->wantTo('Test if State of a Discount gets Updated in Administrator');
@@ -143,10 +141,9 @@ class DiscountCest
 	 *
 	 * @return void
 	 */
-	public function updateDiscount(AcceptanceTester $client, $scenario)
+	public function updateDiscount(DiscountSteps $client)
 	{
 		$client->wantTo('Test if Discount gets updated in Administrator');
-		$client = new DiscountSteps($scenario);
 		$client->wantTo('Update Existing Discount');
 		$client->editDiscount($this->discountName, $this->amount, $this->newAmount);
 	}
@@ -161,10 +158,9 @@ class DiscountCest
 	 *
 	 * @return  void
 	 */
-	public function addDiscountBadCases(AcceptanceTester $client, $scenario)
+	public function addDiscountBadCases(DiscountSteps $client)
 	{
 		$client->wantTo('Test Discount creation with start date higher than end date.');
-		$client = new DiscountSteps($scenario);
 		$client->addDiscountStartThanEnd(
 			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
 		);
