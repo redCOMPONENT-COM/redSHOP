@@ -212,6 +212,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			$I->addValueForField(ProductManagerPage::$discountEnd, $product['discountStart'], 10);
 		}
+		
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->acceptPopup();
 
