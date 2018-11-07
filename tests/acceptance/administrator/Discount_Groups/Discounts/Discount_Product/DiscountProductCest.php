@@ -154,9 +154,6 @@ class DiscountProductCest
 //	 */
 	public function addDiscountProductMissingAmountSaveClose(DiscountProductSteps $client)
 	{
-		
-		$client->amOnPage(\ConfigurationPage::$URL);
-		$client->see('213');
 		$client->wantTo('Add product discount missing amount then clicks on save and close button');
 		$client->addDiscountProductMissingAmountSaveClose(
 			$this->productPrice,
@@ -184,8 +181,8 @@ class DiscountProductCest
             $this->condition,
             $this->type,
             $this->discountAmount,
-            $this->endDate,
             $this->startDate,
+            $this->endDate,
             $this->dataCategory['name'],
             $this->groupName
         );
