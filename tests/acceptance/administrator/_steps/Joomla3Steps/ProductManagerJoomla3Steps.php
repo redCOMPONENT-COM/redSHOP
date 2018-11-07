@@ -207,13 +207,11 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		if (isset($product['discountStart']))
 		{
 			$I->addValueForField(ProductManagerPage::$discountStart, $product['discountEnd'], 10);
-			$I->fillField(ProductManagerPage::$discountStart, $product['discountEnd']);
 		}
 
 		if (isset($product['discountEnd']))
 		{
 			$I->addValueForField(ProductManagerPage::$discountEnd, $product['discountStart'], 10);
-			$I->fillField(ProductManagerPage::$discountEnd, $product['discountStart']);
 		}
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->acceptPopup();
