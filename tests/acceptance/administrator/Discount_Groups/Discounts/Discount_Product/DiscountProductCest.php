@@ -86,72 +86,69 @@ class DiscountProductCest
 		$this->type = 1;
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     */
-    public function _before(AcceptanceTester $I)
-    {
-        $I->doAdministratorLogin();
-    }
+	/**
+	 * @param AcceptanceTester $I
+	 */
+	public function _before(AcceptanceTester $I)
+	{
+		$I->doAdministratorLogin();
+	}
 
-	public function createCategory(AcceptanceTester $client, $scenario)
+	public function createCategory(CategorySteps $client)
 	{
 		$client->wantTo('Test Category creation in Administrator');
-		$client = new CategorySteps($scenario);
 		$client->wantTo('Create a Category');
 		$client->addNewItem($this->dataCategory);
 	}
-//	/**
-//	 * Function to Test Discount Product Creation in Backend
-//	 *
-//	 * @param   AcceptanceTester $client   Acceptance Tester case.
-//	 * @param   string           $scenario Scenario for test.
-//	 *
-//	 * @return  void
-//	 */
-//	public function createDiscountSave(AcceptanceTester $client, $scenario)
-//	{
-//		$client = new DiscountProductSteps($scenario);
-//		$client->addDiscountProductSave(
-//			$this->productPrice,
-//			$this->condition,
-//			$this->type,
-//			$this->discountAmount,
-//			$this->startDate,
-//			$this->endDate,
-//			$this->dataCategory['name'],
-//			$this->groupName
-//		);
-//	}
-//
-//	/**
-//	 * Function check cancel button
-//	 *
-//	 * @param   AcceptanceTester $client   Acceptance Tester case.
-//	 * @param   string           $scenario Scenario for test.
-//	 *
-//	 * @return  void
-//	 *
-//	 * @depends createDiscountSave
-//	 */
-//	public function addDiscountProductCancelButton(AcceptanceTester $client, $scenario)
-//	{
-//		$client = new DiscountProductSteps($scenario);
-//		$client->addDiscountProductCancelButton();
-//		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
-//	}
+	/**
+	 * Function to Test Discount Product Creation in Backend
+	 *
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
+	 */
+	public function createDiscountSave(DiscountProductSteps $client)
+	{
+		$client->addDiscountProductSave(
+			$this->productPrice,
+			$this->condition,
+			$this->type,
+			$this->discountAmount,
+			$this->startDate,
+			$this->endDate,
+			$this->dataCategory['name'],
+			$this->groupName
+		);
+	}
 
-//	/**
-//	 *
-//	 * Function add discount product missing amount
-//	 *
-//	 * @param   AcceptanceTester $client   Acceptance Tester case.
-//	 * @param   string           $scenario Scenario for test.
-//	 *
-//	 * @return  void
-//	 *
-//	 * @depends addDiscountProductCancelButton
-//	 */
+	/**
+	 * Function check cancel button
+	 *
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
+	 *
+	 * @depends createDiscountSave
+	 */
+	public function addDiscountProductCancelButton(DiscountProductSteps $client)
+	{
+		$client->addDiscountProductCancelButton();
+		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
+	}
+
+	/**
+	 *
+	 * Function add discount product missing amount
+	 *
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @return  void
+	 *
+	 * @depends addDiscountProductCancelButton
+	 */
 	public function addDiscountProductMissingAmountSaveClose(DiscountProductSteps $client)
 	{
 		$client->wantTo('Add product discount missing amount then clicks on save and close button');
@@ -164,28 +161,28 @@ class DiscountProductCest
 			$this->dataCategory['name'],
 			$this->groupName
 		);
-        $client->wantTo('Add product discount missing shopper group then clicks on save and close button');
-        $client->addDiscountProductMissingShopperGroupSaveClose(
-            $this->productPrice,
-            $this->condition,
-            $this->type,
-            $this->discountAmount,
-            $this->startDate,
-            $this->endDate,
-            $this->dataCategory['name']
-        );
+		$client->wantTo('Add product discount missing shopper group then clicks on save and close button');
+		$client->addDiscountProductMissingShopperGroupSaveClose(
+			$this->productPrice,
+			$this->condition,
+			$this->type,
+			$this->discountAmount,
+			$this->startDate,
+			$this->endDate,
+			$this->dataCategory['name']
+		);
 
-        $client->wantTo('Add discount product strt more than end ');
-        $client->addDiscountProductStartMoreThanEnd(
-            $this->productPrice,
-            $this->condition,
-            $this->type,
-            $this->discountAmount,
-            $this->startDate,
-            $this->endDate,
-            $this->dataCategory['name'],
-            $this->groupName
-        );
+		$client->wantTo('Add discount product strt more than end ');
+		$client->addDiscountProductStartMoreThanEnd(
+			$this->productPrice,
+			$this->condition,
+			$this->type,
+			$this->discountAmount,
+			$this->startDate,
+			$this->endDate,
+			$this->dataCategory['name'],
+			$this->groupName
+		);
 	}
 
 	/**
@@ -215,9 +212,8 @@ class DiscountProductCest
 	 * @depends checkDeleteButton
 	 *
 	 */
-	public function checkDeleteAll(AcceptanceTester $client, $scenario)
+	public function checkDeleteAll(DiscountProductSteps $client)
 	{
-		$client = new DiscountProductSteps($scenario);
 		$client->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->dataCategory['name'], $this->groupName);
 		$client->checkDeleteAll();
 	}

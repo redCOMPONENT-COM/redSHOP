@@ -25,8 +25,8 @@ cache:
 env:
   matrix:
       - ACCEPTANCE=false
-      - ACCEPTANCE=acceptance/administrator/Discount_Groups/Discounts/Discount_Product
-#      - ACCEPTANCE=acceptance/integration
+      - ACCEPTANCE=acceptance/administrator
+      - ACCEPTANCE=acceptance/integration
 
   global:
     - CLOUD_NAME=redcomponent
