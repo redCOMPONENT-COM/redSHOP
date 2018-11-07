@@ -195,7 +195,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $product['name']);
-		$I->fillField(ProductManagerPage::$productNumber, $product['number']);
 		$I->fillField(ProductManagerPage::$productPrice, $product['price']);
 		$usePage = new ProductManagerPage();
 		$I->click(ProductManagerPage::$categoryId);
@@ -208,7 +207,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			$I->addValueForField(ProductManagerPage::$discountStart, $product['discountEnd'], 10);
 		}
-
+		$I->fillField(ProductManagerPage::$productNumber, $product['number']);
 		if (isset($product['discountEnd']))
 		{
 			$I->addValueForField(ProductManagerPage::$discountEnd, $product['discountStart'], 10);
