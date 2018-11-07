@@ -101,60 +101,62 @@ class DiscountProductCest
 		$client->wantTo('Create a Category');
 		$client->addNewItem($this->dataCategory);
 	}
-	/**
-	 * Function to Test Discount Product Creation in Backend
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 */
-	public function createDiscountSave(AcceptanceTester $client, $scenario)
-	{
-		$client = new DiscountProductSteps($scenario);
-		$client->addDiscountProductSave(
-			$this->productPrice,
-			$this->condition,
-			$this->type,
-			$this->discountAmount,
-			$this->startDate,
-			$this->endDate,
-			$this->dataCategory['name'],
-			$this->groupName
-		);
-	}
+//	/**
+//	 * Function to Test Discount Product Creation in Backend
+//	 *
+//	 * @param   AcceptanceTester $client   Acceptance Tester case.
+//	 * @param   string           $scenario Scenario for test.
+//	 *
+//	 * @return  void
+//	 */
+//	public function createDiscountSave(AcceptanceTester $client, $scenario)
+//	{
+//		$client = new DiscountProductSteps($scenario);
+//		$client->addDiscountProductSave(
+//			$this->productPrice,
+//			$this->condition,
+//			$this->type,
+//			$this->discountAmount,
+//			$this->startDate,
+//			$this->endDate,
+//			$this->dataCategory['name'],
+//			$this->groupName
+//		);
+//	}
+//
+//	/**
+//	 * Function check cancel button
+//	 *
+//	 * @param   AcceptanceTester $client   Acceptance Tester case.
+//	 * @param   string           $scenario Scenario for test.
+//	 *
+//	 * @return  void
+//	 *
+//	 * @depends createDiscountSave
+//	 */
+//	public function addDiscountProductCancelButton(AcceptanceTester $client, $scenario)
+//	{
+//		$client = new DiscountProductSteps($scenario);
+//		$client->addDiscountProductCancelButton();
+//		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
+//	}
 
-	/**
-	 * Function check cancel button
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends createDiscountSave
-	 */
-	public function addDiscountProductCancelButton(AcceptanceTester $client, $scenario)
+//	/**
+//	 *
+//	 * Function add discount product missing amount
+//	 *
+//	 * @param   AcceptanceTester $client   Acceptance Tester case.
+//	 * @param   string           $scenario Scenario for test.
+//	 *
+//	 * @return  void
+//	 *
+//	 * @depends addDiscountProductCancelButton
+//	 */
+	public function addDiscountProductMissingAmountSaveClose(DiscountProductSteps $client)
 	{
-		$client = new DiscountProductSteps($scenario);
-		$client->addDiscountProductCancelButton();
-		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
-	}
-
-	/**
-	 *
-	 * Function add discount product missing amount
-	 *
-	 * @param   AcceptanceTester $client   Acceptance Tester case.
-	 * @param   string           $scenario Scenario for test.
-	 *
-	 * @return  void
-	 *
-	 * @depends addDiscountProductCancelButton
-	 */
-	public function addDiscountProductMissingAmountSaveClose(AcceptanceTester $client, $scenario)
-	{
-		$client = new DiscountProductSteps($scenario);
+		
+		$client->amOnPage(\ConfigurationPage::$URL);
+		$client->see('213');
 		$client->wantTo('Add product discount missing amount then clicks on save and close button');
 		$client->addDiscountProductMissingAmountSaveClose(
 			$this->productPrice,
@@ -165,8 +167,6 @@ class DiscountProductCest
 			$this->dataCategory['name'],
 			$this->groupName
 		);
-
-        $client = new DiscountProductSteps($scenario);
         $client->wantTo('Add product discount missing shopper group then clicks on save and close button');
         $client->addDiscountProductMissingShopperGroupSaveClose(
             $this->productPrice,
@@ -201,9 +201,8 @@ class DiscountProductCest
 	 *
 	 * @depends addDiscountProductMissingAmountSaveClose
 	 */
-	public function checkDeleteButton(AcceptanceTester $client, $scenario)
+	public function checkDeleteButton(DiscountProductSteps $client)
 	{
-		$client = new DiscountProductSteps($scenario);
 		$client->checkDeleteButton();
 		$client->see(\DiscountProductPage::$namePage, \DiscountProductPage::$selectorPageTitle);
 	}
