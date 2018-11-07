@@ -74,8 +74,8 @@ class DiscountProductCest
 		$this->dataCategory['type'] = 'Total';
 		$this->noPage         = $this->faker->randomNumber();
 		$this->productPrice   = $this->faker->numberBetween(100, 999);
-		$this->startDate      = "19-06-2017";
-		$this->endDate        = "23-06-2017";
+		$this->startDate      = "2017-06-19";
+		$this->endDate        = "2017-06-23";
 		$this->discountAmount = $this->faker->numberBetween(1, 10);
 		$this->groupName      = "Default Private";
 
