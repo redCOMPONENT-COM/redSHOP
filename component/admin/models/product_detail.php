@@ -2053,34 +2053,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 	}
 
 	/**
-	 * Function getattributelist.
-	 *
-	 * @param   object  $data  Data.
-	 *
-	 * @return  array
-	 */
-	public function getattributelist($data)
-	{
-		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute WHERE product_id="' . $data . '" ORDER BY attribute_id ASC';
-		$this->_db->setQuery($query);
-		$attr           = $this->_db->loadObjectlist();
-		$attribute_data = '';
-
-		for ($i = 0, $in = count($attr); $i < $in; $i++)
-		{
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id ="'
-				. $attr[$i]->attribute_id . '" ORDER BY property_id ASC';
-			$this->_db->setQuery($query);
-			$prop             = $this->_db->loadObjectlist();
-			$attribute_id     = $attr[$i]->attribute_id;
-			$attribute_name   = $attr[$i]->attribute_name;
-			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name, 'property' => $prop);
-		}
-
-		return $attribute_data;
-	}
-
-	/**
 	 * Function getpropertylist.
 	 *
 	 * @param   array  $data  Data.
