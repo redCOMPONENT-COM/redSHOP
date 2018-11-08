@@ -248,7 +248,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->app->enqueueMessage($this->_db->getErrorMsg(), 'error');
+			$this->app->enqueueMessage(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg(), 'error');
 
 			return false;
 		}
@@ -324,7 +324,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -472,7 +472,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->store())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -526,7 +526,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -540,7 +540,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$db->setQuery($query)->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -573,7 +573,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -626,7 +626,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if (!$this->_db->execute())
 				{
 					/** @scrutinizer ignore-deprecated */
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -706,7 +706,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if (!$accdetail->store())
 				{
 					/** @scrutinizer ignore-deprecated */
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -719,7 +719,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -740,7 +740,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if (!$this->_db->execute())
 				{
 					/** @scrutinizer ignore-deprecated */
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -806,7 +806,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$calcrow->store())
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}
@@ -846,7 +846,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$pdcextrarow->store())
 					{
 						$calc_extra    = 1;
-						$extra_err_msg = $this->_db->getErrorMsg();
+						$extra_err_msg = /** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg();
 					}
 				}
 			}
@@ -894,7 +894,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if (!$sub_row->store())
 				{
 					/** @scrutinizer ignore-deprecated */
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -920,7 +920,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$sub_renewal->store())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -951,7 +951,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 							if (!$product_serial->store())
 							{
 								/** @scrutinizer ignore-deprecated */
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -1099,7 +1099,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 			}
 
 			$attr_delete = 'DELETE FROM ' . $this->table_prefix . 'product_attribute WHERE attribute_id ="' . $imagename->attribute_id . '" ';
@@ -1108,7 +1108,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 			}
 
 			$prop_delete = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id ="' . $imagename->attribute_id . '" ';
@@ -1117,7 +1117,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 			}
 		}
 
@@ -1178,7 +1178,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		$query_related = 'DELETE FROM ' . $this->table_prefix . 'product_accessory WHERE product_id IN ( ' . $productIds . ' )';
@@ -1188,7 +1188,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		$query_related = 'DELETE FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $productIds . ' )';
@@ -1198,7 +1198,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		$query_media = 'DELETE FROM ' . $this->table_prefix . 'media WHERE section_id IN ( ' . $productIds . ' ) AND media_section = "product"';
@@ -1207,7 +1207,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		// Remove product category xref relation
@@ -1217,7 +1217,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		// Delete Association if Exist
@@ -1236,7 +1236,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		// Remove product wishlist relation
@@ -1246,7 +1246,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		// Remove product compare relation
@@ -1256,7 +1256,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		// Remove fields_data relation
@@ -1266,7 +1266,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterProductDelete', array($cid));
@@ -1295,7 +1295,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -1541,7 +1541,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$rowprices_detail->bind($data))
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}
@@ -1549,7 +1549,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$rowprices_detail->store())
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}
@@ -1577,7 +1577,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$rowmedia->bind($data))
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}
@@ -1585,7 +1585,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$rowmedia->store())
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}
@@ -2141,7 +2141,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -2153,7 +2153,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -2199,7 +2199,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -2212,7 +2212,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if (!$this->_db->execute())
 				{
 					/** @scrutinizer ignore-deprecated */
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -2261,7 +2261,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -2283,7 +2283,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (count($cid))
 		{
-			$image_query = 'SELECT property_image FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cid . ' )';
+			$image_query = 'SELECT property_image FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . /** @scrutinizer ignore-deprecated */ $cid . ' )';
 			$this->_db->setQuery($image_query);
 			$prop = $this->_db->loadObjectlist();
 		}
@@ -2313,7 +2313,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->store())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -2335,7 +2335,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->bind($data))
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -2343,7 +2343,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->store())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -2365,7 +2365,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->bind($data))
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -2373,7 +2373,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->store())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -2459,7 +2459,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$this->_db->execute())
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}
@@ -2477,7 +2477,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if (!$this->_db->execute())
 					{
 						/** @scrutinizer ignore-deprecated */
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 						return false;
 					}
@@ -2569,7 +2569,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -2695,7 +2695,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$this->_db->execute())
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -3193,7 +3193,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function attribute_empty()
 	{
-		$producthelper = productHelper::getInstance();
+		$producthelper = /** @scrutinizer ignore-deprecated */ productHelper::getInstance();
 		$database      = JFactory::getDbo();
 
 		if ($this->id)
@@ -3410,7 +3410,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				if ($preorder_stock < $ordered_preorder && $preorder_stock != "" && $ordered_preorder != "")
 				{
 					$msg = JText::_('COM_REDSHOP_PREORDER_STOCK_NOT_ALLOWED');
-					JError::raiseWarning('', $msg);
+					/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', $msg);
 
 					return false;
 				}
@@ -3769,7 +3769,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$rowmedia->bind($data))
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -3781,7 +3781,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$rowmedia->store())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -3898,7 +3898,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				for ($ls = 0, $countStockroom = count($listStockroomData); $ls < $countStockroom; $ls++)
 				{
-					$this->InsertStockroom($property_id, 'property', $listStockroomData[$ls]->stockroom_id, $listStockroomData[$ls]->quantity, '', '');
+					$this->InsertStockroom($property_id, 'property', $listStockroomData[$ls]->stockroom_id, $listStockroomData[$ls]->quantity, 0, 0);
 				}
 
 				$countAttributePrice = count($listAttributepriceData);
@@ -4124,7 +4124,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -4223,7 +4223,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			if (!$product_detail->checkout($uid, $this->id))
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($this->_db->getErrorMsg());
+				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -4271,7 +4271,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 			else
 			{
-				$this->setError($table->getError());
+				/** @scrutinizer ignore-deprecated */ $this->setError($table->getError());
 
 				return false;
 			}
@@ -4292,7 +4292,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$table->load($pk))
 			{
-				$this->setError($table->getError());
+				/** @scrutinizer ignore-deprecated */ $this->setError($table->getError());
 
 				return false;
 			}
@@ -4306,7 +4306,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+				/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
 				return false;
 			}
@@ -4314,7 +4314,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			// Attempt to check the row in.
 			if (!$table->checkin($pk))
 			{
-				$this->setError($table->getError());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
 
 				return false;
 			}
@@ -4475,11 +4475,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			if ($product_id)
 			{
-				$attributes = $producthelper->getProductAttribute($product_id);
+				$attributes = /** @scrutinizer ignore-deprecated */ $producthelper->getProductAttribute($product_id);
 			}
 			else
 			{
-				$attributes = $producthelper->getProductAttribute(0, $attribute_set_id);
+				$attributes = /** @scrutinizer ignore-deprecated */ $producthelper->getProductAttribute(0, $attribute_set_id);
 			}
 		}
 
@@ -4508,8 +4508,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function delete_image.
 	 *
-	 * @param   string  $imagename  imagename
-	 * @param   int     $section    section
+	 * @param   string     $imagename imagename
+	 * @param   int|string $section   section
 	 *
 	 * @return  void
 	 */
@@ -4561,7 +4561,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$src            = REDSHOP_FRONT_IMAGES_RELPATH . $imagePath;
 		$imgname        = RedshopHelperMedia::cleanFileName($imagePath);
-		$property_image = $section_id . '_' . JFile::getName($imgname);
+		$property_image = $section_id . '_' . basename($imgname);
 		$dest           = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 		copy($src, $dest);
 
@@ -4700,7 +4700,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$db->setQuery($query)->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -4850,7 +4850,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$calcrow->store())
 			{
-				/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
