@@ -223,7 +223,11 @@ class RedshopHelperPayment
 		}
 
 		$selectedPayments = $db->setQuery($query)->loadObjectList();
-		$selectedPayments = array_column($selectedPayments, 'payment_id');
+
+		if ($selectedPayments)
+		{
+			$selectedPayments = array_column($selectedPayments, 'payment_id');
+		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);

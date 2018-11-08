@@ -2075,66 +2075,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 	}
 
 	/**
-	 * Function deleteattr.
-	 *
-	 * @param   array  $cid  Array of IDs.
-	 *
-	 * @return  mixed
-	 */
-	public function deleteattr($cid = array())
-	{
-		if (is_array($cid))
-		{
-			$cids = implode(',', $cid);
-
-			$prop = product_detailModelproduct_detail::property_image_list($cids);
-
-			foreach ($prop as $imagename)
-			{
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $imagename->property_image;
-
-				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
-
-				if (file_exists($dest))
-				{
-					JFile::delete($dest);
-				}
-
-				if (file_exists($tsrc))
-				{
-					JFile::delete($tsrc);
-				}
-			}
-
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_attribute WHERE attribute_id IN ( ' . $cids . ' )';
-
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				/** @scrutinizer ignore-deprecated */
-				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-				return false;
-			}
-
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
-
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				/** @scrutinizer ignore-deprecated */
-				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * Function deleteprop.
 	 *
 	 * @param   array  $cid         Array of IDs.
@@ -2188,54 +2128,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 					return false;
 				}
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Function deleteattr_current.
-	 *
-	 * @param   array  $cid  Array of IDs.
-	 *
-	 * @return  boolean
-	 */
-	public function deleteattr_current($cid = array())
-	{
-		if (is_array($cid))
-		{
-			$cids = implode(',', $cid);
-
-			$prop = product_detailModelproduct_detail::property_image_list($cids);
-
-			foreach ($prop as $property_image)
-			{
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $property_image->property_image;
-
-				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $property_image->property_image;
-
-				if (file_exists($dest))
-				{
-					JFile::delete($dest);
-				}
-
-				if (file_exists($tsrc))
-				{
-					JFile::delete($tsrc);
-				}
-			}
-
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
-
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				/** @scrutinizer ignore-deprecated */
-				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
-
-				return false;
 			}
 		}
 
@@ -2855,7 +2747,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * @param   int    $product_id  ID.
 	 * @param   array  $post        $_POST.
 	 *
-	 * @return  boolean
+	 * @return  boolean|array
 	 */
 	public function SaveAssociations($product_id, $post)
 	{
@@ -2933,7 +2825,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getQualityScores()
 	{
-		if (!$this->CheckRedProductFinder())
+		if (empty($this->CheckRedProductFinder()))
 		{
 			return array();
 		}
@@ -2957,13 +2849,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @param   array  $cid  ID.
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 */
 	public function RemoveAssociation($cid)
 	{
 		$asscid = array();
 
-		if (!$this->CheckRedProductFinder())
+		if (empty($this->CheckRedProductFinder()))
 		{
 			return array();
 		}
@@ -3170,7 +3062,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($this->id)
 		{
-			$attributes = $producthelper->getProductAttribute($this->id);
+			$attributes = /** @scrutinizer ignore-deprecated */ $producthelper->getProductAttribute($this->id);
 
 			for ($i = 0, $in = count($attributes); $i < $in; $i++)
 			{
@@ -3327,7 +3219,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @param   array  $post  Type.
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 */
 	public function SaveAttributeStockroom($post)
 	{
@@ -3667,11 +3559,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$usedCond = "";
 
-		if ($only_used == true)
+		if ($only_used === true)
 		{
 			$usedCond = " AND is_used=1";
 		}
-		elseif ($only_used == false)
+		elseif ($only_used === false)
 		{
 			$usedCond = " AND is_used=0";
 		}
@@ -3984,8 +3876,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 							'subproperty',
 							$listSubStockroomData[$lss]->stockroom_id,
 							$listSubStockroomData[$lss]->quantity,
-							'',
-							''
+							0,
+							0
 						);
 					}
 
@@ -4243,7 +4135,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 			else
 			{
-				/** @scrutinizer ignore-deprecated */ $this->setError($table->getError());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
 
 				return false;
 			}
@@ -4264,7 +4156,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if (!$table->load($pk))
 			{
-				/** @scrutinizer ignore-deprecated */ $this->setError($table->getError());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
 
 				return false;
 			}
@@ -4884,7 +4776,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @param   string  $productNumber  Product number of the product
 	 *
-	 * @return array
+	 * @return array|boolean
 	 *
 	 */
 	public function getAttributesWS($productNumber)
