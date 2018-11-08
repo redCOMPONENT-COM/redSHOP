@@ -834,10 +834,10 @@ class productHelper
 	/**
 	 * Method for get property price with discount
 	 *
-	 * @param   integer  $sectionId Section ID
-	 * @param   string  $quantity  Quantity
-	 * @param   string  $section   Section
-	 * @param   integer $userId    User ID
+	 * @param   integer|string $sectionId Section ID
+	 * @param   string         $quantity  Quantity
+	 * @param   string         $section   Section
+	 * @param   integer        $userId    User ID
 	 *
 	 * @return  object
 	 *
