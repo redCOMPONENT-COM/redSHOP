@@ -969,9 +969,8 @@ function calculateQuotationTotal() {
 	if (document.getElementById("quotation_discount") && (trim(document.getElementById("quotation_discount").value) != "" && !isNaN(document.getElementById("quotation_discount").value))) {
 		q_discount = parseFloat(document.getElementById("quotation_discount").value);
 
-		if (q_discount > total)
-		{
-            q_discount = total;
+		if (q_discount > total) {
+			q_discount = total;
 		}
 
 		if (redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')) {
@@ -1143,7 +1142,7 @@ function getStateList() {
 
 	xmlhttp = GetXmlHttpObject();
 	if (xmlhttp == null) {
-		alert("Your browser does not support XMLHTTP!");
+        alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
 		return;
 	}
 	var selected = new Array();
