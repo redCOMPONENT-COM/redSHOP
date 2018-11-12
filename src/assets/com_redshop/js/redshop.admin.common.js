@@ -1142,7 +1142,7 @@ function getStateList() {
 
 	xmlhttp = GetXmlHttpObject();
 	if (xmlhttp == null) {
-        alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
+	    alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
 		return;
 	}
 	var selected = new Array();
