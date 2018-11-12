@@ -143,6 +143,11 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 			$row->shipping_rate_on_category = '';
 		}
 
+		if (!$row->shipping_rate_country)
+		{
+			$row->shipping_rate_country = '';
+		}
+
 		if (!$row->shipping_rate_state)
 		{
 			$row->shipping_rate_state = '';

@@ -121,9 +121,9 @@ class RedshopHelperProductPrice
 
 		foreach (self::$productSpecialPrices[$key] as $item)
 		{
-			if (($item->condition == 1 && $item->amount >= $productPrice)
+			if (($item->condition == 1 && $item->amount > $productPrice)
 				|| ($item->condition == 2 && $item->amount == $productPrice)
-				|| ($item->condition == 3 && $item->amount <= $productPrice))
+				|| ($item->condition == 3 && $item->amount < $productPrice))
 			{
 				return $item;
 			}

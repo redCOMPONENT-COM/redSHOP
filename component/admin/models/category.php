@@ -460,7 +460,7 @@ class RedshopModelCategory extends RedshopModelForm
 			}
 
 			// Generate new image using MD5
-			$newFileName = md5(basename($category->name)) . '.' . JFile::getExt($file);
+			$newFileName = md5(basename($category->name) . $scope) . '.' . JFile::getExt($file);
 
 			if (!JFile::move(
 				$file,

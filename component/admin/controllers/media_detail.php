@@ -302,9 +302,6 @@ class RedshopControllerMedia_Detail extends RedshopController
 					if ($post['media_type'] == 'download')
 					{
 						$post['media_name'] = $post['hdn_download_file_path'];
-
-						$down_src  = $download_path;
-						$down_dest = $post['media_name'];
 					}
 					else
 					{
@@ -471,7 +468,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								{
 									$post['media_name'] = $product_download_root . RedshopHelperMedia::cleanFileName($newscan[$j]);
 
-									if ($row = $model->store($post))
+									if ($model->store($post))
 									{
 										$originaldir = $post['media_name'];
 										copy($btsrc, $originaldir);

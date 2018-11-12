@@ -21,7 +21,7 @@ class RedshopHelperBreadcrumb
 	/**
 	 * Method for generate breadcrumb base on specific section
 	 *
-	 * @param   integer  $sectionId  Section ID
+	 * @param   integer $sectionId Section ID
 	 *
 	 * @return  void
 	 *
@@ -82,7 +82,7 @@ class RedshopHelperBreadcrumb
 
 				$menu = productHelper::getInstance()->getMenuDetail($newLink);
 
-				if (count($menu) > 0 && $menu->home !== 1)
+				if (!empty($menu) && $menu->home !== 1)
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;
@@ -133,7 +133,7 @@ class RedshopHelperBreadcrumb
 						$prd  = RedshopHelperProduct::getProductById($sectionId);
 						$menu = RedshopEntityManufacturer::getInstance($prd->manufacturer_id)->getItem();
 
-						if (count($menu) > 0)
+						if (!empty($menu))
 						{
 							$main             = new stdClass;
 							$main->name       = $menu->name;
@@ -155,7 +155,7 @@ class RedshopHelperBreadcrumb
 					$customPathways = array();
 					$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=category");
 
-					if (count($menu) > 0 && $menu->home != 1)
+					if (!empty($menu) && $menu->home != 1)
 					{
 						$main             = new stdClass;
 						$main->name       = $menu->title;
@@ -166,11 +166,11 @@ class RedshopHelperBreadcrumb
 					{
 						$menu = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=product&pid=" . $sectionId);
 
-						if (count($menu) > 0 && $menu->home != 1 && property_exists($menu, 'parent'))
+						if (!empty($menu) && $menu->home != 1 && property_exists($menu, 'parent'))
 						{
 							$parentMenu = productHelper::getInstance()->getMenuInformation($menu->parent);
 
-							if (count($parentMenu) > 0)
+							if (!empty($parentMenu))
 							{
 								$main             = new stdClass;
 								$main->name       = $parentMenu->name;
@@ -282,7 +282,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuInformation(0, 0, "", "account");
 
-				if (count($menu) > 0)
+				if (!empty($menu))
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;
@@ -365,7 +365,7 @@ class RedshopHelperBreadcrumb
 	/**
 	 * Method for get list of pathway
 	 *
-	 * @param   array  $categories  List of category
+	 * @param   array $categories List of category
 	 *
 	 * @return  array               List of pathway
 	 *

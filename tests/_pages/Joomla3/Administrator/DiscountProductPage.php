@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  2.1.0
+ * @since  2.4
  */
 class DiscountProductPage extends AdminJ3Page
 {
@@ -28,17 +28,17 @@ class DiscountProductPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldAmount = ['id' => 'jform_amount'];
+	public static $fieldAmount = "#jform_amount";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldCondition = ['id' => 'jform_condition'];
+	public static $fieldCondition = "#jform_condition";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldDiscountType = ['id' => 'jform_discount_type'];
+	public static $fieldDiscountType = "#jform_discount_type";
 
 	/**
 	 * @var array
@@ -48,22 +48,22 @@ class DiscountProductPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldStartDate = ['id' => 'jform_start_date'];
+	public static $fieldStartDate = "#jform_start_date";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldEndDate = ['id' => 'jform_end_date'];
+	public static $fieldEndDate = "#jform_end_date";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldCategory = ['id' => 'jform_category_ids'];
+	public static $fieldCategory = "#jform_category_ids";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldShopperGroup = ['id' => 'jform_shopper_group'];
+	public static $fieldShopperGroup = "#jform_shopper_group";
 
 	/**
 	 * @var string

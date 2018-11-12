@@ -58,15 +58,14 @@ class RedshopModelAccount extends RedshopModel
 	 *
 	 * @param   integer $uid User ID
 	 *
-	 * @return array|mixed
+	 * @return  object|boolean
 	 */
 	public function getUserAccountInfo($uid)
 	{
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
-
-		$list = array();
+		$list    = new stdClass;
 
 		if ($user->id)
 		{
@@ -536,13 +535,13 @@ class RedshopModelAccount extends RedshopModel
 	/**
 	 * Method for send wishlist
 	 *
-	 * @param   array  $post  Data
+	 * @param   array $post Data
 	 *
 	 * @return  boolean
 	 * @throws  Exception
 	 *
 	 * @deprecated 2.1.0 Redshop\Account\Wishlist::send
-	 * @see Redshop\Account\Wishlist::send
+	 * @see        Redshop\Account\Wishlist::send
 	 */
 	public function sendWishlist($post)
 	{
@@ -554,7 +553,7 @@ class RedshopModelAccount extends RedshopModel
 	 *
 	 * @return  integer
 	 * @deprecated 2.1.0 Redshop\Account\Helper::getReserveDiscount
-	 * @see Redshop\Account\Helper::getReserveDiscount
+	 * @see        Redshop\Account\Helper::getReserveDiscount
 	 */
 	public function getReserveDiscount()
 	{
@@ -564,12 +563,12 @@ class RedshopModelAccount extends RedshopModel
 	/**
 	 * Method for get list of downloadable product on specific user
 	 *
-	 * @param   integer  $user_id  User ID
+	 * @param   integer $user_id User ID
 	 *
 	 * @return  array
 	 *
 	 * @deprecated 2.1.0 Redshop\Account\Helper::getDownloadProductList
-	 * @see Redshop\Account\Helper::getDownloadProductList
+	 * @see        Redshop\Account\Helper::getDownloadProductList
 	 */
 	public function getdownloadproductlist($user_id)
 	{
@@ -579,16 +578,53 @@ class RedshopModelAccount extends RedshopModel
 	/**
 	 * Method for get remaining coupon amount of specific user
 	 *
-	 * @param   integer  $user_id       User Id
-	 * @param   string   $coupone_code  Coupon code
+	 * @param   integer $user_id      User Id
+	 * @param   string  $coupone_code Coupon code
 	 *
 	 * @return  float
 	 *
 	 * @deprecated 2.1.0 Redshop\Account\Helper::getUnusedCouponAmount
-	 * @see Redshop\Account\Helper::getUnusedCouponAmount
+	 * @see        Redshop\Account\Helper::getUnusedCouponAmount
 	 */
 	public function unused_coupon_amount($user_id, $coupone_code)
 	{
 		return Redshop\Account\Helper::getUnusedCouponAmount($user_id, $coupone_code);
+	}
+
+	/**
+	 * Function to delete account user
+	 *
+	 * @param   int $userId User Id
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function deleteAccount($userId)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__users'))
+			->where($db->qn('id') . ' = ' . $userId);
+
+		if (!$db->setQuery($query)->execute())
+		{
+			return false;
+		}
+
+		$query->clear()
+			->delete($db->qn('#__redshop_order_users_info'))
+			->where($db->qn('user_id') . ' = ' . $userId);
+
+		if (!$db->setQuery($query)->execute())
+		{
+			return false;
+		}
+
+		$query->clear()
+			->delete($db->qn('#__redshop_users_info'))
+			->where($db->qn('user_id') . ' = ' . $userId);
+
+		return (boolean) $db->setQuery($query)->execute();
 	}
 }

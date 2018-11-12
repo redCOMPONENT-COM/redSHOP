@@ -11,51 +11,108 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  2.1.0
+ * @since  2.4
  */
 class CategoryPage extends AdminJ3Page
 {
+    /**
+     * @var string
+     */
 	public static $url = '/administrator/index.php?option=com_redshop&view=categories';
 
 	// Page name
+
+    /**
+     * @var string
+     */
 	public static $namePage = "Category Management";
 
-	public static $categoryFilter = ['id' => 'filter_search'];
+    /**
+     * @var string
+     */
+	public static $categoryFilter = "#filter_search";
 
+    /**
+     * @var string
+     */
 	public static $categoryTemplateDropDown = "//div[@id='filter_category_template']/a";
 
+    /**
+     * @var string
+     */
 	public static $categoryId = "//tbody/tr/td[9]";
 
+    /**
+     * @var string
+     */
 	public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
+    /**
+     * @var string
+     */
 	public static $categoryTemplateIDDropDown = "//div[@id='s2id_filter_category_template']/a";
 
+    /**
+     * @var string
+     */
 	public static $categoryNoPage = "#jform_products_per_page";
 
+    /**
+     * @var string
+     */
 	public static $parentCategory = "//div[@id='s2id_jform_parent_id']/a";
 
+    /**
+     * @var string
+     */
 	public static $choiceCategoryParent = "//div[@id='select2-result-label-13']/a";
 
+    /**
+     * @var string
+     */
 	public static $accessories = "//div[@id='s2id_category_accessory_search']/a";
 
+    /**
+     * @var string
+     */
 	public static $accessoriesFill = "#s2id_autogen1";
 
+    /**
+     * @var array
+     */
 	public static $tabAccessory = ['link' => "Accessories"];
 
-	public static $accessorySearch = ['xpath' => '//div[@id="s2id_category_accessory_search"]//a'];
+    /**
+     * @var string
+     */
+	public static $accessorySearch = "//div[@id='s2id_category_accessory_search']//a";
 
-	public static $searchFirst = ['id' => "s2id_autogen1_search"];
+    /**
+     * @var string
+     */
+	public static $searchFirst = "#s2id_autogen1_search";
 
-	public static $getAccessory = ['xpath' => "//h3[text()='Accessories']"];
+    /**
+     * @var string
+     */
+	public static $getAccessory = "//h3[text()='Accessories']";
 
 
 	//templatep
 
+    /**
+     * @var string
+     */
 	public static $template = "//div/div/div[@id='s2id_jform_more_template']/ul";
 
+    /**
+     * @var string
+     */
 	public static $choiceTemplate = '//ul[@class="select2-results"]/li[2]/div[@class="select2-result-label"]';
 
-
+    /**
+     * @var string
+     */
 	public static $messageErrorDeleteCategoryHasChildCategoriesOrProducts = "kindly remove those";
 
 	//button
@@ -88,9 +145,16 @@ class CategoryPage extends AdminJ3Page
 		return $path;
 	}
 
+    /**
+     * Function to get the Path for $accessoryName
+     *
+     * @param $accessoryName
+     *
+     * @return string
+     */
 	public function xPathAccessory($accessoryName)
 	{
-		$path = ['xpath' => "//span[contains(text(), '" . $accessoryName . "')]"];
+		$path = "//span[contains(text(), '" . $accessoryName . "')]";
 
 		return $path;
 	}

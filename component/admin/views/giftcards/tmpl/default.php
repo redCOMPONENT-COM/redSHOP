@@ -42,7 +42,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</div>
 
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-no-items alert-info">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>

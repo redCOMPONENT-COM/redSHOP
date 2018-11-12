@@ -138,6 +138,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		$this->replaceCategoryProperties($template, $category);
 
+		$this->getDispatcher()->trigger('onReplaceCategory', array(&$template, &$category));
+
 		return $template;
 	}
 
@@ -269,7 +271,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 					if (strstr($dataAdd, '{subcategory_link}'))
 					{
 						$link  = 'index.php?option=com_redshop' .
-									'&view=category&cid=' . $category->id .
+									'&view=category&cid=' . $row->id .
 									'&layout=detail&Itemid=' . $this->data['itemId'];
 
 						$link .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';

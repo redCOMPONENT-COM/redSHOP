@@ -685,6 +685,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$lists['wishlist_login_required'] = JHtml::_('redshopselect.booleanlist', 'wishlist_login_required', 'class="form-control"', $this->config->get('WISHLIST_LOGIN_REQUIRED'));
 		$lists['wishlist_list']           = JHtml::_('redshopselect.booleanlist', 'wishlist_list', 'class="form-control"', $this->config->get('WISHLIST_LIST'));
 
+		// Product general
+		$lists['product_default_category']           = JHtml::_('redshopselect.booleanlist', 'product_default_category', 'class="form-control" size="1"', $this->config->get('PRODUCT_DEFAULT_CATEGORY'));
+
 		$invoice_mail_send_option           = array();
 		$invoice_mail_send_option[0]        = new stdClass;
 		$invoice_mail_send_option[0]->value = 0;

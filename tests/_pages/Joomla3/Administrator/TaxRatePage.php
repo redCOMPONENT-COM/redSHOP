@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class TaxRatePage extends AdminJ3Page
 {
@@ -33,30 +33,51 @@ class TaxRatePage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = ['id' => 'jform_name'];
+	public static $fieldName = "#jform_name";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldValue = ['id' => 'jform_tax_rate'];
+	public static $fieldValue = "#jform_tax_rate";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldState = ['id' => 'rs_state_jformtax_state'];
+	public static $fieldState = "#s2id_jform_tax_state";
+
+    /**
+     * @var string
+     */
+    public static $fieldStateSearch = "#s2id_autogen1_search";
+
+    /**
+     * @var string
+     */
+    public static $fieldStateID = ".select2-result-label";
 
 	/**
 	 * @var array
 	 */
-	public static $stateDropdown = ['xpath' => '//div[@id=\'s2id_rs_state_jformtax_state\']'];
-	/**
-	 * @var array
-	 */
-	public static $fieldCountry = ['id' => 'jform_tax_country'];
+	public static $stateDropdown = "//div[@id='s2id_rs_state_jformtax_state']";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldGroup = ['id' => 'jform_tax_group_id'];
+	public static $fieldCountry = "#s2id_jform_tax_country";
+
+    /**
+     * @var string
+     */
+	public static $fieldCountryID = "#jform_tax_country";
+
+	/**
+	 * @var array
+	 */
+	public static $fieldGroup = "#s2id_jform_tax_group_id";
+
+    /**
+     * @var string
+     */
+	public static $fieldGroupID = "#jform_tax_group_id";
 	
 }
