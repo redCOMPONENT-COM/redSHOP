@@ -226,8 +226,10 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
 		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
 		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
-		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
-		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
+		$client->waitForElement(\DiscountPage::$fieldStartDate, 30);
+		$client->click(\DiscountPage::$fieldStartDate);
+		$client->addValueForField(\DiscountPage::$fieldStartDate, $endDate, 10);
+		$client->addValueForField(\DiscountPage::$fieldEndDate, $startDate, 10);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
