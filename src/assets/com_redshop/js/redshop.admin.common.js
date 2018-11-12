@@ -970,7 +970,7 @@ function calculateQuotationTotal() {
 		q_discount = parseFloat(document.getElementById("quotation_discount").value);
 
 		if (q_discount > total) {
-            q_discount = total;
+			q_discount = total;
 		}
 
 		if (redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')) {
