@@ -218,7 +218,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->fillField($pageClass::$listSearchId, $value);
 		$usePage = new $pageClass();
 		$tester->waitForElement($usePage->returnChoice($value), 30);
-		$tester->click($usePage->returnChoice($value));
+        $tester->click('.select2-result-label');
 	}
 	
 	/**
