@@ -20,8 +20,15 @@ class RoboFile extends \Robo\Tasks
 	// Load tasks from composer, see composer.json
 	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
-	// Load tasks from composer, see composer.json
-	use Joomla\Testing\Robo\Tasks\LoadTasks;
+    /**
+     * @var   array
+     * @var   array
+     * @since 5.6.0
+     */
+    private $defaultArgs = [
+        '--tap',
+        '--fail-fast'
+    ];
 
 	/**
 	 * Downloads and prepares a Joomla CMS site for testing
