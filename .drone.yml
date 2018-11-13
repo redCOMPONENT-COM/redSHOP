@@ -20,6 +20,7 @@ pipeline:
         - pwd
         - ls -la
         - ./build/test-setup.sh
+
 services:
   mysql:
     image: mysql:5.7
