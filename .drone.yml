@@ -10,10 +10,10 @@ pipeline:
     # redShop  npm cache
     - mv /opt/cache/redshop/node_modules .
     - touch tests/.cache.npm.tmp
-    # Joomla CMS
+      # Joomla CMS
       - mv /opt/cache/joomla-cms tests
       - touch tests/.cache.joomla-cms.tmp
-    
+
   00-setup:
     group: 00-setup
     image: redwebaps/testbox-chromedriver:2.38
