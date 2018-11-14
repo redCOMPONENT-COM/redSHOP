@@ -215,11 +215,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->waitForElement($pageClass::$listId, 30);
 		$tester->click($pageClass::$listId);
 		$tester->waitForElement($pageClass::$listSearchId, 30);
-		$tester->fillField($pageClass::$listSearchId, $value);
-		$usePage = new $pageClass();
-		$tester->waitForElement($usePage->returnChoice($value), 30);
-		$tester->waitForElement($usePage->returnChoice($value));
-		$tester->click($usePage->returnChoice($value));
+		$tester->fillField(\AdminJ3Page::$listSearchId, $value);
+		$tester->pressKey(\AdminJ3Page::$listSearchId, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 	
 	/**
