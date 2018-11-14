@@ -10,9 +10,9 @@ pipeline:
         # redShop  npm cache
         - mv /opt/cache/redshop/node_modules .
         - touch tests/.cache.npm.tmp
-            # Joomla CMS
-            - mv /opt/cache/joomla-cms tests
-            - touch tests/.cache.joomla-cms.tmp
+        # Joomla CMS
+        - mv /opt/cache/joomla-cms tests
+        - touch tests/.cache.joomla-cms.tmp
 
     00-setup:
         group: 00-setup
@@ -30,12 +30,12 @@ pipeline:
         # Composer setup
         # - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done          # Comment if not using composer cache
         - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
-        - composer install --prefer-dist                                    # Uncomment if not using composer cache
+        #- composer install --prefer-dist                                    # Uncomment if not using composer cache
         # NPM setup
         - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
         # - npm install                                                       # Uncomment if not using npm cache
         # redShop installer release
-        - while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
+        #- while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
         - mv gulp-config.json.dist gulp-config.json
         - gulp release --skip-version
 
@@ -43,8 +43,8 @@ pipeline:
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         - cp tests/api.suite.yml.dist.drone tests/api.suite.yml
         # Test setup
-        # - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
-        - vendor/bin/robo tests:site-preparation 1 0
+        #- while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
+        #- vendor/bin/robo tests:site-preparation 1 0
         # Ownership for uid 82
         - chown -R www-data:www-data .
         # Creating first clone for tests setup
@@ -52,9 +52,6 @@ pipeline:
         - rsync -a tests/joomla-cms/ tests/$tests_suite/joomla-cms
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
-        # Execution under uid 82 (www / www-data)
-        - while [ ! -f tests/.cache.aesir-core.tmp ]; do sleep 1; done        # Comment if not using Aesir Core cache
-        - su www-data -c 'vendor/bin/robo tests:setup 0 0'
 
     00-setup-stages:
         group: tests

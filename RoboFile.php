@@ -378,6 +378,31 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
+     * Downloads and Install redFORM for Integration Testing testing
+     *
+     * @param   integer  $cleanUp  Clean up the directory when present (or skip the cloning process)
+     *
+     * @return  void
+     * @since   1.0.0
+     */
+    protected function getredFORMExtensionForIntegrationTests($cleanUp = 1)
+    {
+        // Get redFORM Clean Testing sites
+        if (is_dir('build/redFORM'))
+        {
+            if (!$cleanUp)
+            {
+                $this->say('Using cached version of redFORM and skipping clone process');
+                return;
+            }
+            $this->taskDeleteDir('build/redFORM')->run();
+        }
+        $version = '3.3.15';
+        $this->_exec("git clone -b $version --single-branch --depth 1 https://travisredweb:travisredweb2013github@github.com/redCOMPONENT-COM/redFORM.git build/redFORM");
+        $this->say("redFORM ($version) cloned at build/");
+    }
+
+    /**
      * Nightly build
      *
      * @return  void
@@ -450,4 +475,115 @@ class RoboFile extends \Robo\Tasks
         $this->_exec('git commit -m "Nightly build"');
         $this->_exec('git push');
     }
+    public function testsSitePreparation($use_htaccess = 1, $cleanUp = 1)
+    {
+        $skipCleanup = false;
+        // Get Joomla Clean Testing sites
+        if (is_dir('tests/joomla-cms'))
+        {
+            if (!$cleanUp)
+            {
+                $skipCleanup = true;
+                $this->say('Using cached version of Joomla CMS and skipping clone process');
+            }
+            else
+            {
+                $this->taskDeleteDir('tests/joomla-cms')->run();
+            }
+        }
+        if (!$skipCleanup)
+        {
+            $version = 'staging';
+            /*
+            * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
+            * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
+            */
+            $version = '3.9.0';
+            $this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
+            $this->say("Joomla CMS ($version) site created at tests/joomla-cms");
+        }
+        // Optionally uses Joomla default htaccess file
+        if ($use_htaccess == 1)
+        {
+            $this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
+            $this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
+        }
+    }
+
+
+    /**
+     * Downloads and Install redSHOP for Integration Testing testing
+     *
+     * @param   integer  $cleanUp  Clean up the directory when present (or skip the cloning process)
+     *
+     * @return  void
+     * @since   1.0.0
+     */
+    protected function getredSHOPExtensionForIntegrationTests($cleanUp = 1)
+    {
+        // Get redFORM Clean Testing sites
+        if (is_dir('tests/extension/redSHOP'))
+        {
+            if (!$cleanUp)
+            {
+                $this->say('Using cached version of redSHOP and skipping clone process');
+
+                return;
+            }
+            $this->taskDeleteDir('tests/extension/redSHOP')->run();
+        }
+
+        $version = '2.0.6';
+        $this->_exec("git clone -b $version --single-branch --depth 1 https://redJOHNNY:redjohnnyredweb2013github@github.com/redCOMPONENT-COM/redSHOP.git tests/extension/redSHOP");
+
+        $this->say("redSHOP ($version) cloned at tests/extension/");
+    }
+    /**
+     * Individual test folder execution
+     *
+     * @param   string   $folder  Folder to execute codecept run to
+     * @param   boolean  $debug   Add debug to the parameters
+     * @param   boolean  $steps   Add steps to the parameters
+     *
+     * @return  void
+     * @since   5.6.0
+     */
+    public function testsRun($folder, $debug = true, $steps = true)
+    {
+        $args = [];
+
+        if ($debug)
+        {
+            $args[] = '--debug';
+        }
+
+        if ($steps)
+        {
+            $args[] = '--steps';
+        }
+
+        $args = array_merge(
+            $args,
+            $this->defaultArgs
+        );
+
+        $this->getredSHOPExtensionForIntegrationTests(0);
+
+        // Sets the output_append variable in case it's not yet
+        if (getenv('output_append') === false)
+        {
+            putenv('output_append=');
+        }
+
+        // Codeception build
+        $this->_exec("vendor/bin/codecept build");
+
+        // Actual execution of Codeception test
+        $this->taskCodecept()
+            ->args($args)
+            ->arg('tests/' . $folder . '/')
+            ->run()
+            ->stopOnFail();
+    }
+
 }
