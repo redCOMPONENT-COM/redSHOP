@@ -131,6 +131,20 @@ class CheckoutChangeQuantityProductCest
 		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
 		$this->lastName = "LastName";
 	}
+
+    /**
+     * Method for clean data.
+     *
+     * @param   mixed $scenario Scenario
+     *
+     * @return  void
+     */
+    public function deleteData($scenario)
+    {
+        $I = new RedshopSteps($scenario);
+        $I->clearAllData();
+    }
+
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -190,4 +204,10 @@ class CheckoutChangeQuantityProductCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, false);
 	}
+
+    public function deleteDataEnd(AcceptanceTester $I, $scenario)
+    {
+        $I= new RedshopSteps($scenario);
+        $I->clearAllData();
+    }
 }
