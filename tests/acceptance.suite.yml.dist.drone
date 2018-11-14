@@ -11,38 +11,49 @@
 # perform tests in browser using the WebDriver or PhpBrowser.
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
-
 class_name: AcceptanceTester
+settings:
+    webservice:
+        client_id: 'test'
+        client_secret: 'dfe2ec3470c3693031535191566b8665b102a54fe63851cf29a6ebc1222bbdaa382f2029b4eae10f'
 modules:
     enabled:
         - JoomlaBrowser
         - AcceptanceHelper
         - Asserts
+        - Db
+        - DbHelper
     config:
+        Db:
+            dsn: 'mysql:host=db;dbname=%tests_db%'
+            user: 'root'
+            password: 'root'
         JoomlaBrowser:
-            url: 'http://localhost/tests/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://php/tests/%tests_suite%/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'chrome'
-            window_size: false
+            window_size: 1920x1080
             restart: true
+            port: 9515
             capabilities:
               chromeOptions:
                 args: ["--headless", "--disable-gpu", "--no-sandbox", "window-size=1920x1080"]
-                binary: "/usr/bin/google-chrome"
-            username: 'admin'                      # UserName for the Administrator
+            username: '%tests_user%'               # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
-            database host: '{dbhostname}'          # place where the Application is Hosted #server Address
+            database host: 'db'                    # MySQL Server host name / address
             database user: 'root'                  # MySQL Server user ID, usually root
             database password: 'root'              # MySQL Server password, usually empty or root
-            database name: 'redshopSetupDb'              # DB Name, at the Server
+            database name: '%tests_db%'            # DB Name, at the Server
             database type: 'mysqli'                # type in lowercase one of the options: MySQL\MySQLi\PDO
             database prefix: 'jos_'                # DB Prefix for tables
             install sample data: 'No'              # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
             sample data: 'Default English (GB) Sample Data'    # Default Sample Data
-            admin email: 'admin@mydomain.com'      # email Id of the Admin
+            admin email: 'admin@mydomain.com'      # Email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
-            joomla folder: '/tests/www/tests/repo/tests/joomla-cms/' # Path to Joomla installation where we execute the tests
+            joomla folder: '%build_path%/tests/%tests_suite%/joomla-cms/' # Path to Joomla installation where tests are executed in the apache server
+            joomla folder local: '%build_path%/tests/%tests_suite%/joomla-cms/' # Path to Joomla installation in the local machine (where Codeception is running)
         AcceptanceHelper:
-            packages url: 'http://localhost/tests/releases-redshop/'     # the url that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
-            extension folder: '/tests/www/tests/repo/' #Path on Travis for Extension
-            install demo data: 'No'              # If you wish to Install the Extension Demo Data then Keep this to Yes
+            packages url: 'http://php/tests/releases/'     # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
+            packages previous: 'http://php/tests/extension/previous/'     # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
+            extension folder: '%build_path%/'      # Path on the CI for Extension
+            install demo data: 'No'                # If you wish to Install the Extension Demo Data then Keep this to Yes
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
