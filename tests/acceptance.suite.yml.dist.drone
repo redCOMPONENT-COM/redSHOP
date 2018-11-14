@@ -21,13 +21,7 @@ modules:
         - JoomlaBrowser
         - AcceptanceHelper
         - Asserts
-        - Db
-        - DbHelper
     config:
-        Db:
-            dsn: 'mysql:host=db;dbname=%tests_db%'
-            user: 'root'
-            password: 'root'
         JoomlaBrowser:
             url: 'http://php/tests/%tests_suite%/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'chrome'
