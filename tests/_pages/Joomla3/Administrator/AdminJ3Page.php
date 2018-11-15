@@ -103,7 +103,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $checkAllXpath = "//thead//input[@name='checkall-toggle' or @name='toggle']";
+	public static $checkAllXpath = ".hasTooltip";
 
 	/**
 	 * @var string
