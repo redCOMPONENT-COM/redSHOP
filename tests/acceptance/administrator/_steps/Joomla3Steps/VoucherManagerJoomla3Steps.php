@@ -309,17 +309,14 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\VoucherManagerPage::$publishButton);
 	}
 
-	public function deleteAllVoucher($updatedRandomVoucherCode)
+	public function deleteAllVoucher()
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
-//		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
-        $I->wait(0.1);
+        $I->see(\VoucherManagerPage::$namePageManagement);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$deleteButton);
 		$I->acceptPopup();;
-//		$I->see(\VoucherManagerPage::$messageSuccess, \VoucherManagerPage::$selectorSuccess);
-		$I->dontSeeElement(['link' => $updatedRandomVoucherCode]);
 	}
 
 	/**
