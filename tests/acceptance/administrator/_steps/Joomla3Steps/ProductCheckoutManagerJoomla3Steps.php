@@ -512,6 +512,23 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($discount, \FrontEndProductManagerJoomla3Page::$priceDiscount);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->wait(0.5);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressAddress);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
+		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
+		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
+		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+		$I->scrollTo(\CheckoutChangeQuantityProductPage::$termAndConditions, 60);
+		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->executeJS("jQuery('#checkout_final').click()");
 	}
 
 	/**

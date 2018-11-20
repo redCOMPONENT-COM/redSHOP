@@ -176,6 +176,11 @@ class UserManagerJoomla3Page
     /**
      * @var string
      */
+    public static $resetButton = ".reset";
+
+    /**
+     * @var string
+     */
     public static $saveButton = "Save";
 
     /**
