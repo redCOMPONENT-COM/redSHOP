@@ -14,7 +14,6 @@ vendor/bin/robo prepare:site-for-system-tests 1
 
 wget "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" > output.log 2>&1
 ln -s /usr/bin/nodejs /usr/bin/node
-
 npm cache clean -f  > output.log 2>&1
 npm install -g n  > output.log 2>&1
 n 9  > output.log 2>&1
