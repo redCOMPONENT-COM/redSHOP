@@ -148,7 +148,7 @@ class UserManagerJoomla3Page
     /**
      * @var string
      */
-    public static $emailInvalid = "Please enter a valid email address";
+    public static $emailInvalid = "The email address you entered is invalid. Please enter another email address.";
 
     /**
      * @var string
