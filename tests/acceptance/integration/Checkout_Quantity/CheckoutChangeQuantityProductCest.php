@@ -121,6 +121,7 @@ class CheckoutChangeQuantityProductCest
 		$this->onePage = "yes";
 		$this->quantityChange = "yes";
 		$this->quantityInCart = 3;
+		$this->disableonepage = "no";
 
 		//User
 		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
@@ -132,18 +133,18 @@ class CheckoutChangeQuantityProductCest
 		$this->lastName = "LastName";
 	}
 
-    /**
-     * Method for clean data.
-     *
-     * @param   mixed $scenario Scenario
-     *
-     * @return  void
-     */
-    public function deleteData($scenario)
-    {
-        $I = new RedshopSteps($scenario);
-        $I->clearAllData();
-    }
+	/**
+	 * Method for clean data.
+	 *
+	 * @param   mixed $scenario Scenario
+	 *
+	 * @return  void
+	 */
+	public function deleteData($scenario)
+	{
+		$I = new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 
 	public function _before(AcceptanceTester $I)
 	{
@@ -203,11 +204,15 @@ class CheckoutChangeQuantityProductCest
 		$I->wantTo('Delete account in redSHOP and Joomla');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, false);
+
+		$I->wantTo("Disable One page checkout");
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->disableonepage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 	}
 
-    public function deleteDataEnd(AcceptanceTester $I, $scenario)
-    {
-        $I= new RedshopSteps($scenario);
-        $I->clearAllData();
-    }
+	public function deleteDataEnd(AcceptanceTester $I, $scenario)
+	{
+		$I= new RedshopSteps($scenario);
+		$I->clearAllData();
+	}
 }

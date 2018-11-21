@@ -514,7 +514,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
-		$I->pauseExecution();
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(0.5);
