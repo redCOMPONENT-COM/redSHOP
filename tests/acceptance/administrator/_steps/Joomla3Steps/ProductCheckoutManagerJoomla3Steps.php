@@ -834,7 +834,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$headBilling, 30, null);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
+		$I->wait(0.5);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForText($Total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);

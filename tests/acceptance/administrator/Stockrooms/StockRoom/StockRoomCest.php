@@ -61,7 +61,7 @@ class StockRoomCest
         $I->changeStockRoomState($this->newName);
         $I->waitForElement(\AdminJ3Page::$resetButton, 30);
         $I->click(\AdminJ3Page::$resetButton);
-        $I->filterListBySearching($this->newName, $searchField = ['id' => 'filter']);
+        $I->filterListBySearching($this->newName, $searchField = "#filter");
         $I->verifyState('unpublished', $I->getStockRoomState($this->newName));
     }
 
