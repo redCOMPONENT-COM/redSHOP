@@ -499,6 +499,19 @@ class RedshopHelperUser
 		$row   = JTable::getInstance('user_detail', 'Table');
 		$isNew = true;
 
+		if (!isset($data['users_info_id']) || $data['users_info_id'] == 0)
+		{
+			// Get user_info_id from email
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('users_info_id')
+				->from($db->qn('#__redshop_users_info'))
+				->where($db->qn('user_email') . ' = ' . $db->q($data['user_email']))
+				->where($db->qn('address_type') . ' = ' . $db->q('BT'));
+
+			$data['users_info_id'] = $db->setQuery($query)->loadResult();
+		}
+
 		if (isset($data['users_info_id']) && $data['users_info_id'] != 0)
 		{
 			$row->load($data['users_info_id']);
