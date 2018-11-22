@@ -104,6 +104,45 @@ class RoboFile extends \Robo\Tasks
             ->run()
             ->stopOnFail();
     }
+    /**
+     * Tests setup
+     *
+     * @param   boolean  $debug   Add debug to the parameters
+     * @param   boolean  $steps   Add steps to the parameters
+     *
+     * @return  void
+     * @since   5.6.0
+     */
+    public function testsSetup($debug = true, $steps = true)
+    {
+        $args = [];
+        if ($debug)
+        {
+            $args[] = '--debug';
+        }
+        if ($steps)
+        {
+            $args[] = '--steps';
+        }
+        $args = array_merge(
+            $args,
+            $this->defaultArgs
+        );
+        // Sets the output_append variable in case it's not yet
+        if (getenv('output_append') === false)
+        {
+            $this->say('Setting output_append');
+            putenv('output_append=');
+        }
+        // Builds codeception
+        $this->_exec("vendor/bin/codecept build");
+        // Executes the initial set up
+        $this->taskCodecept()
+            ->args($args)
+            ->arg('acceptance/install/')
+            ->run()
+            ->stopOnFail();
+    }
 
     /**
      * Method for run specific scenario
