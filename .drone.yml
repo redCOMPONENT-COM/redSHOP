@@ -54,7 +54,7 @@ pipeline:
         - rsync -a tests/joomla-cms/ tests/$tests_suite/joomla-cms
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
-        -su www-data -c 'vendor/bin/robo tests:setup 0 0'
+        - su www-data -c 'vendor/bin/robo tests:setup 0 0'
     00-setup-stages:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
