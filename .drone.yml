@@ -34,7 +34,6 @@ pipeline:
         # NPM setup
         - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
         - npm install
-        - pwd
         # Uncomment if not using npm cache
         # redShop installer release
         #- while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
@@ -46,8 +45,8 @@ pipeline:
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         - cp tests/api.suite.yml.dist.drone tests/api.suite.yml
         # Test setup
-        #- while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
-        #- vendor/bin/robo tests:site-preparation 1 0
+        - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
+        - vendor/bin/robo tests:site-preparation 1 0
         # Ownership for uid 82
         - chown -R www-data:www-data .
         # Creating first clone for tests setup
