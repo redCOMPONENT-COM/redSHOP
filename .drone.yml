@@ -33,10 +33,13 @@ pipeline:
         #- composer install --prefer-dist                                    # Uncomment if not using composer cache
         # NPM setup
         - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
-        - npm install                                                       # Uncomment if not using npm cache
+        - npm install
+        - pwd
+        # Uncomment if not using npm cache
         # redShop installer release
         #- while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
-        #- mv gulp-config.json.dist gulp-config.json
+        - cp gulp-config.json.jenkins.dist gulp-config.json.dist
+        - mv gulp-config.json.dist gulp-config.json
         - gulp release --skip-version
 
         # Codeception setup
