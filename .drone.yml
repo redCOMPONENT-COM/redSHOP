@@ -42,7 +42,7 @@ pipeline:
         - pwd
         - cd tests/releases
         - ls
-        - cd ../../
+        - cd ../..
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         - cp tests/api.suite.yml.dist.drone tests/api.suite.yml
