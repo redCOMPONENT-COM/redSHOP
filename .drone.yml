@@ -871,7 +871,7 @@ pipeline:
     slack:
         image: plugins/slack
         webhook: https://hooks.slack.com/services/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
-        channel: aesir-builds
+        channel: redshop-builds
         when:
             status: [ success, failure ]
         template: >
