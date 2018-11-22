@@ -15,58 +15,26 @@
  *
  * @since    2.1
  */
-use \Facebook\WebDriver\Remote\RemoteWebDriver;
 use AcceptanceTester\AdminManagerJoomla3Steps as AdminManagerJoomla3Steps;
 class InstallRedShopCest
 {
-    /**
-     * @var    $faker
-     * @since   1.0.0
-     */
-    protected $faker;
-
-    /**
-     * Install Joomla function
-     *
-     * @param   AdminManagerJoomla3Steps  $i  Acceptance tester
-     *
-     * @return  void
-     * @since   1.0.0
-     * @throws  \Exception
-     */
-    public function installJoomla(AdminManagerJoomla3Steps $i)
-    {
-        $adminLoginPageUrl = $i->getLocatorPath('adminLoginPageUrl');
-
-        $i->wantTo('Execute Joomla Installation');
-        $this->faker = \Faker\Factory::create();
-        $i->installJoomlaRemovingInstallationFolder();
-
-        if ($adminLoginPageUrl !== false)
-        {
-            $i->amOnPage($adminLoginPageUrl);
-        }
-
-        $i->doAdministratorLogin();
-        $i->wait(2);
-        $i->executeInSelenium(
-            function (RemoteWebDriver $webdriver) {
-                if (count($webdriver->findElements(\WebDriverBy::xpath("//a[contains(text(), 'PLG_SYSTEM_STATS_BTN_NEVER_SEND')]"))) > 0)
-                {
-                    $webdriver->findElement(\WebDriverBy::xpath("//a[contains(text(), 'PLG_SYSTEM_STATS_BTN_NEVER_SEND')]"))->click();
-                }
-                else
-                {
-                    $webdriver->findElement(\WebDriverBy::xpath("//div[contains(@class, 'alert-info')]//a[contains(text(), 'Never')]"))->click();
-                }
-            }
-        );
-
-        $i->setErrorReportingtoDevelopment();
+	/**
+	 * Test to Install Joomla
+	 *
+	 * @param   AcceptanceTester  $I  Actor Class Object
+	 *
+	 * @return void
+	 */
+	public function testInstallJoomla(AcceptanceTester $I)
+	{
+		$I->wantTo('Execute Joomla Installation');
+		$I->installJoomlaRemovingInstallationFolder();
+    $I->doAdministratorLogin();
+    $I->setErrorReportingtoDevelopment();
     }
 
-	/**
-	 * Test to Install redSHOP Extension on Joomla
+    /**
+     * Test to Install redSHOP Extension on Joomla
 	 *
 	 * @param   AcceptanceTester  $I  Actor Class Object
 	 *
