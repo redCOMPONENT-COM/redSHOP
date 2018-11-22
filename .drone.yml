@@ -9,7 +9,7 @@ pipeline:
         - touch tests/.cache.composer.tmp
         # redShop  npm cache
         - touch tests/.cache.npm.tmp
-        - mv /opt/cache/redshop/node_modules .
+        - mv /opt/cache/redSHOP/node_modules .
         # Joomla CMS
         - mv /opt/cache/joomla-cms tests
         - touch tests/.cache.joomla-cms.tmp
