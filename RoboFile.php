@@ -249,36 +249,66 @@ class RoboFile extends \Robo\Tasks
     /**
      * Sends the build report error back to Slack
      *
-     * @param   string $cloudinaryName      Cloudinary cloud name
-     * @param   string $cloudinaryApiKey    Cloudinary API key
-     * @param   string $cloudinaryApiSecret Cloudinary API secret
-     * @param   string $githubRepository    GitHub repository (owner/repo)
-     * @param   string $githubPRNo          GitHub PR #
-     * @param   string $slackWebhook        Slack Webhook URL
-     * @param   string $slackChannel        Slack channel
-     * @param   string $buildURL            Build URL
+     * @param   string  $cloudinaryName       Cloudinary cloud name
+     * @param   string  $cloudinaryApiKey     Cloudinary API key
+     * @param   string  $cloudinaryApiSecret  Cloudinary API secret
+     * @param   string  $githubRepository     GitHub repository (owner/repo)
+     * @param   string  $githubPRNo           GitHub PR #
+     * @param   string  $slackWebhook         Slack Webhook URL
+     * @param   string  $slackChannel         Slack channel
+     * @param   string  $buildURL             Build URL
      *
      * @return  void
      *
      * @since   5.1
      */
-    public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL)
+    public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
+    {
+        $directories = glob('tests/_output/*' , GLOB_ONLYDIR);
+
+        foreach ($directories as $directory)
+        {
+            $this->sendBuildReportErrorSlackDirectory($directory, $cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL);
+        }
+    }
+
+    /**
+     * Sends the build report error back to Slack
+     *
+     * @param   string  $directory            Directory to explore
+     * @param   string  $cloudinaryName       Cloudinary cloud name
+     * @param   string  $cloudinaryApiKey     Cloudinary API key
+     * @param   string  $cloudinaryApiSecret  Cloudinary API secret
+     * @param   string  $githubRepository     GitHub repository (owner/repo)
+     * @param   string  $githubPRNo           GitHub PR #
+     * @param   string  $slackWebhook         Slack Webhook URL
+     * @param   string  $slackChannel         Slack channel
+     * @param   string  $buildURL             Build URL
+     *
+     * @return  void
+     *
+     * @since   5.1
+     */
+    public function sendBuildReportErrorSlackDirectory($directory, $cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
     {
         $errorSelenium = true;
-        $reportError   = false;
-        $reportFile    = 'tests/selenium.log';
-        $errorLog      = 'Selenium log:' . chr(10) . chr(10);
+        $reportError = false;
+        $reportFile = $directory . '/selenium.log';
+        $errorLog = 'Selenium log in ' . $directory . ':' . chr(10). chr(10);
+        $this->say('Starting to Prepare Build Report');
 
+        $this->say('Exploring folder ' . $directory . ' for error reports');
         // Loop through Codeception snapshots
-        if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
+        if (file_exists($directory) && $handler = opendir($directory))
         {
-            $reportFile    = 'tests/_output/report.tap.log';
-            $errorLog      = 'Codeception tap log:' . chr(10) . chr(10);
+            $reportFile = $directory . '/report.tap.log';
+            $errorLog = 'Codeception tap log in ' . $directory . ':' . chr(10). chr(10);
             $errorSelenium = false;
         }
 
         if (file_exists($reportFile))
         {
+            $this->say('Report File Prepared');
             if ($reportFile)
             {
                 $errorLog .= file_get_contents($reportFile, null, null, 15);
@@ -286,7 +316,7 @@ class RoboFile extends \Robo\Tasks
 
             if (!$errorSelenium)
             {
-                $handler    = opendir('tests/_output');
+                $handler = opendir($directory);
                 $errorImage = '';
 
                 while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
@@ -298,15 +328,14 @@ class RoboFile extends \Robo\Tasks
                     }
 
                     $reportError = true;
-                    $errorImage  = __DIR__ . '/tests/_output/' . $errorSnapshot;
+                    $errorImage = $directory . '/' . $errorSnapshot;
                 }
             }
-
-            echo $errorImage;
 
             if ($reportError || $errorSelenium)
             {
                 // Sends the error report to Slack
+                $this->say('Sending Error Report');
                 $reportingTask = $this->taskReporting()
                     ->setCloudinaryCloudName($cloudinaryName)
                     ->setCloudinaryApiKey($cloudinaryApiKey)
