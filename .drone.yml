@@ -850,7 +850,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Stockroom 0 0'
 
     45-VAT:
-        group: tests
+            group: tests
             image: redwebaps/testbox-chromedriver:2.38
             environment:
             - tests_user=admin
@@ -901,7 +901,6 @@ services:
         environment:
         - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
         - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
-
 
 branches:
     exclude: [ crowdin ]
