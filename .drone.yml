@@ -37,10 +37,11 @@ pipeline:
         # Uncomment if not using npm cache
         # redShop installer release
         #- while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
-        - cp gulp-config.sample.json gulp-config.json.dist
         - mv gulp-config.json.dist gulp-config.json
         - gulp release --skip-version
-
+        - pwd
+        - cd tests/releases
+        -ls
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         - cp tests/api.suite.yml.dist.drone tests/api.suite.yml
