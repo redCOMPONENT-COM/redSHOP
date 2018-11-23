@@ -834,7 +834,7 @@ class productHelper
 	/**
 	 * Method for get property price with discount
 	 *
-	 * @param   integer|string $sectionId Section ID
+	 * @param   integer        $sectionId Section ID
 	 * @param   string         $quantity  Quantity
 	 * @param   string         $section   Section
 	 * @param   integer        $userId    User ID
@@ -843,7 +843,7 @@ class productHelper
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct_Attribute::getPropertyPrice() instead.
 	 */
-	public function getPropertyPrice($sectionId = '', $quantity = '', $section = '', $userId = 0)
+	public function getPropertyPrice($sectionId = 0, $quantity = '', $section = '', $userId = 0)
 	{
 		return RedshopHelperProduct_Attribute::getPropertyPrice($sectionId, $quantity, $section, $userId);
 	}
