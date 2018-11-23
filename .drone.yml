@@ -30,7 +30,7 @@ pipeline:
         # Composer setup
         # - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done          # Comment if not using composer cache
         - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
-        #- composer install --prefer-dist                                    # Uncomment if not using composer cache
+        - composer install --prefer-dist                                    # Uncomment if not using composer cache
         # NPM setup
         - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
         - npm install
@@ -38,7 +38,7 @@ pipeline:
         # redShop installer release
         #- while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
         - mv gulp-config.json.dist gulp-config.json
-        - gulp release
+        - gulp release --skip-version
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         - cp tests/api.suite.yml.dist.drone tests/api.suite.yml
