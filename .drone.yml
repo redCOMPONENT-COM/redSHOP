@@ -38,7 +38,7 @@ pipeline:
         # redShop installer release
         #- while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
         - mv gulp-config.json.dist gulp-config.json
-        - gulp release --skip-version
+        - gulp release
         - pwd
         - cd tests/releases
         - ls

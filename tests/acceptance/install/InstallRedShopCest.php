@@ -47,7 +47,7 @@ class InstallRedShopCest
         $I->disableStatistics();
         $I->wantTo('I Install redSHOP');
         $I = new AdminManagerJoomla3Steps($scenario);
-        $I->installComponent('packages url', 'redshop.zip');
+        $I->installComponent('packages url', 'redshop-v2.1.1.zip');
         $I->waitForText('installed successfully', 120, ['id' => 'system-message-container']);
 
         $I->wantTo('install demo data');
