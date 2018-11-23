@@ -61,6 +61,7 @@ pipeline:
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
         - su www-data -c 'vendor/bin/robo tests:setup 1 1'
+        
     00-setup-stages:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
