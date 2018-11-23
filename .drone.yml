@@ -110,7 +110,7 @@ pipeline:
         - sh tests/drone/setup-stages.sh "Stock_Image"          "31-Stock_Image"
         - sh tests/drone/setup-stages.sh "User"                 "32-User"
         - sh tests/drone/setup-stages.sh "Shopper_Group"        "33-Shopper_Group"
-        - sh tests/drone/setup-stages.sh "checkout"             "34-checkout
+        - sh tests/drone/setup-stages.sh "checkout"             "34-checkout"
         - sh tests/drone/setup-stages.sh "Checkout_Quantity"    "35-Checkout_Quantity"
         - sh tests/drone/setup-stages.sh "Compare_Products"     "36-Compare_Products"
         - sh tests/drone/setup-stages.sh "Discounts"            "37-Discounts"
