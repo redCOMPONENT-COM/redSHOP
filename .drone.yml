@@ -202,7 +202,8 @@ pipeline:
         commands:
         # Regular entry point
         - /entrypoint.sh &
-        - sleep 10
+        # Performs test after ensuring that the scenario has been fully set up
+        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Customizations/Custom_Field 1 1'
 
