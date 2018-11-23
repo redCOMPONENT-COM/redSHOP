@@ -568,7 +568,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
 		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);

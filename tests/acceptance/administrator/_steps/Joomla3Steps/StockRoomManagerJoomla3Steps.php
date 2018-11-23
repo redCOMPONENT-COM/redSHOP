@@ -52,6 +52,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
         $I->filterListBySearching($name, $searchField = ['id' => 'filter']);
+        $I->wait(0.1);
         $I->click(['link' => $name]);
         $I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName, 30);
         $I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $newName);
