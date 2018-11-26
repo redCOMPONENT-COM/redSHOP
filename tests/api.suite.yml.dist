@@ -1,7 +1,0 @@
-class_name: ApiTester
-modules:
-    enabled:
-      - Asserts
-      - REST:
-          depends: PhpBrowser
-          url: http://localhost/tests/joomla-cms/

@@ -12,10 +12,6 @@
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
 class_name: AcceptanceTester
-settings:
-    webservice:
-        client_id: 'test'
-        client_secret: 'dfe2ec3470c3693031535191566b8665b102a54fe63851cf29a6ebc1222bbdaa382f2029b4eae10f'
 modules:
     enabled:
         - JoomlaBrowser

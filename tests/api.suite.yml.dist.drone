@@ -1,7 +1,0 @@
-class_name: ApiTester
-modules:
-    enabled:
-      - Asserts
-      - REST:
-          depends: PhpBrowser
-          url: 'http://php/tests/%tests_suite%/joomla-cms/'
