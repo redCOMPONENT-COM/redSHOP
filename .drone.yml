@@ -49,7 +49,6 @@ pipeline:
         - gulp release --skip-version
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
-        - cp tests/api.suite.yml.dist.drone tests/api.suite.yml
         # Test setup
         - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
         #- vendor/bin/robo tests:site-preparation 0 0
