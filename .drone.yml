@@ -60,7 +60,7 @@ pipeline:
         - rsync -a tests/joomla-cms/ tests/$tests_suite/joomla-cms
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
-        - su www-data -c 'vendor/bin/robo tests:setup 1 1'
+        - su www-data -c '30-Stockroomtests:setup 1 1'
     00-setup-stages:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -596,10 +596,10 @@ pipeline:
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=29-Shippings
-        - tests_db=Shippings
+        - tests_suite=29-Shipping
+        - tests_db=Shipping
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-29-Shippings
+        - output_append=-29-Shipping
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -607,15 +607,15 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Shippings/Shipping 1 1'
-    30-Stockrooms:
+    30-Stockroom:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=30-Stockrooms
-        - tests_db=Stockrooms
+        - tests_suite=30-Stockroom
+        - tests_db=Stockroom
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-30-Stockrooms
+        - output_append=-30-Stockroom
         commands:
         # Regular entry point
         - /entrypoint.sh &
