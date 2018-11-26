@@ -5,7 +5,7 @@ pipeline:
         pull: true
         commands:
         # redShop Composer cache
-        #- mv /opt/cache/redSHOP/vendor .
+        - mv /opt/cache/redSHOP/vendor .
         #- touch tests/.cache.composer.tmp
         # redShop  npm cache
         #- touch tests/.cache.npm.tmp

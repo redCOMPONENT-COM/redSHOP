@@ -287,4 +287,13 @@ echo eval ("?>" . $cart_data . "<?php ");
 		document.update_cart.task.value = 'update_all';
 		document.update_cart.submit();
 	}
+
+    jQuery(document).ready(function (){
+        jQuery('input[name=\'quantity\']').on("keypress", function(e) {
+            if (e.keyCode == 13){
+                jQuery('.update_cart').trigger('click');
+            }
+        })
+    })
+
 </script>
