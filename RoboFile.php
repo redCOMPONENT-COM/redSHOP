@@ -437,5 +437,4 @@ class RoboFile extends \Robo\Tasks
             ->run()
             ->stopOnFail();
     }
-
 }
