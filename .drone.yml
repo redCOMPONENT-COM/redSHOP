@@ -92,7 +92,6 @@ pipeline:
         - sh tests/drone/setup-stages.sh "Coupon"               "13-Coupon"
         - sh tests/drone/setup-stages.sh "Giftcard"             "14-Giftcard"
         - sh tests/drone/setup-stages.sh "Voucher"              "15-Voucher"
-        - sh tests/drone/setup-stages.sh "OrderBackendProductAttribute"   "16-OrderBackendProductAttribute"
         - sh tests/drone/setup-stages.sh "Orders"               "17-Order"
         - sh tests/drone/setup-stages.sh "Quotations"           "18-Quotation"
         - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend" "19-ProductNotForSaleOnFrontend"
@@ -362,23 +361,6 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Discount_Groups/Rewards/Voucher 1 1'
-
-    16-OrderBackendProductAttribute:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=16-OrderBackendProductAttribute
-        - tests_db=OrderBackendProductAttribute
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-16-OrderBackendProductAttribute
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/OrderBackendProductAttribute 1 1'
 
     17-Order:
         group: tests
