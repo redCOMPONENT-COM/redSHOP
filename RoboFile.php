@@ -255,68 +255,6 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
-     * Nightly build
-     *
-     * @return  void
-     * @since   2.1.0
-     */
-    public function buildNightly()
-    {
-        // Read version
-        $version = $this->getVersion();
-
-        // Increase nightly build
-        $version = explode('.', $version);
-
-        if (!isset($version[3]))
-        {
-            $version[3] = 0;
-        }
-        else
-        {
-            $version[3] = (int) $version[3] + 1;
-        }
-
-        $version = implode('.', $version);
-
-        $this->updateVersion($version);
-        $this->release();
-    }
-
-    /**
-     *
-     * @return string
-     *
-     * @since  2.1.0
-     */
-    private function getVersion()
-    {
-        $versionFile = __DIR__ . '/redshop.xml';
-        $xml         = simplexml_load_file($versionFile);
-
-        return (string) $xml->version;
-    }
-
-    /**
-     * @param   string $version Version
-     *
-     * @return  void
-     *
-     * @since   2.1.0
-     */
-    private function updateVersion($version)
-    {
-        $redShopFile = __DIR__ . '/redshop.xml';
-
-        $xml                     = simplexml_load_file($redShopFile);
-        $result                  = $xml->xpath("/extension");
-        $result[0]->creationDate = date('Y-m-d H:i:s');
-        $result[0]->version      = $version;
-
-        $xml->asXML($redShopFile);
-    }
-
-    /**
      * @return  void
      *
      * @since   2.1.0

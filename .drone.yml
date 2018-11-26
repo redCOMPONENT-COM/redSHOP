@@ -92,36 +92,22 @@ pipeline:
         - sh tests/drone/setup-stages.sh "Coupon"               "13-Coupon"
         - sh tests/drone/setup-stages.sh "Giftcard"             "14-Giftcard"
         - sh tests/drone/setup-stages.sh "Voucher"              "15-Voucher"
-        - sh tests/drone/setup-stages.sh "Notices"              "16-Notices"
-        - sh tests/drone/setup-stages.sh "OrderBackendProductAttribute"   "17-OrderBackendProductAttribute"
-        - sh tests/drone/setup-stages.sh "Orders"               "18-Order"
-        - sh tests/drone/setup-stages.sh "Quotations"           "19-Quotation"
-        - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend" "20-ProductNotForSaleOnFrontend"
-        - sh tests/drone/setup-stages.sh "Category"             "21-Category"
-        - sh tests/drone/setup-stages.sh "Manufacturer"         "22-Manufacturer"
-        - sh tests/drone/setup-stages.sh "Price_Product"        "23-Price_Product"
-        - sh tests/drone/setup-stages.sh "ProductManagement"    "24-ProductManagement"
-        - sh tests/drone/setup-stages.sh "Supplier"             "25-Supplier"
-        - sh tests/drone/setup-stages.sh "Tax_Group"            "26-Tax_Group"
-        - sh tests/drone/setup-stages.sh "Tax_Rate"             "27-Tax_Rate"
-        - sh tests/drone/setup-stages.sh "Wrapper"              "28-Wrapper"
-        - sh tests/drone/setup-stages.sh "Shipping"             "29-Shipping"
-        - sh tests/drone/setup-stages.sh "Stockroom"            "30-Stockroom"
-        - sh tests/drone/setup-stages.sh "Stock_Image"          "31-Stock_Image"
-        - sh tests/drone/setup-stages.sh "User"                 "32-User"
-        - sh tests/drone/setup-stages.sh "Shopper_Group"        "33-Shopper_Group"
-        - sh tests/drone/setup-stages.sh "checkout"             "34-checkout"
-        - sh tests/drone/setup-stages.sh "Checkout_Quantity"    "35-Checkout_Quantity"
-        - sh tests/drone/setup-stages.sh "Compare_Products"     "36-Compare_Products"
-        - sh tests/drone/setup-stages.sh "Discounts"            "37-Discounts"
-        - sh tests/drone/setup-stages.sh "One_Steps_Checkout"   "38-One_Steps_Checkout"
-        - sh tests/drone/setup-stages.sh "Order_Checkout"       "39-Order_Checkout"
-        - sh tests/drone/setup-stages.sh "Product_Attribute"    "40-Product_Attribute"
-        - sh tests/drone/setup-stages.sh "Products-FrontEnd"    "41-Products-FrontEnd"
-        - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"   "42-Quotation_FrontEnd"
-        - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout" "43-Shopper_Groups_Checkout"
-        - sh tests/drone/setup-stages.sh "Stockroom_Checkout"   "44-Stockroom_Checkout"
-        - sh tests/drone/setup-stages.sh "VAT"                  "45-VAT"
+        - sh tests/drone/setup-stages.sh "OrderBackendProductAttribute"   "16-OrderBackendProductAttribute"
+        - sh tests/drone/setup-stages.sh "Orders"               "17-Order"
+        - sh tests/drone/setup-stages.sh "Quotations"           "18-Quotation"
+        - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend" "19-ProductNotForSaleOnFrontend"
+        - sh tests/drone/setup-stages.sh "Price_Product"        "20-Price_Product"
+        - sh tests/drone/setup-stages.sh "Supplier"             "21-Supplier"
+        - sh tests/drone/setup-stages.sh "Tax_Group"            "22-Tax_Group"
+        - sh tests/drone/setup-stages.sh "Tax_Rate"             "23-Tax_Rate"
+        - sh tests/drone/setup-stages.sh "Wrapper"              "24-Wrapper"
+        - sh tests/drone/setup-stages.sh "Shipping"             "25-Shipping"
+        - sh tests/drone/setup-stages.sh "Stockroom"            "26-Stockroom"
+        - sh tests/drone/setup-stages.sh "Stock_Image"          "27-Stock_Image"
+        - sh tests/drone/setup-stages.sh "User"                 "28-User"
+        - sh tests/drone/setup-stages.sh "Shopper_Group"        "29-Shopper_Group"
+        - sh tests/drone/setup-stages.sh "Checkout_Quantity"    "30-Checkout_Quantity"
+
     01-Mail:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -377,32 +363,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Discount_Groups/Rewards/Voucher 1 1'
 
-    16-Notices:
+    16-OrderBackendProductAttribute:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=16-Notices
-        - tests_db=Notices
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-16-Notices
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/Notices 1 1'
-
-    17-OrderBackendProductAttribute:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=17-OrderBackendProductAttribute
+        - tests_suite=16-OrderBackendProductAttribute
         - tests_db=OrderBackendProductAttribute
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-17-OrderBackendProductAttribute
+        - output_append=-16-OrderBackendProductAttribute
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -411,15 +380,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/OrderBackendProductAttribute 1 1'
 
-    18-Order:
+    17-Order:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=18-Order
+        - tests_suite=17-Order
         - tests_db=Order
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-18-Order
+        - output_append=-17-Order
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -427,15 +396,15 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Orders/Order 1 1'
-    19-Quotation:
+    18-Quotation:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=19-Quotation
+        - tests_suite=18-Quotation
         - tests_db=Quotation
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-19-Quotation
+        - output_append=-18-Quotation
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -444,15 +413,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Orders/Quotation 1 1'
 
-    20-ProductNotForSaleOnFrontend:
+    19-ProductNotForSaleOnFrontend:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=20-ProductNotForSaleOnFrontend
+        - tests_suite=19-ProductNotForSaleOnFrontend
         - tests_db=ProductNotForSaleOnFrontend
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-20-ProductNotForSaleOnFrontend
+        - output_append=-19-ProductNotForSaleOnFrontend
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -461,48 +430,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/ProductNotForSaleOnFrontend 1 1'
 
-    21-Category:
+    20-Price_Product:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=21-Category
-        - tests_db=Category
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-21-Category
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Category 1 1'
-
-    22-Manufacturer:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=22-Manufacturer
-        - tests_db=Manufacturer
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-22-Manufacturer
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Manufacturer 1 1'
-    23-Price_Product:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=23-Price_Product
+        - tests_suite=20-Price_Product
         - tests_db=Price_Product
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-23-Price_Product
+        - output_append=-20-Price_Product
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -510,31 +446,15 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Price_Product 1 1'
-    24-ProductManagement:
+    21-Supplier:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=24-ProductManagement
-        - tests_db=ProductManagement
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-24-ProductManagement
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/ProductManagement 1 1'
-    25-Supplier:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=25-Supplier
+        - tests_suite=21-Supplier
         - tests_db=Supplier
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-25-Supplier
+        - output_append=-21-Supplier
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -542,15 +462,15 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Supplier 1 1'
-    26-Tax_Group:
+    22-Tax_Group:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=26-Tax_Group
+        - tests_suite=22-Tax_Group
         - tests_db=Tax_Group
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-26-Tax_Group
+        - output_append=-22-Tax_Group
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -558,15 +478,15 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Tax_Group 1 1'
-    27-Tax_Rate:
+    23-Tax_Rate:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=27-Tax_Rate
+        - tests_suite=23-Tax_Rate
         - tests_db=Tax_Rate
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-27-Tax_Rate
+        - output_append=-23-Tax_Rate
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -575,15 +495,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Tax_Rate 1 1'
 
-    28-Wrapper:
+    24-Wrapper:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=28-Wrapper
+        - tests_suite=24-Wrapper
         - tests_db=Wrapper
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-28-Wrapper
+        - output_append=-24-Wrapper
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -591,15 +511,15 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Shippings/Wrapper 1 1'
-    29-Shipping:
+    25-Shipping:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=29-Shipping
+        - tests_suite=25-Shipping
         - tests_db=Shipping
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-29-Shipping
+        - output_append=-25-Shipping
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -607,15 +527,15 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Shippings/Shipping 1 1'
-    30-Stockroom:
+    26-Stockroom:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=30-Stockroom
+        - tests_suite=26-Stockroom
         - tests_db=Stockroom
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-30-Stockroom
+        - output_append=-26-Stockroom
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -624,15 +544,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Stockrooms/StockRoom 1 1'
 
-    31-Stock_Image:
+    27-Stock_Image:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=31-Stock_Image
+        - tests_suite=27-Stock_Image
         - tests_db=Stock_Image
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-31-Stock_Image
+        - output_append=-27-Stock_Image
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -641,15 +561,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Stockrooms/Stock_Image 1 1'
 
-    32-User:
+    28-User:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=32-User
+        - tests_suite=28-User
         - tests_db=User
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-32-User
+        - output_append=-28-User
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -658,15 +578,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Users/User 1 1'
 
-    33-Shopper_Group:
+    29-Shopper_Group:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=33-Shopper_Group
+        - tests_suite=29-Shopper_Group
         - tests_db=Shopper_Group
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-33-Shopper_Group
+        - output_append=-29-Shopper_Group
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -675,32 +595,15 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Users/Shopper_Group 1 1'
 
-    34-checkout:
+    30-Checkout_Quantity:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=34-checkout
-        - tests_db=checkout
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-34-checkout
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/checkout 1 1'
-
-    35-Checkout_Quantity:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=35-Checkout_Quantity
+        - tests_suite=30-Checkout_Quantity
         - tests_db=Checkout_Quantity
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-35-Checkout_Quantity
+        - output_append=-30-Checkout_Quantity
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -708,172 +611,6 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Checkout_Quantity 1 1'
-    36-Compare_Products:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=36-Compare_Products
-        - tests_db=Compare_Products
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-36-Compare_Products
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Compare_Products 1 1'
-
-    37-Discounts:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=37-Discounts
-        - tests_db=Discounts
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-37-Discounts
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Discounts 1 1'
-    38-One_Steps_Checkout:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=38-One_Steps_Checkout
-        - tests_db=One_Steps_Checkout
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-38-One_Steps_Checkout
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/One_Steps_Checkout 1 1'
-
-    39-Order_Checkout:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=39-Order_Checkout
-        - tests_db=Order_Checkout
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-39-Order_Checkout
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Order 1 1'
-
-    40-Product_Attribute:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=40-Product_Attribute
-        - tests_db=Product_Attribute
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-40-Product_Attribute
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Product_Attribute 1 1'
-    41-Products-FrontEnd:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=41-Products-FrontEnd
-        - tests_db=Products-FrontEnd
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-41-Products-FrontEnd
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Products 1 1'
-    42-Quotation_FrontEnd:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=42-Quotation_FrontEnd
-        - tests_db=Quotation_FrontEnd
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-42-Quotation_FrontEnd
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Quotations 1 1'
-
-    43-Shopper_Groups_Checkout:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=43-Shopper_Groups_Checkout
-        - tests_db=Shopper_Groups_Checkout
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-43-Shopper_Groups_Checkout
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Shopper_Groups 1 1'
-
-    44-Stockroom_Checkout:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=44-Stockroom_Checkout
-        - tests_db=Stockroom_Checkout
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-44-Stockroom_Checkout
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Stockroom 1 1'
-
-    45-VAT:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=45-VAT
-        - tests_db=VAT
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-45-VAT
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/VAT 1 1'
 
     slack:
         image: plugins/slack
