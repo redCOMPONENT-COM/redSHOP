@@ -91,6 +91,7 @@ pipeline:
         - sh tests/drone/setup-stages.sh "Coupon"               "13-Coupon"
         - sh tests/drone/setup-stages.sh "Giftcard"             "14-Giftcard"
         - sh tests/drone/setup-stages.sh "Voucher"              "15-Voucher"
+        - sh tests/drone/setup-stages.sh "Category"             "16-Category"
         - sh tests/drone/setup-stages.sh "Orders"               "17-Order"
         - sh tests/drone/setup-stages.sh "Quotations"           "18-Quotation"
         - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend" "19-ProductNotForSaleOnFrontend"
@@ -361,6 +362,23 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Discount_Groups/Rewards/Voucher 0 0'
 
+    16-Category:
+      group: tests
+      image: redwebaps/testbox-chromedriver:2.38
+      environment:
+      - tests_user=admin
+      - tests_suite=16-Category
+      - tests_db=Category
+      - build_path=/drone/src/github.com/${DRONE_REPO}
+      - output_append=-16-Category
+      commands:
+      # Regular entry point
+      - /entrypoint.sh &
+      # Performs test after ensuring that the scenario has been fully set up
+      - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+      # Performs test
+      - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Category 1 1'
+    
     17-Order:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
