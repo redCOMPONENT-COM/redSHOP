@@ -18,7 +18,6 @@ modules:
         - AcceptanceHelper
         - Asserts
         - Db
-        - DbHelper
     config:
         Db:
             dsn: 'mysql:host=db;dbname=%tests_db%'
