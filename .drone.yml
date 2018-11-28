@@ -113,7 +113,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=01-Mail
-        - tests_db= mail
+        - tests_db= Mail
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-01-Mail
         commands:
@@ -385,7 +385,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=17-Order
-        - tests_db=Order
+        - tests_db=Orders
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-17-Order
         commands:
@@ -401,7 +401,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=18-Quotation
-        - tests_db=Quotation
+        - tests_db=Quotations
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-18-Quotation
         commands:
