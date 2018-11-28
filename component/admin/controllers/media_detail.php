@@ -264,17 +264,25 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && $post['hdn_download_file'] == "")
 		{
-			$model->store($post);
-
-			$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
-
-			if ($apply == 1)
+			if ($post['media_id'])
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $post['media_id'], $msg);
+				$model->store($post);
+
+				$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
+				if ($apply == 1)
+				{
+					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $post['media_id'], $msg);
+				}
+				else
+				{
+					$this->setRedirect('index.php?option=com_redshop&view=media');
+				}
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=com_redshop&view=media');
+				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+				$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'error');
 			}
 		}
 		else
