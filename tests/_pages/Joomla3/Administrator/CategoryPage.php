@@ -65,6 +65,11 @@ class CategoryPage extends AdminJ3Page
     /**
      * @var string
      */
+    public static $parentCategoryInput = "#s2id_autogen7_search";
+
+    /**
+     * @var string
+     */
 	public static $choiceCategoryParent = "//div[@id='select2-result-label-13']/a";
 
     /**
@@ -104,7 +109,10 @@ class CategoryPage extends AdminJ3Page
      * @var string
      */
 	public static $template = "//div/div/div[@id='s2id_jform_more_template']/ul";
-
+    /**
+     * @var string
+     */
+    public static $template1 ='#select2-chosen-8';
     /**
      * @var string
      */
