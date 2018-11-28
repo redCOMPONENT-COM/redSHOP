@@ -113,7 +113,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=01-Mail
-        - tests_db= Mail
+        - tests_db=Mail
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-01-Mail
         commands:
