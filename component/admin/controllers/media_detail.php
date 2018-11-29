@@ -427,6 +427,8 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				else
 				{
+					$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
 				    if ($apply == 1)
                     {
 	                    $this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id , $msg);
