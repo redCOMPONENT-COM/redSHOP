@@ -220,6 +220,8 @@ class productHelper
 
 		if ($userId)
 		{
+			RedshopHelperUser::createUserSession($userId);
+			
 			$query = $db->getQuery(true)
 				->select('ps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'ps'))
@@ -832,16 +834,16 @@ class productHelper
 	/**
 	 * Method for get property price with discount
 	 *
-	 * @param   string  $sectionId Section ID
-	 * @param   string  $quantity  Quantity
-	 * @param   string  $section   Section
-	 * @param   integer $userId    User ID
+	 * @param   integer        $sectionId Section ID
+	 * @param   string         $quantity  Quantity
+	 * @param   string         $section   Section
+	 * @param   integer        $userId    User ID
 	 *
 	 * @return  object
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperProduct_Attribute::getPropertyPrice() instead.
 	 */
-	public function getPropertyPrice($sectionId = '', $quantity = '', $section = '', $userId = 0)
+	public function getPropertyPrice($sectionId = 0, $quantity = '', $section = '', $userId = 0)
 	{
 		return RedshopHelperProduct_Attribute::getPropertyPrice($sectionId, $quantity, $section, $userId);
 	}
