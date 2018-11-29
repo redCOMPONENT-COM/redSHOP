@@ -60,7 +60,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid = $this->input->get->get('cid', array(0), 'array');
 
 		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
@@ -287,7 +287,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		}
 		else
 		{
-			if ($cid[0] != 0)
+			if ($cid[0] != 0 || $post['media_id'] != 0)
 			{
 				$post['bulk'] = 'no';
 			}
@@ -395,7 +395,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 					$dest               = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
 				}
 
-				$model->store($post);
+				$row = $model->store($post);
 
 				// Image Upload
 				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
@@ -427,13 +427,20 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+				    if ($apply == 1)
+                    {
+	                    $this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id , $msg);
+                    }
+				    else
+                    {
+	                    $this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+                    }
 				}
 			}
 
 			// Media Bank End
-			$post ['media_id'] = 0;
-			$directory         = self::writableCell('components/com_redshop/assets');
+
+			$directory = self::writableCell('components/com_redshop/assets');
 
 			if ($directory == 0)
 			{
@@ -480,7 +487,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								{
 									$post['media_name'] = $product_download_root . RedshopHelperMedia::cleanFileName($newscan[$j]);
 
-									if ($model->store($post))
+									if ($row = $model->store($post))
 									{
 										$originaldir = $post['media_name'];
 										copy($btsrc, $originaldir);
@@ -515,7 +522,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+											if ($apply == 1)
+											{
+												$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg);
+											}
+											else
+											{
+												$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+											}
 										}
 									}
 									else
