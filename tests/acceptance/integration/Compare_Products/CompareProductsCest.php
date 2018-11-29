@@ -31,11 +31,6 @@ class CompareProductsCest
 
 	}
 
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
 
 	public function _before(AcceptanceTester $I)
 	{
@@ -65,12 +60,13 @@ class CompareProductsCest
 		$I = new ProductCheckoutSteps($scenario);
 		$I->wantTo('I Want to compare 2 products');
 		$I->comparesProducts($this->CategoryName, $this->ProductName,$this->productNameCompares);
-
 	}
 
-	public function deleteDataEnd(AcceptanceTester $I, $scenario)
+	public function deleteDataEnd(ProductSteps $I, $scenario)
 	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
+        $I->wantTo('Delete Product in Administrator');
+        $I->deleteProduct($this->ProductName);
+        $I->wantTo('Delete Product Compares in Administrator');
+        $I->deleteProduct($this->productNameCompares);
 	}
 }
