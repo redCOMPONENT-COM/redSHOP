@@ -654,6 +654,7 @@ pipeline:
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Compare_Products 0 0'
 #
+    
     32-ProductNotForSaleOnFrontend:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
