@@ -396,6 +396,7 @@ pipeline:
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Orders/Order 0 0'
+#
 #    18-Quotation:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -446,6 +447,7 @@ pipeline:
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Price_Product 0 0'
+#
 #    21-Supplier:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -462,6 +464,7 @@ pipeline:
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Supplier 0 0'
+#
 #    22-Tax_Group:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -478,6 +481,7 @@ pipeline:
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Tax_Group 0 0'
+#
 #    23-Tax_Rate:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -511,6 +515,7 @@ pipeline:
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Shippings/Wrapper 0 0'
+#
 #    25-Shipping:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -527,6 +532,7 @@ pipeline:
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Shippings/Shipping 0 0'
+#
 #    26-Stockroom:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -611,6 +617,7 @@ pipeline:
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Checkout_Quantity 0 0'
+#
 #    31-ProductManagement:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
