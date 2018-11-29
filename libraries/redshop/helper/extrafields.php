@@ -768,7 +768,6 @@ class RedshopHelperExtrafields
 						break;
 
 					case self::TYPE_DATE_PICKER:
-
                         $format = Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d');
 
                         if ($customField->section != 17)
@@ -788,7 +787,7 @@ class RedshopHelperExtrafields
                             }
                         }
 
-						$exField .= RedshopLayoutHelper::render(
+                        $exField .= RedshopLayoutHelper::render(
 							'extrafields.field.date_picker',
 							array(
 								'rowData'         => $customField,
