@@ -108,8 +108,9 @@ pipeline:
 #        - sh tests/drone/setup-stages.sh "Checkout_Quantity"    "30-Checkout_Quantity"
 #        - sh tests/drone/setup-stages.sh "ProductManagement"    "31-ProductManagement"
 #        - sh tests/drone/setup-stages.sh "Compare_Products"     "36-Compare_Products"
-        - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend" "32-ProductNotForSaleOnFrontend"
-        - sh tests/drone/setup-stages.sh "Manufacturer"         "33-Manufacturer"
+#        - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend" "32-ProductNotForSaleOnFrontend"
+
+        - sh tests/drone/setup-stages.sh "One_Steps_Checkout"   "38-One_Steps_Checkout"
 #    01-Mail:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -655,39 +656,39 @@ pipeline:
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Compare_Products 0 0'
 #
     
-    32-ProductNotForSaleOnFrontend:
+#    32-ProductNotForSaleOnFrontend:
+#        group: tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#        - tests_user=admin
+#        - tests_suite=32-ProductNotForSaleOnFrontend
+#        - tests_db=ProductNotForSaleOnFrontend
+#        - build_path=/drone/src/github.com/${DRONE_REPO}
+#        - output_append=-32-ProductNotForSaleOnFrontend
+#        commands:
+#        # Regular entry point
+#        - /entrypoint.sh &
+#        # Performs test after ensuring that the scenario has been fully set up
+#        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+#        # Performs test
+#        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/ProductNotForSaleOnFrontend 0 0'
+#
+    38-One_Steps_Checkout:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=32-ProductNotForSaleOnFrontend
-        - tests_db=ProductNotForSaleOnFrontend
+        - tests_suite=38-One_Steps_Checkout
+        - tests_db=One_Steps_Checkout
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-32-ProductNotForSaleOnFrontend
+        - output_append=-38-One_Steps_Checkout
         commands:
         # Regular entry point
         - /entrypoint.sh &
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/ProductNotForSaleOnFrontend 0 0'
-
-    33-Manufacturer:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=33-Manufacturer
-        - tests_db=Manufacturer
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-33-Manufacturer
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Manufacturer 1 1'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/One_Steps_Checkout 1 1'
 
     slack:
         image: plugins/slack

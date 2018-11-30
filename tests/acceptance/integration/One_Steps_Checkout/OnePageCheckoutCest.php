@@ -144,18 +144,6 @@ class OnePageCheckoutCest
 	 * Step7: Goes on frontend and create quotation with business account
 	 * Step8: Goes on admin page and delete all data and convert cart setting the same default demo
 	 */
-
-	/**
-	 * @param $scenario
-	 * 
-	 * Method delete all data
-	 */
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
 	public function onePageCheckout(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
@@ -243,8 +231,5 @@ class OnePageCheckoutCest
 		$I->deleteUser($this->customerBussinesInformationSecond['firstName']);
 		$I->deleteUser($this->firstName);
 
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }
