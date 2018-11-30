@@ -1,18 +1,18 @@
 pipeline:
-    00-cache:
-        group: 00-setup
-        image: redwebaps/redshop-cache:dev
-        pull: true
-        commands:
-        # redShop Composer cache
-#        - mv /opt/cache/redSHOP/vendor .
-#        - touch tests/.cache.composer.tmp
-        # redShop  npm cache
-#        - touch tests/.cache.npm.tmp
-#        - mv /opt/cache/redSHOP/node_modules .
-        # Joomla CMS
-#        - mv /opt/cache/joomla-cms tests
-#        - touch tests/.cache.joomla-cms.tmp
+#    00-cache:
+#        group: 00-setup
+#        image: redwebaps/redshop-cache:dev
+#        pull: true
+#        commands:
+#        # redShop Composer cache
+##        - mv /opt/cache/redSHOP/vendor .
+##        - touch tests/.cache.composer.tmp
+#        # redShop  npm cache
+##        - touch tests/.cache.npm.tmp
+##        - mv /opt/cache/redSHOP/node_modules .
+#        # Joomla CMS
+##        - mv /opt/cache/joomla-cms tests
+##        - touch tests/.cache.joomla-cms.tmp
 
     00-setup:
         group: 00-setup
