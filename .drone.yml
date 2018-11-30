@@ -5,14 +5,14 @@ pipeline:
         pull: true
         commands:
         # redShop Composer cache
-        - mv /opt/cache/redSHOP/vendor .
-        - touch tests/.cache.composer.tmp
+#        - mv /opt/cache/redSHOP/vendor .
+#        - touch tests/.cache.composer.tmp
         # redShop  npm cache
-        - touch tests/.cache.npm.tmp
-        - mv /opt/cache/redSHOP/node_modules .
+#        - touch tests/.cache.npm.tmp
+#        - mv /opt/cache/redSHOP/node_modules .
         # Joomla CMS
-        - mv /opt/cache/joomla-cms tests
-        - touch tests/.cache.joomla-cms.tmp
+#        - mv /opt/cache/joomla-cms tests
+#        - touch tests/.cache.joomla-cms.tmp
 
     00-setup:
         group: 00-setup
@@ -28,11 +28,11 @@ pipeline:
         # Regular entry point
         - /entrypoint.sh &
         # Composer setup
-        - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done          # Comment if not using composer cache
+        #- while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done          # Comment if not using composer cache
         - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
         #- composer install --prefer-dist                                    # Uncomment if not using composer cache
         # NPM setup
-        - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
+        #- while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
         - npm install
         - cd libraries/redshop
         - composer install --prefer-dist
