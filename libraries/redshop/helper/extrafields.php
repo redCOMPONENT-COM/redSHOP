@@ -1229,7 +1229,7 @@ class RedshopHelperExtrafields
 	 * List all fields and display
 	 *
 	 * @param   integer  $fieldSection Field section
-	 * @param   integer $sectionId    Section ID
+	 * @param   integer  $sectionId    Section ID
 	 * @param   integer $flag         Flag
 	 * @param   string  $userEmail    User email
 	 * @param   string  $templateDesc Template description
