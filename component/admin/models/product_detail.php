@@ -2137,7 +2137,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function property_image_list.
 	 *
-	 * @param   array  $cid  Array of IDs.
+	 * @param   string  $cid  string of IDs.
 	 *
 	 * @return  array
 	 */
@@ -2145,9 +2145,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	{
 		$prop = null;
 
-		if (count($cid))
+		if ($cid != null)
 		{
-			$image_query = 'SELECT property_image FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . /** @scrutinizer ignore-deprecated */ $cid . ' )';
+			$image_query = 'SELECT property_image FROM ' . $this->table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' .  $cid . ' )';
 			$this->_db->setQuery($image_query);
 			$prop = $this->_db->loadObjectlist();
 		}
