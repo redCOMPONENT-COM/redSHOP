@@ -266,31 +266,16 @@ $editor = JEditor::getInstance();
                         <?php if (count($this->lists['extra_data']) > 0) : ?>
                             <?php for ($k = 0, $extraCount = count($this->lists['extra_data']); $k < $extraCount; $k++) : ?>
                                 <tr>
-                                    <td>
-
-                                        <?php if (file_exists( REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
+                                    <?php if (file_exists( REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
+                                        <td>
                                             <img
                                                     width="100"
                                                     height="100"
                                                     class="img-polaroid"
                                                     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"
                                             />
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <input
-                                                type="text"
-                                                class="divfieldText hide form-control"
-                                                name="extra_name[]"
-                                                id="extra_name<?php echo $k ?>"
-                                                value="<?php echo htmlentities($this->lists['extra_data'][$k]->field_name); ?>"
-                                        />
-                                        <input
-                                                type="file"
-                                                class="divfieldFile hide pull-left"
-                                                name="extra_name_file[]"
-                                        />
-                                    </td>
+                                        </td>
+                                    <?php endif; ?>
                                     <td>
                                         <input
                                                 type="text"
@@ -306,6 +291,20 @@ $editor = JEditor::getInstance();
                                                 id="value_id<?php echo $k ?>"
                                         />
                                     </td>
+                                    <td>
+                                        <input
+                                                type="text"
+                                                class="divfieldText hide form-control"
+                                                name="extra_name[]"
+                                                id="extra_name<?php echo $k ?>"
+                                                value="<?php echo htmlentities($this->lists['extra_data'][$k]->field_name); ?>"
+                                        />
+                                        <input
+                                                type="file"
+                                                class="divfieldFile hide pull-left"
+                                                name="extra_name_file[]"
+                                        />
+                                    </td>
 
                                     <td>
                                         <?php if (count($this->lists['extra_data']) > 1) : ?>
@@ -319,20 +318,7 @@ $editor = JEditor::getInstance();
                             <?php $k = 1; ?>
                             <tr>
                                 <td>
-                                    <input
-                                            type="text"
-                                            class="divfieldText hide form-control"
-                                            name="extra_name[]"
-                                            id="extra_name1"
-                                            value="field_temp_opt_1"
-                                    />
-                                    <input
-                                            type="file"
-                                            class="divfieldFile hide"
-                                            name="extra_name_file[]"
-                                    />
-                                </td>
-                                <td>
+
                                     <input
                                             type="text"
                                             name="extra_value[]"
@@ -343,7 +329,6 @@ $editor = JEditor::getInstance();
                                             name="value_id[]"
                                     />
                                 </td>
-                                <td>&nbsp;</td>
                             </tr>
                         <?php endif; ?>
                         </tbody>
