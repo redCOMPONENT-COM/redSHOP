@@ -1225,20 +1225,20 @@ class RedshopHelperExtrafields
 		return false;
 	}
 
-	/**
-	 * List all fields and display
-	 *
-	 * @param   integer  $fieldSection Field section
-	 * @param   integer  $sectionId    Section ID
-	 * @param   integer $flag         Flag
-	 * @param   string  $userEmail    User email
-	 * @param   string  $templateDesc Template description
-	 * @param   boolean $sendmail     True/ False
-	 *
-	 * @return string
-	 *
-	 * @since 2.0.3
-	 */
+    /**
+     * List all fields and display
+     *
+     * @param   integer $fieldSection Field section
+     * @param   integer $sectionId Section ID
+     * @param   integer $flag Flag
+     * @param   string $userEmail User email
+     * @param   string $templateDesc Template description
+     * @param   boolean $sendmail True/ False
+     *
+     * @return string
+     *
+     * @since 2.0.3
+     */
 	public static function listAllFieldDisplay($fieldSection = 0, $sectionId = 0, $flag = 0, $userEmail = "", $templateDesc = "", $sendmail = false)
 	{
 		$rowData = self::getSectionFieldList($fieldSection);

@@ -290,27 +290,30 @@ class RedshopTableField extends RedshopTable
             }
             if($extraNames[$j]['error'] == 0)
             {
-                if($valueIds[$j] == "")
+                if ($valueIds[$j] == "")
                 {
                     $query = $db->getQuery(true)
                         ->insert($db->qn('#__redshop_fields_value'))
                         ->columns($db->qn(array('field_id', 'field_name', 'field_value')))
-                        ->values((int) $id . ', ' . $db->q($filename) . ', ' . $db->q($extraValues[$j]));
-                }else
+                        ->values((int)$id . ', ' . $db->q($filename) . ', ' . $db->q($extraValues[$j]));
+                }
+                else
                 {
                     $query = $db->getQuery(true)
                         ->update($db->qn('#__redshop_fields_value'))
                         ->set($set . ' ' . $db->qn('field_value') . ' = ' . $db->q($extraValues[$j]))
                         ->where($db->qn('value_id') . ' = ' . $valueIds[$j]);
                 }
-            }
-            if ($db->setQuery($query)->execute())
-            {
-                $this->setError($db->getErrorMsg());
 
-                return false;
+                if (!$db->setQuery($query)->execute())
+                {
+                    $this->setError($db->getErrorMsg());
+
+                    return false;
+                }
             }
         }
+
         return true;
     }
 }
