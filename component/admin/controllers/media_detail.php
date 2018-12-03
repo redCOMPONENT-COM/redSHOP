@@ -72,7 +72,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}
 
-		$bulkfile     = $this->input->files->get('bulkfile', null, 'array');
+		$bulkfile     = $this->input->files->get('bulkfile', null, 'raw');
 		$bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
 		$file         = $this->input->files->get('file', array(), 'array');
 
@@ -262,7 +262,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 			}
 		}
-		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && isset($post['hdn_download_file']))
+		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && empty($post['hdn_download_file']) && $bulkfile['name'] == null)
 		{
 			if ($post['media_id'])
 			{
