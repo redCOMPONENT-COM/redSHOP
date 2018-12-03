@@ -280,15 +280,15 @@ class RedshopTableField extends RedshopTable
 		for ($j = 0; $j < $total; $j++)
 		{
 			$filename = $extraNames[$j];
-			$set      = " field_name='" . $filename . "', ";
+            $set      = " field_name='" . $filename . "', ";
 
-			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
+            if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
-				if ($extraValues[$j] != "" && $extraNames['name'][$j] != "")
+                if ($extraValues[$j] != "" && $extraNames[$j]['name'] != "")
 				{
 					$filename = RedshopHelperMedia::cleanFileName($extraNames['name'][$j]);
 
-					$source      = $extraNames['tmp_name'][$j];
+                    $source      = $extraNames[$j]['tmp_name'];
 					$destination = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
 
 					JFile::upload($source, $destination);

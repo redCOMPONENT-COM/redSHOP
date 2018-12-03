@@ -16,8 +16,8 @@ $editor = JEditor::getInstance();
 
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (task) {
-        var form          = document.adminForm;
-        var field_type    = document.getElementById("jform_type").value;
+        var form = document.adminForm;
+        var field_type = document.getElementById("jform_type").value;
         var field_section = document.getElementById("jform_section").value;
 
         if (task == "field.cancel") {
@@ -72,35 +72,35 @@ $editor = JEditor::getInstance();
     };
 
     function loadFieldGroup() {
-        (function($){
+        (function ($) {
             var $fieldGroup = $("#jform_groupId");
 
             $.ajax({
-                url   : "index.php?option=com_redshop&task=field_groups.ajaxGetFieldsGroup",
+                url: "index.php?option=com_redshop&task=field_groups.ajaxGetFieldsGroup",
                 method: "POST",
-                data  : {
+                data: {
                     "<?php echo JSession::getFormToken() ?>": 1,
-                    "section"                               : $("#jform_section").val(),
-                    "selected"                              : <?php echo (int) $this->item->groupId ?>
+                    "section": $("#jform_section").val(),
+                    "selected": <?php echo (int)$this->item->groupId ?>
                 },
-                beforeSend: function(){
+                beforeSend: function () {
                     $fieldGroup.prop("disabled", true).addClass("disabled");
                 }
             })
-            .done(function (response) {
-                $("#jform_groupId option").remove();
-                $fieldGroup.html(response);
-            })
-            .always(function(){
-                $fieldGroup.prop("disabled", false).removeClass("disabled");
-                $fieldGroup.select2({width: "auto"});
-            });
+                .done(function (response) {
+                    $("#jform_groupId option").remove();
+                    $fieldGroup.html(response);
+                })
+                .always(function () {
+                    $fieldGroup.prop("disabled", false).removeClass("disabled");
+                    $fieldGroup.select2({width: "auto"});
+                });
         })(jQuery);
     }
 
     function sectionValidation() {
         (function ($) {
-            var field_type    = $("#jform_type").val();
+            var field_type = $("#jform_type").val();
             var field_section = $("#jform_section").val();
 
             // Field_section
@@ -180,14 +180,14 @@ $editor = JEditor::getInstance();
                 "index.php?option=com_redshop&task=field.ajaxGetAllFieldName",
                 {
                     "<?php echo JSession::getFormToken() ?>": 1,
-                    "field_id"                              : "<?php echo $this->item->id ?>"
+                    "field_id": "<?php echo $this->item->id ?>"
                 },
                 function (response) {
                     fieldNames = response.split(",");
                 });
 
             document.formvalidator.setHandler("fieldNames", function (value) {
-                value   = value.replace(" ", "_");
+                value = value.replace(" ", "_");
                 var tmp = value.split("_");
 
                 if (tmp[0] != "rs") {
@@ -212,32 +212,32 @@ $editor = JEditor::getInstance();
                     <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
                 </div>
                 <div class="box-body">
-					<?php echo $this->form->renderField('type') ?>
-					<?php echo $this->form->renderField('section') ?>
-					<?php echo $this->form->renderField('groupId') ?>
-					<?php echo $this->form->renderField('name') ?>
-					<?php echo $this->form->renderField('title') ?>
-					<?php echo $this->form->renderField('class') ?>
-					<?php echo $this->form->renderField('maxlength') ?>
-					<?php echo $this->form->renderField('size') ?>
-					<?php echo $this->form->renderField('cols') ?>
-					<?php echo $this->form->renderField('rows') ?>
-					<?php
-					if ($this->item->section == 1 || $this->item->section == 17)
-					{
-						$display = 'style="display:block;"';
-					}
-					else
-					{
-						$display = 'style="display:none;"';
-					}
-					?>
-					<?php echo $this->form->renderField('display_in_product') ?>
-					<?php echo $this->form->renderField('display_in_checkout') ?>
-					<?php echo $this->form->renderField('show_in_front') ?>
-					<?php echo $this->form->renderField('required') ?>
-					<?php echo $this->form->renderField('published') ?>
-					<?php echo $this->form->renderField('description') ?>
+                    <?php echo $this->form->renderField('type') ?>
+                    <?php echo $this->form->renderField('section') ?>
+                    <?php echo $this->form->renderField('groupId') ?>
+                    <?php echo $this->form->renderField('name') ?>
+                    <?php echo $this->form->renderField('title') ?>
+                    <?php echo $this->form->renderField('class') ?>
+                    <?php echo $this->form->renderField('maxlength') ?>
+                    <?php echo $this->form->renderField('size') ?>
+                    <?php echo $this->form->renderField('cols') ?>
+                    <?php echo $this->form->renderField('rows') ?>
+                    <?php
+                    if ($this->item->section == 1 || $this->item->section == 17)
+                    {
+                        $display = 'style="display:block;"';
+                    }
+                    else
+                    {
+                        $display = 'style="display:none;"';
+                    }
+                    ?>
+                    <?php echo $this->form->renderField('display_in_product') ?>
+                    <?php echo $this->form->renderField('display_in_checkout') ?>
+                    <?php echo $this->form->renderField('show_in_front') ?>
+                    <?php echo $this->form->renderField('required') ?>
+                    <?php echo $this->form->renderField('published') ?>
+                    <?php echo $this->form->renderField('description') ?>
                 </div>
             </div>
         </div>
@@ -263,9 +263,20 @@ $editor = JEditor::getInstance();
                         </tr>
                         </thead>
                         <tbody>
-						<?php if (count($this->lists['extra_data']) > 0) : ?>
-							<?php for ($k = 0, $extraCount = count($this->lists['extra_data']); $k < $extraCount; $k++) : ?>
+                        <?php if (count($this->lists['extra_data']) > 0) : ?>
+                            <?php for ($k = 0, $extraCount = count($this->lists['extra_data']); $k < $extraCount; $k++) : ?>
                                 <tr>
+                                    <td>
+
+                                        <?php if (file_exists( REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
+                                            <img
+                                                    width="100"
+                                                    height="100"
+                                                    class="img-polaroid"
+                                                    src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"
+                                            />
+                                        <?php endif; ?>
+                                    </td>
                                     <td>
                                         <input
                                                 type="text"
@@ -295,26 +306,17 @@ $editor = JEditor::getInstance();
                                                 id="value_id<?php echo $k ?>"
                                         />
                                     </td>
+
                                     <td>
-										<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
-                                            <img
-                                                    width="100"
-                                                    height="100"
-                                                    class="img-polaroid"
-                                                    src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"
-                                            />
-										<?php endif; ?>
-                                    </td>
-                                    <td>
-										<?php if (count($this->lists['extra_data']) > 1) : ?>
+                                        <?php if (count($this->lists['extra_data']) > 1) : ?>
                                             <input value="Delete" onclick="deleteRow(this);" class="btn btn-danger"
                                                    type="button"/>
-										<?php endif; ?>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
-							<?php endfor; ?>
-						<?php else: ?>
-							<?php $k = 1; ?>
+                            <?php endfor; ?>
+                        <?php else: ?>
+                            <?php $k = 1; ?>
                             <tr>
                                 <td>
                                     <input
@@ -343,7 +345,7 @@ $editor = JEditor::getInstance();
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
-						<?php endif; ?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -351,8 +353,8 @@ $editor = JEditor::getInstance();
         </div>
     </div>
 
-	<?php echo $this->form->getInput('id'); ?>
-	<?php echo JHtml::_('form.token'); ?>
+    <?php echo $this->form->getInput('id'); ?>
+    <?php echo JHtml::_('form.token'); ?>
     <input type="hidden" value="<?php echo $k; ?>" name="total_extra" id="total_extra">
     <input type="hidden" name="task" value=""/>
 </form>
