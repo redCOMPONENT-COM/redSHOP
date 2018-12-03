@@ -304,7 +304,7 @@ class RedshopTableField extends RedshopTable
                         ->where($db->qn('value_id') . ' = ' . $valueIds[$j]);
                 }
             }
-            if ($query!="" && !$db->setQuery($query)->execute())
+            if ($db->setQuery($query)->execute())
             {
                 $this->setError($db->getErrorMsg());
 
