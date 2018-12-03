@@ -437,6 +437,11 @@ class RedshopControllerForm extends JControllerForm
 			$key = $table->getKeyName();
 		}
 
+		foreach ($data as $k => $v)
+		{
+			$data[$k] = trim($v);
+		}
+
 		// To avoid data collisions the urlVar may be different from the primary key.
 		if (null === $urlVar)
 		{
