@@ -63,6 +63,15 @@ $editor = JEditor::getInstance();
                         return false;
                     }
                 }
+                var check_image = document.getElementsByName("extra_name_file[]");
+
+                for (var i = 0; i < check_image.length; i++) {
+                    if (check_image[i].name.length <= 0) {
+                        alert("Not an image,Please an image chosen ");
+                        check_image[i].focus();
+                        return false;
+                    }
+                }
             }
 
             document.getElementById("jform_section").disabled = false;
@@ -274,6 +283,11 @@ $editor = JEditor::getInstance();
                                                     class="img-polaroid"
                                                     src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"
                                             />
+                                            <input
+                                                    type="hidden"
+                                                    value="<?php echo $this->lists['extra_data'][$k]->field_name; ?>"
+                                                    name="extra_name_file_check[]"
+                                            />git
                                         </td>
                                     <?php endif; ?>
                                     <td>
