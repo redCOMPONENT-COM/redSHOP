@@ -230,6 +230,5 @@ class OnePageCheckoutCest
 		$I->deleteUser($this->customerInformationSecond['firstName']);
 		$I->deleteUser($this->customerBussinesInformationSecond['firstName']);
 		$I->deleteUser($this->firstName);
-
 	}
 }
