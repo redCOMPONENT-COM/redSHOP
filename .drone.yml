@@ -796,6 +796,7 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Product_Attribute 0 0'
 
+
     slack:
         image: plugins/slack
         webhook: https://hooks.slack.com/services/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
