@@ -110,6 +110,7 @@ pipeline:
 #        - sh tests/drone/setup-stages.sh "Compare_Products"     "32-Compare_Products"
 #        - sh tests/drone/setup-stages.sh "Manufacturer"         "33-Manufacturer"
         - sh tests/drone/setup-stages.sh "VAT"                  "34-VAT"
+        - sh tests/drone/setup-stages.sh "Stockroom_Checkout"   "35-Stockroom_Checkout"
 #    01-Mail:
 #        group: tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -685,7 +686,24 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/VAT 1 1'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/VAT 0 0'
+
+    35-Stockroom_Checkout:
+        group: tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+        - tests_user=admin
+        - tests_suite=35-Stockroom_Checkout
+        - tests_db=Stockroom_Checkout
+        - build_path=/drone/src/github.com/${DRONE_REPO}
+        - output_append=-35-Stockroom_Checkout
+        commands:
+        # Regular entry point
+        - /entrypoint.sh &
+        # Performs test after ensuring that the scenario has been fully set up
+        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+        # Performs test
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Stockroom 1 1'
 
     slack:
         image: plugins/slack
