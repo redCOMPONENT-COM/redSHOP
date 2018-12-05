@@ -112,7 +112,7 @@ pipeline:
 #        - sh tests/drone/setup-stages.sh "VAT"                  "34-VAT"
 #        - sh tests/drone/setup-stages.sh "Stockroom_Checkout"   "35-Stockroom_Checkout"
 #        - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout" "36-Shopper_Groups_Checkout"
-        - sh tests/drone/setup-stages.sh "Products-FrontEnd"    "37-Products-FrontEnd"
+        - sh tests/drone/setup-stages.sh "Products_FrontEnd"    "37-Products_FrontEnd"
 
 #    01-Mail:
 #        group: tests
@@ -725,15 +725,15 @@ pipeline:
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Shopper_Groups 0 0'
 
-    37-Products-FrontEnd:
+    37-Products_FrontEnd:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=37-Products-FrontEnd
-        - tests_db=Products-FrontEnd
+        - tests_suite=37-Products_FrontEnd
+        - tests_db=Products_FrontEnd
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-37-Products-FrontEnd
+        - output_append=-37-Products_FrontEnd
         commands:
         # Regular entry point
         - /entrypoint.sh &
