@@ -118,7 +118,7 @@ pipeline:
 #        - sh tests/drone/setup-stages.sh "Product_Attribute"    "40-Product_Attribute"
 #        - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"   "41-Quotation_FrontEnd"
 #        #- sh tests/drone/setup-stages.sh "One_Steps_Checkout"   "42-One_Steps_Checkout"
-#        - sh tests/drone/setup-stages.sh "Discounts"            "42-Discounts"
+        - sh tests/drone/setup-stages.sh "Discounts"            "42-Discounts"
         - sh tests/drone/setup-stages.sh "Order_Checkout"       "43-Order_Checkout"
 
 #    01-Mail:
@@ -834,22 +834,22 @@ pipeline:
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/One_Steps_Checkout 0 0'
 
-#    42-Discounts:
-#        group: tests
-#        image: redwebaps/testbox-chromedriver:2.38
-#        environment:
-#        - tests_user=admin
-#        - tests_suite=42-Discounts
-#        - tests_db=Discounts
-#        - build_path=/drone/src/github.com/${DRONE_REPO}
-#        - output_append=-42-Discounts
-#        commands:
-#        # Regular entry point
-#        - /entrypoint.sh &
-#        # Performs test after ensuring that the scenario has been fully set up
-#        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-#        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Discounts 0 0'
+    42-Discounts:
+        group: tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+        - tests_user=admin
+        - tests_suite=42-Discounts
+        - tests_db=Discounts
+        - build_path=/drone/src/github.com/${DRONE_REPO}
+        - output_append=-42-Discounts
+        commands:
+        # Regular entry point
+        - /entrypoint.sh &
+        # Performs test after ensuring that the scenario has been fully set up
+        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+        # Performs test
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Discounts 0 0'
 
     43-Order_Checkout:
         group: tests

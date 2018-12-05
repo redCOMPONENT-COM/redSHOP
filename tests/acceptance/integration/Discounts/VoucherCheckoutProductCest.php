@@ -186,7 +186,7 @@ class VoucherCheckoutProductCest
 	/**
 	 * Function to Test Voucher Deletion
 	 *
-	 * @depends addVoucher
+	 * @depends createCategory
 	 */
 	public function deleteVoucher(AcceptanceTester $I, $scenario)
 	{
