@@ -75,9 +75,6 @@ class MassDiscountCheckoutCest
 		$I = new MassDiscountManagerJoomla3Steps($scenario);
 		$I->wantTo('Test check add Mass discount ');
 		$I->deleteMassDiscountOK($this->MassDiscountName);
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 
     }
 }

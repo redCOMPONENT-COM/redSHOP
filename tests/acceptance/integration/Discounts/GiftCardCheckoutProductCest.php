@@ -76,19 +76,6 @@ class GiftCardCheckoutProductCest
 	}
 
 	/**
-	 * Method for clean data.
-	 *
-	 * @param   mixed $scenario Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
-	/**
 	 * Function install payment_paypal and enable
 	 */
 	public function checkoutWithPayment(AcceptanceTester $I, $scenario)
@@ -280,9 +267,5 @@ class GiftCardCheckoutProductCest
 		$I->wantTo('Deletion of Gift Card in Administrator');
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->deleteCard($this->randomCardName);
-
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }

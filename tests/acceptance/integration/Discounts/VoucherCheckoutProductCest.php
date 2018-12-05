@@ -193,9 +193,5 @@ class VoucherCheckoutProductCest
 		$I->wantTo('Deletion of Voucher in Administrator');
 		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
 		$I->deleteVoucher($this->randomVoucherCode);
-
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }
