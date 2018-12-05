@@ -740,7 +740,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Products 1 1'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Products 0 0'
 
     slack:
         image: plugins/slack
