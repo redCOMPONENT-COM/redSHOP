@@ -171,7 +171,6 @@ class OnePageCheckoutCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
 
-
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->wantTo('checkout with user with login ');
 		$I->checkoutOnePageWithLogin($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
