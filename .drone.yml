@@ -707,21 +707,21 @@ pipeline:
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Stockroom 1 1'
 
     36-Shopper_Groups_Checkout:
-    group: tests
-    image: redwebaps/testbox-chromedriver:2.38
-    environment:
-    - tests_user=admin
-    - tests_suite=36-Shopper_Groups_Checkout
-    - tests_db=Shopper_Groups_Checkout
-    - build_path=/drone/src/github.com/${DRONE_REPO}
-    - output_append=-36-Shopper_Groups_Checkout
-    commands:
-    # Regular entry point
-    - /entrypoint.sh &
-    # Performs test after ensuring that the scenario has been fully set up
-    - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-    # Performs test
-    - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Shopper_Groups 1 1'
+        group: tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+        - tests_user=admin
+        - tests_suite=36-Shopper_Groups_Checkout
+        - tests_db=Shopper_Groups_Checkout
+        - build_path=/drone/src/github.com/${DRONE_REPO}
+        - output_append=-36-Shopper_Groups_Checkout
+        commands:
+        # Regular entry point
+        - /entrypoint.sh &
+        # Performs test after ensuring that the scenario has been fully set up
+        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+        # Performs test
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Shopper_Groups 1 1'
 
     slack:
         image: plugins/slack
