@@ -41,12 +41,6 @@ class CheckoutWithStockroomCest
 	 * step7 : check value at cart for make sure price is correct
 	 * step8 : delete all data
 	 */
-//
-//	public function deleteData($scenario)
-//	{
-//		$I = new RedshopSteps($scenario);
-//		$I->clearAllData();
-//	}
 
 	public function _before(AcceptanceTester $I)
 	{
@@ -89,6 +83,5 @@ class CheckoutWithStockroomCest
 
 		$I->wantTo('Delete all data');
 		$I= new RedshopSteps($scenario);
-//		$I->clearAllData();
 	}
 }

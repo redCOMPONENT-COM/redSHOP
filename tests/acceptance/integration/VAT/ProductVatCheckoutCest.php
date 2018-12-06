@@ -145,8 +145,8 @@ class ProductVatCheckoutCest
 		$client->wantTo('Delete user');
 		(new UserManagerJoomla3Steps($scenario))->deleteUser($this->firstName);
 
-        $client->wantTo('Test Order delete by user  in Administrator');
-        (new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->firstName);
+		$client->wantTo('Test Order delete by user  in Administrator');
+		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->firstName);
 
 	}
 }
