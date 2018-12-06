@@ -1476,7 +1476,7 @@ class productHelper
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
 					$main_result->title = substr($main_result->title, 0, 1);
-					$resultArr[] = '<span class="product-field-title">' . $main_result->title . ':</span><span class="product-field-value">' . $main_result->data_txt . '</span>';
+					$resultArr[] = '<span class="product-field-title">' . $main_result->title . ': </span><span class="product-field-value">' . $main_result->data_txt . '</span>';
 				}
 			}
 		}
