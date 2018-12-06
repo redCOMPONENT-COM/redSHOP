@@ -867,6 +867,7 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/One_Steps_Checkout 0 0'
+        
     slack:
         image: plugins/slack
         webhook: https://hooks.slack.com/services/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
