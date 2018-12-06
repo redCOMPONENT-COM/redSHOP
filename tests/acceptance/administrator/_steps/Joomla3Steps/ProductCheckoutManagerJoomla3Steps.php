@@ -561,16 +561,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement(['link' => $productName]);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
-		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+		$I->pauseExecution();
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 

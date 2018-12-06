@@ -83,6 +83,7 @@ class CheckoutSpecificShopperGroupsCest
 		$I->wantTo('Test off Stockroom in Administrator');
 		$I->featureOffStockRoom();
 
+
 		$I->wantTo('Enable PayPal');
 		$I->enablePlugin('PayPal');
 
@@ -102,7 +103,7 @@ class CheckoutSpecificShopperGroupsCest
 
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'saveclose');
 
 		$I->wantTo('Test Checkout Product with specific Shopper Group');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
