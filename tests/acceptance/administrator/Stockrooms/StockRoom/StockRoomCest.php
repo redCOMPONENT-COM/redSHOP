@@ -53,6 +53,8 @@ class StockRoomCest
      * Test for State Change in Stock Room Administrator
      *
      * @depends createUpdateStockRoom
+     *
+     * @throws Exception
      */
     public function changeStockRoomState(AcceptanceTester $I, $scenario)
     {
