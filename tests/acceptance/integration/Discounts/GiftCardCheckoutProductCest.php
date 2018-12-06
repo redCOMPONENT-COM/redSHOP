@@ -91,7 +91,7 @@ class GiftCardCheckoutProductCest
 		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
 		$I->enablePlugin('PayPal');
 
-        $I->wait(1);
+		$I->wait(1);
 		$I->wantTo('Test Category Save creation in Administrator');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
@@ -267,5 +267,13 @@ class GiftCardCheckoutProductCest
 		$I->wantTo('Deletion of Gift Card in Administrator');
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->deleteCard($this->randomCardName);
+
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Product  in Administrator');
+		$I->deleteProduct($this->productName);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->categoryName);
 	}
 }

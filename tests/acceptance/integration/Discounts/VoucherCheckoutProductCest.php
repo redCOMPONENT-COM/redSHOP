@@ -193,5 +193,13 @@ class VoucherCheckoutProductCest
 		$I->wantTo('Deletion of Voucher in Administrator');
 		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
 		$I->deleteVoucher($this->randomVoucherCode);
+
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Product  in Administrator');
+		$I->deleteProduct($this->productName);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->randomCategoryName);
 	}
 }

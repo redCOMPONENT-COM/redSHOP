@@ -80,8 +80,5 @@ class CheckoutWithStockroomCest
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Stop stockroom ');
 		$I->featureOffStockRoom();
-
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
 	}
 }
