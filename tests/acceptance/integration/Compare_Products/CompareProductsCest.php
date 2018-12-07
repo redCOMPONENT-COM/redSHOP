@@ -37,10 +37,10 @@ class CompareProductsCest
 		$I->doAdministratorLogin();
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
 	public function compareProducts(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create Category in Administrator');
@@ -64,12 +64,12 @@ class CompareProductsCest
 
 	public function deleteDataEnd(ProductSteps $I, $scenario)
 	{
-	    $I->wantTo('Delete Product in Administrator');
-        $I->deleteProduct($this->ProductName);
-        $I->wantTo('Delete Product Compares in Administrator');
-        $I->deleteProduct($this->productNameCompares);
-        $I = new CategorySteps($scenario);
-        $I->wantTo('Delete Category in Administrator');
-        $I->deleteCategory($this->CategoryName);
+		$I->wantTo('Delete Product in Administrator');
+		$I->deleteProduct($this->ProductName);
+		$I->wantTo('Delete Product Compares in Administrator');
+		$I->deleteProduct($this->productNameCompares);
+		$I = new CategorySteps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->CategoryName);
 	}
 }

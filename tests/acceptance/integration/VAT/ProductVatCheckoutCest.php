@@ -155,6 +155,5 @@ class ProductVatCheckoutCest
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->categoryName);
-
 	}
 }
