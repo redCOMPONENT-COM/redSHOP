@@ -165,14 +165,13 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @param   String $searchField The locator for the search field
 	 *
 	 * @return void
+	 * @throws  \Exception
 	 */
 	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = "#filter")
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
-		$I->waitForElement($searchField, 30);
-		$I->fillField($searchField, $item);
-		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->filterListBySearching($item, $searchField);
 		$I->checkAllResults();
 		$I->wait(0.3);
 		if ($state == 'unpublish')
