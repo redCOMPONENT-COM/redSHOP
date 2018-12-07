@@ -76,13 +76,14 @@ class StockRoomCest
      * Function to Test Stock Room Deletion
      *
      * @depends changeStockRoomState
+     *
+     * @throws Exception
      */
     public function deleteStockRoom(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Deletion of Stock Room in Administrator');
         $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
-        $I->deleteStockRoom($this->newName);
-        $I->searchStockRoom($this->newName, 'Delete');
+	    $I->deleteAllStockRoom();
 
         $I = new AcceptanceTester\ConfigurationSteps($scenario);
         $I->wantTo('Test off Stockroom in Administrator');
