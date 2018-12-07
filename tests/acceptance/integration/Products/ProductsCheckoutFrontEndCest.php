@@ -54,11 +54,6 @@ class ProductsCheckoutFrontEndCest
 		$this->priceProductForThan          = 10;
 
 	}
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
 
 	/**
 	 * @param AcceptanceTester $I

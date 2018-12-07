@@ -357,8 +357,6 @@ class RoboFile extends \Robo\Tasks
             $this->defaultArgs
         );
 
-        $this->getredSHOPExtensionForIntegrationTests(0);
-
         // Sets the output_append variable in case it's not yet
         if (getenv('output_append') === false)
         {
