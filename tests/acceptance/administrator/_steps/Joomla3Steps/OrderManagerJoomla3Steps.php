@@ -203,7 +203,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
 		$I->click($userOrderPage->returnSearch($nameProduct));
 		$I->waitForElement(\OrderManagerPage::$fieldAttribute, 30);
-		$I->click(\OrderManagerPage::$fieldAttribute, 30);
+		$I->click(\OrderManagerPage::$inputAttribute);
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->wait(1);
 		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
