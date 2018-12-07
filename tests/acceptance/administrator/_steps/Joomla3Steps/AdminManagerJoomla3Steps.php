@@ -171,7 +171,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($item, $searchField);
 		$I->checkAllResults();
-
+		$I->wait(0.3);
 		if ($state == 'unpublish')
 		{
 			$I->click("Unpublish");
