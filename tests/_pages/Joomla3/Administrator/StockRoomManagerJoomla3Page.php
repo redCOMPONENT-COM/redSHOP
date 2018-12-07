@@ -124,4 +124,8 @@ class StockRoomManagerJoomla3Page
      * @var string
      */
     public static $selectorNamePage = '.page-title';
+	/**
+	 * @var string
+	 */
+    public static $deleteMessage = "Stockroom Detail Deleted Successfully";
 }

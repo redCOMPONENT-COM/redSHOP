@@ -112,4 +112,16 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $this->delete(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst, $filterId = ['id' => 'filter']);
     }
+
+	/**
+	 * @throws \Exception
+	 */
+    public function deleteAllStockRoom()
+    {
+	    $I = $this;
+	    $I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
+	    $I->checkAllResults();
+	    $I->click(\StockRoomManagerJoomla3Page::$deleteButton);
+	    $I->see(\StockRoomManagerJoomla3Page::$deleteMessage, \StockRoomManagerJoomla3Page::$selectorSuccess);
+    }
 }

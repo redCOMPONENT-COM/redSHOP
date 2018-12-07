@@ -32,12 +32,17 @@ class StockRoomCest
     /**
      * Function to Test Stock Room Creation in Backend
      *
+     * @throws Exception
      */
     public function createUpdateStockRoom(AcceptanceTester $I, $scenario)
     {
         $I = new AcceptanceTester\ConfigurationSteps($scenario);
         $I->wantTo('Test use Stockroom in Administrator');
         $I->featureUsedStockRoom();
+
+	    $I->wantTo('Delete all Stock Room in Administrator');
+	    $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
+	    $I->deleteAllStockRoom();
 
         $I->wantTo('Test Stock Room creation in Administrator');
         $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
@@ -53,6 +58,8 @@ class StockRoomCest
      * Test for State Change in Stock Room Administrator
      *
      * @depends createUpdateStockRoom
+     *
+     * @throws Exception
      */
     public function changeStockRoomState(AcceptanceTester $I, $scenario)
     {
