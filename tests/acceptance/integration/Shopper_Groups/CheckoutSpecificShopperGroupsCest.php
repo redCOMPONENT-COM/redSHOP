@@ -8,6 +8,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
+use AcceptanceTester\ConfigurationSteps;
 
 class CheckoutSpecificShopperGroupsCest
 {
@@ -51,6 +52,23 @@ class CheckoutSpecificShopperGroupsCest
 		$this->group        = 'Administrator';
 		$this->firstName    = $this->faker->bothify('FirstName FN ?##?');
 		$this->lastName     = 'Last';
+
+		//configuration enable one page checkout
+		$this->addcart          = 'product';
+		$this->allowPreOrder    = 'yes';
+		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
+		$this->enabldAjax       = 'no';
+		$this->defaultCart      = null;
+		$this->buttonCartLead   = 'Back to current view';
+		$this->onePage          = 'yes';
+		$this->showShippingCart = 'no';
+		$this->attributeImage   = 'no';
+		$this->quantityChange   = 'no';
+		$this->quantityInCart   = 0;
+		$this->minimunOrder     = 0;
+		$this->enableQuation    = 'no';
+		$this->onePageNo        = 'no';
+		$this->onePageYes       = 'yes';
 	}
 
 	public function deleteData($scenario)
@@ -105,9 +123,18 @@ class CheckoutSpecificShopperGroupsCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'saveclose');
 
+		$I->wantTo('setup up one page checkout at admin');
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+
 		$I->wantTo('Test Checkout Product with specific Shopper Group');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutSpecificShopperGroup($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
+
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 	}
 
 	/**
