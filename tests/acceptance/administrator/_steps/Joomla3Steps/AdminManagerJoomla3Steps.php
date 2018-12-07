@@ -119,6 +119,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
+		$I->waitForElement($searchField, 30);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
@@ -170,6 +171,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
 		$I->filterListBySearching($item, $searchField);
+		$I->wait(0.3);
 		$I->checkAllResults();
 		$I->wait(0.3);
 		if ($state == 'unpublish')
