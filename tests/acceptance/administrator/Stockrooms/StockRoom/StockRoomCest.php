@@ -63,10 +63,6 @@ class StockRoomCest
         $I->click(\AdminJ3Page::$resetButton);
         $I->filterListBySearching($this->newName, $searchField = "#filter");
         $I->verifyState('unpublished', $I->getStockRoomState($this->newName));
-
-	    $I = new AcceptanceTester\ConfigurationSteps($scenario);
-	    $I->wantTo('Test use Stockroom in Administrator');
-	    $I->featureOffStockRoom();
     }
 
     /**
