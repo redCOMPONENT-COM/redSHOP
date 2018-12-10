@@ -76,9 +76,10 @@ pipeline:
         - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
         - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
         - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
+        - sed -i "s,$php_server/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
         - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
         # Stages setup
-        - sh tests/drone/setup-stages.sh "Mail"                 "01-Mail-php-7.0"
+        - sh tests/drone/setup-stages.sh "Mail_7.0"                 "01-Mail-php-7.0"
 #        - sh tests/drone/setup-stages.sh "Configuration"        "02-Configuration"
 #        - sh tests/drone/setup-stages.sh "Country"              "03-Country"
 #        - sh tests/drone/setup-stages.sh "Currency"             "04-Currency"
@@ -129,7 +130,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=01-Mail-php-7.0
-        - tests_db=Mail
+        - tests_db=Mail_7.0
         - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-01-Mail-php-7.0
