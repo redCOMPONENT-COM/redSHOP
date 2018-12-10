@@ -67,6 +67,7 @@ class ShopperGroupCest
 	 *
 	 * @depends createCategory
 	 *
+	 * @throws Exception
 	 */
 	public function createShopperGroup(AcceptanceTester $I, $scenario)
 	{
