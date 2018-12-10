@@ -20,11 +20,11 @@ pipeline:
         # pull: true
         environment:
         - tests_user=admin
-        - tests_suite=00-setup
-        - tests_db=setup
+        - tests_suite=00-setup-php-7.0
+        - tests_db=setup-php-7.0
         - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-00-a-setup
+        - output_append=-00-setup-php-7.0
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -877,8 +877,8 @@ pipeline:
         # pull: true
         environment:
         - tests_user=admin
-        - tests_suite=00-setup
-        - tests_db=setup
+        - tests_suite=00-setup-php-5.6
+        - tests_db=setup-php-5.6
         - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup-php-5.6
