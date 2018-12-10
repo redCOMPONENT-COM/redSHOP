@@ -21,7 +21,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=00-setup-php-7.0
-        - tests_db=setup_php7.0
+        - tests_db=setup_php7
         - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup-php-7.0
@@ -61,13 +61,13 @@ pipeline:
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
-    00-setup-stages-php-7.0:
+    00-setup-stages-php-7:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=00-setup
-        - tests_db=setup_php7.0
+        - tests_suite=00-setup-php-7.0
+        - tests_db=setup_php7
         - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-b-setup-stages
@@ -79,7 +79,7 @@ pipeline:
         - sed -i "s,$php_server/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
         - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
         # Stages setup
-        - sh tests/drone/setup-stages.sh "Mail_7.0"                 "01-Mail-php-7.0"
+        - sh tests/drone/setup-stages.sh "Mail_7"                 "01-Mail-php-7.0"
 #        - sh tests/drone/setup-stages.sh "Configuration"        "02-Configuration"
 #        - sh tests/drone/setup-stages.sh "Country"              "03-Country"
 #        - sh tests/drone/setup-stages.sh "Currency"             "04-Currency"
@@ -130,7 +130,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=01-Mail-php-7.0
-        - tests_db=Mail_7.0
+        - tests_db=Mail_7
         - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-01-Mail-php-7.0
@@ -879,7 +879,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=00-setup-php-5.6
-        - tests_db=setup_php5.6
+        - tests_db=setup_php5_6
         - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup-php-5.6
@@ -925,7 +925,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=00-setup
-        - tests_db=setup_php5.6
+        - tests_db=setup_php5_6
         - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup-stages-php-5.6
@@ -936,7 +936,7 @@ pipeline:
         - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
         - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
         # Stages setup
-        - sh tests/drone/setup-stages.sh "Mail_php5.6"                 "01-Mail-php-5.6"
+        - sh tests/drone/setup-stages.sh "Mail_php5_6"                 "01-Mail-php-5.6"
 
     01-Mail-php-5.6:
         group: tests
@@ -944,7 +944,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=01-Mail-php-5.6
-        - tests_db=Mail_php5.6
+        - tests_db=Mail_php5_6
         - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-01-Mail-php-5.6
