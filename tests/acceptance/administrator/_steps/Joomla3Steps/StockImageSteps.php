@@ -55,7 +55,7 @@ class StockImageSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\StockImagePage::$URL);
 		$I->searchStockImage($name);
-		$I->wait(0.1);
+		$I->wait(0.2);
 		$I->click($name);
 		$I->waitForText(\StockImagePage::$titleCreatePage, 30);
 		$I->fillField(\StockImagePage::$fieldStockName, $nameUpdate);
@@ -66,26 +66,15 @@ class StockImageSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to Delete a Stock
-	 *
-	 * @param   string $name Name of the Stock which is to be Delete
-	 *
-	 * @return void
-	 *
 	 * @throws \Exception
 	 */
-	public function deleteStockImage($name)
+	public function deleteAllStockImage()
 	{
 		$I = $this;
 		$I->amOnPage(\StockImagePage::$URL);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->waitForElement(\StockImagePage::$search, 30);
-		$I->searchStockImage($name);
-		$I->wait(0.1);
 		$I->checkAllResults();
-		$I->waitForText(\StockImagePage::$buttonDelete, 30);
 		$I->click(\StockImagePage::$buttonDelete);
-		$I->dontSeeElement(['link' => $name]);
+		$I->see(\StockImagePage::$messageDelete, \StockImagePage::$selectorSuccess);
 	}
 
 	/**
@@ -103,6 +92,8 @@ class StockImageSteps extends AdminManagerJoomla3Steps
 		$I->wantTo('Search the Stock Image');
 		$I->waitForText(\StockImagePage::$namePage, 30);
 		$I->waitForElement(\StockImagePage::$search);
-		$I->filterListBySearching($name, \StockImagePage::$search);
+		$I->fillField(\StockImagePage::$search, $name);
+		$I->click(\StockImagePage::$iconSearch);
+		$I->seeElement(['link' => $name]);
 	}
 }

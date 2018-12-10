@@ -80,7 +80,7 @@ class StockImageCest
 		 */
 		$I->wantTo('Delete Stock Image in Administrator page');
 		$I = new StockImageSteps($scenario);
-		$I->deleteStockImage($this->newImageTooltip);
+		$I->deleteAllStockImage();
 
 		$I->wantTo('Deletion of Stock Room in Administrator');
 		$I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
