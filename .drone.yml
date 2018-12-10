@@ -21,7 +21,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=00-setup-php-7.0
-        - tests_db=setup-php-7.0
+        - tests_db=setup_php7.0
         - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup-php-7.0
@@ -67,7 +67,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=00-setup
-        - tests_db=setup
+        - tests_db=setup_php7.0
         - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-b-setup-stages
@@ -878,7 +878,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=00-setup-php-5.6
-        - tests_db=setup-php-5.6
+        - tests_db=setup_php5.6
         - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup-php-5.6
@@ -924,7 +924,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=00-setup
-        - tests_db=setup
+        - tests_db=setup_php5.6
         - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup-stages-php-5.6
@@ -935,7 +935,7 @@ pipeline:
         - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
         - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
         # Stages setup
-        - sh tests/drone/setup-stages.sh "Mail-php-5.6"                 "01-Mail-php-5.6"
+        - sh tests/drone/setup-stages.sh "Mail_php5.6"                 "01-Mail-php-5.6"
 
     01-Mail-php-5.6:
         group: tests
@@ -943,7 +943,7 @@ pipeline:
         environment:
         - tests_user=admin
         - tests_suite=01-Mail-php-5.6
-        - tests_db=Mail-php-5.6
+        - tests_db=Mail_php5.6
         - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-01-Mail-php-5.6
