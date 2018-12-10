@@ -78,7 +78,7 @@ pipeline:
         - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
         - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
         # Stages setup
-        - sh tests/drone/setup-stages.sh "Mail"                 "01-Mail"
+        - sh tests/drone/setup-stages.sh "Mail"                 "01-Mail-php-7.0"
 #        - sh tests/drone/setup-stages.sh "Configuration"        "02-Configuration"
 #        - sh tests/drone/setup-stages.sh "Country"              "03-Country"
 #        - sh tests/drone/setup-stages.sh "Currency"             "04-Currency"
