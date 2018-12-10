@@ -22,8 +22,8 @@ class StockImageCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->nameStockImage = $this->faker->bothify('Name Stock Image ?##?');
-		$this->nameStockRoom = $this->faker->bothify('StockRoomCest ?##?');
+		$this->nameStockImage = $this->faker->bothify('Stock Image ?##?');
+		$this->nameStockRoom = $this->faker->bothify('Stock Room ?##?');
 		$this->newImageTooltip = 'Updated ' . $this->nameStockImage;
 		$this->quantity = $this->faker->numberBetween(1,100);
 		$this->quantityNew = $this->faker->numberBetween(1,100);;
@@ -82,6 +82,9 @@ class StockImageCest
 		$I = new StockImageSteps($scenario);
 		$I->deleteStockImage($this->newImageTooltip);
 
+		$I->wantTo('Deletion of Stock Room in Administrator');
+		$I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
+		$I->deleteAllStockRoom();
 		/**
 		 * Function to Disable a Stock Image List
 		 */
