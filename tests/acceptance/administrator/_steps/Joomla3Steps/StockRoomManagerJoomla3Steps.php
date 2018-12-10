@@ -120,6 +120,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
 	    $I = $this;
 	    $I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
+	    $I->click(\StockRoomManagerJoomla3Page::$resetButton);
 	    $I->checkAllResults();
 	    $I->click(\StockRoomManagerJoomla3Page::$deleteButton);
 	    $I->see(\StockRoomManagerJoomla3Page::$deleteMessage, \StockRoomManagerJoomla3Page::$selectorSuccess);

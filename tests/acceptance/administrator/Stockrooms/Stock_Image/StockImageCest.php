@@ -78,7 +78,7 @@ class StockImageCest
 		/**
 		 * Function to Delete a Stock Image List
 		 */
-		$I->wantTo('Delete Stock Image in Administrator page');
+		$I->wantTo('Deletion Stock Image in Administrator page');
 		$I = new StockImageSteps($scenario);
 		$I->deleteAllStockImage();
 

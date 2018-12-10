@@ -14,7 +14,7 @@
  * @since  2.4
  */
 
-class StockRoomManagerJoomla3Page
+class StockRoomManagerJoomla3Page extends AdminJ3Page
 {
     /**
      * @var string
