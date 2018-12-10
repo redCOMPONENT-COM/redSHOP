@@ -5,16 +5,16 @@ pipeline:
         pull: true
         commands:
         # redShop Composer cache
-#        - mv /opt/cache/redSHOP/vendor .
-#        - touch tests/.cache.composer.tmp
-        # redShop  npm cache
-#        - touch tests/.cache.npm.tmp
-#        - mv /opt/cache/redSHOP/node_modules .
+        - mv /opt/cache/redSHOP/vendor .
+        - touch tests/.cache.composer.tmp
+         redShop  npm cache
+        - touch tests/.cache.npm.tmp
+        - mv /opt/cache/redSHOP/node_modules .
         # Joomla CMS
         - mv /opt/cache/joomla-cms tests
         - touch tests/.cache.joomla-cms.tmp
 
-    00-setup:
+    00-setup-php-7.0:
         group: 00-setup
         image: redwebaps/testbox-chromedriver:2.38
         # pull: true
@@ -22,7 +22,7 @@ pipeline:
         - tests_user=admin
         - tests_suite=00-setup
         - tests_db=setup
-        - php_server= php-7.0
+        - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-a-setup
         commands:
@@ -61,14 +61,14 @@ pipeline:
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
-    00-setup-stages:
+    00-setup-stages-php-7.0:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
         - tests_suite=00-setup
         - tests_db=setup
-        - php_server= php-7.0
+        - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-b-setup-stages
         commands:
@@ -123,16 +123,16 @@ pipeline:
 #        - sh tests/drone/setup-stages.sh "Order_Checkout"       "43-Order_Checkout"
 #        - sh tests/drone/setup-stages.sh "One_Steps_Checkout"   "44-One_Steps_Checkout"
 
-    01-Mail:
+    01-Mail-php-7.0:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=01-Mail
+        - tests_suite=01-Mail-php-7.0
         - tests_db=Mail
-        - php_server= php-7.0
+        - php_server=php-7.0
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-01-Mail
+        - output_append=-01-Mail-php-7.0
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -871,7 +871,7 @@ pipeline:
 #        # Performs test
 #        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/One_Steps_Checkout 0 0'
 
-    00-setup-php5.6:
+    00-setup-php-5.6:
         group: 00-setup
         image: redwebaps/testbox-chromedriver:2.38
         # pull: true
@@ -879,9 +879,9 @@ pipeline:
         - tests_user=admin
         - tests_suite=00-setup
         - tests_db=setup
-        - php_server= php-5.6
+        - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-00-a-setup
+        - output_append=-00-setup-php-5.6
         commands:
         # Regular entry point
         - /entrypoint.sh &
@@ -918,16 +918,16 @@ pipeline:
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
-    00-setup-stages-php5.6:
+    00-setup-stages-php-5.6:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
         - tests_suite=00-setup
         - tests_db=setup
-        - php_server= php-5.6
+        - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-00-b-setup-stages
+        - output_append=-00-setup-stages-php-5.6
         commands:
         # Final DB dump with full Joomla/extension setup
         - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
@@ -935,18 +935,18 @@ pipeline:
         - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
         - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
         # Stages setup
-        - sh tests/drone/setup-stages.sh "Mail-php5.6"                 "01-Mail-php5.6"
+        - sh tests/drone/setup-stages.sh "Mail-php-5.6"                 "01-Mail-php-5.6"
 
-    01-Mail-php5.6:
+    01-Mail-php-5.6:
         group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=01-Mail-php5.6
-        - tests_db=Mail
+        - tests_suite=01-Mail-php-5.6
+        - tests_db=Mail-php-5.6
         - php_server=php-5.6
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-01-Mail-php5.6
+        - output_append=-01-Mail-php-5.6
         commands:
         # Regular entry point
         - /entrypoint.sh &
