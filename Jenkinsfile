@@ -47,7 +47,7 @@ stages {
 			}
 		}
 	}
-	stage('Automated Tests - Batch 1/3') {
+	stage('Automated Tests - Batch 1/2') {
 		environment {
 				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
 				GITHUB_REPO='redCOMPONENT-COM/redshop'
@@ -280,7 +280,7 @@ stages {
 			}
 		}
 	}
-	stage('Automated Tests - Batch 2/3') {
+	stage('Automated Tests - Batch 2/2') {
 		environment {
 				GITHUB_TOKEN='4d92f9e8be0eddc0e54445ff45bf1ca5a846b609'
 				GITHUB_REPO='redCOMPONENT-COM/redshop'
