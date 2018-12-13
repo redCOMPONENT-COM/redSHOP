@@ -2084,7 +2084,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function deleteprop($cid = array(), $image_name = array())
 	{
-		if (is_array($cid))
+		if (!empty($cid))
 		{
 			$cids = implode(',', $cid);
 
@@ -2832,7 +2832,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$association = $this->getAssociation();
 
-		if ($association)
+		if (!empty($association))
 		{
 			$query = "SELECT CONCAT(type_id,'.',tag_id) AS qs_id, quality_score
 					  FROM #__redproductfinder_association_tag WHERE association_id = '" . $association->id . "' ";
@@ -3557,19 +3557,19 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getProdcutSerialNumbers($only_used = false)
 	{
-		$usedCond = "";
+		$usedCond = $this->db_->qn('is_used' . ' = 0');
 
-		if ($only_used === true)
+		if ($only_used)
 		{
-			$usedCond = " AND is_used=1";
-		}
-		elseif ($only_used === false)
-		{
-			$usedCond = " AND is_used=0";
+			$usedCond = $this->db_->qn('is_used' . ' = 1');
 		}
 
-		$query = "SELECT * FROM `" . $this->table_prefix . "product_serial_number`
-				  WHERE product_id = '" . $this->id . "' " . $usedCond;
+		$query = $this->_db->getQuery(true)
+			->select('*')
+			->from($this->db_->qn($this->table_prefix . "product_serial_number"))
+			->where($this->db_->qn('product_id') . ' = ' . $this->id)
+			->where($usedCond);
+
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -4101,9 +4101,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Method to checkin a row.
 	 *
-	 * @param   integer  $pk  The numeric id of the primary key.
+	 * @param   integer $pk The numeric id of the primary key.
 	 *
-	 * @return  boolean  False on failure or error, true otherwise.
+	 * @return  boolean|integer  False on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */
