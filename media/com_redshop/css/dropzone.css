@@ -386,3 +386,12 @@
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
         border-bottom: 6px solid #be2626; }
+      .wait-loading{
+        opacity:.8;
+        z-index: 9999999999;
+        position: fixed;
+        text-align: center;
+        top: 50%;left: 50%;
+        margin-top: -50px;
+        margin-left: -100px;
+      }
