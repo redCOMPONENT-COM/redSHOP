@@ -3557,11 +3557,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getProdcutSerialNumbers($only_used = false)
 	{
-		$usedCond = $this->db_->qn('is_used' . ' = 0');
+		$usedCond = $this->db_->qn('is_used') . ' = 0';
 
 		if ($only_used)
 		{
-			$usedCond = $this->db_->qn('is_used' . ' = 1');
+			$usedCond = $this->db_->qn('is_used') . ' = 1';
 		}
 
 		$query = $this->_db->getQuery(true)
