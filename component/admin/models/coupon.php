@@ -43,6 +43,11 @@ class RedshopModelCoupon extends RedshopModelForm
 			$data['end_date'] = $data['end_date']->toSql();
 		}
 
+        if ($data['start_date'] > $data['end_date']) {
+            JFactory::getApplication()->enqueueMessage(JText::_('Enddate is lower than startdate'), 'error');
+            return false;
+        }
+
 		return parent::save($data);
 	}
 

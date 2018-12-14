@@ -52,6 +52,7 @@
                 default=""
                 table-sortable="1"
                 table-width="10%"
+                required="true"
         />
         <field
                 name="end_date"
@@ -62,6 +63,7 @@
                 default=""
                 table-sortable="1"
                 table-width="10%"
+                required="true"
         />
         <field
                 name="free_ship"
