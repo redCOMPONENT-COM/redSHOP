@@ -78,6 +78,11 @@ class RedshopViewProduct extends RedshopViewAdmin
 			$this->addToolbar();
 		}
 
+        if ($layout == 'listing')
+        {
+            JToolBarHelper::title(JText::_('Product Price Managment'), 'stack redshop_products48');
+        }
+
 		$state       = $this->get('State');
 		$category_id = $state->get('category_id');
 
