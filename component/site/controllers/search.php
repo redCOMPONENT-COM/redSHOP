@@ -149,7 +149,7 @@ class RedshopControllerSearch extends RedshopController
 			. '&filterprice[min]=' . (isset($data['filterprice']) ? $data['filterprice']['min'] : '')
 			. '&filterprice[max]=' . (isset($data['filterprice']) ? $data['filterprice']['max'] : '')
 			. '&template_id=' . $data['template_id']
-			. '&keyword=' . $data['keyword']
+			. '&keyword=' . $post['keyword']
 			. '&order_by=' . $post['order_by']
 			. '&limit=' . $post['limit']
 			. '&limitstart=' . $post['limitstart']

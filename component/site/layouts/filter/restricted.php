@@ -9,6 +9,15 @@
 defined('_JEXEC') or die;
 extract($displayData);
 ?>
+
+<?php
+
+
+echo "<pre>";
+print_r($formData['redform']);
+echo "<pre>";
+
+?>
 <div class="form-horizontal">
     <div class="row-fluid">
 		<?php if ($params->category == 1 && !empty($categories)): ?>
@@ -136,3 +145,5 @@ extract($displayData);
 <input type="hidden" name="view" value="<?php echo $formData['view']; ?>">
 <input type="hidden" name="layout" value="<?php echo $formData['layout']; ?>">
 <input type="hidden" name="Itemid" value="<?php echo $formData['Itemid']; ?>">
+
+

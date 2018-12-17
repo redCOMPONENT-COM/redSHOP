@@ -20,6 +20,7 @@ defined('_JEXEC') or die;
  * @var  float   $currentMax        Current min
  */
 
+
 ?>
 <div class="<?php echo $moduleClassSfx ?>">
     <form action="<?php echo $action; ?>" method="post" name="adminForm-<?php echo $module->id; ?>"
@@ -29,7 +30,6 @@ defined('_JEXEC') or die;
                 <div class="container-fluid">
                     <div class="form-group">
                         <input type="text" name="redform[keyword]" id="<?php echo $module->id ?>-keyword"
-                               value="<?php echo isset($getData['keyword']) ? $getData['keyword'] : $keyword; ?>"
                                placeholder="<?php echo JText::_('MOD_REDSHOP_FILTER_TYPE_A_KEYWORD') ?>"
                                class="form-control"/>
                         <i class="icon-search form-control-feedback"></i>
@@ -152,6 +152,7 @@ defined('_JEXEC') or die;
         </div>
         <input type="hidden" name="redform[cid]" value="<?php echo !empty($cid) ? $cid : 0; ?>"/>
         <input type="hidden" name="redform[mid]" value="<?php echo !empty($mid) ? $mid : 0; ?>"/>
+        <input type="hidden" name="keyword" value="<?php echo !empty($keyword) ? $keyword : ''; ?>"/>
         <input type="hidden" name="limitstart"
                value="<?php echo isset($getData['limitstart']) ? $getData['limitstart'] : 0; ?>"/>
         <input type="hidden" name="limit" value="<?php echo isset($getData['limit']) ? $getData['limit'] : $limit; ?>"/>
@@ -230,7 +231,7 @@ defined('_JEXEC') or die;
             {
                 // Reset keyword field
                 if (<?php echo $enableKeyword ?> == 1) {
-                    jQuery('#<?php echo $module->id ?>-keyworkd').val('');
+                    jQuery('#<?php echo $module->id ?>-keyword').val('');
                 }
 
                 // Reset manufacturer options
