@@ -1017,6 +1017,8 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 					console.log("error");
 				});
 			}
+
+			jQuery(redSHOP).trigger("onAfterOneStepCheckoutProcess", [postParams]);
 		})
 		.fail(function() {
 			console.warn("onestepCheckoutProcess Error");
