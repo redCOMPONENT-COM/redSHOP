@@ -387,18 +387,18 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				}
 			}
 
-			$query = $db->getQuery(true)
-				->select("COUNT(*)")
-				->from($db->qn('#__redshop_media'))
-				->where($db->qn('media_name') . ' LIKE ' . $db->quote($data['product_full_image']))
-				->where($db->qn('media_section') . ' LIKE ' . $db->quote('product'))
-				->where($db->qn('section_id') . ' = ' . $db->quote($productId))
-				->where($db->qn('media_type') . ' = ' . $db->quote('images'))
-				->where($db->qn('published') . ' = ' . $db->quote('1'));
+            $query = $db->getQuery(true)
+                ->delete()
+                ->from($db->qn('#__redshop_media'))
+                ->where($db->qn('media_section') . ' = ' . $db->quote('product'))
+                ->where($db->qn('section_id') . ' = ' . $db->quote($productId));
 
-			$count = $db->setQuery($query)->loadResult();
+            $db->setQuery($query);
+            $result = $db->execute();
 
-			if (!$count)
+            $product_full_image_import = explode('.', $data['product_full_image']);
+
+			if (!$result)
 			{
 				$mediaTable                 = JTable::getInstance('Media_Detail', 'Table');
 				$mediaTable->media_id       = 0;
@@ -406,7 +406,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$mediaTable->media_section  = 'product';
 				$mediaTable->section_id     = $productId;
 				$mediaTable->media_type     = 'images';
-				$mediaTable->media_mimetype = '';
+				$mediaTable->media_mimetype = 'images/' . end($product_full_image_import);
 				$mediaTable->published      = 1;
 
 				$mediaTable->store();
