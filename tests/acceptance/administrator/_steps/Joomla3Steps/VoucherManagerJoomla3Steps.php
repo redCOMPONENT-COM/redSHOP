@@ -159,10 +159,10 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->wait(0.5);
 		$I->click(\VoucherManagerPage::$checkInButton);
-        $I->wait(0.5);
+		$I->wait(0.5);
 		$I->click($voucherCode);
 		$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
-        $I->wait(1);
+		$I->wait(1);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click(\VoucherManagerPage::$saveCloseButton);
