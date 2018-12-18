@@ -254,11 +254,13 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$newVerifyAmount = \DiscountPage::getCurrencyCode() . $newAmount . ',00';
 		$client->searchDiscount($name);
 		$client->see($verifyAmount, \DiscountPage::$resultRow);
+		$client->wait(0.5);
 		$client->click($name);
+        $client->wait(0.5);
 		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
 		$client->fillField(\DiscountPage::$fieldAmount, $newAmount);
 
-		$client->click(\DiscountPage::$buttonSave);
+		$client->click(\DiscountPage::$buttonSaveClose);
 		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
 		$client->searchDiscount($name);
 		$client->see($newVerifyAmount, \DiscountPage::$resultRow);
