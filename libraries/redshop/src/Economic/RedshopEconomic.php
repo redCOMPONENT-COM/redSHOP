@@ -1727,7 +1727,8 @@ class RedshopEconomic
 
 		if ($bookInvoiceDate != 0)
 		{
-			$eco['invoiceDate'] = $bookInvoiceDate . "T" . date("h:i:s");
+			$date               = new \DateTime($bookInvoiceDate);
+			$eco['invoiceDate'] = $date->format('Y-m-d') . "T" . date("h:i:s");
 		}
 		else
 		{
