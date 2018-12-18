@@ -3557,17 +3557,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function getProdcutSerialNumbers($only_used = false)
 	{
-		$usedCond = $this->db_->qn('is_used') . ' = 0';
+		$usedCond = $this->_db->qn('is_used') . ' = 0';
 
 		if ($only_used)
 		{
-			$usedCond = $this->db_->qn('is_used') . ' = 1';
+			$usedCond = $this->_db->qn('is_used') . ' = 1';
 		}
 
 		$query = $this->_db->getQuery(true)
 			->select('*')
-			->from($this->db_->qn($this->table_prefix . "product_serial_number"))
-			->where($this->db_->qn('product_id') . ' = ' . $this->id)
+			->from($this->_db->qn($this->table_prefix . "product_serial_number"))
+			->where($this->_db->qn('product_id') . ' = ' . $this->id)
 			->where($usedCond);
 
 		$this->_db->setQuery($query);
