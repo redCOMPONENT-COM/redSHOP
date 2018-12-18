@@ -828,10 +828,9 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
     }
 
     jQuery(document).ready(function() {
-        jQuery("input[type=number]").keyup(function(e){
+        jQuery('body').on("change", "input[type=number]", function(e){
             validateInputFloat(this, e);
         });
     });
-
 
 </script>
