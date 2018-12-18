@@ -63,7 +63,6 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TemplatePage::$url);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->searchTemplate($templateName);
-		$client->wait(0.1);
 		$client->click($templateName);
 		$client->waitForElement(\TemplatePage::$fieldName, 30);
 		$client->fillField(\TemplatePage::$fieldName, $templateUpdatedName);
