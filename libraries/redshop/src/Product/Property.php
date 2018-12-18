@@ -27,7 +27,7 @@ class Property
 	 * @param   string  $commonId      DOM ID
 	 * @param   integer $propertyStock Property stock
 	 * @param   string  $propertyData  Property Data
-	 * @param   object  $cartTemplate  Cart template
+	 * @param   array   $cartTemplate  Cart template
 	 * @param   string  $content       Template content
 	 *
 	 * @return  mixed|string
