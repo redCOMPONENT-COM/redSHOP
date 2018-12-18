@@ -19,14 +19,6 @@ defined('_JEXEC') or die;
 class RedshopViewMails extends RedshopViewList
 {
 	/**
-	 * Display check-in button or not.
-	 *
-	 * @var   boolean
-	 * @since  2.0.7
-	 */
-	protected $checkIn = false;
-
-	/**
 	 * Method for render 'Published' column
 	 *
 	 * @param   array   $config  Row config.

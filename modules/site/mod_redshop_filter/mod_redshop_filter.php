@@ -15,6 +15,7 @@ JLoader::import('redshop.library');
 $productHelper      = productHelper::getInstance();
 $input              = JFactory::getApplication()->input;
 $cid                = $input->getInt('cid', 0);
+$pid                = $input->getInt('pid', 0);
 $mid                = $input->getInt('manufacturer_id', 0);
 $moduleClassSfx     = $params->get('moduleclass_sfx');
 $rootCategory       = $params->get('root_category', 0);
@@ -43,6 +44,12 @@ if (!empty($cid))
 	/** @var RedshopModelCategory $categoryModel */
 	$categoryModel = JModelLegacy::getInstance('Category', 'RedshopModel');
 	$categoryModel->setId($cid);
+
+	if ($limit == 0)
+	{
+		$limit = $categoryModel->getCategoryPagination()->limit;
+	}
+
 	$categoryModel->setState('include_sub_categories_products', true);
 	$productList = $categoryModel->getCategoryProduct(1, true);
 	$catList     = array();
