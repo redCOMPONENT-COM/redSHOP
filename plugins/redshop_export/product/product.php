@@ -96,8 +96,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		// Prepare manufacturers list.
 		$db            = JFactory::getDbo();
 		$query         = $db->getQuery(true)
-			->select($db->qn('manufacturer_id', 'value'))
-			->select($db->qn('manufacturer_name', 'text'))
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_manufacturer'));
 		$manufacturers = $db->setQuery($query)->loadObjectList();
 		$options       = array();
@@ -196,7 +196,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
-			->select('m.manufacturer_name')
+			->select('m.name AS manufacturer_name')
 			->select('p.*')
 			->select($db->quote(JUri::root()) . ' AS ' . $db->qn('sitepath'))
 			->select(

@@ -322,6 +322,11 @@ class rsCarthelper
 		$shipping                  = $cart ['shipping'];
 		$shippingVat               = $cart ['shipping_tax'];
 
+		if ($total <= 0)
+		{
+			$total = 0;
+		}
+
 		if (isset($cart ['discount_type']) === false)
 		{
 			$cart ['discount_type'] = 0;
@@ -791,10 +796,6 @@ class rsCarthelper
 		if ($rateExist == 0)
 		{
 			$template_desc = "<div></div>";
-		}
-		elseif ($rateExist == 1 && empty($extrafield_total) && $classname != "default_shipping_gls")
-		{
-			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
 
 		JPluginHelper::importPlugin('redshop_checkout');
@@ -1387,7 +1388,7 @@ class rsCarthelper
 
 				if (count($voucher) > 0)
 				{
-					$this->_r_voucher = 1;
+					return false;
 				}
 			}
 
@@ -1594,6 +1595,8 @@ class rsCarthelper
 			}
 
 			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+
+			empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
@@ -1613,6 +1616,8 @@ class rsCarthelper
 			}
 
 			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+
+			empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;
