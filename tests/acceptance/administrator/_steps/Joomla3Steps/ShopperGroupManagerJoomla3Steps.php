@@ -28,8 +28,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$tester = $this;
 		$tester->amOnPage(\ShopperGroupJ3Page::$URL);
-		$tester->wait(0.3);
-		$tester->click(\ShopperGroupJ3Page::$buttonNew);
+		$tester->click(\ShopperGroupJ3Page::$buttonNewXpath);
 		$tester->fillField(\ShopperGroupJ3Page::$shopperName, $shopperName);
 
 		if ($shopperType != null)
