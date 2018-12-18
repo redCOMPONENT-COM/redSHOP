@@ -53,6 +53,8 @@ class TemplateCest
 
     /**
      * @param AcceptanceTester $I
+     *
+     * @throws Exception
      */
     public function _before(AcceptanceTester $I)
     {
@@ -66,6 +68,8 @@ class TemplateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 *
+	 * @throws Exception
 	 */
 	public function createTemplate(AcceptanceTester $I, $scenario)
 	{
@@ -83,6 +87,8 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends createTemplate
+	 *
+	 * @throws Exception
 	 */
 	public function updateTemplate(AcceptanceTester $I, $scenario)
 	{
@@ -100,6 +106,8 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends updateTemplate
+	 *
+	 * @throws Exception
 	 */
 	public function changeTemplateStateUnpublish(AcceptanceTester $I, $scenario)
 	{
@@ -118,6 +126,8 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends changeTemplateStateUnpublish
+	 *
+	 * @throws Exception
 	 */
 	public function changeTemplateStatePublish(AcceptanceTester $I, $scenario)
 	{
@@ -136,6 +146,8 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends changeTemplateStatePublish
+	 *
+	 * @throws Exception
 	 */
 	public function deleteTemplate(AcceptanceTester $I, $scenario)
 	{
