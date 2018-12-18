@@ -20,7 +20,6 @@ defined('_JEXEC') or die;
  * @var  float   $currentMax        Current min
  */
 
-
 ?>
 <div class="<?php echo $moduleClassSfx ?>">
     <form action="<?php echo $action; ?>" method="post" name="adminForm-<?php echo $module->id; ?>"
