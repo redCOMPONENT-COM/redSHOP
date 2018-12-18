@@ -81,13 +81,14 @@ class AbstractStep extends AdminManagerJoomla3Steps
 			case 'save&close':
 				$tester->wait(0.5);
 				$tester->click($pageClass::$buttonSaveClose);
-				$tester-$this->wait(0.5);
+				$tester->wait(0.5);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
 				$tester->wait(0.5);
 				$tester->click($pageClass::$buttonSaveNew);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+                $tester->wait(0.5);
                 $tester->click($pageClass::$buttonCancel);
 				break;
 			default:
@@ -126,7 +127,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
                 $tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
-                $tester-$this->wait(0.5);
+                $tester->wait(0.5);
 				$tester->click($pageClass::$buttonSaveClose);
 				$tester->wait(0.5);
                 $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
@@ -260,6 +261,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 
 				default:
 					$this->fillField($field['xpath'], $data[$index]);
+					$this->wait(0.5);
 					break;
 			}
 		}
