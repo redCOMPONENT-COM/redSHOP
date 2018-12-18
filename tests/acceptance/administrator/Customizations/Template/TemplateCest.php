@@ -83,6 +83,8 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends createTemplate
+	 *
+	 * @throws Exception
 	 */
 	public function updateTemplate(AcceptanceTester $I, $scenario)
 	{

@@ -52,6 +52,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	 * @param   string $templateUpdatedName New Name for the Template
 	 *
 	 * @return void
+	 *
+	 * @throws \Exception
 	 */
 	public function editTemplate($templateName = 'Current', $templateUpdatedName = 'UpdatedName')
 	{
@@ -59,10 +61,12 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TemplatePage::$url);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->searchTemplate($templateName);
+		$client->wait(0.1);
 		$client->click($templateName);
 		$client->waitForElement(\TemplatePage::$fieldName, 30);
 		$client->fillField(\TemplatePage::$fieldName, $templateUpdatedName);
 		$client->click(\TemplatePage::$buttonSave);
+		$client->wait(0.1);
 		$client->waitForText(\TemplatePage::$messageItemSaveSuccess, 60, \TemplatePage::$selectorSuccess);
 		$client->seeInField(\TemplatePage::$fieldName,$templateUpdatedName);
 	}
@@ -89,6 +93,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	 * @param   string $templateName Name of the Template
 	 *
 	 * @return void
+	 *
+	 * @throws \Exception
 	 */
 	public function searchTemplate($templateName)
 	{
@@ -104,6 +110,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	 * @param   String $name Name of the Template
 	 *
 	 * @return string
+	 *
+	 * @throws \Exception
 	 */
 	public function getTemplateState($name)
 	{
@@ -134,6 +142,8 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 	 * @param   String $templateName Name of the Template which is to be Deleted
 	 *
 	 * @return void
+	 *
+	 * @throws \Exception
 	 */
 	public function deleteTemplate($templateName)
 	{
@@ -141,6 +151,7 @@ class TemplateSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\TemplatePage::$url);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->searchTemplate($templateName);
+		$client->wait(0.1);
 		$client->checkAllResults();
 		$client->click(\TemplatePage::$buttonDelete);
 		$client->acceptPopup();
