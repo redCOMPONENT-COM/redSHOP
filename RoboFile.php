@@ -275,6 +275,11 @@ class RoboFile extends \Robo\Tasks
         }
     }
 
+    public function checkTravisWebserver()
+    {
+        $this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/tests/joomla-cms/installation/index.php');
+    }
+
     /**
      * Method for run specific scenario
      *
