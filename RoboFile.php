@@ -66,6 +66,92 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
+     * Sends the build report error back to Slack
+     *
+     * @param   string $cloudinaryName      Cloudinary cloud name
+     * @param   string $cloudinaryApiKey    Cloudinary API key
+     * @param   string $cloudinaryApiSecret Cloudinary API secret
+     * @param   string $githubRepository    GitHub repository (owner/repo)
+     * @param   string $githubPRNo          GitHub PR #
+     * @param   string $slackWebhook        Slack Webhook URL
+     * @param   string $slackChannel        Slack channel
+     * @param   string $buildURL            Build URL
+     *
+     * @return  void
+     *
+     * @since   5.1
+     */
+    public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL)
+    {
+        $errorSelenium = true;
+        $reportError   = false;
+        $reportFile    = 'tests/selenium.log';
+        $errorLog      = 'Selenium log:' . chr(10) . chr(10);
+
+        // Loop through Codeception snapshots
+        if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
+        {
+            $reportFile    = 'tests/_output/report.tap.log';
+            $errorLog      = 'Codeception tap log:' . chr(10) . chr(10);
+            $errorSelenium = false;
+        }
+
+        if (file_exists($reportFile))
+        {
+            if ($reportFile)
+            {
+                $errorLog .= file_get_contents($reportFile, null, null, 15);
+            }
+
+            if (!$errorSelenium)
+            {
+                $handler    = opendir('tests/_output');
+                $errorImage = '';
+
+                while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
+                {
+                    // Avoid sending system files or html files
+                    if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
+                    {
+                        continue;
+                    }
+
+                    $reportError = true;
+                    $errorImage  = __DIR__ . '/tests/_output/' . $errorSnapshot;
+                }
+            }
+
+            echo $errorImage;
+
+            if ($reportError || $errorSelenium)
+            {
+                // Sends the error report to Slack
+                $reportingTask = $this->taskReporting()
+                    ->setCloudinaryCloudName($cloudinaryName)
+                    ->setCloudinaryApiKey($cloudinaryApiKey)
+                    ->setCloudinaryApiSecret($cloudinaryApiSecret)
+                    ->setGithubRepo($githubRepository)
+                    ->setGithubPR($githubPRNo)
+                    ->setBuildURL($buildURL . 'display/redirect')
+                    ->setSlackWebhook($slackWebhook)
+                    ->setSlackChannel($slackChannel)
+                    ->setTapLog($errorLog);
+
+                if (!empty($errorImage))
+                {
+                    $reportingTask->setImagesToUpload($errorImage)
+                        ->publishCloudinaryImages();
+                }
+
+                $reportingTask->publishBuildReportToSlack()
+                    ->run()
+                    ->stopOnFail();
+            }
+        }
+    }
+
+
+    /**
      * Tests setup
      *
      * @param   boolean  $debug   Add debug to the parameters
@@ -227,31 +313,6 @@ class RoboFile extends \Robo\Tasks
                     ->stopOnFail();
             }
         }
-    }
-
-    /**
-     * Downloads and Install redFORM for Integration Testing testing
-     *
-     * @param   integer  $cleanUp  Clean up the directory when present (or skip the cloning process)
-     *
-     * @return  void
-     * @since   1.0.0
-     */
-    protected function getredFORMExtensionForIntegrationTests($cleanUp = 1)
-    {
-        // Get redFORM Clean Testing sites
-        if (is_dir('build/redFORM'))
-        {
-            if (!$cleanUp)
-            {
-                $this->say('Using cached version of redFORM and skipping clone process');
-                return;
-            }
-            $this->taskDeleteDir('build/redFORM')->run();
-        }
-        $version = '3.3.15';
-        $this->_exec("git clone -b $version --single-branch --depth 1 https://travisredweb:travisredweb2013github@github.com/redCOMPONENT-COM/redFORM.git build/redFORM");
-        $this->say("redFORM ($version) cloned at build/");
     }
 
     /**
