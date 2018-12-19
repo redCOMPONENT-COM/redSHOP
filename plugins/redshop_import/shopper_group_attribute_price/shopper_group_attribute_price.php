@@ -109,7 +109,7 @@ class PlgRedshop_ImportShopper_group_attribute_price extends AbstractImportPlugi
 			$query = $db->getQuery(true)
 				->select($db->qn('property_id'))
 				->from($db->qn('#__redshop_product_attribute_property'))
-				->where($db->qn('property_number') . ' = ' . $db->q($data['attribute_number']));
+				->where($db->qn('property_id') . ' = ' . $db->q($data['section_id']));
 
 			$data['section_id'] = $db->setQuery($query)->loadResult();
 		}
