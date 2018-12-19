@@ -33,7 +33,7 @@ pipeline:
         #- composer install --prefer-dist                                    # Uncomment if not using composer cache
         # NPM setup
         - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
-        #- npm install
+        - npm install gulp
         #- cd libraries/redshop
         #- composer install --prefer-dist
 
