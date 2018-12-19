@@ -59,7 +59,7 @@ class MassDiscountCheckoutCest
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->createProductSave($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 		$I = new MassDiscountManagerJoomla3Steps($scenario);
 		$I->wantTo('Test check add Mass discount ');
