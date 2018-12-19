@@ -89,7 +89,9 @@ if ($data->lists['attributes'])
 						    	<input type="text"
 							   		class="form-control attributeInput"
 							   		name="<?php echo $attrPref; ?>[name]"
-							   		value="<?php echo $attributeData['attribute_name']; ?>"/>
+							   		value="<?php echo $attributeData['attribute_name']; ?>"
+							   		required="required"
+							   	/>
 						  </div>
 
 						  <div class="form-group">
@@ -117,8 +119,8 @@ if ($data->lists['attributes'])
 							   value="<?php echo $attributeData['attribute_description']; ?>"/>
 						</div>
 					</div>
-				
-					
+
+
 					<div class="col-sm-3">
 						<div class="form-group">
 						    <label>
@@ -126,17 +128,17 @@ if ($data->lists['attributes'])
 							</label>
 						    <input class="form-control" type="number" name="<?php echo $attrPref; ?>[ordering]"
 							   value="<?php echo $attributeData['ordering']; ?>"/>
-						</div>	
+						</div>
 					</div>
 
 					<div class="col-sm-4">
-						
+
 						<div class="form-group">
 							<input type="checkbox" name="<?php echo $attrPref; ?>[required]" <?php echo $checkedRequired; ?> value="1"/>
 						    <label>
 						    	<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_REQUIRED'); ?>
 							</label>
-						    
+
 						</div>
 
 						<div class="form-group">
@@ -144,7 +146,7 @@ if ($data->lists['attributes'])
 						    <label>
 						    	<?php echo JText::_('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION'); ?>
 							</label>
-						    
+
 						</div>
 
 						<div class="form-group">
@@ -152,7 +154,7 @@ if ($data->lists['attributes'])
 						    <label>
 						    	<?php echo JText::_('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE'); ?>
 							</label>
-						   
+
 						</div>
 
 						<div class="form-group">
@@ -160,7 +162,7 @@ if ($data->lists['attributes'])
 						    <label>
 						    	<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>
 							</label>
-						    
+
 						</div>
 					</div>
 				</div>
@@ -183,7 +185,7 @@ if ($data->lists['attributes'])
 				$propPref = $attrPref . '[property][' . $keyProperty . ']';
 
 				echo RedshopLayoutHelper::render(
-					'product_detail.product_property', 
+					'product_detail.product_property',
 					array(
 						'keyAttr' => $keyAttr,
 						'keyProperty' => $keyProperty,
@@ -198,9 +200,9 @@ if ($data->lists['attributes'])
 			?>
 		</div>
 		</div>
-			
 
-		
+
+
 	<?php
 	}
 }

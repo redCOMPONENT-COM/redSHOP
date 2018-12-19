@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 					<div class="col-sm-8">
 						 <?php echo $this->lists['copy_attribute']; ?>
 					</div>
-					
+
 					<a class="btn btn-success add_attribute pull-right" href="#"> <?php echo '+ ' . JText::_('COM_REDSHOP_NEW_ATTRIBUTE'); ?></a>
 				</fieldset>
 				<hr/>
