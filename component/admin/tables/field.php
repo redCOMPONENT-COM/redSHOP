@@ -30,6 +30,11 @@ class RedshopTableField extends RedshopTable
 	 */
 	public $id;
 
+    /**
+     * @var string
+     */
+    public $query;
+
 	/**
 	 * @var string
 	 */
@@ -306,7 +311,7 @@ class RedshopTableField extends RedshopTable
             }
             if ($db->setQuery($query)->execute())
             {
-                $this->setError($db->getErrorMsg());
+                $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
                 return false;
             }
