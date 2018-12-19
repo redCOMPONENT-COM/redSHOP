@@ -86,17 +86,17 @@ class RedshopViewCheckout extends RedshopView
 		$lists['allowCustomer'] = "";
 		$lists['allowCompany']  = "";
 
-		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 3)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != "0")
 		{
 			$lists['allowCompany']  = "style='display:none;'";
 			$lists['allowCustomer'] = "style='display:none;'";
 		}
 
-		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == "1")
 		{
 			$openToStretcher = 0;
 		}
-		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
+		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == "2")
 		{
 			$openToStretcher = 1;
 		}
@@ -118,11 +118,11 @@ class RedshopViewCheckout extends RedshopView
 
 			if (!$users_info_id)
 			{
-				if ((!isset($users_info_id) || $users_info_id == 0) && count($shippingaddresses) > 0)
+				if ((!isset($users_info_id) || $users_info_id == 0) && !empty($shippingaddresses))
 				{
 					$users_info_id = $shippingaddresses[0]->users_info_id;
 				}
-				elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
+				elseif ((!isset($users_info_id) || $users_info_id == 0) && !empty($billingaddresses))
 				{
 					$users_info_id = $billingaddresses->users_info_id;
 				}

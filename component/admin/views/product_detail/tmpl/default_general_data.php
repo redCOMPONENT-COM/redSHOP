@@ -245,10 +245,12 @@ foreach ($media->getAll() as $mediaItem)
                             <?php
                             $startDate = null;
 
-                            if ($this->detail->discount_stratdate)
-                            {
-                                $startDate = JFactory::getDate($this->detail->discount_stratdate)->format($calendarFormat);
-                            }
+							if ($this->detail->discount_stratdate)
+							{
+								$startDate = is_numeric($this->detail->discount_stratdate) ?
+                                    JFactory::getDate($this->detail->discount_stratdate)->format($calendarFormat)
+                                    : $this->detail->discount_stratdate;
+							}
 
                             echo JHtml::_(
                                 'redshopcalendar.calendar',
@@ -266,10 +268,12 @@ foreach ($media->getAll() as $mediaItem)
                             <?php
                             $endDate = null;
 
-                            if ($this->detail->discount_enddate)
-                            {
-                                $endDate = JFactory::getDate($this->detail->discount_enddate)->format($calendarFormat);
-                            }
+							if ($this->detail->discount_enddate)
+							{
+								$endDate = is_numeric($this->detail->discount_enddate) ?
+									JFactory::getDate($this->detail->discount_enddate)->format($calendarFormat)
+									: $this->detail->discount_enddate;
+							}
 
                             echo JHtml::_(
                                 'redshopcalendar.calendar',

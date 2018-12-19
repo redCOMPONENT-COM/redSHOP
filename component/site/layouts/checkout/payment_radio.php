@@ -23,6 +23,10 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 $checkedClass = $checked ? 'paymentgtwchecked' : '';
+
+$lang = JFactory::getLanguage();
+$lang->load('plg_redshop_payment_rs_payment_banktransfer', JPATH_ADMINISTRATOR, 'en-GB', true);
+$lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB', true);
 ?>
 
 <div id="<?php echo $oneMethod->name ?>" class="<?php echo $checkedClass ?>">

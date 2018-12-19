@@ -172,6 +172,7 @@ class RedshopFormFieldCalendar extends JFormField
 		// Get some system objects.
 		$config = JFactory::getConfig();
 		$user   = JFactory::getUser();
+		$tz     = $config->get('offset');
 
 		// If a known filter is given use it.
 		if (strtoupper($this->filter) == 'SERVER_UTC')
@@ -181,7 +182,7 @@ class RedshopFormFieldCalendar extends JFormField
 			{
 				// Get a date object based on the correct timezone.
 				$date = JFactory::getDate($this->value, 'UTC');
-				$date->setTimezone(new DateTimeZone($config->get('offset')));
+				$date->setTimezone(new DateTimeZone($tz));
 
 				// Transform the date string.
 				$this->value = $date->format($format, true, false);
@@ -194,8 +195,9 @@ class RedshopFormFieldCalendar extends JFormField
 			{
 				// Get a date object based on the correct timezone.
 				$date = JFactory::getDate($this->value, 'UTC');
+				$tz   = $user->getParam('timezone', $tz);
 
-				$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+				$date->setTimezone(new DateTimeZone($tz));
 
 				// Transform the date string.
 				$this->value = $date->format($format, true, false);
@@ -206,6 +208,6 @@ class RedshopFormFieldCalendar extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return JHtml::_('redshopcalendar.calendar', $this->value, $this->name, $this->id, $format, $attributes);
+		return JHtml::_('redshopcalendar.calendar', $this->value, $this->name, $this->id, $format, $attributes, null, $tz);
 	}
 }

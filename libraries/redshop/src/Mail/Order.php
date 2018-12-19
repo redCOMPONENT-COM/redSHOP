@@ -258,7 +258,6 @@ class Order
 			return false;
 		}
 
-		$productHelper = \productHelper::getInstance();
 		$config        = \JFactory::getConfig();
 		$mailBcc       = array();
 

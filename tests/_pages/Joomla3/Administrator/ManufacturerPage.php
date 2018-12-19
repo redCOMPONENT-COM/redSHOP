@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class ManufacturerPage extends AdminJ3Page
 {
@@ -28,12 +28,12 @@ class ManufacturerPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = ['id' => 'jform_name'];
+	public static $fieldName = "#jform_name";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldEmail = ['id' => 'jform_email'];
+	public static $fieldEmail = "#jform_email";
 
 	/**
 	 * @var string

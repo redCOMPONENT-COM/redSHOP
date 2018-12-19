@@ -59,7 +59,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->executeJS('window.scrollTo(0,0)');
                 $I->click(\UserManagerJoomla3Page::$linkUser);
-                $I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
+                $I->see($firstName);
                 $I->executeJS('window.scrollTo(0,0)');
                 $I->click(\UserManagerJoomla3Page::$linkUser);
                 break;
@@ -78,6 +78,10 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
                 $I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
+                $I->fillField(\UserManagerJoomla3Page::$address, 'address');
+                $I->fillField(\UserManagerJoomla3Page::$city, 'city');
+                $I->fillField(\UserManagerJoomla3Page::$zipcode,'5000');
+                $I->fillField(\UserManagerJoomla3Page::$phone, '4234324');
                 $I->click(\UserManagerJoomla3Page::$saveButton);
                 $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
@@ -345,9 +349,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(\UserManagerJoomla3Page::$saveCloseButton);
         $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
         $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
-        $I->see($updatedName, \UserManagerJoomla3Page::$firstResultRow);
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(\UserManagerJoomla3Page::$linkUser);
+        $I->see($updatedName);
     }
 
     public function editUserReady($firstName = 'Test', $updatedName = 'Updated Name')
@@ -429,8 +431,13 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @param   String $name Name of the User which is to be Deleted
      * @param   Boolean $deleteJoomlaUser Boolean Parameter to decide weather to delete Joomla! user as well
-     *
+     * @param $name
      * @return void
+     */
+    /**
+     * @param $name
+     * @param bool $deleteJoomlaUser
+     * @throws \Exception
      */
     public function deleteUser($name, $deleteJoomlaUser = true)
     {
@@ -453,7 +460,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => 'ID']);
         $I->amOnPage(\UserManagerJoomla3Page::$URLJoomla);
         $I->searchForItem($name);
-
         if ($deleteJoomlaUser) {
             $I->dontSee($name, \UserManagerJoomla3Page::$userJoomla);
         } else {

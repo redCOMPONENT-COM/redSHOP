@@ -96,8 +96,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		// Prepare manufacturers list.
 		$db            = JFactory::getDbo();
 		$query         = $db->getQuery(true)
-			->select($db->qn('manufacturer_id', 'value'))
-			->select($db->qn('manufacturer_name', 'text'))
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_manufacturer'));
 		$manufacturers = $db->setQuery($query)->loadObjectList();
 		$options       = array();
@@ -196,7 +196,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
-			->select('m.manufacturer_name')
+			->select('m.name AS manufacturer_name')
 			->select('p.*')
 			->select($db->quote(JUri::root()) . ' AS ' . $db->qn('sitepath'))
 			->select(
@@ -218,6 +218,12 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				. ' SEPARATOR ' . $db->quote('###') . ') FROM ' . $db->qn('#__redshop_product_accessory', 'pa')
 				. ' LEFT JOIN ' . $db->qn('#__redshop_product', 'p2') . ' ON ' . $db->qn('p2.product_id') . ' = ' . $db->qn('pa.child_product_id')
 				. ' WHERE ' . $db->qn('pa.product_id') . ' = ' . $db->qn('p.product_id') . ') AS ' . $db->qn('accessory_products')
+			)
+			->select(
+				'(SELECT GROUP_CONCAT(CONCAT(' . $db->qn('p3.product_number') . ')'
+				. ' SEPARATOR ' . $db->quote('###') . ') FROM ' . $db->qn('#__redshop_product_related', 'pr')
+				. ' LEFT JOIN ' . $db->qn('#__redshop_product', 'p3') . ' ON ' . $db->qn('p3.product_id') . ' = ' . $db->qn('pr.related_id')
+				. ' WHERE ' . $db->qn('pr.product_id') . ' = ' . $db->qn('p.product_id') . ') AS ' . $db->qn('related_products')
 			)
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))

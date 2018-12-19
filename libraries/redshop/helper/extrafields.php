@@ -906,6 +906,12 @@ class RedshopHelperExtrafields
 						);
 
 						break;
+
+					default:
+						JPluginHelper::importPlugin('redshop');
+						$dispatcher = RedshopHelperUtility::getDispatcher();
+
+						$dispatcher->trigger('onDisplayListField', array(&$exField, $customField, $dataValue));
 				}
 
 				if (trim($templateDesc) != '')

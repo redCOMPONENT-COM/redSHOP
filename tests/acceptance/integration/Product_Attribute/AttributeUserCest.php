@@ -11,6 +11,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps as ShopperGroupSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
+use AcceptanceTester\ShippingSteps as ShippingSteps;
 use AcceptanceTester\TaxRateSteps as TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps as TaxGroupSteps;
 use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
@@ -101,7 +102,7 @@ class AttributeUserCest
 
 		$this->category        = $this->faker->bothify('Category Attribute ??####?');
 		$this->noPage          = $this->faker->randomNumber();
-		$this->productName     = $this->faker->bothify('Testing Products ??####?');
+		$this->productName     = $this->faker->bothify('Testing ProductManagement ??####?');
 		$this->productNumber   = $this->faker->numberBetween(999, 9999);
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
@@ -138,9 +139,9 @@ class AttributeUserCest
 		$this->lastName  = $this->faker->bothify('LastName ?####?');
 
 		// Order info
-		$this->subTotal      = 'DKK 80,00';
-		$this->vatPrice      = 'DKK 8,00';
-		$this->total         = 'DKK 88,00';
+		$this->subTotal      = 'DKK 100,00';
+		$this->vatPrice      = 'DKK 10,00';
+		$this->total         = 'DKK 110,00';
 		$this->shippingPrice = 'DKK 0,00';
 
 		// Shipping info
@@ -150,7 +151,7 @@ class AttributeUserCest
 		$this->shipping['shippingRate'] = 10;
 
 		$this->taxRateName          = $this->faker->bothify('Testing Tax Rates Groups ?###?');
-		$this->taxGroupName         = $this->faker->bothify(' ?###? TaxGroupsNam');
+		$this->taxGroupName         = $this->faker->bothify('TaxGroupsNam ?###?');
 		$this->taxRateValue         = 0.1;
 		$this->countryName          = 'Denmark';
 		$this->taxRateValueNegative = -1;
@@ -238,6 +239,35 @@ class AttributeUserCest
 		(new ProductCheckoutSteps($scenario))->checkoutAttributeShopperUser(
 			$this->userName, $this->productName, $this->attributes, $this->category, $this->subTotal,
 			$this->vatPrice, $this->total, $this->shippingPrice
+		);
+	}
+	
+	/**
+	 * @param AcceptanceTester $client
+	 * @param $scenario
+	 * @throws Exception
+	 */
+	public function clearUpDatabase(AcceptanceTester $client, $scenario)
+	{
+		$client->doAdministratorLogin();
+		
+		$client->wantTo('Delete  TAX Rates in Administrator');
+		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
+		$client->wantTo(' Delete VAT Groups in Administrator');
+		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
+		
+		$client->wantTo('Delete product with attribute');
+		$client = new ProductSteps($scenario);
+		$client->deleteProduct($this->productName);
+		$client->wantTo('Delete Category in Administrator');
+		$client = new CategorySteps($scenario);
+		$client->deleteCategory($this->category);
+		$client->wantTo('Delete User creation in Administrator');
+		$client = new \AcceptanceTester\UserManagerJoomla3Steps(($scenario));
+		$client->deleteUser($this->firstName);
+		$client->wantTo('Configuration for apply VAT');
+		(new ConfigurationSteps($scenario))->setupVAT($this->countryName, null, 'Select', $this->vatCalculation,
+			$this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT
 		);
 	}
 }

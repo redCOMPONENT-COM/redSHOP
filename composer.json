@@ -10,7 +10,7 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "~2",
-        "codeception/codeception": "~2.2",
+        "codeception/codeception": "2.3.7",
         "joomla-projects/joomla-browser": "v3.8.1",
         "consolidation/robo": "~1",
         "joomla-projects/joomla-testing-robo": "dev-container-test",
@@ -19,7 +19,8 @@
         "cloudinary/cloudinary_php": "^1.7",
         "knplabs/github-api": "~1",
         "joomla-projects/selenium-server-standalone": "3.8.1",
-        "nette/reflection": "~2.4"
+        "nette/reflection": "~2.4",
+        "phpunit/phpunit": "~4.0"
     },
     "repositories": [
         {

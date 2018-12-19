@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
+JText::script('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML');
 ?>
 
 
@@ -23,7 +24,7 @@ $url = $uri->root();
 
 		if (form.country_code.value == 0) {
 			alert("<?php echo JText::_('COM_REDSHOP_COUNTRY_MUST_BE_SELECTED', true ); ?>");
-		} else if (form.state_code.value == ""  && document.getElementById('state_code').length>0) {
+		} else if (form.state_code.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_STATE_MUST_BE_SELECTED', true ); ?>");
 		} else if (form.city_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_CITY_MUST_HAVE_A_NAME', true ); ?>");
@@ -56,7 +57,6 @@ $url = $uri->root();
 				<td valign="top" align="right" class="key"><?php echo JText::_("COM_REDSHOP_COUNTRY_NAME"); ?>:</td>
 				<td><?php echo $this->lists['country_code']; ?><?php //echo JHTML::tooltip( JText::_('COM_REDSHOP_CATEGORY_PARENT' ), JText::_('COM_REDSHOP_CATEGORY_PARENT' ), 'tooltip.png', '', '', false); ?></td>
 			</tr>
-
 			<tr>
 				<td class="key"><?php echo JText::_("COM_REDSHOP_STATE_NAME"); ?></td>
 				<td><?php echo $this->lists['state_code']; ?></td>
@@ -73,15 +73,16 @@ $url = $uri->root();
 				<td class="key" valign="top"><?php echo JText::_("COM_REDSHOP_ZIPCODE"); ?>:
 				</td>
 				<td>
-
 					<?php
-					if($this->detail->zipcode=="")
-					{echo JText::_('COM_REDSHOP_FROM');
-					?><input class="text_area" type="text" name="zipcode" id="zipcode" size="15" maxlength="10"
-					         value="<?php echo $this->detail->zipcode; ?>"/>&nbsp; <?php echo JText::_('COM_REDSHOP_TO');?>
-				<input class="text_area" type="text" name="zipcode_to" id="zipcode_to" size="15" maxlength="10"
-				       value=""/><br></br><br></br>
-					<b><?php echo JText::_('COM_REDSHOP_NOTE');?> </b> <?php echo JText::_('COM_REDSHOP_ZIPCODE_NOTE_DESC');?>
+					if (empty($this->detail->zipcode))
+					{
+					    echo JText::_('COM_REDSHOP_FROM');?>
+                        <input class="text_area" type="text" name="zipcode" id="zipcode" size="15" maxlength="10"
+					         value="<?php echo $this->detail->zipcode; ?>"/>&nbsp;
+                        <?php echo JText::_('COM_REDSHOP_TO');?>
+				        <input class="text_area" type="text" name="zipcode_to" id="zipcode_to" size="15" maxlength="10"
+				       value=""/><br>
+					    <b><?php echo JText::_('COM_REDSHOP_NOTE');?> </b> <?php echo JText::_('COM_REDSHOP_ZIPCODE_NOTE_DESC');?>
 				<?php
 					} else {
 					?>
@@ -92,11 +93,8 @@ $url = $uri->root();
 					}
 					?>
 				</td>
-
-
 		</table>
 	</fieldset>
-
 
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->zipcode_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
