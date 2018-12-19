@@ -42,31 +42,6 @@ class RedshopViewAdmin extends JViewLegacy
     protected $disableSidebar = false;
 
     /**
-     * Add the page title and toolbar.
-     *
-     * @return  void
-     *
-     * @since   1.5
-     */
-    public function addToolbar()
-    {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
-        $layout = JFactory::getApplication()->input->getCmd('layout', '');
-
-        if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
-        {
-            JToolbarHelper::addNew('product_detail.addRedirect');
-            JToolbarHelper::editList('product_detail.editRedirect');
-            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-            JToolBarHelper::deleteList();
-            JToolBarHelper::publishList();
-            JToolBarHelper::unpublishList();
-            JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
-            JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
-        }
-    }
-
-    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
