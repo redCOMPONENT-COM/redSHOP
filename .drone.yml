@@ -30,7 +30,7 @@ pipeline:
         # Composer setup
         - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done          # Comment if not using composer cache
         - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
-        #- composer install --prefer-dist                                    # Uncomment if not using composer cache
+        # - composer install --prefer-dist                                    # Uncomment if not using composer cache
         # NPM setup
         - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
         - npm install gulp
@@ -38,21 +38,21 @@ pipeline:
         - composer install --prefer-dist
         - cd ../../
 
-        #- cd ../../plugins/redshop_pdf/tcpdf/helper
-        #- composer install --prefer-dist
+        # - cd ../../plugins/redshop_pdf/tcpdf/helper
+        # - composer install --prefer-dist
 
-        #- cd ../../../..
-        #- composer install --prefer-dist
+        # - cd ../../../..
+        # - composer install --prefer-dist
         # Uncomment if not using npm cache
         # redShop installer release
-        #- while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
+        # - while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
         - mv gulp-config.json.dist gulp-config.json
         - gulp release --skip-version
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         # Test setup
         - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
-        #- vendor/bin/robo tests:site-preparation 0 0
+        # - vendor/bin/robo tests:site-preparation 0 0
         # Ownership for uid 82
         - chown -R www-data:www-data .
         # Creating first clone for tests setup
