@@ -76,6 +76,8 @@ class StateCest
 	}
     /**
      * @param AcceptanceTester $I
+     *
+     * @throws Exception
      */
     public function _before(AcceptanceTester $I)
     {
@@ -89,6 +91,8 @@ class StateCest
 	 * @param   Scenario         $scenario Scenario object.
 	 *
 	 * @return  void
+	 *
+	 * @throws Exception
 	 */
 	public function createState(AcceptanceTester $client, $scenario)
 	{

@@ -28,6 +28,8 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 * @param   string  $threeCode    Three Code of State
 	 *
 	 * @return void
+	 *
+	 * @throws \Exception
 	 */
 	public function addState($countryName = 'Test Country', $stateName = 'Test State', $twoCode = '12', $threeCode = '123')
 	{
@@ -59,15 +61,20 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 * @param   string  $stateNewName  New Name of the State
 	 *
 	 * @return void
+	 *
+	 * @throws \Exception
 	 */
 	public function updateState($stateName = 'Test State', $stateNewName = 'New State Name')
 	{
 		$client = $this;
 		$client->amOnPage(\StatePage::$url);
-		$client->searchState($stateName);
+		$client->fillField(\StatePage::$searchField, $stateName);
+		$client->click(\StatePage::$searchButton);
 		$client->checkAllResults();
 		$client->click(\StatePage::$buttonCheckIn);
-		$client->searchState($stateName);
+		$client->wait(0.1);
+		$client->fillField(\StatePage::$searchField, $stateName);
+		$client->click(\StatePage::$searchButton);
 		$client->click($stateName);
 		$client->waitForElement(\StatePage::$fieldName, 30);
 		$client->checkForPhpNoticesOrWarnings();
@@ -82,13 +89,16 @@ class StateSteps extends AdminManagerJoomla3Steps
 	 * @param   string  $stateName  Name of the State which is to be Deleted
 	 *
 	 * @return void
+	 *
+	 * @throws \Exception
 	 */
 	public function deleteState($stateName = 'Test State')
 	{
 		$client = $this;
 		$client->amOnPage(\StatePage::$url);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->searchState($stateName);
+		$client->fillField(\StatePage::$searchField, $stateName);
+		$client->click(\StatePage::$searchButton);
 		$client->checkAllResults();
 		$client->click(\StatePage::$buttonDelete);
 		$client->acceptPopup();
