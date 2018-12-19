@@ -36,6 +36,7 @@ pipeline:
         - npm install gulp
         - cd libraries/redshop
         - composer install --prefer-dist
+        - cd ../../
 
         #- cd ../../plugins/redshop_pdf/tcpdf/helper
         #- composer install --prefer-dist
