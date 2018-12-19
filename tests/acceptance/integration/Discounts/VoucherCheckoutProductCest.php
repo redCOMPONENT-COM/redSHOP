@@ -186,7 +186,7 @@ class VoucherCheckoutProductCest
 	/**
 	 * Function to Test Voucher Deletion
 	 *
-	 * @depends addVoucher
+	 * @depends createCategory
 	 */
 	public function deleteVoucher(AcceptanceTester $I, $scenario)
 	{
@@ -194,8 +194,12 @@ class VoucherCheckoutProductCest
 		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
 		$I->deleteVoucher($this->randomVoucherCode);
 
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Product  in Administrator');
+		$I->deleteProduct($this->productName);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->randomCategoryName);
 	}
 }
