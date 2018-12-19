@@ -31,41 +31,6 @@ class RoboFile extends \Robo\Tasks
     ];
 
     /**
-     * Downloads and prepares a Joomla CMS site for testing
-     *
-     * @param   int $use_htaccess (1/0) Rename and enable embedded Joomla .htaccess file
-     *
-     * @return mixed
-     */
-    public function prepareSiteForSystemTests($use_htaccess = 1)
-    {
-        // Get Joomla Clean Testing sites
-        if (is_dir('tests/joomla-cms'))
-        {
-            $this->taskDeleteDir('tests/joomla-cms')->run();
-        }
-
-        $version = 'staging';
-
-        /*
-         * When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
-         * Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
-         */
-        $version = '3.8.13';
-
-        $this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
-
-        $this->say("Joomla CMS ($version) site created at tests/joomla-cms");
-
-        // Optionally uses Joomla default htaccess file
-        if ($use_htaccess == 1)
-        {
-            $this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
-            $this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
-        }
-    }
-
-    /**
      * Tests setup
      *
      * @param   boolean  $debug   Add debug to the parameters
@@ -290,7 +255,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function runTravis($testCase)
     {
-        $this->prepareSiteForSystemTests(1);
+        $this->testsSitePreparation(1,1);
 
         $this->checkTravisWebserver();
 
