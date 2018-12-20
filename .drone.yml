@@ -394,22 +394,22 @@ pipeline:
       # Performs test
       - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Category 0 0'
 
-    17-Order:
-        group: tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=17-Order
-        - tests_db=Orders
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-17-Order
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Orders/Order 0 0'
+#    17-Order:
+#        group: tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#        - tests_user=admin
+#       - tests_suite=17-Order
+#        - tests_db=Orders
+#        - build_path=/drone/src/github.com/${DRONE_REPO}
+#        - output_append=-17-Order
+#        commands:
+#        # Regular entry point
+#        - /entrypoint.sh &
+#        # Performs test after ensuring that the scenario has been fully set up
+#        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+#        # Performs test
+#        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Orders/Order 0 0'
 
     18-Quotation:
         group: tests
