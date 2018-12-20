@@ -31,21 +31,16 @@ class CompareProductsCest
 
 	}
 
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
 
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 */
 	public function compareProducts(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create Category in Administrator');
@@ -65,12 +60,16 @@ class CompareProductsCest
 		$I = new ProductCheckoutSteps($scenario);
 		$I->wantTo('I Want to compare 2 products');
 		$I->comparesProducts($this->CategoryName, $this->ProductName,$this->productNameCompares);
-
 	}
 
-	public function deleteDataEnd(AcceptanceTester $I, $scenario)
+	public function deleteDataEnd(ProductSteps $I, $scenario)
 	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
+		$I->wantTo('Delete Product in Administrator');
+		$I->deleteProduct($this->ProductName);
+		$I->wantTo('Delete Product Compares in Administrator');
+		$I->deleteProduct($this->productNameCompares);
+		$I = new CategorySteps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->CategoryName);
 	}
 }
