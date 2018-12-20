@@ -22,7 +22,7 @@ pipeline:
         - tests_user=admin
         - tests_suite=00-setup-php7
         - tests_db=setup_php7
-        - php_server=php7
+        - php=php7
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup-php7
         commands:
