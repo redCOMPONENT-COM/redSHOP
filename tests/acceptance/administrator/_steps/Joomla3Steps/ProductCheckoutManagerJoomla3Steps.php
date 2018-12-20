@@ -81,6 +81,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 10);
+		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$addressEmail);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
@@ -568,8 +570,15 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 
-		$I->see($ShippingRate, \FrontEndProductManagerJoomla3Page::$shippingRate);
-		$I->see($Total, \FrontEndProductManagerJoomla3Page::$priceEnd);
+		try{
+            $I->waitForText($ShippingRate, 5, \FrontEndProductManagerJoomla3Page::$shippingRate);
+        }catch (\Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+            $I->waitForText($ShippingRate, 5, \FrontEndProductManagerJoomla3Page::$shippingRate);
+        }
+
+		$I->waitForText($Total, 10, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 
 	/**
@@ -592,7 +601,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		try{
+            $I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+            $I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+        }
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alterOutOfStock, 60, \FrontEndProductManagerJoomla3Page::$selectorError);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
