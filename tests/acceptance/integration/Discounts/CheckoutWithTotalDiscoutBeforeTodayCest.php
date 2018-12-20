@@ -16,79 +16,67 @@ use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 class CheckoutWithTotalDiscoutBeforeTodayCest
 {
-    /**
-     * CheckoutWithMassDiscoutBeforeTodayCest constructor.
-     */
-    public function __construct()
-    {
-        $this->fake                         = Faker\Factory::create();
-        $this->randomCategoryName           = 'TestingCategory' . rand(99, 999);
-        $this->randomCategoryNameAssign     = 'CategoryAssign' . rand(99, 999);
-        $this->randomProductName            = 'TestingProducts' . rand(99, 999);
-        $this->randomDiscountName           = 'discount total order ' . rand(99, 999);
-        $this->minimumPerProduct            = 2;
-        $this->minimumQuantity              = 2;
-        $this->maximumQuantity              = 5;
-        $this->productStart                 = "2018-05-05";
-        $this->productEnd                   = "2018-07-08";
-        $this->discountStart                = "2018-04-04";
-        $this->discountEnd                  = "2018-04-20";
-        $this->randomProductNumber          = rand(999, 9999);
-        $this->randomProductNumberNew       = rand(999, 9999);
-        $this->randomProductPrice           = rand(9, 19);
-        $this->discountPriceThanPrice       = 100;
-        $this->statusProducts               = 'Product on sale';
-        $this->searchCategory               = 'Category';
-        $this->newProductName               = 'New-Test Product' . rand(99, 999);
-        $this->priceProductForThan          = 10;
-        $this->totalAmount                  = $this->fake->numberBetween(100, 999);
-        $this->discountAmount               = $this->fake->numberBetween(10, 100);
-
-        $this->userName                   = $this->fake->bothify('ManageUserAdministratorCest ?##?');
-        $this->password                   = $this->fake->bothify('Password ?##?');
-        $this->email                      = $this->fake->email;
-        $this->emailsave                  = $this->fake->email;
-        $this->shopperGroup               = 'Default Private';
-        $this->group                      = 'Registered';
-        $this->firstName                  = $this->fake->bothify('ManageUserAdministratorCest FN ?##?');
-        $this->lastName                   = 'Last';
-        $this->firstNameSave              = "FirstName";
-        $this->lastNameSave               = "LastName";
-        $this->emailWrong                 = "email";
-        $this->userNameDelete             = $this->firstName;
-        $this->searchOrder                = $this->firstName.' '.$this->lastName ;
-        $this->paymentMethod             = 'RedSHOP - Bank Transfer Payment';
-        
-        //configuration enable one page checkout
-        $this->addcart          = 'product';
-        $this->allowPreOrder    = 'yes';
-        $this->cartTimeOut      = $this->fake->numberBetween(100, 10000);
-        $this->enabldAjax       = 'no';
-        $this->defaultCart      = null;
-        $this->buttonCartLead   = 'Back to current view';
-        $this->onePage          = 'yes';
-        $this->showShippingCart = 'no';
-        $this->attributeImage   = 'no';
-        $this->quantityChange   = 'no';
-        $this->quantityInCart   = 0;
-        $this->minimunOrder     = 0;
-        $this->enableQuation    = 'no';
-        $this->onePageNo        = 'no';
-        $this->onePageYes       = 'yes';
-    }
 	/**
-	 * Method for clean data.
-	 *
-	 * @param   mixed $scenario Scenario
-	 *
-	 * @return  void
+	 * CheckoutWithMassDiscoutBeforeTodayCest constructor.
 	 */
-	public function deleteData($scenario)
+	public function __construct()
 	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
+		$this->fake                         = Faker\Factory::create();
+		$this->randomCategoryName           = 'TestingCategory' . rand(99, 999);
+		$this->randomCategoryNameAssign     = 'CategoryAssign' . rand(99, 999);
+		$this->randomProductName            = 'TestingProducts' . rand(99, 999);
+		$this->randomDiscountName           = 'discount total order ' . rand(99, 999);
+		$this->minimumPerProduct            = 2;
+		$this->minimumQuantity              = 2;
+		$this->maximumQuantity              = 5;
+		$this->productStart                 = "2018-05-05";
+		$this->productEnd                   = "2018-07-08";
+		$this->discountStart                = "2018-04-04";
+		$this->discountEnd                  = "2018-04-20";
+		$this->randomProductNumber          = rand(999, 9999);
+		$this->randomProductNumberNew       = rand(999, 9999);
+		$this->randomProductPrice           = rand(9, 19);
+		$this->discountPriceThanPrice       = 100;
+		$this->statusProducts               = 'Product on sale';
+		$this->searchCategory               = 'Category';
+		$this->newProductName               = 'New-Test Product' . rand(99, 999);
+		$this->priceProductForThan          = 10;
+		$this->totalAmount                  = $this->fake->numberBetween(100, 999);
+		$this->discountAmount               = $this->fake->numberBetween(10, 100);
+
+		$this->userName                   = $this->fake->bothify('ManageUserAdministratorCest ?##?');
+		$this->password                   = $this->fake->bothify('Password ?##?');
+		$this->email                      = $this->fake->email;
+		$this->emailsave                  = $this->fake->email;
+		$this->shopperGroup               = 'Default Private';
+		$this->group                      = 'Registered';
+		$this->firstName                  = $this->fake->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName                   = 'Last';
+		$this->firstNameSave              = "FirstName";
+		$this->lastNameSave               = "LastName";
+		$this->emailWrong                 = "email";
+		$this->userNameDelete             = $this->firstName;
+		$this->searchOrder                = $this->firstName.' '.$this->lastName ;
+		$this->paymentMethod             = 'RedSHOP - Bank Transfer Payment';
+
+		//configuration enable one page checkout
+		$this->addcart          = 'product';
+		$this->allowPreOrder    = 'yes';
+		$this->cartTimeOut      = $this->fake->numberBetween(100, 10000);
+		$this->enabldAjax       = 'no';
+		$this->defaultCart      = null;
+		$this->buttonCartLead   = 'Back to current view';
+		$this->onePage          = 'yes';
+		$this->showShippingCart = 'no';
+		$this->attributeImage   = 'no';
+		$this->quantityChange   = 'no';
+		$this->quantityInCart   = 0;
+		$this->minimunOrder     = 0;
+		$this->enableQuation    = 'no';
+		$this->onePageNo        = 'no';
+		$this->onePageYes       = 'yes';
 	}
-	
+
 	/**
 	 * Method run before test.
 	 *
@@ -106,7 +94,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	 * @param \Codeception\Scenario $scenario
 	 * @throws Exception
 	 */
-    public function addFunction(AcceptanceTester $I, \Codeception\Scenario $scenario)
+	public function addFunction(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserManagerJoomla3Steps($scenario);
@@ -131,29 +119,29 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	 * @param $scenario
 	 * @throws Exception
 	 */
-    public function addProductToCart(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('setup up one page checkout at admin');
-        $I = new ConfigurationSteps($scenario);
-        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-            $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
-        $I = new OrderManagerJoomla3Steps($scenario);
-        $I->wantTo('Add products in cart');
-        $I->addProductToCart($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
-        $I = new ConfigurationSteps($scenario);
-        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-            $this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
-    }
-    
-    /**
-     * @param ConfigurationSteps $I
-     * @throws Exception
-     */
-    public function checkOrder(ConfigurationSteps $I)
-    {
-        $I->wantTo('Check Order');
-        $I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName,  $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
-    }
+	public function addProductToCart(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('setup up one page checkout at admin');
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->wantTo('Add products in cart');
+		$I->addProductToCart($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+	}
+
+	/**
+	 * @param ConfigurationSteps $I
+	 * @throws Exception
+	 */
+	public function checkOrder(ConfigurationSteps $I)
+	{
+		$I->wantTo('Check Order');
+		$I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName,  $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
+	}
 	
 	/**
 	 * @param AcceptanceTester $I
