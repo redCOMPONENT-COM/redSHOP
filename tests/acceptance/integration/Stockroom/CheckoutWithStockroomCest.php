@@ -42,12 +42,6 @@ class CheckoutWithStockroomCest
 	 * step8 : delete all data
 	 */
 
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -86,9 +80,5 @@ class CheckoutWithStockroomCest
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Stop stockroom ');
 		$I->featureOffStockRoom();
-
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }
