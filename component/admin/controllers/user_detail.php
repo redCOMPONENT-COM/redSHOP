@@ -17,7 +17,7 @@ class RedshopControllerUser_detail extends RedshopController
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 		$this->_table_prefix = '#__redshop_';
-		$this->redhelper = redhelper::getInstance();
+		$this->redhelper     = redhelper::getInstance();
 	}
 
 	public function edit()
@@ -35,8 +35,10 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$app      = JFactory::getApplication();
-		$post     = $this->input->post->getArray();
+		$app  = JFactory::getApplication();
+		$post = $this->input->post->getArray();
+
+		/** @var RedshopModelUser_detail $model */
 		$model    = $this->getModel('user_detail');
 		$shipping = isset($post["shipping"]) ? true : false;
 		$app->setUserState('com_redshop.user_detail.data', $post);
@@ -54,7 +56,15 @@ class RedshopControllerUser_detail extends RedshopController
 		if ($shipping)
 		{
 			$info_id = $this->input->getString('info_id', '');
-			$link    = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			if ($apply == 1)
+			{
+				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $info_id . '&cid[]=' . $row->users_info_id;
+			}
+			else
+			{
+				$app->setUserState('com_redshop.user_detail.data', "");
+				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id;
+			}
 		}
 		else
 		{
@@ -91,6 +101,7 @@ class RedshopControllerUser_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelUser_detail $model */
 		$model = $this->getModel('user_detail');
 
 		if (!$model->delete($cid, $delete_joomla_users))
@@ -120,6 +131,7 @@ class RedshopControllerUser_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelUser_detail $model */
 		$model = $this->getModel('user_detail');
 
 		if (!$model->publish($cid, 1))
@@ -141,6 +153,7 @@ class RedshopControllerUser_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelUser_detail $model */
 		$model = $this->getModel('user_detail');
 
 		if (!$model->publish($cid, 0))
@@ -188,9 +201,12 @@ class RedshopControllerUser_detail extends RedshopController
 
 	public function validation()
 	{
-		$json             = $this->input->get('json', '');
-		$decoded          = json_decode($json);
-		$model            = $this->getModel('user_detail');
+		$json    = $this->input->get('json', '');
+		$decoded = json_decode($json);
+
+		/** @var RedshopModelUser_detail $model */
+		$model = $this->getModel('user_detail');
+
 		$username         = $model->validate_user($decoded->username, $decoded->userid);
 		$email            = $model->validate_email($decoded->email, $decoded->userid);
 		$json             = array();
@@ -210,31 +226,32 @@ class RedshopControllerUser_detail extends RedshopController
 	 */
 	public function ajaxValidationUsername()
 	{
-		RedshopHelperAjax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$username = $this->input->getString('username', '');
-		$user_id = $this->input->getInt('user_id', 0);
+		$user_id  = $this->input->getInt('user_id', 0);
 
-		$model = $this->getModel('user_detail');
+		/** @var RedshopModelUser_detail $model */
+		$model                = $this->getModel('user_detail');
 		$usernameAvailability = $model->validate_user($username, $user_id);
 
 		$message = JText::_('COM_REDSHOP_USERNAME_IS_AVAILABLE');
-		$type = "success";
+		$type    = "success";
 
 		if ($usernameAvailability > 0)
 		{
 			$message = JText::_('COM_REDSHOP_USERNAME_NOT_AVAILABLE');
-			$type = "error";
+			$type    = "error";
 		}
 
 		if ($username == "")
 		{
 			$message = JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME');
-			$type = "error";
+			$type    = "error";
 		}
 
-		$result = array();
-		$result['type'] = $type;
+		$result            = array();
+		$result['type']    = $type;
 		$result['message'] = $message;
 
 		$result = json_encode($result);

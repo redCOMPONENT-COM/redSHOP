@@ -42,7 +42,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</div>
 
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-no-items alert-info">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>
@@ -106,7 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 							<?php if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $giftCardPath)) : ?>
 								<?php
-									$giftCardImagePath = RedShopHelperImages::getImagePath(
+									$giftCardImagePath = RedshopHelperMedia::getImagePath(
 										$item->giftcard_image,
 										'',
 										'thumb',
@@ -127,7 +127,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 							<?php if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $giftCardPath)) : ?>
 								<?php
-									$giftCardImagePath = RedShopHelperImages::getImagePath(
+									$giftCardImagePath = RedshopHelperMedia::getImagePath(
 										$item->giftcard_bgimage,
 										'',
 										'thumb',

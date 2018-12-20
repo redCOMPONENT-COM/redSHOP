@@ -209,7 +209,7 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 		{
 			foreach ($value as $name)
 			{
-				$target = !JFile::exists($key . '/' . $name) ? $key . '/' . $name : $key;
+				$target                 = !JFile::exists($key . '/' . $name) ? $key . '/' . $name : $key;
 				$overrideFiles[$target] = JFolder::files($target);
 			}
 		}

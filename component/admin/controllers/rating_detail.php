@@ -43,6 +43,7 @@ class RedshopControllerRating_detail extends RedshopController
 
 		$post ['rating_id'] = $cid [0];
 
+		/** @var RedshopModelRating_detail $model */
 		$model = $this->getModel('rating_detail');
 
 		if ($model->store($post))
@@ -66,6 +67,7 @@ class RedshopControllerRating_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelRating_detail $model */
 		$model = $this->getModel('rating_detail');
 
 		if (!$model->delete($cid))

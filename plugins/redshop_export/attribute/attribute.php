@@ -32,7 +32,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 */
 	public function onAjaxAttribute_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		// Prepare categories list.
 		$products = RedshopHelperProduct::getList();
@@ -66,7 +66,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 */
 	public function onAjaxAttribute_Start()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$this->writeData($this->getHeader(), 'w+');
 
@@ -82,7 +82,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	 */
 	public function onAjaxAttribute_Export()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 		$limit = $input->getInt('limit', 0);
@@ -205,9 +205,9 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 				$db->qn('#__redshop_product_attribute_property', 'ap') . ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
 			)
 			->leftJoin(
-				$db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' .$db->qn('ap.property_id')
+				$db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' . $db->qn('ap.property_id')
+				. ' AND ' . $db->qn('m.media_section') . ' = ' . $db->q('property')
 			)
-			->where($db->qn('m.media_section') . ' = ' . $db->q('property'))
 			->order($db->qn('product_number') . ',' . $db->qn('property_ordering'));
 
 		// Sub-properties query
@@ -261,14 +261,14 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 				$db->qn('#__redshop_product_subattribute_color', 'sp') . ' ON ' . $db->qn('ap.property_id') . ' = ' . $db->qn('sp.subattribute_id')
 			)
 			->leftJoin(
-				$db->qn('#__redshop_media', 'm1') . ' ON ' . $db->qn('m1.section_id') . ' = ' .$db->qn('sp.subattribute_color_id')
+				$db->qn('#__redshop_media', 'm1') . ' ON ' . $db->qn('m1.section_id') . ' = ' . $db->qn('sp.subattribute_color_id')
+				. ' AND ' . $db->qn('m1.media_section') . ' = ' . $db->q('subproperty')
 			)
-			->where($db->qn('m1.media_section') . ' = ' . $db->q('subproperty'))
 			->order($db->qn('product_number') . ',' . $db->qn('subattribute_color_ordering'));
 
 		if (!empty($products))
 		{
-			ArrayHelper::toInteger($products);
+			$products = ArrayHelper::toInteger($products);
 			$attributeQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
 			$propertiesQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');
 			$subPropertiesQuery->where($db->qn('p.product_id') . ' IN (' . implode(',', $products) . ')');

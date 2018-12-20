@@ -31,7 +31,7 @@ class RedshopModelCatalog_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -69,7 +69,7 @@ class RedshopModelCatalog_detail extends RedshopModel
 		{
 			$detail = new stdClass;
 
-			$detail->catalog_id = null;
+			$detail->catalog_id   = null;
 			$detail->catalog_name = null;
 
 			$detail->published = 1;
@@ -129,7 +129,6 @@ class RedshopModelCatalog_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-
 
 			$query = 'UPDATE ' . $this->_table_prefix . 'catalog'
 				. ' SET published = ' . intval($publish)

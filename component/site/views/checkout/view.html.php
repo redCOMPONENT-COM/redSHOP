@@ -12,17 +12,20 @@ defined('_JEXEC') or die;
 
 class RedshopViewCheckout extends RedshopView
 {
+	/**
+	 * @var  array
+	 */
+	public $lists;
+
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-		$model     = $this->getModel('checkout');
-		$Itemid    = $app->input->getInt('Itemid');
-		$user      = JFactory::getUser();
-		$redhelper = redhelper::getInstance();
-		$field     = extraField::getInstance();
-		$session   = JFactory::getSession();
+		$app     = JFactory::getApplication();
+		$model   = $this->getModel('checkout');
+		$Itemid  = $app->input->getInt('Itemid');
+		$user    = JFactory::getUser();
+		$session = JFactory::getSession();
 
-		$language          = JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 
 		// Load payment languages
 		RedshopHelperPayment::loadLanguages();
@@ -37,14 +40,15 @@ class RedshopViewCheckout extends RedshopView
 			$language->load($extension, $base_dir);
 		}
 
-		JHtml::script('system/validate.js', true, false);
+		/** @scrutinizer ignore-deprecated */JHtml::script('system/validate.js', true, false);
 		JHtml::_('redshopjquery.framework');
-		JHtml::script('com_redshop/jquery.validate.js', false, true);
-		JHtml::script('com_redshop/common.js', false, true);
-		JHtml::script('com_redshop/jquery.metadata.js', false, true);
-		JHtml::script('com_redshop/registration.js', false, true);
-		JHtml::stylesheet('com_redshop/validation.css', array(), true);
-		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::_('behavior.framework', true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.common.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/registration.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
 
 		JPluginHelper::importPlugin('redshop_vies_registration');
 
@@ -80,19 +84,19 @@ class RedshopViewCheckout extends RedshopView
 
 		// Allow registration type settings
 		$lists['allowCustomer'] = "";
-		$lists['allowCompany'] = "";
+		$lists['allowCompany']  = "";
 
-		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 3)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != "0")
 		{
-			$lists['allowCompany'] = "style='display:none;'";
+			$lists['allowCompany']  = "style='display:none;'";
 			$lists['allowCustomer'] = "style='display:none;'";
 		}
 
-		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == "1")
 		{
 			$openToStretcher = 0;
 		}
-		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
+		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == "2")
 		{
 			$openToStretcher = 1;
 		}
@@ -114,11 +118,11 @@ class RedshopViewCheckout extends RedshopView
 
 			if (!$users_info_id)
 			{
-				if ((!isset($users_info_id) || $users_info_id == 0) && count($shippingaddresses) > 0)
+				if ((!isset($users_info_id) || $users_info_id == 0) && !empty($shippingaddresses))
 				{
 					$users_info_id = $shippingaddresses[0]->users_info_id;
 				}
-				elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
+				elseif ((!isset($users_info_id) || $users_info_id == 0) && !empty($billingaddresses))
 				{
 					$users_info_id = $billingaddresses->users_info_id;
 				}
@@ -168,16 +172,16 @@ class RedshopViewCheckout extends RedshopView
 			if ($lists['is_company'])
 			{
 				// Field_section Company
-				$lists['extra_field_company'] = $field->list_all_field(8);
+				$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(8);
 			}
 			else
 			{
 				// Field_section Customer
-				$lists['extra_field_user'] = $field->list_all_field(7);
+				$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(7);
 			}
 
-			$lists['shipping_company_field']  = $field->list_all_field(15, 0, 'billingRequired valid');
-			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
+			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(15, 0, 'billingRequired valid');
+			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(14, 0, 'billingRequired valid');
 		}
 
 		if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))

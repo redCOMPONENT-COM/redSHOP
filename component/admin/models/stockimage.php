@@ -28,12 +28,12 @@ class RedshopModelStockimage extends RedshopModel
 
 		$app = JFactory::getApplication();
 
-		$this->_context = 'stock_amount_id';
+		$this->_context      = 'stock_amount_id';
 		$this->_table_prefix = '#__redshop_';
 
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
+		$filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
@@ -44,7 +44,7 @@ class RedshopModelStockimage extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -55,7 +55,7 @@ class RedshopModelStockimage extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -75,7 +75,7 @@ class RedshopModelStockimage extends RedshopModel
 
 	public function _buildQuery()
 	{
-		$filter = $this->getState('filter');
+		$filter  = $this->getState('filter');
 		$orderby = $this->_buildOrderBy();
 
 		$where = '';
@@ -84,6 +84,7 @@ class RedshopModelStockimage extends RedshopModel
 		{
 			$where = " WHERE si.stock_amount_image_tooltip LIKE '%" . $filter . "%' ";
 		}
+
 		$query = "SELECT * FROM " . $this->_table_prefix . "stockroom_amount_image AS si "
 			. "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id=si.stockroom_id "
 			. $where
@@ -97,7 +98,7 @@ class RedshopModelStockimage extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'stock_amount_id');
+		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'stock_amount_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
@@ -107,7 +108,7 @@ class RedshopModelStockimage extends RedshopModel
 
 	public function getStockAmountOption($select = 0)
 	{
-		$option = array();
+		$option   = array();
 		$option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
 		$option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
 		$option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));
@@ -117,6 +118,7 @@ class RedshopModelStockimage extends RedshopModel
 		{
 			$option = $option[$select]->text;
 		}
+
 		return $option;
 	}
 }

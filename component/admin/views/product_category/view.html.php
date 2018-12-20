@@ -32,7 +32,7 @@ class RedshopViewProduct_category extends RedshopViewAdmin
 
 		JToolBarHelper::back();
 
-		$model = $this->getModel("product_category");
+		$model    = $this->getModel("product_category");
 		$products = $model->getProductlist();
 
 		$lists['category'] = JHTML::_('select.genericlist', RedshopHelperCategory::getCategoryListArray(), 'category_id[]',
@@ -40,7 +40,7 @@ class RedshopViewProduct_category extends RedshopViewAdmin
 		);
 
 		$this->products = $products;
-		$this->lists = $lists;
+		$this->lists    = $lists;
 
 		parent::display($tpl);
 	}

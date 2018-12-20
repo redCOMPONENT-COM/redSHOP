@@ -65,7 +65,7 @@ class RedshopEntityOrder extends RedshopEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  boolean|Tableorder_detail
 	 */
 	public function getTable($name = null)
 	{
@@ -220,8 +220,8 @@ class RedshopEntityOrder extends RedshopEntity
 
 		$this->orderItems = new RedshopEntitiesCollection;
 
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$db         = JFactory::getDbo();
+		$query      = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_item'))
 			->where($db->qn('order_id') . ' = ' . $this->getId());
@@ -257,7 +257,7 @@ class RedshopEntityOrder extends RedshopEntity
 			return $this;
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('l.*')
 			->select($db->qn('s.order_status_name'))
@@ -287,8 +287,10 @@ class RedshopEntityOrder extends RedshopEntity
 			return $this;
 		}
 
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
+		$this->payment = RedshopEntityOrder_Payment::getInstance();
+
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_payment'))
 			->where($db->qn('order_id') . ' = ' . (int) $this->getId());
@@ -323,7 +325,7 @@ class RedshopEntityOrder extends RedshopEntity
 
 		$db = JFactory::getDbo();
 
-		$query = $db->getQuery(true)
+		$query   = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_order_users_info'))
 			->where($db->qn('order_id') . ' = ' . (int) $this->getId());
@@ -358,7 +360,8 @@ class RedshopEntityOrder extends RedshopEntity
 			return $this;
 		}
 
-		$users = $this->getUsers();
+		$this->billing = RedshopEntityOrder_User::getInstance();
+		$users         = $this->getUsers();
 
 		if ($users->isEmpty())
 		{
@@ -392,7 +395,8 @@ class RedshopEntityOrder extends RedshopEntity
 			return $this;
 		}
 
-		$users = $this->getUsers();
+		$this->shipping = RedshopEntityOrder_User::getInstance();
+		$users          = $this->getUsers();
 
 		if ($users->isEmpty())
 		{

@@ -37,10 +37,10 @@ class RedshopViewProducttags extends RedshopViewAdmin
 		$tags       = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->tags = $tags;
-		$this->pagination = $pagination;
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->tags        = $tags;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

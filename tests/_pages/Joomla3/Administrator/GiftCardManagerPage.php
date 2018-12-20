@@ -11,100 +11,112 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
-class GiftCardManagerPage
+class GiftCardManagerPage extends AdminJ3Page
 {
 
     //name page
+
+    /**
+     * @var string
+     */
     public static $namePageManagement = 'Gift Card Management';
 
+    /**
+     * @var string
+     */
     public static $URL = '/administrator/index.php?option=com_redshop&view=giftcards';
 
-    public static $URLNew = '/administrator/index.php?option=com_redshop&view=giftcard&layout=edit';
+    /**
+     * @var array
+     */
+    public static $giftCardCancelButton = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('giftcard.cancel');\"]"];
 
-    public static $URLEdit = '/administrator/index.php?option=com_redshop&view=giftcard&layout=edit&giftcard_id=';
-
+    /**
+     * @var string
+     */
     public static $giftCardName = "//input[@id='jform_giftcard_name']";
 
+    /**
+     * @var string
+     */
     public static $giftCardPrice = "//input[@id='jform_giftcard_price']";
 
+    /**
+     * @var string
+     */
     public static $giftCardValue = "//input[@id='jform_giftcard_value']";
 
+    /**
+     * @var string
+     */
     public static $giftCardValidity = "//input[@id='jform_giftcard_validity']";
 
-    public static $giftCardResultRow = "//table[@id='articleList']/tbody/tr[2]";
+    /**
+     * @var string
+     */
+    public static $giftCardResultRow = "//table[@id='articleList']/tbody/tr[1]";
 
+    /**
+     * @var string
+     */
     public static $firstResult = "//input[@id='cb0']";
 
-    public static $giftCardState = "//table[@id='articleList']/tbody/tr[1]//td[2]//a";
+    /**
+     * @var string
+     */
+    public static $getCartStatus = "//div[@class='btn-group']/a";
 
-    public static $errorPath = "//div[@id='system-message-container']/div/div";
+    /**
+     * @var string
+     */
+    public static $errorValid = "//div[@id='system-message-container']/div/div";
 
-    public static $getCartStatus = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[2]"];
-
-    public static $errorValid = ['xpath' => "//div[@id='system-message-container']/div/div"];
-
-    public static $xpathMessage=['xpath'=>"//div[@id='system-message-container']/div/div/div"];
-
-    public static $getGiftCard = ['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[1]"];
-
-    public static $giftCardId =['xpath' => "//div[@class='table-responsive']/table/tbody/tr/td[9]"];
-
-    //button
-    public static $newButton = "New";
-
-    public static $saveButton = "Save";
-
-    public static $unpublishButton = "Unpublish";
-
-    public static $publishButton = "Publish";
-
-    public static $saveCloseButton = "Save & Close";
-
-    public static $deleteButton = "Delete";
-
-    public static $editButton = "Edit";
-
-    public static $saveNewButton = "Save & New";
-
-    public static $cancelButton = "Cancel";
-
-    public static $checkInButton = "Check-in";
-
-    public static $closeButton = "Close";
-
-
-    //selector
-    public static $selectorSuccess = '.alert-success';
-
-    public static $selectorError = '.alert-danger';
-
-    public static $selectorNamePage = '.page-title';
-
+    /**
+     * @var string
+     */
+    public static $getGiftCard = "//input[@id='cb0']";
 
     //message
-    public static $messageSaveSuccess = "Item saved.";
 
-    public static $messageError = "Error";
-
-    public static $messageSuccess = "Message";
-
-//    public static $messageSuccessPublishAll="";
-
+    /**
+     * @var string
+     */
     public static $messageSuccessUnpublish="items successfully unpublished";
 
+    /**
+     * @var string
+     */
     public static $messageUnpublishSuccess="1 item successfully unpublished";
 
+    /**
+     * @var string
+     */
     public static $messagePublishSuccess="1 item successfully published";
 
+    /**
+     * @var string
+     */
     public static $messageDeleteSuccess = "1 item successfully deleted";
 
+    /**
+     * @var string
+     */
     public static $messageInvalidName = 'Invalid field: Gift Card Name';
 
+    /**
+     * @var string
+     */
     public static $messageInvalidPrice = 'Invalid field:  Gift Card Price ';
 
+    /**
+     * @var string
+     */
     public static $messageInvalidGiftCart = 'Invalid field:  Gift Card Value ';
 
+    /**
+     * @var string
+     */
     public static $messageInvalidCart = 'Invalid field:  Gift Card Validity';
 }

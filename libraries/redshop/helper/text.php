@@ -19,6 +19,11 @@ defined('_JEXEC') or die;
 class RedshopHelperText
 {
 	/**
+	 * @var  array
+	 */
+	protected static $data = array();
+
+	/**
 	 * Get data of text library
 	 *
 	 * @param   string  $section  Section of text library
@@ -29,19 +34,26 @@ class RedshopHelperText
 	 */
 	public static function getTextLibraryData($section = null)
 	{
-		$db    = JFactory::getDbo();
+		$key = null === $section ? '0' : $section;
 
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_textlibrary'))
-			->where($db->qn('published') . ' = 1');
-
-		if (null !== $section)
+		if (!array_key_exists($key, self::$data))
 		{
-			$query->where($db->qn('section') . ' = ' . $db->q($section));
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_textlibrary'))
+				->where($db->qn('published') . ' = 1');
+
+			if (null !== $section)
+			{
+				$query->where($db->qn('section') . ' = ' . $db->q($section));
+			}
+
+			self::$data[$key] = $db->setQuery($query)->loadObjectList();
 		}
 
-		return $db->setQuery($query)->loadObjectList();
+		return self::$data[$key];
 	}
 
 	/**
@@ -53,13 +65,14 @@ class RedshopHelperText
 	 */
 	public static function getTextLibraryTagArray()
 	{
-		$result = array();
+		$result   = array();
+		$textData = self::getTextLibraryData();
 
-		if ($textData = self::getTextLibraryData())
+		if (!empty($textData))
 		{
 			foreach ($textData as $oneData)
 			{
-				$result[] = $oneData->text_name;
+				$result[] = $oneData->name;
 			}
 		}
 
@@ -69,7 +82,7 @@ class RedshopHelperText
 	/**
 	 * Replace data with data of text library
 	 *
-	 * @param   array  $data  Data to replace with
+	 * @param   string  $data  Data to replace with
 	 *
 	 * @return  string
 	 *
@@ -77,11 +90,13 @@ class RedshopHelperText
 	 */
 	public static function replaceTexts($data)
 	{
-		if ($textData = self::getTextLibraryData())
+		$textData = self::getTextLibraryData();
+
+		if (!empty($textData))
 		{
 			foreach ($textData as $oneData)
 			{
-				$data = str_replace("{" . $oneData->text_name . "}", $oneData->text_field, $data);
+				$data = str_replace("{" . $oneData->name . "}", $oneData->content, $data);
 			}
 		}
 

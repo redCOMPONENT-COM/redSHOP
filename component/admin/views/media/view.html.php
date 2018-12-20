@@ -39,7 +39,7 @@ class RedshopViewMedia extends RedshopViewAdmin
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();
 
-		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
+		/** @scrutinizer ignore-deprecated */ JHtml::stylesheet('com_redshop/redshop.medialist-thumbs.min.css', array(), true);
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
 		JToolbarHelper::addNew();

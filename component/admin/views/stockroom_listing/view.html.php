@@ -32,9 +32,9 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 		RedshopToolbarHelper::link('index.php?option=com_redshop&view=stockroom_listing&format=csv', 'save', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'));
 		JToolBarHelper::custom('print_data', 'save.png', 'save_f2.png', 'Print Data', false);
 
-		$this->state = $this->get('State');
-		$stockroom_type   = $this->state->get('stockroom_type');
-		$category_id      = $this->state->get('category_id');
+		$this->state    = $this->get('State');
+		$stockroom_type = $this->state->get('stockroom_type');
+		$category_id    = $this->state->get('category_id');
 
 		// Stockroom type and attribute type
 		$optiontype = array();
@@ -49,11 +49,11 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 
 		$categories = RedshopHelperCategory::getCategoryListArray();
 
-		$temps = array();
-		$temps[0] = new stdClass;
-		$temps[0]->id = "0";
-		$temps[0]->name = JText::_('COM_REDSHOP_SELECT');
-		$categories = @array_merge($temps, $categories);
+		$temps             = array();
+		$temps[0]          = new stdClass;
+		$temps[0]->id      = "0";
+		$temps[0]->name    = JText::_('COM_REDSHOP_SELECT');
+		$categories        = @array_merge($temps, $categories);
 		$lists['category'] = JHTML::_('select.genericlist', $categories, 'category_id',
 			'class="inputbox" onchange="getTaskChange();document.adminForm.submit();" ',
 			'id', 'name', $category_id
@@ -65,8 +65,8 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 		$resultlisting = $this->get('Items');
 		$stockroom     = $this->get('Stockroom');
 		$pagination    = $this->get('Pagination');
-		$model = $this->getModel('stockroom_listing');
-		$ids = array();
+		$model         = $this->getModel('stockroom_listing');
+		$ids           = array();
 
 		if ($resultlisting)
 		{
@@ -87,12 +87,12 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 
 		$this->quantities = $model->getQuantity($stockroom_type, '', $ids);
 
-		$this->lists = $lists;
-		$this->resultlisting = $resultlisting;
-		$this->stockroom = $stockroom;
+		$this->lists          = $lists;
+		$this->resultlisting  = $resultlisting;
+		$this->stockroom      = $stockroom;
 		$this->stockroom_type = $stockroom_type;
 
-		$this->pagination = $pagination;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

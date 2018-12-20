@@ -53,7 +53,8 @@ class Tableprices_detail extends JTable
 
 	public function check()
 	{
-		/**** check for valid name *****/
+		// Check for valid name
+
 		$query = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id = "'
 			. $this->shopper_group_id . '" AND product_id = ' . (int) $this->product_id
 			. ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_start)

@@ -9,27 +9,51 @@
 
 defined('_JEXEC') or die;
 
-
+/**
+ * Newsletter view
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  View
+ * @since       1.6.0
+ */
 class RedshopViewNewsletter extends RedshopView
 {
+	/**
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * @var string
+	 */
+	public $userdata;
+
+	/**
+	 * @var \Joomla\Registry\Registry
+	 */
+	public $params;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise a JError object.
+	 * @throws  Exception
+	 */
 	public function display($tpl = null)
 	{
+		/** @var JApplicationSite $app */
 		$app = JFactory::getApplication();
 
-		$params = $app->getParams('com_redshop');
-
-		$pathway  = $app->getPathway();
-		$document = JFactory::getDocument();
-
+		$pathway = $app->getPathway();
 		$pathway->addItem(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');
 
-		$userdata = $app->input->getString('userdata');
-		$layout   = $app->input->getCmd('layout');
-		$user     = JFactory::getUser();
+		$layout = $app->input->getCmd('layout');
 
-		$this->user = $user;
-		$this->userdata = $userdata;
-		$this->params = $params;
+		$this->user     = JFactory::getUser();
+		$this->userdata = $app->input->getString('userdata');
+		$this->params   = $app->getParams('com_redshop');
 
 		if ($layout == 'thankyou')
 		{

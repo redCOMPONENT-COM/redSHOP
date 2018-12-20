@@ -31,7 +31,7 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -67,15 +67,15 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
+			$detail                  = new stdClass;
 			$detail->subscription_id = 0;
-			$detail->user_id = 0;
-			$detail->date = null;
-			$detail->newsletter_id = null;
-			$detail->name = null;
-			$detail->email = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->user_id         = 0;
+			$detail->date            = null;
+			$detail->newsletter_id   = null;
+			$detail->name            = null;
+			$detail->email           = null;
+			$detail->published       = 1;
+			$this->_data             = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -85,6 +85,9 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 
 	public function store($data)
 	{
+		$data['date'] = strtotime($data['date']);
+
+		/** @var Tablenewslettersubscr_detail $row */
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
@@ -191,7 +194,7 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 		if (count($subsc) > 0)
 		{
 			$sbscids = implode(",", $subsc);
-			$where = " AND ns.subscription_id IN (" . $sbscids . ")";
+			$where   = " AND ns.subscription_id IN (" . $sbscids . ")";
 		}
 
 		$query = 'SELECT ns.*,ns.name as subscribername,n.name'

@@ -30,9 +30,9 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 		$childelement = $session->get('childelement');
 		$document     = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
-		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.xmlfunc.min.js', false, true);
 
-		$uri                  = JFactory::getURI();
+		$uri                  = JUri::getInstance();
 		$lists                = array();
 		$colvalue             = array();
 		$model                = $this->getModel();
@@ -68,11 +68,11 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 			case "productdetail":
 				if (isset($childelement[$parentsection]))
 				{
-					$detail->element_name = $childelement[$parentsection][0];
+					$detail->element_name      = $childelement[$parentsection][0];
 					$detail->xmlexport_filetag = $childelement[$parentsection][1];
 				}
 
-				$dbfield = $detail->xmlexport_filetag;
+				$dbfield     = $detail->xmlexport_filetag;
 				$dbchildname = $detail->element_name;
 				break;
 			case "stockdetail":
@@ -82,7 +82,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 					$detail->xmlexport_stocktag = $childelement[$parentsection][1];
 				}
 
-				$dbfield = $detail->xmlexport_stocktag;
+				$dbfield     = $detail->xmlexport_stocktag;
 				$dbchildname = $detail->stock_element_name;
 				break;
 			case "billingdetail":
@@ -92,7 +92,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 					$detail->xmlexport_billingtag = $childelement[$parentsection][1];
 				}
 
-				$dbfield = $detail->xmlexport_billingtag;
+				$dbfield     = $detail->xmlexport_billingtag;
 				$dbchildname = $detail->billing_element_name;
 				break;
 			case "shippingdetail":
@@ -102,7 +102,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 					$detail->xmlexport_shippingtag = $childelement[$parentsection][1];
 				}
 
-				$dbfield = $detail->xmlexport_shippingtag;
+				$dbfield     = $detail->xmlexport_shippingtag;
 				$dbchildname = $detail->shipping_element_name;
 				break;
 			case "orderitem":
@@ -112,7 +112,7 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 					$detail->xmlexport_orderitemtag = $childelement[$parentsection][1];
 				}
 
-				$dbfield = $detail->xmlexport_orderitemtag;
+				$dbfield     = $detail->xmlexport_orderitemtag;
 				$dbchildname = $detail->orderitem_element_name;
 				break;
 			case "prdextrafield":
@@ -122,14 +122,14 @@ class RedshopViewXmlexport_detail extends RedshopViewAdmin
 					$detail->xmlexport_prdextrafieldtag = $childelement[$parentsection][1];
 				}
 
-				$dbfield = $detail->xmlexport_prdextrafieldtag;
+				$dbfield     = $detail->xmlexport_prdextrafieldtag;
 				$dbchildname = $detail->prdextrafield_element_name;
 				break;
 		}
 
 		for ($i = 0, $in = count($columns); $i < $in; $i++)
 		{
-			$tmpVal = $xmlhelper->getXMLFileTag($columns[$i]->Field, $dbfield);
+			$tmpVal     = $xmlhelper->getXMLFileTag($columns[$i]->Field, $dbfield);
 			$colvalue[] = $tmpVal[0];
 		}
 

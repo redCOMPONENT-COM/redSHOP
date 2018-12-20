@@ -36,8 +36,9 @@ class RedshopTable extends AbstractTable
 	 * @param   string  $option  Component name, use for call table from another extension
 	 *
 	 * @return  RedshopTable     The table
+	 * @throws  Exception
 	 *
-	 * @throws  InvalidArgumentException
+	 * @since   2.0.6
 	 */
 	public static function getAutoInstance($name, $client = null, array $config = array(), $option = 'auto')
 	{
@@ -51,12 +52,12 @@ class RedshopTable extends AbstractTable
 			if ($option == 'com_installer')
 			{
 				$installer = JInstaller::getInstance();
-				$option = $installer->manifestClass->getElement($installer);
+				$option    = $installer->manifestClass->getElement($installer);
 			}
 		}
 
 		$componentName = ucfirst(strtolower(substr($option, 4)));
-		$prefix = $componentName . 'Table';
+		$prefix        = $componentName . 'Table';
 
 		if (is_null($client))
 		{
@@ -77,7 +78,7 @@ class RedshopTable extends AbstractTable
 
 		else
 		{
-			throw new InvalidArgumentException(
+			throw new Exception(
 				sprintf('Cannot instanciate the table %s in component %s. Invalid client %s.', $name, $option, $client)
 			);
 		}
@@ -86,7 +87,7 @@ class RedshopTable extends AbstractTable
 
 		if (!$table instanceof JTable)
 		{
-			throw new InvalidArgumentException(
+			throw new Exception(
 				sprintf('Cannot instanciate the table %s in component %s from client %s.', $name, $option, $client)
 			);
 		}
@@ -101,7 +102,8 @@ class RedshopTable extends AbstractTable
 	 * @param   array   $config  An optional array of configuration
 	 * @param   string  $option  Component name, use for call table from another extension
 	 *
-	 * @return  RedshopTable  The table
+	 * @return  RedshopTable     The table
+	 * @throws  Exception
 	 */
 	public static function getAdminInstance($name, array $config = array(), $option = 'auto')
 	{
@@ -115,7 +117,8 @@ class RedshopTable extends AbstractTable
 	 * @param   array   $config  An optional array of configuration
 	 * @param   string  $option  Component name, use for call table from another extension
 	 *
-	 * @return  RedshopTable  The table
+	 * @return  RedshopTable     The table
+	 * @throws  Exception
 	 */
 	public static function getFrontInstance($name, array $config = array(), $option = 'auto')
 	{

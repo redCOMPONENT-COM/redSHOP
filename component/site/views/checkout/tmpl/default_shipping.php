@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $redTemplate = Redtemplate::getInstance();
 $carthelper = rsCarthelper::getInstance();
@@ -19,7 +18,7 @@ $user   = JFactory::getUser();
 $jinput = JFactory::getApplication()->input;
 $post   = $jinput->getArray($_POST);
 
-$shippingbox_template = $redTemplate->getTemplate("shippingbox");
+$shippingbox_template = RedshopHelperTemplate::getTemplate("shippingbox");
 
 if (count($shippingbox_template) > 0 && $shippingbox_template[0]->template_desc)
 {
@@ -30,7 +29,7 @@ else
 	$box_template_desc = "<fieldset class=\"adminform\"> <legend><strong>{shipping_box_heading}</strong></legend>\r\n<div>{shipping_box_list}</div>\r\n</fieldset>";
 }
 
-$shipping_template = $redTemplate->getTemplate("redshop_shipping");
+$shipping_template = RedshopHelperTemplate::getTemplate("redshop_shipping");
 
 if (count($shipping_template) > 0 && $shipping_template[0]->template_desc)
 {
@@ -44,7 +43,7 @@ else
 if ($this->users_info_id > 0)
 {
 	$shippinghelper          = shipping::getInstance();
-	$shippingBoxes           = $shippinghelper->getShippingBox();
+	$shippingBoxes           = RedshopHelperShipping::getShippingBox();
 	$selshipping_box_post_id = 0;
 
 	if (count($shippingBoxes) > 0)

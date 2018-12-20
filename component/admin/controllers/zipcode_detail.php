@@ -41,7 +41,9 @@ class RedshopControllerZipcode_detail extends RedshopController
 
 		$cid                 = $this->input->post->get('cid', array(0), 'array');
 		$post ['zipcode_id'] = $cid [0];
-		$model               = $this->getModel('zipcode_detail');
+
+		/** @var RedshopModelZipcode_detail $model */
+		$model = $this->getModel('zipcode_detail');
 
 		if ($post["zipcode_to"] == "")
 		{
@@ -52,7 +54,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 			for ($i = $post["zipcode"]; $i <= $post["zipcode_to"]; $i++)
 			{
 				$post['zipcode'] = $i;
-				$row = $model->store($post);
+				$row             = $model->store($post);
 			}
 		}
 
@@ -91,6 +93,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelZipcode_detail $model */
 		$model = $this->getModel('zipcode_detail');
 
 		if (!$model->delete($cid))
@@ -100,5 +103,27 @@ class RedshopControllerZipcode_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
+	}
+
+	/**
+	 * Get list state of country
+	 *
+	 * @since __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function getStateDropdown()
+	{
+		$get   = $this->input->get->getArray();
+		/** @var RedshopModelZipcode_detail $model */
+		$model = $this->getModel('zipcode_detail');
+		echo JHtml::_(
+			'select.genericlist',
+			$model->getStateDropdown($get),
+			'stateCode[]',
+			'class="inputbox" multiple="multiple"',
+			'value',
+			'text'
+		);
 	}
 }

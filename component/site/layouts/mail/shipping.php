@@ -13,7 +13,8 @@ extract($displayData);
 
 $order_functions = order_functions::getInstance();
 $extra_field = extra_field::getInstance();
-$extra_section = ($shippingaddresses->is_company == 1) ? extraField::SECTION_COMPANY_SHIPPING_ADDRESS : extraField::SECTION_PRIVATE_SHIPPING_ADDRESS;
+$extra_section = ($shippingaddresses->is_company == 1) ?
+    RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS : RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
 ?>
 
 <table border="0">
@@ -58,11 +59,11 @@ $extra_section = ($shippingaddresses->is_company == 1) ? extraField::SECTION_COM
 	<?php if ($shippingaddresses->country_code != "") : ?>
 	<tr>
 		<td><?php echo JText::_('COM_REDSHOP_COUNTRY');?>:</td>
-		<td><?php echo JText::_($order_functions->getCountryName($shippingaddresses->country_code));?></td>
+		<td><?php echo JText::_(RedshopHelperOrder::getCountryName($shippingaddresses->country_code));?></td>
 	</tr>
 	<?php endif; ?>
 
-	<?php $state = $order_functions->getStateName($shippingaddresses->state_code, $shippingaddresses->country_code); ?>
+	<?php $state = RedshopHelperOrder::getStateName($shippingaddresses->state_code, $shippingaddresses->country_code); ?>
 	<?php if ($state != "") : ?>
 	<tr>
 		<td><?php echo JText::_('COM_REDSHOP_STATE');?>:</td>
@@ -77,7 +78,7 @@ $extra_section = ($shippingaddresses->is_company == 1) ? extraField::SECTION_COM
 	</tr>
 	<?php endif; ?>
 
-	<?php echo $extrafields = $extra_field->list_all_field_display($extra_section, $shippingaddresses->users_info_id, 0, "", "", true);
+	<?php echo $extrafields = RedshopHelperExtrafields::listAllFieldDisplay($extra_section, $shippingaddresses->users_info_id, 0, "", "", true);
 	?>
 </table>
 

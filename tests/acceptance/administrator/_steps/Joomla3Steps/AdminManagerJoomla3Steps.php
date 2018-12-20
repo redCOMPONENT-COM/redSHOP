@@ -7,6 +7,9 @@
  */
 
 namespace AcceptanceTester;
+
+use Step\Acceptance\Redshop;
+
 /**
  * Class AdminManagerJoomla3Steps
  *
@@ -14,8 +17,22 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class AdminManagerJoomla3Steps extends \AcceptanceTester
+class AdminManagerJoomla3Steps extends Redshop
 {
+
+	public function installComponent($name, $package)
+	{
+		$I = $this;
+		$I->amOnPage(\AdminJ3Page::$installURL);
+		$I->waitForElement(\AdminJ3Page::$link, 30);
+		$I->click(\AdminJ3Page::$link);
+		$path = $I->getConfig($name) . $package;
+		$I->wantToTest($path);
+		$I->comment($path);
+		$I->fillField(\AdminJ3Page::$urlID, $path);
+		$I->waitForElement(\AdminJ3Page::$installButton, 30);
+		$I->click(\AdminJ3Page::$installButton);
+	}
 	/**
 	 * Function to Check for Presence of Notices and Warnings on all the Modules of Extension
 	 *
@@ -80,7 +97,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function delete($pageClass, $deleteItem, $resultRow, $check, $filterId = ['id' => 'filter_search'])
+	public function delete($pageClass, $deleteItem, $resultRow, $check, $filterId = "#filter_search")
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
@@ -98,7 +115,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function filterListBySearching($text, $searchField = ['id' => 'filter_search'])
+	public function filterListBySearching($text, $searchField = "#filter_search")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
@@ -148,7 +165,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = ['id' => 'filter'])
+	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = "#filter")
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
@@ -165,7 +182,7 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		}
 	}
 
-	public function filterListBySearchingProduct($text, $searchField = ['id' => 'keyword'])
+	public function filterListBySearchingProduct($text, $searchField = "#keyword")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
@@ -174,33 +191,72 @@ class AdminManagerJoomla3Steps extends \AcceptanceTester
 		$I->waitForElement(['link' => $text]);
 	}
 
-	public function filterListBySearchDiscount($text, $searchField = ['id' => 'name_filter'])
+	public function filterListBySearchDiscount($text, $searchField = "#name_filter")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->wait(3);
 		$I->waitForElement(['link' => $text]);
+	}
+	
+	/**
+	 * @param $xpath
+	 * @param $value
+	 * @param $lengh
+	 */
+	public function addValueForField($xpath, $value, $lengh)
+	{
+		$I = $this;
+		$I->click($xpath);
+		for ($i = 1; $i <= $lengh; $i++)
+		{
+			$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		}
+
+		$price = str_split($value);
+		foreach ($price as $char)
+		{
+			$I->pressKey($xpath, $char);
+		}
 	}
 
 	public function chooseOnSelect2($element, $text)
 	{
 		$I = $this;
-
 		$elementId = is_array($element) ? $element['id'] : $element;
-
-		$I->executeJS('jQuery("#' . $elementId . '").select2("search", "' . $text . '")');
-		$I->waitForElement(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"], 60);
-		$I->click(['xpath' => "//div[@id='select2-drop']//ul[@class='select2-results']/li[1]/div"]);
+		$I->executeJS('jQuery("' . $elementId . '").select2("search", "' . $text . '")');
+		$I->waitForElement("//ul[@class='select2-results']/li[1]/div", 60);
+		$I->click("//ul[@class='select2-results']/li[1]/div");
 	}
 
-	public function filterListBySearchOrder($text, $searchField = ['id' => 'filter']){
+	public function filterListBySearchOrder($text, $searchField = "#filter"){
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey('#filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->wait(3);
-//        $I->waitForElement(['link' => $text]);
+	}
+
+	public function selectOptionInChosenjs($label, $option)
+	{
+		$I = $this;
+
+		$I->waitForJS("return jQuery(\"label:contains('$label')\");");
+		$selectID = $I->executeJS("return jQuery(\"label:contains('$label')\").attr(\"for\");");
+
+		$option = trim($option);
+
+		$I->waitForJS(
+			"jQuery('#$selectID option').filter(function(){ return this.text.trim() === \"$option\" }).prop('selected', true); return true;",
+			30
+		);
+		$I->waitForJS(
+			"jQuery('#$selectID').trigger('liszt:updated').trigger('chosen:updated'); return true;",
+			30
+		);
+		$I->waitForJS(
+			"jQuery('#$selectID').trigger('change'); return true;",
+			30
+		);
 	}
 }

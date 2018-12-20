@@ -46,7 +46,6 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 	public function exportOrder()
 	{
 		$productHelper = productHelper::getInstance();
-		$orderFunction = order_functions::getInstance();
 		$model         = $this->getModel();
 		$data          = $model->exportOrder();
 		$noProducts    = $model->countProductByOrder();
@@ -83,10 +82,10 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$billingInfo = RedshopHelperOrder::getOrderBillingUserInfo($data[$i]->order_id);
-			$details = RedshopShippingRate::decrypt($data[$i]->ship_method_id);
+			$details     = Redshop\Shipping\Rate::decrypt($data[$i]->ship_method_id);
 
 			echo $data [$i]->order_id . ",";
-			echo utf8_decode($orderFunction->getOrderStatusTitle($data [$i]->order_status)) . " ,";
+			echo utf8_decode(RedshopHelperOrder::getOrderStatusTitle($data [$i]->order_status)) . " ,";
 			echo date('d-m-Y H:i', $data[$i]->cdate) . " ,";
 
 			if (empty($details))
@@ -114,7 +113,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 			echo $billingInfo->country_code . " ,";
 			echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(",", " ", $billingInfo->lastname) . " ,";
 
-			$noItems = $orderFunction->getOrderItemDetail($data[$i]->order_id);
+			$noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
 
 			for ($it = 0, $countItem = count($noItems); $it < $countItem; $it++)
 			{
@@ -136,6 +135,6 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 			echo  Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
 		}
 
-		exit ();
+		exit();
 	}
 }

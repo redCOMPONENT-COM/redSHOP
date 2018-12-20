@@ -88,7 +88,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	/**
 	 * Method to buil query string
 	 *
-	 * @return  String
+	 * @return  string
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
@@ -96,7 +96,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	{
 		$format = $this->getDateFormat();
 		$db     = $this->getDbo();
-		$query = $db->getQuery(true)
+		$query  = $db->getQuery(true)
 			->select('FROM_UNIXTIME(cdate, "' . $format . '") AS viewdate')
 			->select('FROM_UNIXTIME(cdate, "%Y%m%d") AS orderdate')
 			->select('SUM(order_total) AS order_total')
@@ -120,7 +120,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'cdate');
+		$orderCol  = $this->state->get('list.ordering', 'cdate');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
@@ -137,7 +137,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	 */
 	public function exportOrder()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(o.cdate)')
 			->select('o.*')
@@ -174,7 +174,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	 */
 	public function countProductByOrder()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('order_id'))
 			->select('COUNT(order_item_id) AS noproduct')
@@ -193,8 +193,8 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	 */
 	public function getDateFormat()
 	{
-		$startDate = 0;
-		$endDate = 0;
+		$startDate       = 0;
+		$endDate         = 0;
 		$filterDateRange = $this->state->get('filter.date_range', '');
 		$filterDateGroup = $this->state->get('filter.date_group', '');
 

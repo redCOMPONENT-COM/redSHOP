@@ -68,7 +68,7 @@ $model = $this->getModel('stockimage');
 				$row = $this->data[$i];
 				$row->id = $row->stock_amount_id;
 
-				$thumbUrl = RedShopHelperImages::getImagePath(
+				$thumbUrl = RedshopHelperMedia::getImagePath(
 								$row->stock_amount_image,
 								'',
 								'thumb',

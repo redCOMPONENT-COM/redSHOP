@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
-
 $isCreditCard   = 0;
 $paymentMethods = RedshopHelperOrder::getPaymentMethodInfo('', false);
 $is_company     = $this->billing->is_company;

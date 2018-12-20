@@ -43,7 +43,7 @@ class RedshopModelProduct_category extends RedshopModel
 	 */
 	public function getProductCategories($products)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('c.name, pcx.product_id')
 			->from($db->qn('#__redshop_category', 'c'))

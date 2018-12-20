@@ -53,7 +53,7 @@ class RedshopModelForm extends JModelAdmin
 	 *
 	 * @param   array  $config  Configuration array
 	 *
-	 * @throws  RuntimeException
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -112,7 +112,7 @@ class RedshopModelForm extends JModelAdmin
 	 *
 	 * @return  RedshopModelForm  The model
 	 *
-	 * @throws  InvalidArgumentException
+	 * @throws  Exception
 	 */
 	public static function getAutoInstance($name, $client = null, array $config = array(), $option = 'auto')
 	{
@@ -122,7 +122,7 @@ class RedshopModelForm extends JModelAdmin
 		}
 
 		$componentName = ucfirst(strtolower(substr($option, 4)));
-		$prefix = $componentName . 'Model';
+		$prefix        = $componentName . 'Model';
 
 		if (is_null($client))
 		{
@@ -170,6 +170,8 @@ class RedshopModelForm extends JModelAdmin
 	 * @param   string  $option  Component name, use for call model from modules
 	 *
 	 * @return  RedshopModelForm  Model instance
+	 *
+	 * @throws  Exception
 	 */
 	public static function getAdminInstance($name, array $config = array(), $option = 'auto')
 	{
@@ -184,6 +186,8 @@ class RedshopModelForm extends JModelAdmin
 	 * @param   string  $option  Component name, use for call model from modules
 	 *
 	 * @return  RedshopModelForm  Model instance
+	 *
+	 * @throws  Exception
 	 */
 	public static function getFrontInstance($name, array $config = array(), $option = 'auto')
 	{
@@ -227,6 +231,8 @@ class RedshopModelForm extends JModelAdmin
 	 * @param   array   $config  Configuration array
 	 *
 	 * @return  JTable
+	 *
+	 * @throws  Exception
 	 */
 	public function getTable($name = null, $prefix = 'RedshopTable', $config = array())
 	{
@@ -250,6 +256,8 @@ class RedshopModelForm extends JModelAdmin
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  array  The default data is an empty array.
+	 *
+	 * @throws  Exception
 	 */
 	protected function loadFormData()
 	{
@@ -281,7 +289,7 @@ class RedshopModelForm extends JModelAdmin
 	public function validate($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
-		$data = $form->filter($data);
+		$data   = $form->filter($data);
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
@@ -332,6 +340,8 @@ class RedshopModelForm extends JModelAdmin
 	 * @return  string  Unique field value
 	 *
 	 * @since   1.5
+	 *
+	 * @throws  Exception
 	 */
 	protected function renameToUniqueValue($fieldName, $fieldValue, $style = 'default', $tableName = '')
 	{
@@ -360,33 +370,59 @@ class RedshopModelForm extends JModelAdmin
 
 		foreach ($pks as $pk)
 		{
-			if ($table->load($pk, true))
-			{
-				// Reset the id to create a new record.
-				$table->{$table->getKeyName()} = 0;
-
-				// Unpublish duplicate module
-				$table->published = 0;
-
-				if (!empty($this->copyUniqueColumns))
-				{
-					foreach ($this->copyUniqueColumns as $copyColumn)
-					{
-						$table->{$copyColumn} = $this->renameToUniqueValue($copyColumn, $table->{$copyColumn}, $this->copyIncrement);
-					}
-				}
-
-				if (!$table->check() || !$table->store())
-				{
-					throw new Exception($table->getError());
-				}
-			}
-			else
+			if (!$table->load($pk, true))
 			{
 				throw new Exception($table->getError());
 			}
+
+			$source = clone $table;
+
+			// Reset the id to create a new record.
+			$table->{$table->getKeyName()} = 0;
+
+			// Unpublish duplicate module
+			if (property_exists($table, 'published'))
+			{
+				$table->published = 0;
+			}
+			elseif (property_exists($table, 'state'))
+			{
+				$table->state = 0;
+			}
+
+			if (!empty($this->copyUniqueColumns))
+			{
+				foreach ($this->copyUniqueColumns as $copyColumn)
+				{
+					$table->{$copyColumn} = $this->renameToUniqueValue($copyColumn, $table->{$copyColumn}, $this->copyIncrement);
+				}
+			}
+
+			if (!$table->check())
+			{
+				throw new Exception($table->getError());
+			}
+
+			if (!$table->store())
+			{
+				throw new Exception($table->getError());
+			}
+
+			$this->afterCopy($source, clone $table);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for run after success copy record
+	 *
+	 * @param   JTable  $source  Source record
+	 * @param   JTable  $target  Target record
+	 *
+	 * @return  void
+	 */
+	public function afterCopy($source, $target)
+	{
 	}
 }

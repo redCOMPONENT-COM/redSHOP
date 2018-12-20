@@ -26,6 +26,7 @@ class RedshopControllerCatalog extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelCatalog_detail $model */
 		$model = $this->getModel('catalog_detail');
 
 		if (!$model->publish($cid, 1))
@@ -46,6 +47,7 @@ class RedshopControllerCatalog extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelCatalog_detail $model */
 		$model = $this->getModel('catalog_detail');
 
 		if (!$model->publish($cid, 0))

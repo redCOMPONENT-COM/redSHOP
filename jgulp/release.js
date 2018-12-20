@@ -151,7 +151,6 @@ gulp.task("release:languages", function () {
             parser.parseString(data, function (err, result) {
                 if (err) {
                     error = err;
-                    console.log(err);
 
                     return;
                 }

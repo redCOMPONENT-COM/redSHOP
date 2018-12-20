@@ -49,6 +49,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\VoucherManagerPage::$voucherLeft, $count);
 				$I->click(\VoucherManagerPage::$saveButton);
 				$I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
+				$I->click(\VoucherManagerPage::$closeButton);
 
 				break;
 			case 'saveclose':
@@ -138,6 +139,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			 * $I->see(\VoucherManagerPage::$invalidProduct, \VoucherManagerPage::$xPathInvalid);
 			 * break;*/
 		}
+		$I->click(\VoucherManagerPage::$closeButton);
 	}
 
 	/**
@@ -154,13 +156,14 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchVoucherCode($voucherCode);
+		$I->checkAllResults();
+		$I->click(\VoucherManagerPage::$checkInButton);
 		$I->click($voucherCode);
 		$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click(\VoucherManagerPage::$saveCloseButton);
-		$I->waitForElement(\VoucherManagerPage::$messageContainer, 60);
-		$I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
+		$I->assertSystemMessageContains(\VoucherManagerPage::$messageSaveSuccess);
 		$I->seeElement(['link' => $voucherNewCode]);
 	}
 
@@ -175,7 +178,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(\VoucherManagerPage::$voucherCode, "");
 		$I->click(\VoucherManagerPage::$saveCloseButton);
-		$I->see(\VoucherManagerPage::$invalidCode, \VoucherManagerPage::$selectorError);
+		$I->assertSystemMessageContains(\VoucherManagerPage::$invalidCode);
+		$I->click(\VoucherManagerPage::$closeButton);
 	}
 
 	public function checkCloseButton($voucherCode)
@@ -197,11 +201,8 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);
-		switch ($buttonName) {
-			case 'edit':
-				$I->click(\VoucherManagerPage::$editButton);
-				$I->acceptPopup();
-				break;
+		switch ($buttonName)
+		{
 			case 'delete':
 				$I->click(\VoucherManagerPage::$deleteButton);
 				$I->acceptPopup();
@@ -216,8 +217,10 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				break;
 			case 'cancel':
 				$I->click(\VoucherManagerPage::$newButton);
+				$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 				$I->click(\VoucherManagerPage::$cancelButton);
-
+				break;
+			default:
 				break;
 		}
 		$I->see(\VoucherManagerPage::$namePageManagement, \VoucherManagerPage::$selectorNamePage);
@@ -236,11 +239,12 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchVoucherCode($voucherCode);
+		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$deleteButton);
 		$I->acceptPopup();
-		$I->waitForText(\VoucherManagerPage::$messageDeletedOneSuccess, 60, \VoucherManagerPage::$selectorSuccess);
-		$I->see(\VoucherManagerPage::$messageDeletedOneSuccess, \VoucherManagerPage::$selectorSuccess);
+//		$I->waitForText(\VoucherManagerPage::$messageDeletedOneSuccess, 60, \VoucherManagerPage::$selectorSuccess);
+//		$I->see(\VoucherManagerPage::$messageDeletedOneSuccess, \VoucherManagerPage::$selectorSuccess);
 		$I->fillField(\VoucherManagerPage::$searchField, $voucherCode);
 		$I->pressKey(\VoucherManagerPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->dontSee($voucherCode, \VoucherManagerPage::$voucherResultRow);
@@ -258,7 +262,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->searchVoucherCode($voucherCode);
-		$I->wait(3);
+		$I->waitForElement(\VoucherManagerPage::$voucherResultRow, 30);
 		$I->see($voucherCode, \VoucherManagerPage::$voucherResultRow);
 		$I->click(\VoucherManagerPage::$xPathStatus);
 	}
@@ -268,11 +272,10 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->filterListBySearching($voucherCode);
-		$I->wait(3);
+		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$unpublishButton);
-		$I->wait(3);
-		$I->see(\VoucherManagerPage::$messageUnpublishSuccess, \VoucherManagerPage::$selectorSuccess);
+//		$I->see(\VoucherManagerPage::$messageUnpublishSuccess, \VoucherManagerPage::$selectorSuccess);
 	}
 
 	public function changeVoucherPublishButton($voucherCode)
@@ -280,11 +283,10 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->filterListBySearching($voucherCode);
-		$I->wait(3);
+		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$publishButton);
-		$I->wait(3);
-		$I->see(\VoucherManagerPage::$messagePublishSuccess, \VoucherManagerPage::$selectorSuccess);
+//		$I->see(\VoucherManagerPage::$messagePublishSuccess, \VoucherManagerPage::$selectorSuccess);
 	}
 
 
@@ -292,30 +294,30 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
+		$I->waitForElement(\VoucherManagerPage::$searchField, 30);
+		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$unpublishButton);
-		$I->wait(3);
-		$I->see(\VoucherManagerPage::$messageSuccess, \VoucherManagerPage::$selectorSuccess);
 	}
 
 	public function changeAllVoucherPublishButton()
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
+		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$publishButton);
-		$I->wait(3);
-		$I->see(\VoucherManagerPage::$messageSuccess, \VoucherManagerPage::$selectorSuccess);
 	}
 
 	public function deleteAllVoucher($updatedRandomVoucherCode)
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
+		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$deleteButton);
 		$I->acceptPopup();;
-		$I->see(\VoucherManagerPage::$messageSuccess, \VoucherManagerPage::$selectorSuccess);
+//		$I->see(\VoucherManagerPage::$messageSuccess, \VoucherManagerPage::$selectorSuccess);
 		$I->dontSeeElement(['link' => $updatedRandomVoucherCode]);
 	}
 
@@ -335,7 +337,6 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function searchVoucherCode($voucherCode)
 	{
 		$I = $this;
-		$I->wantTo('Search voucher code');
 		$I->amOnPage(\VoucherManagerPage::$URL);
 		$I->waitForText(\VoucherManagerPage::$namePageManagement, 30, \VoucherManagerPage::$headPageName);
 		$I->filterListBySearching($voucherCode);

@@ -18,4 +18,21 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerTax_Rates extends RedshopControllerAdmin
 {
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   2.1.0
+	 */
+	public function getModel($name = 'Tax_Rate', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
 }

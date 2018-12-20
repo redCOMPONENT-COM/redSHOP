@@ -29,9 +29,9 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 */
 	public function onAjaxCategory_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -43,7 +43,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 */
 	public function onAjaxCategory_Start()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$headers = $this->getHeader();
 
@@ -64,7 +64,7 @@ class PlgRedshop_ExportCategory extends AbstractExportPlugin
 	 */
 	public function onAjaxCategory_Export()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input = JFactory::getApplication()->input;
 		$limit = $input->getInt('limit', 0);

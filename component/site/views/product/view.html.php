@@ -83,8 +83,7 @@ class RedshopViewProduct extends RedshopView
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
-		$this->data            = $this->get('data');
-
+		$this->data            = $this->get('Data');
 		$productTemplate       = null;
 
 		$this->itemId = $this->input->getInt('Itemid', null);
@@ -100,27 +99,13 @@ class RedshopViewProduct extends RedshopView
 			$this->pid = $params->get('productid');
 		}
 
-		if (Redshop::getConfig()->get('MY_WISHLIST'))  // if enable wishlist
-		{
-			JHtml::script('com_redshop/redshop.wishlist.js', false, true);
-		}
-
 		/*
 		 *  Include JavaScript.
 		 *  But, first check if a plugin wants to use its own jQuery.
 		 */
-		$stopJQuery = $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
+		$this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
 
-		if (in_array(true, $stopJQuery, true))
-		{
-			$stopJQuery = true;
-		}
-		else
-		{
-			$stopJQuery = false;
-		}
-
-		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
+		JHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
 
 		if ($layout == "downloadproduct")
 		{
@@ -182,7 +167,7 @@ class RedshopViewProduct extends RedshopView
 
 				while ($parentid != 0)
 				{
-					$parentdetail = $prodhelperobj->getSection("category", $parentid);
+					$parentdetail = RedshopEntityCategory::getInstance($parentid)->getItem();
 					$parentcat    = $parentdetail->name . "  " . $parentcat;
 					$parentid     = $prodhelperobj->getParentCategory($parentdetail->id);
 				}

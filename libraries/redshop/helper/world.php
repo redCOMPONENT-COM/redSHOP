@@ -172,7 +172,7 @@ class RedshopHelperWorld
 	 *
 	 * @return  array                     Country list information
 	 */
-	public static function getCountryList($post = array(), $countryListName = "country_code", $addressType = "BT", $class = "inputbox",
+	public static function getCountryList($post = array(), $countryListName = "country_code", $addressType = "BT", $class = "inputbox form-control",
 		$stateListId = "state_code")
 	{
 		$addressType     = ($addressType == "ST") ? "_ST" : "";
@@ -238,7 +238,7 @@ class RedshopHelperWorld
 	 *
 	 * @return array
 	 */
-	public static function getStateList($post = array(), $stateListName = "state_code", $addressType = "BT", $class = "inputbox",
+	public static function getStateList($post = array(), $stateListName = "state_code", $addressType = "BT", $class = "inputbox form-control",
 		$fieldValue = 'state_2_code')
 	{
 		$selectedCountryCode = Redshop::getConfig()->get('SHOP_COUNTRY');

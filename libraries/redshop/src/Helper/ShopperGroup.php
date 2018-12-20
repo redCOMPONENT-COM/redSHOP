@@ -14,14 +14,14 @@ defined('_JEXEC') or die;
 /**
  * Shopper group helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class ShopperGroup
 {
 	/**
 	 * @var array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected static $list = array();
 
@@ -32,7 +32,7 @@ class ShopperGroup
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function generateList($shopperGroupId = 0)
 	{
@@ -55,5 +55,20 @@ class ShopperGroup
 		}
 
 		return self::$list[$shopperGroupId];
+	}
+
+	/**
+	 * Method for get default shopper group data
+	 *
+	 * @return   array
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getDefault()
+	{
+		$shopperGroupId = \RedshopHelperUser::getShopperGroup();
+		$result         = self::generateList($shopperGroupId);
+
+		return count($result) ? $result[0] : array();
 	}
 }

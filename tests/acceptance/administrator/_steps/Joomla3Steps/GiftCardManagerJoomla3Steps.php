@@ -21,15 +21,17 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
     public function addCardNew($cardName = 'Sample Card', $cardPrice = '10', $cardValue = '10', $cardValidity = '10',$function){
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
-        $I->click(\GiftCardManagerPage::$newButton);
+        $I->click(\GiftCardManagerPage::$buttonNew);
         switch ($function){
             case 'save':
                 $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
                 $I->fillField(\GiftCardManagerPage::$giftCardPrice, $cardPrice);
                 $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
                 $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
-                $I->click(\GiftCardManagerPage::$saveButton);
-                $I->waitForText(\GiftCardManagerPage::$messageSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+                $I->click(\GiftCardManagerPage::$buttonSave);
+                $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+                $I->waitForElement(\GiftCardManagerPage::$giftCardCancelButton,30);
+                $I->click(\GiftCardManagerPage::$giftCardCancelButton);
                 break;
             case 'saveclose':
                 $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
@@ -37,13 +39,11 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\GiftCardManagerPage::$giftCardPrice, $cardPrice);
                 $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
                 $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
-                $I->click(\GiftCardManagerPage::$saveCloseButton);
-                $I->waitForText(\GiftCardManagerPage::$messageSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+                $I->click(\GiftCardManagerPage::$buttonSaveClose);
+                $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
                 $I->filterListBySearching($cardName);
                 $I->seeElement(['link' => $cardName]);
                 break;
-
-
         }
     }
     /**
@@ -56,33 +56,33 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
     {
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
-        $I->waitForText(\GiftCardManagerPage::$namePageManagement, 30, \GiftCardManagerPage::$selectorNamePage);
+        $I->waitForText(\GiftCardManagerPage::$namePageManagement, 30, \GiftCardManagerPage::$selectorPageTitle);
 
         switch ($buttonName) {
             case 'cancel':
-                $I->click(\GiftCardManagerPage::$newButton);
+                $I->click(\GiftCardManagerPage::$buttonNew);
                 $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
-                $I->click(\GiftCardManagerPage::$cancelButton);
-                $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
+                $I->click(\GiftCardManagerPage::$buttonCancel);
+                $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorPageTitle);
                 break;
             case 'edit':
-                $I->click(\GiftCardManagerPage::$editButton);
+                $I->click(\GiftCardManagerPage::$buttonEdit);
                 $I->acceptPopup();
                 break;
             case 'delete':
-                $I->click(\GiftCardManagerPage::$deleteButton);
+                $I->click(\GiftCardManagerPage::$buttonDelete);
                 $I->acceptPopup();
                 break;
             case 'publish':
-                $I->click(\GiftCardManagerPage::$publishButton);
+                $I->click(\GiftCardManagerPage::$buttonPublish);
                 $I->acceptPopup();
                 break;
             case 'unpublish':
-                $I->click(\GiftCardManagerPage::$unpublishButton);
+                $I->click(\GiftCardManagerPage::$buttonUnpublish);
                 $I->acceptPopup();
                 break;
         }
-        $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
+        $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorPageTitle);
     }
 
     /**
@@ -103,8 +103,8 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $cardValidity = '10';
         $cardName = $faker->bothify('Gift Card Name ##??');
         $I->amOnPage(\GiftCardManagerPage::$URL);
-        $I->waitForText(\GiftCardManagerPage::$namePageManagement, 30, \GiftCardManagerPage::$selectorNamePage);
-        $I->click(\GiftCardManagerPage::$newButton);
+        $I->waitForText(\GiftCardManagerPage::$namePageManagement, 30, \GiftCardManagerPage::$selectorPageTitle);
+        $I->click(\GiftCardManagerPage::$buttonNew);
         $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
 
         switch ($fieldName) {
@@ -113,7 +113,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
                 $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
                 $I->fillField(\GiftCardManagerPage::$giftCardName, "");
-                $I->click(\GiftCardManagerPage::$saveButton);
+                $I->click(\GiftCardManagerPage::$buttonSave);
                 $I->see(\GiftCardManagerPage::$messageInvalidName, \GiftCardManagerPage::$errorValid);
                 break;
             case 'cardValidity':
@@ -121,7 +121,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\GiftCardManagerPage::$giftCardValidity, "");
                 $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
                 $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
-                $I->click(\GiftCardManagerPage::$saveButton);
+                $I->click(\GiftCardManagerPage::$buttonSave);
                 $I->see(\GiftCardManagerPage::$messageInvalidCart, \GiftCardManagerPage::$errorValid);
                 break;
             case 'cardValue':
@@ -129,7 +129,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
                 $I->fillField(\GiftCardManagerPage::$giftCardValue, "");
                 $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
-                $I->click(\GiftCardManagerPage::$saveButton);
+                $I->click(\GiftCardManagerPage::$buttonSave);
                 $I->see(\GiftCardManagerPage::$messageInvalidGiftCart, \GiftCardManagerPage::$errorValid);
                 break;
             case 'cardPrice':
@@ -137,7 +137,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->fillField(\GiftCardManagerPage::$giftCardValidity, $cardValidity);
                 $I->fillField(\GiftCardManagerPage::$giftCardValue, $cardValue);
                 $I->fillField(\GiftCardManagerPage::$giftCardName, $cardName);
-                $I->click(\GiftCardManagerPage::$saveButton);
+                $I->click(\GiftCardManagerPage::$buttonSave);
                 $I->see(\GiftCardManagerPage::$messageInvalidPrice, \GiftCardManagerPage::$errorValid);
                 break;
         }
@@ -147,26 +147,23 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
+
         $I->click(['link' => $cardName]);
         switch ($function){
             case 'save':
                 $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
                 $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-                $I->click(\GiftCardManagerPage::$saveCloseButton);
-                $I->waitForText(\GiftCardManagerPage::$messageSaveSuccess, 30, \GiftCardManagerPage::$selectorSuccess);
-                $I->filterListBySearching($newCardName);
-                $I->seeElement(['link' => $newCardName]);
+                $I->click(\GiftCardManagerPage::$buttonSave);
+                $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 30, \GiftCardManagerPage::$selectorSuccess);
+                $I->seeInField(\GiftCardManagerPage::$giftCardName, $newCardName);
+                $I->click(\GiftCardManagerPage::$buttonClose);
                 break;
             case 'saveclose':
                 $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
                 $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-                $I->click(\GiftCardManagerPage::$saveButton);
-                $I->waitForText(\GiftCardManagerPage::$messageSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
-                $I->click(\GiftCardManagerPage::$closeButton);
-                $I->see(\GiftCardManagerPage::$namePageManagement, \GiftCardManagerPage::$selectorNamePage);
+                $I->click(\GiftCardManagerPage::$buttonSaveClose);
+                $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
                 break;
-
-
         }
     }
 
@@ -177,7 +174,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->filterListBySearching($cardName);
         $I->click(['link' => $cardName]);
         $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
-        $I->click(\GiftCardManagerPage::$closeButton);
+        $I->click(\GiftCardManagerPage::$buttonClose);
         $I->filterListBySearching($cardName);
         $I->seeElement(['link' => $cardName]);
     }
@@ -197,13 +194,13 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
         $I->click(\GiftCardManagerPage::$getGiftCard);
-        $I->click(\GiftCardManagerPage::$editButton);
+        $I->click(\GiftCardManagerPage::$buttonEdit);
         $I->waitForElement(\GiftCardManagerPage::$giftCardName, 30);
         $I->fillField(\GiftCardManagerPage::$giftCardName, $newCardName);
-        $I->click(\GiftCardManagerPage::$saveCloseButton);
-        $I->waitForText(\GiftCardManagerPage::$messageSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
-        $I->filterListBySearching($newCardName);
-        $I->seeElement(['link' => $newCardName]);
+        $I->click(\GiftCardManagerPage::$buttonSave);
+        $I->waitForText(\GiftCardManagerPage::$messageItemSaveSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+        $I->seeInField(\GiftCardManagerPage::$giftCardName, $newCardName);
+        $I->click(\GiftCardManagerPage::$buttonClose);
     }
 
     /**
@@ -219,7 +216,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
         $I->click(\GiftCardManagerPage::$firstResult);
-        $I->click(\GiftCardManagerPage::$editButton);
+        $I->click(\GiftCardManagerPage::$buttonEdit);
         $I->dontSeeElement(['link' => $cardName]);
     }
 
@@ -261,8 +258,8 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
         $I->checkAllResults();
-        $I->click(\GiftCardManagerPage::$unpublishButton);
-        $I->waitForText(\GiftCardManagerPage::$messageUnpublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+        $I->click(\GiftCardManagerPage::$buttonUnpublish);
+//        $I->waitForText(\GiftCardManagerPage::$messageUnpublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
     }
 
     public function changeCardPublishButton($cardName)
@@ -271,8 +268,8 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->filterListBySearching($cardName);
         $I->checkAllResults();
-        $I->click(\GiftCardManagerPage::$publishButton);
-        $I->waitForText(\GiftCardManagerPage::$messagePublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
+        $I->click(\GiftCardManagerPage::$buttonPublish);
+//        $I->waitForText(\GiftCardManagerPage::$messagePublishSuccess, 60, \GiftCardManagerPage::$selectorSuccess);
     }
 
 
@@ -281,8 +278,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->checkAllResults();
-        $I->click(\GiftCardManagerPage::$unpublishButton);
-        $I->wait(3);
+        $I->click(\GiftCardManagerPage::$buttonUnpublish);
     }
 
     public function changeAllCardPublishButton()
@@ -290,7 +286,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I = $this;
         $I->amOnPage(\GiftCardManagerPage::$URL);
         $I->checkAllResults();
-        $I->click(\GiftCardManagerPage::$publishButton);;
+        $I->click(\GiftCardManagerPage::$buttonPublish);;
     }
 
 
@@ -303,7 +299,20 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
      */
     public function getCardState($cardName)
     {
-        $result = $this->getState(new \GiftCardManagerPage, $cardName, \GiftCardManagerPage::$giftCardResultRow, \GiftCardManagerPage::$giftCardState);
+        $I = $this;
+        $I->amOnPage(\GiftCardManagerPage::$URL);
+        $I->searchCard($cardName);
+        $I->waitForElement(\GiftCardManagerPage::$giftCardResultRow);
+        $I->see($cardName, \GiftCardManagerPage::$giftCardResultRow);
+        $text = $I->grabAttributeFrom(\GiftCardManagerPage::$getCartStatus, 'onclick');
+        if (strpos($text, 'unpublish') > 0)
+        {
+            $result = 'published';
+        
+        }else
+        {
+          $result = 'unpublished';
+        }
         return $result;
     }
 }

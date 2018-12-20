@@ -22,20 +22,19 @@ class RedshopViewSample_detail extends RedshopViewAdmin
 	public function display($tpl = null)
 	{
 
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
 
 		$document = JFactory::getDocument();
 
-		$document->addStyleSheet('components/com_redshop/assets/css/colorpicker.css');
-		$document->addStyleSheet('components/com_redshop/assets/css/layout.css');
-		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/colorpicker.js');
-		$document->addScript('components/com_redshop/assets/js/eye.js');
-		$document->addScript('components/com_redshop/assets/js/utils.js');
-		$document->addScript('components/com_redshop/assets/js/layout.js?ver=1.0.2');
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/colorpicker.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.layout.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/colorpicker.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/eye.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.utils.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
 
-		$uri = JFactory::getURI();
+		$uri = JUri::getInstance();
 
 		$this->setLayout('default');
 
@@ -51,7 +50,7 @@ class RedshopViewSample_detail extends RedshopViewAdmin
 
 		if ($layout == 'default')
 		{
-			$isNew = ($detail->sample_id < 1);
+			$isNew      = ($detail->sample_id < 1);
 			$color_data = $model->color_Data($detail->sample_id);
 
 			if (!is_array($color_data))
@@ -83,8 +82,8 @@ class RedshopViewSample_detail extends RedshopViewAdmin
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

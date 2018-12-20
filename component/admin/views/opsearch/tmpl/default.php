@@ -86,7 +86,7 @@ $showbuttons = JFactory::getApplication()->input->get('showbuttons', '');    ?>
 					                      title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a>
 					</td>
 					<td><?php echo $config->convertDateFormat($row->mdate);?></td>
-					<td align="center"><?php echo $order_function->getOrderStatusTitle($row->order_status);?></td>
+					<td align="center"><?php echo RedshopHelperOrder::getOrderStatusTitle($row->order_status);?></td>
 					<td align="center"><?php echo $row->product_quantity; ?></td>
 					<td align="center"><?php echo $row->fullname; ?></td>
 				</tr>

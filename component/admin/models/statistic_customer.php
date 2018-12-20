@@ -84,7 +84,7 @@ class RedshopModelStatistic_Customer extends RedshopModelList
 	/**
 	 * Method to buil query string
 	 *
-	 * @return  String
+	 * @return  string
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
@@ -127,7 +127,7 @@ class RedshopModelStatistic_Customer extends RedshopModelList
 		$query->having($db->qn('count') . ' > 0');
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'ui.users_info_id');
+		$orderCol  = $this->state->get('list.ordering', 'ui.users_info_id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));

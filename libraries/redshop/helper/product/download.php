@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper Product Download
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperProductDownload
 {
@@ -24,7 +24,7 @@ class RedshopHelperProductDownload
 	 *
 	 * @return  object|integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function checkDownload($productId, $return = false)
 	{
@@ -36,10 +36,12 @@ class RedshopHelperProductDownload
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->qn(
-				array(
-					'product_download', 'product_download_days', 'product_download_limit', 'product_download_clock',
-					'product_download_clock_min', 'product_download_infinite')
+			->select(
+				$db->qn(
+					array(
+						'product_download', 'product_download_days', 'product_download_limit', 'product_download_clock',
+						'product_download_clock_min', 'product_download_infinite'
+					)
 				)
 			)
 			->from($db->qn('#__redshop_product'))

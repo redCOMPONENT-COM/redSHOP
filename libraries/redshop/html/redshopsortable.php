@@ -49,8 +49,8 @@ abstract class JHtmlRedshopSortable
 		// Depends on jQuery UI
 		JHtml::_('redshopjquery.ui', array('core', 'sortable'));
 
-		JHtml::script('com_redshop/sortablelist.js', false, true, false, false);
-		JHtml::stylesheet('com_redshop/sortablelist.css', false, true, false, false);
+		JHtml::script('com_redshop/sortablelist.min.js', false, true, false, false);
+		JHtml::stylesheet('com_redshop/sortablelist.min.css', false, true, false, false);
 
 		static::$loaded[__METHOD__] = true;
 

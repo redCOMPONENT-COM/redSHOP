@@ -1,0 +1,1 @@
+!function(n){var i=window.EYE=function(){var i={init:[]};return{init:function(){n.each(i.init,function(n,i){i.call()})},extend:function(n){for(var i in n)void 0!=n[i]&&(this[i]=n[i])},register:function(n,t){i[t]||(i[t]=[]),i[t].push(n)}}}();n(i.init)}(jQuery);

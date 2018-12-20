@@ -71,7 +71,7 @@ if (isset($limitstart))  // V 1.2.4.r
    		case 'manufacturers':
 	  	   if($mid && $task=='manufacturer_detail'){
 
-	  	    $sql = "SELECT pagetitle FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
+	  	    $sql = "SELECT pagetitle FROM #__redshop_manufacturer WHERE id = '$mid'";
 	  	   	$db->setQuery($sql);
 	  	    $url = $db->loadObject();
 	  	    $shCustomTitleTag = $url->pagetitle;
@@ -80,7 +80,7 @@ if (isset($limitstart))  // V 1.2.4.r
   		 case 'manufacturer_products':
 	  	   if($mid){
 
-	  	    $sql = "SELECT pagetitle FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
+	  	    $sql = "SELECT pagetitle FROM #__redshop_manufacturer WHERE id = '$mid'";
 	  	   	$db->setQuery($sql);
 	  	    $url = $db->loadObject();
 	  	    $shCustomTitleTag = $url->pagetitle;

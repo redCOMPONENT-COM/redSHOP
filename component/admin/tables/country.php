@@ -40,7 +40,22 @@ class RedshopTableCountry extends RedshopTable
 			return false;
 		}
 
-		$db = JFactory::getDbo();
+		if (empty($this->country_name))
+		{
+			return false;
+		}
+
+		if (empty($this->country_3_code))
+		{
+			return false;
+		}
+
+		if (empty($this->country_2_code))
+		{
+			return false;
+		}
+
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->qn(array('id', 'country_3_code')))
 			->from($db->qn('#__redshop_country'))

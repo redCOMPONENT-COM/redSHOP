@@ -46,9 +46,9 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	 */
 	public function onAjaxAttribute_Config()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return '';
+		\Redshop\Ajax\Response::getInstance()->respond();
 	}
 
 	/**
@@ -60,7 +60,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	 */
 	public function onAjaxAttribute_Import()
 	{
-		RedshopHelperAjax::validateAjaxRequest();
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input           = JFactory::getApplication()->input;
 		$this->encoding  = $input->getString('encoding', 'UTF-8');
@@ -257,7 +257,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($propertyStock[0]))
 								->where($db->quoteName('section') . ' = ' . $db->quote('property'))
 								->where($db->quoteName('section_id') . ' = ' . $db->quote($propertyId));
-							$db->setQuery($query)->clear();
+							$db->setQuery($query)->execute();
 						}
 						else
 						{

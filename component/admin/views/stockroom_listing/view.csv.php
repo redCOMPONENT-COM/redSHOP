@@ -67,11 +67,11 @@ class RedshopViewStockroom_Listing extends RedshopViewCsv
 		$model->setState('streamOutput', 'csv');
 
 		// Prepare the items
-		$items = $model->getItems();
-		$state = $this->get('State');
-		$stockroom_type   = $state->get('stockroom_type');
+		$items          = $model->getItems();
+		$state          = $this->get('State');
+		$stockroom_type = $state->get('stockroom_type');
 		$stockrooms     = $this->get('Stockroom');
-		$ids = array();
+		$ids            = array();
 
 		if ($stockroom_type != 'product')
 		{
@@ -91,7 +91,7 @@ class RedshopViewStockroom_Listing extends RedshopViewCsv
 		$quantities = $model->getQuantity($stockroom_type, '', $ids);
 
 		$csvLines[0] = $columns;
-		$i = 1;
+		$i           = 1;
 
 		if ($stockrooms)
 		{

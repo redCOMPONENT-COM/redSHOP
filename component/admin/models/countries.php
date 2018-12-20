@@ -95,8 +95,8 @@ class RedshopModelCountries extends RedshopModelList
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_country'));
+			->select('*')
+			->from($db->qn('#__redshop_country'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -115,7 +115,7 @@ class RedshopModelCountries extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderCol  = $this->state->get('list.ordering', 'id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));

@@ -3,7 +3,7 @@
         $("#redSHOPAdminContainer .label-edit-inline").each(function (index, item) {
             var $label = $(item);
             var $input = $("#" + $(this).data("target"));
-            var $id = $(this).data("id");
+            var $id    = $(this).data("id");
             var $value = $(this).data("original-value");
 
             $(item).click(function (e) {
@@ -29,7 +29,7 @@
                 .on("keypress", function (event) {
                     var keyCode = event.keyCode || event.which;
 
-                    if (keyCode == 13) {
+                    if (keyCode === 13) {
                         event.preventDefault();
                         // Enter key
                         document.adminForm.task.value = "ajaxInlineEdit";
@@ -46,17 +46,20 @@
                             }
                         })
                             .done(function (response) {
-                                if (response == 1) {
+                                if (response === 1) {
                                     if ($label.find("a").length) {
                                         $label.find("a").text($input.val());
                                     } else {
                                         $label.text($input.val());
                                     }
+
                                     $.redshopAlert(
                                         Joomla.JText._('COM_REDSHOP_SUCCESS'),
                                         Joomla.JText._('COM_REDSHOP_DATA_UPDATE_SUCCESS')
                                     );
                                 } else {
+                                    $input.val($value);
+
                                     $.redshopAlert(
                                         Joomla.JText._('COM_REDSHOP_FAIL'),
                                         Joomla.JText._('COM_REDSHOP_DATA_UPDATE_FAIL'),

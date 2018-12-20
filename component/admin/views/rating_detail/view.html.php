@@ -51,12 +51,12 @@ class RedshopViewRating_detail extends RedshopViewAdmin
 		}
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
-		$lists['favoured'] = JHTML::_('select.booleanlist', 'favoured', 'class="inputbox"', $detail->favoured);
+		$lists['favoured']  = JHTML::_('select.booleanlist', 'favoured', 'class="inputbox"', $detail->favoured);
 
 		$lists['userslist'] = JHTML::_('select.genericlist', $userslist, 'userid', 'class="inputbox" size="1" ', 'value', 'text', $detail->userid);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

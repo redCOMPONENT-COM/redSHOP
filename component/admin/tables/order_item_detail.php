@@ -67,6 +67,10 @@ class Tableorder_item_detail extends JTable
 
 	public $attribute_image = null;
 
+	public $giftcard_user_email;
+
+	public $giftcard_user_name;
+
 	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';

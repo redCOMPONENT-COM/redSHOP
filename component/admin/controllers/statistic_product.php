@@ -69,6 +69,6 @@ class RedshopControllerStatistic_Product extends RedshopControllerAdmin
 			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . ' ' . $value->total_sale . "\n";
 		}
 
-		exit ();
+		exit();
 	}
 }

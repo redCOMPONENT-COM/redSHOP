@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   int  $data  Extra field data
+ * @var  array    $displayData  Layout data.
+ * @var  integer  $data         Extra field data
  */
 extract($displayData);
 

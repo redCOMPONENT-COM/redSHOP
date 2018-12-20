@@ -25,7 +25,7 @@ class CurrencyHelper
 	 * Returns the CurrencyHelper object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  CurrencyHelper  The CurrencyHelper object
+	 * @return  Currency  The CurrencyHelper object
 	 *
 	 * @since   1.6
 	 *
@@ -39,13 +39,14 @@ class CurrencyHelper
 	/**
 	 * Initializes the global currency converter array
 	 *
-	 * @return  mixed
+	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
 	 */
 	public function init()
 	{
-		return Currency::getInstance()->init();
+		Currency::getInstance()->init();
 	}
 
 	/**
@@ -56,6 +57,7 @@ class CurrencyHelper
 	 * @param   string  $currB    Currency code in which need amount to be converted
 	 *
 	 * @return  float             Converted amount
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
 	 */
@@ -78,7 +80,7 @@ class CurrencyHelper
 	 *
 	 * @todo    Add numeric code into table #_redshop_currency "redSHOP Currency Detail"
 	 *
-	 * @return  int     Currency Numeric Code
+	 * @return  string         Currency Numeric Code
 	 *
 	 * @deprecated  2.0.6  Use Redshop\Currency\Currency instead.
 	 */

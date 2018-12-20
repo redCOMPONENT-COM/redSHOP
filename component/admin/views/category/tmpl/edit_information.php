@@ -7,6 +7,27 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
+
+$fullImage   = '';
+$fullMediaId = 0;
+$backImage   = '';
+$backMediaId = 0;
+
+$media = RedshopEntityCategory::getInstance($this->item->id)->getMedia();
+
+foreach ($media->getAll() as $mediaItem)
+{
+	if ($mediaItem->get('scope') == 'full')
+	{
+		$fullImage   = $mediaItem->get('media_name');
+		$fullMediaId = $mediaItem->getId();
+	}
+    elseif ($mediaItem->get('scope') == 'back')
+	{
+		$backImage   = $mediaItem->get('media_name');
+		$backMediaId = $mediaItem->getId();
+	}
+}
 ?>
 
 <div class="row">
@@ -36,15 +57,15 @@ defined('_JEXEC') or die;
             <div class="box-body">
                 <div class="">
 					<?php
-					$section_id   = $this->item->id;
-					$mediaSection = 'category';
 					echo RedshopHelperMediaImage::render(
 						'category_full_image',
 						'category',
-						$section_id,
-						$mediaSection,
-						$this->item->category_full_image,
-						false
+						$this->item->id,
+						'category',
+						$fullImage,
+						false,
+						true,
+						$fullMediaId
 					);
 					?>
                 </div>
@@ -58,46 +79,26 @@ defined('_JEXEC') or die;
             <div class="box-body">
                 <div class="">
 					<?php
-					$section_id   = $this->item->id;
-					$mediaSection = 'category';
 					echo RedshopHelperMediaImage::render(
 						'category_back_full_image',
 						'category',
-						$section_id,
-						$mediaSection,
-						$this->item->category_back_full_image,
-						false
+						$this->item->id,
+						'category',
+						$backImage,
+						false,
+						true,
+						$backMediaId
 					);
 					?>
                 </div>
             </div>
         </div>
-        <div class="box box-primary">
+        <div class="box box-primary form-horizontal">
             <div class="box-body">
-                <div class="form-group">
-                    <label>
-						<?php echo $this->form->getLabel('created_by'); ?>
-                    </label>
-					<?php echo $this->form->getInput('created_by'); ?>
-                </div>
-                <div class="form-group">
-                    <label>
-						<?php echo $this->form->getLabel('created_date'); ?>
-                    </label>
-					<?php echo $this->form->getInput('created_date'); ?>
-                </div>
-                <div class="form-group">
-                    <label>
-						<?php echo $this->form->getLabel('modified_by'); ?>
-                    </label>
-					<?php echo $this->form->getInput('modified_by'); ?>
-                </div>
-                <div class="form-group">
-                    <label>
-						<?php echo $this->form->getLabel('modified_date'); ?>
-                    </label>
-					<?php echo $this->form->getInput('modified_date'); ?>
-                </div>
+				<?php echo $this->form->renderField('created_by') ?>
+				<?php echo $this->form->renderField('created_date') ?>
+				<?php echo $this->form->renderField('modified_by') ?>
+				<?php echo $this->form->renderField('modified_date') ?>
             </div>
         </div>
     </div>

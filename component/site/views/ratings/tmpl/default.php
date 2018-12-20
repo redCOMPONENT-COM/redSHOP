@@ -12,7 +12,7 @@ $redconfig = Redconfiguration::getInstance();
 $redTemplate = Redtemplate::getInstance();
 $model = $this->getModel('ratings');
 
-$main_template = $redTemplate->getTemplate("review");
+$main_template = RedshopHelperTemplate::getTemplate("review");
 
 if (count($main_template) > 0 && $main_template[0]->template_desc)
 {
@@ -68,7 +68,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 				{
 					$review_data .= $review_template;
 					$fullname  = $reviews[$j]->firstname . " " . $reviews[$j]->lastname;
-					$starimage = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
+					$starimage = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
 
 					$review_data = str_replace("{fullname}", $fullname, $review_data);
 					$review_data = str_replace("{title}", $reviews[$j]->title, $review_data);
@@ -88,7 +88,7 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 				{
 					$review_data .= $review_template;
 					$fullname2  = $reviews[$k]->firstname . " " . $reviews[$k]->lastname;
-					$starimage2 = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$k]->user_rating . '.gif">';
+					$starimage2 = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$k]->user_rating . '.gif">';
 
 					$review_data = str_replace("{fullname}", $fullname2, $review_data);
 					$review_data = str_replace("{title}", $reviews[$k]->title, $review_data);

@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$redhelper     = redhelper::getInstance();
-$app           = JFactory::getApplication();
-$itemId        = (int) RedshopHelperUtility::getCartItemId();
+$token     = JSession::getFormToken();
+$redhelper = redhelper::getInstance();
+$app       = JFactory::getApplication();
+$itemId    = (int) RedshopHelperRouter::getCartItemId();
 
 $getNewItemId = true;
 
@@ -30,7 +31,7 @@ if ($itemId != 0)
 
 if ($getNewItemId)
 {
-	$itemId = (int) RedshopHelperUtility::getCategoryItemid();
+	$itemId = (int) RedshopHelperRouter::getCategoryItemid();
 }
 
 $displayButton = JText::_('MOD_REDSHOP_CART_CHECKOUT');
@@ -76,3 +77,20 @@ JFactory::getDocument()->addStyleDeclaration(
 		<?php endif; ?>
     </div>
 </div>
+
+<script type="text/javascript">
+	function deleteCartItem(idx)
+	{
+		jQuery.ajax({
+			type: "POST",
+			data: {
+				idx: idx,
+				"<?php echo $token ?>": "1"
+			},
+			url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>",
+			success: function(data) {
+				jQuery('#mod_cart_total').html(data);
+			}
+		});
+	}
+</script>

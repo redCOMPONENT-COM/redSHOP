@@ -25,7 +25,7 @@ $model         = $this->getModel('product');
         }
 
         if (!document.formvalidator.isValid(form)) {
-            return false;
+            return;
         }
 
         form.submit();

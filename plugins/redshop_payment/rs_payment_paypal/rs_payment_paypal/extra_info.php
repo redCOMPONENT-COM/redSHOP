@@ -90,7 +90,7 @@ switch ($this->params->get("payment_oprand"))
 		break;
 }
 
-$items = $objOrder->getOrderItemDetail($data['order_id']);
+$items = RedshopHelperOrder::getOrderItemDetail($data['order_id']);
 
 // Calculate Total Shipping
 $shipping        = $data['order']->order_shipping;

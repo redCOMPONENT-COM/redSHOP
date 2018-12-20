@@ -31,16 +31,15 @@ class RedshopViewCatalog_request extends RedshopViewAdmin
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'catalog_user_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$catalog = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$catalog            = $this->get('Data');
+		$pagination         = $this->get('Pagination');
 
-
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->catalog = $catalog;
-		$this->pagination = $pagination;
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->catalog     = $catalog;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

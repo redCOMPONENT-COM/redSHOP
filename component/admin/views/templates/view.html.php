@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopViewTemplates extends RedshopViewList
 {
@@ -22,7 +22,7 @@ class RedshopViewTemplates extends RedshopViewList
 	 * Display duplicate button or not.
 	 *
 	 * @var   boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.0.7
 	 */
 	protected $enableDuplicate = true;
 
@@ -35,13 +35,15 @@ class RedshopViewTemplates extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
-		if ($config['dataCol'] === 'template_section')
+		if ($config['dataCol'] === 'section')
 		{
-			return RedshopHelperTemplate::getTemplateSections($row->template_section);
+			$return = RedshopHelperTemplate::getTemplateSections($row->section);
+
+			return is_string($return) ? $return : '';
 		}
 
 		return parent::onRenderColumn($config, $index, $row);

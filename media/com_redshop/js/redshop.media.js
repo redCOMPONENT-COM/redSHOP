@@ -1,1 +1,609 @@
-!function(e,t,i,n){function a(t,i){this._name=o,this._defaults=d,this.element=t,this.options=e.extend({},d,i),this.token=null,this.dropzoneInstance=null,this.$container=e(t),this.$dropzonePreview=this.$container.find(".rs-media-dropzone-preview"),this.$dropzoneForm=this.$container.find(".rs-media-dropzone-form"),this.$alertModal=this.$container.find(".rs-media-alert-modal"),this.$cropperModal=this.$container.find(".rs-media-cropper-modal"),this.$cropperButton=this.$container.find(".rs-media-cropper-btn"),this.$removeButton=this.$container.find(".rs-media-remove-btn"),this.$target=this.$container.find(".redshop-media-img-select"),this.$mediaFileButton=null,this.$mediaFileInsertButton=null,this.$mediaFileModal=null,this.$mediaFilePreview=null,this.$mediaFileDelModal=null,this.init()}var o="redshopMedia",d={uploadUrl:"index.php?option=com_redshop&view=media&task=ajaxUpload",deleteUrl:"index.php?option=com_redshop&view=media&task=ajaxDelete",allowedMime:"image/jpeg,image/jpg,image/png,image/gif",maxFileSize:2048,initFile:null,showMediaFiles:!1};a.prototype={init:function(){var t=this;if(this._initAttributes(),Dropzone.autoDiscover=!1,t.$dropzoneForm.length&&e("body").append(e(t.$dropzoneForm[0]).html()),e("#"+t.$container.data("id")+"-dropzone")&&(t.dropzoneInstance=new Dropzone("#"+t.$container.data("id")+"-dropzone",{url:t.options.uploadUrl,autoProcessQueue:!0,thumbnailWidth:null,thumbnailHeight:null,previewTemplate:e(t.$dropzonePreview[0]).html()})),t.$alertModal.length&&(t.$alertModal=e(t.$alertModal[0])),t.$cropperButton.length&&(t.$cropperButton=e(t.$cropperButton[0])),t.$removeButton.length&&(t.$removeButton=e(t.$removeButton[0])),t.$target.length&&(t.$target=e(t.$target[0])),1==t.options.showMediaFiles&&(t.$container.find(".rs-media-gallery-modal").length&&(t.$mediaFileModal=e(t.$container.find(".rs-media-gallery-modal")[0])),t.$container.find(".rs-media-gallery-preview").length&&(t.$mediaFilePreview=e(t.$container.find(".rs-media-gallery-preview")[0])),t.$container.find(".rs-media-gallery-delete-modal").length&&(t.$mediaFileDelModal=e(t.$container.find(".rs-media-gallery-delete-modal")[0])),t.$container.find(".rs-media-gallery-btn").length&&(t.$mediaFileButton=e(t.$container.find(".rs-media-gallery-btn")[0])),t.$container.find(".rs-media-gallery-insert-btn").length&&(t.$mediaFileInsertButton=e(t.$container.find(".rs-media-gallery-insert-btn")[0])),this._initMediaFileEvents()),this._initEvents(),null!=t.options.initFile){var i=t.dataURItoBlob(t.options.initFile.blob);i.name=t.options.initFile.name,t.dropzoneInstance.emit("thumbnail",t.options.initFile,t.options.initFile.url),t.dropzoneInstance.addFile(i)}},_initAttributes:function(){this.token=this.$container.attr("data-token")},_initEvents:function(){var t=this;t.dropzoneInstance.on("addedfile",function(i){if(e("#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button").attr("disabled",!0),!t.validateFile(i))return void this.removeFile(i);this.files.length>1&&this.removeFile(this.files[0]),t.$cropperButton.removeClass("disabled").prop("disabled",!1),t.$removeButton.removeClass("disabled").prop("disabled",!1),t.$container.find("#rs-media-img-delete").length&&t.$container.find("#rs-media-img-delete").remove()}),t.dropzoneInstance.on("success",function(i,n){n=JSON.parse(n),n.success&&t.$target.val(n.data.file.url),e("#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button").attr("disabled",!1)}),t.$removeButton.on("click",function(i){i.preventDefault(),t.dropzoneInstance.removeAllFiles(),t.$target.val(""),t.$cropperButton.addClass("disabled").prop("disabled",!0),t.$removeButton.addClass("disabled").prop("disabled",!0);var n=null;t.$container.find("#rs-media-img-delete").length<=0&&(n=e("<input/>"),n.attr("id","rs-media-img-delete").attr("name",t.$container.data("id")+"_delete").attr("type","text"),e("#adminForm").append(n)),n.val(!0)}),t.$cropperButton.on("click",function(e){e.preventDefault();var i=t.dropzoneInstance.files[0];if(!i)return void showAlert("Please insert an image!!!");i.width<100||t.$cropperModal.modal("show")}),t.$cropperModal.on("shown.bs.modal",function(e){var i=t.dropzoneInstance.files[0],n=i.name,a=t.$cropperModal.find(".crop-upload"),o=t.$cropperModal.find(".image-container img").first(),d=new FileReader;d.onloadend=function(){o.attr("src",d.result),o.cropper("destroy").cropper({dragMode:"move",autoCropArea:.5,movable:!1,cropBoxResizable:!0,viewMode:3,zoomable:!0})},i.preload?d.readAsDataURL(t.dataURItoBlob(i.blob)):d.readAsDataURL(i),a.off("click"),a.on("click",function(){var e=o.cropper("getCroppedCanvas").toDataURL(),a=t.dataURItoBlob(e);a.cropped=!0,a.name=n,t.dropzoneInstance.removeFile(i),t.dropzoneInstance.addFile(a),t.$cropperModal.modal("hide")})})},_initMediaFileEvents:function(){var t=this;t.$mediaFileButton.click(function(e){e.preventDefault(),t.$mediaFileModal.modal("show")}),t.$mediaFileModal.find(".img-obj").click(function(i){i.preventDefault(),e(this).hasClass("selected")?e(this).removeClass("selected"):(t.$mediaFileModal.find(".img-obj").removeClass("selected"),e(this).addClass("selected"),t.mediaFileShowInfor(this)),t.mediaFileResetPreview(),t.mediaFileToggleInsert()}),t.$mediaFileInsertButton.click(function(e){e.preventDefault();var i=t.$mediaFileModal.find(".img-obj.selected").find("img").first(),n=i.attr("src");t.$target.val(n);var a=new XMLHttpRequest;a.open("GET",n),a.responseType="blob",a.send(),a.addEventListener("load",function(){var e=new FileReader;e.readAsDataURL(this.response),e.addEventListener("loadend",function(){var n=t.dataURItoBlob(e.result);n.name=i.attr("alt"),t.dropzoneInstance.addFile(n),t.$mediaFileModal.modal("hide")})})}),t.$mediaFileModal.find(".btn-del-g").on("click",function(i){i.preventDefault(),t.$mediaFileDelModal.find(".btn-confirm-del-g").data("id",e(this).data("id")),t.$mediaFileDelModal.modal("show")}),t.$mediaFileDelModal.find(".btn-confirm-del-g").on("click",function(i){i.preventDefault();var n=e(this).data("id");n&&e.ajax({url:t.options.deleteUrl,method:"post",data:{id:n}}).done(function(e){t.$mediaFileModal.find(".img-obj.selected").parent().remove(),t.$mediaFileModal.find(".pv-wrapper").addClass("hidden")}).always(function(e){t.$mediaFileDelModal.modal("hide")})})},validateFile:function(e){var t=this;return e.size/1024>t.options.maxFileSize?(t.showAlert(Joomla.JText._("COM_REDSHOP_UPLOAD_FILE_TOO_BIG")),!1):-1!=t.options.allowedMime.indexOf(e.type)||(t.showAlert(Joomla.JText._("COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID")),!1)},showAlert:function(t){var i=this;i.$alertModal.find(".alert-text").text(t),i.$alertModal.modal("show"),e("#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button").attr("disabled",!1)},dataURItoBlob:function(e){for(var t=atob(e.split(",")[1]),i=new ArrayBuffer(t.length),n=new Uint8Array(i),a=0;a<t.length;a++)n[a]=t.charCodeAt(a);return new Blob([i],{type:"image/jpg"})},mediaFileShowInfor:function(t){var i=this;if(!(i.$mediaFileModal.find(".preview-pane").length<=0)){var n=e(i.$mediaFileModal.find(".preview-pane")[0]),a=e(t).find(".img-type"),o={id:a.data("id"),url:a.attr("src"),name:a.attr("alt"),size:a.data("size"),dimension:a.data("dimension")},d=a.clone();n.find(".pv-img .img-type").remove(),n.find(".pv-img").append(d),n.find(".pv-zoom").attr("href",o.url),n.find(".pv-zoom").attr("data-title",o.name),n.find(".pv-link").attr("href",o.url),n.find(".pv-name").text(o.name),n.find(".pv-size").text(o.size),n.find(".pv-dimension").text(o.dimension),n.find(".pv-url").html('<input type="text" value="'+o.url+'" class="form-control" readonly="true">'),n.find(".pv-remove > a").data("id",o.id),n.find(".pv-wrapper").removeClass("hidden")}},mediaFileResetPreview:function(){var t=this;if(!(t.$mediaFileModal.find(".preview-pane").length<=0)){var i=e(t.$mediaFileModal.find(".preview-pane")[0]);t.$mediaFileModal.find(".img-obj.selected").length<=0&&i.find(".pv-wrapper").addClass("hidden")}},mediaFileToggleInsert:function(){var e=this;null!=e.$mediaFileModal&&(e.$mediaFileModal.find(".img-obj.selected").length>0?e.$mediaFileInsertButton.removeAttr("disabled"):e.$mediaFileInsertButton.attr("disabled","true"))}},e.fn[o]=function(t){return this.each(function(){e.data(this,"plugin_"+o)||e.data(this,"plugin_"+o,new a(this,t))})}}(jQuery,window,document);
+/**
+ * @license
+ * Media.js - redSHOP Javascript component
+ *
+ * Copyright (c) 2016. GNU General Public License version 2 or later, see LICENSE.
+ *
+ * This library provide a new class to handle media upload
+ * with dropzonejs, cropperjs.
+ * It also manage the script of new media gallery for redSHOP.
+ * It support to search item with js by fusejs.
+ * Media.js's dependencies use Bower to manage.
+ *
+ * Component: com_redshop
+ * Develop: redWeb.vn Team
+ * Author: thuy@redweb.dk
+ * Version: 1.0 Devel
+ *
+ * References:
+ * - http://www.dropzonejs.com
+ * - https://fengyuanchen.github.io/cropperjs/
+ * - http://fusejs.io
+ * - https://bower.io
+ *
+ * To run:
+ * - bower install
+ * - gulp copy
+ */
+
+/**
+ * Strict mode is declared
+ */
+// "use strict";
+(function ($, window, document, undefined) {
+    var pluginName = "redshopMedia";
+
+    var defaults = {
+        /**
+         * URL to upload file with Ajax
+         *
+         * @type  {String}
+         */
+        uploadUrl: "index.php?option=com_redshop&view=media&task=ajaxUpload",
+        /**
+         * URL to delete item in media gallery
+         *
+         * @type  {String}
+         */
+        deleteUrl: "index.php?option=com_redshop&view=media&task=ajaxDelete",
+        allowedMime: "image/jpeg,image/jpg,image/png,image/gif",
+        maxFileSize: 2048,
+        imageMaxWidth: 2048,
+        imageMaxHeight: 2048,
+        initFile: null,
+        showMediaFiles: false
+    };
+
+    // The actual plugin constructor
+    function Plugin(element, options) {
+        this._name = pluginName;
+        this._defaults = defaults;
+
+        this.element = element;
+        this.options = $.extend({}, defaults, options);
+        this.token = null;
+        this.dropzoneInstance = null;
+
+        this.$container = $(element);
+        this.$dropzonePreview = this.$container.find(".rs-media-dropzone-preview");
+        this.$dropzoneForm = this.$container.find(".rs-media-dropzone-form");
+        this.$form = this.$container.closest('form');
+
+        this.$alertModal = this.$container.find(".rs-media-alert-modal");
+        this.$cropperModal = this.$container.find(".rs-media-cropper-modal");
+        this.$cropperButton = this.$container.find(".rs-media-cropper-btn");
+        this.$removeButton = this.$container.find(".rs-media-remove-btn");
+        this.$target = this.$container.find(".redshop-media-img-select");
+
+        this.$mediaFileButton = null;
+        this.$mediaFileInsertButton = null;
+        this.$mediaFileModal = null;
+        this.$mediaFilePreview = null;
+        this.$mediaFileDelModal = null;
+
+        this.init();
+    }
+
+    Plugin.prototype = {
+        /**
+         * Initialise plugin
+         *
+         * @return {void}
+         */
+        init: function () {
+            var self = this;
+
+            this._initAttributes();
+
+            // Disable DropzoneJS auto discover and apply default settings
+            Dropzone.autoDiscover = false;
+
+            if (self.$dropzoneForm.length) {
+                $('body').append($(self.$dropzoneForm[0]).html());
+            }
+
+            if ($("#" + self.$container.data("id") + "-dropzone")) {
+                // Initialize new Dropzone
+                self.dropzoneInstance = new Dropzone("#" + self.$container.data("id") + "-dropzone", {
+                    url: self.options.uploadUrl,
+                    acceptedFiles: ".png,.jpg,.jpeg,.bmp",
+                    autoProcessQueue: true,
+                    // maxFiles: 1,
+                    thumbnailWidth: null,
+                    thumbnailHeight: null,
+                    previewTemplate: $(self.$dropzonePreview[0]).html(),
+                    resizeWidth: self.options.imageMaxWidth,
+                    resizeHeight: self.options.imageMaxHeight,
+                    resizeMethod: 'contain'
+                });
+            }
+
+            if (self.$alertModal.length) {
+                self.$alertModal = $(self.$alertModal[0]);
+            }
+
+            if (self.$cropperButton.length) {
+                self.$cropperButton = $(self.$cropperButton[0]);
+            }
+
+            if (self.$removeButton.length) {
+                self.$removeButton = $(self.$removeButton[0]);
+            }
+
+            if (self.$target.length) {
+                self.$target = $(self.$target[0]);
+            }
+
+            if (self.options.showMediaFiles === true) {
+                if (self.$container.find('.rs-media-gallery-modal').length)
+                    self.$mediaFileModal = $(self.$container.find('.rs-media-gallery-modal')[0]);
+
+                if (self.$container.find('.rs-media-gallery-preview').length)
+                    self.$mediaFilePreview = $(self.$container.find('.rs-media-gallery-preview')[0]);
+
+                if (self.$container.find('.rs-media-gallery-delete-modal').length)
+                    self.$mediaFileDelModal = $(self.$container.find('.rs-media-gallery-delete-modal')[0]);
+
+                if (self.$container.find('.rs-media-gallery-btn').length)
+                    self.$mediaFileButton = $(self.$container.find('.rs-media-gallery-btn')[0]);
+
+                if (self.$container.find('.rs-media-gallery-insert-btn').length)
+                    self.$mediaFileInsertButton = $(self.$container.find('.rs-media-gallery-insert-btn')[0]);
+
+                this._initMediaFileEvents();
+            }
+
+            this._initEvents();
+
+            if (self.options.initFile != null) {
+                // Preload file from server
+                var newFile = self.dataURItoBlob(self.options.initFile.blob);
+                newFile.name = self.options.initFile.name;
+
+                // And optionally show the thumbnail of the file:
+                self.dropzoneInstance.emit("thumbnail", self.options.initFile, self.options.initFile.url);
+
+                // this.files.push(file);
+                self.dropzoneInstance.addFile(newFile);
+            }
+        },
+        /**
+         * Init attributes.
+         *
+         * @return  {void}
+         */
+        _initAttributes: function () {
+            this.token = this.$container.attr('data-token');
+        },
+
+        /**
+         * Init associated events
+         *
+         * @return {void}
+         */
+        _initEvents: function () {
+            var self = this;
+
+            /**
+             * Event on add file via upload / drop.
+             *
+             * @return  void
+             */
+            self.dropzoneInstance.on('addedfile', function (file) {
+                if (!self.validateFile(file)) {
+                    // self.$hasFile = false;
+                    this.removeFile(file);
+
+                    return;
+                }
+
+                if (this.files.length > 1) {
+                    this.removeFile(this.files[0]);
+                }
+
+                self.$cropperButton.removeClass('disabled').prop('disabled', false);
+                self.$removeButton.removeClass('disabled').prop('disabled', false);
+
+                if (self.$container.find("#rs-media-img-delete").length) {
+                    self.$container.find("#rs-media-img-delete").remove();
+                }
+
+                // self.$hasFile = true;
+            });
+
+            /**
+             * Event on success file via upload / drop.
+             *
+             * @return  void
+             */
+            self.dropzoneInstance.on('success', function (file, response) {
+                response = JSON.parse(response);
+
+                if (response.success) {
+                    self.$target.val(response.data.file.url);
+                }
+
+                /*self.$hasFile = false;
+                self.$form.submit();*/
+            });
+
+            /**
+             * Event on success file via upload / drop.
+             *
+             * @return  void
+             */
+            self.$removeButton.on("click", function (event) {
+                event.preventDefault();
+                self.dropzoneInstance.removeAllFiles();
+                self.$target.val("");
+                self.$cropperButton.addClass('disabled').prop('disabled', true);
+                self.$removeButton.addClass('disabled').prop('disabled', true);
+
+                var $hidden = null;
+
+                // Add input hidden for rs-media-img-delete.
+                if (self.$container.find("#rs-media-img-delete").length <= 0) {
+                    $hidden = $('<input/>');
+                    $hidden.attr('id', 'rs-media-img-delete')
+                        .attr('name', self.$container.data("id") + "_delete")
+                        .attr('type', 'text');
+
+                    $("#adminForm").append($hidden);
+                }
+
+                $hidden.val(true);
+            });
+
+            /**
+             * Event on crop button
+             *
+             * @return  void
+             */
+            self.$cropperButton.on("click", function (event) {
+                event.preventDefault();
+
+                // ignore files which were already cropped and re-rendered
+                // to prevent infinite loop
+                var file = self.dropzoneInstance.files[0];
+
+                if (!file) {
+                    showAlert('Please insert an image!!!');
+
+                    return;
+                }
+
+                if (file.width < 100) {
+                    // validate width to prevent too small files to be uploaded
+                    // .. add some error message here
+                    return;
+                }
+
+                self.$cropperModal.modal('show');
+            });
+
+            /**
+             * Event on cropper modal load
+             *
+             * @return  void
+             */
+            self.$cropperModal.on("shown.bs.modal", function (e) {
+                var file = self.dropzoneInstance.files[0];
+
+                // cache filename to re-assign it to cropped file
+                var cachedFilename = file.name;
+
+                // 'Crop and Upload' button in a modal
+                var $uploadCrop = self.$cropperModal.find('.crop-upload');
+
+                var $img = self.$cropperModal.find('.image-container img').first();
+
+                // initialize FileReader which reads uploaded file
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    // Add uploaded and read image to modal
+                    $img.attr('src', reader.result);
+
+                    // initialize cropper for uploaded image
+                    $img.cropper("destroy")
+                        .cropper({
+                            dragMode: 'move',
+                            autoCropArea: 0.5,
+                            movable: false,
+                            cropBoxResizable: true,
+                            // minCropBoxWidth: 200,
+                            //minContainerWidth: 320,
+                            //minContainerHeight: 320,
+                            viewMode: 3,
+                            zoomable: true
+                        });
+                };
+
+                // Read uploaded file (triggers code above)
+                if (file.preload) {
+                    reader.readAsDataURL(self.dataURItoBlob(file.blob));
+                } else {
+                    reader.readAsDataURL(file);
+                }
+
+                // unbind event click Crop button
+                $uploadCrop.off('click');
+
+                // listener for 'Crop and Upload' button in modal
+                $uploadCrop.on('click', function () {
+                    // Get cropped image data
+                    var blob = $img.cropper('getCroppedCanvas').toDataURL();
+
+                    // Transform it to Blob object
+                    var newFile = self.dataURItoBlob(blob);
+
+                    // Set 'cropped to true' (so that we don't get to that listener again)
+                    newFile.cropped = true;
+
+                    // Assign original filename
+                    newFile.name = cachedFilename;
+
+                    // Remove not cropped file from dropzone (we will replace it later)
+                    self.dropzoneInstance.removeFile(file);
+
+                    // Add cropped file to dropzone
+                    self.dropzoneInstance.addFile(newFile);
+
+                    // Upload cropped file with dropzone
+                    // self.dropzoneInstance.processQueue();
+
+                    self.$cropperModal.modal('hide');
+                });
+            });
+
+            /**
+             * Event on parent form submit.
+             *
+             * @return  void
+             */
+            /*self.$form.on('submit', function (event) {
+                event.preventDefault();
+
+                if (self.dropzoneInstance.files.length > 0 && self.$hasFile === true) {
+                    // Run upload file before submit form
+                    self.dropzoneInstance.processQueue();
+
+                    return false;
+                } else {
+                    $(this).unbind('submit').submit();
+                }
+            });*/
+        },
+        /**
+         * Init associated events
+         *
+         * @return {void}
+         */
+        _initMediaFileEvents: function () {
+            var self = this;
+
+            /**
+             * Event process for open Gallery button
+             *
+             * @return  void
+             */
+            self.$mediaFileButton.click(function (event) {
+                event.preventDefault();
+                self.$mediaFileModal.modal("show");
+            });
+
+            // Click on image object.
+            self.$mediaFileModal.find(".img-obj").click(function (event) {
+                event.preventDefault();
+
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    self.$mediaFileModal.find(".img-obj").removeClass('selected');
+                    $(this).addClass('selected');
+                    self.mediaFileShowInfor(this);
+                }
+                self.mediaFileResetPreview();
+                self.mediaFileToggleInsert();
+            });
+
+            // Click on Insert image button
+            self.$mediaFileInsertButton.click(function (e) {
+                e.preventDefault();
+
+                var imgObj = self.$mediaFileModal.find(".img-obj.selected").find('img').first();
+                var imgUrl = imgObj.attr('src');
+
+                self.$target.val(imgUrl);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", imgUrl);
+                xhr.responseType = "blob";
+                xhr.send();
+                xhr.addEventListener("load", function () {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(this.response);
+                    reader.addEventListener("loadend", function () {
+                        var newFile = self.dataURItoBlob(reader.result);
+                        newFile.name = imgObj.attr('alt');
+                        self.dropzoneInstance.addFile(newFile);
+                        self.$mediaFileModal.modal('hide');
+                    });
+                });
+            });
+
+            // Click on open modal delete.
+            self.$mediaFileModal.find(".btn-del-g").on('click', function (e) {
+                e.preventDefault();
+
+                self.$mediaFileDelModal.find(".btn-confirm-del-g").data('id', $(this).data('id'));
+                self.$mediaFileDelModal.modal('show');
+            });
+
+            // Click confirm delete file.
+            self.$mediaFileDelModal.find(".btn-confirm-del-g").on('click', function (e) {
+                e.preventDefault();
+
+                var id = $(this).data('id');
+
+                if (id) {
+                    $.ajax({
+                        url: self.options.deleteUrl,
+                        method: 'post',
+                        data: {id: id}
+                    })
+                        .done(function (response) {
+                            self.$mediaFileModal.find(".img-obj.selected").parent().remove();
+                            self.$mediaFileModal.find(".pv-wrapper").addClass('hidden');
+                        })
+                        .always(function (e) {
+                            self.$mediaFileDelModal.modal('hide');
+                        });
+                }
+            });
+        },
+        /**
+         * Validate image
+         *
+         * @param  {object} file file object
+         *
+         * @return {boolean}
+         */
+        validateFile: function (file) {
+            var self = this;
+
+            var fileSize = file.size / 1024;
+
+            if (fileSize > self.options.maxFileSize) {
+                self.showAlert(Joomla.JText._("COM_REDSHOP_UPLOAD_FILE_TOO_BIG"));
+
+                return false;
+            }
+
+            if (self.options.allowedMime.indexOf(file.type) == -1) {
+                self.showAlert(Joomla.JText._("COM_REDSHOP_MEDIA_ERROR_FILE_UPLOAD_INVALID"));
+
+                return false;
+            }
+
+            return true;
+        },
+        /**
+         * Method for show alert using Bootstrap modal
+         *
+         * @param   {string}  text  Text of message
+         *
+         * @return  void
+         */
+        showAlert: function (text) {
+            var self = this;
+
+            self.$alertModal.find('.alert-text').text(text);
+            self.$alertModal.modal('show');
+            $('#toolbar-apply button, #toolbar-save button, #toolbar-save-new button, #toolbar-save-copy button').attr("disabled", false);
+        },
+        /**
+         * Transform cropper dataURI output to a Blob which Dropzone accepts
+         *
+         * @param   string  dataURI  base64encode data of files
+         *
+         * @return  Blob
+         */
+        dataURItoBlob: function (dataURI) {
+            var byteString = atob(dataURI.split(',')[1]);
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+
+            return new Blob([ab], {type: 'image/jpg'});
+        },
+        /**
+         * Show info of thumbnail when selecting
+         *
+         * @param   {DOM}  elem  Element item selected
+         *
+         * @return  {void}
+         */
+        mediaFileShowInfor: function (element) {
+            var self = this;
+
+            if (self.$mediaFileModal.find(".preview-pane").length <= 0) {
+                return;
+            }
+
+            var $previewPanel = $(self.$mediaFileModal.find(".preview-pane")[0]);
+
+            var $imgObj = $(element).find('.img-type');
+
+            var info = {
+                id: $imgObj.data('id'),
+                url: $imgObj.attr('src'),
+                name: $imgObj.attr('alt'),
+                size: $imgObj.data('size'),
+                dimension: $imgObj.data('dimension')
+            };
+
+            var $img = $imgObj.clone();
+
+            $previewPanel.find('.pv-img .img-type').remove();
+            $previewPanel.find('.pv-img').append($img);
+            $previewPanel.find('.pv-zoom').attr('href', info.url);
+            $previewPanel.find('.pv-zoom').attr('data-title', info.name);
+            $previewPanel.find('.pv-link').attr('href', info.url);
+            $previewPanel.find('.pv-name').text(info.name);
+            $previewPanel.find('.pv-size').text(info.size);
+            $previewPanel.find('.pv-dimension').text(info.dimension);
+            $previewPanel.find('.pv-url').html('<input type="text" value="' + info.url + '" class="form-control" readonly="true">');
+            $previewPanel.find('.pv-remove > a').data('id', info.id);
+
+            $previewPanel.find('.pv-wrapper').removeClass('hidden');
+        },
+        /**
+         * Clear attachment details when unselecting
+         *
+         * @return  {void}
+         */
+        mediaFileResetPreview: function () {
+            var self = this;
+
+            if (self.$mediaFileModal.find(".preview-pane").length <= 0) {
+                return;
+            }
+
+            var $previewPanel = $(self.$mediaFileModal.find(".preview-pane")[0]);
+
+            if (self.$mediaFileModal.find(".img-obj.selected").length <= 0) {
+                $previewPanel.find('.pv-wrapper').addClass('hidden');
+            }
+        },
+        /**
+         * Toggle disabled or not of insert media button
+         *
+         * @return  {void}
+         */
+        mediaFileToggleInsert: function () {
+            var self = this;
+
+            if (self.$mediaFileModal == null) {
+                return;
+            }
+
+            if (self.$mediaFileModal.find(".img-obj.selected").length > 0) {
+                self.$mediaFileInsertButton.removeAttr('disabled');
+            } else {
+                self.$mediaFileInsertButton.attr('disabled', 'true');
+            }
+        }
+    };
+
+    $.fn[pluginName] = function (options) {
+        return this.each(function () {
+            if (!$.data(this, "plugin_" + pluginName)) {
+                $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+            }
+        })
+    }
+})(jQuery, window, document);

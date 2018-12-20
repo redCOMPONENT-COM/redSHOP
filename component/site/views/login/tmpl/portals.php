@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.application.module.helper');
 
 $app = JFactory::getApplication();
-JHTML::_('behavior.tooltip');
 
 $user = JFactory::getUser();
 $params = $app->getParams('com_redshop');

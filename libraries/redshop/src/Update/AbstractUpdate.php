@@ -51,6 +51,7 @@ abstract class AbstractUpdate
 	 * Method for get all tasks (public method of current class)
 	 *
 	 * @return  mixed
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.6
 	 */

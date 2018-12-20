@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
+
 $app            = JFactory::getApplication();
 $Itemid         = $app->input->getInt('Itemid');
 $loginlink      = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
@@ -24,7 +24,7 @@ if (Redshop::getConfig()->get('PORTAL_LOGIN_ITEMID'))
 
 $portallogofile = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO');
 
-$portallogo = RedShopHelperImages::getImagePath(
+$portallogo = RedshopHelperMedia::getImagePath(
 					Redshop::getConfig()->get('DEFAULT_PORTAL_LOGO'),
 					'',
 					'thumb',
@@ -38,7 +38,7 @@ $portalintro = "";
 
 if ($shoppergroupid != 0)
 {
-	$portallogo = RedShopHelperImages::getImagePath(
+	$portallogo = RedshopHelperMedia::getImagePath(
 					$this->ShopperGroupDetail[0]->shopper_group_logo,
 					'',
 					'thumb',

@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal', 'a.joom-box');
-JHtml::_('behavior.tooltip');
 
 $editor = JFactory::getEditor();
 $uri    = JURI::getInstance();
@@ -219,7 +218,7 @@ $url    = $uri->root();
                     <div>
 						<?php
 						$image_path      = REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $this->detail->shopper_group_logo;
-						$imagethumb_path = RedShopHelperImages::getImagePath(
+						$imagethumb_path = RedshopHelperMedia::getImagePath(
 							$this->detail->shopper_group_logo,
 							'',
 							'thumb',

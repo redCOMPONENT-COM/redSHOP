@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Redshop\Config\App;
-
 defined('_JEXEC') or die;
 
 /**
@@ -16,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopViewVouchers extends RedshopViewList
 {
@@ -29,7 +27,9 @@ class RedshopViewVouchers extends RedshopViewList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
+	 *
+	 * @throws  Exception
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{
@@ -56,9 +56,6 @@ class RedshopViewVouchers extends RedshopViewList
 				}
 
 				return '<i class="text-danger fa fa-remove"></i>';
-
-			case 'voucher_left':
-				return RedshopHelperProductPrice::formattedPrice($value);
 
 			case 'start_date':
 			case 'end_date':

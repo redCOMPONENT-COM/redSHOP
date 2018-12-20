@@ -59,6 +59,9 @@ if ($this->shipper_location)
 					<th class="title">
 						<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHIPPING_RATE_VALUE', 'shipping_rate_value ', $this->lists['order_Dir'], $this->lists['order']); ?>
 					</th>
+					<th class="title">
+						<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRIORITY', 'shipping_rate_priority ', $this->lists['order_Dir'], $this->lists['order']); ?>
+					</th>
 				<?php }    ?>
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'shipping_rate_id', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -81,6 +84,7 @@ if ($this->shipper_location)
 					<?php if ($bool)
 					{ ?>
 						<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->shipping_rate_value); ?></td>
+						<td align="center"><?php echo $row->shipping_rate_priority; ?></td>
 					<?php }    ?>
 					<td align="center"><?php echo $row->shipping_rate_id; ?></td>
 				</tr>

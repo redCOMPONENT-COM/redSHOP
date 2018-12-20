@@ -99,9 +99,9 @@ class RedshopModelAttributes extends RedshopModelList
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('a.*, p.product_name')
-				->from($db->qn('#__redshop_product_attribute', 'a'))
-				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('a.product_id') . ' = ' . $db->qn('p.product_id'));
+			->select('a.*, p.product_name')
+			->from($db->qn('#__redshop_product_attribute', 'a'))
+			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('a.product_id') . ' = ' . $db->qn('p.product_id'));
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
@@ -140,7 +140,7 @@ class RedshopModelAttributes extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'attribute_id');
+		$orderCol  = $this->state->get('list.ordering', 'attribute_id');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));

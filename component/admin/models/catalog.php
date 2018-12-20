@@ -12,26 +12,45 @@ defined('_JEXEC') or die;
 
 class RedshopModelCatalog extends RedshopModel
 {
+	/**
+	 * @var null
+	 */
 	public $_data = null;
 
+	/**
+	 * @var integer
+	 */
 	public $_total = null;
 
+	/**
+	 * @var JPagination
+	 */
 	public $_pagination = null;
 
+	/**
+	 * @var null|string
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * @var null|string
+	 */
 	public $_context = null;
 
+	/**
+	 * RedshopModelCatalog constructor.
+	 * @throws Exception
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
-		$this->_context = 'catalog_id';
+		$app                 = JFactory::getApplication();
+		$this->_context      = 'catalog_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 	}
@@ -40,7 +59,7 @@ class RedshopModelCatalog extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -51,7 +70,7 @@ class RedshopModelCatalog extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
 
@@ -72,7 +91,7 @@ class RedshopModelCatalog extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$query = 'SELECT  distinct(c.catalog_id),c.* FROM ' . $this->_table_prefix . 'catalog c ' . $orderby;
+		$query   = 'SELECT  distinct(c.catalog_id),c.* FROM ' . $this->_table_prefix . 'catalog c ' . $orderby;
 
 		return $query;
 	}

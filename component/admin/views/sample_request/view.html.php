@@ -36,10 +36,10 @@ class RedshopViewSample_request extends RedshopViewAdmin
 		$catalog    = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->catalog = $catalog;
-		$this->pagination = $pagination;
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->catalog     = $catalog;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

@@ -35,6 +35,8 @@ class Tableorder_payment extends JTable
 
 	public $authorize_status = null;
 
+	public $payment_method_class;
+
 	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';

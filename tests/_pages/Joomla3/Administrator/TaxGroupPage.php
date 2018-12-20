@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class TaxGroupPage extends AdminJ3Page
 {
@@ -33,30 +33,26 @@ class TaxGroupPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = ['id' => 'jform_name'];
+	public static $fieldName = "#jform_name";
 
 	/**
 	 * @var string
 	 */
-	public static $pathCheckAll = "//input[@onclick='Joomla.checkAll(this)']";
+	public static $pathName = "//div[@id='name-1']";
 
 	/**
 	 * @var string
 	 */
-	public static $pathName = "//table[contains(@class, 'adminlist')]/tbody/tr[1]/td[4]/a";
-
-	/**
-	 * @var string
-	 */
-	public static $pathStatus = "//table[contains(@class, 'adminlist')]/tbody/tr[1]/td[5]/a";
+	public static $pathStatus = "//tr/td[5]/a";
 
 	/**
 	 * @var string
 	 */
 	public static $messageErrorFieldMissing = "Field required: VAT / Tax Group Name";
 
-	/**
-	 * @var string
-	 */
-	public static $selectorError = ".alert-danger";
+    /**
+     * @var array
+     */
+	public static $buttonSaveTax = "//button[@onclick=\"Joomla.submitbutton('tax_group.apply');\"]";
+
 }

@@ -31,7 +31,7 @@ class RedshopModelProducttags_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -68,11 +68,11 @@ class RedshopModelProducttags_detail extends RedshopModel
 		{
 			$detail = new stdClass;
 
-			$detail->tags_id = 0;
-			$detail->tags_name = null;
+			$detail->tags_id      = 0;
+			$detail->tags_name    = null;
 			$detail->tags_counter = 0;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published    = 1;
+			$this->_data          = $detail;
 
 			return (boolean) $this->_data;
 		}

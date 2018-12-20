@@ -121,10 +121,10 @@ class RedshopModelStatistic_Variant extends RedshopModelList
 	 */
 	public function getDateFormat()
 	{
-		$return = "";
+		$return    = "";
 		$startDate = strtotime($this->filterStartDate);
-		$endDate = strtotime($this->filterEndDate);
-		$interval = $endDate - $startDate;
+		$endDate   = strtotime($this->filterEndDate);
+		$interval  = $endDate - $startDate;
 
 		if ($interval == 0 && ($this->filterDateLabel == 'Today' || $this->filterDateLabel == 'Yesterday'))
 		{

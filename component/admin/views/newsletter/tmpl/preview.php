@@ -103,10 +103,33 @@ else
 					</tr>
 					<tr>
 						<td><strong><?php echo JText::_('COM_REDSHOP_HOW_LONG_USER'); ?>:</strong></td>
-						<td valign="middle"><?php echo JText::_('COM_REDSHOP_START'); ?>
-							:&nbsp;<?php echo JHTML::_('calendar', $start, 'start_date', 'start_date', $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '16', 'maxlength' => '19')); ?></td>
-						<td><?php echo JText::_('COM_REDSHOP_END'); ?>
-							:&nbsp;<?php echo JHTML::_('calendar', $end, 'end_date', 'end_date', $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '16', 'maxlength' => '19')); ?></td>
+						<td valign="middle">
+                            <?php echo JText::_('COM_REDSHOP_START'); ?>
+							:&nbsp;
+                            <?php
+                            echo JHtml::_(
+	                            'redshopcalendar.calendar',
+	                            $start,
+	                            'start_date',
+	                            'start_date',
+	                            null,
+	                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                            );
+                            ?>
+                        </td>
+						<td>
+                            <?php echo JText::_('COM_REDSHOP_END'); ?>:&nbsp;
+							<?php
+							echo JHtml::_(
+								'redshopcalendar.calendar',
+								$end,
+								'end_date',
+								'end_date',
+								null,
+								array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+							);
+							?>
+                        </td>
 
 					</tr>
 					<tr>

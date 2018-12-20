@@ -28,9 +28,9 @@ class RedshopModelShipping_rate extends RedshopModel
 		$app = JFactory::getApplication();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->_context = 'shipping_rate_id';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$this->_context      = 'shipping_rate_id';
+		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$id = $app->getUserStateFromRequest($this->_context . 'extension_id', 'extension_id', 0);
 
@@ -43,7 +43,7 @@ class RedshopModelShipping_rate extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -54,9 +54,10 @@ class RedshopModelShipping_rate extends RedshopModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -74,7 +75,7 @@ class RedshopModelShipping_rate extends RedshopModel
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
-		$id = $this->getState('id');
+		$id      = $this->getState('id');
 
 		$query = 'SELECT r.*,p.extension_id,p.element,p.folder FROM ' . $this->_table_prefix . 'shipping_rate AS r '
 			. 'LEFT JOIN #__extensions AS p ON CONVERT(p.element USING utf8)= CONVERT(r.shipping_class USING utf8) '
@@ -89,7 +90,7 @@ class RedshopModelShipping_rate extends RedshopModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'shipping_rate_id');
+		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'shipping_rate_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);

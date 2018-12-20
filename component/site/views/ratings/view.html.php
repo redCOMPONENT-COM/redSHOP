@@ -21,9 +21,9 @@ class RedshopViewRatings extends RedshopView
 		$detail     = $this->get('data');
 		$pagination = $this->get('pagination');
 
-		$this->detail = $detail;
+		$this->detail     = $detail;
 		$this->pagination = $pagination;
-		$this->params = $params;
+		$this->params     = $params;
 		parent::display($tpl);
 	}
 }

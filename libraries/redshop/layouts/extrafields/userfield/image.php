@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $rowData          Extra field data
- * @param   string  $required         Extra field required
- * @param   string  $uniqueId         Extra field unique Id
- * @param   string  $fieldCheck       Extra field check
- * @param   string  $checkData        Extra field check data
+ * @var   array   $displayData   Layout data.
+ * @var   object  $rowData          Extra field data
+ * @var   string  $required         Extra field required
+ * @var   string  $uniqueId         Extra field unique Id
+ * @var   array   $fieldCheck       Extra field check
+ * @var   string  $checkData        Extra field check data
  */
 extract($displayData);
 ?>
@@ -25,7 +26,7 @@ extract($displayData);
 		<?php foreach ($fieldCheck as $key => $field) : ?>
 			<td>
 				<div class="userfield_input">
-					<img 
+					<img
 						class="pointer imgClass_<?php echo $uniqueId; ?>"
 						id="<?php echo $rowData->name . '_' . $field->value_id; ?>"
 						src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $field->field_name; ?>"
@@ -38,7 +39,7 @@ extract($displayData);
 			</td>
 		<?php endforeach; ?>
 	</tr>
-	<input 
+	<input
 		type="hidden"
 		name="extrafieldname<?php echo $uniqueId; ?>[]"
 		id="<?php echo $rowData->name . '_' . $uniqueId; ?>"

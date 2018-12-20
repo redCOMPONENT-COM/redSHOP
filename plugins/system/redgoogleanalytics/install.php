@@ -47,48 +47,8 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 
 				if (version_compare($version, '2.0.0', '<'))
 				{
-					$this->deleteOldLanguages();
 					$this->getTrackerKeyFromOldRedshop();
 				}
-			}
-		}
-	}
-
-	/**
-	 * Method for delete old languages files in core language folder of Joomla
-	 *
-	 * @return  void
-	 */
-	protected function deleteOldLanguages()
-	{
-		// Delete old languages files if necessary
-		JLoader::import('joomla.filesystem.file');
-		$languageFolder       = __DIR__ . '/language';
-		$joomlaLanguageFolder = JPATH_SITE . '/language';
-		$codes                = JFolder::folders($languageFolder, '.', true);
-
-		if (empty($codes))
-		{
-			return;
-		}
-
-		foreach ($codes as $code)
-		{
-			$files = JFolder::files($languageFolder . '/' . $code, '.ini');
-
-			if (empty($files))
-			{
-				continue;
-			}
-
-			foreach ($files as $file)
-			{
-				if (!JFile::exists($joomlaLanguageFolder . '/' . $code . '/' . $file))
-				{
-					continue;
-				}
-
-				JFile::delete($joomlaLanguageFolder . '/' . $code . '/' . $file);
 			}
 		}
 	}

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
 $app           = JFactory::getApplication();

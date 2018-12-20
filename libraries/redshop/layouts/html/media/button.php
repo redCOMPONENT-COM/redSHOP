@@ -27,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 <a style="cursor: pointer" id="btnModal_<?php echo $sectionId ?>"><img
-	src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
+	src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
 	alt="media"> (<?php  echo $count;?>)</a>
 
 <div class="<?php echo $class ?> fade shadow" 

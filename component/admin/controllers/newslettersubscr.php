@@ -26,6 +26,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 		$success = false;
 
+		/** @var RedshopModelNewslettersubscr $model */
 		$model = $this->getModel('newslettersubscr');
 
 		$filetype = strtolower(JFile::getExt($file['name']));
@@ -89,11 +90,12 @@ class RedshopControllerNewslettersubscr extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
 
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 
 		if (!$model->publish($cid, 1))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_PUBLISHED_SUCCESFULLY');
@@ -109,11 +111,12 @@ class RedshopControllerNewslettersubscr extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 
+		/** @var RedshopModelNewslettersubscr_detail $model */
 		$model = $this->getModel('newslettersubscr_detail');
 
 		if (!$model->publish($cid, 0))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_UNPUBLISHED_SUCCESFULLY');

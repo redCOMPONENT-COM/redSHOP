@@ -31,10 +31,10 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 		$post = $this->input->post->getArray();
 
 		$section_id = $this->input->get('section_id');
-		$section = $this->input->getString('section');
+		$section    = $this->input->getString('section');
 
-		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
-		$post['cdate'] = time();
+		$post['product_currency']    = Redshop::getConfig()->get('CURRENCY_CODE');
+		$post['cdate']               = time();
 		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
 
 		if ($post['discount_end_date'])
@@ -42,9 +42,10 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 			$post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
 		}
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$cid               = $this->input->post->get('cid', array(0), 'array');
 		$post ['price_id'] = $cid [0];
 
+		/** @var RedshopModelAttributeprices_detail $model */
 		$model = $this->getModel('attributeprices_detail');
 
 		if ($model->store($post))
@@ -62,19 +63,20 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 	public function remove()
 	{
 		$section_id = $this->input->get('section_id');
-		$section = $this->input->getString('section');
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		$section    = $this->input->getString('section');
+		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelAttributeprices_detail $model */
 		$model = $this->getModel('attributeprices_detail');
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');

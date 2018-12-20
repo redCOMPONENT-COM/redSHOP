@@ -20,7 +20,7 @@ class RedshopControllerProduct_category extends RedshopController
 
 	public function saveProduct_Category()
 	{
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$model = $this->getModel("product_category");
 
 		if ($model->saveProduct_Category())
@@ -37,7 +37,7 @@ class RedshopControllerProduct_category extends RedshopController
 
 	public function removeProduct_Category()
 	{
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$model = $this->getModel("product_category");
 
 		if ($model->removeProduct_Category())

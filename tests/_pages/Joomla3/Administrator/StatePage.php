@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class StatePage extends AdminJ3Page
 {
@@ -38,17 +38,17 @@ class StatePage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = ['id' => 'jform_state_name'];
+	public static $fieldName = "#jform_state_name";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldTwoCode = ['id' => 'jform_state_2_code'];
+	public static $fieldTwoCode = "#jform_state_2_code";
 
 	/**
 	 * @var array
 	 */
-	public static $fieldThreeCode = ['id' => 'jform_state_3_code'];
+	public static $fieldThreeCode = "#jform_state_3_code";
 
 	/**
 	 * @var string

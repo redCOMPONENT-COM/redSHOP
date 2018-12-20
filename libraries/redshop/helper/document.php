@@ -428,9 +428,9 @@ class RedshopHelperDocument
 
 		if (strrpos($fileNameOnly, '.min', '-4'))
 		{
-			$position = strrpos($fileNameOnly, '.min', '-4');
+			$position             = strrpos($fileNameOnly, '.min', '-4');
 			$uncompressedFileName = str_replace('.min', '.', $fileNameOnly, $position);
-			$uncompressedFileName  = $uncompressedFileName . $fileExtension;
+			$uncompressedFileName = $uncompressedFileName . $fileExtension;
 		}
 		else
 		{
@@ -497,9 +497,9 @@ class RedshopHelperDocument
 			$doc = JFactory::getDocument();
 			$uri = JUri::getInstance();
 
-			$relativePath   = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
+			$relativePath       = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
 			$relativeStylesheet = trim(str_replace($uri->getPath(), '', $stylesheet), '/');
-			$relativeUrl    = str_replace($relativePath, '', $stylesheet);
+			$relativeUrl        = str_replace($relativePath, '', $stylesheet);
 
 			$mediaVersion = $doc->getMediaVersion();
 

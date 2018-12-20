@@ -221,11 +221,11 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
 
 				if ($is_company)
 				{
-					echo $extra_field->list_all_field(8, $billing->users_info_id);
+					echo RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, $billing->users_info_id);
 				}
 				else
 				{
-					echo $extra_field->list_all_field(7, $billing->users_info_id);
+					echo RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, $billing->users_info_id);
 				}
 
 				?>

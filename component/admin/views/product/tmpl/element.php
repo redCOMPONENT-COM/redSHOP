@@ -123,7 +123,7 @@ $action      = 'index.php?option=com_redshop&view=product&layout=element&tmpl=co
 						?>
 					</td>
 					<td>
-						<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('manufacturer_name') ?>
+						<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('name') ?>
 					</td>
 					<td align="center" width="5%">
 						<?php echo $row->product_id; ?>

@@ -33,12 +33,12 @@ class JFormFieldmanufacturer extends JFormField
 		$name = $this->name;
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$query = 'SELECT manufacturer_id,manufacturer_name ' .
+		$query = 'SELECT id,name ' .
 			' FROM #__redshop_manufacturer WHERE published=1';
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -', 'manufacturer_id', 'manufacturer_name'));
+		array_unshift($options, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -', 'id', 'name'));
 
-		return JHTML::_('select.genericlist', $options, $name, 'class="inputbox"', 'manufacturer_id', 'manufacturer_name', $this->value, $name);
+		return JHTML::_('select.genericlist', $options, $name, 'class="inputbox"', 'id', 'name', $this->value, $name);
 	}
 }

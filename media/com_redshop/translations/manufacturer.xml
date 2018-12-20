@@ -3,13 +3,13 @@
     <name>Redshop Manufacturers</name>
     <author>redCOMPONENT</author>
     <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
-    <version>1.5.0</version>
+    <version>1.6.0</version>
     <description>Translation definition for redSHOP Manufacturers</description>
     <reference>
         <table name="redshop_manufacturer">
-            <field type="referenceid" name="manufacturer_id" translate="0">ID</field>
-            <field type="titletext" name="manufacturer_name" translate="1" >Name</field>
-            <field type="htmltext" name="manufacturer_desc" translate="1" ebuttons="readmore,pagebreak">Description</field>
+            <field type="referenceid" name="id" translate="0">ID</field>
+            <field type="titletext" name="name" translate="1" >Name</field>
+            <field type="htmltext" name="description" translate="1" ebuttons="readmore,pagebreak">Description</field>
             <field type="text" name="metakey" translate="1" >Meta Key</field>
             <field type="text" name="metadesc" translate="1" >Meta Description</field>
             <field type="text" name="pagetitle" translate="1" >Page Title</field>
@@ -18,7 +18,7 @@
             <field type="state" name="published" stateoptions="0,1" translate="1">State</field>
         </table>
         <component>
-            <form>com_redshop#manufacturers#cid#task#!edit</form>
+            <form>com_redshop#manufacturer#id#task#!edit</form>
         </component>
     </reference>
 </contentelement>

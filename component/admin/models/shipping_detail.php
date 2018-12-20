@@ -35,7 +35,7 @@ class RedshopModelShipping_detail extends RedshopModel
 		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
-		$db = JFactory::getDbo();
+		$db                     = JFactory::getDbo();
 		$this->sectionCondition = array(
 			'folder = ' . $db->q('redshop_shipping'),
 			'type = ' . $db->q('plugin')
@@ -44,7 +44,7 @@ class RedshopModelShipping_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -66,7 +66,7 @@ class RedshopModelShipping_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->update($db->qn('#__extensions'))
 			->set('enabled = ' . (int) $data['published'])
@@ -90,7 +90,7 @@ class RedshopModelShipping_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE #__extensions'
 				. ' SET enabled = ' . intval($publish)
 				. ' WHERE  extension_id IN ( ' . $cids . ' )';
@@ -109,8 +109,8 @@ class RedshopModelShipping_detail extends RedshopModel
 
 	public function saveOrder($cid, $order)
 	{
-		$db = JFactory::getDbo();
-		$row = $this->getTable();
+		$db    = JFactory::getDbo();
+		$row   = $this->getTable();
 		$total = count($cid);
 
 		// Update ordering values

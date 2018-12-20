@@ -12,6 +12,8 @@
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
 
+
+
 class_name: AcceptanceTester
 modules:
     enabled:
@@ -20,13 +22,14 @@ modules:
         - Asserts
     config:
         JoomlaBrowser:
-            url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
-            browser: 'firefox'
+            url: 'http://localhost/tests/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            browser: 'chrome'
             window_size: 1024x768
             restart: true
             capabilities:
+              chromeOptions:
+                args: ["--headless", "--disable-gpu"]
               unexpectedAlertBehaviour: 'accept'
-              elementScrollBehavior: '1'
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             database host: 'localhost'             # place where the Application is Hosted #server Address
@@ -45,5 +48,5 @@ modules:
             folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
             install demo data: 'Yes'              # If you wish to Download Demo Data for the Extension then Keep this to Yes
             host: 'http://localhost/tests/joomla-cms3'  #Something important
-            redshop packages url: 'http://localhost/tests/releases/'     # the url that points to the extension .zip package defined in your properties.dist file at the root of the repo
+            packages url: 'http://localhost/tests/releases/'     # the url that points to the extension .zip package defined in your properties.dist file at the root of the repo
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"

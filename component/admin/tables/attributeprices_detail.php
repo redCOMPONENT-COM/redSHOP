@@ -45,7 +45,7 @@ class Tableattributeprices_detail extends JTable
 	/**
 	 * Object constructor to set table and key fields.
 	 *
-	 * @param JDatabase &$db JDatabase connector object.
+	 * @param   JDatabase &$db JDatabase connector object.
 	 */
 	public function __construct(&$db)
 	{
@@ -77,14 +77,10 @@ class Tableattributeprices_detail extends JTable
 		$xid_end = intval($this->_db->loadResult());
 
 		if (($xid || $xid_end)
-			&& (
-				($xid != intval($this->price_id)
-				&& $xid != 0)
-				|| (
-					$xid_end != intval($this->price_id)
-					&& $xid_end != 0
-				)
-			)
+			&& (            ($xid != intval($this->price_id)
+			&& $xid != 0)
+			|| (            $xid_end != intval($this->price_id)
+			&& $xid_end != 0            ))
 		)
 		{
 			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));

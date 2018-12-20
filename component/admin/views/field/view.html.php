@@ -23,19 +23,16 @@ class RedshopViewField extends RedshopViewForm
 	/**
 	 * Method for run before display to initial variables.
 	 *
-	 * @param   string &$tpl Template name
+	 * @param   string  $tpl  Template name
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 *
 	 * @since   2.0.6
 	 */
 	public function beforeDisplay(&$tpl)
 	{
-		$extra_field = extra_field::getInstance();
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/fields.js');
-
-		$model = $this->getModel('field');
+		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.fields.min.js', false, true);
 
 		// Initialise variables.
 		$this->form  = $this->get('Form');
@@ -49,25 +46,13 @@ class RedshopViewField extends RedshopViewForm
 
 		$this->item = $this->get('Item');
 
-		$field_data = $extra_field->getFieldValue($this->item->id);
+		$field_data = RedshopEntityField::getInstance($this->item->id)->getFieldValues();
 
-		$list = array();
+		$list                = array();
 		$lists['extra_data'] = $field_data;
 
 		$this->lists = $lists;
 
 		parent::beforeDisplay($tpl);
-	}
-
-	/**
-	 * Method for get page title.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.6
-	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_FIELD_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
 	}
 }

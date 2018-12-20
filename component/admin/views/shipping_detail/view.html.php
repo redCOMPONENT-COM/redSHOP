@@ -88,8 +88,8 @@ class RedshopViewShipping_Detail extends RedshopViewAdmin
 
 		$lists['published'] = JHtml::_('redshopselect.booleanlist', 'published', 'class="inputbox"', $detail->enabled);
 
-		$this->lists       = $lists;
-		$this->detail      = $detail;
+		$this->lists  = $lists;
+		$this->detail = $detail;
 
 		parent::display($tpl);
 	}

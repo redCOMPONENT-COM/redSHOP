@@ -34,14 +34,15 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-		$body = $this->input->post->get('body', '', 'raw');
+		$post         = $this->input->post->getArray();
+		$body         = $this->input->post->get('body', '', 'raw');
 		$post["body"] = $body;
 
 		$cid = $this->input->post->get('cid', array(0), 'array');
 
 		$post ['newsletter_id'] = $cid [0];
 
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		if ($row = $model->store($post))
@@ -74,6 +75,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		foreach ($cid as $key => $value)
@@ -87,7 +89,7 @@ class RedshopControllerNewsletter_detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		if ($val == 1)
@@ -113,6 +115,8 @@ class RedshopControllerNewsletter_detail extends RedshopController
 	public function copy()
 	{
 		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelNewsletter_detail $model */
 		$model = $this->getModel('newsletter_detail');
 
 		if ($model->copy($cid))

@@ -48,28 +48,30 @@ class Tableproduct_discount_calc extends JTable
 
 	/**
 	 * Check for the product ID
+	 *
+	 * @return  boolean
 	 */
 	public function check()
 	{
-		$producthelper = productHelper::getInstance();
+		$unit = \Redshop\Helper\Utility::getUnitConversation("m", $this->discount_calc_unit);
 
-		// @todo  $discount_calc_unit is missing here
-		$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
+		$convertedAreaStart = $this->area_start * $unit * $unit;
+		$convertedAreaEnd   = $this->area_end * $unit * $unit;
 
-		$converted_area_start = $this->area_start * $unit * $unit;
-		$converted_area_end = $this->area_end * $unit * $unit;
+		$db = $this->_db;
 
-		$query = "SELECT *
-					FROM `" . $this->_table_prefix . "product_discount_calc`
-					WHERE product_id = " . (int) $this->product_id . " AND (" . (int) $converted_area_start . "
-					BETWEEN `area_start_converted`
-					AND `area_end_converted` || " . (int) $converted_area_end . "
-					BETWEEN `area_start_converted`
-					AND `area_end_converted` )";
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_discount_calc'))
+			->where($db->qn('product_id') . ' = ' . (int) $this->product_id)
+			->where(
+				'('
+				. $convertedAreaStart . ' BETWEEN ' . $db->qn('area_start_converted') . ' AND ' . $db->qn('area_end_converted')
+				. ' || ' . $convertedAreaEnd . ' BETWEEN ' . $db->qn('area_start_converted') . ' AND ' . $db->qn('area_end_converted')
+				. ')'
+			);
 
-		$this->_db->setQuery($query);
-
-		$xid = intval($this->_db->loadResult());
+		$xid = $db->setQuery($query)->loadResult();
 
 		if ($xid)
 		{

@@ -14,6 +14,8 @@ defined('_JEXEC') or die;
 /**
  * Class RedShopHelperImages
  *
+ * @since 2.0.0
+ *
  * @deprecated  2.0.0.3  Use RedshopHelperMedia instead
  */
 class RedShopHelperImages
@@ -45,11 +47,13 @@ class RedShopHelperImages
 	 * @param   integer  $proportional  Thumbnail Proportional sizing enable / disable.
 	 *
 	 * @return  string   Thumbnail Live path
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::getImagePath() instead
 	 */
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50,
-		$height = 50, $proportional = -1)
+		$height = 50, $proportional = -1
+	)
 	{
 		return RedshopHelperMedia::getImagePath($imageName, $dest, $command, $type, $width, $height, $proportional);
 	}
@@ -65,6 +69,7 @@ class RedShopHelperImages
 	 * @param   integer  $proportional  Try to make image proportionally
 	 *
 	 * @return  string   Return destination of new thumbnail
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::generateImages() instead
 	 */
@@ -84,6 +89,7 @@ class RedShopHelperImages
 	 * @param   integer  $proportional  Try to make image proportionally
 	 *
 	 * @return  string   Return destination path
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::writeImage() instead
 	 */
@@ -118,11 +124,13 @@ class RedShopHelperImages
 	 * @param   boolean  $useLinuxCommands  Default is false use @unlink(), if true use 'rm' instead
 	 *
 	 * @return  mixed    If $output is set by 'return': Return new file path, else return boolean
+	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.0.3  Use RedshopHelperMedia::resizeImage() instead
 	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = -1, $output = 'file',
-		$deleteOriginal = true, $useLinuxCommands = false)
+		$deleteOriginal = true, $useLinuxCommands = false
+	)
 	{
 		return RedshopHelperMedia::resizeImage($file, $width, $height, $proportional, $output, $deleteOriginal, $useLinuxCommands);
 	}

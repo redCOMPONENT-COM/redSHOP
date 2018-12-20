@@ -35,6 +35,26 @@ class RedshopTableState extends RedshopTable
 	 */
 	protected function doCheck()
 	{
+		if (empty($this->country_id))
+		{
+			return false;
+		}
+
+		if (empty($this->state_name))
+		{
+			return false;
+		}
+
+		if (empty($this->state_3_code))
+		{
+			return false;
+		}
+
+		if (empty($this->state_2_code))
+		{
+			return false;
+		}
+
 		if (!parent::doCheck())
 		{
 			return false;
@@ -49,7 +69,7 @@ class RedshopTableState extends RedshopTable
 				$db->qn('state_3_code') . ' = ' . $db->q($this->state_3_code)
 				. ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id)
 				. ' AND ' . $db->qn('country_id') . ' = ' . $db->q($this->country_id)
-				);
+			);
 
 		$db->setQuery($query);
 
@@ -67,11 +87,11 @@ class RedshopTableState extends RedshopTable
 			$query = $db->getQuery(true);
 
 			$query->select([$db->qn('id'), $db->qn('state_3_code'), $db->qn('state_2_code')])
-			->from($db->qn('#__redshop_state'))
-			->where(
-				$db->qn('state_2_code') . ' = ' . $db->q($this->state_2_code)
-				. ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id)
-				. ' AND ' . $db->qn('country_id') . ' = ' . $db->q($this->country_id)
+				->from($db->qn('#__redshop_state'))
+				->where(
+					$db->qn('state_2_code') . ' = ' . $db->q($this->state_2_code)
+					. ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id)
+					. ' AND ' . $db->qn('country_id') . ' = ' . $db->q($this->country_id)
 				);
 
 			$db->setQuery($query);

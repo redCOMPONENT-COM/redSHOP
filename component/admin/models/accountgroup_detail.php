@@ -30,7 +30,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -69,17 +69,17 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 		{
 			$detail = new stdClass;
 
-			$detail->accountgroup_id = 0;
-			$detail->accountgroup_name = null;
-			$detail->economic_vat_account = null;
-			$detail->economic_nonvat_account = null;
-			$detail->economic_discount_vat_account = null;
+			$detail->accountgroup_id                  = 0;
+			$detail->accountgroup_name                = null;
+			$detail->economic_vat_account             = null;
+			$detail->economic_nonvat_account          = null;
+			$detail->economic_discount_vat_account    = null;
 			$detail->economic_discount_nonvat_account = null;
-			$detail->economic_shipping_vat_account = null;
+			$detail->economic_shipping_vat_account    = null;
 			$detail->economic_shipping_nonvat_account = null;
 			$detail->economic_discount_product_number = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published                        = 1;
+			$this->_data                              = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -113,7 +113,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 		if (count($cid))
 		{
 			// Sanitise ids
-			JArrayHelper::toInteger($cid);
+			$cid  = Joomla\Utilities\ArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'economic_accountgroup '
@@ -136,7 +136,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 		if (count($cid))
 		{
 			// Sanitise ids
-			JArrayHelper::toInteger($cid);
+			$cid  = Joomla\Utilities\ArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
 			$query = 'UPDATE ' . $this->_table_prefix . 'economic_accountgroup'

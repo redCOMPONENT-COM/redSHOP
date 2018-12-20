@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopModelMail extends RedshopModelForm
 {
@@ -28,7 +28,7 @@ class RedshopModelMail extends RedshopModelForm
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_redshop.edit.mail.data', array());
 
 		if (empty($data))

@@ -9,93 +9,123 @@
 
 defined('_JEXEC') or die;
 
-
-
 /**
- * Class send_friendModelsend_friend
+ * Send friend model
  *
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelSend_friend extends RedshopModel
+class RedshopModelSend_Friend extends RedshopModel
 {
+	/**
+	 * @var integer
+	 */
 	public $_id = null;
 
+	/**
+	 * @var null
+	 */
 	public $_data = null;
 
-	// Product data
+	/**
+	 * @var null
+	 */
 	public $_product = null;
 
+	/**
+	 * @var string
+	 */
 	public $_table_prefix = null;
 
+	/**
+	 * @var null
+	 */
 	public $_template = null;
 
+	/**
+	 * RedshopModelSend_Friend constructor.
+	 *
+	 * @throws Exception
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
 
-		$this->setId((int) JFactory::getApplication()->input->getInt('pid', 0));
+		$this->setId(JFactory::getApplication()->input->getInt('pid', 0));
 	}
 
+	/**
+	 * Method for set ID
+	 *
+	 * @param   integer $id ID
+	 *
+	 * @return  void
+	 */
 	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
-	public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
+	/**
+	 * Method for send mail to friend
+	 *
+	 * @param   string  $yourName   Your name
+	 * @param   string  $friendName Friend name
+	 * @param   integer $productId  Product ID
+	 * @param   string  $email      Friend email
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 */
+	public function sendProductMailToFriend($yourName, $friendName, $productId, $email)
 	{
-		$producthelper = productHelper::getInstance();
-		$redshopMail   = redshopMail::getInstance();
-		$url           = JURI::base();
+		$mailTemplate = Redshop\Mail\Helper::getTemplate(0, "product");
+		$mailBcc      = null;
 
-		$mailinfo = $redshopMail->getMailtemplate(0, "product");
-		$data_add = "";
-		$subject  = "";
-		$mailbcc  = null;
-
-		if (count($mailinfo) > 0)
+		if (!empty($mailTemplate))
 		{
-			$data_add = $mailinfo[0]->mail_body;
-			$subject  = $mailinfo[0]->mail_subject;
+			$mailBody = $mailTemplate[0]->mail_body;
+			$subject  = $mailTemplate[0]->mail_subject;
 
-			if (trim($mailinfo[0]->mail_bcc) != "")
+			if (trim($mailTemplate[0]->mail_bcc) != "")
 			{
-				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
+				$mailBcc = explode(",", $mailTemplate[0]->mail_bcc);
 			}
 		}
 		else
 		{
-			$data_add = "<p>Hi {friend_name} ,</p>\r\n<p>New Product  : {product_name}</p>\r\n<p>{product_desc} Please check this link : {product_url}</p>\r\n<p> </p>\r\n<p> </p>";
+			$mailBody = "<p>Hi {friend_name} ,</p>\r\n<p>New Product  : {product_name}</p>\r\n"
+				. "<p>{product_desc} Please check this link : {product_url}</p>\r\n<p> </p>\r\n<p> </p>";
 			$subject  = "Send to friend";
 		}
 
-		$data_add = str_replace("{friend_name}", $friend_name, $data_add);
-		$data_add = str_replace("{your_name}", $your_name, $data_add);
+		$mailBody = str_replace("{friend_name}", $friendName, $mailBody);
+		$mailBody = str_replace("{your_name}", $yourName, $mailBody);
 
-		$product = $producthelper->getProductById($product_id);
+		$product = RedshopHelperProduct::getProductById($productId);
 
-		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
-		$data_add = str_replace("{product_desc}", $product->product_desc, $data_add);
+		$mailBody = str_replace("{product_name}", $product->product_name, $mailBody);
+		$mailBody = str_replace("{product_desc}", $product->product_desc, $mailBody);
 
-		$rlink       = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id);
-		$product_url = "<a href=" . $rlink . ">" . $rlink . "</a>";
-		$data_add    = str_replace("{product_url}", $product_url, $data_add);
-		$data_add = $redshopMail->imginmail($data_add);
+		$productLink = JRoute::_(JUri::base() . 'index.php?option=com_redshop&view=product&pid=' . $productId, false);
+		$productLink = "<a href=" . $productLink . ">" . $productLink . "</a>";
+		$mailBody    = str_replace("{product_url}", $productLink, $mailBody);
+		Redshop\Mail\Helper::imgInMail($mailBody);
 
 		$config   = JFactory::getConfig();
-		$from     = $config->get('mailfrom');
-		$fromname = $config->get('fromname');
+		$from     = (string) $config->get('mailfrom');
+		$fromName = (string) $config->get('fromname');
 
 		$subject = str_replace("{product_name}", $product->product_name, $subject);
 		$subject = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $subject);
 
-		if ($email != "")
+		if (!empty($email))
 		{
-			if (JFactory::getMailer()->sendMail($from, $fromname, $email, $subject, $data_add, 1, null, $mailbcc))
+			if (JFactory::getMailer()->sendMail($from, $fromName, $email, $subject, $mailBody, 1, null, $mailBcc))
 			{
 				echo "<div class='' align='center'>" . JText::_('COM_REDSHOP_EMAIL_HAS_BEEN_SENT_SUCCESSFULLY') . "</div>";
 			}
@@ -104,7 +134,5 @@ class RedshopModelSend_friend extends RedshopModel
 				echo "<div class='' align='center'>" . JText::_('COM_REDSHOP_EMAIL_HAS_NOT_BEEN_SENT_SUCCESSFULLY') . "</div>";
 			}
 		}
-
-		JFactory::getApplication()->close();
 	}
 }

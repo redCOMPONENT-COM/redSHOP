@@ -21,13 +21,13 @@ class RedshopModelSample_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -64,9 +64,9 @@ class RedshopModelSample_detail extends RedshopModel
 		{
 			$detail = new stdClass;
 
-			$detail->sample_id = null;
+			$detail->sample_id   = null;
 			$detail->sample_name = null;
-			$detail->published = 1;
+			$detail->published   = 1;
 
 			$this->_data = $detail;
 
@@ -97,7 +97,7 @@ class RedshopModelSample_detail extends RedshopModel
 		else
 		{
 			$total_loop = count($data["colour_id"]);
-			$sql = "DELETE FROM " . $this->_table_prefix . "catalog_colour "
+			$sql        = "DELETE FROM " . $this->_table_prefix . "catalog_colour "
 				. "WHERE sample_id='" . $row->sample_id . "' ";
 			$this->_db->setQuery($sql);
 			$this->_db->execute();
@@ -122,7 +122,7 @@ class RedshopModelSample_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_sample WHERE sample_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -141,7 +141,7 @@ class RedshopModelSample_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE ' . $this->_table_prefix . 'catalog_sample'
 				. ' SET published = ' . intval($publish)
 				. ' WHERE sample_id IN ( ' . $cids . ' )';

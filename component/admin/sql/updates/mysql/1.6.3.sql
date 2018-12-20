@@ -1,1 +1,0 @@
-set FOREIGN_KEY_CHECKS=0;

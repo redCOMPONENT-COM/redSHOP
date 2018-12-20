@@ -44,7 +44,7 @@ class RedshopModelZip_import extends RedshopModel
 	public function getzipfilescount()
 	{
 		$url = Redshop::getConfig()->get('REMOTE_UPDATE_DOMAIN_URL') . "index.php?option=com_reviews&domainname=" . JUri::getInstance()->toString(array('host'));
-		$ch = curl_init();
+		$ch  = curl_init();
 		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.7.3) Gecko/20041001 Firefox/0.10.1");
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -54,7 +54,7 @@ class RedshopModelZip_import extends RedshopModel
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$content = curl_exec($ch);
 		preg_match_all("#<span id='zip'>(.*?)</span>#is", $content, $out);
-		$content = trim($out[0][0]);
+		$content  = trim($out[0][0]);
 		$response = curl_getinfo($ch);
 		print_r($response);
 		JFactory::getApplication()->close();
@@ -67,7 +67,7 @@ class RedshopModelZip_import extends RedshopModel
 	public function getzipfilenames()
 	{
 		$user = JFactory::getUser();
-		$url = Redshop::getConfig()->get('REMOTE_UPDATE_DOMAIN_URL') . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" .
+		$url  = Redshop::getConfig()->get('REMOTE_UPDATE_DOMAIN_URL') . "index.php?option=com_remoteupdate&view=getcomponent&redusername=" .
 			$user->username . "&reddomain=" . JURI::base() . "";
 
 		$ch = curl_init();
@@ -81,22 +81,23 @@ class RedshopModelZip_import extends RedshopModel
 		// Execute the fetch
 		$data = curl_exec($ch);
 
-		//Close the connection
+		// Close the connection
 		curl_close($ch);
 		ob_clean();
 		$fp = fopen(JPATH_ROOT . '/tmp/com_jcomments_new.zip', 'w');
 		fwrite($fp, $data);
 		fclose($fp);
 
-		$filename = JURI::base() . '/tmp/com_jcomments_new.zip';
+		$filename                = JURI::base() . '/tmp/com_jcomments_new.zip';
 		$_SESSION['filename'][0] = $filename;
 	}
 
 	// Related product sync
 	public function install()
 	{
-		$app = JFactory::getApplication();
+		$app      = JFactory::getApplication();
 		$fileType = "url";
+
 		switch ($fileType)
 		{
 			case 'url':
@@ -134,7 +135,6 @@ class RedshopModelZip_import extends RedshopModel
 		{
 			$msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
 			$app->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
-
 		}
 
 		// Set some model state values
@@ -147,7 +147,7 @@ class RedshopModelZip_import extends RedshopModel
 		// Cleanup the install files
 		if (!JFile::exists($package['packagefile']))
 		{
-			$config = JFactory::getConfig();
+			$config                 = JFactory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
@@ -188,7 +188,6 @@ class RedshopModelZip_import extends RedshopModel
 		// Download the package at the URL given
 		$p_file = JInstallerHelper::downloadPackage(trim(strip_tags($url)));
 
-
 		// Was the package downloaded?
 		if (!$p_file)
 		{
@@ -201,7 +200,7 @@ class RedshopModelZip_import extends RedshopModel
 		<?php
 		}
 
-		$config = JFactory::getConfig();
+		$config   = JFactory::getConfig();
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
@@ -241,9 +240,9 @@ class RedshopModelZip_import extends RedshopModel
 		}
 
 		$package['packagefile'] = null;
-		$package['extractdir'] = null;
-		$package['dir'] = $p_dir;
-		$package['type'] = $type;
+		$package['extractdir']  = null;
+		$package['dir']         = $p_dir;
+		$package['type']        = $type;
 
 		return $package;
 	}

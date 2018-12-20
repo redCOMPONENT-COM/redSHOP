@@ -24,24 +24,24 @@
  */
 
 /// Define gulp and its config
-var gulp = require('gulp');
+var gulp   = require('gulp');
 var config = require('../../gulp-config.json');
 
 /// Define dependencies
-var del = require('del');
-var rename = require('gulp-rename');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var path = require("path");
-var fs = require('fs');
+var del     = require('del');
+var rename  = require('gulp-rename');
+var concat  = require('gulp-concat');
+var uglify  = require('gulp-uglify');
+var path    = require("path");
+var fs      = require('fs');
 var changed = require('gulp-changed');
 
 /// Define component tasks
 var componentName = 'com_redshop';
-var baseTask = 'components.redshop';
+var baseTask      = 'components.redshop';
 
 /// Define paths of source and destination
-var extPath = '.';
+var extPath   = '.';
 var mediaPath = extPath + '/media/' + componentName;
 
 /// Main clean task
@@ -65,7 +65,9 @@ gulp.task('clean:' + baseTask + ':media', function () {
             config.wwwDir + '/media/' + componentName + '/**',
             '!' + config.wwwDir + '/media/' + componentName,
             '!' + config.wwwDir + '/media/' + componentName + '/images',
-            '!' + config.wwwDir + '/media/' + componentName + '/images/**'
+            '!' + config.wwwDir + '/media/' + componentName + '/images/**',
+            '!' + config.wwwDir + '/media/' + componentName + '/templates',
+            '!' + config.wwwDir + '/media/' + componentName + '/templates/**'
         ],
         {force: true}
     );
@@ -111,7 +113,7 @@ gulp.task('watch:' + baseTask + ':media:js', function () {
     gulp.watch([mediaPath + '/js/**/*.js', mediaPath + '/js/*.js'])
         .on("change", function (file) {
             var destinationPath = config.wwwDir + '/media/' + componentName;
-            var deployFile = path.join(destinationPath, file.path.substring(file.path.indexOf("com_redshop") + 11, file.path.length));
+            var deployFile      = path.join(destinationPath, file.path.substring(file.path.indexOf("com_redshop") + 11, file.path.length));
 
             // Delete files
             del(deployFile, {force: true});
@@ -125,7 +127,8 @@ gulp.task('watch:' + baseTask + ':media:css', function () {
     gulp.watch([mediaPath + '/css/**/*.css', mediaPath + '/css/*.css'])
         .on("change", function (file) {
             var destinationPath = config.wwwDir + '/media/' + componentName;
-            var deployFile = path.join(destinationPath, file.path.substring(file.path.indexOf("com_redshop") + 11, file.path.length));
+            var deployFile      = path.join(destinationPath,
+                file.path.substring(file.path.indexOf("com_redshop") + 11, file.path.length));
 
             // Delete files
             del(deployFile, {force: true});
@@ -171,10 +174,10 @@ gulp.task('watch:' + baseTask + ':frontend:lang', function () {
 // Copy: Front-end files
 gulp.task('copy:' + baseTask + ':frontend:files', ['clean:' + baseTask + ':frontend:files'], function () {
     return gulp.src([
-        extPath + '/component/site/**',
-        '!' + extPath + '/component/site/language',
-        '!' + extPath + '/component/site/language/**'
-    ])
+            extPath + '/component/site/**',
+            '!' + extPath + '/component/site/language',
+            '!' + extPath + '/component/site/language/**'
+        ])
         .pipe(gulp.dest(config.wwwDir + '/components/' + componentName));
 });
 // clean: Front-end files
@@ -197,7 +200,8 @@ gulp.task('watch:' + baseTask + ':frontend:files', function (cb) {
         [extPath + '/component/site/**/*', '!' + extPath + '/component/site/language/**'])
         .on("change", function (file) {
             var destinationPath = path.join(config.wwwDir, "components", componentName);
-            var deployFile = path.join(destinationPath, file.path.substring(file.path.indexOf("site") + 4, file.path.length));
+            var deployFile      = path.join(destinationPath,
+                file.path.substring(file.path.indexOf("site") + 4, file.path.length));
 
             // Delete files
             del(deployFile, {force: true});
@@ -294,7 +298,7 @@ gulp.task('copy:' + baseTask + ':backend:files', function () {
             '!' + extPath + '/component/admin/language',
             '!' + extPath + '/component/admin/language/**'
         ]
-    )
+        )
         .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName));
 });
 // Watch: redSHOP Backend files
@@ -302,7 +306,8 @@ gulp.task('watch:' + baseTask + ':backend:files', function (cb) {
     gulp.watch(extPath + '/component/admin/**/*')
         .on("change", function (file) {
             var destinationPath = path.join(config.wwwDir, "administrator", "components", componentName);
-            var deployFile = path.join(destinationPath, file.path.substring(file.path.indexOf("admin") + 5, file.path.length));
+            var deployFile      = path.join(destinationPath,
+                file.path.substring(file.path.indexOf("admin") + 5, file.path.length));
 
             // Delete files
             del(deployFile, {force: true});

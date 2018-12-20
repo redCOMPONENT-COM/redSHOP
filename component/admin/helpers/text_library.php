@@ -11,19 +11,19 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-
 /**
  * Class Text Library
  *
- *  @deprecated  2.0.3  Use RedshopHelperText instead
+ * @since  1.6.0
+ *
+ * @deprecated  2.0.3  Use RedshopHelperText instead
  */
 class text_library
 {
 	/**
 	 * Get data of text library
 	 *
-	 * @return object
+	 * @return  array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperText::getTextLibraryData() instead
 	 */
@@ -35,7 +35,7 @@ class text_library
 	/**
 	 * Get data of text library
 	 *
-	 * @return string
+	 * @return array
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperText::getTextLibraryTagArray() instead
 	 */
@@ -47,9 +47,9 @@ class text_library
 	/**
 	 * Replace data with data of text library
 	 *
-	 * @param   array  $data  Data to replace with
+	 * @param   string  $data  Data to replace with
 	 *
-	 * @return  array
+	 * @return  string
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperText::replaceTexts() instead
 	 */

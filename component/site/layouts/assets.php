@@ -10,24 +10,26 @@
 defined('_JEXEC') or die;
 
 JHtml::_('redshopjquery.framework');
+JHtml::_('behavior.framework', true);
 JHtml::_('redshopjquery.select2', 'select:not(".disableBootstrapChosen")', array("width" => "auto", "dropdownAutoWidth" => "auto"));
 
-JHtml::script('com_redshop/attribute.js', false, true);
-JHtml::script('com_redshop/common.js', false, true);
-JHtml::script('com_redshop/redbox.js', false, true);
+/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.attribute.min.js', false, true);
+/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.common.min.js', false, true);
+/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
+/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/bootstrap.min.js', false, true);
 
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
-$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.css');
+$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.min.css');
 
-if (Redshop::getConfig()->get('LOAD_REDSHOP_STYLE'))
+if (Redshop::getConfig()->getBool('LOAD_REDSHOP_STYLE', true))
 {
-	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/style.css');
+	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.min.css');
 }
 
 // Use different CSS for print layout
 if ($app->input->getCmd('print', ''))
 {
-	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/print.css');
+	$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.print.min.css');
 }

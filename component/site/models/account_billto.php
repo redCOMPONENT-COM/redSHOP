@@ -10,46 +10,52 @@
 defined('_JEXEC') or die;
 
 /**
- * Class Account_billtoModelaccount_billto
+ * Class RedshopModelAccount_Billto
  *
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelAccount_billto extends RedshopModel
+class RedshopModelAccount_Billto extends RedshopModel
 {
+	/**
+	 * @var  object
+	 */
 	public $_data = null;
 
+	/**
+	 * Init billing address data
+	 *
+	 * @return   mixed
+	 */
 	public function _initData()
 	{
-		if (empty($GLOBALS['billingaddresses']))
+		if (Redshop\User\Billing\Billing::getGlobal() === null)
 		{
-			$session = JFactory::getSession();
-			$auth    = $session->get('auth');
+			$auth = JFactory::getSession()->get('auth');
 
 			if (isset($auth['users_info_id']) && $auth['users_info_id'])
 			{
-				$order_functions = order_functions::getInstance();
-				$detail          = $order_functions->getBillingAddress(-$auth['users_info_id']);
+				$detail = RedshopHelperOrder::getBillingAddress(-$auth['users_info_id']);
 
 				if (!isset($detail->user_id))
 				{
-					$detail->user_id = - $auth['users_info_id'];
+					$detail->user_id = -$auth['users_info_id'];
 				}
 			}
 			else
 			{
-				// Toggler settings
-				$is_company = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
+				// Toggle settings
+				$isCompany = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
 
 				// Allow registration type settings
 				if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
 				{
-					$is_company = 0;
+					$isCompany = 0;
 				}
 				elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 				{
-					$is_company = 1;
+					$isCompany = 1;
 				}
 
 				$user   = JFactory::getUser();
@@ -63,7 +69,7 @@ class RedshopModelAccount_billto extends RedshopModel
 				$detail->email                 = $user->email;
 				$detail->user_email            = $user->email;
 				$detail->password              = null;
-				$detail->is_company            = $is_company;
+				$detail->is_company            = $isCompany;
 				$detail->firstname             = null;
 				$detail->lastname              = null;
 				$detail->address_type          = 'BT';
@@ -85,22 +91,30 @@ class RedshopModelAccount_billto extends RedshopModel
 
 			return $detail;
 		}
+
+		return null;
 	}
 
+	/**
+	 * Method for store billing address
+	 *
+	 * @param   array  $post  Data
+	 *
+	 * @return  boolean|Tableuser_detail
+	 * @throws  Exception
+	 */
 	public function store($post)
 	{
 		$post['billisship']    = 1;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 
-		$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
+		$joomlaUser = RedshopHelperJoomla::updateJoomlaUser($post);
 
-		if (!$joomlauser)
+		if (!$joomlaUser)
 		{
 			return false;
 		}
 
-		$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id);
-
-		return $reduser;
+		return RedshopHelperUser::storeRedshopUser($post, $joomlaUser->id);
 	}
 }

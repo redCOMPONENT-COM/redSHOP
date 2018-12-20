@@ -26,7 +26,7 @@ class RedshopViewAccess extends RedshopViewAdmin
 	protected $form;
 
 	/**
-	 * @var  Object
+	 * @var  object
 	 */
 	protected $item;
 

@@ -51,7 +51,7 @@ if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
 						<?php foreach ($properties as $key => $property): ?>
 							<?php
 								$borderStyle = ($selectedProperty == $property->value) ? " 1px solid " : "";
-								$thumbUrl = RedShopHelperImages::getImagePath(
+								$thumbUrl = RedshopHelperMedia::getImagePath(
 									$property->property_image,
 									'',
 									'thumb',

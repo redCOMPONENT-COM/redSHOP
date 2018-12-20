@@ -75,7 +75,7 @@ class RedshopEntityShopper_Group extends RedshopEntity
 
 		$this->discounts = new RedshopEntitiesCollection;
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('discount_id'))
 			->from($db->qn('#__redshop_discount_shoppers'))

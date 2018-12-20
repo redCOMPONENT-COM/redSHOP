@@ -30,7 +30,7 @@ class RedshopModelRating_detail extends RedshopModelForm
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -72,20 +72,21 @@ class RedshopModelRating_detail extends RedshopModelForm
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->rating_id = null;
-			$detail->product_id = null;
-			$detail->title = null;
-			$detail->comment = null;
-			$detail->userid = null;
-			$detail->time = null;
+			$detail              = new stdClass;
+			$detail->rating_id   = null;
+			$detail->product_id  = null;
+			$detail->title       = null;
+			$detail->comment     = null;
+			$detail->userid      = null;
+			$detail->time        = null;
 			$detail->user_rating = null;
-			$detail->favoured = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->favoured    = null;
+			$detail->published   = 1;
+			$this->_data         = $detail;
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -94,7 +95,7 @@ class RedshopModelRating_detail extends RedshopModelForm
 		// Set email for existing joomla user
 		if (isset($data['userid']) && $data['userid'] > 0)
 		{
-			$user = JFactory::getUser($data['userid']);
+			$user             = JFactory::getUser($data['userid']);
 			$data['email']    = $user->email;
 			$data['username'] = $user->username;
 		}
@@ -144,7 +145,7 @@ class RedshopModelRating_detail extends RedshopModelForm
 
 		if (!empty($pks))
 		{
-			$db = $this->_db;
+			$db    = $this->_db;
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__redshop_product_rating'))
 				->where($db->qn('rating_id') . ' IN (' . implode(',', $pks) . ')');
@@ -232,7 +233,7 @@ class RedshopModelRating_detail extends RedshopModelForm
 			. $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
 		$this->_db->setQuery($query);
 		$this->_username = $this->_db->loadObject();
-		$fullname = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
+		$fullname        = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
 
 		return $fullname;
 	}

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use WhichBrowser\Parser;
 
 /**
  * Class Redshop Helper for Payment Methods
@@ -147,5 +148,343 @@ class RedshopHelperPayment
 		}
 
 		return false;
+	}
+
+	/**
+	 * Replace conditional tag from Redshop payment Discount/charges
+	 *
+	 * @param   string   $template       Template html
+	 * @param   integer  $amount         Amount of cart
+	 * @param   integer  $cart           Is in cart?
+	 * @param   string   $paymentOprand  Payment oprand
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function replaceConditionTag($template = '', $amount = 0, $cart = 0, $paymentOprand = '-')
+	{
+		if (strpos($template, '{if payment_discount}') === false || strpos($template, '{payment_discount end if}') === false)
+		{
+			return $template;
+		}
+
+		if ($cart == 1 || $amount == 0)
+		{
+			$templateDiscountStart = explode('{if payment_discount}', $template);
+			$templateDiscountEnd   = explode('{payment_discount end if}', $templateDiscountStart[1]);
+
+			return $templateDiscountStart[0] . $templateDiscountEnd[1];
+		}
+
+		if ($amount <= 0)
+		{
+			$templateStart = explode('{if payment_discount}', $template);
+			$templateEnd   = explode('{payment_discount end if}', $templateStart[1]);
+
+			return $templateStart[0] . $templateEnd[1];
+		}
+
+		$template = str_replace("{payment_order_discount}", RedshopHelperProductPrice::formattedPrice($amount), $template);
+		$payText  = ($paymentOprand == '+') ? JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL') : JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
+		$template = str_replace("{payment_discount_lbl}", $payText, $template);
+		$template = str_replace("{payment_discount end if}", '', $template);
+		$template = str_replace("{if payment_discount}", '', $template);
+
+		return $template;
+	}
+
+	/**
+	 * List all categories and return HTML format
+	 *
+	 * @param   string   $name       Name of list
+	 * @param   integer  $productId  Only product to show
+	 * @param   integer  $size       Size of dropdown
+	 * @param   boolean  $multiple   Dropdown is multiple or not
+	 * @param   integer  $width      Width in pixel
+	 *
+	 * @return  string   HTML of dropdown
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public static function listAll($name, $productId, $size = 1, $multiple = false, $width = 250)
+	{
+		$db    = JFactory::getDbo();
+		$html  = '';
+		$query = $db->getQuery(true)
+			->select($db->qn('payment_id'))
+			->from($db->qn('#__redshop_product_payment_xref'));
+
+		if ($productId)
+		{
+			$query->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+		}
+
+		$selectedPayments = $db->setQuery($query)->loadObjectList();
+		$selectedPayments = array_column($selectedPayments, 'payment_id');
+
+		$multiple = $multiple ? "multiple=\"multiple\"" : "";
+		$id       = str_replace('[]', '', $name);
+		$html    .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+		$html    .= self::listTree($selectedPayments);
+		$html    .= "</select>\n";
+
+		return $html;
+	}
+
+	/**
+	 * List payment into dropdown
+	 *
+	 * @param   array   $selectedPayments  Only show selected payments
+	 * @param   string  $html              Before HTML
+	 *
+	 * @return  string   HTML of <option></option>
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public static function listTree($selectedPayments = array(), $html = '')
+	{
+		self::loadLanguages();
+
+		$paymentMethods = self::info();
+
+		if (empty($paymentMethods))
+		{
+			return $html;
+		}
+
+		$userBrowser = new Parser($_SERVER['HTTP_USER_AGENT']);
+		$isMsIE      = $userBrowser->browser->isFamily('Internet Explorer');
+
+		foreach ($paymentMethods as $p => $oneMethod)
+		{
+			$paymentPath = JPATH_SITE . '/plugins/redshop_payment/' . $oneMethod->name . '/' . $oneMethod->name . '.php';
+
+			include_once $paymentPath;
+
+			$value 	  = $oneMethod->name;
+			$disabled = '';
+			$selected = '';
+
+			if (in_array($oneMethod->name, $selectedPayments))
+			{
+				$selected = "selected=\"selected\"";
+			}
+
+			if (in_array($oneMethod->id, $selectedPayments))
+			{
+				$disabled = 'disabled="disabled"';
+			}
+
+			if ($disabled != '' && $isMsIE)
+			{
+				// IE7 suffers from a bug, which makes disabled option fields selectable
+				$html .= "<option $selected value=\"$value\">" . JText::_('PLG_' . strtoupper($oneMethod->name)) . "</option>";
+			}
+			else
+			{
+				$html .= "<option $selected $disabled value=\"$value\">" . JText::_('PLG_' . strtoupper($oneMethod->name)) . "</option>";
+			}
+		}
+
+		return $html;
+	}
+	/**
+	 * Get payment method in Checkout,
+	 *
+	 * @param   array  $paymentMethods           Array PaymentMethods
+	 *
+	 * @return  array   Common PaymentMethods
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getPaymentMethodInCheckOut($paymentMethods=array())
+	{
+		$currentPaymentMethods = array();
+
+		if (!empty($paymentMethods))
+		{
+			foreach ($paymentMethods as $p => $oneMethod)
+			{
+				$currentPaymentMethods[] = $oneMethod->name;
+			}
+		}
+
+		$cart = RedshopHelperCartSession::getCart();
+
+		$idx = 0;
+
+		if (isset($cart['idx']))
+		{
+			$idx = $cart['idx'];
+		}
+
+		$db = JFactory::getDbo();
+
+		$paymentMethods      = array();
+		$flag                = true;
+		$commonPaymentMethod = $currentPaymentMethods;
+
+		for ($i = 0; $i < $idx; $i++)
+		{
+			$productId = $cart[$i]['product_id'];
+
+			$query = $db->getQuery(true)
+				->select($db->qn('a.payment_id'))
+				->from($db->qn('#__redshop_product_payment_xref', 'a'))
+				->join('INNER', $db->qn('#__redshop_product', 'b') . ' ON (' . $db->qn('a.product_id') . ' = ' . $db->qn('b.product_id') . ')')
+				->where($db->qn('b.use_individual_payment_method') . ' = 1');
+
+			if ($productId)
+			{
+				$query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
+			}
+
+			$db->setQuery($query);
+			$payments = $db->loadObjectList();
+
+			if ($payments)
+			{
+				$payments = array_column($payments, 'payment_id');
+			}
+			else
+			{
+				$payments = $currentPaymentMethods;
+			}
+
+			if ($idx == 1)
+			{
+				return $payments;
+			}
+
+			$paymentMethods[] = array('product_id' => $productId, 'payments' => $payments);
+
+			if ($i > 0 && $flag)
+			{
+				$commonPaymentMethod = array_intersect($paymentMethods[$i - 1]['payments'], $paymentMethods[$i]['payments']);
+
+				if (!empty($commonPaymentMethod))
+				{
+					$flag = false;
+				}
+			}
+		}
+
+		// Product in cart use these payment method
+		return $commonPaymentMethod;
+	}
+	/**
+	 * List common payment methods of products cart in checkout,
+	 *
+	 * @param   array   $paymentMethods     All active payment methods
+	 *
+	 * @return  string  HTML of <div></div>
+	 *
+	 * @since   2.1.0
+	 */
+	public static function displayPaymentMethodInCheckOut($paymentMethods=array())
+	{
+		$currentPaymentMethods = array();
+
+		if (count($paymentMethods) > 0)
+		{
+			foreach ($paymentMethods as $p => $oneMethod)
+			{
+				$currentPaymentMethods[] = $oneMethod->name;
+			}
+		}
+
+		$cart = RedshopHelperCartSession::getCart();
+		$db   = JFactory::getDbo();
+		$html = '';
+
+		foreach ($cart as $index => $product)
+		{
+			if (!is_array($product) || empty($product))
+			{
+				continue;
+			}
+
+			$productId = $product['product_id'];
+
+			$query = $db->getQuery(true);
+			$query
+				->select($db->qn('a.payment_id'))
+				->from($db->qn('#__redshop_product_payment_xref', 'a'))
+				->join('INNER', $db->qn('#__redshop_product', 'b') . ' ON (' . $db->qn('a.product_id') . ' = ' . $db->qn('b.product_id') . ')')
+				->where($db->qn('b.use_individual_payment_method') . ' = 1');
+
+			if ($productId)
+			{
+				$query->where($db->qn('a.product_id') . ' = ' . $db->q((int) $productId));
+			}
+
+			$db->setQuery($query);
+			$payments = $db->loadObjectList();
+
+			if ($payments)
+			{
+				$payments = array_column($payments, 'payment_id');
+			}
+			else
+			{
+				$payments = $currentPaymentMethods;
+			}
+
+			$product = RedshopHelperProduct::getProductById($productId);
+			$html   .= '<div class="row"><label class="col-xs-5">' . $product->product_name . '</label><div class="col-xs-7">';
+			$tmp     = '';
+
+			foreach ($payments as $p)
+			{
+				$tmp .= JText::_('PLG_' . strtoupper($p)) . ',';
+			}
+
+			$tmp   = rtrim($tmp, ",");
+			$html .= $tmp . '</div></div>';
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Calculate payment Discount/charges
+	 *
+	 * @param   float  $total       Total
+	 * @param   object $payment     Payment information
+	 * @param   float  $finalAmount Final amount
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
+	public static function calculate($total, $payment, $finalAmount)
+	{
+		$discount = 0;
+
+		if ($payment->payment_discount_is_percent == 0)
+		{
+			$discount = $payment->payment_price;
+		}
+		elseif ($payment->payment_price > 0)
+		{
+			$discount = $total * $payment->payment_price / 100;
+		}
+
+		$discount = $discount ? round($discount, 2) : 0;
+
+		if (!$discount)
+		{
+			return array($finalAmount, 0);
+		}
+
+		$discount    = $total < $discount ? $total : $discount;
+		$finalAmount = $payment->payment_oprand == '+' ? $finalAmount + $discount : $finalAmount - $discount;
+
+		return array($finalAmount, $discount);
 	}
 }

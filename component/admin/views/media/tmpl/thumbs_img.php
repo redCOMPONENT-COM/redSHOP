@@ -28,7 +28,7 @@ if ($folder == '')
 }
 else
 {
-	$thumb_path = RedShopHelperImages::getImagePath(
+	$thumb_path = RedshopHelperMedia::getImagePath(
 					basename($this->_tmp_img->path_relative),
 					'',
 					'thumb',

@@ -14,10 +14,28 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopControllerTemplates extends RedshopControllerAdmin
 {
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   2.1.0
+	 */
+	public function getModel($name = 'Template', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
+
 	/**
 	 * Method to clone an existing supplier.
 	 *
@@ -28,7 +46,7 @@ class RedshopControllerTemplates extends RedshopControllerAdmin
 	public function duplicate()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$pks = \Joomla\Utilities\ArrayHelper::toInteger($pks);

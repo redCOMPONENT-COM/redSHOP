@@ -9,32 +9,36 @@
 
 defined('_JEXEC') or die;
 
-
 /**
- * send friend Controller.
+ * Send friend Controller.
  *
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerSend_friend extends RedshopController
+class RedshopControllerSend_Friend extends RedshopController
 {
 	/**
-	 * sendmail function
+	 * Method for send mail
 	 *
-	 * @access public
 	 * @return void
+	 * @throws Exception
+	 *
+	 * @since  1.0.0
 	 */
 	public function sendmail()
 	{
-		$post = JFactory::getApplication()->input->post->getArray();
-		$your_name = $post['your_name'];
-		$name = $post['friends_name'];
-		$pid = $post['pid'];
-		$email = $post['friends_email'];
+		$input       = JFactory::getApplication()->input;
+		$yourName    = $input->getString('your_name', '');
+		$friendName  = $input->getString('friends_name', '');
+		$friendEmail = $input->getString('friends_email', '');
+		$productId   = $input->getInt('pid', 0);
 
+		/** @var RedshopModelSend_Friend $model */
 		$model = $this->getModel('send_friend');
 
-		$model->sendProductMailToFriend($your_name, $name, $pid, $email);
+		$model->sendProductMailToFriend($yourName, $friendName, $productId, $friendEmail);
+
+		JFactory::getApplication()->close();
 	}
 }

@@ -31,6 +31,7 @@ class RedshopControllerRegistration extends RedshopController
 		$itemId     = $input->getInt('Itemid', 0);
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
+		/** @var RedshopModelRegistration $model */
 		$model   = $this->getModel('registration');
 		$success = $model->store($post);
 
@@ -110,12 +111,11 @@ class RedshopControllerRegistration extends RedshopController
 	 * getCompanyOrCustomer
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function getCompanyOrCustomer()
 	{
 		$app        = JFactory::getApplication();
-		$extraField = extraField::getInstance();
-
 		$get        = $app->input->get->getArray();
 		$templateId = $get['template_id'];
 		$isCompany  = $get['is_company'];
@@ -123,7 +123,7 @@ class RedshopControllerRegistration extends RedshopController
 
 		if ($isCompany == 1)
 		{
-			$lists['extra_field_company'] = $extraField->list_all_field(8);
+			$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(8);
 			$template                     = RedshopHelperTemplate::getTemplate("company_billing_template", $templateId);
 
 			if (count($template) > 0 && $template[0]->template_desc != "")
@@ -139,7 +139,7 @@ class RedshopControllerRegistration extends RedshopController
 		}
 		else
 		{
-			$lists['extra_field_user'] = $extraField->list_all_field(7);
+			$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(7);
 			$template                  = RedshopHelperTemplate::getTemplate("private_billing_template", $templateId);
 
 			if (count($template) > 0 && $template[0]->template_desc != "")
@@ -160,21 +160,24 @@ class RedshopControllerRegistration extends RedshopController
 	}
 
 	/**
-	 * get Billing One Step checkout template
+	 * Get Billing One Step checkout template
 	 *
 	 * @return  void
+	 * @throws  Exception
 	 */
 	public function getBillingTemplate()
 	{
-		$app        = JFactory::getApplication();
-		$input      = $app->input;
-		$isCompany  = $input->post->getInt('isCompany');
-		$type       = $input->post->getString('type');
-		$lists      = array();
+		$app       = JFactory::getApplication();
+		$input     = $app->input;
+		$isCompany = $input->post->getInt('isCompany');
+		$type      = $input->post->getString('type');
+		$lists     = array();
 
 		if ($isCompany == 1 && $type == 'company')
 		{
-			$lists['extra_field_company'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, 0, '', 1, '', '', 1, 1);
+			$lists['extra_field_company'] = RedshopHelperExtrafields::listAllField(
+				RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, 0, '', '', 1, 1
+			);
 
 			$template = RedshopHelperTemplate::getTemplate("company_billing_template");
 
@@ -184,15 +187,41 @@ class RedshopControllerRegistration extends RedshopController
 			}
 			else
 			{
-				$html = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{company_name_lbl}</td><td>{company_name}</td><td><span class="required">*</span></td></tr><!-- {vat_number_start} --><tr><td width="100" align="right">{vat_number_lbl}</td><td>{vat_number}</td><td><span class="required">*</span></td></tr><!-- {vat_number_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{ean_number_lbl}</td><td>{ean_number}</td><td></td></tr><tr><td width="100" align="right">{tax_exempt_lbl}</td><td>{tax_exempt}</td></tr><tr><td colspan="3">{company_extrafield}</td></tr></tbody></table>';
+				$html = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr>'
+					. '<td width="100" align="right">{email_lbl}:</td><td>{email}</td><td>'
+					. '<span class="required">*</span></td></tr><!-- {retype_email_start} --><tr>'
+					. '<td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td>'
+					. '<span class="required">*</span></td></tr><!-- {retype_email_end} --><tr>'
+					. '<td width="100" align="right">{company_name_lbl}</td><td>{company_name}</td><td>'
+					. '<span class="required">*</span></td></tr><!-- {vat_number_start} --><tr>'
+					. '<td width="100" align="right">{vat_number_lbl}</td><td>{vat_number}</td><td>'
+					. '<span class="required">*</span></td></tr><!-- {vat_number_end} --><tr>'
+					. '<td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td>'
+					. '<span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td>'
+					. '<td>{lastname}</td><td><span class="required">*</span></td></tr><tr>'
+					. '<td width="100" align="right">{address_lbl}</td><td>{address}</td><td>'
+					. '<span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td>'
+					. '<td>{zipcode}</td><td><span class="required">*</span></td></tr><tr>'
+					. '<td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span>'
+					. '</td></tr><tr id="{country_txtid}" style="{country_style}">'
+					. '<td width="100" align="right">{country_lbl}</td><td>{country}</td><td>'
+					. '<span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}">'
+					. '<td width="100" align="right">{state_lbl}</td><td>{state}</td><td>'
+					. '<span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td>'
+					. '<td>{phone}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">'
+					. '{ean_number_lbl}</td><td>{ean_number}</td><td></td></tr><tr>'
+					. '<td width="100" align="right">{tax_exempt_lbl}</td><td>{tax_exempt}</td></tr><tr>'
+					. '<td colspan="3">{company_extrafield}</td></tr></tbody></table>';
 			}
 
-			$html = RedshopHelperBilling::replaceCompanyCustomer($html, array(), $lists);
+			$html  = RedshopHelperBilling::replaceCompanyCustomer($html, array(), $lists);
 			$html .= '<input type="hidden" name="is_company" value="1"/>';
 		}
 		elseif ($isCompany == 0 && $type == 'private')
 		{
-			$lists['extra_field_user'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, 0, '', 1, '', '', 1, 1);
+			$lists['extra_field_user'] = RedshopHelperExtrafields::listAllField(
+				RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, 0, '', '', 1, 1
+			);
 
 			$template = RedshopHelperTemplate::getTemplate("private_billing_template");
 
@@ -205,7 +234,7 @@ class RedshopControllerRegistration extends RedshopController
 				$html = '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td><td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr><td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td><span class="required">*</span></td></tr><tr><td colspan="3">{private_extrafield}</td></tr></tbody></table>';
 			}
 
-			$html = RedshopHelperBilling::replacePrivateCustomer($html, array(), $lists);
+			$html  = RedshopHelperBilling::replacePrivateCustomer($html, array(), $lists);
 			$html .= '<input type="hidden" name="is_company" value="0"/>';
 		}
 		else
@@ -213,7 +242,7 @@ class RedshopControllerRegistration extends RedshopController
 			JPluginHelper::importPlugin('redshop_checkout');
 
 			$html = '';
-			RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingOnstepCheckout', array(&$html));
+			RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingOneStepCheckout', array(&$html));
 		}
 
 		echo $html;

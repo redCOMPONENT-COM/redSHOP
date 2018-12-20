@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $rowData          Extra field data
- * @param   string  $required         Extra field required
- * @param   string  $uniqueId         Extra field unique Id
- * @param   string  $fieldCheck       Extra field check
- * @param   string  $checkData        Extra field check data
+ * @var   array   $displayData   Layout data.
+ * @var   object  $rowData          Extra field data
+ * @var   string  $required         Extra field required
+ * @var   string  $uniqueId         Extra field unique Id
+ * @var   array   $fieldCheck       Extra field check
+ * @var   string  $checkData        Extra field check data
  */
 extract($displayData);
 ?>
@@ -24,7 +25,7 @@ extract($displayData);
 	<?php $checked = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' checked="checked" ' : ''; ?>
 	<div class="userfield_input">
 		<label>
-			<input 
+			<input
 				type="radio"
 				id="<?php echo $rowData->name . '_' . $field->value_id; ?>"
 				name="extrafieldname<?php echo $uniqueId; ?>[]"

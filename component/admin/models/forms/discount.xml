@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="discount_id"
+                type="hidden"
+                readonly="true"
+        />
+        <field
+                name="name"
+                type="redshop.text"
+                label="COM_REDSHOP_DISCOUNT_NAME"
+                description="COM_REDSHOP_DISCOUNT_NAME_DESC"
+                placeholder="COM_REDSHOP_DISCOUNT_NAME"
+                class="form-control"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="amount"
+                type="redshop.text"
+                label="COM_REDSHOP_DISCOUNT_AMOUNT"
+                description="COM_REDSHOP_DISCOUNT_AMOUNT_DESC"
+                placeholder="COM_REDSHOP_DISCOUNT_AMOUNT"
+                class="form-control"
+                default="0"
+                filter="integer"
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+        />
+        <field
+                name="condition"
+                type="redshop.radio"
+                label="COM_REDSHOP_DISCOUNT_CONDITION"
+                description="COM_REDSHOP_DISCOUNT_CONDITION_DESC"
+                label-class="radio-inline"
+                default="1"
+                table-sortable="1"
+                table-width="5%">
+            <option value="1">COM_REDSHOP_DISCOUNT_CONDITION_OPTION_LOWER</option>
+            <option value="2">COM_REDSHOP_DISCOUNT_CONDITION_OPTION_EQUAL</option>
+            <option value="3">COM_REDSHOP_DISCOUNT_CONDITION_OPTION_HIGHER</option>
+        </field>
+        <field
+                name="discount_type"
+                type="redshop.radio"
+                label="COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE"
+                description="COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_DESC"
+                label-class="radio-inline"
+                default="0"
+                table-sortable="1"
+                table-width="5%">
+            <option value="0">COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_OPTION_TOTAL</option>
+            <option value="1">COM_REDSHOP_DISCOUNT_DISCOUNT_TYPE_OPTION_PERCENTAGE</option>
+        </field>
+        <field
+                name="discount_amount"
+                type="redshop.text"
+                label="COM_REDSHOP_DISCOUNT_DISCOUNT_AMOUNT"
+                description="COM_REDSHOP_DISCOUNT_DISCOUNT_AMOUNT_DESC"
+                placeholder="COM_REDSHOP_DISCOUNT_DISCOUNT_AMOUNT"
+                class="form-control"
+                default="0.0"
+                filter="float"
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+        />
+        <field
+                name="start_date"
+                type="redshop.calendar"
+                label="COM_REDSHOP_DISCOUNT_START_DATE"
+                description="COM_REDSHOP_DISCOUNT_START_DATE_DESC"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-width="10%"
+        />
+        <field
+                name="end_date"
+                type="redshop.calendar"
+                label="COM_REDSHOP_DISCOUNT_END_DATE"
+                description="COM_REDSHOP_DISCOUNT_END_DATE_DESC"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-width="10%"
+        />
+        <field
+                name="shopper_group"
+                type="shoppergrouplist"
+                label="COM_REDSHOP_DISCOUNT_SHOPPER_GROUP"
+                description="COM_REDSHOP_DISCOUNT_SHOPPER_GROUP_DESC"
+                multiple="true"
+                required="true"
+                table-hide="1"
+        />
+        <field
+                name="published"
+                type="redshop.radio"
+                default="1"
+                label-class="radio-inline"
+                label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED"
+                table-sortable="1"
+                table-width="5%">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fieldset>
+</form>

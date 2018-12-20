@@ -21,7 +21,7 @@ $d['users_info_id'] = $shipp_users_info_id;
 $d['ordertotal'] = $ordertotal;
 $d['order_subtotal'] = $ordersubtotal;
 
-$responce = $adminproducthelper->replaceShippingMethod($d, $shipp_users_info_id, 0);
+$responce = RedshopHelperProduct::replaceShippingMethod($d, $shipp_users_info_id, 0);
 
 echo $responce;
 

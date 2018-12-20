@@ -44,13 +44,13 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 		global $context;
 
 		$context = "wrapper";
-		$uri = JFactory::getURI();
-		$lists = array();
-		$detail = $this->get('data');
-		$model = $this->getModel('wrapper_detail');
+		$uri     = JFactory::getURI();
+		$lists   = array();
+		$detail  = $this->get('data');
+		$model   = $this->getModel('wrapper_detail');
 
 		$isNew = ($detail->wrapper_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_wrapper48');
 
@@ -66,9 +66,9 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['use_to_all'] = JHTML::_('select.booleanlist', 'wrapper_use_to_all', 'class="inputbox"', $detail->wrapper_use_to_all);
-		$product_id = 0;
+		$product_id          = 0;
 
 		$jinput = JFactory::getApplication()->input;
 
@@ -108,11 +108,11 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 			)
 		);
 
-		$this->lists = $lists;
-		$this->detail = $detail;
-		$this->product = $product;
-		$this->product_id = $product_id;
-		$this->category = $category;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
+		$this->product     = $product;
+		$this->product_id  = $product_id;
+		$this->category    = $category;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

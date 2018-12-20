@@ -36,7 +36,7 @@ class RedshopModelStatistic_Product extends RedshopModelList
 				'p.product_name', 'product_name',
 				'p.product_number', 'product_number',
 				'count',
-				'm.manufacturer_name', 'manufacturer_name',
+				'm.name', 'manufacturer_name',
 				'total_sale', 'unit_sold'
 			);
 		}
@@ -86,13 +86,13 @@ class RedshopModelStatistic_Product extends RedshopModelList
 	/**
 	 * Method to buil query string
 	 *
-	 * @return  String
+	 * @return  string
 	 *
 	 * @note    Calling getState in this method will result in recursion.
 	 */
 	public function getListQuery()
 	{
-		$db     = $this->getDbo();
+		$db       = $this->getDbo();
 		$subQuery = $db->getQuery(true)
 			->select('SUM(' . $db->qn('oi.product_final_price') . ') AS ' . $db->qn('total_sale'))
 			->select('SUM(' . $db->qn('oi.product_quantity') . ') AS unit_sold')
@@ -108,16 +108,17 @@ class RedshopModelStatistic_Product extends RedshopModelList
 			->select(
 				$db->qn(
 					array(
-						'p.product_id', 'p.product_name', 'p.product_number', 'm.manufacturer_name',
+						'p.product_id', 'p.product_name', 'p.product_number',
 						'oi.order_create_date', 'oi.total_sale', 'oi.unit_sold', 'oi.order_count'
 					)
 				)
 			)
+			->select($db->qn('m.name', 'manufacturer_name'))
 			->select('COUNT(*) AS count')
 			->from($db->qn('#__redshop_product', 'p'))
-			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.manufacturer_id') . ' = ' . $db->qn('p.manufacturer_id'))
+			->leftjoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('m.id') . ' = ' . $db->qn('p.manufacturer_id'))
 			->leftjoin('(' . $subQuery . ') AS oi ' . ' ON ' . $db->qn('oi.product_id') . ' = ' . $db->qn('p.product_id')
-				)
+			)
 			->group($db->qn('p.product_id'));
 
 		// Filter: Date Range

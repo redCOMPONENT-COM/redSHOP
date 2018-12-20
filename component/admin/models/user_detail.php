@@ -33,12 +33,12 @@ class RedshopModelUser_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->_context = 'order_id';
+		$this->_context      = 'order_id';
 
 		$array      = $app->input->get('cid', 0, 'array');
 		$this->_uid = $app->input->get('user_id', 0);
 
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
@@ -48,7 +48,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -70,7 +70,7 @@ class RedshopModelUser_detail extends RedshopModel
 		if (empty($this->_data))
 		{
 			$this->_uid = 0;
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
+			$query      = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
 				. 'LEFT JOIN #__users as u on u.id = uf.user_id '
 				. 'WHERE users_info_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
@@ -85,8 +85,10 @@ class RedshopModelUser_detail extends RedshopModel
 			{
 				$this->_data->email = $this->_data->user_email;
 			}
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -152,16 +154,16 @@ class RedshopModelUser_detail extends RedshopModel
 				$this->_db->setQuery($query);
 				$bill_data = $this->_db->loadObject();
 
-				$detail->id = $detail->user_id = $this->_uid = $bill_data->user_id;
-				$detail->email = $bill_data->user_email;
-				$detail->is_company = $bill_data->is_company;
-				$detail->company_name = $bill_data->company_name;
-				$detail->vat_number = $bill_data->vat_number;
-				$detail->tax_exempt = $bill_data->tax_exempt;
-				$detail->shopper_group_id = $bill_data->shopper_group_id;
+				$detail->id                    = $detail->user_id = $this->_uid = $bill_data->user_id;
+				$detail->email                 = $bill_data->user_email;
+				$detail->is_company            = $bill_data->is_company;
+				$detail->company_name          = $bill_data->company_name;
+				$detail->vat_number            = $bill_data->vat_number;
+				$detail->tax_exempt            = $bill_data->tax_exempt;
+				$detail->shopper_group_id      = $bill_data->shopper_group_id;
 				$detail->requesting_tax_exempt = $bill_data->requesting_tax_exempt;
-				$detail->tax_exempt_approved = $bill_data->tax_exempt_approved;
-				$detail->ean_number = $bill_data->ean_number;
+				$detail->tax_exempt_approved   = $bill_data->tax_exempt_approved;
+				$detail->ean_number            = $bill_data->ean_number;
 			}
 
 			$this->_data = $detail;
@@ -175,7 +177,7 @@ class RedshopModelUser_detail extends RedshopModel
 	public function storeUser($post)
 	{
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
-		$post['user_email'] = $post['email1'] = $post['email'];
+		$post['user_email']    = $post['email1'] = $post['email'];
 
 		$post['billisship'] = 1;
 
@@ -200,32 +202,33 @@ class RedshopModelUser_detail extends RedshopModel
 
 	public function store($post)
 	{
-		$shipping = isset($post["shipping"]) ? true : false;
+		$shipping              = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
-		$post['user_email'] = $post['email1'] = $post['email'];
+		$post['user_email']    = $post['email1'] = $post['email'];
 
 		if ($shipping)
 		{
 			$post['country_code_ST'] = $post['country_code'];
-			$post['state_code_ST'] = $post['state_code'];
-			$post['firstname_ST'] = $post['firstname'];
-			$post['lastname_ST'] = $post['lastname'];
-			$post['address_ST'] = $post['address'];
-			$post['city_ST'] = $post['city'];
-			$post['zipcode_ST'] = $post['zipcode'];
-			$post['phone_ST'] = $post['phone'];
+			$post['state_code_ST']   = $post['state_code'];
+			$post['firstname_ST']    = $post['firstname'];
+			$post['lastname_ST']     = $post['lastname'];
+			$post['address_ST']      = $post['address'];
+			$post['city_ST']         = $post['city'];
+			$post['zipcode_ST']      = $post['zipcode'];
+			$post['phone_ST']        = $post['phone'];
 
 			$reduser = RedshopHelperUser::storeRedshopUserShipping($post);
 		}
 		else
 		{
 			$post['billisship'] = 1;
-			$joomlauser = RedshopHelperJoomla::updateJoomlaUser($post);
+			$joomlauser         = RedshopHelperJoomla::updateJoomlaUser($post);
 
 			if (!$joomlauser)
 			{
 				return false;
 			}
+
 			$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
 		}
 
@@ -238,7 +241,7 @@ class RedshopModelUser_detail extends RedshopModel
 	 * @param   array  $cid                Array of user ids
 	 * @param   bool   $deleteJoomlaUsers  Delete Joomla! users
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since version
 	 */
@@ -246,26 +249,26 @@ class RedshopModelUser_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$db = JFactory::getDbo();
+			$db   = JFactory::getDbo();
 			$cids = implode(',', $cid);
 
 			$queryDefault = $db->getQuery(true)
-					->delete($db->qn('#__redshop_users_info'))
-					->where($db->qn('users_info_id') . ' IN (' . $cids . ' )');
+				->delete($db->qn('#__redshop_users_info'))
+				->where($db->qn('users_info_id') . ' IN (' . $cids . ' )');
 
 			if ($deleteJoomlaUsers)
 			{
 				$queryAllUserIds = $db->getQuery(true)
-							->select($db->qn('id'))
-							->from($db->qn('#__users'));
-				$allUserIds = $db->setQuery($queryAllUserIds)->loadColumn();
+					->select($db->qn('id'))
+					->from($db->qn('#__users'));
+				$allUserIds      = $db->setQuery($queryAllUserIds)->loadColumn();
 
 				$queryCustom = $db->getQuery(true)
-						->select($db->qn('user_id'))
-						->from($db->qn('#__redshop_users_info'))
-						->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
-						->where($db->qn('user_id') . ' IN (' . implode(',', $allUserIds) . ' )')
-						->group($db->qn('user_id'));
+					->select($db->qn('user_id'))
+					->from($db->qn('#__redshop_users_info'))
+					->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
+					->where($db->qn('user_id') . ' IN (' . implode(',', $allUserIds) . ' )')
+					->group($db->qn('user_id'));
 
 				$joomlaUserIds = $db->setQuery($queryCustom)->loadColumn();
 
@@ -351,7 +354,7 @@ class RedshopModelUser_detail extends RedshopModel
 	public function userOrders()
 	{
 		$query = $this->_buildUserorderQuery();
-		$list = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+		$list  = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
 		return $list;
 	}
@@ -369,7 +372,7 @@ class RedshopModelUser_detail extends RedshopModel
 	{
 		if ($this->_id)
 		{
-			$query = $this->_buildUserorderQuery();
+			$query        = $this->_buildUserorderQuery();
 			$this->_total = $this->_getListCount($query);
 
 			return $this->_total;
@@ -383,6 +386,7 @@ class RedshopModelUser_detail extends RedshopModel
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 }

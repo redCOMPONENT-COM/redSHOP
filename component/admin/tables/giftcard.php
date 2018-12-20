@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Redshop\Economic\Economic;
+use Redshop\Economic\RedshopEconomic;
 
 /**
  * Giftcard table
@@ -82,7 +82,7 @@ class RedshopTableGiftcard extends RedshopTable
 
 		if ($image['name'] != '')
 		{
-			$image['name']        = RedShopHelperImages::cleanFileName($image['name']);
+			$image['name']        = RedshopHelperMedia::cleanFileName($image['name']);
 			$this->giftcard_image = $image['name'];
 			JFile::upload($image['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $image['name']);
 		}
@@ -98,7 +98,7 @@ class RedshopTableGiftcard extends RedshopTable
 
 		if ($bgImage['name'] != '')
 		{
-			$bgImage['name'] = RedShopHelperImages::cleanFileName($bgImage['name']);
+			$bgImage['name']        = RedshopHelperMedia::cleanFileName($bgImage['name']);
 			$this->giftcard_bgimage = $bgImage['name'];
 			JFile::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
 		}
@@ -121,9 +121,42 @@ class RedshopTableGiftcard extends RedshopTable
 			$giftData->accountgroup_id = $this->accountgroup_id;
 			$giftData->product_volume  = 0;
 
-			Economic::createProductInEconomic($giftData);
+			RedshopEconomic::createProductInEconomic($giftData);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		if (empty($this->giftcard_name))
+		{
+			return false;
+		}
+
+		if (empty($this->giftcard_price))
+		{
+			return false;
+		}
+
+		if (empty($this->giftcard_value))
+		{
+			return false;
+		}
+
+		if (empty($this->giftcard_validity))
+		{
+			return false;
+		}
+
+		return parent::doCheck();
 	}
 }

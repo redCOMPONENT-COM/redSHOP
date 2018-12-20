@@ -38,9 +38,9 @@ class RedshopViewXmlexport extends RedshopViewAdmin
 		$data       = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->lists = $lists;
-		$this->data = $data;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->data        = $data;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

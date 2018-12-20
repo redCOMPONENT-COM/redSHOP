@@ -25,18 +25,6 @@ class RedshopEntityCurrency extends RedshopEntity
 	protected static $codeInstance;
 
 	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Currency_Detail', 'Table');
-	}
-
-	/**
 	 * Method for load currency instance base on currency code
 	 *
 	 * @param   string  $code  Currency Code
@@ -54,14 +42,15 @@ class RedshopEntityCurrency extends RedshopEntity
 
 		if (!isset(static::$codeInstance[$code]))
 		{
+			/** @var RedshopTableCurrency $table */
 			$table = $this->getTable();
 
-			if (!$table->load(array('currency_code' => $code)))
+			if (!$table->load(array('code' => $code)))
 			{
 				return self::getInstance();
 			}
 
-			static::$codeInstance[$code] = $table->currency_id;
+			static::$codeInstance[$code] = $table->id;
 		}
 
 		return self::getInstance(static::$codeInstance[$code]);

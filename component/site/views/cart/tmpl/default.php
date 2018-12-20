@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHTML::_('behavior.modal');
 
 $dispatcher    = RedshopHelperUtility::getDispatcher();
 $producthelper = productHelper::getInstance();
@@ -20,21 +19,21 @@ $redhelper     = redhelper::getInstance();
 $carthelper    = rsCarthelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
-$url     = JURI::base();
+$url     = JUri::base();
 $cart    = $this->cart;
 $idx     = $cart['idx'];
 $model   = $this->getModel('cart');
 $session = JFactory::getSession();
 $user    = JFactory::getUser();
 $print   = JFactory::getApplication()->input->getInt('print');
-$Itemid  = RedshopHelperUtility::getCheckoutItemId();
+$Itemid  = RedshopHelperRouter::getCheckoutItemId();
 
 // Define array to store product detail for ajax cart display
-$cart_data = $this->data [0]->template_desc;
+$cart_data = $this->data[0]->template_desc;
 
 // Process the product plugin before cart template replace tag
 JPluginHelper::importPlugin('redshop_product');
-$results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data, $cart));
+$results = $dispatcher->trigger('onStartCartTemplateReplace', array(&$cart_data, &$cart));
 
 // End
 
@@ -144,7 +143,7 @@ if (strstr($cart_data, "{shop_more}"))
 	{
 		$shopmorelink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
 	}
-	elseif ($catItemId = RedshopHelperUtility::getCategoryItemid())
+	elseif ($catItemId = RedshopHelperRouter::getCategoryItemid())
 	{
 		$shopmorelink = JRoute::_('index.php?option=com_redshop&view=category&Itemid=' . $catItemId);
 	}
@@ -157,15 +156,15 @@ if (strstr($cart_data, "{shop_more}"))
 	$cart_data = str_replace("{shop_more}", $shop_more, $cart_data);
 }
 
-$update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="POST" >
+if (Redshop::getConfig()->getBool('QUANTITY_TEXT_DISPLAY'))
+{
+	$update_all = '<form style="padding:0px;margin:0px;" name="update_cart" method="POST" >
 		<input class="inputbox" type="hidden" value="" name="quantity_all" id="quantity_all">
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="Itemid" value="' . $Itemid . '">
 		<input type=button class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_UPDATE') . '" onclick="all_update(' . $idx . ');">
 		</form>';
 
-if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
-{
 	$cart_data = str_replace("{update}", $update_all, $cart_data);
 }
 else
@@ -180,7 +179,7 @@ $empty_cart = '<form style="padding:0px;margin:0px;" name="empty_cart" method="P
 
 $cart_data = str_replace("{empty_cart}", $empty_cart, $cart_data);
 
-$discount = $producthelper->getDiscountId(0);
+$discount = RedshopHelperDiscount::getDiscount(0);
 
 if (is_object($discount))
 {
@@ -274,7 +273,7 @@ $cart_data = str_replace("{with_vat}", '', $cart_data);
 JPluginHelper::importPlugin('redshop_product');
 $results = $dispatcher->trigger('atEndCartTemplateReplace', array(& $cart_data, $cart));
 
-$cart_data = $redTemplate->parseredSHOPplugin($cart_data);
+$cart_data = RedshopHelperTemplate::parseRedshopPlugin($cart_data);
 echo eval ("?>" . $cart_data . "<?php ");
 ?>
 <script type="text/javascript" language="javascript">
@@ -288,4 +287,13 @@ echo eval ("?>" . $cart_data . "<?php ");
 		document.update_cart.task.value = 'update_all';
 		document.update_cart.submit();
 	}
+
+    jQuery(document).ready(function (){
+        jQuery('input[name=\'quantity\']').on("keypress", function(e) {
+            if (e.keyCode == 13){
+                jQuery('.update_cart').trigger('click');
+            }
+        })
+    })
+
 </script>

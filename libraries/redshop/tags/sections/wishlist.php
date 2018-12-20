@@ -41,6 +41,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 			return;
 		}
 
+		JHtml::script('com_redshop/redshop.wishlist.min.js', false, true);
+
 		$productId = $this->data['productId'];
 		$formId    = $this->data['formId'];
 		$user      = JFactory::getUser();

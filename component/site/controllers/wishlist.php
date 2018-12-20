@@ -26,9 +26,12 @@ class RedshopControllerWishlist extends RedshopController
 	 */
 	public function createsave()
 	{
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
+
+		/** @var RedshopModelWishlist $model */
 		$model = $this->getModel("wishlist");
 		$input = JFactory::getApplication()->input;
+
 		$post                  = array();
 		$post['wishlist_name'] = $input->post->getString('txtWishlistname', '');
 		$post['user_id']       = $user->id;
@@ -69,7 +72,7 @@ class RedshopControllerWishlist extends RedshopController
 	public function savewishlist()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		/** @var RedshopModelWishlist $model */
 		$model = $this->getModel("wishlist");

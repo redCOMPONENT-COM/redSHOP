@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.0.7
  */
 class RedshopViewMail extends RedshopViewForm
 {
@@ -22,19 +22,7 @@ class RedshopViewMail extends RedshopViewForm
 	 * Split fieldset in form into column
 	 *
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.0.7
 	 */
 	public $formFieldsetsColumn = 1;
-
-	/**
-	 * Method for get page title.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.6
-	 */
-	public function getTitle()
-	{
-		return JText::_('COM_REDSHOP_MAIL_MANAGEMENT') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-	}
 }

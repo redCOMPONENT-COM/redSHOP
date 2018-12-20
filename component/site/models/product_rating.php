@@ -21,7 +21,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  Configuration array
+	 * @param   array $config Configuration array
 	 *
 	 * @throws  RuntimeException
 	 */
@@ -42,8 +42,8 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array   $data     Data for the form.
+	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
@@ -79,7 +79,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 	/**
 	 * Method to store the records
 	 *
-	 * @param   array  $data  array of data
+	 * @param   array $data array of data
 	 *
 	 * @return bool
 	 */
@@ -107,9 +107,9 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 	/**
 	 * Send Mail For Ask Review
 	 *
-	 * @param   array  $data  Review data
+	 * @param   array $data Review data
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 */
 	public function sendMailForReview($data)
 	{
@@ -118,16 +118,15 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 			return false;
 		}
 
-		$redshopMail = redshopMail::getInstance();
-		$mailbcc = null;
-		$subject = "";
-		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
+		$mailbcc  = null;
+		$subject  = "";
+		$mailbody = Redshop\Mail\Helper::getTemplate(0, "review_mail");
 		$data_add = $data['title'];
 
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
-			$subject = $mailbody[0]->mail_subject;
+			$subject  = $mailbody[0]->mail_subject;
 
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
@@ -135,14 +134,15 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 			}
 		}
 
-		$product = RedshopHelperProduct::getProductById($data['product_id']);
-		$link = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=product&pid=" . $data['product_id'] . '&Itemid=' . $data['Itemid'], false);
+		$product  = RedshopHelperProduct::getProductById($data['product_id']);
+		$link     = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=product&pid=" . $data['product_id'] . '&Itemid=' . $data['Itemid'], false);
 		$data_add = str_replace("{product_link}", "<a href=" . $link . ">" . $product->product_name . "</a>", $data_add);
 		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
 		$data_add = str_replace("{title}", $data['title'], $data_add);
 		$data_add = str_replace("{comment}", $data['comment'], $data_add);
 		$data_add = str_replace("{username}", $data['username'], $data_add);
-		$data_add = $redshopMail->imginmail($data_add);
+
+		Redshop\Mail\Helper::imgInMail($data_add);
 
 		if (Redshop::getConfig()->get('ADMINISTRATOR_EMAIL') != "")
 		{
@@ -166,15 +166,15 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 	/**
 	 * Check Rated Product
 	 *
-	 * @param   int     $pid    Product id
-	 * @param   int     $uid    User id
-	 * @param   string  $email  User mail
+	 * @param   int    $pid   Product id
+	 * @param   int    $uid   User id
+	 * @param   string $email User mail
 	 *
 	 * @return mixed
 	 */
 	public function checkRatedProduct($pid, $uid = 0, $email = '')
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(rating_id)')
 			->from($db->qn('#__redshop_product_rating'))

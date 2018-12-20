@@ -403,45 +403,41 @@ abstract class AbstractTable extends \JTable implements TableInterface
 
 				return false;
 			}
-			else
+
+			// Specify how a new or moved node asset is inserted into the tree.
+			if (empty($this->asset_id) || $asset->parent_id != $parentId)
 			{
-				// Specify how a new or moved node asset is inserted into the tree.
-				if (empty($this->asset_id) || $asset->parent_id != $parentId)
-				{
-					$asset->setLocation($parentId, 'last-child');
-				}
+				$asset->setLocation($parentId, 'last-child');
+			}
 
-				// Prepare the asset to be stored.
-				$asset->parent_id = $parentId;
-				$asset->name      = $name;
-				$asset->title     = $title;
+			// Prepare the asset to be stored.
+			$asset->parent_id = $parentId;
+			$asset->name      = $name;
+			$asset->title     = $title;
 
-				if ($this->_rules instanceof \JAccessRules)
-				{
-					$asset->rules = (string) $this->_rules;
-				}
+			if ($this->_rules instanceof \JAccessRules)
+			{
+				$asset->rules = (string) $this->_rules;
+			}
 
-				if (!$asset->check() || !$asset->store())
-				{
-					$this->setError($asset->getError());
+			if (!$asset->check() || !$asset->store())
+			{
+				$this->setError($asset->getError());
 
-					return false;
-				}
-				else
-				{
-					// Create an asset_id or heal one that is corrupted.
-					if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
-					{
-						// Update the asset_id field in this table.
-						$this->asset_id = (int) $asset->id;
+				return false;
+			}
 
-						$query = $this->_db->getQuery(true)
-							->update($this->_db->quoteName($this->_tbl))
-							->set('asset_id = ' . (int) $this->asset_id);
-						$this->appendPrimaryKeys($query);
-						$this->_db->setQuery($query)->execute();
-					}
-				}
+			// Create an asset_id or heal one that is corrupted.
+			if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
+			{
+				// Update the asset_id field in this table.
+				$this->asset_id = (int) $asset->id;
+
+				$query = $this->_db->getQuery(true)
+					->update($this->_db->quoteName($this->_tbl))
+					->set('asset_id = ' . (int) $this->asset_id);
+				$this->appendPrimaryKeys($query);
+				$this->_db->setQuery($query)->execute();
 			}
 		}
 

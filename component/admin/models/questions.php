@@ -83,7 +83,7 @@ class RedshopModelQuestions extends RedshopModelList
 	 */
 	protected function populateState($ordering = 'question_date', $direction = 'desc')
 	{
-		$filter = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
+		$filter     = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
 		$product_id = $this->getUserStateFromRequest($this->context . '.filter.product_id', 'filter_product_id', 0);
 
 		$this->setState('filter.search', $filter);
@@ -99,7 +99,7 @@ class RedshopModelQuestions extends RedshopModelList
 	 */
 	public function getProduct()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn(['p.product_id', 'p.product_name']))
 			->from($db->qn('#__redshop_product', 'p'))
@@ -117,7 +117,7 @@ class RedshopModelQuestions extends RedshopModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -131,14 +131,14 @@ class RedshopModelQuestions extends RedshopModelList
 				]
 			)
 		)
-		->from($db->qn('#__redshop_customer_question', 'q'))
-		->leftJoin(
-			$db->qn('#__redshop_product', 'p')
-			. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('q.product_id')
+			->from($db->qn('#__redshop_customer_question', 'q'))
+			->leftJoin(
+				$db->qn('#__redshop_product', 'p')
+				. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('q.product_id')
 			)
-		->where($db->qn('q.parent_id') . ' = 0');
+			->where($db->qn('q.parent_id') . ' = 0');
 
-		$search = $this->getState('filter.search');
+		$search    = $this->getState('filter.search');
 		$productId = $this->getState('filter.product_id');
 
 		if ($search)
@@ -152,7 +152,7 @@ class RedshopModelQuestions extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderCol  = $this->state->get('list.ordering', 'id');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));

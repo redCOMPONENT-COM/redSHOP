@@ -32,9 +32,11 @@ $logout_link        = JRoute::_("index.php?option=com_redshop&view=login&task=lo
 $compare_link       = JRoute::_("index.php?option=com_redshop&view=product&layout=compare&Itemid=" . $Itemid);
 $mytags_link        = JRoute::_("index.php?option=com_redshop&view=account&layout=mytags&Itemid=" . $Itemid);
 $wishlist_link      = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid);
+$deleteAccountLink      = JRoute::_("index.php?option=com_redshop&view=account&task=deleteAccount&Itemid=" . $Itemid);
 
+/** @var RedshopModelAccount $model */
 $model    = $this->getModel('account');
-$template = $redTemplate->getTemplate("account_template");
+$template = RedshopHelperTemplate::getTemplate("account_template");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
@@ -84,6 +86,9 @@ $template_desc = $carthelper->replaceBillingAddress($template_desc, $this->userd
 $edit_account_link = '<a class="btn btn-primary" href="' . $accountbillto_link . '">' . JText::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION') . '</a>';
 $template_desc     = str_replace('{edit_account_link}', $edit_account_link, $template_desc);
 
+$deleteAccount = '<a onclick="return confirm(\''. JText::_('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') .'\');" class="btn btn-primary" href="' . $deleteAccountLink . '">' . JText::_('COM_REDSHOP_DELETE_ACCOUNT') . '</a>';
+$template_desc     = str_replace('{delete_account_link}', $deleteAccount, $template_desc);
+
 $template_desc = $carthelper->replaceNewsletterSubscription($template_desc, 1);
 
 if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
@@ -105,18 +110,18 @@ $is_company = $this->userdata->is_company;
 
 if ($is_company == 1)
 {
-	$extrafields = $extra_field->list_all_field_display(8, $this->userdata->users_info_id);
+	$extrafields = RedshopHelperExtrafields::listAllFieldDisplay(8, $this->userdata->users_info_id);
 }
 else
 {
-	$extrafields = $extra_field->list_all_field_display(7, $this->userdata->users_info_id);
+	$extrafields = RedshopHelperExtrafields::listAllFieldDisplay(7, $this->userdata->users_info_id);
 }
 
 $template_desc = str_replace('{customer_custom_fields}', $extrafields, $template_desc);
 
 if (strstr($template_desc, "{reserve_discount}"))
 {
-	$reserve_discount = $model->getReserveDiscount();
+	$reserve_discount = Redshop\Account\Helper::getReserveDiscount();
 	$reserve_discount = $producthelper->getProductFormattedPrice($reserve_discount);
 
 	$template_desc = str_replace('{reserve_discount}', $reserve_discount, $template_desc);
@@ -125,11 +130,11 @@ if (strstr($template_desc, "{reserve_discount}"))
 
 if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{order_loop_end}"))
 {
-	$oder_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'order16.png" align="absmiddle">';
+	$oder_image    = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'order16.png" align="absmiddle">';
 	$template_desc = str_replace('{order_image}', $oder_image, $template_desc);
 	$template_desc = str_replace('{order_title}', JText::_('COM_REDSHOP_ORDER_INFORMATION'), $template_desc);
 
-	$orderslist = $order_functions->getUserOrderDetails($user->id);
+	$orderslist = RedshopHelperOrder::getUserOrderDetails($user->id);
 
 	// More Order information
 
@@ -198,21 +203,21 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 	{
 		$coupon_imagelbl = JText::_('COM_REDSHOP_COUPON_INFO');
 		$coupon_image    = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/coupon.jpg" align="absmiddle">';
-		$usercoupons     = $model->usercoupons($user->id);
+		$usercoupons     = $model->getUserCoupons($user->id);
 
 		if (count($usercoupons))
 		{
 			for ($i = 0, $in = count($usercoupons); $i < $in; $i++)
 			{
 				$coupon_data .= $coupon_desc;
-				$unused_amount = $model->unused_coupon_amount($user->id, $usercoupons[$i]->coupon_code);
+				$unused_amount = Redshop\Account\Helper::getUnusedCouponAmount($user->id, $usercoupons[$i]->code);
 				$coupon_data   = str_replace('{coupon_code_lbl}', JText::_('COM_REDSHOP_COUPON_CODE'), $coupon_data);
-				$coupon_data   = str_replace('{coupon_code}', $usercoupons[$i]->coupon_code, $coupon_data);
+				$coupon_data   = str_replace('{coupon_code}', $usercoupons[$i]->code, $coupon_data);
 				$coupon_data   = str_replace('{coupon_value_lbl}', JText::_('COM_REDSHOP_COUPON_VALUE'), $coupon_data);
 				$coupon_data   = str_replace('{unused_coupon_lbl}', JText::_('COM_REDSHOP_UNUSED_COUPON_LBL'), $coupon_data);
 				$coupon_data   = str_replace('{unused_coupon_value}', $unused_amount, $coupon_data);
 
-				$coupon_value = ($usercoupons[$i]->percent_or_total == 0) ? $producthelper->getProductFormattedPrice($usercoupons[$i]->coupon_value) : $usercoupons[$i]->coupon_value . " %";
+				$coupon_value = ($usercoupons[$i]->type == 0) ? RedshopHelperProductPrice::formattedPrice($usercoupons[$i]->coupon_value) : $usercoupons[$i]->value . ' %';
 				$coupon_data  = str_replace('{coupon_value}', $coupon_value, $coupon_data);
 			}
 		}
@@ -259,7 +264,7 @@ $tag_link     = '';
 if (Redshop::getConfig()->get('MY_TAGS'))
 {
 	$tag_imagelbl = JText::_('COM_REDSHOP_MY_TAGS');
-	$tag_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
+	$tag_image    = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$tag_link     = JText::_('COM_REDSHOP_NO_TAGS_AVAILABLE');
 	$myTags       = $model->countMyTags();
 
@@ -293,11 +298,11 @@ $quotations = array();
 
 if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "{quotation_loop_end}"))
 {
-	$quotation_image = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'quotation_16.jpg" align="absmiddle">';
+	$quotation_image = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'quotation_16.jpg" align="absmiddle">';
 	$template_desc   = str_replace('{quotation_image}', $quotation_image, $template_desc);
 	$template_desc   = str_replace('{quotation_title}', JText::_('COM_REDSHOP_QUOTATION_INFORMATION'), $template_desc);
 
-	$quotations = $quotationHelper->getQuotationUserList();
+	$quotations = RedshopHelperQuotation::getQuotationUserList();
 
 	// More Order information
 	if (!empty($quotations))
@@ -367,7 +372,7 @@ if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc,
 if (Redshop::getConfig()->get('MY_WISHLIST'))
 {
 	$wishlist_imagelbl  = JText::_('COM_REDSHOP_MY_WISHLIST');
-	$wishlist_image     = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
+	$wishlist_image     = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$edit_wishlist_link = JText::_('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST');
 	$myWishlist         = $model->countMyWishlist();
 
@@ -402,7 +407,7 @@ $userDownloadProduct = array();
 
 if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_desc, "{product_serial_loop_end}"))
 {
-	$product_serial_image = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'products16.png" align="absmiddle">';
+	$product_serial_image = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'products16.png" align="absmiddle">';
 	$template_desc        = str_replace('{product_serial_image}', $product_serial_image, $template_desc);
 	$template_desc        = str_replace('{product_serial_title}', JText::_('COM_REDSHOP_MY_SERIALS'), $template_desc);
 
@@ -410,7 +415,7 @@ if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_de
 	$template_d2 = explode("{product_serial_loop_end}", $template_d1[1]);
 	$serial_desc = $template_d2[0];
 
-	$userDownloadProduct = $model->getdownloadproductlist($user->id);
+	$userDownloadProduct = Redshop\Account\Helper::getDownloadProductList($user->id);
 
 	$serial_data = '';
 
@@ -458,7 +463,7 @@ $cmp_link     = '';
 if (Redshop::getConfig()->get('COMPARE_PRODUCTS'))
 {
 	$cmp_imagelbl = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
-	$cmp_image    = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
+	$cmp_image    = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'textlibrary16.png" align="absmiddle">';
 	$cmp_link     = JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE');
 	$compare      = new RedshopProductCompare;
 
@@ -490,5 +495,5 @@ $template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
 $template_desc = str_replace('{if compare}', '', $template_desc);
 $template_desc = str_replace('{compare end if}', '', $template_desc);
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

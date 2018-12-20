@@ -10,14 +10,11 @@
 defined('_JEXEC') or die;
 
 
-
 class RedshopViewShopper_group extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
 		global $context;
-
-		$shoppergroup = new shoppergroup;
 
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
@@ -33,21 +30,21 @@ class RedshopViewShopper_group extends RedshopViewAdmin
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shopper_group_id');
-		$filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shopper_group_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$groups             = $shoppergroup->getshopperGroupListArray();
+		$groups = RedshopHelperShopper_Group::getShopperGroupListArray();
 
-		$pagination         = $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
-		$this->user         = JFactory::getUser();
-		$this->lists        = $lists;
-		$this->media        = $groups;
-		$this->pagination   = $pagination;
-		$this->request_url  = $uri->toString();
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->media       = $groups;
+		$this->pagination  = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

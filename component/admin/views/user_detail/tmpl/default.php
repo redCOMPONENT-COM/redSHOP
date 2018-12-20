@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 $jinput                = JFactory::getApplication()->input;
 $this->producthelper   = productHelper::getInstance();
 $this->order_functions = order_functions::getInstance();
@@ -178,6 +177,9 @@ if ($this->pagination->limitstart > 0)
 		echo '<input type="hidden" name="noextra_field" value="1">';
 		echo '<input type="hidden" name="tab5" value="tab5">';
 	}
+
+	// Echo plugin tabs.
+	$this->dispatcher->trigger('onDisplayUserTabs', array($this->detail));
 
 	echo JHtml::_('tabs.end');
 

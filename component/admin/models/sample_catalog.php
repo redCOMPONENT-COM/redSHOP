@@ -32,7 +32,7 @@ class RedshopModelSample_catalog extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -77,11 +77,11 @@ class RedshopModelSample_catalog extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->sample_id = null;
+			$detail              = new stdClass;
+			$detail->sample_id   = null;
 			$detail->sample_name = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->published   = 1;
+			$this->_data         = $detail;
 
 			return (boolean) $this->_data;
 		}

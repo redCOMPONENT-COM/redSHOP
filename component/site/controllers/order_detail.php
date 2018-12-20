@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-
 /**
  * Order Detail Controller.
  *
@@ -18,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerOrder_detail extends RedshopController
+class RedshopControllerOrder_Detail extends RedshopController
 {
 	/**
 	 * Constructor
@@ -54,23 +52,21 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function process_payment()
 	{
 		$app     = JFactory::getApplication();
-		$db      = JFactory::getDbo();
 		$session = JFactory::getSession();
 		$model   = $this->getModel('order_detail');
-
-		$redconfig = Redconfiguration::getInstance();
+		$data    = array();
 
 		$request = $this->input->getArray();
 
 		// Get Order Detail
-		$order = $this->_order_functions->getOrderDetails($request['order_id']);
+		$order = RedshopEntityOrder::getInstance((int) $request['order_id'])->getItem();
 
 		// Get Billing and Shipping Info
-		$billingaddresses     = $this->_order_functions->getBillingAddress($order->user_id);
-		$d['billingaddress']  = $billingaddresses;
+		$billingaddresses       = RedshopHelperOrder::getBillingAddress($order->user_id);
+		$data['billingaddress'] = $billingaddresses;
 
-		$shippingaddresses    = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
-		$d['shippingaddress'] = $shippingaddresses;
+		$shippingaddresses       = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
+		$data['shippingaddress'] = $shippingaddresses;
 
 		$Itemid               = $this->input->getInt('Itemid');
 
@@ -78,14 +74,14 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			if (isset($billingaddresses->country_code))
 			{
-				$billingaddresses->country_2_code = $redconfig->getCountryCode2($billingaddresses->country_code);
-				$d ["billingaddress"]->country_2_code = $billingaddresses->country_2_code;
+				$billingaddresses->country_2_code        = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
+				$data ["billingaddress"]->country_2_code = $billingaddresses->country_2_code;
 			}
 
 			if (isset($billingaddresses->state_code))
 			{
-				$billingaddresses->state_2_code = $billingaddresses->state_code;
-				$d ["billingaddress"]->state_2_code = $billingaddresses->state_2_code;
+				$billingaddresses->state_2_code        = $billingaddresses->state_code;
+				$data ["billingaddress"]->state_2_code = $billingaddresses->state_2_code;
 			}
 		}
 
@@ -93,35 +89,36 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			if (isset($shippingaddresses->country_code))
 			{
-				$shippingaddresses->country_2_code = $redconfig->getCountryCode2($shippingaddresses->country_code);
-				$d ["shippingaddress"]->country_2_code = $shippingaddresses->country_2_code;
+				$shippingaddresses->country_2_code        = RedshopHelperWorld::getCountryCode2($shippingaddresses->country_code);
+				$data ["shippingaddress"]->country_2_code = $shippingaddresses->country_2_code;
 			}
 
 			if (isset($shippingaddresses->state_code))
 			{
-				$shippingaddresses->state_2_code = $shippingaddresses->state_code;
-				$d ["shippingaddress"]->state_2_code = $shippingaddresses->state_2_code;
+				$shippingaddresses->state_2_code        = $shippingaddresses->state_code;
+				$data ["shippingaddress"]->state_2_code = $shippingaddresses->state_2_code;
 			}
 		}
 
 		// Get  data for credit card
-		$ccdata['order_payment_name']         = $request['order_payment_name'];
-		$ccdata['creditcard_code']            = $request['creditcard_code'];
-		$ccdata['order_payment_number']       = $request['order_payment_number'];
-		$ccdata['order_payment_expire_month'] = $request['order_payment_expire_month'];
-		$ccdata['order_payment_expire_year']  = $request['order_payment_expire_year'];
-		$ccdata['credit_card_code']           = $request['credit_card_code'];
-		$ccdata['selectedCardId']             = $this->input->getString('selectedCard');
+        $ccData = array();
+		$ccData['order_payment_name']         = $request['order_payment_name'];
+		$ccData['creditcard_code']            = $request['creditcard_code'];
+		$ccData['order_payment_number']       = $request['order_payment_number'];
+		$ccData['order_payment_expire_month'] = $request['order_payment_expire_month'];
+		$ccData['order_payment_expire_year']  = $request['order_payment_expire_year'];
+		$ccData['credit_card_code']           = $request['credit_card_code'];
+		$ccData['selectedCardId']             = $this->input->getString('selectedCard');
 
 		// Create session
-		$session->set('ccdata', $ccdata);
-		$ccdata = $session->get('ccdata');
+		$session->set('ccdata', $ccData);
 
+		$values = array();
 		$values['order_shipping'] = $order->order_shipping;
 		$values['order_number']   = $request['order_id'];
 		$values['order_tax']      = $order->order_tax;
-		$values['shippinginfo']   = $d ["shippingaddress"];
-		$values['billinginfo']    = $d ["billingaddress"];
+		$values['shippinginfo']   = $data ["shippingaddress"];
+		$values['billinginfo']    = $data ["billingaddress"];
 		$values['order_total']    = $order->order_total;
 		$values['order_subtotal'] = $order->order_subtotal;
 		$values["order_id"]       = $request['order_id'];
@@ -145,7 +142,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$paymentResponse->order_id = $request['order_id'];
 
 			// Change order status
-			$this->_order_functions->changeorderstatus($paymentResponse);
+			RedshopHelperOrder::changeOrderStatus($paymentResponse);
 		}
 
 		// Update order payment table with  credit card details
@@ -164,11 +161,8 @@ class RedshopControllerOrder_detail extends RedshopController
 	 */
 	public function notify_payment()
 	{
-		$app     = JFactory::getApplication();
-		$db      = JFactory::getDbo();
 		$request = $this->input->getArray();
 		$Itemid  = $this->input->getInt('Itemid');
-		$objOrder = order_functions::getInstance();
 
 		JPluginHelper::importPlugin('redshop_payment');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
@@ -193,10 +187,10 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		// Change Order Status based on resutls
-		$objOrder->changeorderstatus($results[0]);
+		RedshopHelperOrder::changeOrderStatus($results[0]);
 
 		$model     = $this->getModel('order_detail');
-		$resetcart = $model->resetcart();
+		$model->resetcart();
 
 		/*
 		 * Plugin will trigger onAfterNotifyPayment
@@ -248,7 +242,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			$order_item_id = $this->input->getInt('order_item_id');
 
-			$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
+			$orderItem = RedshopHelperOrder::getOrderItemDetail(0, 0, $order_item_id);
 			$row = (array) $orderItem[0];
 		}
 
@@ -302,7 +296,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 		}
 
-		$result = $this->_carthelper->addProductToCart($row);
+		$result = Redshop\Cart\Cart::addProduct($row);
 
 		if (is_bool($result) && $result)
 		{
@@ -312,9 +306,9 @@ class RedshopControllerOrder_detail extends RedshopController
 			if ($redirect)
 			{
 				// Do final cart calculations
-				$this->_carthelper->cartFinalCalculation();
+				RedshopHelperCart::cartFinalCalculation();
 
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false));
 			}
 		}
 		else
@@ -327,7 +321,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			}
 			else
 			{
-				$Itemid = RedshopHelperUtility::getItemId($row['product_id']);
+				$Itemid = RedshopHelperRouter::getItemId($row['product_id']);
 			}
 
 			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
@@ -357,10 +351,11 @@ class RedshopControllerOrder_detail extends RedshopController
 		if ($orderId)
 		{
 			// First Empty Cart and then oder it again
+            $cart = array();
 			$cart['idx'] = 0;
 			JFactory::getSession()->set('cart', $cart);
 
-			$orderItem = $this->_order_functions->getOrderItemDetail($orderId);
+			$orderItem = RedshopHelperOrder::getOrderItemDetail($orderId);
 
 			for ($i = 0, $in = count($orderItem); $i < $in; $i++)
 			{
@@ -370,10 +365,10 @@ class RedshopControllerOrder_detail extends RedshopController
 				$this->copyOrderItemToCart($row, false);
 			}
 
-			$this->_carthelper->cartFinalCalculation();
+			RedshopHelperCart::cartFinalCalculation();
 		}
 
-		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperUtility::getCartItemId(), false));
+		$app->redirect(JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false));
 	}
 
 	/**
@@ -383,50 +378,55 @@ class RedshopControllerOrder_detail extends RedshopController
 	 */
 	public function payment()
 	{
-		$app       = JFactory::getApplication();
-		$redconfig = Redconfiguration::getInstance();
-		$Itemid    = $this->input->getInt('Itemid');
-		$order_id  = $this->input->getInt('order_id');
+		$itemId   = $this->input->getInt('Itemid');
+		$orderId = $this->input->getInt('order_id');
 
-		$order       = $this->_order_functions->getOrderDetails($order_id);
-		$paymentInfo = $this->_order_functions->getOrderPaymentDetail($order_id);
+		$order       = RedshopEntityOrder::getInstance($orderId)->getItem();
+		$paymentInfo = RedshopEntityOrder::getInstance($orderId);
 
-		if (count($paymentInfo) > 0)
+		if ($paymentInfo !== null)
 		{
-			$paymentmethod = $this->_order_functions->getPaymentMethodInfo($paymentInfo[0]->payment_method_class);
+			$paymentInfo = $paymentInfo->getItem();
+		}
 
-			if (count($paymentmethod) > 0)
+		if ($paymentInfo)
+		{
+			$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($paymentInfo->payment_method_class);
+
+			if (!empty($paymentMethod))
 			{
-				$paymentparams = new JRegistry($paymentmethod[0]->params);
-				$is_creditcard = $paymentparams->get('is_creditcard', 0);
+				$paymentParams = new JRegistry($paymentMethod[0]->params);
+				$isCreditcard = $paymentParams->get('is_creditcard', 0);
 
-				if ($is_creditcard)
+				if ($isCreditcard)
 				{
-					JHtml::script('com_redshop/credit_card.js', false, true);    ?>
+					/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.creditcard.min.js', false, true);
+					?>
 
-				<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>" method="post"
-				      name="adminForm" id="adminForm" enctype="multipart/form-data"
-				      onsubmit="return CheckCardNumber(this);">
-					<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo[0]->payment_method_class); ?>
-					<div>
-						<input type="hidden" name="option" value="com_redshop"/>
-						<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-						<input type="hidden" name="task" value="process_payment" />
-						<input type="hidden" name="view" value="order_detail"/>
-						<input type="submit" name="submit" class="greenbutton btn btn-primary"
-						       value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>"/>
-						<input type="hidden" name="ccinfo" value="1"/>
-						<input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
-						<input type="hidden" name="order_id" value="<?php echo $order->order_id; ?>"/>
-						<input type="hidden" name="payment_method_id"
-						       value="<?php echo $paymentInfo[0]->payment_method_class; ?>"/>
-					</div>
-					</form>
-				<?php
+                    <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout', false) ?>"
+                          method="post"
+                          name="adminForm" id="adminForm" enctype="multipart/form-data"
+                          onsubmit="return CheckCardNumber(this);">
+						<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo->payment_method_class); ?>
+                        <div>
+                            <input type="hidden" name="option" value="com_redshop"/>
+                            <input type="hidden" name="Itemid" value="<?php echo $itemId; ?>"/>
+                            <input type="hidden" name="task" value="process_payment"/>
+                            <input type="hidden" name="view" value="order_detail"/>
+                            <input type="submit" name="submit" class="greenbutton btn btn-primary"
+                                   value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>"/>
+                            <input type="hidden" name="ccinfo" value="1"/>
+                            <input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
+                            <input type="hidden" name="order_id" value="<?php echo $order->order_id; ?>"/>
+                            <input type="hidden" name="payment_method_id"
+                                   value="<?php echo $paymentInfo->payment_method_class; ?>"/>
+                        </div>
+                    </form>
+					<?php
 				}
 				else
 				{
-					$link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
+					$link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $orderId . '&Itemid=' . $itemId;
 					$this->setRedirect($link);
 				}
 			}

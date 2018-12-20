@@ -25,13 +25,13 @@ class RedshopModelShopper_group_detail extends RedshopModel
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
 		$this->setId((int) $array[0]);
 	}
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -67,7 +67,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'shopper_group '
 				. 'WHERE shopper_group_id = "' . $shoppergroup_id . '" ';
 			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$this->_data                   = $this->_db->loadObject();
 			$this->_data->shopper_group_id = $this->_id;
 
 			return (boolean) $this->_data;
@@ -80,28 +80,28 @@ class RedshopModelShopper_group_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->shopper_group_id = 0;
-			$detail->shopper_group_name = null;
-			$detail->shopper_group_customer_type = 0;
-			$detail->shopper_group_portal = 0;
-			$detail->shopper_group_categories = null;
-			$detail->shopper_group_url = null;
-			$detail->shopper_group_logo = null;
-			$detail->shopper_group_introtext = null;
-			$detail->shopper_group_desc = null;
-			$detail->parent_id = null;
-			$detail->default_shipping = 0;
-			$detail->default_shipping_rate = null;
-			$detail->published = 1;
+			$detail                                     = new stdClass;
+			$detail->shopper_group_id                   = 0;
+			$detail->shopper_group_name                 = null;
+			$detail->shopper_group_customer_type        = 0;
+			$detail->shopper_group_portal               = 0;
+			$detail->shopper_group_categories           = null;
+			$detail->shopper_group_url                  = null;
+			$detail->shopper_group_logo                 = null;
+			$detail->shopper_group_introtext            = null;
+			$detail->shopper_group_desc                 = null;
+			$detail->parent_id                          = null;
+			$detail->default_shipping                   = 0;
+			$detail->default_shipping_rate              = null;
+			$detail->published                          = 1;
 			$detail->shopper_group_cart_checkout_itemid = 0;
-			$detail->tax_group_id = 0;
-			$detail->show_price_without_vat = 0;
-			$detail->shopper_group_cart_itemid = 0;
-			$detail->shopper_group_quotation_mode = 0;
-			$detail->use_as_catalog = 0;
-			$detail->show_price = 0;
-			$this->_data = $detail;
+			$detail->tax_group_id                       = 0;
+			$detail->show_price_without_vat             = 0;
+			$detail->shopper_group_cart_itemid          = 0;
+			$detail->shopper_group_quotation_mode       = 0;
+			$detail->use_as_catalog                     = 0;
+			$detail->show_price                         = 0;
+			$this->_data                                = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -125,12 +125,12 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 		if ($logo['name'] != "")
 		{
-			$logoname = RedShopHelperImages::cleanFileName($logo['name']);
+			$logoname = RedshopHelperMedia::cleanFileName($logo['name']);
 
 			// Image Upload
 			$logotype = JFile::getExt($logo['name']);
 
-			$src = $logo['tmp_name'];
+			$src  = $logo['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $logoname;
 
 			if ($logotype == 'jpg' || $logotype == 'jpeg' || $logotype == 'gif' || $logotype == 'png')
@@ -143,12 +143,12 @@ class RedshopModelShopper_group_detail extends RedshopModel
 		{
 			if ($data['shopper_group_logo_tmp'] != null)
 			{
-				$image_split = explode('/', $data['shopper_group_logo_tmp']);
-				$logoname = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
+				$image_split                = explode('/', $data['shopper_group_logo_tmp']);
+				$logoname                   = RedshopHelperMedia::cleanFileName($image_split[count($image_split) - 1]);
 				$data['shopper_group_logo'] = $logoname;
 
 				// Image copy
-				$src = JPATH_ROOT . '/' . $data['shopper_group_logo_tmp'];
+				$src  = JPATH_ROOT . '/' . $data['shopper_group_logo_tmp'];
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $logoname;
 
 				copy($src, $dest);
@@ -159,9 +159,9 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 		if (!$data['shopper_group_id'] && Redshop::getConfig()->get('NEW_SHOPPER_GROUP_GET_VALUE_FROM'))
 		{
-			$isNew = true;
-			$destname = time() . $data['shopper_group_logo'];
-			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['shopper_group_logo'];
+			$isNew        = true;
+			$destname     = time() . $data['shopper_group_logo'];
+			$logopath     = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['shopper_group_logo'];
 			$copylogopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $destname;
 
 			if (JFile::exists($logopath))
@@ -197,10 +197,10 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 			for ($i = 0, $in = count($product_price); $i < $in; $i++)
 			{
-				$product_data = (array) $product_price[$i];
-				$product_data['price_id'] = 0;
+				$product_data                     = (array) $product_price[$i];
+				$product_data['price_id']         = 0;
 				$product_data['shopper_group_id'] = $row->shopper_group_id;
-				$product_data['cdate'] = date("Y-m-d");
+				$product_data['cdate']            = date("Y-m-d");
 
 				$prdrow = JTable::getInstance('prices_detail', 'Table');
 
@@ -222,10 +222,10 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 			for ($i = 0, $in = count($attribute_price); $i < $in; $i++)
 			{
-				$attribute_data = (array) $attribute_price[$i];
-				$attribute_data['price_id'] = 0;
+				$attribute_data                     = (array) $attribute_price[$i];
+				$attribute_data['price_id']         = 0;
 				$attribute_data['shopper_group_id'] = $row->shopper_group_id;
-				$attribute_data['cdate'] = time();
+				$attribute_data['cdate']            = time();
 
 				$attrow = JTable::getInstance('attributeprices_detail', 'Table');
 
@@ -303,7 +303,7 @@ class RedshopModelShopper_group_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
+			$cids  = implode(',', $cid);
 			$query = 'UPDATE ' . $this->_table_prefix . 'shopper_group '
 				. 'SET published = ' . intval($publish)
 				. ' WHERE shopper_group_id IN ( ' . $cids . ' )';
@@ -330,8 +330,8 @@ class RedshopModelShopper_group_detail extends RedshopModel
 
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer
-		WHERE published=1 ORDER BY `manufacturer_name`';
+		$query = 'SELECT id as value,name as text FROM ' . $this->_table_prefix . 'manufacturer
+		WHERE published=1 ORDER BY `name`';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();

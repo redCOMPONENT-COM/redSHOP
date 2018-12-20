@@ -35,16 +35,16 @@ class RedshopViewAttribute_set extends RedshopViewAdmin
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'attribute_set_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists = array();
-		$lists['order'] = $filter_order;
+		$lists              = array();
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$products = $this->get('Data');
+		$products   = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->lists = $lists;
-		$this->products = $products;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->products    = $products;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

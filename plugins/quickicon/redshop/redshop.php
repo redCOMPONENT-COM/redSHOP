@@ -17,27 +17,9 @@ defined('_JEXEC') or die;
 class PlgQuickiconRedshop extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   1.5
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		$lang = JFactory::getLanguage();
-		$lang->load('plg_quickicon_redshop', JPATH_ADMINISTRATOR);
-
-		parent::__construct($subject, $config);
-	}
-
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
+	 * @var  boolean
 	 */
 	protected $autoloadLanguage = true;
 
@@ -46,7 +28,7 @@ class PlgQuickiconRedshop extends JPlugin
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
 	 *
-	 * @param   string  $context  The calling context
+	 * @param   string $context The calling context
 	 *
 	 * @return  array  A list of icon definition associative arrays, consisting of the
 	 *                 keys link, image, text and access.
@@ -55,20 +37,20 @@ class PlgQuickiconRedshop extends JPlugin
 	{
 		if ($context != $this->params->get('context', 'mod_quickicon'))
 		{
-			return;
+			return array();
 		}
 
 		if (version_compare(JVERSION, '3.0', '>='))
 		{
-			$image = 'quickIconRedshop';
+			$image    = 'quickIconRedshop';
 			$document = JFactory::getDocument();
 			$document->addStyleDeclaration('
 				.icon-' . $image . ' {
 					background-image: url(' . JUri::base() . 'components/com_redshop/assets/images/redshopcart16.png);
 					background-size: 14px;
 					background-repeat: no-repeat;
-				}
-			');
+				}'
+			);
 		}
 		else
 		{
@@ -77,10 +59,10 @@ class PlgQuickiconRedshop extends JPlugin
 
 		return array(
 			array(
-				'link' => 'index.php?option=com_redshop',
+				'link'  => 'index.php?option=com_redshop',
 				'image' => $image,
-				'text' => JText::_('PLG_QUICKICON_REDSHOP_TITLE'),
-				'id' => 'plg_quickicon_redshop',
+				'text'  => JText::_('PLG_QUICKICON_REDSHOP_TITLE'),
+				'id'    => 'plg_quickicon_redshop',
 				'group' => 'MOD_QUICKICON_EXTENSIONS'
 			)
 		);

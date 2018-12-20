@@ -25,7 +25,7 @@
 </div>
 
 <div class="wizard_redshoplogo">
-    <img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>261-x-88.png" width="261" height="88"
+    <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>261-x-88.png" width="261" height="88"
          alt="redSHOP Logo" align="left">
 </div>
 

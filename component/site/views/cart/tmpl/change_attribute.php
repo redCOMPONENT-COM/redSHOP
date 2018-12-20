@@ -55,7 +55,7 @@ $document = JFactory::getDocument();
 		}
 	</script>
 <?php
-$cart_attribute = $redTemplate->getTemplate("change_cart_attribute");
+$cart_attribute = RedshopHelperTemplate::getTemplate("change_cart_attribute");
 
 if (count($cart_attribute) > 0 && $cart_attribute[0]->template_desc)
 {
@@ -69,7 +69,7 @@ else
 $product = $producthelper->getProductById($product_id);
 
 // Checking for child products
-$childproduct = $producthelper->getChildProduct($product_id);
+$childproduct = RedshopHelperProduct::getChildProduct($product_id);
 
 if (count($childproduct) > 0)
 {
@@ -96,7 +96,7 @@ else
 	}
 
 	$bool                              = (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE')) ? false : true;
-	$attribute_template                = $producthelper->getAttributeTemplate($template_desc, $bool);
+	$attribute_template                = \Redshop\Template\Helper::getAttribute($template_desc, $bool);
 	$attribute_template->template_desc = str_replace("{property_image_scroller}", "", $attribute_template->template_desc);
 	$attribute_template->template_desc = str_replace("{subproperty_image_scroller}", "", $attribute_template->template_desc);
 	$attributes                        = $producthelper->getProductAttribute($product_id);
@@ -131,7 +131,7 @@ $template_desc = str_replace("{change_attribute}", JText::_("COM_REDSHOP_CHANGE_
 
 if ($totalatt > 0)
 {
-	$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+	$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 	echo eval ("?>" . $template_desc . "<?php ");
 }
 else

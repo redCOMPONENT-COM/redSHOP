@@ -53,7 +53,7 @@ class RedshopModelNewslettersubscr extends RedshopModel
 	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
-		$where = '';
+		$where  = '';
 
 		if ($filter)
 		{
@@ -61,7 +61,7 @@ class RedshopModelNewslettersubscr extends RedshopModel
 		}
 
 		$orderby = $this->_buildContentOrderBy();
-		$query = 'SELECT  distinct(ns.subscription_id),ns.*,n.name as n_name FROM #__redshop_newsletter_subscription as ns '
+		$query   = 'SELECT  distinct(ns.subscription_id),ns.*,n.name as n_name FROM #__redshop_newsletter_subscription as ns '
 			. ',#__redshop_newsletter as n '
 			. 'WHERE ns.newsletter_id=n.newsletter_id '
 			. $where

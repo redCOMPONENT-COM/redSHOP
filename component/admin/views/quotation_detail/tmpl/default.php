@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $producthelper   = productHelper::getInstance();
@@ -27,7 +26,7 @@ $quotation       = $this->quotation;
 $uri             = JURI::getInstance();
 $url             = $uri->root();
 
-$quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id);    ?>
+$quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotation_id);    ?>
 <script type="text/javascript">
 	var rowCount = 1;
 
@@ -189,11 +188,11 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 						</tr>
 						<tr>
 							<td><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
-							<td><?php echo JText::_($order_functions->getCountryName($this->quotationuser->country_code)); ?></td>
+							<td><?php echo JText::_(RedshopHelperOrder::getCountryName($this->quotationuser->country_code)); ?></td>
 						</tr>
 						<tr>
 							<td><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
-							<td><?php echo $order_functions->getStateName($this->quotationuser->state_code, $this->quotationuser->country_code); ?></td>
+							<td><?php echo RedshopHelperOrder::getStateName($this->quotationuser->state_code, $this->quotationuser->country_code); ?></td>
 						</tr>
 						<tr>
 							<td><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
@@ -215,11 +214,11 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 								<td><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</td>
 								<td><?php echo $this->quotationuser->tax_exempt; ?></td>
 							</tr>
-							<?php        $fields = $extra_field->list_all_field_display(8, $quotation->user_info_id);
+							<?php        $fields = RedshopHelperExtrafields::listAllFieldDisplay(8, $quotation->user_info_id);
 						}
 						else
 						{
-							$fields = $extra_field->list_all_field_display(7, $quotation->user_info_id);
+							$fields = RedshopHelperExtrafields::listAllFieldDisplay(7, $quotation->user_info_id);
 						}
 
 						echo $fields;
@@ -237,7 +236,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 					<?php
 					}
 
-					echo $fields = $extra_field->list_all_field_display(16, $quotation->user_info_id, 0, $quotation->user_email); ?>
+					echo $fields = RedshopHelperExtrafields::listAllFieldDisplay(16, $quotation->user_info_id, 0, $quotation->user_email); ?>
 
 					</tbody>
 				</table>
@@ -272,7 +271,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 
 						if ($quo->is_giftcard == 1)
 						{
-							$giftcardData = $producthelper->getGiftcardData($quo->product_id);
+							$giftcardData = RedshopEntityGiftcard::getInstance($quo->product_id)->getItem();
 
 							$actual_price = $giftcardData->giftcard_price;
 							$product_number = "";
@@ -294,7 +293,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 							$quo->product_price = $quo->product_excl_price + $vat;
 						}
 
-						$product_userfield = $quotationHelper->displayQuotationUserfield($quo->quotation_item_id, $section);
+						$product_userfield = RedshopHelperQuotation::displayQuotationUserField($quo->quotation_item_id, $section);
 
 						$product_attribute = "<br/>" . $producthelper->makeAttributeQuotation($quo->quotation_item_id, 0, $quo->product_id);
 						$product_accessory = "<br/>" . $producthelper->makeAccessoryQuotation($quo->quotation_item_id);

@@ -101,16 +101,15 @@ class RedshopModelCategories extends RedshopModelList
 		// Initialize variables.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('c.*')
-				->select($db->qn('c.name', 'title'))
-				->from($db->qn('#__redshop_category', 'c'));
+			->select('c.*')
+			->select($db->qn('c.name', 'title'))
+			->from($db->qn('#__redshop_category', 'c'));
 
 		// Remove "ROOT" item
 		$query->where($db->qn('c.level') . ' > ' . $db->quote('0'));
 
 		// Filter: Parent ID
 		$parentId = $this->getState('filter.category_id');
-
 
 		if (!empty($parentId))
 		{
@@ -125,7 +124,6 @@ class RedshopModelCategories extends RedshopModelList
 				$query->where($db->qn('c.lft') . ' >= ' . (int) $lft)
 					->where($db->qn('c.rgt') . ' <= ' . (int) $rgt);
 			}
-
 		}
 
 		// Filter by search in name.
@@ -145,7 +143,7 @@ class RedshopModelCategories extends RedshopModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'lft');
+		$orderCol  = $this->state->get('list.ordering', 'lft');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
@@ -162,19 +160,19 @@ class RedshopModelCategories extends RedshopModelList
 	 */
 	public function assignTemplate($data)
 	{
-		$cid = $data['cid'];
+		$cid              = $data['cid'];
 		$categoryTemplate = $data['category_template'];
 
 		if (count($cid))
 		{
-			$db = $this->getDbo();
-			$fields = array(
+			$db         = $this->getDbo();
+			$fields     = array(
 				$db->qn('template') . ' = ' . $db->q((int) $categoryTemplate)
 			);
 			$conditions = array(
 				$db->qn('id') . ' IN (' . implode(',', $cid) . ')'
 			);
-			$query = $db->getQuery(true)
+			$query      = $db->getQuery(true)
 				->update($db->qn('#__redshop_category'))
 				->set($fields)
 				->where($conditions);

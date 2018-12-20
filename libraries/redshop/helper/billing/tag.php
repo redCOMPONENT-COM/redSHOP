@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class Redshop Helper Billing Tag
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.0.7
  */
 class RedshopHelperBillingTag
 {
@@ -24,7 +24,7 @@ class RedshopHelperBillingTag
 	 * @param   boolean  $sendMail        Is in send mail?
 	 *
 	 * @return  mixed
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function replaceBillingAddress($content, $billingAddress, $sendMail = false)
 	{
@@ -42,7 +42,7 @@ class RedshopHelperBillingTag
 	 * @param   boolean  $sendMail        Is in send mail?
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function replaceSingle(&$content, $billingAddress, $sendMail = false)
 	{
@@ -66,7 +66,7 @@ class RedshopHelperBillingTag
 
 		$billingContent = RedshopLayoutHelper::render(
 			$billingLayout,
-			array('billingaddresses' => $billingAddress),
+			array('billingAddresses' => $billingAddress),
 			null,
 			array('client' => 0)
 		);
@@ -75,17 +75,17 @@ class RedshopHelperBillingTag
 		{
 			$content = str_replace('{quotation_custom_field_list}', '', $content);
 
-			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
+			if (Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE'))
 			{
 				$billingContent .= RedshopHelperExtrafields::listAllField(
 					RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id
 				);
 			}
 		}
-		elseif (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
+		elseif (Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE'))
 		{
 			$content = RedshopHelperExtrafields::listAllField(
-				RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id, '', '', $content
+				RedshopHelperExtrafields::SECTION_QUOTATION, $billingAddress->users_info_id, '', $content
 			);
 		}
 
@@ -99,7 +99,7 @@ class RedshopHelperBillingTag
 	 * @param   object  $billingAddress  Billing data
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.7
 	 */
 	public static function replaceBlock(&$content, $billingAddress)
 	{
@@ -207,7 +207,7 @@ class RedshopHelperBillingTag
 				$emailLabel = JText::_('COM_REDSHOP_EMAIL');
 			}
 
-			if ($billingAddress->is_company === 1)
+			if ((int) $billingAddress->is_company === 1)
 			{
 				if (!empty($billingAddress->company_name))
 				{

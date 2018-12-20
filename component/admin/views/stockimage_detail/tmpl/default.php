@@ -8,11 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$thumbUrl = RedShopHelperImages::getImagePath(
+$thumbUrl = RedshopHelperMedia::getImagePath(
 				$this->detail->stock_amount_image,
 				'',
 				'thumb',

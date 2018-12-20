@@ -29,7 +29,7 @@ class RedshopModelAlert_detail extends RedshopModel
 
 	public function setId($id)
 	{
-		$this->_id = $id;
+		$this->_id   = $id;
 		$this->_data = null;
 	}
 
@@ -38,7 +38,7 @@ class RedshopModelAlert_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$db = $this->_db;
+			$db   = $this->_db;
 
 			$conditions = array(
 				$db->qn('id') . ' IN (' . $cids . ' )'
@@ -66,7 +66,7 @@ class RedshopModelAlert_detail extends RedshopModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
-			$db = $this->_db;
+			$db   = $this->_db;
 
 			$fields = array(
 				$db->qn('read') . ' = ' . $db->q((int) $read)

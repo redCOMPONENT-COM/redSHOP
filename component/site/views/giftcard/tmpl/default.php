@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
-
+JHTML::_('behavior.modal');
 
 $producthelper = productHelper::getInstance();
 $objhelper     = redhelper::getInstance();
@@ -208,7 +206,7 @@ if ($gid != 0)
 				$cart_id = "";
 			}
 
-			$productUserFields = $extraField->list_all_user_fields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
+			$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
 
 			$ufield .= $productUserFields[1];
 
@@ -238,9 +236,9 @@ if ($gid != 0)
 	// Product User Field End
 
 	// Cart
-	$template = $producthelper->replaceCartTemplate($gid, 0, 0, 0, $template, false, $userfieldArr, 0, 0, $count_no_user_field, 0, $gid);
+	$template = Redshop\Cart\Render::replace($gid, 0, 0, 0, $template, false, $userfieldArr, 0, 0, $count_no_user_field, 0, $gid);
 
-	$template = $redTemplate->parseredSHOPplugin($template);
+	$template = RedshopHelperTemplate::parseRedshopPlugin($template);
 	echo eval("?>" . $template . "<?php ");
 }
 else

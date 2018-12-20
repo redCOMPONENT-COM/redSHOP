@@ -31,9 +31,9 @@ class RedshopHelperModule
 		$paymentsLangList = RedshopHelperUtility::getModules(-1);
 		$language         = JFactory::getLanguage();
 
-		for ($index = 0, $ln = count($paymentsLangList); $index < $ln; $index++)
+		foreach ($paymentsLangList as $paymentLang)
 		{
-			$extension = $paymentsLangList[$index]->element;
+			$extension = $paymentLang->element;
 			$language->load($extension, JPATH_SITE, $language->getTag(), true);
 			$language->load($extension, JPATH_ADMINISTRATOR, $language->getTag(), true);
 			$language->load($extension, JPATH_ROOT . '/modules/' . $extension, $language->getTag(), true);

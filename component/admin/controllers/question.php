@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,6 +20,24 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerQuestion extends RedshopControllerForm
 {
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   2.1.0
+	 */
+	public function getModel($name = 'Question', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
+
 	/**
 	 * Save question
 	 *
@@ -32,6 +52,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	{
 		$post = $this->input->post->getArray();
 		$data = $post['jform'];
+		$task = $post['task'];
 
 		$model = $this->getModel('Question');
 
@@ -39,10 +60,10 @@ class RedshopControllerQuestion extends RedshopControllerForm
 		{
 			$user = JFactory::getUser();
 
-			$data['user_name'] 		= $user->username;
-			$data['user_email']		= $user->email;
-			$data['question_date'] 	= time();
-			$data['parent_id'] 		= 0;
+			$data['user_name']     = $user->username;
+			$data['user_email']    = $user->email;
+			$data['question_date'] = time();
+			$data['parent_id']     = 0;
 		}
 
 		$row = $model->save($data);
@@ -58,10 +79,18 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		if ($send == 1)
 		{
-			redshopMail::getInstance()->sendAskQuestionMail($data['id']);
+			Redshop\Mail\AskQuestion::sendMail($data['id']);
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
+		if ($task == 'question.apply')
+		{
+			$questionId = $model->getState('question.id');
+			$this->setRedirect('index.php?option=com_redshop&view=question&layout=edit&id=' . $questionId, $msg);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=questions', $msg);
+		}
 	}
 
 	/**
@@ -137,8 +166,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
-			$redshopMail = redshopMail::getInstance();
-			$redshopMail->sendAskQuestionMail($cid[$i]);
+			Redshop\Mail\AskQuestion::sendMail($cid[$i]);
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');
@@ -153,12 +181,15 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	 */
 	public function saveorder()
 	{
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$cid   = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
+
+		/** @var RedshopModelQuestion $model */
 		$model = $this->getModel('Question');
+
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');

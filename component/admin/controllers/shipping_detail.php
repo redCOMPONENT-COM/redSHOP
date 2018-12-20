@@ -34,6 +34,8 @@ class RedshopControllerShipping_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post  = $this->input->post->getArray();
+
+		/** @var RedshopModelShipping_detail $model */
 		$model = $this->getModel('shipping_detail');
 		$row   = $model->store($post);
 

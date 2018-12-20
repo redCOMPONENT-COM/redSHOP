@@ -6,7 +6,8 @@
  * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-JHTML::_('behavior.tooltip');
+defined('_JEXEC') or die;
+
 $showall = JFactory::getApplication()->input->get('showall', '0');
 $producthelper = productHelper::getInstance();
 ?>
@@ -80,10 +81,20 @@ $producthelper = productHelper::getInstance();
 					<tr>
 						<td width="100" align="right" class="key"
 						    valign="top"><?php echo JText::_('COM_REDSHOP_WRAPPER_IMAGE');?></td>
-						<td><input class="text_area" type="file" name="wrapper_image" id="wrapper_image"/>
-							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WRAPPER_IMAGE'), JText::_('COM_REDSHOP_WRAPPER_IMAGE'), 'tooltip.png', '', '', false); ?>
-							<?php $wimage_path = 'wrapper/' . $this->detail->wrapper_image;?>
-						</td>
+                        <td class="box-body">
+							<?php
+							echo RedshopLayoutHelper::render(
+								'component.image',
+								array(
+									'id'        => 'wrapper_image',
+									'deleteid'  => 'thumb_image_delete',
+									'displayid' => 'thumb_image_display',
+									'type'      => 'wrapper',
+									'image'     => $this->detail->wrapper_image
+								)
+							);
+							?>
+                        </td>
 					</tr>
 					<tr>
 						<td valign="top" align="right"
@@ -105,4 +116,5 @@ $producthelper = productHelper::getInstance();
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="wrapper_detail"/>
 	<input type="hidden" name="showall" value="<?php echo $showall; ?>"/>
+    <input type="hidden" name="old_thumb_image" id="old_thumb_image" value="<?php echo $this->detail->wrapper_image; ?>">
 </form>

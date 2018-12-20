@@ -18,15 +18,4 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityShipping_Box extends RedshopEntity
 {
-	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Shipping_Box_Detail', 'Table');
-	}
 }

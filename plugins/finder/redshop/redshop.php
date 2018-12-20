@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\Registry\Registry;
-
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
@@ -71,8 +69,8 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An array that holds the plugin configuration
 	 *
 	 * @since 2.0
 	 */
@@ -117,9 +115,9 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	 * from outside the edit screen. This is fired when the item is published,
 	 * unpublished, archived, or unarchived from the list view.
 	 *
-	 * @param   string   $context  The context for the products passed to the plugin.
-	 * @param   array    $pks      An array of primary key ids of the products that has changed state.
-	 * @param   integer  $value    The value of the state that the products has been changed to.
+	 * @param   string  $context The context for the products passed to the plugin.
+	 * @param   array   $pks     An array of primary key ids of the products that has changed state.
+	 * @param   integer $value   The value of the state that the products has been changed to.
 	 *
 	 * @return  void
 	 *
@@ -143,8 +141,8 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
-	 * @param   string               $format  The item format.  Not used.
+	 * @param   FinderIndexerResult $item   The item to index as an FinderIndexerResult object.
+	 * @param   string              $format The item format.  Not used.
 	 *
 	 * @return  void
 	 *
@@ -160,11 +158,12 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 		}
 
 		// Build the necessary route and path information.
+		require_once JPATH_SITE . '/components/com_redshop/helpers/route.php';
 
-		$alias = JFilterOutput::stringURLSafe($item->slug);
-		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		$alias       = JFilterOutput::stringURLSafe($item->slug);
+		$item->url   = $this->getURL($item->id, $this->extension, $this->layout);
 		$item->route = RedshopHelperRoute::getProductRoute($alias, $item->catid, $item->language, $item->manu_id);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
+		$item->path  = FinderIndexerHelper::getContentPath($item->route);
 
 		// Add the meta-author.
 		$item->metaauthor = $item->author;
@@ -191,7 +190,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 		}
 		else
 		{
-			FinderIndexer::index($item);
+			FinderIndexer::getInstance()->index($item);
 		}
 	}
 
@@ -205,7 +204,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load com_content route helper as it is the fallback for routing in the indexer in this instance.
-		include_once JPATH_SITE . '/libraries/redshop/helper/route.php';
+		require_once JPATH_SITE . '/components/com_redshop/helpers/route.php';
 
 		return true;
 	}
@@ -213,7 +212,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object or null.
+	 * @param   mixed $query A JDatabaseQuery object or null.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
@@ -225,22 +224,37 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 
 		// Check if we can use the supplied SQL query.
 		$query = is_a($query, 'JDatabaseQuery') ? $query : $this->db->getQuery(true);
-		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $query->charLength('p.product_name', '!=', '0');
-		$case_when_item_alias .= ' THEN ';
-		$p_id = $query->castAsChar('p.product_id');
-		$case_when_item_alias .= $query->concatenate(array($p_id, 'p.product_name'), ':');
-		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $p_id . ' END as slug';
-		$query->select('p.product_id as id, p.product_name AS title, p.product_price, p.discount_price')
-			->select('p.product_s_desc AS body, p.product_desc AS summary, p.manufacturer_id AS manu_id')
-			->select('p.published AS state, 0 AS publish_start_date, p.update_date')
-			->select('pc.category_id AS catid, 1 AS access, 0 AS publish_end_date, c.published AS cat_state')
-			->select($case_when_item_alias)
-			->from('#__redshop_product AS p')
-			->join('LEFT', '#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
-			->join('LEFT', '#__redshop_category AS c ON c.id = pc.category_id')
-			->where($this->db->quoteName('p.published') . ' = 1');
+
+		$caseWhenItemAlias  = ' CASE WHEN ';
+		$caseWhenItemAlias .= $query->charLength('p.product_name', '!=', '0');
+		$caseWhenItemAlias .= ' THEN ';
+
+		$productId          = $query->castAsChar('p.product_id');
+		$caseWhenItemAlias .= $query->concatenate(array($productId, 'p.product_name'), ':');
+		$caseWhenItemAlias .= ' ELSE ';
+		$caseWhenItemAlias .= $productId . ' END as slug';
+
+		$query->select($db->qn('p.product_id', 'id'))
+			->select($db->qn('p.product_name', 'title'))
+			->select($db->qn('p.product_price', 'product_price'))
+			->select($db->qn('p.discount_price', 'discount_price'))
+			->select($db->qn('p.product_s_desc', 'body'))
+			->select($db->qn('p.product_desc', 'summary'))
+			->select($db->qn('p.manufacturer_id', 'manu_id'))
+			->select($db->qn('p.published', 'state'))
+			->select($db->quote('0') . ' AS ' . $db->qn('publish_start_date'))
+			->select($db->qn('update_date'))
+			->select($db->qn('pc.category_id', 'catid'))
+			->select($db->quote('1') . ' AS ' . $db->qn('access'))
+			->select($db->quote('0') . ' AS ' . $db->qn('publish_end_date'))
+			->select($db->qn('c.published', 'cat_state'))
+			->select($caseWhenItemAlias)
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc')
+				. ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id')
+			)
+			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pc.category_id'))
+			->where($db->qn('p.published') . ' = 1');
 
 		return $query;
 	}
@@ -249,9 +263,9 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 	 * Method to get the URL for the item. The URL is how we look up the link
 	 * in the Finder index.
 	 *
-	 * @param   integer  $id         The id of the item.
-	 * @param   string   $extension  The extension the item is in.
-	 * @param   string   $view       The view for the URL.
+	 * @param   integer $id        The id of the item.
+	 * @param   string  $extension The extension the item is in.
+	 * @param   string  $view      The view for the URL.
 	 *
 	 * @return string The URL of the item.
 	 *

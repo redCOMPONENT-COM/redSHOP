@@ -311,6 +311,7 @@ class App
 	 * Try to find if temp configuration file is available. This function is for wizard.
 	 *
 	 * @return  boolean  True when file is exist.
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -332,6 +333,7 @@ class App
 	 * Check if temp file is write-able or not.
 	 *
 	 * @return  boolean  True if file is write-able.
+	 * @throws  \Exception
 	 *
 	 * @since   2.0.6
 	 */
@@ -695,6 +697,8 @@ class App
 			"AJAX_CART_DISPLAY_TIME"                       => $data['ajax_cart_display_time'],
 			"MEDIA_ALLOWED_MIME_TYPE"                      => $data['media_allowed_mime_type'],
 			"IMAGE_QUALITY_OUTPUT"                         => $data['image_quality_output'],
+			"IMAGE_MAX_WIDTH"                              => $data['image_max_width'],
+			"IMAGE_MAX_HEIGHT"                             => $data['image_max_height'],
 			"SEND_CATALOG_REMINDER_MAIL"                   => $data['send_catalog_reminder_mail'],
 			"CATEGORY_IN_SEF_URL"                          => $data['category_in_sef_url'],
 			"CATEGORY_TREE_IN_SEF_URL"                     => $data['category_tree_in_sef_url'],
@@ -727,6 +731,7 @@ class App
 			"CURRENCY_LAYER_ACCESS_KEY"                    => $data['currency_layer_access_key'],
 			"MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload'],
 			"WISHLIST_LIST"                                => $data["wishlist_list"],
+			"PRODUCT_DEFAULT_CATEGORY"                     => $data["product_default_category"]
 		);
 
 		$configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];
