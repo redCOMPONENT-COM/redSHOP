@@ -743,8 +743,15 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart,30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->seeElement(['link' => $productName]);
+
+		try{
+            $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+        }
+        $I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+        $I->waitForElement(['link' => $productName],5);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
@@ -833,6 +840,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+
+		try{
+            $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+        }
+
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -841,8 +856,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
-
-//		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		  try{
 			  $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		  }catch (Exception $e)
@@ -890,6 +903,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		try{
+            $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+        }
+        $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
@@ -951,9 +971,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 //		$I->fillField($usePage->attributeDropdownSeach(1), $attribute['attributeName']);
 //		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-//		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage,
-//			60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+        $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+        try{
+            $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+        }
+        $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $product]);
 		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
