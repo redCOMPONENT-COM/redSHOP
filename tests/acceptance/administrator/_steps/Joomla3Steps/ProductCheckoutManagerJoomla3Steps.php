@@ -352,7 +352,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
+		try{
+            $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 5, \GiftCardCheckoutPage::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+            $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 5, \GiftCardCheckoutPage::$selectorSuccess);
+        }
 		$I->amOnPage(\GiftCardCheckoutPage::$cartPageUrL);
 		$I->see($productName);
 		if (isset($discount['allow']))
@@ -646,7 +653,20 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->click(\FrontEndProductManagerJoomla3Page::$showProductToCompare);
         $I->wait(0.5);
-		$I->waitForElement($usePage->productName($productFirst), 30);
+        try{
+            $I->waitForElement($usePage->productName($productFirst), 5);
+        }catch (\Exception $e)
+        {
+            $I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+            $I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+            $productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+            $I->click($productFrontEndManagerPage->productCategory($categoryName));
+            $I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+            $I->waitForElement($productFrontEndManagerPage->product($productFirst), 30);
+            $I->click($productFrontEndManagerPage->product($productFirst));
+            $I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCompare, 30);
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCompare);
+        }
 		$I->wait(1);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);

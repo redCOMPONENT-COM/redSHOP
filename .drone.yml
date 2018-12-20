@@ -647,7 +647,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/ProductManagement 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/ProductManagement 0 0'
 
     32-Compare_Products:
         group: tests
@@ -680,7 +680,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/Manufacturer 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Products/g2/Manufacturer 0 0'
 
     34-VAT:
         group: tests
