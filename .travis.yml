@@ -25,7 +25,8 @@ cache:
 env:
   matrix:
   - ACCEPTANCE=false
-  - ACCEPTANCE=acceptance/administrator
+  - ACCEPTANCE=acceptance/administrator/g1
+  - ACCEPTANCE=acceptance/administrator/g2
   - ACCEPTANCE=acceptance/integration
 
   global:
