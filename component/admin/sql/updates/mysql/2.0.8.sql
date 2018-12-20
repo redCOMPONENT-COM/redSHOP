@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_payment_xref` (
   `product_id` TINYINT(11) NOT NULL,
   PRIMARY KEY (`product_id`, `payment_id`),
   INDEX `#__rs_pro_pay_ref_fk1` (`product_id` ASC))
+ROW_FORMAT=DYNAMIC
 ENGINE = InnoDB
 COMMENT = 'redSHOP Product Individual payment reference.';
 
