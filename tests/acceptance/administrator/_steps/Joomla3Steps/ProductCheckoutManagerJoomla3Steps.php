@@ -102,6 +102,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingFirstName, 30);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingFirstName,10);
+		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$shippingFirstName);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingDetail['firstName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingDetail['lastName']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
@@ -512,7 +514,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$selectorSuccess, 30);
+		try{
+            $I->waitForElement(\FrontEndProductManagerJoomla3Page::$selectorSuccess, 10);
+        }catch (\Exception $e)
+        {
+            $I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+        }
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);

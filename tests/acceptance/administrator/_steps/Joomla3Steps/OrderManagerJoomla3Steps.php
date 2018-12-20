@@ -186,7 +186,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
 		$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-		$I->waitForElement($userOrderPage->returnSearch($nameUser));
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
@@ -199,10 +198,14 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
         }catch (\Exception $e)
         {
             $I->reloadPage();
+            $I->amOnPage(\OrderManagerPage::$URL);
+            $I->click(\OrderManagerPage::$buttonNew);
+            $I->click(\OrderManagerPage::$userId);
+            $I->waitForElement(\OrderManagerPage::$userSearch, 30);
+            $userOrderPage = new \OrderManagerPage();
             $I->waitForElement(\OrderManagerPage::$userSearch, 30);
             $userOrderPage = new \OrderManagerPage();
             $I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-            $I->waitForElement($userOrderPage->returnSearch($nameUser));
             $I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
             $I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
             $I->waitForElement(\OrderManagerPage::$fistName, 30);
