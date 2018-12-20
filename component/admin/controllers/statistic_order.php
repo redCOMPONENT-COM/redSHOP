@@ -94,7 +94,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 			}
 			else
 			{
-				echo '';
+				echo '' . ",";
 			}
 
 			$shippingInfo = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
@@ -120,9 +120,9 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 				echo str_replace(",", " ", utf8_decode($noItems[$it]->order_item_name)) . " ,";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItems[$it]->product_final_price . ",";
 
-				$productAttribute = $productHelper->makeAttributeOrder($noItems[$it]->order_item_id, 0, $noItems[$it]->product_id, 0, 1);
-				$productAttribute = strip_tags(str_replace(",", " ", $productAttribute->product_attribute));
-				echo trim(utf8_decode($productAttribute)) . " ,";
+                $attItems = RedshopHelperOrder::getOrderItemAttributeDetail($noItems[$it]->order_item_id, '', 'property');
+
+                echo str_replace(",", " ", utf8_decode($attItems[$it]->section_name)) . ",";
 			}
 
 			$temp = $noProducts - count($noItems);
