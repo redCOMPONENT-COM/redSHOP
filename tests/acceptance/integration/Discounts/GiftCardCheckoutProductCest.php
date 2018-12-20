@@ -84,11 +84,11 @@ class GiftCardCheckoutProductCest
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using paypal payment plugin for purchasing gift card');
 		$I->amOnPage(\GiftCardCheckoutPage::$URLLoginAdmin);
 		$I->wantTo('Enable redshop_payment_paypal Administrator');
-		$path = $I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip';
+		$path = $I->getConfig('packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip';
 		$I->comment( 'The path of payment');
 		$I->wantTo($path);
 		$I->wait(1);
-		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
+		$I->installExtensionFromUrl($I->getConfig('packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
 		$I->enablePlugin('PayPal');
 
 		$I->wait(1);
