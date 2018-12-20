@@ -76,19 +76,6 @@ class GiftCardCheckoutProductCest
 	}
 
 	/**
-	 * Method for clean data.
-	 *
-	 * @param   mixed $scenario Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
-	/**
 	 * Function install payment_paypal and enable
 	 */
 	public function checkoutWithPayment(AcceptanceTester $I, $scenario)
@@ -97,14 +84,14 @@ class GiftCardCheckoutProductCest
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using paypal payment plugin for purchasing gift card');
 		$I->amOnPage(\GiftCardCheckoutPage::$URLLoginAdmin);
 		$I->wantTo('Enable redshop_payment_paypal Administrator');
-		$path = $I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip';
+		$path = $I->getConfig('packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip';
 		$I->comment( 'The path of payment');
 		$I->wantTo($path);
 		$I->wait(1);
-		$I->installExtensionFromUrl($I->getConfig('redshop packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
+		$I->installExtensionFromUrl($I->getConfig('packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
 		$I->enablePlugin('PayPal');
 
-        $I->wait(1);
+		$I->wait(1);
 		$I->wantTo('Test Category Save creation in Administrator');
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
@@ -281,8 +268,12 @@ class GiftCardCheckoutProductCest
 		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
 		$I->deleteCard($this->randomCardName);
 
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Product  in Administrator');
+		$I->deleteProduct($this->productName);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->categoryName);
 	}
 }
