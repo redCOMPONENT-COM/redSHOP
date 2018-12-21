@@ -50,7 +50,13 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(QuotationManagerPage::$quanlityFirst, $quantity);
 
         $I->click(QuotationManagerPage::$buttonSave);
-        $I->see(QuotationManagerPage::$messageSaveSuccess, QuotationManagerPage::$selectorSuccess);
+        try{
+            $I->waitForText(QuotationManagerPage::$messageSaveSuccess,5, QuotationManagerPage::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->click(QuotationManagerPage::$buttonSave);
+            $I->see(QuotationManagerPage::$messageSaveSuccess, QuotationManagerPage::$selectorSuccess);
+        }
     }
 
     public function editQuotation($newQuantity)
