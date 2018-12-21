@@ -64,17 +64,19 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
 
 		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
-
-//        $client->click(['xpath' => '//div[@id="s2id_jform_tax_state"]//a']);
-//        $client->waitForElement(['id' => "s2id_autogen2_search"]);
-//        $client->fillField(['id' => "s2id_autogen2_search"], $nameState);
-//        $client->waitForElement(['xpath' => "//span[contains(text(), '" . $nameState . "')]"], 60);
-//        $client->click(['xpath' => "//span[contains(text(), '" . $nameState . "')]"]);
-
 		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
 
 		$client->click(\TaxRatePage::$buttonSave);
-		$client->waitForElement(\TaxGroupPage::$selectorMissing,30);
+		try
+        {
+            $client->waitForElement(\TaxGroupPage::$selectorMissing,10);
+
+        }catch (\Exception $e)
+        {
+            $client->click(\TaxRatePage::$buttonSaveClose);
+            $client->waitForElement(\TaxGroupPage::$selectorMissing,10);
+        }
+
 		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
 		$client->click(\TaxRatePage::$buttonCancel);
 	}
