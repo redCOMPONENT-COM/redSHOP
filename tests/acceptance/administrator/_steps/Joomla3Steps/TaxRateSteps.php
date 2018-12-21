@@ -38,7 +38,9 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->checkForPhpNoticesOrWarnings();
 		$client->fillField(\TaxRatePage::$fieldName, $taxRateName);
 		$client->fillField(\TaxRatePage::$fieldValue, $taxRateValue);
+		$client->wait(0.5);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
+        $client->wait(0.5);
 		$client->waitForElement(\TaxRatePage::$stateDropdown, 30);
 		if (isset($stateName))
 		{

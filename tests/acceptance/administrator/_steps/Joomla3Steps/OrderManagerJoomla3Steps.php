@@ -42,7 +42,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
 		$I->see($nameUser);
-		$I->wait(3);
+		$I->wait(2);
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
@@ -186,15 +186,20 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
 		$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-		$I->waitForElement($userOrderPage->returnSearch($nameUser));
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
 		$I->see($nameUser);
-		$I->wait(0.1);
+		$I->wait(1);
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
-		$I->waitForElement(\OrderManagerPage::$productId, 30);
+		try{
+            $I->waitForElement(\OrderManagerPage::$productId, 5);
+        }catch (\Exception $e)
+        {
+            $I->executeJS("jQuery('.button-apply').click()");
+        }
+		$I->waitForElement(\OrderManagerPage::$productId, 10);
 		$I->scrollTo(\OrderManagerPage::$productId);
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
 		$I->click(\OrderManagerPage::$productId);
