@@ -21,13 +21,14 @@ use CategoryManagerJ3Page as CategoryManagerJ3Page;
  */
 class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-	/**
-	 * Method for save category
-	 *
-	 * @param   string $categoryName Name of category
-	 *
-	 * @return void
-	 */
+    /**
+     * Method for save category
+     *
+     * @param   string $categoryName Name of category
+     *
+     * @return void
+     * @throws \Exception
+     */
 	public function addCategorySave($categoryName)
 	{
 		$I = $this;
@@ -41,6 +42,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$saveButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
 		$I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
+		$I->click(\CategoryPage::$buttonSaveClose);
 	}
 
 	/**
