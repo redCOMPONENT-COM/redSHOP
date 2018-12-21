@@ -74,7 +74,15 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
 
 		$client->click(\TaxRatePage::$buttonSave);
-		$client->waitForElement(\TaxGroupPage::$selectorMissing,30);
+		try{
+            $client->waitForElement(\TaxGroupPage::$selectorMissing,10);
+
+        }catch (\Exception $e)
+        {
+            $client->click(\TaxRatePage::$buttonSaveClose);
+            $client->waitForElement(\TaxGroupPage::$selectorMissing,10);
+
+        }
 		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
 		$client->click(\TaxRatePage::$buttonCancel);
 	}
