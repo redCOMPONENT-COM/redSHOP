@@ -97,20 +97,6 @@ class CouponCheckoutMixCheckoutCest
 	}
 
 	/**
-	 * Test to Verify the Payment Plugin
-	 *
-	 * @param   AcceptanceTester  $I         Actor Class Object
-	 * @param   String            $scenario  Scenario Variable
-	 *
-	 * @return void
-	 */
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
-	/**
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
 	 * 
@@ -272,8 +258,12 @@ class CouponCheckoutMixCheckoutCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Product  in Administrator');
+		$I->deleteProduct($this->productName);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->categoryName);
 	}
 }
