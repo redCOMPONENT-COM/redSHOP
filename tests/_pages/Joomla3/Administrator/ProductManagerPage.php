@@ -320,12 +320,12 @@ ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $productDiscontionueYes = "/input[@id='expired1']";
+	public static $productDiscontionueYes = "//input[@id='expired1']";
 
 	/**
 	 * @var string
 	 */
-	public static $productDiscontinueNo = "/input[@id='expired0']";
+	public static $productDiscontinueNo = "//input[@id='expired0']";
 
 	/**
 	 * @var string
