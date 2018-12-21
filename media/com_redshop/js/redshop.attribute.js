@@ -1335,7 +1335,7 @@ function setWrapper(id, price, price_withoutvat, product_id) {
 }
 
 function setPropImage(product_id, propertyObj, selValue) {
-    var propName = document.getElementById(propertyObj + '_' + selValue);
+    var propName = document.getElementById(propertyObj);
 
     if (propName) {
         if (propName.type == 'checkbox' || propName.type == 'radio') {
@@ -1358,7 +1358,7 @@ function setPropImage(product_id, propertyObj, selValue) {
 }
 
 function setSubpropImage(product_id, subpropertyObj, selValue) {
-    var subpropName = document.getElementById(subpropertyObj + '_' + selValue);
+    var subpropName = document.getElementById(subpropertyObj);
     if (subpropName) {
         if (subpropName.type == 'checkbox' || subpropName.type == 'radio') {
             var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
