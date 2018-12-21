@@ -744,8 +744,10 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		else
 		{
+		    $I->waitForElement(\ProductManagerPage::$productDiscontionueYes, 30);
+
 			$I->waitForElement(\ProductManagerPage::$showPriceYes, 60);
-			$I->scrollTo(\ProductManagerPage::$showPriceYes);
+			$I->scrollTo(\ProductManagerPage::$productDiscontionueYes);
 			$I->wait(0.2);
 			$I->click(\ProductManagerPage::$showPriceYes);
 		}

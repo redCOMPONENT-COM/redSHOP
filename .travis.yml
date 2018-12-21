@@ -37,7 +37,7 @@ env:
   - ORGANIZATION=redCOMPONENT-COM
   - REPO=redSHOP
   - SLACK_WEBHOOK='https://hooks.slack.com/services/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'
-  - SLACK_CHANNEL='#redshop-notifications'
+  - SLACK_CHANNEL='#redshop-builds'
   - BUILD_URL='https://travis-ci.com/$TRAVIS_REPO_SLUG/jobs/$TRAVIS_JOB_ID'
 
 before_script:
