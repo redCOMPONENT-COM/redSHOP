@@ -51,7 +51,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->wait(2);
 		try
-        {
+		{
 			$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress,5);
 		}catch (\Exception $e)
 		{

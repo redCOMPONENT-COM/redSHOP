@@ -304,7 +304,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($category), 30);
-        $I->wait(0.5);
+		$I->wait(0.5);
 		$I->click($usePage->returnChoice($category));
 		$I->wait(0.5);
 		$I->click(ProductManagerPage::$buttonSaveClose);
@@ -744,7 +744,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		else
 		{
-		    $I->waitForElement(\ProductManagerPage::$productDiscontionueYes, 30);
+			$I->waitForElement(\ProductManagerPage::$productDiscontionueYes, 30);
 
 			$I->waitForElement(\ProductManagerPage::$showPriceYes, 60);
 			$I->scrollTo(\ProductManagerPage::$productDiscontionueYes);
