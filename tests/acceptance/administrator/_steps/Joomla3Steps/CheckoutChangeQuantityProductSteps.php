@@ -65,9 +65,9 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$headBilling, 30, null);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceTotal);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		
 	}
 }
