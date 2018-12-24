@@ -166,18 +166,6 @@ class AttributeUserCest
 	}
 
 	/**
-	 * Method delete data at database
-	 *
-	 * @param   \Codeception\Scenario $scenario Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		(new RedshopSteps($scenario))->clearAllData();
-	}
-
-	/**
 	 * @param   AcceptanceTester      $client   Client
 	 * @param   \Codeception\Scenario $scenario Scenario
 	 *
