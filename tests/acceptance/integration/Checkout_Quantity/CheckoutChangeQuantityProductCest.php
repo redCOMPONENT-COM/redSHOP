@@ -123,12 +123,12 @@ class CheckoutChangeQuantityProductCest
 		$this->quantityInCart = 3;
 
 		//User
-		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->userName = $this->faker->bothify('QuantityChangeCest ?##?');
 		$this->password = $this->faker->bothify('123456');
 		$this->email = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
 		$this->group = 'Super User';
-		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->firstName = $this->faker->bothify('QuantityChangeCest FN ?##?');
 		$this->lastName = "LastName";
 	}
 	public function _before(AcceptanceTester $I)

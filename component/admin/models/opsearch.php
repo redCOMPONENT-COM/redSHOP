@@ -94,7 +94,7 @@ class RedshopModelOpsearch extends RedshopModel
 	public function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$query              = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM #__redshop_users_info AS uf "
-			. "WHERE uf.address_type='BT' "
+            . "WHERE uf.address_type='BT' AND (uf.firstname <> '' OR uf.lastname <> '') "
 			. "ORDER BY text ";
 		$userlist           = $this->_getList($query);
 		$types[]            = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_USER') . ' -');
