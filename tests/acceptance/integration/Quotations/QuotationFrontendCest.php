@@ -130,10 +130,5 @@ class QuotationFrontendCest
 		$I->wantTo(' Disable Quotation at configuration ');
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuationNo, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
-
-
-		$I->wantTo('Delete all database');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }
