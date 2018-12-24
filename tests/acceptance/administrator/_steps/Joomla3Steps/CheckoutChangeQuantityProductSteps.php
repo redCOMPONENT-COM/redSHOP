@@ -45,18 +45,12 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions, 30);
 		$I->wait(0.5);
 		$I->scrollTo(\CheckoutChangeQuantityProductPage::$termAndConditions);
+        $I->click(\CheckoutChangeQuantityProductPage::$termAndConditions);
 		$I->wait(0.5);
-		$I->executeJS("jQuery('#termscondition').click()");
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->wait(2);
-		try
-		{
-			$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress,5);
-		}catch (\Exception $e)
-		{
-			$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-		}
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress,5);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
