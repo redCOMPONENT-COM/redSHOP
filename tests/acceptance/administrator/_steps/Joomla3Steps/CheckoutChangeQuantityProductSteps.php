@@ -45,7 +45,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions, 30);
 		$I->wait(0.5);
 		$I->scrollTo(\CheckoutChangeQuantityProductPage::$termAndConditions);
-        $I->click(\CheckoutChangeQuantityProductPage::$termAndConditions);
+		$I->click(\CheckoutChangeQuantityProductPage::$termAndConditions);
 		$I->wait(0.5);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
