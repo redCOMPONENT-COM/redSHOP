@@ -188,7 +188,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->waitForElement(['link' => $text], 30);
 	}
 
 	public function filterListBySearchDiscount($text, $searchField = "#name_filter")
@@ -197,20 +197,24 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->waitForElement(['link' => $text], 30);
 	}
-
-	public function addValueForField($xpath, $prices)
+	
+	/**
+	 * @param $xpath
+	 * @param $value
+	 * @param $lengh
+	 */
+	public function addValueForField($xpath, $value, $lengh)
 	{
 		$I = $this;
 		$I->click($xpath);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		for ($i = 1; $i <= $lengh; $i++)
+		{
+			$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		}
 
-		$price = str_split($prices);
+		$price = str_split($value);
 		foreach ($price as $char)
 		{
 			$I->pressKey($xpath, $char);

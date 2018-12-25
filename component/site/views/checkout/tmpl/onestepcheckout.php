@@ -25,9 +25,16 @@ $session = JFactory::getSession();
 $auth    = $session->get('auth');
 
 $carthelper      = rsCarthelper::getInstance();
+$producthelper   = productHelper::getInstance();
+$order_functions = order_functions::getInstance();
+$redhelper       = redhelper::getInstance();
+$redTemplate     = Redtemplate::getInstance();
+$shippinghelper  = shipping::getInstance();
+$session         = JFactory::getSession();
+$document        = JFactory::getDocument();
 
 // Get redshop helper
-$itemId = RedshopHelperRouter::getCheckoutItemId();
+$itemId = $redhelper->getCheckoutItemid();
 
 /** @var RedshopModelCheckout $model */
 $model = $this->getModel('checkout');
@@ -65,8 +72,7 @@ $loginTemplate = "";
 
 $input = JFactory::getApplication()->input;
 
-if (!$usersInfoId && Redshop::getConfig()->getInt('REGISTER_METHOD') != 1
-    && Redshop::getConfig()->getInt('REGISTER_METHOD') != 3)
+if (!$usersInfoId && Redshop::getConfig()->getInt('REGISTER_METHOD') != 1 && Redshop::getConfig()->getInt('REGISTER_METHOD') != 3)
 {
 	$loginTemplate = RedshopLayoutHelper::render(
 		'checkout.login',
@@ -218,31 +224,6 @@ if (!empty($billingAddresses) && !empty($billingAddresses->ean_number))
 	$eanNumber = 1;
 }
 
-if (strpos($oneStepTemplateHtml, '{billing_template}') === false)
-{
-	$oneStepTemplateHtml = str_replace('{billing_address}', '{billing_address}{billing_template}', $oneStepTemplateHtml);
-}
-
-if ($usersInfoId)
-{
-	$oneStepTemplateHtml = RedshopHelperBillingTag::replaceBillingAddress($oneStepTemplateHtml, $billingAddresses);
-	$billingTemplate     = '';
-}
-else
-{
-	$oneStepTemplateHtml = str_replace("{billing_address}", "", $oneStepTemplateHtml);
-	$billingTemplate     = RedshopLayoutHelper::render(
-		'checkout.onestep.billing',
-		array(),
-		'',
-		array(
-			'component' => 'com_redshop'
-		)
-	);
-}
-
-$oneStepTemplateHtml = str_replace('{billing_template}', $billingTemplate, $oneStepTemplateHtml);
-
 if (strpos($oneStepTemplateHtml, "{edit_billing_address}") !== false && $usersInfoId)
 {
 	$editBillingLink     = JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&setexit=1&Itemid=' . $itemId);
@@ -253,6 +234,28 @@ if (strpos($oneStepTemplateHtml, "{edit_billing_address}") !== false && $usersIn
 else
 {
 	$oneStepTemplateHtml = str_replace("{edit_billing_address}", "", $oneStepTemplateHtml);
+}
+
+if ($usersInfoId)
+{
+	$oneStepTemplateHtml = RedshopHelperBillingTag::replaceBillingAddress($oneStepTemplateHtml, $billingAddresses);
+}
+else
+{
+	$oneStepTemplateHtml = str_replace("{billing_address}", "", $oneStepTemplateHtml);
+}
+
+if (strpos($oneStepTemplateHtml, '{billing_template}') !== false)
+{
+	$billingTemplate     = null === $billingAddresses || $billingAddresses == new stdClass ? RedshopLayoutHelper::render(
+		'checkout.onestep.billing',
+		array(),
+		'',
+		array(
+			'component' => 'com_redshop'
+		)
+	) : '';
+	$oneStepTemplateHtml = str_replace('{billing_template}', $billingTemplate, $oneStepTemplateHtml);
 }
 
 $isCompany = isset($billingAddresses->is_company) ? $billingAddresses->is_company : 0;
@@ -386,16 +389,16 @@ $oneStepTemplateHtml = RedshopHelperTemplate::parseRedshopPlugin($oneStepTemplat
 </script>
 <script type="text/javascript">
     function validation() {
-        var email = jQuery('input[name="email1"]').val(),
-            email2 = jQuery('input[name="email2"]').val(),
-            company = jQuery('input[name="company_name"]').val(),
-            firstname = jQuery('input[name="firstname"]').val(),
-            lastname = jQuery('input[name="lastname"]').val(),
-            address = jQuery('input[name="address"]').val(),
-            zipcode = jQuery('input[name="zipcode"]').val(),
-            city = jQuery('input[name="city"]').val(),
-            phone = jQuery('input[name="phone"]').val(),
-            eanNumber = jQuery('input[name="ean_number"]').val();
+        var email = jQuery('input[name="email1"]').val();
+        var email2 = jQuery('input[name="email2"]').val();
+        var company = jQuery('input[name="company_name"]').val();
+        var firstname = jQuery('input[name="firstname"]').val();
+        var lastname = jQuery('input[name="lastname"]').val();
+        var address = jQuery('input[name="address"]').val();
+        var zipcode = jQuery('input[name="zipcode"]').val();
+        var city = jQuery('input[name="city"]').val();
+        var phone = jQuery('input[name="phone"]').val();
+        var eanNumber = jQuery('input[name="ean_number"]').val();
 
         if (jQuery.type(eanNumber) != 'undefined') {
             if (eanNumber == "") {

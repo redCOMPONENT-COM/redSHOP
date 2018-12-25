@@ -8,10 +8,10 @@ dist:
   trusty
 
 node_js:
-  - 9
+- 9
 
 php:
-  - 5.6
+- 5.6
 
 addons:
   chrome: stable
@@ -19,36 +19,37 @@ addons:
 cache:
   apt: true
   directories:
-    - "node_modules"
-    - $HOME/.composer/cache/files
+  - "node_modules"
+  - $HOME/.composer/cache/files
 
 env:
   matrix:
-      - ACCEPTANCE=false
-      - ACCEPTANCE=acceptance/administrator
-      - ACCEPTANCE=acceptance/integration
+  - ACCEPTANCE=false
+  - ACCEPTANCE=acceptance/administrator/g1
+  - ACCEPTANCE=acceptance/administrator/g2
+  - ACCEPTANCE=acceptance/integration
 
   global:
-    - CLOUD_NAME=redcomponent
-    - API_KEY=365447364384436
-    - API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
-    - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
-    - ORGANIZATION=redCOMPONENT-COM
-    - REPO=redSHOP
-    - SLACK_WEBHOOK='https://hooks.slack.com/services/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'
-    - SLACK_CHANNEL='#redshop-notifications'
-    - BUILD_URL='https://travis-ci.com/$TRAVIS_REPO_SLUG/jobs/$TRAVIS_JOB_ID'
+  - CLOUD_NAME=redcomponent
+  - API_KEY=365447364384436
+  - API_SECRET=Q94UM5kjZkZIrau8MIL93m0dN6U
+  - GITHUB_TOKEN=4d92f9e8be0eddc0e54445ff45bf1ca5a846b609
+  - ORGANIZATION=redCOMPONENT-COM
+  - REPO=redSHOP
+  - SLACK_WEBHOOK='https://hooks.slack.com/services/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'
+  - SLACK_CHANNEL='#redshop-builds'
+  - BUILD_URL='https://travis-ci.com/$TRAVIS_REPO_SLUG/jobs/$TRAVIS_JOB_ID'
 
 before_script:
-  - ./.travis/setup.sh
+- ./.travis/setup.sh
 
 script:
-  - ./.travis/script.sh
+- ./.travis/script.sh
 
 after_script:
-  - echo $PULL_REQUEST_NUMBER
-  - echo $BUILD_URL
-  - if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:build-report-error-travis-to-slack $CLOUD_NAME $API_KEY $API_SECRET $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST $SLACK_WEBHOOK $SLACK_CHANNEL $BUILD_URL; fi
+- echo $PULL_REQUEST_NUMBER
+- echo $BUILD_URL
+- if [ $TRAVIS_PULL_REQUEST != "false" ]; then vendor/bin/robo send:build-report-error-travis-to-slack $CLOUD_NAME $API_KEY $API_SECRET $TRAVIS_REPO_SLUG $TRAVIS_PULL_REQUEST $SLACK_WEBHOOK $SLACK_CHANNEL $BUILD_URL; fi
 
 notifications:
   slack:

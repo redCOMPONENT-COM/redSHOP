@@ -175,7 +175,7 @@ class RedshopHelperTemplate
 	 * @param   int    $templateId Template Id
 	 * @param   string $name       Template Name
 	 *
-	 * @return  array              Template array or null if the query failed.
+	 * @return  array              Template Array
 	 *
 	 * @since   2.0.0.3
 	 *
