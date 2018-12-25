@@ -53,12 +53,6 @@ class CheckoutSpecificShopperGroupsCest
 		$this->lastName     = 'Last';
 	}
 
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
 	public function _before(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
@@ -118,9 +112,5 @@ class CheckoutSpecificShopperGroupsCest
 		$I->wantTo('Delete discount total');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
-
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }

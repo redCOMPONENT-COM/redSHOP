@@ -20,7 +20,7 @@ use Codeception\Scenario;
  */
 class ManufacturerCest extends AbstractCest
 {
-	use Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
+	use Cest\Traits\Publish, Cest\Traits\CheckIn, Cest\Traits\Delete;
 
 	/**
 	 * Name field, which is use for search
