@@ -15,17 +15,24 @@
  *
  * @since    2.1
  */
+use \Facebook\WebDriver\Remote\RemoteWebDriver;
 use AcceptanceTester\AdminManagerJoomla3Steps as AdminManagerJoomla3Steps;
 class InstallRedShopCest
 {
+    /**
+     * @var    $faker
+     * @since   1.0.0
+     */
+
+    protected $faker;
 	/**
 	 * Test to Install Joomla
 	 *
-	 * @param   AcceptanceTester  $I  Actor Class Object
+	 * @param   AcceptanceTester  $i  Actor Class Object
 	 *
 	 * @return void
 	 */
-	public function testInstallJoomla(\AcceptanceTester $I)
+	public function testInstallJoomla(\AcceptanceTester $i)
 	{
         $adminLoginPageUrl = $I->getLocatorPath('adminLoginPageUrl');
 
