@@ -806,15 +806,15 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-                $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 
-                try
-                {
-                    $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-                }catch (Exception $e)
-                {
-                    $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-                }
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -832,17 +832,17 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-                $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 
-                try
-                {
-                    $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-                }catch (Exception $e)
-                {
-                    $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-                }
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
 
-                $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
