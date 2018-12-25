@@ -18,4 +18,30 @@ defined('_JEXEC') or die;
  */
 class RedshopModelMass_Discount extends RedshopModelForm
 {
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array $data The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   1.6
+	 */
+	public function save($data)
+	{
+		$tz  = JFactory::getConfig()->get('offset');
+		$UTC = new DateTimeZone('UTC');
+
+		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
+		{
+			$data['start_date'] = JFactory::getDate($data['start_date'], $tz)->setTimezone($UTC)->toUnix();
+		}
+
+		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
+		{
+			$data['end_date'] = JFactory::getDate($data['end_date'], $tz)->setTimezone($UTC)->toUnix();
+		}
+
+		return parent::save($data);
+	}
 }
