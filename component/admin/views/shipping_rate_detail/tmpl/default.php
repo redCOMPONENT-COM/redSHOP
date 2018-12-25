@@ -327,7 +327,7 @@ else
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="shipping_rate_value" id="shipping_rate_value" size="32"
+				<input class="text_area" type="number" name="shipping_rate_value" id="shipping_rate_value" size="32"
 				       maxlength="250"
 				       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_value); ?>"/>
 			</td>

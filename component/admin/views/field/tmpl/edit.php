@@ -81,7 +81,11 @@ $editor = JEditor::getInstance();
                 data: {
                     "<?php echo JSession::getFormToken() ?>": 1,
                     "section": $("#jform_section").val(),
+<<<<<<< HEAD
                     "selected": <?php echo (int)$this->item->groupId ?>
+=======
+                    "selected": <?php echo (int) $this->item->groupId ?>
+>>>>>>> 85de238534c6cdd14591591e813e8484cf38f110
                 },
                 beforeSend: function () {
                     $fieldGroup.prop("disabled", true).addClass("disabled");
@@ -197,9 +201,9 @@ $editor = JEditor::getInstance();
                 return !fieldNames.contains(value);
             });
 
-            <?php if (!empty($this->item->id) && !empty($this->item->section)): ?>
+			<?php if (!empty($this->item->id) && !empty($this->item->section)): ?>
             loadFieldGroup();
-            <?php endif; ?>
+			<?php endif; ?>
         });
     })(jQuery);
 </script>
@@ -263,6 +267,7 @@ $editor = JEditor::getInstance();
                         </tr>
                         </thead>
                         <tbody>
+<<<<<<< HEAD
                         <?php if (count($this->lists['extra_data']) > 0) : ?>
                             <?php for ($k = 0, $extraCount = count($this->lists['extra_data']); $k < $extraCount; $k++) : ?>
                                 <tr>
@@ -276,22 +281,42 @@ $editor = JEditor::getInstance();
                                             />
                                         </td>
                                     <?php endif; ?>
+=======
+						<?php if (!empty($this->lists['extra_data'])) : ?>
+							<?php foreach ($this->lists['extra_data'] as $index => $extraData): ?>
+                                <tr>
+                                    <td>
+                                        <input
+                                                type="text"
+                                                class="divfieldText hide form-control"
+                                                name="extra_name[]"
+                                                id="extra_name<?php echo $k ?>"
+                                                value="<?php echo htmlentities($extraData->field_name); ?>"
+                                        />
+                                        <input
+                                                type="file"
+                                                class="divfieldFile hide pull-left"
+                                                name="extra_name_file[]"
+                                        />
+                                    </td>
+>>>>>>> 85de238534c6cdd14591591e813e8484cf38f110
                                     <td>
                                         <input
                                                 type="text"
                                                 name="extra_value[]"
                                                 class="form-control"
-                                                value="<?php echo $this->lists['extra_data'][$k]->field_value; ?>"
+                                                value="<?php echo $extraData->field_value; ?>"
                                                 id="extra_value<?php echo $k ?>"
                                         />
                                         <input
                                                 type="hidden"
-                                                value="<?php echo htmlentities($this->lists['extra_data'][$k]->value_id); ?>"
+                                                value="<?php echo htmlentities($extraData->value_id); ?>"
                                                 name="value_id[]"
                                                 id="value_id<?php echo $k ?>"
                                         />
                                     </td>
                                     <td>
+<<<<<<< HEAD
                                         <input
                                                 type="text"
                                                 class="divfieldText hide form-control"
@@ -304,6 +329,16 @@ $editor = JEditor::getInstance();
                                                 class="divfieldFile hide pull-left"
                                                 name="extra_name_file[]"
                                         />
+=======
+										<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $extraData->field_name) && $extraData->field_name != '') : ?>
+                                            <img
+                                                    width="100"
+                                                    height="100"
+                                                    class="img-polaroid"
+                                                    src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $extraData->field_name; ?>"
+                                            />
+										<?php endif; ?>
+>>>>>>> 85de238534c6cdd14591591e813e8484cf38f110
                                     </td>
 
                                     <td>
@@ -313,9 +348,15 @@ $editor = JEditor::getInstance();
                                         <?php endif; ?>
                                     </td>
                                 </tr>
+<<<<<<< HEAD
                             <?php endfor; ?>
                         <?php else: ?>
                             <?php $k = 1; ?>
+=======
+							<?php endforeach; ?>
+						<?php else: ?>
+							<?php $k = 1; ?>
+>>>>>>> 85de238534c6cdd14591591e813e8484cf38f110
                             <tr>
                                 <td>
 
