@@ -32,22 +32,22 @@ class InstallRedShopCest
 	 *
 	 * @return void
 	 */
-	public function testInstallJoomla(\AcceptanceTester $i)
+	public function testInstallJoomla(\AcceptanceTester $client)
 	{
-        $adminLoginPageUrl = $I->getLocatorPath('adminLoginPageUrl');
+        $adminLoginPageUrl = $client->getLocatorPath('adminLoginPageUrl');
 
-        $i->wantTo('Execute Joomla Installation');
+        $client->wantTo('Execute Joomla Installation');
         $this->faker = \Faker\Factory::create();
-        $i->installJoomlaRemovingInstallationFolder();
+        $client->installJoomlaRemovingInstallationFolder();
 
         if ($adminLoginPageUrl !== false)
         {
-            $i->amOnPage($adminLoginPageUrl);
+            $client->amOnPage($adminLoginPageUrl);
         }
 
-        $i->doAdministratorLogin();
-        $i->wait(2);
-        $i->executeInSelenium(
+        $client->doAdministratorLogin();
+        $client->wait(2);
+        $client->executeInSelenium(
             function (RemoteWebDriver $webdriver) {
                 if (count($webdriver->findElements(\WebDriverBy::xpath("//a[contains(text(), 'PLG_SYSTEM_STATS_BTN_NEVER_SEND')]"))) > 0)
                 {
@@ -60,7 +60,7 @@ class InstallRedShopCest
             }
         );
 
-        $i->setErrorReportingtoDevelopment();
+        $client->setErrorReportingtoDevelopment();
 	}
 
 	/**
