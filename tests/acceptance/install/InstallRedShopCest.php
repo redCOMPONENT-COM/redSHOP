@@ -36,9 +36,7 @@ class InstallRedShopCest
 	{
 
         $i->wantTo('Execute Joomla Installation');
-        $this->faker = \Faker\Factory::create();
         $i->installJoomlaRemovingInstallationFolder();
-        $i->setErrorReportingtoDevelopment();
 	}
 
 	/**
