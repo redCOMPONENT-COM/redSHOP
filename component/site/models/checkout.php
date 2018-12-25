@@ -2055,7 +2055,7 @@ class RedshopModelCheckout extends RedshopModel
 			'if(chkvalidaion() && validation()){checkout_disable(\'checkout_final\');}' : 'if(chkvalidaion()){checkout_disable(\'checkout_final\');}';
 
 		$checkout = '<div id="checkoutfinal" style="float: right;">';
-		$checkout .= '<input type="submit" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="' . $checkoutOnClick . '"/>';
+		$checkout .= '<input type="button" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="' . $checkoutOnClick . '"/>';
 		$checkout .= '<input type="hidden" name="task" value="checkoutfinal" />';
 		$checkout .= '<input type="hidden" name="view" value="checkout" />';
 		$checkout .= '<input type="hidden" name="option" value="com_redshop" />';

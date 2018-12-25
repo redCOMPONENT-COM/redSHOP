@@ -49,7 +49,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\MassDiscountManagerPage::$categoryForm);
 		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
 		$useMassDiscountPage = new \MassDiscountManagerPage();
-		$I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
+		$I->waitForElement($useMassDiscountPage->returnXpath($nameCategory), 30);
 		$I->click($useMassDiscountPage->returnXpath($nameCategory));
 
 //        $I->click(\MassDiscountManagerPage::$discountForm);
