@@ -32,7 +32,7 @@ class InstallRedShopCest
 	 *
 	 * @return void
 	 */
-	public function testInstallJoomla(\AcceptanceTester $client)
+	public function testInstallJoomla(\AcceptanceTester $client, $scenario)
 	{
         $adminLoginPageUrl = $client->getLocatorPath('adminLoginPageUrl');
 
@@ -61,30 +61,16 @@ class InstallRedShopCest
         );
 
         $client->setErrorReportingtoDevelopment();
-	}
 
-	/**
-	 * Test to Install redSHOP Extension on Joomla
-	 *
-	 * @param   AcceptanceTester  $I  Actor Class Object
-	 *
-	 * @return void
-	 */
-	public function testInstallRedShopExtension(AcceptanceTester $I, $scenario)
-	{
-        $I->wantTo('Install extension');
-        $I->doAdministratorLogin();
-        $I->disableStatistics();
+        $client->disableStatistics();
+        $client->wantTo('I Install redSHOP');
+        $client = new AdminManagerJoomla3Steps($scenario);
+        $client->installComponent('packages url', 'redshop.zip');
+        $client->waitForText('installed successfully', 120, ['id' => 'system-message-container']);
 
-
-        $I->wantTo('I Install redSHOP');
-        $I = new AdminManagerJoomla3Steps($scenario);
-        $I->installComponent('packages url', 'redshop.zip');
-        $I->waitForText('installed successfully', 120, ['id' => 'system-message-container']);
-
-        $I->wantTo('install demo data');
-        $I->waitForElement(\AdminJ3Page::$installDemoContent, 30);
-        $I->click(\AdminJ3Page::$installDemoContent);
-        $I->waitForText('Data Installed Successfully', 120, ['id' => 'system-message-container']);
+        $client->wantTo('install demo data');
+        $client->waitForElement(\AdminJ3Page::$installDemoContent, 30);
+        $client->click(\AdminJ3Page::$installDemoContent);
+        $client->waitForText('Data Installed Successfully', 120, ['id' => 'system-message-container']);
 	}
 }
