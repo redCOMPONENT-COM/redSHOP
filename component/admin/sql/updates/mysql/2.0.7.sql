@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_voucher` (
   UNIQUE INDEX `#__rs_voucher_code` (`code` ASC),
   INDEX `#__rs_voucher_common` (`code` ASC, `published` ASC, `start_date` ASC, `end_date` ASC),
   INDEX `#__rs_voucher_left` (`voucher_left` ASC))
+ROW_FORMAT=DYNAMIC
 ENGINE = InnoDB;
 
 
