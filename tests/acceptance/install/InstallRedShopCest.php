@@ -62,7 +62,7 @@ class InstallRedShopCest
 
         $client->setErrorReportingtoDevelopment();
 
-        $client->disableStatistics();
+//        $client->disableStatistics();
         $client->wantTo('I Install redSHOP');
         $client = new AdminManagerJoomla3Steps($scenario);
         $client->installComponent('packages url', 'redshop.zip');
