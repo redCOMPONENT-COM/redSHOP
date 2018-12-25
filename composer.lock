@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6da0ff6b469b1c6c003947fac6435426",
-    "content-hash": "5922358be999a86c3cb7424e1a687233",
+    "hash": "0e72684082c6eb659aa8ffb20b5d58cb",
+    "content-hash": "ff5b39e106929d2056d2c3fbe07118c3",
     "packages": [
         {
             "name": "joomla/joomla-cms",
@@ -1733,30 +1733,24 @@
         },
         {
             "name": "joomla-projects/joomla-browser",
-            "version": "v3.8.11",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "c3a26e25aa17bcec4b08683bf507f8aba18619c4"
+                "reference": "9dea2d39e0b98c86097001652b9255f2f726d1d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/c3a26e25aa17bcec4b08683bf507f8aba18619c4",
-                "reference": "c3a26e25aa17bcec4b08683bf507f8aba18619c4",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/9dea2d39e0b98c86097001652b9255f2f726d1d7",
+                "reference": "9dea2d39e0b98c86097001652b9255f2f726d1d7",
                 "shasum": ""
             },
             "require": {
-                "consolidation/robo": "^1",
-                "php": ">=5.5.9",
-                "symfony/console": "~3|~4",
-                "symfony/filesystem": "~3|~4",
-                "symfony/finder": "~3|~4",
-                "symfony/process": "~3|~4",
-                "symfony/yaml": "~3|~4"
+                "consolidation/robo": "~1",
+                "php": ">=5.5.9"
             },
             "require-dev": {
-                "codeception/codeception": "~2.4",
-                "joomla-projects/joomla-testing-robo": "dev-container-test"
+                "joomla-projects/joomla-testing-robo": "~1.0"
             },
             "type": "library",
             "autoload": {
@@ -1786,7 +1780,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2018-09-10 12:01:28"
+            "time": "2018-03-19 10:31:50"
         },
         {
             "name": "joomla-projects/joomla-testing",

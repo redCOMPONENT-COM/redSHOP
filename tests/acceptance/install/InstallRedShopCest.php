@@ -32,45 +32,37 @@ class InstallRedShopCest
 	 *
 	 * @return void
 	 */
-	public function testInstallJoomla(\AcceptanceTester $client, $scenario)
+	public function testInstallJoomla(\AcceptanceTester $i)
 	{
-        $adminLoginPageUrl = $client->getLocatorPath('adminLoginPageUrl');
 
-        $client->wantTo('Execute Joomla Installation');
+        $i->wantTo('Execute Joomla Installation');
         $this->faker = \Faker\Factory::create();
-        $client->installJoomlaRemovingInstallationFolder();
+        $i->installJoomlaRemovingInstallationFolder();
+        $i->setErrorReportingtoDevelopment();
+	}
 
-        if ($adminLoginPageUrl !== false)
-        {
-            $client->amOnPage($adminLoginPageUrl);
-        }
+	/**
+	 * Test to Install redSHOP Extension on Joomla
+	 *
+	 * @param   AcceptanceTester  $I  Actor Class Object
+	 *
+	 * @return void
+	 */
+	public function testInstallRedShopExtension(AcceptanceTester $I, $scenario)
+	{
+        $I->wantTo('Install extension');
+        $I->doAdministratorLogin();
+        $I->disableStatistics();
 
-        $client->doAdministratorLogin();
-        $client->wait(2);
-        $client->executeInSelenium(
-            function (RemoteWebDriver $webdriver) {
-                if (count($webdriver->findElements(\WebDriverBy::xpath("//a[contains(text(), 'PLG_SYSTEM_STATS_BTN_NEVER_SEND')]"))) > 0)
-                {
-                    $webdriver->findElement(\WebDriverBy::xpath("//a[contains(text(), 'PLG_SYSTEM_STATS_BTN_NEVER_SEND')]"))->click();
-                }
-                else
-                {
-                    $webdriver->findElement(\WebDriverBy::xpath("//div[contains(@class, 'alert-info')]//a[contains(text(), 'Never')]"))->click();
-                }
-            }
-        );
 
-        $client->setErrorReportingtoDevelopment();
+        $I->wantTo('I Install redSHOP');
+        $I = new AdminManagerJoomla3Steps($scenario);
+        $I->installComponent('packages url', 'redshop.zip');
+        $I->waitForText('installed successfully', 120, ['id' => 'system-message-container']);
 
-//        $client->disableStatistics();
-        $client->wantTo('I Install redSHOP');
-        $client = new AdminManagerJoomla3Steps($scenario);
-        $client->installComponent('packages url', 'redshop.zip');
-        $client->waitForText('installed successfully', 120, ['id' => 'system-message-container']);
-
-        $client->wantTo('install demo data');
-        $client->waitForElement(\AdminJ3Page::$installDemoContent, 30);
-        $client->click(\AdminJ3Page::$installDemoContent);
-        $client->waitForText('Data Installed Successfully', 120, ['id' => 'system-message-container']);
+        $I->wantTo('install demo data');
+        $I->waitForElement(\AdminJ3Page::$installDemoContent, 30);
+        $I->click(\AdminJ3Page::$installDemoContent);
+        $I->waitForText('Data Installed Successfully', 120, ['id' => 'system-message-container']);
 	}
 }

@@ -29,7 +29,13 @@ class AdminManagerJoomla3Steps extends Redshop
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
-		$I->fillField(\AdminJ3Page::$urlID, $path);
+        try {
+            $I->waitForElement(\AdminJ3Page::$urlID, 10);
+        } catch (\Exception $e) {
+            $I->click(\AdminJ3Page::$link);
+            $I->waitForElement(\AdminJ3Page::$urlID, 10);
+        }
+        $I->fillField(\AdminJ3Page::$urlID, $path);
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
 	}
