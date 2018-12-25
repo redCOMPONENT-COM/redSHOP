@@ -25,12 +25,35 @@ class InstallRedShopCest
 	 *
 	 * @return void
 	 */
-	public function testInstallJoomla(AcceptanceTester $I)
+	public function testInstallJoomla(\AcceptanceTester $I)
 	{
-		$I->wantTo('Execute Joomla Installation');
-		$I->installJoomlaRemovingInstallationFolder();
-		$I->doAdministratorLogin();
-		$I->setErrorReportingtoDevelopment();
+        $adminLoginPageUrl = $I->getLocatorPath('adminLoginPageUrl');
+
+        $i->wantTo('Execute Joomla Installation');
+        $this->faker = \Faker\Factory::create();
+        $i->installJoomlaRemovingInstallationFolder();
+
+        if ($adminLoginPageUrl !== false)
+        {
+            $i->amOnPage($adminLoginPageUrl);
+        }
+
+        $i->doAdministratorLogin();
+        $i->wait(2);
+        $i->executeInSelenium(
+            function (RemoteWebDriver $webdriver) {
+                if (count($webdriver->findElements(\WebDriverBy::xpath("//a[contains(text(), 'PLG_SYSTEM_STATS_BTN_NEVER_SEND')]"))) > 0)
+                {
+                    $webdriver->findElement(\WebDriverBy::xpath("//a[contains(text(), 'PLG_SYSTEM_STATS_BTN_NEVER_SEND')]"))->click();
+                }
+                else
+                {
+                    $webdriver->findElement(\WebDriverBy::xpath("//div[contains(@class, 'alert-info')]//a[contains(text(), 'Never')]"))->click();
+                }
+            }
+        );
+
+        $i->setErrorReportingtoDevelopment();
 	}
 
 	/**
@@ -45,6 +68,8 @@ class InstallRedShopCest
         $I->wantTo('Install extension');
         $I->doAdministratorLogin();
         $I->disableStatistics();
+
+
         $I->wantTo('I Install redSHOP');
         $I = new AdminManagerJoomla3Steps($scenario);
         $I->installComponent('packages url', 'redshop.zip');
