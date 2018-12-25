@@ -37,12 +37,11 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$userOrderPage = new \OrderManagerPage();
 
 		$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-		$I->waitForElement($userOrderPage->returnSearch($nameUser));
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
 		$I->see($nameUser);
-		$I->wait(3);
+		$I->wait(2);
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
@@ -59,7 +58,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(\OrderManagerPage::$buttonSave);
 		$I->waitForElement(\OrderManagerPage::$close, 30);
-		$I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
+		$I->waitForText(\OrderManagerPage::$buttonClose, 10, \OrderManagerPage::$close);
 	}
 
 	public function editOrder($nameUser, $status, $paymentStatus, $newQuantity)
@@ -168,12 +167,12 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
 		$I->see($priceTotalOnCart);
 		$I->click(\ProductManagerPage::$buttonCheckOut);
-		$I->waitForElement(\ProductManagerPage::$priceEnd);
+		$I->waitForElement(\ProductManagerPage::$priceEnd, 30);
 		$I->see($priceTotalOnCart);
 		$I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
 		$I->click(\ProductManagerPage::$acceptTerms);
 		$I->click(\ProductManagerPage::$checkoutFinalStep);
-		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
+		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend, 30);
 		$I->see($priceTotalOnCart);
 	}
 
@@ -186,15 +185,20 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
 		$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
-		$I->waitForElement($userOrderPage->returnSearch($nameUser));
 		$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
 		$I->see($nameUser);
-		$I->wait(0.1);
+		$I->wait(1);
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
-		$I->waitForElement(\OrderManagerPage::$productId, 30);
+		try{
+            $I->waitForElement(\OrderManagerPage::$productId, 5);
+        }catch (\Exception $e)
+        {
+            $I->executeJS("jQuery('.button-apply').click()");
+        }
+		$I->waitForElement(\OrderManagerPage::$productId, 10);
 		$I->scrollTo(\OrderManagerPage::$productId);
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
 		$I->click(\OrderManagerPage::$productId);
@@ -249,13 +253,13 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
 		$I->see($priceTotalOnCart);
 		$I->click(\ProductManagerPage::$buttonCheckOut);
-		$I->waitForElement(\ProductManagerPage::$priceEnd);
+		$I->waitForElement(\ProductManagerPage::$priceEnd, 60);
 		$I->see($priceTotalOnCart);
 		$I->click(\ProductManagerPage::$bankTransfer);
 		$I->waitForElement(\ProductManagerPage::$acceptTerms, 30);
 		$I->click(\ProductManagerPage::$acceptTerms);
 		$I->click(\ProductManagerPage::$checkoutFinalStep);
-		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend);
+		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend, 30);
 		$I->see($priceTotalOnCart);
 	}
 }
