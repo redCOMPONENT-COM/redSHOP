@@ -233,9 +233,6 @@ class RedshopTableMass_Discount extends RedshopTable
 			return false;
 		}
 
-		// Convert end date to same day but at middle night
-		$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
-
 		if ($this->start_date > $this->end_date)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'), 'error');
