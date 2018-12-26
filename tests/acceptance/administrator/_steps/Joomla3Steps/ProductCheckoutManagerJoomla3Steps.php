@@ -818,7 +818,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
+//				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 			} else {
 				$I->comment('checkout with private');
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
@@ -945,7 +945,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->seeElement(['link' => $productName]);
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
         $I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-        $I->acceptPopup();
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
