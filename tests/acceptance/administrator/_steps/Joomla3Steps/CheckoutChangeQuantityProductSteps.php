@@ -42,9 +42,9 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 30);
-		$I->wait(0.5);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 60);
 		$productFrontEndManagerPage = new \CheckoutChangeQuantityProductPage();
+		$I->pauseExecution();
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 
 		try
@@ -56,6 +56,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		}
 		$I->seeCheckboxIsChecked(\CheckoutChangeQuantityProductPage::$acceptTerms);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+        $I->pauseExecution();
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress,60);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
@@ -63,12 +64,10 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
 		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$headBilling, 30, null);
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceTotal);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-		
+
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 	}
 }
