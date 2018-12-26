@@ -957,6 +957,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
+
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
         $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->waitForText($subTotal, 30,\FrontEndProductManagerJoomla3Page::$priceTotal);
