@@ -369,13 +369,13 @@ switch ($name)
 	case 'quotation_detail':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_QUOTATION_DETAIL_HINT'); ?></b><br /><br />
-		{print} {quotation_information_lbl} {quotation_id_lbl} {quotaion_id} {quotation_number_lbl} {quotation_number} {quotation_date_lbl} {quotation_date} {quotation_status_lbl} {quotation_status} {quotation_note_lbl} {quotation_note} {account_information_lbl} {account_information} {quotation_detail_lbl} {product_name_lbl} {note_lbl} {price_lbl} {quantity_lbl} {total_price_lbl} {product_loop_start} {product_name} {product_attribute} {product_accessory} {product_number_lbl} {product_number} {product_price} {product_quantity} {product_total_price} {product_loop_end} {product_userfields} {quotation_subtotal_lbl} {quotation_subtotal} {total_lbl} {quotation_total} {quotation_discount_lbl} {quotation_discount}
+		{print} {quotation_information_lbl} {quotation_id_lbl} {quotaion_id} {quotation_number_lbl} {quotation_number} {quotation_date_lbl} {quotation_date} {quotation_status_lbl} {quotation_status} {quotation_note_lbl} {quotation_note} {account_information_lbl} {account_information} {quotation_detail_lbl} {product_name_lbl} {note_lbl} {price_lbl} {quantity_lbl} {total_price_lbl} {product_loop_start} {product_name} {product_attribute} {product_accessory} {product_number_lbl} {product_number} {product_price} {product_quantity} {product_total_price} {product_loop_end} {product_userfields} {quotation_subtotal_lbl} {quotation_subtotal} {total_lbl} {quotation_total} {quotation_discount_lbl} {quotation_discount} {quotation_custom_field_list}
 		<?php
 		break;
 	case 'quotation_request':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_QUOTATION_REQUEST_HINT'); ?></b><br /><br />
-		{order_detail_lbl} {product_name_lbl} {quantity_lbl} {product_loop_start} {product_name} {product_attribute} {product_accessory} {product_userfields} {update_cart} {product_wrapper} {product_loop_end} {customer_note_lbl} {customer_note} {billing_address_information_lbl} {billing_address} {cancel_btn} {request_quotation_btn}
+		{order_detail_lbl} {product_name_lbl} {quantity_lbl} {product_loop_start} {product_name} {product_attribute} {product_accessory} {product_userfields} {update_cart} {product_wrapper} {product_loop_end} {customer_note_lbl} {customer_note} {billing_address_information_lbl} {billing_address} {cancel_btn} {request_quotation_btn} {quotation_custom_field_list}
 		<?php
 		break;
 	case 'redproductfinder':

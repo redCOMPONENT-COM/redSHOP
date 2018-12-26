@@ -46,7 +46,7 @@ class RedshopViewCheckout extends RedshopView
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.common.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/registration.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.registration.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
 
@@ -86,17 +86,17 @@ class RedshopViewCheckout extends RedshopView
 		$lists['allowCustomer'] = "";
 		$lists['allowCompany']  = "";
 
-		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 3)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != "0")
 		{
 			$lists['allowCompany']  = "style='display:none;'";
 			$lists['allowCustomer'] = "style='display:none;'";
 		}
 
-		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 1)
+		if (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == "1")
 		{
 			$openToStretcher = 0;
 		}
-		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
+		elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == "2")
 		{
 			$openToStretcher = 1;
 		}

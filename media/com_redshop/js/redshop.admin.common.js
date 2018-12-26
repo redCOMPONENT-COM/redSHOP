@@ -1164,3 +1164,35 @@ function getStateList() {
 	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
 }
+
+function getStateList_Zipcode() {
+
+    var xmlhttp = GetXmlHttpObject();
+    if (xmlhttp == null) {
+        alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
+        return;
+    }
+    var selected = new Array();
+    var mySelect = document.adminForm.country_code;
+    var p = 0;
+    for (var i = 0; i < mySelect.options.length; i++) {
+        if (mySelect.options[i].selected == true) {
+            selected[p++] = mySelect.options[i].value;
+        }
+    }
+
+    $("#s2id_state_code span.select2-chosen").empty();
+
+    var url = "index.php?option=com_redshop&view=zipcode_detail&task=getStateDropdown";
+    url = url + "&country_codes=" + selected.join(',');
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {
+            document.getElementById("state_code").innerHTML = xmlhttp.responseText;
+        }
+    };
+
+    xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xmlhttp.send(null);
+}

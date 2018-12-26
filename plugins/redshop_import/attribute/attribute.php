@@ -257,7 +257,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($propertyStock[0]))
 								->where($db->quoteName('section') . ' = ' . $db->quote('property'))
 								->where($db->quoteName('section_id') . ' = ' . $db->quote($propertyId));
-							$db->setQuery($query)->clear();
+							$db->setQuery($query)->execute();
 						}
 						else
 						{
