@@ -21,14 +21,14 @@ class Property
 	/**
 	 * Method for replace product properties add to cart
 	 *
-	 * @param   integer $productId     Product ID
-	 * @param   integer $propertyId    Property ID
-	 * @param   integer $categoryId    Category ID
-	 * @param   string  $commonId      DOM ID
-	 * @param   integer $propertyStock Property stock
-	 * @param   string  $propertyData  Property Data
-	 * @param   array   $cartTemplate  Cart template
-	 * @param   string  $content       Template content
+	 * @param   integer      $productId     Product ID
+	 * @param   integer      $propertyId    Property ID
+	 * @param   integer      $categoryId    Category ID
+	 * @param   string       $commonId      DOM ID
+	 * @param   integer      $propertyStock Property stock
+	 * @param   string       $propertyData  Property Data
+	 * @param   array|object $cartTemplate  Cart template
+	 * @param   string       $content       Template content
 	 *
 	 * @return  mixed|string
 	 * @throws  \Exception
