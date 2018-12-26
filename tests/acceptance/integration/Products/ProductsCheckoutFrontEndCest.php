@@ -54,11 +54,6 @@ class ProductsCheckoutFrontEndCest
 		$this->priceProductForThan          = 10;
 
 	}
-	public function deleteData($scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
 
 	/**
 	 * @param AcceptanceTester $I
@@ -136,8 +131,13 @@ class ProductsCheckoutFrontEndCest
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->click(\AdminJ3Page::$checkoutButton);
-		$I->waitForElement($productFrontEndManagerPage->product($productName),30);
-		$I->seeElement($productFrontEndManagerPage->product($productName));
+		try{
+            $I->waitForElement($productFrontEndManagerPage->product($productName),5);
+        }catch (\Exception $e)
+        {
+            $I->click(\AdminJ3Page::$checkoutButton);
+            $I->waitForElement($productFrontEndManagerPage->product($productName),5);
+        }
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$orderReceipt, 10, \FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
