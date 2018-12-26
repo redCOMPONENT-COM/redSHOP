@@ -42,21 +42,22 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions, 30);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 30);
 		$I->wait(0.5);
-		$I->scrollTo(\CheckoutChangeQuantityProductPage::$termAndConditions);
-		$I->wait(0.5);
-		$I->executeJS("jQuery('#termscondition').click()");
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
-		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-		$I->wait(2);
+		$productFrontEndManagerPage = new \CheckoutChangeQuantityProductPage();
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 		try
 		{
-			$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress,5);
-		}catch (\Exception $e)
+			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}catch (Exception $e)
 		{
-			$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+			$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
+		$I->seeCheckboxIsChecked(\CheckoutChangeQuantityProductPage::$acceptTerms);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress,60);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
