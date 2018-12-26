@@ -34,7 +34,8 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->pressKey(\CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
 		$quantities = 10;
 		$quantity = str_split($quantities);
-		foreach ($quantity as $char) {
+		foreach ($quantity as $char)
+		{
 			$I->pressKey(\CheckoutChangeQuantityProductPage::$quantityField, $char);
 		}
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$updateCartButton, 30);
@@ -50,10 +51,11 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		try
 		{
 			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}catch (Exception $e)
+		}catch (\Exception $e)
 		{
 			$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
+
 		$I->seeCheckboxIsChecked(\CheckoutChangeQuantityProductPage::$acceptTerms);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
         $I->pauseExecution();
