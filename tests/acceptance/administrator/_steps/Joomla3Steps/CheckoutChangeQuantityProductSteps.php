@@ -44,32 +44,34 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 60);
-		$productFrontEndManagerPage = new \CheckoutChangeQuantityProductPage();
-		$I->pauseExecution();
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		$I->waitForText($total, 30);
 
-		try
-		{
-			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}catch (\Exception $e)
-		{
-			$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}
-
-		$I->seeCheckboxIsChecked(\CheckoutChangeQuantityProductPage::$acceptTerms);
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
-        $I->pauseExecution();
-		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress,60);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
-		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
-
-        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
-        $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+//		$productFrontEndManagerPage = new \CheckoutChangeQuantityProductPage();
+//		$I->pauseExecution();
+//		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+//
+//		try
+//		{
+//			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+//		}catch (\Exception $e)
+//		{
+//			$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+//		}
+//
+//		$I->seeCheckboxIsChecked(\CheckoutChangeQuantityProductPage::$acceptTerms);
+//		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+//        $I->pauseExecution();
+//		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+//		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress,60);
+//		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
+//		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
+//		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
+//		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
+//		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
+//
+//        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+//        $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+//        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+//        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 	}
 }
