@@ -82,7 +82,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$featureSetting);
 		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
-		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
 		$I->click(\ConfigurationPage::$comparisonYes);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
@@ -132,7 +131,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationPage::$countrySearchPrice, 5);
 		$I->fillField(\ConfigurationPage::$countrySearchPrice, $country);
 		$userConfigurationPage = new \ConfigurationPage();
-		$I->waitForElement($userConfigurationPage->returnChoice($country));
+		$I->waitForElement($userConfigurationPage->returnChoice($country), 30);
 		if ($country == 'Denmark')
 		{
 			$I->pressKey(\ConfigurationPage::$countrySearchPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
@@ -147,7 +146,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->click(\ConfigurationPage::$statePrice);
 			$I->waitForElement(\ConfigurationPage::$stateSearchPrice, 5);
 			$I->fillField(\ConfigurationPage::$stateSearchPrice, $state);
-			$I->waitForElement($userConfigurationPage->returnChoice($state));
+			$I->waitForElement($userConfigurationPage->returnChoice($state), 30);
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
 		
@@ -155,14 +154,14 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);
 		$I->fillField(\ConfigurationPage::$vatSearchGroup, $vatDefault);
-		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault));
+		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault), 30);
 		$I->click(\ConfigurationPage::$varFirstResults);
 
 		//get vat base on
 		$I->click(\ConfigurationPage::$vatDefaultBase);
 		$I->waitForElement(\ConfigurationPage::$vatSearchDefaultBase, 5);
 		$I->fillField(\ConfigurationPage::$vatSearchDefaultBase, $vatCalculation);
-		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation));
+		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation), 30);
 		$I->click(\ConfigurationPage::$searchDefaultFirstResult);
 
 		//apply vat on discount
@@ -216,10 +215,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($addcart)
 		{
 			case 'product':
-				$I->click(\ConfigurationPage::$addCartProduct);
+                $I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
-				$I->click(\ConfigurationPage::$addCartAttibute);
+                $I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
 		switch ($allowPreOrder)
@@ -267,7 +266,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonCartLead);
 		$I->waitForElement(\ConfigurationPage::$buttonCartSearch);
 		$I->fillField(\ConfigurationPage::$buttonCartSearch, $buttonCartLead);
-		$I->waitForElement($userConfiguration->returnChoice($buttonCartLead));
+		$I->waitForElement($userConfiguration->returnChoice($buttonCartLead),30);
 		$I->click(\ConfigurationPage::$firstCartSearch);
 
 		switch ($onePage)
@@ -317,33 +316,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
 
-	// Enable Quantity in Configuration (Allow user change quantity product in checkout page)
-	public function configChangeQuantityProduct($quantity ='3')
-	{
-		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->click(\ConfigurationPage::$onePageYes);
-		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartYes, 30);
-		$I->click(\ConfigurationPage::$quantityChangeInCartYes);
-		$I->click(\ConfigurationPage::$quantityInCart);
-		$I->fillField(\ConfigurationPage::$quantityInCart, $quantity) ;
-		$I->click(\ConfigurationPage::$showSameAddressForBillingYes);
-		$I->click(\ConfigurationPage::$buttonSave);
-	}
-	// Disable Quantity in Configuration (Not allow user change quantity when checkout)
-	public function returnConfigChangeQuantityProduct()
-	{
-		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$cartCheckout);
-		$I->click(\ConfigurationPage::$onePageNo);
-		$I->waitForElement(\ConfigurationPage::$quantityChangeInCartNo, 30);
-		$I->click(\ConfigurationPage::$quantityChangeInCartNo);
-		$I->click(\ConfigurationPage::$showSameAddressForBillingNo);
-		$I->click(\ConfigurationPage::$buttonSave);
-	}
-
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
@@ -360,7 +332,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 					$I->click(\ConfigurationPage::$allowedDiscountId);
 					$I->waitForElement(\ConfigurationPage::$allowDiscountSearch, 30);
 					$I->fillField(\ConfigurationPage::$allowDiscountSearch, $discount['allow']);
-					$I->waitForElement($userConfiguration->returnChoice($discount['allow']));
+					$I->waitForElement($userConfiguration->returnChoice($discount['allow']), 30);
 					$I->pressKey(\ConfigurationPage::$allowDiscountSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 				}
 
@@ -430,7 +402,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 					$I->click(\ConfigurationPage::$valueDiscountCouponId);
 					$I->waitForElement(\ConfigurationPage::$valueDiscountCouponSearch, 30);
 					$I->fillField(\ConfigurationPage::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
-					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']));
+					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']), 30);
 //					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']));
 					$I->pressKey(\ConfigurationPage::$valueDiscountCouponSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 				}
@@ -439,47 +411,48 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
-    /**
-     * @param $name
-     */
-    public function searchOrder($name)
-    {
-        $I = $this;
-        $I->wantTo('Search the User ');
-        $I->amOnPage(\OrderManagerPage::$URL);
-        $I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
-    }
-    /**
-     * @param $price
-     * @param $order
-     */
-    public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName)
-    {
-        $I = $this;
-        $I->amOnPage(\ConfigurationPage::$URL);
-        $currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
-        $decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
-        $numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
-        $numberOfPriceDecimals = (int)$numberOfPriceDecimals;
-        $NumberZero = null;
-        for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
-        {
-            $NumberZero = $NumberZero."0";
-        }
-        $I->amOnPage(\OrderManagerPage::$URL);
-        $I->searchOrder($order);
-        $I->click(\OrderManagerPage::$iconEdit);
-        $quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
-        $quantity = (int)$quantity;
-        $priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
-        $priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
-        $firstName = 'First Name: '.$firstName;
-        $lastName = 'Last Name: '.$lastName;
-        $I->see($firstName);
-        $I->see($lastName);
-        $I->see($productName);
-        $I->see($categoryName);
-        $I->see($priceProduct);
-        $I->see($priceTotal);
-    }
+	/**
+	 * @param $name
+	 */
+	public function searchOrder($name)
+	{
+		$I = $this;
+		$I->wantTo('Search the User ');
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
+	}
+	/**
+	 * @param $price
+	 * @param $order
+	 */
+	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->searchOrder($order);
+		$I->click(\OrderManagerPage::$iconEdit);
+		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$firstName = 'First Name: '.$firstName;
+		$lastName = 'Last Name: '.$lastName;
+		$I->see($firstName);
+		$I->see($lastName);
+		$I->see($paymentMethod);
+		$I->see($productName);
+		$I->see($categoryName);
+		$I->see($priceProduct);
+		$I->see($priceTotal);
+	}
 }

@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_wishlist_product_item` (
   REFERENCES `#__redshop_product_subattribute_color` (`subattribute_color_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+  ROW_FORMAT=DYNAMIC
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
   COMMENT = 'Wishlist product item';
