@@ -46,7 +46,7 @@ class RedshopViewCheckout extends RedshopView
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.common.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/registration.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.registration.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
 
