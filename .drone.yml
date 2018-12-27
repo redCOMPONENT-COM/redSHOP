@@ -61,6 +61,7 @@ pipeline:
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
+
     00-setup-stages:
         group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -99,28 +100,6 @@ pipeline:
         - sh tests/drone/setup-stages.sh "Price_Product"        "20-Price_Product"
         - sh tests/drone/setup-stages.sh "Supplier"             "21-Supplier"
         - sh tests/drone/setup-stages.sh "Tax_Group"            "22-Tax_Group"
-        - sh tests/drone/setup-stages.sh "Tax_Rate"             "23-Tax_Rate"
-        - sh tests/drone/setup-stages.sh "Wrapper"              "24-Wrapper"
-        - sh tests/drone/setup-stages.sh "Shipping"             "25-Shipping"
-        - sh tests/drone/setup-stages.sh "Stockroom"            "26-Stockroom"
-        - sh tests/drone/setup-stages.sh "Stock_Image"          "27-Stock_Image"
-        - sh tests/drone/setup-stages.sh "User"                 "28-User"
-        - sh tests/drone/setup-stages.sh "Shopper_Group"        "29-Shopper_Group"
-        - sh tests/drone/setup-stages.sh "Checkout_Quantity"    "30-Checkout_Quantity"
-        - sh tests/drone/setup-stages.sh "ProductManagement"    "31-ProductManagement"
-        - sh tests/drone/setup-stages.sh "Compare_Products"     "32-Compare_Products"
-        - sh tests/drone/setup-stages.sh "Manufacturer"         "33-Manufacturer"
-        - sh tests/drone/setup-stages.sh "VAT"                  "34-VAT"
-#        - sh tests/drone/setup-stages.sh "Stockroom_Checkout"   "35-Stockroom_Checkout"
-        - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout" "36-Shopper_Groups_Checkout"
-#        - sh tests/drone/setup-stages.sh "Products_FrontEnd"    "37-Products_FrontEnd"
-        - sh tests/drone/setup-stages.sh "Notices"              "38-Notices"
-#        - sh tests/drone/setup-stages.sh "OrderBackendProductAttribute"   "39-OrderBackendProductAttribute"
-        - sh tests/drone/setup-stages.sh "Product_Attribute"    "40-Product_Attribute"
-        - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"   "41-Quotation_FrontEnd"
-        - sh tests/drone/setup-stages.sh "Discounts"            "42-Discounts"
-        - sh tests/drone/setup-stages.sh "Order_Checkout"       "43-Order_Checkout"
-        - sh tests/drone/setup-stages.sh "One_Steps_Checkout"   "44-One_Steps_Checkout"
 
     01-Mail:
         group: 01-tests
@@ -495,6 +474,40 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Tax_Group 0 0'
+
+    00-02-setup-stages:
+        group: 02-tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+        - tests_user=admin
+        - tests_suite=00-setup
+        - tests_db=setup
+        - build_path=/drone/src/github.com/${DRONE_REPO}
+        - output_append=-00-b-setup-stages
+        commands:
+        # Stages setup
+        - sh tests/drone/setup-stages.sh "Tax_Rate"             "23-Tax_Rate"
+        - sh tests/drone/setup-stages.sh "Wrapper"              "24-Wrapper"
+        - sh tests/drone/setup-stages.sh "Shipping"             "25-Shipping"
+        - sh tests/drone/setup-stages.sh "Stockroom"            "26-Stockroom"
+        - sh tests/drone/setup-stages.sh "Stock_Image"          "27-Stock_Image"
+        - sh tests/drone/setup-stages.sh "User"                 "28-User"
+        - sh tests/drone/setup-stages.sh "Shopper_Group"        "29-Shopper_Group"
+        - sh tests/drone/setup-stages.sh "Checkout_Quantity"    "30-Checkout_Quantity"
+        - sh tests/drone/setup-stages.sh "ProductManagement"    "31-ProductManagement"
+        - sh tests/drone/setup-stages.sh "Compare_Products"     "32-Compare_Products"
+        - sh tests/drone/setup-stages.sh "Manufacturer"         "33-Manufacturer"
+        - sh tests/drone/setup-stages.sh "VAT"                  "34-VAT"
+        #        - sh tests/drone/setup-stages.sh "Stockroom_Checkout"   "35-Stockroom_Checkout"
+        - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout" "36-Shopper_Groups_Checkout"
+        #        - sh tests/drone/setup-stages.sh "Products_FrontEnd"    "37-Products_FrontEnd"
+        - sh tests/drone/setup-stages.sh "Notices"              "38-Notices"
+        #        - sh tests/drone/setup-stages.sh "OrderBackendProductAttribute"   "39-OrderBackendProductAttribute"
+        - sh tests/drone/setup-stages.sh "Product_Attribute"    "40-Product_Attribute"
+        - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"   "41-Quotation_FrontEnd"
+        - sh tests/drone/setup-stages.sh "Discounts"            "42-Discounts"
+        - sh tests/drone/setup-stages.sh "Order_Checkout"       "43-Order_Checkout"
+        - sh tests/drone/setup-stages.sh "One_Steps_Checkout"   "44-One_Steps_Checkout"
 
     23-Tax_Rate:
         group: 02-tests
