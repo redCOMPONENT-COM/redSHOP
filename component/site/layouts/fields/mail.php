@@ -18,9 +18,4 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-?>
-
-<tr>
-    <td><?php echo $extra_field_label ?>:</td>
-    <td><?php echo $extra_field_value ?></td>
-</tr>
+echo $extraFieldValue;
