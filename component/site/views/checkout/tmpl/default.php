@@ -249,6 +249,7 @@ else
             <input type="hidden" name="is_company" id="is_company" value="<?php echo $is_company; ?>"/>
             <input type="hidden" name="shopper_group_id" value="1"/>
             <input type="hidden" name="task" value="checkoutprocess"/>
+            <input type="hidden" name="setexit" value="1"/>
 
         </form>
     </div>

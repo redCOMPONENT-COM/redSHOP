@@ -37,7 +37,7 @@ if ($post["user_id"] < 0)
 	<?php if ($isEdit == 1) : ?>
 		setTimeout(function(){
 			window.parent.location.href = '<?php echo JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false); ?>';
-		}, 3000);
+		}, 0);
 	<?php endif; ?>
 	function cancelForm(frm) {
 		frm.task.value = 'cancel';
@@ -75,4 +75,5 @@ if ($this->params->get('show_page_heading', 1))
 	<input type="hidden" name="address_type" value="BT"/>
 	<input type="hidden" name="is_company" id="is_company" value="<?php echo $this->billingaddresses->is_company; ?>"/>
 	<input type="hidden" name="Itemid" value="<?php echo $itemId; ?>"/>
+	<input type="hidden" name="setexit" value="1"/>
 </form>
