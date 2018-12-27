@@ -1,17 +1,18 @@
 #!/bin/bash
 
-tests_db=$1
-tests_suite=$2
+setup_tests_db=$1
+tests_db=$2
+tests_suite=$3
 
 # Prepares and restores DB
 mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
 DBCONN="-h db -u root -proot"
 fCreateTable=""
 fInsertData=""
-for TABLE in `echo "SHOW TABLES" | mysql $DBCONN tests_db | tail -n +2`; do
-        createTable=`echo "SHOW CREATE TABLE ${TABLE}"|mysql -B -r $DBCONN tests_db|tail -n +2|cut -f 2-`
+for TABLE in `echo "SHOW TABLES" | mysql $DBCONN $setup_tests_db | tail -n +2`; do
+        createTable=`echo "SHOW CREATE TABLE ${TABLE}"|mysql -B -r $DBCONN $setup_tests_db|tail -n +2|cut -f 2-`
         fCreateTable="${fCreateTable} ; ${createTable}"
-        insertData="INSERT INTO ${tests_db}.${TABLE} SELECT * FROM tests_db.${TABLE}"
+        insertData="INSERT INTO ${tests_db}.${TABLE} SELECT * FROM ${setup_tests_db}.${TABLE}"
         fInsertData="${fInsertData} ; ${insertData}"
 done;
 echo "$fCreateTable ; $fInsertData" | mysql $DBCONN $tests_db
