@@ -100,7 +100,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
             $noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
             for ($it = 0; $it < count($noItems); $it++)
             {
-                $orderItemName = str_replace('"', " ", $noItems[$it]->order_item_name);
+                $orderItemName = str_replace("\"", " ", $noItems[$it]->order_item_name);
                 if (!empty($orderItemName))
                 {
                     echo str_replace(",", " ", utf8_decode($orderItemName)) . " ,";
