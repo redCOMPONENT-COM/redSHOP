@@ -9,13 +9,14 @@ mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
 DBCONN="-h db -u root -proot"
 fCreateTable=""
 fInsertData=""
+sqlMode="set SESSION sql_mode = 'ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"
 for TABLE in `echo "SHOW TABLES" | mysql $DBCONN $setup_tests_db | tail -n +2`; do
         createTable=`echo "SHOW CREATE TABLE ${TABLE}"|mysql -B -r $DBCONN $setup_tests_db|tail -n +2|cut -f 2-`
         fCreateTable="${fCreateTable} ; ${createTable}"
         insertData="INSERT INTO ${tests_db}.${TABLE} SELECT * FROM ${setup_tests_db}.${TABLE}"
         fInsertData="${fInsertData} ; ${insertData}"
 done;
-echo "$fCreateTable ; $fInsertData" | mysql $DBCONN $tests_db
+echo "$sqlMode ; $fCreateTable ; $fInsertData" | mysql $DBCONN $tests_db
 
 # Creating clone of Joomla site
 mkdir -p tests/$tests_suite/joomla-cms
