@@ -1878,10 +1878,11 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->select('*')
+                    ->select('GROUP_CONCAT(' . $db->qn('section_name') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('section_name'))
 					->from($db->qn('#__redshop_order_attribute_item'))
 					->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
-					->where($db->qn('section') . ' = ' . $db->quote($section));
+					->where($db->qn('section') . ' = ' . $db->quote($section))
+                    ->group('order_item_id');
 
 		if ($orderItemId != 0)
 		{
