@@ -9,7 +9,7 @@ mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
 DBCONN="-h db -u root -proot"
 fCreateTable=""
 fInsertData=""
-sqlMode="set SESSION sql_mode = 'ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"
+sqlMode="SET FOREIGN_KEY_CHECKS=0; set SESSION sql_mode = 'ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'"
 for TABLE in `echo "SHOW TABLES" | mysql $DBCONN $setup_tests_db | tail -n +2`; do
         createTable=`echo "SHOW CREATE TABLE ${TABLE}"|mysql -B -r $DBCONN $setup_tests_db|tail -n +2|cut -f 2-`
         fCreateTable="${fCreateTable} ; ${createTable}"
