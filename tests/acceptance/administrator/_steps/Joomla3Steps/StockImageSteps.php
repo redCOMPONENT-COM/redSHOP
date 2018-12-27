@@ -93,7 +93,7 @@ class StockImageSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->wantTo('Search the Stock Image');
 		$I->waitForText(\StockImagePage::$namePage, 30);
-		$I->waitForElement(\StockImagePage::$search);
+		$I->waitForElement(\StockImagePage::$search, 30);
 		$I->filterListBySearching($name, \StockImagePage::$search);
 	}
 }
