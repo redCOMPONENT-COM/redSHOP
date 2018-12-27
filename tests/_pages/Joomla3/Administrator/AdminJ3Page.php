@@ -414,7 +414,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $acceptTerms = "//input[@id='termscondition']";
+	public static $acceptTerms = "(//label[@class=\"checkbox\"])[2]";
 	/**
 	 * @var string
 	 */
