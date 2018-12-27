@@ -9,15 +9,6 @@
 defined('_JEXEC') or die;
 extract($displayData);
 ?>
-
-<?php
-
-
-echo "<pre>";
-print_r($formData['redform']);
-echo "<pre>";
-
-?>
 <div class="form-horizontal">
     <div class="row-fluid">
 		<?php if ($params->category == 1 && !empty($categories)): ?>
