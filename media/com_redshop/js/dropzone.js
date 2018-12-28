@@ -891,11 +891,13 @@ var Dropzone = function (_Emitter) {
         // files are processed immediately.
         // Receives `file`
         processing: function processing(file) {
-          if (file.previewElement) {
-            file.previewElement.classList.add("dz-processing");
-            if (file._removeLink) {
-              return file._removeLink.textContent = this.options.dictCancelUpload;
-            }
+          var reloading_img = '<div class="image  wait-loading" ><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
+            $('#general_data').prepend(reloading_img);
+            if (file.previewElement) {
+              file.previewElement.classList.add("dz-processing");
+              if (file._removeLink) {
+                return file._removeLink.textContent = this.options.dictCancelUpload;
+              }
           }
         },
         processingmultiple: function processingmultiple() {},
@@ -941,6 +943,7 @@ var Dropzone = function (_Emitter) {
         // When the complete upload is finished and successful
         // Receives `file`
         success: function success(file) {
+          $('.wait-loading').remove();
           if (file.previewElement) {
             return file.previewElement.classList.add("dz-success");
           }
