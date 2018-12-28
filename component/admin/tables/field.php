@@ -30,6 +30,11 @@ class RedshopTableField extends RedshopTable
 	 */
 	public $id;
 
+    /**
+     * @var string
+     */
+    public $query;
+
 	/**
 	 * @var string
 	 */
@@ -276,50 +281,44 @@ class RedshopTableField extends RedshopTable
 				}
 			}
 		}
+        for ( $j = 0; $j < $total; $j++)
+        {
+            $filename = $extraNames[$j];
+            $set      = " field_name='" . $filename['name'] . "', ";
+            if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
+            {
+                if ($extraValues[$j] != "" && $extraNames[$j]['name'] != "" && $extraNames[$j]['error'] ==0 )
+                {
+                    $filename = RedshopHelperMedia::cleanFileName($extraNames[$j]['name']);
+                    $source      = $extraNames[$j]['tmp_name'];
+                    $destination = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
+                    JFile::upload($source, $destination);
+                    $set = " field_name='" . $filename . "', ";
+                }
+            }
+            if($extraNames[$j]['error'] == 0)
+            {
+                if($valueIds[$j] == "")
+                {
+                    $query = $db->getQuery(true)
+                        ->insert($db->qn('#__redshop_fields_value'))
+                        ->columns($db->qn(array('field_id', 'field_name', 'field_value')))
+                        ->values((int) $id . ', ' . $db->q($filename) . ', ' . $db->q($extraValues[$j]));
+                }else
+                {
+                    $query = $db->getQuery(true)
+                        ->update($db->qn('#__redshop_fields_value'))
+                        ->set($set . ' ' . $db->qn('field_value') . ' = ' . $db->q($extraValues[$j]))
+                        ->where($db->qn('value_id') . ' = ' . $valueIds[$j]);
+                }
+            }
+            if ($db->setQuery($query)->execute())
+            {
+                $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
-		for ($j = 0; $j < $total; $j++)
-		{
-			$filename = $extraNames[$j];
-			$set      = " field_name='" . $filename . "', ";
-
-			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
-			{
-				if ($extraValues[$j] != "" && $extraNames['name'][$j] != "")
-				{
-					$filename = RedshopHelperMedia::cleanFileName($extraNames['name'][$j]);
-
-					$source      = $extraNames['tmp_name'][$j];
-					$destination = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
-
-					JFile::upload($source, $destination);
-
-					$set = " field_name='" . $filename . "', ";
-				}
-			}
-
-			if ($valueIds[$j] == "")
-			{
-				$query = $db->getQuery(true)
-					->insert($db->qn('#__redshop_fields_value'))
-					->columns($db->qn(array('field_id', 'field_name', 'field_value')))
-					->values((int) $id . ', ' . $db->q($filename) . ', ' . $db->q($extraValues[$j]));
-			}
-			else
-			{
-				$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_fields_value'))
-					->set($set . ' ' . $db->qn('field_value') . ' = ' . $db->q($extraValues[$j]))
-					->where($db->qn('value_id') . ' = ' . $valueIds[$j]);
-			}
-
-			if (!$db->setQuery($query)->execute())
-			{
-				$this->setError($db->getErrorMsg());
-
-				return false;
-			}
-		}
-
-		return true;
-	}
+                return false;
+            }
+        }
+        return true;
+    }
 }

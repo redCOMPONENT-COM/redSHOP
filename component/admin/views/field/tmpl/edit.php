@@ -263,6 +263,21 @@ $editor = JEditor::getInstance();
                         </tr>
                         </thead>
                         <tbody>
+<<<<<<< HEAD
+                        <?php if (count($this->lists['extra_data']) > 0) : ?>
+                            <?php for ($k = 0, $extraCount = count($this->lists['extra_data']); $k < $extraCount; $k++) : ?>
+                                <tr>
+                                    <?php if (file_exists( REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name) && $this->lists['extra_data'][$k]->field_name != '') : ?>
+                                        <td>
+                                            <img
+                                                    width="100"
+                                                    height="100"
+                                                    class="img-polaroid"
+                                                    src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $this->lists['extra_data'][$k]->field_name; ?>"
+                                            />
+                                        </td>
+                                    <?php endif; ?>
+=======
 						<?php if (!empty($this->lists['extra_data'])) : ?>
 							<?php foreach ($this->lists['extra_data'] as $index => $extraData): ?>
                                 <tr>
@@ -296,6 +311,20 @@ $editor = JEditor::getInstance();
                                         />
                                     </td>
                                     <td>
+<<<<<<< HEAD
+                                        <input
+                                                type="text"
+                                                class="divfieldText hide form-control"
+                                                name="extra_name[]"
+                                                id="extra_name<?php echo $k ?>"
+                                                value="<?php echo htmlentities($this->lists['extra_data'][$k]->field_name); ?>"
+                                        />
+                                        <input
+                                                type="file"
+                                                class="divfieldFile hide pull-left"
+                                                name="extra_name_file[]"
+                                        />
+=======
 										<?php if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $extraData->field_name) && $extraData->field_name != '') : ?>
                                             <img
                                                     width="100"
@@ -317,20 +346,7 @@ $editor = JEditor::getInstance();
 							<?php $k = 1; ?>
                             <tr>
                                 <td>
-                                    <input
-                                            type="text"
-                                            class="divfieldText hide form-control"
-                                            name="extra_name[]"
-                                            id="extra_name1"
-                                            value="field_temp_opt_1"
-                                    />
-                                    <input
-                                            type="file"
-                                            class="divfieldFile hide"
-                                            name="extra_name_file[]"
-                                    />
-                                </td>
-                                <td>
+
                                     <input
                                             type="text"
                                             name="extra_value[]"
@@ -341,7 +357,6 @@ $editor = JEditor::getInstance();
                                             name="value_id[]"
                                     />
                                 </td>
-                                <td>&nbsp;</td>
                             </tr>
 						<?php endif; ?>
                         </tbody>
