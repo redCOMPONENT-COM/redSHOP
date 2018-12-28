@@ -29,10 +29,7 @@ class RedshopModelVoucher extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-		$data['start_date'] = strtotime($data['start_date']);
-		$data['end_date']   = strtotime($data['end_date']);
-
-		if ($data['start_date'] > $data['end_date'])
+		if (strtotime($data['start_date']) > strtotime($data['end_date']))
 		{
 			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_START_DATE_MUST_BE_SOONER_OR_EQUAL_TO_END_DATE'));
 
