@@ -375,7 +375,6 @@ $oneStepTemplateHtml = RedshopHelperTemplate::parseRedshopPlugin($oneStepTemplat
             // Modify validation settings
             $.extend(true, settings, {
                 rules: {
-                    // Add validation of year
                     payment_method_id: {
                         required: function () {
                             if ($("#adminForm [name='payment_method_id']") && !$("#adminForm [name='payment_method_id']").is(':checked')) {
