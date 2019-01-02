@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $model     = $this->getModel('checkout');
 $Itemid    = RedshopHelperRouter::getCheckoutItemId();
-$cart      = JFactory::getSession()->get('cart');
+$cart      = RedshopHelperCartSession::getCart();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '', false) ?>"

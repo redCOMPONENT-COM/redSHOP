@@ -20,8 +20,6 @@ $app  = JFactory::getApplication();
 $session = JFactory::getSession();
 $auth    = $session->get('auth');
 $carthelper      = rsCarthelper::getInstance();
-
-// Get redshop helper
 $itemId = RedshopHelperRouter::getCheckoutItemId();
 
 /** @var RedshopModelCheckout $model */

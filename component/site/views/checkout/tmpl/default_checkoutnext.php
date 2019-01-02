@@ -18,11 +18,8 @@ $carthelper = rsCarthelper::getInstance();
 $dispatcher = RedshopHelperUtility::getDispatcher();
 
 $user = JFactory::getUser();
-$cart = JFactory::getSession()->get('cart');
+$cart = RedshopHelperCartSession::getCart();
 $user_id = $user->id;
-
-// Get redshop helper
-
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
 
 if ($Itemid == 0)
