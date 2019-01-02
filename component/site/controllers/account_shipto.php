@@ -54,14 +54,14 @@ class RedshopControllerAccount_Shipto extends RedshopController
 		{
 			$link = JRoute::_(
 				'index.php?option=com_redshop&view=' . $return
-                . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $itemId,
+				. '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $itemId,
 				false
 			);
 
 			if (!isset($setExit) || $setExit != 0)
 			{
 				$app->redirect('index.php?option=com_redshop&view=account_shipto&tmpl=component&is_edit=1&return='
-                    . $return . '&Itemid=' . $itemId, $msg);
+					. $return . '&Itemid=' . $itemId, $msg);
 			}
 		}
 
