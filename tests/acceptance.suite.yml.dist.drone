@@ -25,7 +25,7 @@ modules:
             user: 'root'
             password: 'root'
         JoomlaBrowser:
-            url: 'http://php/tests/%tests_suite%/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://%php_server%/tests/%tests_suite%/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'chrome'
             window_size: 1920x1080
             restart: true
@@ -48,8 +48,8 @@ modules:
             joomla folder: '%build_path%/tests/%tests_suite%/joomla-cms/' # Path to Joomla installation where tests are executed in the apache server
             joomla folder local: '%build_path%/tests/%tests_suite%/joomla-cms/' # Path to Joomla installation in the local machine (where Codeception is running)
         AcceptanceHelper:
-            packages url: 'http://php/tests/releases/'     # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
-            packages previous: 'http://php/tests/extension/previous/'     # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
+            packages url: 'http://%php_server%/tests/releases/'     # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
+            packages previous: 'http://%php_server%/tests/extension/previous/'     # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
             extension folder: '%build_path%/'      # Path on the CI for Extension
             install demo data: 'No'                # If you wish to Install the Extension Demo Data then Keep this to Yes
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
