@@ -28,29 +28,10 @@ if (typeof(window['jQuery']) != "undefined") {
                 phone.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/) || phone.match(/^(\(?(0|\+44)[1-9]{1}\d{1,4}?\)?\s?\d{3,4}\s?\d{3,4})$/) || phone.match(/^((0|\+44)7(5|6|7|8|9){1}\d{2}\s?\d{6})$/) || phone.match(/^[0-9]{10}$|^\(0[1-9]{1}\)[0-9]{8}$|^[0-9]{8}$|^[0-9]{4}[ ][0-9]{3}[ ][0-9]{3}$|^\(0[1-9]{1}\)[ ][0-9]{4}[ ][0-9]{4}$|^[0-9]{4}[ ][0-9]{4}$/);
         }, Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE'));
 
-        rs.validator.addMethod('emailCheck', function (email) {
-            var postURL = "user/json_email_check";
-            $.ajax({
-                cache: false,
-                async: false,
-                type: "POST",
-                data: "email=" + email,
-                url: postURL,
+        rs.validator.messages.required = Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED');
 
-                success: function (msg) {
-
-                    result = (msg == 'TRUE') ? true : false;
-
-                }
-
-            });
-
-            return result;
-
-        }, '');
-
-        jQuery.validator.messages.required = Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED');
         rs("#adminForm").validate({
+            onkeyup: false, //turn off auto validate whilst typing
             rules: {
                 firstname: "required",
                 lastname: "required",
@@ -62,7 +43,18 @@ if (typeof(window['jQuery']) != "undefined") {
                             return false;
                         }
                     },
-                    minlength: 2
+                    minlength: 2,
+                    remote :
+                        {
+                            url: "index.php?tmpl=component&option=com_redshop&view=registration&task=ajaxValidateNewJoomlaUser",
+                            type: "post",
+                            data: {
+                                username: function() {
+                                    return rs("#adminForm input[name='username']").val();
+                                }
+                            },
+                            async: false
+                        }
                 },
                 company_name: {
                     required: function () {
@@ -174,7 +166,8 @@ if (typeof(window['jQuery']) != "undefined") {
                 phone: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_PHONE'),
                 username: {
                     required: Joomla.JText._('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME'),
-                    minlength: Joomla.JText._('COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT')
+                    minlength: Joomla.JText._('COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT'),
+                    remote: Joomla.JText._('COM_REDSHOP_USERNAME_ALREADY_EXISTS')
                 },
                 email1: {
                     required: Joomla.JText._('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS')
@@ -201,7 +194,18 @@ if (typeof(window['jQuery']) != "undefined") {
                     negative: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'),
                     number: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT')
                 }
-            }
+            },
+            /*invalidHandler: function(e,validator) {
+                //validator.errorList contains an array of objects, where each object has properties "element" and "message".  element is the actual HTML Input.
+                for (var i=0;i<validator.errorList.length;i++){
+                    console.log(validator.errorList[i]);
+                }
+
+                //validator.errorMap is an object mapping input names -> error messages
+                for (var i in validator.errorMap) {
+                    console.log(i, ":", validator.errorMap[i]);
+                }
+            },*/
         });
 
         // propose username by combining first- and lastname
@@ -219,6 +223,5 @@ if (typeof(window['jQuery']) != "undefined") {
             }
             return !this.optional(element);
         }, "");
-
     });
 }

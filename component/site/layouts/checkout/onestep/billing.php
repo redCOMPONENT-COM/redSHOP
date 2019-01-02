@@ -54,7 +54,7 @@ $input = JFactory::getApplication()->input;
 <?php endif; ?>
 <?php if ($registerMethod != 1 && $registerMethod != 3): ?>
     <div id="onestep-createaccount-wrapper"
-         style="display: <?php echo Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 ? 'block' : 'none' ?>;">
+         style="display: <?php echo (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 || $registerMethod == 0) ? 'block' : 'none' ?>;">
         <div class="form-group">
             <label><?php echo JText::_('COM_REDSHOP_USERNAME_REGISTER') ?></label>
             <input class="inputbox form-control required" type="text" name="username"

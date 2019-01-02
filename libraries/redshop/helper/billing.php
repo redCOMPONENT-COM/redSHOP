@@ -218,8 +218,15 @@ class RedshopHelperBilling
 				$createAccountHtml = str_replace("{newsletter_signup_chk}", $newsletterSignupCheckHtml, $createAccountHtml);
 			}
 
-			$templateHtml = $createAccountHtmlStart[0] . '<div id="tdUsernamePassword" ' . $checkboxStyle . '>' . $createAccountHtml . '</div>' .
-				$createAccountHtmlEnd[1];
+			if (!empty(\JFactory::getUser()->id))
+			{
+				$templateHtml = $createAccountHtmlStart[0] . $createAccountHtmlEnd[1];
+			}
+			else
+			{
+				$templateHtml = $createAccountHtmlStart[0] . '<div id="tdUsernamePassword" ' . $checkboxStyle . '>' . $createAccountHtml . '</div>' .
+					$createAccountHtmlEnd[1];
+			}
 		}
 
 		$templateHtml .= '<div id="tmpRegistrationDiv" style="display: none;"></div>';

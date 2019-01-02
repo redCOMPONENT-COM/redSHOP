@@ -718,6 +718,7 @@ function getBillingTemplate(el)
 		success: function(html) {
 			jQuery('#wrapper-billing').html('');
 			jQuery('#wrapper-billing').append(html);
+            jQuery('#wrapper-billing select:not(".disableBootstrapChosen")').select2();
 			jQuery(document).trigger("AfterGetBillingTemplate");
 
 			var event = {};
