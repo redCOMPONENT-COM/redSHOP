@@ -1348,17 +1348,22 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$copycategory[$i] = $categorydata[$i]->category_id;
 				}
 
-				$query = 'SELECT stockroom_id,quantity FROM ' . $this->table_prefix . 'product_stockroom_xref
-					  WHERE product_id IN ( ' . $pdata->product_id . ' )';
-				$this->_db->setQuery($query);
-				$stockroomdata = $this->_db->loadObjectList();
-				$copystockroom = array();
-				$copyquantity  = array();
+				$query = $this->_db->getQuery(true);
+				$query->select('*')
+					->from($this->_db->qn($this->table_prefix . 'product_stockroom_xref'))
+					->where($this->_db->qn('product_id') . 'IN(' . $pdata->product_id . ')');
+				$stockroomdata          = $this->_db->setQuery($query)->loadObjectList();
+				$copystockroom          = array();
+				$copyquantity           = array();
+				$copypreorder_stock     = array();
+				$copyordered_preorder   = array();
 
 				for ($i = 0, $in = count($stockroomdata); $i < $in; $i++)
 				{
-					$copystockroom[$i] = $stockroomdata[$i]->stockroom_id;
-					$copyquantity[$i]  = $stockroomdata[$i]->quantity;
+					$copystockroom[$i]          = $stockroomdata[$i]->stockroom_id;
+					$copyquantity[$i]           = $stockroomdata[$i]->quantity;
+					$copypreorder_stock[$i]     = $stockroomdata[$i]->preorder_stock;
+					$copyordered_preorder[$i]   = $stockroomdata[$i]->ordered_preorder;
 				}
 
 				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_accessory WHERE product_id IN ( ' . $pdata->product_id . ' )';
@@ -1434,6 +1439,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post['canonical_url']                 = $pdata->canonical_url;
 				$post['product_category']              = $copycategory;
 				$post['quantity']                      = $copyquantity;
+				$post['preorder_stock']                = $copypreorder_stock;
+				$post['ordered_preorder']              = $copyordered_preorder;
 				$post['stockroom_id']                  = $copystockroom;
 				$post['product_accessory']             = $copyaccessory;
 				$post['use_individual_payment_method'] = $pdata->use_individual_payment_method;
@@ -1523,7 +1530,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				RedshopHelperExtrafields::copyProductExtraField($pdata->product_id, $row->product_id);
 
 				// End.
-				$this->SaveStockroom($row->product_id, $post);
 				$this->copyProductAttribute($pdata->product_id, $row->product_id);
 				$this->copyDiscountCalcdata($pdata->product_id, $row->product_id, $pdata->discount_calc_method);
 
