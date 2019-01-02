@@ -28,6 +28,11 @@ class PlgRedshop_PaymentRs_Payment_BankTransfer extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
+		if ($element != 'rs_payment_banktransfer')
+		{
+			return false;
+		}
+
 		// Send the Order mail
 		if (Redshop::getConfig()->get('ORDER_MAIL_AFTER'))
 		{
