@@ -45,9 +45,11 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 	 */
 	public function exportOrder()
 	{
-		$productHelper = productHelper::getInstance();
-		$model         = $this->getModel();
-		$data          = $model->exportOrder();
+        $productHelper = productHelper::getInstance();
+        $model         = $this->getModel();
+        $data          = $model->exportOrder();
+        $noProducts    = $model->countProductByOrder();
+        $productCount  = array();
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
@@ -55,11 +57,24 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 		header("Content-type: application/csv");
 		header('Content-Disposition: attachment; filename=Order.csv');
 
+        for ($i = 0, $in = count($data); $i < $in; $i++)
+        {
+            $productCount[] = $noProducts [$i]->noproduct;
+        }
+        $noProducts = max($productCount);
+
 		ob_clean();
 
 		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
 		echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
-		echo "Billing postalcode, Billing city, Billing country,Billing User, Product name, Product price, Product attribute, ";
+		echo "Billing postalcode, Billing city, Billing country,Billing User, ";
+
+        for ($i = 1; $i <= $noProducts; $i++)
+        {
+            echo JText::_('COM_REDSHOP_PRODUCT_NAME') . $i . ' ,';
+            echo JText::_('COM_REDSHOP_PRODUCT') . ' ' . JText::_('COM_REDSHOP_PRODUCT_PRICE') . $i . ' ,';
+            echo JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE') . $i . ' ,';
+        }
 
 		echo "Order Total\n";
 
@@ -98,7 +113,8 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 			echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(",", " ", $billingInfo->lastname) . " ,";
 
             $noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
-            for ($it = 0, $itn = count($noItems); $it < $itn; $it++)
+
+            for ($it = 0, $countItem = count($noItems); $it < $countItem; $it++)
             {
                 if (!empty($noItems[$it]->order_item_name))
                 {
@@ -110,17 +126,33 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
                     echo '' . ",";
                 }
 
-                echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItems[$it]->product_final_price . ",";
-
-                $attItems = RedshopHelperOrder::getOrderItemAttributeDetail($noItems[$it]->order_item_id, 0, 'property');
-                if (!empty($attItems))
+                if (!empty($noItems[$it]->product_final_price))
                 {
-                    echo str_replace(",", " ", $attItems[$it]->section_name) . ",";
+                    echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItems[$it]->product_final_price . ",";
                 }
                 else
                 {
                     echo '' . ",";
                 }
+
+                $attItems = RedshopHelperOrder::getOrderItemAttributeDetail($noItems[$it]->order_item_id, 0, 'property');
+                for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
+                {
+                    if (!empty($attItems[$at]->section_name))
+                    {
+                        echo str_replace(",", " ", $attItems[$at]->section_name) . ",";
+                    }
+                    else
+                    {
+                        echo '' . ",";
+                    }
+                }
+            }
+
+            $temp = $noProducts - count($noItems);
+            if ($temp >= 0)
+            {
+                echo str_repeat(' ,', $temp * 3);
             }
 
 			echo  Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
