@@ -290,11 +290,11 @@ class RedshopControllerOrder extends RedshopController
 
 			if (empty($details))
 			{
-				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ," . ",";
 			}
 			else
 			{
-				echo '';
+				echo '' . ",";
 			}
 
 			$shipping_info = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
@@ -317,13 +317,37 @@ class RedshopControllerOrder extends RedshopController
 
 			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
-				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
-				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price . ",";
+                if (!empty($no_items[$it]->order_item_name))
+                {
+                    $orderItemName = str_replace("\"", " ", $no_items[$it]->order_item_name);
+                    echo str_replace(",", " ", utf8_decode($orderItemName)) . " ,";
+                }
+                else
+                {
+                    echo '' . ",";
+                }
 
-				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
-				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
+                if (!empty($no_items[$it]->product_final_price))
+                {
+                    echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items[$it]->product_final_price . ",";
+                }
+                else
+                {
+                    echo '' . ",";
+                }
 
-				echo trim(utf8_decode($product_attribute)) . " ,";
+                $attItems = RedshopHelperOrder::getOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
+                for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
+                {
+                    if (!empty($attItems[$at]->section_name))
+                    {
+                        echo str_replace(",", " ", $attItems[$at]->section_name) . ",";
+                    }
+                    else
+                    {
+                        echo '' . ",";
+                    }
+                }
 			}
 
 			$temp = $no_products - count($no_items);
