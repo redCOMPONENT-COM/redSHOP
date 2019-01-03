@@ -16,6 +16,7 @@
  * @since    2.1
  */
 use AcceptanceTester\AdminManagerJoomla3Steps as AdminManagerJoomla3Steps;
+use \Facebook\WebDriver\Remote\RemoteWebDriver;
 class InstallRedShopCest
 {
 	/**
@@ -27,9 +28,15 @@ class InstallRedShopCest
 	 */
 	public function testInstallJoomla(AcceptanceTester $I)
 	{
+        $adminLoginPageUrl = $I->getLocatorPath('adminLoginPageUrl');
 		$I->wantTo('Execute Joomla Installation');
 		$I->installJoomlaRemovingInstallationFolder();
-		$I->doAdministratorLogin();
+
+        if ($adminLoginPageUrl !== false)
+        {
+            $I->amOnPage($adminLoginPageUrl);
+        }
+        $I->doAdministratorLogin();
         $I->wait(2);
         $I->executeInSelenium(
             function (RemoteWebDriver $webdriver) {
