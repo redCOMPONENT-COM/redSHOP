@@ -97,7 +97,7 @@ pipeline:
         # pull: true
         environment:
         - tests_user=admin
-        - tests_suite=01-setup
+        - tests_suite=setup
         - tests_db=01_setup
         - php_server=php71
         - build_path=/drone/src/github.com/${DRONE_REPO}
@@ -129,14 +129,14 @@ pipeline:
         - rsync -a tests/joomla-cms/ tests/$tests_suite/joomla-cms
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
-        - su www-data -c 'vendor/bin/robo tests:setup 0 0'
+        - su www-data -c 'vendor/bin/robo tests:setup 1 1'
 
     01-setup-stages:
         group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
-        - tests_suite=01-setup
+        - tests_suite=setup
         - tests_db=01_setup
         - php_server=php71
         - build_path=/drone/src/github.com/${DRONE_REPO}
@@ -211,4 +211,3 @@ services:
         - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
 branches:
     exclude: [ crowdin ]
-    
