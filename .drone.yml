@@ -55,7 +55,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
 
     00-setup-stages:
-        group: 1-tests
+        group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -74,7 +74,7 @@ pipeline:
         - sh tests/drone/setup-stages.sh "Mail"                 "01-Mail"
 
     01-Mail:
-        group: 1-tests
+        group: tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -132,7 +132,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
 
         01-setup-stages:
-            group: 02-tests
+            group: 01-tests
             image: redwebaps/testbox-chromedriver:2.38
             environment:
             - tests_user=admin
@@ -151,7 +151,7 @@ pipeline:
             - sh tests/drone/setup-stages.sh "01_Mail"                 "02-Mail"
 
         02-Mail:
-            group: 1-tests
+            group: 01-tests
             image: redwebaps/testbox-chromedriver:2.38
             environment:
             - tests_user=admin
