@@ -45,7 +45,6 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 	 */
 	public function exportOrder()
 	{
-		$productHelper = productHelper::getInstance();
 		$model         = $this->getModel();
 		$data          = $model->exportOrder();
 
@@ -97,7 +96,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 			echo $billingInfo->country_code . " ,";
 			echo str_replace(",", " ", $billingInfo->firstname) . " " . str_replace(",", " ", $billingInfo->lastname) . " ,";
 
-            $noItems = RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
+            $noItems = (array) RedshopHelperOrder::getOrderItemDetail($data[$i]->order_id);
             for ($it = 0, $itn = count($noItems); $it < $itn; $it++)
             {
                 if (!empty($noItems[$it]->order_item_name))

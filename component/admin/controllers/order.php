@@ -234,8 +234,6 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper = productHelper::getInstance();
-
 		/** @var RedshopModelOrder $model */
 		$model = $this->getModel('order');
 
@@ -313,7 +311,7 @@ class RedshopControllerOrder extends RedshopController
 			echo $billing_info->country_code . " ,";
 			echo str_replace(",", " ", $billing_info->firstname) . " " . str_replace(",", " ", $billing_info->lastname) . " ,";
 
-			$no_items = RedshopHelperOrder::getOrderItemDetail($data [$i]->order_id);
+			$no_items = (array) RedshopHelperOrder::getOrderItemDetail($data [$i]->order_id);
 
 			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
