@@ -70,4 +70,3 @@ class InstallRedShopCest
         $I->waitForText('Data Installed Successfully', 120, ['id' => 'system-message-container']);
 	}
 }
-
