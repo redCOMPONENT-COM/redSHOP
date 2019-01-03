@@ -211,3 +211,4 @@ services:
         - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
 branches:
     exclude: [ crowdin ]
+    
