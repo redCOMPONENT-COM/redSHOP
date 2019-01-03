@@ -149,6 +149,11 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 	public function store($data)
 	{
+		if ($data['quotation_discount'] > $data['quotation_subtotal'])
+		{
+			$data['quotation_discount'] = $data['quotation_subtotal'];
+		}
+
 		$row = $this->getTable();
 
 		if (!$row->bind($data))
