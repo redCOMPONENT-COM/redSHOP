@@ -131,42 +131,42 @@ pipeline:
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
 
-        01-setup-stages:
-            group: 01-tests
-            image: redwebaps/testbox-chromedriver:2.38
-            environment:
-            - tests_user=admin
-            - tests_suite=01-setup
-            - tests_db=01_setup
-            - php_server=php71
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-01-b-setup-stages
-            commands:
-            # Final DB dump with full Joomla/extension setup
-            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
-            - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
-            - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
-            - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "01_Mail"                 "02-Mail"
+    01-setup-stages:
+        group: 01-tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+        - tests_user=admin
+        - tests_suite=01-setup
+        - tests_db=01_setup
+        - php_server=php71
+        - build_path=/drone/src/github.com/${DRONE_REPO}
+        - output_append=-01-b-setup-stages
+        commands:
+        # Final DB dump with full Joomla/extension setup
+        - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
+        - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
+        - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
+        - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
+        # Stages setup
+        - sh tests/drone/setup-stages.sh "01_Mail"                 "02-Mail"
 
-        02-Mail:
-            group: 01-tests
-            image: redwebaps/testbox-chromedriver:2.38
-            environment:
-            - tests_user=admin
-            - tests_suite=02-Mail
-            - tests_db=01_Mail
-            - php_server=php71
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-02-Mail
-            commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Communications/Mail 0 0'
+    02-Mail:
+        group: 01-tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+        - tests_user=admin
+        - tests_suite=02-Mail
+        - tests_db=01_Mail
+        - php_server=php71
+        - build_path=/drone/src/github.com/${DRONE_REPO}
+        - output_append=-02-Mail
+        commands:
+        # Regular entry point
+        - /entrypoint.sh &
+        # Performs test after ensuring that the scenario has been fully set up
+        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+        # Performs test
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Communications/Mail 0 0'
 
     slack:
         image: plugins/slack
