@@ -137,7 +137,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		if ($this->isTagExists('{category_name}') && $this->isTagRegistered('{category_name}') && isset($category->name))
 		{
-			$categoryName = '<a href="' . JRoute::_($link) . '" title="' . $category->name . '">' . $category->name . '</a>';
+			$categoryName = '<a href="' . $link . '" ' . $title . '>' . $category->name . '</a>';
 			$template     = str_replace("{category_name}", $categoryName, $template);
 		}
 
