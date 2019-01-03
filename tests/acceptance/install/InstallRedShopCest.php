@@ -16,6 +16,7 @@
  * @since    2.1
  */
 use AcceptanceTester\AdminManagerJoomla3Steps as AdminManagerJoomla3Steps;
+use \Facebook\WebDriver\Remote\RemoteWebDriver;
 class InstallRedShopCest
 {
 	/**
