@@ -80,7 +80,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 				echo '' . ",";
 			}
 
-			$shippingInfo = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
+			$shippingInfo = /** @scrutinizer ignore-deprecated */ RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
 
 			echo str_replace(",", " ", $shippingInfo->firstname) . " " . str_replace(",", " ", $shippingInfo->lastname) . " ,";
 			echo str_replace(",", " ", utf8_decode($shippingInfo->address)) . " ,";
