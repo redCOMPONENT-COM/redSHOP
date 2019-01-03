@@ -556,14 +556,14 @@ class RedshopControllerOrder extends RedshopController
 			$product_download_days_time = (time() + ($days * 24 * 60 * 60));
 
 			$endtime = mktime(
-				$clock, $clock_min, 0, date("m", $product_download_days_time), date("d", $product_download_days_time),
-				date("Y", $product_download_days_time)
+				$clock, $clock_min, 0, date("m", (string) $product_download_days_time), date("d", (string) $product_download_days_time),
+				date("Y", (string) $product_download_days_time)
 			);
 
 			// If download product is set to infinit
 			$endtime = ($product_download_infinite == 1) ? 0 : $endtime;
 
-			$model->updateDownloadSetting($download_id, $limit, $endtime);
+			$model->/** @scrutinizer ignore-call */updateDownloadSetting($download_id, $limit, $endtime);
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid [0]);
