@@ -461,7 +461,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		/**
 		 * @var array Trigger redSHOP Product Plugin
 		 */
-		$result = $dispatcher->trigger('onAfterAdminSaveProduct', array(&$row, $isNew));
+		 $dispatcher->trigger('onAfterAdminSaveProduct', array(&$row, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -1305,9 +1305,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
         if($publish==1)
         {
-            $result = $dispatcher->trigger('onAfterProductPublish', array());
+             $dispatcher->trigger('onAfterProductPublish', array());
         }else{
-            $result = $dispatcher->trigger('onAfterProductUnpublish', array());
+             $dispatcher->trigger('onAfterProductUnpublish', array());
         }
 
 		return true;
@@ -1601,7 +1601,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-        $result = $dispatcher->trigger('onAfterAdminCreateProduct', array());
+         $dispatcher->trigger('onAfterAdminCreateProduct', array());
 
 		return $row;
 	}

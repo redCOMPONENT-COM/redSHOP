@@ -159,7 +159,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
         $dispatcher = RedshopHelperUtility::getDispatcher();
 
-        $result = $dispatcher->trigger('onAfterAdminAddItemOrder', array());
+        $dispatcher->trigger('onAfterAdminAddItemOrder', array());
 
 		if ($tmpl)
 		{
@@ -208,7 +208,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
         $dispatcher = RedshopHelperUtility::getDispatcher();
 
-        $result = $dispatcher->trigger('onAfterAdminDeleteItemOrder', array());
+        $dispatcher->trigger('onAfterAdminDeleteItemOrder', array());
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
@@ -220,7 +220,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
         $dispatcher = RedshopHelperUtility::getDispatcher();
 
-        $result = $dispatcher->trigger('onAfterAdminUpdateAttributeItemOrder', array());
+        $dispatcher->trigger('onAfterAdminUpdateAttributeItemOrder', array());
 
 		/** @var RedshopModelOrder_detail $model */
 		$model = $this->getModel('order_detail');
@@ -260,7 +260,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
         $dispatcher = RedshopHelperUtility::getDispatcher();
 
-        $result = $dispatcher->trigger('onAfterAdminUpdateDiscountOrder', array());
+        $dispatcher->trigger('onAfterAdminUpdateDiscountOrder', array());
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
@@ -287,7 +287,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
         $dispatcher = RedshopHelperUtility::getDispatcher();
 
-        $result = $dispatcher->trigger('onAfterAdminUpdateSpecialDiscountOrder', array());
+       $dispatcher->trigger('onAfterAdminUpdateSpecialDiscountOrder', array());
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}

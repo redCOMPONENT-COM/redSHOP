@@ -1089,7 +1089,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
         $dispatcher = RedshopHelperUtility::getDispatcher();
 
-        $result = $dispatcher->trigger('onAfterAdminUpdateRateOrder', array());
+        $dispatcher->trigger('onAfterAdminUpdateRateOrder', array());
 
 		return true;
 	}
@@ -1119,7 +1119,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
             $dispatcher = RedshopHelperUtility::getDispatcher();
 
-            $result = $dispatcher->trigger('onAfterAdminUpdateShippingAddOrder', array());
+            $dispatcher->trigger('onAfterAdminUpdateShippingAddOrder', array());
 
 			return true;
 		}
@@ -1154,7 +1154,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
             $dispatcher = RedshopHelperUtility::getDispatcher();
 
-            $result = $dispatcher->trigger('onAfterAdminUpdateBillingAddOrder', array());
+            $dispatcher->trigger('onAfterAdminUpdateBillingAddOrder', array());
 
 			return true;
 		}

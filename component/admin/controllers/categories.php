@@ -77,9 +77,9 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 
         if($value==1)
         {
-            $result = $dispatcher->trigger('onAfterAdminPublishCategory', array());
+            $dispatcher->trigger('onAfterAdminPublishCategory', array());
         }else{
-            $result = $dispatcher->trigger('onAfterAdminUnpublishCategory', array());
+            $dispatcher->trigger('onAfterAdminUnpublishCategory', array());
         }
 
     }
@@ -91,7 +91,7 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 
         RedshopControllerAdminBase::delete();
 
-        $result = $dispatcher->trigger('onAfterAdminDeleteCategory', array());
+        $dispatcher->trigger('onAfterAdminDeleteCategory', array());
     }
 }
 
