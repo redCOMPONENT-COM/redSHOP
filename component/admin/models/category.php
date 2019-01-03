@@ -238,6 +238,8 @@ class RedshopModelCategory extends RedshopModelForm
 	 */
 	public function copy(&$pks)
 	{
+        JPluginHelper::importPlugin('redshop_category');
+
 		if (!count($pks))
 		{
 			return false;
@@ -295,6 +297,8 @@ class RedshopModelCategory extends RedshopModelForm
 					JFile::copy($src, $dest);
 				}
 			}
+
+            RedshopHelperUtility::getDispatcher()->trigger('onAfterCreateCategory', array(&$row));
 
 			$this->save($post);
 		}

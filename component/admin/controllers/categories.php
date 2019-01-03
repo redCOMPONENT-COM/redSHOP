@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-
+use Joomla\Utilities\ArrayHelper;
 /**
  * Categories list controller
  *
@@ -64,5 +64,34 @@ class RedshopControllerCategories extends RedshopControllerAdmin
 
 		$this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
 	}
+    public function publish()
+    {
+        JPluginHelper::importPlugin('category');
+        JPluginHelper::importPlugin('logman');
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $value = ArrayHelper::getValue($this->states, $this->getTask(), 0, 'int');
+
+        // call function Publish form class RedshopControllerAdminBase
+        RedshopControllerAdminBase::publish();
+
+        if($value==1)
+        {
+            $result = $dispatcher->trigger('onAfterAdminPublishCategory', array());
+        }else{
+            $result = $dispatcher->trigger('onAfterAdminUnpublishCategory', array());
+        }
+
+    }
+    public function delete()
+    {
+        JPluginHelper::importPlugin('category');
+        JPluginHelper::importPlugin('logman');
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        RedshopControllerAdminBase::delete();
+
+        $result = $dispatcher->trigger('onAfterAdminDeleteCategory', array());
+    }
 }
 

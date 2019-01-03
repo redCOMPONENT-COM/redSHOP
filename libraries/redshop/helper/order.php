@@ -1475,8 +1475,16 @@ class RedshopHelperOrder
 		self::createBookInvoice($orderId, $newStatus);
 
 		$msg       = JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $orderId;
+		
+        JPluginHelper::importPlugin('logman');
+        JPluginHelper::importPlugin('redshop');
 
-		$isArchive = ($app->input->getInt('isarchive')) ? '&isarchive=1' : '';
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $result = $dispatcher->trigger('onAfterAdminUpdateOrderInfor', array());
+
+
+        $isArchive = ($app->input->getInt('isarchive')) ? '&isarchive=1' : '';
 
 		if ($return == 'order')
 		{
