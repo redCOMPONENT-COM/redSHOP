@@ -48,19 +48,6 @@ class CheckoutDiscountTotalCest
 	}
 
 	/**
-	 * Clean up data.
-	 *
-	 * @param $scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
-	/**
 	 * Run before test.
 	 *
 	 * @param AcceptanceTester $I
@@ -116,20 +103,5 @@ class CheckoutDiscountTotalCest
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithDiscount($this->ProductName, $this->CategoryName, $this->subtotal, $this->Discount, $this->Total);
 
-	}
-
-	/**
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
-	 * Clear database
-	 *
-	 * @depends checkoutWithDiscountTotal
-	 */
-	public function clearUp(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }
