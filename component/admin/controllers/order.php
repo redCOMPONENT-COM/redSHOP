@@ -236,7 +236,7 @@ class RedshopControllerOrder extends RedshopController
 
 		/** @var RedshopModelOrder $model */
 		$model = $this->getModel('order');
-
+        $app = \JFactory::getApplication();
 		$data          = $model->export_data();
 		$product_count = array();
 		$db            = JFactory::getDbo();
@@ -358,7 +358,7 @@ class RedshopControllerOrder extends RedshopController
 			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $data [$i]->order_total . "\n";
 		}
 
-		exit();
+		$app->close();
 	}
 
 	public function export_data()
