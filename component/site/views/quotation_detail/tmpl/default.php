@@ -154,12 +154,12 @@ else
 
 if (strstr($quotation_template, "{quotation_custom_field_list}"))
 {
-	$billadd .= RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email);
+	$billadd .= RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->quotation_id);
 	$quotation_template = str_replace("{quotation_custom_field_list}", "", $quotation_template);
 }
 else
 {
-	$quotation_template = RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email, $quotation_template);
+	$quotation_template = RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->quotation_id, 0, "", $quotation_template);
 }
 
 $search []  = "{account_information}";
