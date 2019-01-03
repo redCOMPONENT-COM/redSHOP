@@ -32,6 +32,12 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->fillField(\AdminJ3Page::$urlID, $path);
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
+		try{
+            $I->waitForText('installed successfully', 120, ['id' => 'system-message-container']);
+        }catch (\Exception $e)
+        {
+            $I->click(\AdminJ3Page::$installButton);
+        }
 	}
 	/**
 	 * Function to Check for Presence of Notices and Warnings on all the Modules of Extension
