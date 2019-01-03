@@ -91,8 +91,24 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Communications/Mail 0 0'
 
+
+    01-cache:
+        group: 01-setup
+        image: redwebaps/redshop-cache:dev
+        pull: true
+        commands:
+        # redShop Composer cache
+        - mv /opt/cache/redSHOP/vendor .
+        - touch tests/.cache.composer.tmp
+        # redShop  npm cache
+        - touch tests/.cache.npm.tmp
+        - mv /opt/cache/redSHOP/node_modules .
+        # Joomla CMS
+        - mv /opt/cache/joomla-cms tests
+        - touch tests/.cache.joomla-cms.tmp
+
     01-setup:
-        group: 00-setup
+        group: 01-setup
         image: redwebaps/testbox-chromedriver:2.38
         # pull: true
         environment:
