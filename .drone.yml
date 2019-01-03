@@ -101,7 +101,7 @@ pipeline:
         - tests_db=01_setup
         - php_server=php56
         - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-00-a-setup
+        - output_append=-01-a-setup
         commands:
         # Regular entry point
         - /entrypoint.sh &
