@@ -38,7 +38,7 @@ pipeline:
         - cd libraries/redshop
         - composer install --prefer-dist
         - cd ../../
-        - mv gulp-config.json.dist gulp-config.json
+        - cp gulp-config.json.dist gulp-config.json
         - gulp release --skip-version
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
@@ -115,7 +115,7 @@ pipeline:
         - cd libraries/redshop
         - composer install --prefer-dist
         - cd ../../
-        - mv gulp-config.json.dist gulp-config.json
+        - cp gulp-config.json.dist gulp-config.json
         - gulp release --skip-version
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
