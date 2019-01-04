@@ -67,8 +67,7 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
         $query = $this->getQuery();
         $query->clear('select')
             ->clear('group')
-            ->select('COUNT(*)')
-            ->group('id');
+            ->select('COUNT(*)');
 
         return (int) $this->db->setQuery($query)->loadResult();
     }
