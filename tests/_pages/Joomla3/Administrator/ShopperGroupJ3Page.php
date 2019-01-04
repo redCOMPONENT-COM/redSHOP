@@ -27,6 +27,10 @@ class ShopperGroupJ3Page extends AdminJ3Page
      * @var string
      */
     public static $URLEdit = '/administrator/index.php?option=com_redshop&view=shopper_group_detail&task=edit&cid[]=';
+	/**
+	 * @var string
+	 */
+    public static $buttonNewXpath = '//button[@class=\'btn btn-small button-new btn-success\']';
 
     //Id
 
