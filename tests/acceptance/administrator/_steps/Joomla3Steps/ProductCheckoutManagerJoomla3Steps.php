@@ -943,7 +943,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 5, \GiftCardCheckoutPage::$selectorSuccess);
         $I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
         $I->seeElement(['link' => $productName]);
-        $I->waitForText(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+        $I->wait(2);
+        $I->see(\FrontEndProductManagerJoomla3Page::$checkoutButton);
         $I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
         try {
             $I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 10);
