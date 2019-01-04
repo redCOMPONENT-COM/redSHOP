@@ -96,7 +96,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 */
 	private function replaceCategory($category, $template)
 	{
-		$producthelper    = productHelper::getInstance();
+		$producthelper = productHelper::getInstance();
 
 		$link = JRoute::_(
 			'index.php?option=com_redshop' .
@@ -141,13 +141,13 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$template     = str_replace("{category_name}", $categoryName, $template);
 		}
 
-		if ($this->isTagExists('{category_readmore}') && $this->exclusionTags('{category_readmore}'))
+		if ($this->isTagExists('{category_readmore}') && $this->excludeTags('{category_readmore}'))
 		{
 			$categoryReadMore = '<a href="' . $link . '" ' . $title . '>' . JText::_('COM_REDSHOP_READ_MORE') . '</a>';
-			$template = str_replace("{category_readmore}", $categoryReadMore, $template);
+			$template         = str_replace("{category_readmore}", $categoryReadMore, $template);
 		}
 
-		if ($this->isTagExists('{category_total_product}') && $this->exclusionTags('{category_total_product}'))
+		if ($this->isTagExists('{category_total_product}') && $this->excludeTags('{category_total_product}'))
 		{
 			$totalprd = $producthelper->getProductCategory($category->id);
 			$template = str_replace("{category_total_product}", count($totalprd), $template);
@@ -174,7 +174,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		// Replace all registered tag if category object have it
 		foreach ($this->tags as $tag)
 		{
-			if ($this->exclusionTags($tag))
+			if ($this->excludeTags($tag))
 			{
 				$tag = str_replace('{', '', $tag);
 				$tag = str_replace('}', '', $tag);
@@ -190,7 +190,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		// Also replace with alias
 		foreach ($this->tagAlias as $alias => $tag)
 		{
-			if ($this->exclusionTags($alias) && $this->exclusionTags($tag))
+			if ($this->excludeTags($alias) && $this->excludeTags($tag))
 			{
 				$tag              = str_replace('{', '', $tag);
 				$tag              = str_replace('}', '', $tag);
@@ -222,6 +222,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	private function replaceSubCategories($subCategories)
 	{
 		$subTemplate = $this->getTemplateBetweenLoop('{category_loop_start}', '{category_loop_end}');
+		$templateTmp = '';
 
 		if ($subTemplate)
 		{
@@ -230,14 +231,30 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			// Replace all sub categories
 			foreach ($subCategories as $category)
 			{
+				$lastElement      = end($subCategories);
 				$categoryTemplate = $subTemplate['template'];
 				$categoryTemplate = $this->replaceCategory($category, $categoryTemplate);
 				$categoryTemplate = $this->replaceSubCategoriesLevel2($category, $categoryTemplate);
-				$template[]       = $categoryTemplate;
+
+				if (!empty($this->data['excludedTags']))
+				{
+					$template[] = ($category->id == $lastElement->id) ? $categoryTemplate : $categoryTemplate . "{explode_product}";
+				}
+				else
+				{
+					$template[] = $categoryTemplate;
+				}
+			}
+
+			$templateTmp = implode(PHP_EOL, $template);
+
+			if (!empty($this->data['excludedTags']))
+			{
+				$templateTmp = "{category_loop_start}" . $templateTmp . "{category_loop_end}";
 			}
 
 			// Return all template after replaced
-			return $subTemplate['begin'] . implode(PHP_EOL, $template) . $subTemplate['end'];
+			return $subTemplate['begin'] . $templateTmp . $subTemplate['end'];
 		}
 
 		return $this->template;

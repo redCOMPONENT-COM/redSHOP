@@ -246,9 +246,9 @@ abstract class RedshopTagsAbstract
 	 * @return  boolean
 	 * @since  2.0.6
 	 */
-	protected function exclusionTags($tag)
+	protected function excludeTags($tag)
 	{
-		if (in_array($tag, $this->data['exclusion']))
+		if (in_array($tag, $this->data['excludedTags']))
 		{
 			return false;
 		}

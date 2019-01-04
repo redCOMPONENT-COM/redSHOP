@@ -61,8 +61,9 @@ else
 $categoryItemId = (int) RedshopHelperRouter::getCategoryItemid($this->catid);
 $mainItemid     = !$categoryItemId ? $this->itemid : $categoryItemId;
 
+$excludedTags = array();
 // New tags replacement for category template section
-$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail, 'manufacturerId' => $this->manufacturer_id, 'itemId' => $mainItemid, 'exclusion' => array()));
+$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail, 'manufacturerId' => $this->manufacturer_id, 'itemId' => $mainItemid, 'excludedTags' => $excludedTags));
 
 $endlimit = $this->state->get('list.limit');
 
@@ -285,6 +286,58 @@ if (!$slide)
 		}
 
 		$template_desc = str_replace("{compare_product_div}", $compare_product_div, $template_desc);
+	}
+
+	if (strpos($template_desc, "{category_loop_start}") !== false && strpos($template_desc, "{category_loop_end}") !== false)
+	{
+		$template_d1     = explode("{category_loop_start}", $template_desc);
+		$template_d2     = explode("{category_loop_end}", $template_d1 [1]);
+		$subcat_template = $template_d2 [0];
+
+		$cat_detail                    = "";
+		$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $subcat_template);
+
+		for ($i = 0, $nc = count($this->detail); $i < $nc; $i++)
+		{
+			if (empty($excludedTags))
+			{
+				break;
+			}
+
+			$row = $this->detail[$i];
+
+			// Filter categories based on Shopper group category ACL
+			$checkcid = RedshopHelperAccess::checkPortalCategoryPermission($row->id);
+			$sgportal = RedshopHelperShopper_Group::getShopperGroupPortal();
+			$portal   = 0;
+
+			if (!empty($sgportal))
+			{
+				$portal = $sgportal->shopper_group_portal;
+			}
+
+			if (!$checkcid && (Redshop::getConfig()->get('PORTAL_SHOP') == 1 || $portal == 1))
+			{
+				continue;
+			}
+
+			$data_add = explode('{explode_product}', $subcat_template);
+
+			/*
+			 * category template extra field
+			 * "2" argument is set for category
+			 */
+			if ($extraFieldsForCurrentTemplate)
+			{
+				$data_add[$i] = Redshop\Helper\ExtraFields::displayExtraFields(2, $row->id, $extraFieldsForCurrentTemplate, $data_add[$i]);
+			}
+
+			$cat_detail .= $data_add[$i];
+		}
+
+		$template_desc = str_replace("{category_loop_start}", "", $template_desc);
+		$template_desc = str_replace("{category_loop_end}", "", $template_desc);
+		$template_desc = str_replace($subcat_template, $cat_detail, $template_desc);
 	}
 
 	if (strpos($template_desc, "{if subcats}") !== false && strpos($template_desc, "{subcats end if}") !== false)
