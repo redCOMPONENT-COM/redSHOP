@@ -556,8 +556,8 @@ class RedshopControllerOrder extends RedshopController
 			$product_download_days_time = (time() + ($days * 24 * 60 * 60));
 
 			$endtime = mktime(
-				$clock, $clock_min, 0, date("m", /** @scrutinizer ignore-type */ $product_download_days_time), date("d", /** @scrutinizer ignore-type */ $product_download_days_time),
-				date("Y", /** @scrutinizer ignore-type */ $product_download_days_time)
+				$clock, $clock_min, 0, /** @scrutinizer ignore-type */ date("m", $product_download_days_time), /** @scrutinizer ignore-type */ date("d", $product_download_days_time),
+                /** @scrutinizer ignore-type */ date("Y", $product_download_days_time)
 			);
 
 			// If download product is set to infinit
