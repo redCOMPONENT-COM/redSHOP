@@ -68,16 +68,6 @@ class ProductVatCheckoutCest
 
 	}
 
-	/**
-	 * Method delete data at database
-	 *
-	 * @return  void
-	 */
-	public function deleteData()
-	{
-		(new RedshopSteps)->clearAllData();
-	}
-
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -95,7 +85,7 @@ class ProductVatCheckoutCest
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
 		$client->wantTo('Enable PayPal');
-		$client->enablePlugin('PayPal');
+		$client->disablePlugin('PayPal');
 
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client = new TaxGroupSteps($scenario);
@@ -158,8 +148,12 @@ class ProductVatCheckoutCest
 		$client->wantTo('Test Order delete by user  in Administrator');
 		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->firstName);
 
-		$client->wantTo('Delete all data');
-		$client = new RedshopSteps($scenario);
-		$client->clearAllData();
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Product  in Administrator');
+		$I->deleteProduct($this->productName);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->categoryName);
 	}
 }
