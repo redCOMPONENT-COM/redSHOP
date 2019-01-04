@@ -52,7 +52,7 @@ pipeline:
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         # Test setup
         - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
-        # - vendor/bin/robo tests:site-preparation 0 0
+        # - vendor/bin/robo tests:site-preparation 1 1
         # Ownership for uid 82
         - chown -R www-data:www-data .
         # Creating first clone for tests setup
@@ -116,7 +116,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Communications/Mail 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Communications/Mail 1 1'
 
     02-Configuration:
         group: 01-tests
@@ -133,7 +133,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Configuration/ 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Configuration/ 1 1'
 
     03-Country:
         group: 01-tests
@@ -150,7 +150,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Country 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Country 1 1'
 
     04-Currency:
         group: 01-tests
@@ -167,7 +167,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Currency 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Currency 1 1'
 
     05-Custom_Field:
         group: 01-tests
@@ -184,7 +184,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Custom_Field 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Custom_Field 1 1'
 
     06-Field_Group:
         group: 01-tests
@@ -201,7 +201,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Field_Group 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Field_Group 1 1'
 
     07-State:
         group: 01-tests
@@ -218,7 +218,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/State 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/State 1 1'
 
     08-Template:
         group: 01-tests
@@ -235,7 +235,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Template 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Template 1 1'
 
     09-Text:
         group: 01-tests
@@ -252,7 +252,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Text 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Text 1 1'
 
     10-Discount:
         group: 01-tests
@@ -269,7 +269,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Discounts/Discount 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Discounts/Discount 1 1'
 
     11-Discount_Product:
         group: 01-tests
@@ -286,7 +286,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Discounts/Discount_Product 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Discounts/Discount_Product 1 1'
 
     12-Mass_Discount:
         group: 01-tests
@@ -303,7 +303,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Discounts/Mass_Discount 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Discounts/Mass_Discount 1 1'
 
     13-Coupon:
         group: 01-tests
@@ -320,7 +320,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Coupon 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Coupon 1 1'
 
     14-Giftcard:
         group: 01-tests
@@ -337,7 +337,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Giftcard 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Giftcard 1 1'
 
     15-Voucher:
         group: 01-tests
@@ -354,7 +354,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Voucher 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Voucher 1 1'
 
     16-Category:
         group: 01-tests
@@ -371,7 +371,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Category 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Category 1 1'
 
 #    17-Order:
 #        group: 01-tests
@@ -388,7 +388,7 @@ pipeline:
 #        # Performs test after ensuring that the scenario has been fully set up
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Orders/Order 0 0'
+#        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Orders/Order 1 1'
 
     18-Quotation:
         group: 01-tests
@@ -405,7 +405,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Orders/Quotation 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Orders/Quotation 1 1'
 
     19-ProductNotForSaleOnFrontend:
         group: 01-tests
@@ -422,7 +422,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/ProductNotForSaleOnFrontend 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/ProductNotForSaleOnFrontend 1 1'
 
     20-Price_Product:
         group: 01-tests
@@ -439,7 +439,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Price_Product 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Price_Product 1 1'
 
     21-Supplier:
         group: 01-tests
@@ -456,7 +456,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Supplier 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Supplier 1 1'
 
     22-Tax_Group:
         group: 01-tests
@@ -473,7 +473,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Tax_Group 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Tax_Group 1 1'
 
     00-02-setup-stages:
         group: 02-tests
@@ -524,7 +524,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Tax_Rate 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Tax_Rate 1 1'
 
     24-Wrapper:
         group: 02-tests
@@ -541,7 +541,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Shippings/Wrapper 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Shippings/Wrapper 1 1'
 
     25-Shipping:
         group: 02-tests
@@ -558,7 +558,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Shippings/Shipping 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Shippings/Shipping 1 1'
 
     26-Stockroom:
         group: 02-tests
@@ -575,7 +575,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Stockrooms/StockRoom 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Stockrooms/StockRoom 1 1'
 
     27-Stock_Image:
         group: 02-tests
@@ -592,7 +592,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Stockrooms/Stock_Image 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Stockrooms/Stock_Image 1 1'
 
     28-User:
         group: 02-tests
@@ -609,7 +609,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Users/User 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Users/User 1 1'
 
     29-Shopper_Group:
         group: 02-tests
@@ -626,7 +626,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Users/Shopper_Group 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Users/Shopper_Group 1 1'
 
     30-Checkout_Quantity:
         group: 02-tests
@@ -643,7 +643,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Checkout_Quantity 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Checkout_Quantity 1 1'
 
     31-ProductManagement:
         group: 02-tests
@@ -660,7 +660,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/ProductManagement 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/ProductManagement 1 1'
 
     32-Compare_Products:
         group: 02-tests
@@ -677,7 +677,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Compare_Products 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Compare_Products 1 1'
     33-Manufacturer:
         group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -693,7 +693,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Manufacturer 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Manufacturer 1 1'
 
     34-VAT:
         group: 02-tests
@@ -710,7 +710,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/VAT 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/VAT 1 1'
 
 #    35-Stockroom_Checkout:
 #        group: 02-tests
@@ -727,7 +727,7 @@ pipeline:
 #        # Performs test after ensuring that the scenario has been fully set up
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Stockroom 0 0'
+#        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Stockroom 1 1'
 
     36-Shopper_Groups_Checkout:
         group: 02-tests
@@ -744,7 +744,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Shopper_Groups 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Shopper_Groups 1 1'
 
 #    37-Products_FrontEnd:
 #        group: 02-tests
@@ -761,7 +761,7 @@ pipeline:
 #        # Performs test after ensuring that the scenario has been fully set up
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Products 0 0'
+#        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Products 1 1'
 
     38-Notices:
         group: 02-tests
@@ -778,7 +778,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g1/Notices 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g1/Notices 1 1'
 
 #    39-OrderBackendProductAttribute:
 #        group: 02-tests
@@ -795,7 +795,7 @@ pipeline:
 #        # Performs test after ensuring that the scenario has been fully set up
 #        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
 #        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/OrderBackendProductAttribute 0 0'
+#        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/OrderBackendProductAttribute 1 1'
 
     40-Product_Attribute:
         group: 02-tests
@@ -812,7 +812,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Product_Attribute 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Product_Attribute 1 1'
 
     41-Quotation_FrontEnd:
         group: 02-tests
@@ -829,7 +829,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Quotations 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Quotations 1 1'
 
     42-Discounts:
         group: 02-tests
@@ -846,7 +846,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Discounts 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Discounts 1 1'
 
     43-Order_Checkout:
         group: 02-tests
@@ -863,7 +863,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Order 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Order 1 1'
 
     44-One_Steps_Checkout:
         group: 02-tests
@@ -880,7 +880,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/One_Steps_Checkout 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/One_Steps_Checkout 1 1'
 
     slack:
         image: plugins/slack
