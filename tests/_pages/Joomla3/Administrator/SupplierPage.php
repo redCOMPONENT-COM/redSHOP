@@ -43,5 +43,5 @@ class SupplierPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $fieldEmailInvalid = 'The email address you entered is invalid. Please enter another email address.';
+	public static $fieldEmailInvalid = 'Invalid field: Email';
 }
