@@ -944,6 +944,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
         $I->seeElement(['link' => $productName]);
         $I->wait(2);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
         $I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
         try {
             $I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 10);
