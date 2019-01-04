@@ -33,6 +33,36 @@ class RedshopViewProduct extends RedshopViewAdmin
      */
     public $user;
 
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.5
+     */
+    protected function addToolbar()
+    {
+        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
+        $layout = JFactory::getApplication()->input->getCmd('layout', '');
+
+        if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
+        {
+            JToolbarHelper::addNew('product_detail.addRedirect');
+            JToolbarHelper::editList('product_detail.editRedirect');
+            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+            JToolBarHelper::deleteList();
+            JToolBarHelper::publishList();
+            JToolBarHelper::unpublishList();
+            JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
+            JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
+        }
+
+        if ($layout == 'listing')
+        {
+            JToolBarHelper::title(JText::_('Product Price Management'));
+        }
+    }
+
     public function display($tpl = null)
     {
         global $context;
@@ -50,25 +80,7 @@ class RedshopViewProduct extends RedshopViewAdmin
         // We don't need toolbar in the modal window.
         if ($layout !== 'element')
         {
-            JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
-            $layout = JFactory::getApplication()->input->getCmd('layout', '');
-
-            if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
-            {
-                JToolbarHelper::addNew('product_detail.addRedirect');
-                JToolbarHelper::editList('product_detail.editRedirect');
-                JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-                JToolBarHelper::deleteList();
-                JToolBarHelper::publishList();
-                JToolBarHelper::unpublishList();
-                JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
-                JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
-            }
-        }
-
-        if ($layout == 'listing')
-        {
-            JToolBarHelper::title(JText::_('Product Price Managment'));
+            $this->addToolbar();
         }
 
         $state       = $this->get('State');
