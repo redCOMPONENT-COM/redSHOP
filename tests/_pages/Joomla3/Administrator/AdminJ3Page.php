@@ -371,10 +371,7 @@ abstract class AdminJ3Page
 	 * @var string
 	 */
 	public static $addressPhone = "//input[@id='phone']";
-	/**
-	 * @var string
-	 */
-	public static $termAndConditions = "//input[@id='termscondition']";
+
 	/**
 	 * @var string
 	 */
@@ -417,7 +414,7 @@ abstract class AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $acceptTerms = "//input[@id='termscondition']";
+	public static $acceptTerms = "(//label[@class=\"checkbox\"])[2]";
 	/**
 	 * @var string
 	 */
