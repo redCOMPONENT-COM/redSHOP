@@ -133,23 +133,15 @@ class CheckoutChangeQuantityProductCest
 		$this->lastName = "LastName";
 	}
 
-	/**
-	 * Method for clean data.
-	 *
-	 * @param   mixed $scenario Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
 
+    /**
+     * @param AcceptanceTester $I
+     */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
+
 	/**
 	 * Step1 : Enable Configuration change (One step checkout, quantity, shipping default same address)
 	 * Step2 : Create category
@@ -208,11 +200,5 @@ class CheckoutChangeQuantityProductCest
 		$I->wantTo("Disable One page checkout");
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->disableonepage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
-	}
-
-	public function deleteDataEnd(AcceptanceTester $I, $scenario)
-	{
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }

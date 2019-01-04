@@ -11,8 +11,8 @@ pipeline:
         - touch tests/.cache.npm.tmp
         - mv /opt/cache/redSHOP/node_modules .
         # Joomla CMS
-        - mv /opt/cache/joomla-cms tests
-        - touch tests/.cache.joomla-cms.tmp
+        # - mv /opt/cache/joomla-cms tests
+        # - touch tests/.cache.joomla-cms.tmp
 
     00-setup:
         group: 00-setup
@@ -51,8 +51,8 @@ pipeline:
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         # Test setup
-        - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
-        # - vendor/bin/robo tests:site-preparation 0 0
+        # - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
+        - vendor/bin/robo tests:site-preparation 0 0
         # Ownership for uid 82
         - chown -R www-data:www-data .
         # Creating first clone for tests setup
