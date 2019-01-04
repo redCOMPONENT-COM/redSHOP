@@ -177,3 +177,4 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 	}
 }
 
+
