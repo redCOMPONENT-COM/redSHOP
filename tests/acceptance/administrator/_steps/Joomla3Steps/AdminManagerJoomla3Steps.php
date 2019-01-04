@@ -29,6 +29,12 @@ class AdminManagerJoomla3Steps extends Redshop
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
+        try {
+            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+        } catch (\Exception $e) {
+            $I->click(\AdminJ3Page::$link);
+            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+        }
 		$I->fillField(\AdminJ3Page::$urlID, $path);
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
@@ -190,7 +196,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->click(\FrontEndProductManagerJoomla3Page::$buttonReset);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->waitForElement(['link' => $text], 30);
 	}
 
 	public function filterListBySearchDiscount($text, $searchField = "#name_filter")
@@ -199,7 +205,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->waitForElement(['link' => $text], 30);
 	}
 	
 	/**

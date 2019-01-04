@@ -85,6 +85,7 @@ class ProductVatCheckoutCest
 
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Method delete data at database
 	 *
@@ -95,6 +96,8 @@ class ProductVatCheckoutCest
 //		(new RedshopSteps)->clearAllData();
 //	}
 
+=======
+>>>>>>> 3aa23f65591cb07137fd95532b82f5f974b6bb53
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -111,8 +114,13 @@ class ProductVatCheckoutCest
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
+<<<<<<< HEAD
 //		$client->wantTo('Enable PayPal');
 //		$client->enablePlugin('PayPal');
+=======
+		$client->wantTo('Enable PayPal');
+		$client->disablePlugin('PayPal');
+>>>>>>> 3aa23f65591cb07137fd95532b82f5f974b6bb53
 
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client = new TaxGroupSteps($scenario);
@@ -167,6 +175,7 @@ class ProductVatCheckoutCest
 	 * @return  void
 	 * @throws  Exception
 	 */
+<<<<<<< HEAD
 //	public function clearUp(AcceptanceTester $client, $scenario)
 //	{
 //		$client->wantTo('Delete tax value');
@@ -186,3 +195,28 @@ class ProductVatCheckoutCest
 //		$client->clearAllData();
 //	}
 }
+=======
+	public function clearUp(AcceptanceTester $client, $scenario)
+	{
+		$client->wantTo('Delete tax value');
+		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
+
+		$client->wantTo('Delete tax group');
+		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
+
+		$client->wantTo('Delete user');
+		(new UserManagerJoomla3Steps($scenario))->deleteUser($this->firstName);
+
+		$client->wantTo('Test Order delete by user  in Administrator');
+		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->firstName);
+
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Product  in Administrator');
+		$I->deleteProduct($this->productName);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->categoryName);
+	}
+}
+>>>>>>> 3aa23f65591cb07137fd95532b82f5f974b6bb53

@@ -23,19 +23,6 @@ class CategoryCest extends AbstractCest
 	use  Cest\Traits\CheckIn, Cest\Traits\Publish, Cest\Traits\Delete;
 
 	/**
-	 * Clean up data.
-	 *
-	 * @param   \Codeception\Scenario  $scenario  Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		$tester = new RedshopSteps;
-		$tester->clearAllData();
-	}
-
-	/**
 	 * Name field, which is use for search
 	 *
 	 * @var string

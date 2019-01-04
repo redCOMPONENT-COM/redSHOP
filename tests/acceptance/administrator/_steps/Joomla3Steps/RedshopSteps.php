@@ -3,8 +3,39 @@
  *
  */
 
-class RedshopSteps
+
+use Codeception\Configuration;
+class RedshopSteps extends \AcceptanceTester
 {
+	/**
+	 * Clear Aesir tables
+	 *
+	 * @return  void
+	 * @since   3.0.0
+	 * @throws  \Exception
+	 */
+	public function clearAesirTables()
+	{
+		$config = self::getConfiguration();
+		$dbName = $config['modules']['config']['JoomlaBrowser']['database name'];
+
+		$tables = $this->loadColumnQuerySelect('SHOW TABLES FROM ' . $dbName
+			. ' WHERE Tables_in_' . $dbName . ' LIKE ' . $this->quoteQueryString('%redshop%')
+			. ' AND Tables_in_' . $dbName . ' NOT LIKE ' . $this->quoteQueryString('%redshop_category%')
+			. ' AND Tables_in_' . $dbName . ' NOT LIKE ' . $this->quoteQueryString('%redshop_product%')
+			. ' AND Tables_in_' . $dbName . ' NOT LIKE ' . $this->quoteQueryString('%redshop_coupons%')
+			. ' AND Tables_in_' . $dbName . ' NOT LIKE ' . $this->quoteQueryString('%redshop_discount_product%')
+			. ' AND Tables_in_' . $dbName . ' NOT LIKE ' . $this->quoteQueryString('%redshop_discount%')
+			. ' AND Tables_in_' . $dbName . ' NOT LIKE ' . $this->quoteQueryString('%redshop_mass_discount%')
+			. ' AND Tables_in_' . $dbName . ' NOT LIKE ' . $this->quoteQueryString('%redshop_voucher%')
+			. ' AND Tables_in_' . $dbName . ' NOT LIKE ' . $this->quoteQueryString('%redshop_orders')
+		);
+
+		$this->clearTables($tables);
+
+		$this->dropTables($tables);
+	}
+
 	/**
 	 * Clear all tables.
 	 *
@@ -28,12 +59,37 @@ class RedshopSteps
 	 */
 	public function clearAllCategories()
 	{
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_category'))
-			->where($db->qn('parent_id') . ' != 0');
+		try
+		{
+			$this->executeDeleteTable(
+				'#__redshop_category',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#__redshop_category',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
 
 	/**
@@ -41,12 +97,37 @@ class RedshopSteps
 	 */
 	public function clearAllProducts(){
 
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_product'))
-			->where('1');
+		try
+		{
+			$this->executeDeleteTable(
+				'#____redshop_product',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#____redshop_product',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
 
 	/**
@@ -54,12 +135,37 @@ class RedshopSteps
 	 */
 	public function clearAllCoupons(){
 
-		$db= \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_coupons'))
-			->where('1');
+		try
+		{
+			$this->executeDeleteTable(
+				'#__redshop_coupons',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#__redshop_coupons',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
 
 	/**
@@ -67,12 +173,37 @@ class RedshopSteps
 	 */
 	public function clearAllMassDiscount(){
 
-		$db= \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_mass_discount'))
-			->where('1');
+		try
+		{
+			$this->executeDeleteTable(
+				'#__redshop_mass_discount',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#__redshop_mass_discount',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
 
 	/**
@@ -80,12 +211,37 @@ class RedshopSteps
 	 */
 	public function clearAllDiscountOnProduct(){
 
-		$db= \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_discount_product'))
-			->where('1');
+		try
+		{
+			$this->executeDeleteTable(
+				'#__redshop_discount_product',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#__redshop_discount_product',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
 
 	/**
@@ -93,12 +249,37 @@ class RedshopSteps
 	 */
 	public function clearAllDiscountTotal(){
 
-		$db= \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_discount'))
-			->where('1');
+		try
+		{
+			$this->executeDeleteTable(
+				'#__redshop_discount',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#__redshop_discount',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
 
 	/**
@@ -106,12 +287,37 @@ class RedshopSteps
 	 */
 	public function clearAllVoucher(){
 
-		$db= \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_voucher'))
-			->where('1');
+		try
+		{
+			$this->executeDeleteTable(
+				'#__redshop_voucher',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#__redshop_voucher',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
 
 	/**
@@ -119,12 +325,37 @@ class RedshopSteps
 	 */
 	public function clearTaxRate(){
 
-		$db= \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_tax_rate'))
-			->where('1');
+		try
+		{
+			$this->executeDeleteTable(
+				'#__redshop_tax_rate',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#__redshop_tax_rate',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
 
 	/**
@@ -132,12 +363,37 @@ class RedshopSteps
 	 */
 	public function clearAllOrders(){
 
-		$db= \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_orders'))
-			->where('1');
+		try
+		{
+			$this->executeDeleteTable(
+				'#__redshop_orders',
+				[
+					'`title` NOT LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` <> 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 
-		$db->setQuery($query)->execute();
+		try
+		{
+			$this->executeUpdateTable(
+				'#__redshop_orders',
+				[
+					[ 'lft' => 0 ],
+					[ 'rgt' => 1 ]
+				],
+				[
+					'`title` LIKE ' . $this->quoteQueryString('ROOT'),
+					'`id` = 1'
+				]
+			);
+		}
+		catch (\Exception $exception)
+		{
+		}
 	}
-	
+
 }

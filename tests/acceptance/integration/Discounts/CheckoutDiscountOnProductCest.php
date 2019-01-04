@@ -140,19 +140,6 @@ class CheckoutDiscountOnProductCest
 	}
 
 	/**
-	 * Method for clean data.
-	 *
-	 * @param   mixed $scenario Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
-	}
-
-	/**
 	 * Method run before test.
 	 *
 	 * @param   AcceptanceTester $I
@@ -218,12 +205,5 @@ class CheckoutDiscountOnProductCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-	}
-
-	public function clearUp(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
 	}
 }
