@@ -92,8 +92,6 @@ class MassDiscountCheckoutCest
 		$I->wantTo('Test check add Mass discount ');
 		$I->deleteMassDiscountOK($this->MassDiscountName);
 
-<<<<<<< HEAD
-=======
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
 		$I->deleteProduct($this->ProductName);
@@ -101,7 +99,5 @@ class MassDiscountCheckoutCest
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->CategoryName);
-
->>>>>>> 3aa23f65591cb07137fd95532b82f5f974b6bb53
 	}
 }
