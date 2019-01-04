@@ -148,18 +148,12 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		return (int) $this->getTotalProduct_Export();
 	}
 
-    /**
-     * Count total row Product
-     *
-     * @Return int
-     */
     protected function getTotalProduct_Export()
     {
         $query = $this->getQuery();
         $query->clear('select')
             ->clear('group')
             ->select('COUNT(DISTINCT p.product_id)');
-
         return (int) $this->db->setQuery($query)->loadResult();
     }
 
@@ -770,3 +764,4 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		return $attributes;
 	}
 }
+
