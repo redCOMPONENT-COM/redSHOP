@@ -948,24 +948,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
             $I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 10);
         } catch (\Exception $e) {
             $I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-            $I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 10);
         }
-        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
-        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
-        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
-        $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
-        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
-        $I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
-        $I->wait(1);
-        $I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-
-        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-        $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
         $I->waitForText($subTotal, 30,\FrontEndProductManagerJoomla3Page::$priceTotal);
         $I->waitForText($vatPrice, 30, \FrontEndProductManagerJoomla3Page::$priceVAT);
         $I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
         $I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+        $I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
         $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
         $I->seeElement(['link' => $productName]);
