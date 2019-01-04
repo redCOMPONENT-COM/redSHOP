@@ -949,7 +949,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
         } catch (\Exception $e) {
             $I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
         }
-        $I->waitForText($subTotal, 30);
+//        $I->waitForText($subTotal, 30);
         $I->waitForText($vatPrice, 30);
         $I->waitForText($total, 30);
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
