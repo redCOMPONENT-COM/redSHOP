@@ -121,6 +121,7 @@ class CheckoutChangeQuantityProductCest
 		$this->onePage = "yes";
 		$this->quantityChange = "yes";
 		$this->quantityInCart = 3;
+		$this->disableonepage = "no";
 
 		//User
 		$this->userName = $this->faker->bothify('QuantityChangeCest ?##?');
@@ -131,10 +132,16 @@ class CheckoutChangeQuantityProductCest
 		$this->firstName = $this->faker->bothify('QuantityChangeCest FN ?##?');
 		$this->lastName = "LastName";
 	}
+
+
+    /**
+     * @param AcceptanceTester $I
+     */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
+
 	/**
 	 * Step1 : Enable Configuration change (One step checkout, quantity, shipping default same address)
 	 * Step2 : Create category
@@ -189,5 +196,9 @@ class CheckoutChangeQuantityProductCest
 		$I->wantTo('Delete account in redSHOP and Joomla');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, false);
+
+		$I->wantTo("Disable One page checkout");
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->disableonepage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 	}
 }
