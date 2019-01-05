@@ -27,6 +27,12 @@ $model = $this->getModel('checkout');
 
 $cart  = RedshopHelperCartSession::getCart();
 $billingAddresses = $model->billingaddresses();
+
+if ($billingAddresses == new stdClass)
+{
+	$billingAddresses = null;
+}
+
 $paymentMethods          = RedshopHelperUtility::getPlugins('redshop_payment');
 $selectedPaymentMethodId = 0;
 
@@ -387,8 +393,11 @@ $oneStepTemplateHtml = RedshopHelperTemplate::parseRedshopPlugin($oneStepTemplat
                     payment_method_id: "<?php echo JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD') ?>"
                 },
                 errorPlacement: function(error, element) {
-                    if (element.is(":radio") && element.attr('name') == "payment_method_id") {
+                    if ((element.is(":radio") && element.attr('name') == "payment_method_id")) {
                         error.appendTo( element.parents('#divPaymentMethod') );
+                    }
+                    else if(element.is(":checkbox") && element.attr('name') == "termscondition") {
+                        error.appendTo( element.closest('.checkbox') );
                     } else { // This is the default behavior
                         error.insertAfter( element );
                     }
