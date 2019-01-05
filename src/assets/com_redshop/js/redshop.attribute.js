@@ -3121,4 +3121,5 @@ function getStocknotify(product_id, property_id, subproperty_id) {
     }
     request.open("GET", url, true);
     request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    request.send();
 }
