@@ -7,6 +7,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\DiscountSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps;
 
 /**
  * Class CheckoutDiscountTotalCest
@@ -45,6 +46,15 @@ class CheckoutDiscountTotalCest
 		$this->shopperGroup      = 'Default Private';
 		$this->discountType      = 'Total';
 		$this->discountCondition = 'Lower';
+
+		//Create User
+		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->password = $this->faker->bothify('Password ?##?');
+		$this->email = $this->faker->email;
+		$this->shopperGroup = 'Default Private';
+		$this->group = 'Super Users';
+		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName = 'Last';
 	}
 
 	/**
@@ -99,9 +109,23 @@ class CheckoutDiscountTotalCest
 			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->discountCondition
 		);
 
+		$I->wantTo("I want to create user");
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+
+		$I->wantTo('I want to login in site page');
+		$I->doFrontEndLogin($this->userName, $this->password);
+
 		$I->wantTo('Checkout with discount at total');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithDiscount($this->ProductName, $this->CategoryName, $this->subtotal, $this->Discount, $this->Total);
 
+		$I->wantTo('Delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->ProductName);
+
+		$I->wantTo('Delete Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->CategoryName);
 	}
 }
