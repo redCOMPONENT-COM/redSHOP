@@ -32,6 +32,15 @@ class MassDiscountCheckoutCest
 		$this->subtotal = "DKK 10,00";
 		$this->Discount = "";
 		$this->Total    = "DKK 10,00";
+
+		//Create User
+		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->password = $this->faker->bothify('Password ?##?');
+		$this->email = $this->faker->email;
+		$this->shopperGroup = 'Default Private';
+		$this->group = 'Super Users';
+		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName = 'Last';
 	}
 
 
@@ -65,6 +74,13 @@ class MassDiscountCheckoutCest
 		$I->wantTo('Test check add Mass discount ');
 		$I->addMassDiscount($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
 
+		$I = new \AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I->wantTo("I want to create user");
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+
+		$I->wantTo('I want to login in site page');
+		$I->doFrontEndLogin($this->userName, $this->password);
+
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithDiscount($this->ProductName, $this->CategoryName, $this->subtotal, $this->Discount, $this->Total);
 	}
@@ -83,6 +99,5 @@ class MassDiscountCheckoutCest
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->CategoryName);
-
 	}
 }
