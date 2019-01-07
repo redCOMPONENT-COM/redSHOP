@@ -727,7 +727,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 		}
 
-		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'>
+		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth'  id='prd_main_imgwidth' value='" . $pw_thumb . "'>
 								<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 
 		// Product image flying addwishlist time start
