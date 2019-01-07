@@ -7,7 +7,7 @@
 		<div class="payment_method radio">
 			<div class="payment_method_name">{payment_method_name}</div>
 			<div class="creditcard_information">{creditcard_information}</div>
-            <div class="extrafield_payment">{payment_extrafields}</div>
+			<div class="extrafield_payment">{payment_extrafields}</div>
 		</div>
 		{payment_loop_end}
 	</div>
