@@ -912,8 +912,8 @@ services:
         - MYSQL_ROOT_HOST=%
 
     php:
-        image: redwebaps/php-apache:7.1
-        # pull: true
+        image: redwebaps/php-apache:7.2
+        pull: true
         environment:
         - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
         - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
