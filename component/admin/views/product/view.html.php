@@ -116,8 +116,34 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$temps[0]->id       = "0";
 		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT_CATEGORY');
 		$categories1        = @array_merge($temps, $categories1);
+
 		$lists['category']  = JHTML::_('select.genericlist', $categories1, 'category_id',
 			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $category_id
+		);
+
+		$manufacturers  = RedshopHelperManufacturer::getManufacturers();
+		$manufacturers1 = array();
+
+		foreach ($manufacturers as $key => $value)
+		{
+			$manufacturers1[$key]           = new stdClass;
+			$manufacturers1[$key]->id       = $manufacturers[$key]->id;
+			$manufacturers1[$key]->treename = $manufacturers[$key]->name;
+		}
+
+		$tempsManuf              = array();
+		$tempsManuf[0]           = new stdClass;
+		$tempsManuf[0]->id       = "all";
+		$tempsManuf[0]->treename = "-- (All Manufacturers) --";
+		$tempsManuf[1]           = new stdClass;
+		$tempsManuf[1]->id       = "undefined";
+		$tempsManuf[1]->treename = "(Undefined)";
+		$manufacturers1          = @array_merge($tempsManuf, $manufacturers1);
+
+		$manufacturer_id = $state->get('manufacturer_id');
+
+		$lists['manufacturer']  = JHTML::_('select.genericlist', $manufacturers1, 'manufacturer_id',
+			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $manufacturer_id
 		);
 
 		$product_sort          = RedshopHelperProduct::getProductsSortByList();

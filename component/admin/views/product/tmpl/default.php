@@ -8,6 +8,7 @@
  */
 defined('_JEXEC') or die;
 
+
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $app              = JFactory::getApplication();
@@ -75,6 +76,7 @@ JHtml::_('redshopjquery.framework');
         document.getElementById('keyword').value = '';
         document.getElementById('search_field').value = 'p.product_name';
         document.getElementById('category_id').value = 0;
+        document.getElementById('manufacturer_id').value = 'all';//REDSHOP-5299
         document.getElementById('product_sort').value = 0;
     }
 
@@ -115,6 +117,9 @@ JHtml::_('redshopjquery.framework');
 				<?php echo $this->lists['category']; ?>
             </div>
             <div class="filterItem">
+				<?php echo $this->lists['manufacturer']; ?>
+            </div>
+            <div class="filterItem">
 				<?php echo $this->lists['product_sort']; ?>
             </div>
         </div>
@@ -151,10 +156,10 @@ JHtml::_('redshopjquery.framework');
                 </th>
 
                 <th>
-					<?php echo JText::_('COM_REDSHOP_CATEGORY'); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY', 'category_id', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th>
-					<?php echo JText::_('COM_REDSHOP_MANUFACTURER'); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MANUFACTURER', 'p.manufacturer_id', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th>
 					<?php echo JText::_('COM_REDSHOP_CUSTOMER_REVIEWS'); ?>
