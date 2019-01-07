@@ -1042,7 +1042,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 				},
 			})
 			.done(function(html) {
-				jQuery('#paymentblock #' + paymentMethod.val()).siblings('.extrafield_payment').append(html);
+                jQuery('#paymentblock').find( ".extrafield_payment#" + paymentMethod.val() ).find('.extrafield_payment').append(html);
 
 				if (jQuery('input[id^="rs_birthdate_"]').length)
 				{
