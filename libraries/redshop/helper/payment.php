@@ -256,15 +256,8 @@ class RedshopHelperPayment
 			->select($db->qn('payment_id'))
 			->from($db->qn('#__redshop_product_payment_xref'))
 			->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
-		$payment = $db->setQuery($query)->loadObjectList();
-		$result = array();
 
-		foreach ($payment as $value)
-		{
-			array_push($result, $value->payment_id);
-		}
-
-		return $result;
+		return $db->setQuery($query)->loadColumn();
 	}
 
 	/**
