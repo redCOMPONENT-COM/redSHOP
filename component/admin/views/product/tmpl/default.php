@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $app              = JFactory::getApplication();
@@ -76,7 +75,7 @@ JHtml::_('redshopjquery.framework');
         document.getElementById('keyword').value = '';
         document.getElementById('search_field').value = 'p.product_name';
         document.getElementById('category_id').value = 0;
-        document.getElementById('manufacturer_id').value = 'all';//REDSHOP-5299
+        document.getElementById('manufacturer_id').value = 'all';
         document.getElementById('product_sort').value = 0;
     }
 

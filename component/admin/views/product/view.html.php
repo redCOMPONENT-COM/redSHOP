@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopViewProduct extends RedshopViewAdmin
 {
 	/**
@@ -134,10 +133,10 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$tempsManuf              = array();
 		$tempsManuf[0]           = new stdClass;
 		$tempsManuf[0]->id       = "all";
-		$tempsManuf[0]->treename = "-- (All Manufacturers) --";
+		$tempsManuf[0]->treename = JText::_('COM_REDSHOP_ALL_MANUFACTURERS');
 		$tempsManuf[1]           = new stdClass;
 		$tempsManuf[1]->id       = "undefined";
-		$tempsManuf[1]->treename = "(Undefined)";
+		$tempsManuf[1]->treename = JText::_('COM_REDSHOP_UNDEFINED_MANUFACTURERS');
 		$manufacturers1          = @array_merge($tempsManuf, $manufacturers1);
 
 		$manufacturer_id = $state->get('manufacturer_id');

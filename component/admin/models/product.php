@@ -70,7 +70,7 @@ class RedshopModelProduct extends RedshopModel
 		$id .= ':' . $this->getState('search_field');
 		$id .= ':' . $this->getState('keyword');
 		$id .= ':' . $this->getState('category_id');
-		$id .= ':' . $this->getState('manufacturer_id');//REDSHOP-5299
+		$id .= ':' . $this->getState('manufacturer_id');
 
 		return parent::getStoreId($id);
 	}
@@ -97,7 +97,7 @@ class RedshopModelProduct extends RedshopModel
 		$this->setState('category_id', $category_id);
 
 		$manufacturer_id = $this->getUserStateFromRequest($this->context . '.manufacturer_id', 'manufacturer_id', 0);
-		$this->setState('manufacturer_id', $manufacturer_id);//REDSHOP-5299
+		$this->setState('manufacturer_id', $manufacturer_id);
 
 		$product_sort = $this->getUserStateFromRequest($this->context . '.product_sort', 'product_sort', 0);
 		$this->setState('product_sort', $product_sort);
@@ -161,7 +161,7 @@ class RedshopModelProduct extends RedshopModel
 		$search_field     = $this->getState('search_field');
 		$keyword          = $this->getState('keyword');
 		$category_id      = $this->getState('category_id');
-		$manufacturer_id  = $this->getState('manufacturer_id');//REDSHOP-5299
+		$manufacturer_id  = $this->getState('manufacturer_id');
 		$product_sort     = $this->getState('product_sort');
 		$keyword          = addslashes($keyword);
 		$arr_keyword      = array();
@@ -284,7 +284,7 @@ class RedshopModelProduct extends RedshopModel
 					$where .= " AND p.manufacturer_id = 0  ";
 					break;
 				default:
-					$where .= " AND p.manufacturer_id = '" . $manufacturer_id . "'  ";//REDSHOP-5299
+					$where .= " AND p.manufacturer_id = '" . $manufacturer_id . "'  ";
 			}
 		}
 
