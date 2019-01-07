@@ -778,7 +778,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g1/Notices 1 1'
+        - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g1/Notices 0 0'
 
 #    39-OrderBackendProductAttribute:
 #        group: 02-tests
