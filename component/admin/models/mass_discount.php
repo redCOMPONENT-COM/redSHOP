@@ -42,6 +42,12 @@ class RedshopModelMass_Discount extends RedshopModelForm
 			$data['end_date'] = JFactory::getDate($data['end_date'], $tz)->setTimezone($UTC)->toUnix();
 		}
 
+		if ($data['start_date'] == $data['end_date'])
+		{
+			$data['start_date'] = RedshopHelperDatetime::generateTimestamp($data['start_date'], false);
+			$data['end_date']   = RedshopHelperDatetime::generateTimestamp($data['end_date'], true);
+		}
+
 		return parent::save($data);
 	}
 }
