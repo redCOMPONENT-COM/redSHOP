@@ -248,7 +248,7 @@ abstract class RedshopTagsAbstract
 	 */
 	protected function excludeTags($tag)
 	{
-		if (in_array($tag, $this->data['excludedTags']))
+		if (!empty($this->data['excludedTags']) && in_array($tag, $this->data['excludedTags']))
 		{
 			return false;
 		}

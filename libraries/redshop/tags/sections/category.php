@@ -96,12 +96,12 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 */
 	private function replaceCategory($category, $template)
 	{
-		$producthelper = productHelper::getInstance();
-
+		$producthelper  = productHelper::getInstance();
+		$manufacturerId = (!empty($this->data['manufacturerId'])) ? $this->data['manufacturerId'] : '';
 		$link = JRoute::_(
 			'index.php?option=com_redshop' .
 			'&view=category&cid=' . $category->id .
-			'&manufacturer_id=' . $this->data['manufacturerId'] .
+			'&manufacturer_id=' . $manufacturerId .
 			'&layout=detail&Itemid=' . $this->data['itemId']
 		);
 
