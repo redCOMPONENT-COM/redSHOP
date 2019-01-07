@@ -769,20 +769,19 @@ class RedshopHelperExtrafields
 
 					case self::TYPE_DATE_PICKER:
 
+						$format = Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d');
+						$date = '';
+
 						if ($customField->section != 17)
 						{
-							$date = date("d-m-Y", time());
-						}
-						else
-						{
-							$date = '';
+							$date = date($format, time());
 						}
 
 						if ($dataValue)
 						{
 							if ($dataValue->data_txt)
 							{
-								$date = date("d-m-Y", strtotime($dataValue->data_txt));
+								$date = date($format, strtotime($dataValue->data_txt));
 							}
 						}
 
