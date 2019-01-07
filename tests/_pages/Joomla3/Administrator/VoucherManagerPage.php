@@ -169,6 +169,11 @@ class VoucherManagerPage extends AdminJ3Page
      */
     public static $closeButton = "Close";
 
+    /**
+     * @var string
+     */
+    public static $resetButton = "Reset";
+
     //selector
 
     /**
