@@ -389,7 +389,7 @@ switch ($name)
 	case 'redshop_payment':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PAYMENT_METHOD_HINT'); ?></b><br /><br />
-		{payment_heading} {payment_loop_start} {payment_method_name} {creditcard_information} {payment_loop_end}
+		{payment_heading} {payment_loop_start} {payment_method_name} {creditcard_information} {payment_extrafields} {payment_loop_end}
 		<?php
 		break;
 	case 'redshop_shipping':
