@@ -32,7 +32,7 @@ class RedshopModelAccount_Billto extends RedshopModel
 	{
 		$billingAddress = Redshop\User\Billing\Billing::getGlobal();
 
-		if (empty($billingAddress) || $billingAddress = new stdClass())
+		if (empty($billingAddress) || $billingAddress == new stdClass())
 		{
 			$auth = JFactory::getSession()->get('auth');
 
