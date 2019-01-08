@@ -857,10 +857,10 @@ class rsCarthelper
 	/**
 	 * Replace Payment Methods
 	 *
-	 * @param   string   $templateDesc     Template Content
-	 * @param   integer  $paymentMethodId  Payment Method Id
-	 * @param   integer  $isCompany        Is Company?
-	 * @param   integer  $eanNumber        Ean Number
+	 * @param   string  $templateDesc    Template Content
+	 * @param   integer $paymentMethodId Payment Method Id
+	 * @param   integer $isCompany       Is Company?
+	 * @param   integer $eanNumber       Ean Number
 	 *
 	 * @return  string
 	 *
@@ -1554,7 +1554,7 @@ class rsCarthelper
 	/**
 	 * Method for modify discount
 	 *
-	 * @param   array  $cart  Cart data.
+	 * @param   array $cart Cart data.
 	 *
 	 * @return  mixed
 	 *
