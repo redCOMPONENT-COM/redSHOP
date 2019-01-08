@@ -411,11 +411,11 @@ $oneStepTemplateHtml = RedshopHelperTemplate::parseRedshopPlugin($oneStepTemplat
     function validation() {
 
 		<?php if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0
-	        && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL')): ?>
+	&& $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL')): ?>
 
-            alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");
+        alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");
 
-            return false;
+        return false;
 		<?php endif    ?>
 
         return true;
