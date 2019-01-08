@@ -49,6 +49,11 @@ class ShopperGroupCest
 		$I->doAdministratorLogin();
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param                  $scenario
+	 * @throws Exception
+	 */
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Category Save creation in Administrator');
@@ -67,12 +72,13 @@ class ShopperGroupCest
 	 *
 	 * @depends createCategory
 	 *
+	 * @throws Exception
 	 */
 	public function createShopperGroup(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Category Save creation in Administrator');
+		$I->wantTo('Test Shopper Group Save creation in Administrator');
 		$I = new AcceptanceTester\ShopperGroupManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category Save button');
+		$I->wantTo('Create Shopper Group Save button');
 		$I->addShopperGroups($this->shopperName, $this->shopperType, $this->customerType, $this->shopperGroupPortal,$this->categoryName, $this->shipping,$this->shippingRate, $this->shippingCheckout, $this->catalog,$this->showVat, $this->showPrice, $this->enableQuotation,'save');
 		$I->addShopperGroups($this->shopperNameSaveClose, $this->shopperType, $this->customerType, $this->shopperGroupPortal,$this->categoryName,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
 	}

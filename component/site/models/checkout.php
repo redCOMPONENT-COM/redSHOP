@@ -2051,8 +2051,7 @@ class RedshopModelCheckout extends RedshopModel
 		$templateDesc = $this->_carthelper->replaceTermsConditions($templateDesc, $Itemid);
 		$templateDesc = $this->_carthelper->replaceNewsletterSubscription($templateDesc);
 
-		$checkoutOnClick = Redshop::getConfig()->getBool('ONESTEP_CHECKOUT_ENABLE') ?
-			'if(chkvalidaion() && validation()){checkout_disable(\'checkout_final\');}' : 'if(chkvalidaion()){checkout_disable(\'checkout_final\');}';
+		$checkoutOnClick = 'if(validation()){checkout_disable(\'checkout_final\');}';
 
 		$checkout = '<div id="checkoutfinal" style="float: right;">';
 		$checkout .= '<input type="button" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="' . $checkoutOnClick . '"/>';
