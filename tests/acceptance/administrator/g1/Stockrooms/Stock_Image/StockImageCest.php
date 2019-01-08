@@ -22,11 +22,13 @@ class StockImageCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->name = $this->faker->bothify('Name Stock Image ?##?');
-		$this->newImageTooltip = 'Updated ' . $this->name;
-		$this->quantity = '100';
-		$this->randomStockName = $this->faker->bothify('Name Stock Image ?##?');
-		$this->updatedRandomStockName = 'New ' . $this->randomStockName;
+		$this->nameStockImage = $this->faker->bothify('Stock Image ?##?');
+		$this->nameStockRoom = $this->faker->bothify('Stock Room ?##?');
+		$this->newImageTooltip = 'Updated ' . $this->nameStockImage;
+		$this->quantity = $this->faker->numberBetween(1,100);
+		$this->quantityNew = $this->faker->numberBetween(1,100);;
+		$this->amountStockRoom = $this->faker->numberBetween(1,100);
+		$this->amountStockImage = 'Higher than';
 	}
 
 	/**
@@ -37,36 +39,52 @@ class StockImageCest
 		$I->doAdministratorLogin();
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param                  $scenario
+	 * @throws Exception
+	 */
 	public function enableStock(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Enable StockRoom in Administrator page');
 		$I = new ConfigurationSteps($scenario);
 		$I -> featureUsedStockRoom();
 
+		$I->wantTo('Test Stock Room creation in Administrator');
+		$I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
+		$I->addStockRoom($this->nameStockRoom, $this->amountStockRoom);
 		/**
 		 * Function to Create a Stock Image List
 		 */
 		$I->wantTo('Create Stock Image in Administrator page');
 		$I = new StockImageSteps($scenario);
-		$I->addStockImage($this->name);
+		$I->addStockImage($this->nameStockImage, $this->nameStockRoom, $this->amountStockImage, $this->quantity);
 
 		/**
 		 * Function to Update a Stock Image List
 		 */
 		$I->wantTo('Update Stock Image in Administrator page');
 		$I = new StockImageSteps($scenario);
-		$I->updateStockImage($this->name);
+		$I->updateStockImage($this->nameStockImage, $this->newImageTooltip, $this->quantityNew);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param                  $scenario
+	 * @throws Exception
+	 */
 	public function disableStock(AcceptanceTester $I, $scenario)
 	{
 		/**
 		 * Function to Delete a Stock Image List
 		 */
-		$I->wantTo('Delete Stock Image in Administrator page');
+		$I->wantTo('Deletion Stock Image in Administrator page');
 		$I = new StockImageSteps($scenario);
-		$I->deleteStockImage($this->name);
+		$I->deleteAllStockImage();
 
+		$I->wantTo('Deletion of Stock Room in Administrator');
+		$I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
+		$I->deleteAllStockRoom();
 		/**
 		 * Function to Disable a Stock Image List
 		 */
