@@ -101,6 +101,11 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
     /**
      * @var string
      */
+	public static $checkoutButton = "Checkout";
+
+    /**
+     * @var string
+     */
 	public static $addressEmail = "#private-email1";
 
     /**

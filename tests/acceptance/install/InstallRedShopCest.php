@@ -43,7 +43,7 @@ class InstallRedShopCest
 	public function testInstallRedShopExtension(AcceptanceTester $I, $scenario)
 	{
         $I->wantTo('Install extension');
-        $I->doAdministratorLogin();
+        $I->doAdministratorLogin(null, null, false);
         $I->disableStatistics();
         $I->wantTo('I Install redSHOP');
         $I = new AdminManagerJoomla3Steps($scenario);
