@@ -32,12 +32,17 @@ class StockRoomCest
     /**
      * Function to Test Stock Room Creation in Backend
      *
+     * @throws Exception
      */
     public function createUpdateStockRoom(AcceptanceTester $I, $scenario)
     {
         $I = new AcceptanceTester\ConfigurationSteps($scenario);
         $I->wantTo('Test use Stockroom in Administrator');
         $I->featureUsedStockRoom();
+
+	    $I->wantTo('Delete all Stock Room in Administrator');
+	    $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
+	    $I->deleteAllStockRoom();
 
         $I->wantTo('Test Stock Room creation in Administrator');
         $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
@@ -53,6 +58,8 @@ class StockRoomCest
      * Test for State Change in Stock Room Administrator
      *
      * @depends createUpdateStockRoom
+     *
+     * @throws Exception
      */
     public function changeStockRoomState(AcceptanceTester $I, $scenario)
     {
@@ -61,7 +68,7 @@ class StockRoomCest
         $I->changeStockRoomState($this->newName);
         $I->waitForElement(\AdminJ3Page::$resetButton, 30);
         $I->click(\AdminJ3Page::$resetButton);
-        $I->filterListBySearching($this->newName, $searchField = ['id' => 'filter']);
+        $I->filterListBySearching($this->newName, $searchField = "#filter");
         $I->verifyState('unpublished', $I->getStockRoomState($this->newName));
     }
 
@@ -69,13 +76,14 @@ class StockRoomCest
      * Function to Test Stock Room Deletion
      *
      * @depends changeStockRoomState
+     *
+     * @throws Exception
      */
     public function deleteStockRoom(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Deletion of Stock Room in Administrator');
         $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
-        $I->deleteStockRoom($this->newName);
-        $I->searchStockRoom($this->newName, 'Delete');
+	    $I->deleteAllStockRoom();
 
         $I = new AcceptanceTester\ConfigurationSteps($scenario);
         $I->wantTo('Test off Stockroom in Administrator');

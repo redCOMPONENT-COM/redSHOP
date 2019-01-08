@@ -8,42 +8,18 @@
  */
 
 defined('_JEXEC') or die;
+JHTML::_('behavior.modal');
 
-?>
-<script type="text/javascript">
-	function checkout_disable(val) {
-		document.adminForm.submit();
-		document.getElementById(val).disabled = true;
-		var op = document.getElementById(val);
-		op.setAttribute("style", "opacity:0.3;");
-
-		if (op.style.setAttribute) //For IE
-		{
-			op.style.setAttribute("filter", "alpha(opacity=30);");
-		}
-	}
-</script>
-<?php
 $url = JURI::base();
 $user = JFactory::getUser();
-JHTML::_('behavior.modal');
 
 $app             = JFactory::getApplication();
 $carthelper = rsCarthelper::getInstance();
-$producthelper = productHelper::getInstance();
-$order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
-$userhelper = rsUserHelper::getInstance();
-$redTemplate = Redtemplate::getInstance();
 $dispatcher = RedshopHelperUtility::getDispatcher();
 
 $user = JFactory::getUser();
-$session = JFactory::getSession();
-$cart = $session->get('cart');
+$cart = RedshopHelperCartSession::getCart();
 $user_id = $user->id;
-
-// Get redshop helper
-
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
 
 if ($Itemid == 0)
@@ -140,15 +116,16 @@ $session->set('cart',$cart);*/
 ?>
 
 <script type="text/javascript">
-	function chkvalidaion() {
+	function validation() {
 		<?php
 			if( Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
 			{
 			?>
-		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '';?>");
-		return false;
+            alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '';?>");
+            return false;
 		<?php
 			}	?>
+
 		if (document.getElementById('termscondition')) {
 			var termscondition = document.getElementById('termscondition').checked;
 
@@ -157,6 +134,19 @@ $session->set('cart',$cart);*/
 				return false;
 			}
 		}
+
 		return true;
 	}
+
+    function checkout_disable(val) {
+        document.adminForm.submit();
+        document.getElementById(val).disabled = true;
+        var op = document.getElementById(val);
+        op.setAttribute("style", "opacity:0.3;");
+
+        if (op.style.setAttribute) //For IE
+        {
+            op.style.setAttribute("filter", "alpha(opacity=30);");
+        }
+    }
 </script>
