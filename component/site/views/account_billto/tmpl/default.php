@@ -37,7 +37,7 @@ if ($post["user_id"] < 0)
 	<?php if ($isEdit == 1) : ?>
 		setTimeout(function(){
 			window.parent.location.href = '<?php echo JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false); ?>';
-		}, 3000);
+		}, 2000);
 	<?php endif; ?>
 	function cancelForm(frm) {
 		frm.task.value = 'cancel';
