@@ -1,7 +1,6 @@
 if (typeof(window['jQuery']) != "undefined") {
     var rss = jQuery.noConflict();
     var rs = jQuery.noConflict();
-    var rscompany = jQuery.noConflict();
 
     rs().ready(function () {
         var hash = getUrlVars();
@@ -24,8 +23,8 @@ if (typeof(window['jQuery']) != "undefined") {
 
         rs.validator.addMethod("phone", function (phone, element) {
             phone = phone.replace(/\s+/g, "");
-            return this.optional(element) || phone.length > 9 || phone.length > 8 || phone.length > 14 &&
-                phone.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/) || phone.match(/^(\(?(0|\+44)[1-9]{1}\d{1,4}?\)?\s?\d{3,4}\s?\d{3,4})$/) || phone.match(/^((0|\+44)7(5|6|7|8|9){1}\d{2}\s?\d{6})$/) || phone.match(/^[0-9]{10}$|^\(0[1-9]{1}\)[0-9]{8}$|^[0-9]{8}$|^[0-9]{4}[ ][0-9]{3}[ ][0-9]{3}$|^\(0[1-9]{1}\)[ ][0-9]{4}[ ][0-9]{4}$|^[0-9]{4}[ ][0-9]{4}$/);
+
+            return this.optional(element) || phone.match(/^[-+.() 0-9]+$/);
         }, Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE'));
 
         rs.validator.messages.required = Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED');
@@ -37,11 +36,8 @@ if (typeof(window['jQuery']) != "undefined") {
                 lastname: "required",
                 username: {
                     required: function () {
-                        if (document.getElementById("createaccount") && rs("#createaccount").is(":checked") || (!document.getElementById("createaccount") && rs("#username"))) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return rs("#createaccount") && rs("#createaccount").is(":checked")
+                            || (!rs("#createaccount") && rs("#username"));
                     },
                     minlength: 2,
                     remote :
@@ -58,47 +54,28 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 company_name: {
                     required: function () {
-                        if (rs("#toggler2").is(":checked")) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return rs("#toggler2").is(":checked");
                     }
                 },
                 vat_number: {
                     required: function () {
-                        if (rs("#toggler2").is(":checked") && redSHOP.RSConfig._('REQUIRED_VAT_NUMBER') == 1) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return rs("#toggler2").is(":checked") && redSHOP.RSConfig._('REQUIRED_VAT_NUMBER') == 1;
                     }
                 },
                 country_code: {
                     required: function () {
-                        if (document.getElementById("div_country_txt") && document.getElementById("div_country_txt").style.display != 'none') {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return rs("#div_country_txt") && rs("#div_country_txt").is(":visible");
                     }
                 },
                 state_code: {
                     required: function () {
-                        if (document.getElementById("div_state_txt") && document.getElementById("div_state_txt").style.display != 'none') {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return rs("#div_state_txt")
+                            && rs("#div_state_txt").is(":visible");
                     }
                 },
                 ean_number: {
                     required: function () {
-                        if (rs("#toggler2").is(":checked") && document.getElementById("ean_number") && document.getElementById("ean_number").value != '') {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return rs("#toggler2").is(":checked") && rs("#ean_number") && rs("#ean_number").val() != '';
                     },
                     minlength: 13,
                     maxlength: 13,
@@ -115,21 +92,14 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 password1: {
                     required: function () {
-                        if (document.getElementById("createaccount") && rs("#createaccount").is(":checked") || (document.getElementById("user_id") && document.getElementById("user_id").value == 0 && rs("#password1"))) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return rs("#createaccount") && rs("#createaccount").is(":checked") || (rs("#user_id") && rs("#user_id").val() == 0 && rs("#password1"));
                     },
                     minlength: 5
                 },
                 password2: {
                     required: function () {
-                        if (document.getElementById("createaccount") && rs("#createaccount").is(":checked") || (document.getElementById("user_id") && document.getElementById("user_id").value == 0 && rs("#password2"))) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return rs("#createaccount") && rs("#createaccount").is(":checked")
+                            || (rs("#user_id") && rs("#user_id").val() == 0 && rs("#password2"));
                     },
                     minlength: 5,
                     equalTo: "#password1"
@@ -142,15 +112,18 @@ if (typeof(window['jQuery']) != "undefined") {
                     zipcode: true
                 },
                 phone: {
-                    phone: rs('#phone').hasClass('required')
+                    required: function () {
+                        return rs("input[name='phone']") && rs("input[name='phone']").is(":visible");
+                    }
+                },
+                phone_ST: {
+                    required: function () {
+                        return rs("input[name='phone_ST']") && rs("input[name='phone_ST']").is(":visible");
+                    }
                 },
                 termscondition: {
                     required: function () {
-                        if (!document.getElementById("termscondition") | (document.getElementById("termscondition") && rs("#termscondition").is(":checked"))) {
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return rs("#termscondition") && rs("#termscondition").is(":visible");
                     }
                 },
                 agree: "required"
@@ -163,7 +136,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 address: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ADDRESS'),
                 zipcode: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'),
                 city: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'),
-                phone: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_PHONE'),
+                phone: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE'),
                 username: {
                     required: Joomla.JText._('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME'),
                     minlength: Joomla.JText._('COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT'),
@@ -185,7 +158,7 @@ if (typeof(window['jQuery']) != "undefined") {
                     minlength: Joomla.JText._('COM_REDSHOP_PASSWORD_MIN_CHARACTER_LIMIT'),
                     equalTo: Joomla.JText._('COM_REDSHOP_PASSWORD_NOT_MATCH')
                 },
-                termscondition: "Please select terms and conditions",
+                termscondition: Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'),
                 agree: "Please accept our policy",
                 ean_number: {
                     minlength: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'),
@@ -195,7 +168,7 @@ if (typeof(window['jQuery']) != "undefined") {
                     number: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT')
                 }
             },
-            /*invalidHandler: function(e,validator) {
+           /* invalidHandler: function(e,validator) {
                 //validator.errorList contains an array of objects, where each object has properties "element" and "message".  element is the actual HTML Input.
                 for (var i=0;i<validator.errorList.length;i++){
                     console.log(validator.errorList[i]);
@@ -212,6 +185,7 @@ if (typeof(window['jQuery']) != "undefined") {
         rs("#username").focus(function () {
             var firstname = rs("#firstname").val();
             var lastname = rs("#lastname").val();
+
             if (firstname && lastname && !this.value) {
                 this.value = firstname + "." + lastname;
             }
@@ -221,6 +195,7 @@ if (typeof(window['jQuery']) != "undefined") {
             if (rs("#billisship").is(":checked")) {
                 return rs(element).parents(".subTable").length;
             }
+
             return !this.optional(element);
         }, "");
     });

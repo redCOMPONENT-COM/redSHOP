@@ -76,12 +76,12 @@ $input = JFactory::getApplication()->input;
 <?php endif; ?>
 <div class="form-group">
     <label class="radio-inline <?php echo $customer; ?>">
-        <input type="radio" name="togglerchecker" class="toggler" onclick="getBillingTemplate(this);"
+        <input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="getBillingTemplate(this);"
                value="0" <?php echo ($isCompany == 0) ? 'checked="checked"' : '' ?> billing_type="private"/>
 		<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?>
     </label>
     <label class="radio-inline <?php echo $company; ?>">
-        <input type="radio" name="togglerchecker" class="toggler" onclick="getBillingTemplate(this);"
+        <input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="getBillingTemplate(this);"
                value="1" <?php echo ($isCompany == 1) ? 'checked="checked"' : '' ?> billing_type="company"/>
 		<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
     </label>
