@@ -411,6 +411,9 @@ class Cart
 
 		if (\JFactory::getApplication()->input->getString('task') == 'reorder' && !empty($generateAttributeCart))
 		{
+			$propertyReOrderItemArr = array();
+			$subPropertyReOrderItemArr = array();
+
 			foreach ($generateAttributeCart as $idxRe => $itemRe)
 			{
 				if (!empty($itemRe['attribute_childs']))
@@ -431,6 +434,7 @@ class Cart
 			$propertyReOrderItemStr = implode('##', $propertyReOrderItemArr);
 			$subPropertyReOrderItemStr = implode('##', $subPropertyReOrderItemArr);
 
+			$dataReOrder = array();
 			$dataReOrder['property_data'] = $propertyReOrderItemStr;
 			$dataReOrder['subproperty_data'] = $subPropertyReOrderItemStr;
 			$selectProp = \productHelper::getInstance()->getSelectedAttributeArray($dataReOrder);
