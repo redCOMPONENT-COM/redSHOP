@@ -2254,7 +2254,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->bind($data))
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -2262,7 +2262,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$row->store())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -4035,7 +4035,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$this->_db->execute())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
