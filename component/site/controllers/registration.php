@@ -241,4 +241,25 @@ class RedshopControllerRegistration extends RedshopController
 
 		$app->close();
 	}
+
+	public function ajaxValidateNewJoomlaUser()
+	{
+		$app = JFactory::getApplication();
+		$return = true;
+
+		$username = $app->input->getString('username', '');
+
+		if (!empty($username))
+		{
+			if (!empty(RedshopHelperUser::validateUser($username)))
+			{
+				$return = false;
+			}
+		}
+
+		ob_clean();
+		echo json_encode($return);
+
+		$app->close();
+	}
 }
