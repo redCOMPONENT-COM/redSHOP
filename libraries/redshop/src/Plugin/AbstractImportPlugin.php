@@ -142,26 +142,31 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @param   string  $path  File path.
 	 *
-	 * @return  int            Lines of file.
+	 * @return  interger       Lines of file.
 	 *
 	 * @since  1.2.1
 	 */
 	public function countLines($path)
 	{
 		$lines = file($path, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
-		$count = count($lines);
+		$count = 0;
 
-		foreach ($lines as $line) 
+		if ($lines)
 		{
-			$csv = str_getcsv($line, $this->separator);
+			$count = count($lines);
 
-			if (count(array_filter($csv)) == 0)
+			foreach ($lines as $line)
 			{
-				$count--;
-			}
-		}
+				$csv = str_getcsv($line, $this->separator);
 
-		return $count;
+				if (count(array_filter($csv)) == 0)
+				{
+					$count--;
+				}
+			}
+
+			return $count;
+		}
 	}
 
 	/**
