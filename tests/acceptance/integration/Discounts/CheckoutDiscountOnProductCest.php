@@ -7,7 +7,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\DiscountProductSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
-
+use AcceptanceTester\UserManagerJoomla3Steps;
 /**
  * Class CheckoutDiscountOnProductCest
  *
@@ -130,19 +130,13 @@ class CheckoutDiscountOnProductCest
 		$this->type                = "Percentage";
 		$this->discountAmount      = 50;
 		$this->groupName           = "Default Private";
-	}
-
-	/**
-	 * Method for clean data.
-	 *
-	 * @param   mixed $scenario Scenario
-	 *
-	 * @return  void
-	 */
-	public function deleteData($scenario)
-	{
-		$I = new RedshopSteps($scenario);
-		$I->clearAllData();
+        $this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+        $this->password = $this->faker->bothify('Password ?##?');
+        $this->email = $this->faker->email;
+        $this->shopperGroup = 'Default Private';
+        $this->group = 'Super Users';
+        $this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+        $this->lastName = 'Last';
 	}
 
 	/**
@@ -193,15 +187,23 @@ class CheckoutDiscountOnProductCest
 		$I = new DiscountProductSteps($scenario);
 		$I->addDiscountToday($this->productPrice, $this->condition, $this->type, $this->discountAmount, $this->categoryName, $this->groupName);
 
+		$I->wantTo("I want to create user");
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+
+		$I->wantTo('I want to login in site page');
+		$I->doFrontEndLogin($this->userName, $this->password);
+
 		$I->wantTo('Checkout with discount at total');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithDiscount($this->productName, $this->categoryName, $this->subtotal, $this->discount, $this->total);
-	}
 
-	public function clearUp(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Delete all data');
-		$I= new RedshopSteps($scenario);
-		$I->clearAllData();
+		$I->wantTo('Delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName);
+
+		$I->wantTo('Delete Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
 	}
 }

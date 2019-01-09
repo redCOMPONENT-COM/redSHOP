@@ -131,7 +131,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ConfigurationPage::$countrySearchPrice, 5);
 		$I->fillField(\ConfigurationPage::$countrySearchPrice, $country);
 		$userConfigurationPage = new \ConfigurationPage();
-		$I->waitForElement($userConfigurationPage->returnChoice($country));
+		$I->waitForElement($userConfigurationPage->returnChoice($country), 30);
 		if ($country == 'Denmark')
 		{
 			$I->pressKey(\ConfigurationPage::$countrySearchPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
@@ -146,7 +146,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->click(\ConfigurationPage::$statePrice);
 			$I->waitForElement(\ConfigurationPage::$stateSearchPrice, 5);
 			$I->fillField(\ConfigurationPage::$stateSearchPrice, $state);
-			$I->waitForElement($userConfigurationPage->returnChoice($state));
+			$I->waitForElement($userConfigurationPage->returnChoice($state), 30);
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
 		
@@ -154,14 +154,14 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);
 		$I->fillField(\ConfigurationPage::$vatSearchGroup, $vatDefault);
-		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault));
+		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault), 30);
 		$I->click(\ConfigurationPage::$varFirstResults);
 
 		//get vat base on
 		$I->click(\ConfigurationPage::$vatDefaultBase);
 		$I->waitForElement(\ConfigurationPage::$vatSearchDefaultBase, 5);
 		$I->fillField(\ConfigurationPage::$vatSearchDefaultBase, $vatCalculation);
-		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation));
+		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation), 30);
 		$I->click(\ConfigurationPage::$searchDefaultFirstResult);
 
 		//apply vat on discount
@@ -266,7 +266,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonCartLead);
 		$I->waitForElement(\ConfigurationPage::$buttonCartSearch);
 		$I->fillField(\ConfigurationPage::$buttonCartSearch, $buttonCartLead);
-		$I->waitForElement($userConfiguration->returnChoice($buttonCartLead));
+		$I->waitForElement($userConfiguration->returnChoice($buttonCartLead),30);
 		$I->click(\ConfigurationPage::$firstCartSearch);
 
 		switch ($onePage)
@@ -332,7 +332,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 					$I->click(\ConfigurationPage::$allowedDiscountId);
 					$I->waitForElement(\ConfigurationPage::$allowDiscountSearch, 30);
 					$I->fillField(\ConfigurationPage::$allowDiscountSearch, $discount['allow']);
-					$I->waitForElement($userConfiguration->returnChoice($discount['allow']));
+					$I->waitForElement($userConfiguration->returnChoice($discount['allow']), 30);
 					$I->pressKey(\ConfigurationPage::$allowDiscountSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 				}
 
@@ -402,7 +402,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 					$I->click(\ConfigurationPage::$valueDiscountCouponId);
 					$I->waitForElement(\ConfigurationPage::$valueDiscountCouponSearch, 30);
 					$I->fillField(\ConfigurationPage::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
-					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']));
+					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']), 30);
 //					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']));
 					$I->pressKey(\ConfigurationPage::$valueDiscountCouponSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 				}
