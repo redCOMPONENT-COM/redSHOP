@@ -172,6 +172,7 @@ class RedshopControllerRegistration extends RedshopController
 		$isCompany = $input->post->getInt('isCompany');
 		$type      = $input->post->getString('type');
 		$lists     = array();
+		$html      = "";
 
 		if ($isCompany == 1 && $type == 'company')
 		{
