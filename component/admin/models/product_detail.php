@@ -1663,8 +1663,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$att_property = $this->_db->loadObjectList();
 
-			$property_image      = null;
-			$property_main_image = null;
+
 
 			for ($prop = 0, $countProperty = count($att_property); $prop < $countProperty; $prop++)
 			{
@@ -1681,6 +1680,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$property_array                       = $this->store_pro($property_save);
 				$property_id                          = $property_array->property_id;
 				$listImages                           = $this->getImageInfor($att_property[$prop]->property_id, 'property');
+				$property_image                   = '';
+				$property_main_image              = '';
 
 				// Update image names and copy
 				if (!empty($att_property[$prop]->property_image))
@@ -1699,7 +1700,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				$this->update_attr_property_image($property_id, $property_image, $property_main_image);
 
-				for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
+				$countImage = count($listImages);
+
+				for ($li = $countImage - 1; $li >= 0; $li--)
 				{
 					$mImages                         = array();
 					$mImages['media_name']           = $listImages[$li]->media_name;
@@ -1709,7 +1712,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$mImages['media_type']           = 'images';
 					$mImages['media_mimetype']       = $listImages[$li]->media_mimetype;
 					$mImages['published']            = $listImages[$li]->published;
-					$this->copyadditionalImage($mImages, $property_main_image);
+					$isMainImage = false;
+
+					// detect main image
+					if ($listImages[$li]->media_name == $att_property[$prop]->property_main_image)
+					{
+						$isMainImage = true;
+					}
+
+					$this->copyadditionalImage($mImages, $isMainImage, $property_main_image);
 				}
 
 				$query = 'SELECT * FROM ' . $this->table_prefix . 'product_subattribute_color
@@ -1732,31 +1743,30 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$subproperty_save['subattribute_color_main_image'] = $subatt_property[$subprop]->subattribute_color_main_image;
 					$subproperty_save['setdefault_selected']           = $subatt_property[$subprop]->setdefault_selected;
 
-					$subproperty_array                                 = $this->store_sub($subproperty_save);
-					$subproperty_id                                    = $subproperty_array->subattribute_color_id;
+					$subproperty_array                 = $this->store_sub($subproperty_save);
+					$subproperty_id                    = $subproperty_array->subattribute_color_id;
+					$new_subattribute_color_image      = '';
+					$new_subattribute_color_main_image = '';
 
-					$new_subattribute_color_image  = null;
-					$subattribute_color_main_image = null;
-
+					// Update image names and copy
 					if (!empty($subatt_property[$subprop]->subattribute_color_image))
 					{
-						$subattribute_color_image     = 'subcolor/' . $subatt_property[$subprop]->subattribute_color_image;
-						$new_subattribute_color_image = $this->copy_image_from_path($subattribute_color_image, 'subcolor');
+						$subattribute_color_image = 'subproperty/' . $subatt_property[$subprop]->subattribute_color_image;
+						$new_subattribute_color_image = $this->copy_image_from_path($subattribute_color_image, 'subproperty');
 					}
 
 					if (!empty($subatt_property[$subprop]->subattribute_color_main_image))
 					{
-						$subattribute_color_main_image = 'subproperty/' . $subatt_property[$subprop]->subattribute_color_main_image;
+						$subattribute_color_main_image     = 'subproperty/' . $subatt_property[$subprop]->subattribute_color_main_image;
 						$new_subattribute_color_main_image = $this->copy_image_from_path($subattribute_color_main_image, 'subproperty');
-						$subattribute_color_main_image = $new_subattribute_color_main_image;
 					}
 
-					$this->update_subattr_image($subproperty_id, $new_subattribute_color_image, $subattribute_color_main_image);
+					$this->update_subattr_image($subproperty_id, $new_subattribute_color_image, $new_subattribute_color_main_image);
 
 					$listsubpropImages     = $this->getImageInfor($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$countSubPropertyImage = count($listsubpropImages);
 
-					for ($lsi = 0; $lsi < $countSubPropertyImage; $lsi++)
+					for ($lsi = $countSubPropertyImage - 1; $lsi >= 0; $lsi--)
 					{
 						$smImages                         = array();
 						$smImages['media_name']           = $listsubpropImages[$lsi]->media_name;
@@ -1766,7 +1776,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$smImages['media_type']           = 'images';
 						$smImages['media_mimetype']       = $listsubpropImages[$lsi]->media_mimetype;
 						$smImages['published']            = $listsubpropImages[$lsi]->published;
-						$this->copyadditionalImage($smImages, $subattribute_color_main_image);
+
+						$isMainImage = false;
+
+						// detect main image
+						if ($listsubpropImages[$lsi]->media_name == $subatt_property[$subprop]->subattribute_color_main_image)
+						{
+							$isMainImage = true;
+						}
+
+						$this->copyadditionalImage($smImages, $isMainImage, $new_subattribute_color_main_image);
 					}
 				}
 			}
@@ -3701,13 +3720,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @return  boolean
 	 */
-	public function copyadditionalImage($data, $mainName = null)
+	public function copyadditionalImage($data, $isMainImage = false, $mainImageName = "")
 	{
 		$src_image = $data['media_name'];
 
-		if (!empty($mainName))
+		if ($isMainImage)
 		{
-			$new_imgname = $mainName;
+			$new_imgname = $mainImageName;
 		}
 		else
 		{
@@ -3716,8 +3735,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 
 		$data['media_name'] = $new_imgname;
-		$rowmedia           = $this->getTable('media_detail');
 		$data['media_id ']  = 0;
+		$rowmedia           = $this->getTable('media_detail');
 
 		if (!$rowmedia->bind($data))
 		{
@@ -3727,20 +3746,19 @@ class RedshopModelProduct_Detail extends RedshopModel
 			return false;
 		}
 
-		$section = $data['media_section'];
-		$path    = $section . '/' . $src_image;
-
-		if(empty($mainName))
-		{
-			$this->copy_image_additionalimage_from_path($path, $data['media_section']);
-		}
-
 		if (!$rowmedia->store())
 		{
 			/** @scrutinizer ignore-deprecated */
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
+		}
+
+		if(!$isMainImage)
+		{
+			$section = $data['media_section'];
+			$path    = $section . '/' . $src_image;
+			$this->copy_image_additionalimage_from_path($path, $data['media_section']);
 		}
 
 		return true;
