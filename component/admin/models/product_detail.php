@@ -345,8 +345,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$row->product_full_image = '';
 		}
 
-		// Media: Store product full image
-		$mediaFullImage = $this->storeMedia($row, 'product_full_image');
+		if (!$data['copy_product'])
+		{
+			// Media: Store product full image
+			$mediaFullImage = $this->storeMedia($row, 'product_full_image');
+		}
 
 		if (isset($data['back_thumb_image_delete']))
 		{
@@ -480,7 +483,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
 
 		// Upgrade media reference Id if needed
-		if ($isNew && $mediaFullImage !== false)
+		if ($isNew && $mediaFullImage !== false && !$data['copy_product'])
 		{
 			/** @var Tablemedia_detail $mediaTable */
 			$mediaTable = $this->getTable('media_detail');
@@ -1331,7 +1334,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->_db->setQuery($query);
 			$productpricedata = $this->_db->loadObjectList();
 
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'media WHERE media_section = "product" AND section_id IN ( ' . $pdata->product_id . ' )';
+			$query = 'SELECT * FROM ' . $this->table_prefix . 'media WHERE media_section = "product" AND section_id IN ( ' . $pdata->product_id . ' ) ORDER BY media_id ASC';
 			$this->_db->setQuery($query);
 			$mediadata = $this->_db->loadObjectList();
 
