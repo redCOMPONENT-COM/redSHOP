@@ -306,7 +306,7 @@ class RedshopTableField extends RedshopTable
                 }
                 else
                 {
-                    $obj = new stdClass;fui
+                    $obj = new stdClass;
                     $obj->value_id = $valueIds[$j];
                     $obj->field_value = $extraValues[$j];
                     $obj->field_name = $filename;
