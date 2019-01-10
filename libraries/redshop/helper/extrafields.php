@@ -1897,7 +1897,7 @@ class RedshopHelperExtrafields
 	/**
 	 * Method for render HTML of extra fields
 	 *
-	 * @param   string  $fieldSection    Field section
+	 * @param   integer  $fieldSection    Field section
 	 * @param   integer $sectionId       ID of section
 	 * @param   string  $fieldName       Field name
 	 * @param   string  $templateContent HTML template content
@@ -1910,7 +1910,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @deprecated   2.1.0
 	 */
-	public static function extraFieldDisplay($fieldSection = "", $sectionId = 0, $fieldName = "", $templateContent = "", $categoryPage = 0)
+	public static function extraFieldDisplay($fieldSection = 0, $sectionId = 0, $fieldName = "", $templateContent = "", $categoryPage = 0)
 	{
 		return ExtraFields::displayExtraFields($fieldSection, $sectionId, $fieldName, $templateContent, (boolean) $categoryPage);
 	}

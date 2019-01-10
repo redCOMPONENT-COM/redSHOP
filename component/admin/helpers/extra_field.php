@@ -96,14 +96,14 @@ class extra_field
 	/**
 	 * validate Extra Field
 	 *
-	 * @param   string   $field_section  Field Section List
+	 * @param   integer   $field_section  Field Section List
 	 * @param   integer  $section_id     Section ID
 	 *
 	 * @return  boolean
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::CheckExtraFieldValidation() instead
 	 */
-	public function chk_extrafieldValidation($field_section = "", $section_id = 0)
+	public function chk_extrafieldValidation($field_section = 0, $section_id = 0)
 	{
 		return RedshopHelperExtrafields::CheckExtraFieldValidation($field_section, $section_id);
 	}
