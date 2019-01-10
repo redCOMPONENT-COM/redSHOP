@@ -14,6 +14,5 @@ extract($displayData);
 ?>
 
 <tr>
-	<td><?php echo $extra_field_label;?>:</td>
-	<td><?php echo $extra_field_value;?></td>
+	<td colspan="2"><?php echo $extraFieldValue;?></td>
 </tr>
