@@ -8,6 +8,7 @@
     "browser-sync": "^2.26.3",
     "del": "^2.2.2",
     "fs": "0.0.2",
+    "glob-stream": "^6.1.0",
     "gulp": "^3.9.1",
     "gulp-changed": "^3.2.0",
     "gulp-clean": "^0.3.2",
@@ -28,6 +29,7 @@
     "require-dir": "^0.3.2",
     "through2": "^2.0.3",
     "upath": "^1.1.0",
+    "vinyl-fs": "^3.0.3",
     "xml2js": "^0.4.19",
     "yargs": "^8.0.2"
   },
