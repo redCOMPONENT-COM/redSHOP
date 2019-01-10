@@ -3744,7 +3744,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$rowmedia->bind($data))
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -3752,7 +3752,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		if (!$rowmedia->store())
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
