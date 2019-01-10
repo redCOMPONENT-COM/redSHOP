@@ -345,6 +345,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$row->product_full_image = '';
 		}
 
+		$mediaFullImage = '';
+
 		if (!$data['copy_product'])
 		{
 			// Media: Store product full image
@@ -467,7 +469,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if (in_array(false, $result, true))
 		{
-			$this->setError($row->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
 			return false;
 		}
@@ -483,7 +486,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
 
 		// Upgrade media reference Id if needed
-		if ($isNew && $mediaFullImage !== false && !$data['copy_product'])
+		if ($isNew && !empty($mediaFullImage) !== false && !$data['copy_product'])
 		{
 			/** @var Tablemedia_detail $mediaTable */
 			$mediaTable = $this->getTable('media_detail');
