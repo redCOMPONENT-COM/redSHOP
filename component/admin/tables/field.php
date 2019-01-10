@@ -322,7 +322,6 @@ class RedshopTableField extends RedshopTable
                 $db->updateObject('#__redshop_fields_value', $obj,array('value_id'));
 			}
 		}
-
 		return true;
 	}
 }
