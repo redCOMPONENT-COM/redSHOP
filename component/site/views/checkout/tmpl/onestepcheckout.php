@@ -301,7 +301,7 @@ if (strpos($oneStepTemplateHtml, "{shipping_address}") !== false)
 		}
 		else
 		{
-      $lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
+      			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
 			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS);
       
 			$shippingHtml = '<div class="form-group"><label for="billisship">'
