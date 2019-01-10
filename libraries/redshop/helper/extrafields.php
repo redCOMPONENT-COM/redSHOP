@@ -769,10 +769,9 @@ class RedshopHelperExtrafields
 
 					case self::TYPE_DATE_PICKER:
 
-                        $format = Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d');
 						if ($customField->section != 17)
 						{
-							$date = date($format, time());
+							$date = date("d-m-Y", time());
 						}
 						else
 						{
@@ -783,7 +782,7 @@ class RedshopHelperExtrafields
 						{
 							if ($dataValue->data_txt)
 							{
-								$date = date($format, strtotime($dataValue->data_txt));
+								$date = date("d-m-Y", strtotime($dataValue->data_txt));
 							}
 						}
 
@@ -1200,14 +1199,14 @@ class RedshopHelperExtrafields
 	/**
 	 * Validate Extra Field
 	 *
-	 * @param   integer  $fieldSection Field Section List
+	 * @param   string  $fieldSection Field Section List
 	 * @param   integer $sectionId    Section ID
 	 *
 	 * @return  boolean
 	 *
 	 * @since 2.0.3
 	 */
-	public static function CheckExtraFieldValidation($fieldSection = 0, $sectionId = 0)
+	public static function CheckExtraFieldValidation($fieldSection = "", $sectionId = 0)
 	{
 		$rowData = self::getSectionFieldList($fieldSection);
 
@@ -1228,7 +1227,7 @@ class RedshopHelperExtrafields
 	/**
 	 * List all fields and display
 	 *
-	 * @param   integer  $fieldSection Field section
+	 * @param   string  $fieldSection Field section
 	 * @param   integer $sectionId    Section ID
 	 * @param   integer $flag         Flag
 	 * @param   string  $userEmail    User email
@@ -1239,7 +1238,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @since 2.0.3
 	 */
-	public static function listAllFieldDisplay($fieldSection = 0, $sectionId = 0, $flag = 0, $userEmail = "", $templateDesc = "", $sendmail = false)
+	public static function listAllFieldDisplay($fieldSection = "", $sectionId = 0, $flag = 0, $userEmail = "", $templateDesc = "", $sendmail = false)
 	{
 		$rowData = self::getSectionFieldList($fieldSection);
 
