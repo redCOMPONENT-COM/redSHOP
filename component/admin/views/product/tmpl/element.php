@@ -86,17 +86,13 @@ $action      = 'index.php?option=com_redshop&view=product&layout=element&tmpl=co
 				<?php endif; ?>
             </tr>
             </thead>
-			<?php
-			$k = 0;
+			<?php $k = 0; ?>
+			<?php foreach ($this->products as $i => $product): ?>
+				<?php
+				$product->id = $product->product_id;
+				$link        = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $product->product_id);
 
-			for ($i = 0, $n = count($this->products); $i < $n; $i++)
-			{
-				$row     = $this->products[$i];
-				$row->id = $row->product_id;
-				$link    = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
-
-				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
-
+				$published = JHtml::_('jgrid.published', $product->published, $i, '', 1);
 				?>
                 <tr class="<?php echo "row$k"; ?>">
                     <td>
@@ -104,40 +100,36 @@ $action      = 'index.php?option=com_redshop&view=product&layout=element&tmpl=co
                     </td>
                     <td>
                         <a style="cursor: pointer;"
-                           onclick="window.parent.jSelectProduct('<?php echo $row->product_id ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""), $row->product_name) ?>', '<?php echo $object ?>');">
-							<?php echo $row->product_name; ?></a>
+                           onclick="window.parent.jSelectProduct('<?php echo $product->product_id ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""), $product->product_name) ?>', '<?php echo $object ?>');">
+							<?php echo $product->product_name; ?></a>
                     </td>
                     <td>
-						<?php echo $row->product_number; ?>
+						<?php echo $product->product_number; ?>
                     </td>
                     <td align="center">
-						<?php echo $row->visited; ?>
+						<?php echo $product->visited; ?>
                     </td>
 
                     <td>
-						<?php $listedincats = $model->listedincats($row->product_id);
-						for ($j = 0, $jn = count($listedincats); $j < $jn; $j++)
-						{
-							echo $cat = $listedincats[$j]->category_name . "<br />";
-						}
-						?>
-					</td>
-					<td>
-						<?php echo RedshopEntityManufacturer::getInstance($row->manufacturer_id)->get('name') ?>
-					</td>
-					<td align="center" width="5%">
-						<?php echo $row->product_id; ?>
+						<?php $listedincats = $model->listedincats($product->product_id); ?>
+						<?php foreach ($listedincats as $listedincat) : ?>
+							<?php echo $cat = $listedincat->name . "<br />"; ?>
+						<?php endforeach; ?>
+                    </td>
+                    <td>
+						<?php echo RedshopEntityManufacturer::getInstance($product->manufacturer_id)->get('name') ?>
+                    </td>
+                    <td align="center" width="5%">
+						<?php echo $product->product_id; ?>
                     </td>
 					<?php if ($category_id > 0): ?>
                         <td class="order">
-							<?php echo $row->ordering; ?>
+							<?php echo $product->ordering; ?>
                         </td>
 					<?php endif; ?>
                 </tr>
-				<?php
-				$k = 1 - $k;
-			}
-			?>
+				<?php $k = 1 - $k; ?>
+			<?php endforeach; ?>
 
             <tfoot>
             <td colspan="13">
