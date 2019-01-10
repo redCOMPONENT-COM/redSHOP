@@ -158,7 +158,7 @@ JHtml::_('redshopjquery.framework');
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY', 'category_id', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MANUFACTURER', 'p.manufacturer_id', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MANUFACTURER', 'm.name', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th>
 					<?php echo JText::_('COM_REDSHOP_CUSTOMER_REVIEWS'); ?>

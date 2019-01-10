@@ -294,8 +294,10 @@ class RedshopModelProduct extends RedshopModel
 			AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
 				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
 				. ",p.product_template "
+				. ",m.name "
 				. " FROM #__redshop_product AS p "
 				. "LEFT JOIN #__redshop_product_category_xref AS x ON x.product_id = p.product_id "
+				. "LEFT JOIN #__redshop_manufacturer AS m ON m.id = p.manufacturer_id "
 				. "WHERE 1=1 " . $and . $orderby;
 		}
 		else
@@ -303,9 +305,10 @@ class RedshopModelProduct extends RedshopModel
 			$query = "SELECT x.category_id AS category_id, p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS
 			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
-			x.ordering , x.category_id "
+			x.ordering , x.category_id ,m.name "
 				. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
-			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id ";
+			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id "
+			. "LEFT JOIN #__redshop_manufacturer AS m ON m.id = p.manufacturer_id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
