@@ -46,8 +46,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$currency_data = $model->getCurrencies();
 
 		$this->config = $model->getData();
-
-		$config = Redconfiguration::getInstance();
 		$lists  = array();
 
 		// Load payment languages
@@ -675,9 +673,16 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" ', 'value', 'text', $this->config->get('CURRENCY_SYMBOL_POSITION')
 		);
 
-		$default_dateformat          = $config->getDateFormat();
-		$lists['default_dateformat'] = JHtml::_('select.genericlist', $default_dateformat, 'default_dateformat',
-			'class="form-control" ', 'value', 'text', $this->config->get('DEFAULT_DATEFORMAT')
+		$optionsDateformat          = RedshopHelperDatetime::getDateFormat();
+		$selectedDateformat         = $this->config->get('DEFAULT_DATEFORMAT');
+
+		if ((string) $selectedDateformat === '0')
+		{
+			$selectedDateformat = 'Y-m-d';
+		}
+
+		$lists['default_dateformat'] = JHtml::_('select.genericlist', $optionsDateformat, 'default_dateformat',
+			'class="form-control" ', 'value', 'text', $selectedDateformat
 		);
 
 		$lists['discount_enable']         = JHtml::_('redshopselect.booleanlist', 'discount_enable', 'class="form-control" ', $this->config->get('DISCOUNT_ENABLE'));
