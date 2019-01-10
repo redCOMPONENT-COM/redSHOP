@@ -218,11 +218,21 @@ class RedshopHelperBilling
 				$createAccountHtml = str_replace("{newsletter_signup_chk}", $newsletterSignupCheckHtml, $createAccountHtml);
 			}
 
-			$templateHtml = $createAccountHtmlStart[0] . '<div id="tdUsernamePassword" ' . $checkboxStyle . '>' . $createAccountHtml . '</div>' .
-				$createAccountHtmlEnd[1];
+			if (!empty(\JFactory::getUser()->id))
+			{
+				$templateHtml = $createAccountHtmlStart[0] . $createAccountHtmlEnd[1];
+			}
+			else
+			{
+				$templateHtml = $createAccountHtmlStart[0] . '<div id="tdUsernamePassword" ' . $checkboxStyle . '>' . $createAccountHtml . '</div>' .
+					$createAccountHtmlEnd[1];
+			}
 		}
 
 		$templateHtml .= '<div id="tmpRegistrationDiv" style="display: none;"></div>';
+
+		JPluginHelper::importPlugin('redshop_checkout');
+		RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingCheckout', array(&$templateHtml));
 
 		return $templateHtml;
 	}
@@ -340,7 +350,7 @@ class RedshopHelperBilling
 		$templateHtml    = str_replace("{phone_optional}", '', $templateHtml);
 		$templateHtml    = str_replace(
 			"{phone}",
-			'<input class="inputbox ' . $phoneIsRequired . '" type="text" name="phone" id="' . $prefix . 'phone" size="32" maxlength="250" '
+			'<input class="inputbox phone ' . $phoneIsRequired . '" type="text" name="phone" id="' . $prefix . 'phone" size="32" maxlength="250" '
 			. 'value="' . (isset($data["phone"]) ? $data["phone"] : '') . '" onblur="return searchByPhone(this.value,\'BT\');" />',
 			$templateHtml
 		);
@@ -426,13 +436,12 @@ class RedshopHelperBilling
 			{
 				$htmlMiddle    = $htmlEnd[0];
 				$classRequired = Redshop::getConfig()->get('REQUIRED_VAT_NUMBER') == 1 ? "required" : "";
-				$htmlMiddle    = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_BUSINESS_NUMBER'), $htmlMiddle);
+				$htmlMiddle    = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_VAT_NUMBER'), $htmlMiddle);
 				$htmlMiddle    = str_replace(
 					"{vat_number}",
 					'<input type="text" class="inputbox form-control ' . $classRequired . '" name="vat_number"'
 					. ' id="vat_number" size="32" maxlength="250" '
-					. ' title="' . JText::_('COM_REDSHOP_REGISTRATION_INVALID_VAT_NUMBER')
-					. 'value="' . (!empty($post["vat_number"]) ? $post['vat_number'] : '') . '" />',
+					. '" value="' . (!empty($post["vat_number"]) ? $post['vat_number'] : '') . '" />',
 					$htmlMiddle
 				);
 			}
