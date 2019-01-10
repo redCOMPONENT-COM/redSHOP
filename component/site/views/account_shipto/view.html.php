@@ -116,7 +116,14 @@ class RedshopViewAccount_Shipto extends RedshopView
 		}
 		else
 		{
-			$shippingAddresses = RedshopHelperOrder::getShippingAddress($user->id);
+			if ($user->id)
+			{
+				$shippingAddresses = RedshopHelperOrder::getShippingAddress($user->id);
+			}
+			else
+			{
+				$shippingAddresses = RedshopHelperOrder::getShippingAddress(-$auth['users_info_id']);
+			}
 		}
 
 		$this->lists             = $lists;
