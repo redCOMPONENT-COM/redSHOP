@@ -222,7 +222,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	private function replaceSubCategories($subCategories)
 	{
 		$subTemplate = $this->getTemplateBetweenLoop('{category_loop_start}', '{category_loop_end}');
-		$templateTmp = '';
 
 		if ($subTemplate)
 		{
