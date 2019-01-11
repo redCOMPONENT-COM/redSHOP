@@ -263,6 +263,12 @@ if (!$slide)
 
 	if (null !== $fullImage)
 	{
+		if (is_null($ch_thumb) || !$ch_thumb || is_null($cw_thumb) || !$cw_thumb)
+		{
+			$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+			$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
+		}
+
 		$water_cat_img  = $fullImage->generateThumb($cw_thumb, $ch_thumb);
 		$cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name .
 			"'><img src='" . $water_cat_img['abs'] . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
