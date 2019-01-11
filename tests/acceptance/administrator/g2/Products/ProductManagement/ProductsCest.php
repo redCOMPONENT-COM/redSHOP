@@ -29,7 +29,7 @@ class ProductsCest
 		$this->minimumPerProduct            = 2;
 		$this->minimumQuantity              = 3;
 		$this->maximumQuantity              = 5;
-		$this->discountStart                = "2018-12-12";
+		$this->discountStart                = "2018-12-24";
 		$this->discountEnd                  = "2019-10-23";
 		$this->randomProductNumber          = rand(999, 9999);
 		$this->randomProductNumberNew       = rand(999, 9999);
