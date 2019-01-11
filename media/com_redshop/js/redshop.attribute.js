@@ -1589,7 +1589,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
             // preload slimbox
             var imagehandle = {isenable: true, mainImage: false};
             preloadSlimbox(imagehandle);
-
+            jQuery(redSHOP).trigger('onAfterAjaxdisplayAdditionalImage', [arrResponse, product_id]);
         }
     };
     request.open("GET", url, true);
