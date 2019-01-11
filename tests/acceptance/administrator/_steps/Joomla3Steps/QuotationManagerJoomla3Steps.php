@@ -72,6 +72,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(QuotationManagerPage::$quantityp1, $newQuantity);
         $I->click(QuotationManagerPage::$buttonSave);
         $I->scrollTo(QuotationManagerPage::$quantityp1);
+        $I->wait(1);
         $I->seeInField(QuotationManagerPage::$quantityp1, $newQuantity);
     }
     
