@@ -14,6 +14,11 @@ function updateGLSLocation(zipcode) {
 	var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
 	url += "&zipcode=" + zipcode;
 
+	if (document.getElementById('shipp_users_info_id') !== null) {
+		var usersInfoId = document.getElementById('shipp_users_info_id').value;
+		url += "&users_info_id=" + usersInfoId;
+	}
+
 	jQuery.ajax({
 		url: url,
 		type: 'GET'
