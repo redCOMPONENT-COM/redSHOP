@@ -8,10 +8,10 @@ pipeline:
         - mv /opt/cache/redSHOP/vendor .
         - touch tests/.cache.composer.tmp
         # redSHOP Composer cache for libraries
-        - mv /opt/cache/redSHOP/libraries/redshop/vendor .
+        - mv /opt/cache/redSHOP/libraries/redshop/vendor libraries/redshop
         - touch tests/.cache.libraries.redshop.composer.tmp
         # redSHOP Composer cache for redshopb_pdf plugin
-        - mv /opt/cache/redSHOP/plugins/redshop_pdf/tcpdf/helper/vendor .
+        - mv /opt/cache/redSHOP/plugins/redshop_pdf/tcpdf/helper/vendor plugins/redshop_pdf/tcpdf/helper
         - touch tests/.cache.plugins.redshop_pdf.composer.tmp
         # redSHOP npm cache
         - touch tests/.cache.npm.tmp
