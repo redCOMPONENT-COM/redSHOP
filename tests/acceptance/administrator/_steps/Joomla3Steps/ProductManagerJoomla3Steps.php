@@ -393,6 +393,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->waitForElement(ProductManagerPage::$categorySearch, 30);
 		$I->click(ProductManagerPage::$categorySearch);
 		$I->waitForElement(ProductManagerPage::$categorySearchField, 30);
 		$I->fillField(ProductManagerPage::$categorySearchField, $category);
@@ -411,10 +412,10 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->waitForElement(ProductManagerPage::$searchStatusId, 30);
 		$I->click(ProductManagerPage::$searchStatusId);
 		$I->waitForElement(ProductManagerPage::$searchStatusField, 30);
 		$I->fillField(ProductManagerPage::$searchStatusField, $statusSearch);
-
 		$usePage = new \ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($statusSearch), 60);
 		$I->click($usePage->returnChoice($statusSearch));
