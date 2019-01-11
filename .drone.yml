@@ -13,8 +13,8 @@ pipeline:
         - mv /opt/cache/redSHOP/vendor .
         - touch tests/.cache.composer.tmp
         # redShop  npm cache
-        # - touch tests/.cache.npm.tmp
-        # - mv /opt/cache/redSHOP/node_modules .
+         - touch tests/.cache.npm.tmp
+         - mv /opt/cache/redSHOP/node_modules .
         # Joomla CMS
         - mv /opt/cache/joomla-cms tests
         - touch tests/.cache.joomla-cms.tmp
