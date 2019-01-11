@@ -72,5 +72,13 @@ class StockImagePage extends AdminJ3Page
 	 * @var array
 	 */
 	public static $search = "#filter";
+	/**
+	 * @var string
+	 */
+	public static $iconSearch = "//input[@value=\"Search\"]";
+	/**
+	 * @var string
+	 */
+	public static $messageDelete = "Stock Image detail deleted successfully";
 
 }
