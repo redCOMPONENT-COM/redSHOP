@@ -1,15 +1,21 @@
 pipeline:
     00-cache:
         group: 00-setup
-        image: redwebaps/redshop-cache:dev
+        image: redwebaps/redshop-cache:local
         # pull: true
         commands:
-        # redShop Composer cache
+        # redSHOP Composer cache
         - mv /opt/cache/redSHOP/vendor .
         - touch tests/.cache.composer.tmp
-        # redShop  npm cache
-        # - touch tests/.cache.npm.tmp
-        # - mv /opt/cache/redSHOP/node_modules .
+        # redSHOP Composer cache for libraries
+        - mv /opt/cache/redSHOP/libraries/redshop/vendor .
+        - touch tests/.cache.libraries.redshop.composer.tmp
+        # redSHOP Composer cache for redshopb_pdf plugin
+        - mv /opt/cache/redSHOP/plugins/redshop_pdf/tcpdf/helper/vendor .
+        - touch tests/.cache.plugins.redshop_pdf.composer.tmp
+        # redSHOP npm cache
+        - touch tests/.cache.npm.tmp
+        - mv /opt/cache/redSHOP/node_modules .
         # Joomla CMS
         - mv /opt/cache/joomla-cms tests
         - touch tests/.cache.joomla-cms.tmp
@@ -27,32 +33,27 @@ pipeline:
         commands:
         # Regular entry point
         - /entrypoint.sh &
+
         # Composer setup
-        - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done          # Comment if not using composer cache
+        - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done                        # Comment if not using composer cache
         - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
-        # - composer install --prefer-dist                                    # Uncomment if not using composer cache
+        # - composer install --prefer-dist                                                  # Uncomment if not using composer cache
+        - while [ ! -f tests/.cache.libraries.redshop.composer.tmp ]; do sleep 1; done      # Comment if not using composer cache for libraries
+        # - composer install --prefer-dist -d libraries/redshop                             # Uncomment if not using composer cache for libraries
+        - while [ ! -f tests/.cache.plugins.redshop_pdf.composer.tmp ]; do sleep 1; done    # Comment if not using composer cache for redshopb_pdf plugin
+        # - composer install --prefer-dist -d plugins/redshop_pdf/tcpdf/helper              # Uncomment if not using composer cache for redshopb_pdf plugin
+
         # NPM setup
-        # - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
-        - npm install gulp
-        - cd libraries/redshop
-        - composer install --prefer-dist
-        - cd ../../
+        - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
+        # - npm install gulp                                                                # Uncomment if not using npm cache
 
-        # - cd ../../plugins/redshop_pdf/tcpdf/helper
-        # - composer install --prefer-dist
-
-        # - cd ../../../..
-        # - composer install --prefer-dist
-        # Uncomment if not using npm cache
-        # redShop installer release
-        # - while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
         - mv gulp-config.json.dist gulp-config.json
         - gulp release --skip-version
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         # Test setup
-        - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
-        # - vendor/bin/robo tests:site-preparation 0 0
+        - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
+        - vendor/bin/robo tests:site-preparation 0 0
         # Ownership for uid 82
         - chown -R www-data:www-data .
         # Creating first clone for tests setup
