@@ -161,6 +161,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($voucherCode);
 		$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 		$I->checkForPhpNoticesOrWarnings();
+		$I->wait(0.5);
 		$I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click(\VoucherManagerPage::$saveCloseButton);
 		$I->assertSystemMessageContains(\VoucherManagerPage::$messageSaveSuccess);
@@ -313,6 +314,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
+		$I->click(\VoucherManagerPage::$resetButton);
 		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$deleteButton);

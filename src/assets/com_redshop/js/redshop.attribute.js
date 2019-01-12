@@ -1335,7 +1335,7 @@ function setWrapper(id, price, price_withoutvat, product_id) {
 }
 
 function setPropImage(product_id, propertyObj, selValue) {
-    var propName = document.getElementById(propertyObj);
+    var propName = document.getElementById(propertyObj + '_' + selValue);
 
     if (propName) {
         if (propName.type == 'checkbox' || propName.type == 'radio') {
@@ -1358,7 +1358,7 @@ function setPropImage(product_id, propertyObj, selValue) {
 }
 
 function setSubpropImage(product_id, subpropertyObj, selValue) {
-    var subpropName = document.getElementById(subpropertyObj);
+    var subpropName = document.getElementById(subpropertyObj + '_' + selValue);
     if (subpropName) {
         if (subpropName.type == 'checkbox' || subpropName.type == 'radio') {
             var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
@@ -1589,7 +1589,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
             // preload slimbox
             var imagehandle = {isenable: true, mainImage: false};
             preloadSlimbox(imagehandle);
-
+            jQuery(redSHOP).trigger('onAfterAjaxdisplayAdditionalImage', [arrResponse, product_id]);
         }
     };
     request.open("GET", url, true);
@@ -3121,4 +3121,5 @@ function getStocknotify(product_id, property_id, subproperty_id) {
     }
     request.open("GET", url, true);
     request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    request.send();
 }
