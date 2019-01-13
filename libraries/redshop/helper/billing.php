@@ -231,6 +231,9 @@ class RedshopHelperBilling
 
 		$templateHtml .= '<div id="tmpRegistrationDiv" style="display: none;"></div>';
 
+		JPluginHelper::importPlugin('redshop_checkout');
+		RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingCheckout', array(&$templateHtml));
+
 		return $templateHtml;
 	}
 
