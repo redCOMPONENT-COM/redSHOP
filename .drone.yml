@@ -1,3 +1,8 @@
+clone:
+    default:
+        image: plugins/git
+        recursive: false
+
 pipeline:
     00-cache:
         group: 00-setup
