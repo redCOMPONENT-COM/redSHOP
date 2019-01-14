@@ -45,12 +45,14 @@ redSHOP.collectExtraFields = function(extraField, productId){
     switch(extraField.type)
     {
         case 'checkbox':
-        case 'radio':
+            field.name = redSHOP.filterExtraFieldName(extraField.id);
+            field.value = jQuery('[id^='+extraField.id+']:checked').val();
+            break
 
+        case 'radio':
             field.name = redSHOP.filterExtraFieldName(extraField.id);
             field.value = jQuery('[id^='+field.name+']:checked').val();
-
-        break;
+             break;
     }
 
     return field;
@@ -62,7 +64,22 @@ redSHOP.updateCartExtraFields = function(extraFields, productId, formName){
 
         var field = redSHOP.collectExtraFields(extraField, productId);
 
-        jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+        if (extraField.type == 'checkbox')
+        {
+            if (typeof field.value !== 'undefined') {
+                var text  = jQuery(formName + ' input[id=' + field.name +']').val()
+                text = text.replace(/(^,)|(,$)/g, "");
+
+                if (text == '') {
+                    jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+                } else {
+                    jQuery(formName + ' input[id=' + field.name +']').val(text + ',' + field.value);
+                }
+            }
+        }
+        else {
+            jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+        }
     });
 };
 
@@ -1898,7 +1915,7 @@ function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_i
     }
 
     redSHOP.updateCartExtraFields(
-        jQuery('#' + frmUserfieldName + ' :input:not(:button, :hidden)'),
+        jQuery('#' + frmUserfieldName + ' [name^=extrafields]'),
         product_id,
         '#' + frmCartName
     );
