@@ -154,6 +154,12 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_PRODUCT_OUT_OF_STOCK');
 		}
+        JPluginHelper::importPlugin('logman');
+        JPluginHelper::importPlugin('redshop');
+
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterAdminAddItemOrder', array());
 
 		if ($tmpl)
 		{
@@ -197,6 +203,13 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_DELETING_ORDER_ITEM');
 		}
 
+        JPluginHelper::importPlugin('logman');
+        JPluginHelper::importPlugin('redshop');
+
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterAdminDeleteItemOrder', array());
+
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
@@ -204,6 +217,11 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 		$cid  = $this->input->post->get('cid', array(0), 'array');
+
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterAdminUpdateAttributeItemOrder', array());
+
 		/** @var RedshopModelOrder_detail $model */
 		$model = $this->getModel('order_detail');
 
@@ -237,6 +255,13 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_DISCOUNT');
 		}
 
+        JPluginHelper::importPlugin('logman');
+        JPluginHelper::importPlugin('redshop');
+
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterAdminUpdateDiscountOrder', array());
+
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
@@ -256,6 +281,13 @@ class RedshopControllerOrder_detail extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_IN_SPECIAL_DISCOUNT');
 		}
+
+        JPluginHelper::importPlugin('logman');
+        JPluginHelper::importPlugin('redshop');
+
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+       $dispatcher->trigger('onAfterAdminUpdateSpecialDiscountOrder', array());
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
@@ -303,7 +335,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		?>
         <script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
+            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>"
 
             window.close()
         </script>
@@ -332,7 +364,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		?>
         <script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>'
+            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>"
 
             window.close()
         </script>

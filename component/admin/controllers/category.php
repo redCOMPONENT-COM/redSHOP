@@ -287,4 +287,73 @@ class RedshopControllerCategory extends RedshopControllerForm
 
 		$this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
 	}
+    public function publish()
+    {
+        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+        // Get items to publish from the request.
+        $cid   = JFactory::getApplication()->input->get('cid', array(), 'array');
+        $value = ArrayHelper::getValue($this->states, $this->getTask(), 0, 'int');
+
+        if (empty($cid))
+        {
+            JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+        }
+        else
+        {
+            // Get the model.
+            $model = $this->getModel();
+
+            // Make sure the item ids are integers
+            $cid = ArrayHelper::toInteger($cid);
+
+            // Publish the items.
+            try
+            {
+                $text = $this->text_prefix;
+
+                if ($model->publish($cid, $value))
+                {
+                    switch ($this->getTask())
+                    {
+                        case 'publish':
+                            $text .= '_N_ITEMS_PUBLISHED';
+                            break;
+
+                        case 'unpublish':
+                            $text .= '_N_ITEMS_UNPUBLISHED';
+                            break;
+
+                        case 'archive':
+                            $text .= '_N_ITEMS_ARCHIVED';
+                            break;
+
+                        case 'trash':
+                            $text .= '_N_ITEMS_TRASHED';
+                            break;
+
+                        case 'report':
+                            $text .= '_N_ITEMS_REPORTED';
+                            break;
+                    }
+
+                    $this->setMessage(JText::plural($text, count($cid)));
+                }
+                else
+                {
+                    $this->setMessage($model->getError(), 'error');
+                }
+            }
+            catch (Exception $e)
+            {
+                $this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
+            }
+        }
+
+        $extension    = $this->input->get('extension');
+        $extensionURL = ($extension) ? '&extension=' . $extension : '';
+
+        // Set redirect
+        $this->setRedirect($this->getRedirectToListRoute($extensionURL));
+    }
 }

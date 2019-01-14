@@ -461,11 +461,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
+        JPluginHelper::importPlugin('logman');
 
 		/**
 		 * @var array Trigger redSHOP Product Plugin
 		 */
-		$result = $dispatcher->trigger('onBeforeProductSave', array(&$row, $isNew));
+		 $dispatcher->trigger('onAfterAdminSaveProduct', array(&$row, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -483,7 +484,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 			return false;
 		}
 
-		$dispatcher->trigger('onAfterProductSave', array(&$row, $isNew));
 
 		// Upgrade media reference Id if needed
 		if ($isNew && !empty($mediaFullImage) !== false && !$data['copy_product'])
@@ -1049,7 +1049,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		JPluginHelper::importPlugin('redshop_product');
 		JPluginHelper::importPlugin('redshop_product_type');
 
-		RedshopHelperUtility::getDispatcher()->trigger('onBeforeProductDelete', array($cid));
+//		RedshopHelperUtility::getDispatcher()->trigger('onBeforeProductDelete', array($cid));
 
 		$query = $db->getQuery(true)
 			->select('COUNT(' . $db->qn('product_id') . ') AS ' . $db->qn('total'))
@@ -1290,6 +1290,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function publish($cid = array(), $publish = 1)
 	{
+        JPluginHelper::importPlugin('redshop_product');
+        JPluginHelper::importPlugin('logman');
+        $dispatcher = RedshopHelperUtility::getDispatcher();
 		if (count($cid))
 		{
 			$cids  = implode(',', $cid);
@@ -1306,6 +1309,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 				return false;
 			}
 		}
+        if($publish==1)
+        {
+             $dispatcher->trigger('onAfterProductPublish', array());
+        }else{
+             $dispatcher->trigger('onAfterProductUnpublish', array());
+        }
 
 		return true;
 	}
@@ -1320,6 +1329,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copy($cid = array(), $postMorePriority = false)
 	{
+        JPluginHelper::importPlugin('redshop_product');
+        JPluginHelper::importPlugin('logman');
+        $dispatcher = RedshopHelperUtility::getDispatcher();
 		$row = null;
 		$db  = JFactory::getDbo();
 
@@ -1606,6 +1618,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 			}
 		}
+
+         $dispatcher->trigger('onAfterAdminCreateProduct', array());
 
 		return $row;
 	}

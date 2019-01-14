@@ -1084,6 +1084,12 @@ class RedshopModelOrder_detail extends RedshopModel
 				}
 			}
 		}
+        JPluginHelper::importPlugin('logman');
+        JPluginHelper::importPlugin('redshop');
+
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterAdminUpdateRateOrder', array());
 
 		return true;
 	}
@@ -1107,6 +1113,13 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
+
+            JPluginHelper::importPlugin('logman');
+            JPluginHelper::importPlugin('redshop');
+
+            $dispatcher = RedshopHelperUtility::getDispatcher();
+
+            $dispatcher->trigger('onAfterAdminUpdateShippingAddOrder', array());
 
 			return true;
 		}
@@ -1135,6 +1148,13 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
+
+            JPluginHelper::importPlugin('logman');
+            JPluginHelper::importPlugin('redshop');
+
+            $dispatcher = RedshopHelperUtility::getDispatcher();
+
+            $dispatcher->trigger('onAfterAdminUpdateBillingAddOrder', array());
 
 			return true;
 		}

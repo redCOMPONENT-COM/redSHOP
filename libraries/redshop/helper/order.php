@@ -1476,7 +1476,15 @@ class RedshopHelperOrder
 
 		$msg       = JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $orderId;
 
-		$isArchive = ($app->input->getInt('isarchive')) ? '&isarchive=1' : '';
+        JPluginHelper::importPlugin('logman');
+        JPluginHelper::importPlugin('redshop');
+
+        $dispatcher = RedshopHelperUtility::getDispatcher();
+
+        $dispatcher->trigger('onAfterAdminUpdateOrderInfor', array());
+
+
+        $isArchive = ($app->input->getInt('isarchive')) ? '&isarchive=1' : '';
 
 		if ($return == 'order')
 		{

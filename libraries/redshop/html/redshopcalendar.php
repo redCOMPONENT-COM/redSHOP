@@ -106,7 +106,7 @@ abstract class JHtmlRedshopcalendar
 			// Hide button using inline styles for readonly/disabled fields
 			return '<div class="input-group" id="' . $id . '_wrapper">'
 				. '<span class="input-group-addon" id="' . $id . '_img"><i class="fa fa-calendar"></i></span>'
-				. '<input type="text" name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
+                . '<input type="text" name="' . $name . '" id="' . $id . '" ' . $attribs . ' />'
 				. '<span class="input-group-addon"><strong>' . strtolower($format) . '</strong></span>'
 				. '</div>';
 		}
