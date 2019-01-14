@@ -142,7 +142,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @param   string  $path  File path.
 	 *
-	 * @return  interger       Lines of file.
+	 * @return  integer
 	 *
 	 * @since  1.2.1
 	 */
@@ -164,9 +164,9 @@ class AbstractImportPlugin extends \JPlugin
 					$count--;
 				}
 			}
-
-			return $count;
 		}
+
+		return $count;
 	}
 
 	/**
