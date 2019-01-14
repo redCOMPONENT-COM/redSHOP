@@ -64,11 +64,21 @@ foreach ($media->getAll() as $mediaItem)
                 }
             });
 
+            Dropzone.prototype.defaultOptions.processing = function (){
+                var reloading_img = '<div class="image  wait-loading" ><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
+                $('#general_data > .row').css("opacity",0.2);
+                $('#general_data').prepend(reloading_img);
+            };
+            Dropzone.prototype.defaultOptions.success = function(){
+                $('.wait-loading').remove();
+                $('#general_data > .row').css("opacity",1);
+            };
+
             $("#product_price,#discount_price").inputmask({
                 "alias"             : "numeric",
                 "groupSeparator"    : '<?php echo $priceThousand ?>',
                 "autoGroup"         : true,
-                "digits"            : <?php echo $priceDecimal ?>,
+                "digits"            : '<?php echo $priceDecimal ?>',
                 "digitsOptional"    : false,
                 "rightAlign"        : 0,
                 "autoUnmask"        : true,
