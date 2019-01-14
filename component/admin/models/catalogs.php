@@ -86,4 +86,26 @@ class RedshopModelCatalogs extends RedshopModelList
 
 		return $query;
 	}
+
+	/**
+	 * Method to get media of catalog
+	 *
+	 * @param   integer   $pid section id
+	 *
+	 * @return  object
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function mediaDetail($pid)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+		      ->from($db->qn('#__redshop_media', 'c'))
+		      ->where($db->qn('section_id') . '=' . $pid)
+		      ->where($db->qn('media_section') . '=' . $db->q('catalog'));
+
+		return $db->setQuery($query)->loadObjectList();
+	}
 }

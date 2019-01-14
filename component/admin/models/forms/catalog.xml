@@ -19,6 +19,14 @@
 				table-sortable="1"
 		/>
 		<field
+				name="media"
+				type="text"
+				label="COM_REDSHOP_MEDIA"
+				description="COM_REDSHOP_MEDIA"
+				placeholder="COM_REDSHOP_MEDIA"
+				class="form-control"
+		/>
+		<field
 				name="published"
 				type="redshop.radio"
 				label="COM_REDSHOP_PUBLISHED"
