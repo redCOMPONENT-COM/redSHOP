@@ -87,15 +87,13 @@ $showbuttons    = JFactory::getApplication()->input->getInt('showbuttons', 0);
 					class="btn"
 					value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>"
 				>
+				<input
+					type="reset"
+					class="btn"
+					value="<?php echo JText::_("JCLEAR") ?>"
+					onclick="clearForm();"
+				>
 			</div>
-		</div>
-		<div class="filterItem">
-			<input
-				type="reset"
-				class="btn"
-				value="<?php echo JText::_("JCLEAR") ?>"
-				onclick="clearForm();"
-			>
 		</div>
 		<div class="filterItem">
 			<?php echo $this->lists['category'];?>
