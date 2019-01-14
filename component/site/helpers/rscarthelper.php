@@ -322,6 +322,11 @@ class rsCarthelper
 		$shipping                  = $cart ['shipping'];
 		$shippingVat               = $cart ['shipping_tax'];
 
+		if ($total <= 0)
+		{
+			$total = 0;
+		}
+
 		if (isset($cart ['discount_type']) === false)
 		{
 			$cart ['discount_type'] = 0;
@@ -792,10 +797,6 @@ class rsCarthelper
 		{
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && empty($extrafield_total) && $classname != "default_shipping_gls")
-		{
-			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
-		}
 
 		JPluginHelper::importPlugin('redshop_checkout');
 		JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$template_desc));
@@ -856,10 +857,10 @@ class rsCarthelper
 	/**
 	 * Replace Payment Methods
 	 *
-	 * @param   string   $templateDesc     Template Content
-	 * @param   integer  $paymentMethodId  Payment Method Id
-	 * @param   integer  $isCompany        Is Company?
-	 * @param   integer  $eanNumber        Ean Number
+	 * @param   string  $templateDesc    Template Content
+	 * @param   integer $paymentMethodId Payment Method Id
+	 * @param   integer $isCompany       Is Company?
+	 * @param   integer $eanNumber       Ean Number
 	 *
 	 * @return  string
 	 *
@@ -1019,7 +1020,13 @@ class rsCarthelper
 								$hasCreditCard = true;
 							}
 
-							$paymentDisplay .= $templateMiddle;
+							$templateMiddle1 = str_replace(
+								'<div class="extrafield_payment">',
+								'<div class="extrafield_payment" id="' . $oneMethod->name . '">',
+								$templateMiddle
+							);
+
+							$paymentDisplay .= $templateMiddle1;
 							$paymentDisplay = str_replace("{payment_method_name}", $displayPayment, $paymentDisplay);
 							$paymentDisplay = str_replace("{creditcard_information}", $cardInformation, $paymentDisplay);
 
@@ -1387,7 +1394,7 @@ class rsCarthelper
 
 				if (count($voucher) > 0)
 				{
-					$this->_r_voucher = 1;
+					return false;
 				}
 			}
 
@@ -1547,7 +1554,7 @@ class rsCarthelper
 	/**
 	 * Method for modify discount
 	 *
-	 * @param   array  $cart  Cart data.
+	 * @param   array $cart Cart data.
 	 *
 	 * @return  mixed
 	 *
@@ -1594,6 +1601,8 @@ class rsCarthelper
 			}
 
 			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+
+			empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
@@ -1613,6 +1622,8 @@ class rsCarthelper
 			}
 
 			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+
+			empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;

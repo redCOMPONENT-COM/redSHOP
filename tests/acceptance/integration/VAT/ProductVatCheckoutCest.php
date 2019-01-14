@@ -66,16 +66,23 @@ class ProductVatCheckoutCest
 		$this->city = 'Ho Chi Minh';
 		$this->phone = 010101010;
 
-	}
+		//configuration enable one page checkout
+		$this->addcart          = 'product';
+		$this->allowPreOrder    = 'yes';
+		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
+		$this->enabldAjax       = 'no';
+		$this->defaultCart      = null;
+		$this->buttonCartLead   = 'Back to current view';
+		$this->onePage          = 'yes';
+		$this->showShippingCart = 'no';
+		$this->attributeImage   = 'no';
+		$this->quantityChange   = 'no';
+		$this->quantityInCart   = 0;
+		$this->minimunOrder     = 0;
+		$this->enableQuation    = 'no';
+		$this->onePageNo        = 'no';
+		$this->onePageYes       = 'yes';
 
-	/**
-	 * Method delete data at database
-	 *
-	 * @return  void
-	 */
-	public function deleteData()
-	{
-		(new RedshopSteps)->clearAllData();
 	}
 
 	public function _before(AcceptanceTester $I)
@@ -94,8 +101,6 @@ class ProductVatCheckoutCest
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
-		$client->wantTo('Enable PayPal');
-		$client->enablePlugin('PayPal');
 
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client = new TaxGroupSteps($scenario);
@@ -122,17 +127,23 @@ class ProductVatCheckoutCest
 			$this->countryName, null, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber,
 			$this->calculationBase, $this->requiVAT
 		);
+		$client->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
 		$client->wantTo('Create user for checkout');
 		$client = new UserManagerJoomla3Steps($scenario);
 		$client->addUser(
-			$this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName
+			$this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose'
 		);
 
 		$client = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$client->testProductWithVatCheckout(
 			$this->userName, $this->password, $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total
 		);
+
+		$client = new ConfigurationSteps($scenario);
+		$client->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 	}
 
 	/**
@@ -158,8 +169,12 @@ class ProductVatCheckoutCest
 		$client->wantTo('Test Order delete by user  in Administrator');
 		(new OrderManagerJoomla3Steps($scenario))->deleteOrder($this->firstName);
 
-		$client->wantTo('Delete all data');
-		$client = new RedshopSteps($scenario);
-		$client->clearAllData();
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Product  in Administrator');
+		$I->deleteProduct($this->productName);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete Category in Administrator');
+		$I->deleteCategory($this->categoryName);
 	}
 }

@@ -29,6 +29,12 @@ class AdminManagerJoomla3Steps extends Redshop
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
+        try {
+            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+        } catch (\Exception $e) {
+            $I->click(\AdminJ3Page::$link);
+            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+        }
 		$I->fillField(\AdminJ3Page::$urlID, $path);
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
@@ -119,6 +125,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
+		$I->waitForElement($searchField, 30);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
@@ -164,14 +171,14 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @param   String $searchField The locator for the search field
 	 *
 	 * @return void
+	 * @throws  \Exception
 	 */
 	public function changeState($pageClass, $item, $state, $resultRow, $check, $searchField = "#filter")
 	{
 		$I = $this;
 		$I->amOnPage($pageClass::$URL);
-		$I->filterListBySearching($item, $searchField);
-		$I->click($check);
-
+		$I->checkAllResults();
+		$I->wait(0.3);
 		if ($state == 'unpublish')
 		{
 			$I->click("Unpublish");
@@ -186,9 +193,10 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(\FrontEndProductManagerJoomla3Page::$buttonReset);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->waitForElement(['link' => $text], 30);
 	}
 
 	public function filterListBySearchDiscount($text, $searchField = "#name_filter")
@@ -197,20 +205,24 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->fillField($searchField, $text);
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(['link' => $text]);
+		$I->waitForElement(['link' => $text], 30);
 	}
-
-	public function addValueForField($xpath, $prices)
+	
+	/**
+	 * @param $xpath
+	 * @param $value
+	 * @param $lengh
+	 */
+	public function addValueForField($xpath, $value, $lengh)
 	{
 		$I = $this;
 		$I->click($xpath);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		for ($i = 1; $i <= $lengh; $i++)
+		{
+			$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		}
 
-		$price = str_split($prices);
+		$price = str_split($value);
 		foreach ($price as $char)
 		{
 			$I->pressKey($xpath, $char);

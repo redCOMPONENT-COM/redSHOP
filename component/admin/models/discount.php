@@ -40,10 +40,9 @@ class RedshopModelDiscount extends RedshopModelForm
 		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
 		{
 			$data['end_date'] = JFactory::getDate($data['end_date'], $tz)->setTimezone($UTC)->toUnix();
-		}
 
-		$data['start_date'] = (int) $data['start_date'];
-		$data['end_date']   = (int) $data['end_date'];
+			$data['end_date'] = RedshopHelperDatetime::generateTimestamp($data['end_date']);
+		}
 
 		return parent::save($data);
 	}

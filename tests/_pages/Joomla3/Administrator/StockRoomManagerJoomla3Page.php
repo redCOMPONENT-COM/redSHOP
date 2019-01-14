@@ -14,7 +14,7 @@
  * @since  2.4
  */
 
-class StockRoomManagerJoomla3Page
+class StockRoomManagerJoomla3Page extends AdminJ3Page
 {
     /**
      * @var string
@@ -124,4 +124,8 @@ class StockRoomManagerJoomla3Page
      * @var string
      */
     public static $selectorNamePage = '.page-title';
+	/**
+	 * @var string
+	 */
+    public static $deleteMessage = "Stockroom Detail Deleted Successfully";
 }
