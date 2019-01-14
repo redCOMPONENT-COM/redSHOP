@@ -68,8 +68,13 @@ redSHOP.updateCartExtraFields = function(extraFields, productId, formName){
         {
             if (typeof field.value !== 'undefined') {
                 var text  = jQuery(formName + ' input[id=' + field.name +']').val()
-                text = text.replace(/(^,)|(,$)/g, "")
-                jQuery(formName + ' input[id=' + field.name +']').val(text + ',' + field.value);
+                text = text.replace(/(^,)|(,$)/g, "");
+
+                if (text == '') {
+                    jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+                } else {
+                    jQuery(formName + ' input[id=' + field.name +']').val(text + ',' + field.value);
+                }
             }
         }
         else {
