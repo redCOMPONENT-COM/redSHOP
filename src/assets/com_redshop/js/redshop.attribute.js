@@ -45,7 +45,7 @@ redSHOP.collectExtraFields = function(extraField, productId){
     switch(extraField.type)
     {
         case 'checkbox':
-            field.name = redSHOP.filterExtraFieldName(extraField.id);
+            field.name = redSHOP.filterExtraFieldName(extraField.id);gul
             field.value = jQuery('[id^='+extraField.id+']:checked').val();
             break
 
