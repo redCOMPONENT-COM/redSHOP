@@ -360,19 +360,11 @@ class SiteHelper
 					case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
 
 						$fieldCheck = \RedshopEntityField::getInstance($data->id)->getFieldValues();
-						$checkData  = explode(",", $cart[$idx][$data->name]);
 
 						foreach ($fieldCheck as $aFieldCheck)
 						{
-							$checked = '';
-
-							if (in_array($aFieldCheck->field_value, $checkData))
-							{
-								$checked = ' checked="checked" ';
-							}
-
 							$exField .= '<div class="userfield_input">';
-							$exField .= '<input class="' . $data->class . '" type="radio" ' . $checked . ' name="extrafields' . $productId . '[]" userfieldlbl="' . $data->title . '"  id="' . $data->name . "_" . $aFieldCheck->value_id . '" value="' . $aFieldCheck->field_value . '" ' . $req . ' />' . $aFieldCheck->field_name;
+							$exField .= '<input class="' . $data->class . '" type="radio" name="extrafields' . $productId . '[]" userfieldlbl="' . $data->title . '"  id="' . $data->name . "_" . $aFieldCheck->value_id . '" value="' . $aFieldCheck->field_value . '" ' . $req . ' />' . $aFieldCheck->field_name;
 							$exField .= '</div>';
 						}
 
