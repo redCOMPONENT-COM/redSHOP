@@ -307,7 +307,6 @@ class Render
 				// Check preorder stock
 				if (!$isPreorderStockExists)
 				{
-					$preOrderStockFlag = true;
 					$stockDisplay      = true;
 					$addCartFlag       = true;
 					$displayText       = \JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE');

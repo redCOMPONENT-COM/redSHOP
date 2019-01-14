@@ -132,7 +132,12 @@ $billadd = "";
 
 if ($quotationDetail->user_id != 0)
 {
-	$billadd = JLayoutHelper::render('cart.billing', array('billingaddresses' => $quotationDetail));
+	$billadd = RedshopLayoutHelper::render(
+		'cart.billing',
+		array('billingAddresses' => $quotationDetail),
+		null,
+		array('client' => 0)
+	);
 }
 else
 {
@@ -143,23 +148,24 @@ else
 
 	if ($quotationDetail->quotation_email != "")
 	{
-		$billadd .= JLayoutHelper::render('fields.display',
+		$billadd .= RedshopLayoutHelper::render(
+			'fields.display',
 			array(
 				'extra_field_label' => JText::_("COM_REDSHOP_EMAIL"),
 				'extra_field_value' => $quotationDetail->quotation_email
-				)
+			)
 		);
 	}
 }
 
 if (strstr($quotation_template, "{quotation_custom_field_list}"))
 {
-	$billadd .= RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email);
+	$billadd .= RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->quotation_id);
 	$quotation_template = str_replace("{quotation_custom_field_list}", "", $quotation_template);
 }
 else
 {
-	$quotation_template = RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->user_info_id, 0, $quotationDetail->quotation_email, $quotation_template);
+	$quotation_template = RedshopHelperExtrafields::listAllFieldDisplay(16, $quotationDetail->quotation_id, 0, "", $quotation_template);
 }
 
 $search []  = "{account_information}";

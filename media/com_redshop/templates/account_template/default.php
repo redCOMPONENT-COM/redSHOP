@@ -11,6 +11,7 @@
 
 			<div class="panel-body">
 				{edit_account_link}
+				{delete_account_link}
 				{billing_address}
 			</div>
 		</div>

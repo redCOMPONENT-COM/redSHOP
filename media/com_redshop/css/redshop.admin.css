@@ -16257,9 +16257,25 @@ i.tools {
     border-bottom: 1px solid #e6e5e5;
 }
 
+#adminForm .filterTool:last-child {
+    margin-right: 0;
+}
+
 #adminForm .filterTool .filterItem {
     display: inline-block;
     margin-right: 10px;
+}
+
+#adminForm .filterTool .filterItem:last-child {
+    margin-right: 0;
+}
+
+#adminForm .filterTool .filterItem.dateRange {
+    padding-top: 8px;
+}
+
+#adminForm .filterTool .filterItem #filter_date_range_wrapper {
+    width: 240px;
 }
 
 #adminForm .filterTool .filterItem .btn-wrapper {
@@ -22844,6 +22860,9 @@ a.badge:focus {
 
     .hidden-phone {
         display: none !important;
+    }
+    #adminForm .filterTool .filterItem #filter_date_range_wrapper {
+        width: 202px;
     }
 
 }

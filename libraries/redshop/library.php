@@ -10,7 +10,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use \Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -33,6 +33,9 @@ define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/a
 
 define('REDSHOP_MEDIA_IMAGE_RELPATH', JPATH_ROOT . '/media/com_redshop/images/');
 define('REDSHOP_MEDIA_IMAGE_ABSPATH', JUri::root() . 'media/com_redshop/images/');
+
+// Address
+define('REDSHOP_ADDRESS_TYPE_SHIPPING', 'ST');
 
 // Require our Composer libraries
 $composerAutoload = __DIR__ . '/vendor/autoload.php';

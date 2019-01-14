@@ -32,7 +32,7 @@ class Stock
 	 */
 	public static function replaceInStock($productId = 0, $content = '', $attributes = array(), $attributeTemplate = array())
 	{
-		if (count($attributeTemplate) <= 0)
+		if (empty($attributeTemplate))
 		{
 			$attributes = array();
 		}
@@ -49,8 +49,7 @@ class Stock
 			$selectedId = array();
 			$properties = \RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id, $productId);
 
-
-			if ($attribute->text != "" && count($properties) > 0)
+			if (!empty($attribute->text) && !empty($properties))
 			{
 				foreach ($properties as $property)
 				{
@@ -60,7 +59,7 @@ class Stock
 					}
 				}
 
-				if (count($selectedId) > 0)
+				if (!empty($selectedId))
 				{
 					if ($attribute->allow_multiple_selection)
 					{
@@ -75,7 +74,7 @@ class Stock
 					$section   = "property";
 				}
 
-				if (count($selectedId) > 0)
+				if (!empty($selectedId))
 				{
 					$stockStatusFlag = true;
 					$i               = count($selectedId) - 1;
@@ -90,7 +89,7 @@ class Stock
 						}
 					}
 
-					if (count($selectedId) > 0)
+					if (!empty($selectedId))
 					{
 						if ($subProperties[0]->setmulti_selected)
 						{
@@ -138,7 +137,7 @@ class Stock
 			$stockAmounts     = \RedshopHelperStockroom::getStockAmountImage($sectionId, $section, $productInStock);
 			$stockAmountImage = "";
 
-			if (count($stockAmounts) > 0)
+			if (!empty($stockAmounts))
 			{
 				$stockAmountImage = \RedshopLayoutHelper::render(
 					'product.stock_amount_image',
