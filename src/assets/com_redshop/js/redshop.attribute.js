@@ -1898,7 +1898,7 @@ function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_i
     }
 
     redSHOP.updateCartExtraFields(
-        jQuery('#' + frmUserfieldName + ' :input:not(:button, :hidden)'),
+        jQuery('#' + frmUserfieldName + ' [name^=extrafields]'),
         product_id,
         '#' + frmCartName
     );
