@@ -546,14 +546,14 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 			'class="inputbox" size="1" ', 'value', 'text', $detail->product_tax_group_id
 		);
 
-		$prop_oprand   = array();
-		$prop_oprand[] = JHtml::_('select.option', '=', '=');
-		$prop_oprand[] = JHtml::_('select.option', '+', '+');
-		$prop_oprand[] = JHtml::_('select.option', '-', '-');
-		$prop_oprand[] = JHtml::_('select.option', '*', '*');
-		$prop_oprand[] = JHtml::_('select.option', '/', '/');
+		$propOprand   = array();
+		$propOprand[] = JHtml::_('select.option', '+', '+');
+		$propOprand[] = JHtml::_('select.option', '-', '-');
+		$propOprand[] = JHtml::_('select.option', '=', '=');
+		$propOprand[] = JHtml::_('select.option', '*', '*');
+		$propOprand[] = JHtml::_('select.option', '/', '/');
 
-		$lists['prop_oprand'] = $prop_oprand;
+		$lists['prop_oprand'] = $propOprand;
 
 		$cat_in_sefurl          = $model->catin_sefurl($detail->product_id);
 		$lists['cat_in_sefurl'] = JHtml::_('select.genericlist', $cat_in_sefurl, 'cat_in_sefurl',

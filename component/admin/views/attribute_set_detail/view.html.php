@@ -71,9 +71,9 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 		$lists['attributes'] = $attributes;
 
 		$propOprand   = array();
-		$propOprand[] = JHtml::_('select.option', '=', '=');
 		$propOprand[] = JHtml::_('select.option', '+', '+');
 		$propOprand[] = JHtml::_('select.option', '-', '-');
+		$propOprand[] = JHtml::_('select.option', '=', '=');
 		$propOprand[] = JHtml::_('select.option', '*', '*');
 		$propOprand[] = JHtml::_('select.option', '/', '/');
 
