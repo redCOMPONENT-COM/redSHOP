@@ -42,9 +42,9 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions);
-		$I->wait(0.5);
-		$I->scrollTo(\CheckoutChangeQuantityProductPage::$termAndConditions);
+		$I->wait(2);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms);;
+		$I->scrollTo(\CheckoutChangeQuantityProductPage::$acceptTerms, 60);
 		$I->wait(0.5);
 		$I->executeJS("jQuery('#termscondition').click()");
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
@@ -59,9 +59,11 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$headBilling, 30, null);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceTotal);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
-		
+		$I->scrollTo(\CheckoutChangeQuantityProductPage::$acceptTerms);
+		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->executeJS("jQuery('#checkout_final').click()");
+
 	}
 }

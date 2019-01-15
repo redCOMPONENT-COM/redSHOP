@@ -29,6 +29,13 @@ class RedshopModelCoupon extends RedshopModelForm
 	 */
 	public function save($data)
 	{
+		if (strtotime($data['start_date']) > strtotime($data['end_date']))
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_START_DATE_MUST_BE_SOONER_OR_EQUAL_TO_END_DATE'));
+
+			return false;
+		}
+
 		if (!empty($data['start_date']))
 		{
 			$data['start_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['start_date']);

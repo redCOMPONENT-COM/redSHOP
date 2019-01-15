@@ -184,7 +184,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->click(\CategoryManagerJ3Page::$accessorySearch);
-		$I->waitForElement(\CategoryManagerJ3Page::$searchFirst);
+		$I->waitForElement(\CategoryManagerJ3Page::$searchFirst, 30);
 		$I->fillField(\CategoryManagerJ3Page::$searchFirst, $accessoryName);
 		$userCategoryPage = new \CategoryManagerJ3Page();
 		$I->waitForElement($userCategoryPage->xPathAccessory($accessoryName), 60);
