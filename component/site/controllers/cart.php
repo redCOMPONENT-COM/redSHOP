@@ -278,6 +278,11 @@ class RedshopControllerCart extends RedshopController
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 
+            if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+            {
+                $this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+            }
+
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
@@ -412,6 +417,11 @@ class RedshopControllerCart extends RedshopController
 			RedshopHelperCart::cartFinalCalculation(false);
 
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $itemId, false);
+
+            if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+            {
+                $this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+            }
 
 			if (Redshop::getConfig()->getInt('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
