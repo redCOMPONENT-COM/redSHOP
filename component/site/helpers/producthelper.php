@@ -1443,7 +1443,7 @@ class productHelper
 							$strtitle = '<span class="product-userfield-title">' . $row_data[$j]->title . ':</span>';
 						}
 
-						$resultArr[] = $strtitle . '<span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
+						$resultArr[] = $strtitle . ' <span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
 					}
 				}
 			}
