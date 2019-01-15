@@ -19,7 +19,6 @@ if (count($template) == 0)
 $template = $template[0]->template_desc;
 $sections = array(
 	RedshopHelperExtrafields::SECTION_PRODUCT,
-	RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
 	RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER
 );
 
