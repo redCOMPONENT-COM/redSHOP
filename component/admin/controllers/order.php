@@ -200,6 +200,7 @@ class RedshopControllerOrder extends RedshopController
 					$payment_name = $paymentArr[1];
 				}
 
+				$economicdata = array();
 				$economicdata['economic_payment_method']   = $payment_name;
 				$economicdata['economic_payment_terms_id'] = $paymentInfo->plugin->params->get('economic_payment_terms_id');
 				$economicdata['economic_design_layout']    = $paymentInfo->plugin->params->get('economic_design_layout');
@@ -208,13 +209,13 @@ class RedshopControllerOrder extends RedshopController
 
 			RedshopEconomic::createInvoiceInEconomic($order_id, $economicdata);
 
-			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 0)
+			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') === 0)
 			{
 				$bookinvoicepdf = RedshopEconomic::bookInvoiceInEconomic($order_id, 1);
 
 				if (JFile::exists($bookinvoicepdf))
 				{
-					$ret = Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
+					return Redshop\Mail\Invoice::sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 				}
 			}
 		}
