@@ -64,11 +64,35 @@ foreach ($media->getAll() as $mediaItem)
                 }
             });
 
+            $.extend(true, Dropzone.prototype.defaultOptions, {
+                processing: function processing (file) {
+                    var reloading_img = '<div class="image  wait-loading" ><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
+                    $('#general_data > .row').css("opacity",0.2);
+                    $('#general_data').prepend(reloading_img);
+
+                    if (file.previewElement) {
+                        file.previewElement.classList.add("dz-processing");
+                        if (file._removeLink) {
+                            return file._removeLink.textContent = this.options.dictCancelUpload;
+                        }
+                    }
+                },
+
+                success: function success (file) {
+                    $('.wait-loading').remove();
+                    $('#general_data > .row').css("opacity",1);
+
+                    if (file.previewElement) {
+                        return file.previewElement.classList.add("dz-success");
+                    }
+                }
+            });
+
             $("#product_price,#discount_price").inputmask({
                 "alias"             : "numeric",
                 "groupSeparator"    : '<?php echo $priceThousand ?>',
                 "autoGroup"         : true,
-                "digits"            : <?php echo $priceDecimal ?>,
+                "digits"            : '<?php echo $priceDecimal ?>',
                 "digitsOptional"    : false,
                 "rightAlign"        : 0,
                 "autoUnmask"        : true,
