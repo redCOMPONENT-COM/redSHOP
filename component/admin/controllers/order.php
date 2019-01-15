@@ -334,7 +334,7 @@ class RedshopControllerOrder extends RedshopController
                     echo '' . ",";
                 }
 
-                $attItems = RedshopHelperOrder::getOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
+                $attItems = RedshopHelperOrder::getExportOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
                 for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
                 {
                     if (!empty($attItems[$at]->section_name))
@@ -474,7 +474,7 @@ class RedshopControllerOrder extends RedshopController
                     echo '' . ",";
                 }
 
-                $attItems = RedshopHelperOrder::getOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
+                $attItems = RedshopHelperOrder::getExportOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
                 for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
                 {
                     if (!empty($attItems[$at]->section_name))

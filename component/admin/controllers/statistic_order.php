@@ -134,7 +134,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
                     echo '' . ",";
                 }
 
-                $attItems = RedshopHelperOrder::getOrderItemAttributeDetail($noItems[$it]->order_item_id, 0, 'property');
+                $attItems = RedshopHelperOrder::getExportOrderItemAttributeDetail($noItems[$it]->order_item_id, 0, 'property');
                 for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
                 {
                     if (!empty($attItems[$at]->section_name))
