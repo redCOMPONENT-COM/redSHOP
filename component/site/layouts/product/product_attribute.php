@@ -55,7 +55,7 @@ $productHelper = productHelper::getInstance();
 				<?php $virtualNumber = ''; ?>
 			<?php endif; ?>
             <div class="checkout_attribute_wrapper">
-                <div class="checkout_attribute_price">test
+                <div class="checkout_attribute_price">
 					<?php echo urldecode($properties[$k]['property_name']) . $displayPrice; ?>
                 </div>
 				<?php echo $virtualNumber; ?>

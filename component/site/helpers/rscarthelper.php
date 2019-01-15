@@ -296,7 +296,6 @@ class rsCarthelper
 
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
-
 		if (strpos($cart_data, "{product_loop_start}") !== false && strpos($cart_data, "{product_loop_end}") !== false)
 		{
 			$template_sdata  = explode('{product_loop_start}', $cart_data);
