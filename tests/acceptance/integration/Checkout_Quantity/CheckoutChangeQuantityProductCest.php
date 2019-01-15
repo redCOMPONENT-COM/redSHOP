@@ -41,10 +41,10 @@ class CheckoutChangeQuantityProductCest
 	 */
 	public $total;
 
-    /**
-     * @var string
-     */
-    public $subtotal;
+	/**
+	 * @var string
+	 */
+	public $subtotal;
 
 	/**
 	 * @var int
@@ -106,19 +106,42 @@ class CheckoutChangeQuantityProductCest
 		$this->total = "DKK 1.000,00";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = 100;
+
+		//Configuration cart checkout
+		$this->addcart = 'product';
+		$this->allowPreOrder = 'no';
+		$this->enableQuation = 'no';
+		$this->cartTimeOut = 'no';
+		$this->enabldAjax = 'no';
+		$this->defaultCart = null;
+		$this->buttonCartLead = 'Back to current view';
+		$this->showShippingCart = 'no';
+		$this->attributeImage = 'no';
+		$this->minimunOrder = 0;
+		$this->onePage = "yes";
+		$this->quantityChange = "yes";
+		$this->quantityInCart = 3;
+		$this->disableonepage = "no";
+
 		//User
-		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->userName = $this->faker->bothify('QuantityChangeCest ?##?');
 		$this->password = $this->faker->bothify('123456');
 		$this->email = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
 		$this->group = 'Super User';
-		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->firstName = $this->faker->bothify('QuantityChangeCest FN ?##?');
 		$this->lastName = "LastName";
 	}
+
+
+    /**
+     * @param AcceptanceTester $I
+     */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
+
 	/**
 	 * Step1 : Enable Configuration change (One step checkout, quantity, shipping default same address)
 	 * Step2 : Create category
@@ -138,7 +161,7 @@ class CheckoutChangeQuantityProductCest
 	{
 		$I->wantTo('Enable Quantity Change in Cart');
 		$I = new ConfigurationSteps($scenario);
-		$I->configChangeQuantityProduct();
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -174,8 +197,8 @@ class CheckoutChangeQuantityProductCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, false);
 
-		$I->wantTo('Return Configuration in Administrator page');
+		$I->wantTo("Disable One page checkout");
 		$I = new ConfigurationSteps($scenario);
-		$I->returnConfigChangeQuantityProduct();
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->disableonepage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 	}
 }

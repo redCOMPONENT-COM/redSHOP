@@ -20,14 +20,6 @@ defined('_JEXEC') or die;
 class RedshopViewDiscounts extends RedshopViewList
 {
 	/**
-	 * Display check-in button or not.
-	 *
-	 * @var   boolean
-	 * @since  2.1.0
-	 */
-	protected $checkIn = false;
-
-	/**
 	 * Method for render columns
 	 *
 	 * @param   array   $config  Row config.

@@ -20,7 +20,10 @@ class RedshopViewCheckout extends RedshopView
 	public function display($tpl = null)
 	{
 		$app     = JFactory::getApplication();
+
+		/** @var RedshopModelCheckout $model */
 		$model   = $this->getModel('checkout');
+
 		$Itemid  = $app->input->getInt('Itemid');
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
@@ -46,7 +49,7 @@ class RedshopViewCheckout extends RedshopView
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.common.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.metadata.min.js', false, true);
-		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/registration.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.registration.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.validation.min.css', array(), true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.redbox.min.js', false, true);
 
@@ -66,7 +69,7 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$msg  = JText::_('COM_REDSHOP_EMPTY_CART');
 			$link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
-			$app->redirect(JRoute::_($link), $msg);
+			$app->redirect(JRoute::_($link, false), $msg);
 		}
 
 		$lists = array();
@@ -109,12 +112,17 @@ class RedshopViewCheckout extends RedshopView
 
 			if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') == 1 && !array_key_exists("quotation_id", $cart))
 			{
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid, false));
 			}
 
 			$users_info_id     = $app->input->getInt('users_info_id');
 			$billingaddresses  = $model->billingaddresses();
 			$shippingaddresses = $model->shippingaddresses();
+
+			if ($billingaddresses == new stdClass)
+			{
+				$billingaddresses = null;
+			}
 
 			if (!$users_info_id)
 			{
@@ -128,7 +136,7 @@ class RedshopViewCheckout extends RedshopView
 				}
 				else
 				{
-					$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid));
+					$app->redirect(JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, false));
 				}
 			}
 

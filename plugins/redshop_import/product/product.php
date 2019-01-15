@@ -110,7 +110,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		if (!empty($data['manufacturer_name']))
 		{
 			$query = $db->getQuery(true)
-				->select($db->qn("manufacturer_id"))
+				->select($db->qn("id"))
 				->from($db->qn('#__redshop_manufacturer'))
 				->where($db->qn('name') . ' = ' . $db->quote($data['manufacturer_name']));
 

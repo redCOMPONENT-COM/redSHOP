@@ -79,19 +79,19 @@ class DiscountCest
 		$this->amount            = $this->faker->numberBetween(100, 999);
 		$this->discountAmount    = $this->faker->numberBetween(10, 100);
 		$this->newAmount         = $this->faker->numberBetween(100, 999);
-		$this->startDate         = '13-06-2017';
-		$this->endDate           = '13-08-2017';
+		$this->startDate         = '13-06-' . date('Y', strtotime('+1 year'));
+		$this->endDate           = '13-08-' . date('Y', strtotime('+1 year'));
 		$this->shopperGroup      = 'Default Private';
 		$this->discountType      = 0;
 		$this->discountCondition = 1;
 	}
-    /**
-     * @param AcceptanceTester $I
-     */
-    public function _before(AcceptanceTester $I)
-    {
-        $I->doAdministratorLogin();
-    }
+	/**
+	 * @param AcceptanceTester $I
+	 */
+	public function _before(AcceptanceTester $I)
+	{
+		$I->doAdministratorLogin();
+	}
 	/**
 	 * Function to Test Discount Creation in Backend
 	 *
@@ -100,16 +100,15 @@ class DiscountCest
 	 *
 	 * @return  void
 	 */
-	public function createDiscount(AcceptanceTester $client, $scenario)
+	public function createDiscount(DiscountSteps $client)
 	{
-		$client = new DiscountSteps($scenario);
 		$client->addDiscount(
 			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->discountCondition
 		);
 		$client->searchDiscount($this->discountName);
 
-        $client->wantToTest('Deletion of Discount in Administrator');
-        $client->deleteDiscount($this->discountName);
+		$client->wantToTest('Deletion of Discount in Administrator');
+		$client->deleteDiscount($this->discountName);
 	}
 
 	/**
@@ -122,15 +121,14 @@ class DiscountCest
 	 *
 	 * @return  void
 	 */
-	public function addDiscountSaveChangeStatus(AcceptanceTester $client, $scenario)
+	public function addDiscountSaveChangeStatus(DiscountSteps $client)
 	{
 		$client->wantTo('Test Discount creation with save button in Administrator');
-		$client = new DiscountSteps($scenario);
 		$client->addDiscountSave($this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType);
 
-        $client->wantTo('Test if State of a Discount gets Updated in Administrator');
-        $client->changeDiscountState($this->discountName);
-        $client->verifyState('unpublished', $client->getDiscountState($this->discountName));
+		$client->wantTo('Test if State of a Discount gets Updated in Administrator');
+		$client->changeDiscountState($this->discountName);
+		$client->verifyState('unpublished', $client->getDiscountState($this->discountName));
 	}
 
 	/**
@@ -143,49 +141,47 @@ class DiscountCest
 	 *
 	 * @return void
 	 */
-	public function updateDiscount(AcceptanceTester $client, $scenario)
+	public function updateDiscount(DiscountSteps $client)
 	{
 		$client->wantTo('Test if Discount gets updated in Administrator');
-		$client = new DiscountSteps($scenario);
 		$client->wantTo('Update Existing Discount');
 		$client->editDiscount($this->discountName, $this->amount, $this->newAmount);
 	}
 
-    /**
-     * Function test discount with start date higher than end date.
-     *
-     * @param   AcceptanceTester $client   Acceptance Tester case.
-     * @param   string           $scenario Scenario for test.
-     *
-     * @depends addDiscountSaveChangeStatus
-     *
-     * @return  void
-     */
-    public function addDiscountBadCases(AcceptanceTester $client, $scenario)
-    {
-        $client->wantTo('Test Discount creation with start date higher than end date.');
-        $client = new DiscountSteps($scenario);
-        $client->addDiscountStartThanEnd(
-            $this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
-        );
+	/**
+	 * Function test discount with start date higher than end date.
+	 *
+	 * @param   AcceptanceTester $client   Acceptance Tester case.
+	 * @param   string           $scenario Scenario for test.
+	 *
+	 * @depends addDiscountSaveChangeStatus
+	 *
+	 * @return  void
+	 */
+	public function addDiscountBadCases(DiscountSteps $client)
+	{
+		$client->wantTo('Test Discount creation with start date higher than end date.');
+		$client->addDiscountStartThanEnd(
+			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 
-        $client->wantTo('Test Discount creation with missing name.');
-        $client->addDiscountMissingName(
-            $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
-        );
+		$client->wantTo('Test Discount creation with missing name.');
+		$client->addDiscountMissingName(
+			$this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 
-        $client->wantTo('Test Discount creation with missing amount.');
-        $client->addDiscountMissingAmount(
-            $this->discountName, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
-        );
+		$client->wantTo('Test Discount creation with missing amount.');
+		$client->addDiscountMissingAmount(
+			$this->discountName, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->startDate, $this->endDate
+		);
 
-        $client->wantTo('Test Discount creation with missing shopper groups.');
-        $client->addDiscountMissingShopperGroups(
-            $this->discountName, $this->amount, $this->discountAmount, $this->discountType, $this->startDate, $this->endDate
-        );
+		$client->wantTo('Test Discount creation with missing shopper groups.');
+		$client->addDiscountMissingShopperGroups(
+			$this->discountName, $this->amount, $this->discountAmount, $this->discountType, $this->startDate, $this->endDate
+		);
 
-        $client->wantTo('Test Discount creation with missing all fields.');
-        $client->addDiscountWithAllFieldsEmpty();
-    }
+		$client->wantTo('Test Discount creation with missing all fields.');
+		$client->addDiscountWithAllFieldsEmpty();
+	}
 
 }
