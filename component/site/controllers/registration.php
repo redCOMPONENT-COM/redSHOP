@@ -172,12 +172,11 @@ class RedshopControllerRegistration extends RedshopController
 		$isCompany = $input->post->getInt('isCompany');
 		$type      = $input->post->getString('type');
 		$lists     = array();
+		$html      = "";
 
 		if ($isCompany == 1 && $type == 'company')
 		{
-			$lists['extra_field_company'] = RedshopHelperExtrafields::listAllField(
-				RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, 0, '', '', 1, 1
-			);
+			$lists['extra_field_company'] = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS);
 
 			$template = RedshopHelperTemplate::getTemplate("company_billing_template");
 
@@ -219,9 +218,7 @@ class RedshopControllerRegistration extends RedshopController
 		}
 		elseif ($isCompany == 0 && $type == 'private')
 		{
-			$lists['extra_field_user'] = RedshopHelperExtrafields::listAllField(
-				RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS, 0, '', '', 1, 1
-			);
+			$lists['extra_field_user'] = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_PRIVATE_BILLING_ADDRESS);
 
 			$template = RedshopHelperTemplate::getTemplate("private_billing_template");
 
@@ -237,15 +234,32 @@ class RedshopControllerRegistration extends RedshopController
 			$html  = RedshopHelperBilling::replacePrivateCustomer($html, array(), $lists);
 			$html .= '<input type="hidden" name="is_company" value="0"/>';
 		}
-		else
-		{
-			JPluginHelper::importPlugin('redshop_checkout');
 
-			$html = '';
-			RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingOneStepCheckout', array(&$html));
-		}
+		JPluginHelper::importPlugin('redshop_checkout');
+		RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingOneStepCheckout', array(&$html));
 
 		echo $html;
+
+		$app->close();
+	}
+
+	public function ajaxValidateNewJoomlaUser()
+	{
+		$app = JFactory::getApplication();
+		$return = true;
+
+		$username = $app->input->getString('username', '');
+
+		if (!empty($username))
+		{
+			if (!empty(RedshopHelperUser::validateUser($username)))
+			{
+				$return = false;
+			}
+		}
+
+		ob_clean();
+		echo json_encode($return);
 
 		$app->close();
 	}

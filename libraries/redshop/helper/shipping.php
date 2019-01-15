@@ -1694,6 +1694,9 @@ class RedshopHelperShipping
 			$templateHtml = $htmlStart[0] . $htmlCompany . $htmlUser . $htmlEnd[1];
 		}
 
+		JPluginHelper::importPlugin('redshop_checkout');
+		RedshopHelperUtility::getDispatcher()->trigger('onRenderShippingCheckout', array(&$templateHtml));
+
 		return $templateHtml;
 	}
 }

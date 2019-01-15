@@ -138,7 +138,7 @@ class RedshopHelperPayment
 			->select('COUNT(*)')
 			->from($db->qn('#__redshop_order_payment'))
 			->where($db->qn('order_id') . ' = ' . (int) $orderId)
-			->where($db->qn('order_payment_trans_id') . ' = ' . $db->quote($transactionId));
+			->where($db->qn('order_payment_trans_id') . ' = ' . $db->quote((int) $transactionId));
 
 		$result = $db->setQuery($query)->loadResult();
 
@@ -223,7 +223,11 @@ class RedshopHelperPayment
 		}
 
 		$selectedPayments = $db->setQuery($query)->loadObjectList();
-		$selectedPayments = array_column($selectedPayments, 'payment_id');
+
+		if ($selectedPayments)
+		{
+			$selectedPayments = array_column($selectedPayments, 'payment_id');
+		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id       = str_replace('[]', '', $name);
@@ -232,6 +236,28 @@ class RedshopHelperPayment
 		$html    .= "</select>\n";
 
 		return $html;
+	}
+
+	/**
+	 * Get payment method by id product
+	 *
+	 * @param   integer  $productId  Only product to show
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public static function getPaymentByIdProduct($productId)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('payment_id'))
+			->from($db->qn('#__redshop_product_payment_xref'))
+			->where($db->qn('product_id') . ' = ' . $db->q((int) $productId));
+
+		return $db->setQuery($query)->loadColumn();
 	}
 
 	/**
