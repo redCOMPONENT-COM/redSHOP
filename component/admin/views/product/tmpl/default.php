@@ -99,7 +99,7 @@ JHtml::_('redshopjquery.framework');
                             value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'"; ?>>
 						<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME") ?></option>
                     <option
-                            value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'"; ?>>
+                            value="c.name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'"; ?>>
 						<?php echo JText::_("COM_REDSHOP_CATEGORY") ?></option>
                     <option
                             value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'"; ?>
