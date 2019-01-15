@@ -182,7 +182,7 @@ class RedshopHelperCartTag
 	 * @since   2.1.0
 	 */
 	public static function replaceCartItem($data, $cart = array(), $isReplaceButton = false, $quotationMode = 0)
-	{
+	{//REDSHOP-5305 $cart
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = RedshopHelperUtility::getDispatcher();
 
@@ -344,7 +344,8 @@ class RedshopHelperCartTag
 			{
 				$productId     = $cart[$i]['product_id'];
 				$product       = RedshopHelperProduct::getProductById($productId);
-				$attributeCart = productHelper::getInstance()->makeAttributeCart(
+				//var_dump($cart[$i]);
+				$attributeCart = productHelper::getInstance()->makeAttributeCart(//REDSHOP-5305
 					$cart[$i]['cart_attribute'], $productId, 0, 0, $quantity, $cartHtml
 				);
 				$cartAttribute = $attributeCart[0];

@@ -200,7 +200,7 @@ class Cart
 	 * @since   2.1.0
 	 */
 	public static function addProduct($data = array())
-	{
+	{//REDSHOP-5305
 		$user             = \JFactory::getUser();
 		$cart             = \RedshopHelperCartSession::getCart();
 		$data['quantity'] = round($data['quantity']);
@@ -219,9 +219,9 @@ class Cart
 		}
 		// Set session for product
 		else
-		{
+		{//REDSHOP-5305
 			$result = self::addNormalProduct($cart, $idx, $data);
-
+//var_dump($cart[1]['cart_attribute'][0]['attribute_childs'][0]);die;
 			if (true !== $result)
 			{
 				return $result;
@@ -328,7 +328,7 @@ class Cart
 	 * @since   2.1.0
 	 */
 	public static function addNormalProduct(&$cart, $idx, $data = array())
-	{
+	{//REDSHOP-5305
 		$section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
 		$rows    = \RedshopHelperExtrafields::getSectionFieldList($section);
 
@@ -339,8 +339,8 @@ class Cart
 
 		$productId = $data['product_id'];
 		$quantity  = $data['quantity'];
-		$product   = \RedshopHelperProduct::getProductById($productId);
-
+		$product   = \RedshopHelperProduct::getProductById($productId);//REDSHOP-5305
+//var_dump($product->attributes[1]->properties[1]);die;
 		// Handle individual accessory add to cart price
 		if (\Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
 			&& isset($data['parent_accessory_product_id'])
@@ -402,7 +402,7 @@ class Cart
 		// Attribute price added
 		$generateAttributeCart = isset($data['cart_attribute']) ?
 			$data['cart_attribute'] : \Redshop\Cart\Helper::generateAttribute($data);
-
+//REDSHOP-5305
 		$retAttArr = \productHelper::getInstance()->makeAttributeCart(
 			$generateAttributeCart, $product->product_id, 0, $data['product_price'], $quantity
 		);

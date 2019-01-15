@@ -418,6 +418,7 @@ class Helper
 						'property_name'   => $property[0]->text,
 						'property_oprand' => $property[0]->oprand,
 						'property_price'  => $propertyPrice,
+						'property_number' => $property[0]->property_number,
 					);
 
 					$propertiesOprand[$propIndex] = $property[0]->oprand;

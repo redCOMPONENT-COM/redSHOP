@@ -34,6 +34,7 @@ $productHelper = productHelper::getInstance();
 				<?php echo urldecode($attributes[$i]['attribute_name']); ?>
             </div>
 		<?php endif; ?>
+		<?php //var_dump($attributes[0]); ?>
 		<?php for ($k = 0, $kn = count($properties); $k < $kn; $k++) : ?>
 			<?php
             $property         = RedshopHelperProduct_Attribute::getAttributeProperties($properties[$k]['property_id']);
@@ -55,7 +56,7 @@ $productHelper = productHelper::getInstance();
 				<?php $virtualNumber = ''; ?>
 			<?php endif; ?>
             <div class="checkout_attribute_wrapper">
-                <div class="checkout_attribute_price">
+                <div class="checkout_attribute_price">test
 					<?php echo urldecode($properties[$k]['property_name']) . $displayPrice; ?>
                 </div>
 				<?php echo $virtualNumber; ?>
