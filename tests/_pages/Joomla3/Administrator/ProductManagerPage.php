@@ -55,7 +55,7 @@ ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $searchStatusField = "#s2id_autogen4_search";
+	public static $searchStatusField = "#s2id_autogen3_search";
 
 	/**
 	 * @var string
