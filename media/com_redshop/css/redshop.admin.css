@@ -27151,7 +27151,9 @@ body.modal-open {
     right: 5px;
     color: #ad312b;
 }
-
+.redSHOPAdminViewProduct_detail #extrafield .table-responsive {
+    overflow-x: inherit;
+}
 .rs-full { display: none; }
 .rs-more { cursor: pointer; }
 .rs-teaser { display: inline-block; }
