@@ -43,7 +43,7 @@ class RedshopControllerCart extends RedshopController
 	 * @throws  Exception
 	 */
 	public function add()
-	{//REDSHOP-5305
+	{
 		$app                      = JFactory::getApplication();
 		$post                     = $app->input->post->getArray();
 		$parentAccessoryProductId = $post['product_id'];
@@ -67,7 +67,7 @@ class RedshopControllerCart extends RedshopController
 
 		$isAjaxCartBox = Redshop::getConfig()->getBool('AJAX_CART_BOX');
 
-		$result = Redshop\Cart\Cart::addProduct($post);//REDSHOP-5305
+		$result = Redshop\Cart\Cart::addProduct($post);
 
 		if (!is_bool($result) || (is_bool($result) && !$result))
 		{

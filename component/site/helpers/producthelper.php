@@ -2737,7 +2737,7 @@ class productHelper
 	}
 
 	public function makeAttributeCart($attributes = array(), $productId = 0, $userId = 0, $newProductPrice = 0, $quantity = 1, $data = '')
-	{//REDSHOP-5305 $attributes
+	{
 		$user = JFactory::getUser();
 
 		if ($userId == 0)

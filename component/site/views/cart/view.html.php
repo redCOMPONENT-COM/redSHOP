@@ -84,8 +84,7 @@ class RedshopViewCart extends RedshopView
 
 		$this->cart = $cart;
 		$this->data = $data;
-		//REDSHOP-5305 $cart
-		//var_dump($cart[1]['cart_attribute'][0]['attribute_childs'][0]);
+
 		parent::display($tpl);
 	}
 }

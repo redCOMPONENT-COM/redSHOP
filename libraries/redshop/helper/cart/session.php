@@ -25,7 +25,7 @@ class RedshopHelperCartSession
 	 * @since    2.0.7
 	 */
 	public static function getCart()
-	{//REDSHOP-5305
+	{
 		return (array) JFactory::getSession()->get('cart', array());
 	}
 
@@ -37,8 +37,7 @@ class RedshopHelperCartSession
 	 * @since   2.0.7
 	 */
 	public static function setCart($cart)
-	{//REDSHOP-5305
-		//var_dump(debug_backtrace());
+	{
 		return JFactory::getSession()->set('cart', $cart);
 	}
 

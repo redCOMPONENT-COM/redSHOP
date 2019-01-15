@@ -34,7 +34,6 @@ $productHelper = productHelper::getInstance();
 				<?php echo urldecode($attributes[$i]['attribute_name']); ?>
             </div>
 		<?php endif; ?>
-		<?php //var_dump($attributes[0]); ?>
 		<?php for ($k = 0, $kn = count($properties); $k < $kn; $k++) : ?>
 			<?php
             $property         = RedshopHelperProduct_Attribute::getAttributeProperties($properties[$k]['property_id']);
