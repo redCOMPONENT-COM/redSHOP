@@ -149,7 +149,7 @@ function userfieldValidation(extrafieldname)
 						chk_flag = true;
 						continue;
 					}
-					if((ex == (extrafields.length-1) && chk_flag==false) || (extrafields[ex+1].type!='checkbox') && chk_flag==false )
+					if((ex == (extrafields.length-1) && chk_flag==false) || (extrafields[ex].type!='checkbox') && chk_flag==false )
 					{
 						alert(extrafields[ex].getAttribute('userfieldlbl')+' '+Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
 						return false;
@@ -711,19 +711,20 @@ function getBillingTemplate(el)
 	var type = jQuery(el).attr('billing_type');
 	var url = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getBillingTemplate";
 
-	jQuery.ajax({
-		url: url,
-		type: 'POST',
-		data: {type: type, isCompany: isCompany},
-		success: function(html) {
-			jQuery('#wrapper-billing').html('');
-			jQuery('#wrapper-billing').append(html);
-			jQuery(document).trigger("AfterGetBillingTemplate");
+    jQuery.ajax({
+        url: url,
+        type: 'POST',
+        data: {type: type, isCompany: isCompany},
+        success: function (html) {
+            jQuery('#wrapper-billing').html('');
+            jQuery('#wrapper-billing').append(html);
+            jQuery('#wrapper-billing select:not(".disableBootstrapChosen")').select2();
+            jQuery(document).trigger("AfterGetBillingTemplate");
 
-			var event = {};
-			handleAjaxOnestep(event);
-		}
-	})
+            var event = {};
+            handleAjaxOnestep(event);
+        }
+    });
 }
 
 function handleAjaxOnestep(event) {
@@ -1042,7 +1043,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 				},
 			})
 			.done(function(html) {
-				jQuery('#paymentblock #' + paymentMethod.val()).siblings('.extrafield_payment').append(html);
+                jQuery('#paymentblock').find( ".extrafield_payment#" + paymentMethod.val() ).find('.extrafield_payment').append(html);
 
 				if (jQuery('input[id^="rs_birthdate_"]').length)
 				{
