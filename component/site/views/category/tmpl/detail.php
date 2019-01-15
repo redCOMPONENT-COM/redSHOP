@@ -61,8 +61,9 @@ else
 $categoryItemId = (int) RedshopHelperRouter::getCategoryItemid($this->catid);
 $mainItemid     = !$categoryItemId ? $this->itemid : $categoryItemId;
 
+$excludedTags = array();
 // New tags replacement for category template section
-$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail, 'manufacturerId' => $this->manufacturer_id, 'itemId' => $mainItemid));
+$template_desc = RedshopTagsReplacer::_('category', $template_desc, array('category' => $this->maincat, 'subCategories' => $this->detail, 'manufacturerId' => $this->manufacturer_id, 'itemId' => $mainItemid, 'excludedTags' => $excludedTags));
 
 $endlimit = $this->state->get('list.limit');
 
@@ -262,6 +263,12 @@ if (!$slide)
 
 	if (null !== $fullImage)
 	{
+		if (is_null($ch_thumb) || !$ch_thumb || is_null($cw_thumb) || !$cw_thumb)
+		{
+			$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
+			$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
+		}
+
 		$water_cat_img  = $fullImage->generateThumb($cw_thumb, $ch_thumb);
 		$cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name .
 			"'><img src='" . $water_cat_img['abs'] . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
@@ -293,36 +300,16 @@ if (!$slide)
 		$template_d2     = explode("{category_loop_end}", $template_d1 [1]);
 		$subcat_template = $template_d2 [0];
 
-		if (strpos($subcat_template, '{category_thumb_image_2}') !== false)
-		{
-			$tag     = '{category_thumb_image_2}';
-			$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
-			$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
-		}
-        elseif (strpos($subcat_template, '{category_thumb_image_3}') !== false)
-		{
-			$tag     = '{category_thumb_image_3}';
-			$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
-			$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
-		}
-        elseif (strpos($subcat_template, '{category_thumb_image_1}') !== false)
-		{
-			$tag     = '{category_thumb_image_1}';
-			$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
-			$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
-		}
-		else
-		{
-			$tag     = '{category_thumb_image}';
-			$h_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
-			$w_thumb = Redshop::getConfig()->get('THUMB_WIDTH');
-		}
-
 		$cat_detail                    = "";
 		$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $subcat_template);
 
 		for ($i = 0, $nc = count($this->detail); $i < $nc; $i++)
 		{
+			if (empty($excludedTags))
+			{
+				break;
+			}
+
 			$row = $this->detail[$i];
 
 			// Filter categories based on Shopper group category ACL
@@ -340,81 +327,7 @@ if (!$slide)
 				continue;
 			}
 
-			$data_add = $subcat_template;
-
-			$categoryItemId = RedshopHelperRouter::getCategoryItemid($row->id);
-			$mainItemId     = !$categoryItemId ? $this->itemid : $categoryItemId;
-
-			$link = JRoute::_(
-				'index.php?option=' . $this->option .
-				'&view=category&cid=' . $row->id .
-				'&manufacturer_id=' . $this->manufacturer_id .
-				'&layout=detail&Itemid=' . $mainItemId
-			);
-
-			$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-			$title       = " title='" . $row->name . "' ";
-			$alt         = " alt='" . $row->name . "' ";
-			$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
-			$linkimage   = $product_img;
-
-			if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
-			{
-				$categoryFullImage = $row->category_full_image;
-				$product_img       = RedshopHelperMedia::watermark('category', $row->category_full_image, $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-				$linkimage         = RedshopHelperMedia::watermark(
-					'category', $row->category_full_image, '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
-			}
-            elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE') && file_exists($middlepath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
-			{
-				$categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
-				$product_img       = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), $w_thumb, $h_thumb, Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE'), '0');
-				$linkimage         = RedshopHelperMedia::watermark('category', Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'), '', '', Redshop::getConfig()->get('WATERMARK_CATEGORY_IMAGE'), '0');
-			}
-
-			if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
-			{
-				$cat_thumb = "<a class='modal' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $categoryFullImage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
-			}
-			else
-			{
-				$cat_thumb = "<a href='" . $link . "' " . $title . ">";
-			}
-
-			$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
-			$cat_thumb .= "</a>";
-			$data_add  = str_replace($tag, $cat_thumb, $data_add);
-
-			if (strpos($data_add, '{category_name}') !== false)
-			{
-				$cat_name = '<a href="' . $link . '" ' . $title . '>' . $row->name . '</a>';
-				$data_add = str_replace("{category_name}", $cat_name, $data_add);
-			}
-
-			if (strpos($data_add, '{category_readmore}') !== false)
-			{
-				$cat_name = '<a href="' . $link . '" ' . $title . '>' . JText::_('COM_REDSHOP_READ_MORE') . '</a>';
-				$data_add = str_replace("{category_readmore}", $cat_name, $data_add);
-			}
-
-			if (strpos($data_add, '{category_description}') !== false)
-			{
-				$cat_desc = $Redconfiguration->maxchar($row->description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
-				$data_add = str_replace("{category_description}", $cat_desc, $data_add);
-			}
-
-			if (strpos($data_add, '{category_short_desc}') !== false)
-			{
-				$cat_s_desc = $Redconfiguration->maxchar($row->short_description, Redshop::getConfig()->get('CATEGORY_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_SHORT_DESC_END_SUFFIX'));
-				$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
-			}
-
-			if (strpos($data_add, '{category_total_product}') !== false)
-			{
-				$totalprd = $producthelper->getProductCategory($row->id);
-				$data_add = str_replace("{category_total_product}", count($totalprd), $data_add);
-				$data_add = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $data_add);
-			}
+			$data_add = explode('{explode_product}', $subcat_template);
 
 			/*
 			 * category template extra field
@@ -422,10 +335,10 @@ if (!$slide)
 			 */
 			if ($extraFieldsForCurrentTemplate)
 			{
-				$data_add = Redshop\Helper\ExtraFields::displayExtraFields(2, $row->id, $extraFieldsForCurrentTemplate, $data_add);
+				$data_add[$i] = Redshop\Helper\ExtraFields::displayExtraFields(2, $row->id, $extraFieldsForCurrentTemplate, $data_add[$i]);
 			}
 
-			$cat_detail .= $data_add;
+			$cat_detail .= $data_add[$i];
 		}
 
 		$template_desc = str_replace("{category_loop_start}", "", $template_desc);
@@ -820,7 +733,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 		}
 
-		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'>
+		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth'  id='prd_main_imgwidth' value='" . $pw_thumb . "'>
 								<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 
 		// Product image flying addwishlist time start
