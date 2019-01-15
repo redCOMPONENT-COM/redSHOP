@@ -8,7 +8,7 @@
 				});
 				if (select != '') {
 					$(select).select2({
-						width:"auto", 
+						width:"auto",
 						dropdownAutoWidth:"auto",
 						minimumResultsForSearch: -1
 					});
@@ -97,13 +97,13 @@
 
 			+ '<div class="sub_attribute_table">'
 
-			
+
 			// sub_attribute_table
 			+ '</div>'
 
 			// attribute_parameter_tr
 			+ '</div>'
-	
+
 			// divInspectFromHideShow
 			+ '</div>';
 		}
@@ -223,6 +223,8 @@
 						'type': 'POST'
 					});
 				}
+
+				$this.closest('.attribute_table').prev('.showhidearrow').remove();
 				$this.closest('.attribute_table').remove();
 			}
 		}).on('click', '.add_property', function (e) {
@@ -250,7 +252,7 @@
 			countSubProp.val(sp + 1);
 			var or = sp + 1;
 			var subPref = 'attribute[' + gh + '][property][' + sh + '][subproperty][' + sp + ']';
-	
+
 			$this.parents('.attr_tbody').find('.sub_attribute_table').append(
 				'<div class="sub_property_table"><div class="row">'
 
@@ -310,7 +312,7 @@
 		}).on('change', '.propertyInput', function(){
 			$(this).parents('.attr_tbody').prev('.showhidearrow').find('.propertyName').text($(this).val());
 		});
-		
+
 		$('dd.tabs:visible').on('click', '.checkbox.inline[name*="[preselected]"] input', function () {
 			if ($(this).parents('.attribute_table').find('.checkbox.inline input[name*="[allow_multiple_selection]"]').is(':checked') == true) {
 				return true;

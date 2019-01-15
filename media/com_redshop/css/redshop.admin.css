@@ -18247,6 +18247,7 @@ hr {
     border: 0;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #fff;
+    clear: both;
 }
 
 abbr[title],
@@ -18479,7 +18480,7 @@ input[type="color"],
 .uneditable-input {
     background-color: #fff;
     border: 1px solid #ccc;
- 
+
 }
 
 textarea:focus,
@@ -27142,6 +27143,8 @@ body.modal-open {
 
 .attribute_table {
     margin: 0 0 15px 0 !important;
+    width: 100%;
+    overflow: hidden;
 }
 
 .property_table
@@ -27201,7 +27204,7 @@ body.modal-open {
 }
 
 .sub_attribute_table {
-    
+
 }
 
 .sub_property_table

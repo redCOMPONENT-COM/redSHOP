@@ -201,7 +201,7 @@ if ($data->lists['attributes'])
 		</div>
 		</div>
 
-
+		<hr>
 
 	<?php
 	}

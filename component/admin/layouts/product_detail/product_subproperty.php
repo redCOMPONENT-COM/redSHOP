@@ -66,9 +66,9 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 		<label>
 			<?php echo JText::_('COM_REDSHOP_PRICE'); ?>
 		</label>
-		
+
 		<?php echo JHtml::_('select.genericlist', $data->lists['prop_oprand'], $subPropPref . '[oprand]', 'text-center input-xmini', 'value', 'text', $subProperty->oprand); ?>
-		
+
 		<input type="text" class="input-mini" name="<?php echo $subPropPref; ?>[price]" value="<?php echo $subProperty->subattribute_color_price; ?>" />
 	</div>
 	<div class="col-sm-1">
@@ -99,14 +99,13 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 					</a>
 				<?php endif; ?>
 	</div>
-	
+
 	<div class="col-sm-1">
 		<label>
 			<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>
-			
+
 		</label>
-		<input type="checkbox" <?php echo $subPropertyPublished; ?> name="
-			<?php echo $subPropPref; ?>[published]" value="1"/>
+		<input type="checkbox" <?php echo $subPropertyPublished; ?> name="<?php echo $subPropPref; ?>[published]" value="1"/>
 	</div>
 
 	<div class="col-sm-1">
@@ -133,11 +132,11 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 
 			<div class="row">
 				<div class="imageBlock">
-				
+
 					<?php
 					if ($mainImage)
 					{
-						
+
 						?>
 
 						<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $mainImage; ?>">
@@ -145,7 +144,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 						</a>
 						<?php
 					}
-					
+
 					?>
 
 					<a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
@@ -169,7 +168,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 				<?php
 				if ($subPropertyImage)
 				{
-					
+
 					?>
 
 					<a class="joom-box" rel="{handler: 'image', size: {}}" href="<?php echo $subPropertyImage; ?>">
@@ -192,10 +191,10 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 			</div>
 		</div>
 
-		
-		
+
+
 	</div>
 </div>
-	
+
 </div>
 
