@@ -301,8 +301,9 @@ if (strpos($oneStepTemplateHtml, "{shipping_address}") !== false)
 		}
 		else
 		{
-			$lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
-			$lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS);
+      			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
+			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS);
+      
 			$shippingHtml = '<div class="form-group"><label for="billisship">'
 				. '<input class="toggler" type="checkbox" id="billisship" name="billisship" value="1" '
 				. 'onclick="billingIsShipping(this);" checked="" />'
@@ -411,11 +412,11 @@ $oneStepTemplateHtml = RedshopHelperTemplate::parseRedshopPlugin($oneStepTemplat
     function validation() {
 
 		<?php if (Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0
-	        && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL')): ?>
+	&& $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL')): ?>
 
-            alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");
+        alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN');?>");
 
-            return false;
+        return false;
 		<?php endif    ?>
 
         return true;
