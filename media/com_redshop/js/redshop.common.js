@@ -149,7 +149,7 @@ function userfieldValidation(extrafieldname)
 						chk_flag = true;
 						continue;
 					}
-					if((ex == (extrafields.length-1) && chk_flag==false) || (extrafields[ex+1].type!='checkbox') && chk_flag==false )
+					if((ex == (extrafields.length-1) && chk_flag==false) || (extrafields[ex].type!='checkbox') && chk_flag==false )
 					{
 						alert(extrafields[ex].getAttribute('userfieldlbl')+' '+Joomla.JText._('COM_REDSHOP_IS_REQUIRED'));
 						return false;
@@ -1018,6 +1018,8 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 					console.log("error");
 				});
 			}
+
+			jQuery(redSHOP).trigger("onAfterOneStepCheckoutProcess", [postParams]);
 		})
 		.fail(function() {
 			console.warn("onestepCheckoutProcess Error");
