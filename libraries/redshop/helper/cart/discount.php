@@ -80,6 +80,14 @@ class RedshopHelperCartDiscount
 
 		$coupon = rsCarthelper::getInstance()->getCouponData($couponCode, $cart['product_subtotal']);
 
+        foreach ($cart['coupon'] as $cartCoupon)
+        {
+            if ($coupon->id == $cartCoupon['coupon_id'])
+            {
+                return false;
+            }
+        }
+
 		if (!empty($coupon))
 		{
 			$discountType = $coupon->type;
@@ -315,6 +323,14 @@ class RedshopHelperCartDiscount
 		}
 
 		$voucher = rsCarthelper::getInstance()->getVoucherData($voucherCode);
+
+        foreach ($cart['voucher'] as $cartVoucher)
+        {
+            if ($voucher->id == $cartVoucher['voucher_id'])
+            {
+                return false;
+            }
+        }
 
 		if (null === $voucher)
 		{
