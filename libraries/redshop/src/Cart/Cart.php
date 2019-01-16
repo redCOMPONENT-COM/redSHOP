@@ -746,7 +746,7 @@ class Cart
 
 					if ($newCartQuantity != $cart[$i]['quantity'])
 					{
-						$cart[$i]['quantity'] = $quantity;
+						$cart[$i]['quantity'] = $newCartQuantity;
 
 						/*
 						 * Trigger the event of redSHOP product plugin support on Same product is going to add into cart
