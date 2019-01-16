@@ -1,3 +1,8 @@
+clone:
+    default:
+        image: plugins/git
+        recursive: false
+
 pipeline:
     00-cache:
         group: 00-setup
@@ -724,7 +729,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g1/Notices 1 1'
+        - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g1/Notices 0 0'
 
     40-Product_Attribute:
         group: 02-tests
