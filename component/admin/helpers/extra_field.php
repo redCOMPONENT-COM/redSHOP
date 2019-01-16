@@ -96,14 +96,14 @@ class extra_field
 	/**
 	 * validate Extra Field
 	 *
-	 * @param   string   $field_section  Field Section List
+	 * @param   integer   $field_section  Field Section List
 	 * @param   integer  $section_id     Section ID
 	 *
 	 * @return  boolean
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::CheckExtraFieldValidation() instead
 	 */
-	public function chk_extrafieldValidation($field_section = "", $section_id = 0)
+	public function chk_extrafieldValidation($field_section = 0, $section_id = 0)
 	{
 		return RedshopHelperExtrafields::CheckExtraFieldValidation($field_section, $section_id);
 	}
@@ -111,7 +111,7 @@ class extra_field
 	/**
 	 * List all fields and display
 	 *
-	 * @param   string   $field_section  Field section
+	 * @param   integer   $field_section  Field section
 	 * @param   integer  $section_id     Section ID
 	 * @param   integer  $flag           Flag
 	 * @param   string   $user_email     User email
@@ -122,7 +122,7 @@ class extra_field
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllFieldDisplay() instead
 	 */
-	public function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "", $sendmail = false)
+	public function list_all_field_display($field_section = 0, $section_id = 0, $flag = 0, $user_email = "", $template_desc = "", $sendmail = false)
 	{
 		return RedshopHelperExtrafields::listAllFieldDisplay($field_section, $section_id, $flag, $user_email, $template_desc, $sendmail);
 	}
