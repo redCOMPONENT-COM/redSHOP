@@ -380,7 +380,7 @@ class Helper
 
 		$attributes        = explode('##', $data['attribute_data']);
 		$propertiesData    = explode('##', $data['property_data']);
-		$subPropertiesData = !empty($data['subproperty_data']) ? explode('##', $data['subproperty_data']) : null;
+		$subPropertiesDatas = !empty($data['subproperty_data']) ? explode('##', $data['subproperty_data']) : null;
 
 		foreach ($attributes as $attrIndex => $attributeId)
 		{
@@ -423,9 +423,9 @@ class Helper
 					$propertiesOprand[$propIndex] = $property[0]->oprand;
 					$propertiesPrice[$propIndex]  = $propertyPrice;
 
-					if (!empty($subPropertiesData))
+					if (!empty($subPropertiesDatas))
 					{
-						$subPropertiesData = explode(',,', $subPropertiesData[$attrIndex]);
+						$subPropertiesData = explode(',,', $subPropertiesDatas[$attrIndex]);
 
 						if (isset($subPropertiesData[$propIndex]) && $subPropertiesData[$propIndex] != "")
 						{
