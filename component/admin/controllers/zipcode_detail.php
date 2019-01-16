@@ -69,7 +69,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg, 'error');
 		}
 		else
 		{
