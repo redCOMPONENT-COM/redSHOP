@@ -400,7 +400,7 @@ class Helper
 					$accSubpropertyCart = array();
 					$property           = \RedshopHelperProduct_Attribute::getAttributeProperties($accessoriesPropertiesData[$propIndex]);
 					$priceList          = \RedshopHelperProduct_Attribute::getPropertyPrice(
-						$accessoriesProperty[$propIndex], $data['quantity'], 'property', $userId
+						/** @scrutinizer ignore-type */ $accessoriesProperty, $data['quantity'], 'property', $userId
 					);
 
 					if (!empty($priceList) && $priceList != new \stdClass)
