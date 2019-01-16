@@ -141,7 +141,7 @@ class ProductsCest
 	{
 		$I->wantTo('Test Select Status Category Product in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to check select category add product inside the category');
+		$I->wantTo('I Want to check select status category add product inside the category');
 		$I->checkSelectStatus($this->statusProducts);
 	}
 
