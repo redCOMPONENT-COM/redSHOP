@@ -96,6 +96,17 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 */
 	private function replaceCategory($category, $template)
 	{
+		$producthelper  = productHelper::getInstance();
+		$manufacturerId = (!empty($this->data['manufacturerId'])) ? $this->data['manufacturerId'] : '';
+		$link = JRoute::_(
+			'index.php?option=com_redshop' .
+			'&view=category&cid=' . $category->id .
+			'&manufacturer_id=' . $manufacturerId .
+			'&layout=detail&Itemid=' . $this->data['itemId']
+		);
+
+		$title = " title='" . $category->name . "' ";
+
 		// Specific cases
 		if ($this->isTagExists('{category_thumb_image}') && $this->isTagRegistered('{category_thumb_image}') && isset($category->category_full_image))
 		{
@@ -126,14 +137,21 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		if ($this->isTagExists('{category_name}') && $this->isTagRegistered('{category_name}') && isset($category->name))
 		{
-			$link  = 'index.php?option=com_redshop' .
-				'&view=category&cid=' . $category->id .
-				'&layout=detail&Itemid=' . $this->data['itemId'];
-
-			$link .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';
-
-			$categoryName = '<a href="' . JRoute::_($link) . '" title="' . $category->name . '">' . $category->name . '</a>';
+			$categoryName = '<a href="' . $link . '" ' . $title . '>' . $category->name . '</a>';
 			$template     = str_replace("{category_name}", $categoryName, $template);
+		}
+
+		if ($this->isTagExists('{category_readmore}') && $this->excludeTags('{category_readmore}'))
+		{
+			$categoryReadMore = '<a href="' . $link . '" ' . $title . '>' . JText::_('COM_REDSHOP_READ_MORE') . '</a>';
+			$template         = str_replace("{category_readmore}", $categoryReadMore, $template);
+		}
+
+		if ($this->isTagExists('{category_total_product}') && $this->excludeTags('{category_total_product}'))
+		{
+			$totalprd = $producthelper->getProductCategory($category->id);
+			$template = str_replace("{category_total_product}", count($totalprd), $template);
+			$template = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $template);
 		}
 
 		$this->replaceCategoryProperties($template, $category);
@@ -156,31 +174,37 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		// Replace all registered tag if category object have it
 		foreach ($this->tags as $tag)
 		{
-			$tag = str_replace('{', '', $tag);
-			$tag = str_replace('}', '', $tag);
-
-			// Make this this tag also have object property to use
-			if (property_exists($category, $tag))
+			if ($this->excludeTags($tag))
 			{
-				$template = str_replace('{' . $tag . '}', $category->{$tag}, $template);
+				$tag = str_replace('{', '', $tag);
+				$tag = str_replace('}', '', $tag);
+
+				// Make this this tag also have object property to use
+				if (property_exists($category, $tag))
+				{
+					$template = str_replace('{' . $tag . '}', $category->{$tag}, $template);
+				}
 			}
 		}
 
 		// Also replace with alias
 		foreach ($this->tagAlias as $alias => $tag)
 		{
-			$tag              = str_replace('{', '', $tag);
-			$tag              = str_replace('}', '', $tag);
-			$tagWithoutPrefix = str_replace('category_', '', $tag);
+			if ($this->excludeTags($alias) && $this->excludeTags($tag))
+			{
+				$tag              = str_replace('{', '', $tag);
+				$tag              = str_replace('}', '', $tag);
+				$tagWithoutPrefix = str_replace('category_', '', $tag);
 
-			// Make this this tag also have object property to use
-			if (property_exists($category, $tag))
-			{
-				$template = str_replace($alias, $category->{$tag}, $template);
-			}
-			else
-			{
-				$template = str_replace($alias, $category->{$tagWithoutPrefix}, $template);
+				// Make this this tag also have object property to use
+				if (property_exists($category, $tag))
+				{
+					$template = str_replace($alias, $category->{$tag}, $template);
+				}
+				else
+				{
+					$template = str_replace($alias, $category->{$tagWithoutPrefix}, $template);
+				}
 			}
 		}
 	}
@@ -206,14 +230,30 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			// Replace all sub categories
 			foreach ($subCategories as $category)
 			{
+				$lastElement      = end($subCategories);
 				$categoryTemplate = $subTemplate['template'];
 				$categoryTemplate = $this->replaceCategory($category, $categoryTemplate);
 				$categoryTemplate = $this->replaceSubCategoriesLevel2($category, $categoryTemplate);
-				$template[]       = $categoryTemplate;
+
+				if (!empty($this->data['excludedTags']))
+				{
+					$template[] = ($category->id == $lastElement->id) ? $categoryTemplate : $categoryTemplate . "{explode_product}";
+				}
+				else
+				{
+					$template[] = $categoryTemplate;
+				}
+			}
+
+			$templateTmp = implode(PHP_EOL, $template);
+
+			if (!empty($this->data['excludedTags']))
+			{
+				$templateTmp = "{category_loop_start}" . $templateTmp . "{category_loop_end}";
 			}
 
 			// Return all template after replaced
-			return $subTemplate['begin'] . implode(PHP_EOL, $template) . $subTemplate['end'];
+			return $subTemplate['begin'] . $templateTmp . $subTemplate['end'];
 		}
 
 		return $this->template;
@@ -271,7 +311,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 					if (strstr($dataAdd, '{subcategory_link}'))
 					{
 						$link  = 'index.php?option=com_redshop' .
-									'&view=category&cid=' . $category->id .
+									'&view=category&cid=' . $row->id .
 									'&layout=detail&Itemid=' . $this->data['itemId'];
 
 						$link .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';

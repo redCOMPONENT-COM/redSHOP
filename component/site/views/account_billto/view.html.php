@@ -29,7 +29,7 @@ class RedshopViewAccount_Billto extends RedshopView
 	public $lists;
 
 	/**
-	 * @var object
+	 * @var object|boolean
 	 */
 	public $billingaddresses;
 
@@ -54,7 +54,7 @@ class RedshopViewAccount_Billto extends RedshopView
 
 		$billingAddresses = Redshop\User\Billing\Billing::getGlobal();
 
-		if (empty($billingAddresses))
+		if (empty($billingAddresses) || $billingAddresses == new stdClass)
 		{
 			/** @var RedshopModelAccount_Billto $model */
 			$model = $this->getModel('account_billto');

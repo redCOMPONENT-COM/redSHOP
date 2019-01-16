@@ -29,6 +29,7 @@ class CategorySteps extends AbstractStep
 	 * @param   integer  $noPage          No page.
 	 *
 	 * @return  void
+	 * @throws \Exception
 	 */
 	public function addCategoryChild($categoryParent, $categoryName, $noPage)
 	{
@@ -36,10 +37,11 @@ class CategorySteps extends AbstractStep
 		$tester->amOnPage(CategoryPage::$url);
 		$tester->click(CategoryPage::$buttonNew);
 		$tester->fillField(CategoryPage::$idFieldName, $categoryName);
-		$tester->click(CategoryPage::$parentCategory);
-		$tester->click(CategoryPage::$choiceTemplate);
 		$tester->fillField(CategoryPage::$categoryNoPage, $noPage);
-		$tester->click(CategoryPage::$template);
+		$tester->click(CategoryPage::$parentCategory);
+		$tester->fillField(CategoryPage::$parentCategoryInput, $categoryParent);
+		$tester->pressKey(CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$tester->click(CategoryPage::$template1);
 		$tester->click(CategoryPage::$choiceTemplate);
 		$tester->click(CategoryPage::$buttonSave);
 		$categoryParent = '- ' . $categoryParent;
@@ -59,7 +61,7 @@ class CategorySteps extends AbstractStep
 	{
 		$tester = $this;
 		$tester->amOnPage(CategoryPage::$url);
-		$tester->searchItem($categoryName);
+		$tester->searchItemCheckIn($categoryName);
 		$tester->click($categoryName);
 		$tester->click(CategoryPage::$tabAccessory);
 		$tester->waitForElement(CategoryPage::$getAccessory, 60);

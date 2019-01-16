@@ -21,9 +21,9 @@ class Item
 	/**
 	 * replace Order Items
 	 *
-	 * @param   string   $content   Template
-	 * @param   array    $items     Order item list
-	 * @param   boolean  $sendMail  Is send mail
+	 * @param   string  $content  Template
+	 * @param   array   $items    Order item list
+	 * @param   boolean $sendMail Is send mail
 	 *
 	 * @return  array
 	 * @throws  \Exception
@@ -195,7 +195,7 @@ class Item
 				$productPrice .= \RedshopHelperProductPrice::formattedPrice($items[$i]->product_item_price);
 			}
 
-			$productPrice   .= "</div>";
+			$productPrice    .= "</div>";
 			$productOldPrice = \RedshopHelperProductPrice::formattedPrice($items[$i]->product_item_old_price);
 			$productQuantity = '<div class="update_cart">' . $quantity . '</div>';
 
@@ -218,7 +218,7 @@ class Item
 			$category     = \RedshopEntityCategory::getInstance((int) $categoryId)->getItem();
 			$categoryLink = '';
 
-			if (count($category) > 0)
+			if (!empty($category))
 			{
 				$categoryLink = "<a href='"
 					. \JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $categoryId) . "'>"
@@ -507,7 +507,7 @@ class Item
 					$g++;
 				}
 
-				$downloadHtml   .= "</table>";
+				$downloadHtml    .= "</table>";
 				$cartHtmlContent = str_replace("{download_date_list_lbl}", \JText::_('COM_REDSHOP_DOWNLOAD_LOG'), $cartHtmlContent);
 				$cartHtmlContent = str_replace("{download_date_list}", $downloadHtml, $cartHtmlContent);
 			}

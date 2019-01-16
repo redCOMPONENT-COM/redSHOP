@@ -34,7 +34,7 @@ $config          = Redconfiguration::getInstance();
 
 $template = $this->template;
 
-if (count($template) > 0 && $template->template_desc != "")
+if (!empty($template) && !empty($template->template_desc))
 {
 	$template_desc = $template->template_desc;
 }
@@ -68,9 +68,9 @@ else
 <div class="product">
     <div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 		<?php
-		if (count($this->data) > 0)
+		if (!empty($this->data))
 		{
-			if ($this->data->pageheading != "")
+			if (!empty($this->data->pageheading))
 			{
 				echo $this->escape($this->data->pageheading);
 			}
@@ -145,7 +145,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 	// Next Navigation
 	$nextproducts = $this->model->getPrevNextproduct($this->data->product_id, $this->data->category_id, 1);
 
-	if (count($nextproducts) > 0)
+	if (!empty($nextproducts))
 	{
 		$nextlink = JRoute::_(
 			'index.php?option=com_redshop&view=product&pid=' . $nextproducts->product_id .
@@ -170,7 +170,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 	// Start previous logic
 	$previousproducts = $this->model->getPrevNextproduct($this->data->product_id, $this->data->category_id, -1);
 
-	if (count($previousproducts) > 0)
+	if (!empty($previousproducts))
 	{
 		$prevlink = JRoute::_(
 			'index.php?option=com_redshop&view=product&pid=' . $previousproducts->product_id .
@@ -472,7 +472,14 @@ $template_desc = str_replace("{manufacturer_link}", $manufacturerLink, $template
 $template_desc = str_replace("{manufacturer_product_link}", $manufacturerPLink, $template_desc);
 $template_desc = str_replace("{manufacturer_name}", $this->data->manufacturer_name, $template_desc);
 
-$template_desc = str_replace("{supplier_name}", "", $template_desc);
+$supplier_name = '';
+
+if ($this->data->supplier_id)
+{
+	$supplier_name = $this->model->getNameSupplierById($this->data->supplier_id);
+}
+
+$template_desc = str_replace("{supplier_name}", $supplier_name, $template_desc);
 
 if (strstr($template_desc, "{product_delivery_time}"))
 {
@@ -689,7 +696,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				$wrapperimage_div .= "</marquee>";
 			}
 
-			if (count($wrapper) > 0)
+			if (!empty($wrapper))
 			{
 				$wrapper = array_merge($warray, $wrapper);
 
@@ -741,7 +748,7 @@ if (strstr($template_desc, "{child_products}"))
 		// Get child products
 		$childproducts = $this->model->getAllChildProductArrayList(0, $parentproductid);
 
-		if (count($childproducts) > 0)
+		if (!empty($childproducts))
 		{
 			$childproducts = array_merge(array($productInfo), $childproducts);
 
@@ -776,7 +783,7 @@ if (strstr($template_desc, "{child_products}"))
 // Checking for child products
 $childproduct = RedshopHelperProduct::getChildProduct($this->data->product_id);
 
-if (count($childproduct) > 0)
+if (!empty($childproduct))
 {
 	if (Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 1)
 	{
@@ -909,6 +916,11 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 		'product'
 	);
 
+	if (isset($pluginResults['mainImageResponse']))
+	{
+		$preselectedresult['product_mainimg'] = $pluginResults['mainImageResponse'];
+	}
+
 	$productAvailabilityDate = strstr($template_desc, "{product_availability_date}");
 	$stockNotifyFlag         = strstr($template_desc, "{stock_notify_flag}");
 	$stockStatus             = strstr($template_desc, "{stock_status");
@@ -949,12 +961,12 @@ else
 }
 
 $template_desc = \Redshop\Helper\Stockroom::replaceProductStockData(
-															$this->data->product_id,
-															$selectedpropertyId,
-															$selectedsubpropertyId,
-															$template_desc,
-															$attributeproductStockStatus
-				);
+	$this->data->product_id,
+	$selectedpropertyId,
+	$selectedsubpropertyId,
+	$template_desc,
+	$attributeproductStockStatus
+);
 
 $product_number_output = '<span id="product_number_variable' . $this->data->product_id . '">' . $pr_number . '</span>';
 $template_desc         = str_replace("{product_number}", $product_number_output, $template_desc);
@@ -1243,7 +1255,7 @@ $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_mai
 $link               = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data->product_id);
 
 // Product image
-$thum_image = "<div class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
+$thum_image = "<div style='height: " . $ph_thumb . "px' class='productImageWrap' id='productImageWrapID_" . $this->data->product_id . "'>" .
 	Redshop\Product\Image\Image::getImage($this->data->product_id, $link, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('PRODUCT_DETAIL_IS_LIGHTBOX'), 0, 0, $preselectedresult) .
 	"</div>";
 
