@@ -132,7 +132,12 @@ $billadd = "";
 
 if ($quotationDetail->user_id != 0)
 {
-	$billadd = JLayoutHelper::render('cart.billing', array('billingaddresses' => $quotationDetail));
+	$billadd = RedshopLayoutHelper::render(
+		'cart.billing',
+		array('billingAddresses' => $quotationDetail),
+		null,
+		array('client' => 0)
+	);
 }
 else
 {
@@ -143,11 +148,12 @@ else
 
 	if ($quotationDetail->quotation_email != "")
 	{
-		$billadd .= JLayoutHelper::render('fields.display',
+		$billadd .= RedshopLayoutHelper::render(
+			'fields.display',
 			array(
 				'extra_field_label' => JText::_("COM_REDSHOP_EMAIL"),
 				'extra_field_value' => $quotationDetail->quotation_email
-				)
+			)
 		);
 	}
 }
