@@ -202,7 +202,7 @@ switch ($name)
 		break;
 	case 'send_discount_code':
 		?>
-        {discount_code} {discount_value}
+		{discount_code} {discount_value}
 		<?php
 		break;
 }
