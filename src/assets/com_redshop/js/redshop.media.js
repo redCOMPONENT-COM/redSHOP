@@ -246,7 +246,7 @@
                     $hidden = $('<input/>');
                     $hidden.attr('id', 'rs-media-img-delete')
                         .attr('name', self.$container.data("id") + "_delete")
-                        .attr('type', 'text');
+                        .attr('type', 'hidden');
 
                     $("#adminForm").append($hidden);
                 }
