@@ -1877,11 +1877,11 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 
-        $query = $db->getQuery(true)
-            ->select('*')
-            ->from($db->qn('#__redshop_order_attribute_item'))
-            ->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
-            ->where($db->qn('section') . ' = ' . $db->quote($section));
+		$query = $db->getQuery(true)
+					->select('*')
+					->from($db->qn('#__redshop_order_attribute_item'))
+					->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
+					->where($db->qn('section') . ' = ' . $db->quote($section));
 
 		if ($orderItemId != 0)
 		{
