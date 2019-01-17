@@ -114,10 +114,10 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 	protected function getQuery()
 	{
 		return $this->db->getQuery(true)
-            ->select('m.*')
-            ->select(
-                'GROUP_CONCAT(' . $this->db->qn('p.product_id') . ' SEPARATOR ' . $this->db->quote('|') . ') AS ' . $this->db->qn('product_id')
-            )
+			->select('m.*')
+			->select(
+			    'GROUP_CONCAT(' . $this->db->qn('p.product_id') . ' SEPARATOR ' . $this->db->quote('|') . ') AS ' . $this->db->qn('product_id')
+			)
 			->select($this->db->qn('md.media_name', 'manufacturer_image'))
 			->from($this->db->qn('#__redshop_manufacturer', 'm'))
 			->leftJoin(
@@ -130,7 +130,6 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 				. ' AND ' . $this->db->qn('md.media_type') . ' = ' . $this->db->quote('images') . ')'
 			)
 			->group($this->db->qn('m.id'));
-
 	}
 
 	/**
