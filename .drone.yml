@@ -1,15 +1,26 @@
+clone:
+    default:
+        image: plugins/git
+        recursive: false
+
 pipeline:
     00-cache:
         group: 00-setup
-        image: redwebaps/redshop-cache:dev
-        # pull: true
+        image: redwebaps/redshop-cache:latest
+        pull: true
         commands:
-        # redShop Composer cache
+        # redSHOP Composer cache
         - mv /opt/cache/redSHOP/vendor .
         - touch tests/.cache.composer.tmp
-        # redShop  npm cache
-        - touch tests/.cache.npm.tmp
+        # redSHOP Composer cache for libraries
+        - mv /opt/cache/redSHOP/libraries/redshop/vendor libraries/redshop
+        - touch tests/.cache.libraries.redshop.composer.tmp
+        # redSHOP Composer cache for redshopb_pdf plugin
+        - mv /opt/cache/redSHOP/plugins/redshop_pdf/tcpdf/helper/vendor plugins/redshop_pdf/tcpdf/helper
+        - touch tests/.cache.plugins.redshop_pdf.composer.tmp
+        # redSHOP npm cache
         - mv /opt/cache/redSHOP/node_modules .
+        - touch tests/.cache.npm.tmp
         # Joomla CMS
         - mv /opt/cache/joomla-cms tests
         - touch tests/.cache.joomla-cms.tmp
@@ -17,7 +28,7 @@ pipeline:
     00-setup:
         group: 00-setup
         image: redwebaps/testbox-chromedriver:2.38
-        # pull: true
+        pull: true
         environment:
         - tests_user=admin
         - tests_suite=00-setup
@@ -27,32 +38,27 @@ pipeline:
         commands:
         # Regular entry point
         - /entrypoint.sh &
+
         # Composer setup
-        - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done          # Comment if not using composer cache
+        - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done                        # Comment if not using composer cache
         - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
-        # - composer install --prefer-dist                                    # Uncomment if not using composer cache
-        # NPM setup
-        - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done               # Comment if not using npm cache
-        - npm install gulp
-        - cd libraries/redshop
-        - composer install --prefer-dist
-        - cd ../../
+        # - composer install --prefer-dist                                                  # Uncomment if not using composer cache
+        - while [ ! -f tests/.cache.libraries.redshop.composer.tmp ]; do sleep 1; done      # Comment if not using composer cache for libraries
+        # - composer install --prefer-dist -d libraries/redshop                             # Uncomment if not using composer cache for libraries
+        - while [ ! -f tests/.cache.plugins.redshop_pdf.composer.tmp ]; do sleep 1; done    # Comment if not using composer cache for redshopb_pdf plugin
+        # - composer install --prefer-dist -d plugins/redshop_pdf/tcpdf/helper              # Uncomment if not using composer cache for redshopb_pdf plugin
 
-        # - cd ../../plugins/redshop_pdf/tcpdf/helper
-        # - composer install --prefer-dist
+        # npm setup
+        - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
+        # - npm install gulp                                                                # Uncomment if not using npm cache
 
-        # - cd ../../../..
-        # - composer install --prefer-dist
-        # Uncomment if not using npm cache
-        # redShop installer release
-        # - while [ ! -f tests/.cache.composer.library.tmp ]; do sleep 1; done  # Comment if not using composer cache for libraries
         - mv gulp-config.json.dist gulp-config.json
         - gulp release --skip-version
         # Codeception setup
         - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
         # Test setup
-        - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done        # Comment if not using Joomla CMS cache
-        # - vendor/bin/robo tests:site-preparation 0 0
+        - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
+        - vendor/bin/robo tests:site-preparation 0 0
         # Ownership for uid 82
         - chown -R www-data:www-data .
         # Creating first clone for tests setup
@@ -94,7 +100,6 @@ pipeline:
         - sh tests/drone/setup-stages.sh "Giftcard"                    "14-Giftcard"
         - sh tests/drone/setup-stages.sh "Voucher"                     "15-Voucher"
         - sh tests/drone/setup-stages.sh "Category"                    "16-Category"
-        # - sh tests/drone/setup-stages.sh "Orders"               "17-Order"
         - sh tests/drone/setup-stages.sh "Quotations"                  "18-Quotation"
         - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend" "19-ProductNotForSaleOnFrontend"
         - sh tests/drone/setup-stages.sh "Price_Product"               "20-Price_Product"
@@ -116,7 +121,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Communications/Mail 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Communications/Mail 1 1'
 
     02-Configuration:
         group: 01-tests
@@ -150,7 +155,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Country 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Country 1 1'
 
     04-Currency:
         group: 01-tests
@@ -184,7 +189,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Custom_Field 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Custom_Field 1 1'
 
     06-Field_Group:
         group: 01-tests
@@ -235,7 +240,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Template 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Customizations/Template 1 1'
 
     09-Text:
         group: 01-tests
@@ -303,7 +308,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Discounts/Mass_Discount 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Discounts/Mass_Discount 1 1'
 
     13-Coupon:
         group: 01-tests
@@ -337,7 +342,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Giftcard 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Giftcard 1 1'
 
     15-Voucher:
         group: 01-tests
@@ -354,7 +359,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Voucher 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g1/Discount_Groups/Rewards/Voucher 1 1'
 
     16-Category:
         group: 01-tests
@@ -371,24 +376,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Category 0 0'
-
-#    17-Order:
-#        group: 01-tests
-#        image: redwebaps/testbox-chromedriver:2.38
-#        environment:
-#        - tests_user=admin
-#       - tests_suite=17-Order
-#        - tests_db=Orders
-#        - build_path=/drone/src/github.com/${DRONE_REPO}
-#        - output_append=-17-Order
-#        commands:
-#        # Regular entry point
-#        - /entrypoint.sh &
-#        # Performs test after ensuring that the scenario has been fully set up
-#        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-#        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Orders/Order 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Category 1 1'
 
     18-Quotation:
         group: 01-tests
@@ -422,7 +410,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/ProductNotForSaleOnFrontend 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/ProductNotForSaleOnFrontend 1 1'
 
     20-Price_Product:
         group: 01-tests
@@ -439,7 +427,7 @@ pipeline:
         # Performs test after ensuring that the scenario has been fully set up
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Price_Product 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/Products/Price_Product 1 1'
 
     21-Supplier:
         group: 01-tests
@@ -498,11 +486,8 @@ pipeline:
         - sh tests/drone/setup-stages.sh "Compare_Products"             "32-Compare_Products"
         - sh tests/drone/setup-stages.sh "Manufacturer"                 "33-Manufacturer"
         - sh tests/drone/setup-stages.sh "VAT"                          "34-VAT"
-        # - sh tests/drone/setup-stages.sh "Stockroom_Checkout"           "35-Stockroom_Checkout"
         - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout"      "36-Shopper_Groups_Checkout"
-        # - sh tests/drone/setup-stages.sh "Products_FrontEnd"            "37-Products_FrontEnd"
         - sh tests/drone/setup-stages.sh "Notices"                      "38-Notices"
-        # - sh tests/drone/setup-stages.sh "OrderBackendProductAttribute" "39-OrderBackendProductAttribute"
         - sh tests/drone/setup-stages.sh "Product_Attribute"            "40-Product_Attribute"
         - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"           "41-Quotation_FrontEnd"
         - sh tests/drone/setup-stages.sh "Discounts"                    "42-Discounts"
@@ -712,23 +697,6 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/VAT 0 0'
 
-#    35-Stockroom_Checkout:
-#        group: 02-tests
-#        image: redwebaps/testbox-chromedriver:2.38
-#        environment:
-#        - tests_user=admin
-#        - tests_suite=35-Stockroom_Checkout
-#        - tests_db=Stockroom_Checkout
-#        - build_path=/drone/src/github.com/${DRONE_REPO}
-#        - output_append=-35-Stockroom_Checkout
-#        commands:
-#        # Regular entry point
-#        - /entrypoint.sh &
-#        # Performs test after ensuring that the scenario has been fully set up
-#        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-#        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Stockroom 0 0'
-
     36-Shopper_Groups_Checkout:
         group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -746,23 +714,6 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Shopper_Groups 0 0'
 
-#    37-Products_FrontEnd:
-#        group: 02-tests
-#        image: redwebaps/testbox-chromedriver:2.38
-#        environment:
-#        - tests_user=admin
-#        - tests_suite=37-Products_FrontEnd
-#        - tests_db=Products_FrontEnd
-#        - build_path=/drone/src/github.com/${DRONE_REPO}
-#        - output_append=-37-Products_FrontEnd
-#        commands:
-#        # Regular entry point
-#        - /entrypoint.sh &
-#        # Performs test after ensuring that the scenario has been fully set up
-#        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-#        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/Products 0 0'
-
     38-Notices:
         group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -779,23 +730,6 @@ pipeline:
         - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g1/Notices 0 0'
-
-#    39-OrderBackendProductAttribute:
-#        group: 02-tests
-#        image: redwebaps/testbox-chromedriver:2.38
-#        environment:
-#        - tests_user=admin
-#        - tests_suite=39-OrderBackendProductAttribute
-#        - tests_db=OrderBackendProductAttribute
-#        - build_path=/drone/src/github.com/${DRONE_REPO}
-#        - output_append=-39-OrderBackendProductAttribute
-#        commands:
-#        # Regular entry point
-#        - /entrypoint.sh &
-#        # Performs test after ensuring that the scenario has been fully set up
-#        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-#        # Performs test
-#        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g2/OrderBackendProductAttribute 0 0'
 
     40-Product_Attribute:
         group: 02-tests
@@ -906,14 +840,14 @@ pipeline:
 services:
     db:
         image: mysql/mysql-server:5.7
-        # pull: true
+        pull: true
         environment:
         - MYSQL_ROOT_PASSWORD=root
         - MYSQL_ROOT_HOST=%
 
     php:
         image: redwebaps/php-apache:7.1
-        # pull: true
+        pull: true
         environment:
         - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
         - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1

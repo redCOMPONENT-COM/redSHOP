@@ -45,12 +45,14 @@ redSHOP.collectExtraFields = function(extraField, productId){
     switch(extraField.type)
     {
         case 'checkbox':
-        case 'radio':
+            field.name = redSHOP.filterExtraFieldName(extraField.id);
+            field.value = jQuery('[id^='+extraField.id+']:checked').val();
+            break
 
+        case 'radio':
             field.name = redSHOP.filterExtraFieldName(extraField.id);
             field.value = jQuery('[id^='+field.name+']:checked').val();
-
-        break;
+             break;
     }
 
     return field;
@@ -62,7 +64,22 @@ redSHOP.updateCartExtraFields = function(extraFields, productId, formName){
 
         var field = redSHOP.collectExtraFields(extraField, productId);
 
-        jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+        if (extraField.type == 'checkbox')
+        {
+            if (typeof field.value !== 'undefined') {
+                var text  = jQuery(formName + ' input[id=' + field.name +']').val()
+                text = text.replace(/(^,)|(,$)/g, "");
+
+                if (text == '') {
+                    jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+                } else {
+                    jQuery(formName + ' input[id=' + field.name +']').val(text + ',' + field.value);
+                }
+            }
+        }
+        else {
+            jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+        }
     });
 };
 
@@ -1335,7 +1352,11 @@ function setWrapper(id, price, price_withoutvat, product_id) {
 }
 
 function setPropImage(product_id, propertyObj, selValue) {
-    var propName = document.getElementById(propertyObj);
+    var propName = document.getElementById(propertyObj + '_' + selValue);
+
+    if (!propName) {
+        propName = document.getElementById(propertyObj);
+    }
 
     if (propName) {
         if (propName.type == 'checkbox' || propName.type == 'radio') {
@@ -1358,7 +1379,7 @@ function setPropImage(product_id, propertyObj, selValue) {
 }
 
 function setSubpropImage(product_id, subpropertyObj, selValue) {
-    var subpropName = document.getElementById(subpropertyObj);
+    var subpropName = document.getElementById(subpropertyObj + '_' + selValue);
     if (subpropName) {
         if (subpropName.type == 'checkbox' || subpropName.type == 'radio') {
             var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
@@ -1549,8 +1570,10 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
             }
 
             document.getElementById('main_image' + product_id).src = arrResponse[4];
-            document.getElementsByClassName('product_more_videos')[0].innerHTML = arrResponse[16];
 
+            if (document.getElementsByClassName('product_more_videos')[0]) {
+                document.getElementsByClassName('product_more_videos')[0].innerHTML = arrResponse[16];
+            }
             if (document.getElementById('additional_images' + product_id) && arrResponse[1] != "") {
                 document.getElementById('additional_images' + product_id).innerHTML = arrResponse[1];
             }
@@ -1589,7 +1612,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
             // preload slimbox
             var imagehandle = {isenable: true, mainImage: false};
             preloadSlimbox(imagehandle);
-
+            jQuery(redSHOP).trigger('onAfterAjaxdisplayAdditionalImage', [arrResponse, product_id]);
         }
     };
     request.open("GET", url, true);
@@ -1898,7 +1921,7 @@ function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_i
     }
 
     redSHOP.updateCartExtraFields(
-        jQuery('#' + frmUserfieldName + ' :input:not(:button, :hidden)'),
+        jQuery('#' + frmUserfieldName + ' [name^=extrafields]'),
         product_id,
         '#' + frmCartName
     );
@@ -2572,6 +2595,8 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
                 document.getElementById('mod_cart_checkout_ajax').style.display = "";
             }
 
+            jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail');
+
             // End
             var newurl = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&pid=" + product_id + "&r_template=cartbox&tmpl=component";
 
@@ -3121,4 +3146,5 @@ function getStocknotify(product_id, property_id, subproperty_id) {
     }
     request.open("GET", url, true);
     request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    request.send();
 }
