@@ -617,8 +617,8 @@ class RedshopEconomic
 		self::importEconomic();
 
 		$eco                   = array();
-		$eco['product_desc']   = utf8_encode(substr(strip_tags($row->product_desc), 0, 499));
-		$eco['product_s_desc'] = utf8_encode(substr(strip_tags($row->product_s_desc), 0, 499));
+		$eco['product_desc']   = substr(strip_tags($row->product_desc), 0, 499);
+		$eco['product_s_desc'] = substr(strip_tags($row->product_s_desc), 0, 499);
 
 		$ecoProductGroupNumber = self::createProductGroupInEconomic($row);
 
