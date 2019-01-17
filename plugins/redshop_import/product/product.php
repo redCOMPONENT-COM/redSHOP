@@ -139,7 +139,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$query = $db->getQuery(true)
 				->select($db->qn("id"))
 				->from($db->qn('#__redshop_supplier'))
-				->where($db->qn('name') . ' = ' . $db->quote($data['supplier_name']));
+				->where($db->qn('name') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($data['supplier_name']));
 
 			$supplierId = (int) $db->setQuery($query)->loadResult();
 
@@ -149,14 +149,11 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			}
 			else
 			{
-				JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
-
-				/** @var RedshopTableSupplier $supplier */
-				$supplier            = RedshopTable::getInstance('Supplier', 'RedshopTable');
+				$supplier            = new stdClass;
 				$supplier->name      = $data['supplier_name'];
 				$supplier->published = 1;
-				$supplier->store();
-				$data['supplier_id'] = $supplier->id;
+				$db->insertObject('#__redshop_supplier', $supplier, 'id');
+				$data['supplier_id'] = $db->insertid();
 			}
 		}
 
