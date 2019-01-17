@@ -200,4 +200,9 @@ switch ($name)
 		{name} {product_loop_start} {product_thumb_image} {product_name} {product_price} {product_loop_end} {from_name}
 		<?php
 		break;
+	case 'send_discount_code':
+		?>
+		{discount_code} {discount_value}
+		<?php
+		break;
 }
