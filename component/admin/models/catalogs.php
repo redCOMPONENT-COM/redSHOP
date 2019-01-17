@@ -92,7 +92,7 @@ class RedshopModelCatalogs extends RedshopModelList
 	 *
 	 * @param   integer   $pid section id
 	 *
-	 * @return  object
+	 * @return  mixed
 	 * @throws  Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
