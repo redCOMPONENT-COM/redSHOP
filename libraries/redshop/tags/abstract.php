@@ -237,4 +237,22 @@ abstract class RedshopTagsAbstract
 
 		return RedshopHelperUtility::getDispatcher();
 	}
+
+	/**
+	 * Method exclusion tags
+	 *
+	 * @param   string $tag tag
+	 *
+	 * @return  boolean
+	 * @since  2.0.6
+	 */
+	protected function excludeTags($tag)
+	{
+		if (!empty($this->data['excludedTags']) && in_array($tag, $this->data['excludedTags']))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
