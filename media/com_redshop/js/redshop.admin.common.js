@@ -14,6 +14,11 @@ function updateGLSLocation(zipcode) {
 	var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
 	url += "&zipcode=" + zipcode;
 
+	if (document.getElementById('shipp_users_info_id') !== null) {
+		var usersInfoId = document.getElementById('shipp_users_info_id').value;
+		url += "&users_info_id=" + usersInfoId;
+	}
+
 	jQuery.ajax({
 		url: url,
 		type: 'GET'
@@ -969,6 +974,10 @@ function calculateQuotationTotal() {
 	if (document.getElementById("quotation_discount") && (trim(document.getElementById("quotation_discount").value) != "" && !isNaN(document.getElementById("quotation_discount").value))) {
 		q_discount = parseFloat(document.getElementById("quotation_discount").value);
 
+		if (q_discount > total) {
+			q_discount = total;
+		}
+
 		if (redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')) {
 			vatondiscount = (parseFloat(q_discount) * redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')) / (1 + parseFloat(redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')));
 		} else {
@@ -1138,7 +1147,7 @@ function getStateList() {
 
 	xmlhttp = GetXmlHttpObject();
 	if (xmlhttp == null) {
-		alert("Your browser does not support XMLHTTP!");
+		alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
 		return;
 	}
 	var selected = new Array();

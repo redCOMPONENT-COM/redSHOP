@@ -1443,7 +1443,7 @@ class productHelper
 							$strtitle = '<span class="product-userfield-title">' . $row_data[$j]->title . ':</span>';
 						}
 
-						$resultArr[] = $strtitle . '<span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
+						$resultArr[] = $strtitle . ' <span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
 					}
 				}
 			}
@@ -1475,7 +1475,7 @@ class productHelper
 			{
 				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
-					$resultArr[] = '<span class="product-field-title">' . $main_result->title . ':</span><span class="product-field-value">' . $main_result->data_txt . '</span>';
+					$resultArr[] = '<span class="product-field-title">' . $main_result->title . ': </span><span class="product-field-value">' . $main_result->data_txt . '</span>';
 				}
 			}
 		}

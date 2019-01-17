@@ -45,12 +45,18 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(QuotationManagerPage::$productId);
         $I->waitForElement(QuotationManagerPage::$productsSearch, 30);
         $I->fillField(QuotationManagerPage::$productsSearch, $nameProduct);
-        $I->waitForElement($userQuotationPage->xPathSearch($nameProduct), 30);
+        $I->waitForElement($userQuotationPage->xPathSearch($nameProduct), 60);
         $I->click($userQuotationPage->xPathSearch($nameProduct));
         $I->fillField(QuotationManagerPage::$quanlityFirst, $quantity);
 
         $I->click(QuotationManagerPage::$buttonSave);
-        $I->see(QuotationManagerPage::$messageSaveSuccess, QuotationManagerPage::$selectorSuccess);
+        try{
+            $I->waitForText(QuotationManagerPage::$messageSaveSuccess,5, QuotationManagerPage::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->click(QuotationManagerPage::$buttonSave);
+            $I->see(QuotationManagerPage::$messageSaveSuccess, QuotationManagerPage::$selectorSuccess);
+        }
     }
 
     public function editQuotation($newQuantity)
@@ -61,8 +67,11 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(QuotationManagerPage::$quantityp1,30);
         $I->scrollTo(QuotationManagerPage::$quantityp1);
         $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
         $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
         $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
         $I->fillField(QuotationManagerPage::$quantityp1, $newQuantity);
         $I->click(QuotationManagerPage::$buttonSave);
         $I->scrollTo(QuotationManagerPage::$quantityp1);
