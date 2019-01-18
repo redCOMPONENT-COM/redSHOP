@@ -152,6 +152,11 @@ $extraField = extra_field::getInstance();
 								<?php echo JText::_('COM_REDSHOP_CATALOG_ORDER_MAIL') ?>
                             </a>
                         </li>
+                        <li role="presentation">
+                            <a href="#send_discount_code" role="tab" data-toggle="tab">
+			                    <?php echo JText::_('COM_REDSHOP_SEND_DISCOUNT_CODE') ?>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-8">
@@ -422,6 +427,13 @@ $extraField = extra_field::getInstance();
                             <table class="adminlist table table-striped">
                                 <tr>
                                     <td><?php echo RedshopHelperTemplate::getTemplateValues('catalog_order', 'mail'); ?></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="send_discount_code">
+                            <table class="adminlist table table-striped">
+                                <tr>
+                                    <td><?php echo RedshopHelperTemplate::getTemplateValues('send_discount_code', 'mail'); ?></td>
                                 </tr>
                             </table>
                         </div>

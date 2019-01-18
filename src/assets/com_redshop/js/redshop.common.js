@@ -995,7 +995,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 
 			$$('a.modal').each(function(el) {
 				el.addEvent('click', function(e) {
-					new Event(e).stop();
+					e.preventDefault();
 					SqueezeBox.fromElement(el);
 				});
 			});
