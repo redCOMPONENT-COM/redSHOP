@@ -65,15 +65,16 @@ class RedshopControllerZipcode_detail extends RedshopController
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_IN_ZIPCODE_DETAIL');
+			$msgType = 'error';
 		}
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg, $row ? 'success' : 'error');
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg, $msgType);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg, $msgType);
 		}
 	}
 
