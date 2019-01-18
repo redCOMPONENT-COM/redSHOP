@@ -66,6 +66,9 @@ pipeline:
         - rsync -a tests/joomla-cms/ tests/$tests_suite/joomla-cms
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
+        # Waits until Chromedriver is up and running
+        - while ! nc -z localhost 9515; do sleep 1; done
+        # Performs the setup and installation routine
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
         # Touching temp file to start the environment cloning (see setup-stages service)
         - touch tests/.setup.tmp
@@ -84,6 +87,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
 
@@ -101,6 +106,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0'
 
@@ -118,6 +125,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/ProductNotForSaleOnFrontend 0 0'
 
@@ -135,6 +144,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Customizations/State 0 0'
 
@@ -152,6 +163,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g01/Discounts/CheckoutDiscountOnProduct 0 0'
 
@@ -169,6 +182,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02/Discounts/CheckoutDiscountTotal 0 0'
 
@@ -186,6 +201,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Shippings/Shipping 0 0'
 
@@ -203,6 +220,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02/Discounts/VoucherCheckoutProduct 0 0'
 
@@ -220,6 +239,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g02/Notices 0 0'
 
@@ -237,6 +258,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Shippings/Wrapper 0 0'
 
@@ -254,6 +277,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Stockrooms/StockRoom 0 0'
 
@@ -271,6 +296,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Stockrooms/Stock_Image 0 0'
 
@@ -288,6 +315,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Customizations/Template 0 0'
 
@@ -305,6 +334,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g03/Quotations 0 0'
 
@@ -322,6 +353,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Orders/Quotation 0 0'
 
@@ -339,6 +372,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g04/Discounts/MassDiscountCheckout 0 0'
 
@@ -356,6 +391,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Customizations/Country 0 0'
 
@@ -373,6 +410,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Discount_Groups/Discounts/Discount_Product 0 0'
 
@@ -390,6 +429,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Customizations/Currency 0 0'
 
@@ -407,6 +448,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Configuration/ 0 0'
 
@@ -424,6 +467,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Users/Shopper_Group 0 0'
 
@@ -441,6 +486,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Customizations/Custom_Field 0 0'
 
@@ -458,6 +505,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Compare_Products 0 0'
 
@@ -475,6 +524,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Discount_Groups/Discounts/Discount 0 0'
 
@@ -492,6 +543,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Checkout_Quantity 0 0'
 
@@ -509,6 +562,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Shopper_Groups 0 0'
 
@@ -526,6 +581,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Order 0 0'
 
@@ -543,6 +600,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Product_Attribute 0 0'
 
@@ -560,6 +619,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06/Products/Tax_Group 0 0'
 
@@ -577,6 +638,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Discounts/GiftCardCheckout 0 0'
 
@@ -594,6 +657,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Discount_Groups/Rewards/Giftcard 0 0'
 
@@ -611,6 +676,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g07/Discounts/CheckoutDiscountBeforeToday 0 0'
 
@@ -628,6 +695,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Products/Tax_Rate 0 0'
 
@@ -645,6 +714,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Discount_Groups/Rewards/Coupon 0 0'
 
@@ -662,6 +733,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Communications/Mail 0 0'
 
@@ -679,6 +752,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Users/User 0 0'
 
@@ -696,6 +771,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Customizations/Field_Group 0 0'
 
@@ -713,6 +790,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Discounts/Mass_Discount 0 0'
 
@@ -730,6 +809,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08/VAT 0 0'
 
@@ -747,6 +828,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Rewards/Voucher 0 0'
 
@@ -764,6 +847,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Customizations/Text 0 0'
 
@@ -781,6 +866,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Supplier 0 0'
 
@@ -798,6 +885,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Manufacturer 0 0'
 
@@ -815,6 +904,8 @@ pipeline:
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/One_Step_Checkout 0 0'
 
@@ -828,46 +919,52 @@ pipeline:
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-45-Category
         commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Category 0 0'
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Category 0 0'
 
     46-ProductManagement:
         group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
-        - tests_user=admin
-        - tests_suite=46-ProductManagement
-        - tests_db=ProductManagement
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-46-ProductManagement
+            - tests_user=admin
+            - tests_suite=46-ProductManagement
+            - tests_db=ProductManagement
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-46-ProductManagement
         commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10/Products/ProductManagement 0 0'
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10/Products/ProductManagement 0 0'
 
     47-CouponVoucherMixCheckout:
         group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
-        - tests_user=admin
-        - tests_suite=47-CouponVoucherMixCheckout
-        - tests_db=CouponVoucherMixCheckout
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-47-CouponVoucherMixCheckout
+            - tests_user=admin
+            - tests_suite=47-CouponVoucherMixCheckout
+            - tests_db=CouponVoucherMixCheckout
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-47-CouponVoucherMixCheckout
         commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Discounts/CouponVoucherMixCheckout 0 0'
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Discounts/CouponVoucherMixCheckout 0 0'
 
     slack:
         image: plugins/slack
