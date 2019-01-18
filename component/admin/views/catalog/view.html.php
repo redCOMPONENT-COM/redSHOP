@@ -34,6 +34,6 @@ class RedshopViewCatalog extends RedshopViewForm
 			return false;
 		}
 
-		return parent::prepareField($field);
+		return parent::/** @scrutinizer ignore-call */ prepareField($field);
 	}
 }
