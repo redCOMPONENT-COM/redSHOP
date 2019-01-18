@@ -57,6 +57,8 @@ class RedshopControllerZipcode_detail extends RedshopController
 				$row             = $model->store($post);
 			}
 		}
+		
+		$msgType = null;
 
 		if ($row)
 		{
