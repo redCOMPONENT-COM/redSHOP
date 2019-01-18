@@ -133,9 +133,10 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 
 		try
 		{
-			$table->bind($data);
-			$table->check();
-			$table->store();
+			if (!$table->bind($data) || !$table->check() || !$table->store())
+			{
+				return false;
+			}
 		}
 		catch (\Exception $e)
 		{
