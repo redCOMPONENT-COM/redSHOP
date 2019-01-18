@@ -278,10 +278,10 @@ class RedshopControllerCart extends RedshopController
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 
-            if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
-            {
-                $this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
-            }
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			{
+				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+			}
 
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
@@ -330,13 +330,13 @@ class RedshopControllerCart extends RedshopController
 
 		if (array_key_exists('voucher', $cart))
 		{
-            if (count($cart['voucher']) > 1)
-            {
-                foreach ($cart['voucher'] as $cartCoupon)
-                {
-                    $voucherDiscount += $cartCoupon['voucher_value'];
-                }
-            }
+			if (count($cart['voucher']) > 1)
+			{
+				foreach ($cart['voucher'] as $cartCoupon)
+				{
+					$voucherDiscount += $cartCoupon['voucher_value'];
+				}
+			}
 
 			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
 		}
@@ -345,13 +345,13 @@ class RedshopControllerCart extends RedshopController
 
 		if (array_key_exists('coupon', $cart))
 		{
-            if (count($cart['coupon']) > 1)
-            {
-                foreach ($cart['coupon'] as $cartCoupon)
-                {
-                    $couponDiscount += $cartCoupon['coupon_value'];
-                }
-            }
+			if (count($cart['coupon']) > 1)
+			{
+				foreach ($cart['coupon'] as $cartCoupon)
+				{
+					$couponDiscount += $cartCoupon['coupon_value'];
+				}
+			}
 
 			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
 		}
@@ -434,10 +434,10 @@ class RedshopControllerCart extends RedshopController
 
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $itemId, false);
 
-            if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
-            {
-                $this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
-            }
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			{
+				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+			}
 
 			if (Redshop::getConfig()->getInt('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
