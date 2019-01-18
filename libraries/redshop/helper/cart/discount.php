@@ -200,6 +200,7 @@ class RedshopHelperCartDiscount
 			{
 				$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
 			}
+
 			else
 			{
 				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
