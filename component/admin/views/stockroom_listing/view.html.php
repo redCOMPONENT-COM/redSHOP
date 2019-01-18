@@ -49,6 +49,11 @@ class RedshopViewStockroom_listing extends RedshopViewAdmin
 
 		$categories = RedshopHelperCategory::getCategoryListArray();
 
+		if (is_null($categories))
+		{
+			$categories = array();
+		}
+
 		$temps             = array();
 		$temps[0]          = new stdClass;
 		$temps[0]->id      = "0";
