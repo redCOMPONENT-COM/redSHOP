@@ -20,6 +20,7 @@
                 <td>
                     <div class="cartproducttitle">{product_name}</div>
                     <div class="cartattribut">{product_attribute}</div>
+                    <div class="checkout_attribute_number">{product_attribute_number}</div>
                     <div class="cartaccessory">{product_accessory}</div>
                     <div class="cartwrapper">{product_wrapper}</div>
                     <div class="cartuserfields">{product_userfields}</div>
