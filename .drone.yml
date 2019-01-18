@@ -67,28 +67,8 @@ pipeline:
         # Creates the database (required because of the Codeception Db module)
         - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
-
-    00-01-setup-stages:
-        group: 01-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-        - tests_user=admin
-        - tests_suite=00-setup
-        - tests_db=setup
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-00-01-setup-stages
-        commands:
-        # Final DB dump with full Joomla/extension setup
-        - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
-        - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
-        - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
-        - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
-        # Stages setup
-        - sh tests/drone/setup-stages.sh "Uninstall"                    "01-Uninstall"
-        - sh tests/drone/setup-stages.sh "Price_Product"                "02-Price_Product"
-        - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend"  "03-ProductNotForSaleOnFrontend"
-        - sh tests/drone/setup-stages.sh "State"                        "04-State"
-        - sh tests/drone/setup-stages.sh "CheckoutDiscountOnProduct"    "05-CheckoutDiscountOnProduct"
+        # Touching temp file to start the environment cloning (see setup-stages service)
+        - touch tests/.setup.tmp
 
     01-Uninstall:
         group: 01-tests
@@ -175,28 +155,6 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g01/Discounts/CheckoutDiscountOnProduct 0 0'
 
-    00-02-setup-stages:
-        group: 02-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-02-setup-stages
-        commands:
-            # Final DB dump with full Joomla/extension setup
-            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
-            - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
-            - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
-            - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountTotal"        "06-CheckoutDiscountTotal"
-            - sh tests/drone/setup-stages.sh "Shipping"                     "07-Shipping"
-            - sh tests/drone/setup-stages.sh "VoucherCheckoutProduct"       "08-VoucherCheckoutProduct"
-            - sh tests/drone/setup-stages.sh "Notices"                      "09-Notices"
-            - sh tests/drone/setup-stages.sh "Wrapper"                      "10-Wrapper"
-
     06-CheckoutDiscountTotal:
         group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -281,28 +239,6 @@ pipeline:
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Shippings/Wrapper 0 0'
-
-    00-03-setup-stages:
-        group: 03-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-03-setup-stages
-        commands:
-            # Final DB dump with full Joomla/extension setup
-            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
-            - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
-            - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
-            - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "Stockroom"                    "11-Stockroom"
-            - sh tests/drone/setup-stages.sh "Stock_Image"                  "12-Stock_Image"
-            - sh tests/drone/setup-stages.sh "Template"                     "13-Template"
-            - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"           "14-Quotation_FrontEnd"
-            - sh tests/drone/setup-stages.sh "Quotations"                   "15-Quotation"
 
     11-Stockroom:
         group: 03-tests
@@ -389,28 +325,6 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Orders/Quotation 0 0'
 
-    00-04-setup-stages:
-        group: 04-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-04-setup-stages
-        commands:
-            # Final DB dump with full Joomla/extension setup
-            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
-            - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
-            - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
-            - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "MassDiscountCheckout"         "16-MassDiscountCheckout"
-            - sh tests/drone/setup-stages.sh "Country"                      "17-Country"
-            - sh tests/drone/setup-stages.sh "Discount_Product"             "18-Discount_Product"
-            - sh tests/drone/setup-stages.sh "Currency"                     "19-Currency"
-            - sh tests/drone/setup-stages.sh "Configuration"                "20-Configuration"
-
     16-MassDiscountCheckout:
         group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -495,28 +409,6 @@ pipeline:
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Configuration/ 0 0'
-
-    00-05-setup-stages:
-        group: 05-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-05-setup-stages
-        commands:
-            # Final DB dump with full Joomla/extension setup
-            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
-            - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
-            - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
-            - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "Shopper_Group"                "21-Shopper_Group"
-            - sh tests/drone/setup-stages.sh "Custom_Field"                 "22-Custom_Field"
-            - sh tests/drone/setup-stages.sh "Compare_Products"             "23-Compare_Products"
-            - sh tests/drone/setup-stages.sh "Discount"                     "24-Discount"
-            - sh tests/drone/setup-stages.sh "Checkout_Quantity"            "25-Checkout_Quantity"
 
     21-Shopper_Group:
         group: 05-tests
@@ -603,23 +495,6 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Checkout_Quantity 0 0'
 
-    00-06-setup-stages:
-        group: 06-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-06-setup-stages
-        commands:
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout"      "26-Shopper_Groups_Checkout"
-            - sh tests/drone/setup-stages.sh "Order_Checkout"               "27-Order_Checkout"
-            - sh tests/drone/setup-stages.sh "Product_Attribute"            "28-Product_Attribute"
-            - sh tests/drone/setup-stages.sh "Tax_Group"                    "29-Tax_Group"
-            - sh tests/drone/setup-stages.sh "GiftCardCheckout"             "30-GiftCardCheckout"
-
     26-Shopper_Groups_Checkout:
         group: 06-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -704,23 +579,6 @@ pipeline:
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Discounts/GiftCardCheckout 0 0'
-
-    00-07-setup-stages:
-        group: 07-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-07-setup-stages
-        commands:
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "Giftcard"                     "31-Giftcard"
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"
-            - sh tests/drone/setup-stages.sh "Tax_Rate"                     "33-Tax_Rate"
-            - sh tests/drone/setup-stages.sh "Coupon"                       "34-Coupon"
-            - sh tests/drone/setup-stages.sh "Mail"                         "35-Mail"
 
     31-Giftcard:
         group: 07-tests
@@ -807,23 +665,6 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Communications/Mail 0 0'
 
-    00-08-setup-stages:
-        group: 08-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-08-setup-stages
-        commands:
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "User"                         "36-User"
-            - sh tests/drone/setup-stages.sh "Field_Group"                  "37-Field_Group"
-            - sh tests/drone/setup-stages.sh "Mass_Discount"                "38-Mass_Discount"
-            - sh tests/drone/setup-stages.sh "VAT"                          "39-VAT"
-            - sh tests/drone/setup-stages.sh "Voucher"                      "40-Voucher"
-
     36-User:
         group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -908,23 +749,6 @@ pipeline:
             - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Rewards/Voucher 0 0'
-
-    00-09-setup-stages:
-        group: 09-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-04-setup-stages
-        commands:
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "Text"                         "41-Text"
-            - sh tests/drone/setup-stages.sh "Supplier"                     "42-Supplier"
-            - sh tests/drone/setup-stages.sh "Manufacturer"                 "43-Manufacturer"
-            - sh tests/drone/setup-stages.sh "One_Steps_Checkout"           "44-One_Step_Checkout"
-            - sh tests/drone/setup-stages.sh "Category"                     "45-Category"
 
     41-Text:
         group: 09-tests
@@ -1011,20 +835,6 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Category 0 0'
 
-    00-10-setup-stages:
-        group: 10-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-04-setup-stages
-        commands:
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "ProductManagement"            "46-ProductManagement"
-            - sh tests/drone/setup-stages.sh "CouponVoucherMixCheckout"     "47-CouponVoucherMixCheckout"
-
     46-ProductManagement:
         group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
@@ -1094,6 +904,71 @@ services:
         environment:
         - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
         - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
+
+    setup-stages:
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+            - tests_user=admin
+            - tests_suite=00-setup
+            - tests_db=setup
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-setup-stages
+        commands:
+            # Waiting for setup to be done
+            - while [ ! -f tests/.setup.tmp ]; do sleep 1; done
+            # Final DB dump with full Joomla/extension setup
+            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
+            - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
+            - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
+            - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
+            # Stages setup
+            - sh tests/drone/setup-stages.sh "Uninstall"                    "01-Uninstall"
+            - sh tests/drone/setup-stages.sh "Price_Product"                "02-Price_Product"
+            - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend"  "03-ProductNotForSaleOnFrontend"
+            - sh tests/drone/setup-stages.sh "State"                        "04-State"
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountOnProduct"    "05-CheckoutDiscountOnProduct"
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountTotal"        "06-CheckoutDiscountTotal"
+            - sh tests/drone/setup-stages.sh "Shipping"                     "07-Shipping"
+            - sh tests/drone/setup-stages.sh "VoucherCheckoutProduct"       "08-VoucherCheckoutProduct"
+            - sh tests/drone/setup-stages.sh "Notices"                      "09-Notices"
+            - sh tests/drone/setup-stages.sh "Wrapper"                      "10-Wrapper"
+            - sh tests/drone/setup-stages.sh "Stockroom"                    "11-Stockroom"
+            - sh tests/drone/setup-stages.sh "Stock_Image"                  "12-Stock_Image"
+            - sh tests/drone/setup-stages.sh "Template"                     "13-Template"
+            - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"           "14-Quotation_FrontEnd"
+            - sh tests/drone/setup-stages.sh "Quotations"                   "15-Quotation"
+            - sh tests/drone/setup-stages.sh "MassDiscountCheckout"         "16-MassDiscountCheckout"
+            - sh tests/drone/setup-stages.sh "Country"                      "17-Country"
+            - sh tests/drone/setup-stages.sh "Discount_Product"             "18-Discount_Product"
+            - sh tests/drone/setup-stages.sh "Currency"                     "19-Currency"
+            - sh tests/drone/setup-stages.sh "Configuration"                "20-Configuration"
+            - sh tests/drone/setup-stages.sh "Shopper_Group"                "21-Shopper_Group"
+            - sh tests/drone/setup-stages.sh "Custom_Field"                 "22-Custom_Field"
+            - sh tests/drone/setup-stages.sh "Compare_Products"             "23-Compare_Products"
+            - sh tests/drone/setup-stages.sh "Discount"                     "24-Discount"
+            - sh tests/drone/setup-stages.sh "Checkout_Quantity"            "25-Checkout_Quantity"
+            - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout"      "26-Shopper_Groups_Checkout"
+            - sh tests/drone/setup-stages.sh "Order_Checkout"               "27-Order_Checkout"
+            - sh tests/drone/setup-stages.sh "Product_Attribute"            "28-Product_Attribute"
+            - sh tests/drone/setup-stages.sh "Tax_Group"                    "29-Tax_Group"
+            - sh tests/drone/setup-stages.sh "GiftCardCheckout"             "30-GiftCardCheckout"
+            - sh tests/drone/setup-stages.sh "Giftcard"                     "31-Giftcard"
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"
+            - sh tests/drone/setup-stages.sh "Tax_Rate"                     "33-Tax_Rate"
+            - sh tests/drone/setup-stages.sh "Coupon"                       "34-Coupon"
+            - sh tests/drone/setup-stages.sh "Mail"                         "35-Mail"
+            - sh tests/drone/setup-stages.sh "User"                         "36-User"
+            - sh tests/drone/setup-stages.sh "Field_Group"                  "37-Field_Group"
+            - sh tests/drone/setup-stages.sh "Mass_Discount"                "38-Mass_Discount"
+            - sh tests/drone/setup-stages.sh "VAT"                          "39-VAT"
+            - sh tests/drone/setup-stages.sh "Voucher"                      "40-Voucher"
+            - sh tests/drone/setup-stages.sh "Text"                         "41-Text"
+            - sh tests/drone/setup-stages.sh "Supplier"                     "42-Supplier"
+            - sh tests/drone/setup-stages.sh "Manufacturer"                 "43-Manufacturer"
+            - sh tests/drone/setup-stages.sh "One_Steps_Checkout"           "44-One_Step_Checkout"
+            - sh tests/drone/setup-stages.sh "Category"                     "45-Category"
+            - sh tests/drone/setup-stages.sh "ProductManagement"            "46-ProductManagement"
+            - sh tests/drone/setup-stages.sh "CouponVoucherMixCheckout"     "47-CouponVoucherMixCheckout"
 
 branches:
     exclude: [ crowdin ]
