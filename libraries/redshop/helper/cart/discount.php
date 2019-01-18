@@ -80,13 +80,13 @@ class RedshopHelperCartDiscount
 
 		$coupon = rsCarthelper::getInstance()->getCouponData($couponCode, $cart['product_subtotal']);
 
-		foreach ($cart['coupon'] as $cartCoupon)
-		{
-			if ($coupon->id == $cartCoupon['coupon_id'])
-			{
-				return false;
-			}
-		}
+        foreach ($cart['coupon'] as $cartCoupon)
+        {
+            if ($coupon->id == $cartCoupon['coupon_id'])
+            {
+                return false;
+            }
+        }
 
 		if (!empty($coupon))
 		{
@@ -200,14 +200,13 @@ class RedshopHelperCartDiscount
 			{
 				$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
 			}
-
-			else
-			{
-				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
-				{
-					$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
-				}
-			}
+            else
+            {
+                if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+                {
+                    $couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
+                }
+            }
 
 			$couponRemaining = 0;
 
@@ -325,13 +324,13 @@ class RedshopHelperCartDiscount
 
 		$voucher = rsCarthelper::getInstance()->getVoucherData($voucherCode);
 
-		foreach ($cart['voucher'] as $cartVoucher)
-		{
-			if ($voucher->id == $cartVoucher['voucher_id'])
-			{
-				return false;
-			}
-		}
+        foreach ($cart['voucher'] as $cartVoucher)
+        {
+            if ($voucher->id == $cartVoucher['voucher_id'])
+            {
+                return false;
+            }
+        }
 
 		if (null === $voucher)
 		{
@@ -398,13 +397,13 @@ class RedshopHelperCartDiscount
 		{
 			$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
 		}
-		else
-		{
-			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
-			{
-				$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
-			}
-		}
+        else
+        {
+            if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+            {
+                $voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
+            }
+        }
 
 		$remainingVoucherDiscount = 0;
 
