@@ -21,6 +21,13 @@ JLoader::import('redshop.library');
 class PlgRedshop_ImportCategory extends AbstractImportPlugin
 {
 	/**
+	 * Category name is required
+	 *
+	 * @var   array
+	 */
+	protected $requiredFields = array('name');
+
+	/**
 	 * @var   string
 	 */
 	protected $primaryKey = 'id';
@@ -105,6 +112,14 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	 */
 	public function processImport($table, $data)
 	{
+		foreach ($this->requiredFields as $required)
+		{
+			if (empty($data[$required]))
+			{
+				return false;
+			}
+		}
+
 		// Set the new parent id if parent id not matched OR while New/Save as Copy .
 		if (isset($data['parent_id']) && $table->parent_id != $data['parent_id'])
 		{
@@ -116,7 +131,13 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 			$table->load($data[$this->primaryKey]);
 		}
 
-		if (!$table->bind($data) || !$table->check() || !$table->store())
+		try
+		{
+			$table->bind($data);
+			$table->check();
+			$table->store();
+		}
+		catch (\Exception $e)
 		{
 			return false;
 		}
