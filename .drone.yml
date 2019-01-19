@@ -5,7 +5,7 @@ clone:
 
 pipeline:
     00-cache:
-        group: 00-setup
+        group: 00-01-setup
         image: redwebaps/redshop-cache:latest
         pull: true
         commands:
@@ -26,7 +26,35 @@ pipeline:
         - touch tests/.cache.joomla-cms.tmp
 
     00-setup:
-        group: 00-setup
+        group: 00-01-setup
+        image: redwebaps/testbox-chromedriver:2.38
+        pull: true
+        commands:
+            # Composer setup
+            - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done                        # Comment if not using composer cache
+            - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
+            # - composer install --prefer-dist                                                  # Uncomment if not using composer cache
+            - while [ ! -f tests/.cache.libraries.redshop.composer.tmp ]; do sleep 1; done      # Comment if not using composer cache for libraries
+            # - composer install --prefer-dist -d libraries/redshop                             # Uncomment if not using composer cache for libraries
+            - while [ ! -f tests/.cache.plugins.redshop_pdf.composer.tmp ]; do sleep 1; done    # Comment if not using composer cache for redshopb_pdf plugin
+            # - composer install --prefer-dist -d plugins/redshop_pdf/tcpdf/helper              # Uncomment if not using composer cache for redshopb_pdf plugin
+
+            # npm setup
+            - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
+            # - npm install gulp                                                                # Uncomment if not using npm cache
+
+            - mv gulp-config.json.dist gulp-config.json
+            - gulp release --skip-version
+            # Codeception setup
+            - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
+            # Test setup
+            - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
+            - vendor/bin/robo tests:site-preparation 0 0
+            # Ownership for uid 82
+            - chown -R www-data:www-data .
+
+    00-setup-56:
+        group: 00-02-setup
         image: redwebaps/testbox-chromedriver:2.38
         pull: true
         environment:
@@ -35,44 +63,49 @@ pipeline:
         - tests_db=setup
         - build_path=/drone/src/github.com/${DRONE_REPO}
         - output_append=-00-setup
-        - php_version=71
+        - php_version=56
         commands:
         # Regular entry point
         - /entrypoint.sh &
 
-        # Composer setup
-        - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done                        # Comment if not using composer cache
-        - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
-        # - composer install --prefer-dist                                                  # Uncomment if not using composer cache
-        - while [ ! -f tests/.cache.libraries.redshop.composer.tmp ]; do sleep 1; done      # Comment if not using composer cache for libraries
-        # - composer install --prefer-dist -d libraries/redshop                             # Uncomment if not using composer cache for libraries
-        - while [ ! -f tests/.cache.plugins.redshop_pdf.composer.tmp ]; do sleep 1; done    # Comment if not using composer cache for redshopb_pdf plugin
-        # - composer install --prefer-dist -d plugins/redshop_pdf/tcpdf/helper              # Uncomment if not using composer cache for redshopb_pdf plugin
-
-        # npm setup
-        - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
-        # - npm install gulp                                                                # Uncomment if not using npm cache
-
-        - mv gulp-config.json.dist gulp-config.json
-        - gulp release --skip-version
-        # Codeception setup
-        - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
-        # Test setup
-        - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
-        - vendor/bin/robo tests:site-preparation 0 0
-        # Ownership for uid 82
-        - chown -R www-data:www-data .
         # Creating first clone for tests setup
-        - mkdir -p tests/$tests_suite/joomla-cms
-        - rsync -a tests/joomla-cms/ tests/$tests_suite/joomla-cms
+        - mkdir -p tests/$tests_suite$php_version/joomla-cms
+        - rsync -a tests/joomla-cms/ tests/$tests_suite$php_version/joomla-cms
         # Creates the database (required because of the Codeception Db module)
-        - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
+        - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db$php_version"
         # Waits until Chromedriver is up and running
         - while ! nc -z localhost 9515; do sleep 1; done
         # Performs the setup and installation routine
         - su www-data -c 'vendor/bin/robo tests:setup 0 0'
         # Touching temp file to start the environment cloning (see setup-stages service)
-        - touch tests/.setup.tmp
+        - touch tests/.setup$php_version.tmp
+
+    00-setup-71:
+        group: 00-02-setup
+        image: redwebaps/testbox-chromedriver:2.38
+        pull: true
+        environment:
+            - tests_user=admin
+            - tests_suite=00-setup
+            - tests_db=setup
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-00-setup
+            - php_version=71
+        commands:
+            # Regular entry point
+            - /entrypoint.sh &
+
+            # Creating first clone for tests setup
+            - mkdir -p tests/$tests_suite$php_version/joomla-cms
+            - rsync -a tests/joomla-cms/ tests/$tests_suite$php_version/joomla-cms
+            # Creates the database (required because of the Codeception Db module)
+            - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db$php_version"
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs the setup and installation routine
+            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
+            # Touching temp file to start the environment cloning (see setup-stages service)
+            - touch tests/.setup$php_version.tmp
 
     01-Uninstall-56:
         group: 01-tests
@@ -1997,7 +2030,7 @@ services:
         - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
         - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
 
-    setup-stages:
+    setup-stages-56:
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -2005,62 +2038,129 @@ services:
             - tests_db=setup
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-setup-stages
+            - php_version=56
         commands:
             # Waiting for setup to be done
-            - while [ ! -f tests/.setup.tmp ]; do sleep 1; done
+            - while [ ! -f tests/.setup$php_version.tmp ]; do sleep 1; done
             # Final DB dump with full Joomla/extension setup
-            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms
-            - sed -i "s/db = '$tests_db'/db = 'tests_db'/g" tests/joomla-cms/configuration.php
-            - sed -i "s,$tests_suite/joomla-cms/,joomla-cms/,g" tests/joomla-cms/configuration.php
-            - mysqldump -u root -proot -h db $tests_db > tests/dbdump.sql.tmp
+            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms$php_version
+            - sed -i "s/db = '$tests_db$php_version'/db = 'tests_db'/g" tests/joomla-cms$php_version/configuration.php
+            - sed -i "s,$tests_suite$php_version/joomla-cms/,joomla-cms/,g" tests/joomla-cms$php_version/configuration.php
+            - mysqldump -u root -proot -h db $tests_db$php_version > tests/dbdump$php_version.sql.tmp
             # Stages setup
-            - sh tests/drone/setup-stages.sh "Uninstall"                    "01-Uninstall"                      56,71
-            - sh tests/drone/setup-stages.sh "Price_Product"                "02-Price_Product"                  56,71
-            - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend"  "03-ProductNotForSaleOnFrontend"    56,71
-            - sh tests/drone/setup-stages.sh "State"                        "04-State"                          56,71
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountOnProduct"    "05-CheckoutDiscountOnProduct"      56,71
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountTotal"        "06-CheckoutDiscountTotal"          56,71
-            - sh tests/drone/setup-stages.sh "Shipping"                     "07-Shipping"                       56,71
-            - sh tests/drone/setup-stages.sh "VoucherCheckoutProduct"       "08-VoucherCheckoutProduct"         56,71
-            - sh tests/drone/setup-stages.sh "Notices"                      "09-Notices"                        56,71
-            - sh tests/drone/setup-stages.sh "Wrapper"                      "10-Wrapper"                        56,71
-            - sh tests/drone/setup-stages.sh "Stockroom"                    "11-Stockroom"                      56,71
-            - sh tests/drone/setup-stages.sh "Stock_Image"                  "12-Stock_Image"                    56,71
-            - sh tests/drone/setup-stages.sh "Template"                     "13-Template"                       56,71
-            - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"           "14-Quotation_FrontEnd"             56,71
-            - sh tests/drone/setup-stages.sh "Quotations"                   "15-Quotation"                      56,71
-            - sh tests/drone/setup-stages.sh "MassDiscountCheckout"         "16-MassDiscountCheckout"           56,71
-            - sh tests/drone/setup-stages.sh "Country"                      "17-Country"                        56,71
-            - sh tests/drone/setup-stages.sh "Discount_Product"             "18-Discount_Product"               56,71
-            - sh tests/drone/setup-stages.sh "Currency"                     "19-Currency"                       56,71
-            - sh tests/drone/setup-stages.sh "Configuration"                "20-Configuration"                  56,71
-            - sh tests/drone/setup-stages.sh "Shopper_Group"                "21-Shopper_Group"                  56,71
-            - sh tests/drone/setup-stages.sh "Custom_Field"                 "22-Custom_Field"                   56,71
-            - sh tests/drone/setup-stages.sh "Compare_Products"             "23-Compare_Products"               56,71
-            - sh tests/drone/setup-stages.sh "Discount"                     "24-Discount"                       56,71
-            - sh tests/drone/setup-stages.sh "Checkout_Quantity"            "25-Checkout_Quantity"              56,71
-            - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout"      "26-Shopper_Groups_Checkout"        56,71
-            - sh tests/drone/setup-stages.sh "Order_Checkout"               "27-Order_Checkout"                 56,71
-            - sh tests/drone/setup-stages.sh "Product_Attribute"            "28-Product_Attribute"              56,71
-            - sh tests/drone/setup-stages.sh "Tax_Group"                    "29-Tax_Group"                      56,71
-            - sh tests/drone/setup-stages.sh "GiftCardCheckout"             "30-GiftCardCheckout"               56,71
-            - sh tests/drone/setup-stages.sh "Giftcard"                     "31-Giftcard"                       56,71
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"    56,71
-            - sh tests/drone/setup-stages.sh "Tax_Rate"                     "33-Tax_Rate"                       56,71
-            - sh tests/drone/setup-stages.sh "Coupon"                       "34-Coupon"                         56,71
-            - sh tests/drone/setup-stages.sh "Mail"                         "35-Mail"                           56,71
-            - sh tests/drone/setup-stages.sh "User"                         "36-User"                           56,71
-            - sh tests/drone/setup-stages.sh "Field_Group"                  "37-Field_Group"                    56,71
-            - sh tests/drone/setup-stages.sh "Mass_Discount"                "38-Mass_Discount"                  56,71
-            - sh tests/drone/setup-stages.sh "VAT"                          "39-VAT"                            56,71
-            - sh tests/drone/setup-stages.sh "Voucher"                      "40-Voucher"                        56,71
-            - sh tests/drone/setup-stages.sh "Text"                         "41-Text"                           56,71
-            - sh tests/drone/setup-stages.sh "Supplier"                     "42-Supplier"                       56,71
-            - sh tests/drone/setup-stages.sh "Manufacturer"                 "43-Manufacturer"                   56,71
-            - sh tests/drone/setup-stages.sh "One_Steps_Checkout"           "44-One_Step_Checkout"              56,71
-            - sh tests/drone/setup-stages.sh "Category"                     "45-Category"                       56,71
-            - sh tests/drone/setup-stages.sh "ProductManagement"            "46-ProductManagement"              56,71
-            - sh tests/drone/setup-stages.sh "CouponVoucherMixCheckout"     "47-CouponVoucherMixCheckout"       56,71
+            - sh tests/drone/setup-stages.sh "Uninstall"                    "01-Uninstall"                      $php_version
+            - sh tests/drone/setup-stages.sh "Price_Product"                "02-Price_Product"                  $php_version
+            - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend"  "03-ProductNotForSaleOnFrontend"    $php_version
+            - sh tests/drone/setup-stages.sh "State"                        "04-State"                          $php_version
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountOnProduct"    "05-CheckoutDiscountOnProduct"      $php_version
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountTotal"        "06-CheckoutDiscountTotal"          $php_version
+            - sh tests/drone/setup-stages.sh "Shipping"                     "07-Shipping"                       $php_version
+            - sh tests/drone/setup-stages.sh "VoucherCheckoutProduct"       "08-VoucherCheckoutProduct"         $php_version
+            - sh tests/drone/setup-stages.sh "Notices"                      "09-Notices"                        $php_version
+            - sh tests/drone/setup-stages.sh "Wrapper"                      "10-Wrapper"                        $php_version
+            - sh tests/drone/setup-stages.sh "Stockroom"                    "11-Stockroom"                      $php_version
+            - sh tests/drone/setup-stages.sh "Stock_Image"                  "12-Stock_Image"                    $php_version
+            - sh tests/drone/setup-stages.sh "Template"                     "13-Template"                       $php_version
+            - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"           "14-Quotation_FrontEnd"             $php_version
+            - sh tests/drone/setup-stages.sh "Quotations"                   "15-Quotation"                      $php_version
+            - sh tests/drone/setup-stages.sh "MassDiscountCheckout"         "16-MassDiscountCheckout"           $php_version
+            - sh tests/drone/setup-stages.sh "Country"                      "17-Country"                        $php_version
+            - sh tests/drone/setup-stages.sh "Discount_Product"             "18-Discount_Product"               $php_version
+            - sh tests/drone/setup-stages.sh "Currency"                     "19-Currency"                       $php_version
+            - sh tests/drone/setup-stages.sh "Configuration"                "20-Configuration"                  $php_version
+            - sh tests/drone/setup-stages.sh "Shopper_Group"                "21-Shopper_Group"                  $php_version
+            - sh tests/drone/setup-stages.sh "Custom_Field"                 "22-Custom_Field"                   $php_version
+            - sh tests/drone/setup-stages.sh "Compare_Products"             "23-Compare_Products"               $php_version
+            - sh tests/drone/setup-stages.sh "Discount"                     "24-Discount"                       $php_version
+            - sh tests/drone/setup-stages.sh "Checkout_Quantity"            "25-Checkout_Quantity"              $php_version
+            - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout"      "26-Shopper_Groups_Checkout"        $php_version
+            - sh tests/drone/setup-stages.sh "Order_Checkout"               "27-Order_Checkout"                 $php_version
+            - sh tests/drone/setup-stages.sh "Product_Attribute"            "28-Product_Attribute"              $php_version
+            - sh tests/drone/setup-stages.sh "Tax_Group"                    "29-Tax_Group"                      $php_version
+            - sh tests/drone/setup-stages.sh "GiftCardCheckout"             "30-GiftCardCheckout"               $php_version
+            - sh tests/drone/setup-stages.sh "Giftcard"                     "31-Giftcard"                       $php_version
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"    $php_version
+            - sh tests/drone/setup-stages.sh "Tax_Rate"                     "33-Tax_Rate"                       $php_version
+            - sh tests/drone/setup-stages.sh "Coupon"                       "34-Coupon"                         $php_version
+            - sh tests/drone/setup-stages.sh "Mail"                         "35-Mail"                           $php_version
+            - sh tests/drone/setup-stages.sh "User"                         "36-User"                           $php_version
+            - sh tests/drone/setup-stages.sh "Field_Group"                  "37-Field_Group"                    $php_version
+            - sh tests/drone/setup-stages.sh "Mass_Discount"                "38-Mass_Discount"                  $php_version
+            - sh tests/drone/setup-stages.sh "VAT"                          "39-VAT"                            $php_version
+            - sh tests/drone/setup-stages.sh "Voucher"                      "40-Voucher"                        $php_version
+            - sh tests/drone/setup-stages.sh "Text"                         "41-Text"                           $php_version
+            - sh tests/drone/setup-stages.sh "Supplier"                     "42-Supplier"                       $php_version
+            - sh tests/drone/setup-stages.sh "Manufacturer"                 "43-Manufacturer"                   $php_version
+            - sh tests/drone/setup-stages.sh "One_Steps_Checkout"           "44-One_Step_Checkout"              $php_version
+            - sh tests/drone/setup-stages.sh "Category"                     "45-Category"                       $php_version
+            - sh tests/drone/setup-stages.sh "ProductManagement"            "46-ProductManagement"              $php_version
+            - sh tests/drone/setup-stages.sh "CouponVoucherMixCheckout"     "47-CouponVoucherMixCheckout"       $php_version
+
+    setup-stages-71:
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+            - tests_user=admin
+            - tests_suite=00-setup
+            - tests_db=setup
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-setup-stages
+            - php_version=71
+        commands:
+            # Waiting for setup to be done
+            - while [ ! -f tests/.setup$php_version.tmp ]; do sleep 1; done
+            # Final DB dump with full Joomla/extension setup
+            - rsync -a --delete tests/$tests_suite/joomla-cms/ tests/joomla-cms$php_version
+            - sed -i "s/db = '$tests_db$php_version'/db = 'tests_db'/g" tests/joomla-cms$php_version/configuration.php
+            - sed -i "s,$tests_suite$php_version/joomla-cms/,joomla-cms/,g" tests/joomla-cms$php_version/configuration.php
+            - mysqldump -u root -proot -h db $tests_db$php_version > tests/dbdump$php_version.sql.tmp
+            # Stages setup
+            - sh tests/drone/setup-stages.sh "Uninstall"                    "01-Uninstall"                      $php_version
+            - sh tests/drone/setup-stages.sh "Price_Product"                "02-Price_Product"                  $php_version
+            - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend"  "03-ProductNotForSaleOnFrontend"    $php_version
+            - sh tests/drone/setup-stages.sh "State"                        "04-State"                          $php_version
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountOnProduct"    "05-CheckoutDiscountOnProduct"      $php_version
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountTotal"        "06-CheckoutDiscountTotal"          $php_version
+            - sh tests/drone/setup-stages.sh "Shipping"                     "07-Shipping"                       $php_version
+            - sh tests/drone/setup-stages.sh "VoucherCheckoutProduct"       "08-VoucherCheckoutProduct"         $php_version
+            - sh tests/drone/setup-stages.sh "Notices"                      "09-Notices"                        $php_version
+            - sh tests/drone/setup-stages.sh "Wrapper"                      "10-Wrapper"                        $php_version
+            - sh tests/drone/setup-stages.sh "Stockroom"                    "11-Stockroom"                      $php_version
+            - sh tests/drone/setup-stages.sh "Stock_Image"                  "12-Stock_Image"                    $php_version
+            - sh tests/drone/setup-stages.sh "Template"                     "13-Template"                       $php_version
+            - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"           "14-Quotation_FrontEnd"             $php_version
+            - sh tests/drone/setup-stages.sh "Quotations"                   "15-Quotation"                      $php_version
+            - sh tests/drone/setup-stages.sh "MassDiscountCheckout"         "16-MassDiscountCheckout"           $php_version
+            - sh tests/drone/setup-stages.sh "Country"                      "17-Country"                        $php_version
+            - sh tests/drone/setup-stages.sh "Discount_Product"             "18-Discount_Product"               $php_version
+            - sh tests/drone/setup-stages.sh "Currency"                     "19-Currency"                       $php_version
+            - sh tests/drone/setup-stages.sh "Configuration"                "20-Configuration"                  $php_version
+            - sh tests/drone/setup-stages.sh "Shopper_Group"                "21-Shopper_Group"                  $php_version
+            - sh tests/drone/setup-stages.sh "Custom_Field"                 "22-Custom_Field"                   $php_version
+            - sh tests/drone/setup-stages.sh "Compare_Products"             "23-Compare_Products"               $php_version
+            - sh tests/drone/setup-stages.sh "Discount"                     "24-Discount"                       $php_version
+            - sh tests/drone/setup-stages.sh "Checkout_Quantity"            "25-Checkout_Quantity"              $php_version
+            - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout"      "26-Shopper_Groups_Checkout"        $php_version
+            - sh tests/drone/setup-stages.sh "Order_Checkout"               "27-Order_Checkout"                 $php_version
+            - sh tests/drone/setup-stages.sh "Product_Attribute"            "28-Product_Attribute"              $php_version
+            - sh tests/drone/setup-stages.sh "Tax_Group"                    "29-Tax_Group"                      $php_version
+            - sh tests/drone/setup-stages.sh "GiftCardCheckout"             "30-GiftCardCheckout"               $php_version
+            - sh tests/drone/setup-stages.sh "Giftcard"                     "31-Giftcard"                       $php_version
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"    $php_version
+            - sh tests/drone/setup-stages.sh "Tax_Rate"                     "33-Tax_Rate"                       $php_version
+            - sh tests/drone/setup-stages.sh "Coupon"                       "34-Coupon"                         $php_version
+            - sh tests/drone/setup-stages.sh "Mail"                         "35-Mail"                           $php_version
+            - sh tests/drone/setup-stages.sh "User"                         "36-User"                           $php_version
+            - sh tests/drone/setup-stages.sh "Field_Group"                  "37-Field_Group"                    $php_version
+            - sh tests/drone/setup-stages.sh "Mass_Discount"                "38-Mass_Discount"                  $php_version
+            - sh tests/drone/setup-stages.sh "VAT"                          "39-VAT"                            $php_version
+            - sh tests/drone/setup-stages.sh "Voucher"                      "40-Voucher"                        $php_version
+            - sh tests/drone/setup-stages.sh "Text"                         "41-Text"                           $php_version
+            - sh tests/drone/setup-stages.sh "Supplier"                     "42-Supplier"                       $php_version
+            - sh tests/drone/setup-stages.sh "Manufacturer"                 "43-Manufacturer"                   $php_version
+            - sh tests/drone/setup-stages.sh "One_Steps_Checkout"           "44-One_Step_Checkout"              $php_version
+            - sh tests/drone/setup-stages.sh "Category"                     "45-Category"                       $php_version
+            - sh tests/drone/setup-stages.sh "ProductManagement"            "46-ProductManagement"              $php_version
+            - sh tests/drone/setup-stages.sh "CouponVoucherMixCheckout"     "47-CouponVoucherMixCheckout"       $php_version
 
 branches:
     exclude: [ crowdin ]
