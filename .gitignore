@@ -60,6 +60,7 @@ tests/RoboFile.ini
 selenium-server-standalone.jar
 tests/_support/_generated/*
 tests/releases/*
+tests/acceptance.suite.yml
 
 # Ignore redSHOP config
 component/admin/config/config.php
