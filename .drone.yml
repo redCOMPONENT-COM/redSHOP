@@ -5,7 +5,7 @@ clone:
 
 pipeline:
     00-cache:
-        group: 00-01-setup
+        group: 00-setup
         image: redwebaps/redshop-cache:latest
         pull: true
         commands:
@@ -26,7 +26,7 @@ pipeline:
         - touch tests/.cache.joomla-cms.tmp
 
     00-setup:
-        group: 00-01-setup
+        group: 00-setup
         image: redwebaps/testbox-chromedriver:2.38
         pull: true
         commands:
@@ -52,60 +52,8 @@ pipeline:
             - vendor/bin/robo tests:site-preparation 0 0
             # Ownership for uid 82
             - chown -R www-data:www-data .
-
-    00-setup-56:
-        group: 00-02-setup
-        image: redwebaps/testbox-chromedriver:2.38
-        pull: true
-        environment:
-        - tests_user=admin
-        - tests_suite=00-setup
-        - tests_db=setup
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-00-setup
-        - php_version=56
-        commands:
-        # Regular entry point
-        - /entrypoint.sh &
-
-        # Creating first clone for tests setup
-        - mkdir -p tests/$tests_suite$php_version/joomla-cms
-        - rsync -a tests/joomla-cms/ tests/$tests_suite$php_version/joomla-cms
-        # Creates the database (required because of the Codeception Db module)
-        - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db$php_version"
-        # Waits until Chromedriver is up and running
-        - while ! nc -z localhost 9515; do sleep 1; done
-        # Performs the setup and installation routine
-        - su www-data -c 'vendor/bin/robo tests:setup 0 0'
-        # Touching temp file to start the environment cloning (see setup-stages service)
-        - touch tests/.setup$php_version.tmp
-
-    00-setup-71:
-        group: 00-02-setup
-        image: redwebaps/testbox-chromedriver:2.38
-        pull: true
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-setup
-            - php_version=71
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-
-            # Creating first clone for tests setup
-            - mkdir -p tests/$tests_suite$php_version/joomla-cms
-            - rsync -a tests/joomla-cms/ tests/$tests_suite$php_version/joomla-cms
-            # Creates the database (required because of the Codeception Db module)
-            - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db$php_version"
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs the setup and installation routine
-            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
-            # Touching temp file to start the environment cloning (see setup-stages service)
-            - touch tests/.setup$php_version.tmp
+            # Touching temp file to start the setup of each installation (in each PHP version - via services)
+            - touch tests/.setup.tmp
 
     01-Uninstall-56:
         group: 01-tests
@@ -2029,6 +1977,65 @@ services:
         environment:
         - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
         - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
+
+    00-setup-56:
+        image: redwebaps/testbox-chromedriver:2.38
+        pull: true
+        environment:
+            - tests_user=admin
+            - tests_suite=00-setup
+            - tests_db=setup
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-00-setup
+            - php_version=56
+        commands:
+            # Regular entry point
+            - /entrypoint.sh &
+
+            # Waiting for setup to be done
+            - while [ ! -f tests/.setup.tmp ]; do sleep 1; done
+
+            # Creating first clone for tests setup
+            - mkdir -p tests/$tests_suite$php_version/joomla-cms
+            - rsync -a tests/joomla-cms/ tests/$tests_suite$php_version/joomla-cms
+            # Creates the database (required because of the Codeception Db module)
+            - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db$php_version"
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs the setup and installation routine
+            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
+            # Touching temp file to start the environment cloning (see setup-stages service)
+            - touch tests/.setup$php_version.tmp
+
+    00-setup-71:
+        image: redwebaps/testbox-chromedriver:2.38
+        pull: true
+        environment:
+            - tests_user=admin
+            - tests_suite=00-setup
+            - tests_db=setup
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-00-setup
+            - php_version=71
+        commands:
+            # Regular entry point
+            - /entrypoint.sh &
+
+            # Waiting for setup to be done
+            - while [ ! -f tests/.setup.tmp ]; do sleep 1; done
+
+            # Creating first clone for tests setup
+            - mkdir -p tests/$tests_suite$php_version/joomla-cms
+            - rsync -a tests/joomla-cms/ tests/$tests_suite$php_version/joomla-cms
+            # Creates the database (required because of the Codeception Db module)
+            - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db$php_version"
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs the setup and installation routine
+            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
+            # Touching temp file to start the environment cloning (see setup-stages service)
+            - touch tests/.setup$php_version.tmp
+
 
     setup-stages-56:
         image: redwebaps/testbox-chromedriver:2.38
