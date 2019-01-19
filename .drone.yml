@@ -81,7 +81,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs the setup and installation routine
-            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
+            - su www-data -c 'vendor/bin/robo tests:setup 0 1'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
 
@@ -2031,7 +2031,6 @@ services:
         environment:
             - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
             - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
-            - PHP_MAX_EXECUTION_TIME=600
 
     php71:
         image: redwebaps/php-apache:7.1
@@ -2039,7 +2038,6 @@ services:
         environment:
             - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
             - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
-            - PHP_MAX_EXECUTION_TIME=600
 
     setup-stages-56:
         image: redwebaps/testbox-chromedriver:2.38
