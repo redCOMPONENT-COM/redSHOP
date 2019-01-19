@@ -662,24 +662,24 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Discount_Groups/Rewards/Giftcard 0 0'
 
-#    32-CheckoutDiscountBeforeToday:
-#        group: 07-tests
-#        image: redwebaps/testbox-chromedriver:2.38
-#        environment:
-#            - tests_user=admin
-#            - tests_suite=32-CheckoutDiscountBeforeToday"
-#            - tests_db=CheckoutDiscountBeforeToday
-#            - build_path=/drone/src/github.com/${DRONE_REPO}
-#            - output_append=-32-CheckoutDiscountBeforeToday"
-#        commands:
-#            # Regular entry point
-#            - /entrypoint.sh &
-#            # Performs test after ensuring that the scenario has been fully set up
-#            - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
-#            # Waits until Chromedriver is up and running
-#            - while ! nc -z localhost 9515; do sleep 1; done
-#            # Performs test
-#            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g07/Discounts/CheckoutDiscountBeforeToday 0 0'
+    32-CheckoutDiscountBeforeToday:
+        group: 07-tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+            - tests_user=admin
+            - tests_suite=32-CheckoutDiscountBeforeToday
+            - tests_db=Giftcard
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-32-CheckoutDiscountBeforeToday
+        commands:
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g07/Discounts/CheckoutDiscountBeforeToday 0 0'
 
     33-Tax_Rate:
         group: 07-tests
@@ -1050,7 +1050,7 @@ services:
             - sh tests/drone/setup-stages.sh "Tax_Group"                    "29-Tax_Group"
             - sh tests/drone/setup-stages.sh "GiftCardCheckout"             "30-GiftCardCheckout"
             - sh tests/drone/setup-stages.sh "Giftcard"                     "31-Giftcard"
-            # - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"
+            - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"
             - sh tests/drone/setup-stages.sh "Tax_Rate"                     "33-Tax_Rate"
             - sh tests/drone/setup-stages.sh "Coupon"                       "34-Coupon"
             - sh tests/drone/setup-stages.sh "Mail"                         "35-Mail"
