@@ -2,14 +2,17 @@
 
 tests_db=$1
 tests_suite=$2
+php_versions=$3
 
-# Prepares and restores DB
-mysql -u root -proot -h db -e "CREATE DATABASE $tests_db"
-mysql -u root -proot -h db -U $tests_db < tests/dbdump.sql.tmp
+for php_version in $(echo $php_versions | sed "s/,/ /g"); do
+	# Prepares and restores DB
+	mysql -u root -proot -h db -e "CREATE DATABASE $tests_db$php_version"
+	mysql -u root -proot -h db -U $tests_db$php_version < tests/dbdump.sql.tmp
 
-# Creating clone of Joomla site
-mkdir -p tests/$tests_suite/joomla-cms
-rsync -a tests/joomla-cms/ tests/$tests_suite/joomla-cms
-sed -i "s/db = 'tests_db'/db = '$tests_db'/g" tests/$tests_suite/joomla-cms/configuration.php
-sed -i "s,joomla-cms/,$tests_suite/joomla-cms/,g" tests/$tests_suite/joomla-cms/configuration.php
-touch tests/.cache.setup.$tests_suite.tmp
+	# Creating clone of Joomla site
+	mkdir -p tests/$tests_suite$php_version/joomla-cms
+	rsync -a tests/joomla-cms/ tests/$tests_suite$php_version/joomla-cms
+	sed -i "s/db = 'tests_db'/db = '$tests_db$php_version'/g" tests/$tests_suite$php_version/joomla-cms/configuration.php
+	sed -i "s,joomla-cms/,$tests_suite$php_version/joomla-cms/,g" tests/$tests_suite$php_version/joomla-cms/configuration.php
+	touch tests/.cache.setup.$tests_suite$php_version.tmp
+done
