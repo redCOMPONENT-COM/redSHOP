@@ -32,7 +32,7 @@ pipeline:
         commands:
             # Composer setup
             # - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done                        # Comment if not using composer cache
-            - composer config -g github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
+            - composer config --global --auth github-oauth.github.com 6f8f19c330a0f899458e4b0670824deb8cdfe391
             - composer install --prefer-dist                                                  # Uncomment if not using composer cache
             - while [ ! -f tests/.cache.libraries.redshop.composer.tmp ]; do sleep 1; done      # Comment if not using composer cache for libraries
             # - composer install --prefer-dist -d libraries/redshop                             # Uncomment if not using composer cache for libraries
