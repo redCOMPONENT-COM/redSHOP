@@ -64,7 +64,7 @@ pipeline:
             - tests_suite=00-setup
             - tests_db=setup
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-setup
+            - output_append=-00-setup-56
             - php_version=56
         commands:
             # Regular entry point
@@ -94,7 +94,7 @@ pipeline:
             - tests_suite=00-setup
             - tests_db=setup
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-setup
+            - output_append=-00-setup-71
             - php_version=71
         commands:
             # Regular entry point
@@ -2025,7 +2025,7 @@ services:
             - MYSQL_ROOT_HOST=%
 
     php56:
-        image: redwebaps/php-apache:5.6
+        image: redwebaps/php-apache:7.0
         pull: true
         environment:
             - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
