@@ -103,7 +103,7 @@ class RoboFile extends \Robo\Tasks
 
 		if ($extraVerbose)
 		{
-			$args[] = '--vvv';
+			$args[] = '-vvv';
 		}
 
 		$args = array_merge(
@@ -155,7 +155,7 @@ class RoboFile extends \Robo\Tasks
 
 		if ($extraVerbose)
 		{
-			$args[] = '--vvv';
+			$args[] = '-vvv';
 		}
 
 		$args = array_merge(
