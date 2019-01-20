@@ -81,7 +81,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs the setup and installation routine
-            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
+            - su www-data -c 'vendor/bin/robo tests:setup 1 1 1'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
 
@@ -111,7 +111,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs the setup and installation routine
-            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
+            - su www-data -c 'vendor/bin/robo tests:setup 1 1 1'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
 

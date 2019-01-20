@@ -80,13 +80,14 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Tests setup
 	 *
-	 * @param   boolean  $debug   Add debug to the parameters
-	 * @param   boolean  $steps   Add steps to the parameters
+	 * @param   boolean  $debug         Add debug to the parameters
+	 * @param   boolean  $steps         Add steps to the parameters
+	 * @param   boolean  $extraVerbose  Add extra verbosity
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testsSetup($debug = true, $steps = true)
+	public function testsSetup($debug = true, $steps = true, $extraVerbose = false)
 	{
 		$args = [];
 
@@ -98,6 +99,11 @@ class RoboFile extends \Robo\Tasks
 		if ($steps)
 		{
 			$args[] = '--steps';
+		}
+
+		if ($extraVerbose)
+		{
+			$args[] = '--vvv';
 		}
 
 		$args = array_merge(
@@ -125,14 +131,15 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Individual test folder execution
 	 *
-	 * @param   string   $folder  Folder to execute codecept run to
-	 * @param   boolean  $debug   Add debug to the parameters
-	 * @param   boolean  $steps   Add steps to the parameters
+	 * @param   string   $folder        Folder to execute codecept run to
+	 * @param   boolean  $debug         Add debug to the parameters
+	 * @param   boolean  $steps         Add steps to the parameters
+	 * @param   boolean  $extraVerbose  Add extra verbosity
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testsRun($folder, $debug = true, $steps = true)
+	public function testsRun($folder, $debug = true, $steps = true, $extraVerbose = false)
 	{
 		$args = [];
 
@@ -144,6 +151,11 @@ class RoboFile extends \Robo\Tasks
 		if ($steps)
 		{
 			$args[] = '--steps';
+		}
+
+		if ($extraVerbose)
+		{
+			$args[] = '--vvv';
 		}
 
 		$args = array_merge(
