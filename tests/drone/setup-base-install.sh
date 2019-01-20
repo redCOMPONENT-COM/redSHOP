@@ -13,7 +13,7 @@ do
 	done
 
 	# Final DB dump with full Joomla/extension setup
-	rsync -a --delete tests/$tests_suite$php_version/joomla-cms/ tests/joomla-cms$php_version
+	tar -C tests/$tests_suite$php_version/joomla-cms/ -cf tests/joomla-cms$php_version.tar .
 	sed -i "s/db = '$tests_db$php_version'/db = 'tests_db'/g" tests/joomla-cms$php_version/configuration.php
 	sed -i "s,$tests_suite$php_version/joomla-cms/,joomla-cms/,g" tests/joomla-cms$php_version/configuration.php
 	mysqldump -u root -proot -h db $tests_db$php_version > tests/dbdump$php_version.sql.tmp

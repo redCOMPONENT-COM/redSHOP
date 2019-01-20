@@ -12,7 +12,7 @@ do
 
 	# Creating clone of Joomla site
 	mkdir -p tests/$tests_suite$php_version/joomla-cms
-	rsync -a tests/joomla-cms$php_version/ tests/$tests_suite$php_version/joomla-cms
+	tar xf tests/joomla-cms$php_version.tar -C tests/$tests_suite$php_version/joomla-cms/
 	sed -i "s/db = 'tests_db'/db = '$tests_db$php_version'/g" tests/$tests_suite$php_version/joomla-cms/configuration.php
 	sed -i "s,joomla-cms$php_version/,$tests_suite$php_version/joomla-cms/,g" tests/$tests_suite$php_version/joomla-cms/configuration.php
 	touch tests/.cache.setup.$tests_suite$php_version.tmp
