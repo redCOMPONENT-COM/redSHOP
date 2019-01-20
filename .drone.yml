@@ -344,7 +344,7 @@ pipeline:
             - tests_db=CheckoutDiscountTotal
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-06-CheckoutDiscountTotal-71
-            - php_version_71
+            - php_version=71
         commands:
             # Regular entry point
             - /entrypoint.sh &
