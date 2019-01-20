@@ -9,21 +9,21 @@ pipeline:
         image: redwebaps/redshop-cache:latest
         pull: true
         commands:
-        # redSHOP Composer cache
-        # - mv /opt/cache/redSHOP/vendor .
-        # - touch tests/.cache.composer.tmp
-        # redSHOP Composer cache for libraries
-        - mv /opt/cache/redSHOP/libraries/redshop/vendor libraries/redshop
-        - touch tests/.cache.libraries.redshop.composer.tmp
-        # redSHOP Composer cache for redshopb_pdf plugin
-        - mv /opt/cache/redSHOP/plugins/redshop_pdf/tcpdf/helper/vendor plugins/redshop_pdf/tcpdf/helper
-        - touch tests/.cache.plugins.redshop_pdf.composer.tmp
-        # redSHOP npm cache
-        - mv /opt/cache/redSHOP/node_modules .
-        - touch tests/.cache.npm.tmp
-        # Joomla CMS
-        - mv /opt/cache/joomla-cms tests
-        - touch tests/.cache.joomla-cms.tmp
+            # redSHOP Composer cache
+            # - mv /opt/cache/redSHOP/vendor .
+            # - touch tests/.cache.composer.tmp
+            # redSHOP Composer cache for libraries
+            - mv /opt/cache/redSHOP/libraries/redshop/vendor libraries/redshop
+            - touch tests/.cache.libraries.redshop.composer.tmp
+            # redSHOP Composer cache for redshopb_pdf plugin
+            - mv /opt/cache/redSHOP/plugins/redshop_pdf/tcpdf/helper/vendor plugins/redshop_pdf/tcpdf/helper
+            - touch tests/.cache.plugins.redshop_pdf.composer.tmp
+            # redSHOP npm cache
+            - mv /opt/cache/redSHOP/node_modules .
+            - touch tests/.cache.npm.tmp
+            # Joomla CMS
+            - mv /opt/cache/joomla-cms tests
+            - touch tests/.cache.joomla-cms.tmp
 
     00-setup:
         group: 00-setup
@@ -64,7 +64,7 @@ pipeline:
             - tests_suite=00-setup
             - tests_db=setup
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-setup-56
+            - output_append=-00-setup
             - php_version=56
         commands:
             # Regular entry point
@@ -94,7 +94,7 @@ pipeline:
             - tests_suite=00-setup
             - tests_db=setup
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-00-setup-71
+            - output_append=-00-setup
             - php_version=71
         commands:
             # Regular entry point
