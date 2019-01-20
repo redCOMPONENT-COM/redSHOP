@@ -10,8 +10,8 @@ pipeline:
         pull: true
         commands:
             # redSHOP Composer cache
-            # - mv /opt/cache/redSHOP/vendor .
-            # - touch tests/.cache.composer.tmp
+            - mv /opt/cache/redSHOP/vendor .
+            - touch tests/.cache.composer.tmp
             # redSHOP Composer cache for libraries
             - mv /opt/cache/redSHOP/libraries/redshop/vendor libraries/redshop
             - touch tests/.cache.libraries.redshop.composer.tmp
@@ -31,9 +31,9 @@ pipeline:
         pull: true
         commands:
             # Composer setup
-            # - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done                        # Comment if not using composer cache
+            - while [ ! -f tests/.cache.composer.tmp ]; do sleep 1; done                        # Comment if not using composer cache
             - composer config --global --auth github-oauth.github.com 4281d0ba7e8f1caded4c8b949a1c115902e30113
-            - composer install --prefer-dist                                                  # Uncomment if not using composer cache
+            # - composer install --prefer-dist                                                  # Uncomment if not using composer cache
             - while [ ! -f tests/.cache.libraries.redshop.composer.tmp ]; do sleep 1; done      # Comment if not using composer cache for libraries
             # - composer install --prefer-dist -d libraries/redshop                             # Uncomment if not using composer cache for libraries
             - while [ ! -f tests/.cache.plugins.redshop_pdf.composer.tmp ]; do sleep 1; done    # Comment if not using composer cache for redshopb_pdf plugin
@@ -81,7 +81,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs the setup and installation routine
-            - su www-data -c 'vendor/bin/robo tests:setup 1 1 1'
+            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
 
@@ -111,7 +111,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs the setup and installation routine
-            - su www-data -c 'vendor/bin/robo tests:setup 1 1 1'
+            - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
 
@@ -236,7 +236,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/ProductNotForSaleOnFrontend 0 0'
 
     04-State-56:
-        group: 01-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -253,10 +253,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Customizations/State 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Customizations/State 0 0'
 
     04-State-71:
-        group: 01-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -273,10 +273,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Customizations/State 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Customizations/State 0 0'
 
     05-CheckoutDiscountOnProduct-56:
-        group: 01-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -293,10 +293,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g01/Discounts/CheckoutDiscountOnProduct 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02/Discounts/CheckoutDiscountOnProduct 0 0'
 
     05-CheckoutDiscountOnProduct-71:
-        group: 01-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -313,7 +313,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g01/Discounts/CheckoutDiscountOnProduct 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02/Discounts/CheckoutDiscountOnProduct 0 0'
 
     06-CheckoutDiscountTotal-56:
         group: 02-tests
@@ -356,7 +356,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02/Discounts/CheckoutDiscountTotal 0 0'
 
     07-Shipping-56:
-        group: 02-tests
+        group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -373,10 +373,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Shippings/Shipping 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Shippings/Shipping 0 0'
 
     07-Shipping-71:
-        group: 02-tests
+        group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -393,10 +393,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Shippings/Shipping 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Shippings/Shipping 0 0'
 
     08-VoucherCheckoutProduct-56:
-        group: 02-tests
+        group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -413,10 +413,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02/Discounts/VoucherCheckoutProduct 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g03/Discounts/VoucherCheckoutProduct 0 0'
 
     08-VoucherCheckoutProduct-71:
-        group: 02-tests
+        group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -433,10 +433,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02/Discounts/VoucherCheckoutProduct 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g03/Discounts/VoucherCheckoutProduct 0 0'
 
     09-Notices-56:
-        group: 02-tests
+        group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -453,10 +453,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g02/Notices 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g03/Notices 0 0'
 
     09-Notices-71:
-        group: 02-tests
+        group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -473,10 +473,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g02/Notices 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run  acceptance/administrator/g03/Notices 0 0'
 
     10-Wrapper-56:
-        group: 02-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -493,10 +493,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Shippings/Wrapper 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Shippings/Wrapper 0 0'
 
     10-Wrapper-71:
-        group: 02-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -513,10 +513,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Shippings/Wrapper 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Shippings/Wrapper 0 0'
 
     11-Stockroom-56:
-        group: 03-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -533,10 +533,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Stockrooms/StockRoom 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Stockrooms/StockRoom 0 0'
 
     11-Stockroom-71:
-        group: 03-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -553,10 +553,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Stockrooms/StockRoom 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Stockrooms/StockRoom 0 0'
 
     12-Stock_Image-56:
-        group: 03-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -573,10 +573,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Stockrooms/Stock_Image 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Stockrooms/Stock_Image 0 0'
 
     12-Stock_Image-71:
-        group: 03-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -593,10 +593,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Stockrooms/Stock_Image 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Stockrooms/Stock_Image 0 0'
 
     13-Template-56:
-        group: 03-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -613,10 +613,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Customizations/Template 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Customizations/Template 0 0'
 
     13-Template-71:
-        group: 03-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -633,10 +633,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Customizations/Template 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Customizations/Template 0 0'
 
     14-Quotation_FrontEnd-56:
-        group: 03-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -653,10 +653,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g03/Quotations 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Quotations 0 0'
 
     14-Quotation_FrontEnd-71:
-        group: 03-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -673,10 +673,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g03/Quotations 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Quotations 0 0'
 
     15-Quotation-56:
-        group: 03-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -693,10 +693,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Orders/Quotation 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Orders/Quotation 0 0'
 
     15-Quotation-71:
-        group: 03-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -713,10 +713,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Orders/Quotation 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Orders/Quotation 0 0'
 
     16-MassDiscountCheckout-56:
-        group: 04-tests
+        group: 06-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -733,10 +733,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g04/Discounts/MassDiscountCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Discounts/MassDiscountCheckout 0 0'
 
     16-MassDiscountCheckout-71:
-        group: 04-tests
+        group: 06-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -753,10 +753,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g04/Discounts/MassDiscountCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Discounts/MassDiscountCheckout 0 0'
 
     17-Country-56:
-        group: 04-tests
+        group: 06-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -773,10 +773,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Customizations/Country 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06/Customizations/Country 0 0'
 
     17-Country-71:
-        group: 04-tests
+        group: 06-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -793,10 +793,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Customizations/Country 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06/Customizations/Country 0 0'
 
     18-Discount_Product-56:
-        group: 04-tests
+        group: 06-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -813,10 +813,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Discount_Groups/Discounts/Discount_Product 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06/Discount_Groups/Discounts/Discount_Product 0 0'
 
     18-Discount_Product-71:
-        group: 04-tests
+        group: 06-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -833,10 +833,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Discount_Groups/Discounts/Discount_Product 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06/Discount_Groups/Discounts/Discount_Product 0 0'
 
     19-Currency-56:
-        group: 04-tests
+        group: 07-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -853,10 +853,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Customizations/Currency 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Customizations/Currency 0 0'
 
     19-Currency-71:
-        group: 04-tests
+        group: 07-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -873,10 +873,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Customizations/Currency 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Customizations/Currency 0 0'
 
     20-Configuration-56:
-        group: 04-tests
+        group: 07-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -893,10 +893,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Configuration/ 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Configuration/ 0 0'
 
     20-Configuration-71:
-        group: 04-tests
+        group: 07-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -913,10 +913,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/Configuration/ 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Configuration/ 0 0'
 
     21-Shopper_Group-56:
-        group: 05-tests
+        group: 07-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -933,10 +933,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Users/Shopper_Group 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Users/Shopper_Group 0 0'
 
     21-Shopper_Group-71:
-        group: 05-tests
+        group: 07-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -953,10 +953,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Users/Shopper_Group 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Users/Shopper_Group 0 0'
 
     22-Custom_Field-56:
-        group: 05-tests
+        group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -973,10 +973,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Customizations/Custom_Field 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Customizations/Custom_Field 0 0'
 
     22-Custom_Field-71:
-        group: 05-tests
+        group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -993,10 +993,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Customizations/Custom_Field 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Customizations/Custom_Field 0 0'
 
     23-Compare_Products-56:
-        group: 05-tests
+        group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1013,10 +1013,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Compare_Products 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08/Compare_Products 0 0'
 
     23-Compare_Products-71:
-        group: 05-tests
+        group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1033,10 +1033,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Compare_Products 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08/Compare_Products 0 0'
 
     24-Discount-56:
-        group: 05-tests
+        group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1053,10 +1053,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Discount_Groups/Discounts/Discount 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Discounts/Discount 0 0'
 
     24-Discount-71:
-        group: 05-tests
+        group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1073,10 +1073,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05/Discount_Groups/Discounts/Discount 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Discounts/Discount 0 0'
 
     25-Checkout_Quantity-56:
-        group: 05-tests
+        group: 09-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1093,10 +1093,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Checkout_Quantity 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Checkout_Quantity 0 0'
 
     25-Checkout_Quantity-71:
-        group: 05-tests
+        group: 09-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1113,10 +1113,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Checkout_Quantity 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Checkout_Quantity 0 0'
 
     26-Shopper_Groups_Checkout-56:
-        group: 06-tests
+        group: 09-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1133,10 +1133,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Shopper_Groups 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Shopper_Groups 0 0'
 
     26-Shopper_Groups_Checkout-71:
-        group: 06-tests
+        group: 09-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1153,10 +1153,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Shopper_Groups 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Shopper_Groups 0 0'
 
     27-Order_Checkout-56:
-        group: 06-tests
+        group: 09-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1173,10 +1173,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Order 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Order 0 0'
 
     27-Order_Checkout-71:
-        group: 06-tests
+        group: 09-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1193,10 +1193,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Order 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Order 0 0'
 
     28-Product_Attribute-56:
-        group: 06-tests
+        group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1213,10 +1213,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Product_Attribute 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Product_Attribute 0 0'
 
     28-Product_Attribute-71:
-        group: 06-tests
+        group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1233,10 +1233,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Product_Attribute 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Product_Attribute 0 0'
 
     29-Tax_Group-56:
-        group: 06-tests
+        group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1253,10 +1253,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06/Products/Tax_Group 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10/Products/Tax_Group 0 0'
 
     29-Tax_Group-71:
-        group: 06-tests
+        group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1273,10 +1273,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06/Products/Tax_Group 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10/Products/Tax_Group 0 0'
 
     30-GiftCardCheckout-56:
-        group: 06-tests
+        group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1293,10 +1293,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Discounts/GiftCardCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Discounts/GiftCardCheckout 0 0'
 
     30-GiftCardCheckout-71:
-        group: 06-tests
+        group: 10-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1313,10 +1313,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Discounts/GiftCardCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Discounts/GiftCardCheckout 0 0'
 
     31-Giftcard-56:
-        group: 07-tests
+        group: 11-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1333,10 +1333,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Discount_Groups/Rewards/Giftcard 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11/Discount_Groups/Rewards/Giftcard 0 0'
 
     31-Giftcard-71:
-        group: 07-tests
+        group: 11-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1353,10 +1353,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Discount_Groups/Rewards/Giftcard 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11/Discount_Groups/Rewards/Giftcard 0 0'
 
     32-CheckoutDiscountBeforeToday-56:
-        group: 07-tests
+        group: 11-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1373,10 +1373,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g07/Discounts/CheckoutDiscountBeforeToday 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11/Discounts/CheckoutDiscountBeforeToday 0 0'
 
     32-CheckoutDiscountBeforeToday-71:
-        group: 07-tests
+        group: 11-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1393,10 +1393,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g07/Discounts/CheckoutDiscountBeforeToday 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11/Discounts/CheckoutDiscountBeforeToday 0 0'
 
     33-Tax_Rate-56:
-        group: 07-tests
+        group: 11-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1413,10 +1413,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Products/Tax_Rate 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11/Products/Tax_Rate 0 0'
 
     33-Tax_Rate-71:
-        group: 07-tests
+        group: 11-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1433,10 +1433,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Products/Tax_Rate 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11/Products/Tax_Rate 0 0'
 
     34-Coupon-56:
-        group: 07-tests
+        group: 12-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1453,10 +1453,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Discount_Groups/Rewards/Coupon 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12/Discount_Groups/Rewards/Coupon 0 0'
 
     34-Coupon-71:
-        group: 07-tests
+        group: 12-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1473,10 +1473,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Discount_Groups/Rewards/Coupon 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12/Discount_Groups/Rewards/Coupon 0 0'
 
     35-Mail-56:
-        group: 07-tests
+        group: 12-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1493,10 +1493,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Communications/Mail 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12/Communications/Mail 0 0'
 
     35-Mail-71:
-        group: 07-tests
+        group: 12-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1513,10 +1513,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Communications/Mail 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12/Communications/Mail 0 0'
 
     36-User-56:
-        group: 08-tests
+        group: 12-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1533,10 +1533,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Users/User 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12/Users/User 0 0'
 
     36-User-71:
-        group: 08-tests
+        group: 12-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1553,10 +1553,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Users/User 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12/Users/User 0 0'
 
     37-Field_Group-56:
-        group: 08-tests
+        group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1573,10 +1573,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Customizations/Field_Group 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13/Customizations/Field_Group 0 0'
 
     37-Field_Group-71:
-        group: 08-tests
+        group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1593,10 +1593,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Customizations/Field_Group 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13/Customizations/Field_Group 0 0'
 
     38-Mass_Discount-56:
-        group: 08-tests
+        group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1613,10 +1613,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Discounts/Mass_Discount 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13/Discount_Groups/Discounts/Mass_Discount 0 0'
 
     38-Mass_Discount-71:
-        group: 08-tests
+        group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1633,10 +1633,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Discounts/Mass_Discount 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13/Discount_Groups/Discounts/Mass_Discount 0 0'
 
     39-VAT-56:
-        group: 08-tests
+        group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1653,10 +1653,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08/VAT 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13/VAT 0 0'
 
     39-VAT-71:
-        group: 08-tests
+        group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1673,10 +1673,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08/VAT 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13/VAT 0 0'
 
     40-Voucher-56:
-        group: 08-tests
+        group: 14-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1693,10 +1693,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Rewards/Voucher 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14/Discount_Groups/Rewards/Voucher 0 0'
 
     40-Voucher-71:
-        group: 08-tests
+        group: 14-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1713,10 +1713,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Rewards/Voucher 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14/Discount_Groups/Rewards/Voucher 0 0'
 
     41-Text-56:
-        group: 09-tests
+        group: 14-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1733,10 +1733,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Customizations/Text 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14/Customizations/Text 0 0'
 
     41-Text-71:
-        group: 09-tests
+        group: 14-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1753,10 +1753,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Customizations/Text 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14/Customizations/Text 0 0'
 
     42-Supplier-56:
-        group: 09-tests
+        group: 14-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1773,10 +1773,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Supplier 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14/Products/Supplier 0 0'
 
     42-Supplier-71:
-        group: 09-tests
+        group: 14-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1793,10 +1793,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Supplier 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14/Products/Supplier 0 0'
 
     43-Manufacturer-56:
-        group: 09-tests
+        group: 15-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1813,10 +1813,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Manufacturer 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Manufacturer 0 0'
 
     43-Manufacturer-71:
-        group: 09-tests
+        group: 15-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1833,10 +1833,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Manufacturer 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Manufacturer 0 0'
 
     44-One_Step_Checkout-56:
-        group: 09-tests
+        group: 15-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1853,10 +1853,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/One_Step_Checkout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/One_Step_Checkout 0 0'
 
     44-One_Step_Checkout-71:
-        group: 09-tests
+        group: 15-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1873,10 +1873,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/One_Step_Checkout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/One_Step_Checkout 0 0'
 
     45-Category-56:
-        group: 09-tests
+        group: 15-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -1893,10 +1893,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Category 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Category 0 0'
 
     45-Category-71:
-        group: 09-tests
+        group: 15-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -1913,10 +1913,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g09/Products/Category 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Category 0 0'
 
     46-ProductManagement-56:
-        group: 10-tests
+        group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1933,10 +1933,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10/Products/ProductManagement 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16/Products/ProductManagement 0 0'
 
     46-ProductManagement-71:
-        group: 10-tests
+        group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1953,10 +1953,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10/Products/ProductManagement 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16/Products/ProductManagement 0 0'
 
     47-CouponVoucherMixCheckout-56:
-        group: 10-tests
+        group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1973,10 +1973,10 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Discounts/CouponVoucherMixCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16/Discounts/CouponVoucherMixCheckout 0 0'
 
     47-CouponVoucherMixCheckout-71:
-        group: 10-tests
+        group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -1993,7 +1993,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Discounts/CouponVoucherMixCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16/Discounts/CouponVoucherMixCheckout 0 0'
 
     slack:
         image: plugins/slack
@@ -2041,137 +2041,63 @@ services:
             - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
             - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
 
-    setup-stages-56:
+    setup-stages:
         image: redwebaps/testbox-chromedriver:2.38
         environment:
-            - tests_user=admin
             - tests_suite=00-setup
             - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-setup-stages
-            - php_version=56
+            - php_versions=56,71
         commands:
-            # Waiting for setup to be done
-            - while [ ! -f tests/.setup$php_version.tmp ]; do sleep 1; done
-            # Final DB dump with full Joomla/extension setup
-            - rsync -a --delete tests/$tests_suite$php_version/joomla-cms/ tests/joomla-cms$php_version
-            - sed -i "s/db = '$tests_db$php_version'/db = 'tests_db'/g" tests/joomla-cms$php_version/configuration.php
-            - sed -i "s,$tests_suite$php_version/joomla-cms/,joomla-cms/,g" tests/joomla-cms$php_version/configuration.php
-            - mysqldump -u root -proot -h db $tests_db$php_version > tests/dbdump$php_version.sql.tmp
+            # Base installation
+            - sh tests/drone/setup-base-install.sh  $tests_db                       $tests_suite                        $php_versions
             # Stages setup
-            - sh tests/drone/setup-stages.sh "Uninstall"                    "01-Uninstall"                      $php_version
-            - sh tests/drone/setup-stages.sh "Price_Product"                "02-Price_Product"                  $php_version
-            - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend"  "03-ProductNotForSaleOnFrontend"    $php_version
-            - sh tests/drone/setup-stages.sh "State"                        "04-State"                          $php_version
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountOnProduct"    "05-CheckoutDiscountOnProduct"      $php_version
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountTotal"        "06-CheckoutDiscountTotal"          $php_version
-            - sh tests/drone/setup-stages.sh "Shipping"                     "07-Shipping"                       $php_version
-            - sh tests/drone/setup-stages.sh "VoucherCheckoutProduct"       "08-VoucherCheckoutProduct"         $php_version
-            - sh tests/drone/setup-stages.sh "Notices"                      "09-Notices"                        $php_version
-            - sh tests/drone/setup-stages.sh "Wrapper"                      "10-Wrapper"                        $php_version
-            - sh tests/drone/setup-stages.sh "Stockroom"                    "11-Stockroom"                      $php_version
-            - sh tests/drone/setup-stages.sh "Stock_Image"                  "12-Stock_Image"                    $php_version
-            - sh tests/drone/setup-stages.sh "Template"                     "13-Template"                       $php_version
-            - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"           "14-Quotation_FrontEnd"             $php_version
-            - sh tests/drone/setup-stages.sh "Quotations"                   "15-Quotation"                      $php_version
-            - sh tests/drone/setup-stages.sh "MassDiscountCheckout"         "16-MassDiscountCheckout"           $php_version
-            - sh tests/drone/setup-stages.sh "Country"                      "17-Country"                        $php_version
-            - sh tests/drone/setup-stages.sh "Discount_Product"             "18-Discount_Product"               $php_version
-            - sh tests/drone/setup-stages.sh "Currency"                     "19-Currency"                       $php_version
-            - sh tests/drone/setup-stages.sh "Configuration"                "20-Configuration"                  $php_version
-            - sh tests/drone/setup-stages.sh "Shopper_Group"                "21-Shopper_Group"                  $php_version
-            - sh tests/drone/setup-stages.sh "Custom_Field"                 "22-Custom_Field"                   $php_version
-            - sh tests/drone/setup-stages.sh "Compare_Products"             "23-Compare_Products"               $php_version
-            - sh tests/drone/setup-stages.sh "Discount"                     "24-Discount"                       $php_version
-            - sh tests/drone/setup-stages.sh "Checkout_Quantity"            "25-Checkout_Quantity"              $php_version
-            - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout"      "26-Shopper_Groups_Checkout"        $php_version
-            - sh tests/drone/setup-stages.sh "Order_Checkout"               "27-Order_Checkout"                 $php_version
-            - sh tests/drone/setup-stages.sh "Product_Attribute"            "28-Product_Attribute"              $php_version
-            - sh tests/drone/setup-stages.sh "Tax_Group"                    "29-Tax_Group"                      $php_version
-            - sh tests/drone/setup-stages.sh "GiftCardCheckout"             "30-GiftCardCheckout"               $php_version
-            - sh tests/drone/setup-stages.sh "Giftcard"                     "31-Giftcard"                       $php_version
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"    $php_version
-            - sh tests/drone/setup-stages.sh "Tax_Rate"                     "33-Tax_Rate"                       $php_version
-            - sh tests/drone/setup-stages.sh "Coupon"                       "34-Coupon"                         $php_version
-            - sh tests/drone/setup-stages.sh "Mail"                         "35-Mail"                           $php_version
-            - sh tests/drone/setup-stages.sh "User"                         "36-User"                           $php_version
-            - sh tests/drone/setup-stages.sh "Field_Group"                  "37-Field_Group"                    $php_version
-            - sh tests/drone/setup-stages.sh "Mass_Discount"                "38-Mass_Discount"                  $php_version
-            - sh tests/drone/setup-stages.sh "VAT"                          "39-VAT"                            $php_version
-            - sh tests/drone/setup-stages.sh "Voucher"                      "40-Voucher"                        $php_version
-            - sh tests/drone/setup-stages.sh "Text"                         "41-Text"                           $php_version
-            - sh tests/drone/setup-stages.sh "Supplier"                     "42-Supplier"                       $php_version
-            - sh tests/drone/setup-stages.sh "Manufacturer"                 "43-Manufacturer"                   $php_version
-            - sh tests/drone/setup-stages.sh "One_Steps_Checkout"           "44-One_Step_Checkout"              $php_version
-            - sh tests/drone/setup-stages.sh "Category"                     "45-Category"                       $php_version
-            - sh tests/drone/setup-stages.sh "ProductManagement"            "46-ProductManagement"              $php_version
-            - sh tests/drone/setup-stages.sh "CouponVoucherMixCheckout"     "47-CouponVoucherMixCheckout"       $php_version
-
-    setup-stages-71:
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=00-setup
-            - tests_db=setup
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-setup-stages
-            - php_version=71
-        commands:
-            # Waiting for setup to be done
-            - while [ ! -f tests/.setup$php_version.tmp ]; do sleep 1; done
-            # Final DB dump with full Joomla/extension setup
-            - rsync -a --delete tests/$tests_suite$php_version/joomla-cms/ tests/joomla-cms$php_version
-            - sed -i "s/db = '$tests_db$php_version'/db = 'tests_db'/g" tests/joomla-cms$php_version/configuration.php
-            - sed -i "s,$tests_suite$php_version/joomla-cms/,joomla-cms/,g" tests/joomla-cms$php_version/configuration.php
-            - mysqldump -u root -proot -h db $tests_db$php_version > tests/dbdump$php_version.sql.tmp
-            # Stages setup
-            - sh tests/drone/setup-stages.sh "Uninstall"                    "01-Uninstall"                      $php_version
-            - sh tests/drone/setup-stages.sh "Price_Product"                "02-Price_Product"                  $php_version
-            - sh tests/drone/setup-stages.sh "ProductNotForSaleOnFrontend"  "03-ProductNotForSaleOnFrontend"    $php_version
-            - sh tests/drone/setup-stages.sh "State"                        "04-State"                          $php_version
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountOnProduct"    "05-CheckoutDiscountOnProduct"      $php_version
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountTotal"        "06-CheckoutDiscountTotal"          $php_version
-            - sh tests/drone/setup-stages.sh "Shipping"                     "07-Shipping"                       $php_version
-            - sh tests/drone/setup-stages.sh "VoucherCheckoutProduct"       "08-VoucherCheckoutProduct"         $php_version
-            - sh tests/drone/setup-stages.sh "Notices"                      "09-Notices"                        $php_version
-            - sh tests/drone/setup-stages.sh "Wrapper"                      "10-Wrapper"                        $php_version
-            - sh tests/drone/setup-stages.sh "Stockroom"                    "11-Stockroom"                      $php_version
-            - sh tests/drone/setup-stages.sh "Stock_Image"                  "12-Stock_Image"                    $php_version
-            - sh tests/drone/setup-stages.sh "Template"                     "13-Template"                       $php_version
-            - sh tests/drone/setup-stages.sh "Quotation_FrontEnd"           "14-Quotation_FrontEnd"             $php_version
-            - sh tests/drone/setup-stages.sh "Quotations"                   "15-Quotation"                      $php_version
-            - sh tests/drone/setup-stages.sh "MassDiscountCheckout"         "16-MassDiscountCheckout"           $php_version
-            - sh tests/drone/setup-stages.sh "Country"                      "17-Country"                        $php_version
-            - sh tests/drone/setup-stages.sh "Discount_Product"             "18-Discount_Product"               $php_version
-            - sh tests/drone/setup-stages.sh "Currency"                     "19-Currency"                       $php_version
-            - sh tests/drone/setup-stages.sh "Configuration"                "20-Configuration"                  $php_version
-            - sh tests/drone/setup-stages.sh "Shopper_Group"                "21-Shopper_Group"                  $php_version
-            - sh tests/drone/setup-stages.sh "Custom_Field"                 "22-Custom_Field"                   $php_version
-            - sh tests/drone/setup-stages.sh "Compare_Products"             "23-Compare_Products"               $php_version
-            - sh tests/drone/setup-stages.sh "Discount"                     "24-Discount"                       $php_version
-            - sh tests/drone/setup-stages.sh "Checkout_Quantity"            "25-Checkout_Quantity"              $php_version
-            - sh tests/drone/setup-stages.sh "Shopper_Groups_Checkout"      "26-Shopper_Groups_Checkout"        $php_version
-            - sh tests/drone/setup-stages.sh "Order_Checkout"               "27-Order_Checkout"                 $php_version
-            - sh tests/drone/setup-stages.sh "Product_Attribute"            "28-Product_Attribute"              $php_version
-            - sh tests/drone/setup-stages.sh "Tax_Group"                    "29-Tax_Group"                      $php_version
-            - sh tests/drone/setup-stages.sh "GiftCardCheckout"             "30-GiftCardCheckout"               $php_version
-            - sh tests/drone/setup-stages.sh "Giftcard"                     "31-Giftcard"                       $php_version
-            - sh tests/drone/setup-stages.sh "CheckoutDiscountBeforeToday"  "32-CheckoutDiscountBeforeToday"    $php_version
-            - sh tests/drone/setup-stages.sh "Tax_Rate"                     "33-Tax_Rate"                       $php_version
-            - sh tests/drone/setup-stages.sh "Coupon"                       "34-Coupon"                         $php_version
-            - sh tests/drone/setup-stages.sh "Mail"                         "35-Mail"                           $php_version
-            - sh tests/drone/setup-stages.sh "User"                         "36-User"                           $php_version
-            - sh tests/drone/setup-stages.sh "Field_Group"                  "37-Field_Group"                    $php_version
-            - sh tests/drone/setup-stages.sh "Mass_Discount"                "38-Mass_Discount"                  $php_version
-            - sh tests/drone/setup-stages.sh "VAT"                          "39-VAT"                            $php_version
-            - sh tests/drone/setup-stages.sh "Voucher"                      "40-Voucher"                        $php_version
-            - sh tests/drone/setup-stages.sh "Text"                         "41-Text"                           $php_version
-            - sh tests/drone/setup-stages.sh "Supplier"                     "42-Supplier"                       $php_version
-            - sh tests/drone/setup-stages.sh "Manufacturer"                 "43-Manufacturer"                   $php_version
-            - sh tests/drone/setup-stages.sh "One_Steps_Checkout"           "44-One_Step_Checkout"              $php_version
-            - sh tests/drone/setup-stages.sh "Category"                     "45-Category"                       $php_version
-            - sh tests/drone/setup-stages.sh "ProductManagement"            "46-ProductManagement"              $php_version
-            - sh tests/drone/setup-stages.sh "CouponVoucherMixCheckout"     "47-CouponVoucherMixCheckout"       $php_version
+            - sh tests/drone/setup-stages.sh        "Uninstall"                     "01-Uninstall"                      $php_versions
+            - sh tests/drone/setup-stages.sh        "Price_Product"                 "02-Price_Product"                  $php_versions
+            - sh tests/drone/setup-stages.sh        "ProductNotForSaleOnFrontend"   "03-ProductNotForSaleOnFrontend"    $php_versions
+            - sh tests/drone/setup-stages.sh        "State"                         "04-State"                          $php_versions
+            - sh tests/drone/setup-stages.sh        "CheckoutDiscountOnProduct"     "05-CheckoutDiscountOnProduct"      $php_versions
+            - sh tests/drone/setup-stages.sh        "CheckoutDiscountTotal"         "06-CheckoutDiscountTotal"          $php_versions
+            - sh tests/drone/setup-stages.sh        "Shipping"                      "07-Shipping"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "VoucherCheckoutProduct"        "08-VoucherCheckoutProduct"         $php_versions
+            - sh tests/drone/setup-stages.sh        "Notices"                       "09-Notices"                        $php_versions
+            - sh tests/drone/setup-stages.sh        "Wrapper"                       "10-Wrapper"                        $php_versions
+            - sh tests/drone/setup-stages.sh        "Stockroom"                     "11-Stockroom"                      $php_versions
+            - sh tests/drone/setup-stages.sh        "Stock_Image"                   "12-Stock_Image"                    $php_versions
+            - sh tests/drone/setup-stages.sh        "Template"                      "13-Template"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "Quotation_FrontEnd"            "14-Quotation_FrontEnd"             $php_versions
+            - sh tests/drone/setup-stages.sh        "Quotations"                    "15-Quotation"                      $php_versions
+            - sh tests/drone/setup-stages.sh        "MassDiscountCheckout"          "16-MassDiscountCheckout"           $php_versions
+            - sh tests/drone/setup-stages.sh        "Country"                       "17-Country"                        $php_versions
+            - sh tests/drone/setup-stages.sh        "Discount_Product"              "18-Discount_Product"               $php_versions
+            - sh tests/drone/setup-stages.sh        "Currency"                      "19-Currency"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "Configuration"                 "20-Configuration"                  $php_versions
+            - sh tests/drone/setup-stages.sh        "Shopper_Group"                 "21-Shopper_Group"                  $php_versions
+            - sh tests/drone/setup-stages.sh        "Custom_Field"                  "22-Custom_Field"                   $php_versions
+            - sh tests/drone/setup-stages.sh        "Compare_Products"              "23-Compare_Products"               $php_versions
+            - sh tests/drone/setup-stages.sh        "Discount"                      "24-Discount"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "Checkout_Quantity"             "25-Checkout_Quantity"              $php_versions
+            - sh tests/drone/setup-stages.sh        "Shopper_Groups_Checkout"       "26-Shopper_Groups_Checkout"        $php_versions
+            - sh tests/drone/setup-stages.sh        "Order_Checkout"                "27-Order_Checkout"                 $php_versions
+            - sh tests/drone/setup-stages.sh        "Product_Attribute"             "28-Product_Attribute"              $php_versions
+            - sh tests/drone/setup-stages.sh        "Tax_Group"                     "29-Tax_Group"                      $php_versions
+            - sh tests/drone/setup-stages.sh        "GiftCardCheckout"              "30-GiftCardCheckout"               $php_versions
+            - sh tests/drone/setup-stages.sh        "Giftcard"                      "31-Giftcard"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "CheckoutDiscountBeforeToday"   "32-CheckoutDiscountBeforeToday"    $php_versions
+            - sh tests/drone/setup-stages.sh        "Tax_Rate"                      "33-Tax_Rate"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "Coupon"                        "34-Coupon"                         $php_versions
+            - sh tests/drone/setup-stages.sh        "Mail"                          "35-Mail"                           $php_versions
+            - sh tests/drone/setup-stages.sh        "User"                          "36-User"                           $php_versions
+            - sh tests/drone/setup-stages.sh        "Field_Group"                   "37-Field_Group"                    $php_versions
+            - sh tests/drone/setup-stages.sh        "Mass_Discount"                 "38-Mass_Discount"                  $php_versions
+            - sh tests/drone/setup-stages.sh        "VAT"                           "39-VAT"                            $php_versions
+            - sh tests/drone/setup-stages.sh        "Voucher"                       "40-Voucher"                        $php_versions
+            - sh tests/drone/setup-stages.sh        "Text"                          "41-Text"                           $php_versions
+            - sh tests/drone/setup-stages.sh        "Supplier"                      "42-Supplier"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "Manufacturer"                  "43-Manufacturer"                   $php_versions
+            - sh tests/drone/setup-stages.sh        "One_Steps_Checkout"            "44-One_Step_Checkout"              $php_versions
+            - sh tests/drone/setup-stages.sh        "Category"                      "45-Category"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "ProductManagement"             "46-ProductManagement"              $php_versions
+            - sh tests/drone/setup-stages.sh        "CouponVoucherMixCheckout"      "47-CouponVoucherMixCheckout"       $php_versions
 
 branches:
     exclude: [ crowdin ]
