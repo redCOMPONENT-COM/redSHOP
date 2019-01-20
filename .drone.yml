@@ -2030,6 +2030,9 @@ services:
         environment:
             - WEB_DOCUMENT_ROOT=/drone/src/github.com/${DRONE_REPO}
             - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
+        commands:
+            - apk add --no-cache php5-pear php5-zip php5-ctype php5-iconv php5-imap php5-pdo php5-pdo_mysql git mysql-client
+            - /entrypoint.sh
 
     php71:
         image: redwebaps/php-apache:7.1
