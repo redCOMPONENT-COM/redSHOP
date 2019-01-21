@@ -196,7 +196,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01 0 0'
 
     04-State-56:
-        group: 02-tests
+        group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -216,7 +216,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02 0 0'
 
     04-State-71:
-        group: 02-tests
+        group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -236,7 +236,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02 0 0'
 
     05-CheckoutDiscountOnProduct-56:
-        group: 02-tests
+        group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -256,7 +256,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02 0 0'
 
     05-CheckoutDiscountOnProduct-71:
-        group: 02-tests
+        group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -476,7 +476,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05/Quotations 0 0'
 
     16-MassDiscountCheckout-56:
-        group: 06-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -496,7 +496,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Discounts/MassDiscountCheckout 0 0'
 
     16-MassDiscountCheckout-71:
-        group: 06-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -516,7 +516,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06/Discounts/MassDiscountCheckout 0 0'
 
     17-Country-56:
-        group: 06-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -536,7 +536,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06 0 0'
 
     17-Country-71:
-        group: 06-tests
+        group: 05-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -795,7 +795,7 @@ pipeline:
         # Performs test
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10 0 0'
     31-Giftcard-56:
-        group: 11-tests
+        group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -815,7 +815,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11 0 0'
 
     31-Giftcard-71:
-        group: 11-tests
+        group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -835,7 +835,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11 0 0'
 
     32-CheckoutDiscountBeforeToday-56:
-        group: 11-tests
+        group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -855,7 +855,7 @@ pipeline:
         - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11 0 0'
 
     32-CheckoutDiscountBeforeToday-71:
-        group: 11-tests
+        group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
