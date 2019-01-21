@@ -239,8 +239,8 @@
                 self.$cropperButton.addClass('disabled').prop('disabled', true);
                 self.$removeButton.addClass('disabled').prop('disabled', true);
 
-                if (self.$container.find("#ui-id-1").length <= 0) {
-                    jQuery("#ui-id-1").remove();
+                if (self.$container.find(".ui-corner-all").length <= 0) {
+                    jQuery(".ui-corner-all").remove();
                 }
 
                 var $hidden = null;
