@@ -347,7 +347,7 @@ class RedshopHelperCartDiscount
 
 		if ($type != 'Percentage')
 		{
-			$voucherValue    = $voucher->total;
+			$voucherValue = $voucher->total;
 		}
 		else
 		{
