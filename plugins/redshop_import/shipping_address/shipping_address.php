@@ -128,6 +128,7 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 		}
 
 		$data['address_type'] = 'ST';
+		$table->set('users_info_id', null);
 
 		if (!$table->bind($data))
 		{
