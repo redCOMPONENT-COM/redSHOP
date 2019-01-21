@@ -264,7 +264,7 @@ class RedshopControllerCart extends RedshopController
 		$model = $this->getModel('Cart');
 
 		// Call coupon method of model to apply coupon
-		$valid = $model->coupon();//REDSHOP-5060
+		$valid = $model->coupon();
 
 		$cart = RedshopHelperCartSession::getCart();
 		$this->modifyCalculation($cart);
