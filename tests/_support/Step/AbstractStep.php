@@ -120,9 +120,9 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$tester->click($pageClass::$buttonSave);
-				$tester->wait(0.5);
+				$tester->wait(1);
 				$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
-				$tester->click($pageClass::$buttonClose);
+				$tester->click($pageClass::$buttonSaveClose);
 				break;
 			case 'save&close':
 				$tester->click($pageClass::$buttonSaveClose);
