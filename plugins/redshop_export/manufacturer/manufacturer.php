@@ -54,7 +54,22 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 			$this->writeData($headers, 'w+');
 		}
 
-		return (int) $this->getTotal();
+		return (int) $this->getTotalManu_Export();
+	}
+
+	/**
+	* Count total row Manufacturer
+	*
+	* @Return int
+	*/
+	protected function getTotalManu_Export()
+	{
+		$query = $this->getQuery();
+		$query->clear('select')
+			->clear('group')
+			->select('COUNT(DISTINCT(' . $this->db->qn('m.id') .'))');
+
+		return (int) $this->db->setQuery($query)->loadResult();
 	}
 
 	/**
