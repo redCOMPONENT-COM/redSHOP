@@ -216,7 +216,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			JPluginHelper::importPlugin('redshop_product');
 			JPluginHelper::importPlugin('redshop_product_type');
 
-			RedshopHelperUtility::getDispatcher()->trigger('onAfterProductFullSave', array($row));
+			RedshopHelperUtility::getDispatcher()->trigger('onAfterProductFullSave', array($row, $post['product_id']));
 
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
