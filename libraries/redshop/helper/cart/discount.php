@@ -274,7 +274,7 @@ class RedshopHelperCartDiscount
 		}
 		elseif (Redshop::getConfig()->getBool('VOUCHERS_ENABLE') === true)
 		{
-			$return = self::applyVoucher();
+			$return = self::applyVoucher();//REDSHOP-5060
 		}
 
 		if (!empty($cartData))
@@ -298,7 +298,7 @@ class RedshopHelperCartDiscount
 	 * @throws  Exception
 	 */
 	public static function applyVoucher($cartData = array(), $voucherCode = '')
-	{
+	{//REDSHOP-5060
 		$voucherCode = empty($voucherCode) ? JFactory::getApplication()->input->getString('discount_code', '') : $voucherCode;
 		$cart        = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
 
@@ -347,7 +347,7 @@ class RedshopHelperCartDiscount
 
 		if ($type != 'Percentage')
 		{
-			$voucher->total *= $productQuantity;
+			//$voucher->total *= $productQuantity;
 			$voucherValue    = $voucher->total;
 		}
 		else
@@ -442,7 +442,7 @@ class RedshopHelperCartDiscount
 			{
 				$transactionVoucherId = $voucher->transaction_voucher_id;
 			}
-
+//REDSHOP-5060
 			$vouchers['voucher'][$voucherIndex]['voucher_code']               = $voucherCode;
 			$vouchers['voucher'][$voucherIndex]['voucher_id']                 = $voucherId;
 			$vouchers['voucher'][$voucherIndex]['product_id']                 = $productIds;
