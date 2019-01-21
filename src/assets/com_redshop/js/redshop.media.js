@@ -239,6 +239,10 @@
                 self.$cropperButton.addClass('disabled').prop('disabled', true);
                 self.$removeButton.addClass('disabled').prop('disabled', true);
 
+                if (self.$container.find("#ui-id-1").length <= 0) {
+                    jQuery("#ui-id-1").remove();
+                }
+
                 var $hidden = null;
 
                 // Add input hidden for rs-media-img-delete.
