@@ -309,7 +309,6 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function modifyCalculation($cart)
 	{
-		$cart                     = !is_array($cart) ? (array) $cart : $cart;
 		$calArr                   = \Redshop\Cart\Helper::calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
 		$discountAmount           = 0;
@@ -592,7 +591,7 @@ class RedshopControllerCart extends RedshopController
 	public function discountCalculator()
 	{
 		ob_clean();
-		$get = JFactory::getApplication()->input->get->getArray('GET');
+		$get = JFactory::getApplication()->input->get->getArray(/** @scrutinizer ignore-type */ 'GET');
 		rsCarthelper::getInstance()->discountCalculator($get);
 
 		JFactory::getApplication()->close();
@@ -607,7 +606,8 @@ class RedshopControllerCart extends RedshopController
 	public function redmasscart()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		//JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		\Redshop\Helper\Ajax::validateAjaxRequest('get');
 
 		$app  = JFactory::getApplication();
 		$post = $app->input->post->getArray();
@@ -705,7 +705,7 @@ class RedshopControllerCart extends RedshopController
 				$productId,
 				$productPrice,
 				$userId,
-				$taxExempt
+				/** @scrutinizer ignore-type */ $taxExempt
 			)
 		);
 
