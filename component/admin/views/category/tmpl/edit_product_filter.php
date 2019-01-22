@@ -30,6 +30,7 @@ $filterParams = $registry->loadString($this->item->product_filter_params);
                 <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PRODUCT_FILTERS'); ?></h3>
             </div>
             <div class="box-body">
+                <h4 class="notice"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_FILTERS_NOTICE'); ?></h4>
 				<?php foreach ($this->form->getFieldset('filters') as $field) : ?>
                     <div class="control-group">
 						<?php
