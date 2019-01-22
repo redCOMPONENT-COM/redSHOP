@@ -89,7 +89,7 @@ class RedshopModelNewslettersubscr extends RedshopModel
 	/**
 	 * Method import data.
 	 *
-	 * @param   integer  $nid    nid integer
+	 * @param   integer  $nid    newsletter id
 	 * @param   string   $name   name
 	 * @param   string   $email  email
 	 *
