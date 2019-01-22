@@ -204,7 +204,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								<td>
 									<?php
 									$arr_discount_type = array();
-									var_dump($this->detail->discount_type);
 									$arr_discount      = explode('@', $this->detail->discount_type);
 									$discount_type     = '';
 									for ($d = 0, $dn = count($arr_discount); $d < $dn; $d++)
