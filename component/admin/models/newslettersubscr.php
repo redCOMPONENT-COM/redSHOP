@@ -86,6 +86,17 @@ class RedshopModelNewslettersubscr extends RedshopModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * Method import data.
+	 *
+	 * @param   integer  $nid    newsletter id
+	 * @param   string   $name   name
+	 * @param   string   $email  email
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.0
+	 */
 	public function importdata($nid, $name, $email)
 	{
 		if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))

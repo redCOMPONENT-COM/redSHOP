@@ -18,20 +18,28 @@ class RedshopControllerNewslettersubscr extends RedshopController
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * Method import data.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.0
+	 */
 	public function importdata()
 	{
-		$post = $this->input->post->getArray();
-
-		$file = $this->input->files->get('file', array(), 'array');
-
-		$success = false;
+		$app        = JFactory::getApplication();
+		$post       = $this->input->post->getArray();
+		$file       = $this->input->files->get('file', array(), 'array');
+		$success    = false;
+		$msgSuccess = null;
+		$msgError   = null;
 
 		/** @var RedshopModelNewslettersubscr $model */
 		$model = $this->getModel('newslettersubscr');
 
 		$filetype = strtolower(JFile::getExt($file['name']));
 
-		$separator = $this->input->get('separator', ",");
+		$separator = $this->input->getString('separator', ",");
 
 		if ($filetype == 'csv')
 		{
@@ -41,7 +49,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 			JFile::upload($src, $dest);
 
-			$newsletter_id = $post['newsletter_id'];
+			$newsletterId = $post['newsletter_id'];
 
 			$row = 0;
 
@@ -53,7 +61,16 @@ class RedshopControllerNewslettersubscr extends RedshopController
 				{
 					if ($row != 0)
 					{
-						$success = $model->importdata($newsletter_id, $data[0], $data[1]);
+						$success = $model->importdata($newsletterId, $data[0], $data[2]);
+
+						if ($success)
+						{
+							$msgSuccess .= '<p>' . JText::sprintf('COM_REDSHOP_DATA_IMPORT_SUCCESS_AT_ROW', ($row + 1)) . '</p>';
+						}
+						else
+						{
+							$msgError .= '<p>' . JText::sprintf('COM_REDSHOP_ERROR_DATA_IMPORT_AT_ROW', ($row + 1)) . '</p>';
+						}
 					}
 
 					$row++;
@@ -62,22 +79,23 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 			fclose($handle);
 
-			if ($success)
+			$app->enqueueMessage($msgSuccess);
+			$app->enqueueMessage($msgError, 'error');
+			JFile::delete($dest);
+
+			if ($msgError == null)
 			{
-				JFile::delete($dest);
-				$msg = JText::_('COM_REDSHOP_DATA_IMPORT_SUCCESS');
-				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr');
 			}
 			else
 			{
-				$msg = JText::_('COM_REDSHOP_ERROR_DATA_IMPORT');
-				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data');
 			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_FILE_EXTENTION_WRONG');
-			$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data', $msg, 'warning');
 		}
 	}
 
