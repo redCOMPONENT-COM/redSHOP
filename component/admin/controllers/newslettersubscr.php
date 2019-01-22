@@ -30,7 +30,6 @@ class RedshopControllerNewslettersubscr extends RedshopController
 		$app        = JFactory::getApplication();
 		$post       = $this->input->post->getArray();
 		$file       = $this->input->files->get('file', array(), 'array');
-		$success    = false;
 		$msgSuccess = null;
 		$msgError   = null;
 
@@ -51,29 +50,24 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 			$newsletterId = $post['newsletter_id'];
 
-			$row = 0;
+			$row = 1;
 
 			$handle = fopen($dest, "r");
+			$header = fgetcsv($handle, null, $separator, '"');
 
-			while (($data = fgetcsv($handle, 1000, $separator)) !== false)
+			while ($data = fgetcsv($handle, null, $separator, '"'))
 			{
-				if ($data[0] != "" && $data[1] != "")
+				$row++;
+				$data = $this->processMapping($header, $data);
+				$success = $model->importdata($newsletterId, $data);
+
+				if ($success)
 				{
-					if ($row != 0)
-					{
-						$success = $model->importdata($newsletterId, $data[0], $data[2]);
-
-						if ($success)
-						{
-							$msgSuccess .= '<p>' . JText::sprintf('COM_REDSHOP_DATA_IMPORT_SUCCESS_AT_ROW', ($row + 1)) . '</p>';
-						}
-						else
-						{
-							$msgError .= '<p>' . JText::sprintf('COM_REDSHOP_ERROR_DATA_IMPORT_AT_ROW', ($row + 1)) . '</p>';
-						}
-					}
-
-					$row++;
+					$msgSuccess .= '<p>' . JText::sprintf('COM_REDSHOP_DATA_IMPORT_SUCCESS_AT_ROW', $row) . '</p>';
+				}
+				else
+				{
+					$msgError .= '<p>' . JText::sprintf('COM_REDSHOP_ERROR_DATA_IMPORT_AT_ROW', $row) . '</p>';
 				}
 			}
 

@@ -99,24 +99,49 @@ class RedshopModelNewslettersubscr extends RedshopModel
 	 */
 	public function importdata($nid, $name, $email)
 	{
-		if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))
+		$table = RedshopTable::getInstance('newslettersubscr_detail', 'Table');
+
+		$key = $table->getKeyName();
+		$table->subscription_id = $data['subscription_id'];
+		$table->newsletter_id   = $nid;
+		$table->email           = $data['email_id'];
+		$table->name            = $data['subscriber_full_name'];
+		if (array_key_exists($key, $data) && $data[$key])
 		{
-			$query = "INSERT INTO #__redshop_newsletter_subscription (subscription_id,user_id,newsletter_id,name,email)
-			VALUES ('','0','" . $nid . "','" . $name . "','" . $email . "' )";
+			$table->load($data[$key]);
+		}
 
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
+		try
+		{
+			if (!$table->bind($data) || !$table->check() || !$table->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
-
 				return false;
 			}
-
-			else
-			{
-				return true;
-			}
 		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+
+		return true;
+//		if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))
+//		{
+//			$query = "INSERT INTO #__redshop_newsletter_subscription (subscription_id,user_id,newsletter_id,name,email)
+//			VALUES ('','0','" . $nid . "','" . $name . "','" . $email . "' )";
+//
+//			$this->_db->setQuery($query);
+//
+//			if (!$this->_db->execute())
+//			{
+//				$this->setError($this->_db->getErrorMsg());
+//
+//				return false;
+//			}
+//
+//			else
+//			{
+//				return true;
+//			}
+//		}
 	}
 }
