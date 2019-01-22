@@ -29,6 +29,13 @@ class RedshopModelVoucher extends RedshopModelForm
 	 */
 	public function save($data)
 	{
+		if (strpos($data['code'], '@') !== false)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_CODE_CANNOT_CONTAIN_AT'));
+
+			return false;
+		}
+
 		if (strtotime($data['start_date']) > strtotime($data['end_date']))
 		{
 			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_START_DATE_MUST_BE_SOONER_OR_EQUAL_TO_END_DATE'));
