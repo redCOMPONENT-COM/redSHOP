@@ -128,13 +128,17 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 		}
 
 		$data['address_type'] = 'ST';
-		$table->set('users_info_id', null);
 
-		if (!$table->bind($data))
+		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
+		{
+			$table->load($data[$this->primaryKey]);
+		}
+
+		if (!$table->bind($data) || !$table->check() || !$table->store())
 		{
 			return false;
 		}
 
-		return $db->insertObject('#__redshop_users_info', $table, $this->primaryKey);
+		return true;
 	}
 }
