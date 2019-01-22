@@ -108,6 +108,9 @@ class RedshopModelCategory extends RedshopModel
 		$categoryTemplate = $app->getUserStateFromRequest($this->context . '.category_template', 'category_template', $selectedTemplate, 'int');
 		$this->setState('category_template', $categoryTemplate);
 
+		$filterData = $app->getUserStateFromRequest($this->context . '.filter_data', 'filterform', array(), 'array');
+		$this->setState('filterform', $filterData);
+
 		if ($_POST)
 		{
 			$manufacturerId = $app->input->post->getInt('manufacturer_id', 0);
@@ -391,12 +394,6 @@ class RedshopModelCategory extends RedshopModel
 			$query->where($finderCondition);
 		}
 
-		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query));
-
-		$queryCount = clone $query;
-		$queryCount->clear('select')->clear('group')
-			->select('COUNT(DISTINCT(p.product_id))');
-
 		// First steep get product ids
 		if ($minmax != 0 || $isSlider)
 		{
@@ -406,6 +403,21 @@ class RedshopModelCategory extends RedshopModel
 		{
 			$db->setQuery($query, $limitstart, $endlimit);
 		}
+
+		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query));
+
+		$productFilters = $this->getState('filterform');
+
+		if (!empty($productFilters))
+		{
+			$query->clear();
+			$query = RedshopHelperCategory::buildQueryFilterProduct($this->_id, $categories, $productFilters);
+			$db->setQuery($query, $limitstart, $endlimit);
+		}
+
+		$queryCount = clone $query;
+		$queryCount->clear('select')->clear('group')
+			->select('COUNT(DISTINCT(p.product_id))');
 
 		$this->_product = array();
 

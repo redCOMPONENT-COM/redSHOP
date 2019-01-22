@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Redshop Category Model
  *
@@ -175,6 +177,14 @@ class RedshopModelCategory extends RedshopModelForm
 			$row->setLocation($data['parent_id'], 'last-child');
 		}
 
+		$data['product_filter_params'] = "";
+
+		if ($data['product_filter']['enable'] == 1)
+		{
+			$registry = new Registry($data['product_filter']);
+			$data['product_filter_params'] = (string) $registry;
+		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($row->getError());
@@ -253,26 +263,27 @@ class RedshopModelCategory extends RedshopModelForm
 
 		for ($i = 0, $in = count($copyData); $i < $in; $i++)
 		{
-			$post                         = array();
-			$post['id']                   = 0;
-			$post['name']                 = $this->renameToUniqueValue('name', $copyData[$i]->name, '', 'Category');
-			$post['short_description']    = $copyData[$i]->short_description;
-			$post['description']          = $copyData[$i]->description;
-			$post['template']             = $copyData[$i]->template;
-			$post['more_template']        = $copyData[$i]->more_template;
-			$post['products_per_page']    = $copyData[$i]->products_per_page;
-			$post['metakey']              = $copyData[$i]->metakey;
-			$post['metadesc']             = $copyData[$i]->metadesc;
-			$post['metalanguage_setting'] = $copyData[$i]->metalanguage_setting;
-			$post['metarobot_info']       = $copyData[$i]->metarobot_info;
-			$post['pagetitle']            = $copyData[$i]->pagetitle;
-			$post['pageheading']          = $copyData[$i]->pageheading;
-			$post['sef_url']              = $copyData[$i]->sef_url;
-			$post['published']            = $copyData[$i]->published;
-			$post['category_pdate']       = date("Y-m-d h:i:s");
-			$post['ordering']             = count($copyData) + $i + 1;
-			$post['parent_id']            = $copyData[$i]->parent_id;
-			$post['level']                = $copyData[$i]->level;
+			$post                          = array();
+			$post['id']                    = 0;
+			$post['name']                  = $this->renameToUniqueValue('name', $copyData[$i]->name, '', 'Category');
+			$post['short_description']     = $copyData[$i]->short_description;
+			$post['description']           = $copyData[$i]->description;
+			$post['template']              = $copyData[$i]->template;
+			$post['more_template']         = $copyData[$i]->more_template;
+			$post['products_per_page']     = $copyData[$i]->products_per_page;
+			$post['metakey']               = $copyData[$i]->metakey;
+			$post['metadesc']              = $copyData[$i]->metadesc;
+			$post['metalanguage_setting']  = $copyData[$i]->metalanguage_setting;
+			$post['metarobot_info']        = $copyData[$i]->metarobot_info;
+			$post['pagetitle']             = $copyData[$i]->pagetitle;
+			$post['pageheading']           = $copyData[$i]->pageheading;
+			$post['sef_url']               = $copyData[$i]->sef_url;
+			$post['published']             = $copyData[$i]->published;
+			$post['category_pdate']        = date("Y-m-d h:i:s");
+			$post['ordering']              = count($copyData) + $i + 1;
+			$post['parent_id']             = $copyData[$i]->parent_id;
+			$post['level']                 = $copyData[$i]->level;
+			$post['product_filter_params'] = $copyData[$i]->product_filter_params;
 
 			if (!empty($copyData[$i]->category_thumb_image))
 			{

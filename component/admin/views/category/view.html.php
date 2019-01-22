@@ -103,6 +103,11 @@ class RedshopViewCategory extends RedshopViewForm
 				'COM_REDSHOP_ACCESSORY_PRODUCT',
 				false,
 				'accessory'
+			)->addItem(
+				'#product_filter',
+				'COM_REDSHOP_PRODUCT_FILTERS',
+				false,
+				'product_filter'
 			);
 
 		return $tabMenu;
