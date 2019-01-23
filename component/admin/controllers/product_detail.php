@@ -151,21 +151,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post ['publish_date'] = date("Y-m-d H:i:s");
 		}
 
-		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
-		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
-
-		if ($post['discount_stratdate'])
-		{
-			$startDate                  = new JDate($post['discount_stratdate']);
-			$post['discount_stratdate'] = $startDate->toUnix();
-		}
-
-		if ($post['discount_enddate'])
-		{
-			$endDate                  = new JDate($post['discount_enddate']);
-			$post['discount_enddate'] = RedshopHelperDatetime::generateTimestamp($endDate->toUnix());
-		}
-
 		// Setting default value
 		$post['product_on_sale'] = 0;
 

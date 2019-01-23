@@ -18,6 +18,8 @@ defined('_JEXEC') or die;
  */
 class RedshopModelMass_Discount extends RedshopModelForm
 {
+	use Redshop\Model\Traits\HasDateTimeRange;
+
 	/**
 	 * Method to save the form data.
 	 *
@@ -29,23 +31,13 @@ class RedshopModelMass_Discount extends RedshopModelForm
 	 */
 	public function save($data)
 	{
-		$tz  = JFactory::getConfig()->get('offset');
-		$UTC = new DateTimeZone('UTC');
+		$this->handleDateTimeRange($data['start_date'], $data['end_date']);
 
-		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
+		if ($data['start_date'] > $data['end_date'])
 		{
-			$data['start_date'] = JFactory::getDate($data['start_date'], $tz)->setTimezone($UTC)->toUnix();
-		}
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_START_DATE_MUST_BE_SOONER_OR_EQUAL_TO_END_DATE'));
 
-		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
-		{
-			$data['end_date'] = JFactory::getDate($data['end_date'], $tz)->setTimezone($UTC)->toUnix();
-		}
-
-		if ($data['start_date'] == $data['end_date'])
-		{
-			$data['start_date'] = RedshopHelperDatetime::generateTimestamp($data['start_date'], false);
-			$data['end_date']   = RedshopHelperDatetime::generateTimestamp($data['end_date'], true);
+			return false;
 		}
 
 		return parent::save($data);
