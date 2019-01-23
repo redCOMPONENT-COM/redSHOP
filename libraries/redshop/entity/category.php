@@ -271,7 +271,7 @@ class RedshopEntityCategory extends RedshopEntity
 		/** @var RedshopTableCategory $table */
 		$table = $this->getTable();
 
-		if (!$table instanceof JTable)
+		if (!$table)
 		{
 			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
 

@@ -21,6 +21,13 @@ JLoader::import('joomla.application.component.view');
 class RedshopViewCategory extends RedshopViewForm
 {
 	/**
+	 * @var    object
+	 *
+	 * @since  2.0.6
+	 */
+	public $item;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.

@@ -870,12 +870,7 @@ class RedshopModelCategory extends RedshopModel
 				}
 			}
 
-			$finder_where     = "";
-			$finder_query     = "";
-
-			$findercomponent      = JComponentHelper::getComponent('com_redproductfinder');
-			$productfinderconfig  = new JRegistry($findercomponent->params);
-			$finder_filter_option = $productfinderconfig->get('redshop_filter_option');
+			$finder_condition = "";
 
 			if ($tag)
 			{
@@ -899,13 +894,14 @@ class RedshopModelCategory extends RedshopModel
 						}
 
 						$finder_query .= " WHERE a.id = at.association_id AND at.tag_id = " . (int) $tag[0] . " ";
+						$finder_where_str = "";
 
 						if (is_array($finder_where))
 						{
-							$finder_where = " AND " . implode(" AND ", $finder_where);
+							$finder_where_str = " AND " . implode(" AND ", $finder_where);
 						}
 
-						$finder_query .= $finder_where;
+						$finder_query .= $finder_where_str;
 						$this->_db->setQuery($finder_query);
 						$rs              = $this->_db->loadColumn();
 						$finder_products = "";

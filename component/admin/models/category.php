@@ -49,6 +49,7 @@ class RedshopModelCategory extends RedshopModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
+		/** @scrutinizer ignore-call */
 		$form = $this->loadForm(
 			'com_redshop.category',
 			'category',
@@ -82,6 +83,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (empty($data))
 		{
+			/** @scrutinizer ignore-call */
 			$data = $this->getItem();
 		}
 
@@ -101,6 +103,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 */
 	public function getItem($pk = null)
 	{
+		/** @scrutinizer ignore-call */
 		$item = parent::getItem($pk);
 
 		if (!empty($item->id))
@@ -187,7 +190,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (!$row->bind($data))
 		{
-			$this->setError($row->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
 			return false;
 		}
@@ -195,7 +199,8 @@ class RedshopModelCategory extends RedshopModelForm
 		// Check the data.
 		if (!$row->check())
 		{
-			$this->setError($row->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
 			return false;
 		}
@@ -307,7 +312,7 @@ class RedshopModelCategory extends RedshopModelForm
 				}
 			}
 
-			$this->save($post);
+			$this->/** @scrutinizer ignore-call */ save($post);
 		}
 
 		return true;
@@ -371,7 +376,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 				if (!$accessoryTable->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */
+					$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -396,7 +402,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (!$table->saveorder($pks, $order))
 		{
-			$this->setError($table->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
 
 			return false;
 		}
