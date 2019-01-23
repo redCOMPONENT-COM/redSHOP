@@ -55,35 +55,38 @@ class RedshopControllerNewslettersubscr extends RedshopController
 			$handle = fopen($dest, "r");
 			$header = fgetcsv($handle, null, $separator, '"');
 
-			while ($data = fgetcsv($handle, null, $separator, '"'))
+			if ($handle !== false)
 			{
-				$row++;
-				$data = $this->processMapping($header, $data);
-				$success = $model->importdata($newsletterId, $data);
-
-				if ($success)
+				while ($data = fgetcsv($handle, null, $separator, '"'))
 				{
-					$msgSuccess .= '<p>' . JText::sprintf('COM_REDSHOP_DATA_IMPORT_SUCCESS_AT_ROW', $row) . '</p>';
+					$row++;
+					$data    = $this->processMapping($header, $data);
+					$success = $model->importdata($newsletterId, $data);
+
+					if ($success)
+					{
+						$msgSuccess .= '<p>' . JText::sprintf('COM_REDSHOP_DATA_IMPORT_SUCCESS_AT_ROW', $row) . '</p>';
+					}
+					else
+					{
+						$msgError .= '<p>' . JText::sprintf('COM_REDSHOP_ERROR_DATA_IMPORT_AT_ROW', $row) . '</p>';
+					}
+				}
+
+				fclose($handle);
+
+				$app->enqueueMessage($msgSuccess);
+				$app->enqueueMessage($msgError, 'error');
+				JFile::delete($dest);
+
+				if ($msgError === null)
+				{
+					$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr');
 				}
 				else
 				{
-					$msgError .= '<p>' . JText::sprintf('COM_REDSHOP_ERROR_DATA_IMPORT_AT_ROW', $row) . '</p>';
+					$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data');
 				}
-			}
-
-			fclose($handle);
-
-			$app->enqueueMessage($msgSuccess);
-			$app->enqueueMessage($msgError, 'error');
-			JFile::delete($dest);
-
-			if ($msgError == null)
-			{
-				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr');
-			}
-			else
-			{
-				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data');
 			}
 		}
 		else
@@ -133,5 +136,22 @@ class RedshopControllerNewslettersubscr extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_UNPUBLISHED_SUCCESFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
+	}
+
+	/**
+	 * Process mapping data.
+	 *
+	 * @param   array  $header  Header array
+	 * @param   array  $data    Data array
+	 *
+	 * @return  array           Mapping data.
+	 *
+	 * @since   2.0.3
+	 */
+	public function processMapping($header, $data)
+	{
+		$data = array_map("trim", $data);
+
+		return array_combine($header, $data);
 	}
 }
