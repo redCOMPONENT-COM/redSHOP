@@ -53,10 +53,11 @@ class RedshopControllerNewslettersubscr extends RedshopController
 			$row = 1;
 
 			$handle = fopen($dest, "r");
-			$header = fgetcsv($handle, null, $separator, '"');
 
 			if ($handle !== false)
 			{
+				$header = fgetcsv($handle, null, $separator, '"');
+
 				while ($data = fgetcsv($handle, null, $separator, '"'))
 				{
 					$row++;
@@ -141,7 +142,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 	/**
 	 * Process mapping data.
 	 *
-	 * @param   array  $header  Header array
+	 * @param   mixed  $header  Header array
 	 * @param   array  $data    Data array
 	 *
 	 * @return  array           Mapping data.

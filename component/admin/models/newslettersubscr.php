@@ -98,6 +98,7 @@ class RedshopModelNewslettersubscr extends RedshopModel
 	 */
 	public function importdata($nid, $data)
 	{
+		/** @var Tablenewslettersubscr_detail $table */
 		$table = RedshopTable::getInstance('newslettersubscr_detail', 'Table');
 
 		$key = $table->getKeyName();
