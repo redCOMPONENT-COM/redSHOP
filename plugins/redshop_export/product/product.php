@@ -145,8 +145,23 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			$this->writeData($headers, 'w+');
 		}
 
-		return (int) $this->getTotal();
+		return (int) $this->getTotalProduct_Export();
 	}
+
+    /**
+     *
+     * @return  int
+     *
+     * @since  2.1.1
+     */
+    protected function getTotalProduct_Export()
+    {
+        $query = $this->getQuery();
+        $query->clear('select')
+            ->clear('group')
+            ->select('COUNT(DISTINCT p.product_id)');
+        return (int) $this->db->setQuery($query)->loadResult();
+    }
 
 	/**
 	 * Event run on export process
