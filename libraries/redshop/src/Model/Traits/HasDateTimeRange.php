@@ -25,23 +25,31 @@ trait HasDateTimeRange
 	 */
 	protected function handleDateTimeRange(&$startDate, &$endDate)
 	{
-		$tz  = \JFactory::getConfig()->get('offset');
-		$UTC = new \DateTimeZone('UTC');
+		if (empty($startDate) && empty($endDate))
+		{
+			return;
+		}
+
+		$tz     = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
+		$UTC    = new \DateTimeZone('UTC');
+		$format = \Redshop::getConfig()->get('DEFAULT_DATEFORMAT');
+
+		if ($startDate == $endDate)
+		{
+			$startDate = date_create_from_format($format, $startDate, $tz)->setTime(0, 0, 0)->setTimezone($UTC)->getTimestamp();
+			$endDate   = date_create_from_format($format, $endDate, $tz)->setTime(23, 59, 59)->setTimezone($UTC)->getTimestamp();
+
+			return;
+		}
 
 		if (!empty($startDate) && !is_numeric($startDate))
 		{
-			$startDate = \JFactory::getDate($startDate, $tz)->setTimezone($UTC)->toUnix();
+			$startDate = date_create_from_format($format, $startDate, $tz)->setTimezone($UTC)->getTimestamp();
 		}
 
 		if (!empty($endDate) && !is_numeric($endDate))
 		{
-			$endDate = \JFactory::getDate($endDate, $tz)->setTimezone($UTC)->toUnix();
-		}
-
-		if ($startDate == $endDate)
-		{
-			$startDate = \RedshopHelperDatetime::generateTimestamp($startDate, false);
-			$endDate   = \RedshopHelperDatetime::generateTimestamp($endDate, true);
+			$endDate = date_create_from_format($format, $endDate, $tz)->setTimezone($UTC)->getTimestamp();
 		}
 	}
 }
