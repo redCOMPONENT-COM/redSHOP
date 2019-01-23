@@ -94,7 +94,7 @@ class RedshopControllerUser_detail extends RedshopController
 	{
 		$shipping            = $this->input->getString('shipping', '');
 		$cid                 = $this->input->get('cid', array(0), 'array');
-		$delete_joomla_users = $this->input->getBool('delete_joomla_users', false);//REDSHOP-4993
+		$delete_joomla_users = $this->input->getBool('delete_joomla_users', false);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

@@ -38,7 +38,7 @@ $model         = $this->getModel('user');
 		else if (pressbutton == 'edit' || pressbutton == 'publish' || pressbutton == 'unpublish' || pressbutton == 'remove' || pressbutton == 'copy')
 		{
             if (pressbutton == 'remove')
-            {//REDSHOP-4993
+            {
                 form.view.value = "user_detail";
 
                 var deleteUserPopup = $("#deleteUserPopup");
