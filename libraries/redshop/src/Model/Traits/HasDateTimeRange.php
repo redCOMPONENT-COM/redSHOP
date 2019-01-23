@@ -9,13 +9,9 @@
 namespace Redshop\Model\Traits;
 
 /**
- * Trait class for test with check-in feature
+ * Trait support start_date end_date
  *
- * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
- * @since    2.0
+ * @since    __DEPLOY_VERSION__
  */
 trait HasDateTimeRange
 {
