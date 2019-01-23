@@ -40,8 +40,15 @@ class RedshopModelVoucher extends RedshopModelForm
 			return false;
 		}
 
-		$data['start_date'] = \JFactory::getDate($data['start_date'])->toSql();
-		$data['end_date'] = \JFactory::getDate($data['end_date'])->toSql();
+		if (!empty($data['start_date']))
+		{
+			$data['start_date'] = \JFactory::getDate($data['start_date'])->toSql();
+		}
+
+		if (!empty($data['end_date']))
+		{
+			$data['end_date'] = \JFactory::getDate($data['end_date'])->toSql();
+		}
 
 		return parent::save($data);
 	}
