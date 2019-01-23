@@ -31,7 +31,7 @@ class JFormFieldProductattributes extends JFormFieldList
 	/**
 	 * Set select list options
 	 *
-	 * @return  string  select list options
+	 * @return  array  select list options
 	 */
 	public function getOptions()
 	{
@@ -39,8 +39,6 @@ class JFormFieldProductattributes extends JFormFieldList
 		$subQuery = "SELECT a.product_id, ap.attribute_id, a.attribute_name, ap.property_name 
 					FROM #__redshop_product_attribute_property ap LEFT JOIN #__redshop_product_attribute a 
 					ON a.attribute_id = ap.attribute_id WHERE a.attribute_published = 1 AND a.product_id > 0 ";
-
-		$productsFilter = array();
 
 		if (!empty($this->product_ids))
 		{

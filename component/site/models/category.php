@@ -108,7 +108,7 @@ class RedshopModelCategory extends RedshopModel
 		$categoryTemplate = $app->getUserStateFromRequest($this->context . '.category_template', 'category_template', $selectedTemplate, 'int');
 		$this->setState('category_template', $categoryTemplate);
 
-		$filterData = $app->getUserStateFromRequest($this->context . '.filter_data', 'filterform', array(), 'array');
+		$filterData = $app->getUserStateFromRequest($this->context . '.filter_data', 'filterform', '', 'array');
 		$this->setState('filterform', $filterData);
 
 		if ($_POST)

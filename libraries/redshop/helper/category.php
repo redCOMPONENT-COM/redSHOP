@@ -428,7 +428,7 @@ class RedshopHelperCategory
 	/**
 	 * Get category product list
 	 *
-	 * @param   string  $cid  Category ID
+	 * @param   integer  $cid  Category ID
 	 *
 	 * @return  array
 	 *
