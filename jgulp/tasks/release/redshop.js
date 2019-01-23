@@ -53,8 +53,7 @@ function getIncludedExtensions() {
     ];
     var includedModules = [
         "./modules/site/mod_redshop_cart/**",
-        "./modules/site/mod_redshop_search/**",
-        "./modules/site/mod_redshop_filter/**"
+        "./modules/site/mod_redshop_search/**"
     ];
 
     return included.concat(includedPlugins, includedModules, excluded);
