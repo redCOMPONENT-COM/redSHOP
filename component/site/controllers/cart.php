@@ -66,7 +66,6 @@ class RedshopControllerCart extends RedshopController
 		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
 		$isAjaxCartBox = Redshop::getConfig()->getBool('AJAX_CART_BOX');
-
 		$result = Redshop\Cart\Cart::addProduct($post);
 
 		if (!is_bool($result) || (is_bool($result) && !$result))
