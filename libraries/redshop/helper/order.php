@@ -1941,7 +1941,7 @@ class RedshopHelperOrder
 	 * @param   integer  $orderItemId  Order Item ID
 	 * @param   integer  $section      Section ID
 	 *
-	 * @return  object
+	 * @return  object|mixed
 	 *
 	 * @since   2.0.3
 	 */
