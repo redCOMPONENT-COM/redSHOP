@@ -98,6 +98,11 @@ class RedshopModelNewslettersubscr extends RedshopModel
 	 */
 	public function importdata($nid, $data)
 	{
+		if (!isset($data['email_id']) || $data['email_id'] === null)
+		{
+			return false;
+		}
+
 		/** @var Tablenewslettersubscr_detail $table */
 		$table = RedshopTable::getInstance('newslettersubscr_detail', 'Table');
 
