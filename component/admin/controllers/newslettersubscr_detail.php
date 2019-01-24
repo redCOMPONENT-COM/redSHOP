@@ -136,12 +136,14 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		header("Content-type: application/csv");
 		header('Content-Disposition: attachment; filename=NewsletterSbsc.csv');
 
-		echo "Subscriber Full Name,Newsletter,Email Id\n";
+		echo "subscription_id,subscriber_full_name,newsletter,email_id\n";
 		$data = $model->getnewslettersbsc();
 
 		for ($i = 0, $in = count($data); $i < $in; $i++)
 		{
 			$subname = $model->getuserfullname($data[$i]->user_id);
+
+			echo $data[$i]->subscription_id . ",";
 
 			if ($data[$i]->user_id != 0)
 			{
