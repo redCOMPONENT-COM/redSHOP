@@ -146,7 +146,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 			->leftjoin($db->qn('#__redshop_order_users_info', 'ouf') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('ouf.order_id'))
 			->where($db->qn('ouf.address_type') . ' = ' . $db->q('BT'))
 			->where($db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid'))
-            ->group($db->qn('o.order_id'))
+			->group($db->qn('o.order_id'))
 			->order($db->qn('o.order_id') . ' DESC');
 
 		// Filter: Date Range
