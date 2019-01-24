@@ -122,6 +122,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 		$attributeQuery = $db->getQuery(true)
 			->select($db->qn('p.product_number'))
 			->select($db->qn('a.attribute_name'))
+			->select($db->qn('a.attribute_description'))
 			->select($db->qn('a.ordering', 'attribute_ordering'))
 			->select($db->qn('a.allow_multiple_selection'))
 			->select($db->qn('a.hide_attribute_price'))
@@ -134,6 +135,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('setdefault_selected'))
 			->select($db->quote('') . ' AS ' . $db->qn('setrequire_selected'))
 			->select($db->quote('') . ' AS ' . $db->qn('setdisplay_type'))
+			->select($db->quote('') . ' AS ' . $db->qn('extra_field'))
 			->select($db->quote('') . ' AS ' . $db->qn('oprand'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_image'))
@@ -142,6 +144,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_stock'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_ordering'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_setdefault_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_extra_field'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_title'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_virtual_number'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_oprand'))
@@ -161,6 +164,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 		$propertiesQuery = $db->getQuery(true)
 			->select($db->qn('p.product_number'))
 			->select($db->qn('a.attribute_name'))
+			->select($db->qn('a.attribute_description'))
 			->select($db->quote('') . ' AS ' . $db->qn('attribute_ordering'))
 			->select($db->quote('') . ' AS ' . $db->qn('allow_multiple_selection'))
 			->select($db->quote('') . ' AS ' . $db->qn('hide_attribute_price'))
@@ -179,6 +183,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->qn('ap.setdefault_selected'))
 			->select($db->qn('ap.setrequire_selected'))
 			->select($db->qn('ap.setdisplay_type'))
+			->select($db->qn('ap.extra_field'))
 			->select($db->qn('ap.oprand'))
 			->select($db->qn('ap.property_price'))
 			->select($db->qn('ap.property_image'))
@@ -187,6 +192,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_stock'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_ordering'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_setdefault_selected'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_extra_field'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_title'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_virtual_number'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_oprand'))
@@ -214,6 +220,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 		$subPropertiesQuery = $db->getQuery(true)
 			->select($db->qn('p.product_number'))
 			->select($db->qn('a.attribute_name'))
+			->select($db->qn('a.attribute_description'))
 			->select($db->quote('') . ' AS ' . $db->qn('attribute_ordering'))
 			->select($db->quote('') . ' AS ' . $db->qn('allow_multiple_selection'))
 			->select($db->quote('') . ' AS ' . $db->qn('hide_attribute_price'))
@@ -226,6 +233,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('setdefault_selected'))
 			->select($db->quote('') . ' AS ' . $db->qn('setrequire_selected'))
 			->select($db->quote('') . ' AS ' . $db->qn('setdisplay_type'))
+			->select($db->quote('') . ' AS ' . $db->qn('extra_field'))
 			->select($db->quote('') . ' AS ' . $db->qn('oprand'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_image'))
@@ -240,6 +248,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			)
 			->select($db->qn('sp.ordering', 'subattribute_color_ordering'))
 			->select($db->qn('sp.setdefault_selected', 'subattribute_setdefault_selected'))
+			->select($db->qn('sp.extra_field', 'subattribute_extra_field'))
 			->select($db->qn('sp.subattribute_color_title'))
 			->select($db->qn('sp.subattribute_color_number', 'subattribute_virtual_number'))
 			->select($db->qn('sp.oprand', 'subattribute_color_oprand'))
@@ -289,10 +298,10 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	protected function getHeader()
 	{
 		return array(
-			'product_number','attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
+			'product_number','attribute_name','attribute_description','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
 			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected','setrequire_selected',
-			'setdisplay_type', 'oprand','property_price','property_image','property_main_image','subattribute_color_name', 'subattribute_stock',
-			'subattribute_color_ordering','subattribute_setdefault_selected','subattribute_color_title','subattribute_virtual_number',
+			'setdisplay_type','extra_field', 'oprand','property_price','property_image','property_main_image','subattribute_color_name', 'subattribute_stock',
+			'subattribute_color_ordering','subattribute_setdefault_selected','subattribute_extra_field','subattribute_color_title','subattribute_virtual_number',
 			'subattribute_color_oprand','required_sub_attribute','subattribute_color_price','subattribute_color_image','delete',
 			'media_name', 'media_alternate_text', 'media_section', 'media_published', 'media_ordering'
 		);

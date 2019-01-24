@@ -59,7 +59,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	 * @since  1.0.0
 	 */
 	public function onAjaxAttribute_Import()
-	{//REDSHOP-4921
+	{
 		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input           = JFactory::getApplication()->input;
@@ -124,6 +124,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 
 			$attributeData = array(
 				'attribute_name' => $data['attribute_name'],
+				'attribute_description' => $data['attribute_description'],
 				'ordering' => $data['attribute_ordering'],
 				'allow_multiple_selection' => $data['allow_multiple_selection'],
 				'hide_attribute_price' => $data['hide_attribute_price'],
@@ -132,12 +133,12 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				'product_id' => $productId
 			);
 
-			if (!$table->bind($attributeData) || !$row = $table->store())
+			if (!$table->save($attributeData))
 			{
 				return false;
 			}
 
-			$attributeId = $table->attribute_id;var_dump($table);
+			$attributeId = $table->get($table->getKeyName());
 		}
 
 		// In case: No property data and no sub-properties data and this attribute already exist => Update attribute.
@@ -147,6 +148,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 
 			$attributeData = array(
 				'attribute_name' => $data['attribute_name'],
+				'attribute_description' => $data['attribute_description'],
 				'ordering' => $data['attribute_ordering'],
 				'allow_multiple_selection' => $data['allow_multiple_selection'],
 				'hide_attribute_price' => $data['hide_attribute_price'],
@@ -196,6 +198,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				$propertyTable->set('setdefault_selected', $data['setdefault_selected']);
 				$propertyTable->set('setrequire_selected', $data['setrequire_selected']);
 				$propertyTable->set('setdisplay_type', $data['setdisplay_type']);
+				$propertyTable->set('extra_field', $data['extra_field']);
 				$oprand = in_array($data['oprand'], array('+', '-', '*', '/', '=')) ? $data['oprand'] : '';
 
 				$propertyTable->set('oprand', $oprand);
@@ -397,6 +400,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 			$subPropertyTable->subattribute_color_price = $data['subattribute_color_price'];
 			$subPropertyTable->ordering = $data['subattribute_color_ordering'];
 			$subPropertyTable->setdefault_selected = $data['subattribute_setdefault_selected'];
+			$subPropertyTable->extra_field = $data['subattribute_extra_field'];
 			$subPropertyTable->subattribute_color_title = $data['subattribute_color_title'];
 			$subPropertyTable->subattribute_color_number = $data['subattribute_virtual_number'];
 

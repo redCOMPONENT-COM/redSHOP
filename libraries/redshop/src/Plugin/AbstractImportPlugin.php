@@ -191,16 +191,15 @@ class AbstractImportPlugin extends \JPlugin
 		$handle = fopen($this->getPath() . '/' . $this->folder . '/' . $file, 'r');
 		$header = fgetcsv($handle, null, $this->separator, '"');
 
-		$table = $this->getTable();//__redshop_product_attribute
-
 		while ($data = fgetcsv($handle, null, $this->separator, '"'))
-		{// Array $data : Each of the csv rows except header, 0,1,2 as keys
+		{
+			/** @var RedshopTableAttribute $table */
+			$table = $this->getTable();
+
 			$count++;
-			$table->reset();
 
 			// Do mapping data to table.
 			$data = $this->processMapping($header, $data);
-// Array $data : Each of the csv rows except header, Header names as keys
 
 			// Do convert encoding.
 			$this->doEncodingData($data);
@@ -231,7 +230,7 @@ class AbstractImportPlugin extends \JPlugin
 			}
 
 			$result->data[] = $rowResult;
-		}die;
+		}
 
 		fclose($handle);
 		\JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
