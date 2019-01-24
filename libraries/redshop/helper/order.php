@@ -1878,7 +1878,7 @@ class RedshopHelperOrder
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-                    ->select('*')
+					->select('*')
 					->from($db->qn('#__redshop_order_attribute_item'))
 					->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
 					->where($db->qn('section') . ' = ' . $db->quote($section));
@@ -1898,44 +1898,42 @@ class RedshopHelperOrder
 		return $db->loadObjectlist();
 	}
 
-    /**
-     * Get order item attribute detail
-     *
-     * @param   integer  $orderItemId      Order Item ID
-     * @param   integer  $isAccessory      Is accessory
-     * @param   string   $section          Section text
-     * @param   integer  $parentSectionId  Parent section ID
-     *
-     * @return  array
-     *
-     * @since   2.1.1
-     */
-    public static function getExportOrderItemAttributeDetail($orderItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
-    {
-        $db = JFactory::getDbo();
+	/**
+	 * Get order item attribute detail
+	 *
+	 * @param   integer  $orderItemId      Order Item ID
+	 * @param   integer  $isAccessory      Is accessory
+	 * @param   string   $section          Section text
+	 * @param   integer  $parentSectionId  Parent section ID
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.1
+	 */
+	public static function getExportOrderItemAttributeDetail($orderItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('GROUP_CONCAT(' . $db->qn('section_name') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('section_name'))
+			->select('GROUP_CONCAT(' . $db->qn('section_id') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('section_id'))
+			->select('GROUP_CONCAT(' . $db->qn('parent_section_id') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('parent_section_id'))
+			->from($db->qn('#__redshop_order_attribute_item'))
+			->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
+			->where($db->qn('section') . ' = ' . $db->quote($section));
 
-        $query = $db->getQuery(true)
-            ->select('GROUP_CONCAT(' . $db->qn('section_name') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('section_name'))
-            ->select('GROUP_CONCAT(' . $db->qn('section_id') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('section_id'))
-            ->select('GROUP_CONCAT(' . $db->qn('parent_section_id') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('parent_section_id'))
-            ->from($db->qn('#__redshop_order_attribute_item'))
-            ->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
-            ->where($db->qn('section') . ' = ' . $db->quote($section));
+		if ($orderItemId != 0)
+		{
+			$query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
+		}
 
-        if ($orderItemId != 0)
-        {
-            $query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
-        }
+		if ($parentSectionId != 0)
+		{
+			$query->where($db->qn('parent_section_id') . ' = ' . (int) $parentSectionId);
+		}
 
-        if ($parentSectionId != 0)
-        {
-            $query->where($db->qn('parent_section_id') . ' = ' . (int) $parentSectionId);
-        }
-
-        $db->setQuery($query);
-
-        return $db->loadObjectlist();
-    }
+		$db->setQuery($query);
+		return $db->loadObjectlist();
+	}
 
 	/**
 	 * Get Order User Field Data

@@ -225,6 +225,7 @@ class RedshopControllerOrder extends RedshopController
 
 	public function export_fullorder_data()
 	{
+		$app = \JFactory::getApplication();
 		$extrafile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
 
 		if (file_exists($extrafile))
@@ -235,9 +236,11 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
+		$producthelper = productHelper::getInstance();
+
 		/** @var RedshopModelOrder $model */
 		$model = $this->getModel('order');
-        $app = \JFactory::getApplication();
+
 		$data          = $model->export_data();
 		$product_count = array();
 		$db            = JFactory::getDbo();
@@ -289,11 +292,11 @@ class RedshopControllerOrder extends RedshopController
 
 			if (empty($details))
 			{
-				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ," . ",";
+				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
 			}
 			else
 			{
-				echo '' . ",";
+				echo '';
 			}
 
 			$shipping_info = /** @scrutinizer ignore-deprecated */ RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
@@ -316,37 +319,35 @@ class RedshopControllerOrder extends RedshopController
 
 			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
-                if (!empty($no_items[$it]->order_item_name))
-                {
-                    $orderItemName = str_replace("\"", " ", $no_items[$it]->order_item_name);
-                    echo str_replace(",", " ", utf8_decode($orderItemName)) . " ,";
-                }
-                else
-                {
-                    echo '' . ",";
-                }
-
-                if (!empty($no_items[$it]->product_final_price))
-                {
-                    echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items[$it]->product_final_price . ",";
-                }
-                else
-                {
-                    echo '' . ",";
-                }
-
-                $attItems = RedshopHelperOrder::getExportOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
-                for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
-                {
-                    if (!empty($attItems[$at]->section_name))
-                    {
-                        echo str_replace(",", " ", $attItems[$at]->section_name) . ",";
-                    }
-                    else
-                    {
-                        echo '' . ",";
-                    }
-                }
+				if (!empty($no_items[$it]->order_item_name))
+				{
+					$orderItemName = str_replace("\"", " ", $no_items[$it]->order_item_name);
+					echo str_replace(",", " ", utf8_decode($orderItemName)) . " ,";
+				}
+				else
+				{
+					echo '' . ",";
+				}
+				if (!empty($no_items[$it]->product_final_price))
+				{
+					echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items[$it]->product_final_price . ",";
+				}
+				else
+				{
+					echo '' . ",";
+				}
+				$attItems = RedshopHelperOrder::getExportOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
+				for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
+				{
+					if (!empty($attItems[$at]->section_name))
+					{
+						echo str_replace(",", " ", $attItems[$at]->section_name) . ",";
+					}
+					else
+					{
+						echo '' . ",";
+					}
+				}
 			}
 
 			$temp = $no_products - count($no_items);
@@ -367,6 +368,7 @@ class RedshopControllerOrder extends RedshopController
 		/**
 		 * new order export for paid customer support
 		 */
+		$app = \JFactory::getApplication();
 		$extrafile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
 
 		if (file_exists($extrafile))
@@ -378,13 +380,14 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
+		$producthelper = productHelper::getInstance();
 		$model         = $this->getModel('order');
 
 		$product_count = array();
 		$db            = JFactory::getDbo();
 
 		$cid      = $this->input->get('cid', array(0), 'array');
-        /** @scrutinizer ignore-call */
+		/** @scrutinizer ignore-call */
 		$data     = $model->export_data($cid);
 		$order_id = implode(',', $cid);
 		$where    = "";
@@ -456,37 +459,35 @@ class RedshopControllerOrder extends RedshopController
 
 			for ($it = 0, $countItem = count($no_items); $it < $countItem; $it++)
 			{
-                if (!empty($no_items[$it]->order_item_name))
-                {
-                    $orderItemName = str_replace("\"", " ", $no_items[$it]->order_item_name);
-                    echo str_replace(",", " ", utf8_decode($orderItemName)) . " ,";
-                }
-                else
-                {
-                    echo '' . ",";
-                }
-
-                if (!empty($no_items[$it]->product_final_price))
-                {
-                    echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items[$it]->product_final_price . ",";
-                }
-                else
-                {
-                    echo '' . ",";
-                }
-
-                $attItems = RedshopHelperOrder::getExportOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
-                for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
-                {
-                    if (!empty($attItems[$at]->section_name))
-                    {
-                        echo str_replace(",", " ", $attItems[$at]->section_name) . ",";
-                    }
-                    else
-                    {
-                        echo '' . ",";
-                    }
-                }
+				if (!empty($no_items[$it]->order_item_name))
+				{
+					$orderItemName = str_replace("\"", " ", $no_items[$it]->order_item_name);
+					echo str_replace(",", " ", utf8_decode($orderItemName)) . " ,";
+				}
+				else
+				{
+					echo '' . ",";
+				}
+				if (!empty($no_items[$it]->product_final_price))
+				{
+					echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items[$it]->product_final_price . ",";
+				}
+				else
+				{
+					echo '' . ",";
+				}
+				$attItems = RedshopHelperOrder::getExportOrderItemAttributeDetail($no_items[$it]->order_item_id, 0, 'property');
+				for ($at = 0, $countItemAtt = count($attItems); $at < $countItemAtt; $at++)
+				{
+					if (!empty($attItems[$at]->section_name))
+					{
+						echo str_replace(",", " ", $attItems[$at]->section_name) . ",";
+					}
+					else
+					{
+						echo '' . ",";
+					}
+				}
 			}
 
 			$temp = $no_products - count($no_items);
@@ -505,7 +506,7 @@ class RedshopControllerOrder extends RedshopController
 			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $data [$i]->order_total . "\n";
 		}
 
-        JFactory::getApplication()->close();
+		$app->close();
 	}
 
 	public function generateParcel()
@@ -558,13 +559,13 @@ class RedshopControllerOrder extends RedshopController
 
 			$endtime = mktime(
 				$clock, $clock_min, 0, /** @scrutinizer ignore-type */ date("m", $product_download_days_time), /** @scrutinizer ignore-type */ date("d", $product_download_days_time),
-                /** @scrutinizer ignore-type */ date("Y", $product_download_days_time)
+				/** @scrutinizer ignore-type */ date("Y", $product_download_days_time)
 			);
 
 			// If download product is set to infinit
 			$endtime = ($product_download_infinite == 1) ? 0 : $endtime;
 
-			$model->/** @scrutinizer ignore-call */updateDownloadSetting($download_id, $limit, $endtime);
+			$model->/** @scrutinizer ignore-call */ updateDownloadSetting($download_id, $limit, $endtime);
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid [0]);
