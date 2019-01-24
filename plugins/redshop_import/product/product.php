@@ -334,7 +334,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$query = $db->getQuery(true)
 				->select($db->qn('product_id'))
 				->from($db->qn('#__redshop_product'))
-				->where($db->qn('product_number') . ' = ' . $db->quote($data['product_number']));
+				->where($db->qn('product_number') . ' = ' . $db->quote((string) $data['product_number']));
 
 			$data['product_id'] = (int) $db->setQuery($query)->loadResult();
 		}
@@ -487,7 +487,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	{
 		$extraFieldNames = array();
 
-		if (is_array($keyProducts))
+		/** @scrutinizer ignore-type */if (is_array($keyProducts))
 		{
 			$pattern = '/rs_/';
 
@@ -918,9 +918,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_media'))
-					->set($db->qn('media_alternate_text') . ' = ' . $db->quote($alternateText))
-					->set($db->qn('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->qn('media_id') . ' = ' . $db->quote($mediaId));
+					->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string) $alternateText))
+					->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
+					->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
@@ -1004,9 +1004,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_media'))
-					->set($db->qn('media_alternate_text') . ' = ' . $db->quote($alternateText))
-					->set($db->qn('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->qn('media_id') . ' = ' . $db->quote($mediaId));
+					->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string) $alternateText))
+					->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
+					->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
@@ -1090,9 +1090,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_media'))
-					->set($db->qn('media_alternate_text') . ' = ' . $db->quote($alternateText))
-					->set($db->qn('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->qn('media_id') . ' = ' . $db->quote($mediaId));
+					->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string) $alternateText))
+					->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
+					->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
@@ -1176,9 +1176,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			{
 				$query = $db->getQuery(true)
 					->update($db->qn('#__redshop_media'))
-					->set($db->qn('media_alternate_text') . ' = ' . $db->quote($alternateText))
-					->set($db->qn('ordering') . ' = ' . $db->quote($ordering))
-					->where($db->qn('media_id') . ' = ' . $db->quote($mediaId));
+					->set($db->qn('media_alternate_text') . ' = ' . $db->quote((string) $alternateText))
+					->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
+					->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
 				$db->setQuery($query)->execute();
 			}
 		}
@@ -1206,7 +1206,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 		$query     = $db->getQuery(true)
 			->select($db->qn('product_id'))
 			->from($db->qn('#__redshop_product'))
-			->where($db->qn('product_number') . ' = ' . $db->quote($data['product_number']));
+			->where($db->qn('product_number') . ' = ' . $db->quote((string) $data['product_number']));
 		$productId = $db->setQuery($query)->loadResult();
 
 		// Get attribute id
