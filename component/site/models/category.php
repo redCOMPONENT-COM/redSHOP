@@ -879,7 +879,7 @@ class RedshopModelCategory extends RedshopModel
 					if (count($tag) > 1 || $tag[0] != 0)
 					{
 						$finder_query = "SELECT product_id FROM #__redproductfinder_associations AS a,#__redproductfinder_association_tag AS at ";
-						$finder_where = "";
+						$finder_where = array();
 
 						if (count($tag) > 1)
 						{
@@ -896,7 +896,7 @@ class RedshopModelCategory extends RedshopModel
 						$finder_query .= " WHERE a.id = at.association_id AND at.tag_id = " . (int) $tag[0] . " ";
 						$finder_where_str = "";
 
-						if (is_array($finder_where))
+						if (!empty($finder_where))
 						{
 							$finder_where_str = " AND " . implode(" AND ", $finder_where);
 						}

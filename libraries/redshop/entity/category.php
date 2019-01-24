@@ -268,10 +268,12 @@ class RedshopEntityCategory extends RedshopEntity
 			return false;
 		}
 
-		/** @var RedshopTableCategory $table */
-		$table = $this->getTable();
-
-		if (!$table)
+		try
+		{
+			/** @var RedshopTableCategory $table */
+			$table = $this->getTable();
+		}
+		catch (\Exception $e)
 		{
 			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
 
