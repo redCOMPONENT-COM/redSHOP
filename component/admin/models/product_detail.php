@@ -23,6 +23,8 @@ jimport('joomla.filesystem.file');
  */
 class RedshopModelProduct_Detail extends RedshopModel
 {
+	use Redshop\Model\Traits\HasDateTimeRange;
+
 	public $id = null;
 
 	public $data = null;
@@ -245,6 +247,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			$row->load($data['product_id']);
 		}
+
+		$this->handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
 
 		if (!$row->bind($data))
 		{
