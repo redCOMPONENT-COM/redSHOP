@@ -59,7 +59,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	 * @since  1.0.0
 	 */
 	public function onAjaxAttribute_Import()
-	{
+	{//REDSHOP-4921
 		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$input           = JFactory::getApplication()->input;
@@ -132,12 +132,12 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				'product_id' => $productId
 			);
 
-			if (!$table->bind($attributeData) || !$table->store())
+			if (!$table->bind($attributeData) || !$row = $table->store())
 			{
 				return false;
 			}
 
-			$attributeId = $table->attribute_id;
+			$attributeId = $table->attribute_id;var_dump($table);
 		}
 
 		// In case: No property data and no sub-properties data and this attribute already exist => Update attribute.

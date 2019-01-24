@@ -343,6 +343,7 @@ foreach ($characterSets as $char => $name)
                                     <button class="btn btn-primary btn-large" id="import_btn_start" type="button">
 										<?php echo JText::_('COM_REDSHOP_IMPORT_SELECT_FILE') ?>&nbsp;&nbsp;<i class="fa fa-upload"></i>
                                     </button>
+                                    <!-- REDSHOP-4921 -->
                                     <input id="fileupload" type="file" name="csv_file" class="hidden"
                                            data-url="index.php?option=com_redshop&task=import.uploadFile"/>
                                     <p></p>
