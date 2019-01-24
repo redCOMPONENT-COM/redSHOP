@@ -782,6 +782,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$model = $this->getModel('product_detail');
 
+		/**
+		 * @var RedshopModelProduct_Detail $model
+		 */
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -797,6 +800,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$model = $this->getModel('product_detail');
 
+		/**
+		 * @var RedshopModelProduct_Detail $model
+		 */
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
@@ -898,11 +904,16 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if (count($result) > 0 && count($result) == count($strArr))
 		{
 			$model    = $this->getModel('product_detail');
+
+			/**
+			 * @var RedshopModelProduct_Detail $model
+			 */
 			$isExists = $model->checkVirtualNumber($product_id, $result);
 		}
 
 		echo (int) $isExists;
-		die();
+
+		\JFactory::getApplication()->close();
 	}
 
 	/**
