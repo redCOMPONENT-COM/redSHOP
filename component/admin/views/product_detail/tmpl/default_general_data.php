@@ -284,7 +284,9 @@ foreach ($media->getAll() as $mediaItem)
                                 'discount_stratdate',
                                 'discount_stratdate',
                                 $calendarFormat,
-                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                                null,
+								$config->get('offset')
                             );
                             ?>
                         </div>
@@ -307,7 +309,9 @@ foreach ($media->getAll() as $mediaItem)
                                 'discount_enddate',
                                 'discount_enddate',
                                 $calendarFormat,
-                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+								null,
+								$config->get('offset')
                             );
                             ?>
                         </div>
