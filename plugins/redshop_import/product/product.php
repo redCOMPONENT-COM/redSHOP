@@ -487,7 +487,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 	{
 		$extraFieldNames = array();
 
-		/** @scrutinizer ignore-type */if (is_array($keyProducts))
+		if (!empty($keyProducts))
 		{
 			$pattern = '/rs_/';
 
