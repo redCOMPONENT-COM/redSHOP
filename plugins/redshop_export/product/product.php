@@ -527,13 +527,11 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	/**
 	 * Method for process medias of product.
 	 *
-	 * @param   array  $product  Product data.
-	 *
 	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
-	protected function processMedia(&$product)
+	protected function processMedia()
 	{
 		// @TODO: Would implement media check files exist.
 
