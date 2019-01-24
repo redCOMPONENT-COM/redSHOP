@@ -179,7 +179,7 @@ foreach ($characterSets as $char => $name)
     </script>
 
     <script type="text/javascript">
-        function run_import(startIndex) {
+        function run_import(total) {
             (function ($) {
                 var url = "index.php?option=com_ajax&plugin=" + plugin + "_import&group=redshop_import&format=raw";
                 var data = $("#adminForm").serialize();
@@ -189,7 +189,7 @@ foreach ($characterSets as $char => $name)
                     url,
                     data,
                     function (response) {
-                        var success = startIndex + itemRun;
+                        var success = total + itemRun;
                         var percent = 0.0;
                         var $bar = $("#import_process_bar");
 

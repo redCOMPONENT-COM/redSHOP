@@ -995,7 +995,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 
 			$$('a.modal').each(function(el) {
 				el.addEvent('click', function(e) {
-					new Event(e).stop();
+					e.preventDefault();
 					SqueezeBox.fromElement(el);
 				});
 			});
@@ -1018,6 +1018,8 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 					console.log("error");
 				});
 			}
+
+			jQuery(redSHOP).trigger("onAfterOneStepCheckoutProcess", [postParams]);
 		})
 		.fail(function() {
 			console.warn("onestepCheckoutProcess Error");
