@@ -20,84 +20,59 @@ jimport('joomla.application.component.viewlegacy');
  */
 class RedshopViewAdmin extends JViewLegacy
 {
-    /**
-     * Layout used to render the component
-     *
-     * @var  string
-     */
-    protected $componentLayout = 'component.admin';
+	/**
+	 * Layout used to render the component
+	 *
+	 * @var  string
+	 */
+	protected $componentLayout = 'component.admin';
 
-    /**
-     * Do we have to display a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $displaySidebar = true;
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = true;
 
-    /**
-     * Do we have to disable a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $disableSidebar = false;
+	/**
+	 * Do we have to disable a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $disableSidebar = false;
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return  void
-     *
-     * @since   1.5
-     */
-    public function addToolbar()
-    {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
-        $layout = JFactory::getApplication()->input->getCmd('layout', '');
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise a Error object.
+	 */
+	public function display($tpl = null)
+	{
+		JPluginHelper::importPlugin('system');
 
-        if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
-        {
-            JToolbarHelper::addNew('product_detail.addRedirect');
-            JToolbarHelper::editList('product_detail.editRedirect');
-            JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-            JToolBarHelper::deleteList();
-            JToolBarHelper::publishList();
-            JToolBarHelper::unpublishList();
-            JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
-            JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
-        }
-    }
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminBeforeRender', array($this));
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed         A string if successful, otherwise a Error object.
-     */
-    public function display($tpl = null)
-    {
-        JPluginHelper::importPlugin('system');
+		$render = RedshopLayoutHelper::render(
+			$this->componentLayout,
+			array(
+				'view'            => $this,
+				'tpl'             => $tpl,
+				'sidebar_display' => $this->displaySidebar,
+				'disableSidebar'  => $this->disableSidebar
+			)
+		);
 
-        RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminBeforeRender', array($this));
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
 
-        $render = RedshopLayoutHelper::render(
-            $this->componentLayout,
-            array(
-                'view'            => $this,
-                'tpl'             => $tpl,
-                'sidebar_display' => $this->displaySidebar,
-                'disableSidebar'  => $this->disableSidebar
-            )
-        );
+		if ($render instanceof Exception)
+		{
+			return $render;
+		}
 
-        RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
+		echo $render;
 
-        if ($render instanceof Exception)
-        {
-            return $render;
-        }
-
-        echo $render;
-
-        return true;
-    }
+		return true;
+	}
 }
