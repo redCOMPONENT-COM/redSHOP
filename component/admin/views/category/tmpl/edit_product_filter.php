@@ -18,11 +18,8 @@ foreach ($productList as $product)
 
 $registry     = new JRegistry;
 $filterParams = $registry->loadString($this->item->product_filter_params);
-
 ?>
-<style type="text/css">
 
-</style>
 <div class="row">
     <div class="col-sm-12">
         <div class="box box-primary">
@@ -31,30 +28,29 @@ $filterParams = $registry->loadString($this->item->product_filter_params);
             </div>
             <div class="box-body">
                 <h4 class="notice"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_FILTERS_NOTICE'); ?></h4>
-				<?php foreach ($this->form->getFieldset('filters') as $field) : ?>
-                    <div class="control-group">
-						<?php
-						$options = array();
+		<?php foreach ($this->form->getFieldset('filters') as $field) : ?>
+			<div class="control-group">
+				<?php
+				$options = array();
 
-						if ($field->fieldname == 'product_attributes')
-						{
-							$options['product_ids'] = $productsFilter;
-						}
+				if ($field->fieldname == 'product_attributes')
+				{
+					$options['product_ids'] = $productsFilter;
+				}
 
-						$value = $filterParams->get($field->fieldname);
+				$value = $filterParams->get($field->fieldname);
 
-						if ($field->type === 'Radio' && empty($value))
-						{
-							$value = 0;
-						}
+				if ($field->type === 'Radio' && empty($value))
+				{
+					$value = 0;
+				}
 
-						$field->setValue($value, true);
-						?>
-						<?php echo $field->renderField($options); ?>
-                    </div>
-				<?php endforeach; ?>
+				$field->setValue($value, true);
+				?>
+				<?php echo $field->renderField($options); ?>
+			</div>
+		<?php endforeach; ?>
             </div>
         </div>
     </div>
 </div>
-
