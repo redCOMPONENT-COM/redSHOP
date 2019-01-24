@@ -497,7 +497,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			}
 
 			// Media process
-			$this->processMedia($item);
+			$this->/** @scrutinizer ignore-call */ processMedia($item);
 
 			if ($isAttributes)
 			{
