@@ -236,8 +236,6 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper = productHelper::getInstance();
-
 		/** @var RedshopModelOrder $model */
 		$model = $this->getModel('order');
 
@@ -380,7 +378,6 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper = productHelper::getInstance();
 		$model         = $this->getModel('order');
 
 		$product_count = array();

@@ -1533,7 +1533,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  object
+	 * @return  object|mixed
 	 *
 	 * @since   2.0.3
 	 */
@@ -2366,7 +2366,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   string  $shippingName  Shipping name
 	 *
-	 * @return  object
+	 * @return  object|mixed
 	 *
 	 * @since   2.0.3
 	 */
@@ -2846,7 +2846,7 @@ class RedshopHelperOrder
 	 * @param   integer  $orderId  Order ID
 	 * @param   array    $post     Post array
 	 *
-	 * @return  boolean/mixed
+	 * @return  boolean|mixed
 	 *
 	 * @since   2.0.3
 	 */
