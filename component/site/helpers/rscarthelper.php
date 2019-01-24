@@ -1751,6 +1751,7 @@ class rsCarthelper
 		{
 			$msg = $productData->product_name . " " . JText::_('COM_REDSHOP_WARNING_MSG_MINIMUM_QUANTITY');
 			$msg = sprintf($msg, $productData->min_order_product_quantity);
+			/** @scrutinizer ignore-deprecated */
 			JError::raiseWarning('', $msg);
 			$newquantity = $productData->min_order_product_quantity;
 		}
@@ -1799,6 +1800,7 @@ class rsCarthelper
 			{
 				$msg = $productData->product_name . " " . JText::_('COM_REDSHOP_WARNING_MSG_MAXIMUM_QUANTITY');
 				$msg = sprintf($msg, $productData->max_order_product_quantity);
+				/** @scrutinizer ignore-deprecated */
 				JError::raiseWarning('', $msg);
 				$newquantity = $productData->max_order_product_quantity;
 			}
@@ -2559,7 +2561,6 @@ class rsCarthelper
 		$use_discount_calculator = $product_data->use_discount_calc;
 		$discount_calc_method    = $product_data->discount_calc_method;
 		$use_range               = $product_data->use_range;
-		$calc_output             = "";
 		$calc_output_array       = array();
 
 		if ($use_discount_calculator)
@@ -2569,6 +2570,7 @@ class rsCarthelper
 			$calculator_price  = $discount_cal['product_price'];
 			$product_price_tax = $discount_cal['product_price_tax'];
 
+			$discountArr = array();
 			if ($calculator_price)
 			{
 				$calc_output               = "Type : " . $discount_calc_method . "<br />";
@@ -2942,7 +2944,7 @@ class rsCarthelper
 	 * @param   number  $pid          default value can be null
 	 * @param   number  $areabetween  default value is 0
 	 *
-	 * @return object
+	 * @return object|mixed
 	 */
 	public function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
 	{
@@ -3050,12 +3052,12 @@ class rsCarthelper
 			}
 
 			$requiredProperty = RedshopHelperProduct_Attribute::getAttributeProperties(
-								$selectedPropertyId,
-								$selectedAttributId,
+								/** @scrutinizer ignore-type */ $selectedPropertyId,
+								/** @scrutinizer ignore-type */ $selectedAttributId,
 								$data['product_id'],
 								0,
 								1,
-								$notselectedSubpropertyId
+								/** @scrutinizer ignore-type */ $notselectedSubpropertyId
 							);
 
 			if (!empty($requiredProperty))
