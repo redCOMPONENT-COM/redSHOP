@@ -54,23 +54,8 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 			$this->writeData($headers, 'w+');
 		}
 
-		return (int) $this->getTotalManu_Export();
+		return (int) $this->getTotal();
 	}
-
-	/**
-	 * Count total row Manufacturer
-     *
-     * @Return int
-	 */
-    protected function getTotalManu_Export()
-    {
-        $query = $this->getQuery();
-        $query->clear('select')
-            ->clear('group')
-            ->select('COUNT(*)');
-
-        return (int) $this->db->setQuery($query)->loadResult();
-    }
 
 	/**
 	 * Event run on export process
@@ -114,10 +99,10 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 	protected function getQuery()
 	{
 		return $this->db->getQuery(true)
-            ->select('m.*')
-            ->select(
-                'GROUP_CONCAT(' . $this->db->qn('p.product_id') . ' SEPARATOR ' . $this->db->quote('|') . ') AS ' . $this->db->qn('product_id')
-            )
+			->select('m.*')
+			->select(
+				'GROUP_CONCAT(' . $this->db->qn('p.product_id') . ' SEPARATOR ' . $this->db->quote('|') . ') AS ' . $this->db->qn('product_id')
+			)
 			->select($this->db->qn('md.media_name', 'manufacturer_image'))
 			->from($this->db->qn('#__redshop_manufacturer', 'm'))
 			->leftJoin(
@@ -130,7 +115,6 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 				. ' AND ' . $this->db->qn('md.media_type') . ' = ' . $this->db->quote('images') . ')'
 			)
 			->group($this->db->qn('m.id'));
-
 	}
 
 	/**
@@ -176,5 +160,3 @@ class PlgRedshop_ExportManufacturer extends AbstractExportPlugin
 		}
 	}
 }
-
-
