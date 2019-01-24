@@ -58,7 +58,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 
 		if ($layout == 'listing')
 		{
-			JToolBarHelper::title(JText::_('Product Price Management'));
+			JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE_MANAGEMENT'));
 		}
 	}
 
