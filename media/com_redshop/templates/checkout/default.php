@@ -20,7 +20,7 @@
                 <td>
                     <div class="cartproducttitle">{product_name}</div>
                     <div class="cartproducttitle">{product_old_price}</div>
-                    <div class="cartattribut">{product_attribute}</div>
+                    <div class="cartattribut">{product_attribute}{product_attribute_number}</div>
                     <div class="cartaccessory">{product_accessory}</div>
                     <div class="cartwrapper">{product_wrapper}</div>
                     <div class="cartuserfields">{product_userfields}</div>
