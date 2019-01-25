@@ -46,7 +46,7 @@ $editor = JFactory::getEditor();
 						<?php echo JText::_('COM_REDSHOP_SEPRATOR'); ?>:
 					</td>
 					<td>
-						<input type="text" name="separator" size="1" value=","/>
+						<input type="text" name="separator" size="1" value="," maxlength="1"/>
 					</td>
 				</tr>
 				<tr>

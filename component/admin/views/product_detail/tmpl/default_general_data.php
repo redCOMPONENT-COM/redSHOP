@@ -15,6 +15,8 @@ $priceDecimal  = Redshop::getConfig()->get('PRICE_DECIMAL', '.');
 $priceThousand = Redshop::getConfig()->get('THOUSAND_SEPERATOR', ',');
 $editor        = JFactory::getEditor();
 $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
+$config = JFactory::getConfig();
+$tz = new \DateTimeZone($config->get('offset'));
 
 $media = RedshopEntityProduct::getInstance($this->detail->product_id)->getMedia();
 
@@ -272,7 +274,7 @@ foreach ($media->getAll() as $mediaItem)
 							if ($this->detail->discount_stratdate)
 							{
 								$startDate = is_numeric($this->detail->discount_stratdate) ?
-                                    JFactory::getDate($this->detail->discount_stratdate)->format($calendarFormat)
+                                    JFactory::getDate($this->detail->discount_stratdate)->setTimezone($tz)->format($calendarFormat)
                                     : $this->detail->discount_stratdate;
 							}
 
@@ -282,7 +284,9 @@ foreach ($media->getAll() as $mediaItem)
                                 'discount_stratdate',
                                 'discount_stratdate',
                                 $calendarFormat,
-                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                                null,
+								$config->get('offset')
                             );
                             ?>
                         </div>
@@ -295,7 +299,7 @@ foreach ($media->getAll() as $mediaItem)
 							if ($this->detail->discount_enddate)
 							{
 								$endDate = is_numeric($this->detail->discount_enddate) ?
-									JFactory::getDate($this->detail->discount_enddate)->format($calendarFormat)
+									JFactory::getDate($this->detail->discount_enddate)->setTimezone($tz)->format($calendarFormat)
 									: $this->detail->discount_enddate;
 							}
 
@@ -305,7 +309,9 @@ foreach ($media->getAll() as $mediaItem)
                                 'discount_enddate',
                                 'discount_enddate',
                                 $calendarFormat,
-                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+								null,
+								$config->get('offset')
                             );
                             ?>
                         </div>
