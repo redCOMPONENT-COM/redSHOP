@@ -64,7 +64,10 @@ class RedshopViewVouchers extends RedshopViewList
 					return '';
 				}
 
-				return JFactory::getDate($value)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d'));
+				$tz = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
+				$format = 'Y-m-d H:i:s';
+
+				return date_create_from_format($format, $value)->setTimezone($tz)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'd-m-Y'));
 
 			default:
 				return parent::onRenderColumn($config, $index, $row);
