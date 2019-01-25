@@ -65,7 +65,7 @@ class CategoryPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $parentCategoryInput = "#s2id_autogen7_search";
+	public static $parentCategoryInput = "#s2id_autogen9_search";
 
     /**
      * @var string
