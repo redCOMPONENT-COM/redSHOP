@@ -282,7 +282,27 @@ class RedshopHelperCartDiscount
 				$coupons['coupon'][$couponIndex]['transaction_coupon_id']     = $transactionCouponId;
 
 				$coupons['coupon']     = array_merge($coupons['coupon'], $oldCoupons);
-				$cart                  = array_merge($cart, $coupons);
+				$mergeCoupon = true;
+
+				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+				{
+					foreach ($cart as $index => $value)
+					{
+						if (!is_numeric($index))
+						{
+							continue;
+						}
+
+						$checkDiscountPrice = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+
+						if ($checkDiscountPrice != 0)
+						{
+							$mergeCoupon = false;
+						}
+					}
+				}
+
+				$cart                  = $mergeCoupon ? array_merge($cart, $coupons) : $cart;
 				$cart['free_shipping'] = $coupon->free_shipping;
 				RedshopHelperCartSession::setCart($cart);
 			}
@@ -482,7 +502,27 @@ class RedshopHelperCartDiscount
 			$vouchers['voucher'][$voucherIndex]['transaction_voucher_id']     = $transactionVoucherId;
 
 			$vouchers['voucher']   = array_merge($vouchers['voucher'], $oldVouchers);
-			$cart                  = array_merge($cart, $vouchers);
+			$mergeVouchers = true;
+
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			{
+				foreach ($cart as $index => $value)
+				{
+					if (!is_numeric($index))
+					{
+						continue;
+					}
+
+					$checkDiscountPrice = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+
+					if ($checkDiscountPrice != 0)
+					{
+						$mergeVouchers = false;
+					}
+				}
+			}
+
+			$cart                  = $mergeVouchers ? array_merge($cart, $vouchers) : $cart;
 			$cart['free_shipping'] = $voucher->free_ship;
 
 			RedshopHelperCartSession::setCart($cart);

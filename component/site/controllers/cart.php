@@ -284,7 +284,26 @@ class RedshopControllerCart extends RedshopController
 
 			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
-				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+				foreach ($cart as $index => $value)
+				{
+					if (!is_numeric($index))
+					{
+						continue;
+					}
+
+					$checkDiscountPro = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+				}
+
+				if ($checkDiscountPro != 0)
+				{
+					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+					$messageType = 'error';
+				}
+				else
+				{
+					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+					$messageType = 'success';
+				}
 			}
 
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
@@ -454,10 +473,31 @@ class RedshopControllerCart extends RedshopController
 			RedshopHelperCart::cartFinalCalculation(false);
 
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $itemId, false);
+			$message     = null;
+			$messageType = null;
 
 			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
-				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+				foreach ($cart as $index => $value)
+				{
+					if (!is_numeric($index))
+					{
+						continue;
+					}
+
+					$checkDiscountPro = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+				}
+
+				if ($checkDiscountPro != 0)
+				{
+					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+					$messageType = 'error';
+				}
+				else
+				{
+					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+					$messageType = 'success';
+				}
 			}
 
 			if (Redshop::getConfig()->getInt('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
