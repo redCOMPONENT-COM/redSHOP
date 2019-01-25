@@ -67,6 +67,7 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->amOnPage($pageClass::$url);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->click($pageClass::$buttonNew);
+		$tester->checkForPhpNoticesOrWarnings();
 		$tester->fillFormData($this->getFormFields(), $data);
 		
 		switch ($function)

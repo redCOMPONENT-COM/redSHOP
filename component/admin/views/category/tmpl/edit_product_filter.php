@@ -11,9 +11,12 @@ defined('_JEXEC') or die;
 $productsFilter = array();
 $productList    = RedshopEntityCategory::getInstance($this->item->id)->getProducts(true);
 
-foreach ($productList as $product)
+if (!empty($productList))
 {
-	$productsFilter[] = $product->product_id;
+	foreach ($productList as $product)
+	{
+		$productsFilter[] = $product->product_id;
+	}
 }
 
 $registry     = new JRegistry;
