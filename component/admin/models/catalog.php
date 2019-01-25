@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model.Catalog
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.2
  */
 class RedshopModelCatalog extends RedshopModelForm
 {

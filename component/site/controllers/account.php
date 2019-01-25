@@ -128,7 +128,7 @@ class RedshopControllerAccount extends RedshopController
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.2
 	 */
 	public function deleteAccount()
 	{
