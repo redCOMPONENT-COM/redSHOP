@@ -69,7 +69,7 @@
 				<table border="0">
 					<!--{product_attribute_loop_start}-->
 					<tr class="attribute">
-						<td colspan="2">{product_attribute_name}: {product_attribute_value}</td>
+						<td colspan="2">{product_attribute}</td>
 						<td class="price" style="text-align: center;">{product_attribute_calculated_price}</td>
 						<td colspan="1"> </td>
 					</tr>
