@@ -14,6 +14,11 @@ function updateGLSLocation(zipcode) {
 	var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
 	url += "&zipcode=" + zipcode;
 
+	if (document.getElementById('shipp_users_info_id') !== null) {
+		var usersInfoId = document.getElementById('shipp_users_info_id').value;
+		url += "&users_info_id=" + usersInfoId;
+	}
+
 	jQuery.ajax({
 		url: url,
 		type: 'GET'
@@ -969,6 +974,10 @@ function calculateQuotationTotal() {
 	if (document.getElementById("quotation_discount") && (trim(document.getElementById("quotation_discount").value) != "" && !isNaN(document.getElementById("quotation_discount").value))) {
 		q_discount = parseFloat(document.getElementById("quotation_discount").value);
 
+		if (q_discount > total) {
+			q_discount = total;
+		}
+
 		if (redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')) {
 			vatondiscount = (parseFloat(q_discount) * redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')) / (1 + parseFloat(redSHOP.RSConfig._('VAT_RATE_AFTER_DISCOUNT')));
 		} else {
@@ -1138,7 +1147,7 @@ function getStateList() {
 
 	xmlhttp = GetXmlHttpObject();
 	if (xmlhttp == null) {
-		alert("Your browser does not support XMLHTTP!");
+		alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
 		return;
 	}
 	var selected = new Array();
@@ -1163,4 +1172,36 @@ function getStateList() {
 	xmlhttp.open("GET", url, true);
 	xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	xmlhttp.send(null);
+}
+
+function getStateList_Zipcode() {
+
+    var xmlhttp = GetXmlHttpObject();
+    if (xmlhttp == null) {
+        alert(Joomla.JText._('COM_REDSHOP_BROWSER_NOT_SUPPORT_XMLHTML', ''));
+        return;
+    }
+    var selected = new Array();
+    var mySelect = document.adminForm.country_code;
+    var p = 0;
+    for (var i = 0; i < mySelect.options.length; i++) {
+        if (mySelect.options[i].selected == true) {
+            selected[p++] = mySelect.options[i].value;
+        }
+    }
+
+    $("#s2id_state_code span.select2-chosen").empty();
+
+    var url = "index.php?option=com_redshop&view=zipcode_detail&task=getStateDropdown";
+    url = url + "&country_codes=" + selected.join(',');
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {
+            document.getElementById("state_code").innerHTML = xmlhttp.responseText;
+        }
+    };
+
+    xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xmlhttp.send(null);
 }

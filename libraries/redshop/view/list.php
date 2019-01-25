@@ -333,7 +333,7 @@ class RedshopViewList extends AbstractView
 	public function onRenderColumn($config, $index, $row)
 	{
 		$user             = JFactory::getUser();
-		$isCheckedOut     = !empty($row->checked_out) && $user->id != $row->checked_out;
+		$isCheckedOut     = !empty($row->checked_out) && $user->id !== $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
 		$value            = $row->{$config['dataCol']};
 		$primaryKey       = $this->getPrimaryKey();

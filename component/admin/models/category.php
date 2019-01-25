@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Redshop Category Model
  *
@@ -47,6 +49,7 @@ class RedshopModelCategory extends RedshopModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
+		/** @scrutinizer ignore-call */
 		$form = $this->loadForm(
 			'com_redshop.category',
 			'category',
@@ -80,6 +83,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (empty($data))
 		{
+			/** @scrutinizer ignore-call */
 			$data = $this->getItem();
 		}
 
@@ -99,6 +103,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 */
 	public function getItem($pk = null)
 	{
+		/** @scrutinizer ignore-call */
 		$item = parent::getItem($pk);
 
 		if (!empty($item->id))
@@ -175,9 +180,18 @@ class RedshopModelCategory extends RedshopModelForm
 			$row->setLocation($data['parent_id'], 'last-child');
 		}
 
+		$data['product_filter_params'] = "";
+
+		if ($data['product_filter']['enable'] == 1)
+		{
+			$registry = new Registry($data['product_filter']);
+			$data['product_filter_params'] = (string) $registry;
+		}
+
 		if (!$row->bind($data))
 		{
-			$this->setError($row->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
 			return false;
 		}
@@ -185,7 +199,8 @@ class RedshopModelCategory extends RedshopModelForm
 		// Check the data.
 		if (!$row->check())
 		{
-			$this->setError($row->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
 			return false;
 		}
@@ -203,7 +218,7 @@ class RedshopModelCategory extends RedshopModelForm
 			return false;
 		}
 
-		RedshopHelperUtility::getDispatcher()->trigger('onAfterCategorySave', array(&$row));
+		RedshopHelperUtility::getDispatcher()->trigger('onAfterCategorySave', array(&$row, $data['id']));
 
 		if (isset($row->id))
 		{
@@ -253,26 +268,27 @@ class RedshopModelCategory extends RedshopModelForm
 
 		for ($i = 0, $in = count($copyData); $i < $in; $i++)
 		{
-			$post                         = array();
-			$post['id']                   = 0;
-			$post['name']                 = $this->renameToUniqueValue('name', $copyData[$i]->name, '', 'Category');
-			$post['short_description']    = $copyData[$i]->short_description;
-			$post['description']          = $copyData[$i]->description;
-			$post['template']             = $copyData[$i]->template;
-			$post['more_template']        = $copyData[$i]->more_template;
-			$post['products_per_page']    = $copyData[$i]->products_per_page;
-			$post['metakey']              = $copyData[$i]->metakey;
-			$post['metadesc']             = $copyData[$i]->metadesc;
-			$post['metalanguage_setting'] = $copyData[$i]->metalanguage_setting;
-			$post['metarobot_info']       = $copyData[$i]->metarobot_info;
-			$post['pagetitle']            = $copyData[$i]->pagetitle;
-			$post['pageheading']          = $copyData[$i]->pageheading;
-			$post['sef_url']              = $copyData[$i]->sef_url;
-			$post['published']            = $copyData[$i]->published;
-			$post['category_pdate']       = date("Y-m-d h:i:s");
-			$post['ordering']             = count($copyData) + $i + 1;
-			$post['parent_id']            = $copyData[$i]->parent_id;
-			$post['level']                = $copyData[$i]->level;
+			$post                          = array();
+			$post['id']                    = 0;
+			$post['name']                  = $this->renameToUniqueValue('name', $copyData[$i]->name, '', 'Category');
+			$post['short_description']     = $copyData[$i]->short_description;
+			$post['description']           = $copyData[$i]->description;
+			$post['template']              = $copyData[$i]->template;
+			$post['more_template']         = $copyData[$i]->more_template;
+			$post['products_per_page']     = $copyData[$i]->products_per_page;
+			$post['metakey']               = $copyData[$i]->metakey;
+			$post['metadesc']              = $copyData[$i]->metadesc;
+			$post['metalanguage_setting']  = $copyData[$i]->metalanguage_setting;
+			$post['metarobot_info']        = $copyData[$i]->metarobot_info;
+			$post['pagetitle']             = $copyData[$i]->pagetitle;
+			$post['pageheading']           = $copyData[$i]->pageheading;
+			$post['sef_url']               = $copyData[$i]->sef_url;
+			$post['published']             = $copyData[$i]->published;
+			$post['category_pdate']        = date("Y-m-d h:i:s");
+			$post['ordering']              = count($copyData) + $i + 1;
+			$post['parent_id']             = $copyData[$i]->parent_id;
+			$post['level']                 = $copyData[$i]->level;
+			$post['product_filter_params'] = $copyData[$i]->product_filter_params;
 
 			if (!empty($copyData[$i]->category_thumb_image))
 			{
@@ -296,7 +312,7 @@ class RedshopModelCategory extends RedshopModelForm
 				}
 			}
 
-			$this->save($post);
+			$this->/** @scrutinizer ignore-call */ save($post);
 		}
 
 		return true;
@@ -360,7 +376,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 				if (!$accessoryTable->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */
+					$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -385,7 +402,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (!$table->saveorder($pks, $order))
 		{
-			$this->setError($table->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
 
 			return false;
 		}
@@ -460,7 +478,7 @@ class RedshopModelCategory extends RedshopModelForm
 			}
 
 			// Generate new image using MD5
-			$newFileName = md5(basename($category->name)) . '.' . JFile::getExt($file);
+			$newFileName = md5(basename($category->name) . $scope) . '.' . JFile::getExt($file);
 
 			if (!JFile::move(
 				$file,

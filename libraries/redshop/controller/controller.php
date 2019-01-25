@@ -29,10 +29,11 @@ class RedshopController extends JControllerLegacy
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
 	 * @since   1.5.1
+	 * @throws  Exception
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$tmpl   = $app->input->get('tmpl');
 		$layout = $app->input->get('layout', 'edit', 'string');
 		$append = '';

@@ -180,11 +180,11 @@ class RedshopMenu
 	/**
 	 * Add new menu item
 	 *
-	 * @param   string   $link    Link of item
-	 * @param   string   $title   Title of item
-	 * @param   boolean  $active  Active or not
-	 * @param   array    $param   Other options
-	 * @param   string   $icon    Icon class
+	 * @param   string  $link   Link of item
+	 * @param   string  $title  Title of item
+	 * @param   boolean $active Active or not
+	 * @param   string  $param  Other options
+	 * @param   string  $icon   Icon class
 	 *
 	 * @return  self
 	 */
@@ -236,8 +236,7 @@ class RedshopMenu
 			$item->param   = $param;
 			$item->icon    = $icon;
 			$item->disable = in_array($title, $this->menuHide);
-
-			array_push($this->items, $item);
+			$this->items[] = $item;
 		}
 
 		return $this;

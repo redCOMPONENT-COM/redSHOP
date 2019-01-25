@@ -122,6 +122,9 @@ class RedshopHelperStockroom
 
 		$stock = self::getStockAmountwithReserve($sectionId, $section, $stockroomId);
 
+		JPluginHelper::importPlugin('redshop_product');
+		RedshopHelperUtility::getDispatcher()->trigger('onIsStockExists', array($sectionId, $section, $stockroomId, &$stock));
+
 		return $stock > 0;
 	}
 

@@ -28,6 +28,11 @@ class RedshopTableMass_Discount extends RedshopTable
 	protected $_tableName = 'redshop_mass_discount';
 
 	/**
+	 * @var  string
+	 */
+	public $end_date;
+
+	/**
 	 * Called before bind().
 	 *
 	 * Method to bind an associative array or object to the JTable instance.This
@@ -232,12 +237,6 @@ class RedshopTableMass_Discount extends RedshopTable
 
 			return false;
 		}
-
-		// Convert start date to same day but at early morning
-		$this->start_date = RedshopHelperDatetime::generateTimestamp($this->start_date, false);
-
-		// Convert end date to same day but at middle night
-		$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
 
 		if ($this->start_date > $this->end_date)
 		{

@@ -178,6 +178,7 @@ class AbstractImportPlugin extends \JPlugin
 		$result         = new \stdClass;
 		$result->status = 0;
 		$result->data   = array();
+		$count          = 1;
 
 		if (empty($files))
 		{
@@ -194,6 +195,7 @@ class AbstractImportPlugin extends \JPlugin
 
 		while ($data = fgetcsv($handle, null, $this->separator, '"'))
 		{
+			$count++;
 			$table->reset();
 
 			// Do mapping data to table.
@@ -223,9 +225,8 @@ class AbstractImportPlugin extends \JPlugin
 				$rowResult->status  = 0;
 				$rowResult->message = \JText::sprintf(
 					'PLG_REDSHOP_IMPORT_' . strtoupper($this->_name) . '_FAIL_IMPORT',
-					$data[$this->nameKey]
+					$data[$this->nameKey], $count
 				);
-				$rowResult->message = $table->getError();
 			}
 
 			$result->data[] = $rowResult;

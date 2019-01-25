@@ -20,14 +20,6 @@ defined('_JEXEC') or die;
 class RedshopViewDiscount_Products extends RedshopViewList
 {
 	/**
-	 * Display check-in button or not.
-	 *
-	 * @var   boolean
-	 * @since  2.1.0
-	 */
-	protected $checkIn = false;
-
-	/**
 	 * Method for render columns
 	 *
 	 * @param   array   $config  Row config.
@@ -85,7 +77,14 @@ class RedshopViewDiscount_Products extends RedshopViewList
 
 			case 'start_date':
 			case 'end_date':
-				return $value > 0 ? JFactory::getDate($value)->format(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')) : '';
+				if (empty($value))
+				{
+					return '';
+				}
+
+				$tz = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
+
+				return date_create_from_format('U', $value)->setTimezone($tz)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'd-m-Y'));
 
 			default:
 				return parent::onRenderColumn($config, $index, $row);

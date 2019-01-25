@@ -267,31 +267,31 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$rowOrderStatus->customer_note = $row->customer_note;
 		$rowOrderStatus->store();
 
-		$billingaddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
+		$billingAddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
 
 		if (isset($postdata['billisship']) && $postdata['billisship'] == 1)
 		{
-			$shippingaddresses = $billingaddresses;
+			$shippingAddresses = $billingAddresses;
 		}
 		else
 		{
 			$key                 = 0;
-			$shippingaddresses   = RedshopHelperOrder::getShippingAddress($row->user_id);
-			$shipp_users_info_id = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
+			$shippingAddresses   = RedshopHelperOrder::getShippingAddress($row->user_id);
+			$shippingUserInfoId = (isset($postdata['shipp_users_info_id']) && $postdata['shipp_users_info_id'] != 0) ? $postdata['shipp_users_info_id'] : 0;
 
-			if ($shipp_users_info_id != 0)
+			if ($shippingUserInfoId != 0)
 			{
-				for ($o = 0, $on = count($shippingaddresses); $o < $on; $o++)
+				foreach ($shippingAddresses as $index => $shippingaddress)
 				{
-					if ($shippingaddresses[$o]->users_info_id == $shipp_users_info_id)
+					if ($shippingaddress->users_info_id == $shippingUserInfoId)
 					{
-						$key = $o;
+						$key = $index;
 						break;
 					}
 				}
 			}
 
-			$shippingaddresses = $shippingaddresses[$key];
+			$shippingAddresses = $shippingAddresses[$key];
 		}
 
 		// ORDER DELIVERY TIME IS REMAINING
@@ -328,7 +328,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 				{
 					if ($wrapper[0]->wrapper_price > 0)
 					{
-						$wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[0]->wrapper_price, $user_id);
+						$wrapper_vat = RedshopHelperProduct::getProductTax($product_id, $wrapper[0]->wrapper_price, $user_id);
 					}
 
 					$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
@@ -410,7 +410,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 					if ($accessory_price > 0)
 					{
-						$accessory_vat_price = $producthelper->getProductTax($product_id, $accessory_price, $user_id);
+						$accessory_vat_price = RedshopHelperProduct::getProductTax($product_id, $accessory_price, $user_id);
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
@@ -447,13 +447,13 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 							if ($propArr[$k]['property_price'] > 0)
 							{
-								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
+								$section_vat = RedshopHelperProduct::getProductTax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
 							$property_id         = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " ("
 								. $propArr[$k]['property_oprand']
-								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+								. RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr          = $propArr[$k]['property_childs'];
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
@@ -484,13 +484,13 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+									$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
 								$subproperty_id      = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
 									. " (" . $subpropArr[$l]['subproperty_oprand']
-									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+									. RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
 								$rowattitem                    = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
@@ -586,7 +586,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 						if ($propArr[$k]['property_price'] > 0)
 						{
-							$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price'], $user_id);
+							$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price'], $user_id);
 						}
 
 						$property_id = $propArr[$k]['property_id'];
@@ -623,7 +623,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 							if ($subpropArr[$l]['subproperty_price'] > 0)
 							{
-								$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+								$section_vat = RedshopHelperProduct::getProductTax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
@@ -693,7 +693,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
-		$userrow->load($billingaddresses->users_info_id);
+		$userrow->load($billingAddresses->users_info_id);
 		$orderuserrow = $this->getTable('order_user_detail');
 
 		if (!$orderuserrow->bind($userrow))
@@ -716,9 +716,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 		// Add shipping Info
 		$userrow = $this->getTable('user_detail');
 
-		if (isset($shippingaddresses->users_info_id))
+		if (isset($shippingAddresses->users_info_id))
 		{
-			$userrow->load($shippingaddresses->users_info_id);
+			$userrow->load($shippingAddresses->users_info_id);
 		}
 
 		$orderuserrow = $this->getTable('order_user_detail');
@@ -800,13 +800,9 @@ class RedshopModelAddorder_detail extends RedshopModel
 			. 'AND user_id = ' . (int) $user_id . ' '
 			. 'AND users_info_id = ' . (int) $shippingadd_id;
 		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		$shipping = $this->_db->loadObject();
 
-		if (count($list) > 0)
-		{
-			$shipping = $list;
-		}
-		else
+		if (!$shipping)
 		{
 			$shipping = $this->setShipping();
 		}

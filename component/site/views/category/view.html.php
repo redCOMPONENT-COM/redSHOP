@@ -30,7 +30,7 @@ class RedshopViewCategory extends RedshopView
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a JError object.
 	 *
@@ -48,13 +48,13 @@ class RedshopViewCategory extends RedshopView
 		// Request variables
 		$this->option = $this->input->getString('option', 'com_redshop');
 		$this->itemid = $this->input->getInt('Itemid', null);
-		$this->catid = $this->input->getInt('cid', 0);
-		$layout = $this->input->getString('layout', '');
-		$this->print = $this->input->getBool('print', false);
+		$this->catid  = $this->input->getInt('cid', 0);
+		$layout       = $this->input->getString('layout', '');
+		$this->print  = $this->input->getBool('print', false);
 
 		$params = $this->app->getParams('com_redshop');
 		/** @var RedshopModelCategory $model */
-		$model  = $this->getModel('category');
+		$model       = $this->getModel('category');
 		$this->state = $model->get('state');
 
 		JPluginHelper::importPlugin('redshop_product');
@@ -98,7 +98,7 @@ class RedshopViewCategory extends RedshopView
 		$loadCategorytemplate = $model->loadCategoryTemplate($categoryTemplateId);
 		$detail               = $model->getdata();
 
-		if (count($maincat) > 0 && $maincat->canonical_url != "")
+		if (!empty($maincat) && !empty($maincat->canonical_url))
 		{
 			$main_url  = JUri::root() . $maincat->canonical_url;
 			$canonical = '<link rel="canonical" href="' . $main_url . '" />';
@@ -115,19 +115,24 @@ class RedshopViewCategory extends RedshopView
 				$this->setLayout('notfound');
 			}
 
+			$registry = new JRegistry;
+			$filterParams = $registry->loadString($maincat->product_filter_params);
+
 			$isSlider = false;
 
-			if (count($loadCategorytemplate) > 0 && strpos($loadCategorytemplate[0]->template_desc, "{include_product_in_sub_cat}") !== false)
+			if ((!empty($loadCategorytemplate) && strpos($loadCategorytemplate[0]->template_desc, "{include_product_in_sub_cat}") !== false)
+				|| ($filterParams->get('enable') == 1 && $filterParams->get('category_enable') == 1)
+			)
 			{
 				$model->setState('include_sub_categories_products', true);
 				$loadCategorytemplate[0]->template_desc = str_replace("{include_product_in_sub_cat}", '', $loadCategorytemplate[0]->template_desc);
 			}
 
-			if (count($loadCategorytemplate) > 0 && strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
+			if (!empty($loadCategorytemplate) && strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
 			{
 				$model->getCategoryProduct(1);
-				$minmax[0]     = $model->getState('minprice');
-				$minmax[1]     = $model->getState('maxprice');
+				$minmax[0] = $model->getState('minprice');
+				$minmax[1] = $model->getState('maxprice');
 
 				$isSlider    = true;
 				$texpricemin = $this->input->getInt('texpricemin', $minmax[0]);
@@ -358,15 +363,15 @@ class RedshopViewCategory extends RedshopView
 		$lists['category_template'] = "";
 		$lists['manufacturer']      = "";
 
-		if (count($manufacturers) > 0)
+		if (!empty($manufacturers))
 		{
-			$temps = array(
+			$temps                 = array(
 				(object) array(
 					'id'   => 0,
 					'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
 				)
 			);
-			$manufacturers = array_merge($temps, $manufacturers);
+			$manufacturers         = array_merge($temps, $manufacturers);
 			$lists['manufacturer'] = JHtml::_(
 				'select.genericlist',
 				$manufacturers,
@@ -391,7 +396,7 @@ class RedshopViewCategory extends RedshopView
 			);
 		}
 
-		$orderByMethod = $this->app->getUserStateFromRequest($model->context . '.order_by', 'order_by');
+		$orderByMethod     = $this->app->getUserStateFromRequest($model->context . '.order_by', 'order_by');
 		$lists['order_by'] = JHtml::_(
 			'select.genericlist',
 			$orderData,
@@ -410,17 +415,17 @@ class RedshopViewCategory extends RedshopView
 
 				if (!$ajaxSlide)
 				{
-					$strToInsert = "<div id='oldredcatpagination'>{show_all_products_in_category}</div>";
+					$strToInsert                            = "<div id='oldredcatpagination'>{show_all_products_in_category}</div>";
 					$loadCategorytemplate[0]->template_desc = str_replace("{show_all_products_in_category}", $strToInsert, $loadCategorytemplate[0]->template_desc);
 
-					$strToInsert = "<div id='oldredcatpagination'>{pagination}</div>";
+					$strToInsert                            = "<div id='oldredcatpagination'>{pagination}</div>";
 					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", $strToInsert, $loadCategorytemplate[0]->template_desc);
 
-					$strToInsert = '<span id="oldRedPageLimit">{product_display_limit}</span>';
+					$strToInsert                            = '<span id="oldRedPageLimit">{product_display_limit}</span>';
 					$loadCategorytemplate[0]->template_desc = str_replace("{product_display_limit}", $strToInsert, $loadCategorytemplate[0]->template_desc);
 				}
 
-				if (count($product) > 0)
+				if (!empty($product))
 				{
 					$this->productPriceSliderEnable = true;
 
@@ -450,15 +455,15 @@ class RedshopViewCategory extends RedshopView
 			}
 		}
 
-		$this->detail = $detail;
-		$this->lists = $lists;
-		$this->product = $product;
-		$this->pageheadingtag = $pageheadingtag;
-		$this->params = $params;
-		$this->maincat = $maincat;
+		$this->detail               = $detail;
+		$this->lists                = $lists;
+		$this->product              = $product;
+		$this->pageheadingtag       = $pageheadingtag;
+		$this->params               = $params;
+		$this->maincat              = $maincat;
 		$this->category_template_id = $categoryTemplateId;
-		$this->order_by_select = $orderByMethod;
-		$this->manufacturer_id = $manufacturerId;
+		$this->order_by_select      = $orderByMethod;
+		$this->manufacturer_id      = $manufacturerId;
 		$this->loadCategorytemplate = $loadCategorytemplate;
 
 		parent::display($tpl);

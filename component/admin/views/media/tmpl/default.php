@@ -200,10 +200,12 @@ else
 							<?php echo $row->media_name; ?>
 						<?php endif; ?>
 					<?php endif; ?>
-                </td>
-                <td align="center" class="order"><?php echo $row->media_type ?></td>
+				</td>
+				<td align="center" class="order">
+					<?php echo !empty($row->media_type) ? $row->media_type : 'document'; ?>
+				</td>
 				<?php if ($showbuttons == 1): ?>
-                    <td class="order">
+					<td class="order">
 						<?php if ($row->media_type == 'download'): ?>
 							<?php $additionalfiles = $model->getAdditionalFiles($row->id); ?>
                             <a href="index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id; ?>&showbuttons=1"
@@ -278,7 +280,7 @@ else
 <script type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
         submitbutton(pressbutton);
-    }
+    };
     submitbutton = function (pressbutton) {
         var form = document.adminForm;
         if (pressbutton) {
@@ -288,11 +290,16 @@ else
             || pressbutton == 'saveorder' || pressbutton == 'orderup' || pressbutton == 'orderdown') {
             form.view.value = "media_detail";
         }
-        try {
-            form.onsubmit();
+        if (pressbutton == 'add')
+        {
+            form.submit();
         }
-        catch (e) {
+        else if (!$("input[type='checkbox'][id^='cb'][name^='cid']:checked").length)
+        {
+            alert("<?php echo JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') ?>");
         }
-        form.submit();
+        else {
+            form.submit();
+        }
     }
 </script>

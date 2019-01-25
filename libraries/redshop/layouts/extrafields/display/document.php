@@ -12,8 +12,11 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   string  $link   Document link
- * @param   string  $title  Document title
+ * @var   array   $displayData  Layout data
+ * @var   object  $data         Data object
+ * @var   object  $field        Field object
+ * @var   string  $link         Document link
+ * @var   string  $title        Document title
  */
 extract($displayData);
 ?>

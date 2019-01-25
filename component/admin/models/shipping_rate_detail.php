@@ -112,6 +112,12 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 
 	public function store($data)
 	{
+		if (($data['shipping_rate_ordertotal_start'] > $data['shipping_rate_ordertotal_end'])
+			|| ($data['shipping_rate_zip_start'] > $data['shipping_rate_zip_end']))
+		{
+			return false;
+		}
+
 		$data['shipping_rate_country']          = @ implode(',', $data['shipping_rate_country']);
 		$data['shipping_rate_on_product']       = @ implode(',', $data['shipping_rate_on_product']);
 		$data['shipping_rate_on_category']      = @ implode(',', $data['shipping_rate_on_category']);
@@ -135,6 +141,11 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		if (!$row->shipping_rate_on_category)
 		{
 			$row->shipping_rate_on_category = '';
+		}
+
+		if (!$row->shipping_rate_country)
+		{
+			$row->shipping_rate_country = '';
 		}
 
 		if (!$row->shipping_rate_state)

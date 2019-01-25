@@ -596,7 +596,8 @@ class RedshopControllerOrder_detail extends RedshopController
 	public function storeExtraField()
 	{
 		$data = $this->input->post->getArray();
-		RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_ORDER, $data['order_id'], $data['user_email']);
+
+		RedshopHelperExtrafields::extraFieldSave($data, RedshopHelperExtrafields::SECTION_ORDER, $data['order_id']);
 
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $data['order_id']);
 	}

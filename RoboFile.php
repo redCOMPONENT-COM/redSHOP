@@ -6,14 +6,15 @@
  * Or do: $ composer update, and afterwards you will be able to execute robo like $ php vendor/bin/robo
  *
  * @see  http://robo.li/
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 require_once 'vendor/autoload.php';
 
 /**
  * Class RoboFile
  *
- * @since  1.6
+ * @since  1.0.0
  */
 class RoboFile extends \Robo\Tasks
 {
@@ -21,770 +22,236 @@ class RoboFile extends \Robo\Tasks
 	use Joomla\Testing\Robo\Tasks\LoadTasks;
 
 	/**
-	 * File extension for executables
-	 *
-	 * @var string
+	 * @var   array
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
 	 */
-	private $executableExtension = '';
-
-	/**
-	 * Local configuration parameters
-	 *
-	 * @var array
-	 */
-	private $configuration = array();
-
-	/**
-	 * Path to the local CMS root
-	 *
-	 * @var string
-	 */
-	private $cmsPath = '';
-
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->configuration       = $this->getConfiguration();
-		$this->cmsPath             = $this->getCmsPath();
-		$this->executableExtension = $this->getExecutableExtension();
-
-		// Set default timezone (so no warnings are generated if it is not set)
-		date_default_timezone_set('UTC');
-	}
-
-	/**
-	 * Get (optional) configuration from an external file
-	 *
-	 * @return \stdClass|null
-	 */
-	public function getConfiguration()
-	{
-		$configurationFile = __DIR__ . '/tests/RoboFile.ini';
-
-		if (!file_exists($configurationFile))
-		{
-			$this->say("No local configuration file");
-
-			return null;
-		}
-
-		$configuration = parse_ini_file($configurationFile);
-
-		if ($configuration === false)
-		{
-			$this->say('Local configuration file is empty or wrong (check is it in correct .ini format');
-
-			return null;
-		}
-
-		return json_decode(json_encode($configuration));
-	}
-
-	/**
-	 * Get the correct CMS root path
-	 *
-	 * @return string
-	 */
-	private function getCmsPath()
-	{
-		if (empty($this->configuration->cmsPath))
-		{
-			return 'tests/joomla-cms3';
-		}
-
-		if (!file_exists(dirname($this->configuration->cmsPath)))
-		{
-			$this->say('Cms path written in local configuration does not exists or is not readable');
-
-			return 'tests/joomla-cms3';
-		}
-
-		return $this->configuration->cmsPath;
-	}
-
-	/**
-	 * Get the executable extension according to Operating System
-	 *
-	 * @return  string
-	 */
-	private function getExecutableExtension()
-	{
-		if ($this->isWindows())
-		{
-			// Check whether git.exe or git as command should be used, as on windows both are possible
-			if (!$this->_exec('git.exe --version')->getMessage())
-			{
-				return '';
-			}
-			else
-			{
-				return '.exe';
-			}
-		}
-
-		return '';
-	}
-
-	/**
-	 * Check if local OS is Windows
-	 *
-	 * @return  boolean
-	 */
-	private function isWindows()
-	{
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-	}
-
-	/**
-	 * Sends Codeception errors to Slack
-	 *
-	 * @param   string $slackChannel            The Slack Channel ID
-	 * @param   string $slackToken              Your Slack authentication token.
-	 * @param   string $codeceptionOutputFolder Optional. By default tests/_output
-	 *
-	 * @return mixed
-	 */
-	public function sendCodeceptionOutputToSlack($slackChannel, $slackToken = null, $codeceptionOutputFolder = null)
-	{
-		if (is_null($slackToken))
-		{
-			$this->say('we are in Travis environment, getting token from ENV');
-
-			// Remind to set the token in repo Travis settings,
-			// see: http://docs.travis-ci.com/user/environment-variables/#Using-Settings
-			$slackToken = getenv('SLACK_ENCRYPTED_TOKEN');
-		}
-
-		$result = $this->taskSendCodeceptionOutputToSlack(
-			$slackChannel,
-			$slackToken,
-			$codeceptionOutputFolder
-		)
-			->run();
-
-		return $result;
-	}
-
-	public function runTestsJenkins()
-	{
-		$this->getComposer();
-
-		$this->taskComposerInstall()->run();
-
-		// $this->runSelenium();
-
-		$this->taskSeleniumStandaloneServer()
-			->setURL("http://localhost:4444")
-			->runSelenium()
-			->waitForSelenium()
-			->run()
-			->stopOnFail();
-
-		// Make sure to Run the B uild Command to Generate AcceptanceTester
-		$this->_exec("vendor/bin/codecept build");
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/install/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('tests/acceptance/administrator/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/GiftCardCheckoutProductCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CouponVoucherMixCheckoutCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutDiscountOnProductCest.php')
-			->run()
-			->stopOnFail();
-
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/QuotationFrontendCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CompareProductsCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/OnePageCheckoutCest.php')
-			->run()
-			->stopOnFail();
-
-		/*
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/checkout/')
-			->run();
-			// ->stopOnFail();
-		*/
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/uninstall/')
-			->run()
-			->stopOnFail();
-
-		/* @todo: REDSHOP-2884
-		 * $this->say('preparing for update test');
-		 * $this->getDevelop();
-		 * $this->taskCodecept()
-		 * ->arg('--steps')
-		 * ->arg('--debug')
-		 * ->arg('--fail-fast')
-		 * ->arg('tests/acceptance/update/')
-		 * ->run()
-		 * ->stopOnFail();
-		 */
-
-		$this->killSelenium();
-	}
-
-	/**
-	 * Downloads Composer
-	 *
-	 * @return void
-	 */
-	private function getComposer()
-	{
-		// Make sure we have Composer
-		if (!file_exists('./composer.phar'))
-		{
-			$this->_exec('curl --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
-		}
-	}
-
-	/**
-	 * Stops Selenium Standalone Server
-	 *
-	 * @return void
-	 */
-	public function killSelenium()
-	{
-		$this->_exec('curl http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer');
-	}
-
-	/**
-	 * Executes Selenium System Tests in your machine
-	 *
-	 * @param   array $opts Use -h to see available options
-	 *
-	 * @return mixed
-	 */
-	public function runTest($opts = array('test|t' => null, 'suite|s' => 'acceptance'))
-	{
-		$this->getComposer();
-
-		$this->taskComposerInstall()->run();
-
-		if (isset($opts['suite']) && 'api' === $opts['suite'])
-		{
-			// Do not launch selenium when running API tests
-		}
-		else
-		{
-			$this->runSelenium();
-
-			if (!$this->isWindows())
-			{
-				$this->taskWaitForSeleniumStandaloneServer()
-					->run()
-					->stopOnFail();
-			};
-		}
-
-		// Make sure to Run the Build Command to Generate AcceptanceTester
-		$this->_exec("vendor/bin/codecept build");
-
-		if (!$opts['test'])
-		{
-			$this->say('Available tests in the system:');
-
-			$iterator = new RecursiveIteratorIterator(
-				new RecursiveDirectoryIterator(
-					'tests/' . $opts['suite'],
-					RecursiveDirectoryIterator::SKIP_DOTS
-				),
-				RecursiveIteratorIterator::SELF_FIRST
-			);
-
-			$tests = array();
-
-			$iterator->rewind();
-			$i = 1;
-
-			while ($iterator->valid())
-			{
-				if (strripos($iterator->getSubPathName(), 'cept.php')
-					|| strripos($iterator->getSubPathName(), 'cest.php')
-				)
-				{
-					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
-					$tests[$i] = $iterator->getSubPathName();
-					$i++;
-				}
-
-				$iterator->next();
-			}
-
-			$this->say('');
-			$testNumber   = $this->ask('Type the number of the test  in the list that you want to run...');
-			$opts['test'] = $tests[$testNumber];
-		}
-
-		$pathToTestFile = 'tests/' . $opts['suite'] . '/' . $opts['test'];
-
-		// Loading the class to display the methods in the class
-		require 'tests/' . $opts['suite'] . '/' . $opts['test'];
-
-		$classes   = Nette\Reflection\AnnotationsParser::parsePhp(file_get_contents($pathToTestFile));
-		$className = array_keys($classes);
-		$className = $className[0];
-
-		// If test is Cest, give the option to execute individual methods
-		if (strripos($className, 'cest'))
-		{
-			$testFile    = new Nette\Reflection\ClassType($className);
-			$testMethods = $testFile->getMethods(ReflectionMethod::IS_PUBLIC);
-
-			foreach ($testMethods as $key => $method)
-			{
-				$this->say('[' . $key . '] ' . $method->name);
-			}
-
-			$this->say('');
-			$methodNumber = $this->askDefault('Choose the method in the test to run (hit ENTER for All)', 'All');
-
-			if ($methodNumber != 'All')
-			{
-				$method         = $testMethods[$methodNumber]->name;
-				$pathToTestFile = $pathToTestFile . ':' . $method;
-			}
-		}
-
-		$this->taskCodecept()
-			->test($pathToTestFile)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->run()
-			->stopOnFail();
-
-		if (!'api' == $opts['suite'])
-		{
-			$this->killSelenium();
-		}
-	}
-
-	/**
-	 * Runs Selenium Standalone Server
-	 *
-	 * @param   string $path Optional path to selenium standalone server
-	 *
-	 * @return void
-	 */
-	public function runSelenium($path = null)
-	{
-		$this->_exec("vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
-	}
-
-	/**
-	 * Function to Run tests in a Group
-	 *
-	 * @param   int $useHtaccess Use htacess.
-	 *
-	 * @return  void
-	 */
-	public function runTests($useHtaccess = 0)
-	{
-		$this->prepareSiteForSystemTests($useHtaccess);
-
-		$this->checkTravisWebserver();
-
-		$this->getComposer();
-
-		$this->taskComposerInstall()->run();
-
-		// $this->runSelenium();
-
-		$this->taskSeleniumStandaloneServer()
-			->setURL("http://localhost:4444")
-			->runSelenium()
-			->waitForSelenium()
-			->run()
-			->stopOnFail();
-
-		// Make sure to Run the B uild Command to Generate AcceptanceTester
-		$this->_exec("vendor/bin/codecept build");
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/install/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/administrator/')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
-			->run()
-			->stopOnFail();
-
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/ProductsCheckoutFrontEndCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CouponVoucherMixCheckoutCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/MassDiscountCheckoutCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutDiscountOnProductCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutDiscountTotalCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutWithStockroomCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CheckoutSpecificShopperGroupsCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/QuotationFrontendCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/CompareProductsCest.php')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--fail-fast')
-			->arg('tests/acceptance/integration/OnePageCheckoutCest.php')
-			->run()
-			->stopOnFail();
-
-
-
-		/*
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/checkout/')
-			->run();
-			// ->stopOnFail();
-		*/
-
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/uninstall/')
-			->run()
-			->stopOnFail();
-
-		/* @todo: REDSHOP-2884
-		 * $this->say('preparing for update test');
-		 * $this->getDevelop();
-		 * $this->taskCodecept()
-		 * ->arg('--steps')
-		 * ->arg('--debug')
-		 * ->arg('--fail-fast')
-		 * ->arg('tests/acceptance/update/')
-		 * ->run()
-		 * ->stopOnFail();
-		 */
-
-		$this->killSelenium();
-	}
+	private $defaultArgs = [
+		'--tap',
+		'--fail-fast'
+	];
 
 	/**
 	 * Downloads and prepares a Joomla CMS site for testing
 	 *
-	 * @param   int $useHtaccess (1/0) Rename and enable embedded Joomla .htaccess file
+	 * @param   integer  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+	 * @param   integer  $cleanUp       Clean up the directory when present (or skip the cloning process)
 	 *
-	 * @return mixed
+	 * @return  void
+	 * @since   1.0.0
 	 */
-	public function prepareSiteForSystemTests($useHtaccess = 0)
+	public function testsSitePreparation($use_htaccess = 1, $cleanUp = 1)
 	{
-		// Caching cloned installations locally
-		if (!is_dir('tests/cache') || (time() - filemtime('tests/cache') > 60 * 60 * 24))
-		{
-			if (file_exists('tests/cache'))
-			{
-				$this->taskDeleteDir('tests/cache')->run();
-			}
-
-			$this->_exec($this->buildGitCloneCommand());
-		}
-
+		$skipCleanup = false;
 		// Get Joomla Clean Testing sites
-		if (is_dir($this->cmsPath))
+		if (is_dir('tests/joomla-cms'))
 		{
-			try
+			if (!$cleanUp)
 			{
-				$this->taskDeleteDir($this->cmsPath)->run();
+				$skipCleanup = true;
+				$this->say('Using cached version of Joomla CMS and skipping clone process');
 			}
-			catch (Exception $e)
+			else
 			{
-				// Sorry, we tried :(
-				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually. ');
-				exit(1);
+				$this->taskDeleteDir('tests/joomla-cms')->run();
 			}
 		}
-
-		$this->_copyDir('tests/cache', $this->cmsPath);
-
-		// Optionally change owner to fix permissions issues
-		if (!empty($this->configuration->localUser) && !$this->isWindows())
+		if (!$skipCleanup)
 		{
-			$this->_exec('chown -R ' . $this->configuration->localUser . ' ' . $this->cmsPath);
-		}
+			$version = 'staging';
 
+			/*
+			* When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
+			* Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
+			*/
+			$version = '3.9.1';
+
+			$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
+			$this->say("Joomla CMS ($version) site created at tests/joomla-cms");
+		}
 		// Optionally uses Joomla default htaccess file
-		if ($useHtaccess == 1)
+		if ($use_htaccess == 1)
 		{
-			$this->_copy($this->cmsPath . '/htaccess.txt', $this->cmsPath . '/.htaccess');
-			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /' . $this->cmsPath . '/,g" --in-place ' . $this->cmsPath . '/.htaccess');
+			$this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
 		}
 	}
 
 	/**
-	 * Build correct git clone command according to local configuration and OS
+	 * Tests setup
 	 *
-	 * @return string
-	 */
-	private function buildGitCloneCommand()
-	{
-		$branch = empty($this->configuration->branch) ? 'staging' : $this->configuration->branch;
-
-		return "git" . $this->executableExtension . " clone -b $branch --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/cache";
-	}
-
-	/**
-	 * Looks for Travis Webserver
+	 * @param   boolean  $debug         Add debug to the parameters
+	 * @param   boolean  $steps         Add steps to the parameters
+	 * @param   boolean  $extraVerbose  Add extra verbosity
 	 *
 	 * @return  void
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function checkTravisWebserver()
+	public function testsSetup($debug = true, $steps = true, $extraVerbose = false)
 	{
-		$this->_exec('php tests/checkers/traviswebserverckecker.php http://localhost/tests/joomla-cms3/installation/index.php');
-	}
+		$args = [];
 
-	/**
-	 * Method for run specific scenario
-	 *
-	 * @param   string $testCase  Scenario case.
-	 *                            (example: "acceptance/install" for folder, "acceptance/integration/productCheckoutVatExemptUser" for file)
-	 *
-	 * @return  void
-	 */
-	public function runTravis($testCase)
-	{
-		$this->prepareSiteForSystemTests(1);
-
-		$this->checkTravisWebserver();
-
-		$testPath = __DIR__ . '/tests/' . $testCase;
-
-		// Populate test case. In case this path is not an exist folder.
-		if (!file_exists($testPath) || !is_dir($testPath))
+		if ($debug)
 		{
-			$testCase .= 'Cest.php';
+			$args[] = '--debug';
 		}
 
-		$this->taskSeleniumStandaloneServer()
-			->setURL('http://localhost:4444')
-			->runSelenium()
-			->waitForSelenium()
-			->run()
-			->stopOnFail();
+		if ($steps)
+		{
+			$args[] = '--steps';
+		}
 
-		// Make sure to Run the B uild Command to Generate AcceptanceTester
-		$this->_exec('vendor/bin/codecept build');
+		if ($extraVerbose)
+		{
+			$args[] = '-vvv';
+		}
 
-		// Install Joomla + redSHOP
+		$args = array_merge(
+			$args,
+			$this->defaultArgs
+		);
+
+		// Sets the output_append variable in case it's not yet
+		if (getenv('output_append') === false)
+		{
+			putenv('output_append=');
+		}
+
+		// Builds codeception
+		$this->_exec("vendor/bin/codecept build");
+
+		// Executes the initial set up
 		$this->taskCodecept()
-			// ->arg('--steps')
-			// ->arg('--debug')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/install/')
+			->args($args)
+			->arg('tests/acceptance/install')
 			->run()
 			->stopOnFail();
-
-		// Run specific task
-		$this->taskCodecept()
-			->test('tests/' . $testCase)
-			// ->arg('--steps')
-			// ->arg('--debug')
-			->arg('--tap')
-			->arg('--fail-fast')
-			->run()
-			->stopOnFail();
-
-		// Uninstall after test.
-		$this->taskCodecept()
-			->arg('--tap')
-			->arg('--fail-fast')
-			->arg('tests/acceptance/uninstall/')
-			->run()
-			->stopOnFail();
-
-		$this->killSelenium();
 	}
 
-	public function sendScreenshotFromTravisToGithub($cloudName, $apiKey, $apiSecret, $githubToken, $repoOwner, $repo, $pull)
+	/**
+	 * Individual test folder execution
+	 *
+	 * @param   string   $folder        Folder to execute codecept run to
+	 * @param   boolean  $debug         Add debug to the parameters
+	 * @param   boolean  $steps         Add steps to the parameters
+	 * @param   boolean  $extraVerbose  Add extra verbosity
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testsRun($folder, $debug = true, $steps = true, $extraVerbose = false)
+	{
+		$args = [];
+
+		if ($debug)
+		{
+			$args[] = '--debug';
+		}
+
+		if ($steps)
+		{
+			$args[] = '--steps';
+		}
+
+		if ($extraVerbose)
+		{
+			$args[] = '-vvv';
+		}
+
+		$args = array_merge(
+			$args,
+			$this->defaultArgs
+		);
+
+		// Sets the output_append variable in case it's not yet
+		if (getenv('output_append') === false)
+		{
+			putenv('output_append=');
+		}
+
+		// Codeception build
+		$this->_exec("vendor/bin/codecept build");
+
+		// Actual execution of Codeception test
+		$this->taskCodecept()
+			->args($args)
+			->arg('tests/' . $folder . '/')
+			->run()
+			->stopOnFail();
+	}
+
+	/**
+	 * Sends the build report error back to Slack
+	 *
+	 * @param   string  $cloudinaryName       Cloudinary cloud name
+	 * @param   string  $cloudinaryApiKey     Cloudinary API key
+	 * @param   string  $cloudinaryApiSecret  Cloudinary API secret
+	 * @param   string  $githubRepository     GitHub repository (owner/repo)
+	 * @param   string  $githubPRNo           GitHub PR #
+	 * @param   string  $slackWebhook         Slack Webhook URL
+	 * @param   string  $slackChannel         Slack channel
+	 * @param   string  $buildURL             Build URL
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function sendBuildReportErrorSlack($cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
+	{
+		$directories = glob('tests/_output/*' , GLOB_ONLYDIR);
+
+		foreach ($directories as $directory)
+		{
+			$this->sendBuildReportErrorSlackDirectory($directory, $cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL);
+		}
+	}
+
+	/**
+	 * Sends the build report error back to Slack
+	 *
+	 * @param   string  $directory            Directory to explore
+	 * @param   string  $cloudinaryName       Cloudinary cloud name
+	 * @param   string  $cloudinaryApiKey     Cloudinary API key
+	 * @param   string  $cloudinaryApiSecret  Cloudinary API secret
+	 * @param   string  $githubRepository     GitHub repository (owner/repo)
+	 * @param   string  $githubPRNo           GitHub PR #
+	 * @param   string  $slackWebhook         Slack Webhook URL
+	 * @param   string  $slackChannel         Slack channel
+	 * @param   string  $buildURL             Build URL
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function sendBuildReportErrorSlackDirectory($directory, $cloudinaryName, $cloudinaryApiKey, $cloudinaryApiSecret, $githubRepository, $githubPRNo, $slackWebhook, $slackChannel, $buildURL = '')
 	{
 		$errorSelenium = true;
-		$reportError   = false;
-		$reportFile    = 'tests/selenium.log';
-		$body          = 'Selenium log:' . chr(10) . chr(10);
+		$reportError = false;
+		$reportFile = $directory . '/selenium.log';
+		$errorLog = 'Selenium log in ' . $directory . ':' . chr(10). chr(10);
+		$this->say('Starting to Prepare Build Report');
 
-		// Loop throught Codeception snapshots
-		if (file_exists('tests/_output') && $handler = opendir('tests/_output'))
+		$this->say('Exploring folder ' . $directory . ' for error reports');
+		// Loop through Codeception snapshots
+		if (file_exists($directory) && $handler = opendir($directory))
 		{
-			$reportFile    = 'tests/_output/report.tap.log';
-			$body          = 'Codeception tap log:' . chr(10) . chr(10);
+			$reportFile = $directory . '/report.tap.log';
+			$errorLog = 'Codeception tap log in ' . $directory . ':' . chr(10). chr(10);
 			$errorSelenium = false;
 		}
 
 		if (file_exists($reportFile))
 		{
+			$this->say('Report File Prepared');
 			if ($reportFile)
 			{
-				$body .= file_get_contents($reportFile, null, null, 15);
+				$errorLog .= file_get_contents($reportFile, null, null, 15);
 			}
 
 			if (!$errorSelenium)
 			{
-				$handler = opendir('tests/_output');
+				$handler = opendir($directory);
+				$errorImage = '';
 
-				while (false !== ($errorSnapshot = readdir($handler)))
+				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
 				{
 					// Avoid sending system files or html files
 					if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
@@ -793,55 +260,35 @@ class RoboFile extends \Robo\Tasks
 					}
 
 					$reportError = true;
-					$this->say("Uploading screenshots: $errorSnapshot");
-
-					Cloudinary::config(
-						array(
-							'cloud_name' => $cloudName,
-							'api_key'    => $apiKey,
-							'api_secret' => $apiSecret
-						)
-					);
-
-					$result = \Cloudinary\Uploader::upload(realpath(dirname(__FILE__) . '/tests/_output/' . $errorSnapshot));
-					$this->say($errorSnapshot . 'Image sent');
-					$body .= '![Screenshot](' . $result['secure_url'] . ')';
+					$errorImage = $directory . '/' . $errorSnapshot;
 				}
 			}
 
-			// If it's a Selenium error log, it prints it in the regular output
-			if ($errorSelenium)
+			if ($reportError || $errorSelenium)
 			{
-				$this->say($body);
-			}
+				// Sends the error report to Slack
+				$this->say('Sending Error Report');
+				$reportingTask = $this->taskReporting()
+					->setCloudinaryCloudName($cloudinaryName)
+					->setCloudinaryApiKey($cloudinaryApiKey)
+					->setCloudinaryApiSecret($cloudinaryApiSecret)
+					->setGithubRepo($githubRepository)
+					->setGithubPR($githubPRNo)
+					->setBuildURL($buildURL . 'display/redirect')
+					->setSlackWebhook($slackWebhook)
+					->setSlackChannel($slackChannel)
+					->setTapLog($errorLog);
 
-			// If it needs to, it creates the error log in a Github comment
-			if ($reportError)
-			{
-				$this->say('Creating Github issue');
-				$client = new \Github\Client;
-				$client->authenticate($githubToken, \Github\Client::AUTH_HTTP_TOKEN);
-				$client
-					->api('issue')
-					->comments()->create(
-						$repoOwner, $repo, $pull,
-						array(
-							'body' => $body
-						)
-					);
+				if (!empty($errorImage))
+				{
+					$reportingTask->setImagesToUpload($errorImage)
+						->publishCloudinaryImages();
+				}
+
+				$reportingTask->publishBuildReportToSlack()
+					->run()
+					->stopOnFail();
 			}
 		}
-	}
-
-	private function getDevelop()
-	{
-		// Get current develop branch of the extension for Extension update test
-		if (is_dir('tests/develop'))
-		{
-			$this->taskDeleteDir('tests/develop')->run();
-		}
-
-		$this->_exec('git clone -b develop --single-branch --depth 1 git@github.com:redCOMPONENT-COM/redSHOP.git tests/develop');
-		$this->say('Downloaded Develop Branch for Update test');
 	}
 }

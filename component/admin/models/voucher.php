@@ -18,6 +18,8 @@ defined('_JEXEC') or die;
  */
 class RedshopModelVoucher extends RedshopModelForm
 {
+	use Redshop\Model\Traits\HasDateTimeRange;
+
 	/**
 	 * Method to save the form data.
 	 *
@@ -29,18 +31,23 @@ class RedshopModelVoucher extends RedshopModelForm
 	 */
 	public function save($data)
 	{
+		$this->handleDateTimeRange($data['start_date'], $data['end_date']);
+
+		if ($data['start_date'] > $data['end_date'])
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_START_DATE_MUST_BE_SOONER_OR_EQUAL_TO_END_DATE'));
+
+			return false;
+		}
+
 		if (!empty($data['start_date']))
 		{
-			$data['start_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['start_date']);
-			$data['start_date'] = JFactory::getDate($data['start_date']->format('Y-m-d') . ' 00:00:00');
-			$data['start_date'] = $data['start_date']->toSql();
+			$data['start_date'] = \JFactory::getDate($data['start_date'])->toSql();
 		}
 
 		if (!empty($data['end_date']))
 		{
-			$data['end_date'] = DateTime::createFromFormat(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $data['end_date']);
-			$data['end_date'] = JFactory::getDate($data['end_date']->format('Y-m-d') . ' 23:59:59');
-			$data['end_date'] = $data['end_date']->toSql();
+			$data['end_date'] = \JFactory::getDate($data['end_date'])->toSql();
 		}
 
 		return parent::save($data);
