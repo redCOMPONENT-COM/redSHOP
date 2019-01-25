@@ -39,6 +39,8 @@ class CategorySteps extends AbstractStep
 		$tester->fillField(CategoryPage::$idFieldName, $categoryName);
 		$tester->fillField(CategoryPage::$categoryNoPage, $noPage);
 		$tester->click(CategoryPage::$parentCategory);
+		$tester->waitForElement(CategoryPage::$parentCategoryInput, 30);
+		$tester->wait(0.5);
 		$tester->fillField(CategoryPage::$parentCategoryInput, $categoryParent);
 		$tester->pressKey(CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$tester->click(CategoryPage::$template1);
