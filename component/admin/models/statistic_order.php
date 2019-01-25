@@ -169,7 +169,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	/**
 	 * Count product by order
 	 *
-	 * @return  object.
+	 * @return  object|mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -188,7 +188,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	/**
 	 * get date Format for new statistic
 	 *
-	 * @return  string.
+	 * @return  string|mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
