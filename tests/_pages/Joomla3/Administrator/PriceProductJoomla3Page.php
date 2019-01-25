@@ -57,7 +57,7 @@ class PriceProductJoomla3Page extends AdminJ3Page
     /**
      * @var string
      */
-    public static $namePage = "Product Management";
+    public static $namePage = "Product Price Management";
 
 //    public static $selectorPage = ".page-title";
 
