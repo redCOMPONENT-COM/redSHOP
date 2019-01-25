@@ -185,10 +185,11 @@ class RedshopControllerOrder extends RedshopController
 
 	public function createInvoice()
 	{
+		$msg = '';
+		$msgType = '';
+		$economicdata = array();
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') != 2)
 		{
-			$msg = '';
-			$msgType = '';
 			$order_id    = $this->input->getInt('order_id');
 			$paymentInfo = RedshopEntityOrder::getInstance($order_id)->getPayment()->getItem();
 
@@ -202,7 +203,6 @@ class RedshopControllerOrder extends RedshopController
 					$payment_name = $paymentArr[1];
 				}
 
-				$economicdata = array();
 				$economicdata['economic_payment_method']   = $payment_name;
 				$economicdata['economic_payment_terms_id'] = $paymentInfo->plugin->params->get('economic_payment_terms_id');
 				$economicdata['economic_design_layout']    = $paymentInfo->plugin->params->get('economic_design_layout');
