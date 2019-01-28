@@ -57,7 +57,7 @@ class RedshopModelZipcodes extends RedshopModelList
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'z.id', $direction = 'asc')
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);

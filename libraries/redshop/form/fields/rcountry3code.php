@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JLoader::import('joomla.form.formfield');
 JFormHelper::loadFieldClass('list');
 /**
  * RCountry3Code select list for redSHOP

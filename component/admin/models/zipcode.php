@@ -19,30 +19,6 @@ defined('_JEXEC') or die;
 class RedshopModelZipcode extends RedshopModelForm
 {
 	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   2.1.0
-	 * @throws  Exception
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$app  = JFactory::getApplication();
-		$data = $app->getUserState('com_redshop.edit.zipcode.data', array());
-
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
-
-		$this->preprocessData('com_redshop.zipcode', $data);
-
-		return $data;
-	}
-
-	/**
 	 * Method to save a record.
 	 *
 	 * @param   array  $data data
