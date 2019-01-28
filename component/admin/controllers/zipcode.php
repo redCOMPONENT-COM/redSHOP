@@ -8,8 +8,28 @@
  */
 
 defined('_JEXEC') or die;
-
-
-class RedshopControllerZipcode extends RedshopController
+/**
+ * Controller Zipcode Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Controller
+ * @since       __DEPLOY_VERSION__
+ */
+class RedshopControllerZipcode extends RedshopControllerForm
 {
+	/**
+	 * Ajax get state 2 code
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	function ajaxGetState2Code()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$model = $this->getModel();
+		$form = $model->getForm();
+		echo $form->renderField('state_code');
+		jexit();
+	}
 }
