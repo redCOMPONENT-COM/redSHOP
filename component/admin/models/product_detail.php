@@ -23,6 +23,8 @@ jimport('joomla.filesystem.file');
  */
 class RedshopModelProduct_Detail extends RedshopModel
 {
+	use Redshop\Model\Traits\HasDateTimeRange;
+
 	public $id = null;
 
 	public $data = null;
@@ -245,6 +247,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			$row->load($data['product_id']);
 		}
+
+		$this->handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
 
 		if (!$row->bind($data))
 		{
@@ -1456,8 +1460,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post = $this->input->post->getArray();
 				$this->_initData();
 				$post = array_merge($post, (array) $this->data);
-				$post['discount_stratdate'] = RedshopHelperDatetime::generateTimestamp(strtotime($post['discount_stratdate']), true);
-				$post['discount_enddate']   = RedshopHelperDatetime::generateTimestamp(strtotime($post['discount_enddate']), true);
 			}
 
 			$post['copy_product']     = 1;

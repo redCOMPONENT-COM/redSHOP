@@ -153,7 +153,7 @@ class RedshopModelZipcode_detail extends RedshopModel
 	 *
 	 * @return  array|boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	public function getStateList($countryCodes)
 	{
@@ -175,7 +175,7 @@ class RedshopModelZipcode_detail extends RedshopModel
 	 *
 	 * @return  array|boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	public function getStateDropdown($data)
 	{

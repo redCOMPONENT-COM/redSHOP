@@ -178,6 +178,8 @@ class RedshopModelUser_detail extends RedshopModel
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email']    = $post['email1'] = $post['email'];
 
+		JFactory::getApplication()->input->post->set('password1', $post['password']);
+
 		$post['billisship'] = 1;
 
 		if ($post['createaccount'])
