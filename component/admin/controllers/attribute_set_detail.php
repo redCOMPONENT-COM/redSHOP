@@ -412,7 +412,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_ATTRIBUTE_SET_COPIED');
+			$msg = JText::_('COM_REDSHOP_ERROR_COPY_ATTRIBUTE_SET');
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
