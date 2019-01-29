@@ -10,7 +10,7 @@ pipeline:
         pull: true
         commands:
             # redSHOP Composer cache
-#            - mv /opt/cache/redSHOP/vendor .
+            - mv /opt/cache/redSHOP/vendor .
             - touch tests/.cache.composer.tmp
             # redSHOP Composer cache for libraries
             - mv /opt/cache/redSHOP/libraries/redshop/vendor libraries/redshop
