@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View.Catalogs
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.2
  */
 class RedshopViewCatalogs extends RedshopViewList
 {
@@ -28,7 +28,7 @@ class RedshopViewCatalogs extends RedshopViewList
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

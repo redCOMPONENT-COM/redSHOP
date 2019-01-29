@@ -598,7 +598,7 @@ class RedshopModelAccount extends RedshopModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	public function deleteAccount($userId)
 	{
