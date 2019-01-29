@@ -307,7 +307,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->click($usePage->returnChoice($category));
 		$I->wait(0.5);
-		$I->click(ProductManagerPage::$buttonSaveClose);
+//		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
 
