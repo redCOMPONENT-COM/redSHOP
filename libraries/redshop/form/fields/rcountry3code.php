@@ -31,10 +31,8 @@ class JFormFieldRCountry3Code extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		// Initialize variables.
-		$options = array();
-		$db      = JFactory::getDbo();
-		$query   = $db->getQuery(true);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 		$query->select($db->quoteName('country_3_code', 'value'))
 			->select($db->quoteName('country_name', 'text'))
 			->from($db->quoteName('#__redshop_country'));

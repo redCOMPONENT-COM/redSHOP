@@ -28,7 +28,7 @@ class RedshopModelZipcodes extends RedshopModelList
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -48,12 +48,16 @@ class RedshopModelZipcodes extends RedshopModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
-	 * @return  parent
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -63,7 +67,7 @@ class RedshopModelZipcodes extends RedshopModelList
 		$this->setState('filter.search', $search);
 
 		// List state information.
-		return parent::populateState($ordering, $direction);
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

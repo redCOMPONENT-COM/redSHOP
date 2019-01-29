@@ -54,9 +54,9 @@ class RedshopTableZipcode extends RedshopTable
 		$query = $db->getQuery(true)
 			->select('id')
 			->from($db->qn("#__redshop_zipcode"))
-			->where($db->qn('zipcode') . ' = ' . $db->quote($this->zipcode))
-			->where($db->qn('id') . ' != ' . $db->quote((int) $this->id))
-			->where($db->qn('country_code') . ' = ' . $db->quote($this->country_code));
+			->where($db->qn('zipcode') . ' = ' . $db->q((int) $this->zipcode))
+			->where($db->qn('id') . ' != ' . $db->q((int) $this->id))
+			->where($db->qn('country_code') . ' = ' . $db->q((string) $this->country_code));
 
 		$xid = intval($db->setQuery($query)->loadResult());
 

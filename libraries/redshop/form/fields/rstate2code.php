@@ -31,8 +31,6 @@ class JFormFieldRState2Code extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		// Initialize variables.
-		$options      = array();
 		$app          = JFactory::getApplication();
 		$country3Code = $app->input->get('country_code');
 		$db           = JFactory::getDbo();
