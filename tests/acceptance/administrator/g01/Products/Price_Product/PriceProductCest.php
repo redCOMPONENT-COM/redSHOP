@@ -55,6 +55,7 @@ class PriceProductCest
      *
      * @param AcceptanceTester $I
      * @param $scenario
+     * @throws Exception
      */
     public function createProductSaveClose(AcceptanceTester $I, $scenario)
     {
