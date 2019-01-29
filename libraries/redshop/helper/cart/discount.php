@@ -380,7 +380,7 @@ class RedshopHelperCartDiscount
 
 		if (empty($productArr['product_ids']))
 		{
-			$return = false;
+			return false;
 		}
 
 		$productPrice    = $productArr['product_price'];
