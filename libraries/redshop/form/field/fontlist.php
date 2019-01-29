@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('filelist');
 /**
  * Supports an HTML select list of image
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.2
  */
 class RedshopFormFieldFontList extends JFormFieldFileList
 {
@@ -22,7 +22,7 @@ class RedshopFormFieldFontList extends JFormFieldFileList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.2
 	 */
 	protected $type = 'FontList';
 	
@@ -32,7 +32,7 @@ class RedshopFormFieldFontList extends JFormFieldFileList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	protected function getOptions()
 	{
