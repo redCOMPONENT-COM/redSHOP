@@ -21,6 +21,13 @@ JLoader::import('joomla.application.component.view');
 class RedshopViewCategory extends RedshopViewForm
 {
 	/**
+	 * @var    integer
+	 *
+	 * @since  2.1.2
+	 */
+	protected $is_new = 0;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -54,6 +61,10 @@ class RedshopViewCategory extends RedshopViewForm
 		{
 			$categoryAccessoryProduct = $producthelper->getProductAccessory(0, 0, 0, $this->item->id);
 		}
+		else
+		{
+			$this->is_new = 1;
+		}
 
 		$this->lists['categroy_accessory_product'] = $categoryAccessoryProduct;
 		$this->extraFields                         = $model->getExtraFields($this->item);
@@ -78,9 +89,8 @@ class RedshopViewCategory extends RedshopViewForm
 	 */
 	private function getTabMenu()
 	{
-		$app = JFactory::getApplication();
+		$tabMenu = new RedshopMenu();
 
-		$tabMenu = RedshopAdminMenu::getInstance()->init();
 		$tabMenu->section('tab')
 			->title('COM_REDSHOP_CATEGORY_INFORMATION')
 			->addItem(
@@ -103,6 +113,11 @@ class RedshopViewCategory extends RedshopViewForm
 				'COM_REDSHOP_ACCESSORY_PRODUCT',
 				false,
 				'accessory'
+			)->addItem(
+				'#product_filter',
+				'COM_REDSHOP_PRODUCT_FILTERS',
+				false,
+				'product_filter'
 			);
 
 		return $tabMenu;
@@ -119,10 +134,9 @@ class RedshopViewCategory extends RedshopViewForm
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$isNew = ($this->item->id < 1);
 		$user  = JFactory::getUser();
 
-		if ($isNew && (!empty($user->authorise('com_redshop', 'core.create'))))
+		if ($this->is_new && (!empty($user->authorise('com_redshop', 'core.create'))))
 		{
 			JToolbarHelper::apply('category.apply');
 			JToolbarHelper::save('category.save');
