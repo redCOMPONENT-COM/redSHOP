@@ -23,7 +23,7 @@ class RedshopEntityUser_Cart_Item_Accessory extends RedshopEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  Table|boolean
+	 * @return  JTable|boolean
 	 * @throws  Exception
 	 */
 	public function getTable($name = null)
