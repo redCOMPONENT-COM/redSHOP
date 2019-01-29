@@ -121,7 +121,12 @@ class RedshopModelZipcodes extends RedshopModelList
 
 		if (!empty($search))
 		{
-			$query->where($db->qn('z.zipcode') . ' LIKE ' . $db->q('%' . $search . '%'));
+			$query->where(
+				'(' . $db->qn('z.zipcode') . ' LIKE ' . $db->q($search) .
+				' OR ' . $db->qn('z.city_name') . ' LIKE ' . $db->q('%' . $search . '%') .
+				' OR ' . $db->qn('c.country_name') . 'LIKE' . $db->q('%' . $search . '%')
+				. ')'
+			);
 		}
 
 		// Add the list ordering clause.

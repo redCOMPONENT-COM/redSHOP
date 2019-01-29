@@ -16,6 +16,7 @@
                 default=""
                 required="true"
                 table-edit-link="1"
+                table-sortable="1"
         />
         <field
                 id="country_code"
@@ -28,6 +29,7 @@
                 required="true"
                 table-edit-link="1"
                 onchange="getState2Code();"
+                table-sortable="1"
         />
         <field
                 id="state_code"
@@ -39,6 +41,7 @@
                 class="text_area"
                 default=""
                 required="true"
+                table-sortable="1"
         />
         <field
                 id="zipcode"
@@ -51,6 +54,7 @@
                 default=""
                 required="true"
                 table-edit-link="1"
+                table-sortable="1"
         />
         <field
                 id="zipcodeto"
