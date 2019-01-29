@@ -139,7 +139,7 @@ class RoboFile extends \Robo\Tasks
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testsRun($folder, $debug = true, $steps = true, $extraVerbose = false)
+	public function testsRun($folder, $debug = true, $steps = true, $extraVerbose = false, $reportHtml = true)
 	{
 		$args = [];
 
@@ -156,6 +156,11 @@ class RoboFile extends \Robo\Tasks
 		if ($extraVerbose)
 		{
 			$args[] = '-vvv';
+		}
+
+		if ($reportHtml)
+		{
+			$args[] = '--html';
 		}
 
 		$args = array_merge(
@@ -250,6 +255,7 @@ class RoboFile extends \Robo\Tasks
 			{
 				$handler = opendir($directory);
 				$errorImage = '';
+				$errorHtml = '';
 
 				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
 				{
@@ -259,8 +265,14 @@ class RoboFile extends \Robo\Tasks
 						continue;
 					}
 
+					if (!('html' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
+					{
+						continue;
+					}
+
 					$reportError = true;
 					$errorImage = $directory . '/' . $errorSnapshot;
+					$errorHtml = $directory . '/' . $errorSnapshot;
 				}
 			}
 
@@ -283,6 +295,12 @@ class RoboFile extends \Robo\Tasks
 				{
 					$reportingTask->setImagesToUpload($errorImage)
 						->publishCloudinaryImages();
+				}
+
+				if (!empty($errorHtml))
+				{
+					$reportingTask->setReportHtmlToUpload($errorHtml)
+						->publishCloudinaryReportHtml();
 				}
 
 				$reportingTask->publishBuildReportToSlack()
