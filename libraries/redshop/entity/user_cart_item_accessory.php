@@ -23,11 +23,11 @@ class RedshopEntityUser_Cart_Item_Accessory extends RedshopEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  Table|boolean
 	 * @throws  Exception
 	 */
 	public function getTable($name = null)
 	{
-		return RedshopTable::getAdminInstance('Usercart_Accessory_Item', array(), 'RedshopTable');
+		return RedshopTable::getInstance('Usercart_Accessory_Item', 'RedshopTable');
 	}
 }
