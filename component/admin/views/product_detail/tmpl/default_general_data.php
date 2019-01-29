@@ -274,8 +274,8 @@ foreach ($media->getAll() as $mediaItem)
 							if ($this->detail->discount_stratdate)
 							{
 								$startDate = is_numeric($this->detail->discount_stratdate) ?
-                                    JFactory::getDate($this->detail->discount_stratdate)->setTimezone($tz)->format($calendarFormat)
-                                    : $this->detail->discount_stratdate;
+									date_create_from_format('U', $this->detail->discount_stratdate)->setTimezone($tz)->format($calendarFormat)
+									: $this->detail->discount_stratdate;
 							}
 
                             echo JHtml::_(
@@ -299,7 +299,7 @@ foreach ($media->getAll() as $mediaItem)
 							if ($this->detail->discount_enddate)
 							{
 								$endDate = is_numeric($this->detail->discount_enddate) ?
-									JFactory::getDate($this->detail->discount_enddate)->setTimezone($tz)->format($calendarFormat)
+									date_create_from_format('U', $this->detail->discount_enddate)->setTimezone($tz)->format($calendarFormat)
 									: $this->detail->discount_enddate;
 							}
 
