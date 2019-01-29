@@ -44,12 +44,8 @@ class RedshopViewZipcodes extends RedshopViewList
 				return $row->country_name;
 			case 'state_code' :
 				return $row->state_name;
-			case 'city_name' :
-				$value      = $row->{$config['dataCol']};
-				$primaryKey = $this->getPrimaryKey();
-				$itemId     = $row->{$primaryKey};
 			default:
-				return parent::onRenderColumn($config, $index, $row);
+				parent::onRenderColumn($config, $index, $row);
 		}
 	}
 }
