@@ -408,11 +408,11 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		if ($model->copy($cid))
 		{
-			$msg = JText::_('COM_REDSHOP_CATEGORY_COPIED');
+			$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_COPIED');
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
+			$msg = JText::_('COM_REDSHOP_ERROR_COPY_ATTRIBUTE_SET');
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
