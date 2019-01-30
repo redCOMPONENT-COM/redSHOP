@@ -1435,6 +1435,19 @@ function setPropertyImage(product_id, propertyObj) {
             }
 
         }
+    } else {
+        var propNameObj = document.getElementsByName(propertyObj + "[]");
+        for (var p = 0; p < propNameObj.length; p++) {
+            var borderstyle = "";
+            selValue = propNameObj[p].value;
+            if (propNameObj[p].checked) {
+                borderstyle = "1px solid";
+            }
+            if (document.getElementById(propertyObj + "_propimg_" + selValue)) {
+
+                document.getElementById(propertyObj + "_propimg_" + selValue).style.border = borderstyle;
+            }
+        }
     }
 }
 
