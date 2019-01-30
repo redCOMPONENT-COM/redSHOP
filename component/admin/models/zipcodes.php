@@ -66,6 +66,9 @@ class RedshopModelZipcodes extends RedshopModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$country = $this->getUserStateFromRequest($this->context . '.filter.country', 'filter_country', '0');
+		$this->setState('filter.country', $country);
+
 		// List state information.
 		parent::populateState($ordering, $direction);
 	}
@@ -87,6 +90,7 @@ class RedshopModelZipcodes extends RedshopModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.country');
 
 		return parent::getStoreId($id);
 	}
@@ -121,6 +125,7 @@ class RedshopModelZipcodes extends RedshopModelList
 				. ' ON ' . $db->qn('z.state_code') . ' = ' . $db->qn('s.state_2_code')
 				. ' AND ' . $db->qn('c.id') . ' = ' . $db->qn('s.country_id')
 			);
+
 		$search = $this->getState('filter.search');
 
 		if (!empty($search))
@@ -131,6 +136,13 @@ class RedshopModelZipcodes extends RedshopModelList
 				' OR ' . $db->qn('c.country_name') . 'LIKE' . $db->q('%' . $search . '%')
 				. ')'
 			);
+		}
+
+		$country = $this->getState('filter.country');
+
+		if (!empty($country))
+		{
+			$query->where($db->qn('c.id') . ' = ' . (int) $country);
 		}
 
 		// Add the list ordering clause.

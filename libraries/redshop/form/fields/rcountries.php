@@ -33,8 +33,6 @@ class JFormFieldRcountries extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$options = array();
-
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true)
 			->select($db->qn('id', 'value'))
