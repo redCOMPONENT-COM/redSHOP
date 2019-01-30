@@ -48,8 +48,8 @@ class RedshopModelZipcode extends RedshopModelForm
 
 			if (!$table->bind($data) || !$table->docheck())
 			{
-				$this->setError(JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $data['zipcode']);
-				JError::raiseWarning('', $this->getError());
+				/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $data['zipcode']);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', /** @scrutinizer ignore-deprecated */ $this->getError());
 
 				continue;
 			}
