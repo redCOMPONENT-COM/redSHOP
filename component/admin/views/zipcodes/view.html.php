@@ -17,6 +17,11 @@ defined('_JEXEC') or die;
 class RedshopViewZipcodes extends RedshopViewList
 {
 	/**
+	 * @var  array
+	 */
+	public $filterFormOptions = array('filtersHidden' => false);
+
+	/**
 	 * Column for render published state.
 	 *
 	 * @var    array
@@ -45,7 +50,7 @@ class RedshopViewZipcodes extends RedshopViewList
 			case 'state_code' :
 				return $row->state_name;
 			default:
-				parent::onRenderColumn($config, $index, $row);
+				return parent::onRenderColumn($config, $index, $row);
 		}
 	}
 }

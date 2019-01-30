@@ -8,6 +8,14 @@
                 placeholder="JSEARCH_FILTER"
                 class="js-enter-submits"
         />
+        <field
+                name="country"
+                type="rcountries"
+                class="js-enter-submits form-control"
+                onchange="this.form.submit();"
+        >
+            <option value="0">COM_REDSHOP_SELECT_COUNTRY</option>
+        </field>
     </fields>
     <fields name="list">
         <field
