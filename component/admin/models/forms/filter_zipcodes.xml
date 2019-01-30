@@ -9,12 +9,13 @@
                 class="js-enter-submits"
         />
         <field
-                name="country"
+                name="country_id"
                 type="rcountries"
-                class="js-enter-submits form-control"
-                onchange="this.form.submit();"
-        >
-            <option value="0">COM_REDSHOP_SELECT_COUNTRY</option>
+                label="COM_REDSHOP_COUNTRY"
+                description="COM_REDSHOP_COUNTRY_DESC"
+                class="form-control"
+                onchange="this.form.submit();">
+            <option value="">COM_REDSHOP_SELECT_COUNTRY</option>
         </field>
     </fields>
     <fields name="list">
