@@ -116,45 +116,45 @@ pipeline:
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
 
-    01-Uninstall-56:
-        group: 01-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=01-Uninstall
-            - tests_db=Uninstall
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-01-Uninstall-56
-            - php_version=56
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
-
-    01-Uninstall-71:
-        group: 01-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=01-Uninstall
-            - tests_db=Uninstall
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-01-Uninstall-71
-            - php_version=71
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
+#    01-Uninstall-56:
+#        group: 01-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=01-Uninstall
+#            - tests_db=Uninstall
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-01-Uninstall-56
+#            - php_version=56
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
+#
+#    01-Uninstall-71:
+#        group: 01-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=01-Uninstall
+#            - tests_db=Uninstall
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-01-Uninstall-71
+#            - php_version=71
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
 
     02-Price_Product-56:
         group: 01-tests
@@ -2029,7 +2029,7 @@ services:
             # Base installation
             - sh tests/drone/setup-base-install.sh  $tests_db                       $tests_suite                        $php_versions
             # Stages setup
-            - sh tests/drone/setup-stages.sh        "Uninstall"                     "01-Uninstall"                      $php_versions
+#            - sh tests/drone/setup-stages.sh        "Uninstall"                     "01-Uninstall"                      $php_versions
             - sh tests/drone/setup-stages.sh        "Price_Product"                 "02-Price_Product"                  $php_versions
 #            - sh tests/drone/setup-stages.sh        "ProductNotForSaleOnFrontend"   "03-ProductNotForSaleOnFrontend"    $php_versions
 #            - sh tests/drone/setup-stages.sh        "State"                         "04-State"                          $php_versions
