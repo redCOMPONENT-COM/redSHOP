@@ -782,7 +782,6 @@ final class Reporting extends GenericTask
 			{
 				$attachment['report.html'] = $reportedHtml;
 				$attachment['report.html_url'] = $reportedHtml;
-				$attachment['thumb_url'] = $reportedHtml;
 			}
 
 

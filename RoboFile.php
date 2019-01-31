@@ -330,7 +330,8 @@ class RoboFile extends \Robo\Tasks
 				$this->say('Sending Error Report');
 				if (!empty($errorHtml))
 				{
-					$reportingTask->setUploadedReportHtmlURLs($errorHtml);
+					$reportingTask->setUploadedReportHtmlURLs($errorHtml)
+						->publishReportHtml();
 				}
 
 				$reportingTask->publishBuildReportToSlack()
