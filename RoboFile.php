@@ -291,11 +291,10 @@ class RoboFile extends \Robo\Tasks
 					->setSlackChannel($slackChannel)
 					->setTapLog($errorLog);
 
-				if (!empty($errorImage))
-				{
-					$reportingTask->setImagesToUpload($errorImage)
+				
+					$reportingTask->setFolderImagesToUpload($directory)
 						->publishCloudinaryImages();
-				}
+
 
 				$reportingTask->publishBuildReportToSlack()
 					->run()
