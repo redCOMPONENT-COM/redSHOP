@@ -300,7 +300,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (file_exists($reportFileHtml))
 		{
-			$this->say('Report File Html Prepared');
+			$this->say('Report file report.html Prepared');
 			if ($reportFileHtml)
 			{
 				$errorLog .= file_get_contents($reportFileHtml, null, null, 15);
