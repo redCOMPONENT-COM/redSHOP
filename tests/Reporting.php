@@ -95,6 +95,15 @@ final class Reporting extends GenericTask
 	private $imagesToUpload = array();
 
 	/**
+	 * Array of report.html to upload (local paths)
+	 *
+	 * @var     array
+	 *
+	 * @since   1.0.0
+	 */
+	private $reportHtmlToUpload = array();
+
+	/**
 	 * Local folder of images to upload
 	 *
 	 * @var     string
@@ -103,6 +112,14 @@ final class Reporting extends GenericTask
 	 */
 	private $folderImagesToUpload = '';
 
+	/**
+	 * Local folder of report.html to upload
+	 *
+	 * @var     string
+	 *
+	 * @since   1.0.0
+	 */
+	private $folderReportHtmlToUpload = '';
 
 	/**
 	 * Tap log to report
@@ -278,6 +295,29 @@ final class Reporting extends GenericTask
 	}
 
 	/**
+	 * Sets the local report.html to upload
+	 *
+	 * @param   mixed  $reportHtmlToUpload  Local paths of report.html to upload - Array or String
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0.0
+	 */
+	public function setReportHtmlToUpload($reportHtmlToUpload)
+	{
+		if (is_array($reportHtmlToUpload))
+		{
+			$this->$reportHtmlToUpload = $reportHtmlToUpload;
+
+			return $this;
+		}
+
+		$this->reportHtmlToUpload = array($reportHtmlToUpload);
+
+		return $this;
+	}
+
+	/**
 	 * Sets a folder to search for images to upload
 	 *
 	 * @param   string  $folderImagesToUpload  Local path with images to upload
@@ -289,6 +329,22 @@ final class Reporting extends GenericTask
 	public function setFolderImagesToUpload($folderImagesToUpload)
 	{
 		$this->folderImagesToUpload = $folderImagesToUpload;
+
+		return $this;
+	}
+
+	/**
+	 * Sets a folder to search for report.html to upload
+	 *
+	 * @param   string  $folderReportHtmlToUpload  Local path with report.html to upload
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0.0
+	 */
+	public function folderReportHtmlToUpload($folderReportHtmlToUpload)
+	{
+		$this->folderReportHtmlToUpload = $folderReportHtmlToUpload;
 
 		return $this;
 	}
