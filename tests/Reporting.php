@@ -95,15 +95,6 @@ final class Reporting extends GenericTask
 	private $imagesToUpload = array();
 
 	/**
-	 * Array of report.html to upload (local paths)
-	 *
-	 * @var     array
-	 *
-	 * @since   1.0.0
-	 */
-	private $reportHtmlToUpload = array();
-
-	/**
 	 * Local folder of images to upload
 	 *
 	 * @var     string
@@ -112,14 +103,6 @@ final class Reporting extends GenericTask
 	 */
 	private $folderImagesToUpload = '';
 
-	/**
-	 * Local folder of report.html to upload
-	 *
-	 * @var     string
-	 *
-	 * @since   1.0.0
-	 */
-	private $folderReportHtmlToUpload = '';
 
 	/**
 	 * Tap log to report
@@ -295,29 +278,6 @@ final class Reporting extends GenericTask
 	}
 
 	/**
-	 * Sets the local report.html to upload
-	 *
-	 * @param   mixed  $reportHtmlToUpload  Local paths of report.html to upload - Array or String
-	 *
-	 * @return  $this
-	 *
-	 * @since   1.0.0
-	 */
-	public function setReportHtmlToUpload($imagesToUpload)
-	{
-		if (is_array($reportHtmlToUpload))
-		{
-			$this->$reportHtmlToUpload = $reportHtmlToUpload;
-
-			return $this;
-		}
-
-		$this->reportHtmlToUpload = array($reportHtmlToUpload);
-
-		return $this;
-	}
-
-	/**
 	 * Sets a folder to search for images to upload
 	 *
 	 * @param   string  $folderImagesToUpload  Local path with images to upload
@@ -329,22 +289,6 @@ final class Reporting extends GenericTask
 	public function setFolderImagesToUpload($folderImagesToUpload)
 	{
 		$this->folderImagesToUpload = $folderImagesToUpload;
-
-		return $this;
-	}
-
-	/**
-	 * Sets a folder to search for report.html to upload
-	 *
-	 * @param   string  $folderReportHtmlToUpload  Local path with report.html to upload
-	 *
-	 * @return  $this
-	 *
-	 * @since   1.0.0
-	 */
-	public function folderReportHtmlToUpload($folderReportHtmlToUpload)
-	{
-		$this->folderReportHtmlToUpload = $folderReportHtmlToUpload;
 
 		return $this;
 	}
@@ -490,15 +434,15 @@ final class Reporting extends GenericTask
 	}
 
 	/**
-	 * Task to publish the reported report.html to Cloudinary and store the URLs
+	 * Task to publish the report.html to store the URLs
 	 *
 	 * @return  $this
 	 *
 	 * @since   1.0.0
 	 */
-	public function publishCloudinaryReportHtml()
+	public function publishReportHtml()
 	{
-		return $this->setupTask('publishCloudinaryReportHtml');
+		return $this->setupTask('publishReportHtml');
 	}
 
 	/**
@@ -560,19 +504,6 @@ final class Reporting extends GenericTask
 			$imagesToUpload = array_merge($imagesToUpload, $images);
 		}
 
-		if (!empty($this->folderReportHtmlToUpload))
-		{
-			$reportHtml = $this->searchImagesToUpload($this->folderReportHtmlToUpload);
-
-			if (!$reportHtml)
-			{
-				$this->printTaskError('Provided folder with report.html to upload is not valid: ' . $this->folderReportHtmlToUpload);
-
-				return false;
-			}
-
-			$reportHtmlToUpload = array_merge($reportHtmlToUpload, $reportHtml);
-		}
 
 		foreach ($imagesToUpload as $image)
 		{
@@ -584,26 +515,9 @@ final class Reporting extends GenericTask
 			}
 		}
 
-		foreach ($reportHtmlToUpload as $reportHtml)
-		{
-			if (!in_array(pathinfo($reportHtml, PATHINFO_EXTENSION), array('html')))
-			{
-				$this->printTaskError('Provided file is not a valid local report.html path (html is allowed): ' . $reportHtml);
-
-				return false;
-			}
-		}
-
 		if (empty($imagesToUpload))
 		{
 			$this->printTaskError('No valid local images were provided');
-
-			return false;
-		}
-
-		if (empty($reportHtmlToUpload))
-		{
-			$this->printTaskError('No valid local report.html were provided');
 
 			return false;
 		}
@@ -757,11 +671,17 @@ final class Reporting extends GenericTask
 		$reportedRepository = 'https://github.com/' . $this->githubRepo;
 		$reportedPR = $reportedRepository . '/pull/' . $this->githubPR;
 		$reportedImage = '';
+		$reportedHtml = '';
 		$reportedError = 'Automated testing error in ' . $repositoryName . ' - Pull Request #' . $this->githubPR;
 
 		if (!empty($this->uploadedImagesURLs))
 		{
 			$reportedImage = $this->uploadedImagesURLs[0];
+		}
+
+		if (!empty($this->uploadedReportHtmlURLs))
+		{
+			$reportedHtml = $this->uploadedReportHtmlURLs[0];
 		}
 
 		try
@@ -801,6 +721,12 @@ final class Reporting extends GenericTask
 				$attachment['image_url'] = $reportedImage;
 				$attachment['thumb_url'] = $reportedImage;
 			}
+
+			if (!empty($reportedHtml))
+			{
+				$attachment['report.html'] = $reportedImage;
+			}
+
 
 			$message = array(
 				'text' => $reportedError,
@@ -879,7 +805,7 @@ final class Reporting extends GenericTask
 		while (false !== ($file = readdir($handler)))
 		{
 			// Avoid sending system files or jpg or png files
-			if (!(in_array(pathinfo($file, PATHINFO_EXTENSION), array('html'))))
+			if (!(in_array(pathinfo($file, PATHINFO_BASENAME), array('report.html'))))
 			{
 				continue;
 			}

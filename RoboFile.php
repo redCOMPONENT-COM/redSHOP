@@ -313,8 +313,8 @@ class RoboFile extends \Robo\Tasks
 
 				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
 				{
-					// Avoid sending system files or html files
-					if (!('html' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
+					// Avoid sending system files or png files
+					if (!('report.html' === pathinfo($errorSnapshot, PATHINFO_BASENAME)))
 					{
 						continue;
 					}
@@ -341,8 +341,8 @@ class RoboFile extends \Robo\Tasks
 
 				if (!empty($errorHtml))
 				{
-					$reportingTask->setImagesToUpload($errorHtml)
-						->publishCloudinaryReportHtml();
+					$reportingTask->setUploadedReportHtmlURLs($errorHtml)
+						->publishReportHtml();
 				}
 
 				$reportingTask->publishBuildReportToSlack()
