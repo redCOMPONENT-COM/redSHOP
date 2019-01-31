@@ -15,6 +15,8 @@ $priceDecimal  = Redshop::getConfig()->get('PRICE_DECIMAL', '.');
 $priceThousand = Redshop::getConfig()->get('THOUSAND_SEPERATOR', ',');
 $editor        = JFactory::getEditor();
 $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
+$config = JFactory::getConfig();
+$tz = new \DateTimeZone($config->get('offset'));
 
 $media = RedshopEntityProduct::getInstance($this->detail->product_id)->getMedia();
 
@@ -64,11 +66,35 @@ foreach ($media->getAll() as $mediaItem)
                 }
             });
 
+            $.extend(true, Dropzone.prototype.defaultOptions, {
+                processing: function processing (file) {
+                    var reloading_img = '<div class="image  wait-loading" ><img src="' + redSHOP.RSConfig._('SITE_URL') + '/media/com_redshop/images/reloading.gif" alt="" border="0" ></div>';
+                    $('#general_data > .row').css("opacity",0.2);
+                    $('#general_data').prepend(reloading_img);
+
+                    if (file.previewElement) {
+                        file.previewElement.classList.add("dz-processing");
+                        if (file._removeLink) {
+                            return file._removeLink.textContent = this.options.dictCancelUpload;
+                        }
+                    }
+                },
+
+                success: function success (file) {
+                    $('.wait-loading').remove();
+                    $('#general_data > .row').css("opacity",1);
+
+                    if (file.previewElement) {
+                        return file.previewElement.classList.add("dz-success");
+                    }
+                }
+            });
+
             $("#product_price,#discount_price").inputmask({
                 "alias"             : "numeric",
                 "groupSeparator"    : '<?php echo $priceThousand ?>',
                 "autoGroup"         : true,
-                "digits"            : <?php echo $priceDecimal ?>,
+                "digits"            : '<?php echo $priceDecimal ?>',
                 "digitsOptional"    : false,
                 "rightAlign"        : 0,
                 "autoUnmask"        : true,
@@ -248,8 +274,8 @@ foreach ($media->getAll() as $mediaItem)
 							if ($this->detail->discount_stratdate)
 							{
 								$startDate = is_numeric($this->detail->discount_stratdate) ?
-                                    JFactory::getDate($this->detail->discount_stratdate)->format($calendarFormat)
-                                    : $this->detail->discount_stratdate;
+									date_create_from_format('U', $this->detail->discount_stratdate)->setTimezone($tz)->format($calendarFormat)
+									: $this->detail->discount_stratdate;
 							}
 
                             echo JHtml::_(
@@ -258,7 +284,9 @@ foreach ($media->getAll() as $mediaItem)
                                 'discount_stratdate',
                                 'discount_stratdate',
                                 $calendarFormat,
-                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+                                null,
+								$config->get('offset')
                             );
                             ?>
                         </div>
@@ -271,7 +299,7 @@ foreach ($media->getAll() as $mediaItem)
 							if ($this->detail->discount_enddate)
 							{
 								$endDate = is_numeric($this->detail->discount_enddate) ?
-									JFactory::getDate($this->detail->discount_enddate)->format($calendarFormat)
+									date_create_from_format('U', $this->detail->discount_enddate)->setTimezone($tz)->format($calendarFormat)
 									: $this->detail->discount_enddate;
 							}
 
@@ -281,7 +309,9 @@ foreach ($media->getAll() as $mediaItem)
                                 'discount_enddate',
                                 'discount_enddate',
                                 $calendarFormat,
-                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+                                array('class' => 'form-control', 'size' => '15', 'maxlength' => '19'),
+								null,
+								$config->get('offset')
                             );
                             ?>
                         </div>

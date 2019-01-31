@@ -9,7 +9,6 @@
   "modules": {
     "frontend": [
       "redshop_cart",
-      "redshop_filter",
       "redshop_search"
     ]
   },

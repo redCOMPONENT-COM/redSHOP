@@ -59,7 +59,9 @@ class RedshopViewMass_Discounts extends RedshopViewList
 					return '';
 				}
 
-				return JFactory::getDate($value)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'd-m-Y'));
+				$tz = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
+
+				return date_create_from_format('U', $value)->setTimezone($tz)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'd-m-Y'));
 
 			case 'discount_product':
 				if (empty($value))
