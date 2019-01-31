@@ -75,7 +75,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 ean_number: {
                     required: function () {
-                        return rs("#toggler2").is(":checked") && rs("#ean_number") && rs("#ean_number").val() != '';
+                        return rs("#toggler2").is(":checked") && rs("#ean_number").length > 0;
                     },
                     minlength: 13,
                     maxlength: 13,
@@ -161,6 +161,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 termscondition: Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'),
                 agree: "Please accept our policy",
                 ean_number: {
+                    required: Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED'),
                     minlength: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'),
                     maxlength: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'),
                     decimal: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'),
