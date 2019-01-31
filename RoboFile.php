@@ -328,17 +328,6 @@ class RoboFile extends \Robo\Tasks
 			{
 				// Sends the error report to Slack
 				$this->say('Sending Error Report');
-				$reportingTask = $this->taskReporting()
-					->setCloudinaryCloudName($cloudinaryName)
-					->setCloudinaryApiKey($cloudinaryApiKey)
-					->setCloudinaryApiSecret($cloudinaryApiSecret)
-					->setGithubRepo($githubRepository)
-					->setGithubPR($githubPRNo)
-					->setBuildURL($buildURL . 'display/redirect')
-					->setSlackWebhook($slackWebhook)
-					->setSlackChannel($slackChannel)
-					->setTapLog($errorLog);
-
 				if (!empty($errorHtml))
 				{
 					$reportingTask->setUploadedReportHtmlURLs($errorHtml)
