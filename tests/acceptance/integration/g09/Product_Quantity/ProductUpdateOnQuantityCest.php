@@ -47,8 +47,6 @@ class ProductUpdateOnQuantityCest
 	 */
 	protected  $quantity;
 
-
-
 	public function __construct()
 	{
 		$this->faker           = Faker\Factory::create();
@@ -64,7 +62,6 @@ class ProductUpdateOnQuantityCest
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 100;
 	}
-
 
 	/**
 	 * @param ProductUpdateOnQuantitySteps $I

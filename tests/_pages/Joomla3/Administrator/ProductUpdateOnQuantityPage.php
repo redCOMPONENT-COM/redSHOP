@@ -93,3 +93,4 @@ class ProductUpdateOnQuantityPage extends AdminJ3Page
 	 */
 	public static $message = '#system-message-container';
 }
+
