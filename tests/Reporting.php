@@ -780,7 +780,7 @@ final class Reporting extends GenericTask
 
 			if (!empty($reportedHtml))
 			{
-				$attachment['report.html'] = $reportedImage;
+				$attachment['report.html'] = $reportedHtml;
 			}
 
 
