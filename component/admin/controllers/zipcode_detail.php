@@ -112,7 +112,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 	/**
 	 * Get list state of country
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.2
 	 *
 	 * @return  void
 	 */

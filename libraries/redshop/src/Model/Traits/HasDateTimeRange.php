@@ -11,7 +11,7 @@ namespace Redshop\Model\Traits;
 /**
  * Trait support start_date end_date
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.1.2
  */
 trait HasDateTimeRange
 {
