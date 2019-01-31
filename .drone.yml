@@ -174,7 +174,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0 1'
 
     02-Price_Product-71:
         group: 01-tests
@@ -194,7 +194,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0 1'
 
 #    03-ProductNotForSaleOnFrontend-56:
 #        group: 01-tests
