@@ -266,6 +266,11 @@ class RoboFile extends \Robo\Tasks
 						continue;
 					}
 
+					if (!('report.html' === pathinfo($errorSnapshot, PATHINFO_BASENAME)))
+					{
+						continue;
+					}
+
 					$reportError = true;
 					$errorImage = $directory . '/' . $errorSnapshot;
 				}
@@ -298,46 +303,46 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-		if (file_exists($reportFileHtml))
-		{
-			$this->say('Report file report.html Prepared');
-			if ($reportFileHtml)
-			{
-				$errorLog .= file_get_contents($reportFileHtml, null, null, 15);
-			}
-
-			if (!$errorSelenium)
-			{
-				$handler = opendir($directory);
-				$errorHtml = '';
-
-				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
-				{
-					// Avoid sending system files or png files
-					if (!('report.html' === pathinfo($errorSnapshot, PATHINFO_BASENAME)))
-					{
-						continue;
-					}
-
-					$reportError = true;
-					$errorHtml = $directory . '/' . $errorSnapshot;
-				}
-			}
-
-			if ($reportError || $errorSelenium)
-			{
-				// Sends the error report to Slack
-				$this->say('Sending Error Report');
-				if (!empty($errorHtml))
-				{
-					$reportingTask->setUploadedReportHtmlURLs($errorHtml)
-						->publishReportHtml();
-				}
-
-				$reportingTask->publishBuildReportToSlack()
-					->run()
-					->stopOnFail();
-			}
-		}
+//		if (file_exists($reportFileHtml))
+//		{
+//			$this->say('Report file report.html Prepared');
+//			if ($reportFileHtml)
+//			{
+//				$errorLog .= file_get_contents($reportFileHtml, null, null, 15);
+//			}
+//
+//			if (!$errorSelenium)
+//			{
+//				$handler = opendir($directory);
+//				$errorHtml = '';
+//
+//				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
+//				{
+//					// Avoid sending system files or png files
+//					if (!('report.html' === pathinfo($errorSnapshot, PATHINFO_BASENAME)))
+//					{
+//						continue;
+//					}
+//
+//					$reportError = true;
+//					$errorHtml = $directory . '/' . $errorSnapshot;
+//				}
+//			}
+//
+//			if ($reportError || $errorSelenium)
+//			{
+//				// Sends the error report to Slack
+//				$this->say('Sending Error Report');
+//				if (!empty($errorHtml))
+//				{
+//					$reportingTask->setUploadedReportHtmlURLs($errorHtml)
+//						->publishReportHtml();
+//				}
+//
+//				$reportingTask->publishBuildReportToSlack()
+//					->run()
+//					->stopOnFail();
+//			}
+//		}
 	}
 }
