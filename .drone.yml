@@ -84,6 +84,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
+            - mv tests/Reporting.php vendor/joomla-projects/joomla-testing-robo/src/Tasks
 
     00-setup-71:
         group: 00-setup
@@ -114,6 +115,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
+            - mv tests/Reporting.php vendor/joomla-projects/joomla-testing-robo/src/Tasks
 
     01-Uninstall-56:
         group: 01-tests
