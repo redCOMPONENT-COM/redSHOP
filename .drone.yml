@@ -176,25 +176,25 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0 1'
 
-    02-Price_Product-71:
-        group: 01-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=02-Price_Product
-            - tests_db=Price_Product
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-02-Price_Product-71
-            - php_version=71
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0 1'
+#    02-Price_Product-71:
+#        group: 01-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=02-Price_Product
+#            - tests_db=Price_Product
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-02-Price_Product-71
+#            - php_version=71
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0 1'
 
 #    03-ProductNotForSaleOnFrontend-56:
 #        group: 01-tests
