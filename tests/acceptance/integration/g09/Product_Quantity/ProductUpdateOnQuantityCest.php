@@ -61,34 +61,34 @@ class ProductUpdateOnQuantityCest
 		$this->total               = "DKK 500,00";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 50;
-        $this->paymentMethod       = 'RedSHOP - Bank Transfer Payment';
-        $this->customerInformation = array(
-            "email"      => "test@test" . rand() . ".com",
-            "firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
-            "lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
-            "address"    => "Some Place in the World",
-            "postalCode" => "23456",
-            "city"       => "Bangalore",
-            "country"    => "India",
-            "state"      => "Karnataka",
-            "phone"      => "8787878787"
-        );
-        //configuration enable one page checkout
-        $this->addcart          = 'product';
-        $this->allowPreOrder    = 'yes';
-        $this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-        $this->enabldAjax       = 'no';
-        $this->defaultCart      = null;
-        $this->buttonCartLead   = 'Back to current view';
-        $this->onePage          = 'yes';
-        $this->showShippingCart = 'no';
-        $this->attributeImage   = 'no';
-        $this->quantityChange   = 'no';
-        $this->quantityInCart   = 0;
-        $this->minimunOrder     = 0;
-        $this->enableQuation    = 'no';
-        $this->onePageNo        = 'no';
-        $this->onePageYes       = 'yes';
+		$this->paymentMethod       = 'RedSHOP - Bank Transfer Payment';
+		$this->customerInformation = array(
+			"email"      => "test@test" . rand() . ".com",
+			"firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
+			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
+			"address"    => "Some Place in the World",
+			"postalCode" => "23456",
+			"city"       => "Bangalore",
+			"country"    => "India",
+			"state"      => "Karnataka",
+			"phone"      => "8787878787"
+		);
+		//configuration enable one page checkout
+		$this->addcart          = 'product';
+		$this->allowPreOrder    = 'yes';
+		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
+		$this->enabldAjax       = 'no';
+		$this->defaultCart      = null;
+		$this->buttonCartLead   = 'Back to current view';
+		$this->onePage          = 'yes';
+		$this->showShippingCart = 'no';
+		$this->attributeImage   = 'no';
+		$this->quantityChange   = 'no';
+		$this->quantityInCart   = 0;
+		$this->minimunOrder     = 0;
+		$this->enableQuation    = 'no';
+		$this->onePageNo        = 'no';
+		$this->onePageYes       = 'yes';
 	}
 
 	/**
@@ -117,9 +117,9 @@ class ProductUpdateOnQuantityCest
 	 */
 	public function addToCartWithProductUpdateQuantity(ProductUpdateOnQuantitySteps $I,$scenario)
 	{
-        $I = new \AcceptanceTester\ConfigurationSteps($scenario);
-        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-            $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -128,7 +128,7 @@ class ProductUpdateOnQuantityCest
 		$I->wantTo('I Want to add product inside the category');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->nameProduct, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
-        $I->wantTo('setup up one page checkout at admin');
+		$I->wantTo('setup up one page checkout at admin');
 
 		$I->wantToTest("Review product");
 		$I = new OrderManagerJoomla3Steps($scenario);
@@ -136,28 +136,28 @@ class ProductUpdateOnQuantityCest
 
 		$I = new ProductUpdateOnQuantitySteps($scenario);
 		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$this->total,$this->customerInformation);
-        $I->wantTo('Check Order');
-        $I = new \AcceptanceTester\ConfigurationSteps($scenario);
-        $I->checkPriceTotal($this->randomProductPrice, $this->customerInformation['firstName'], $this->customerInformation['firstName'],$this->customerInformation['lastName'], $this->nameProduct, $this->categoryName, $this->paymentMethod);
+		$I->wantTo('Check Order');
+		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
+		$I->checkPriceTotal($this->randomProductPrice, $this->customerInformation['firstName'], $this->customerInformation['firstName'],$this->customerInformation['lastName'], $this->nameProduct, $this->categoryName, $this->paymentMethod);
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     * @param $scenario
-     * @throws Exception
-     */
-    public function clearAllData(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Deletion of Order Total Discount in Administrator');
-        $I = new OrderManagerJoomla3Steps($scenario);
-        $I->deleteOrder( $this->customerInformation['firstName']);
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 */
+	public function clearAllData(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Deletion of Order Total Discount in Administrator');
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->deleteOrder( $this->customerInformation['firstName']);
 
-        $I->wantTo('Deletion Product in Administrator');
-        $I = new ProductManagerJoomla3Steps($scenario);
-        $I->deleteProduct($this->nameProduct);
+		$I->wantTo('Deletion Product in Administrator');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->nameProduct);
 
-        $I->wantTo('Deletion Category in Administrator');
-        $I = new CategoryManagerJoomla3Steps($scenario);
-        $I->deleteCategory($this->categoryName);
-    }
+		$I->wantTo('Deletion Category in Administrator');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
+	}
 }
