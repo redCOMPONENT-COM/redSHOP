@@ -231,7 +231,7 @@ class RoboFile extends \Robo\Tasks
 		$errorSelenium = true;
 		$reportError = false;
 		$reportFile = $directory . '/selenium.log';
-		$reportFileHtml = $directory . '/selenium.log';
+//		$reportFileHtml = $directory . '/selenium.log';
 		$errorLog = 'Selenium log in ' . $directory . ':' . chr(10). chr(10);
 		$this->say('Starting to Prepare Build Report');
 
@@ -240,7 +240,7 @@ class RoboFile extends \Robo\Tasks
 		if (file_exists($directory) && $handler = opendir($directory))
 		{
 			$reportFile = $directory . '/report.tap.log';
-			$reportFileHtml = $directory . '/report.html';
+//			$reportFileHtml = $directory . '/report.html';
 			$errorLog = 'Codeception tap log in ' . $directory . ':' . chr(10). chr(10);
 			$errorSelenium = false;
 		}
@@ -291,8 +291,8 @@ class RoboFile extends \Robo\Tasks
 					->setSlackChannel($slackChannel)
 					->setTapLog($errorLog);
 
-				
-					$reportingTask->setFolderImagesToUpload($directory)
+
+					$reportingTask->setFolderImagesToUpload($errorImage)
 						->publishCloudinaryImages();
 
 
