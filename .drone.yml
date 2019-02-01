@@ -54,7 +54,6 @@ pipeline:
             - chown -R www-data:www-data .
             # Touching temp file to start the setup of each installation (in each PHP version - via services)
             - touch tests/.setup.tmp
-            - mv tests/Reporting.php vendor/joomla-projects/joomla-testing-robo/src/Tasks
 
     00-setup-56:
         group: 00-setup
