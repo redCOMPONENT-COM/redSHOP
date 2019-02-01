@@ -104,4 +104,20 @@ class ProductUpdateOnQuantityCest
 		$I = new ProductUpdateOnQuantitySteps($scenario);
 		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$this->total);
 	}
+
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @throws Exception
+     */
+    public function clearAllData(AcceptanceTester $I, $scenario)
+    {
+        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('Delete Product  in Administrator');
+        $I->deleteProduct($this->nameProduct);
+
+        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+        $I->wantTo('Delete Category in Administrator');
+        $I->deleteCategory($this->categoryName);
+    }
 }
