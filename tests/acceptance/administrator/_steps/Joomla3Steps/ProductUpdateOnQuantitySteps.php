@@ -119,7 +119,6 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
         {
             $I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
         }
-
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
         $I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
         $I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
