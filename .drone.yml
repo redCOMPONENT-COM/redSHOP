@@ -2033,7 +2033,7 @@ pipeline:
         # Waits until Chromedriver is up and running
         - while ! nc -z localhost 9515; do sleep 1; done
         # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/administrator/__disabled 0 0'
+        - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/__disabled 0 0'
 
     49-disabled-71:
         group: 16-tests
