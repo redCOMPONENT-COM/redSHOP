@@ -117,9 +117,6 @@ class ProductUpdateOnQuantityCest
 	 */
 	public function addToCartWithProductUpdateQuantity(ProductUpdateOnQuantitySteps $I,$scenario)
 	{
-        $I->wantTo('Enable PayPal');
-        $I->enablePlugin('PayPal');
-
         $I = new \AcceptanceTester\ConfigurationSteps($scenario);
         $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
             $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
@@ -152,12 +149,11 @@ class ProductUpdateOnQuantityCest
         $I = new OrderManagerJoomla3Steps($scenario);
         $I->deleteOrder( $this->customerInformation['firstName']);
 
-        $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('Delete Product  in Administrator');
+        $I->wantTo('Deletion Product in Administrator');
+        $I = new ProductManagerJoomla3Steps($scenario);
         $I->deleteProduct($this->nameProduct);
-
-        $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
-        $I->wantTo('Delete Category in Administrator');
-        $I->deleteCategory($this->categoryName);;
+        $I->wantTo('Deletion Category in Administrator');
+        $I = new CategoryManagerJoomla3Steps($scenario);
+        $I->deleteCategory($this->categoryName);
     }
 }

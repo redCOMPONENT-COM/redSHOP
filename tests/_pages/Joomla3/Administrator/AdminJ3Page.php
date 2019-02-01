@@ -397,7 +397,7 @@ abstract class AdminJ3Page
 	public static $paymentId = ['rs_payment_paypal'];
 
 	/**
-	 * @var array
+	 * @var string
 	 */
 	public static $bankTransfer = "//input[@id='rs_payment_banktransfer0']";
 
