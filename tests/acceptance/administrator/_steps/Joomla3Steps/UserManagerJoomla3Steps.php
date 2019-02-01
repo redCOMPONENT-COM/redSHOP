@@ -468,4 +468,36 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
             $I->see($name, \UserManagerJoomla3Page::$userJoomla);
         }
     }
+
+    public function checkPlaceOder($nameUser,$nameProduct,$quantity)
+    {
+        $I = $this;
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->searchUser($nameUser);
+        $I->see($nameUser, \UserManagerJoomla3Page::$firstResultRow);
+        $I->click(\UserManagerJoomla3Page::$selectFirst);
+        $I->click(\UserManagerJoomla3Page::$editButton);
+        $I->click(\UserManagerJoomla3Page::$btnPlaceOder);
+
+        $I->see($nameUser);
+        $I->wait(2);
+        $userOrderPage = new \OrderManagerPage();
+        $I->waitForElement(\OrderManagerPage::$applyUser, 30);
+        $I->executeJS("jQuery('.button-apply').click()");
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
+        $I->scrollTo(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
+        $I->click(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
+        $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
+        $I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
+        $I->click($userOrderPage->returnSearch($nameProduct));
+
+        $I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
+
+        $I->click(\OrderManagerPage::$buttonSave);
+        $I->waitForElement(\OrderManagerPage::$close, 30);
+        $I->waitForText(\OrderManagerPage::$buttonClose, 10, \OrderManagerPage::$close);
+    }
 }
