@@ -469,6 +469,15 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         }
     }
 
+    /**
+     * Function to create oder on User detail
+     *
+     *
+     * @param $nameUser
+     * @param $nameProduct
+     * @param $quantity
+     * @throws \Exception
+     */
     public function checkPlaceOder($nameUser,$nameProduct,$quantity)
     {
         $I = $this;
@@ -493,7 +502,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
         $I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
         $I->click($userOrderPage->returnSearch($nameProduct));
-
         $I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
 
         $I->click(\OrderManagerPage::$buttonSave);
