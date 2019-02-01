@@ -61,6 +61,34 @@ class ProductUpdateOnQuantityCest
 		$this->total           = "DKK 1.000,00";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 100;
+
+        $this->customerInformation = array(
+            "email"      => "test@test" . rand() . ".com",
+            "firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
+            "lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
+            "address"    => "Some Place in the World",
+            "postalCode" => "23456",
+            "city"       => "Bangalore",
+            "country"    => "India",
+            "state"      => "Karnataka",
+            "phone"      => "8787878787"
+        );
+        //configuration enable one page checkout
+        $this->addcart          = 'product';
+        $this->allowPreOrder    = 'yes';
+        $this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
+        $this->enabldAjax       = 'no';
+        $this->defaultCart      = null;
+        $this->buttonCartLead   = 'Back to current view';
+        $this->onePage          = 'yes';
+        $this->showShippingCart = 'no';
+        $this->attributeImage   = 'no';
+        $this->quantityChange   = 'no';
+        $this->quantityInCart   = 0;
+        $this->minimunOrder     = 0;
+        $this->enableQuation    = 'no';
+        $this->onePageNo        = 'no';
+        $this->onePageYes       = 'yes';
 	}
 
 	/**
@@ -89,6 +117,13 @@ class ProductUpdateOnQuantityCest
 	 */
 	public function addToCartWithProductUpdateQuantity(ProductUpdateOnQuantitySteps $I,$scenario)
 	{
+        $I->wantTo('Enable PayPal');
+        $I->enablePlugin('PayPal');
+
+        $I = new \AcceptanceTester\ConfigurationSteps($scenario);
+        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+            $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
@@ -96,13 +131,14 @@ class ProductUpdateOnQuantityCest
 		$I->wantTo('I Want to add product inside the category');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->nameProduct, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
+        $I->wantTo('setup up one page checkout at admin');
 
 		$I->wantToTest("Review product");
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->checkReview($this->nameProduct);
 
 		$I = new ProductUpdateOnQuantitySteps($scenario);
-		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$this->total);
+		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$this->total,$this->customerInformation);
 	}
 
     /**
@@ -112,12 +148,16 @@ class ProductUpdateOnQuantityCest
      */
     public function clearAllData(AcceptanceTester $I, $scenario)
     {
+        $I->wantTo('Deletion of Order Total Discount in Administrator');
+        $I = new OrderManagerJoomla3Steps($scenario);
+        $I->deleteOrder( $this->customerInformation['firstName']);
+
         $I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
         $I->wantTo('Delete Product  in Administrator');
         $I->deleteProduct($this->nameProduct);
 
         $I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Delete Category in Administrator');
-        $I->deleteCategory($this->categoryName);
+        $I->deleteCategory($this->categoryName);;
     }
 }
