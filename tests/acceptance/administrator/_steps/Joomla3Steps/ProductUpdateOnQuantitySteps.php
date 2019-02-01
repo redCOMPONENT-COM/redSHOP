@@ -112,7 +112,6 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
         $I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
         $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
-
         try
         {
             $I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
