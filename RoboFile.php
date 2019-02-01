@@ -340,7 +340,7 @@ class RoboFile extends \Robo\Tasks
 
 				if (!empty($error))
 				{
-					$reportingTask->setFolderImagesToUpload($error)
+					$reportingTask->setUploadedImagesURLs($error)
 						->publishCloudinaryImages();
 				}
 
