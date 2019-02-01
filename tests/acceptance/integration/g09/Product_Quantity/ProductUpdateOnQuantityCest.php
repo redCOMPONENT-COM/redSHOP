@@ -49,19 +49,19 @@ class ProductUpdateOnQuantityCest
 
 	public function __construct()
 	{
-		$this->faker           = Faker\Factory::create();
+		$this->faker               = Faker\Factory::create();
 
-		$this->menuItem        = 'Cart';
-		$this->menuCategory    = 'redSHOP';
+		$this->menuItem            = 'Cart';
+		$this->menuCategory        = 'redSHOP';
 
-		$this->nameProduct     = $this->faker->bothify('Product Name ?##?');;
-		$this->quantity        = 10;
-		$this->categoryName    = $this->faker->bothify('Category Name ?##?');
-		$this->subtotal        = "DKK 1.000,00";
-		$this->total           = "DKK 1.000,00";
+		$this->nameProduct         = $this->faker->bothify('Product Name ?##?');;
+		$this->quantity            = 10;
+		$this->categoryName        = $this->faker->bothify('Category Name ?##?');
+		$this->subtotal            = "DKK 500,00";
+		$this->total               = "DKK 500,00";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice  = 100;
-
+		$this->randomProductPrice  = 50;
+        $this->paymentMethod       = 'RedSHOP - Bank Transfer Payment';
         $this->customerInformation = array(
             "email"      => "test@test" . rand() . ".com",
             "firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
@@ -136,6 +136,9 @@ class ProductUpdateOnQuantityCest
 
 		$I = new ProductUpdateOnQuantitySteps($scenario);
 		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$this->total,$this->customerInformation);
+        $I->wantTo('Check Order');
+        $I = new \AcceptanceTester\ConfigurationSteps($scenario);
+        $I->checkPriceTotal($this->randomProductPrice, $this->customerInformation['firstName'], $this->customerInformation['firstName'],$this->customerInformation['lastName'], $this->nameProduct, $this->categoryName, $this->paymentMethod);
 	}
 
     /**
@@ -152,6 +155,7 @@ class ProductUpdateOnQuantityCest
         $I->wantTo('Deletion Product in Administrator');
         $I = new ProductManagerJoomla3Steps($scenario);
         $I->deleteProduct($this->nameProduct);
+
         $I->wantTo('Deletion Category in Administrator');
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->deleteCategory($this->categoryName);
