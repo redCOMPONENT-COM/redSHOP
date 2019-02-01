@@ -110,8 +110,6 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
         $I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
         $I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
-
-        $I->click('');
         $I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
         $I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 
