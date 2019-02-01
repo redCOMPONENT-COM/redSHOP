@@ -230,8 +230,8 @@ class RoboFile extends \Robo\Tasks
 	{
 		$errorSelenium = true;
 		$reportError = false;
+//		$reportFile = $directory . '/selenium.log';
 		$reportFile = $directory . '/selenium.log';
-		$reportFileHtml = $directory . '/selenium.log';
 		$errorLog = 'Selenium log in ' . $directory . ':' . chr(10). chr(10);
 		$this->say('Starting to Prepare Build Report');
 
@@ -239,96 +239,35 @@ class RoboFile extends \Robo\Tasks
 		// Loop through Codeception snapshots
 		if (file_exists($directory) && $handler = opendir($directory))
 		{
-			$reportFile = $directory . '/report.tap.log';
-			$reportFileHtml = $directory . '/report.html';
+//			$reportFile = $directory . '/report.tap.log';
+			$reportFile = $directory . '/';
 			$errorLog = 'Codeception tap log in ' . $directory . ':' . chr(10). chr(10);
 			$errorSelenium = false;
 		}
 
-		if (file_exists($reportFile))
-		{
-			$this->say('Report File Prepared');
-			if ($reportFile)
-			{
-				$errorLog .= file_get_contents($reportFile, null, null, 15);
-			}
-
-			if (!$errorSelenium)
-			{
-				$handler = opendir($directory);
-				$errorImage = '';
-				$errorHtml = '';
-
-				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
-				{
-					// Avoid sending system files or html files
-					if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
-					{
-						continue;
-					}
-
-					if (!('report.html' === pathinfo($errorSnapshot, PATHINFO_BASENAME)))
-					{
-						continue;
-					}
-
-					$reportError = true;
-					$errorImage = $directory . '/' . $errorSnapshot;
-					$errorHtml = $directory . '/' . $errorSnapshot;
-				}
-			}
-
-			if ($reportError || $errorSelenium)
-			{
-				// Sends the error report to Slack
-				$this->say('Sending Error Report');
-				$reportingTask = $this->taskReporting()
-					->setCloudinaryCloudName($cloudinaryName)
-					->setCloudinaryApiKey($cloudinaryApiKey)
-					->setCloudinaryApiSecret($cloudinaryApiSecret)
-					->setGithubRepo($githubRepository)
-					->setGithubPR($githubPRNo)
-					->setBuildURL($buildURL . 'display/redirect')
-					->setSlackWebhook($slackWebhook)
-					->setSlackChannel($slackChannel)
-					->setTapLog($errorLog);
-
-
-					$reportingTask->setImagesToUpload($errorImage)
-						->publishCloudinaryImages();
-					$reportingTask->setFolderImagesToUpload($errorHtml)
-					->publishCloudinaryImages();
-
-
-				$reportingTask->publishBuildReportToSlack()
-					->run()
-					->stopOnFail();
-			}
-		}
-
-//		if (file_exists($reportFileHtml))
+//		if (file_exists($reportFile))
 //		{
-//			$this->say('Report file report.html Prepared');
-//			if ($reportFileHtml)
+//			$this->say('Report File Prepared');
+//			if ($reportFile)
 //			{
-//				$errorLog .= file_get_contents($reportFileHtml, null, null, 15);
+//				$errorLog .= file_get_contents($reportFile, null, null, 15);
 //			}
 //
 //			if (!$errorSelenium)
 //			{
 //				$handler = opendir($directory);
-//				$errorHtml = '';
+//				$errorImage = '';
 //
 //				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
 //				{
-//					// Avoid sending system files or png files
-//					if (!('report.html' === pathinfo($errorSnapshot, PATHINFO_BASENAME)))
+//					// Avoid sending system files or html files
+//					if (!('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
 //					{
 //						continue;
 //					}
 //
 //					$reportError = true;
-//					$errorHtml = $directory . '/' . $errorSnapshot;
+//					$errorImage = $directory . '/' . $errorSnapshot;
 //				}
 //			}
 //
@@ -347,16 +286,68 @@ class RoboFile extends \Robo\Tasks
 //					->setSlackChannel($slackChannel)
 //					->setTapLog($errorLog);
 //
-//				if (!empty($errorHtml))
-//				{
-//					$reportingTask->setFolderImagesToUpload($errorHtml)
+//
+//					$reportingTask->setImagesToUpload($errorImage)
 //						->publishCloudinaryImages();
-//				}
+//
 //
 //				$reportingTask->publishBuildReportToSlack()
 //					->run()
 //					->stopOnFail();
 //			}
 //		}
+
+		if (file_exists($reportFile))
+		{
+			$this->say('Report File Prepared');
+			if ($reportFile)
+			{
+				$errorLog .= file_get_contents($reportFile, null, null, 15);
+			}
+
+			if (!$errorSelenium)
+			{
+				$handler = opendir($directory);
+				$error = '';
+
+				while (!$reportError && false !== ($errorSnapshot = readdir($handler)))
+				{
+					// Avoid sending system files or png files
+					if (!('report.html' === pathinfo($errorSnapshot, PATHINFO_BASENAME)) && !('png' === pathinfo($errorSnapshot, PATHINFO_EXTENSION)))
+					{
+						continue;
+					}
+
+					$reportError = true;
+					$error = $directory . '/' . $errorSnapshot;
+				}
+			}
+
+			if ($reportError || $errorSelenium)
+			{
+				// Sends the error report to Slack
+				$this->say('Sending Error Report');
+				$reportingTask = $this->taskReporting()
+					->setCloudinaryCloudName($cloudinaryName)
+					->setCloudinaryApiKey($cloudinaryApiKey)
+					->setCloudinaryApiSecret($cloudinaryApiSecret)
+					->setGithubRepo($githubRepository)
+					->setGithubPR($githubPRNo)
+					->setBuildURL($buildURL . 'display/redirect')
+					->setSlackWebhook($slackWebhook)
+					->setSlackChannel($slackChannel)
+					->setTapLog($errorLog);
+
+				if (!empty($error))
+				{
+					$reportingTask->setFolderImagesToUpload($error)
+						->publishCloudinaryImages();
+				}
+
+				$reportingTask->publishBuildReportToSlack()
+					->run()
+					->stopOnFail();
+			}
+		}
 	}
 }
