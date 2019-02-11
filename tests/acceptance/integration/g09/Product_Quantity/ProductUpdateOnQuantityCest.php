@@ -57,8 +57,6 @@ class ProductUpdateOnQuantityCest
 		$this->nameProduct         = $this->faker->bothify('Product Name ?##?');;
 		$this->quantity            = 10;
 		$this->categoryName        = $this->faker->bothify('Category Name ?##?');
-		$this->subtotal            = "DKK 500,00";
-		$this->total               = "DKK 500,00";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 50;
 		$this->paymentMethod       = 'RedSHOP - Bank Transfer Payment';
@@ -130,12 +128,28 @@ class ProductUpdateOnQuantityCest
 		$I->createProductSaveClose($this->nameProduct, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 		$I->wantTo('setup up one page checkout at admin');
 
+
+        $I->amOnPage(\ConfigurationPage::$URL);
+        $currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+        $decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+        $numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+        $numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+        $NumberZero = null;
+        for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+        {
+            $NumberZero = $NumberZero."0";
+        }
+
+        $quantity = (int)$this->quantity;
+        $priceTotal = $currencySymbol.''.$this->randomProductPrice*$quantity.$decimalSeparator.$NumberZero;
+        $priceTotalWithName = 'Total: '.$currencySymbol.' '.$this->randomProductPrice *$quantity.$decimalSeparator.$NumberZero;
+
 		$I->wantToTest("Review product");
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->checkReview($this->nameProduct);
 
 		$I = new ProductUpdateOnQuantitySteps($scenario);
-		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$this->total,$this->customerInformation);
+		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$priceTotal,$priceTotalWithName,$this->customerInformation);
 		$I->wantTo('Check Order');
 		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
 		$I->checkPriceTotal($this->randomProductPrice, $this->customerInformation['firstName'], $this->customerInformation['firstName'],$this->customerInformation['lastName'], $this->nameProduct, $this->categoryName, $this->paymentMethod);

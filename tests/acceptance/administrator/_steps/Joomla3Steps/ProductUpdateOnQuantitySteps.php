@@ -50,18 +50,16 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->wantTo("Open the menu types iframe");
 		$I->click(ProductUpdateOnQuantityPage::$buttonSelect);
 		$I->waitForElement(ProductUpdateOnQuantityPage::$menuTypeModal, 5);
-		$I->wait(1);
 		$I->switchToIFrame("Menu Item Type");
 
 		$I->wantTo("Open the menu category: $menuCategory");
 
 		// Open the category
-		$I->wait(1);
 		$I->waitForElement(ProductUpdateOnQuantityPage::getMenuCategory($menuCategory), 5);
 		$I->click(ProductUpdateOnQuantityPage::getMenuCategory($menuCategory));
 
 		$I->wantTo("Choose the menu item type: $menuItem");
-		$I->wait(1);
+		$I->wait(0.5);
 		$I->waitForElement(ProductUpdateOnQuantityPage::returnMenuItem($menuItem),5);
 		$I->click(ProductUpdateOnQuantityPage::returnMenuItem($menuItem));
 		$I->wantTo('I switch back to the main window');
@@ -83,7 +81,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 	 * @param $customerInformation
 	 * @throws \Exception
 	 */
-	public function checkProductUpdateQuantity($nameProduct,$quantity,$menuItem,$total,$customerInformation)
+	public function checkProductUpdateQuantity($nameProduct,$quantity,$menuItem,$priceProduct,$total,$customerInformation)
 	{
 		$I = $this;
 		$I ->see($nameProduct);
@@ -112,7 +110,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->wait(1);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-		$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->waitForText($priceProduct, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		try
