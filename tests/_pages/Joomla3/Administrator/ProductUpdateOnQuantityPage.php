@@ -46,7 +46,7 @@ class ProductUpdateOnQuantityPage extends AdminJ3Page
 	/**
 	 * @var   string
 	 */
-	public static $buttonSelect = "//button[@title='Select']";
+	public static $buttonSelect = "Select";
 
 	/**
 	 * @var string
