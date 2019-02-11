@@ -95,18 +95,18 @@ class PlgRedshop_ExportNewsletter_Subscriber extends AbstractExportPlugin
 	{
 		 return  $this->db->getQuery(true)
 			->select(
-				array('ns.subscription_id',
+				 array('ns.subscription_id',
 					'ns.newsletter_id',
 					'ns.user_id',
 					'ns.name',
 					'ns.email',
 					'n.name AS newsletter',
 					'ns.date'
-				)
-			)
+				 )
+			 )
 			->from($this->db->qn('#__redshop_newsletter_subscription', 'ns'))
-			->leftJoin($this->db->qn('#__redshop_newsletter', 'n') . 'ON ns.newsletter_id=n.newsletter_id');
-
+			->leftJoin($this->db->qn('#__redshop_newsletter', 'n') . 'ON ns.newsletter_id=n.newsletter_id')
+			->order($this->db->qn('ns.subscription_id'));
 	}
 
 	/**
