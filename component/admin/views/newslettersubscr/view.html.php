@@ -32,6 +32,7 @@ class RedshopViewNewslettersubscr extends RedshopViewAdmin
 	{
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();
+		$lists    = array();
 
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR'));
 
