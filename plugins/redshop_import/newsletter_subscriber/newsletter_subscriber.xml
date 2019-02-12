@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="redshop_import" method="upgrade">
     <name>PLG_REDSHOP_IMPORT_NEWSLETTER_SUBSCRIBER</name>
-    <version>1.0.0</version>
-    <redshop>2.0.0</redshop>
+    <version>2.1.3</version>
+    <redshop>2.1.3</redshop>
     <creationDate>January 2017</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>

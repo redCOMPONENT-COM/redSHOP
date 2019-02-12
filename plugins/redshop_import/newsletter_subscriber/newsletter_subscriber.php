@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,6 +43,7 @@ class PlgRedshop_ImportNewsletter_Subscriber extends AbstractImportPlugin
 	{
 		\Redshop\Helper\Ajax::validateAjaxRequest();
 		$newsletter = $this->getNewsletters();
+		$configs    = array();
 
 		$configs[] = '<div class="form-group">
 			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_IMPORT_NEWSLETTER_SUBSCRIBER_LABLE') . '</label>
@@ -77,7 +78,7 @@ class PlgRedshop_ImportNewsletter_Subscriber extends AbstractImportPlugin
 	/**
 	 * Method for get table object.
 	 *
-	 * @return  \JTable
+	 * @return  \JTable|boolean
 	 *
 	 * @since   1.0.0
 	 */
@@ -124,7 +125,7 @@ class PlgRedshop_ImportNewsletter_Subscriber extends AbstractImportPlugin
 	/**
 	 * Get newsletters.
 	 *
-	 * @return  object
+	 * @return  mixed
 	 *
 	 * @since   1.0.0
 	 */
