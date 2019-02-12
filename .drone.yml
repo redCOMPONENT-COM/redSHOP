@@ -1979,41 +1979,81 @@ pipeline:
         group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
-        - tests_user=admin
-        - tests_suite=48-Product_Quantity
-        - tests_db=Product_Quantity
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-48-Product_Quantity-56
-        - php_version=56
+            - tests_user=admin
+            - tests_suite=48-Product_Quantity
+            - tests_db=Product_Quantity
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-48-Product_Quantity-56
+            - php_version=56
         commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-        # Waits until Chromedriver is up and running
-        - while ! nc -z localhost 9515; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Product_Quantity 0 0'
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Product_Quantity 0 0'
 
     48-Product_Quantity-71:
         group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
-        - tests_user=admin
-        - tests_suite=48-Product_Quantity
-        - tests_db=Product_Quantity
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-48-Product_Quantity-71
-        - php_version=71
+            - tests_user=admin
+            - tests_suite=48-Product_Quantity
+            - tests_db=Product_Quantity
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-48-Product_Quantity-71
+            - php_version=71
         commands:
-        # Regular entry point
-        - /entrypoint.sh &
-        # Performs test after ensuring that the scenario has been fully set up
-        - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-        # Waits until Chromedriver is up and running
-        - while ! nc -z localhost 9515; do sleep 1; done
-        # Performs test
-        - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Product_Quantity 0 0'
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Product_Quantity 0 0'
+
+    49-disabled-56:
+        group: 16-tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+            - tests_user=admin
+            - tests_suite=49-disabled
+            - tests_db=disabled
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-49-disabled-56
+            - php_version=56
+        commands:
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/__disabled 0 0'
+
+    49-disabled-71:
+        group: 16-tests
+        image: redwebaps/testbox-chromedriver:2.38
+        environment:
+            - tests_user=admin
+            - tests_suite=49-disabled
+            - tests_db=disabled
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-49-disabled-71
+            - php_version=71
+        commands:
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/__disabled 0 0'
 
     slack:
         image: plugins/slack
@@ -2116,6 +2156,6 @@ services:
             - sh tests/drone/setup-stages.sh        "ProductManagement"             "46-ProductManagement"              $php_versions
             - sh tests/drone/setup-stages.sh        "CouponVoucherMixCheckout"      "47-CouponVoucherMixCheckout"       $php_versions
             - sh tests/drone/setup-stages.sh        "Product_Quantity"              "48-Product_Quantity"               $php_versions
-
+            - sh tests/drone/setup-stages.sh        "disabled"                      "49-disabled"                       $php_versions
 branches:
     exclude: [ crowdin ]
