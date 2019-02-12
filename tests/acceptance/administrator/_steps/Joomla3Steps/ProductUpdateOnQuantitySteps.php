@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace AcceptanceTester;
-use ProductUpdateOnQuantityPage;
+use AdminJ3Page;
 
 /**
  * Class ProductUpdateOnQuantitySteps
@@ -32,42 +32,42 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->wantTo("I open the menus page");
-		$I->amOnPage(ProductUpdateOnQuantityPage::$menuItemURL);
-		$I->waitForText(ProductUpdateOnQuantityPage::$menuTitle, 5, array('css' => 'H1'));
+		$I->amOnPage(AdminJ3Page::$menuItemURL);
+		$I->waitForText(AdminJ3Page::$menuTitle, 5, array('css' => 'H1'));
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->wantTo("I click in the menu: $menu");
 		$I->click(array('link' => $menu));
-		$I->waitForText(ProductUpdateOnQuantityPage::$menuItemsTitle, 5, array('css' => 'H1'));
+		$I->waitForText(AdminJ3Page::$menuItemsTitle, 5, array('css' => 'H1'));
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->wantTo("I click new");
-		$I->click(ProductUpdateOnQuantityPage::$buttonNew);
-		$I->waitForText(ProductUpdateOnQuantityPage::$menuNewItemTitle, 5, array('css' => 'h1'));
+		$I->click(AdminJ3Page::$buttonNew);
+		$I->waitForText(AdminJ3Page::$menuNewItemTitle, 5, array('css' => 'h1'));
 		$I->checkForPhpNoticesOrWarnings();
-		$I->fillField(ProductUpdateOnQuantityPage::$menItemTitle, $menuTitle);
+		$I->fillField(AdminJ3Page::$menItemTitle, $menuTitle);
 
 		$I->wantTo("Open the menu types iframe");
-		$I->click(ProductUpdateOnQuantityPage::$buttonSelect);
-		$I->waitForElement(ProductUpdateOnQuantityPage::$menuTypeModal, 5);
+		$I->click(AdminJ3Page::$buttonSelect);
+		$I->waitForElement(AdminJ3Page::$menuTypeModal, 5);
 		$I->switchToIFrame("Menu Item Type");
 
 		$I->wantTo("Open the menu category: $menuCategory");
-		$I->waitForElement(ProductUpdateOnQuantityPage::getMenuCategory($menuCategory), 5);
-		$I->click(ProductUpdateOnQuantityPage::getMenuCategory($menuCategory));
+		$I->waitForElement(AdminJ3Page::getMenuCategory($menuCategory), 5);
+		$I->click(AdminJ3Page::getMenuCategory($menuCategory));
 
 		$I->wantTo("Choose the menu item type: $menuItem");
 		$I->wait(0.5);
-		$I->waitForElement(ProductUpdateOnQuantityPage::returnMenuItem($menuItem),5);
-		$I->click(ProductUpdateOnQuantityPage::returnMenuItem($menuItem));
+		$I->waitForElement(AdminJ3Page::returnMenuItem($menuItem),5);
+		$I->click(AdminJ3Page::returnMenuItem($menuItem));
 		$I->wantTo('I switch back to the main window');
 		$I->switchToIFrame();
 		$I->wantTo('I leave time to the iframe to close');
 		$I->selectOptionInChosen('Language', $language);
-		$I->waitForText(ProductUpdateOnQuantityPage::$menuNewItemTitle, '30', array('css' => 'h1'));
+		$I->waitForText(AdminJ3Page::$menuNewItemTitle, '30', array('css' => 'h1'));
 		$I->wantTo('I save the menu');
-		$I->click(ProductUpdateOnQuantityPage::$buttonSave);
-		$I->waitForText('Menu item saved', 5, ProductUpdateOnQuantityPage::$idInstallSuccess);
+		$I->click(AdminJ3Page::$buttonSave);
+		$I->waitForText('Menu item saved', 5, AdminJ3Page::$idInstallSuccess);
 	}
 
 	/**
@@ -85,8 +85,8 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 
 		for( $a= 0; $a <$quantity; $a++)
 		{
-			$I->click(ProductUpdateOnQuantityPage:: $addToCart);
-			$I->waitForText(ProductUpdateOnQuantityPage::$messageAddToCartSuccess,30);
+			$I->click(AdminJ3Page:: $addToCart);
+			$I->waitForText(AdminJ3Page::$alertSuccessMessage,30);
 		}
 		$I->click($menuItem);
 		$I->see($nameProduct);
