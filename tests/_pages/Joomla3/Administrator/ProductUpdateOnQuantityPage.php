@@ -75,4 +75,3 @@ class ProductUpdateOnQuantityPage extends AdminJ3Page
 		return $menuCate;
 	}
 }
-
