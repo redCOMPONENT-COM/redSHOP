@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -18,7 +18,7 @@ use AcceptanceTester\ProductUpdateOnQuantitySteps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.1
+ * @since    2.1.2
  */
 class ProductUpdateOnQuantityCest
 {
@@ -66,27 +66,27 @@ class ProductUpdateOnQuantityCest
 			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
 			"address"    => "Some Place in the World",
 			"postalCode" => "23456",
-			"city"       => "Bangalore",
-			"country"    => "India",
-			"state"      => "Karnataka",
-			"phone"      => "8787878787"
+			"city"       => "Ho Chi Minh",
+			"country"    => "Viet Nam",
+			"state"      => "",
+			"phone"      => "0334110355"
 		);
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->addcart            = 'product';
+		$this->allowPreOrder      = 'yes';
+		$this->cartTimeOut        = $this->faker->numberBetween(100, 10000);
+		$this->enabldAjax         = 'no';
+		$this->defaultCart        = null;
+		$this->buttonCartLead     = 'Back to current view';
+		$this->onePage            = 'yes';
+		$this->showShippingCart   = 'no';
+		$this->attributeImage     = 'no';
+		$this->quantityChange     = 'no';
+		$this->quantityInCart     = 0;
+		$this->minimunOrder       = 0;
+		$this->enableQuation      = 'no';
+		$this->onePageNo          = 'no';
+		$this->onePageYes         = 'yes';
 	}
 
 	/**

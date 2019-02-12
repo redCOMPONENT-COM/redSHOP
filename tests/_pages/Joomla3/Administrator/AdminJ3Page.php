@@ -479,4 +479,14 @@ abstract class AdminJ3Page
     {
 	    return "document.getElementById('".$id."').checked = true;";
     }
+
+    /**
+     * @param $menuItem
+     * @return string
+     */
+    public static function returnMenuItem($menuItem)
+    {
+        $path = "//a[contains(text()[normalize-space()], '$menuItem')]";
+        return $path;
+    }
 }

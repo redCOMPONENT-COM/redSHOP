@@ -74,23 +74,5 @@ class ProductUpdateOnQuantityPage extends AdminJ3Page
 
 		return $menuCate;
 	}
-
-	/**
-	 * @param $menuItem
-	 * @return string
-	 * @since  5.11.0
-	 */
-	public static function returnMenuItem($menuItem)
-	{
-		$path = "//a[contains(text()[normalize-space()], '$menuItem')]";
-		return $path;
-	}
-
-	/**
-	 * Menu item save message
-	 * @var string
-	 * @since  5.11.0
-	 */
-	public static $message = '#system-message-container';
 }
 

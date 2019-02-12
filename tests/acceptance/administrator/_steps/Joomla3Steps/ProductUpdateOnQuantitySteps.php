@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,7 +13,7 @@ use ProductUpdateOnQuantityPage;
  *
  * @package  AcceptanceTester
  *
- * @since    1.4
+ * @since    2.1.2
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
@@ -53,8 +53,6 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->switchToIFrame("Menu Item Type");
 
 		$I->wantTo("Open the menu category: $menuCategory");
-
-		// Open the category
 		$I->waitForElement(ProductUpdateOnQuantityPage::getMenuCategory($menuCategory), 5);
 		$I->click(ProductUpdateOnQuantityPage::getMenuCategory($menuCategory));
 
@@ -69,8 +67,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->waitForText(ProductUpdateOnQuantityPage::$menuNewItemTitle, '30', array('css' => 'h1'));
 		$I->wantTo('I save the menu');
 		$I->click(ProductUpdateOnQuantityPage::$buttonSave);
-
-		$I->waitForText('Menu item saved', 5, ProductUpdateOnQuantityPage::$message);
+		$I->waitForText('Menu item saved', 5, ProductUpdateOnQuantityPage::$idInstallSuccess);
 	}
 
 	/**
