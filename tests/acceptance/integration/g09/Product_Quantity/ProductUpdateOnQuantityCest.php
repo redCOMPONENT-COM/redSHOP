@@ -128,7 +128,6 @@ class ProductUpdateOnQuantityCest
 		$I->createProductSaveClose($this->nameProduct, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 		$I->wantTo('setup up one page checkout at admin');
 
-
         $I->amOnPage(\ConfigurationPage::$URL);
         $currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
         $decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
@@ -139,7 +138,6 @@ class ProductUpdateOnQuantityCest
         {
             $NumberZero = $NumberZero."0";
         }
-
         $quantity = (int)$this->quantity;
         $priceTotal = $currencySymbol.''.$this->randomProductPrice*$quantity.$decimalSeparator.$NumberZero;
         $priceTotalWithName = 'Total: '.$currencySymbol.' '.$this->randomProductPrice *$quantity.$decimalSeparator.$NumberZero;
