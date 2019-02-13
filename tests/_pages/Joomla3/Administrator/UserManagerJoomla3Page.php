@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -278,6 +278,10 @@ class UserManagerJoomla3Page
      */
     public static $linkUser = ['link' => 'ID'];
 
+    /**
+     * @var string
+     */
+    public static $btnPlaceOder = "//button[@class='btn btn-small button-redshop_order32']";
 
     /**
      * Function to get the path for Shopper Group
