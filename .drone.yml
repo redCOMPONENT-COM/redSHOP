@@ -2159,3 +2159,4 @@ services:
             - sh tests/drone/setup-stages.sh        "disabled"                      "49-disabled"                       $php_versions
 branches:
     exclude: [ crowdin ]
+
