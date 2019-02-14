@@ -36,7 +36,7 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
         $I->click(\OrderStatusManagerPage::$buttonNew);
         $I->fillField(\OrderStatusManagerPage::$orderstatusCode, $orderStatusCode);
         $I->click(\OrderStatusManagerPage::$buttonSave);
-        $I->waitForText(\OrderStatusManagerPage::$messageNameFieldRequired, 30, \OrderStatusManagerPage::$selectorError);
+        $I->waitForText(\OrderStatusManagerPage::$messageNameFieldRequired, 30, \OrderStatusManagerPage::$selectorMissing);
     }
 
     public function createOrderStatusMissingCode($orderStatusName)
@@ -46,40 +46,47 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
         $I->click(\OrderStatusManagerPage::$buttonNew);
         $I->fillField(\OrderStatusManagerPage::$orderstatusName, $orderStatusName);
         $I->click(\OrderStatusManagerPage::$buttonSave);
-        $I->waitForText(\OrderStatusManagerPage::$messageCodeFieldRequired, 30, \OrderStatusManagerPage::$selectorError);
+        $I->waitForText(\OrderStatusManagerPage::$messageCodeFieldRequired, 30, \OrderStatusManagerPage::$selectorMissing);
     }
 
     public function editOrderStatus($orderStatusName, $changeName)
     {
         $I = $this;
         $I->amOnPage(\OrderStatusManagerPage::$URL);
-        $I->fillField(\OrderStatusManagerPage::$filterSearch, $orderStatusName);
-        $I->presskey(\OrderStatusManagerPage::$filterSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-        $I->click(\OrderStatusManagerPage::$orderstatusName);
+        $I->searchOrderStatus($orderStatusName);
+        $I->click(\OrderStatusManagerPage::$editButton);
         $I->waitForElement(\OrderStatusManagerPage::$orderstatusName, 30);
         $I->fillField(\OrderStatusManagerPage::$orderstatusName, $changeName);
         $I->click(\OrderStatusManagerPage::$buttonSave);
         $I->waitForText(\OrderStatusManagerPage::$messageSaveSuccess, 30, \OrderStatusManagerPage::$selectorSuccess);
-        $I->see($orderStatusName);
     }
-
 
     public function searchOrderStatus($orderStatusName)
     {
         $I = $this;
         $I->wantTo('Search the Order Status');
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->click(\OrderStatusManagerPage::$resetButton);
-        $I->searchOrderStatus($orderStatusName);
-        $I->waitForText(\OrderStatusManagerPage::$messageDelete, \OrderStatusManagerPage::$selectorSuccess);
+        $I->click(\OrderStatusManagerPage::$buttonReset);
+        $I->fillField(\OrderStatusManagerPage::$filterSearch, $orderStatusName);
+        $I->presskey(\OrderStatusManagerPage::$filterSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->checkAllResults();
+        $I->click(\OrderStatusManagerPage::$buttonCheckIn);
     }
 
-    public function deleteOrderstatus($orderStatusName)
+    public function deleteOrderStatus($changeName)
     {
         $I = $this;
         $I->amOnPage(\OrderStatusManagerPage::$URL);
-        $I->searchOrderStatus($orderStatusName);
+        $I->searchOrderStatus($changeName);
         $I->checkAllResults();
-        $I->click(ProductManagerPage::$buttonDelete);
+        $I->click(\OrderStatusManagerPage::$buttonDelete);
+        $I->wantTo('Test with delete Order Status but then cancel');
+        $I->cancelPopup();
+
+        $I->wantTo('Test with delete Order Status then accept');
+        $I->click(\OrderStatusManagerPage::$buttonDelete);
+        $I->acceptPopup();
+        $I->waitForText(\OrderStatusManagerPage::$messageDelete, 60, \OrderStatusManagerPage::$selectorSuccess);
+        $I->pauseExecution();
+        $I->dontSee($changeName);
     }
 }

@@ -46,27 +46,20 @@ class OrderStatusManagerCest
      *
      * @throws  Exception
      */
-    public function createOrderStatusWithSaveButton(AcceptanceTester $I, $scenario)
+    public function createEditDeleteOrderStatus(AcceptanceTester $I, $scenario)
     {
-        $I = $this;
         $I->wantTo("I want create Order Status");
+        $I = new OrderStatusManagerSteps($scenario);
         $I->createOrderStatus($this->orderStatusName, $this->orderStatusCode);
         $I->createOrderStatusMissingName($this->orderStatusCode);
         $I->createOrderStatusMissingCode($this->orderStatusName);
 
-    }
-
-    public function editOrderStatus(AcceptanceTester $I, $scenario)
-    {
-        $I = $this;
         $I->wantTo("I want edit Order Status");
-        $I->editOrderStatus($this->orderStatusName);
-    }
+        $I = new OrderStatusManagerSteps($scenario);
+        $I->editOrderStatus($this->orderStatusName, $this->changeName);
 
-    public function deleteOrderStatus(AcceptanceTester $I, $scenario)
-    {
-        $I = $this;
         $I->wantTo("I want to delete Order Status");
-        $I->deleteOrderStatus($this->orderStatusName);
+        $I = new OrderStatusManagerSteps($scenario);
+        $I->deleteOrderStatus($this->changeName);
     }
 }

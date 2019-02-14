@@ -29,6 +29,16 @@ class OrderStatusManagerPage extends AdminJ3Page
     /**
      * @var string
      */
+    public static $editButton = ".btn-edit-item";
+
+    /**
+     * @var string
+     */
+    public static $buttonReset = "Reset";
+
+    /**
+     * @var string
+     */
     public static $orderstatusName = "#jform_order_status_name";
 
     /**
