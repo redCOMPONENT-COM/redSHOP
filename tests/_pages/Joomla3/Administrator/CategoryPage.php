@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class CategoryPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $parentCategoryInput = "#s2id_autogen7_search";
+	public static $parentCategoryInput = "#s2id_autogen9_search";
 
     /**
      * @var string
@@ -112,7 +112,7 @@ class CategoryPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $template1 = '#select2-chosen-8';
+	public static $template1 = '#s2id_jform_template';
     /**
      * @var string
      */

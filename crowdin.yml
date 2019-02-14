@@ -210,20 +210,12 @@ commit_message: "New localization strings available [ci skip]"
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_alert_alert.sys.ini"
   },
   {
-    "source": "/modules/site/mod_redshop_filter/language/en-GB/en-GB.mod_redshop_filter.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_filter.ini"
-  },
-  {
     "source": "/plugins/redshop_export/attribute/language/en-GB/en-GB.plg_redshop_export_attribute.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_attribute.ini"
   },
   {
     "source": "/plugins/redshop_export/attribute/language/en-GB/en-GB.plg_redshop_export_attribute.sys.ini",
     "translation": "/src/lang/%locale%/admin/%locale%/%locale%.plg_redshop_export_attribute.sys.ini"
-  },
-  {
-    "source": "/modules/site/mod_redshop_filter/language/en-GB/en-GB.mod_redshop_filter.sys.ini",
-    "translation": "/src/lang/%locale%/site/%locale%/%locale%.mod_redshop_filter.sys.ini"
   },
   {
     "source": "/plugins/redshop_export/field/language/en-GB/en-GB.plg_redshop_export_field.ini",

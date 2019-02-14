@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -200,10 +200,12 @@ else
 							<?php echo $row->media_name; ?>
 						<?php endif; ?>
 					<?php endif; ?>
-                </td>
-                <td align="center" class="order"><?php echo $row->media_type ?></td>
+				</td>
+				<td align="center" class="order">
+					<?php echo !empty($row->media_type) ? $row->media_type : 'document'; ?>
+				</td>
 				<?php if ($showbuttons == 1): ?>
-                    <td class="order">
+					<td class="order">
 						<?php if ($row->media_type == 'download'): ?>
 							<?php $additionalfiles = $model->getAdditionalFiles($row->id); ?>
                             <a href="index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id; ?>&showbuttons=1"
