@@ -7,6 +7,7 @@
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductUpdateOnQuantitySteps;
@@ -115,7 +116,7 @@ class ProductUpdateOnQuantityCest
 	 */
 	public function addToCartWithProductUpdateQuantity(ProductUpdateOnQuantitySteps $I,$scenario)
 	{
-		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
 			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
@@ -128,10 +129,10 @@ class ProductUpdateOnQuantityCest
 		$I->createProductSaveClose($this->nameProduct, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 		$I->wantTo('setup up one page checkout at admin');
 
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
-		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
-		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
 		$NumberZero = null;
 		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
@@ -149,7 +150,7 @@ class ProductUpdateOnQuantityCest
 		$I = new ProductUpdateOnQuantitySteps($scenario);
 		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$priceTotal,$priceTotalWithName,$this->customerInformation);
 		$I->wantTo('Check Order');
-		$I = new \AcceptanceTester\ConfigurationSteps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->checkPriceTotal($this->randomProductPrice, $this->customerInformation['firstName'], $this->customerInformation['firstName'],$this->customerInformation['lastName'], $this->nameProduct, $this->categoryName, $this->paymentMethod);
 	}
 
