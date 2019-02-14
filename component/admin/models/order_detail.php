@@ -970,6 +970,65 @@ class RedshopModelOrder_detail extends RedshopModel
 		return true;
 	}
 
+	public function update_shipping($data)
+	{
+		// Get Order Info
+		$orderData = $this->getTable('order_detail');
+		$orderData->load($this->_id);
+
+		$orderItems      = RedshopHelperOrder::getOrderItemDetail($this->_id);
+		$update_shipping = abs($data['update_shipping']);
+
+		if ($update_shipping == $orderData->order_shipping)
+		{
+			return false;
+		}
+
+		$subtotal = 0;
+
+		for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+		{
+			$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+		}
+
+		$temporder_total = $subtotal + $orderData->order_discount + $orderData->special_discount_amount + $orderData->order_shipping;
+
+		if ($update_shipping > $temporder_total)
+		{
+			$update_shipping = $subtotal;
+		}
+
+		if (abs($data['update_shipping']) == 0)
+		{
+			$order_total = ($subtotal) - ($orderData->special_discount_amount + $orderData->order_discount);
+		}
+		else
+		{
+			$order_total = $subtotal - ($update_shipping + $orderData->order_discount + $orderData->special_discount_amount);
+		}
+
+		$orderData->order_total        = $order_total;
+		$orderData->order_tax          = $orderData->order_tax + $orderData->order_discount_vat - $update_shipping;
+		$orderData->order_shipping     = $update_shipping;
+		$orderData->mdate              = time();
+
+		if (!$orderData->store())
+		{
+			return false;
+		}
+
+		// Economic Integration start for invoice generate
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+		{
+			RedshopEconomic::renewInvoiceInEconomic($orderData);
+		}
+
+		// Send mail from template
+		Redshop\Mail\Order::sendSpecialDiscountMail($this->_id);
+
+		return true;
+	}
+
 	/**
 	 * Method for re-calculate price of order when update order item.
 	 *
