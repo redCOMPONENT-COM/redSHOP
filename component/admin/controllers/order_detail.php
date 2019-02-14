@@ -249,7 +249,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		/** @var RedshopModelOrder_detail $model */
 		$model = $this->getModel('order_detail');
 
-		if ($model->update_shipping($post))
+		if ($model->/** @scrutinizer ignore-call */update_shipping($post))
 		{
 			$msg = JText::_('COM_REDSHOP_SHIPPING_UPDATED');
 		}
