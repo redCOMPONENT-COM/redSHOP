@@ -65,4 +65,14 @@ class OrderStatusManagerPage extends AdminJ3Page
      * @var string
      */
     public static $messageDelete = "1 item successfully deleted";
+
+    /**
+     * @var string
+     */
+    public static $messageUnpublishSuccess = "1 item successfully unpublished";
+
+    /**
+     * @var string
+     */
+    public static $messagePublishSuccess = "1 item successfully published";
 }
