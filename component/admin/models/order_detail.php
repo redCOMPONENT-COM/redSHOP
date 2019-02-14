@@ -986,9 +986,9 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$subtotal = 0;
 
-		for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+		foreach ($orderItems as $orderItem)
 		{
-			$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+			$subtotal = $subtotal + ($orderItem->product_item_price * $orderItem->product_quantity);
 		}
 
 		$temporder_total = $subtotal + $orderData->order_discount + $orderData->special_discount_amount + $orderData->order_shipping;
@@ -1055,7 +1055,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$orderData->special_discount_amount = 0;
 		}
 
-		if ($data['special_discount'] == $orderData->special_discount && $chk != true)
+		if ($data['special_discount'] == $orderData->special_discount && $chk !== true)
 		{
 			return false;
 		}
