@@ -32,11 +32,11 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(ModuleManagerJ3page::$moduleURL);
+		$I->waitForText(ModuleManagerJ3page::$modulesTitle,10,array('css' => 'h1'));
+		$I->checkForPhpNoticesOrWarnings();
 		$I->click(ModuleManagerJ3page::$buttonNew);
-		$I->wait(1);
 		$I->scrollTo(["link" =>$module['module']]);
 		$I->click(["link" =>$module['module']]);
-
 		$I->fillField(ModuleManagerJ3page::$fieldName,$module['name']);
 		$I->click(ModuleManagerJ3page::$position);
 		$I->fillField(ModuleManagerJ3page::$fieldPosition,$module['Position']);
@@ -130,7 +130,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->seeElement(['link' => $productName]);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		
+
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->comment('checkout with private');
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);

@@ -18,6 +18,10 @@ class ModuleManagerJ3page extends AdminJ3Page
 	/**
 	 * @var string
 	 */
+	public static $modulesTitle = "Modules (Site)";
+	/**
+	 * @var string
+	 */
 	public static $fieldName = '#jform_title';
 
 	/**
