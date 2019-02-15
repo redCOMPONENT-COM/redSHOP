@@ -21,6 +21,11 @@ abstract class AdminJ3Page
     public static $installURL = '/administrator/index.php?option=com_installer';
 
     /**
+     * @var string
+     */
+    public static $moduleURL = '/administrator/index.php?option=com_modules';
+
+    /**
      * @var array
      */
     public static $link = ['link' => 'Install from URL'];
