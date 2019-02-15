@@ -733,9 +733,4 @@ jQuery(document).ready(function(){
             e.preventDefault();
         }
     });
-
-    // document.formvalidator.setHandler('alphanumeric', function(value) {
-    //     regex = /^[a-z0-9]*$/i;
-    //     return regex.test(value);
-    // });
 });
