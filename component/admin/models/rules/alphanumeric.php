@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\CMS\Form\Form;
 /**
  * Alphanumeric rule.
  *
@@ -46,6 +45,11 @@ class JFormRuleAlphanumeric extends JFormRule
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {
+        if (is_null($input))
+        {
+            return false;
+        }
+
         $code = $input->get('code');
 
         if (!preg_match($this->regex, $code))
