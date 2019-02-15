@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Rules
- * @since       2.0.6
+ * @since       __DEPLOY_VERSION__
  */
 class JFormRuleAlphanumeric extends JFormRule
 {
@@ -23,7 +23,7 @@ class JFormRuleAlphanumeric extends JFormRule
      * The regular expression to use in testing a form field value.
      *
      * @var    string
-     * @since  1.6
+     * @since  __DEPLOY_VERSION__
      */
     protected $regex = '/^[a-z0-9]*$/i';
 
@@ -40,7 +40,7 @@ class JFormRuleAlphanumeric extends JFormRule
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      * @throws  \UnexpectedValueException if rule is invalid.
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
