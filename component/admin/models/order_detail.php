@@ -1004,11 +1004,10 @@ class RedshopModelOrder_detail extends RedshopModel
 		}
 		else
 		{
-			$order_total = $subtotal - ($update_shipping + $orderData->order_discount + $orderData->special_discount_amount);
+			$order_total = ($subtotal + $update_shipping) - ($orderData->order_discount + $orderData->special_discount_amount);
 		}
 
 		$orderData->order_total        = $order_total;
-		$orderData->order_tax          = $orderData->order_tax + $orderData->order_discount_vat - $update_shipping;
 		$orderData->order_shipping     = $update_shipping;
 		$orderData->mdate              = time();
 
