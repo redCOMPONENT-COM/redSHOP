@@ -138,10 +138,6 @@ class CheckoutSearchProductFrontendCest
         $I = new OrderManagerJoomla3Steps($scenario);
         $I->deleteOrder( $this->customerInformation['firstName']);
 
-        $I->wantTo('Delete account in redSHOP and Joomla');
-        $I = new UserManagerJoomla3Steps($scenario);
-        $I->deleteUser($this->customerInformation['firstName'], false);
-
         $I->wantTo('Delete product');
         $I = new ProductManagerJoomla3Steps($scenario);
         $I->deleteProduct($this->productName);
@@ -150,8 +146,5 @@ class CheckoutSearchProductFrontendCest
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->deleteCategory($this->categoryName);
 
-        $I->wantTo('Disable Modules');
-        $I = new CheckoutSearchProductFrontendSteps($scenario);
-        $I->disableModules( $this->module);
     }
 }

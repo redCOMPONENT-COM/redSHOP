@@ -104,9 +104,4 @@ class ModuleManagerJ3page extends AdminJ3Page
 	 * @var string
 	 */
 	public static $buttonSearch = "//div[@class='btn-wrapper input-append']//button[@type='submit']";
-
-	/**
-	 * @var string
-	 */
-	public static $messageModuleUnpublishSuccess= '1 module unpublished.';
 }

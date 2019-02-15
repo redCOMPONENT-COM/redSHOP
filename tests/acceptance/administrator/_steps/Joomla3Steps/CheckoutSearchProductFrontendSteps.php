@@ -114,23 +114,6 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
     }
 
     /**
-     * Function to disable module
-     *
-     * @param $module
-     * @throws \Exception
-     */
-   public function disableModules($module)
-   {
-       $I = $this;
-       $I->amOnPage(ModuleManagerJ3page::$moduleURL);
-       $I->fillField(ModuleManagerJ3page::$searchField,$module['name']);
-       $I->click(ModuleManagerJ3page::$buttonSearch);
-       $I->click(ModuleManagerJ3page::$checkAllXpath);
-       $I->click(ModuleManagerJ3page::$buttonUnpublish);
-       $I->waitForText(ModuleManagerJ3page::$messageModuleUnpublishSuccess,10,ModuleManagerJ3page::$selectorMessage);
-   }
-
-    /**
      * Function Checkout with search product Frontend
      *
      * @param $productName
