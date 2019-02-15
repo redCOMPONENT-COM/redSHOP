@@ -998,14 +998,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$update_shipping = $subtotal;
 		}
 
-		if (abs($data['update_shipping']) == 0)
-		{
-			$order_total = ($subtotal) - ($orderData->special_discount_amount + $orderData->order_discount);
-		}
-		else
-		{
-			$order_total = ($subtotal + $update_shipping) - ($orderData->order_discount + $orderData->special_discount_amount);
-		}
+		$order_total = ($subtotal + $update_shipping) - ($orderData->order_discount + $orderData->special_discount_amount);
 
 		$orderData->order_total        = $order_total;
 		$orderData->order_shipping     = $update_shipping;
