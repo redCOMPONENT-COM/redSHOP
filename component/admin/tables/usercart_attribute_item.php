@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Table
  * @since       2.0.7
  */
-class RedshopTableUsercart_Attribute_Item extends JTable
+class RedshopTableUsercart_Attribute_Item extends \Redshop\Table\AbstractTable
 {
 	/**
 	 * The table name without the prefix. Ex: cursos_courses
