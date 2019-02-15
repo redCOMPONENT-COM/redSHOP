@@ -1329,16 +1329,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
     }
 
     function validateShipping(form) {
-        var subTotal = <?php echo $subtotal_excl_vat ?>;
         var shipping = parseFloat(jQuery('#update_shipping').val());
 
         if (shipping < 0) {
             alert('<?php echo JText::_("COM_REDSHOP_ORDER_SHIPPING_NOT_LESS_THAN_ZERO") ?>');
-            return false;
-        }
-
-        if (subTotal <= shipping) {
-            alert('<?php echo JText::_("COM_REDSHOP_ORDER_SHIPPING_INVALID") ?>');
             return false;
         }
 

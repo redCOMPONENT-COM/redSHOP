@@ -979,23 +979,11 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderItems      = RedshopHelperOrder::getOrderItemDetail($this->_id);
 		$update_shipping = abs($data['update_shipping']);
 
-		if ($update_shipping == $orderData->order_shipping)
-		{
-			return false;
-		}
-
 		$subtotal = 0;
 
 		foreach ($orderItems as $orderItem)
 		{
 			$subtotal = $subtotal + ($orderItem->product_item_price * $orderItem->product_quantity);
-		}
-
-		$temporder_total = $subtotal + $orderData->order_discount + $orderData->special_discount_amount + $orderData->order_shipping;
-
-		if ($update_shipping > $temporder_total)
-		{
-			$update_shipping = $subtotal;
 		}
 
 		$order_total = ($subtotal + $update_shipping) - ($orderData->order_discount + $orderData->special_discount_amount);
