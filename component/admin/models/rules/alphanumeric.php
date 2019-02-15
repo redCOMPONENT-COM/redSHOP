@@ -54,7 +54,7 @@ class JFormRuleAlphanumeric extends JFormRule
 
         if (!preg_match($this->regex, $code))
         {
-            $element->addAttribute('message', JText::_('COM_REDSHOP_CODE_CAN_ONLY_BE_ALPHANUMERIC'));
+            $element->addAttribute('message', JText::_('COM_REDSHOP_DISCOUNT_CODE_CAN_ONLY_BE_ALPHANUMERIC'));
 
             return false;
         }
