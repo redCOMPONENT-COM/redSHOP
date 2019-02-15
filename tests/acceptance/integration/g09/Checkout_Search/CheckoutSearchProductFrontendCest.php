@@ -94,7 +94,7 @@ class CheckoutSearchProductFrontendCest
 	 * @param $scenario
 	 * @throws Exception
 	 */
-	public function createProductAnfCategory(ConfigurationSteps $I, $scenario)
+	public function createProductAndCategory(ConfigurationSteps $I, $scenario)
 	{
 		$I->doAdministratorLogin();
 		$I->wantTo('Setting cart on Administrator');
