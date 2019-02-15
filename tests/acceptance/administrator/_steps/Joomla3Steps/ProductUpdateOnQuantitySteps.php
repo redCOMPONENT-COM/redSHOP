@@ -33,24 +33,24 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->wantTo("I open the menus page");
 		$I->amOnPage(AdminJ3Page::$menuItemURL);
-		$I->waitForText(AdminJ3Page::$menuTitle, 5, array('css' => 'H1'));
+		$I->waitForText(AdminJ3Page::$menuTitle, 5, AdminJ3Page::$h1);
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->wantTo("I click in the menu: $menu");
 		$I->click(array('link' => $menu));
-		$I->waitForText(AdminJ3Page::$menuItemsTitle, 5, array('css' => 'H1'));
+		$I->waitForText(AdminJ3Page::$menuItemsTitle, 5,AdminJ3Page::$h1);
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->wantTo("I click new");
 		$I->click(AdminJ3Page::$buttonNew);
-		$I->waitForText(AdminJ3Page::$menuNewItemTitle, 5, array('css' => 'h1'));
+		$I->waitForText(AdminJ3Page::$menuNewItemTitle, 5, AdminJ3Page::$h1);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->fillField(AdminJ3Page::$menItemTitle, $menuTitle);
 
 		$I->wantTo("Open the menu types iframe");
 		$I->click(AdminJ3Page::$buttonSelect);
 		$I->waitForElement(AdminJ3Page::$menuTypeModal, 5);
-		$I->switchToIFrame("Menu Item Type");
+		$I->switchToIFrame(AdminJ3Page::$menuItemType);
 
 		$I->wantTo("Open the menu category: $menuCategory");
 		$I->waitForElement(AdminJ3Page::getMenuCategory($menuCategory), 5);
@@ -63,11 +63,11 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->wantTo('I switch back to the main window');
 		$I->switchToIFrame();
 		$I->wantTo('I leave time to the iframe to close');
-		$I->selectOptionInChosen('Language', $language);
-		$I->waitForText(AdminJ3Page::$menuNewItemTitle, '30', array('css' => 'h1'));
+		$I->selectOptionInChosen(AdminJ3Page::$labelLanguage, $language);
+		$I->waitForText(AdminJ3Page::$menuNewItemTitle, '30',AdminJ3Page::$h1);
 		$I->wantTo('I save the menu');
 		$I->click(AdminJ3Page::$buttonSave);
-		$I->waitForText('Menu item saved', 5, AdminJ3Page::$idInstallSuccess);
+		$I->waitForText(AdminJ3Page::$messageMenuItemSuccess, 5, AdminJ3Page::$idInstallSuccess);
 	}
 
 	/**
@@ -103,6 +103,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+        $I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);

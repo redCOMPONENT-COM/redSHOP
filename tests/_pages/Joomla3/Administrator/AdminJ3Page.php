@@ -466,6 +466,11 @@ abstract class AdminJ3Page
     public static $menuNewItemTitle   = 'Menus: New Item';
 
     /**
+     * @var string
+     */
+    public static $menuItemType   = 'Menu Item Type';
+
+    /**
      * Menu item title
      * @var string
      */
@@ -486,6 +491,16 @@ abstract class AdminJ3Page
      * @var string
      */
     public static $menuTypeModal = "#menuTypeModal";
+
+    /**
+     * @var string
+     */
+    public static $h1 =  array('css' => 'h1');
+
+    /**
+     * @var string
+     */
+    public static $labelLanguage = "Language";
 
     /**
      * @param $menuCategory
