@@ -161,7 +161,6 @@ if (typeof(window['jQuery']) != "undefined") {
                 termscondition: Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'),
                 agree: "Please accept our policy",
                 ean_number: {
-                    required: Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED'),
                     minlength: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'),
                     maxlength: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'),
                     decimal: Joomla.JText._('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT'),
