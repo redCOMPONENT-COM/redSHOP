@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -49,22 +49,12 @@ class OrderStatusManagerPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $messageSaveSuccess = "Item saved.";
-
-    /**
-     * @var string
-     */
     public static $messageNameFieldRequired = "Field required: Name";
 
     /**
      * @var string
      */
     public static $messageCodeFieldRequired = "Field required: Code";
-
-    /**
-     * @var string
-     */
-    public static $messageDelete = "1 item successfully deleted";
 
     /**
      * @var string
