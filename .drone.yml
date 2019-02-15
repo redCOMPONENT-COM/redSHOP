@@ -2157,6 +2157,5 @@ services:
 #            - sh tests/drone/setup-stages.sh        "CouponVoucherMixCheckout"      "47-CouponVoucherMixCheckout"       $php_versions
 #            - sh tests/drone/setup-stages.sh        "disabled"                      "49-disabled"                       $php_versions
             - sh tests/drone/setup-stages.sh        "Checkout_Search"               "50-Checkout_Search"                $php_versions
-
 branches:
     exclude: [ crowdin ]
