@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -60,6 +60,23 @@ class CheckoutSearchProductFrontendCest
             "state"      => "",
             "phone"      => "0334110355"
         );
+
+        //configuration enable one page checkout
+        $this->addcart            = 'product';
+        $this->allowPreOrder      = 'yes';
+        $this->cartTimeOut        = $this->faker->numberBetween(100, 10000);
+        $this->enabldAjax         = 'no';
+        $this->defaultCart        = null;
+        $this->buttonCartLead     = 'Back to current view';
+        $this->onePage            = 'yes';
+        $this->showShippingCart   = 'no';
+        $this->attributeImage     = 'no';
+        $this->quantityChange     = 'no';
+        $this->quantityInCart     = 0;
+        $this->minimunOrder       = 0;
+        $this->enableQuation      = 'no';
+        $this->onePageNo          = 'no';
+        $this->onePageYes         = 'yes';
     }
 
     /**
@@ -77,9 +94,14 @@ class CheckoutSearchProductFrontendCest
      * @param $scenario
      * @throws Exception
      */
-    public function createProductAnfCategory(CategoryManagerJoomla3Steps $I, $scenario)
+    public function createProductAnfCategory(ConfigurationSteps $I, $scenario)
     {
         $I->doAdministratorLogin();
+        $I->wantTo('Setting cart on Administrator');
+        $I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+            $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+
+        $I = new CategoryManagerJoomla3Steps($scenario);
         $I->wantTo('Create Category in Administrator');
         $I->addCategorySave($this->categoryName);
 
