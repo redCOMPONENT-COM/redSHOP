@@ -41,7 +41,7 @@ class FrontEndNoticesCest
 			'Manufacturer Menu Type' => '/index.php?option=com_redshop&view=manufacturers',
 			'My Wish List Menu Type' => '/index.php?option=com_redshop&view=account&layout=mywishlist',
 			'Newsletter Subscription Menu Type' => '/index.php?option=com_redshop&view=newsletter',
-			'Orders Menu Type' => '/index.php?option=com_redshop&view=orders',
+//			'Orders Menu Type' => '/index.php?option=com_redshop&view=orders',
 			'Order Tracker Menu Type' => '/index.php?option=com_redshop&view=ordertracker',
 			'Portal Detail Layout For Shopper Group Menu Type' => '/index.php?option=com_redshop&view=login&layout=portals',
 //			'Product Download Menu Type' => '/index.php?option=com_redshop&view=product&layout=downloadproduct',
