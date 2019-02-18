@@ -157,6 +157,10 @@ class OrderManagerPage extends AdminJ3Page
      */
     public static $buttonSavePay = "Save + Pay";
 
+    public static $discountUpdate = "#update_discount";
+
+    public static $specialUpdate = "#special_discount";
+
     //selector
 
     /**

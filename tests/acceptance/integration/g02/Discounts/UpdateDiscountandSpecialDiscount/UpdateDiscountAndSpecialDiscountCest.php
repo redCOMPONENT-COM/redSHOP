@@ -10,6 +10,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\UpdateDiscountAndSpecialDiscountSteps;
+use AcceptanceTester\OrderManagerJoomla3Steps;
 /**
  * Class UpdateDiscountAndSpecialDiscountCest
  *
@@ -38,6 +39,13 @@ class UpdateDiscountAndSpecialDiscountCest
         $this->group = 'Super User';
         $this->firstName = $this->faker->bothify('FirstName FN ?##?');
         $this->lastName = "LastName";
+
+        //Orders
+        $this->address = '449 Tran Hung Dao';
+        $this->zipcode = '5000';
+        $this->city = 'Ho Chi Minh';
+        $this->phone = '0126541687';
+        $this->quantity = '1';
     }
 
 
@@ -60,7 +68,7 @@ class UpdateDiscountAndSpecialDiscountCest
 
         $I->wantTo('Test User creation with save button in Administrator');
         $I = new UserManagerJoomla3Steps($scenario);
-        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $function = "save");
+        $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 
         $I->wantTo('I want create order and update discount and special discount');
         $I = new UpdateDiscountAndSpecialDiscountSteps($scenario);
