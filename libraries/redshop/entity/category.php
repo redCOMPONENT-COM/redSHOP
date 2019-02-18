@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Entity
  *
- * @copyright   Copyright (C) 2012 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -74,11 +74,11 @@ class RedshopEntityCategory extends RedshopEntity
 	 *
 	 * @since   2.0.6
 	 */
-	public function getProducts()
+	public function getProducts($includeProductsFromSubCat = false)
 	{
 		if (null === $this->products)
 		{
-			$this->loadProducts();
+			$this->loadProducts($includeProductsFromSubCat);
 		}
 
 		return $this->products;
@@ -91,7 +91,7 @@ class RedshopEntityCategory extends RedshopEntity
 	 *
 	 * @since   2.0.6
 	 */
-	protected function loadProducts()
+	protected function loadProducts($includeProductsFromSubCat = false)
 	{
 		if (!$this->hasId())
 		{
@@ -101,13 +101,29 @@ class RedshopEntityCategory extends RedshopEntity
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->qn('p.product_id', 'id'))
+			->select('DISTINCT p.product_id AS id')
 			->select('p.*')
 			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
 			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pcx.product_id'))
 			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('pcx.category_id') . ' = ' . $db->qn('c.id'))
-			->where($db->qn('c.id') . ' = ' . (int) $this->getId())
-			->where($db->qn('p.published') . ' = 1');
+			->where($db->qn('p.published') . ' = 1')
+			->order($db->qn('p.product_id') . ' DESC');
+
+		$categories = array();
+
+		if ($includeProductsFromSubCat)
+		{
+			$childs = $this->getChildCategories();
+
+			if ($childs && !$childs->isEmpty())
+			{
+				$categories = $childs->toFieldArray('id');
+			}
+		}
+
+		$categories[] = (int) $this->getId();
+
+		$query->where($db->qn('c.id') . ' IN (' . implode(',', $categories) . ')');
 
 		$this->products = $db->setQuery($query)->loadObjectList();
 
@@ -252,10 +268,12 @@ class RedshopEntityCategory extends RedshopEntity
 			return false;
 		}
 
-		/** @var RedshopTableCategory $table */
-		$table = $this->getTable();
-
-		if (!$table instanceof JTable)
+		try
+		{
+			/** @var RedshopTableCategory $table */
+			$table = $this->getTable();
+		}
+		catch (\Exception $e)
 		{
 			JLog::add("Table for instance " . $this->getInstanceName() . " could not be loaded", JLog::ERROR, 'entity');
 

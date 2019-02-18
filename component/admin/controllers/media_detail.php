@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -276,13 +276,34 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=com_redshop&view=media');
+					if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+					{
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+							. $post['section_id'] . '&showbuttons=1&section_name='
+							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+						);
+					}
+					else
+					{
+						$this->setRedirect('index.php?option=com_redshop&view=media');
+					}
 				}
 			}
 			else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
-				$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'error');
+
+				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+				{
+					$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+						. $post['section_id'] . '&showbuttons=1&section_name='
+						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg, 'error'
+					);
+				}
+				else
+				{
+					$this->setRedirect('index.php?option=com_redshop&view=media', $msg, 'error');
+				}
 			}
 		}
 		else
@@ -401,7 +422,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
 				copy($src, $dest);
 
-				if (isset($post['set']) && $post['media_section'] != 'manufacturer' && $post['oldmedia'] == "")
+				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 				{
 					if ($apply == 1)
 					{
