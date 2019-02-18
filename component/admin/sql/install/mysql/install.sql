@@ -153,6 +153,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `product_filter_params` MEDIUMTEXT NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   INDEX `#__rs_idx_category_published` (`published` ASC),
   INDEX `#__rs_idx_left_right` (`lft` ASC, `rgt` ASC),
