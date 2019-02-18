@@ -2094,7 +2094,7 @@ services:
 #        - sh tests/drone/setup-stages.sh        "Checkout_Quantity"             "25-Checkout_Quantity"              $php_versions
 #        - sh tests/drone/setup-stages.sh        "Shopper_Groups_Checkout"       "26-Shopper_Groups_Checkout"        $php_versions
 #        - sh tests/drone/setup-stages.sh        "Order_Checkout"                "27-Order_Checkout"                 $php_versions
-       - sh tests/drone/setup-stages.sh        "Product_Attribute"             "28-Product_Attribute"              $php_versions
+        - sh tests/drone/setup-stages.sh        "Product_Attribute"             "28-Product_Attribute"              $php_versions
 #        - sh tests/drone/setup-stages.sh        "Tax_Group"                     "29-Tax_Group"                      $php_versions
 #        - sh tests/drone/setup-stages.sh        "GiftCardCheckout"              "30-GiftCardCheckout"               $php_versions
 #        - sh tests/drone/setup-stages.sh        "Giftcard"                      "31-Giftcard"                       $php_versions
