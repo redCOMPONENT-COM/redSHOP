@@ -404,7 +404,7 @@ abstract class AdminJ3Page
     /**
      * @var string
      */
-    public static $bankTransferId = ['rs_payment_banktransfer'];
+    public static $bankTransferId = "#rs_payment_banktransfer0";
 
     /**
      * @var string
