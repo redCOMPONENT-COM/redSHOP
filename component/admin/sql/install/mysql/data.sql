@@ -411,8 +411,6 @@ VALUES
 	(4, 'R', 'Refunded', 1),
 	(5, 'S', 'Shipped', 1),
 	(6, 'RD', 'Ready for delivery', 1),
-	(7, 'RD1', 'Ready for 1st delivery', 1),
-	(8, 'RD2', 'Ready for 2nd delivery', 1),
 	(9, 'ACCP', 'Awaiting credit card payment', 1),
 	(10, 'APP', 'Awaiting paypal payment', 1),
 	(11, 'ABT', 'Awaiting bank transfer', 1),
@@ -420,8 +418,7 @@ VALUES
 	(13, 'RC', 'Reclamation', 1),
 	(14, 'PS', 'Partially shipped', 1),
 	(15, 'RT', 'Returned', 1),
-	(16, 'PRT', 'Partially Returned', 1),
-	(17, 'PRC', 'Partially Reclamation', 1);
+	(16, 'PRT', 'Partially Returned', 1);
 
 INSERT IGNORE INTO `#__redshop_state` (`id`, `country_id`, `state_name`, `state_3_code`, `state_2_code`) VALUES
 	(1, 223, 'Alabama', 'ALA', 'AL'),

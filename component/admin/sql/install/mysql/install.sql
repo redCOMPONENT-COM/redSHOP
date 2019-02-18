@@ -2653,7 +2653,3 @@ COMMENT = 'redSHOP Product Individual payment reference.';
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-ALTER TABLE `#__redshop_order_status`;
-  DELETE FROM `#__redshop_order_status`
-  WHERE `order_status_code` IN ('RD1', 'RD2', 'PRC');
