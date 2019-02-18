@@ -2015,15 +2015,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Product_Quantity 0 0'
 
-    49-disabled-56:
+    49-Oder_Backend-56:
         group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=49-disabled
-            - tests_db=disabled
+            - tests_suite=49-Oder_Backend
+            - tests_db=Oder_Backend
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-49-disabled-56
+            - output_append=-49-Oder_Backend-56
             - php_version=56
         commands:
             # Regular entry point
@@ -2033,17 +2033,17 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/__disabled 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend 0 0'
 
-    49-disabled-71:
+    49-Oder_Backend-71:
         group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=49-disabled
-            - tests_db=disabled
+            - tests_suite=49-Oder_Backend
+            - tests_db=Oder_Backend
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-49-disabled-71
+            - output_append=-49-Oder_Backend-71
             - php_version=71
         commands:
             # Regular entry point
@@ -2053,7 +2053,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/__disabled 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend 0 0'
 
     slack:
         image: plugins/slack
@@ -2156,6 +2156,6 @@ services:
             - sh tests/drone/setup-stages.sh        "ProductManagement"             "46-ProductManagement"              $php_versions
             - sh tests/drone/setup-stages.sh        "CouponVoucherMixCheckout"      "47-CouponVoucherMixCheckout"       $php_versions
             - sh tests/drone/setup-stages.sh        "Product_Quantity"              "48-Product_Quantity"               $php_versions
-            - sh tests/drone/setup-stages.sh        "disabled"                      "49-disabled"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "Oder_Backend"                  "49-Oder_Backend"                   $php_versions
 branches:
     exclude: [ crowdin ]
