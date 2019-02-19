@@ -258,12 +258,12 @@ class ConfigurationPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $buttonCartSearch = "#s2id_autogen43_search";
+	public static $buttonCartSearch = "#s2id_autogen42_search";
 
 	/**
 	 * @var string
 	 */
-	public static $firstCartSearch = "//ul[@id='select2-results-43']";
+	public static $firstCartSearch = "//ul[@id='select2-results-42']";
 
 	/**
 	 * @var string
