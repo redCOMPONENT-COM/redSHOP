@@ -87,7 +87,7 @@ class RoboFile extends \Robo\Tasks
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testsSetup($debug = true, $steps = true, $extraVerbose = false)
+	public function testsSetup($debug = true, $steps = true)
 	{
 		$args = [];
 
@@ -99,11 +99,6 @@ class RoboFile extends \Robo\Tasks
 		if ($steps)
 		{
 			$args[] = '--steps';
-		}
-
-		if ($extraVerbose)
-		{
-			$args[] = '-vvv';
 		}
 
 		$args = array_merge(
@@ -139,7 +134,7 @@ class RoboFile extends \Robo\Tasks
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testsRun($folder, $debug = true, $steps = true, $extraVerbose = false)
+	public function testsRun($folder, $debug = true, $steps = true)
 	{
 		$args = [];
 
@@ -151,11 +146,6 @@ class RoboFile extends \Robo\Tasks
 		if ($steps)
 		{
 			$args[] = '--steps';
-		}
-
-		if ($extraVerbose)
-		{
-			$args[] = '-vvv';
 		}
 
 		$args = array_merge(

@@ -211,7 +211,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->wait(1);
 		$adminFinalPriceEnd = $price+$priceAttribute;
-        $I->see($adminFinalPriceEnd);
+        $I->waitForText("'".$adminFinalPriceEnd."''",30);
 		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
 		$I->waitForElement(\OrderManagerPage::$adminFinalPriceEnd, 60);
 		$I->click(\OrderManagerPage::$buttonSave);
