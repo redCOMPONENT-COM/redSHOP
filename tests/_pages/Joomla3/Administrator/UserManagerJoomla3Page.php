@@ -278,6 +278,10 @@ class UserManagerJoomla3Page
      */
     public static $linkUser = ['link' => 'ID'];
 
+    /**
+     * @var string
+     */
+    public static $btnPlaceOder = "//button[@class='btn btn-small button-redshop_order32']";
 
     /**
      * Function to get the path for Shopper Group
