@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,6 +50,7 @@ trait CheckIn
 
 		$tester->amOnPage($pageClass::$url);
 		$tester->waitForElement($pageClass::$selectorToolBar, 30);
+		$tester->click($pageClass::$buttonReset);
 		$tester->checkAllResults();
 		$tester->click($pageClass::$buttonCheckIn);
 		$tester->dontSeeElement($pageClass::$stateCheckInPathBlock);

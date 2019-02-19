@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,6 +98,8 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 		$attributesQuery = $db->getQuery(true)
 			->select(
 				array(
+					$db->qn('ap.price_id'),
+					$db->qn('ap.section_id'),
 					$db->qn('ap.section'),
 					$db->qn('product.product_number'),
 					$db->qn('product.product_name'),
@@ -136,6 +138,8 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 		$propertiesQuery = $db->getQuery(true)
 			->select(
 				array(
+					$db->qn('ap.price_id'),
+					$db->qn('ap.section_id'),
 					$db->qn('ap.section'),
 					$db->qn('product.product_number'),
 					$db->qn('product.product_name'),
@@ -208,9 +212,9 @@ class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugi
 	protected function getHeader()
 	{
 		return array(
-			'section', 'product_number', 'product_name', 'product_price', 'attribute_number', 'product_attribute', 'attribute_price',
-			'price_quantity_start', 'price_quantity_end', 'discount_price', 'discount_start_date', 'discount_end_date', 'shopper_group_id',
-			'shopper_group_name'
+			'price_id', 'section_id', 'section', 'product_number', 'product_name', 'product_price', 'attribute_number',
+			'product_attribute', 'attribute_price',	'price_quantity_start', 'price_quantity_end', 'discount_price',
+			'discount_start_date', 'discount_end_date', 'shopper_group_id',	'shopper_group_name'
 		);
 	}
 }

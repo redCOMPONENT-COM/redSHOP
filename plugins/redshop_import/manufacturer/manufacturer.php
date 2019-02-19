@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,12 +23,12 @@ class PlgRedshop_ImportManufacturer extends AbstractImportPlugin
 	/**
 	 * @var string
 	 */
-	protected $primaryKey = 'manufacturer_id';
+	protected $primaryKey = 'id';
 
 	/**
 	 * @var string
 	 */
-	protected $nameKey = 'manufacturer_name';
+	protected $nameKey = 'name';
 
 	/**
 	 * Event run when user load config for export this data.
@@ -66,7 +66,7 @@ class PlgRedshop_ImportManufacturer extends AbstractImportPlugin
 	/**
 	 * Method for get table object.
 	 *
-	 * @return  \JTable
+	 * @return  \JTable|boolean
 	 *
 	 * @since   1.0.0
 	 */
@@ -74,7 +74,7 @@ class PlgRedshop_ImportManufacturer extends AbstractImportPlugin
 	{
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
-		return JTable::getInstance('Manufacturer_Detail', 'Table');
+		return JTable::getInstance('Manufacturer', 'RedshopTable');
 	}
 
 	/**

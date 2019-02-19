@@ -3,7 +3,7 @@
  * @package     Redshop.Libraries
  * @subpackage  Helpers
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -449,7 +449,6 @@ class RedshopHelperAttribute
 							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
 						}
 
-						$chkListAttributes['id']       = $propertyid;
 						$chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
 					}
 
@@ -467,7 +466,7 @@ class RedshopHelperAttribute
 						'value',
 						'text',
 						$selectedProperty,
-						$propertyid . '_'
+						$propertyid
 					);
 
 					$attribute_table .= "<input type='hidden' name='" . $hiddenattid . "[]' value='" . $attributes [$a]->value . "' />";

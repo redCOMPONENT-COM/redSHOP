@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -103,16 +103,7 @@ class RedshopViewProduct extends RedshopView
 		 *  Include JavaScript.
 		 *  But, first check if a plugin wants to use its own jQuery.
 		 */
-		$stopJQuery = $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
-
-		if (in_array(true, $stopJQuery, true))
-		{
-			$stopJQuery = true;
-		}
-		else
-		{
-			$stopJQuery = false;
-		}
+		$this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
 
 		JHtml::stylesheet('com_redshop/scrollable-navig.min.css', array(), true);
 

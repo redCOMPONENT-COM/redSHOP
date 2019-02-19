@@ -4,7 +4,7 @@
  * Including this file into your application will make redSHOP available to use.
  *
  * @package    TCPDF.Library
- * @copyright  Copyright (C) 2012 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 // Load tcPDF library
 require_once __DIR__ . '/vendor/autoload.php';
 
+
+
 /**
  * Extends TCPDF
  *
@@ -20,16 +22,17 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 class PlgRedshop_PdfTcPDFHelper extends TCPDF
 {
-	// Page header
+	/**
+	 * @var mixed
+	 * @since 1.0.0
+	 */
 	public $backgroundImage;
 
 	/**
-	 * @TODO: Add param config for plugin.
-	 * Default font for generate PDF.
-	 *
-	 * @var  string
+	 * @var array
+	 * @since 1.0.0
 	 */
-	public $defaultFont = 'times';
+	public $coreFonts;
 
 	/**
 	 * This is the class constructor.
@@ -49,14 +52,7 @@ class PlgRedshop_PdfTcPDFHelper extends TCPDF
 		$isPdfA = false)
 	{
 		parent::__construct($orientation, $unit, $format, $unicode, $encoding, $diskCache, $isPdfA);
-
-		$this->setFontSubsetting(true);
-		$this->SetFont($this->defaultFont, '', 12);
-		$this->setHeaderFont(array($this->defaultFont, '', 10));
-		$this->SetAuthor(JText::_('LIB_REDSHOP_PDF_CREATOR'));
-		$this->SetCreator(JText::_('LIB_REDSHOP_PDF_CREATOR'));
-		$this->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$this->SetMargins(8, 8, 8);
+		$this->coreFonts = $this->CoreFonts;
 	}
 
 	/**

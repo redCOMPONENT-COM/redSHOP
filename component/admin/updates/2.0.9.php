@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Updates
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -118,6 +118,12 @@ class RedshopUpdate209 extends RedshopInstallUpdate
 			$oldPaths[] = JPath::clean(JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section);
 			$sourceFile = JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section . '/' . $template->name . '.php';
 			$sourceFile = JPath::clean($sourceFile);
+
+			if (!JFile::exists($sourceFile))
+			{
+				$sourceFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/default.php');
+			}
+
 			$targetFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/' . $table->file_name . '.php');
 
 			if (JFile::exists($sourceFile))

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,6 +77,24 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		return $this->_data;
+	}
+
+
+	/**
+	 * get name supplier
+	 * @param   int  $id id supplier
+	 *
+	 * @return array
+	 */
+	public function getNameSupplierById($id)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('name')
+			->from($db->qn('#__redshop_supplier'))
+			->where($db->qn('id') . ' = ' . (int) $id);
+
+		return $db->setQuery($query)->loadResult();
 	}
 
 	public function _buildQuery()

@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,6 +20,13 @@ JLoader::import('redshop.library');
  */
 class PlgRedshop_ImportCategory extends AbstractImportPlugin
 {
+	/**
+	 * Category name is required
+	 *
+	 * @var   array
+	 */
+	protected $requiredFields = array('name');
+
 	/**
 	 * @var   string
 	 */
@@ -105,6 +112,14 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 	 */
 	public function processImport($table, $data)
 	{
+		foreach ($this->requiredFields as $required)
+		{
+			if (empty($data[$required]))
+			{
+				return false;
+			}
+		}
+
 		// Set the new parent id if parent id not matched OR while New/Save as Copy .
 		if (isset($data['parent_id']) && $table->parent_id != $data['parent_id'])
 		{
@@ -116,7 +131,14 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 			$table->load($data[$this->primaryKey]);
 		}
 
-		if (!$table->bind($data) || !$table->check() || !$table->store())
+		try
+		{
+			if (!$table->bind($data) || !$table->check() || !$table->store())
+			{
+				return false;
+			}
+		}
+		catch (\Exception $e)
 		{
 			return false;
 		}

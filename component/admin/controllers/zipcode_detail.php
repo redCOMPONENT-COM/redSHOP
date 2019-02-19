@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,6 +44,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 
 		/** @var RedshopModelZipcode_detail $model */
 		$model = $this->getModel('zipcode_detail');
+		$row   = false;
 
 		if ($post["zipcode_to"] == "")
 		{
@@ -57,6 +58,8 @@ class RedshopControllerZipcode_detail extends RedshopController
 				$row             = $model->store($post);
 			}
 		}
+		
+		$msgType = null;
 
 		if ($row)
 		{
@@ -65,15 +68,16 @@ class RedshopControllerZipcode_detail extends RedshopController
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_IN_ZIPCODE_DETAIL');
+			$msgType = 'error';
 		}
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg, $msgType);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg, $msgType);
 		}
 	}
 
@@ -103,5 +107,27 @@ class RedshopControllerZipcode_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
+	}
+
+	/**
+	 * Get list state of country
+	 *
+	 * @since 2.1.2
+	 *
+	 * @return  void
+	 */
+	public function getStateDropdown()
+	{
+		$get   = $this->input->get->getArray();
+		/** @var RedshopModelZipcode_detail $model */
+		$model = $this->getModel('zipcode_detail');
+		echo JHtml::_(
+			'select.genericlist',
+			$model->getStateDropdown($get),
+			'stateCode[]',
+			'class="inputbox" multiple="multiple"',
+			'value',
+			'text'
+		);
 	}
 }

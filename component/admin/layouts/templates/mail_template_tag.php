@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -198,6 +198,11 @@ switch ($name)
 	case 'wishlist':
 		?>
 		{name} {product_loop_start} {product_thumb_image} {product_name} {product_price} {product_loop_end} {from_name}
+		<?php
+		break;
+	case 'send_discount_code':
+		?>
+		{discount_code} {discount_value} {discount_voucher_product} {discount_start_date} {discount_end_date}
 		<?php
 		break;
 }

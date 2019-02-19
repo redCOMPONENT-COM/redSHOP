@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,10 +35,10 @@ class RedshopModelPrice_Filter extends RedshopModel
 			->where('p.published = 1')
 			->order('p.product_price');
 
-		if ($category = JFactory::getApplication()->input->getInt('category', 0))
+		if ($category = JFactory::getApplication()->input->getString('category', 0))
 		{
 			$query->leftJoin($db->qn('#__redshop_product_category_xref', 'cx') . ' ON cx.product_id = p.product_id')
-				->where('cx.category_id = ' . (int) $category);
+				->where($db->qn('cx.category_id') . ' IN ('. $category .')');
 		}
 
 		return $db->setQuery($query)->loadObjectList();

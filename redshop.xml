@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>2.1.0</version>
+    <version>2.1.2</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -90,7 +90,6 @@
     <!-- Modules to install with the component -->
     <modules>
         <module name="mod_redshop_cart" client="site"/>
-        <module name="mod_redshop_filter" client="site"/>
         <module name="mod_redshop_search" client="site"/>
     </modules>
 

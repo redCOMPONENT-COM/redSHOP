@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -161,6 +161,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($voucherCode);
 		$I->waitForElement(\VoucherManagerPage::$voucherCode, 30);
 		$I->checkForPhpNoticesOrWarnings();
+		$I->wait(0.5);
 		$I->fillField(\VoucherManagerPage::$voucherCode, $voucherNewCode);
 		$I->click(\VoucherManagerPage::$saveCloseButton);
 		$I->assertSystemMessageContains(\VoucherManagerPage::$messageSaveSuccess);
@@ -313,6 +314,7 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\VoucherManagerPage::$URL);
+		$I->click(\VoucherManagerPage::$resetButton);
 		$I->waitForElement(\VoucherManagerPage::$checkAllXpath, 30);
 		$I->checkAllResults();
 		$I->click(\VoucherManagerPage::$deleteButton);

@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -226,8 +226,10 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountPage::$fieldAmount, $amount);
 		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
 		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
-		$client->fillField(\DiscountPage::$fieldStartDate, $endDate);
-		$client->fillField(\DiscountPage::$fieldEndDate, $startDate);
+		$client->waitForElement(\DiscountPage::$fieldStartDate, 30);
+		$client->click(\DiscountPage::$fieldStartDate);
+		$client->addValueForField(\DiscountPage::$fieldStartDate, $endDate, 10);
+		$client->addValueForField(\DiscountPage::$fieldEndDate, $startDate, 10);
 		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
 		$client->click(\DiscountPage::$buttonSave);
 		$client->waitForElement(\DiscountPage::$selectorMissing, 30);
@@ -389,4 +391,33 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"], 30);
 		$I->click(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"]);
 	}
+    /**
+     * @param $name
+     * @param $totalAmount
+     * @param $condition
+     * @param $discountType
+     * @param $discountAmount
+     * @param $startDate
+     * @param $endDate
+     * @param $shopperGroup
+     * @throws \Exception
+     */
+    public function addTotalDiscountSaveClose($name, $totalAmount, $condition, $discountType, $discountAmount, $startDate, $endDate, $shopperGroup)
+    {
+        $client = $this;
+        $client->amOnPage(\DiscountPage::$url);
+        $client->checkForPhpNoticesOrWarnings();
+        $client->click(\DiscountPage::$buttonNew);
+        $client->waitForElement(\DiscountPage::$fieldAmount, 30);
+        $client->fillField(\DiscountPage::$fieldName, $name);
+        $client->fillField(\DiscountPage::$fieldAmount, $totalAmount);
+        $client->selectOption(\DiscountPage::$fieldCondition, $condition);
+        $client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
+        $client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
+        $client->fillField(\DiscountPage::$fieldStartDate, $startDate);
+        $client->fillField(\DiscountPage::$fieldEndDate, $endDate);
+        $client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
+        $client->click(\DiscountPage::$buttonSaveClose);
+        $client->waitForText(\DiscountPage::$messageItemSaveSuccess, 30, \DiscountPage::$selectorSuccess);
+    }
 }

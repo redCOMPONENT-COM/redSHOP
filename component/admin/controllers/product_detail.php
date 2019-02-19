@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -151,21 +151,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post ['publish_date'] = date("Y-m-d H:i:s");
 		}
 
-		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
-		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
-
-		if ($post['discount_stratdate'])
-		{
-			$startDate                  = new JDate($post['discount_stratdate']);
-			$post['discount_stratdate'] = $startDate->toUnix();
-		}
-
-		if ($post['discount_enddate'])
-		{
-			$endDate                  = new JDate($post['discount_enddate']);
-			$post['discount_enddate'] = $endDate->toUnix();
-		}
-
 		// Setting default value
 		$post['product_on_sale'] = 0;
 
@@ -216,7 +201,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			JPluginHelper::importPlugin('redshop_product');
 			JPluginHelper::importPlugin('redshop_product_type');
 
-			RedshopHelperUtility::getDispatcher()->trigger('onAfterProductFullSave', array($row));
+			RedshopHelperUtility::getDispatcher()->trigger('onAfterProductFullSave', array($row, $post['product_id']));
 
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
@@ -797,6 +782,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$model = $this->getModel('product_detail');
 
+		/**
+		 * @var RedshopModelProduct_Detail $model
+		 */
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -812,6 +800,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$model = $this->getModel('product_detail');
 
+		/**
+		 * @var RedshopModelProduct_Detail $model
+		 */
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
@@ -913,11 +904,16 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if (count($result) > 0 && count($result) == count($strArr))
 		{
 			$model    = $this->getModel('product_detail');
+
+			/**
+			 * @var RedshopModelProduct_Detail $model
+			 */
 			$isExists = $model->checkVirtualNumber($product_id, $result);
 		}
 
 		echo (int) $isExists;
-		die();
+
+		\JFactory::getApplication()->close();
 	}
 
 	/**

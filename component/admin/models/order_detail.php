@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -840,6 +840,11 @@ class RedshopModelOrder_detail extends RedshopModel
 				return false;
 			}
 
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+			{
+				RedshopEconomic::renewInvoiceInEconomic($orderdata);
+			}
+
 			$tmpArr['special_discount'] = $orderdata->special_discount;
 			$this->special_discount($tmpArr, true);
 		}
@@ -1064,7 +1069,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					$orderdata->ship_method_id     = $data['shipping_rate_id'];
 					$orderdata->order_shipping_tax = (isset($neworder_shipping[6]) && $neworder_shipping[6]) ? $neworder_shipping[6] : 0;
 					$orderdata->mdate              = time();
-					$orderdata->shop_id            = $data['shop_id'] . "###" . $data['gls_mobile'];
+					$orderdata->shop_id            = $data['shop_id'] . "###" . $data['gls_mobile'] . "###" . $data['gls_zipcode'];
 
 					if (!$orderdata->store())
 					{

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -141,6 +141,11 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		if (!$row->shipping_rate_on_category)
 		{
 			$row->shipping_rate_on_category = '';
+		}
+
+		if (!$row->shipping_rate_country)
+		{
+			$row->shipping_rate_country = '';
 		}
 
 		if (!$row->shipping_rate_state)

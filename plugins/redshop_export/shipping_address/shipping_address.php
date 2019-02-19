@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -94,6 +94,7 @@ class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
 	protected function getQuery()
 	{
 		return $this->db->getQuery(true)
+			->select($this->db->qn('ui.users_info_id'))
 			->select('IFNULL(' . $this->db->qn('u.email') . ',' . $this->db->qn('ui.user_email') . ') AS ' . $this->db->qn('email'))
 			->select(
 				$this->db->qn(
@@ -107,20 +108,21 @@ class PlgRedshop_ExportShipping_Address extends AbstractExportPlugin
 			->leftJoin(
 				$this->db->qn('#__users', 'u') . ' ON ' . $this->db->qn('u.id') . ' = ' . $this->db->qn('ui.user_id')
 			)
-			->where($this->db->qn('ui.address_type') . ' = ' . $this->db->quote('ST'));
+			->where($this->db->qn('ui.address_type') . ' = ' . $this->db->quote('ST'))
+			->order($this->db->qn('ui.users_info_id') . ' ASC ');
 	}
 
 	/**
 	 * Method for get headers data.
 	 *
-	 * @return array|bool
+	 * @return array
 	 *
 	 * @since  1.0.0
 	 */
 	protected function getHeader()
 	{
 		return array(
-			'email', 'username', 'company_name', 'firstname', 'lastname', 'address', 'city', 'state_code', 'zipcode', 'country_code', 'phone'
+			'users_info_id', 'email', 'username', 'company_name', 'firstname', 'lastname', 'address', 'city', 'state_code', 'zipcode', 'country_code', 'phone'
 		);
 	}
 }

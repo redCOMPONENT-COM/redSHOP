@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -256,7 +256,7 @@ class RedshopMenuLeft_Menu
 
 			case "catalog":
 			case "catalog_request":
-				return array('CUSTOMIZATION', 'catalog');
+				return array('CUSTOMIZATION', 'catalogs');
 
 			case "sample":
 			case "sample_request":
@@ -673,9 +673,9 @@ class RedshopMenuLeft_Menu
 				self::$view === 'texts'
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=catalog',
+				'index.php?option=com_redshop&view=catalogs',
 				'COM_REDSHOP_CATALOG',
-				self::$view === 'catalog'
+				(self::$view == 'catalogs') ? true : false
 			)
 			->addItem(
 				'index.php?option=com_redshop&view=sample',

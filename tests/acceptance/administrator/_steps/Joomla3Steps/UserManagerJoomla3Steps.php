@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,6 +59,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->executeJS('window.scrollTo(0,0)');
                 $I->click(\UserManagerJoomla3Page::$linkUser);
+                $I->waitForElement(\UserManagerJoomla3Page::$resetButton, 30);
+                $I->click(\UserManagerJoomla3Page::$resetButton);
                 $I->see($firstName);
                 $I->executeJS('window.scrollTo(0,0)');
                 $I->click(\UserManagerJoomla3Page::$linkUser);
@@ -431,8 +433,13 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      *
      * @param   String $name Name of the User which is to be Deleted
      * @param   Boolean $deleteJoomlaUser Boolean Parameter to decide weather to delete Joomla! user as well
-     *
+     * @param $name
      * @return void
+     */
+    /**
+     * @param $name
+     * @param bool $deleteJoomlaUser
+     * @throws \Exception
      */
     public function deleteUser($name, $deleteJoomlaUser = true)
     {
@@ -455,11 +462,49 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(['link' => 'ID']);
         $I->amOnPage(\UserManagerJoomla3Page::$URLJoomla);
         $I->searchForItem($name);
-
         if ($deleteJoomlaUser) {
             $I->dontSee($name, \UserManagerJoomla3Page::$userJoomla);
         } else {
             $I->see($name, \UserManagerJoomla3Page::$userJoomla);
         }
+    }
+
+    /**
+     * Function to create oder on User detail
+     *
+     *
+     * @param $nameUser
+     * @param $nameProduct
+     * @param $quantity
+     * @throws \Exception
+     */
+    public function checkPlaceOder($nameUser,$nameProduct,$quantity)
+    {
+        $I = $this;
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->searchUser($nameUser);
+        $I->see($nameUser, \UserManagerJoomla3Page::$firstResultRow);
+        $I->click(\UserManagerJoomla3Page::$selectFirst);
+        $I->click(\UserManagerJoomla3Page::$editButton);
+        $I->click(\UserManagerJoomla3Page::$btnPlaceOder);
+
+        $I->see($nameUser);
+        $userOrderPage = new \OrderManagerPage();
+        $I->waitForElement(\OrderManagerPage::$applyUser, 30);
+        $I->executeJS("jQuery('.button-apply').click()");
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
+        $I->scrollTo(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
+        $I->click(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
+        $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
+        $I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
+        $I->click($userOrderPage->returnSearch($nameProduct));
+        $I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
+
+        $I->click(\OrderManagerPage::$buttonSave);
+        $I->waitForElement(\OrderManagerPage::$close, 30);
+        $I->waitForText(\OrderManagerPage::$buttonClose, 10, \OrderManagerPage::$close);
     }
 }

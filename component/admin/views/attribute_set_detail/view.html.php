@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,6 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
-		$cfg   = JFactory::getConfig();
 		$lists = array();
 
 		$model = $this->getModel('attribute_set_detail');

@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,14 +21,14 @@ class Property
 	/**
 	 * Method for replace product properties add to cart
 	 *
-	 * @param   integer $productId     Product ID
-	 * @param   integer $propertyId    Property ID
-	 * @param   integer $categoryId    Category ID
-	 * @param   string  $commonId      DOM ID
-	 * @param   integer $propertyStock Property stock
-	 * @param   string  $propertyData  Property Data
-	 * @param   object  $cartTemplate  Cart template
-	 * @param   string  $content       Template content
+	 * @param   integer      $productId     Product ID
+	 * @param   integer      $propertyId    Property ID
+	 * @param   integer      $categoryId    Category ID
+	 * @param   string       $commonId      DOM ID
+	 * @param   integer      $propertyStock Property stock
+	 * @param   string       $propertyData  Property Data
+	 * @param   array|object $cartTemplate  Cart template
+	 * @param   string       $content       Template content
 	 *
 	 * @return  mixed|string
 	 * @throws  \Exception
