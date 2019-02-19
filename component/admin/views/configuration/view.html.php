@@ -27,6 +27,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
+		$lang = JFactory::getLanguage();
+		$lang->load('com_content', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 		$db = JFactory::getDbo();
 
 		$document = JFactory::getDocument();
