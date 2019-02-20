@@ -1380,6 +1380,11 @@ function setPropImage(product_id, propertyObj, selValue) {
 
 function setSubpropImage(product_id, subpropertyObj, selValue) {
     var subpropName = document.getElementById(subpropertyObj + '_' + selValue);
+
+    if (!subpropName) {
+        subpropName = document.getElementById(subpropertyObj);
+    }
+
     if (subpropName) {
         if (subpropName.type == 'checkbox' || subpropName.type == 'radio') {
             var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
@@ -1480,6 +1485,18 @@ function setSubpropertyImage(product_id, subpropertyObj, selValue) {
                 }
             }
 
+        }
+    } else {
+        var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
+        for (var p = 0; p < subpropNameObj.length; p++) {
+            var borderstyle = "";
+            selValue = subpropNameObj[p].value;
+            if (subpropNameObj[p].checked) {
+                borderstyle = "1px solid";
+            }
+            if (document.getElementById(subpropertyObj + "_subpropimg_" + selValue)) {
+                document.getElementById(subpropertyObj + "_subpropimg_" + selValue).style.border = borderstyle;
+            }
         }
     }
 }
