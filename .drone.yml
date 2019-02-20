@@ -2105,7 +2105,7 @@ services:
             - sh tests/drone/setup-stages.sh        "User"                          "36-User"                           $php_versions
             - sh tests/drone/setup-stages.sh        "Field_Group"                   "37-Field_Group"                    $php_versions
             - sh tests/drone/setup-stages.sh        "Mass_Discount"                 "38-Mass_Discount"                  $php_versions
-            # - sh tests/drone/setup-stages.sh        "VAT"                           "39-VAT"                            $php_versions
+            #- sh tests/drone/setup-stages.sh        "VAT"                           "39-VAT"                            $php_versions
             - sh tests/drone/setup-stages.sh        "Voucher"                       "40-Voucher"                        $php_versions
             - sh tests/drone/setup-stages.sh        "Text"                          "41-Text"                           $php_versions
             - sh tests/drone/setup-stages.sh        "Supplier"                      "42-Supplier"                       $php_versions
