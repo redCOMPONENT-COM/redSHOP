@@ -1195,45 +1195,45 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Order 0 0'
 
-    28-Product_Attribute-56:
-        group: 10-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=28-Product_Attribute
-            - tests_db=Product_Attribute
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-28-Product_Attribute-56
-            - php_version=56
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Product_Attribute 0 0'
-
-    28-Product_Attribute-71:
-        group: 10-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=28-Product_Attribute
-            - tests_db=Product_Attribute
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-28-Product_Attribute-71
-            - php_version=71
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Product_Attribute 0 0'
+#    28-Product_Attribute-56:
+#        group: 10-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=28-Product_Attribute
+#            - tests_db=Product_Attribute
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-28-Product_Attribute-56
+#            - php_version=56
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Product_Attribute 0 0'
+#
+#    28-Product_Attribute-71:
+#        group: 10-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=28-Product_Attribute
+#            - tests_db=Product_Attribute
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-28-Product_Attribute-71
+#            - php_version=71
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10/Product_Attribute 0 0'
 
     29-Tax_Group-56:
         group: 10-tests
@@ -1635,45 +1635,45 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13/Discount_Groups/Discounts/Mass_Discount 0 0'
 
-    39-VAT-56:
-        group: 13-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=39-VAT
-            - tests_db=VAT
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-39-VAT-56
-            - php_version=56
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13/VAT 0 0'
-
-    39-VAT-71:
-        group: 13-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=39-VAT
-            - tests_db=VAT
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-39-VAT-71
-            - php_version=71
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13/VAT 0 0'
+#    39-VAT-56:
+#        group: 13-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=39-VAT
+#            - tests_db=VAT
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-39-VAT-56
+#            - php_version=56
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13/VAT 0 0'
+#
+#    39-VAT-71:
+#        group: 13-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=39-VAT
+#            - tests_db=VAT
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-39-VAT-71
+#            - php_version=71
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13/VAT 0 0'
 
     40-Voucher-56:
         group: 14-tests
@@ -2067,34 +2067,34 @@ services:
             # Base installation
             - sh tests/drone/setup-base-install.sh  $tests_db                       $tests_suite                        $php_versions
             # Stages setup
-#            - sh tests/drone/setup-stages.sh        "Uninstall"                     "01-Uninstall"                      $php_versions
-#            - sh tests/drone/setup-stages.sh        "Price_Product"                 "02-Price_Product"                  $php_versions
-#            - sh tests/drone/setup-stages.sh        "ProductNotForSaleOnFrontend"   "03-ProductNotForSaleOnFrontend"    $php_versions
-#            - sh tests/drone/setup-stages.sh        "State"                         "04-State"                          $php_versions
-#            - sh tests/drone/setup-stages.sh        "CheckoutDiscountOnProduct"     "05-CheckoutDiscountOnProduct"      $php_versions
-#            - sh tests/drone/setup-stages.sh        "CheckoutDiscountTotal"         "06-CheckoutDiscountTotal"          $php_versions
-#            - sh tests/drone/setup-stages.sh        "Shipping"                      "07-Shipping"                       $php_versions
-#            - sh tests/drone/setup-stages.sh        "VoucherCheckoutProduct"        "08-VoucherCheckoutProduct"         $php_versions
-#            - sh tests/drone/setup-stages.sh        "Notices"                       "09-Notices"                        $php_versions
-#            - sh tests/drone/setup-stages.sh        "Wrapper"                       "10-Wrapper"                        $php_versions
-#            - sh tests/drone/setup-stages.sh        "Stockroom"                     "11-Stockroom"                      $php_versions
-#            - sh tests/drone/setup-stages.sh        "Stock_Image"                   "12-Stock_Image"                    $php_versions
-#            - sh tests/drone/setup-stages.sh        "Template"                      "13-Template"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "Uninstall"                     "01-Uninstall"                      $php_versions
+            - sh tests/drone/setup-stages.sh        "Price_Product"                 "02-Price_Product"                  $php_versions
+            - sh tests/drone/setup-stages.sh        "ProductNotForSaleOnFrontend"   "03-ProductNotForSaleOnFrontend"    $php_versions
+            - sh tests/drone/setup-stages.sh        "State"                         "04-State"                          $php_versions
+            - sh tests/drone/setup-stages.sh        "CheckoutDiscountOnProduct"     "05-CheckoutDiscountOnProduct"      $php_versions
+            - sh tests/drone/setup-stages.sh        "CheckoutDiscountTotal"         "06-CheckoutDiscountTotal"          $php_versions
+            - sh tests/drone/setup-stages.sh        "Shipping"                      "07-Shipping"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "VoucherCheckoutProduct"        "08-VoucherCheckoutProduct"         $php_versions
+            - sh tests/drone/setup-stages.sh        "Notices"                       "09-Notices"                        $php_versions
+            - sh tests/drone/setup-stages.sh        "Wrapper"                       "10-Wrapper"                        $php_versions
+            - sh tests/drone/setup-stages.sh        "Stockroom"                     "11-Stockroom"                      $php_versions
+            - sh tests/drone/setup-stages.sh        "Stock_Image"                   "12-Stock_Image"                    $php_versions
+            - sh tests/drone/setup-stages.sh        "Template"                      "13-Template"                       $php_versions
             - sh tests/drone/setup-stages.sh        "Quotation_FrontEnd"            "14-Quotation_FrontEnd"             $php_versions
-#            - sh tests/drone/setup-stages.sh        "Quotations"                    "15-Quotation"                      $php_versions
-#            - sh tests/drone/setup-stages.sh        "MassDiscountCheckout"          "16-MassDiscountCheckout"           $php_versions
-#            - sh tests/drone/setup-stages.sh        "Country"                       "17-Country"                        $php_versions
-#            - sh tests/drone/setup-stages.sh        "Discount_Product"              "18-Discount_Product"               $php_versions
-#            - sh tests/drone/setup-stages.sh        "Currency"                      "19-Currency"                       $php_versions
-#            - sh tests/drone/setup-stages.sh        "Configuration"                 "20-Configuration"                  $php_versions
-#            - sh tests/drone/setup-stages.sh        "Shopper_Group"                 "21-Shopper_Group"                  $php_versions
+            - sh tests/drone/setup-stages.sh        "Quotations"                    "15-Quotation"                      $php_versions
+            - sh tests/drone/setup-stages.sh        "MassDiscountCheckout"          "16-MassDiscountCheckout"           $php_versions
+            - sh tests/drone/setup-stages.sh        "Country"                       "17-Country"                        $php_versions
+            - sh tests/drone/setup-stages.sh        "Discount_Product"              "18-Discount_Product"               $php_versions
+            - sh tests/drone/setup-stages.sh        "Currency"                      "19-Currency"                       $php_versions
+            - sh tests/drone/setup-stages.sh        "Configuration"                 "20-Configuration"                  $php_versions
+            - sh tests/drone/setup-stages.sh        "Shopper_Group"                 "21-Shopper_Group"                  $php_versions
             - sh tests/drone/setup-stages.sh        "Custom_Field"                  "22-Custom_Field"                   $php_versions
             - sh tests/drone/setup-stages.sh        "Compare_Products"              "23-Compare_Products"               $php_versions
             - sh tests/drone/setup-stages.sh        "Discount"                      "24-Discount"                       $php_versions
             - sh tests/drone/setup-stages.sh        "Checkout_Quantity"             "25-Checkout_Quantity"              $php_versions
             - sh tests/drone/setup-stages.sh        "Shopper_Groups_Checkout"       "26-Shopper_Groups_Checkout"        $php_versions
             - sh tests/drone/setup-stages.sh        "Order_Checkout"                "27-Order_Checkout"                 $php_versions
-            - sh tests/drone/setup-stages.sh        "Product_Attribute"             "28-Product_Attribute"              $php_versions
+            # - sh tests/drone/setup-stages.sh        "Product_Attribute"             "28-Product_Attribute"              $php_versions
             - sh tests/drone/setup-stages.sh        "Tax_Group"                     "29-Tax_Group"                      $php_versions
             - sh tests/drone/setup-stages.sh        "GiftCardCheckout"              "30-GiftCardCheckout"               $php_versions
             - sh tests/drone/setup-stages.sh        "Giftcard"                      "31-Giftcard"                       $php_versions
@@ -2105,7 +2105,7 @@ services:
             - sh tests/drone/setup-stages.sh        "User"                          "36-User"                           $php_versions
             - sh tests/drone/setup-stages.sh        "Field_Group"                   "37-Field_Group"                    $php_versions
             - sh tests/drone/setup-stages.sh        "Mass_Discount"                 "38-Mass_Discount"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "VAT"                           "39-VAT"                            $php_versions
+            # - sh tests/drone/setup-stages.sh        "VAT"                           "39-VAT"                            $php_versions
             - sh tests/drone/setup-stages.sh        "Voucher"                       "40-Voucher"                        $php_versions
             - sh tests/drone/setup-stages.sh        "Text"                          "41-Text"                           $php_versions
             - sh tests/drone/setup-stages.sh        "Supplier"                      "42-Supplier"                       $php_versions
