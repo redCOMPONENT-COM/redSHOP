@@ -174,4 +174,3 @@ class ProductUpdateOnQuantityCest
 		$I->deleteCategory($this->categoryName);
 	}
 }
-
