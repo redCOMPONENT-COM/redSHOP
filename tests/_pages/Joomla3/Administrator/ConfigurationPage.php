@@ -350,7 +350,7 @@ class ConfigurationPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $allowDiscountSearch = "#s2id_autogen39_search";
+	public static $allowDiscountSearch = "#s2id_autogen38_search";
 
 	/**
 	 * @var string
@@ -420,7 +420,7 @@ class ConfigurationPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $valueDiscountCouponSearch = "#s2id_autogen40_search";
+	public static $valueDiscountCouponSearch = "#s2id_autogen39_search";
 
 	/**
 	 * @var string
