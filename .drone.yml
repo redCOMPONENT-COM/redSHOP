@@ -875,45 +875,45 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Customizations/Currency 0 0'
 
-    20-Configuration-56:
-        group: 07-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=20-Configuration
-            - tests_db=Configuration
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-20-Configuration-56
-            - php_version=56
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Configuration/ 0 0'
-
-    20-Configuration-71:
-        group: 07-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=20-Configuration
-            - tests_db=Configuration
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-20-Configuration-71
-            - php_version=71
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Configuration/ 0 0'
+#    20-Configuration-56:
+#        group: 07-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=20-Configuration
+#            - tests_db=Configuration
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-20-Configuration-56
+#            - php_version=56
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Configuration/ 0 0'
+#
+#    20-Configuration-71:
+#        group: 07-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=20-Configuration
+#            - tests_db=Configuration
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-20-Configuration-71
+#            - php_version=71
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07/Configuration/ 0 0'
 
     21-Shopper_Group-56:
         group: 07-tests
@@ -2086,7 +2086,7 @@ services:
             - sh tests/drone/setup-stages.sh        "Country"                       "17-Country"                        $php_versions
             - sh tests/drone/setup-stages.sh        "Discount_Product"              "18-Discount_Product"               $php_versions
             - sh tests/drone/setup-stages.sh        "Currency"                      "19-Currency"                       $php_versions
-            - sh tests/drone/setup-stages.sh        "Configuration"                 "20-Configuration"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "Configuration"                 "20-Configuration"                  $php_versions
             - sh tests/drone/setup-stages.sh        "Shopper_Group"                 "21-Shopper_Group"                  $php_versions
             - sh tests/drone/setup-stages.sh        "Custom_Field"                  "22-Custom_Field"                   $php_versions
             - sh tests/drone/setup-stages.sh        "Compare_Products"              "23-Compare_Products"               $php_versions
