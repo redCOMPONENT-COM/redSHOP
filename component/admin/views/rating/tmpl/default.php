@@ -24,6 +24,9 @@ $order_functions = order_functions::getInstance();
 		if ((pressbutton == 'add')
 			|| (pressbutton == 'edit')
 			|| (pressbutton == 'remove')) {
+            if (pressbutton == 'remove' && !confirm('<?php echo JText::_("COM_REDSHOP_RATING_DELETE_CONFIRM")?>')) {
+                return;
+            }
 			form.view.value = "rating_detail";
 		}
 		try {
