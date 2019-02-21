@@ -105,6 +105,26 @@ class RedshopModelMedia_detail extends RedshopModel
 				$detail->media_title = null;
 			}
 
+			if (!isset($detail->media_name))
+			{
+				$detail->media_name = null;
+			}
+
+			if (!isset($detail->media_alternate_text))
+			{
+				$detail->media_alternate_text = null;
+			}
+
+			if (!isset($detail->media_section))
+			{
+				$detail->media_section = null;
+			}
+
+			if (!isset($detail->section_id))
+			{
+				$detail->section_id = null;
+			}
+
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
