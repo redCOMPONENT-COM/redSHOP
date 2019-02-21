@@ -995,11 +995,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 				if ($apply == 1)
 				{
-					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg);
+					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg, 'message');
 				}
 				else
 				{
-					$this->setRedirect($link, $msg);
+					$this->setRedirect($link, $msg, 'message');
 				}
 			}
 			else
