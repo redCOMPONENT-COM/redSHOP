@@ -19,6 +19,7 @@ echo RedshopLayoutHelper::render(
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
+		'id' => 'default-vat-state',
 		'title' => JText::_('COM_REDSHOP_DEFAULT_VAT_STATE_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_VAT_STATE'),
 		'field' => $this->lists['default_vat_state']
