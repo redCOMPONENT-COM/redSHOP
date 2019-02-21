@@ -60,6 +60,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		// Store current post to user state
+		$context = "com_redshop.edit.media";
+		JFactory::getApplication()->setUserState($context . '.data', json_encode($post));
+
 		$cid = $this->input->get->get('cid', array(0), 'array');
 
 		/** @var RedshopModelMedia_detail $model */
