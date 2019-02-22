@@ -145,14 +145,14 @@ class RedshopModelMedia_detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -203,7 +203,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 				if (!$this->_db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -226,7 +226,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -334,7 +334,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 							if (!$this->_db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -347,7 +347,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 							if (!$this->_db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -360,7 +360,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 							if (!$this->_db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -381,8 +381,13 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row        = $this->getTable();
-		$order      = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+		$row = $this->getTable();
+
+		if ($order == '' || empty($order))
+		{
+			$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+		}
+
 		$conditions = array();
 
 		// Update ordering values
@@ -397,7 +402,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}

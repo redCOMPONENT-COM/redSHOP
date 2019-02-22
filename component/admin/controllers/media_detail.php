@@ -1037,7 +1037,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_DELETED_SUCCESSFULLY');
@@ -1108,7 +1108,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$cid           = ArrayHelper::toInteger($cid);
 		$order         = ArrayHelper::toInteger($order);
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (empty((array) $cid) || count($cid) < 1)
 		{
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
@@ -1116,9 +1116,9 @@ class RedshopControllerMedia_Detail extends RedshopController
 		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
-		if (!$model->saveorder($cid, $order))
+		if ($model->saveorder($cid, $order) === false)
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -1165,7 +1165,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->orderup())
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -1212,7 +1212,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->orderdown())
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
