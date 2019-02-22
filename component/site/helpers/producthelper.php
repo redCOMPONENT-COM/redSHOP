@@ -2444,7 +2444,7 @@ class productHelper
 					)
 				);
 
-				if ($imgAdded == 0 || $isAjax == 1)
+				if ($imgAdded === 0 || $isAjax == 1)
 				{
 					$subPropertyScroller = "";
 				}
