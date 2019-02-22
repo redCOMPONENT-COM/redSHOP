@@ -520,9 +520,15 @@ class RedshopModelStatistic extends RedshopModelList
 		$query = $db->getQuery(true)
 			->clear()
 			->select('FROM_UNIXTIME(' . $db->qn('o.cdate') . ',' . $db->q($formate) . ') AS viewdate')
+			->select($db->qn('uf.firstname'))
+			->select($db->qn('uf.lastname'))
+			->select($db->qn('uf.user_email'))
 			->select('(SUM(o.order_total)/COUNT(DISTINCT o.user_id)) AS avg_order')
 			->from($db->qn('#__redshop_orders', 'o'))
+			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id'))
+			->where($db->qn('uf.address_type') . ' = ' . $db->q('BT'))
 			->where($db->qn('o.order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
+			->group($db->qn('o.user_id'))
 			->order($db->qn('viewdate') . ' DESC');
 
 		if ($this->_filteroption && $minDate != '' && $minDate != 0)
