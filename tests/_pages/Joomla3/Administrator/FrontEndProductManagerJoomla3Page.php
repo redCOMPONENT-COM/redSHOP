@@ -17,220 +17,220 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 {
 	// Include url of current page
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $URL = '/index.php?option=com_redshop';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $cartPageUrL = "index.php?option=com_redshop&view=cart";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $quotation = "/index.php?option=com_redshop&view=quotation";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addQuotation = "//input[@name='addquotation']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $categoryDiv = "//div[@id='redshopcomponent']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $productList = "//div[@id='redcatproducts']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addToCart = "//span[contains(text(), 'Add to cart')]";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 
-    public static $addToCompare = "//input[@name='rsProductCompareChk']";
+	public static $addToCompare = "//input[@name='rsProductCompareChk']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $showProductToCompare = "//a[text() = 'Show Products To Compare']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $alertMessageDiv = "//div[@class='alert alert-success']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $alertSuccessMessage = "Product has been added to your cart.";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $alterOutOfStock = "Sorry, This product is out of stock....";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addQuotationSuccess = 'Quotation detail has been sent successfully';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $checkoutURL = "/index.php?option=com_redshop&view=checkout";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $headBilling = 'Billing Address Information';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $newCustomerSpan = "//span[text() = 'New customer? Please Provide Your Billing Information']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $checkoutButton = "Checkout";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressEmail = "#private-email1";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $userEmail = "//input[@id='user_email']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressFirstName = "//input[@id='private-firstname']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressLastName = "//input[@id='private-lastname']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressAddress = "//input[@id='private-address']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressPostalCode = "//input[@id='private-zipcode']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressCity = "//input[@id='private-city']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressCountry = "//select[@id='rs_country_country_code']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressState = "//select[@id='state_code']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addressPhone = "//input[@id='private-phone']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $shippingFirstName = "//input[@id='firstname_ST']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $shippingLastName = "//input[@id='lastname_ST']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $shippingAddress = "//input[@id='address_ST']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $shippingPostalCode = "//input[@id='zipcode_ST']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $shippingCity = "//input[@id='city_ST']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $countryId = "#rs_country_country_code";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $selectSecondCountry = "//select[@id='rs_country_country_code']/option[2]";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $shippingCountry = "//select[@id='country_code_ST']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $shippingState = "//select[@id='state_code_ST']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $shippingPhone = "//input[@id='phone_ST']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $billingFinal = "//h3[text() = 'Bill to information']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $termAndConditions = "//input[@id='termscondition']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $termAndConditionsId = 'termscondition';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $checkoutFinalStep = "//input[@id='checkout_final']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $orderReceiptTitle = "//h1[contains(text(), 'Order Receipt')]";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $orderReceipt = "Order Receipt";
 
 	/**
@@ -238,7 +238,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $idAddAccount = "//label//input[@id='createaccount']";
 
-    /**
+	/**
 	 * @var array
 	 */
 	public static $idUserNameOneStep = "//input[@id='onestep-createaccount-username']";
@@ -257,6 +257,11 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var array
 	 */
 	public static $radioCompany = "//input[@billing_type='company']";
+
+	/**
+	 * @var array
+	 */
+	public static $radioIDCompany = "//input[@id='toggler2']";
 
 	/**
 	 * @var array
@@ -334,8 +339,8 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
     public static $buttonSearchProductRedShop = "//input[@id='Search']";
 
 	/**
-     * Function to get the Path $position for Attribute Dropdown List
-     *
+	 * Function to get the Path $position for Attribute Dropdown List
+	 *
 	 * @param $position
 	 *
 	 * @return array
@@ -347,13 +352,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 		return $xpath;
 	}
 
-    /**
-     * Function to get the Path $position for Attribute Dropdown Search
-     *
-     * @param $position
-     *
-     * @return string
-     */
+	/**
+	 * Function to get the Path $position for Attribute Dropdown Search
+	 *
+	 * @param $position
+	 *
+	 * @return string
+	 */
 	public function attributeDropdownSeach($position)
 	{
 		$xpath = "//input[@id='s2id_autogen'.$position.'_search']";
@@ -408,8 +413,8 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	}
 
 	/**
-     * Function to get Path $productName in Product
-     *
+	 * Function to get Path $productName in Product
+	 *
 	 * @param String $productName Name of the Product
 	 *
 	 * @return string
