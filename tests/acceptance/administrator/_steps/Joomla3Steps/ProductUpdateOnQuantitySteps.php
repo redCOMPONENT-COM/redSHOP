@@ -86,7 +86,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		for( $a= 0; $a <$quantity; $a++)
 		{
 			$I->click(AdminJ3Page:: $addToCart);
-			$I->waitForText(AdminJ3Page::$alertSuccessMessage,30);
+			$I->waitForText(AdminJ3Page::$alertSuccessMessage,60);
 		}
 		$I->click($menuItem);
 		$I->see($nameProduct);
