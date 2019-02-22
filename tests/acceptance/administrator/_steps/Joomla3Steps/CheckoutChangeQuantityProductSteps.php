@@ -44,7 +44,6 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
 		$I->wait(2);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms);
-		$I->scrollTo(\CheckoutChangeQuantityProductPage::$acceptTerms);
 		$I->wait(0.5);
 		$I->executeJS("jQuery('#termscondition').click()");
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
