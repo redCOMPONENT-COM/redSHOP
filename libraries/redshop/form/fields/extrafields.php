@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Form.Field
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -103,7 +103,7 @@ class JFormFieldExtraFields extends JFormFieldList
 		}
 
 		$this->fieldType        = isset($this->element['field_type']) ? $this->element['field_type'] : "";
-		$this->fieldShowInFront = isset($this->element['show_in_front']) ? (int) $this->element['show_in_front'] : 1;
+		$this->fieldShowInFront = isset($this->element['show_in_front']) ? (int) $this->element['show_in_front'] : null;
 		$this->published        = isset($this->element['published']) ? (int) $this->element['published'] : 1;
 
 		// Dynamic query select options
@@ -141,9 +141,14 @@ class JFormFieldExtraFields extends JFormFieldList
 				)
 			)
 			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('published') . ' = ' . (int) $this->published)
-			->where($db->qn('show_in_front') . ' = ' . (int) $this->fieldShowInFront)
-			->where($db->qn('section') . ' = ' . (int) $this->fieldSection)
+			->where($db->qn('published') . ' = ' . (int) $this->published);
+
+		if ($this->fieldShowInFront !== null)
+		{
+			$query->where($db->qn('show_in_front') . ' = ' . (int) $this->fieldShowInFront);
+		}
+
+		$query->where($db->qn('section') . ' = ' . (int) $this->fieldSection)
 			->order($db->qn('ordering') . ' ASC');
 
 		if ($this->fieldType != "")
