@@ -258,12 +258,12 @@ class ConfigurationPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $buttonCartSearch = "#s2id_autogen42_search";
+	public static $buttonCartSearch = "#s2id_autogen43_search";
 
 	/**
 	 * @var string
 	 */
-	public static $firstCartSearch = "//ul[@id='select2-results-42']";
+	public static $firstCartSearch = "//ul[@id='select2-results-43']";
 
 	/**
 	 * @var string
@@ -350,7 +350,7 @@ class ConfigurationPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $allowDiscountSearch = "#s2id_autogen38_search";
+	public static $allowDiscountSearch = "#s2id_autogen39_search";
 
 	/**
 	 * @var string
@@ -420,7 +420,7 @@ class ConfigurationPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $valueDiscountCouponSearch = "#s2id_autogen39_search";
+	public static $valueDiscountCouponSearch = "#s2id_autogen40_search";
 
 	/**
 	 * @var string
