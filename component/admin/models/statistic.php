@@ -531,7 +531,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->group($db->qn('o.user_id'))
 			->order($db->qn('viewdate') . ' DESC');
 
-		if ($this->_filteroption && $minDate != '' && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -571,7 +571,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount price
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -602,7 +602,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->order($db->qn('order_total') . 'DESC');
 		$amountPrice = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -637,7 +637,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount spent in total
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -668,7 +668,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->order($db->qn('order_total') . 'DESC');
 		$amountPrice = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -703,7 +703,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount order
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -736,7 +736,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 		$amountOrder = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -771,7 +771,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get page viewer
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -801,7 +801,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 		$pageViewer = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -836,7 +836,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get redSHOP viewer
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -860,7 +860,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 		$siteViewer = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			$query = $db->getQuery(true)
 				->clear()
@@ -904,7 +904,7 @@ class RedshopModelStatistic extends RedshopModelList
 	 *
 	 * @param   string  $today  today text
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -941,7 +941,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get start date
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -981,7 +981,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get date Format
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1017,7 +1017,7 @@ class RedshopModelStatistic extends RedshopModelList
 	 * @param   string  $section    section
 	 * @param   int     $sectionId  section id
 	 *
-	 * @return  object.
+	 * @return  mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
