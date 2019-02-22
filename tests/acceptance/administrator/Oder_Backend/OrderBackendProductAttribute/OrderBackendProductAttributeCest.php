@@ -29,7 +29,7 @@ class OrderBackendProductAttributeCest
 		$this->minimumQuantity      = 1;
 		$this->maximumQuantity      = $this->faker->numberBetween(100, 1000);
 		$this->productNumber        = $this->faker->numberBetween(999, 9999);
-		$this->price                = $this->faker->numberBetween(100, 1000);
+		$this->price                = 100;
 		$this->nameAttribute        = 'Size';
 		$this->valueAttribute       = "Z";
 		$this->priceAttribute       = 12;
