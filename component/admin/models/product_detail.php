@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -23,6 +23,8 @@ jimport('joomla.filesystem.file');
  */
 class RedshopModelProduct_Detail extends RedshopModel
 {
+	use Redshop\Model\Traits\HasDateTimeRange;
+
 	public $id = null;
 
 	public $data = null;
@@ -245,6 +247,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			$row->load($data['product_id']);
 		}
+
+		$this->handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
 
 		if (!$row->bind($data))
 		{
@@ -1456,8 +1460,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post = $this->input->post->getArray();
 				$this->_initData();
 				$post = array_merge($post, (array) $this->data);
-				$post['discount_stratdate'] = RedshopHelperDatetime::generateTimestamp(strtotime($post['discount_stratdate']), true);
-				$post['discount_enddate']   = RedshopHelperDatetime::generateTimestamp(strtotime($post['discount_enddate']), true);
 			}
 
 			$post['copy_product']     = 1;
@@ -1644,7 +1646,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function copyProductAttribute($cid, $product_id)
 	{
 		$db = JFactory::getDbo();
-		$query = 'SELECT attribute_id,`attribute_id`,`attribute_name`,`attribute_required`, `ordering`
+		$query = 'SELECT attribute_id,`attribute_id`,`attribute_name`,`attribute_required`, `ordering`, `attribute_description`
 				  FROM ' . $this->table_prefix . 'product_attribute
 				  WHERE product_id IN ( ' . $cid . ' ) order by ordering asc';
 		$this->_db->setQuery($query);
@@ -1658,14 +1660,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 																				hide_attribute_price,
 																				product_id,
 																				ordering,
-																				attribute_set_id)
+																				attribute_set_id,
+																				attribute_description)
 					  VALUES ("' . $attribute[$att]->attribute_name . '",
 							  "' . $attribute[$att]->attribute_required . '",
 							  "' . $attribute[$att]->allow_multiple_selection . '",
 							  "' . $attribute[$att]->hide_attribute_price . '",
 							  "' . $product_id . '",
 							  "' . $attribute[$att]->ordering . '",
-							  "' . $attribute[$att]->attribute_set_id . '")';
+							  "' . $attribute[$att]->attribute_set_id . '",
+							  "' . $attribute[$att]->attribute_description . '")';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->execute())
@@ -1696,6 +1700,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$property_save['ordering']            = $att_property[$prop]->ordering;
 				$property_save['setrequire_selected'] = $att_property[$prop]->setrequire_selected;
 				$property_save['setdefault_selected'] = $att_property[$prop]->setdefault_selected;
+				$property_save['extra_field']         = $att_property[$prop]->extra_field;
 				$property_array                       = $this->store_pro($property_save);
 				$property_id                          = $property_array->property_id;
 				$listImages                           = $this->getImageInfor($att_property[$prop]->property_id, 'property');

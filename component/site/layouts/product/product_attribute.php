@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,8 +77,8 @@ $productHelper = productHelper::getInstance();
 					<?php $displayPrice = ""; ?>
 				<?php endif; ?>
 				<?php $virtualNumber = ""; ?>
-				<?php if (count($subProperty) > 0 && $subProperty[0]->subattribute_color_number): ?>
-					<?php $virtualNumber = "<div class='checkout_subattribute_number'>" . $subProperty[0]->subattribute_color_number . "</div>"; ?>
+				<?php if (count($subProperties) > 0 && $subProperties[0]->subattribute_color_number): ?>
+					<?php $virtualNumber = "<div class='checkout_subattribute_number'>" . $subProperties[0]['subattribute_color_number'] . "</div>"; ?>
 				<?php endif; ?>
 				<?php if (strpos($data, '{product_attribute_number}') === false): ?>
 					<?php $virtualNumber = ''; ?>
@@ -87,7 +87,7 @@ $productHelper = productHelper::getInstance();
                     <div class="checkout_subattribute_price">
 						<?php echo urldecode($subProperties[$l]['subproperty_name']) . $displayPrice; ?>
                     </div>
-					<?php echo $virtualNumber; ?>
+					<?php echo $subProperties[0]['subattribute_color_number']; ?>
                 </div>
 			<?php endfor; ?>
 		<?php endfor; ?>

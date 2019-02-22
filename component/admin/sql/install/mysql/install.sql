@@ -153,6 +153,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
   `modified_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `product_filter_params` MEDIUMTEXT NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   INDEX `#__rs_idx_category_published` (`published` ASC),
   INDEX `#__rs_idx_left_right` (`lft` ASC, `rgt` ASC),
@@ -2537,13 +2538,13 @@ COMMENT = 'redSHOP XML Import log';
 DROP TABLE IF EXISTS `#__redshop_zipcode` ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_zipcode` (
-  `zipcode_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `country_code` VARCHAR(10) NOT NULL DEFAULT '',
   `state_code` VARCHAR(10) NOT NULL DEFAULT '',
   `city_name` VARCHAR(64) NULL DEFAULT NULL,
   `zipcode` VARCHAR(255) NULL DEFAULT NULL,
   `zipcodeto` VARCHAR(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`zipcode_id`),
+  PRIMARY KEY (`id`),
   INDEX `zipcode` (`zipcode` ASC),
   INDEX `idx_country_code` (`country_code` ASC),
   INDEX `idx_state_code` (`state_code` ASC))

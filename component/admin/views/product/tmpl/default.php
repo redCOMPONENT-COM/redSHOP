@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -75,6 +75,7 @@ JHtml::_('redshopjquery.framework');
         document.getElementById('keyword').value = '';
         document.getElementById('search_field').value = 'p.product_name';
         document.getElementById('category_id').value = 0;
+        document.getElementById('manufacturer_id').value = 'all';
         document.getElementById('product_sort').value = 0;
     }
 
@@ -98,7 +99,7 @@ JHtml::_('redshopjquery.framework');
                             value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'"; ?>>
 						<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME") ?></option>
                     <option
-                            value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'"; ?>>
+                            value="c.name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'"; ?>>
 						<?php echo JText::_("COM_REDSHOP_CATEGORY") ?></option>
                     <option
                             value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'"; ?>
@@ -113,6 +114,9 @@ JHtml::_('redshopjquery.framework');
             </div>
             <div class="filterItem">
 				<?php echo $this->lists['category']; ?>
+            </div>
+            <div class="filterItem">
+				<?php echo $this->lists['manufacturer']; ?>
             </div>
             <div class="filterItem">
 				<?php echo $this->lists['product_sort']; ?>
@@ -151,10 +155,10 @@ JHtml::_('redshopjquery.framework');
                 </th>
 
                 <th>
-					<?php echo JText::_('COM_REDSHOP_CATEGORY'); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY', 'category_id', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th>
-					<?php echo JText::_('COM_REDSHOP_MANUFACTURER'); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MANUFACTURER', 'm.name', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th>
 					<?php echo JText::_('COM_REDSHOP_CUSTOMER_REVIEWS'); ?>

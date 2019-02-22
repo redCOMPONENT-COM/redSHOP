@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -769,20 +769,19 @@ class RedshopHelperExtrafields
 
 					case self::TYPE_DATE_PICKER:
 
+						$format = Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d');
+						$date = '';
+
 						if ($customField->section != 17)
 						{
-							$date = date("d-m-Y", time());
-						}
-						else
-						{
-							$date = '';
+							$date = date($format, time());
 						}
 
 						if ($dataValue)
 						{
 							if ($dataValue->data_txt)
 							{
-								$date = date("d-m-Y", strtotime($dataValue->data_txt));
+								$date = date($format, strtotime($dataValue->data_txt));
 							}
 						}
 
@@ -1199,14 +1198,14 @@ class RedshopHelperExtrafields
 	/**
 	 * Validate Extra Field
 	 *
-	 * @param   string  $fieldSection Field Section List
+	 * @param   integer  $fieldSection Field Section List
 	 * @param   integer $sectionId    Section ID
 	 *
 	 * @return  boolean
 	 *
 	 * @since 2.0.3
 	 */
-	public static function CheckExtraFieldValidation($fieldSection = "", $sectionId = 0)
+	public static function CheckExtraFieldValidation($fieldSection = 0, $sectionId = 0)
 	{
 		$rowData = self::getSectionFieldList($fieldSection);
 
@@ -1227,7 +1226,7 @@ class RedshopHelperExtrafields
 	/**
 	 * List all fields and display
 	 *
-	 * @param   string  $fieldSection Field section
+	 * @param   integer  $fieldSection Field section
 	 * @param   integer $sectionId    Section ID
 	 * @param   integer $flag         Flag
 	 * @param   string  $userEmail    User email
@@ -1238,7 +1237,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @since 2.0.3
 	 */
-	public static function listAllFieldDisplay($fieldSection = "", $sectionId = 0, $flag = 0, $userEmail = "", $templateDesc = "", $sendmail = false)
+	public static function listAllFieldDisplay($fieldSection = 0, $sectionId = 0, $flag = 0, $userEmail = "", $templateDesc = "", $sendmail = false)
 	{
 		$rowData = self::getSectionFieldList($fieldSection);
 
@@ -1898,7 +1897,7 @@ class RedshopHelperExtrafields
 	/**
 	 * Method for render HTML of extra fields
 	 *
-	 * @param   string  $fieldSection    Field section
+	 * @param   integer  $fieldSection    Field section
 	 * @param   integer $sectionId       ID of section
 	 * @param   string  $fieldName       Field name
 	 * @param   string  $templateContent HTML template content
@@ -1911,7 +1910,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @deprecated   2.1.0
 	 */
-	public static function extraFieldDisplay($fieldSection = "", $sectionId = 0, $fieldName = "", $templateContent = "", $categoryPage = 0)
+	public static function extraFieldDisplay($fieldSection = 0, $sectionId = 0, $fieldName = "", $templateContent = "", $categoryPage = 0)
 	{
 		return ExtraFields::displayExtraFields($fieldSection, $sectionId, $fieldName, $templateContent, (boolean) $categoryPage);
 	}
