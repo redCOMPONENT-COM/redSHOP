@@ -7,6 +7,8 @@
  */
 namespace AcceptanceTester;
 use Codeception\Module\AcceptanceHelper as AcceptanceHelper;
+use FrontEndProductManagerJoomla3Page;
+
 /**
  * Class ProductManagerJoomla3Steps
  *

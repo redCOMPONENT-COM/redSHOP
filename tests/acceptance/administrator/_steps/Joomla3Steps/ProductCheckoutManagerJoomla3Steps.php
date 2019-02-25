@@ -558,7 +558,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10,\FrontEndProductManagerJoomla3Page::$selectorMessage);
 		}catch (\Exception $addToCart)
 		{
-			$I->click($addToCart);
+			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		}
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
