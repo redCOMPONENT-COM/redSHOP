@@ -571,7 +571,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount price
 	 *
-	 * @return  mixed.
+	 * @return  object.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -637,7 +637,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount spent in total
 	 *
-	 * @return  mixed.
+	 * @return  object|array.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -703,7 +703,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount order
 	 *
-	 * @return  mixed.
+	 * @return  object|array.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -771,7 +771,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get page viewer
 	 *
-	 * @return  mixed.
+	 * @return  object|array.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -836,7 +836,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get redSHOP viewer
 	 *
-	 * @return  mixed.
+	 * @return  object|array.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -904,7 +904,7 @@ class RedshopModelStatistic extends RedshopModelList
 	 *
 	 * @param   string  $today  today text
 	 *
-	 * @return  mixed.
+	 * @return  object|array.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -941,7 +941,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get start date
 	 *
-	 * @return  mixed.
+	 * @return  object|array.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -981,7 +981,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get date Format
 	 *
-	 * @return  mixed.
+	 * @return  object|array.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1017,7 +1017,7 @@ class RedshopModelStatistic extends RedshopModelList
 	 * @param   string  $section    section
 	 * @param   int     $sectionId  section id
 	 *
-	 * @return  mixed.
+	 * @return  object|array.
 	 *
 	 * @since   2.0.0.3
 	 */
