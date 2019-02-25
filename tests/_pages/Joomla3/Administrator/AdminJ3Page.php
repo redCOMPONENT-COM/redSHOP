@@ -414,6 +414,11 @@ abstract class AdminJ3Page
     /**
      * @var string
      */
+    public static $jqueryBankTransfer = "jQuery('#rs_payment_banktransfer0').click()";
+
+    /**
+     * @var string
+     */
     public static $scriftClickTransfer = 'document.getElementById("rs_payment_banktransfer0").checked = true;';
 
     /**
