@@ -104,8 +104,10 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$bankTransfer);
+		$I->wait(0.5);
 		$I->executeJS(\FrontEndProductManagerJoomla3Page::$jqueryBankTransfer);
-		$I->wait(2);
+		$I->wait(1);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->waitForText($priceProduct, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);

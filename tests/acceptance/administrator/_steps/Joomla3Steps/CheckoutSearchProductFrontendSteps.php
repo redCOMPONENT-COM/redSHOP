@@ -146,6 +146,8 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->executeJS(FrontEndProductManagerJoomla3Page::$jqueryBankTransfer);
 		$I->wait(1);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
