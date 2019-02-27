@@ -706,7 +706,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (!$db->execute())
 		{
-			$this->setError($db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return false;
 		}
@@ -725,7 +725,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			->where($db->qn('order_item_id') . ' = ' . $orderItemId);
 		$db->setQuery($query)->execute();
 
-		$this->special_discount(
+		$this->/** @scrutinizer ignore-call */
+		special_discount(
 			array('order_item_id' => $orderItemId, 'special_discount' => $order->get('special_discount')),
 			true
 		);
@@ -928,9 +929,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$subtotal = 0;
 
-		for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+		if ($orderItems)
 		{
-			$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+			for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+			{
+				$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+			}
 		}
 
 		$temporder_total = $subtotal + $orderData->order_discount + $orderData->special_discount_amount;
