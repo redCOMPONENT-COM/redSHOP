@@ -43,9 +43,9 @@ if ($allowOrder)
 	</div>
 
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+        <div class="alert alert-no-items alert-info">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
+        </div>
 	<?php else : ?>
 		<table class="adminlist table table-striped">
 			<thead>
