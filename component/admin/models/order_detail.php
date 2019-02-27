@@ -841,7 +841,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			JPluginHelper::importPlugin('redshop');
 			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onAfterUpdateOrderItem', array($data));
+			$dispatcher->trigger('onAfterUpdateOrderItem', array($orderitemdata));
 
 			if (!$orderdata->store())
 			{
@@ -1128,6 +1128,10 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
 
+			JPluginHelper::importPlugin('redshop');
+			$dispatcher = RedshopHelperUtility::getDispatcher();
+			$dispatcher->trigger('onAfterUpdateShippingAdd', array($data));
+
 			return true;
 		}
 		else
@@ -1155,6 +1159,10 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
+
+			JPluginHelper::importPlugin('redshop');
+			$dispatcher = RedshopHelperUtility::getDispatcher();
+			$dispatcher->trigger('onAfterUpdateBillingAdd', array($data));
 
 			return true;
 		}
