@@ -663,6 +663,10 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onAfterAddNewOrderItem', array($orderdata));
+
 		return true;
 	}
 
@@ -835,6 +839,10 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if ($orderitemdata->store())
 		{
+			JPluginHelper::importPlugin('redshop');
+			$dispatcher = RedshopHelperUtility::getDispatcher();
+			$dispatcher->trigger('onAfterUpdateOrderItem', array($data));
+
 			if (!$orderdata->store())
 			{
 				return false;
@@ -958,6 +966,10 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onAfterUpdateDiscount', array($orderData));
+
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
@@ -1037,6 +1049,10 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
+
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			RedshopEconomic::renewInvoiceInEconomic($orderData);
@@ -1084,6 +1100,10 @@ class RedshopModelOrder_detail extends RedshopModel
 				}
 			}
 		}
+
+		JPluginHelper::importPlugin('redshop');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onAfterUpdateShippingRates', array($orderdata));
 
 		return true;
 	}
