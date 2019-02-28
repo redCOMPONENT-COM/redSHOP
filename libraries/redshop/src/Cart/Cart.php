@@ -508,8 +508,6 @@ class Cart
 			{
 				return urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 			}
-
-			return urldecode(\JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
 		}
 
 		$cart[$idx]['subscription_id'] = 0;
