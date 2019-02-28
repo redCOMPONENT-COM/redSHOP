@@ -239,6 +239,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		$postdata['barcode'] = $barcode_code;
 
+		/** @var Tableorder_detail $row */
 		$row = $this->getTable('order_detail');
 
 		if (!$row->bind($postdata))
