@@ -3538,7 +3538,7 @@ class productHelper
 	 *
 	 * @param   int $productId Product id
 	 *
-	 * @return object
+	 * @return mixed.
 	 */
 	public function getProductReviewList($productId)
 	{
@@ -3859,7 +3859,7 @@ class productHelper
 		$this->_db->setQuery($query);
 		$product_parent_id = $this->_db->loadResult();
 
-		if ($product_parent_id != 0)
+		if ($product_parent_id !== 0)
 		{
 			$parent_id = $this->getMainParentProduct($product_parent_id);
 		}
