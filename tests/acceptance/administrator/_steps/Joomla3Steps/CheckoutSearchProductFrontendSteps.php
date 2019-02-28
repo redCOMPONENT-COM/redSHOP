@@ -145,7 +145,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->wait(0.5);
 		$I->executeJS(FrontEndProductManagerJoomla3Page::$jqueryBankTransfer);
-		$I->wait(1);
+		$I->wait(2);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		try
