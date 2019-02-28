@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -472,5 +472,44 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         } else {
             $I->see($name, \UserManagerJoomla3Page::$userJoomla);
         }
+    }
+
+    /**
+     * Function to create oder on User detail
+     *
+     *
+     * @param $nameUser
+     * @param $nameProduct
+     * @param $quantity
+     * @throws \Exception
+     */
+    public function checkPlaceOder($nameUser,$nameProduct,$quantity)
+    {
+        $I = $this;
+        $I->amOnPage(\UserManagerJoomla3Page::$URL);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->searchUser($nameUser);
+        $I->see($nameUser, \UserManagerJoomla3Page::$firstResultRow);
+        $I->click(\UserManagerJoomla3Page::$selectFirst);
+        $I->click(\UserManagerJoomla3Page::$editButton);
+        $I->click(\UserManagerJoomla3Page::$btnPlaceOder);
+
+        $I->see($nameUser);
+        $userOrderPage = new \OrderManagerPage();
+        $I->waitForElement(\OrderManagerPage::$applyUser, 30);
+        $I->executeJS("jQuery('.button-apply').click()");
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
+        $I->scrollTo(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productId, 30);
+        $I->click(\OrderManagerPage::$productId);
+        $I->waitForElement(\OrderManagerPage::$productsSearch, 30);
+        $I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
+        $I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
+        $I->click($userOrderPage->returnSearch($nameProduct));
+        $I->fillField(\OrderManagerPage::$quanlityFirst, $quantity);
+
+        $I->click(\OrderManagerPage::$buttonSave);
+        $I->waitForElement(\OrderManagerPage::$close, 30);
+        $I->waitForText(\OrderManagerPage::$buttonClose, 10, \OrderManagerPage::$close);
     }
 }

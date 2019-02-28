@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -123,6 +123,13 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 		// Set the new parent id if parent id not matched OR while New/Save as Copy .
 		if (isset($data['parent_id']) && $table->parent_id != $data['parent_id'])
 		{
+			$table->setLocation($data['parent_id'], 'last-child');
+		}
+
+		if ($data['parent_id'] == null || $data['parent_id'] == 0)
+		{
+			$data['parent_id'] = RedshopHelperCategory::getRootId();
+			$data['level']     = 1;
 			$table->setLocation($data['parent_id'], 'last-child');
 		}
 

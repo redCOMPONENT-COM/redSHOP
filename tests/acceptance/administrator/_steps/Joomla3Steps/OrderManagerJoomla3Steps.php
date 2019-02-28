@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -193,11 +193,11 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 		try{
-            $I->waitForElement(\OrderManagerPage::$productId, 5);
-        }catch (\Exception $e)
-        {
-            $I->executeJS("jQuery('.button-apply').click()");
-        }
+			$I->waitForElement(\OrderManagerPage::$productId, 5);
+		}catch (\Exception $e)
+		{
+			$I->executeJS("jQuery('.button-apply').click()");
+		}
 		$I->waitForElement(\OrderManagerPage::$productId, 10);
 		$I->scrollTo(\OrderManagerPage::$productId);
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
@@ -210,8 +210,9 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(1);
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->wait(1);
-		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
 		$adminFinalPriceEnd = $price+$priceAttribute;
+		$I->waitForText("$adminFinalPriceEnd",30);
+		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
 		$I->waitForElement(\OrderManagerPage::$adminFinalPriceEnd, 60);
 		$I->click(\OrderManagerPage::$buttonSave);
 		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);

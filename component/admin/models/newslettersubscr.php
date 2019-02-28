@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,55 +84,5 @@ class RedshopModelNewslettersubscr extends RedshopModel
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
-	}
-
-	/**
-	 * Method import data.
-	 *
-	 * @param   integer  $nid    newsletter id
-	 * @param   array    $data   data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.0.0
-	 */
-	public function importdata($nid, $data)
-	{
-		if (!isset($data['email_id']) || $data['email_id'] === null)
-		{
-			return false;
-		}
-
-		/** @var Tablenewslettersubscr_detail $table */
-		$table = RedshopTable::getInstance('newslettersubscr_detail', 'Table');
-
-		$key = $table->getKeyName();
-
-		if (array_key_exists($key, $data) && $data[$key])
-		{
-			if (!$table->load($data[$key]))
-			{
-				return false;
-			}
-		}
-
-		$table->subscription_id = $data['subscription_id'];
-		$table->newsletter_id   = $nid;
-		$table->email           = $data['email_id'];
-		$table->name            = $data['subscriber_full_name'];
-
-		try
-		{
-			if (!$table->check() || !$table->store())
-			{
-				return false;
-			}
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		return true;
 	}
 }

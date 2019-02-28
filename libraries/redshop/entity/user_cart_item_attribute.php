@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Entity
  *
- * @copyright   Copyright (C) 2012 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -23,11 +23,11 @@ class RedshopEntityUser_Cart_Item_Attribute extends RedshopEntity
 	 *
 	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
 	 *
-	 * @return  RedshopTable
+	 * @return  \JTable|boolean
 	 * @throws  Exception
 	 */
 	public function getTable($name = null)
 	{
-		return RedshopTable::getAdminInstance('usercart_attribute_item', array(), 'RedshopTable');
+		return RedshopTable::getInstance('usercart_attribute_item', 'RedshopTable');
 	}
 }
