@@ -14,7 +14,7 @@ use Redshop\Plugin\AbstractExportPlugin;
 JLoader::import('redshop.library');
 
 /**
- * Plugins redSHOP Export User
+ * Plugins redSHOP Export Newsletter Subscriber
  *
  * @since  1.0
  */
