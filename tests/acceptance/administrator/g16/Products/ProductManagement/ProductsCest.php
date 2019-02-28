@@ -247,3 +247,4 @@ class ProductsCest
 		$I->publishAllProducts();
 	}
 }
+
