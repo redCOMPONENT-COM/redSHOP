@@ -2747,7 +2747,6 @@ class productHelper
 
 		$sel               = 0;
 		$selP              = 0;
-		$applyVat          = \Redshop\Template\Helper::isApplyAttributeVat($data, $userId);
 		$setPropEqual      = true;
 		$setSubpropEqual   = true;
 		$selectedAttributs = array();
@@ -2922,7 +2921,7 @@ class productHelper
 		}
 
 		// Recalculate VAT if set to apply vat for attribute
-		if ($applyVat)
+		if (!empty($attributes))
 		{
 			$productVatPrice = RedshopHelperProduct::getProductTax($productId, $productPrice, $userId);
 		}
