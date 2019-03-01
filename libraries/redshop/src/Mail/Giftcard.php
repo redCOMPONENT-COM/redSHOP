@@ -29,6 +29,11 @@ class Giftcard
 		$giftCardTemplate = self::getTemplate();
 		$productHelper    = \productHelper::getInstance();
 		$giftCards        = \RedshopHelperOrder::giftCardItems((int) $orderId);
+		$giftcardData = '';
+		$giftCardPrice = '';
+		$giftCardValue = '';
+		$userFields = '';
+		$giftCode = '';
 
 		if (empty($giftCards))
 		{
