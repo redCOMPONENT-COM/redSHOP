@@ -108,6 +108,13 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->executeJS(\FrontEndProductManagerJoomla3Page::$jqueryBankTransfer);
 		$I->wait(2);
+		try
+		{
+			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+		}catch (\Exception $e)
+		{
+			$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+		}
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->waitForText($priceProduct, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
