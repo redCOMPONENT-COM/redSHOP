@@ -46,6 +46,13 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
 		$I->wait(2);
+		try
+		{
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$bankTransfer);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
+		}
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms);
 		$I->wait(0.5);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
