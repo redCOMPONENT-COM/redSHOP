@@ -941,7 +941,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get start date
 	 *
-	 * @return  string.
+	 * @return  object.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -981,7 +981,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get date Format
 	 *
-	 * @return  string.
+	 * @return  object.
 	 *
 	 * @since   2.0.0.3
 	 */
