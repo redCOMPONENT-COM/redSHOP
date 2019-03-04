@@ -941,7 +941,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get start date
 	 *
-	 * @return  object.
+	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -981,7 +981,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get date Format
 	 *
-	 * @return  object.
+	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   2.0.0.3
 	 */
