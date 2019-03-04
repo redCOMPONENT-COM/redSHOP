@@ -370,30 +370,22 @@ class RedshopControllerCart extends RedshopController
 
 		if (array_key_exists('voucher', $cart))
 		{
-			if (count($cart['voucher']) > 1)
-			{
-				foreach ($cart['voucher'] as $cartCoupon)
-				{
-					$voucherDiscount += $cartCoupon['voucher_value'];
-				}
-			}
-
 			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+			{
+				$voucherDiscount = $voucherDiscount - $cart['voucher'][1]['voucher_value'];
+			}
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
 
 		if (array_key_exists('coupon', $cart))
 		{
-			if (count($cart['coupon']) > 1)
-			{
-				foreach ($cart['coupon'] as $cartCoupon)
-				{
-					$couponDiscount += $cartCoupon['coupon_value'];
-				}
-			}
-
 			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+			{
+				$couponDiscount = $couponDiscount - $cart['coupon'][1]['coupon_value'];
+			}
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;
