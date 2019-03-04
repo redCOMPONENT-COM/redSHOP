@@ -22,13 +22,13 @@ use ModuleManagerJ3page;
 
 class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 {
-	/**
-	 * Function to create module redShop-search
-	 *
-	 * @param $module
-	 * @throws \Exception
-	 */
-		public function createModuleRedShopSearch($module)
+    /**
+     * Function to create module redShop-search
+     *
+     * @param $module
+     * @throws \Exception
+     */
+    public function createModuleRedShopSearch($module)
 	{
 		$I = $this;
 		$I->amOnPage(ModuleManagerJ3page::$moduleURL);
@@ -45,7 +45,9 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 
 		switch ($module['SearchTypeField'])
 		{
-
+			case null:
+				$I->click(ModuleManagerJ3page::$searchTypeFieldNo);
+				break;
 			case 'yes':
 				$I->click(ModuleManagerJ3page::$searchTypeFieldYes);
 				break;
@@ -55,6 +57,10 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		}
 		switch ($module['SearchField'] )
 		{
+			case null:
+				$I->click(ModuleManagerJ3page::$searchFieldYes);
+				break;
+
 			case 'yes':
 				$I->click(ModuleManagerJ3page::$searchFieldYes);
 				break;
@@ -65,6 +71,10 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		}
 		switch ($module['CategoryField'])
 		{
+			case null:
+				$I->click(ModuleManagerJ3page::$categoryFieldNo);
+				break;
+
 			case 'yes':
 				$I->click(ModuleManagerJ3page::$categoryFieldYes);
 				break;
@@ -75,6 +85,10 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		}
 		switch ($module['ManufacturerField'])
 		{
+			case null:
+				$I->click(ModuleManagerJ3page::$manufacturerFieldNo);
+				break;
+
 			case 'yes':
 				$I->click(ModuleManagerJ3page::$manufacturerFieldYes);
 				break;
@@ -85,6 +99,10 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		}
 		switch ($module['ProductSearchTitle'])
 		{
+			case null:
+				$I->click(ModuleManagerJ3page::$productSearchTitleNo);
+				break;
+
 			case 'yes':
 				$I->click(ModuleManagerJ3page::$productSearchTitleYes);
 				break;
@@ -95,6 +113,10 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		}
 		switch ($module['KeywordTitle'])
 		{
+			case null:
+				$I->click(ModuleManagerJ3page::$keywordTitleNo);
+				break;
+
 			case 'yes':
 				$I->click(ModuleManagerJ3page::$keywordTitleYes);
 				break;

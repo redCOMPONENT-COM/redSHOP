@@ -86,7 +86,7 @@ class CheckoutSearchProductFrontendCest
 	public function createModuleRedShopSearch(CheckoutSearchProductFrontendSteps $I)
 	{
 		$I->doAdministratorLogin();
-		$I->createModuleRedShopSearch( $this->module);
+		$I->createModuleRedShopSearch($this->module);
 	}
 
 	/**
