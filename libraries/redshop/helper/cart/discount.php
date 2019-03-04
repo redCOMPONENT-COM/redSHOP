@@ -246,11 +246,13 @@ class RedshopHelperCartDiscount
 					break;
 
 				case 2:
-					$voucherKey = rsCarthelper::getInstance()->rs_multi_array_key_exists('voucher', $cart);
-
-					if ($valueExist || $voucherKey)
+					if ($cart['coupon']['coupon_code'] == $couponCode)
 					{
 						$return = false;
+					}
+					else
+					{
+						$return = true;
 					}
 
 					break;
@@ -466,11 +468,13 @@ class RedshopHelperCartDiscount
 				break;
 
 			case 2:
-				$couponKey = rsCarthelper::getInstance()->rs_multi_array_key_exists('coupon', $cart);
-
-				if ($valueExist || $couponKey)
+				if ($cart['voucher']['voucher_code'] == $voucherCode)
 				{
 					$return = false;
+				}
+				else
+				{
+					$return = true;
 				}
 
 				break;
