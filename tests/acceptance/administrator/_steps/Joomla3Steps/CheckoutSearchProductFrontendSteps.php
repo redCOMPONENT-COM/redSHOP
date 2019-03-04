@@ -22,13 +22,13 @@ use ModuleManagerJ3page;
 
 class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 {
-    /**
-     * Function to create module redShop-search
-     *
-     * @param $module
-     * @throws \Exception
-     */
-    public function createModuleRedShopSearch($module)
+	/**
+	 * Function to create module redShop-search
+	 *
+	 * @param $module
+	 * @throws \Exception
+	 */
+	public function createModuleRedShopSearch($module)
 	{
 		$I = $this;
 		$I->amOnPage(ModuleManagerJ3page::$moduleURL);
@@ -42,88 +42,81 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		$I->fillField(ModuleManagerJ3page::$fieldPosition,$module['Position']);
 		$I->pressKey(ModuleManagerJ3page::$fieldPosition, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->scrollTo(ModuleManagerJ3page::$labelSearchTypeField);
-
-		switch ($module['SearchTypeField'])
+		if(isset($module['SearchTypeField']))
 		{
-			case null:
-				$I->click(ModuleManagerJ3page::$searchTypeFieldNo);
-				break;
-			case 'yes':
-				$I->click(ModuleManagerJ3page::$searchTypeFieldYes);
-				break;
-			case 'no':
-				$I->click(ModuleManagerJ3page::$searchTypeFieldNo);
-				break;
+			switch ($module['SearchTypeField'])
+			{
+				case 'yes':
+					$I->click(ModuleManagerJ3page::$searchTypeFieldYes);
+					break;
+				case 'no':
+					$I->click(ModuleManagerJ3page::$searchTypeFieldNo);
+					break;
+			}
 		}
-		switch ($module['SearchField'] )
+		if(isset($module['SearchField']))
 		{
-			case null:
-				$I->click(ModuleManagerJ3page::$searchFieldYes);
-				break;
+			switch ($module['SearchField'] )
+			{
+				case 'yes':
+					$I->click(ModuleManagerJ3page::$searchFieldYes);
+					break;
 
-			case 'yes':
-				$I->click(ModuleManagerJ3page::$searchFieldYes);
-				break;
-
-			case 'no':
-				$I->click(ModuleManagerJ3page::$searchFieldNo);
-				break;
+				case 'no':
+					$I->click(ModuleManagerJ3page::$searchFieldNo);
+					break;
+			}
 		}
-		switch ($module['CategoryField'])
+		if(isset($module['CategoryField']))
 		{
-			case null:
-				$I->click(ModuleManagerJ3page::$categoryFieldNo);
-				break;
+			switch ($module['CategoryField'])
+			{
+				case 'yes':
+					$I->click(ModuleManagerJ3page::$categoryFieldYes);
+					break;
 
-			case 'yes':
-				$I->click(ModuleManagerJ3page::$categoryFieldYes);
-				break;
-
-			case 'no':
-				$I->click(ModuleManagerJ3page::$categoryFieldNo);
-				break;
+				case 'no':
+					$I->click(ModuleManagerJ3page::$categoryFieldNo);
+					break;
+			}
 		}
-		switch ($module['ManufacturerField'])
+		if(isset($module['ManufacturerField']))
 		{
-			case null:
-				$I->click(ModuleManagerJ3page::$manufacturerFieldNo);
-				break;
+			switch ($module['ManufacturerField'])
+			{
+				case 'yes':
+					$I->click(ModuleManagerJ3page::$manufacturerFieldYes);
+					break;
 
-			case 'yes':
-				$I->click(ModuleManagerJ3page::$manufacturerFieldYes);
-				break;
-
-			case 'no':
-				$I->click(ModuleManagerJ3page::$manufacturerFieldNo);
-				break;
+				case 'no':
+					$I->click(ModuleManagerJ3page::$manufacturerFieldNo);
+					break;
+			}
 		}
-		switch ($module['ProductSearchTitle'])
+		if(isset($module['ProductSearchTitle']))
 		{
-			case null:
-				$I->click(ModuleManagerJ3page::$productSearchTitleNo);
-				break;
+			switch ($module['ProductSearchTitle'])
+			{
+				case 'yes':
+					$I->click(ModuleManagerJ3page::$productSearchTitleYes);
+					break;
 
-			case 'yes':
-				$I->click(ModuleManagerJ3page::$productSearchTitleYes);
-				break;
-
-			case 'no':
-				$I->click(ModuleManagerJ3page::$productSearchTitleNo);
-				break;
+				case 'no':
+					$I->click(ModuleManagerJ3page::$productSearchTitleNo);
+					break;
+			}
 		}
-		switch ($module['KeywordTitle'])
-		{
-			case null:
-				$I->click(ModuleManagerJ3page::$keywordTitleNo);
-				break;
+		if(isset($module['KeywordTitle'])) {
+			switch ($module['KeywordTitle'])
+			{
+				case 'yes':
+					$I->click(ModuleManagerJ3page::$keywordTitleYes);
+					break;
 
-			case 'yes':
-				$I->click(ModuleManagerJ3page::$keywordTitleYes);
-				break;
-
-			case 'no':
-				$I->click(ModuleManagerJ3page::$keywordTitleNo);
-				break;
+				case 'no':
+					$I->click(ModuleManagerJ3page::$keywordTitleNo);
+					break;
+			}
 		}
 		$I->click(ModuleManagerJ3page:: $buttonSaveClose);
 		$I->waitForText(ModuleManagerJ3page::$messageSaveModuleSuccess,10,ModuleManagerJ3page::$selectorMessage);
