@@ -412,6 +412,7 @@ VALUES
 	(5, 'S', 'Shipped', 1),
 	(6, 'RD', 'Ready for delivery', 1),
 	(9, 'ACCP', 'Awaiting credit card payment', 1),
+
 	(10, 'APP', 'Awaiting paypal payment', 1),
 	(11, 'ABT', 'Awaiting bank transfer', 1),
 	(12, 'PR', 'Payment received', 1),
