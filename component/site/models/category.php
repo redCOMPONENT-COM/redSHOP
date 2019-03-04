@@ -416,7 +416,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		$queryCount = clone $query;
-		$queryCount->clear('select')->clear('group')
+		$queryCount->clear('select')->clear('group')->clear('limit')
 			->select('COUNT(DISTINCT(p.product_id))');
 
 		$this->_product = array();
