@@ -82,6 +82,7 @@ if ($data->lists['attributes'])
 			<div class="span2">
 				<input type="text"
 					   class="input-small"
+					   id="<?php echo $attrPref; ?>[id]"
 					   name="<?php echo $attrPref; ?>[name]"
 					   value="<?php echo $attributeData['attribute_name']; ?>"/>
 			</div>

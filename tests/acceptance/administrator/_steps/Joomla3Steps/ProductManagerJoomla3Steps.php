@@ -478,7 +478,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
 		$I->click(ProductManagerPage::$addAttribute);
 
-		$I->fillField($usePage->addAttributeName(1), $nameAttribute);
+		$I->fillField("#attribute[1][id]", $nameAttribute);
 		$I->attributeValueProperty(1, $valueAttribute,$priceAttribute);
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);

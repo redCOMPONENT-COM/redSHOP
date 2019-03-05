@@ -60,7 +60,7 @@
 				+ '<input type="hidden" value="' + gh + '" name="' + attrPref + '[key_attr]" class="key_attr" />'
 				+ '<div class="span12 oneAttribute">'
 				+ '<div class="span2"><a href="#" class="showhidearrow" style="display: block;"><img class="arrowimg" src="media/com_redshop/images/arrow.png" alt="" />' + Joomla.JText._('COM_REDSHOP_TITLE') + '</a></div>'
-				+ '<div class="span2"><input type="text" class="input-small" name="' + attrPref + '[name]" value="" /></div>'
+				+ '<div class="span2"><input type="text" class="input-small" id="'+ attrPref +'[id]" name="' + attrPref + '[name]" value="" /></div>'
 				+ '<div class="span2">' + Joomla.JText._('COM_REDSHOP_DESCRIPTION') + ' <input class="text-center input-small" type="text" name="' + attrPref + '[attribute_description]" value="" /></div>'
 				+ '<div class="span2">' + Joomla.JText._('COM_REDSHOP_ORDERING') + ' <input class="text-center input-xmini" type="text" name="' + attrPref + '[ordering]" value="' + (gh + 1) + '" /></div>'
 				+ '<div class="span2"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_ATTRIBUTE_REQUIRED') + ' <input type="checkbox" name="' + attrPref + '[required]" value="1" /></label></div>'
