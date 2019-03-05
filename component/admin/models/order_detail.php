@@ -855,7 +855,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			$tmpArr['special_discount'] = $orderdata->special_discount;
-			$this->special_discount($tmpArr, true);
+			$this->/** @scrutinizer ignore-call */ special_discount($tmpArr, true);
 		}
 		else
 		{
