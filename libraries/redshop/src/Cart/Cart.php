@@ -782,7 +782,7 @@ class Cart
 			return \JText::_('COM_REDSHOP_PER_PRODUCT_TOTAL') . " " . $perProductTotal;
 		}
 
-		if ($sameProduct === false)
+		if (!$sameProduct)
 		{
 			// SET VALVUES INTO SESSION CART
 			$cart[$idx]['giftcard_id']                = '';
