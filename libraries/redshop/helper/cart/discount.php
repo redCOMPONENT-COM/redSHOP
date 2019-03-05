@@ -210,6 +210,13 @@ class RedshopHelperCartDiscount
 					}
 					$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
 				}
+				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+				{
+					if (array_key_exists('voucher', $cart) || $couponCode == $cart['coupon']['coupon_code'])
+					{
+						return false;
+					}
+				}
 			}
 
 			$couponRemaining = 0;
@@ -431,6 +438,13 @@ class RedshopHelperCartDiscount
 					return false;
 				}
 				$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
+			}
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+			{
+				if (array_key_exists('coupon', $cart) || $voucherCode == $cart['voucher']['voucher_code'])
+				{
+					return false;
+				}
 			}
 		}
 
