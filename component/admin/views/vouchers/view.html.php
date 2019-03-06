@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -64,7 +64,10 @@ class RedshopViewVouchers extends RedshopViewList
 					return '';
 				}
 
-				return JFactory::getDate($value)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'Y-m-d'));
+				$tz = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
+				$date = date_create_from_format('Y-m-d H:i:s', $value, new \DateTimeZone('UTC'));
+
+				return $date->setTimezone($tz)->format(Redshop::getConfig()->get('DEFAULT_DATEFORMAT', 'd-m-Y'));
 
 			default:
 				return parent::onRenderColumn($config, $index, $row);

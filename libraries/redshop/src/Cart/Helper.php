@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -452,6 +452,7 @@ class Helper
 									'subproperty_name'         => $subproperty[0]->text,
 									'subproperty_oprand'       => $subproperty[0]->oprand,
 									'subattribute_color_title' => $subproperty[0]->subattribute_color_title,
+                                    					'subattribute_color_number'=> $subproperty[0]->subattribute_color_number,
 									'subproperty_price'        => $subPropertyPrice,
 								);
 							}

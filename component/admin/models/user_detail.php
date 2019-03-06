@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -177,6 +177,8 @@ class RedshopModelUser_detail extends RedshopModel
 	{
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email']    = $post['email1'] = $post['email'];
+
+		JFactory::getApplication()->input->post->set('password1', $post['password']);
 
 		$post['billisship'] = 1;
 
