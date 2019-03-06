@@ -52,7 +52,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
 	 */
 	public function save_without_sendmail()
 	{
-		$this->save();
+		$this->save(1);
 	}
 
 	/**
