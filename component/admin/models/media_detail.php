@@ -64,20 +64,68 @@ class RedshopModelMedia_detail extends RedshopModel
 		return true;
 	}
 
+	/**
+	 * Init data method
+	 *
+	 * @return  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail                       = new stdClass;
-			$detail->media_id             = 0;
-			$detail->media_title          = null;
-			$detail->media_type           = null;
-			$detail->media_name           = null;
-			$detail->media_alternate_text = null;
-			$detail->media_section        = null;
-			$detail->section_id           = null;
-			$detail->published            = 1;
-			$this->_data                  = $detail;
+			// Get stored post data from user state
+			$tmpPost = JFactory::getApplication()->getUserState('com_redshop.edit.media.data', false);
+
+			if ($tmpPost)
+			{
+				$detail = json_decode($tmpPost);
+			}
+			else
+			{
+				$detail                       = new stdClass;
+				$detail->media_id             = 0;
+				$detail->media_title          = null;
+				$detail->media_type           = null;
+				$detail->media_name           = null;
+				$detail->media_alternate_text = null;
+				$detail->media_section        = null;
+				$detail->section_id           = null;
+				$detail->published            = 1;
+			}
+
+			if (!isset($detail->media_name))
+			{
+				$detail->media_name = null;
+			}
+
+			if (!isset($detail->media_title))
+			{
+				$detail->media_title = null;
+			}
+
+			if (!isset($detail->media_name))
+			{
+				$detail->media_name = null;
+			}
+
+			if (!isset($detail->media_alternate_text))
+			{
+				$detail->media_alternate_text = null;
+			}
+
+			if (!isset($detail->media_section))
+			{
+				$detail->media_section = null;
+			}
+
+			if (!isset($detail->section_id))
+			{
+				$detail->section_id = null;
+			}
+
+			$this->_data = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -97,14 +145,14 @@ class RedshopModelMedia_detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -155,7 +203,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 				if (!$this->_db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -178,7 +226,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -286,7 +334,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 							if (!$this->_db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -299,7 +347,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 							if (!$this->_db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -312,7 +360,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 							if (!$this->_db->execute())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -333,8 +381,13 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row        = $this->getTable();
-		$order      = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+		$row = $this->getTable();
+
+		if ($order == '' || empty($order))
+		{
+			$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
+		}
+
 		$conditions = array();
 
 		// Update ordering values
@@ -349,7 +402,7 @@ class RedshopModelMedia_detail extends RedshopModel
 
 				if (!$row->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
