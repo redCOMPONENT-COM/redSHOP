@@ -1108,7 +1108,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$cid           = ArrayHelper::toInteger($cid);
 		$order         = ArrayHelper::toInteger($order);
 
-		if (empty((array) $cid) || count($cid) < 1)
+		if (empty($cid))
 		{
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
@@ -1116,7 +1116,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
 
-		if ($model->saveorder($cid, $order) === false)
+		if (!$model->saveorder($cid, $order))
 		{
 			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}

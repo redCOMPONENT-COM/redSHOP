@@ -68,8 +68,6 @@ class RedshopModelMedia_detail extends RedshopModel
 	 * Init data method
 	 *
 	 * @return  boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
 	 */
 	public function _initData()
 	{
@@ -379,11 +377,19 @@ class RedshopModelMedia_detail extends RedshopModel
 		return true;
 	}
 
+	/**
+	 * Save order
+	 *
+	 * @param   array   $cid
+	 * @param   array  $order
+	 *
+	 * @return  boolean
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable();
 
-		if ($order == '' || empty($order))
+		if (empty($order))
 		{
 			$order = JFactory::getApplication()->input->post->get('order', array(0), 'array');
 		}
@@ -433,6 +439,8 @@ class RedshopModelMedia_detail extends RedshopModel
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
+
+		return true;
 	}
 
 	public function orderup()
