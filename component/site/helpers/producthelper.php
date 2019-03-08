@@ -3538,7 +3538,7 @@ class productHelper
 	 *
 	 * @param   int $productId Product id
 	 *
-	 * @return mixed.
+	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 */
 	public function getProductReviewList($productId)
 	{
