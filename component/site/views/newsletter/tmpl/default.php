@@ -40,7 +40,7 @@ if ($this->params->get('show_page_heading', 1))
 		</div>
 		<div class="redshop_newsletter_input">
 			<label><?php echo JText::_('COM_REDSHOP_EMAIL');?> : </label>
-			<input type="text" name="email1" id="email1" value="<?php echo $email; ?>"
+			<input type="text" name="email" id="email" value="<?php echo $email; ?>"
 			       class="redshop_newsletter_email"/>
 		</div>
 		<div class="redshop_newsletter_buttons">
