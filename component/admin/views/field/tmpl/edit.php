@@ -160,9 +160,6 @@ $editor = JEditor::getInstance();
             // You can stack multiple messages of the same type
             var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED") ?>'];
             Joomla.renderMessages({"notice": jmsgs});
-
-            // Hide button
-            jQuery("#toolbar-apply,#toolbar-save").hide();
         }
         else {
             jQuery("#system-message-container > .alert-notice").remove();
