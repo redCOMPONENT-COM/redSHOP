@@ -52,7 +52,7 @@ class RedshopControllerAddorder_Detail extends RedshopController
 	 */
 	public function save_without_sendmail()
 	{
-		$this->save();
+		$this->save(1);
 	}
 
 	/**
@@ -245,15 +245,16 @@ class RedshopControllerAddorder_Detail extends RedshopController
 
 		$row = $model->store($post);
 
-		if ($row)
-		{
-			$msg  = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
-			$type = 'success';
-		}
-		else
+		if (!$row)
 		{
 			$msg  = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
-			$type = 'error';
+			$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
+				. '&shipping_users_info_id=' . $post['shipp_users_info_id'],
+				$msg,
+				'error'
+			);
+
+			return;
 		}
 
 		if ($apply == 1 && false !== $row)
@@ -263,7 +264,8 @@ class RedshopControllerAddorder_Detail extends RedshopController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stockNote, $type);
+			$msg  = JText::_('COM_REDSHOP_ORDER_DETAIL_SAVED');
+			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stockNote);
 		}
 	}
 
