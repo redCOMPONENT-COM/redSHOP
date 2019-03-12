@@ -36,7 +36,8 @@ class RedshopControllerOrder_Statuses extends RedshopControllerAdmin
 		}
 		else
 		{
-			$i = 0;
+			$validateOrderStatus = array('C', 'PR', 'S', 'APP', 'P');
+			$i                   = 0;
 
 			foreach ($cids as $cid)
 			{
@@ -44,7 +45,9 @@ class RedshopControllerOrder_Statuses extends RedshopControllerAdmin
 				foreach ($plugins as $plugin)
 				{
 					$params = json_decode($plugin->params);
-					if ($params->verify_status == $orderStatusCode || $params->invalid_status == $orderStatusCode)
+					if ($params->verify_status == $orderStatusCode ||
+						$params->invalid_status == $orderStatusCode ||
+						in_array($orderStatusCode, $validateOrderStatus))
 					{
 						$this->setMessage(
 							JText::sprintf('COM_REDSHOP_ORDER_STATUS_ERROR_DELETE_PLEASE_SET_PLUGIN', $plugin->name),
