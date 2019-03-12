@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 
 class RedshopViewShopper_group extends RedshopViewAdmin
 {
+	/**
+	 * @var  string
+	 */
+	public $filter;
+
 	public function display($tpl = null)
 	{
 		global $context;
@@ -30,19 +35,20 @@ class RedshopViewShopper_group extends RedshopViewAdmin
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
+		$state            = $this->get('State');
+		$this->filter     = $state->get('filter');
+
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shopper_group_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$groups = RedshopHelperShopper_Group::getShopperGroupListArray();
-
 		$pagination = $this->get('Pagination');
 
 		$this->user        = JFactory::getUser();
 		$this->lists       = $lists;
-		$this->media       = $groups;
+		$this->media       = $this->get('Data');;
 		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
