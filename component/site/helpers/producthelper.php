@@ -2241,7 +2241,7 @@ class productHelper
 						}
 					}
 
-					if (($subproperty[$i]->subattribute_color_image))
+					if (!empty($subproperty[$i]->subattribute_color_image))
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
 						{
