@@ -2241,9 +2241,9 @@ class productHelper
 						}
 					}
 
-					if (!empty($subproperty[$i]->subattribute_color_image))
+					if (($subproperty[$i]->subattribute_color_image))
 					{
-						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
+						if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
 						{
 							$borderstyle    = ($selectedsubproperty == $subproperty[$i]->value) ? " 1px solid " : "";
 							$thumbUrl       = RedshopHelperMedia::getImagePath(
