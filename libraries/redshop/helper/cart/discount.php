@@ -152,6 +152,11 @@ class RedshopHelperCartDiscount
 
 			if ($view == 'cart')
 			{
+				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+				{
+					unset($cart['voucher']);
+					$cart['voucher_discount'] = 0;
+				}
 				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 			}
 
@@ -204,18 +209,7 @@ class RedshopHelperCartDiscount
 			{
 				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 				{
-					if (array_key_exists('voucher', $cart) || $couponCode == $cart['coupon']['coupon_code'])
-					{
-						return false;
-					}
 					$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
-				}
-				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
-				{
-					if (array_key_exists('voucher', $cart) || $couponCode == $cart['coupon']['coupon_code'])
-					{
-						return false;
-					}
 				}
 			}
 
@@ -259,6 +253,12 @@ class RedshopHelperCartDiscount
 					}
 					else
 					{
+						$coupons    = array();
+						$oldCoupons = array();
+						unset($cart['voucher']);
+						unset($cart['coupon']);
+						$cart['cart_discount']    = 0;
+						$cart['voucher_discount'] = 0;
 						$return = true;
 					}
 
@@ -433,18 +433,7 @@ class RedshopHelperCartDiscount
 		{
 			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
-				if (array_key_exists('coupon', $cart) || $voucherCode == $cart['voucher']['voucher_code'])
-				{
-					return false;
-				}
 				$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
-			}
-			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
-			{
-				if (array_key_exists('coupon', $cart) || $voucherCode == $cart['voucher']['voucher_code'])
-				{
-					return false;
-				}
 			}
 		}
 
@@ -488,6 +477,10 @@ class RedshopHelperCartDiscount
 				}
 				else
 				{
+					unset($cart['voucher']);
+					unset($cart['coupon']);
+					$cart['cart_discount']    = 0;
+					$cart['voucher_discount'] = 0;
 					$return = true;
 				}
 
