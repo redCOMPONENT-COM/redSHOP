@@ -58,6 +58,11 @@ else
 	$template_desc .= "</div>\r\n<div class=\"pagination\">{pagination}</div>";
 }
 
+if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
+{
+	$template_desc = str_replace('{product_price}', '', $template_desc);
+}
+
 $categoryItemId = (int) RedshopHelperRouter::getCategoryItemid($this->catid);
 $mainItemid     = !$categoryItemId ? $this->itemid : $categoryItemId;
 

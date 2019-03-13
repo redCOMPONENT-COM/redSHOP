@@ -63,6 +63,11 @@ else
 	$template_desc .= "<div class=\"product_related_products\">{related_product:related_products}</div>\r\n</div>\r\n</div>\r\n";
 	$template_desc .= "<div id=\"produkt_anmeldelser\">\r\n{product_rating}</div>\r\n</div>\r\n</div>";
 }
+
+if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
+{
+	$template_desc = str_replace('{product_price}', '', $template_desc);
+}
 ?>
 
 <div class="product">

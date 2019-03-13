@@ -479,6 +479,17 @@ class RedshopHelperProductPrice
 		$productPrices['product_old_price_excl_vat']      = (float) $oldPriceExcludeVat;
 		$productPrices['product_price_incl_vat']          = (float) $productPriceIncludingVat;
 
+		if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
+		{
+			$productPrices['productPrice']                    = (float) $oldPrice;
+			$productPrices['product_price']                   = (float) $oldPrice;
+			$productPrices['product_main_price']              = (float) $oldPrice;
+			$productPrices['product_price_novat']             = (float) $oldPrice;
+			$productPrices['product_discount_price']          = (float) $oldPrice;
+			$productPrices['seoProductPrice']                 = (float) $oldPrice;
+			$productPrices['product_price_incl_vat']          = (float) $oldPrice;
+		}
+
 		return $productPrices;
 	}
 
