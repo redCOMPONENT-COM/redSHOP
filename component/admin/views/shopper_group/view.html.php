@@ -17,11 +17,16 @@ class RedshopViewShopper_group extends RedshopViewAdmin
 	 */
 	public $filter;
 
+	/**
+	 * @var  array
+	 */
+	public $media;
+
 	public function display($tpl = null)
 	{
 		global $context;
 
-		$uri      = JFactory::getURI();
+		$uri      = JUri::getInstance();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -48,7 +53,7 @@ class RedshopViewShopper_group extends RedshopViewAdmin
 
 		$this->user        = JFactory::getUser();
 		$this->lists       = $lists;
-		$this->media       = $this->get('Data');;
+		$this->media       = $this->get('Data');
 		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
