@@ -1282,6 +1282,17 @@ class RedshopHelperProduct
 		return $results;
 	}
 
+	/**
+	 * Method get videos product
+	 *
+	 * @param   integer  $product_id
+	 * @param   array    $attributes
+	 * @param   object   $attribute_template
+	 * @param   string   $media_type
+	 *
+	 * @return  mixed
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function getVideosProduct($product_id, $attributes, $attribute_template, $media_type = 'youtube')
 	{
 		$media_product_videos = RedshopHelperMedia::getAdditionMediaImage($product_id, "product", "$media_type");
