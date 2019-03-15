@@ -242,7 +242,7 @@ class CouponCheckoutMixCheckoutCest
 		$this->orderInfoSecond['priceEnd'] =  "DKK 90,00";
 
 		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->deleteUser($this->firstName);
+		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productNameDiscount, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, $this->orderInfoSecond,$this->haveDiscount['yes']);
@@ -267,7 +267,7 @@ class CouponCheckoutMixCheckoutCest
 	{
 		$I->doAdministratorLogin();
 		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->deleteUser($this->firstName);
+		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
 
 		$this->discount['allow'] = 'Discount + voucher (single) + coupon (single)';
@@ -355,7 +355,7 @@ class CouponCheckoutMixCheckoutCest
 		$this->discount['voucherCode'] = $this->randomVoucherCodeDiscount;
 		$this->discount['voucherCodeSecond'] = $this->randomVoucherCodeDiscountSecond;
 		$I = new UserManagerJoomla3Steps($scenario);
-//        $I->deleteUser($this->firstName);
+		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
 
 		$I->wantToTest('I want to setup checkout with apply multiple voucher and coupon not use discount');
