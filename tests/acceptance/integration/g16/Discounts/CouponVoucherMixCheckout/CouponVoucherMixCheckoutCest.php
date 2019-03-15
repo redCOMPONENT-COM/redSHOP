@@ -218,6 +218,11 @@ class CouponCheckoutMixCheckoutCest
 		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
 		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
+
+		$this->orderInfoSecond['priceTotal'] = "DKK 150,00";
+		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
+		$this->orderInfoSecond['priceEnd'] =  "DKK 140,00";
+
 		$this->orderInfoSecond['priceTotal'] = "DKK 150,00";
 		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
 		$this->orderInfoSecond['priceEnd'] =  "DKK 140,00";
@@ -275,6 +280,10 @@ class CouponCheckoutMixCheckoutCest
 		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
 		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
+		$this->orderInfoSecond['priceTotal'] = "DKK 150,00";
+		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
+		$this->orderInfoSecond['priceEnd'] =  "DKK 140,00";
+
 		$this->orderInfoSecond['priceTotal'] = "DKK 150,00";
 		$this->orderInfoSecond['priceDiscount'] =  "DKK 20,00";
 		$this->orderInfoSecond['priceEnd'] =  "DKK 130,00";
