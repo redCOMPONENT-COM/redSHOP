@@ -106,7 +106,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @throws \Exception
 	 */
-	public function createProductSave($productName, $category, $productNumber, $prices, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
+	public function createProductSave($productName, $category, $productNumber, $prices, $discountPrice, $minimumPerProduct, $minimumQuantity, $maximumQuantity, $discountStart, $discountEnd)
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
@@ -121,6 +121,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$usePage = new ProductManagerPage();
 		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
+		$I->waitForElement(ProductManagerPage::$discountPrice, 30);
+		$I->fillField(ProductManagerPage::$discountPrice, $discountPrice);
 		$I->fillField(ProductManagerPage::$discountStart, $discountStart);
 		$I->fillField(ProductManagerPage::$discountEnd, $discountEnd);
 		$I->fillField(ProductManagerPage::$minimumPerProduct, $minimumPerProduct);

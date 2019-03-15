@@ -28,7 +28,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * @param   string $shopperGroup Group Shopper
      * @param   string $firstName First Name of the User
      * @param   string $lastName Last Name of the User
-     *
+     * @throws \Exception
      * @return void
      */
     public function addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function = 'save')
@@ -40,6 +40,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         switch ($function) {
             case 'save':
 	        default:
+	        	$I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
+	        	$I->wait(0.5);
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -50,6 +52,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
                 $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
                 $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->waitForElement(\UserManagerJoomla3Page::$billingInformationTab, 30);
                 $I->click(\UserManagerJoomla3Page::$billingInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
@@ -57,15 +60,16 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\UserManagerJoomla3Page::$saveCloseButton);
                 $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
-                $I->executeJS('window.scrollTo(0,0)');
-                $I->click(\UserManagerJoomla3Page::$linkUser);
-                $I->waitForElement(\UserManagerJoomla3Page::$resetButton, 30);
-                $I->click(\UserManagerJoomla3Page::$resetButton);
-                $I->see($firstName);
-                $I->executeJS('window.scrollTo(0,0)');
-                $I->click(\UserManagerJoomla3Page::$linkUser);
+//                $I->executeJS('window.scrollTo(0,0)');
+//                $I->click(\UserManagerJoomla3Page::$linkUser);
+//                $I->waitForElement(\UserManagerJoomla3Page::$resetButton, 30);
+//                $I->click(\UserManagerJoomla3Page::$resetButton);
+//                $I->see($firstName);
+//                $I->executeJS('window.scrollTo(0,0)');
+//                $I->click(\UserManagerJoomla3Page::$linkUser);
                 break;
             case 'saveclose':
+	            $I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -76,6 +80,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
                 $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
                 $I->click($userManagerPage->shopperGroup($shopperGroup));
+	            $I->waitForElement(\UserManagerJoomla3Page::$billingInformationTab, 30);
                 $I->click(\UserManagerJoomla3Page::$billingInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
@@ -457,9 +462,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
             $I->cancelPopup();
         }
 
-        $I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(['link' => 'ID']);
+//        $I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
+//        $I->executeJS('window.scrollTo(0,0)');
+//        $I->click(['link' => 'ID']);
         $I->amOnPage(\UserManagerJoomla3Page::$URLJoomla);
         $I->searchForItem($name);
         if ($deleteJoomlaUser) {
