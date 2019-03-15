@@ -370,7 +370,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			if ($discount['allow'] == ConfigurationPage::$discountVoucherCoupon
 				|| $discount['allow'] == ConfigurationPage::$discountAndVoucherOrCoupon
-				|| $discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle
 			)
 			{
 				if ($applyDiscount == 'couponCode')
@@ -452,6 +451,51 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 						$I->see(\GiftCardCheckoutPage::$messageInvalid, \GiftCardCheckoutPage::$selectorError);
 					}
 
+				}
+			}else if($discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle)
+			{
+				$I->wantToTest('Just apply discount with one coupon and one voucher');
+				if (($applyDiscount == 'couponCode'))
+				{
+					$I->comment('Apply 1 coupon and 1 voucher');
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfo['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfo['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfo['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->pauseExecution();
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+
+					$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfoSecond['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfoSecond['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+				}
+				else
+				{
+					$I->comment('Apply 1 voucher and 1 coupon');
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfo['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfo['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfo['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfoSecond['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfoSecond['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
 				}
 			}
 			else
