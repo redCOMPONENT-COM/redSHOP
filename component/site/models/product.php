@@ -127,12 +127,6 @@ class RedshopModelProduct extends RedshopModel
 			$query->where($db->qn('p.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
 
-		// Shopper group - choose from manufactures End
-		if (isset($this->_catid) && $this->_catid != 0)
-		{
-			$query->where($db->qn('pcx.category_id') . ' = ' . $db->q((int) $this->_catid));
-		}
-
 		return $query;
 	}
 
