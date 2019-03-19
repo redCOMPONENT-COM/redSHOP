@@ -64,9 +64,11 @@ else
 	$template_desc .= "<div id=\"produkt_anmeldelser\">\r\n{product_rating}</div>\r\n</div>\r\n</div>";
 }
 
+//Replace Product price when config enable discount is "No"
 if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
 {
-	$template_desc = str_replace('{product_price}', '', $template_desc);
+	$template_desc = str_replace('{product_price}', $producthelper->getProductFormattedPrice($this->data->product_price), $template_desc);
+	$template_desc = str_replace('{product_old_price}', '', $template_desc);
 }
 ?>
 
