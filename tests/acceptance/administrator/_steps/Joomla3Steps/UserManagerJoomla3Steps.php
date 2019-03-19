@@ -60,13 +60,13 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\UserManagerJoomla3Page::$saveCloseButton);
                 $I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 60, \UserManagerJoomla3Page::$selectorSuccess);
                 $I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
-//                $I->executeJS('window.scrollTo(0,0)');
-//                $I->click(\UserManagerJoomla3Page::$linkUser);
-//                $I->waitForElement(\UserManagerJoomla3Page::$resetButton, 30);
-//                $I->click(\UserManagerJoomla3Page::$resetButton);
-//                $I->see($firstName);
-//                $I->executeJS('window.scrollTo(0,0)');
-//                $I->click(\UserManagerJoomla3Page::$linkUser);
+                $I->executeJS('window.scrollTo(0,0)');
+                $I->click(\UserManagerJoomla3Page::$linkUser);
+                $I->waitForElement(\UserManagerJoomla3Page::$resetButton, 30);
+                $I->click(\UserManagerJoomla3Page::$resetButton);
+                $I->see($firstName);
+                $I->executeJS('window.scrollTo(0,0)');
+                $I->click(\UserManagerJoomla3Page::$linkUser);
                 break;
             case 'saveclose':
 	            $I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
@@ -462,9 +462,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
             $I->cancelPopup();
         }
 
-//        $I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
-//        $I->executeJS('window.scrollTo(0,0)');
-//        $I->click(['link' => 'ID']);
+        $I->dontSee($name, \UserManagerJoomla3Page::$firstResultRow);
+        $I->executeJS('window.scrollTo(0,0)');
+        $I->click(['link' => 'ID']);
         $I->amOnPage(\UserManagerJoomla3Page::$URLJoomla);
         $I->searchForItem($name);
         if ($deleteJoomlaUser) {

@@ -256,7 +256,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $radioCompany = "//input[@id='toggler2']";
+	public static $radioCompany = "//input[@billing_type='company']";
 
 	/**
 	 * @var array
