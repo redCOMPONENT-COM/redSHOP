@@ -447,7 +447,7 @@ class CouponCheckoutMixCheckoutCest
 		$I->wantTo('Test Product Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->createProductSave($this->productNameDiscount, $this->categoryName, $this->randomProductNumberDiscount, $this->randomProductPrice, $this->randomDiscountPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSaveHaveDiscount($this->productNameDiscount, $this->categoryName, $this->randomProductNumberDiscount, $this->randomProductPrice, $this->randomDiscountPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 	}
 
 	/**
