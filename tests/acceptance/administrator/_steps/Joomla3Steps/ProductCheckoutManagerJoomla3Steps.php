@@ -543,9 +543,11 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					}
 				}
 		}
-		$I->wait(1);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail,30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
@@ -576,6 +578,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->doFrontendLogout();
 	}
 
 	/**
