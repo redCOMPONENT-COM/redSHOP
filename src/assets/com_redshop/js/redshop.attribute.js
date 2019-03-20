@@ -22,6 +22,7 @@ redSHOP.setProductTax = function(postData){
     jQuery.ajax({
         url: redSHOP.RSConfig._('AJAX_BASE_URL'),
         type: 'POST',
+        async: false,
         dataType: 'json',
         data: postData,
     }).done(function( product ) {
@@ -985,6 +986,8 @@ function calculateSingleProductPrice(price, oprandElementId, priceElementId, ele
 // calculate attribute price
 function calculateTotalPrice(productId, relatedProductId) {
 
+    redSHOP.setProductTax({id: productId, price: 1});
+
     if (productId == 0 || productId == "")
     {
         return false;
@@ -1066,6 +1069,7 @@ function calculateTotalPrice(productId, relatedProductId) {
         }
         else
         {
+            final_price_f = final_price_f + (final_price_f * redSHOP.baseTax);
             final_price = number_format(final_price_f, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
             final_price_novat = number_format(product_price_without_vat, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
         }
