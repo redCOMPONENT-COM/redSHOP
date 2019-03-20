@@ -34,13 +34,13 @@ class CouponCheckoutMixCheckoutCest
 		$this->dataCoupon['type']        = 'Total';
 		$this->dataCoupon['value']       = '10';
 		$this->dataCoupon['effect']      = 'Global';
-		$this->dataCoupon['amount_left'] = '100';
+		$this->dataCoupon['amount_left'] = $this->faker->numberBetween(99, 999);
 		$this->dataCouponSecond = array();
 		$this->dataCouponSecond['code']        = $this->faker->bothify('Coupon Code Second ?##?');
 		$this->dataCouponSecond['type']        = 'Total';
 		$this->dataCouponSecond['value']       = '20';
 		$this->dataCouponSecond['effect']      = 'Global';
-		$this->dataCouponSecond['amount_left'] = '10';
+		$this->dataCouponSecond['amount_left'] = $this->faker->numberBetween(99, 999);
 
 		//create category and product
 		$this->categoryName        = 'Testing Category ' . $this->faker->randomNumber();
