@@ -207,7 +207,7 @@ class RedshopModelUser_detail extends RedshopModel
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
 		$post['user_email']    = $post['email1'] = $post['email'];
 
-		if ($post['user_id'] == 0 && $post['password'] == '' && $post['password2'] == '')
+		if ($post['user_id'] == 0 && ($post['password'] == '' || $post['password2'] == ''))
 		{
 			JError::raiseWarning('', JText::_('COM_REDSHOP_REQUIRE_PASSWORD'));
 
