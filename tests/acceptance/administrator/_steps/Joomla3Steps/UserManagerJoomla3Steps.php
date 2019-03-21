@@ -40,8 +40,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         switch ($function) {
             case 'save':
 	        default:
-	        	$I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
-	        	$I->wait(0.5);
+                $I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
+                $I->wait(0.5);
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -69,7 +69,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\UserManagerJoomla3Page::$linkUser);
                 break;
             case 'saveclose':
-	            $I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
+                $I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
                 $I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -80,7 +80,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
                 $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
                 $I->click($userManagerPage->shopperGroup($shopperGroup));
-	            $I->waitForElement(\UserManagerJoomla3Page::$billingInformationTab, 30);
+                $I->waitForElement(\UserManagerJoomla3Page::$billingInformationTab, 30);
                 $I->click(\UserManagerJoomla3Page::$billingInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
