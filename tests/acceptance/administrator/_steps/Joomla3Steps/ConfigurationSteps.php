@@ -316,10 +316,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
 
-	/**
-	 * @param array $discount
-	 * @throws \Exception
-	 */
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
