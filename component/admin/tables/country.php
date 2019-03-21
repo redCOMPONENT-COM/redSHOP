@@ -88,4 +88,31 @@ class RedshopTableCountry extends RedshopTable
 
 		return true;
 	}
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfully?
+	 */
+	protected function doDelete($pk = null)
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('code'))
+			->from($db->qn('#__' . $this->_tableName))
+			->where($db->qn('id') . ' = ' . (int) $pk);
+
+		$codeCurrency = $db->setQuery($query)->loadResult();
+
+		if (Redshop::getConfig()->get('CURRENCY_CODE') == $codeCurrency)
+		{
+			$this->setError(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_DELETE_CURRENCY_BY_CONFIGURATION'));
+
+			return false;
+		}
+
+		return parent::doDelete();
+	}
 }
