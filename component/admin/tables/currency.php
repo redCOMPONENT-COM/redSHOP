@@ -131,15 +131,7 @@ class RedshopTableCurrency extends RedshopTable
 	 */
 	protected function doDelete($pk = null)
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('code'))
-			->from($db->qn('#__' . $this->_tableName))
-			->where($db->qn('id') . ' = ' . (int) $pk);
-
-		$codeCurrency = $db->setQuery($query)->loadResult();
-
-		if (Redshop::getConfig()->get('CURRENCY_CODE') == $codeCurrency)
+		if (Redshop::getConfig()->get('CURRENCY_CODE') == $this->code)
 		{
 			$this->setError(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_DELETE_CURRENCY_BY_CONFIGURATION'));
 
