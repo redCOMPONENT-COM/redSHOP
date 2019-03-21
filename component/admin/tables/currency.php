@@ -133,7 +133,7 @@ class RedshopTableCurrency extends RedshopTable
 	{
 		if (Redshop::getConfig()->get('CURRENCY_CODE') == $this->code)
 		{
-			$this->setError(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_DELETE_CURRENCY_BY_CONFIGURATION'));
+			$this->setError(JText::_('COM_REDSHOP_CURRENCY_ERROR_DELETE_CURRENCY_SET_IN_CONFIG'));
 
 			return false;
 		}
