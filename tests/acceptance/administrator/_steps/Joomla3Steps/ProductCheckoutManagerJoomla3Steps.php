@@ -454,6 +454,46 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 				}
 			}
+			else if($discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle ||
+				$discount['allow'] == ConfigurationPage::$discountAndVoucherOrCoupon)
+			{
+				if ($applyDiscount == 'couponCode')
+				{
+					$I->comment('Apply 1 coupon and 1 voucher');
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfo['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfo['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfo['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfoSecond['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfoSecond['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+				}
+				else
+				{
+					$I->comment('Apply 1 voucher and 1 coupon');
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfo['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfo['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfo['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfoSecond['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfoSecond['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+				}
+			}
 			else
 			{
 				$I->wantToTest('Just apply discount with one coupon and multi voucher');
@@ -512,7 +552,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(1);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail,30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
@@ -543,6 +583,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->doFrontendLogout();
 	}
 
 	/**
