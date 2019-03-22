@@ -133,7 +133,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16/Discounts/CouponVoucherMixCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
 
     01-Uninstall-71:
         group: 01-tests
@@ -153,7 +153,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16/Discounts/CouponVoucherMixCheckout 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
 
     02-Price_Product-56:
         group: 01-tests
