@@ -234,7 +234,7 @@ class RedshopHelperBreadcrumb
 				{
 					$menu = productHelper::getInstance()->getMenuInformation(0, $sectionId, "manufacturerid", "manufacturers");
 
-					if (count($menu) > 0)
+					if (!empty((array) $menu))
 					{
 						$main             = new stdClass;
 						$main->name       = $menu->title;
@@ -245,7 +245,7 @@ class RedshopHelperBreadcrumb
 					{
 						$menu = RedshopEntityManufacturer::getInstance($sectionId)->getItem();
 
-						if (count($menu) > 0)
+						if (!empty((array) $menu))
 						{
 							$main             = new stdClass;
 							$main->name       = $menu->name;
