@@ -357,7 +357,7 @@ class RedshopControllerProduct extends RedshopController
 		$pks   = ArrayHelper::toInteger($pks);
 		$order = ArrayHelper::toInteger($order);
 
-		// Get the model
+		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('product_detail');
 
 		// Save the ordering
