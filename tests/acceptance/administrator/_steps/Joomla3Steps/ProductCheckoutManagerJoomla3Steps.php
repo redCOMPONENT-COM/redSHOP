@@ -368,10 +368,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($productName);
 		if (isset($discount['allow']))
 		{
-			if ($discount['allow'] == ConfigurationPage::$discountVoucherCoupon
-				|| $discount['allow'] == ConfigurationPage::$discountAndVoucherOrCoupon
-				|| $discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle
-			)
+			if ($discount['allow'] == ConfigurationPage::$discountVoucherCoupon)
 			{
 				if ($applyDiscount == 'couponCode')
 				{
