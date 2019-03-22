@@ -15,7 +15,16 @@ $extraFieldHelper = extra_field::getInstance();
 $productHelper    = productHelper::getInstance();
 
 $model    = $this->getModel('product');
+$listOrder    = $this->escape($this->state->get('list.ordering'));
+$listDirn     = $this->escape($this->state->get('list.direction'));
 $ordering = ($this->lists['order'] == 'x.ordering');
+$allowOrder = ($listOrder == 'x.ordering' && strtolower($listDirn) == 'asc');
+
+if ($allowOrder)
+{
+	$saveOrderingUrl = 'index.php?option=com_redshop&task=product.saveOrderAjax';
+	JHtml::_('redshopsortable.sortable', 'adminForm', 'adminForm', 'asc', $saveOrderingUrl);
+}
 
 $category_id = $this->state->get('category_id', 0);
 
@@ -128,9 +137,19 @@ JHtml::_('redshopjquery.framework');
         <table class="adminlist table table-striped">
             <thead>
             <tr>
+	            <?php if ($category_id < 0) : ?>
                 <th width="5">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
                 </th>
+                <?php endif?>
+	            <?php if ($category_id > 0): ?>
+                    <th width="1" class="nowrap center hidden-phone">
+                        <a href="#" onclick="Joomla.tableOrdering('x.ordering','asc','');return false;"
+                           data-order="X.ordering" data-direction="asc">
+                            <span class="fa fa-sort-alpha-asc"></span>
+                        </a>
+                    </th>
+	            <?php endif; ?>
                 <th width="20">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
                 </th>
@@ -171,14 +190,6 @@ JHtml::_('redshopjquery.framework');
                 <th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'p.product_id', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
-				<?php if ($category_id > 0): ?>
-                    <th width="15%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'x.ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
-						<?php if ($ordering): ?>
-							<?php echo JHTML::_('grid.order', $this->products); ?>
-						<?php endif ?>
-                    </th>
-				<?php endif; ?>
             </tr>
             </thead>
 			<?php $k = 0; ?>
@@ -189,9 +200,21 @@ JHtml::_('redshopjquery.framework');
 				$published   = JHtml::_('jgrid.published', $product->published, $index, '', 1);
 				?>
                 <tr class="<?php echo "row$k"; ?>">
+                    <?php if ($category_id < 0) : ?>
                     <td>
 						<?php echo $this->pagination->getRowOffset($index); ?>
                     </td>
+                    <?php endif ?>
+	                <?php if ($category_id > 0)
+	                {
+		                ?>
+                        <td class="order nowrap center hidden-phone">
+						<span class="sortable-handler <?php echo ($allowOrder) ? '' : 'inactive' ?>">
+							<span class="icon-move"></span>
+						</span>
+                            <input type="text" style="display:none" name="order[]" value="<?php echo $product->ordering; ?>" />
+                        </td>
+	                <?php } ?>
                     <td>
 						<?php echo @JHTML::_('grid.checkedout', $product, $index); ?>
                     </td>
@@ -326,29 +349,6 @@ JHtml::_('redshopjquery.framework');
                     <td align="center" width="5%">
 						<?php echo $product->product_id; ?>
                     </td>
-					<?php if ($category_id > 0)
-					{
-						?>
-                        <td class="order">
-							<?php if ($ordering) :
-								$orderDir = strtoupper($this->lists['order_Dir']);
-								?>
-                                <div class="input-prepend">
-									<?php if ($orderDir == 'ASC' || $orderDir == '') : ?>
-                                        <span class="add-on"><?php echo $this->pagination->orderUpIcon($index, true, 'orderup'); ?></span>
-                                        <span class="add-on"><?php echo $this->pagination->orderDownIcon($index, $n, true, 'orderdown'); ?></span>
-									<?php elseif ($orderDir == 'DESC') : ?>
-                                        <span class="add-on"><?php echo $this->pagination->orderUpIcon($index, true, 'orderdown'); ?></span>
-                                        <span class="add-on"><?php echo $this->pagination->orderDownIcon($index, $n, true, 'orderup'); ?></span>
-									<?php endif; ?>
-                                    <input type="text" name="order[]" size="5" value="<?php echo $product->ordering; ?>"
-                                           class="width-20 text-area-order"/>
-                                </div>
-							<?php else : ?>
-								<?php echo $product->ordering; ?>
-							<?php endif; ?>
-                        </td>
-					<?php } ?>
                 </tr>
 				<?php $k = 1 - $k; ?>
 			<?php endforeach; ?>
