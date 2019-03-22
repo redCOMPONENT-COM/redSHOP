@@ -68,7 +68,7 @@ class CouponCheckoutMixCheckoutCest
 		$this->voucherAmountSecond     = 20;
 		$this->voucherCountSecond      = $this->faker->numberBetween(99, 999);
 		$this->startDateSecond         = "25-01-2019";
-		$this->endDateSecond           = "07-01-2030";
+		$this->endDateSecond           = "07-01-2021";
 
 		$this->randomVoucherCodeDiscount = $this->faker->bothify('VoucherCheckoutProductDiscount ?##?');
 		$this->voucherAmountDiscount     = 10;
@@ -80,7 +80,7 @@ class CouponCheckoutMixCheckoutCest
 		$this->voucherAmountDiscountSecond     = 20;
 		$this->voucherCountDiscountSecond      = $this->faker->numberBetween(99, 999);
 		$this->startDateDiscountSecond         = "25-01-2019";
-		$this->endDateDiscountSecond           = "07-01-2021";
+		$this->endDateDiscountSecond           = "07-01-2030";
 
 		//create user
 		$this->userName = $this->faker->bothify('UserName ?##?');
