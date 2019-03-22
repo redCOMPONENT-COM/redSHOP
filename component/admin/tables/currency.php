@@ -110,11 +110,11 @@ class RedshopTableCurrency extends RedshopTable
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('(' . $codeQuery . ') AS ' . $db->qn('data'))
-			->where($db->qn('data.code') . ' = ' . $db->quote($code));
+			->where($db->qn('data.code') . ' = ' . $db->q($code));
 
 		if ($db->setQuery($query)->loadResult())
 		{
-			$this->setError(JText::_('COM_REDSHOP_CURRENCY_CODE_ALREADY_EXISTS'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_CURRENCY_CODE_ALREADY_EXISTS'));
 
 			return false;
 		}
@@ -125,7 +125,7 @@ class RedshopTableCurrency extends RedshopTable
 	/**
 	 * Delete one or more registers
 	 *
-	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 * @param   mixed  $pk  Array of ids or ids comma separated
 	 *
 	 * @return  boolean  Deleted successfully?
 	 */
@@ -133,7 +133,7 @@ class RedshopTableCurrency extends RedshopTable
 	{
 		if (Redshop::getConfig()->get('CURRENCY_CODE') == $this->code)
 		{
-			$this->setError(JText::_('COM_REDSHOP_CURRENCY_ERROR_DELETE_CURRENCY_SET_IN_CONFIG'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_CURRENCY_ERROR_DELETE_CURRENCY_SET_IN_CONFIG'));
 
 			return false;
 		}
