@@ -209,7 +209,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 		if ($post['user_id'] == 0 && ($post['password'] == '' || $post['password2'] == ''))
 		{
-			JError::raiseWarning('', JText::_('COM_REDSHOP_REQUIRE_PASSWORD'));
+			JError::raiseWarning('', JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD'));
 
 			return false;
 		}
