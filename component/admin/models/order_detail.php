@@ -22,6 +22,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public $_copydata = null;
 
+	private $_dispatcher = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,6 +33,10 @@ class RedshopModelOrder_detail extends RedshopModel
 		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
+
+		JPluginHelper::importPlugin('redshop');
+
+		$this->_dispatcher = RedshopHelperUtility::getDispatcher();
 	}
 
 	public function setId($id)
@@ -663,9 +669,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('redshop');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onAfterAddNewOrderItem', array($orderdata));
+		$this->_dispatcher->trigger('onAfterAddNewOrderItem', array($orderdata));
 
 		return true;
 	}
@@ -840,9 +844,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if ($orderitemdata->store())
 		{
-			JPluginHelper::importPlugin('redshop');
-			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onAfterUpdateOrderItem', array($orderitemdata));
+			$this->_dispatcher->trigger('onAfterUpdateOrderItem', array($orderitemdata));
 
 			if (!$orderdata->store())
 			{
@@ -970,9 +972,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('redshop');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onAfterUpdateDiscount', array($orderData));
+		$this->_dispatcher->trigger('onAfterUpdateDiscount', array($orderData));
 
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
@@ -1053,9 +1053,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
-		JPluginHelper::importPlugin('redshop');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
+		$this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
@@ -1105,9 +1103,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 		}
 
-		JPluginHelper::importPlugin('redshop');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-		$dispatcher->trigger('onAfterUpdateShippingRates', array($orderdata));
+		$this->_dispatcher->trigger('onAfterUpdateShippingRates', array($orderdata));
 
 		return true;
 	}
@@ -1132,9 +1128,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
 
-			JPluginHelper::importPlugin('redshop');
-			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onAfterUpdateShippingAddress', array($data));
+			$this->_dispatcher->trigger('onAfterUpdateShippingAddress', array($data));
 
 			return true;
 		}
@@ -1164,9 +1158,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
 
-			JPluginHelper::importPlugin('redshop');
-			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onAfterUpdateBillingAddress', array($data));
+			$this->_dispatcher->trigger('onAfterUpdateBillingAddress', array($data));
 
 			return true;
 		}
