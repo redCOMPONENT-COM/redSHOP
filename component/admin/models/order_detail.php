@@ -1134,7 +1134,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			JPluginHelper::importPlugin('redshop');
 			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onAfterUpdateShippingAdd', array($data));
+			$dispatcher->trigger('onAfterUpdateShippingAddress', array($data));
 
 			return true;
 		}
@@ -1166,7 +1166,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			JPluginHelper::importPlugin('redshop');
 			$dispatcher = RedshopHelperUtility::getDispatcher();
-			$dispatcher->trigger('onAfterUpdateBillingAdd', array($data));
+			$dispatcher->trigger('onAfterUpdateBillingAddress', array($data));
 
 			return true;
 		}
