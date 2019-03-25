@@ -52,11 +52,11 @@ JText::script('COM_REDSHOP_DESCRIPTION');
 ?>
 
 <div class="row-fluid mainTableAttributes" id="mainTableAttributes">
-<input type="hidden" value="<?php echo count($data->lists['attributes']); ?>" name="count_attr" class="count_attr"/>
+<input type="hidden" value="<?php echo count($data['this']->lists['attributes']); ?>" name="count_attr" class="count_attr"/>
 <?php
-if ($data->lists['attributes'])
+if ($data['this']->lists['attributes'])
 {
-	foreach ($data->lists['attributes'] as $keyAttr => $attributeData)
+	foreach ($data['this']->lists['attributes'] as $keyAttr => $attributeData)
 	{
 		$displayType = $attributeData['display_type'];
 		$attributeId = $attributeData['attribute_id'];
