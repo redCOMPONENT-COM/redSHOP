@@ -50,118 +50,117 @@ defined('_JEXEC') or die;
 </div>
 
 <script>
-    jQuery(document).ready(function() {
-        jQuery('#attribute_set_id').change(function() {
-            jQuery.ajax({
-                url: 'index.php?option=com_redshop&task==product_detail.ajaxDisplayAttributeSet',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    attribute_copy: jQuery('[name=copy_attribute]:checked').val(),
-                    product_id: <?php echo $this->detail->product_id ?>,
-                    attribute_set: jQuery('#attribute_set_id').val(),
-                },
-                success: function(res) {
-                    jQuery('[name=count_attr]').val('0');
-                    jQuery('.divInspectFromHideShow').remove();
+	jQuery(document).ready(function() {
+		jQuery('#attribute_set_id').change(function() {
+			jQuery.ajax({
+				url: 'index.php?option=com_redshop&task==product_detail.ajaxDisplayAttributeSet',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					attribute_copy: jQuery('[name=copy_attribute]:checked').val(),
+					product_id: <?php echo $this->detail->product_id ?>,
+					attribute_set: jQuery('#attribute_set_id').val(),
+				},
+				success: function(res) {
+					jQuery('[name=count_attr]').val('0');
+					jQuery('.divInspectFromHideShow').remove();
 
-                    for (i = 0; i < res.length; i++)
-                    {
-                        var objattribute = res[i];
+					for (i = 0; i < res.length; i++)
+					{
+						var objattribute = res[i];
 
-                        if (!jQuery.isEmptyObject(objattribute)) {
-                            jQuery('.add_attribute').trigger('click');
+						if (!jQuery.isEmptyObject(objattribute)) {
+							jQuery('.add_attribute').trigger('click');
 
-                            jQuery('[name="attribute['+ i +'][name]"]').val(objattribute.attribute_name);
-                            jQuery('[name="attribute['+ i +'][attribute_description]"]').val(objattribute.attribute_description);
-                            jQuery('[name="attribute['+ i +'][attribute_description]"]').val(objattribute.attribute_description);
-                            jQuery('[name="attribute['+ i +'][ordering]"]').val(objattribute.ordering);
+							jQuery('[name="attribute['+ i +'][name]"]').val(objattribute.attribute_name);
+							jQuery('[name="attribute['+ i +'][attribute_description]"]').val(objattribute.attribute_description);
+							jQuery('[name="attribute['+ i +'][attribute_description]"]').val(objattribute.attribute_description);
+							jQuery('[name="attribute['+ i +'][ordering]"]').val(objattribute.ordering);
 
-                            if (objattribute.allow_multiple_selection == 1) {
-                                jQuery('[name="attribute['+ i +'][allow_multiple_selection]"]').prop('checked', true);
-                            }
+							if (objattribute.allow_multiple_selection == 1) {
+								jQuery('[name="attribute['+ i +'][allow_multiple_selection]"]').prop('checked', true);
+							}
 
-                            if (objattribute.hide_attribute_price) {
-                                jQuery('[name="attribute['+ i +'][hide_attribute_price]"]').prop('checked', true);
-                            }
+							if (objattribute.hide_attribute_price) {
+								jQuery('[name="attribute['+ i +'][hide_attribute_price]"]').prop('checked', true);
+							}
 
-                            if (objattribute.display_type == 'radio') {
-                                jQuery('[name="attribute['+ i +'][display_type]"]').val('radio')
-                            }
+							if (objattribute.display_type == 'radio') {
+								jQuery('[name="attribute['+ i +'][display_type]"]').val('radio')
+							}
 
-                            if (objattribute.attribute_required == 1) {
-                                jQuery('[name="attribute['+ i +'][required]"]').prop('checked', true);
-                            }
+							if (objattribute.attribute_required == 1) {
+								jQuery('[name="attribute['+ i +'][required]"]').prop('checked', true);
+							}
 
-                            // Append attribute property
-                            for (j = 0; j < objattribute.propeties.length; j++)
-                            {
-                                var objPropeties = objattribute.propeties[j];
+							// Append attribute property
+							for (j = 0; j < objattribute.propeties.length; j++)
+							{
+								var objPropeties = objattribute.propeties[j];
 
-                                if (!jQuery.isEmptyObject(objPropeties))
-                                {
-                                    if (j !== 0) {
-                                        jQuery('#add_property_' + i).trigger('click');
-                                    }
+								if (!jQuery.isEmptyObject(objPropeties))
+								{
+									if (j !== 0) {
+										jQuery('#add_property_' + i).trigger('click');
+									}
 
-                                    jQuery('[name="attribute['+ i +'][property]['+ j +'][name]"]').val(objPropeties.text);
-                                    jQuery('[name="attribute['+ i +'][property]['+ j +'][ordering]"]').val(objPropeties.ordering);
-                                    jQuery('[name="attribute['+ i +'][property]['+ j +'][oprand]"]').val(objPropeties.oprand);
-                                    jQuery('[name="attribute['+ i +'][property]['+ j +'][price]"]').val(objPropeties.property_price);
-                                    jQuery('[name="attribute['+ i +'][property]['+ j +'][extra_field]"]').val(objPropeties.extra_field);
-                                    // jQuery('[name="attribute['+ i +'][property]['+ j +'][default_sel]"]').attr('checked', false);
+									var prefixPro = '[name="attribute['+ i +'][property]['+ j +']';
 
-                                    if (objPropeties.setdefault_selected == 1) {
-                                        jQuery('[name="attribute['+ i +'][property]['+ j +'][default_sel]"]').prop('checked', true);
-                                    }
+									jQuery(prefixPro + '[name]"]').val(objPropeties.text);
+									jQuery(prefixPro + '[ordering]"]').val(objPropeties.ordering);
+									jQuery(prefixPro + '[oprand]"]').val(objPropeties.oprand);
+									jQuery(prefixPro + '[price]"]').val(objPropeties.property_price);
+									jQuery(prefixPro + '[extra_field]"]').val(objPropeties.extra_field);
 
-                                    if (objPropeties.subProperties.length >= 1) {
+									if (objPropeties.setdefault_selected == 1) {
+										jQuery(prefixPro + '[default_sel]"]').prop('checked', true);
+									}
 
-                                        for (s = 0; s < objPropeties.subProperties.length; s++)
-                                        {
-                                            var subProperties = objPropeties.subProperties[s];
+									if (objPropeties.subProperties.length >= 1) {
+										for (s = 0; s < objPropeties.subProperties.length; s++)
+										{
+											var subProperties = objPropeties.subProperties[s];
 
-                                            if (!jQuery.isEmptyObject(subProperties)) {
+											if (!jQuery.isEmptyObject(subProperties)) {
 
-                                                jQuery('#add_subproperty_' + i + '_' + j).trigger('click');
+												jQuery('#add_subproperty_' + i + '_' + j).trigger('click');
+												jQuery(prefixPro + '[subproperty][title]"]').val(subProperties.subattribute_color_title);
 
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty][title]"]').val(subProperties.subattribute_color_title);
+												var prefixSub = prefixPro + '[subproperty]['+ s +']';
 
+												jQuery(prefixSub + '[name]"]').val(subProperties.subattribute_color_name);
+												jQuery(prefixSub + '[order]"]').val(subProperties.ordering);
+												jQuery(prefixSub + '[oprand]"]').val(subProperties.oprand);
+												jQuery(prefixSub + '[price]"]').val(subProperties.subattribute_color_price);
+												jQuery(prefixSub + '[number]"]').val(subProperties.subattribute_color_number);
+												jQuery(prefixSub + '[extra_field]"]').val(subProperties.extra_field);
+												jQuery(prefixSub + '[mainImage]"]').val(subProperties.subattribute_color_main_image);
+												jQuery(prefixSub + '[image]"]').val(subProperties.subattribute_color_image);
 
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][name]"]').val(subProperties.subattribute_color_name);
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][order]"]').val(subProperties.ordering);
+												if (subProperties.setrequire_selected == 1) {
+													jQuery(prefixPro + '[req_sub_att]"]').prop('checked', true);
+												}
 
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][oprand]"]').val(subProperties.oprand);
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][price]"]').val(subProperties.subattribute_color_price);
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][number]"]').val(subProperties.subattribute_color_number);
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][extra_field]"]').val(subProperties.extra_field);
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][mainImage]"]').val(subProperties.subattribute_color_main_image);
-                                                jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][image]"]').val(subProperties.subattribute_color_image);
+												if (subProperties.setmulti_selected == 1) {
+													jQuery(prefixPro + '[multi_sub_att]"]').prop('checked', true);
+												}
 
-                                                if (subProperties.setrequire_selected == 1) {
-                                                    jQuery('[name="attribute['+ i +'][property]['+ j +'][req_sub_att]"]').prop('checked', true);
-                                                }
+												if (subProperties.setdefault_selected == 1) {
+													jQuery(prefixSub + '[chk_propdselected]"]').prop('checked', true);
+												}
 
-                                                if (subProperties.setmulti_selected == 1) {
-                                                    jQuery('[name="attribute[+gh+][property]['+ j +'][multi_sub_att]"]').prop('checked', true);
-                                                }
-
-                                                if (subProperties.setdefault_selected == 1) {
-                                                    jQuery('[name="attribute['+ i +'][property]['+ j +'][subproperty]['+ s +'][chk_propdselected]"]').prop('checked', true);
-                                                }
-
-                                                if (subProperties.setdisplay_type === 'radio') {
-                                                    jQuery('[name="attribute['+ i +'][property]['+ j +'][setdisplay_type]"]').val('radio');
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            })
-        });
-    })
+												if (subProperties.setdisplay_type === 'radio') {
+													jQuery(prefixPro + '[setdisplay_type]"]').val('radio');
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			})
+		});
+	})
 </script>

@@ -1072,27 +1072,27 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function ajaxDisplayAttributeSet()
-    {
-        $post = $this->input->post->getArray();
+	{
+		$post = $this->input->post->getArray();
 
-        if ($post['attribute_set'])
-        {
-	        $attributes = \RedshopHelperProduct_Attribute::getProductAttribute(0, $post['attribute_set'], 0, 1, 0);
-	        foreach ($attributes as $attribute)
-            {
-	            $attribute->propeties = \RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id, 0);
+		if ($post['attribute_set'])
+		{
+			$attributes = \RedshopHelperProduct_Attribute::getProductAttribute(0, $post['attribute_set'], 0, 1, 0);
+			foreach ($attributes as $attribute)
+			{
+				$attribute->propeties = \RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id, 0);
 
-	            foreach ($attribute->propeties as $propety)
-                {
-                    $propety->subProperties = \RedshopHelperProduct_Attribute::getAttributeSubProperties(0,$propety->property_id);
-                }
-            }
+				foreach ($attribute->propeties as $propety)
+				{
+					$propety->subProperties = \RedshopHelperProduct_Attribute::getAttributeSubProperties(0,$propety->property_id);
+				}
+			}
 
-	        $result = json_encode($attributes);
+			$result = json_encode($attributes);
 
-	        echo $result;
-        }
+			echo $result;
+		}
 
-        JFactory::getApplication()->close();
-    }
+		JFactory::getApplication()->close();
+	}
 }
