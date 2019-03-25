@@ -4231,7 +4231,7 @@ class productHelper
 
 				$ItemData = $this->getMenuInformation(0, 0, '', 'product&pid=' . $relatedProduct[$r]->product_id);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$pItemid = $ItemData->id;
 				}
