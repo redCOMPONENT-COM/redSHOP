@@ -310,7 +310,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuInformation(0, 0, "", "account");
 
-				if (count($menu) > 0)
+				if (!empty($menu))
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;
