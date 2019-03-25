@@ -33,9 +33,27 @@ defined('_JEXEC') or die;
         form.submit();
     }
 
+    resetFilter = function () {
+        document.adminForm.task.value                          = "";
+        document.getElementById("filter").value                = "";
+        document.adminForm.submit();
+    };
+
 </script>
 <form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm">
     <div id="editcell">
+        <div class="filterTool">
+            <div class="filterItem">
+                <div class="btn-wrapper input-append">
+                    <input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
+                           placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
+                    <button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
+                    <input type="button" class="btn reset" onclick="resetFilter();" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
         <table class="adminlist table table-striped">
             <thead>
             <tr>
@@ -115,7 +133,6 @@ defined('_JEXEC') or die;
             </td>
             </tfoot>
         </table>
-    </div>
 
     <input type="hidden" name="view" value="shopper_group"/>
     <input type="hidden" name="task" value=""/>
