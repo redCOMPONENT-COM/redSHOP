@@ -51,7 +51,7 @@
 		$('.add_attribute').on('click', function (e) {
 			e.preventDefault();
 			var $countAttr = $('.count_attr');
-            var gh = parseInt($countAttr.val()) || 0;
+			var gh = parseInt($countAttr.val());
 			$countAttr.val(gh + 1);
 			var attrPref = 'attribute[' + gh + ']';
 			$('.mainTableAttributes').append(
