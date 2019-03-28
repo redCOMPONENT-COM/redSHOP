@@ -22,11 +22,13 @@ $date   = JFactory::getDate();
 			submitform(pressbutton);
 			return;
 		} else if (pressbutton == 'apply' || pressbutton == 'save') {
-			var miniDelivery = form.min_del_time.value;
-			var maxDelivery = form.max_del_time.value;
-
-			if (miniDelivery > maxDelivery) {
+			if (form.min_del_time.value > form.max_del_time.value) {
 				alert("<?php echo JText::_('COM_REDSHOP_STOCKROOM_COMPARE_MINI_MAX_DELIVERY', true ); ?>");
+				return false;
+			}
+
+			if (form.min_stock_amount.value < 0) {
+				alert("<?php echo JText::_('COM_REDSHOP_STOCKROOM_MINIMUM_STOCK_AMOUNT_ZERO', true ); ?>");
 				return false;
 			}
 		}
