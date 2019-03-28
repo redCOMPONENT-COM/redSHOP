@@ -87,13 +87,13 @@ JFactory::getDocument()->addScriptDeclaration('
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 							?>
-                            <?php if ($value) : ?>
-							    <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
-                            <?php endif; ?>
-								    <img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
-                            <?php if ($value) : ?>
-						 	    </a>
-					 	    <?php endif; ?>
+							<?php if ($value) : ?>
+								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
+							<?php endif; ?>
+									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
+							<?php if ($value) : ?>
+								</a>
+							<?php endif; ?>
 							<?php echo $this->form->getInput('giftcard_bgimage') ?>
 						</div>
 					</div>
@@ -115,12 +115,12 @@ JFactory::getDocument()->addScriptDeclaration('
 							);
 							?>
 							<?php if ($value) : ?>
-                                <a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
+								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
 							<?php endif; ?>
-								    <img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
-                            <?php if ($value) : ?>
-                                </a>
-						    <?php endif; ?>
+									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
+							<?php if ($value) : ?>
+								</a>
+							<?php endif; ?>
 							<?php echo $this->form->getInput('giftcard_image') ?>
 						</div>
 					</div>
