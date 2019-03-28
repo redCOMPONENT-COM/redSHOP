@@ -209,7 +209,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 		if ($post['user_id'] == 0 && ($post['password'] == '' || $post['password2'] == ''))
 		{
-			JError::raiseWarning('', JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD'));
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD'));
 
 			return false;
 		}
@@ -299,7 +299,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 					if (!$user->delete())
 					{
-						$this->setError($user->getError());
+						/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $user->getError());
 
 						return false;
 					}
@@ -310,7 +310,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 			if (!$db->execute())
 			{
-				$this->setError($db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 				return false;
 			}
@@ -332,7 +332,7 @@ class RedshopModelUser_detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
