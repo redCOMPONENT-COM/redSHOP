@@ -30,6 +30,7 @@ class RedshopControllerAccess extends RedshopControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
+		JFactory::getApplication()->setUserState('com_redshop.access.selectedTabPosition', $this->input->get('selectedTabPosition'));
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
