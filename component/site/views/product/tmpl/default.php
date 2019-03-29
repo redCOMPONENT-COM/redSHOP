@@ -1573,7 +1573,7 @@ if (strstr($template_desc, "{product_rating_summary}"))
 
 if (strstr($template_desc, "{product_rating}"))
 {
-	if ((int) Redshop::getConfig()->get('FAVOURED_REVIEWS') !== "" || (int) Redshop::getConfig()->get('FAVOURED_REVIEWS') !== 0)
+	if ((int) Redshop::getConfig()->get('FAVOURED_REVIEWS') !== 0)
 	{
 		$mainblock = Redshop::getConfig()->get('FAVOURED_REVIEWS');
 	}
