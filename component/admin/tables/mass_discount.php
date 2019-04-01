@@ -212,35 +212,35 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		if (empty($this->name))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
 
 			return false;
 		}
 
 		if (empty($this->amount))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
 
 			return false;
 		}
 
 		if (is_null($this->type))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_TYPE_IS_REQUIRED'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_TYPE_IS_REQUIRED'), 'error');
 
 			return false;
 		}
 
 		if (empty($this->discount_product) && empty($this->category_id) && empty($this->manufacturer_id))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
 
 			return false;
 		}
 
 		if ($this->start_date > $this->end_date)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'), 'error');
 
 			return false;
 		}
@@ -365,7 +365,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 				if (!$db->setQuery($query)->execute())
 				{
-					$this->setError($db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 					return false;
 				}
@@ -402,7 +402,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 			if (!$db->setQuery($query)->execute())
 			{
-				$this->setError($db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 				return false;
 			}
@@ -459,7 +459,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 				if (!$db->setQuery($query)->execute())
 				{
-					$this->setError($db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 					return false;
 				}
@@ -571,7 +571,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 			if (!$db->setQuery($query)->execute())
 			{
-				$this->setError($db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 				return false;
 			}
@@ -636,14 +636,14 @@ class RedshopTableMass_Discount extends RedshopTable
 
 				if (!$db->execute())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
 			}
 			catch (Exception $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				/** @scrutinizer ignore-deprecated */ $this->setError($e->getMessage(), 'error');
 			}
 		}
 
