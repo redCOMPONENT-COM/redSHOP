@@ -159,11 +159,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 			'&Itemid=' . $this->itemId
 		);
 
-		if (Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 0)
+		if (Redshop::getConfig()->getInt('DEFAULT_LINK_FIND') === 0)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . $nextproducts->product_name . "" . Redshop::getConfig()->get('DAFULT_NEXT_LINK_SUFFIX') . '</a>';
 		}
-        elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
+        elseif (Redshop::getConfig()->getInt('DEFAULT_LINK_FIND') == 1)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . Redshop::getConfig()->get('CUSTOM_NEXT_LINK_FIND') . '</a>';
 		}
@@ -1572,7 +1572,7 @@ if (strstr($template_desc, "{product_rating_summary}"))
 
 if (strstr($template_desc, "{product_rating}"))
 {
-	if (Redshop::getConfig()->get('FAVOURED_REVIEWS') != "" || Redshop::getConfig()->get('FAVOURED_REVIEWS') !== 0)
+	if (Redshop::getConfig()->get('FAVOURED_REVIEWS') != "" || Redshop::getConfig()->getInt('FAVOURED_REVIEWS') !== 0)
 	{
 		$mainblock = Redshop::getConfig()->get('FAVOURED_REVIEWS');
 	}
