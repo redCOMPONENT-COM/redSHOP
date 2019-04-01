@@ -2221,7 +2221,8 @@ class productHelper
 					$subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
 				}
 
-				$subprop_Arry = array();
+				$subprop_Arry    = array();
+				$preselectSubPro = true;
 
 				for ($i = 0, $in = count($subproperty); $i < $in; $i++)
 				{
@@ -2240,7 +2241,7 @@ class productHelper
 						}
 					}
 
-					if ($subproperty[$i]->subattribute_color_image)
+					if (!empty($subproperty[$i]->subattribute_color_image))
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
 						{
@@ -2255,9 +2256,16 @@ class productHelper
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 							$subprop_Arry[] = $thumbUrl;
+							$style          = null;
+
+							if ($subproperty[$i]->setdefault_selected && $preselectSubPro)
+							{
+								$style       = ' style="border: 1px solid;"';
+								$preselectSubPro = false;
+							}
 
 							$subproperty_woscrollerdiv .= "<div id='" . $subpropertyid . "_subpropimg_"
-								. $subproperty[$i]->value . "' class='subproperty_image_inner'><a onclick='setSubpropImage(\""
+								. $subproperty[$i]->value . "' class='subproperty_image_inner' ". $style ."><a onclick='setSubpropImage(\""
 								. $product_id . "\",\"" . $subpropertyid . "\",\"" . $subproperty[$i]->value
 								. "\");calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
@@ -2436,7 +2444,7 @@ class productHelper
 					)
 				);
 
-				if ($imgAdded == 0 || $isAjax == 1)
+				if ($imgAdded === 0 || $isAjax == 1)
 				{
 					$subPropertyScroller = "";
 				}
@@ -3538,7 +3546,7 @@ class productHelper
 	 *
 	 * @param   int $productId Product id
 	 *
-	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
+	 * @return mixed
 	 */
 	public function getProductReviewList($productId)
 	{
