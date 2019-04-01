@@ -27157,3 +27157,8 @@ body.modal-open {
 .rs-full { display: none; }
 .rs-more { cursor: pointer; }
 .rs-teaser { display: inline-block; }
+
+label.error {
+    color: red;
+    font-style: italic;
+}

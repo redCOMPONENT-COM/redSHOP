@@ -47,4 +47,24 @@ class RedshopModelSupplier extends RedshopModelForm
 
 		return $data;
 	}
+
+	/**
+	 * Get supplier by email
+	 *
+	 * @param   string  $email  Supplier email
+	 * @return  mixed  The return value or null if the query failed.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getSupplierByEmail($email)
+	{
+		$db = $this->_db;
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_supplier'))
+			->where($db->qn('email') .  ' = ' . $db->q($email));
+
+		return $db->setQuery($query)->loadResult();
+	}
 }

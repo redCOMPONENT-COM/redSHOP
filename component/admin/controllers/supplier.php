@@ -35,4 +35,27 @@ class RedshopControllerSupplier extends RedshopControllerForm
 
 		return $model;
 	}
+
+	/**
+	 * Validate new supplier
+	 *
+	 * @return void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function ajaxValidateNewSupplier()
+	{
+		$app   = JFactory::getApplication();
+		$model = $this->getModel();
+		$email = $app->input->getString('email');
+		$flag  = 1;
+
+		if (!$model->getSupplierByEmail($email))
+		{
+			$flag = 0;
+		}
+
+		echo $flag;
+
+		$app->close();
+	}
 }
