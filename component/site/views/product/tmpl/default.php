@@ -105,7 +105,7 @@ else
 	$template_desc = str_replace('{discount_calculator}', '', $template_desc);
 }
 
-if (Redshop::getConfig()->get('COMPARE_PRODUCTS') === 0)
+if (Redshop::getConfig()->getInt('COMPARE_PRODUCTS') === 0)
 {
 	$template_desc = str_replace('{compare_products_button}', '', $template_desc);
 	$template_desc = str_replace('{compare_product_div}', '', $template_desc);
