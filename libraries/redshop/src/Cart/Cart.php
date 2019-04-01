@@ -403,8 +403,24 @@ class Cart
 		$generateAttributeCart = isset($data['cart_attribute']) ?
 			$data['cart_attribute'] : \Redshop\Cart\Helper::generateAttribute($data);
 
+		if (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
+		{
+			$templateCart = \RedshopHelperTemplate::getTemplate("quotation_cart");
+		}
+		else
+		{
+			if (!\Redshop::getConfig()->get('USE_AS_CATALOG'))
+			{
+				$templateCart = \RedshopHelperTemplate::getTemplate("cart");
+			}
+			else
+			{
+				$templateCart = \RedshopHelperTemplate::getTemplate("catalogue_cart");
+			}
+		}
+
 		$retAttArr = \productHelper::getInstance()->makeAttributeCart(
-			$generateAttributeCart, $product->product_id, 0, $data['product_price'], $quantity
+			$generateAttributeCart, $product->product_id, 0, $data['product_price'], $quantity, $templateCart[0]->template_desc
 		);
 
 		$selectProp                           = \productHelper::getInstance()->getSelectedAttributeArray($data);
