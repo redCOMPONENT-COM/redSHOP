@@ -23,6 +23,18 @@ jimport('joomla.application.component.controllerform');
 class RedshopControllerForm extends JControllerForm
 {
 	/**
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $option;
+
+	/**
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $context;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array $config   An optional associative array of configuration settings.

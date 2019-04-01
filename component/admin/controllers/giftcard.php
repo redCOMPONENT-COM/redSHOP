@@ -53,23 +53,27 @@ class RedshopControllerGiftcard extends RedshopControllerForm
 		$model     = $this->getModel();
 		$context   = "$this->option.edit.$this->context";
 		$recordId  = $this->input->getInt($urlVar);
+		/** @scrutinizer ignore-call */
 		$form      = $model->getForm($data, false);
+		/** @scrutinizer ignore-call */
 		$validData = $model->validate($form, $data);
 
 		// Save the data in the session.
 		$app->setUserState($context . '.data', $validData);
 
-		if (!$this->isImage($file['giftcard_bgimage_file']['name'], 'background image', $recordId, $urlVar))
+		if (!$this->
+		/** @scrutinizer ignore-call */ isImage($file['giftcard_bgimage_file']['name'], 'background image', $recordId, $urlVar))
 		{
 			return false;
 		}
 
-		if (!$this->isImage($file['giftcard_image_file']['name'], 'image', $recordId, $urlVar))
+		if (!$this->
+		/** @scrutinizer ignore-call */ isImage($file['giftcard_image_file']['name'], 'image', $recordId, $urlVar))
 		{
 			return false;
 		}
 
-		parent::save($key = null, $urlVar = null);
+		parent::/** @scrutinizer ignore-call */ save($key = null, $urlVar = null);
 	}
 
 
@@ -91,11 +95,11 @@ class RedshopControllerGiftcard extends RedshopControllerForm
 		}
 
 		// Redirect back to the edit screen.
-		$this->setError(JText::sprintf('COM_REDSHOP_GIFTCARD_ERROR_NOT_IMAGE', $nameInput));
-		$this->setMessage($this->getError(), 'error');
+		$this->/** @scrutinizer ignore-deprecated */ setError(JText::sprintf('COM_REDSHOP_GIFTCARD_ERROR_NOT_IMAGE', $nameInput));
+		$this->setMessage($this->/** @scrutinizer ignore-deprecated */ getError(), 'error');
 
 		$this->setRedirect(
-			$this->getRedirectToItemRoute($this->getRedirectToItemAppend($recordId, $urlVar))
+			$this->/** @scrutinizer ignore-call */ getRedirectToItemRoute($this->/** @scrutinizer ignore-call */ getRedirectToItemAppend($recordId, $urlVar))
 		);
 
 		return false;
