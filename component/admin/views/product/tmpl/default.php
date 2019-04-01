@@ -137,20 +137,20 @@ JHtml::_('redshopjquery.framework');
         <table class="adminlist table table-striped">
             <thead>
             <tr>
-	            <?php if ($category_id < 0) : ?>
-                <th width="5">
+				<?php if ($category_id < 0) : ?>
+				<th width="5">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
-                </th>
-                <?php endif?>
-	            <?php if ($category_id > 0): ?>
-                    <th width="1" class="nowrap center hidden-phone">
-                        <a href="#" onclick="Joomla.tableOrdering('x.ordering','asc','');return false;"
-                           data-order="X.ordering" data-direction="asc">
-                            <span class="fa fa-sort-alpha-asc"></span>
-                        </a>
-                    </th>
-	            <?php endif; ?>
-                <th width="20">
+				</th>
+				<?php endif?>
+				<?php if ($category_id > 0): ?>
+					<th width="1" class="nowrap center hidden-phone">
+						<a href="#" onclick="Joomla.tableOrdering('x.ordering','asc','');return false;"
+						   data-order="X.ordering" data-direction="asc">
+							<span class="fa fa-sort-alpha-asc"></span>
+						</a>
+					</th>
+				<?php endif; ?>
+				<th width="20">
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
                 </th>
                 <th class="title">
