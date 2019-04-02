@@ -458,6 +458,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				}
 			}
 		}
+
 //		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
