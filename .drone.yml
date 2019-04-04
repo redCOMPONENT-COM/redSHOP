@@ -2103,7 +2103,7 @@ services:
         environment:
             - tests_suite=00-setup
             - tests_db=setup
-            - php_versions=56,7
+            - php_versions=56,73
         commands:
             # Base installation
             - sh tests/drone/setup-base-install.sh  $tests_db                       $tests_suite                        $php_versions
