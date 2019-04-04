@@ -174,6 +174,10 @@ class RedshopControllerProduct extends RedshopController
 		$subatthtml = htmlspecialchars_decode(base64_decode($this->input->get->get('subatthtml', '', 'raw')));
 
 		$response = "";
+		$producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
+		$checkApplyVAT   = \Redshop\Template\Helper::isApplyVat($producttemplate[0]->template_desc);
+
+		$response .= ($checkApplyVAT != 1) ? '<input type="hidden" value="{without_vat}">' : '';
 
 		for ($i = 0, $in = count($propid); $i < $in; $i++)
 		{
