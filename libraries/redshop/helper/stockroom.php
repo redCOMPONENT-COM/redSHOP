@@ -421,7 +421,7 @@ class RedshopHelperStockroom
 	 */
 	public static function getPreorderStockAmountWithReserve($sectionId = 0, $section = "product", $stockroomId = 0)
 	{
-		if (Redshop::getConfig()->get('USE_STOCKTOOM') != 1)
+		if (!Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			return 1;
 		}
