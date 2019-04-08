@@ -2075,7 +2075,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Checkout_Search 0 0'
 
-    50-Checkout_Search-71:
+    50-Checkout_Search-73:
         group: 16-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
@@ -2083,8 +2083,8 @@ pipeline:
             - tests_suite=50-Checkout_Search
             - tests_db=Checkout_Search
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-50-Checkout_Search-71
-            - php_version=71
+            - output_append=-50-Checkout_Search-73
+            - php_version=73
         commands:
             # Regular entry point
             - /entrypoint.sh &
