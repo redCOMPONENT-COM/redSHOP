@@ -48,7 +48,7 @@ class RedshopControllerVouchers extends RedshopControllerAdmin
 		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
 		$app = JFactory::getApplication();
 
-		if ($editData[1]['amount'] == 0 || empty($editData[1]['amount']))
+		if ($editData[1]['amount'] <= 0 || empty($editData[1]['amount']))
 		{
 			echo 0;
 			$app->close();
