@@ -35,4 +35,25 @@ class RedshopControllerVouchers extends RedshopControllerAdmin
 
 		return $model;
 	}
+
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
+	public function ajaxInlineEdit()
+	{
+		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
+		$app = JFactory::getApplication();
+
+		if ($editData[1]['amount'] == 0 || empty($editData[1]['amount']))
+		{
+			echo 0;
+			$app->close();
+		}
+
+		parent::ajaxInlineEdit();
+	}
 }
