@@ -398,6 +398,10 @@ class RedshopEconomic
 		{
 			self::handleExistingDebtorOnEmailVat($debtorHandle, $eco);
 		}
+		else
+		{
+			$eco['newuserFlag'] = true;
+		}
 
 		return \RedshopHelperUtility::getDispatcher()->trigger('storeDebtor', array($eco));
 	}
@@ -435,6 +439,10 @@ class RedshopEconomic
 			elseif (!empty($emailArray) && count($emailArray) == 1)
 			{
 				$eco['eco_user_number'] = $emailArray->Number;
+			}
+			else
+			{
+				$eco['newuserFlag'] = true;
 			}
 		}
 		else
