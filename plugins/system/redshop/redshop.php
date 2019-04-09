@@ -116,7 +116,7 @@ class PlgSystemRedSHOP extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onExtensionAfterSave($context, $table, $isNew, $data)
+	public function onExtensionAfterSave($context, /** @scrutinizer ignore-unused */ $table, /** @scrutinizer ignore-unused */ $isNew, $data)
 	{
 		if ($context != 'com_plugins.plugin')
 		{
@@ -131,8 +131,8 @@ class PlgSystemRedSHOP extends JPlugin
 	/**
 	 * Method check disable extrafield
 	 *
-	 * @param   integer   $pks      extension id
-	 * @param   boolean   $status   status extension
+	 * @param   integer|array   $pks      extension id
+	 * @param   integer         $status   status extension
 	 *
 	 * @return  void
 	 *
