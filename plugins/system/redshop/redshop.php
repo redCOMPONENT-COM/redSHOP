@@ -158,19 +158,7 @@ class PlgSystemRedSHOP extends JPlugin
 		{
 			if ($plugin == 'giaohangnhanh')
 			{
-				if ($status == false)
-				{
-					$fields = array(
-						$db->qn('published') . ' = ' . $db->q(0)
-					);
-				}
-				else
-				{
-					$fields = array(
-						$db->qn('published') . ' = ' . $db->q(1)
-					);
-				}
-
+				$query->clear();
 				$conditions = array(
 					$db->qn('name') . ' = ' . $db->q('rs_ghn_city') . ' OR ' .
 					$db->qn('name') . ' = ' . $db->q('rs_ghn_district') . ' OR ' .
@@ -179,7 +167,9 @@ class PlgSystemRedSHOP extends JPlugin
 				);
 
 				$query->clear();
-				$query->update($db->quoteName('#__redshop_fields'))->set($fields)->where($conditions);
+				$query->update($db->quoteName('#__redshop_fields'))
+					->set($db->qn('published') . ' = ' . $db->q((int)$status))
+					->where($conditions);
 				$db->setQuery($query)->execute();
 			}
 		}
