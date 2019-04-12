@@ -654,6 +654,14 @@ class RedshopModelOrder_detail extends RedshopModel
 				RedshopEconomic::renewInvoiceInEconomic($orderdata);
 			}
 
+			if ($orderdata->special_discount)
+			{
+				$this->special_discount(
+					array('order_item_id' => $order_item_id, 'special_discount' => $orderdata->special_discount),
+					true
+				);
+			}
+
 			// Send mail from template
 			Redshop\Mail\Order::sendSpecialDiscountMail($this->_id);
 		}

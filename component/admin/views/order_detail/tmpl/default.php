@@ -69,6 +69,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                 return false;
             }
             else {
+                if (<?php echo $this->detail->special_discount ?> > 0 )
+                {
+                    alert("<?php echo JText::_('COM_REDSHOP_ADD_PRODUCT_ALERT_MESSAGE_WHEN_ORDER_HAVE_SPECIAL_DISCOUNT'); ?>");
+                }
                 form.task.value = 'neworderitem';
                 form.submit();
                 return true;
