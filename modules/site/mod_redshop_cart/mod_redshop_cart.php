@@ -36,7 +36,7 @@ $output_view = $params->get('cart_output', 'simple');
 $session     = JFactory::getSession();
 $cart        = $session->get('cart');
 
-if (count($cart) <= 0 || $cart == "")
+if (count(get_object_vars($cart)) <= 0 || $cart == "")
 {
 	$cart = array();
 }
