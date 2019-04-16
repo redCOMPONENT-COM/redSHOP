@@ -494,9 +494,10 @@ class RedshopModelCart extends RedshopModel
 
 			if (!empty($voucherId))
 			{
-				if (count($cart['voucher']) > 1)
+				$countVoucher = count($cart['voucher']);
+				if ($countVoucher > 1)
 				{
-					for ($i = 0; $i < count($cart['voucher']); $i ++)
+					for ($i = 0; $i < $countVoucher; $i ++)
 					{
 						if ($cart['voucher'][$i]['voucher_id'] == $voucherId)
 						{
@@ -506,7 +507,7 @@ class RedshopModelCart extends RedshopModel
 				}
 				else
 				{
-					for ($i = 0; $i < count($cart['voucher']); $i ++)
+					for ($i = 0; $i < $countVoucher; $i ++)
 					{
 						if ($cart['voucher'][$i]['voucher_id'] == $voucherId)
 						{
@@ -536,12 +537,12 @@ class RedshopModelCart extends RedshopModel
 		RedshopHelperCartSession::setCart($cart);
 	}
 
-	public function coupon($c_data = array())
+	public function coupon()
 	{
 		return RedshopHelperCartDiscount::applyCoupon();
 	}
 
-	public function voucher($v_data = array())
+	public function voucher()
 	{
 		return RedshopHelperCartDiscount::applyVoucher();
 	}
@@ -577,21 +578,21 @@ class RedshopModelCart extends RedshopModel
 			if ($product->published == 0)
 			{
 				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $product_id);
-				JError::raiseWarning(20, $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning(20, $msg);
 				continue;
 			}
 
 			if ($product->not_for_sale > 0)
 			{
 				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $product_id);
-				JError::raiseWarning(20, $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning(20, $msg);
 				continue;
 			}
 
 			if ($product->expired == 1)
 			{
 				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $product_id);
-				JError::raiseWarning(20, $msg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning(20, $msg);
 				continue;
 			}
 
