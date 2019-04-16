@@ -79,14 +79,8 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 	jQuery(document).ready(function() {
 
 		jQuery('#type_chart').change(function() {
-			var typeChart = jQuery(this).val();
-			if (typeChart == 1) {
-				jQuery('#lastmonthsales_statistics_bar').css('display', '');
-				jQuery('#lastmonthsales_statistics_pie').css('display', 'none');
-			} else {
-				jQuery('#lastmonthsales_statistics_pie').css('display', '');
-				jQuery('#lastmonthsales_statistics_bar').css('display', 'none');
-			}
+			jQuery('#lastmonthsales_statistics_bar').toggle();
+			jQuery('#lastmonthsales_statistics_pie').toggle();
 		})
 	})
 </script>
