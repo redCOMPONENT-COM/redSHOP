@@ -42,6 +42,7 @@ class PlgRedshop_ProductSh404urls extends JPlugin
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
+		$conds = array();
 
 		foreach ($pids as $pid)
 		{
