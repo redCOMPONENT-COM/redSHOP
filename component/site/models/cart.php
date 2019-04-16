@@ -485,6 +485,37 @@ class RedshopModelCart extends RedshopModel
 				}
 			}
 
+			$db = JFactory::getDbo();
+			$query   = $db->getQuery(true)
+				->select('voucher_id')
+				->from($db->qn('#__redshop_product_voucher_xref'))
+				->where($db->qn('product_id') . ' = ' . $db->quote($cart[$cartElement]['product_id']));
+			$voucherId = $db->setQuery($query)->loadResult();
+
+			if (!empty($voucherId))
+			{
+				if (count($cart['voucher']) > 1)
+				{
+					for ($i = 0; $i < count($cart['voucher']); $i ++)
+					{
+						if ($cart['voucher'][$i]['voucher_id'] == $voucherId)
+						{
+							unset($cart['voucher'][$i]);
+						}
+					}
+				}
+				else
+				{
+					for ($i = 0; $i < count($cart['voucher']); $i ++)
+					{
+						if ($cart['voucher'][$i]['voucher_id'] == $voucherId)
+						{
+							unset($cart['voucher']);
+						}
+					}
+				}
+			}
+
 			RedshopHelperStockroom::deleteCartAfterEmpty($cart[$cartElement]['product_id'], 'product', $cart[$cartElement]['quantity']);
 			unset($cart[$cartElement]);
 			$cart = array_merge(array(), $cart);
