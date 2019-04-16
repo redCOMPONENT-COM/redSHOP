@@ -1393,7 +1393,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11/Discounts0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11/Discounts 0 0'
 
     33-Tax_Rate-56:
         group: 11-tests
