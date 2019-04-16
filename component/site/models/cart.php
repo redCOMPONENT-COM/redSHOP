@@ -489,7 +489,7 @@ class RedshopModelCart extends RedshopModel
 			$query   = $db->getQuery(true)
 				->select('voucher_id')
 				->from($db->qn('#__redshop_product_voucher_xref'))
-				->where($db->qn('product_id') . ' = ' . $db->quote($cart[$cartElement]['product_id']));
+				->where($db->qn('product_id') . ' = ' . $db->q((int) $cart[$cartElement]['product_id']));
 			$voucherId = $db->setQuery($query)->loadResult();
 
 			if (!empty($voucherId))
