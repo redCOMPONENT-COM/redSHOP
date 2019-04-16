@@ -22,6 +22,8 @@ jimport('joomla.application.component.controllerform');
  */
 class RedshopControllerForm extends JControllerForm
 {
+	use \Redshop\Model\Traits\HasDateTimeRange;
+
 	/**
 	 * Constructor.
 	 *
@@ -441,6 +443,11 @@ class RedshopControllerForm extends JControllerForm
 		if (null === $urlVar)
 		{
 			$urlVar = $key;
+		}
+
+		if (isset($data['start_date']) && isset($data['end_date']))
+		{
+			$this->handleDateTimeRange($data['start_date'], $data['end_date']);
 		}
 
 		$recordId = $this->input->getInt($urlVar);
