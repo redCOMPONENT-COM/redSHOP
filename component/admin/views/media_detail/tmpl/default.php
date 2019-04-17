@@ -146,7 +146,11 @@ if ($showbuttons)
 			// None zip images
 			switch (form.media_type.value) {
 				case 'youtube':
-					break;
+					var youtube_id = $("[name=youtube_id]").val();
+
+					if (youtube_id == '' || youtube_id == undefined) {
+						return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_YOUTUBE_VIDEO_ID', true); ?>');
+					}
 				default:
 					<?php $input = JFactory::getApplication()->input; ?>
 					<?php $checkCid = $input->get('cid', []); ?>
