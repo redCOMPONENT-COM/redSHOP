@@ -1834,8 +1834,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 					// Update image names and copy
 					if (!empty($subatt_property[$subprop]->subattribute_color_image))
 					{
-						$subattribute_color_image = 'subproperty/' . $subatt_property[$subprop]->subattribute_color_image;
-						$new_subattribute_color_image = $this->copy_image_from_path($subattribute_color_image, 'subproperty');
+						$subattribute_color_image = 'subcolor/' . $subatt_property[$subprop]->subattribute_color_image;
+						$new_subattribute_color_image = $this->copy_image_from_path($subattribute_color_image, 'subcolor');
 					}
 
 					if (!empty($subatt_property[$subprop]->subattribute_color_main_image))
