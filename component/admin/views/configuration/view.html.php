@@ -476,8 +476,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 							jQuery(\"#" . $state_list_name . "\").trigger(\"liszt:updated\");
 		  				}
 				 	}
+				 	var element = document.querySelector('#default-vat-state-wrapper > .col-md-8');
 				 	writeDynaList( 'class=\"form-control\" name=\"default_vat_state\" size=\"1\" id=\"default_vat_state\"',
-				 	states, originalPos, originalPos, $selected_state_code );
+				 	states, originalPos, originalPos, $selected_state_code, element);
 					//-->
 					//]]></script>";
 		$lists['default_vat_state'] = $script;
