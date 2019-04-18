@@ -43,7 +43,7 @@
 			+ '<div class="span3"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED') + ' <input type="checkbox" value="1" name="attribute[+gh+][property][' + sh + '][multi_sub_att]" /></label></div>'
 			+ '<div class="span3">' + Joomla.JText._('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE') + ' <select id="attribute_' + gh + '_property_' + sh + '_setdisplay_type" name="' + propPref + '[setdisplay_type]" class="input-medium"><option value="dropdown" selected="selected" >' + Joomla.JText._('COM_REDSHOP_DROPDOWN_LIST') + '</option><option value="radio" >' + Joomla.JText._('COM_REDSHOP_RADIOBOX') + '</option></select></div></div>'
 			+ '<div class="row-fluid"><div class="span12 sub_property_table"><div class="row-fluid">'
-			+ '<div class="span1"><a class="btn btn-success add_subproperty btn-small" href="#">+ ' + Joomla.JText._('COM_REDSHOP_NEW_SUB_PROPERTY') + '</a></div>'
+			+ '<div class="span1"><a class="btn btn-success add_subproperty btn-small" href="#" id="add_subproperty_'+ gh +'_'+ sh +'">+ ' + Joomla.JText._('COM_REDSHOP_NEW_SUB_PROPERTY') + '</a></div>'
 			+ '<div class="span11"><div class="row-fluid sub_attributes_table">'
 			+ '</div></div></div></div></div></div></div></div></div>';
 		}
@@ -68,7 +68,7 @@
 				+ '<div class="span1"><input class="btn btn-danger delete_attribute btn-small" value="' + Joomla.JText._('COM_REDSHOP_DELETE_ATTRIBUTE') + '" type="button" /></div>'
 				+ '</div>'
 				+ '<div class="span12 attribute_table_pro divFromHideShow"><div class="row-fluid attrSecondRow">'
-				+ '<div class="span2"><a class="btn btn-success add_property btn-small">+ ' + Joomla.JText._('COM_REDSHOP_ADD_SUB_ATTRIBUTE') + '</a></div>'
+				+ '<div class="span2"><a class="btn btn-success add_property btn-small"id ="add_property_'+ gh +'">+ ' + Joomla.JText._('COM_REDSHOP_ADD_SUB_ATTRIBUTE') + '</a></div>'
 				+ '<div class="span3"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION') + ' <input type="checkbox" value="1" name="' + attrPref + '[allow_multiple_selection]" /></label></div>'
 				+ '<div class="span3"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE') + ' <input type="checkbox" value="1"  name="' + attrPref + '[hide_attribute_price]" /></label></div>'
 				+ '<div class="span3">' + Joomla.JText._('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE') + ' <select id="attribute_' + gh + '_display_type" name="' + attrPref + '[display_type]" class="input-medium"> <option value="dropdown" selected="selected">' + Joomla.JText._('COM_REDSHOP_DROPDOWN_LIST') + '</option><option value="radio">' + Joomla.JText._('COM_REDSHOP_RADIOBOX') + '</option></select></div>'

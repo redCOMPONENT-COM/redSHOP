@@ -519,8 +519,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
 		$I->click(ProductManagerPage::$addAttribute);
 
-		$I->fillField($usePage->addAttributeName(1), $nameAttribute);
-		$I->attributeValueProperty(1, $valueAttribute,$priceAttribute);
+		$I->fillField($usePage->addAttributeName(0), $nameAttribute);
+		$I->attributeValueProperty(0, $valueAttribute,$priceAttribute);
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
@@ -557,7 +557,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wantToTest($length);
 		for($x = 0;  $x < $length; $x ++ )
 		{
-			$position = $x+1;
+			$position = $x;
 			$I->click(ProductManagerPage::$addAttribute);
 			$attribute  = $attributes[$x];
 			$I->fillField($usePage->addAttributeName($position), $attribute['name']);
