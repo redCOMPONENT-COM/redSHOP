@@ -1648,15 +1648,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$db = $this->_db;
 
 		$query = $db->getQuery(true)
-			->select($db->qn(
-				array(
-				'attribute_id',
-				'attribute_name',
-				'attribute_required',
-				'ordering',
-				'attribute_description',
-				'attribute_published'
-			)))
+			->select(
+				$db->qn(
+					array(
+						'attribute_id',
+						'attribute_name',
+						'attribute_required',
+						'ordering',
+						'attribute_description',
+						'attribute_published'
+					)
+				)
+			)
 			->from($db->qn('#__redshop_product_attribute'))
 			->where($db->qn('product_id') . " IN ( " . $cid . " )")
 			->order($db->qn('ordering'));
