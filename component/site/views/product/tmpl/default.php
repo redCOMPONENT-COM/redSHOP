@@ -1896,6 +1896,11 @@ if (strstr($template_desc, '{form_rating_without_link}'))
  */
 $this->dispatcher->trigger('onAfterDisplayProduct', array(&$template_desc, $this->params, $this->data));
 
+if (strpos($template_desc, "{product_price_saving_percentage}") !== false)
+{
+	$template_desc = str_replace('{product_price_saving_percentage}','', $template_desc);
+}
+
 echo eval("?>" . $template_desc . "<?php ");
 
 ?>
