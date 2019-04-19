@@ -156,4 +156,10 @@ $message = str_replace($search, $replace, $orderslist_template);
 
 $message = RedshopHelperTemplate::parseRedshopPlugin($message);
 $message = Redshop\Order\Template::replaceTemplate($OrdersDetail, $message);
+
+if (strpos($message, "{attribute_price_without_vat}") !== false)
+{
+	$message = str_replace("{attribute_price_without_vat}",'', $message);
+}
+
 echo eval("?>" . $message . "<?php ");
