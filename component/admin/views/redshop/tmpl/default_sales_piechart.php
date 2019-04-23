@@ -77,11 +77,14 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 	}
 
 	jQuery(document).ready(function() {
-
 		jQuery('#type_chart').change(function() {
 			jQuery('#lastmonthsales_statistics_bar').toggle();
 			jQuery('#lastmonthsales_statistics_pie').toggle();
-		})
+		});
+
+		setTimeout(function() {
+			jQuery('#lastmonthsales_statistics_pie').hide();
+		},500)
 	})
 </script>
 
@@ -130,7 +133,7 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 						?>
 					</div>
 				</div>
-				<div style="float:left; display: none" id="lastmonthsales_statistics_pie"></div>
+				<div style="float:left;" id="lastmonthsales_statistics_pie"></div>
 				<div style="float:left;" id="lastmonthsales_statistics_bar"></div>
 			</div>
 			<input type="hidden" name="view" value="redshop"/>
