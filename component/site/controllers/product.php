@@ -1071,16 +1071,17 @@ class RedshopControllerProduct extends RedshopController
 		ob_clean();
 		$post = $this->input->getArray();
 
-		$productId     = $post['product_id'];
-		$propertyId    = $post['property_id'];
-		$subPropertyId = $post['subproperty_id'];
+		$productId       = $post['product_id'];
+		$propertyId      = $post['property_id'];
+		$subPropertyId   = $post['subproperty_id'];
+		$email_not_login = $post['email_not_login'];
 
 		/**
 		 * @var RedshopModelProduct $model
 		 */
 		$model = $this->getModel('product');
 
-		if ($model->addNotifystock($productId, $propertyId, $subPropertyId))
+		if ($model->addNotifystock($productId, $propertyId, $subPropertyId, $email_not_login))
 		{
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
 		}
