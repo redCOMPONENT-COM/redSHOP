@@ -26911,7 +26911,7 @@ a.grid_true {
         -o-transition: all 0.1s ease;
         transition: all 0.1s ease;
     }
-
+    
     .content-header.fixed .btn-toolbar {
         position: absolute;
         width: 100%;
@@ -26930,6 +26930,7 @@ a.grid_true {
         padding-top: 12px;
         padding-left: 31px;
     }
+  
     .sidebar-collapse .content-header.fixed .btn-toolbar.fixed {
         left: 55px;
         width: calc(100% - 50px);
