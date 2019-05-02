@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -61,17 +61,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 </script>
 <form action="index.php?option=com_redshop&view=statistic_order" method="post" name="adminForm" id="adminForm">
 	<div class="filterTool row-fluid">
-		<div class="filterItem col-md-3">
+		<div class="filterItem dateRange">
 			<div class="js-stools clearfix">
 				<?php echo $this->filterForm->getInput('date_range', 'filter') ?>
 			</div>
 		</div>
-		<div class="filterItem col-md-3">
+		<div class="filterItem">
 			<div class="js-stools clearfix">
 				<?php echo $this->filterForm->getInput('date_group', 'filter') ?>
 			</div>
 		</div>
-		<div class="filterItem col-md-1 pull-right">
+		<div class="filterItem pull-right">
 			<div class="js-stools clearfix">
 				<?php echo $this->filterForm->getInput('limit', 'list') ?>
 			</div>

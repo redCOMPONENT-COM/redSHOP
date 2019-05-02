@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,7 +60,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
+		// Store current post to user state
+		$context = "com_redshop.edit.media";
+		JFactory::getApplication()->setUserState($context . '.data', json_encode($post));
+
+		$cid = $this->input->get->get('cid', array(0), 'array');
 
 		/** @var RedshopModelMedia_detail $model */
 		$model = $this->getModel('media_detail');
@@ -72,7 +76,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			$product_download_root = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/';
 		}
 
-		$bulkfile     = $this->input->files->get('bulkfile', null, 'array');
+		$bulkfile     = $this->input->files->get('bulkfile', null, 'raw');
 		$bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
 		$file         = $this->input->files->get('file', array(), 'array');
 
@@ -262,20 +266,53 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 			}
 		}
-		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && $post['hdn_download_file'] == "")
+		elseif ($file[0]['name'] == null && $post['media_bank_image'] == "" && empty($post['hdn_download_file']) && $bulkfile['name'] == null)
 		{
-			$model->store($post);
+			if ($post['media_id'])
+			{
+				$model->store($post);
 
-			$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+				$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
-			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
-					. $post['section_id'] . '&showbuttons=1&section_name='
-					. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
-			);
+				if ($apply == 1)
+				{
+					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $post['media_id'], $msg);
+				}
+				else
+				{
+					if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+					{
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+							. $post['section_id'] . '&showbuttons=1&section_name='
+							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+						);
+					}
+					else
+					{
+						$this->setRedirect('index.php?option=com_redshop&view=media');
+					}
+				}
+			}
+			else
+			{
+				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+
+				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+				{
+					$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+						. $post['section_id'] . '&showbuttons=1&section_name='
+						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg, 'error'
+					);
+				}
+				else
+				{
+					$this->setRedirect('index.php?option=com_redshop&view=media', $msg, 'error');
+				}
+			}
 		}
 		else
 		{
-			if ($cid[0] != 0)
+			if ($cid[0] != 0 || $post['media_id'] != 0)
 			{
 				$post['bulk'] = 'no';
 			}
@@ -383,13 +420,13 @@ class RedshopControllerMedia_Detail extends RedshopController
 					$dest               = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
 				}
 
-				$model->store($post);
+				$row = $model->store($post);
 
 				// Image Upload
 				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
 				copy($src, $dest);
 
-				if (isset($post['set']) && $post['media_section'] != 'manufacturer' && $post['oldmedia'] == "")
+				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 				{
 					if ($apply == 1)
 					{
@@ -415,13 +452,22 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+					$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+
+					if ($apply == 1)
+					{
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg);
+					}
+					else
+					{
+						$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+					}
 				}
 			}
 
 			// Media Bank End
-			$post ['media_id'] = 0;
-			$directory         = self::writableCell('components/com_redshop/assets');
+
+			$directory = self::writableCell('components/com_redshop/assets');
 
 			if ($directory == 0)
 			{
@@ -438,7 +484,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 					$src         = $bulkfile['tmp_name'];
 					$dest        = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
 						. $bulkfile['name'];
-					$file_upload = JFile::upload($src, $dest);
+					$file_upload = JFile::upload($src, $dest, false, true);
 
 					if ($file_upload != 1)
 					{
@@ -468,7 +514,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 								{
 									$post['media_name'] = $product_download_root . RedshopHelperMedia::cleanFileName($newscan[$j]);
 
-									if ($model->store($post))
+									if ($row = $model->store($post))
 									{
 										$originaldir = $post['media_name'];
 										copy($btsrc, $originaldir);
@@ -503,7 +549,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+											if ($apply == 1)
+											{
+												$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg);
+											}
+											else
+											{
+												$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+											}
 										}
 									}
 									else
@@ -781,7 +834,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 					}
 
 					if (!in_array($fileType, array('png', 'gif', 'jpeg', 'jpg', 'zip', 'mpeg', 'mp4', 'avi', '3gp', 'swf', 'pdf'))
-						&& !in_array($post['media_type'], array('download', 'document')))
+						&& !in_array($post['media_type'], array('download', 'document', 'video')))
 					{
 						$msg = JText::_('COM_REDSHOP_MEDIA_FILE_EXTENSION_WRONG');
 
@@ -944,17 +997,13 @@ class RedshopControllerMedia_Detail extends RedshopController
 			{
 				$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
-				if ($apply)
+				if ($apply == 1)
 				{
-					$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
-								. $post['section_id'] . '&showbuttons=1&section_name='
-								. $post['section_name'] . '&media_section=' . $post['media_section']
-								. '&cid[]=' . $row->media_id, $msg, 'warning'
-					);
+					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg, 'message');
 				}
 				else
 				{
-					$this->setRedirect($link, $msg, 'success');
+					$this->setRedirect($link, $msg, 'message');
 				}
 			}
 			else
@@ -988,7 +1037,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_DELETED_SUCCESSFULLY');
@@ -1059,7 +1108,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$cid           = ArrayHelper::toInteger($cid);
 		$order         = ArrayHelper::toInteger($order);
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (empty($cid))
 		{
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
@@ -1069,7 +1118,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->saveorder($cid, $order))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -1116,7 +1165,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->orderup())
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -1163,7 +1212,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->orderdown())
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');

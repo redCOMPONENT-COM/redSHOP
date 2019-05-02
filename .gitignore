@@ -54,12 +54,13 @@ codecept.phar
 tests/*/*Tester.php
 selenium.log
 tests/_output
-tests/joomla-cms3
+tests/joomla-cms
 tests/cache
 tests/RoboFile.ini
 selenium-server-standalone.jar
 tests/_support/_generated/*
 tests/releases/*
+tests/acceptance.suite.yml
 
 # Ignore redSHOP config
 component/admin/config/config.php

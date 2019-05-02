@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,11 @@ class PlgRedshop_PaymentRs_Payment_BankTransfer extends JPlugin
 	 */
 	public function onPrePayment($element, $data)
 	{
+		if ($element != 'rs_payment_banktransfer')
+		{
+			return false;
+		}
+
 		// Send the Order mail
 		if (Redshop::getConfig()->get('ORDER_MAIL_AFTER'))
 		{

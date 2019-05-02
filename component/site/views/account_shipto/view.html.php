@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -116,7 +116,14 @@ class RedshopViewAccount_Shipto extends RedshopView
 		}
 		else
 		{
-			$shippingAddresses = RedshopHelperOrder::getShippingAddress($user->id);
+			if ($user->id)
+			{
+				$shippingAddresses = RedshopHelperOrder::getShippingAddress($user->id);
+			}
+			else
+			{
+				$shippingAddresses = RedshopHelperOrder::getShippingAddress(-$auth['users_info_id']);
+			}
 		}
 
 		$this->lists             = $lists;

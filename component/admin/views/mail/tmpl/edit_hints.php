@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -150,6 +150,11 @@ $extraField = extra_field::getInstance();
                         <li role="presentation">
                             <a href="#catalog_order" role="tab" data-toggle="tab">
 								<?php echo JText::_('COM_REDSHOP_CATALOG_ORDER_MAIL') ?>
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#send_discount_code" role="tab" data-toggle="tab">
+			                    <?php echo JText::_('COM_REDSHOP_SEND_DISCOUNT_CODE') ?>
                             </a>
                         </li>
                     </ul>
@@ -422,6 +427,13 @@ $extraField = extra_field::getInstance();
                             <table class="adminlist table table-striped">
                                 <tr>
                                     <td><?php echo RedshopHelperTemplate::getTemplateValues('catalog_order', 'mail'); ?></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="send_discount_code">
+                            <table class="adminlist table table-striped">
+                                <tr>
+                                    <td><?php echo RedshopHelperTemplate::getTemplateValues('send_discount_code', 'mail'); ?></td>
                                 </tr>
                             </table>
                         </div>

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,8 +34,8 @@ elseif (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') == 2)
 
 $isCompany = $openToStretcher == 1 ? 1 : 0;
 
-$lists['shipping_customer_field'] = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
-$lists['shipping_company_field']  = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS);
+$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
+$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS);
 
 $input = JFactory::getApplication()->input;
 ?>
@@ -54,7 +54,7 @@ $input = JFactory::getApplication()->input;
 <?php endif; ?>
 <?php if ($registerMethod != 1 && $registerMethod != 3): ?>
     <div id="onestep-createaccount-wrapper"
-         style="display: <?php echo Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 ? 'block' : 'none' ?>;">
+         style="display: <?php echo (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1 || $registerMethod == 0) ? 'block' : 'none' ?>;">
         <div class="form-group">
             <label><?php echo JText::_('COM_REDSHOP_USERNAME_REGISTER') ?></label>
             <input class="inputbox form-control required" type="text" name="username"
@@ -76,12 +76,12 @@ $input = JFactory::getApplication()->input;
 <?php endif; ?>
 <div class="form-group">
     <label class="radio-inline <?php echo $customer; ?>">
-        <input type="radio" name="togglerchecker" class="toggler" onclick="getBillingTemplate(this);"
+        <input type="radio" name="togglerchecker" id="toggler1" class="toggler" onclick="getBillingTemplate(this);"
                value="0" <?php echo ($isCompany == 0) ? 'checked="checked"' : '' ?> billing_type="private"/>
 		<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?>
     </label>
     <label class="radio-inline <?php echo $company; ?>">
-        <input type="radio" name="togglerchecker" class="toggler" onclick="getBillingTemplate(this);"
+        <input type="radio" name="togglerchecker" id="toggler2" class="toggler" onclick="getBillingTemplate(this);"
                value="1" <?php echo ($isCompany == 1) ? 'checked="checked"' : '' ?> billing_type="company"/>
 		<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?>
     </label>

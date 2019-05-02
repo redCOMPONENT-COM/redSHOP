@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -532,7 +532,7 @@ if (strstr($template_desc, "{bookmark}"))
 }
 
 //  Extra field display
-$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT);
+$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT, null);
 $template_desc  = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->data->product_id, "1", $template_desc);
 
 // Product thumb image
@@ -915,6 +915,11 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 		$ph_thumb,
 		'product'
 	);
+
+	if (isset($pluginResults['mainImageResponse']))
+	{
+		$preselectedresult['product_mainimg'] = $pluginResults['mainImageResponse'];
+	}
 
 	$productAvailabilityDate = strstr($template_desc, "{product_availability_date}");
 	$stockNotifyFlag         = strstr($template_desc, "{stock_notify_flag}");

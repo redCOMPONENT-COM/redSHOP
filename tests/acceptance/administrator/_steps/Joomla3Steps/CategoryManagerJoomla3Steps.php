@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,13 +21,14 @@ use CategoryManagerJ3Page as CategoryManagerJ3Page;
  */
 class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-	/**
-	 * Method for save category
-	 *
-	 * @param   string $categoryName Name of category
-	 *
-	 * @return void
-	 */
+    /**
+     * Method for save category
+     *
+     * @param   string $categoryName Name of category
+     *
+     * @return void
+     * @throws \Exception
+     */
 	public function addCategorySave($categoryName)
 	{
 		$I = $this;
@@ -41,6 +42,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$saveButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
 		$I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
+		$I->click(\CategoryPage::$buttonSaveClose);
 	}
 
 	/**
@@ -182,7 +184,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->click(\CategoryManagerJ3Page::$accessorySearch);
-		$I->waitForElement(\CategoryManagerJ3Page::$searchFirst);
+		$I->waitForElement(\CategoryManagerJ3Page::$searchFirst, 30);
 		$I->fillField(\CategoryManagerJ3Page::$searchFirst, $accessoryName);
 		$userCategoryPage = new \CategoryManagerJ3Page();
 		$I->waitForElement($userCategoryPage->xPathAccessory($accessoryName), 60);

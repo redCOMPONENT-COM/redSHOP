@@ -3,7 +3,7 @@
  * @package     Redshop.Libraries
  * @subpackage  Helpers
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -197,6 +197,7 @@ class RedshopHelperAttribute
 					$imgAdded               = 0;
 					$selectedProperty       = 0;
 					$property_woscrollerdiv = "";
+					$preSelected            = true;
 
 					if (strpos($attribute_table, "{property_image_without_scroller}") !== false)
 					{
@@ -283,7 +284,15 @@ class RedshopHelperAttribute
 									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 
-								$property_woscrollerdiv .= "<div class='property_image_inner' id='" . $propertyid
+								$style = null;
+
+								if ($property[$i]->setdefault_selected && $preSelected)
+								{
+									$style       = ' style="border: 1px solid;"';
+									$preSelected = false;
+								}
+
+								$property_woscrollerdiv .= "<div class='property_image_inner' . $style . id='" . $propertyid
 									. "_propimg_" . $property[$i]->value . "'><a onclick='setPropImage(\"" . $productId
 									. "\",\"" . $propertyid . "\",\"" . $property[$i]->value . "\");changePropertyDropdown(\""
 									. $productId . "\",\"" . $accessoryId . "\",\"" . $relatedProductId . "\",\""
@@ -449,7 +458,6 @@ class RedshopHelperAttribute
 							$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
 						}
 
-						$chkListAttributes['id']       = $propertyid;
 						$chkListAttributes['onchange'] = "javascript:" . $scrollerFunction . $changePropertyDropdown;
 					}
 
@@ -467,7 +475,7 @@ class RedshopHelperAttribute
 						'value',
 						'text',
 						$selectedProperty,
-						$propertyid . '_'
+						$propertyid
 					);
 
 					$attribute_table .= "<input type='hidden' name='" . $hiddenattid . "[]' value='" . $attributes [$a]->value . "' />";

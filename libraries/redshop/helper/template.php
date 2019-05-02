@@ -3,7 +3,7 @@
  * @package     RedSHOP.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -175,7 +175,7 @@ class RedshopHelperTemplate
 	 * @param   int    $templateId Template Id
 	 * @param   string $name       Template Name
 	 *
-	 * @return  array              Template Array
+	 * @return  array              Template array or null if the query failed
 	 *
 	 * @since   2.0.0.3
 	 *

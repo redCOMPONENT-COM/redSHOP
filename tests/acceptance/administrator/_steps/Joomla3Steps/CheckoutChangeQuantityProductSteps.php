@@ -2,11 +2,13 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace AcceptanceTester;
 use Codeception\Module\AcceptanceHelper as AcceptanceHelper;
+use FrontEndProductManagerJoomla3Page;
+
 /**
  * Class ProductManagerJoomla3Steps
  *
@@ -26,6 +28,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 	public function checkoutChangeQuantity($category, $total)
 	{
 		$I = $this;
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(\CheckoutChangeQuantityProductPage::$url);
 		$I->click($category);
 		$I->click(\CheckoutChangeQuantityProductPage::$addToCart);
@@ -40,12 +43,30 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$updateCartButton, 30);
 		$I->click(\CheckoutChangeQuantityProductPage::$updateCartButton);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
-		$I->scrollTo(\CheckoutChangeQuantityProductPage::$bankTransfer);
-		$I->click(\CheckoutChangeQuantityProductPage::$bankTransfer);
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$termAndConditions,30);
-		$I->executeJS("jQuery('#termscondition').click()");
-		$I->scrollTo(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
+		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
+		$I->wait(2);
+		try
+		{
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$bankTransfer);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
+		}
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms);
+		$I->wait(0.5);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		try
+		{
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+		$I->executeJS("jQuery('#checkout_final').click()");
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressAddress);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
@@ -55,9 +76,11 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$headBilling, 30, null);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceTotal);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
-		
+		$I->scrollTo(\CheckoutChangeQuantityProductPage::$acceptTerms);
+		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->executeJS("jQuery('#checkout_final').click()");
+
 	}
 }

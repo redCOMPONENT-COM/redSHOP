@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,18 +73,21 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		switch ($function)
 		{
 			case 'save':
+				$tester->wait(0.5);
 				$tester->click($pageClass::$buttonSave);
-                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
-                $tester->click($pageClass::$buttonClose);
+				$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+				$tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
+				$tester->wait(0.5);
 				$tester->click($pageClass::$buttonSaveClose);
-                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+				$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
+				$tester->wait(0.5);
 				$tester->click($pageClass::$buttonSaveNew);
-                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
-                $tester->click($pageClass::$buttonCancel);
+				$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+				$tester->click($pageClass::$buttonCancel);
 				break;
 			default:
 				break;
@@ -106,7 +109,9 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->searchItemCheckIn($searchName);
 		$tester->waitForElement($pageClass::$resultRow, 30);
 		$tester->see($searchName, $pageClass::$resultRow);
+		$tester->wait(0.5);
 		$tester->click($searchName);
+		$tester->wait(0.5);
 		$tester->checkForPhpNoticesOrWarnings();
 		$tester->waitForElement($pageClass::$selectorPageTitle, 30);
 		$tester->fillFormData($this->getFormFields(), $data);
@@ -115,17 +120,20 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		{
 			case 'save':
 				$tester->click($pageClass::$buttonSave);
-                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
-                $tester->click($pageClass::$buttonClose);
+				$tester->wait(0.5);
+				$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+				$tester->click($pageClass::$buttonClose);
 				break;
 			case 'save&close':
 				$tester->click($pageClass::$buttonSaveClose);
-                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+				$tester->wait(0.5);
+				$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
 				break;
 			case 'save&new':
 				$tester->click($pageClass::$buttonSaveNew);
-                $tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
-                $tester->click($pageClass::$buttonCancel);
+				$tester->wait(0.5);
+				$tester->assertSystemMessageContains($pageClass::$messageItemSaveSuccess);
+				$tester->click($pageClass::$buttonCancel);
 				break;
 			default:
 				break;
@@ -153,29 +161,29 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
-    /**
-     * @param string $item
-     * @param array $searchField
-     */
-    public function searchItemCheckIn($item = '',  $searchField = ['id' => 'filter_search'])
-    {
-        $pageClass = $this->pageClass;
-        $tester    = $this;
+	/**
+	 * @param string $item
+	 * @param array $searchField
+	 */
+	public function searchItemCheckIn($item = '',  $searchField = ['id' => 'filter_search'])
+	{
+		$pageClass = $this->pageClass;
+		$tester    = $this;
 
-        $tester->amOnPage($pageClass::$url);
-        $tester->checkForPhpNoticesOrWarnings();
-        $tester->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
-        $tester->executeJS('window.scrollTo(0,0)');
-        $tester->fillField($searchField, $item);
-        $tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-        try{
-            $tester->waitForElement($pageClass::$checkInButtonList, 2);
-            $tester->click($pageClass::$checkInButtonList);
-        }catch (\Exception $e)
-        {
+		$tester->amOnPage($pageClass::$url);
+		$tester->checkForPhpNoticesOrWarnings();
+		$tester->waitForText($pageClass::$namePage, 30, $pageClass::$headPage);
+		$tester->executeJS('window.scrollTo(0,0)');
+		$tester->fillField($searchField, $item);
+		$tester->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		try{
+			$tester->waitForElement($pageClass::$checkInButtonList, 2);
+			$tester->click($pageClass::$checkInButtonList);
+		}catch (\Exception $e)
+		{
 
-        }
-    }
+		}
+	}
 
 	/**
 	 * Method for click button "Delete" without choice
@@ -207,10 +215,8 @@ class AbstractStep extends AdminManagerJoomla3Steps
 		$tester->waitForElement($pageClass::$listId, 30);
 		$tester->click($pageClass::$listId);
 		$tester->waitForElement($pageClass::$listSearchId, 30);
-		$tester->fillField($pageClass::$listSearchId, $value);
-		$usePage = new $pageClass();
-		$tester->waitForElement($usePage->returnChoice($value), 30);
-		$tester->click($usePage->returnChoice($value));
+		$tester->fillField(\AdminJ3Page::$listSearchId, $value);
+		$tester->pressKey(\AdminJ3Page::$listSearchId, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 	
 	/**

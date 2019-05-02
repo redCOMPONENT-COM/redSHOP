@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,6 +27,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
+		$lang = JFactory::getLanguage();
+		$lang->load('com_content', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 		$db = JFactory::getDbo();
 
 		$document = JFactory::getDocument();
@@ -46,8 +48,6 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		$currency_data = $model->getCurrencies();
 
 		$this->config = $model->getData();
-
-		$config = Redconfiguration::getInstance();
 		$lists  = array();
 
 		// Load payment languages
@@ -476,8 +476,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 							jQuery(\"#" . $state_list_name . "\").trigger(\"liszt:updated\");
 		  				}
 				 	}
+				 	var element = document.querySelector('#default-vat-state-wrapper > .col-md-8');
 				 	writeDynaList( 'class=\"form-control\" name=\"default_vat_state\" size=\"1\" id=\"default_vat_state\"',
-				 	states, originalPos, originalPos, $selected_state_code );
+				 	states, originalPos, originalPos, $selected_state_code, element);
 					//-->
 					//]]></script>";
 		$lists['default_vat_state'] = $script;
@@ -675,9 +676,16 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 			'class="form-control" ', 'value', 'text', $this->config->get('CURRENCY_SYMBOL_POSITION')
 		);
 
-		$default_dateformat          = $config->getDateFormat();
-		$lists['default_dateformat'] = JHtml::_('select.genericlist', $default_dateformat, 'default_dateformat',
-			'class="form-control" ', 'value', 'text', $this->config->get('DEFAULT_DATEFORMAT')
+		$optionsDateformat          = RedshopHelperDatetime::getDateFormat();
+		$selectedDateformat         = $this->config->get('DEFAULT_DATEFORMAT');
+
+		if ((string) $selectedDateformat === '0')
+		{
+			$selectedDateformat = 'Y-m-d';
+		}
+
+		$lists['default_dateformat'] = JHtml::_('select.genericlist', $optionsDateformat, 'default_dateformat',
+			'class="form-control" ', 'value', 'text', $selectedDateformat
 		);
 
 		$lists['discount_enable']         = JHtml::_('redshopselect.booleanlist', 'discount_enable', 'class="form-control" ', $this->config->get('DISCOUNT_ENABLE'));

@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,6 +98,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 		$query = $db->getQuery(true)
 			->select(
 				array(
+					$db->qn('pp.price_id'),
 					$db->qn('p.product_number'),
 					$db->qn('p.product_name'),
 					$db->qn('pp.product_price'),
@@ -132,7 +133,7 @@ class PlgRedshop_ExportShopper_Group_Product_Price extends AbstractExportPlugin
 	protected function getHeader()
 	{
 		return array(
-			'product_number','product_name','product_price','price_quantity_start','price_quantity_end','discount_price',
+			'price_id', 'product_number','product_name','product_price','price_quantity_start','price_quantity_end','discount_price',
 			'discount_start_date','discount_end_date','shopper_group_id','shopper_group_name'
 		);
 	}
