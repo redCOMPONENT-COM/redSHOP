@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1443,7 +1443,7 @@ class productHelper
 							$strtitle = '<span class="product-userfield-title">' . $row_data[$j]->title . ':</span>';
 						}
 
-						$resultArr[] = $strtitle . '<span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
+						$resultArr[] = $strtitle . ' <span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
 					}
 				}
 			}
@@ -2221,7 +2221,8 @@ class productHelper
 					$subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
 				}
 
-				$subprop_Arry = array();
+				$subprop_Arry    = array();
+				$preselectSubPro = true;
 
 				for ($i = 0, $in = count($subproperty); $i < $in; $i++)
 				{
@@ -2240,7 +2241,7 @@ class productHelper
 						}
 					}
 
-					if ($subproperty[$i]->subattribute_color_image)
+					if (!empty($subproperty[$i]->subattribute_color_image))
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
 						{
@@ -2255,9 +2256,16 @@ class productHelper
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 							$subprop_Arry[] = $thumbUrl;
+							$style          = null;
+
+							if ($subproperty[$i]->setdefault_selected && $preselectSubPro)
+							{
+								$style       = ' style="border: 1px solid;"';
+								$preselectSubPro = false;
+							}
 
 							$subproperty_woscrollerdiv .= "<div id='" . $subpropertyid . "_subpropimg_"
-								. $subproperty[$i]->value . "' class='subproperty_image_inner'><a onclick='setSubpropImage(\""
+								. $subproperty[$i]->value . "' class='subproperty_image_inner' ". $style ."><a onclick='setSubpropImage(\""
 								. $product_id . "\",\"" . $subpropertyid . "\",\"" . $subproperty[$i]->value
 								. "\");calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
@@ -2436,7 +2444,7 @@ class productHelper
 					)
 				);
 
-				if ($imgAdded == 0 || $isAjax == 1)
+				if ($imgAdded === 0 || $isAjax == 1)
 				{
 					$subPropertyScroller = "";
 				}
@@ -3539,7 +3547,7 @@ class productHelper
 	 *
 	 * @param   int $productId Product id
 	 *
-	 * @return object
+	 * @return mixed
 	 */
 	public function getProductReviewList($productId)
 	{
@@ -3860,7 +3868,7 @@ class productHelper
 		$this->_db->setQuery($query);
 		$product_parent_id = $this->_db->loadResult();
 
-		if ($product_parent_id != 0)
+		if ($product_parent_id !== 0)
 		{
 			$parent_id = $this->getMainParentProduct($product_parent_id);
 		}

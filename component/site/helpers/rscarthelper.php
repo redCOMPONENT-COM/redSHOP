@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1020,7 +1020,13 @@ class rsCarthelper
 								$hasCreditCard = true;
 							}
 
-							$paymentDisplay .= $templateMiddle;
+							$templateMiddle1 = str_replace(
+								'<div class="extrafield_payment">',
+								'<div class="extrafield_payment" id="' . $oneMethod->name . '">',
+								$templateMiddle
+							);
+
+							$paymentDisplay .= $templateMiddle1;
 							$paymentDisplay = str_replace("{payment_method_name}", $displayPayment, $paymentDisplay);
 							$paymentDisplay = str_replace("{creditcard_information}", $cardInformation, $paymentDisplay);
 

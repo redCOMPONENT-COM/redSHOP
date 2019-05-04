@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,8 +67,11 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(QuotationManagerPage::$quantityp1,30);
         $I->scrollTo(QuotationManagerPage::$quantityp1);
         $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
         $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
         $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
         $I->fillField(QuotationManagerPage::$quantityp1, $newQuantity);
         $I->click(QuotationManagerPage::$buttonSave);
         $I->scrollTo(QuotationManagerPage::$quantityp1);

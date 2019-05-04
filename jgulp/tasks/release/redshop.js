@@ -25,6 +25,7 @@ function getIncludedExtensions() {
         "./plugins/redshop_export/category/**",
         "./plugins/redshop_export/field/**",
         "./plugins/redshop_export/manufacturer/**",
+        "./plugins/redshop_export/newsletter_subscriber/**",
         "./plugins/redshop_export/product/**",
         "./plugins/redshop_export/product_stockroom_data/**",
         "./plugins/redshop_export/related_product/**",
@@ -36,6 +37,7 @@ function getIncludedExtensions() {
         "./plugins/redshop_import/category/**",
         "./plugins/redshop_import/field/**",
         "./plugins/redshop_import/manufacturer/**",
+        "./plugins/redshop_import/newsletter_subscriber/**",
         "./plugins/redshop_import/product/**",
         "./plugins/redshop_import/product_stockroom_data/**",
         "./plugins/redshop_import/shipping_address/**",
@@ -53,8 +55,7 @@ function getIncludedExtensions() {
     ];
     var includedModules = [
         "./modules/site/mod_redshop_cart/**",
-        "./modules/site/mod_redshop_search/**",
-        "./modules/site/mod_redshop_filter/**"
+        "./modules/site/mod_redshop_search/**"
     ];
 
     return included.concat(includedPlugins, includedModules, excluded);

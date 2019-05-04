@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -207,9 +207,6 @@ class RedshopTableDiscount_Product extends RedshopTable
 
 			return false;
 		}
-
-		// Convert end date to same day but at middle night
-		$this->end_date = $this->end_date !== 0 ? RedshopHelperDatetime::generateTimestamp($this->end_date) : $this->end_date;
 
 		// Check shopper groups
 		if (empty($this->getOption('shopperGroups', array())))

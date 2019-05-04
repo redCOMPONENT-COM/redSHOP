@@ -3,12 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
+JLoader::import('redshop.library');
 /**
  * Table Field
  *
@@ -225,7 +225,7 @@ class RedshopTableField extends RedshopTable
 	 */
 	protected function saveFieldValues($id)
 	{
-		$db          = $this->getDbo();
+        $db          = JFactory::getDbo();
 		$valueIds    = array();
 		$extraNames  = array();
 		$extraValues = array();
@@ -243,7 +243,7 @@ class RedshopTableField extends RedshopTable
 			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
 				$extraNames = JFactory::getApplication()->input->files->get('extra_name_file', array(), 'array');
-				$total      = count($extraNames['name']);
+				$total      = count((array)$extraNames);
 			}
 			else
 			{
@@ -280,46 +280,48 @@ class RedshopTableField extends RedshopTable
 		for ($j = 0; $j < $total; $j++)
 		{
 			$filename = $extraNames[$j];
-			$set      = " field_name='" . $filename . "', ";
 
 			if ($this->type == RedshopHelperExtrafields::TYPE_IMAGE_SELECT || $this->type == RedshopHelperExtrafields::TYPE_IMAGE_WITH_LINK)
 			{
-				if ($extraValues[$j] != "" && $extraNames['name'][$j] != "")
+				if ($extraValues[$j] != "" && $extraNames[$j]['name'] != "" && $extraNames[$j]['error'] == 0)
 				{
-					$filename = RedshopHelperMedia::cleanFileName($extraNames['name'][$j]);
+					$filename = RedshopHelperMedia::cleanFileName($extraNames[$j]['name']);
 
-					$source      = $extraNames['tmp_name'][$j];
+					$source      = $extraNames[$j]['tmp_name'];
 					$destination = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
 
 					JFile::upload($source, $destination);
-
-					$set = " field_name='" . $filename . "', ";
 				}
 			}
 
-			if ($valueIds[$j] == "")
+            if ($extraNames[$j]['error'] == 0)
 			{
-				$query = $db->getQuery(true)
-					->insert($db->qn('#__redshop_fields_value'))
-					->columns($db->qn(array('field_id', 'field_name', 'field_value')))
-					->values((int) $id . ', ' . $db->q($filename) . ', ' . $db->q($extraValues[$j]));
+                if (empty($valueIds[$j]))
+                {
+                    $obj = new stdClass;
+                    $obj->field_id = (int)$id;
+                    $obj->field_name = $filename;
+                    $obj->field_value = $extraValues[$j];
+                    $db->insertObject('#__redshop_fields_value', $obj);
+                }
+                else
+                {
+                    $obj = new stdClass;
+                    $obj->value_id = $valueIds[$j];
+                    $obj->field_value = $extraValues[$j];
+                    $obj->field_name = $filename;
+                    $db->updateObject('#__redshop_fields_value', $obj,  array('value_id'));
+                }
 			}
 			else
 			{
-				$query = $db->getQuery(true)
-					->update($db->qn('#__redshop_fields_value'))
-					->set($set . ' ' . $db->qn('field_value') . ' = ' . $db->q($extraValues[$j]))
-					->where($db->qn('value_id') . ' = ' . $valueIds[$j]);
-			}
-
-			if (!$db->setQuery($query)->execute())
-			{
-				$this->setError($db->getErrorMsg());
-
-				return false;
+                $obj = new stdClass;
+                $obj->value_id = $valueIds[$j];
+                $obj->field_value = $extraValues[$j];
+                $obj->field_name = $filename;
+                $db->updateObject('#__redshop_fields_value', $obj,array('value_id'));
 			}
 		}
-
 		return true;
 	}
 }

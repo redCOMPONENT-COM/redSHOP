@@ -3,12 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
 
 class RedshopViewProduct extends RedshopViewAdmin
 {
@@ -56,6 +55,11 @@ class RedshopViewProduct extends RedshopViewAdmin
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 		}
+
+		if ($layout == 'listing')
+		{
+			JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE_MANAGEMENT'));
+		}
 	}
 
 	public function display($tpl = null)
@@ -75,7 +79,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		// We don't need toolbar in the modal window.
 		if ($layout !== 'element')
 		{
-			$this->addToolbar();
+			$this->/** @scrutinizer ignore-call */ addToolbar();
 		}
 
 		$state       = $this->get('State');
@@ -116,8 +120,34 @@ class RedshopViewProduct extends RedshopViewAdmin
 		$temps[0]->id       = "0";
 		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT_CATEGORY');
 		$categories1        = @array_merge($temps, $categories1);
+
 		$lists['category']  = JHTML::_('select.genericlist', $categories1, 'category_id',
 			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $category_id
+		);
+
+		$manufacturers  = RedshopHelperManufacturer::getManufacturers();
+		$manufacturers1 = array();
+
+		foreach ($manufacturers as $key => $value)
+		{
+			$manufacturers1[$key]           = new stdClass;
+			$manufacturers1[$key]->id       = $manufacturers[$key]->id;
+			$manufacturers1[$key]->treename = $manufacturers[$key]->name;
+		}
+
+		$tempsManuf              = array();
+		$tempsManuf[0]           = new stdClass;
+		$tempsManuf[0]->id       = "all";
+		$tempsManuf[0]->treename = JText::_('COM_REDSHOP_ALL_MANUFACTURERS');
+		$tempsManuf[1]           = new stdClass;
+		$tempsManuf[1]->id       = "undefined";
+		$tempsManuf[1]->treename = JText::_('COM_REDSHOP_UNDEFINED_MANUFACTURERS');
+		$manufacturers1          = @array_merge($tempsManuf, $manufacturers1);
+
+		$manufacturer_id = $state->get('manufacturer_id');
+
+		$lists['manufacturer']  = JHTML::_('select.genericlist', $manufacturers1, 'manufacturer_id',
+			'class="inputbox" onchange="document.adminForm.submit();" ', 'id', 'treename', $manufacturer_id
 		);
 
 		$product_sort          = RedshopHelperProduct::getProductsSortByList();
