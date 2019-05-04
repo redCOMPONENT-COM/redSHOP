@@ -844,7 +844,7 @@ switch ($view)
     default:
         JPluginHelper::importPlugin('sh404sefextplugins');
         $dispatcher = JDispatcher::getInstance();
-        $title = $dispatcher->trigger('onBeforeParseLinkSh404sef', array($view, $task))[0];
+        $title = $dispatcher->trigger('onBeforeParseLinkSh404sef', array($view, $task, $requestId))[0];
         break;
 }
 
