@@ -78,6 +78,7 @@ $remove         = isset($remove) ? @$remove : null;
 $Treeid         = isset($Treeid) ? @$Treeid : null;
 $print          = isset($print) ? @$print : null;
 $protalid       = isset($protalid) ? @$protalid : 0;
+$requestId       = isset($requestId) ? @$requestId : 0;
 
 // Get variables for pagination in category
 $category_template = isset($category_template) ? @$category_template : null;
@@ -840,6 +841,11 @@ switch ($view)
 		}
 
 		break;
+    default:
+        JPluginHelper::importPlugin('sh404sefextplugins');
+        $dispatcher = JDispatcher::getInstance();
+        $title = $dispatcher->trigger('onBeforeParseLinkSh404sef', array($view, $task))[0];
+        break;
 }
 
 if ($limitstart)
