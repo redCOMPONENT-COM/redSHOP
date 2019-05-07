@@ -2190,7 +2190,7 @@ services:
             - sh tests/drone/setup-stages.sh        "Voucher"                       "40-Voucher"                        $php_versions
             - sh tests/drone/setup-stages.sh        "Text"                          "41-Text"                           $php_versions
             - sh tests/drone/setup-stages.sh        "Supplier"                      "42-Supplier"                       $php_versions
-            - sh tests/drone/setup-stages.sh        "Manufacturer"                  "43-Manufacturer"                   $php_versions
+            - sh tests/drone/setup-stages.sh        "Manufacturer"                  "43-Manufacturer"                   73
             - sh tests/drone/setup-stages.sh        "One_Steps_Checkout"            "44-One_Step_Checkout"              $php_versions
             - sh tests/drone/setup-stages.sh        "Category"                      "45-Category"                       $php_versions
             - sh tests/drone/setup-stages.sh        "ProductManagement"             "46-ProductManagement"              $php_versions
