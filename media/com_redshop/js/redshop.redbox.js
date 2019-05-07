@@ -217,7 +217,7 @@ var redBOX = {
 		this.showTimer = clearTimeout(this.showTimer || null);
 		var box = this.doc.getSize(), scroll = this.doc.getScroll();
 		this.size = Object.merge((this.isLoading) ? this.options.sizeLoading : this.options.size, size);
-        var parentSize = this.doc.getSize();
+		var parentSize = this.doc.getSize();
 		if (this.size.x == parentSize.x) {
 			this.size.y = this.size.y - 50;
 			this.size.x = this.size.x - 20;
@@ -261,15 +261,15 @@ var redBOX = {
 			this.overlay.set('aria-hidden', (state) ? 'false' : 'true');
 			this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
 			if (state) {
-                var x;
-                if (typeof this.doc.getWindow().getSize() == "undefined") {
-                    x = this.doc.getWindow().getDocument().body.clientWidth;
-                }
-                else {
-                    x = this.doc.getWindow().getSize().x;
-                }
-                this.scrollOffset = x - full;
-            } else {
+				var x;
+				if (typeof this.doc.getWindow().getSize() == "undefined") {
+					x = this.doc.getWindow().getDocument().body.clientWidth;
+				}
+				else {
+					x = this.doc.getWindow().getSize().x;
+				}
+				this.scrollOffset = x - full;
+			} else {
 				this.doc.body.setStyle('margin-right', '');
 			}
 		}
