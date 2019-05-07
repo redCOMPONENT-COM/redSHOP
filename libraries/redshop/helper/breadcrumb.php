@@ -3,7 +3,7 @@
  * @package     Redshop.Libraries
  * @subpackage  Helpers
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -234,7 +234,7 @@ class RedshopHelperBreadcrumb
 				{
 					$menu = productHelper::getInstance()->getMenuInformation(0, $sectionId, "manufacturerid", "manufacturers");
 
-					if (count($menu) > 0)
+					if (!empty((array) $menu))
 					{
 						$main             = new stdClass;
 						$main->name       = $menu->title;
@@ -245,7 +245,7 @@ class RedshopHelperBreadcrumb
 					{
 						$menu = RedshopEntityManufacturer::getInstance($sectionId)->getItem();
 
-						if (count($menu) > 0)
+						if (!empty((array) $menu))
 						{
 							$main             = new stdClass;
 							$main->name       = $menu->name;
@@ -310,7 +310,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuInformation(0, 0, "", "account");
 
-				if (count($menu) > 0)
+				if (is_object($menu) && count(get_object_vars($menu)) > 0)
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;

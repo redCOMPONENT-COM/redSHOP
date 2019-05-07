@@ -1380,6 +1380,11 @@ function setPropImage(product_id, propertyObj, selValue) {
 
 function setSubpropImage(product_id, subpropertyObj, selValue) {
     var subpropName = document.getElementById(subpropertyObj + '_' + selValue);
+
+    if (!subpropName) {
+        subpropName = document.getElementById(subpropertyObj);
+    }
+
     if (subpropName) {
         if (subpropName.type == 'checkbox' || subpropName.type == 'radio') {
             var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
@@ -1435,6 +1440,19 @@ function setPropertyImage(product_id, propertyObj) {
             }
 
         }
+    } else {
+        var propNameObj = document.getElementsByName(propertyObj + "[]");
+        for (var p = 0; p < propNameObj.length; p++) {
+            var borderstyle = "";
+            selValue = propNameObj[p].value;
+            if (propNameObj[p].checked) {
+                borderstyle = "1px solid";
+            }
+            if (document.getElementById(propertyObj + "_propimg_" + selValue)) {
+
+                document.getElementById(propertyObj + "_propimg_" + selValue).style.border = borderstyle;
+            }
+        }
     }
 }
 
@@ -1467,6 +1485,18 @@ function setSubpropertyImage(product_id, subpropertyObj, selValue) {
                 }
             }
 
+        }
+    } else {
+        var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
+        for (var p = 0; p < subpropNameObj.length; p++) {
+            var borderstyle = "";
+            selValue = subpropNameObj[p].value;
+            if (subpropNameObj[p].checked) {
+                borderstyle = "1px solid";
+            }
+            if (document.getElementById(subpropertyObj + "_subpropimg_" + selValue)) {
+                document.getElementById(subpropertyObj + "_subpropimg_" + selValue).style.border = borderstyle;
+            }
         }
     }
 }
@@ -2595,7 +2625,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
                 document.getElementById('mod_cart_checkout_ajax').style.display = "";
             }
 
-            jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail');
+            jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail', [responce, product_id]);
 
             // End
             var newurl = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&pid=" + product_id + "&r_template=cartbox&tmpl=component";

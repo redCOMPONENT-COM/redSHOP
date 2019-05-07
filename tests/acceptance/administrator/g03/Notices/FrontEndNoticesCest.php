@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ class FrontEndNoticesCest
 			'Gift Cards List Menu Type' => '/index.php?option=com_redshop&view=giftcard',
 			'Login Layout Menu Type' => '/index.php?option=com_redshop&view=login',
 			'Logout Layout Menu Type' => '/index.php?option=com_redshop&view=login&layout=logout',
-			'Manufacturer Details Menu Type' => '/index.php?option=com_redshop&view=manufacturers&layout=detail',
+			// 'Manufacturer Details Menu Type' => '/index.php?option=com_redshop&view=manufacturers&layout=detail',
 			'Manufacturer Menu Type' => '/index.php?option=com_redshop&view=manufacturers',
 			'My Wish List Menu Type' => '/index.php?option=com_redshop&view=account&layout=mywishlist',
 			'Newsletter Subscription Menu Type' => '/index.php?option=com_redshop&view=newsletter',

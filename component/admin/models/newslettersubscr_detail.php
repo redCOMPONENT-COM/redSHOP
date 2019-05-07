@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -204,17 +204,6 @@ class RedshopModelNewslettersubscr_detail extends RedshopModel
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
-	}
-
-	public function getuserfullname($uid)
-	{
-		$query = "SELECT uf.firstname,uf.lastname,IFNULL(u.email,uf.user_email)  as email FROM "
-			. $this->_table_prefix . "users_info as uf LEFT JOIN #__users as u ON uf.user_id = u.id WHERE uf.user_id='"
-			. $uid . "' and uf.address_type like 'BT'";
-
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObject();
 	}
 
 	public function getUserFromEmail($email)

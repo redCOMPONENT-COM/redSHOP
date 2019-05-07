@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -403,8 +403,24 @@ class Cart
 		$generateAttributeCart = isset($data['cart_attribute']) ?
 			$data['cart_attribute'] : \Redshop\Cart\Helper::generateAttribute($data);
 
+		if (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
+		{
+			$templateCart = \RedshopHelperTemplate::getTemplate("quotation_cart");
+		}
+		else
+		{
+			if (!\Redshop::getConfig()->get('USE_AS_CATALOG'))
+			{
+				$templateCart = \RedshopHelperTemplate::getTemplate("cart");
+			}
+			else
+			{
+				$templateCart = \RedshopHelperTemplate::getTemplate("catalogue_cart");
+			}
+		}
+
 		$retAttArr = \productHelper::getInstance()->makeAttributeCart(
-			$generateAttributeCart, $product->product_id, 0, $data['product_price'], $quantity
+			$generateAttributeCart, $product->product_id, 0, $data['product_price'], $quantity, $templateCart[0]->template_desc
 		);
 
 		$selectProp                           = \productHelper::getInstance()->getSelectedAttributeArray($data);
@@ -508,8 +524,6 @@ class Cart
 			{
 				return urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 			}
-
-			return urldecode(\JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
 		}
 
 		$cart[$idx]['subscription_id'] = 0;
@@ -716,7 +730,7 @@ class Cart
 					foreach ($rows as $row)
 					{
 						$productUserField = $row->name;
-						$addedUserField   = isset($data[$productUserField]) ?: '';
+						$addedUserField   = isset($data[$productUserField]) ? $data[$productUserField] : '';
 
 						if (isset($cart[$i][$productUserField]) && $addedUserField !== $cart[$i][$productUserField])
 						{
@@ -784,7 +798,7 @@ class Cart
 			return \JText::_('COM_REDSHOP_PER_PRODUCT_TOTAL') . " " . $perProductTotal;
 		}
 
-		if ($sameProduct === false)
+		if (!$sameProduct)
 		{
 			// SET VALVUES INTO SESSION CART
 			$cart[$idx]['giftcard_id']                = '';
