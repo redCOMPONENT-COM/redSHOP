@@ -7,6 +7,7 @@
  */
 namespace AcceptanceTester;
 use AdminJ3Page;
+use ImageOptimizer\Exception\Exception;
 
 /**
  * Class ProductUpdateOnQuantitySteps
@@ -83,10 +84,18 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I ->see($nameProduct);
 
-		for( $a= 0; $a <$quantity; $a++)
+	for( $a= 0; $a <$quantity; $a++)
 		{
+			$I->waitForElementVisible(AdminJ3Page::$addToCart, 30);
 			$I->click(AdminJ3Page:: $addToCart);
-			$I->waitForText(AdminJ3Page::$alertSuccessMessage,60);
+			try
+			{
+				$I->waitForText(AdminJ3Page::$alertSuccessMessage,130);
+			}
+			catch(Exception $e)
+			{
+
+			}
 		}
 		$I->click($menuItem);
 		$I->see($nameProduct);
@@ -106,15 +115,16 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->wait(0.5);
-		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		$I->wait(0.5);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer,30);
+		$I->executeJS(\FrontEndProductManagerJoomla3Page::$jqueryBankTransfer);
+		$I->wait(2);
 		try
 		{
 			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		}catch (\Exception $e)
 		{
-			$I->executeJS(\FrontEndProductManagerJoomla3Page::$jqueryBankTransfer);
-			$I->wait(2);
+			$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+			$I->wait(0.5);
 		}
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->waitForText($priceProduct, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
