@@ -142,3 +142,4 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 	}
 }
+
