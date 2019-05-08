@@ -7,7 +7,6 @@
  */
 namespace AcceptanceTester;
 use AdminJ3Page;
-use ImageOptimizer\Exception\Exception;
 
 /**
  * Class ProductUpdateOnQuantitySteps
@@ -84,7 +83,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I ->see($nameProduct);
 
-	for( $a= 0; $a <$quantity; $a++)
+		for( $a= 0; $a <$quantity; $a++)
 		{
 			$I->waitForElementVisible(AdminJ3Page::$addToCart, 30);
 			$I->click(AdminJ3Page:: $addToCart);
