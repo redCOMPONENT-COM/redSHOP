@@ -146,4 +146,3 @@ class CheckoutSearchProductFrontendCest
 		$I->deleteCategory($this->categoryName);
 	}
 }
-
