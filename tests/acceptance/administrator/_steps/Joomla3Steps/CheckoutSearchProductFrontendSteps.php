@@ -156,7 +156,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
-		
+
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		try
