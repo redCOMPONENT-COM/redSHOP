@@ -42,28 +42,28 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(\PluginManagerJoomla3Page::$pluginEnabledSuccessMessage, '.alert-success');
 	}
 
-    /**
-     * Function to Enable a Payment Plugin
-     *
-     * @param   String  $pluginName  Name of the Plugin
-     *
-     * @return void
-     */
-    public function disablePlugin($pluginName)
-    {
-        $I = $this;
-        $I->amOnPage(\PluginManagerJoomla3Page::$URL);
-        $I->verifyNotices(false, $this->checkForNotices(), 'Plugin Manager Page');
-        $I->fillField(\PluginManagerJoomla3Page::$pluginSearch, $pluginName);
-        $I->click(\PluginManagerJoomla3Page::$searchButton);
-        $pluginManagerPage = new \PluginManagerJoomla3Page;
-        $I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName),30);
-        $I->seeElement(\PluginManagerJoomla3Page::$searchResultRow);
-        $I->see($pluginName, \PluginManagerJoomla3Page::$searchResultRow);
-        $I->click(\PluginManagerJoomla3Page::$firstCheck);
-        $I->click('Disable');
-        $I->see("disabled", 30, '.alert-success');
-    }
+	/**
+	 * Function to Enable a Payment Plugin
+	 *
+	 * @param   String  $pluginName  Name of the Plugin
+	 *
+	 * @return void
+	 */
+	public function disablePlugin($pluginName)
+	{
+		$I = $this;
+		$I->amOnPage(\PluginManagerJoomla3Page::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Plugin Manager Page');
+		$I->fillField(\PluginManagerJoomla3Page::$pluginSearch, $pluginName);
+		$I->click(\PluginManagerJoomla3Page::$searchButton);
+		$pluginManagerPage = new \PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName),30);
+		$I->seeElement(\PluginManagerJoomla3Page::$searchResultRow);
+		$I->see($pluginName, \PluginManagerJoomla3Page::$searchResultRow);
+		$I->click(\PluginManagerJoomla3Page::$firstCheck);
+		$I->click('Disable');
+		$I->see("disabled", 30, '.alert-success');
+	}
 
 	/**
 	 * Function To Edit PayPal plugin with Important Information corresponding to SandBox Accoutn
