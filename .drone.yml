@@ -133,7 +133,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Product_Quantity 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
 
     01-Uninstall-73:
         group: 01-tests
@@ -153,7 +153,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Product_Quantity 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
 
     02-Price_Product-56:
         group: 01-tests
@@ -173,7 +173,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Checkout_Search 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0'
 
     02-Price_Product-73:
         group: 01-tests
@@ -193,7 +193,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09/Checkout_Search 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01/Products/Price_Product 0 0'
 
     03-ProductNotForSaleOnFrontend-56:
         group: 01-tests
