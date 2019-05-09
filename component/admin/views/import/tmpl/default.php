@@ -15,6 +15,7 @@ JHtml::_('redshopjquery.ui');
 $allowFileTypes      = explode(',', Redshop::getConfig()->get('IMPORT_FILE_MIME', 'text/csv,application/vnd.ms-excel'));
 $allowMaxFileSize    = (int) Redshop::getConfig()->get('IMPORT_MAX_FILE_SIZE', 2000000);
 $allowMinFileSize    = (int) Redshop::getConfig()->get('IMPORT_MIN_FILE_SIZE', 1);
+$lineCount           = (int) Redshop::getConfig()->get('IMPORT_MAX_LINE', 1);
 $allowFileExtensions = explode(',', Redshop::getConfig()->get('IMPORT_FILE_EXTENSION', '.csv'));
 
 // Defines encoding used in import
@@ -55,14 +56,15 @@ foreach ($characterSets as $char => $name)
     </div>
 <?php else: ?>
     <script type="text/javascript">
-        var plugin = '';
-        var total = 0;
-        var folder = '';
-        var itemRun = 1;
-        var allowFileType = ["<?php echo implode('","', $allowFileTypes) ?>"];
-        var allowFileExt = ["<?php echo implode('","', $allowFileExtensions) ?>"];
-        var allowMaxFileSize = <?php echo $allowMaxFileSize ?>;
-        var allowMinFileSize = <?php echo $allowMinFileSize ?>;
+	    var plugin = '';
+	    var total = 0;
+	    var folder = '';
+	    var itemRun = 1;
+	    var allowFileType = ["<?php echo implode('","', $allowFileTypes) ?>"];
+	    var allowFileExt = ["<?php echo implode('","', $allowFileExtensions) ?>"];
+	    var allowMaxFileSize = <?php echo $allowMaxFileSize ?>;
+	    var allowMinFileSize = <?php echo $allowMinFileSize ?>;
+	    var lineCount = <?php echo $lineCount ?>;
 
         (function ($) {
             $(document).ready(function () {
@@ -98,7 +100,7 @@ foreach ($characterSets as $char => $name)
 
                         if (data.result.status == 1) {
                             $("<p>").addClass("text-success").html(data.result.msg).appendTo($("#import_process_msg_body"));
-                            total = data.result.lines - 1;
+							total = Math.ceil((data.result.lines - 1) / lineCount);
                             folder = data.result.folder;
                             $("#import_count").html(total);
                             $("#import_process_bar").parent().show();
@@ -179,7 +181,7 @@ foreach ($characterSets as $char => $name)
     </script>
 
     <script type="text/javascript">
-        function run_import(total) {
+		function run_import(startIndex) {
             (function ($) {
                 var url = "index.php?option=com_ajax&plugin=" + plugin + "_import&group=redshop_import&format=raw";
                 var data = $("#adminForm").serialize();
@@ -189,7 +191,7 @@ foreach ($characterSets as $char => $name)
                     url,
                     data,
                     function (response) {
-                        var success = total + itemRun;
+						var success = startIndex + itemRun;
                         var percent = 0.0;
                         var $bar = $("#import_process_bar");
 
