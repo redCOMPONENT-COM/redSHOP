@@ -111,19 +111,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->wait(0.5);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer,30);
-		$I->executeJS(\FrontEndProductManagerJoomla3Page::$jqueryBankTransfer);
-		$I->wait(2);
-		try
-		{
-			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		}catch (\Exception $e)
-		{
-			$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-			$I->wait(0.5);
-		}
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->waitForText($priceProduct, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
