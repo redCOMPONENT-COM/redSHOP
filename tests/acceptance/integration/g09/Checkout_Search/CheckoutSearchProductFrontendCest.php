@@ -97,6 +97,10 @@ class CheckoutSearchProductFrontendCest
 	public function createProductAndCategory(ConfigurationSteps $I, $scenario)
 	{
 		$I->doAdministratorLogin();
+
+		$I->wantTo('Enable PayPal');
+		$I->enablePlugin('PayPal');
+
 		$I->wantTo('Setting cart on Administrator');
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
 			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
