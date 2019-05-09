@@ -56,15 +56,15 @@ foreach ($characterSets as $char => $name)
     </div>
 <?php else: ?>
     <script type="text/javascript">
-	    var plugin = '';
-	    var total = 0;
-	    var folder = '';
-	    var itemRun = 1;
-	    var allowFileType = ["<?php echo implode('","', $allowFileTypes) ?>"];
-	    var allowFileExt = ["<?php echo implode('","', $allowFileExtensions) ?>"];
-	    var allowMaxFileSize = <?php echo $allowMaxFileSize ?>;
-	    var allowMinFileSize = <?php echo $allowMinFileSize ?>;
-	    var lineCount = <?php echo $lineCount ?>;
+		var plugin = '';
+		var total = 0;
+		var folder = '';
+		var itemRun = 1;
+		var allowFileType = ["<?php echo implode('","', $allowFileTypes) ?>"];
+		var allowFileExt = ["<?php echo implode('","', $allowFileExtensions) ?>"];
+		var allowMaxFileSize = <?php echo $allowMaxFileSize ?>;
+		var allowMinFileSize = <?php echo $allowMinFileSize ?>;
+		var lineCount = <?php echo $lineCount ?>;
 
         (function ($) {
             $(document).ready(function () {
