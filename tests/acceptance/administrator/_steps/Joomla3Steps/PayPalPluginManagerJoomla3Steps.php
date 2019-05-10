@@ -62,7 +62,7 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($pluginName, \PluginManagerJoomla3Page::$searchResultRow);
 		$I->click(\PluginManagerJoomla3Page::$firstCheck);
 		$I->click('Disable');
-		$I->see("disabled", 30, '.alert-success');
+		$I->waitForText("disabled", 30, '.alert-success');
 	}
 
 	/**
