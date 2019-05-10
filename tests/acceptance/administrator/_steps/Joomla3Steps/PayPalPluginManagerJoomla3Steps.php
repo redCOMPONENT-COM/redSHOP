@@ -43,11 +43,10 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to Enable a Payment Plugin
+	 * Function to disable a Payment Plugin
 	 *
-	 * @param   String  $pluginName  Name of the Plugin
-	 *
-	 * @return void
+	 * @param String $pluginName
+	 * @throws \Exception
 	 */
 	public function disablePlugin($pluginName)
 	{
@@ -61,8 +60,8 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement(\PluginManagerJoomla3Page::$searchResultRow);
 		$I->see($pluginName, \PluginManagerJoomla3Page::$searchResultRow);
 		$I->click(\PluginManagerJoomla3Page::$firstCheck);
-		$I->click('Disable');
-		$I->waitForText("disabled", 30, '.alert-success');
+		$I->click(\PluginManagerJoomla3Page:: $btnDisable);
+		$I->waitForText(\PluginManagerJoomla3Page::$messageDisable, 30, \AdminJ3Page:: $selectorSuccess);
 	}
 
 	/**

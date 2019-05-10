@@ -57,6 +57,16 @@ class PluginManagerJoomla3Page
      */
 	public static $pluginEnabledSuccessMessage = "Plugin successfully enabled";
 
+    /**
+     * @var string
+     */
+	public static $btnDisable = 'Disable';
+
+    /**
+     * @var string
+     */
+	public static $messageDisable = "disabled";
+
 	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
