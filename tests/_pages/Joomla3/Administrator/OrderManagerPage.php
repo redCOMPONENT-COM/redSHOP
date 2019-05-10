@@ -150,17 +150,24 @@ class OrderManagerPage extends AdminJ3Page
      */
     public static $adminFinalPriceEnd = "#tdtotalprdproduct1";
 
+    public static $discountUpdate = "#update_discount";
+
+    public static $specialUpdate = "#special_discount";
+
     //button
 
     /**
      * @var string
      */
-    public static $buttonSavePay = "Save + Pay";
+//    public static $discountUpdateButton = "//a[@onclick= \"javascript:validateDiscount('#update_discount3');\"]";
 
-    public static $discountUpdate = "#update_discount";
+//    public static $discountUpdateButton = "//a[contains(text(),'Update')]";
+    /**
+     * @var string
+     */
+//    public static $specialUpdateButton = "//a[@onclick= \"javascript:validateDiscount('#special_discount3');\"]";
 
-    public static $specialUpdate = "#special_discount";
-
+//    public static $specialUpdateButton = "//a[@id='special_discount4']//a[contains(text(),'Update')]";
     //selector
 
     /**
@@ -186,4 +193,15 @@ class OrderManagerPage extends AdminJ3Page
         return $path;
     }
 
+    public function returnButtonUpdateDiscount ($idOrder)
+    {
+        $path = "//a[@onclick= \"javascript:validateDiscount('#update_discount$idOrder');\"]";
+        return $path;
+    }
+
+    public function returnButtonUpdateSpecialDiscount ($idOrder)
+    {
+        $path = "//a[@onclick= \"javascript:validateDiscount('#special_discount$idOrder');\"]";
+        return $path;
+    }
 }

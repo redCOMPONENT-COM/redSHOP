@@ -16,9 +16,9 @@ namespace AcceptanceTester;
  *
  * @since    2.4
  */
-class UpdateDiscountAndSpecialDiscountSteps extends AdminManagerJoomla3Steps
+class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 {
-    public function updateDiscountAndSpecialDiscount($userName, $productName)
+    public function updateDiscountAndSpecialDiscount($userName, $productName, $firstName, $discountUpdate, $specialUpdate)
     {
         $I = $this;
         $I->amOnPage(\OrderManagerPage::$URL);
@@ -52,11 +52,25 @@ class UpdateDiscountAndSpecialDiscountSteps extends AdminManagerJoomla3Steps
         $I->waitForElement($userOrderPage->returnSearch($productName), 30);
         $I->click($userOrderPage->returnSearch($productName));
 
-
         $I->click(\OrderManagerPage::$buttonSave);
-        $I->scrollTo();
+
+        $I->click(\OrderManagerPage::$buttonClose);
+        $I->searchOrder($firstName);
+        $id = $I->grabTextFrom("//div[@class='table-responsive']//td[3]//a[1]");
+        $I->fillField(\OrderManagerPage::$filter, $firstName);
+        $I->click("//div[@class='table-responsive']//td[3]//a[1]");
+        $I->pauseExecution();
+
+        $I->scrollTo(\OrderManagerPage::$discountUpdate);
+        $I->click(\OrderManagerPage::$discountUpdate);
+        $I->fillField(\OrderManagerPage::$discountUpdate, $discountUpdate);
+//        $I->click(\OrderManagerPage::$discountUpdateButton);
 
 
+        $I->scrollTo(\OrderManagerPage::$specialUpdate);
+        $I->click(\OrderManagerPage::$specialUpdate);
+        $I->fillField(\OrderManagerPage::$specialUpdate, $specialUpdate);
+        $I->click(\OrderManagerPage::$specialUpdateButton);
 
         $I->waitForElement(\OrderManagerPage::$close, 30);
         $I->waitForText(\OrderManagerPage::$buttonClose, 10, \OrderManagerPage::$close);

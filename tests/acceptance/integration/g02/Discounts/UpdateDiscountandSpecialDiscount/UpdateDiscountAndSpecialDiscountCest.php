@@ -46,6 +46,9 @@ class UpdateDiscountAndSpecialDiscountCest
         $this->city = 'Ho Chi Minh';
         $this->phone = '0126541687';
         $this->quantity = '1';
+
+        $this->discountUpdate = '20';
+        $this->specialUpdate = '20';
     }
 
 
@@ -56,7 +59,7 @@ class UpdateDiscountAndSpecialDiscountCest
     {
         $I->doAdministratorLogin();
     }
-    public function changeQuantityInCart(AcceptanceTester $I, $scenario)
+    public function updateDiscountAndSpecialDiscount(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Create Category in Administrator');
         $I = new CategoryManagerJoomla3Steps($scenario);
@@ -72,7 +75,7 @@ class UpdateDiscountAndSpecialDiscountCest
 
         $I->wantTo('I want create order and update discount and special discount');
         $I = new UpdateDiscountAndSpecialDiscountSteps($scenario);
-        $I->updateDiscountAndSpecialDiscount($this->userName, $this->productName);
+        $I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->discountUpdate, $this->specialUpdate);
 
         $I->wantTo('Delete product');
         $I = new ProductManagerJoomla3Steps($scenario);
