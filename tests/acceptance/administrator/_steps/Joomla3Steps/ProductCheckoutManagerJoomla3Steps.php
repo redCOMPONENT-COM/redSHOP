@@ -583,7 +583,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}catch (\Exception $e)
 		{
 			$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-			$I->waitForText($ShippingRate, 5, \FrontEndProductManagerJoomla3Page::$shippingRate);
+			$I->waitForText($ShippingRate, 60, \FrontEndProductManagerJoomla3Page::$shippingRate);
 		}
 
 		$I->waitForText($Total, 10, \FrontEndProductManagerJoomla3Page::$priceEnd);
