@@ -56,7 +56,7 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\PluginManagerJoomla3Page::$pluginSearch, $pluginName);
 		$I->click(\PluginManagerJoomla3Page::$searchButton);
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName),30);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->seeElement(\PluginManagerJoomla3Page::$searchResultRow);
 		$I->see($pluginName, \PluginManagerJoomla3Page::$searchResultRow);
 		$I->click(\PluginManagerJoomla3Page::$firstCheck);

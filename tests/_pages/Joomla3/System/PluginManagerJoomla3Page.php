@@ -17,54 +17,54 @@ class PluginManagerJoomla3Page
 {
 	// Include url of current page
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $URL = '/administrator/index.php?option=com_plugins';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $pluginSearch = "//input[@id='filter_search']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $searchButton = "//button[@type='submit' and @data-original-title='Search']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $searchResultRow = "//form[@id='adminForm']/div/table/tbody/tr[1]";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $pluginStatePath = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[3]/a";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $firstCheck = "//input[@id='cb0']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $pluginEnabledSuccessMessage = "Plugin successfully enabled";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $btnDisable = 'Disable';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $messageDisable = "disabled";
 
 	/**
