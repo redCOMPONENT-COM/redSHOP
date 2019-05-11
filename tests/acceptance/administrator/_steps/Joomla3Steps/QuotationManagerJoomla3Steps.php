@@ -66,7 +66,13 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(QuotationManagerPage::$quotationId);
         $I->waitForElement(QuotationManagerPage::$quantityp1,30);
         $I->scrollTo(QuotationManagerPage::$quantityp1);
-        $I->addValueForField(QuotationManagerPage::$quantityp1, $newQuantity, 3);
+        $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
+        $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
+        $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
+        $I->wait(0.5);
+        $I->fillField(QuotationManagerPage::$quantityp1, $newQuantity);
         $I->click(QuotationManagerPage::$buttonSave);
         $I->scrollTo(QuotationManagerPage::$quantityp1);
         $I->seeInField(QuotationManagerPage::$quantityp1, $newQuantity);
