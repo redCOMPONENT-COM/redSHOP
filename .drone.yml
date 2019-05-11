@@ -803,7 +803,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator 0 0'
 
-    39-VAT-Checkout-Discount:
+    39-VAT-Checkout-Discount-56:
         group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
