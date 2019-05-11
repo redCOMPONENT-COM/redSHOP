@@ -763,15 +763,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator 0 0'
 
-    17-VAT-Checkout-Discount-56:
+    17-VAT_CheckoutDiscount-56:
         group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=17-VAT-Checkout-Discount
-            - tests_db=VAT-Checkout-Discount
+            - tests_suite=17-VAT_CheckoutDiscount
+            - tests_db=VAT_Checkout-Discount
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-17-VAT-Checkout-Discount-56
+            - output_append=-17-VAT_CheckoutDiscount-56
             - php_version=56
         commands:
             # Regular entry point
@@ -784,15 +784,15 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
 
-    17-VAT-Checkout-Discount-73:
+    17-VAT_CheckoutDiscount-73:
         group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=17-VAT-Checkout-Discount
-            - tests_db=VAT-Checkout-Discount
+            - tests_suite=17-VAT_CheckoutDiscount
+            - tests_db=VAT_CheckoutDiscount
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-17-VAT-Checkout-Discount-73
+            - output_append=-17-VAT_CheckoutDiscount-73
             - php_version=73
         commands:
             # Regular entry point
@@ -1096,7 +1096,7 @@ services:
             - sh tests/drone/setup-stages.sh        "Giftcard_Tax_Rate"                    "14-Giftcard_Tax_Rate"                   $php_versions
             - sh tests/drone/setup-stages.sh        "Mail_Coupon_User"                     "15-Mail_Coupon_User"                    $php_versions
             - sh tests/drone/setup-stages.sh        "FieldGroup_MassDiscount"              "16-FieldGroup_MassDiscount"             $php_versions
-            - sh tests/drone/setup-stages.sh        "VAT-Checkout-Discount"                "17-VAT-Checkout-Discount"               $php_versions
+            - sh tests/drone/setup-stages.sh        "VAT_CheckoutDiscount"                 "17-VAT_CheckoutDiscount"               $php_versions
             - sh tests/drone/setup-stages.sh        "Voucher_Text_Supplier"                "18-Voucher_Text_Supplier"               $php_versions
             - sh tests/drone/setup-stages.sh        "Manufacturer"                         "19-Manufacturer"                        73
             - sh tests/drone/setup-stages.sh        "One_Steps_Checkout"                   "20-One_Step_Checkout"                   $php_versions
