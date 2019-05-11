@@ -1685,7 +1685,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
 
-    40-Voucher_Text_Supplier_Text_Supplier-56:
+    40-Voucher_Text_Supplier-56:
         group: 14-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
