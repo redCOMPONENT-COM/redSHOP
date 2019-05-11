@@ -367,7 +367,7 @@ pipeline:
         environment:
             - tests_user=admin
             - tests_suite=07-Template_Quotation
-            - tests_db=Template
+            - tests_db=Template_Quotation
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-07-Template_Quotation-56
             - php_version=56
