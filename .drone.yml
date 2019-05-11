@@ -275,15 +275,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/Customizations/State 0 0'
 
-    05-CheckoutDiscountOnProduct-56:
+    05-integration_Discounts-56:
         group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=05-CheckoutDiscountOnProduct
-            - tests_db=CheckoutDiscountOnProduct
+            - tests_suite=05-integration_Discounts
+            - tests_db=integration_Discounts
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-05-CheckoutDiscountOnProduct-56
+            - output_append=-05-integration_Discounts-56
             - php_version=56
         commands:
             # Regular entry point
@@ -295,15 +295,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g02 0 0'
 
-    05-CheckoutDiscountOnProduct-73:
+    05-integration_Discounts-73:
         group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=05-CheckoutDiscountOnProduct
-            - tests_db=CheckoutDiscountOnProduct
+            - tests_suite=05-integration_Discounts
+            - tests_db=integration_Discounts
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-05-CheckoutDiscountOnProduct-73
+            - output_append=-05-integration_Discounts-73
             - php_version=73
         commands:
             # Regular entry point
@@ -395,15 +395,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03/Shippings/Shipping 0 0'
 
-    08-VoucherCheckoutProduct-56:
+    08-Voucher_Quotations_MassDiscount-56:
         group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=08-VoucherCheckoutProduct
-            - tests_db=VoucherCheckoutProduct
+            - tests_suite=08-Voucher_Quotations_MassDiscount
+            - tests_db=Voucher_Quotations_MassDiscount
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-08-VoucherCheckoutProduct-56
+            - output_append=-08-Voucher_Quotations_MassDiscount-56
             - php_version=56
         commands:
             # Regular entry point
@@ -417,15 +417,15 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06 0 0'
 
-    08-VoucherCheckoutProduct-73:
+    08-Voucher_Quotations_MassDiscount-73:
         group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=08-VoucherCheckoutProduct
-            - tests_db=VoucherCheckoutProduct
+            - tests_suite=08-Voucher_Quotations_MassDiscount
+            - tests_db=Voucher_Quotations_MassDiscount
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-08-VoucherCheckoutProduct-73
+            - output_append=-08-Voucher_Quotations_MassDiscount-73
             - php_version=73
         commands:
             # Regular entry point
@@ -998,15 +998,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Customizations/Custom_Field 0 0'
 
-    23-Compare_Products-56:
+    23-Compare_Attribute_GiftCard-56:
         group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=23-Compare_Products
-            - tests_db=Compare_Products
+            - tests_suite=23-Compare_Attribute_GiftCard
+            - tests_db=Compare_Attribute_GiftCard
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-23-Compare_Products-56
+            - output_append=-23-Compare_Attribute_GiftCard-56
             - php_version=56
         commands:
             # Regular entry point
@@ -1019,15 +1019,15 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10 0 0'
 
-    23-Compare_Products-73:
+    23-Compare_Attribute_GiftCard-73:
         group: 08-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=23-Compare_Products
-            - tests_db=Compare_Products
+            - tests_suite=23-Compare_Attribute_GiftCard
+            - tests_db=Compare_Attribute_GiftCard
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-23-Compare_Products-73
+            - output_append=-23-Compare_Attribute_GiftCard-73
             - php_version=73
         commands:
             # Regular entry point
@@ -1080,15 +1080,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/Discount_Groups/Discounts/Discount 0 0'
 
-    25-Checkout_Quantity-56:
+    25-Multi_checkout-56:
         group: 09-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=25-Checkout_Quantity
-            - tests_db=Checkout_Quantity
+            - tests_suite=25-Multi_checkout
+            - tests_db=Multi_checkout
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-25-Checkout_Quantity-56
+            - output_append=-25-Multi_checkout-56
             - php_version=56
         commands:
             # Regular entry point
@@ -1100,15 +1100,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09 0 0'
 
-    25-Checkout_Quantity-73:
+    25-Multi_checkout-73:
         group: 09-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=25-Checkout_Quantity
-            - tests_db=Checkout_Quantity
+            - tests_suite=25-Multi_checkout
+            - tests_db=Multi_checkout
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-25-Checkout_Quantity-73
+            - output_append=-25-Multi_checkout-73
             - php_version=73
         commands:
             # Regular entry point
@@ -1640,15 +1640,15 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13/Discount_Groups/Discounts/Mass_Discount 0 0'
 
-    39-VAT-56:
+    39-VAT-Checkout-Discount-Checkout-Discount:
         group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=39-VAT
-            - tests_db=VAT
+            - tests_suite=39-VAT-Checkout-Discount
+            - tests_db=VAT-Checkout-Discount
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-39-VAT-56
+            - output_append=-39-VAT-Checkout-Discount-56
             - php_version=56
         commands:
             # Regular entry point
@@ -1661,15 +1661,15 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11 0 0'
 
-    39-VAT-73:
+    39-VAT-Checkout-Discount-73:
         group: 13-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=39-VAT
-            - tests_db=VAT
+            - tests_suite=39-VAT-Checkout-Discount
+            - tests_db=VAT-Checkout-Discount
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-39-VAT-73
+            - output_append=-39-VAT-Checkout-Discount-73
             - php_version=73
         commands:
             # Regular entry point
@@ -2159,10 +2159,10 @@ services:
             - sh tests/drone/setup-stages.sh        "Price_Product"                 "02-Price_Product"                  $php_versions
             - sh tests/drone/setup-stages.sh        "ProductNotForSaleOnFrontend"   "03-ProductNotForSaleOnFrontend"    $php_versions
             - sh tests/drone/setup-stages.sh        "State"                         "04-State"                          $php_versions
-            - sh tests/drone/setup-stages.sh        "CheckoutDiscountOnProduct"     "05-CheckoutDiscountOnProduct"      $php_versions
+            - sh tests/drone/setup-stages.sh        "integration_Discounts"         "05-integration_Discounts"          $php_versions
             - sh tests/drone/setup-stages.sh        "CheckoutDiscountTotal"         "06-CheckoutDiscountTotal"          $php_versions
             - sh tests/drone/setup-stages.sh        "Shipping"                      "07-Shipping"                       $php_versions
-            - sh tests/drone/setup-stages.sh        "VoucherCheckoutProduct"        "08-VoucherCheckoutProduct"         $php_versions
+            - sh tests/drone/setup-stages.sh        "Voucher_Quotations_MassDiscount" "08-Voucher_Quotations_MassDiscount" $php_versions
             - sh tests/drone/setup-stages.sh        "Notices"                       "09-Notices"                        $php_versions
             - sh tests/drone/setup-stages.sh        "Wrapper"                       "10-Wrapper"                        $php_versions
             - sh tests/drone/setup-stages.sh        "Stockroom"                     "11-Stockroom"                      $php_versions
@@ -2177,9 +2177,9 @@ services:
             - sh tests/drone/setup-stages.sh        "Configuration"                 "20-Configuration"                  $php_versions
             - sh tests/drone/setup-stages.sh        "Shopper_Group"                 "21-Shopper_Group"                  $php_versions
             - sh tests/drone/setup-stages.sh        "Custom_Field"                  "22-Custom_Field"                   $php_versions
-            - sh tests/drone/setup-stages.sh        "Compare_Products"              "23-Compare_Products"               $php_versions
+            - sh tests/drone/setup-stages.sh        "Compare_Attribute_GiftCard"    "23-Compare_Attribute_GiftCard"     $php_versions
             - sh tests/drone/setup-stages.sh        "Discount"                      "24-Discount"                       $php_versions
-            - sh tests/drone/setup-stages.sh        "Checkout_Quantity"             "25-Checkout_Quantity"              $php_versions
+            - sh tests/drone/setup-stages.sh        "Multi_checkout"                "25-Multi_checkout"                 $php_versions
             - sh tests/drone/setup-stages.sh        "Shopper_Groups_Checkout"       "26-Shopper_Groups_Checkout"        $php_versions
             - sh tests/drone/setup-stages.sh        "Order_Checkout"                "27-Order_Checkout"                 $php_versions
             - sh tests/drone/setup-stages.sh        "Product_Attribute"             "28-Product_Attribute"              $php_versions
@@ -2193,7 +2193,7 @@ services:
             - sh tests/drone/setup-stages.sh        "User"                          "36-User"                           $php_versions
             - sh tests/drone/setup-stages.sh        "Field_Group"                   "37-Field_Group"                    $php_versions
             - sh tests/drone/setup-stages.sh        "Mass_Discount"                 "38-Mass_Discount"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "VAT"                           "39-VAT"                            $php_versions
+            - sh tests/drone/setup-stages.sh        "VAT-Checkout-Discount"         "39-VAT-Checkout-Discount"          $php_versions
             - sh tests/drone/setup-stages.sh        "Voucher"                       "40-Voucher"                        $php_versions
             - sh tests/drone/setup-stages.sh        "Text"                          "41-Text"                           $php_versions
             - sh tests/drone/setup-stages.sh        "Supplier"                      "42-Supplier"                       $php_versions
