@@ -769,7 +769,7 @@ pipeline:
         environment:
             - tests_user=admin
             - tests_suite=17-VAT_CheckoutDiscount
-            - tests_db=VAT_Checkout-Discount
+            - tests_db=VAT_CheckoutDiscount
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-17-VAT_CheckoutDiscount-56
             - php_version=56
