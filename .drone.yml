@@ -2168,9 +2168,9 @@ services:
             - sh tests/drone/setup-stages.sh        "Stockroom"                     "11-Stockroom"                      $php_versions
             - sh tests/drone/setup-stages.sh        "Stock_Image"                   "12-Stock_Image"                    $php_versions
             - sh tests/drone/setup-stages.sh        "Template"                      "13-Template"                       $php_versions
-            - sh tests/drone/setup-stages.sh        "Quotation_FrontEnd"            "14-Quotation_FrontEnd"             $php_versions
+#            - sh tests/drone/setup-stages.sh        "Quotation_FrontEnd"            "14-Quotation_FrontEnd"             $php_versions
             - sh tests/drone/setup-stages.sh        "Quotations"                    "15-Quotation"                      $php_versions
-            - sh tests/drone/setup-stages.sh        "MassDiscountCheckout"          "16-MassDiscountCheckout"           $php_versions
+#            - sh tests/drone/setup-stages.sh        "MassDiscountCheckout"          "16-MassDiscountCheckout"           $php_versions
             - sh tests/drone/setup-stages.sh        "Country"                       "17-Country"                        $php_versions
             - sh tests/drone/setup-stages.sh        "Discount_Product"              "18-Discount_Product"               $php_versions
             - sh tests/drone/setup-stages.sh        "Currency"                      "19-Currency"                       $php_versions
@@ -2180,13 +2180,13 @@ services:
             - sh tests/drone/setup-stages.sh        "Compare_Attribute_GiftCard"    "23-Compare_Attribute_GiftCard"     $php_versions
             - sh tests/drone/setup-stages.sh        "Discount"                      "24-Discount"                       $php_versions
             - sh tests/drone/setup-stages.sh        "Multi_checkout"                "25-Multi_checkout"                 $php_versions
-            - sh tests/drone/setup-stages.sh        "Shopper_Groups_Checkout"       "26-Shopper_Groups_Checkout"        $php_versions
-            - sh tests/drone/setup-stages.sh        "Order_Checkout"                "27-Order_Checkout"                 $php_versions
-            - sh tests/drone/setup-stages.sh        "Product_Attribute"             "28-Product_Attribute"              $php_versions
+#            - sh tests/drone/setup-stages.sh        "Shopper_Groups_Checkout"       "26-Shopper_Groups_Checkout"        $php_versions
+#            - sh tests/drone/setup-stages.sh        "Order_Checkout"                "27-Order_Checkout"                 $php_versions
+#            - sh tests/drone/setup-stages.sh        "Product_Attribute"             "28-Product_Attribute"              $php_versions
             - sh tests/drone/setup-stages.sh        "Tax_Group"                     "29-Tax_Group"                      $php_versions
-            - sh tests/drone/setup-stages.sh        "GiftCardCheckout"              "30-GiftCardCheckout"               $php_versions
+#            - sh tests/drone/setup-stages.sh        "GiftCardCheckout"              "30-GiftCardCheckout"               $php_versions
             - sh tests/drone/setup-stages.sh        "Giftcard"                      "31-Giftcard"                       $php_versions
-            - sh tests/drone/setup-stages.sh        "CheckoutDiscountBeforeToday"   "32-CheckoutDiscountBeforeToday"    $php_versions
+#            - sh tests/drone/setup-stages.sh        "CheckoutDiscountBeforeToday"   "32-CheckoutDiscountBeforeToday"    $php_versions
             - sh tests/drone/setup-stages.sh        "Tax_Rate"                      "33-Tax_Rate"                       $php_versions
             - sh tests/drone/setup-stages.sh        "Coupon"                        "34-Coupon"                         $php_versions
             - sh tests/drone/setup-stages.sh        "Mail"                          "35-Mail"                           $php_versions
@@ -2202,8 +2202,8 @@ services:
             - sh tests/drone/setup-stages.sh        "Category"                      "45-Category"                       $php_versions
             - sh tests/drone/setup-stages.sh        "ProductManagement"             "46-ProductManagement"              $php_versions
             - sh tests/drone/setup-stages.sh        "CouponVoucherMixCheckout"      "47-CouponVoucherMixCheckout"       $php_versions
-            - sh tests/drone/setup-stages.sh        "Product_Quantity"              "48-Product_Quantity"               $php_versions
-            - sh tests/drone/setup-stages.sh        "Oder_Backend"                  "49-Oder_Backend"                   $php_versions
-            - sh tests/drone/setup-stages.sh        "Checkout_Search"               "50-Checkout_Search"                $php_versions
+#            - sh tests/drone/setup-stages.sh        "Product_Quantity"              "48-Product_Quantity"               $php_versions
+#            - sh tests/drone/setup-stages.sh        "Oder_Backend"                  "49-Oder_Backend"                   $php_versions
+#            - sh tests/drone/setup-stages.sh        "Checkout_Search"               "50-Checkout_Search"                $php_versions
 branches:
     exclude: [ crowdin ]
