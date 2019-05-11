@@ -77,7 +77,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->scrollTo(QuotationManagerPage::$quantityp1);
         $I->seeInField(QuotationManagerPage::$quantityp1, $newQuantity);
     }
-
+    
     public function editStatus($status)
     {
         $I = $this;
