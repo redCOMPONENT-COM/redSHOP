@@ -220,7 +220,6 @@ class AdminManagerJoomla3Steps extends Redshop
 		for ($i = 1; $i <= $lengh; $i++)
 		{
 			$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-			$I->wait(0.2);
 		}
 
 		$price = str_split($value);
