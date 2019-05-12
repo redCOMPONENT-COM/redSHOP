@@ -1105,4 +1105,3 @@ services:
             - sh tests/drone/setup-stages.sh        "Oder_Backend"                         "23-Oder_Backend"                        $php_versions
 branches:
     exclude: [ crowdin ]
-    
