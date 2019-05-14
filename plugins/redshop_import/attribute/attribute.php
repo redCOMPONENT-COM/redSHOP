@@ -96,7 +96,8 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	 */
 	public function processImport($table, $data)
 	{
-		$db = $this->db;
+		$table = $this->getTable();
+		$db    = $this->db;
 		$isNew = false;
 
 		$hasPropertyName    = !empty($data['property_name']) ? true : false;
