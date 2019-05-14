@@ -164,7 +164,6 @@ class ProductAttributesVatCheckoutCest
 			$this->customerBussinesInformation["userName"], $this->customerBussinesInformation["password"], $this->customerBussinesInformation["email"], $this->group,$this->customerBussinesInformation["shopperGroup"], $this->customerBussinesInformation["firstName"], $this->customerBussinesInformation["lastName"], 'saveclose'
 		);
 
-
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->testProductAttributeWithVatCheckout(
 			$this->customerInformation["userName"], $this->customerInformation["password"], $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total, $this->attributes
