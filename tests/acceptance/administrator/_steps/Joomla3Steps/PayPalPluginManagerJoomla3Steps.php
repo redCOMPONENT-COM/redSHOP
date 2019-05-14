@@ -43,6 +43,28 @@ class PayPalPluginManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * Function to disable a Payment Plugin
+	 *
+	 * @param String $pluginName
+	 * @throws \Exception
+	 */
+	public function disablePlugin($pluginName)
+	{
+		$I = $this;
+		$I->amOnPage(\PluginManagerJoomla3Page::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Plugin Manager Page');
+		$I->fillField(\PluginManagerJoomla3Page::$pluginSearch, $pluginName);
+		$I->click(\PluginManagerJoomla3Page::$searchButton);
+		$pluginManagerPage = new \PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->seeElement(\PluginManagerJoomla3Page::$searchResultRow);
+		$I->see($pluginName, \PluginManagerJoomla3Page::$searchResultRow);
+		$I->click(\PluginManagerJoomla3Page::$firstCheck);
+		$I->click(\PluginManagerJoomla3Page:: $btnDisable);
+		$I->waitForText(\PluginManagerJoomla3Page::$messageDisable, 30, \AdminJ3Page:: $selectorSuccess);
+	}
+
+	/**
 	 * Function To Edit PayPal plugin with Important Information corresponding to SandBox Accoutn
 	 *
 	 * @param   String  $businessUserEmail  Email Id for the sandBox Account
