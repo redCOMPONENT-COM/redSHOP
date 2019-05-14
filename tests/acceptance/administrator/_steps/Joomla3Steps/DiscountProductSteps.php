@@ -80,7 +80,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $toDay);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $toDay);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemSaveSuccess);
