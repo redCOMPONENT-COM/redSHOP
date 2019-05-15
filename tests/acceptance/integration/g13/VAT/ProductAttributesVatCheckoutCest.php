@@ -20,7 +20,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since    2.2.0
  */
 class ProductAttributesVatCheckoutCest
 {
