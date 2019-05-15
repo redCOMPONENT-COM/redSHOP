@@ -179,7 +179,7 @@ class ProductAttributesVatCheckoutCest
 			$this->customerBussinesInformation["firstName"], $this->customerBussinesInformation["lastName"], 'saveclose'
 		);
 
-		$I = new ProductCheckoutFrontEndManagerSteps($scenario);
+		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductAttributeWithVatCheckout(
 			$this->customerInformation["userName"], $this->customerInformation["password"], $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total, $this->attributes
 		);
