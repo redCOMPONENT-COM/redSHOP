@@ -1,14 +1,27 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use AcceptanceTester\TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
-use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps as OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 
-
+/**
+ * Class ProductAttributesVatCheckoutCest
+ *
+ * @package  AcceptanceTester
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage
+ *
+ * @since    1.4
+ */
 class ProductAttributesVatCheckoutCest
 {
 	public function __construct()
@@ -157,14 +170,16 @@ class ProductAttributesVatCheckoutCest
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser(
-			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group,$this->customerInformation["shopperGroup"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
+			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group,$this->customerInformation["shopperGroup"],
+			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
 		);
 
 		$I->addUser(
-			$this->customerBussinesInformation["userName"], $this->customerBussinesInformation["password"], $this->customerBussinesInformation["email"], $this->group,$this->customerBussinesInformation["shopperGroup"], $this->customerBussinesInformation["firstName"], $this->customerBussinesInformation["lastName"], 'saveclose'
+			$this->customerBussinesInformation["userName"], $this->customerBussinesInformation["password"], $this->customerBussinesInformation["email"], $this->group,$this->customerBussinesInformation["shopperGroup"],
+			$this->customerBussinesInformation["firstName"], $this->customerBussinesInformation["lastName"], 'saveclose'
 		);
 
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I = new ProductCheckoutFrontEndManagerSteps($scenario);
 		$I->testProductAttributeWithVatCheckout(
 			$this->customerInformation["userName"], $this->customerInformation["password"], $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total, $this->attributes
 		);
