@@ -261,11 +261,11 @@ ProductManagerPage extends AdminJ3Page
 	 * @param $positionParameter
 	 * @param $positionAttribute
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function attributeNameAttribute($positionParameter, $positionAttribute)
 	{
-		$xpath = ['xpath'=>'//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][name]"]'];
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][name]"]';
 
 		return $xpath;
 	}
@@ -276,11 +276,11 @@ ProductManagerPage extends AdminJ3Page
 	 * @param $positionParameter
 	 * @param $positionAttribute
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function attributePricePropertyAttribute($positionParameter, $positionAttribute)
 	{
-		$xpath = ['xpath'=>'//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][price]"]'];
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][price]"]';
 
 		return $xpath;
 	}
