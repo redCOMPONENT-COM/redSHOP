@@ -3,46 +3,45 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-
-class RedshopViewZipcode extends RedshopViewAdmin
+/**
+ * View zipcode
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  View
+ * @since       2.1.0
+ */
+class RedshopViewZipcode extends RedshopViewForm
 {
-	public function display($tpl = null)
+	/**
+	 * Method for prepare field HTML
+	 *
+	 * @param   object  $field  Group object
+	 *
+	 * @return  boolean|string  False if keep. String for HTML content if success.
+	 *
+	 * @since   2.1.0
+	 * @throws \Exception
+	 */
+	protected function prepareField($field)
 	{
-		jimport('joomla.html.pagination');
+		$input = JFactory::getApplication()->input;
+		$id    = $input->getInt('id', '');
 
-		$context = 'zipcode_id';
+		if ($id && $field->getAttribute('name') == 'zipcodeto')
+		{
+			return false;
+		}
 
-		$uri      = JFactory::getURI();
-		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
+		if ($field->getAttribute('name') == 'zipcode')
+		{
+			$this->form->setFieldAttribute('zipcode', 'label', JText::_('COM_REDSHOP_FROM'));
+		}
 
-		$document->setTitle(JText::_('COM_REDSHOP_ZIPCODE'));
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_MANAGEMENT'), 'redshop_region_48');
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolbarHelper::deleteList();
-
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'zipcode_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
-
-		$fields     = $this->get('Data');
-		$pagination = $this->get('Pagination');
-
-		$this->user        = JFactory::getUser();
-		$this->pagination  = $pagination;
-		$this->fields      = $fields;
-		$this->lists       = $lists;
-		$this->request_url = $uri->toString();
-
-		parent::display($tpl);
+		return parent::prepareField($field);
 	}
 }

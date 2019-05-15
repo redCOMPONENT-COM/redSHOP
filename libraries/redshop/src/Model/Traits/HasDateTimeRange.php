@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Model
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ namespace Redshop\Model\Traits;
 /**
  * Trait support start_date end_date
  *
- * @since    __DEPLOY_VERSION__
+ * @since    2.1.2
  */
 trait HasDateTimeRange
 {
