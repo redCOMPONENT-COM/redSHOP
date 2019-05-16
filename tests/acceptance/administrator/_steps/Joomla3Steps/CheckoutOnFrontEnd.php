@@ -79,4 +79,400 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->seeElement(['link' => $productName]);
 		$I->doFrontendLogout();
 	}
+
+	/**
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $customerInformation
+	 * @param $missing
+	 * @param $function
+	 *
+	 * @since 2.2.0
+	 * @throws \Exception
+	 */
+	public function onePageCheckoutMissing($productName, $categoryName,$customerInformation, $missing, $function)
+	{
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+
+		try{
+			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 5, \GiftCardCheckoutPage::$selectorSuccess);
+		}catch (\Exception $e)
+		{
+			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		}
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->waitForElement(['link' => $productName], 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+		if ($missing == 'user')
+		{
+			if ($function == 'createAccount')
+			{
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idAddAccount, 30);
+				$I->executeJS("jQuery('#createaccount').click()");
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterUser, 30, \FrontEndProductManagerJoomla3Page:: $locatorMessageEnterUser);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page:: $messageFieldRequired, 30, \FrontEndProductManagerJoomla3Page:: $locatorMessagePassword);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page:: $messageFieldRequired, 30, \FrontEndProductManagerJoomla3Page::$locatorMessageConfirmPassword);
+			}
+			if ($function == 'private')
+			{
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, \FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, \FrontEndProductManagerJoomla3Page::locatorMessagePrivate("firstname"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, \FrontEndProductManagerJoomla3Page::locatorMessagePrivate("lastname"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterAddress, 30, \FrontEndProductManagerJoomla3Page::locatorMessagePrivate("address"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterCity, 30, \FrontEndProductManagerJoomla3Page::locatorMessagePrivate("city"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, \FrontEndProductManagerJoomla3Page::locatorMessagePrivate("phone"));
+			}
+			if ($function == 'business') {
+				$I->comment('Business');
+				$I->wantToTest($function);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+				$I->wait(1);
+				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
+				try
+				{
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterCompanyName, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("company_name"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("firstname"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("lastname"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterAddress, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("address"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterCity, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("city"));
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageFieldRequired, 30, \FrontEndProductManagerJoomla3Page::$locatorMessageEAN);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("phone"));
+			}
+		}
+		if ($missing == 'acceptTerms')
+		{
+			if ($function == 'private')
+			{
+				$I->comment('checkout with private');
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30,\FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+			}
+			if ($function == 'business') {
+				$I->comment('Business');
+				$I->wantToTest($function);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+				$I->wait(1);
+				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
+				try
+				{
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
+
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, \FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+			}
+		}
+		if ($missing == 'payment')
+		{
+			if ($function == 'private')
+			{
+				$I->comment('checkout with private');
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, \FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+			}
+			if ($function == 'business') {
+				$I->comment('Business');
+				$I->wantToTest($function);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+				$I->wait(1);
+				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
+				try
+				{
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, \FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+			}
+		}
+		if ($missing == 'wrongEmail')
+		{
+			if ($function == 'private')
+			{
+				$I->comment('checkout with private');
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEmailInvalid,30, \FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
+			}
+			if ($function == 'business') {
+				$I->comment('Business');
+				$I->wantToTest($function);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+				$I->wait(1);
+				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
+				try
+				{
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage,30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
+
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
+			}
+		}
+		if ($missing == 'wrongPhone')
+		{
+			if ($function == 'private')
+			{
+				$I->comment('checkout with private');
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, \FrontEndProductManagerJoomla3Page::locatorMessagePrivate("phone"));
+			}
+			if ($function == 'business') {
+				$I->comment('Business');
+				$I->wantToTest($function);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+				$I->wait(1);
+				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
+				try
+				{
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
+
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, \FrontEndProductManagerJoomla3Page::locatorMessageCompany("phone"));
+			}
+		}
+		if ($missing == 'wrongEAN')
+		{
+			if ($function == 'business') {
+				$I->comment('Business');
+				$I->wantToTest($function);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+				$I->wait(1);
+				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
+				try
+				{
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
+					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
+
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
+				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				try
+				{
+					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}catch (\Exception $e)
+				{
+					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageEAN, 30, \FrontEndProductManagerJoomla3Page:: $locatorMessageEAN);
+			}
+		}
+	}
+
 }
