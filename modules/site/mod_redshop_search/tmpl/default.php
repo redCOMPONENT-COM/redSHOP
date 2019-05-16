@@ -157,7 +157,7 @@ if ($enableAjaxsearch)
 			});
 		}
 
-		window.addEvent('domready', function(){
+		jQuery(window).load(function() {
 			makeUrl();
 		});"
 	);

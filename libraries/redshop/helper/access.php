@@ -101,9 +101,9 @@ class RedshopHelperAccess
 			->select($db->qn('shopper_group_id'))
 			->from($db->qn('#__redshop_shopper_group'))
 			->where('FIND_IN_SET(' . $db->quote($cid) . ', shopper_group_categories)')
-			->where($db->qn('shopper_group_id') . ' != ' . (int) $shopperGroupId);
+			->where($db->qn('shopper_group_id') . ' = ' . (int) $shopperGroupId);
 
-		if ($db->setQuery($query)->loadResult())
+		if (!$db->setQuery($query)->loadResult())
 		{
 			return false;
 		}
