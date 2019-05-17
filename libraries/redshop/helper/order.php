@@ -910,12 +910,12 @@ class RedshopHelperOrder
 		{
 			$ch = curl_init();
 			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_URL, $postURL);
-			curl_setopt(/** @scrutinizer ignore-type */$ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
 			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_VERBOSE, true);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_POST, true);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_VERBOSE, true);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_POSTFIELDS, $xmlnew);
 			$response = curl_exec(/** @scrutinizer ignore-type */ $ch);
 			curl_close(/** @scrutinizer ignore-type */ $ch);
 
@@ -1199,7 +1199,7 @@ class RedshopHelperOrder
 	 * @param   string  $selected    Selet status name
 	 * @param   string  $attributes  Attributes of html
 	 *
-	 * @return  string|null  HTML of status list
+	 * @return  string|mixed  HTML of status list
 	 *
 	 * @since   2.0.3
 	 */
