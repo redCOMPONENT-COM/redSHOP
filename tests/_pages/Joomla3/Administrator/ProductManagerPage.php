@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -251,6 +251,36 @@ ProductManagerPage extends AdminJ3Page
 	public function attributeNameProperty($position)
 	{
 		$xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][name]"]'];
+
+		return $xpath;
+	}
+
+	/**
+	 * Function to get Path $position in Attribute Name Property
+	 *
+	 * @param $positionParameter
+	 * @param $positionAttribute
+	 *
+	 * @return string
+	 */
+	public function attributeNameAttribute($positionParameter, $positionAttribute)
+	{
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][name]"]';
+
+		return $xpath;
+	}
+
+	/**
+	 * Function to get Path $position in Attribute Price Property
+	 *
+	 * @param $positionParameter
+	 * @param $positionAttribute
+	 *
+	 * @return string
+	 */
+	public function attributePricePropertyAttribute($positionParameter, $positionAttribute)
+	{
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][price]"]';
 
 		return $xpath;
 	}

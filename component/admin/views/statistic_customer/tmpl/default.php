@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -55,8 +55,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		};
 
 		//Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.ColumnChart(document.getElementById('customer_statistic_chart'));
-		chart.draw(data, options);
+		if (document.getElementById('customer_statistic_chart'))
+		{
+			var chart = new google.visualization.ColumnChart(document.getElementById('customer_statistic_chart'));
+			chart.draw(data, options);
+		}
 	}
 </script>
 <form action="index.php?option=com_redshop&view=statistic_customer" method="post" name="adminForm" id="adminForm">

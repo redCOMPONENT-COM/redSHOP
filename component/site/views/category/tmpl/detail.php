@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -409,6 +409,12 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		// ProductFinderDatepicker Extra Field Start
 		$data_add = $producthelper->getProductFinderDatepickerValue($data_add, $product->product_id, $fieldArray);
 		// ProductFinderDatepicker Extra Field End
+
+		//Replace Product price when config enable discount is "No"
+		if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') === 0)
+		{
+			$data_add = str_replace('{product_old_price}', '', $data_add);
+		}
 
 		/*
 		 * Process the prepare Product plugins

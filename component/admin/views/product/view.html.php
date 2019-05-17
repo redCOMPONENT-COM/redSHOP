@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,6 +55,11 @@ class RedshopViewProduct extends RedshopViewAdmin
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 		}
+
+		if ($layout == 'listing')
+		{
+			JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE_MANAGEMENT'));
+		}
 	}
 
 	public function display($tpl = null)
@@ -74,7 +79,7 @@ class RedshopViewProduct extends RedshopViewAdmin
 		// We don't need toolbar in the modal window.
 		if ($layout !== 'element')
 		{
-			$this->addToolbar();
+			$this->/** @scrutinizer ignore-call */ addToolbar();
 		}
 
 		$state       = $this->get('State');

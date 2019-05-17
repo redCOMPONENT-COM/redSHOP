@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View.Catalogs
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.2
  */
 class RedshopViewCatalogs extends RedshopViewList
 {
@@ -28,7 +28,7 @@ class RedshopViewCatalogs extends RedshopViewList
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

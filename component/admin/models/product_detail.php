@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -1460,8 +1460,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$post = $this->input->post->getArray();
 				$this->_initData();
 				$post = array_merge($post, (array) $this->data);
-				$post['discount_stratdate'] = RedshopHelperDatetime::generateTimestamp(strtotime($post['discount_stratdate']), true);
-				$post['discount_enddate']   = RedshopHelperDatetime::generateTimestamp(strtotime($post['discount_enddate']), true);
 			}
 
 			$post['copy_product']     = 1;

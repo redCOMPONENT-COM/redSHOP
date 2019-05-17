@@ -3,7 +3,7 @@
  * @package     Redshop.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,6 +27,7 @@ defined('JPATH_BASE') or die;
 extract($displayData);
 
 $layout = ($showGroup === true) ? 'field.rules.group' : 'field.rules.rules';
+$selectedTabPosition = JFactory::getApplication()->getUserState('com_redshop.access.selectedTabPosition', 'permission-1');
 ?>
 
 <p class="rule-desc"><?php echo JText::_('JLIB_RULES_SETTINGS_DESC') ?></p>
@@ -35,9 +36,9 @@ $layout = ($showGroup === true) ? 'field.rules.group' : 'field.rules.rules';
         <div class="col-md-3">
             <ul class="nav nav-stacked nav-pills">
 				<?php foreach ($groups as $group): ?>
-					<?php $active = ($group->value == 1) ? 'active' : ''; ?>
+					<?php $active = ('permission-' . $group->value == $selectedTabPosition) ? 'active' : ''; ?>
                     <li class="<?php echo $active ?>">
-                        <a href="#permission-<?php echo $group->value ?>" data-toggle="tab">
+                        <a href="#permission-<?php echo $group->value ?>" data-toggle="tab" aria-controls="permission-<?php echo $group->value ?>">
                             <?php if ($group->level == 1): ?>
                                 <span class="level">&vdash;</span>
                             <?php elseif ($group->level > 1): ?>
