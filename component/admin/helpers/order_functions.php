@@ -487,7 +487,7 @@ class order_functions
 	/**
 	 * Generate Order Number
 	 *
-	 * @return  integer
+	 * @return  integer|string
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::generateOrderNumber() instead
 	 */

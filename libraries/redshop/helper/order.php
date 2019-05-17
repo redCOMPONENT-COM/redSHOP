@@ -911,7 +911,7 @@ class RedshopHelperOrder
 			$ch = curl_init();
 			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_URL, $postURL);
 			curl_setopt(/** @scrutinizer ignore-type */$ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_POST, true);
 			curl_setopt($ch, CURLOPT_VERBOSE, true);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -1199,7 +1199,7 @@ class RedshopHelperOrder
 	 * @param   string  $selected    Selet status name
 	 * @param   string  $attributes  Attributes of html
 	 *
-	 * @return  string  HTML of status list
+	 * @return  string|null  HTML of status list
 	 *
 	 * @since   2.0.3
 	 */
