@@ -291,7 +291,7 @@ class RedshopHelperOrder
 	/**
 	 * Get all the order status code information list
 	 *
-	 * @return  array|mixed  Order Status info
+	 * @return  array|null  Order Status info
 	 */
 	public static function getOrderStatusList()
 	{
@@ -910,7 +910,7 @@ class RedshopHelperOrder
 		{
 			$ch = curl_init();
 			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_URL, $postURL);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+			curl_setopt(/** @scrutinizer ignore-type */$ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_POST, true);
 			curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -1356,7 +1356,7 @@ class RedshopHelperOrder
 			{
 				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 				$checkoutModel = JModelLegacy::getInstance('Checkout', 'RedshopModel');
-				$checkoutModel->sendGiftCard($orderId);
+				$checkoutModel->/** @scrutinizer ignore-call */ sendGiftCard($orderId);
 
 				// Send the Order mail
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $newStatus == 'C')
@@ -1515,7 +1515,7 @@ class RedshopHelperOrder
 	 */
 	public static function getOrderDetails($orderId)
 	{
-		/** @scrutinizer ignore-deprecated */ return self::getOrderDetail($orderId);
+		return /** @scrutinizer ignore-deprecated */self::getOrderDetail($orderId);
 	}
 
 	/**
