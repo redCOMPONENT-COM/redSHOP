@@ -256,6 +256,36 @@ ProductManagerPage extends AdminJ3Page
 	}
 
 	/**
+	 * Function to get Path $position in Attribute Name Property
+	 *
+	 * @param $positionParameter
+	 * @param $positionAttribute
+	 *
+	 * @return string
+	 */
+	public function attributeNameAttribute($positionParameter, $positionAttribute)
+	{
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][name]"]';
+
+		return $xpath;
+	}
+
+	/**
+	 * Function to get Path $position in Attribute Price Property
+	 *
+	 * @param $positionParameter
+	 * @param $positionAttribute
+	 *
+	 * @return string
+	 */
+	public function attributePricePropertyAttribute($positionParameter, $positionAttribute)
+	{
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][price]"]';
+
+		return $xpath;
+	}
+
+	/**
 	 * Function to get Path $position in Attribute Price Property
 	 *
 	 * @param $position
