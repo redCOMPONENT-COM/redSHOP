@@ -294,24 +294,24 @@ class RedshopTableField extends RedshopTable
 				}
 			}
 
-            if ($extraNames[$j]['error'] == 0)
+			if ($extraNames[$j]['error'] == 0 || !!isset($extraNames[$j]['error']))
 			{
-                if (empty($valueIds[$j]))
-                {
-                    $obj = new stdClass;
-                    $obj->field_id = (int)$id;
-                    $obj->field_name = $filename;
-                    $obj->field_value = $extraValues[$j];
-                    $db->insertObject('#__redshop_fields_value', $obj);
-                }
-                else
-                {
-                    $obj = new stdClass;
-                    $obj->value_id = $valueIds[$j];
-                    $obj->field_value = $extraValues[$j];
-                    $obj->field_name = $filename;
-                    $db->updateObject('#__redshop_fields_value', $obj,  array('value_id'));
-                }
+				if (empty($valueIds[$j]))
+				{
+					$obj = new stdClass;
+					$obj->field_id = (int)$id;
+					$obj->field_name = $filename;
+					$obj->field_value = $extraValues[$j];
+					$db->insertObject('#__redshop_fields_value', $obj);
+				}
+				else
+				{
+					$obj = new stdClass;
+					$obj->value_id = $valueIds[$j];
+					$obj->field_value = $extraValues[$j];
+					$obj->field_name = $filename;
+					$db->updateObject('#__redshop_fields_value', $obj,  array('value_id'));
+				}
 			}
 			else
 			{
