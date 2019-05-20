@@ -276,6 +276,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/ 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10/ 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13 0 0'
 
     04-Group4-73:
         group: 07-tests
@@ -298,6 +299,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08/ 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10/ 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13 0 0'
 
     05-Group5-56:
         group: 09-tests
@@ -318,7 +320,6 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
 
     05-Group5-73:
         group: 09-tests
@@ -339,7 +340,6 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
 
     06-Group6-56:
         group: 11-tests
@@ -360,7 +360,6 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
 
     06-Group6-73:
@@ -382,7 +381,6 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
 
     07-Group7-56:
@@ -403,6 +401,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15 0 0'
 
     07-Group7-73:
@@ -423,6 +422,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/ 0 0'
 
     08-Group8-56:
