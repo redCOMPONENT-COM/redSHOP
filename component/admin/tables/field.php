@@ -225,7 +225,7 @@ class RedshopTableField extends RedshopTable
 	 */
 	protected function saveFieldValues($id)
 	{
-        $db          = JFactory::getDbo();
+		$db          = JFactory::getDbo();
 		$valueIds    = array();
 		$extraNames  = array();
 		$extraValues = array();
@@ -322,6 +322,7 @@ class RedshopTableField extends RedshopTable
 				$db->updateObject('#__redshop_fields_value', $obj,array('value_id'));
 			}
 		}
+
 		return true;
 	}
 }
