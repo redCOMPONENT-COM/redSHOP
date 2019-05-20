@@ -56,7 +56,7 @@ class RedshopHelperOrder
 	 *
 	 * @since  2.0.3
 	 */
-	public static $orderStatusList = null;
+	public static $orderStatusList = array();
 
 	/**
 	 * Billing addresses
