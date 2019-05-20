@@ -17,7 +17,8 @@ JHtml::script('com_redshop/jquery.fileupload.min.js', false, true);
 $allowFileTypes      = explode(',', Redshop::getConfig()->get('IMPORT_FILE_MIME', 'text/csv,application/vnd.ms-excel'));
 $allowMaxFileSize    = (int) Redshop::getConfig()->get('IMPORT_MAX_FILE_SIZE', 2000000);
 $allowMinFileSize    = (int) Redshop::getConfig()->get('IMPORT_MIN_FILE_SIZE', 1);
-$lineCount           = (int) Redshop::getConfig()->get('IMPORT_MAX_LINE', 1);
+$lineCount           = (int) Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
+$lineCount           = $lineCount < 10 ? 10 : $lineCount;
 $allowFileExtensions = explode(',', Redshop::getConfig()->get('IMPORT_FILE_EXTENSION', '.csv'));
 
 // Defines encoding used in import
