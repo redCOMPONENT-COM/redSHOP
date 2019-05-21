@@ -137,6 +137,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/ 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/ 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend/Orders 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
 
     01-Group1-73:
@@ -161,6 +162,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02/ 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04/ 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend/Orders 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall/ 0 0'
 
     02-Group2-56:
@@ -342,7 +344,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09 0 0'
 
     06-Group6-56:
-        group: 02-tests
+        group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -363,7 +365,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
 
     06-Group6-73:
-        group: 02-tests
+        group: 03-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -401,8 +403,8 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
 
     07-Group7-73:
         group: 03-tests
@@ -422,11 +424,11 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g15/ 0 0'
 
     08-Group8-56:
-        group: 03-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -444,12 +446,10 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Category 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16/Products/ProductManagement 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend/Orders 0 0'
-
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16/ 0 0'
 
     08-Group8-73:
-        group: 03-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -467,12 +467,11 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Category 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16/Products/ProductManagement 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Manufacturer 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend/Orders 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16/ 0 0'
 
     09-Group9-56:
-        group: 03-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -489,11 +488,11 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16/Discounts/CouponVoucherMixCheckout 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16 0 0'
 
     09-Group9-73:
-        group: 03-tests
+        group: 04-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -510,8 +509,8 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16/Discounts/CouponVoucherMixCheckout 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16 0 0'
 
     slack:
         image: plugins/slack
