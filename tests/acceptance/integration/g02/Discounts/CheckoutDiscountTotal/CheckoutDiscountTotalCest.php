@@ -124,10 +124,6 @@ class CheckoutDiscountTotalCest
 		$I->wantTo('Delete discount');
 		$I->deleteDiscount($this->discountName);
 
-		$I = new DiscountSteps($scenario);
-		$I->wantTo('Delete discount');
-		$I->deleteDiscount($this->discountName);
-
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->ProductName);
