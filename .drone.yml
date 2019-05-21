@@ -238,7 +238,7 @@ pipeline:
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=06-Group3
+            - tests_suite=03-Group3
             - tests_db=group3
             - build_path=/drone/src/github.com/${DRONE_REPO}
             - output_append=-03-Group3-73
@@ -497,10 +497,10 @@ pipeline:
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
-            - tests_suite=22-Group9
+            - tests_suite=09-Group9
             - tests_db=group9
             - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-22-Group9-73
+            - output_append=-09-Group9-73
             - php_version=73
         commands:
             # Regular entry point
