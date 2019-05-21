@@ -792,8 +792,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
 				try
 				{
+					$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-				}catch (Exception $e)
+				}catch (\Exception $e)
 				{
 					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
 					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
@@ -817,7 +818,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				try
 				{
 					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-				}catch (Exception $e)
+				}catch (\Exception $e)
 				{
 					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
@@ -843,7 +844,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				try
 				{
 					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-				}catch (Exception $e)
+				}catch (\Exception $e)
 				{
 					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
