@@ -121,7 +121,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(UserManagerJoomla3Page::$address, $address);
 		$I->fillField(UserManagerJoomla3Page::$zipcode, $postalcode);
 		$I->fillField(UserManagerJoomla3Page::$city , $city);
-		$I->fillField(UserManagerJoomla3Page::$phone , $stringPhone);
+		$I->fillField(UserManagerJoomla3Page::$phone , QuotationManagerPage::$stringPhone);
 		$I->fillField(QuotationManagerPage::$email, $email);
 		$I->fillField(UserManagerJoomla3Page::$userName, $userName);
 		$I->fillField(UserManagerJoomla3Page::$newPassword , $passWord);

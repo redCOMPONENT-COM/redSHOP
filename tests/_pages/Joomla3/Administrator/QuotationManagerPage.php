@@ -87,7 +87,6 @@ class QuotationManagerPage extends AdminJ3Page
 	 */
 	public static $buttonSend = "Send";
 
-
 	//selector
 
 	/**
@@ -122,6 +121,12 @@ class QuotationManagerPage extends AdminJ3Page
 	 * since 2.1.2
 	 */
 	public static $email = '//input[@id="user_email"]';
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	public static $stringPhone = 'Hoang Hai';
 
 	/**
 	 * @var string

@@ -77,7 +77,6 @@ class QuotationCheckPhoneStringCest
 		$this->address         = $this->faker->streetAddress;
 		$this->postalcode      = $this->faker->numberBetween(9999,999999);
 		$this->city            = $this->faker->city;
-		$this->stringPhone     = $this->faker->name;
 		$this->username        = $this->faker->bothify('ManageUserAdministratorCest ?##?');
 		$this->passWord        = $this->faker->bothify('Password ?##?');
 	}
