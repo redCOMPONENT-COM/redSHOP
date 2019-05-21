@@ -213,9 +213,9 @@
 					<description><![CDATA[User info id]]></description>
 				</field>
 				<field name="user_id" transform="int" defaultValue="" isRequiredField="true" isPrimaryField="true">
-					<description><![CDATA[User_id]]></description>
+					<description><![CDATA[User id]]></description>
 				</field>
-				<field name="username" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+				<field name="username" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
 					<description><![CDATA[User name]]></description>
 				</field>
 				<field name="password" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
@@ -265,6 +265,9 @@
 				</field>
 				<field name="zipcode" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
 					<description><![CDATA[User zipcode]]></description>
+				</field>
+				<field name="webservice" transform="int" defaultValue="1" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[Check create user from webservice or not]]></description>
 				</field>
 				<description><![CDATA[web service create a new user]]></description>
 			</fields>

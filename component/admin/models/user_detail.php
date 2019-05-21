@@ -230,6 +230,12 @@ class RedshopModelUser_detail extends RedshopModel
 		else
 		{
 			$post['billisship'] = 1;
+
+			if (!empty($post['group']))
+			{
+				$post['groups'] = $post['group'];
+			}
+
 			$joomlauser         = RedshopHelperJoomla::updateJoomlaUser($post);
 
 			if (!$joomlauser)
