@@ -9,6 +9,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
+use AcceptanceTester\PayPalPluginManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductUpdateOnQuantitySteps;
 
@@ -119,6 +120,10 @@ class ProductUpdateOnQuantityCest
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
 			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+
+		$I = new PayPalPluginManagerJoomla3Steps($scenario);
+		$I->wantTo('Disable PayPal');
+		$I->disablePlugin('PayPal');
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
