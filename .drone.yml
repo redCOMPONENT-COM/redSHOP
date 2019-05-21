@@ -258,7 +258,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07 0 0'
 
     04-Group4-56:
-        group: 02-tests
+        group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -281,7 +281,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13 0 0'
 
     04-Group4-73:
-        group: 02-tests
+        group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -344,7 +344,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09 0 0'
 
     06-Group6-56:
-        group: 03-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -365,7 +365,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
 
     06-Group6-73:
-        group: 03-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -386,7 +386,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
 
     07-Group7-56:
-        group: 03-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -407,7 +407,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
 
     07-Group7-73:
-        group: 03-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -428,7 +428,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g13 0 0'
 
     08-Group8-56:
-        group: 04-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -449,7 +449,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16 0 0'
 
     08-Group8-73:
-        group: 04-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
         - tests_user=admin
@@ -471,7 +471,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g16 0 0'
 
     09-Group9-56:
-        group: 04-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -492,7 +492,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g16 0 0'
 
     09-Group9-73:
-        group: 04-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
