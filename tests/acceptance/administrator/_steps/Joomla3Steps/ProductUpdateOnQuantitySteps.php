@@ -93,7 +93,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 			}
 			catch(\Exception $e)
 			{
-
+				$I->click(AdminJ3Page:: $addToCart);
 			}
 		}
 		$I->click($menuItem);
