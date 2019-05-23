@@ -30,6 +30,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * @param   string $lastName Last Name of the User
      *
      * @return void
+     * @throws \Exception
      */
     public function addUser($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function = 'save')
     {
@@ -91,7 +92,17 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
         }
     }
 
-
+    /**
+     * @param $userName
+     * @param $password
+     * @param $email
+     * @param $group
+     * @param $shopperGroup
+     * @param $firstName
+     * @param $lastName
+     * @param $function
+     * @throws \Exception
+     */
     public function addUserMissing($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function)
     {
         $I = $this;
@@ -301,7 +312,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * Function to do the validation for different buttons on gift card views
      *
      * @param $buttonName
-     *
+     * @throws \Exception
      */
     public function checkButtons($buttonName)
     {
@@ -334,6 +345,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * @param   string $updatedName Updated Name of the User
      *
      * @return void
+     * @throws \Exception
      */
     public function editUser($firstName = 'Test', $updatedName = 'Updated Name')
     {
@@ -418,6 +430,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * @param   string $functionName Name of the function After Which search is being Called
      *
      * @return void
+     * @throws \Exception
      */
     public function searchUser($name, $functionName = 'filter')
     {
@@ -435,11 +448,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
      * @param   Boolean $deleteJoomlaUser Boolean Parameter to decide weather to delete Joomla! user as well
      * @param $name
      * @return void
-     */
-    /**
-     * @param $name
-     * @param bool $deleteJoomlaUser
      * @throws \Exception
+     *
      */
     public function deleteUser($name, $deleteJoomlaUser = true)
     {
