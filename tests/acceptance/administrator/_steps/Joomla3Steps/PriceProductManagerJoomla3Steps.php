@@ -28,11 +28,11 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addDiscountPrice($productName, $priceDiscount)
 	{
 		$I = $this;
-		$I->amOnPage(\PriceProductJoomla3Page::$URL);
+		$I->amOnPage(PriceProductJoomla3Page::$URL);
 		$I->searchProduct($productName);
 		$I->wait(5);
-		$I->fillField(\PriceProductJoomla3Page::$discount, $priceDiscount);
-		$I->click(\PriceProductJoomla3Page::$saveButton);
+		$I->fillField(PriceProductJoomla3Page::$discount, $priceDiscount);
+		$I->click(PriceProductJoomla3Page::$saveButton);
 	}
 
 //    public function addDiscountPriceMoreThan($productName, $priceDiscountThan)
@@ -66,8 +66,9 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->wantTo('Search the Product');
-		$I->amOnPage(\PriceProductJoomla3Page::$URL);
-		$I->see(\PriceProductJoomla3Page::$namePage, \PriceProductJoomla3Page::$headPage);
+		$I->amOnPage(PriceProductJoomla3Page::$URL);
+		$I->waitForText(PriceProductJoomla3Page::$namePage, 30, PriceProductJoomla3Page::$headPage);
+		$I->see(PriceProductJoomla3Page::$namePage);
 		$I->filterListBySearchingProductPrice($productName);
 	}
 
@@ -97,7 +98,7 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.2
 	 */
-	public function addPriceProduct($productName, $productPrice, $quantityStart, $quantityEnd, $priceDiscount, $startDate, $endDate){
+	public function addPriceProduct($productName, $productPrice, $quantityStart, $quantityEnd, $priceDiscount, $startDate, $endDate, $text = true){
 		$I = $this;
 		$I->wantToTest("Add price product");
 		$I->amOnPage(PriceProductJoomla3Page::$URL);
@@ -105,28 +106,36 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText($productName, 30);
 		$I->see($productName);
 		$I->click($productName);
-		$I->waitForElement(PriceProductJoomla3Page::$buttonAddPrice, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$buttonAddPrice, 30);
 		$I->click(PriceProductJoomla3Page::$buttonAddPrice);
-		$I->waitForText(PriceProductJoomla3Page::$titlePrice, 30,PriceProductJoomla3Page::$h1);
+		$I->waitForText(PriceProductJoomla3Page::$titlePrice, 30, PriceProductJoomla3Page::$h1);
 		$I->click(PriceProductJoomla3Page::$buttonNew);
-		$I->waitForElement(PriceProductJoomla3Page::$selectOption, 30);
-		$I->click(\PriceProductJoomla3Page::$selectOption);
-		$I->fillField(PriceProductJoomla3Page::$search, \PriceProductJoomla3Page::$defaultPrivate);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$selectOption, 30);
+		$I->click(PriceProductJoomla3Page::$selectOption);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$search, 30);
+		$I->fillField(PriceProductJoomla3Page::$search, PriceProductJoomla3Page::$defaultPrivate);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$chooseDefaultPrivate, 30);
 		$I->click(PriceProductJoomla3Page::$chooseDefaultPrivate);
-		$I->waitForElement(PriceProductJoomla3Page::$productPrice, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$productPrice, 30);
 		$I->fillField(PriceProductJoomla3Page::$productPrice, $productPrice);
-		$I->waitForElement(PriceProductJoomla3Page::$quantityStart, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$quantityStart, 30);
 		$I->fillField(PriceProductJoomla3Page::$quantityStart, $quantityStart);
-		$I->waitForElement(PriceProductJoomla3Page::$quantityEnd, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$quantityEnd, 30);
 		$I->fillField(PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
-		$I->waitForElement(PriceProductJoomla3Page::$discountPrice, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$discountPrice, 30);
 		$I->fillField(PriceProductJoomla3Page::$discountPrice, $priceDiscount);
-		$I->waitForElement(PriceProductJoomla3Page::$startDate, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$startDate, 30);
 		$I->fillField(PriceProductJoomla3Page::$startDate, $startDate);
-		$I->waitForElement(PriceProductJoomla3Page::$endDate, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$endDate, 30);
 		$I->addValueForField(PriceProductJoomla3Page::$endDate, $endDate, 10);
 		$I->click(PriceProductJoomla3Page::$buttonSaveClose);
-		$I->waitForText(PriceProductJoomla3Page::$messageQuantity, 30, PriceProductJoomla3Page::$idInstallSuccess);
+		if($text){
+			$I->waitForText(PriceProductJoomla3Page::$messagePrice,30, PriceProductJoomla3Page::$idInstallSuccess);
+		}
+		else{
+			$I->waitForText(PriceProductJoomla3Page::$messageQuantity, 30, PriceProductJoomla3Page::$idInstallSuccess);
+		}
+
 	}
 
 	/**
@@ -140,9 +149,9 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage('/');
 		$I->waitForText(PriceProductJoomla3Page::$logInForm, 30);
 		$I->see(PriceProductJoomla3Page::$logInForm);
-		$I->waitForElement(PriceProductJoomla3Page::$userName, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$userName, 30);
 		$I->fillField(PriceProductJoomla3Page::$userName, $userName);
-		$I->waitForElement(PriceProductJoomla3Page::$passWord, 30);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$passWord, 30);
 		$I->fillField(PriceProductJoomla3Page::$passWord, $passWord);
 		$I->click(PriceProductJoomla3Page::$buttonSubmit);
 	}

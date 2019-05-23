@@ -115,7 +115,7 @@ class PriceProductJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $messagePrice = 'Price detail saved.';
+	public static $messagePrice = 'Price detail saved';
 
 	/**
 	 * @var string
