@@ -16,7 +16,7 @@ use UserManagerJoomla3Page as UserManagerJoomla3Page;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since    1.4
+ * @since    2.1.2
  */
 class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
@@ -40,7 +40,6 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\QuotationManagerPage::$userSearch, 30);
 		$I->fillField(\QuotationManagerPage::$userSearch, $nameUser);
 		$I->waitForElement($userQuotationPage->xPathSearch($nameUser), 30);
-
 		$I->click($userQuotationPage->xPathSearch($nameUser));
 		$I->scrollTo(QuotationManagerPage::$newProductLink);
 		$I->click(QuotationManagerPage::$productId);
@@ -49,7 +48,6 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userQuotationPage->xPathSearch($nameProduct), 60);
 		$I->click($userQuotationPage->xPathSearch($nameProduct));
 		$I->fillField(QuotationManagerPage::$quanlityFirst, $quantity);
-
 		$I->click(QuotationManagerPage::$buttonSave);
 		try{
 			$I->waitForText(QuotationManagerPage::$messageSaveSuccess,5, QuotationManagerPage::$selectorSuccess);
@@ -60,6 +58,11 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 	}
 
+	/**
+	 * @param $newQuantity
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
 	public function editQuotation($newQuantity)
 	{
 		$I = $this;
@@ -73,6 +76,11 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeInField(QuotationManagerPage::$quantityp1, $newQuantity);
 	}
 
+	/**
+	 * @param $status
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
 	public function editStatus($status)
 	{
 		$I = $this;
@@ -90,6 +98,9 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText($status, 30, QuotationManagerPage::$quotationStatus);
 	}
 
+	/**
+	 * sine 2.1.2
+	 */
 	public function deleteQuotation()
 	{
 		$I = $this;
