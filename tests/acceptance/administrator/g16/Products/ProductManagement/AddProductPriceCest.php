@@ -7,6 +7,7 @@
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\PriceProductManagerJoomla3Steps;
@@ -150,6 +151,90 @@ class PriceProductCest
 	protected $shippingRate;
 
 	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $addCart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $allowPreOrder;
+
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	protected $cartTimeOut;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $enabledAjax;
+
+	/**
+	 * @var null
+	 * @since 2.1.2
+	 */
+	protected $defaultCart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $buttonCartLead;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $onePage;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $showShippingCart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $attributeImage;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $quantityChange;
+
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	protected $quantityInCart;
+
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	protected $minimumOrder;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $enableQuation;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $onePageYes;
+
+	/**
 	 * PriceProductCest constructor.
 	 * @throws Exception
 	 * @since 2.1.2
@@ -176,7 +261,21 @@ class PriceProductCest
 		$this->endDate = "2019-05-31";
 		$this->showPriceYes = 'Yes';
 		$this->shippingRate = "DKK 0,00";
-		$this->total = 'DKK 150,00';
+		$this->total = 'DKK 120,00';
+		$this->addCart = 'product';
+		$this->allowPreOrder = 'yes';
+		$this->cartTimeOut = $this->faker->numberBetween(100, 10000);
+		$this->enabledAjax = 'no';
+		$this->defaultCart = null;
+		$this->buttonCartLead = 'Back to current view';
+		$this->onePage  = 'yes';
+		$this->showShippingCart = 'no';
+		$this->attributeImage = 'no';
+		$this->quantityChange = 'no';
+		$this->quantityInCart = 0;
+		$this->minimumOrder = 0;
+		$this->enableQuation  = 'no';
+		$this->onePageYes  = 'yes';
 	}
 
 	/**
@@ -197,23 +296,27 @@ class PriceProductCest
 	 */
 	public function addProductPrice(AcceptanceTester $I, $scenario)
 	{
-		$I->wantToTest("Add new user");
+		$I->wantTo('Setup up one step checkout at admin');
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addCart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabledAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimumOrder);
+
+		$I->wantTo("Add new user");
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 
-		$I->wantToTest('Create new category');
+		$I->wantTo('Create new category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySaveClose($this->categoryName);
 
-		$I->wantToTest('Create new product');
+		$I->wantTo('Create new product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->priceDefault);
 
-		$I->wantToTest('Add product price in product detail');
+		$I->wantTo('Add product price in product detail');
 		$I = new PriceProductManagerJoomla3Steps($scenario);
 		$I->addPriceProduct($this->productName, $this->productPrice, $this->quantityStart, $this->quantityEnd, $this->priceDiscount, $this->startDate, $this->endDate);
 
-		$I->wantToTest('Check out product');
+		$I->wantTo('Check out product');
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutOnePageWithLogin($this->userName, $this->password, $this->productName, $this->categoryName, $this->shippingRate, $this->total);
 
