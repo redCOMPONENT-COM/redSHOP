@@ -357,9 +357,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->wait(0.5);
 		try{
-            $I->waitForElement(\GiftCardCheckoutPage::$selectorSuccess, 30);
-            $I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 30, \GiftCardCheckoutPage::$selectorSuccess);
+			$I->waitForElement(\GiftCardCheckoutPage::$selectorSuccess, 30);
+			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 30, \GiftCardCheckoutPage::$selectorSuccess);
 		}catch (\Exception $e)
 		{
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
