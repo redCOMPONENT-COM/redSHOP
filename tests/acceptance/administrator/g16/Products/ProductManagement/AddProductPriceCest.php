@@ -261,7 +261,7 @@ class PriceProductCest
 		$this->endDate = "2019-05-31";
 		$this->showPriceYes = 'Yes';
 		$this->shippingRate = "DKK 0,00";
-		$this->total = 'DKK 120,00';
+		$this->total = "DKK 120,00";
 		$this->addCart = 'product';
 		$this->allowPreOrder = 'yes';
 		$this->cartTimeOut = $this->faker->numberBetween(100, 10000);
