@@ -131,3 +131,4 @@ class CheckoutDiscountTotalCest
 		$I->deleteCategory($this->CategoryName);
 	}
 }
+
