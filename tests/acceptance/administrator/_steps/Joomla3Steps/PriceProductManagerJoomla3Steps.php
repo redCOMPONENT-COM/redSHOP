@@ -98,7 +98,8 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.2
 	 */
-	public function addPriceProduct($productName, $productPrice, $quantityStart, $quantityEnd, $priceDiscount, $startDate, $endDate, $text = true){
+	public function addPriceProduct($productName, $productPrice, $quantityStart, $quantityEnd, $priceDiscount, $startDate, $endDate, $text = true)
+	{
 		$I = $this;
 		$I->wantToTest("Add price product");
 		$I->amOnPage(PriceProductJoomla3Page::$URL);
@@ -109,6 +110,7 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(PriceProductJoomla3Page::$buttonAddPrice, 30);
 		$I->click(PriceProductJoomla3Page::$buttonAddPrice);
 		$I->waitForText(PriceProductJoomla3Page::$titlePrice, 30, PriceProductJoomla3Page::$h1);
+		$I->see(PriceProductJoomla3Page::$titlePrice);
 		$I->click(PriceProductJoomla3Page::$buttonNew);
 		$I->waitForElementVisible(PriceProductJoomla3Page::$selectOption, 30);
 		$I->click(PriceProductJoomla3Page::$selectOption);
@@ -129,65 +131,13 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(PriceProductJoomla3Page::$endDate, 30);
 		$I->addValueForField(PriceProductJoomla3Page::$endDate, $endDate, 10);
 		$I->click(PriceProductJoomla3Page::$buttonSaveClose);
-		if($text){
+		if($text)
+		{
 			$I->waitForText(PriceProductJoomla3Page::$messagePrice,30, PriceProductJoomla3Page::$idInstallSuccess);
 		}
-		else{
+		else
+		{
 			$I->waitForText(PriceProductJoomla3Page::$messageQuantity, 30, PriceProductJoomla3Page::$idInstallSuccess);
 		}
-
-	}
-
-	/**
-	 * @param $userName
-	 * @param $passWord
-	 * @throws \Exception
-	 * @since 2.1.2
-	 */
-	public function loginUserOnFrontEnd($userName, $passWord){
-		$I = $this;
-		$I->amOnPage('/');
-		$I->waitForText(PriceProductJoomla3Page::$logInForm, 30);
-		$I->see(PriceProductJoomla3Page::$logInForm);
-		$I->waitForElementVisible(PriceProductJoomla3Page::$userName, 30);
-		$I->fillField(PriceProductJoomla3Page::$userName, $userName);
-		$I->waitForElementVisible(PriceProductJoomla3Page::$passWord, 30);
-		$I->fillField(PriceProductJoomla3Page::$passWord, $passWord);
-		$I->click(PriceProductJoomla3Page::$buttonSubmit);
-	}
-	/**
-	 * @param $productName
-	 * @param $scenario
-	 * @param $categoryName
-	 * @param $showPriceYes
-	 * @param $priceDefault
-	 * @throws \Exception
-	 * @since 2.1.2
-	 */
-	public function showProductOnFrontEndAndAddToCart($productName, $scenario, $categoryName, $showPriceYes, $priceDefault){
-		$I = $this;
-		$I->wantToTest('Show product on front-end and add to cart 3 times');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->productFrontend($categoryName, $productName, $showPriceYes, $priceDefault);
-		$I->waitForText($productName, 30);
-		$I->see($productName);
-		$I->click(PriceProductJoomla3Page::$buttonAddToCart);
-		$I->waitForText(PriceProductJoomla3Page::$alertSuccessMessage, 30, PriceProductJoomla3Page::$idInstallSuccess);
-		$I->click(PriceProductJoomla3Page::$buttonAddToCart);
-		$I->waitForText(PriceProductJoomla3Page::$alertSuccessMessage, 30, PriceProductJoomla3Page::$idInstallSuccess);
-		$I->click(PriceProductJoomla3Page::$buttonAddToCart);
-		$I->waitForText(PriceProductJoomla3Page::$alertSuccessMessage, 30, PriceProductJoomla3Page::$idInstallSuccess);
-	}
-
-	/**
-	 * @throws \Exception
-	 * @since 2.1.2
-	 */
-	public function showProductOnMyShoppingCart(){
-		$I = $this;
-		$I->wantToTest('Show product on my shopping cart');
-		$I->amOnPage(PriceProductJoomla3Page::$cartPageUrL);
-		$I->waitForText(PriceProductJoomla3Page::$shoppingCart, 30);
-		$I->see(PriceProductJoomla3Page::$shoppingCart);
 	}
 }

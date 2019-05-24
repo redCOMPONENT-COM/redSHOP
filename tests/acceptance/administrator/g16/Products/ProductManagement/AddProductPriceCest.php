@@ -9,6 +9,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
+use AcceptanceTester\PriceProductManagerJoomla3Steps;
 use Faker\Factory;
 use Faker\Generator;
 /**
@@ -137,6 +138,18 @@ class PriceProductCest
 	protected $showPriceYes;
 
 	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $total;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $shippingRate;
+
+	/**
 	 * PriceProductCest constructor.
 	 * @throws Exception
 	 * @since 2.1.2
@@ -148,7 +161,7 @@ class PriceProductCest
 		$this->password = $this->faker->bothify('password##');
 		$this->email = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
-		$this->group = 'Manager';
+		$this->group = 'Super Users';
 		$this->firstName = $this->faker->bothify('First name ?##?');
 		$this->lastName = $this->faker->bothify('Last name ?##?');
 		$this->categoryName = $this->faker->bothify("Category ?##?");
@@ -162,6 +175,8 @@ class PriceProductCest
 		$this->startDate;
 		$this->endDate = "2019-05-31";
 		$this->showPriceYes = 'Yes';
+		$this->shippingRate = "DKK 0,00";
+		$this->total = 'DKK 150,00';
 	}
 
 	/**
@@ -183,32 +198,24 @@ class PriceProductCest
 	public function addProductPrice(AcceptanceTester $I, $scenario)
 	{
 		$I->wantToTest("Add new user");
-		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 
 		$I->wantToTest('Create new category');
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySaveClose($this->categoryName);
 
 		$I->wantToTest('Create new product');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->priceDefault);
 
 		$I->wantToTest('Add product price in product detail');
-		$I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
+		$I = new PriceProductManagerJoomla3Steps($scenario);
 		$I->addPriceProduct($this->productName, $this->productPrice, $this->quantityStart, $this->quantityEnd, $this->priceDiscount, $this->startDate, $this->endDate);
 
-		$I->wantToTest('Login User in Front-end');
-		$I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
-		$I->loginUserOnFrontEnd($this->userName, $this->password);
-
-		$I->wantToTest('Show product in Front-end and add to cart');
-		$I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
-		$I->showProductOnFrontEndAndAddToCart($this->productName, $scenario, $this->categoryName, $this->showPriceYes, $this->priceDefault);
-
-		$I->wantToTest('Show product on my Shopping Cart');
-		$I = new AcceptanceTester\PriceProductManagerJoomla3Steps($scenario);
-		$I->showProductOnMyShoppingCart();
+		$I->wantToTest('Check out product');
+		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutOnePageWithLogin($this->userName, $this->password, $this->productName, $this->categoryName, $this->shippingRate, $this->total);
 
 		$I->wantTo('Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);
@@ -220,6 +227,6 @@ class PriceProductCest
 
 		$I->wantTo('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->userName);
+		$I->deleteUser($this->userName, false);
 	}
 }

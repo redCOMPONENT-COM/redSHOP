@@ -147,39 +147,4 @@ class PriceProductJoomla3Page extends AdminJ3Page
 	 */
 	public static $chooseDefaultPrivate = "//li[@class='select2-results-dept-0 select2-result select2-result-selectable select2-highlighted']";
 
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $buttonAddToCart = "//span[@class='pdaddtocart_link btn btn-primary']";
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $shoppingCart = 'Shopping Cart';
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $logInForm = 'Login Form';
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $buttonSubmit = "//button[@name='Submit']";
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $userName = '#modlgn-username';
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $passWord = '#modlgn-passwd';
 }
