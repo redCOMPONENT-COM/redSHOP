@@ -66,7 +66,7 @@ class QuotationCheckPhoneStringCest
 
 	/**
 	 * Function to Test Quotation Creation in Backend
-	 *
+	 * since 2.1.2
 	 */
 	public function __construct()
 	{
@@ -84,6 +84,7 @@ class QuotationCheckPhoneStringCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
+	 * since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -93,6 +94,7 @@ class QuotationCheckPhoneStringCest
 	/**
 	 * @param \AcceptanceTester\QuotationManagerJoomla3Steps $I
 	 * @throws \Codeception\Exception\ModuleException
+	 * since 2.1.2
 	 */
 	public function checkStringPhone(\AcceptanceTester\QuotationManagerJoomla3Steps $I)
 	{

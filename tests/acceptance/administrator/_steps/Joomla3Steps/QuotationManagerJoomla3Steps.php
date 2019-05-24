@@ -22,7 +22,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 	/**
 	 * Function to add a New Quotation
-	 *
+	 * since 2.1.2
 	 * @return void
 	 */
 	public function addQuotation($nameUser, $nameProduct, $quantity)
