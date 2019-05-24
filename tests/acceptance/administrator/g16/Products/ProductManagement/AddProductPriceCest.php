@@ -148,12 +148,6 @@ class PriceProductCest
 	 * @var string
 	 * @since 2.1.2
 	 */
-	protected $shippingRate;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
 	protected $addCart;
 
 	/**
@@ -260,8 +254,7 @@ class PriceProductCest
 		$this->startDate;
 		$this->endDate = "2019-05-31";
 		$this->showPriceYes = 'Yes';
-		$this->shippingRate = "DKK 0,00";
-		$this->total = "DKK 120,00";
+		$this->total = "DKK 80,00";
 		$this->addCart = 'product';
 		$this->allowPreOrder = 'yes';
 		$this->cartTimeOut = $this->faker->numberBetween(100, 10000);
@@ -314,11 +307,12 @@ class PriceProductCest
 
 		$I->wantTo('Add product price in product detail');
 		$I = new PriceProductManagerJoomla3Steps($scenario);
+		$I->addDiscountPrice($this->productName, $this->priceDiscount);
 		$I->addPriceProduct($this->productName, $this->productPrice, $this->quantityStart, $this->quantityEnd, $this->priceDiscount, $this->startDate, $this->endDate);
 
 		$I->wantTo('Check out product');
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutOnePageWithLogin($this->userName, $this->password, $this->productName, $this->categoryName, $this->shippingRate, $this->total);
+		$I = new PriceProductManagerJoomla3Steps($scenario);
+		$I->checkoutOneStep($this->userName, $this->password, $this->productName, $this->categoryName, $this->total);
 
 		$I->wantTo('Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);
@@ -330,6 +324,6 @@ class PriceProductCest
 
 		$I->wantTo('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->userName, false);
+		$I->deleteUser($this->firstName, false);
 	}
 }
