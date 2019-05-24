@@ -100,6 +100,6 @@ class QuotationCheckPhoneStringCest
 	public function checkStringPhone(\AcceptanceTester\QuotationManagerJoomla3Steps $I)
 	{
 		$I->wantTo('test string phone number');
-		$I->checkPhoneNumber($this->firstname, $this->lastName, $this->address, $this->postalCode, $this->city, $this->stringPhone, $this->email, $this->username, $this->passWord, $this->passWord );
+		$I->checkPhoneNumber($this->firstname, $this->lastName, $this->address, $this->postalCode, $this->city, $this->stringPhone, $this->email, $this->username, $this->passWord);
 	}
 }
