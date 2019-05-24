@@ -267,4 +267,3 @@ class CouponCheckoutMixCheckoutCest
 		$I->deleteCategory($this->categoryName);
 	}
 }
-
