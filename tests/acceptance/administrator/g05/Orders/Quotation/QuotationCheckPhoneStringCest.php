@@ -42,12 +42,6 @@ class QuotationCheckPhoneStringCest
 	protected $city;
 
 	/**
-	 * @var
-	 * since 2.1.2
-	 */
-	protected $stringPhone;
-
-	/**
 	 * @var string
 	 * since 2.1.2
 	 */
