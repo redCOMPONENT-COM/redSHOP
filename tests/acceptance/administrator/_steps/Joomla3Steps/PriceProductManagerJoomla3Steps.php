@@ -144,17 +144,17 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $categoryName
 	 * @param $total
 	 * @throws \Exception
+	 * @since 2.1.2
 	 */
-	public function checkoutOneStep($userName, $password, $productName, $categoryName, $total)
+	public function checkoutOneStepWithDiscountPrice($userName, $password, $productName, $categoryName, $total)
 	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $password);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click($categoryName);
+		$I->waitForElement(PriceProductJoomla3Page::$box, 30);
+		$I->click($productName);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCart, 10);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText(GiftCardCheckoutPage::$alertSuccessMessage, 60, GiftCardCheckoutPage::$selectorSuccess);
@@ -168,6 +168,7 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);

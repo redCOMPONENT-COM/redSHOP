@@ -147,4 +147,10 @@ class PriceProductJoomla3Page extends AdminJ3Page
 	 */
 	public static $chooseDefaultPrivate = "//li[@class='select2-results-dept-0 select2-result select2-result-selectable select2-highlighted']";
 
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $box = "//div[@class='category_box_wrapper row grid']";
+
 }

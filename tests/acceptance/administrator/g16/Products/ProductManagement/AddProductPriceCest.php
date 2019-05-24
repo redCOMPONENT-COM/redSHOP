@@ -312,7 +312,7 @@ class PriceProductCest
 
 		$I->wantTo('Check out product');
 		$I = new PriceProductManagerJoomla3Steps($scenario);
-		$I->checkoutOneStep($this->userName, $this->password, $this->productName, $this->categoryName, $this->total);
+		$I->checkoutOneStepWithDiscountPrice($this->userName, $this->password, $this->productName, $this->categoryName, $this->total);
 
 		$I->wantTo('Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);
