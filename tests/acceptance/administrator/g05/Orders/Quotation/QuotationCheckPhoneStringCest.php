@@ -33,13 +33,19 @@ class QuotationCheckPhoneStringCest
 	 * @var
 	 * since 2.1.2
 	 */
-	protected $postalcode;
+	protected $postalCode;
 
 	/**
 	 * @var
 	 * since 2.1.2
 	 */
 	protected $city;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $stringPhone;
 
 	/**
 	 * @var string
@@ -69,8 +75,9 @@ class QuotationCheckPhoneStringCest
 		$this->firstname        = $this->faker->bothify('ManageUserAdministratorCest ?##?');
 		$this->lastName        = 'Last';
 		$this->address         = $this->faker->streetAddress;
-		$this->postalcode      = $this->faker->numberBetween(9999,999999);
+		$this->postalCode      = $this->faker->numberBetween(9999,999999);
 		$this->city            = $this->faker->city;
+		$this->stringPhone     = 'enter string phone number';
 		$this->username        = $this->faker->bothify('ManageUserAdministratorCest ?##?');
 		$this->passWord        = $this->faker->bothify('Password ?##?');
 	}
@@ -93,6 +100,6 @@ class QuotationCheckPhoneStringCest
 	public function checkStringPhone(\AcceptanceTester\QuotationManagerJoomla3Steps $I)
 	{
 		$I->wantTo('test string phone number');
-		$I->checkPhoneNumber($this->firstname, $this->lastName, $this->address, $this->postalcode, $this->city, $this->email, $this->username, $this->passWord, $this->passWord );
+		$I->checkPhoneNumber($this->firstname, $this->lastName, $this->address, $this->postalCode, $this->city, $this->stringPhone, $this->email, $this->username, $this->passWord, $this->passWord );
 	}
 }

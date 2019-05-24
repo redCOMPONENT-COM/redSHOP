@@ -126,12 +126,6 @@ class QuotationManagerPage extends AdminJ3Page
 	 * @var string
 	 * since 2.1.2
 	 */
-	public static $stringPhone = 'enter string phone number';
-
-	/**
-	 * @var string
-	 * since 2.1.2
-	 */
 	public static $enterPhoneNumber = 'Please enter phone number';
 
 	/**

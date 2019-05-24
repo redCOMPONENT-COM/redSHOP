@@ -113,7 +113,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $firstname
 	 * @param $lastName
 	 * @param $address
-	 * @param $postalcode
+	 * @param $postalCode
 	 * @param $city
 	 * @param $stringPhone
 	 * @param $email
@@ -122,7 +122,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Codeception\Exception\ModuleException
 	 * since 2.1.2
 	 */
-	public function checkPhoneNumber($firstname, $lastName, $address, $postalcode, $city, $stringPhone, $email, $userName, $passWord)
+	public function checkPhoneNumber($firstname, $lastName, $address, $postalCode, $city, $stringPhone, $email, $userName, $passWord)
 	{
 		$I = $this;
 		$I->amOnPage(QuotationManagerPage::$URL);
@@ -130,9 +130,9 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(UserManagerJoomla3Page::$firstName, $firstname);
 		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
 		$I->fillField(UserManagerJoomla3Page::$address, $address);
-		$I->fillField(UserManagerJoomla3Page::$zipcode, $postalcode);
+		$I->fillField(UserManagerJoomla3Page::$zipcode, $postalCode);
 		$I->fillField(UserManagerJoomla3Page::$city , $city);
-		$I->fillField(UserManagerJoomla3Page::$phone , QuotationManagerPage::$stringPhone);
+		$I->fillField(UserManagerJoomla3Page::$phone , $stringPhone);
 		$I->fillField(QuotationManagerPage::$email, $email);
 		$I->fillField(UserManagerJoomla3Page::$userName, $userName);
 		$I->fillField(UserManagerJoomla3Page::$newPassword , $passWord);
