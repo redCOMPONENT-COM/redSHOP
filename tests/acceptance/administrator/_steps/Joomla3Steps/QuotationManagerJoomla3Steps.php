@@ -61,7 +61,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
         $I->click(QuotationManagerPage::$buttonSave);
         try{
-            $I->waitForText(QuotationManagerPage::$messageSaveSuccess,5, QuotationManagerPage::$selectorSuccess);
+            $I->waitForText(QuotationManagerPage::$messageSaveSuccess,10, QuotationManagerPage::$selectorSuccess);
         }catch (\Exception $e)
         {
             $I->click(QuotationManagerPage::$buttonSave);
