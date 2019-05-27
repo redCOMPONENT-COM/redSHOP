@@ -347,6 +347,10 @@ class RedshopHelperProductPrice
 		if (Redshop::getConfig()->getBool('SHOW_PRICE'))
 		{
 			$priceExcludingVat        = $priceText;
+			if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
+			{
+				$row->product_on_sale = 0;
+			}
 			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);
 			$oldPriceExcludeVat       = $productPriceExcludingVat;
 

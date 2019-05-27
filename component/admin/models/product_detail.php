@@ -1577,6 +1577,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$new_img   = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
 					$old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
 					$mediaName = RedshopHelperMedia::cleanFileName($new_img);
+
+					if ($pdata->product_full_image == $old_img)
+					{
+						$mediaName = $new_product_full_image;
+					}
+
 					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaName;
 					copy($old_media, $new_media);
 
@@ -1589,6 +1595,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$data['media_type']           = $mediadata[$j]->media_type;
 					$data['media_mimetype']       = $mediadata[$j]->media_mimetype;
 					$data['published']            = $mediadata[$j]->published;
+					$data['ordering']             = $mediadata[$j]->ordering;
 
 					if (!$rowmedia->bind($data))
 					{
