@@ -1586,6 +1586,15 @@ class rsCarthelper
 			$cart['cart_discount'] = $discountAmount;
 		}
 
+		//Unset voucher when discount type = 2 and add product by cart.
+		if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+		{
+			if (count($cart['voucher']) > 1)
+			{
+				unset($cart['voucher'][1]);
+			}
+		}
+
 		// Calculate voucher discount
 		$voucherDiscount = 0;
 
@@ -1638,7 +1647,7 @@ class rsCarthelper
 			}
 			else
 			{
-				if (!empty($cart['coupon'][0]['coupon_value']))
+				if (!empty($cart['coupon'][0]['coupon_value']) && !Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
 				{
 					$couponDiscount = $cart['coupon'][0]['coupon_value'];
 				}
