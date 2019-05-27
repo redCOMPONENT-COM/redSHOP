@@ -55,6 +55,9 @@ pipeline:
             - mv gulp-config.sample.json gulp-config.json
             - npm install
             - gulp release --skip-version
+            - cd tests/releases/modules/site/
+            - ls
+            - cd ../../../../..
             - cd ../../..
 
             # Test setup
