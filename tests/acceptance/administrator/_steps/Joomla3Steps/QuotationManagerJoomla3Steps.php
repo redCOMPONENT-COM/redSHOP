@@ -107,3 +107,4 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(QuotationManagerPage::$buttonDelete);
     }
 }
+
