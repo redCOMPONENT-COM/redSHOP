@@ -888,7 +888,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
 		}catch (\Exception $e)
 		{
-			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		}
 
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
