@@ -47,18 +47,13 @@ class RedshopControllerPrices_detail extends RedshopController
 	 */
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-		$type = 'error';
-
-		$productId          = $this->input->getInt('product_id');
-		$priceQuantityStart = $this->input->getInt('price_quantity_start');
-		$priceQuantityEnd   = $this->input->getInt('price_quantity_end');
-
+		$post                     = $this->input->post->getArray();
+		$type                     = 'error';
+		$productId                = $this->input->getInt('product_id');
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate']            = time();
-
-		$cid               = $this->input->post->get('cid', array(0), 'array');
-		$post ['price_id'] = $cid [0];
+		$cid                      = $this->input->post->get('cid', array(0), 'array');
+		$post ['price_id']        = $cid [0];
 
 		$this->handleDateTimeRange($post['discount_start_date'], $post['discount_end_date']);
 
@@ -110,7 +105,7 @@ class RedshopControllerPrices_detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */  $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY');
