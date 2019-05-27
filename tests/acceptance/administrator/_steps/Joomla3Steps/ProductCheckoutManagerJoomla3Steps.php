@@ -516,6 +516,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
