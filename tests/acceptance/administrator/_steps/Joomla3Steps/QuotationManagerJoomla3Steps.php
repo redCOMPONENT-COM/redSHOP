@@ -7,7 +7,6 @@
  */
 
 namespace AcceptanceTester;
-use ImageOptimizer\Exception\Exception;
 use QuotationManagerPage as QuotationManagerPage;
 /**
  * Class QuotationManagerJoomla3Steps
