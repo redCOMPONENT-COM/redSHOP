@@ -71,7 +71,6 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			}
 		}
 
-
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
