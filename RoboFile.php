@@ -101,7 +101,7 @@ class RoboFile extends \Robo\Tasks
 		}
 
 		$version = 'master';
-		$this->_exec("git clone --recursive -b $version --single-branch git@gitlab.redhost.dk:trangnguyen/redshop-paid-extensions.git tests/extension/paid-extensions");
+		$this->_exec("git clone --recursive -b $version --single-branch https://gitlab.redhost.dk/redshop-extensions/redshop-paid-extensions.git tests/extension/paid-extensions");
 
 		$this->say("paid-extensions ($version) cloned at tests/extension/");
 	}
