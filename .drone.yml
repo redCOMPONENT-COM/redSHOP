@@ -49,16 +49,13 @@ pipeline:
             # Codeception setup
             - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
 
-            # clone Paid Extensions
-            - vendor/bin/robo tests:paid-extensions-for-integration-tests
-            - cd tests/extension/paid-extensions
-            - mv gulp-config.sample.json gulp-config.json
-            - npm install
-            - gulp release --skip-version
-            - cd tests/releases/modules/site/
-            - ls
-            - cd ../../../../..
-            - cd ../../..
+#            # clone Paid Extensions
+#            - vendor/bin/robo tests:paid-extensions-for-integration-tests
+#            - cd tests/extension/paid-extensions
+#            - mv gulp-config.sample.json gulp-config.json
+#            - npm install
+#            - gulp release --skip-version
+#            - cd ../../..
 
             # Test setup
             # - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
@@ -94,6 +91,15 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs the setup and installation routine
+
+            # clone Paid Extensions
+            - vendor/bin/robo tests:paid-extensions-for-integration-tests
+            - cd tests/extension/paid-extensions
+            - mv gulp-config.sample.json gulp-config.json
+            - npm install
+            - gulp release --skip-version
+            - cd ../../..
+            
             - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
