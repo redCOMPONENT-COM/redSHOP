@@ -45,6 +45,17 @@ pipeline:
 
             - mv gulp-config.json.dist gulp-config.json
             - gulp release --skip-version
+
+            # clone Paid Extensions
+            - vendor/bin/robo tests:paid-extensions-for-integration-tests 1 1
+            - cd tests/extension/
+            - ls
+            - cd paid-extensions
+            - mv gulp-config.sample.json gulp-config.json
+            - npm install
+            - gulp release --skip-version
+            - cd ../../..
+
             # Codeception setup
             - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
             # Test setup
@@ -114,13 +125,6 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
-            - vendor/bin/robo tests:paid-extensions-for-integration-tests 1 1
-            - cd tests/extension/
-            - ls
-            - cd paid-extensions
-            - mv gulp-config.sample.json gulp-config.json
-            - npm install
-            - gulp release --skip-version
 
     01-Uninstall-56:
         group: 01-tests
