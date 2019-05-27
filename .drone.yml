@@ -47,7 +47,7 @@ pipeline:
             - gulp release --skip-version
 
             # clone Paid Extensions
-            - vendor/bin/robo tests:paid-extensions-for-integration-tests 1 1
+            - vendor/bin/robo tests:paid-extensions-for-integration-tests
             - cd tests/extension/
             - ls
             - cd paid-extensions
