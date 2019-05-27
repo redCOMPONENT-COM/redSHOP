@@ -46,16 +46,6 @@ pipeline:
             - mv gulp-config.json.dist gulp-config.json
             - gulp release --skip-version
 
-            # clone Paid Extensions
-            - vendor/bin/robo tests:paid-extensions-for-integration-tests
-            - cd tests/extension/
-            - ls
-            - cd paid-extensions
-            - mv gulp-config.sample.json gulp-config.json
-            - npm install
-            - gulp release --skip-version
-            - cd ../../..
-
             # Codeception setup
             - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
             # Test setup
@@ -92,6 +82,17 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs the setup and installation routine
+
+        # clone Paid Extensions
+            - vendor/bin/robo tests:paid-extensions-for-integration-tests
+            - cd tests/extension/
+            - ls
+            - cd paid-extensions
+            - mv gulp-config.sample.json gulp-config.json
+            - npm install
+            - gulp release --skip-version
+            - cd ../../..
+
             - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
