@@ -169,4 +169,8 @@ class ShippingPage extends AdminJ3Page
      */
     public static $scrollDown = "window.scrollTo(200,2000)";
 
+    /**
+     * @var string
+     */
+    public static $editShipping = "//a[@title='Edit Shipping']";
 }

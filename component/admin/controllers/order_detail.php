@@ -303,7 +303,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		?>
         <script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
+            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>";
 
             window.close()
         </script>
@@ -332,7 +332,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		?>
         <script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>'
+            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>";
 
             window.close()
         </script>
