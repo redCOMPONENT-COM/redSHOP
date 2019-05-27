@@ -61,6 +61,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			}
 			catch (\Exception $e)
 			{
+				$I->click($usePage->attributeDropdown(1));
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$attributeSearchFirst, $attribute['attributeName']);
 				$I->wait(0.5);
 				$I->pressKey(\FrontEndProductManagerJoomla3Page::$attributeSearchFirst, \Facebook\WebDriver\WebDriverKeys::ENTER);
