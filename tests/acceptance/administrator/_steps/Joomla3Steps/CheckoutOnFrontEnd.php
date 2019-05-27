@@ -95,4 +95,3 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->doFrontendLogout();
 	}
 }
-
