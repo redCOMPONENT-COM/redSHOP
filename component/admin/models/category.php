@@ -297,16 +297,16 @@ class RedshopModelCategory extends RedshopModelForm
 			/** @var RedshopEntityCategory $medias */
 			$medias = RedshopEntityCategory::getInstance($copyData[$i]->id)->getMedia();
 
-			foreach ($medias->getAll() as $media)
+			foreach ($medias->/** @scrutinizer ignore-call */ getAll() as $media)
 			{
 				/** @var RedshopEntityMedia $media */
 				if ($media->get('scope') == 'full')
 				{
-					$this->storeMediaCopy($copyData[$i]->id, $post['id'], $media, 'full');
+					$this->/** @scrutinizer ignore-call */ storeMediaCopy($copyData[$i]->id, $post['id'], $media, 'full');
 				}
 				elseif ($media->get('scope') == 'back')
 				{
-					$this->storeMediaCopy($copyData[$i]->id, $post['id'], $media, 'back');
+					$this->/** @scrutinizer ignore-call */ storeMediaCopy($copyData[$i]->id, $post['id'], $media, 'back');
 				}
 			}
 
