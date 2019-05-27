@@ -81,8 +81,6 @@ pipeline:
             - mysql -u root -proot -h db -e "CREATE DATABASE $tests_db$php_version"
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs the setup and installation routine
-
             # clone Paid Extensions
             - vendor/bin/robo tests:paid-extensions-for-integration-tests
             - cd tests/extension/paid-extensions
@@ -90,7 +88,7 @@ pipeline:
             - npm install
             - gulp release --skip-version
             - cd ../../..
-
+            # Performs the setup and installation routine
             - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
