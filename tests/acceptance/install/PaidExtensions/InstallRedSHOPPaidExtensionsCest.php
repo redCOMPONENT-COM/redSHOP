@@ -44,7 +44,7 @@ class InstallRedSHOPPaidExtensionsCest
 		$I->amOnPage(\AdminJ3Page::$installURL);
 		$I->waitForElement(\AdminJ3Page::$link, 30);
 		$I->click(\AdminJ3Page::$link);
-		$path = $I->getConfig( $this->extensionPath) .'tests/extension/paid-extensions/tests/releases/modules/site/'.$this->packageModules;
+		$path = $I->getConfig( $this->extensionPath) .'paid-extensions/tests/releases/modules/site/'.$this->packageModules;
 		$I->wantToTest($path);
 		$I->comment($path);
 		try {
@@ -72,7 +72,7 @@ class InstallRedSHOPPaidExtensionsCest
 		$I->amOnPage(\AdminJ3Page::$installURL);
 		$I->waitForElement(\AdminJ3Page::$link, 30);
 		$I->click(\AdminJ3Page::$link);
-		$path = $I->getConfig( $this->extensionPath) .'tests/extension/paid-extensions/tests/releases/plugins/'.$this->packagePlugin;
+		$path = $I->getConfig( $this->extensionPath) .'paid-extensions/tests/releases/plugins/'.$this->packagePlugin;
 		$I->wantToTest($path);
 		$I->comment($path);
 		try {
