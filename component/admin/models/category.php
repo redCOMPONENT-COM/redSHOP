@@ -292,28 +292,6 @@ class RedshopModelCategory extends RedshopModelForm
 			$post['level']                 = $copyData[$i]->level;
 			$post['product_filter_params'] = $copyData[$i]->product_filter_params;
 
-			if (!empty($copyData[$i]->category_thumb_image))
-			{
-				$post['category_thumb_image'] = $this->renameToUniqueValue(
-					'category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category'
-				);
-			}
-
-			if (!empty($copyData[$i]->category_full_image))
-			{
-				$post['category_full_image'] = $this->renameToUniqueValue(
-					'category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category'
-				);
-
-				$src  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
-
-				if (JFile::exists($src))
-				{
-					JFile::copy($src, $dest);
-				}
-			}
-
 			$this->/** @scrutinizer ignore-call */ save($post);
 
 			/** @var RedshopEntityCategory $medias */
