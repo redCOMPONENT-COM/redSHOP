@@ -368,10 +368,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($productName);
 		if (isset($discount['allow']))
 		{
-			if ($discount['allow'] == ConfigurationPage::$discountVoucherCoupon
-				|| $discount['allow'] == ConfigurationPage::$discountAndVoucherOrCoupon
-				|| $discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle
-			)
+			if ($discount['allow'] == ConfigurationPage::$discountVoucherCoupon)
 			{
 				if ($applyDiscount == 'couponCode')
 				{
@@ -454,6 +451,46 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 				}
 			}
+			else if($discount['allow'] == ConfigurationPage::$discountVoucherSingleCouponSingle ||
+				$discount['allow'] == ConfigurationPage::$discountAndVoucherOrCoupon)
+			{
+				if ($applyDiscount == 'couponCode')
+				{
+					$I->comment('Apply 1 coupon and 1 voucher');
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfo['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfo['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfo['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfoSecond['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfoSecond['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+				}
+				else
+				{
+					$I->comment('Apply 1 voucher and 1 coupon');
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['voucherCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfo['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfo['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfo['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+					$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount['couponCode']);
+					$I->click(\GiftCardCheckoutPage::$couponButton);
+					$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
+					$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
+					$I->see($orderInfoSecond['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
+					$I->see($orderInfoSecond['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
+				}
+			}
 			else
 			{
 				$I->wantToTest('Just apply discount with one coupon and multi voucher');
@@ -512,7 +549,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(1);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail,30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
@@ -543,6 +580,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->doFrontendLogout();
 	}
 
 	/**
@@ -605,7 +644,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->wait(1);
+		try
+		{
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10,\FrontEndProductManagerJoomla3Page::$selectorMessage);
+		}catch (\Exception $addToCart)
+		{
+			$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		}
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 //		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -628,7 +674,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}catch (\Exception $e)
 		{
 			$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-			$I->waitForText($ShippingRate, 5, \FrontEndProductManagerJoomla3Page::$shippingRate);
+			$I->waitForText($ShippingRate, 60, \FrontEndProductManagerJoomla3Page::$shippingRate);
 		}
 
 		$I->waitForText($Total, 10, \FrontEndProductManagerJoomla3Page::$priceEnd);
@@ -924,7 +970,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 
 		try{
-			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
+			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
 		}catch (\Exception $e)
 		{
 			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
@@ -987,7 +1033,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 
 		try {
-			$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+			$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		} catch (\Exception $e) {
 			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		}

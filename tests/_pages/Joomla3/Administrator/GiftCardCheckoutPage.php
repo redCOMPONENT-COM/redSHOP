@@ -54,7 +54,7 @@ class GiftCardCheckoutPage extends AdminJ3Page
     /**
      * @var string
      */
-	public static $messageInvalid = "The discount code is invalid";
+	public static $messageInvalid = "The discount code is not valid";
 
 
 
