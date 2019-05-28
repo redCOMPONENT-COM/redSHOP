@@ -63,6 +63,12 @@ else
 	$template_desc .= "<div class=\"product_related_products\">{related_product:related_products}</div>\r\n</div>\r\n</div>\r\n";
 	$template_desc .= "<div id=\"produkt_anmeldelser\">\r\n{product_rating}</div>\r\n</div>\r\n</div>";
 }
+
+//Replace Product price when config enable discount is "No"
+if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
+{
+	$template_desc = str_replace('{product_old_price}', '', $template_desc);
+}
 ?>
 
 <div class="product">
@@ -159,11 +165,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 			'&Itemid=' . $this->itemId
 		);
 
-		if (Redshop::getConfig()->getInt('DEFAULT_LINK_FIND') === 0)
+		if ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 0)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . $nextproducts->product_name . "" . Redshop::getConfig()->get('DAFULT_NEXT_LINK_SUFFIX') . '</a>';
 		}
-        elseif (Redshop::getConfig()->getInt('DEFAULT_LINK_FIND') == 1)
+    elseif ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 1)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . Redshop::getConfig()->get('CUSTOM_NEXT_LINK_FIND') . '</a>';
 		}
@@ -1572,7 +1578,7 @@ if (strstr($template_desc, "{product_rating_summary}"))
 
 if (strstr($template_desc, "{product_rating}"))
 {
-	if (Redshop::getConfig()->get('FAVOURED_REVIEWS') != "" || Redshop::getConfig()->getInt('FAVOURED_REVIEWS') !== 0)
+	if ((int) Redshop::getConfig()->get('FAVOURED_REVIEWS') !== 0)
 	{
 		$mainblock = Redshop::getConfig()->get('FAVOURED_REVIEWS');
 	}
