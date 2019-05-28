@@ -1015,4 +1015,30 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText($vatPrice, 30, \FrontEndProductManagerJoomla3Page::$priceVAT);
 		$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
+
+	/**
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $invalidVoucher
+	 * @param $mess
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function checkoutWithInvalidVoucher($productName, $categoryName, $invalidVoucher, $mess)
+	{
+		$I = $this;
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->fillField(\GiftCardCheckoutPage::$couponInput,$invalidVoucher);
+		$I->click(\GiftCardCheckoutPage::$couponButton);
+		$I->waitForText($mess);
+		$I->see($mess);
+	}
 }
