@@ -178,4 +178,3 @@ class ProductVatCheckoutCest
 		$I->deleteCategory($this->categoryName);
 	}
 }
-
