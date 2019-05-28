@@ -189,6 +189,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10 0 0'
 
     02-Group2-73:
         group: 01-tests
@@ -213,6 +214,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g05 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g06 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g08 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g10 0 0'
 
     03-Group3-56:
         group: 01-tests
