@@ -99,6 +99,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+     * Funcution detele Quotation
 	 * sine 2.1.2
 	 */
 	public function deleteQuotation()

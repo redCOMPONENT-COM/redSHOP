@@ -832,6 +832,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->click($productID);
 			$I->dontSee(\ProductManagerPage::$addToCart);
 			$I->see($price);
-					}
+		}
 	}
 }
