@@ -29,10 +29,9 @@ class InstallRedSHOPPaidExtensionsCest
 		$this->packageModules = 'mod_fb_albums.zip';
 		$this->packagePlugin  = 'plg_acymailing_redshop.zip';
 		$this->extensionURL   = 'extension url';
-        $this->modulesURL     = 'paid-extensions/tests/releases/modules/site/';
-        $this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-
-    }
+		$this->modulesURL     = 'paid-extensions/tests/releases/modules/site/';
+		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
+	}
 
 	/**
 	 * Install Extension function
