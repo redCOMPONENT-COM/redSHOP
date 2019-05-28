@@ -5,6 +5,9 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use AcceptanceTester\QuotationManagerJoomla3Steps;
+
 /**
  * Class QuotationCheckPhoneStringCest
  * since 2.1.2
@@ -93,11 +96,11 @@ class QuotationCheckPhoneStringCest
 	}
 
 	/**
-	 * @param \AcceptanceTester\QuotationManagerJoomla3Steps $I
-	 * @throws \Codeception\Exception\ModuleException
+	 * @param AcceptanceTester $I
+	 * @throws Exception
 	 * since 2.1.2
 	 */
-	public function checkStringPhone(\AcceptanceTester\QuotationManagerJoomla3Steps $I)
+	public function checkStringPhone(QuotationManagerJoomla3Steps $I)
 	{
 		$I->wantTo('test string phone number');
 		$I->checkPhoneNumber($this->firstname, $this->lastName, $this->address, $this->postalCode, $this->city, $this->stringPhone, $this->email, $this->username, $this->passWord);
