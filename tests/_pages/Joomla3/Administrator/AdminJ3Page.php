@@ -102,6 +102,18 @@ abstract class AdminJ3Page
 
     /**
      * @var string
+     * @since 2.1.2
+     */
+    public static $messageInstallModuleSuccess = 'Installation of the module was successful.';
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $messageInstallPluginSuccess = 'Installation of the plugin was successful.';
+
+    /**
+     * @var string
      */
     public static $messageDemoContentSuccess = 'Data Installed Successfully';
 
