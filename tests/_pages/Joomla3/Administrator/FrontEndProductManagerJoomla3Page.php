@@ -343,11 +343,11 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 *
 	 * @param $position
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function attributeDropdown($position)
 	{
-		$xpath = "//span[@id='select2-chosen-'.$position.'']";
+		$xpath = "//span[@id='select2-chosen-$position']";
 
 		return $xpath;
 	}
