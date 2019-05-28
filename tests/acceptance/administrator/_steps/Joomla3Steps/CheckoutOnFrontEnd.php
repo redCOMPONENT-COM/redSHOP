@@ -55,6 +55,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			$I->pressKey(\FrontEndProductManagerJoomla3Page::$attributeSearchFirst, \Facebook\WebDriver\WebDriverKeys::ENTER);
 			$I->wait(0.5);
 			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+			$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 			try
 			{
