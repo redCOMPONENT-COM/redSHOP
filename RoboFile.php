@@ -152,7 +152,7 @@ class RoboFile extends \Robo\Tasks
 		// Executes the initial set up
 		$this->taskCodecept()
 			->args($args)
-			->arg('tests/acceptance/install')
+			->arg('tests/acceptance/install/core')
 			->run()
 			->stopOnFail();
 	}
