@@ -324,15 +324,30 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $idCompanyLastName = "//input[@id='company-lastname']";
 
 	/**
+	 * @var string
+	 */
+	public static $searchProductRedShop = "//div[@class='product_search']";
+
+	/**
+	 * @var string
+	 */
+	public static $inputSearchProductRedShop = "//input[@id='keyword']";
+
+	/**
+	 * @var string
+	 */
+	public static $buttonSearchProductRedShop = "//input[@id='Search']";
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function attributeDropdown($position)
 	{
-		$xpath = "//span[@id='select2-chosen-'.$position.'']";
+		$xpath = "//span[@id='select2-chosen-$position']";
 
 		return $xpath;
 	}

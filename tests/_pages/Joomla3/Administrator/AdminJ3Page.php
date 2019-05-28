@@ -21,6 +21,11 @@ abstract class AdminJ3Page
     public static $installURL = '/administrator/index.php?option=com_installer';
 
     /**
+     * @var string
+     */
+    public static $moduleURL = '/administrator/index.php?option=com_modules';
+
+    /**
      * @var array
      */
     public static $link = ['link' => 'Install from URL'];
@@ -405,6 +410,11 @@ abstract class AdminJ3Page
      * @var string
      */
     public static $bankTransferId = "rs_payment_banktransfer0";
+
+    /**
+     * @var string
+     */
+    public static $jqueryBankTransfer = "jQuery('#rs_payment_banktransfer0').click()";
 
     /**
      * @var string

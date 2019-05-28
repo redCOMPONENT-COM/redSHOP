@@ -18,7 +18,7 @@ $producthelper  = productHelper::getInstance();
             submitform(pressbutton);
             return;
         }
-        if (form.price_quantity_start.value > form.price_quantity_end.value)
+        if (parseFloat(form.price_quantity_start.value) > parseFloat(form.price_quantity_end.value))
         {
             alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START', true ); ?>");
             form.price_quantity_start.focus();
@@ -67,14 +67,14 @@ $producthelper  = productHelper::getInstance();
                     <td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?>
                         :
                     </td>
-                    <td><input class="text_area" type="text" name="price_quantity_start" id="price_quantity_start"
+                    <td><input class="text_area" type="number" name="price_quantity_start" id="price_quantity_start"
                                size="10" maxlength="10" value="<?php echo $this->detail->price_quantity_start; ?>"/>
                     </td>
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_QUANTITY_END_LBL'); ?>:
                     </td>
-                    <td><input class="text_area" type="text" name="price_quantity_end" id="price_quantity_end" size="10"
+                    <td><input class="text_area" type="number" name="price_quantity_end" id="price_quantity_end" size="10"
                                maxlength="20" value="<?php echo $this->detail->price_quantity_end; ?>"/></td>
                 </tr>
                 <tr>
