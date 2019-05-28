@@ -101,3 +101,4 @@ class MassDiscountCheckoutCest
 		$I->deleteCategory($this->CategoryName);
 	}
 }
+
