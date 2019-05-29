@@ -52,7 +52,7 @@ JText::script('COM_REDSHOP_ALERT_PRESELECTED_CHECK');
 JText::script('COM_REDSHOP_DESCRIPTION');
 ?>
 
-<div class="row-fluid mainTableAttributes" id="mainTableAttributes">
+<div class="mainTableAttributes form-inline" id="mainTableAttributes">
 <input type="hidden" value="<?php echo is_array($data->lists['attributes']) ? count($data->lists['attributes']) : 0 ; ?>" name="count_attr" class="count_attr"/>
 <?php
 if ($data->lists['attributes'])
