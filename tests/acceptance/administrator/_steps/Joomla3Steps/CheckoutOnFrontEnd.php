@@ -30,9 +30,19 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 	 *
 	 * @throws \Exception
 	 */
-	public function testProductAttributeWithVatCheckout($userName, $password, $productName, $categoryName, $subTotal, $vatPrice, $total, $attributes = array())
+	public function testProductAttributeWithVatCheckout($userName, $password, $productName, $categoryName, $price1, $price2, $total, $attributes = array())
 	{
 		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
 		$I->doFrontEndLogin($userName, $password);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
@@ -75,10 +85,26 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
+		$quantity1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
+		$quantity2 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity2);
+		if($quantity1%2 == 0 && $quantity2%2 != 0 || $quantity1%2 != 0 && $quantity2%2 == 0)
+		{
+			$total =$currencySymbol.((int)$quantity1*$price1 +$price2*(int)$quantity2).$decimalSeparator.$NumberZero;
+			$subTotal = (((int)$quantity1*$price1 +$price2*(int)$quantity2)*1.25);
+			$subTotal = $currencySymbol.(int)$subTotal .",50";
+			$vatPrice = (((int)$quantity1*$price1 +$price2*(int)$quantity2)*0.25);
+			$vatPrice = $currencySymbol.(int)$vatPrice.",50";
+		}else
+		{
+			$total =$currencySymbol.((int)$quantity1*$price1 +$price2*(int)$quantity2).$decimalSeparator.$NumberZero;
+			$subTotal = $currencySymbol. (((int)$quantity1*$price1 +$price2*(int)$quantity2)*1.25).$decimalSeparator.$NumberZero;
+			$vatPrice = $currencySymbol. (((int)$quantity1*$price1 +$price2*(int)$quantity2)*0.25).$decimalSeparator.$NumberZero;
+		}
+
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		try
 		{
-			$I->waitForText($total, 10);
+			$I->waitForText($total, 30);
 		} catch (\Exception $e)
 		{
 			$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
