@@ -47,11 +47,11 @@ class ProductAttributesVatCheckoutCest
 		$this->attributes           = array(
 			array(
 				'attributeName'  => $this->faker->bothify('AttributeValue ??###?'),
-				'attributePrice' => 10
+				'attributePrice' => 20
 			),
 			array(
 				'attributeName'  => $this->faker->bothify('AttributeValue ??###?'),
-				'attributePrice' => 30
+				'attributePrice' => 40
 			),
 		);
 
@@ -62,9 +62,9 @@ class ProductAttributesVatCheckoutCest
 		$this->calculationBase      = 'billing';
 		$this->requiVAT             = 'no';
 
-		$this->product1             = "110";
+		$this->product1             = "120";
 		$this->vatPrice             = "";
-		$this->product2             = "130";
+		$this->product2             = "140";
 		$this->group                = 'Registered';
 
 		//configuration enable one page checkout
