@@ -478,8 +478,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
 		$I->click(ProductManagerPage::$addAttribute);
 
-		$I->fillField($usePage->addAttributeName(1), $nameAttribute);
-		$I->attributeValueProperty(1, $valueAttribute,$priceAttribute);
+		$I->fillField($usePage->addAttributeName(0), $nameAttribute);
+		$I->attributeValueProperty(0, $valueAttribute,$priceAttribute);
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
@@ -516,11 +516,58 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wantToTest($length);
 		for($x = 0;  $x < $length; $x ++ )
 		{
-			$position = $x+1;
+			$position = $x;
 			$I->click(ProductManagerPage::$addAttribute);
 			$attribute  = $attributes[$x];
 			$I->fillField($usePage->addAttributeName($position), $attribute['name']);
 			$I->attributeValueProperty($position, $attribute['attributeName'], $attribute['attributePrice']);
+		}
+
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param       $productName
+	 * @param       $category
+	 * @param       $productNumber
+	 * @param       $price
+	 * @param       $nameParameter
+	 * @param array $attributes
+	 *
+	 * @throws \Exception
+	 */
+	public function productMultiAttributeValue($productName, $category, $productNumber, $price, $nameParameter, $attributes = array())
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->waitForElement(ProductManagerPage::$productPrice, 30);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+
+		$position = 0;
+		$I->click(ProductManagerPage::$addAttribute);
+		$I->fillField($usePage->addAttributeName($position), $nameParameter);
+		$length = count($attributes);
+		$I->wantToTest($length);
+		for($x = 0;  $x < $length; $x ++ )
+		{
+			$attribute  = $attributes[$x];
+			$I->waitForElement($usePage->attributeNameAttribute($position, $x),30);
+			$I->fillField($usePage->attributeNameAttribute($position, $x), $attribute["attributeName"]);
+			$I->waitForElement($usePage->attributePricePropertyAttribute($position, $x), 30);
+			$I->fillField($usePage->attributePricePropertyAttribute($position, $x), $attribute["attributePrice"]);
+			$I->click("+ Add Attribute value");
 		}
 
 		$I->click(ProductManagerPage::$buttonSave);
