@@ -730,7 +730,7 @@ class Cart
 					foreach ($rows as $row)
 					{
 						$productUserField = $row->name;
-						$addedUserField   = isset($data[$productUserField]) ?: '';
+						$addedUserField   = isset($data[$productUserField]) ? $data[$productUserField] : '';
 
 						if (isset($cart[$i][$productUserField]) && $addedUserField !== $cart[$i][$productUserField])
 						{
