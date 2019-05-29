@@ -340,6 +340,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+<<<<<<< HEAD
 	 * @since 2.2.0
 	 */
 	public static $locatorMessageEnterUser = "#onestep-createaccount-username-error";
@@ -473,6 +474,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 		$xpath = "#company-$name-error";
 		return $xpath;
 	}
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $quantity1 = "//tr[1]//td[4]//span[1]//label[1]";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $quantity2 = "//tr[2]//td[4]//span[1]//label[1]";
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
