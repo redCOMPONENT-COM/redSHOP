@@ -61,12 +61,14 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'mod_redshop_category_product_filters.zip',
-			), array(
+			),
+			array(
 				'package'  => 'mod_redshop_category_scroller.zip',
 			),
 			array(
 				'package'  => 'mod_redshop_currencies.zip',
-			), array(
+			),
+			array(
 				'package'  => 'mod_redshop_discount.zip',
 			),
 			array(
@@ -74,7 +76,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'mod_redshop_megamenu.zip',
-			), array(
+			),
+			array(
 				'package'  => 'mod_redshop_newsletter.zip',
 			),
 			array(
@@ -106,7 +109,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'mod_redshop_who_bought.zip',
-			), array(
+			),
+			array(
 				'package'  => 'mod_redshop_wishlist.zip',
 			),
 			array(
@@ -144,12 +148,14 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'plg_redshop_order_esms.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_redshop_payment_baokim.zip',
 			),
 			array(
 				'package'  => 'plg_redshop_payment_cielo.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_redshop_payment_dibsdx.zip',
 			),
 			array(
@@ -157,7 +163,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'plg_redshop_payment_ingenico.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_redshop_payment_mollieideal.zip',
 			),
 			array(
@@ -189,7 +196,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'plg_redshop_payment_rs_payment_authorize_dpm.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_redshop_payment_rs_payment_banktransfer_discount.zip',
 			),
 			array(
@@ -206,7 +214,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'plg_redshop_payment_rs_payment_dibspaymentmethod.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_redshop_payment_rs_payment_eantransfer.zip',
 			),
 			array(
@@ -223,7 +232,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'plg_redshop_payment_rs_payment_imglobal.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_redshop_payment_rs_payment_moneris.zip',
 			),
 			array(
@@ -303,7 +313,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'plg_redshop_product_postdanmark.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_redshop_product_product_alttext.zip',
 			),
 			array(
@@ -338,7 +349,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'plg_redshop_shipping_default_shipping_glsbusiness.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_redshop_shipping_fedex.zip',
 			),
 			array(
@@ -394,7 +406,8 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'plg_system_redshop_send_discountcode.zip',
-			), array(
+			),
+			array(
 				'package'  => 'plg_user_highrise.zip',
 			),
 			array(

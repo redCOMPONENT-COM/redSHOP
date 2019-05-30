@@ -207,7 +207,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text], 30);
 	}
-	
+
 	/**
 	 * @param $xpath
 	 * @param $value
@@ -280,6 +280,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I = $this;
 		$I->amOnPage(\AdminJ3Page::$installURL);
 		$I->waitForElement(\AdminJ3Page::$link, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$link, 30);
 		$I->click(\AdminJ3Page::$link);
 		$path = $I->getConfig($extensionURL) . $pathExtension. $package;
 		$I->wantToTest($path);
@@ -292,6 +293,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		}
 		$I->fillField(\AdminJ3Page::$urlID, $path);
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
 	}
 }
