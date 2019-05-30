@@ -168,6 +168,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$idUserNameOneStep);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
@@ -181,6 +182,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("firstname"));
@@ -208,6 +210,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCompanyName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("company_name"));
@@ -236,6 +239,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30,FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
 			}
@@ -269,6 +273,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
 			}
@@ -298,6 +303,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
 			}
@@ -340,6 +346,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
 			}
@@ -369,6 +376,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid,30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("email1"));
 			}
@@ -412,6 +420,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page:: locatorMessageCompany("email1"));
 			}
@@ -442,6 +451,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("phone"));
 			}
@@ -485,6 +495,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page:: locatorMessageCompany("phone"));
 			}
@@ -531,6 +542,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEAN, 30, FrontEndProductManagerJoomla3Page:: $locatorMessageEAN);
 			}
