@@ -128,6 +128,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(QuotationManagerPage::$URL);
 		$I->click(QuotationManagerPage::$buttonNew);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$firstName ,30);
 		$I->fillField(UserManagerJoomla3Page::$firstName, $firstname);
 		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
 		$I->fillField(UserManagerJoomla3Page::$address, $address);
