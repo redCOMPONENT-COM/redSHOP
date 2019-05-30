@@ -1,10 +1,15 @@
 <?php
 /**
- * @package     RedShop
+ * @package     RedSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\VoucherManagerJoomla3Steps;
 
 /**
  * Class ManageVoucherAdministratorCest
@@ -111,7 +116,7 @@ class CheckoutWithVoucherNotValidCest
 	 * @var string
 	 * since 2.1.2
 	 */
-	protected $mess;
+	protected $message;
 
 	/**
 	 * CheckoutWithVoucherNotValidCest constructor.
@@ -134,7 +139,7 @@ class CheckoutWithVoucherNotValidCest
 		$this->endDate = "2019-07-07";
 		$this->voucherCount = $this->faker->numberBetween(99, 999);
 		$this->invalidVoucher = $this->faker->bothify('invalidvoucher ?##?');
-		$this->mess = 'The discount code is not valid';
+		$this->message = 'The discount code is not valid';
 	}
 
 	/**
@@ -156,30 +161,30 @@ class CheckoutWithVoucherNotValidCest
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create category for use in Voucher test');
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 
 		$I->wantTo('Create product for use in Voucher test');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 		$I->wantTo('Create Voucher creation in Administrator');
-		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+		$I = new VoucherManagerJoomla3Steps($scenario);
 		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'save');
 
 		$I->wantTo('Test check out with invalid voucher');
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithInvalidVoucher($this->productName , $this->categoryName,$this->invalidVoucher, $this->mess);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutWithInvalidVoucher($this->productName , $this->categoryName,$this->invalidVoucher, $this->message);
 
 		$I->wantTo('Test delete Voucher in Administrator');
-		$I = new AcceptanceTester\VoucherManagerJoomla3Steps($scenario);
+		$I = new VoucherManagerJoomla3Steps($scenario);
 		$I->deleteAllVoucher($this->randomVoucherCode);
 
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
 		$I->deleteProduct($this->productName);
 
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->categoryName);
 	}

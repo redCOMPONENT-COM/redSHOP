@@ -1024,7 +1024,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * since 2.1.2
 	 */
-	public function checkoutWithInvalidVoucher($productName, $categoryName, $invalidVoucher, $mess)
+	public function checkoutWithInvalidVoucher($productName, $categoryName, $invalidVoucher, $message)
 	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -1038,7 +1038,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->fillField(\GiftCardCheckoutPage::$couponInput,$invalidVoucher);
 		$I->click(\GiftCardCheckoutPage::$couponButton);
-		$I->waitForText($mess);
-		$I->see($mess);
+		$I->waitForText($message);
+		$I->see($message);
 	}
 }
