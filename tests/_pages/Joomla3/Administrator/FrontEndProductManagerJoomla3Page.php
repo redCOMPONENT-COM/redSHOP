@@ -340,7 +340,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
-<<<<<<< HEAD
 	 * @since 2.2.0
 	 */
 	public static $locatorMessageEnterUser = "#onestep-createaccount-username-error";
