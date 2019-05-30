@@ -139,7 +139,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonSearchProductRedShop);
 
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10, FrontEndProductManagerJoomla3Page::$selectorMessage);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30, FrontEndProductManagerJoomla3Page::$selectorMessage);
 		$I->see(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, ModuleManagerJ3page::$selectorMessage);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
