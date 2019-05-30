@@ -113,16 +113,12 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 	}
 
 	/**
-	 * @param $productName
 	 * @param $categoryName
-	 * @param $customerInformation
-	 * @param $missing
-	 * @param $function
-	 *
+	 * @param $productName
 	 * @since 2.2.0
-	 * @throws \Exception
+	 * @throws Exception
 	 */
-	public function onePageCheckoutMissing($productName, $categoryName,$customerInformation, $missing, $function)
+	public function addToCart($categoryName,$productName)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -140,7 +136,23 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		}
+	}
+
+	/**
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $customerInformation
+	 * @param $missing
+	 * @param $function
+	 *
+	 * @since 2.2.0
+	 * @throws \Exception
+	 */
+	public function onePageCheckoutMissing($productName, $categoryName,$customerInformation, $missing, $function)
+	{
+		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->waitForElement(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 
@@ -154,6 +166,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$idUserNameOneStep);
@@ -166,7 +179,9 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			{
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
+
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("firstname"));
@@ -192,6 +207,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCompanyName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("company_name"));
@@ -218,6 +235,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30,FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
@@ -250,6 +268,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
 			}
@@ -307,6 +327,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
@@ -317,6 +338,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				}
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
@@ -346,6 +368,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid,30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("email1"));
 			}
@@ -376,6 +399,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
@@ -386,6 +410,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				}
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page:: locatorMessageCompany("email1"));
@@ -404,6 +429,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
@@ -414,6 +440,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				}
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("phone"));
@@ -445,6 +472,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
@@ -455,6 +483,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				}
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page:: locatorMessageCompany("phone"));
@@ -489,6 +518,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
@@ -500,6 +530,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->wait(0.5);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEAN, 30, FrontEndProductManagerJoomla3Page:: $locatorMessageEAN);
 			}

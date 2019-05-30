@@ -129,6 +129,7 @@ class OnePageCheckoutMissingDataCest
 		$I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 		$I = new CheckoutOnFrontEnd($scenario);
+		$I->addToCart($this->CategoryName, $this->ProductName );
 		$I->wantToTest('Check out with missing user');
 		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerInformation, 'user', $this->createAccount);
 		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerInformation, 'user', $this->private);
