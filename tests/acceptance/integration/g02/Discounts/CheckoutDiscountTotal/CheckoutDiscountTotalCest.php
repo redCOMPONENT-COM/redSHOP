@@ -79,7 +79,6 @@ class CheckoutDiscountTotalCest
 	 *
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
-	 *
 	 */
 	public function checkoutWithDiscountTotal(AcceptanceTester $I, $scenario)
 	{
