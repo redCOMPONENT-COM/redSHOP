@@ -79,7 +79,7 @@ abstract class RedshopHelperProduct_Attribute
 							|| ($attributeId && $attributeId !== $attribute->attribute_id)
 							|| ($published && $published !== $attribute->attribute_published)
 							|| ($published && $attributeSetId && $published !== $attribute->attribute_set_published)
-							|| ($attributeRequired && $attributeRequired !== $attribute->attribute_required))
+							|| ($attributeRequired && $attributeRequired !== (int) $attribute->attribute_required))
 						{
 							continue;
 						}

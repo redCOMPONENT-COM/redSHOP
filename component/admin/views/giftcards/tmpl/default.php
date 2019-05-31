@@ -17,6 +17,29 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 ?>
+<script>
+	Joomla.submitbutton = function (pressbutton) {
+		var form = document.adminForm;
+
+		if (pressbutton) {
+			form.task.value = pressbutton;
+		}
+
+		if (pressbutton === "giftcards.delete") {
+			if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM') ?>")) {
+				form.submit();
+			}
+			else {
+				form.view.value = "giftcards";
+				form.task.value = '';
+				return false;
+			}
+		}
+		;
+
+		form.submit();
+	};
+</script>
 <form
 	action="<?php echo JRoute::_('index.php?option=com_redshop&view=giftcards'); ?>"
 	method="post"

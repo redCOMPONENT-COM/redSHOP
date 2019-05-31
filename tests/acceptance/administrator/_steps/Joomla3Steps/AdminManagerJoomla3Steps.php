@@ -207,7 +207,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text], 30);
 	}
-	
+
 	/**
 	 * @param $xpath
 	 * @param $value
@@ -266,5 +266,34 @@ class AdminManagerJoomla3Steps extends Redshop
 			"jQuery('#$selectID').trigger('change'); return true;",
 			30
 		);
+	}
+
+	/**
+	 * @param $extensionURL
+	 * @param $pathExtension
+	 * @param $package
+	 * @since 2.1.2
+	 * @throws \Exception
+	 */
+	public function installExtensionPackageFromURL($extensionURL, $pathExtension,$package)
+	{
+		$I = $this;
+		$I->amOnPage(\AdminJ3Page::$installURL);
+		$I->waitForElement(\AdminJ3Page::$link, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$link, 30);
+		$I->click(\AdminJ3Page::$link);
+		$path = $I->getConfig($extensionURL) . $pathExtension. $package;
+		$I->wantToTest($path);
+		$I->comment($path);
+		try {
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		} catch (\Exception $e) {
+			$I->click(\AdminJ3Page::$link);
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		}
+		$I->fillField(\AdminJ3Page::$urlID, $path);
+		$I->waitForElement(\AdminJ3Page::$installButton, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
+		$I->click(\AdminJ3Page::$installButton);
 	}
 }

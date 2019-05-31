@@ -85,8 +85,16 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 
 		for( $a= 0; $a <$quantity; $a++)
 		{
+			$I->waitForElementVisible(AdminJ3Page::$addToCart, 30);
 			$I->click(AdminJ3Page:: $addToCart);
-			$I->waitForText(AdminJ3Page::$alertSuccessMessage,60);
+			try
+			{
+				$I->waitForText(AdminJ3Page::$alertSuccessMessage, 120, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+			}
+			catch(\Exception $e)
+			{
+				$I->click(AdminJ3Page:: $addToCart);
+			}
 		}
 		$I->click($menuItem);
 		$I->see($nameProduct);
@@ -103,19 +111,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		$I->wait(0.5);
-		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		$I->wait(0.5);
-		try
-		{
-			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		}catch (\Exception $e)
-		{
-			$I->executeJS(\FrontEndProductManagerJoomla3Page::$jqueryBankTransfer);
-			$I->wait(2);
-		}
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->waitForText($priceProduct, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
