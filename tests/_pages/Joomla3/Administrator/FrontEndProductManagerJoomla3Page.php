@@ -348,6 +348,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.2.0
 	 */
+	public static $enableCreateAccount = "jQuery('#createaccount').click()";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $shippingMethod = "//strong[contains(text(),'Shipping Method')]";
+
+	/**
+	 * @var string
+	 * @since 2.2.0
+	 */
 	public static $locatorMessagePassword = "#password1-error";
 
 	/**
@@ -485,12 +497,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $quantity2 = "//tr[2]//td[4]//span[1]//label[1]";
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $shippingMethod = "//strong[contains(text(),'Shipping Method')]";
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List

@@ -12,7 +12,7 @@ use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
 
 /**
  * Class OnePageCheckoutMissingDataCest
- * @since 2.2.0
+ * @since 2.1.2
  */
 class OnePageCheckoutMissingDataCest
 {
@@ -32,24 +32,11 @@ class OnePageCheckoutMissingDataCest
 		$this->randomProductNumber    = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice     = 100;
 
-		$this->business              = "business";
-		$this->private               = "private";
-		$this->createAccount         = "createAccount";
+		$this->business               = "business";
+		$this->private                = "private";
+		$this->createAccount          = "createAccount";
 
-		$this->userName        = $this->faker->bothify('OnePageCest ?####?');
-		$this->password        = $this->faker->bothify('Password ?##?');
-		$this->email           = $this->faker->email;
-		$this->shopperGroup    = 'Default Private';
-		$this->group           = 'Registered';
-		$this->firstName       = $this->faker->bothify('OnePageCest FN ?#####?');
-		$this->updateFirstName = 'Updating ' . $this->firstName;
-		$this->lastName        = 'Last';
-		$this->address         = '14 Phan Ton';
-		$this->zipcode         = 7000;
-		$this->city            = 'Ho Chi Minh';
-		$this->phone           = 010101010;
-
-		$this->customerInformation = array(
+		$this->customerInformation    = array(
 			"email"      => "test@test" . rand() . ".com",
 			"firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
@@ -96,10 +83,10 @@ class OnePageCheckoutMissingDataCest
 		$this->buttonCartLeadEdit = 'Back to current view';
 		$this->shippingWithVat    = "DKK 0,00";
 
-		$this->shippingMethod = 'redSHOP - Standard Shipping';
-		$this->shipping       = array(
-			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
-			'shippingRate' => 10
+		$this->shippingMethod     = 'redSHOP - Standard Shipping';
+		$this->shipping           = array(
+			'shippingName'        => $this->faker->bothify('TestingShippingRate ?##?'),
+			'shippingRate'        => 10
 		);
 	}
 
@@ -107,7 +94,7 @@ class OnePageCheckoutMissingDataCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 *
-	 * @since 2.2.0
+	 * @since 2.1.2
 	 * @throws Exception
 	 */
 	public function onePageCheckoutMissing(AcceptanceTester $I, $scenario)
@@ -131,54 +118,54 @@ class OnePageCheckoutMissingDataCest
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->addToCart($this->CategoryName, $this->ProductName );
 		$I->wantToTest('Check out with missing user');
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerInformation, 'user', $this->createAccount);
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerInformation, 'user', $this->private);
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerBussinesInformation,'user', $this->business);
+		$I->onePageCheckoutMissing($this->ProductName,$this->customerInformation, 'user', $this->createAccount);
+		$I->onePageCheckoutMissing($this->ProductName,$this->customerInformation, 'user', $this->private);
+		$I->onePageCheckoutMissing($this->ProductName, $this->customerBussinesInformation,'user', $this->business);
 
 		$I->wantToTest('Check out with missing click accept Terms');
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerInformation, 'acceptTerms', $this->private);
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerBussinesInformation, 'acceptTerms', $this->business);
+		$I->onePageCheckoutMissing($this->ProductName, $this->customerInformation, 'acceptTerms', $this->private);
+		$I->onePageCheckoutMissing($this->ProductName, $this->customerBussinesInformation, 'acceptTerms', $this->business);
 
 		$I->wantToTest('Check out with missing click payment');
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerInformation, 'payment', $this->private);
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerBussinesInformation, 'payment', $this->business);
+		$I->onePageCheckoutMissing($this->ProductName, $this->customerInformation, 'payment', $this->private);
+		$I->onePageCheckoutMissing($this->ProductName, $this->customerBussinesInformation, 'payment', $this->business);
 
 		$I->wantToTest('Check out with wrong address email');
 		$this->customerInformation['email'] = "test";
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerInformation, 'wrongEmail', $this->private);
+		$I->onePageCheckoutMissing($this->ProductName, $this->customerInformation, 'wrongEmail', $this->private);
 		$this->customerBussinesInformation['email'] = "test";
-		$I->onePageCheckoutMissing($this->ProductName, $this->CategoryName,$this->customerBussinesInformation, 'wrongEmail', $this->business);
+		$I->onePageCheckoutMissing($this->ProductName, $this->customerBussinesInformation, 'wrongEmail', $this->business);
 
 		$I->wantToTest('Check out with wrong phone number');
 		$this->customerInformation['phone'] = "test";
-		$I->onePageCheckoutMissing( $this->ProductName, $this->CategoryName, $this->customerInformation, 'wrongPhone', $this->private);
+		$I->onePageCheckoutMissing( $this->ProductName, $this->customerInformation, 'wrongPhone', $this->private);
 		$this->customerBussinesInformation['phone'] = "test";
-		$I->onePageCheckoutMissing( $this->ProductName, $this->CategoryName, $this->customerBussinesInformation, 'wrongPhone', $this->business);
+		$I->onePageCheckoutMissing( $this->ProductName, $this->customerBussinesInformation, 'wrongPhone', $this->business);
 
 		$I->wantToTest('Check out with wrong EAN Number');
 		$this->customerBussinesInformation['eanNumber'] = "test";
-		$I->onePageCheckoutMissing( $this->ProductName, $this->CategoryName, $this->customerBussinesInformation, 'wrongEAN', $this->business);
+		$I->onePageCheckoutMissing( $this->ProductName, $this->customerBussinesInformation, 'wrongEAN', $this->business);
 	}
 
 	/**
-	 * @param AcceptanceTester $I
+	 * @param ProductManagerJoomla3Steps $I
 	 * @param $scenario
 	 *
-	 * @since 2.2.0
+	 * @since 2.1.2
 	 * @throws Exception
 	 */
-	public function clearUpDatabase(AcceptanceTester $I, $scenario)
+	public function clearUpDatabase(ProductManagerJoomla3Steps $I, $scenario)
 	{
 		$I->doAdministratorLogin();
 		$I->wantTo('setup up one page checkout is no at admin');
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLeadEdit, $this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
 		$I->deleteProduct($this->ProductName);
 
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->CategoryName);
 	}

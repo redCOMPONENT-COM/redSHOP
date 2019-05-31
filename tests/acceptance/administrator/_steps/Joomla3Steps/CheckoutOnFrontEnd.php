@@ -140,15 +140,14 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 
 	/**
 	 * @param $productName
-	 * @param $categoryName
 	 * @param $customerInformation
 	 * @param $missing
 	 * @param $function
 	 *
-	 * @since 2.2.0
+	 * @since 2.1.2
 	 * @throws \Exception
 	 */
-	public function onePageCheckoutMissing($productName, $categoryName,$customerInformation, $missing, $function)
+	public function onePageCheckoutMissing($productName,$customerInformation, $missing, $function)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
@@ -162,7 +161,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			if ($function == 'createAccount')
 			{
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$idAddAccount, 30);
-				$I->executeJS("jQuery('#createaccount').click()");
+				$I->executeJS(FrontEndProductManagerJoomla3Page::$enableCreateAccount);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
@@ -210,8 +209,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-                $I->wait(0.5);
-                $I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCompanyName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("company_name"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("firstname"));
@@ -303,8 +302,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-                $I->wait(0.5);
-                $I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->wait(0.5);
+				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
 			}
 			if ($function == 'business') {
