@@ -363,7 +363,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
-				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+                $I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+                $I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
