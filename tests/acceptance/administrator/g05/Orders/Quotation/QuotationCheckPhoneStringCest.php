@@ -75,10 +75,10 @@ class QuotationCheckPhoneStringCest
 	{
 		$this->faker           = Faker\Factory::create();
 		$this->email           = $this->faker->email;
-		$this->firstname        = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->firstname       = $this->faker->bothify('ManageUserAdministratorCest ?##?');
 		$this->lastName        = 'Last';
 		$this->address         = $this->faker->streetAddress;
-		$this->postalCode      = $this->faker->numberBetween(9999,999999);
+		$this->postalCode      = $this->faker->numberBetween(9999, 999999);
 		$this->city            = $this->faker->city;
 		$this->stringPhone     = 'enter string phone number';
 		$this->username        = $this->faker->bothify('ManageUserAdministratorCest ?##?');
@@ -96,7 +96,7 @@ class QuotationCheckPhoneStringCest
 	}
 
 	/**
-	 * @param AcceptanceTester $I
+	 * @param QuotationManagerJoomla3Steps $I
 	 * @throws Exception
 	 * since 2.1.2
 	 */
