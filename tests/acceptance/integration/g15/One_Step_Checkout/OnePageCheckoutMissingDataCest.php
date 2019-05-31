@@ -115,36 +115,35 @@ class OnePageCheckoutMissingDataCest
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
 
-		$I = new CheckoutOnFrontEnd($scenario);
+		$I = new CheckoutMissingData($scenario);
 		$I->addToCart($this->CategoryName, $this->ProductName );
 		$I->wantToTest('Check out with missing user');
-		$I->onePageCheckoutMissing($this->ProductName,$this->customerInformation, 'user', $this->createAccount);
-		$I->onePageCheckoutMissing($this->ProductName,$this->customerInformation, 'user', $this->private);
-		$I->onePageCheckoutMissing($this->ProductName, $this->customerBussinesInformation,'user', $this->business);
+		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName,$this->customerInformation, 'user');
+		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation,'user');
 
 		$I->wantToTest('Check out with missing click accept Terms');
-		$I->onePageCheckoutMissing($this->ProductName, $this->customerInformation, 'acceptTerms', $this->private);
-		$I->onePageCheckoutMissing($this->ProductName, $this->customerBussinesInformation, 'acceptTerms', $this->business);
+		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'acceptTerms');
+		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'acceptTerms');
 
 		$I->wantToTest('Check out with missing click payment');
-		$I->onePageCheckoutMissing($this->ProductName, $this->customerInformation, 'payment', $this->private);
-		$I->onePageCheckoutMissing($this->ProductName, $this->customerBussinesInformation, 'payment', $this->business);
+		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'payment');
+		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'payment');
 
 		$I->wantToTest('Check out with wrong address email');
 		$this->customerInformation['email'] = "test";
-		$I->onePageCheckoutMissing($this->ProductName, $this->customerInformation, 'wrongEmail', $this->private);
+		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'wrongEmail');
 		$this->customerBussinesInformation['email'] = "test";
-		$I->onePageCheckoutMissing($this->ProductName, $this->customerBussinesInformation, 'wrongEmail', $this->business);
+		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'wrongEmail');
 
 		$I->wantToTest('Check out with wrong phone number');
 		$this->customerInformation['phone'] = "test";
-		$I->onePageCheckoutMissing( $this->ProductName, $this->customerInformation, 'wrongPhone', $this->private);
+		$I->onePageCheckoutMissingWithUserPrivate( $this->ProductName, $this->customerInformation, 'wrongPhone');
 		$this->customerBussinesInformation['phone'] = "test";
-		$I->onePageCheckoutMissing( $this->ProductName, $this->customerBussinesInformation, 'wrongPhone', $this->business);
+		$I->onePageCheckoutMissingWithUserBusiness( $this->ProductName, $this->customerBussinesInformation, 'wrongPhone');
 
 		$I->wantToTest('Check out with wrong EAN Number');
 		$this->customerBussinesInformation['eanNumber'] = "test";
-		$I->onePageCheckoutMissing( $this->ProductName, $this->customerBussinesInformation, 'wrongEAN', $this->business);
+		$I->onePageCheckoutMissingWithUserBusiness( $this->ProductName, $this->customerBussinesInformation, 'wrongEAN');
 	}
 
 	/**
