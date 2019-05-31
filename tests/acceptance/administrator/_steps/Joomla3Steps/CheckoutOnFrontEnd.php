@@ -164,6 +164,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->executeJS(FrontEndProductManagerJoomla3Page::$enableCreateAccount);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->wait(0.5);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
