@@ -18,6 +18,45 @@
 class CheckoutMissingData extends CheckoutOnFrontEnd
 {
 	/**
+	 * @param $customerInformation
+	 * @since 2.1.2
+	 * @throws \Exception
+	 */
+	private function fillInformationBusiness($customerInformation)
+	{
+		$I = $this;
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+	}
+
+	/**
+	 * @param $customerInformation
+	 * * @since 2.1.2
+	 * @throws \Exception
+	 */
+	private function fillInformationPrivate($customerInformation)
+	{
+		$I = $this;
+		$I->comment('checkout with private');
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+	}
+
+	/**
 	 * @param $productName
 	 * @param $customerInformation
 	 * @param $missing
@@ -67,16 +106,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 
 			case 'acceptTerms':
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->fillInformationBusiness($customerInformation);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -87,16 +117,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 
 			case 'payment':
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->fillInformationBusiness($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
@@ -116,16 +137,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 
 			case 'wrongEmail':
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->fillInformationBusiness($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
@@ -145,16 +157,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 
 			case 'wrongPhone':
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->fillInformationBusiness($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
@@ -174,16 +177,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 
 			case 'wrongEAN':
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
+				$I->fillInformationBusiness($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
@@ -236,15 +230,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 
 			case 'acceptTerms':
-				$I->comment('checkout with private');
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -255,14 +241,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 
 			case 'payment':
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->fillInformationPrivate($customerInformation);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
@@ -282,14 +261,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 
 			case 'wrongEmail':
 				$I->comment('checkout with private');
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
@@ -309,14 +281,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 
 			case 'wrongPhone':
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
