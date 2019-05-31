@@ -163,10 +163,10 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$idAddAccount, 30);
 				$I->executeJS(FrontEndProductManagerJoomla3Page::$enableCreateAccount);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idUserNameOneStep, 30);
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressPhone, 30);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressPhone, 30);
 				$I->wait(0.5);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-				$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
+				$I->scrollTo(FrontEndProductManagerJoomla3Page::$addressPhone);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -364,8 +364,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 				$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
-                $I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
-                $I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
