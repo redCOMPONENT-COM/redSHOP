@@ -91,7 +91,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
-	
+
 	/**
 	 * @param $nameUser
 	 * @throws \Exception
@@ -155,6 +155,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		$I->checkReview($nameProduct);
 		$I->see($nameProduct);
+		$I->waitForElementVisible(\ProductManagerPage::$addToCart, 30);
 		$I->click(\ProductManagerPage::$addToCart);
 		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
 		$I->see(\ProductManagerPage::$alertSuccessMessage, '.alert-message');
