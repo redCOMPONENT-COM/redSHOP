@@ -178,8 +178,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			if ($function == 'private')
 			{
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
+				$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -206,8 +206,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				}
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
+				$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
