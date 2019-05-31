@@ -78,6 +78,35 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
+	 * Downloads Paid Extensions for Integration Testing testing
+	 *
+	 * @param   integer  $cleanUp  Clean up the directory when present (or skip the cloning process)
+	 *
+	 * @return  void
+	 * @since   2.1.2
+	 */
+	public function testsPaidExtensionsForIntegrationTests($cleanUp = 1)
+	{
+		// Delete any previous core
+		if (is_dir('tests/extension/paid-extensions'))
+		{
+			if (!$cleanUp)
+			{
+				$this->say('Using cached version of Aesir Core and skipping clone process');
+
+				return;
+			}
+
+			$this->taskDeleteDir('tests/extension/paid-extensions')->run();
+		}
+
+		$version = 'master';
+		$this->_exec("git clone --recursive -b $version --single-branch https://REDWEB_QA_TOKEN:aXpne9NyZmDVt2R5cxjY@gitlab.redhost.dk/redshop-extensions/redshop-paid-extensions tests/extension/paid-extensions");
+
+		$this->say("paid-extensions ($version) cloned at tests/extension/");
+	}
+
+	/**
 	 * Tests setup
 	 *
 	 * @param   boolean  $debug         Add debug to the parameters
@@ -123,7 +152,7 @@ class RoboFile extends \Robo\Tasks
 		// Executes the initial set up
 		$this->taskCodecept()
 			->args($args)
-			->arg('tests/acceptance/install')
+			->arg('tests/acceptance/install/core')
 			->run()
 			->stopOnFail();
 	}
