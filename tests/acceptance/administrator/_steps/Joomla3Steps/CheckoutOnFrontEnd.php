@@ -115,7 +115,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 	/**
 	 * @param $categoryName
 	 * @param $productName
-	 * @since 2.2.0
+	 * @since 2.1.0
 	 * @throws Exception
 	 */
 	public function addToCart($categoryName,$productName)
