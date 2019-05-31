@@ -140,10 +140,10 @@ class OnePageCheckoutMissingDataCest
 		$I->wantToTest('Check out with wrong phone number');
 		$this->customerInformation['phone'] = "test";
 		$I->onePageCheckoutMissingWithUserPrivate( $this->ProductName, $this->customerInformation, 'wrongPhone');
-		$this->customerBussinesInformation['phone'] = "8787878787";
+		$this->customerInformation['phone'] = "test";
 		$I->onePageCheckoutMissingWithUserBusiness( $this->ProductName, $this->customerBussinesInformation, 'wrongPhone');
-		$this->customerInformation['phone'] = "";
 		$this->customerBussinesInformation['phone'] = "8787878787";
+		$this->customerInformation['phone'] = "8787878787";
 
 		$I->wantToTest('Check out with wrong EAN Number');
 		$this->customerBussinesInformation['eanNumber'] = "test";
