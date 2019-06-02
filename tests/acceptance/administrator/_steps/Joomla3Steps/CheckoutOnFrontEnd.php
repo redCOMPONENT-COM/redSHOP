@@ -16,7 +16,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
  * @since    2.1.0
- */class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
+ */
+class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 {
 	/**
 	 * @param             $userName
@@ -110,5 +111,31 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->seeElement(['link' => $productName]);
 		$I->doFrontendLogout();
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @since 2.1.0
+	 * @throws Exception
+	 */
+	public function addToCart($categoryName,$productName)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+
+		try{
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		}
 	}
 }
