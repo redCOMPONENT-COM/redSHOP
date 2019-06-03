@@ -13,7 +13,7 @@
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since    2.1.0
+ * @since    2.1.2
  */
 class CheckoutMissingData extends CheckoutOnFrontEnd
 {
