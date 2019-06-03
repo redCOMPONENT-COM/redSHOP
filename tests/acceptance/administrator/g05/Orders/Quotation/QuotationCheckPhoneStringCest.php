@@ -75,13 +75,13 @@ class QuotationCheckPhoneStringCest
 	{
 		$this->faker           = Faker\Factory::create();
 		$this->email           = $this->faker->email;
-		$this->firstname       = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->firstname       = $this->faker->bothify('ManageUserAdministrator ?##?');
 		$this->lastName        = 'Last';
 		$this->address         = $this->faker->streetAddress;
 		$this->postalCode      = $this->faker->numberBetween(9999, 999999);
 		$this->city            = $this->faker->city;
 		$this->stringPhone     = 'enter string phone number';
-		$this->username        = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->username        = $this->faker->bothify('ManageUserAdministrator ?##?');
 		$this->passWord        = $this->faker->bothify('Password ?##?');
 	}
 
