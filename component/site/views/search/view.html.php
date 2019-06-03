@@ -39,11 +39,14 @@ class RedshopViewSearch extends RedshopView
 			$Itemid       = $app->input->getInt('Itemid', 0);
 			$cntproduct   = $app->input->getInt('cnt', 0);
 			$getredfilter = $session->get('redfilter');
-			$redfilter = $getredfilter;
 
 			if (empty($getredfilter))
 			{
 				$redfilter = array();
+			}
+			else
+			{
+				$redfilter = $getredfilter;
 			}
 
 			if ($tagid != 0 && $typeid != 0 && !array_key_exists($typeid, $redfilter))
