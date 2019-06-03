@@ -21,7 +21,6 @@
 		function renderProperty(propPref, gh, sh, or) {
 			return '<input type="hidden" value="0" name="' + propPref + '[count_subprop]" class="count_subprop" />'
 			+ '<input type="hidden" value="' + sh + '" name="' + propPref + '[key_prop]" class="key_prop" />'
-<<<<<<< HEAD
 
 			+ '<a class="btn btn-success add_property btn-small">+ ' + Joomla.JText._('COM_REDSHOP_ADD_SUB_ATTRIBUTE') + '</a>'
 			+ '<a href="#" class="showhidearrow">' + Joomla.JText._('COM_REDSHOP_SUB_ATTRIBUTE') + ': <span class="propertyName"></span><img class="arrowimg" src="' + redSHOP.RSConfig._('SITE_URL') + 'media/com_redshop/images/arrow.png" alt=""/></a>'
@@ -107,33 +106,6 @@
 
 			// divInspectFromHideShow
 			+ '</div>';
-=======
-			+ '<div class="row-fluid"><div class="row-fluid">'
-			+ '<div class="span1"><a href="#" class="showhidearrow">'
-			+ '<img class="arrowimg" src="media/com_redshop/images/arrow.png" alt="" />'
-			+ Joomla.JText._('COM_REDSHOP_SUB_ATTRIBUTE') + '</a></div>'
-			+ '<div class="span2"><input type="text" class="input-small" name="' + propPref + '[name]" value=""><input type="hidden"  name="attribute[' + gh + '][property][' + sh + '][mainImage]" value="" id="propmainImage' + gh + sh + '"><input type="hidden" name="attribute[' + gh + '][property][' + sh + '][property_image]" id="propertyImageName' + gh + sh + '" /></div>'
-			+ '<div class="span2">' + Joomla.JText._('COM_REDSHOP_ORDERING') + ' <input type="text" class="text-center input-xmini" name="' + propPref + '[order]" value="' + or + '"></div>'
-			+ '<div class="span2"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_DEFAULT_SELECTED') + ' <input type="checkbox" value="1" name="' + propPref + '[default_sel]" /></label></div>'
-			+ '<div class="span2">' + Joomla.JText._('COM_REDSHOP_PRICE') + ' <input type="text" class="text-center input-xmini" value="+" name="' + propPref + '[oprand]" onchange="javascript:oprand_check(this);"> <input type="text" class="input-mini" value="" name="' + propPref + '[price]"></div>'
-			+ '</div><div class="row-fluid"><div class="span2"></div>'
-			+ '<div class="span3"><div class="button2-left"><div class="image"><a class="modal-thumb" href="index.php?tmpl=component&option=com_redshop&view=media&fsec=property&fid=' + gh + sh + '&layout=thumbs" rel="{handler: \'iframe\', size: {x: 900, y: 500}}"></a></div></div><input type="file" name="attribute_' + gh + '_property_' + sh + '_image" /></div>'
-			+ '<div class="span1"><img id="propertyImage' + gh + sh + '" src="" style="display: none;" /></div>'
-			+ '<div class="span2"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_PUBLISHED') + ' <input type="checkbox" name="' + propPref + '[published]" checked="checked" value="1"></label></div>'
-			+ '<div class="span2">' + Joomla.JText._('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD') + ' <input type="text" class="input-mini" name="' + propPref + '[extra_field]" value="" /></div>'
-			+ '<div class="span2"><input value="' + Joomla.JText._('COM_REDSHOP_DELETE') + '" class="btn btn-danger delete_property btn-small" type="button" /></div></div><br />'
-			+ '<div class="span12 attribute_parameter_tr divFromHideShow">'
-			+ '<div class="row-fluid"><div class="row-fluid showsubproperty" style="display: none;">'
-			+ '<div class="span1">' + Joomla.JText._('COM_REDSHOP_TITLE') + '</div>'
-			+ '<div class="span2"><input class="input-small" type="text" name="' + propPref + '[subproperty][title]" value=""></div>'
-			+ '<div class="span3"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_SUBATTRIBUTE_REQUIRED') + ' <input type="checkbox" value="1" name="' + propPref + '[req_sub_att]" /></label></div>'
-			+ '<div class="span3"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_SUBATTRIBUTE_MULTISELECTED') + ' <input type="checkbox" value="1" name="attribute[+gh+][property][' + sh + '][multi_sub_att]" /></label></div>'
-			+ '<div class="span3">' + Joomla.JText._('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE') + ' <select id="attribute_' + gh + '_property_' + sh + '_setdisplay_type" name="' + propPref + '[setdisplay_type]" class="input-medium"><option value="dropdown" selected="selected" >' + Joomla.JText._('COM_REDSHOP_DROPDOWN_LIST') + '</option><option value="radio" >' + Joomla.JText._('COM_REDSHOP_RADIOBOX') + '</option></select></div></div>'
-			+ '<div class="row-fluid"><div class="span12 sub_property_table"><div class="row-fluid">'
-			+ '<div class="span1"><a class="btn btn-success add_subproperty btn-small" href="#" id="add_subproperty_'+ gh +'_'+ sh +'">+ ' + Joomla.JText._('COM_REDSHOP_NEW_SUB_PROPERTY') + '</a></div>'
-			+ '<div class="span11"><div class="row-fluid sub_attributes_table">'
-			+ '</div></div></div></div></div></div></div></div></div>';
->>>>>>> upstream/develop
 		}
 
 		$('.add_attribute').on('click', function (e) {
@@ -159,20 +131,12 @@
 				+ '<div class="col-sm-3">'
 				+ '<div class="form-group"><label>' + Joomla.JText._('COM_REDSHOP_ORDERING') + '</label><input class="text-center form-control" type="text" name="' + attrPref + '[ordering]" value="' + (gh + 1) + '" /></div>'
 				+ '</div>'
-<<<<<<< HEAD
 
 				+ '<div class="col-sm-4">'
 				+ '<div class="form-group"><input type="checkbox" name="' + attrPref + '[required]" value="1" /><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_ATTRIBUTE_REQUIRED') + '</label></div>'
 				+ '<div class="form-group"><input type="checkbox" value="1" name="' + attrPref + '[allow_multiple_selection]" /><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION') + '</label></div>'
 				+ '<div class="form-group"><input type="checkbox" value="1"  name="' + attrPref + '[hide_attribute_price]" /><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE') + '</label></div>'
 				+ '<div class="form-group"><input type="checkbox" checked="checked" name="' + attrPref + '[published]" value="1" /><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_PUBLISHED') + '</label></div>'
-=======
-				+ '<div class="span12 attribute_table_pro divFromHideShow"><div class="row-fluid attrSecondRow">'
-				+ '<div class="span2"><a class="btn btn-success add_property btn-small"id ="add_property_'+ gh +'">+ ' + Joomla.JText._('COM_REDSHOP_ADD_SUB_ATTRIBUTE') + '</a></div>'
-				+ '<div class="span3"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION') + ' <input type="checkbox" value="1" name="' + attrPref + '[allow_multiple_selection]" /></label></div>'
-				+ '<div class="span3"><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE') + ' <input type="checkbox" value="1"  name="' + attrPref + '[hide_attribute_price]" /></label></div>'
-				+ '<div class="span3">' + Joomla.JText._('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE') + ' <select id="attribute_' + gh + '_display_type" name="' + attrPref + '[display_type]" class="input-medium"> <option value="dropdown" selected="selected">' + Joomla.JText._('COM_REDSHOP_DROPDOWN_LIST') + '</option><option value="radio">' + Joomla.JText._('COM_REDSHOP_RADIOBOX') + '</option></select></div>'
->>>>>>> upstream/develop
 				+ '</div>'
 
 				// rowAttribute
@@ -300,7 +264,7 @@
 
 				+ '<div class="col-sm-2">'
 				+ '<label>' + Joomla.JText._('COM_REDSHOP_PRICE') + '</label>'
-				+ '<select id="attribute_' + gh + '_subproperty_' + sp + '_oprand" name="' + subPref + '[oprand]" class="input-xmini"><option value="=">=</option><option value="+">+</option><option value="-">-</option><option value="*">*</option><option value="/">/</option></select>'
+				+ '<select id="attribute_' + gh + '_subproperty_' + sp + '_oprand" name="' + subPref + '[oprand]" class="input-xmini"><option value="+">+</option><option value="=">=</option><option value="-">-</option><option value="*">*</option><option value="/">/</option></select>'
 				+ '<input type="text" name="' + subPref + '[price]" class="input-mini">'
 				+ '</div>'
 

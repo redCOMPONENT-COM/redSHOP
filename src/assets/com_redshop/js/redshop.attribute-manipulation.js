@@ -264,7 +264,7 @@
 
 				+ '<div class="col-sm-2">'
 				+ '<label>' + Joomla.JText._('COM_REDSHOP_PRICE') + '</label>'
-				+ '<select id="attribute_' + gh + '_subproperty_' + sp + '_oprand" name="' + subPref + '[oprand]" class="input-xmini"><option value="=">=</option><option value="+">+</option><option value="-">-</option><option value="*">*</option><option value="/">/</option></select>'
+				+ '<select id="attribute_' + gh + '_subproperty_' + sp + '_oprand" name="' + subPref + '[oprand]" class="input-xmini"><option value="+">+</option><option value="=">=</option><option value="-">-</option><option value="*">*</option><option value="/">/</option></select>'
 				+ '<input type="text" name="' + subPref + '[price]" class="input-mini">'
 				+ '</div>'
 
