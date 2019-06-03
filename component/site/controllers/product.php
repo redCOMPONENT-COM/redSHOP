@@ -153,13 +153,13 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$propid        = $subpropid = array();
 		$get           = $this->input->get->getArray();
-		$producthelper = productHelper::getInstance();
-
 		$product_id    = $get['product_id'];
+		$producthelper = productHelper::getInstance();
 		$accessory_id  = $get['accessory_id'];
 		$relatedprd_id = $get['relatedprd_id'];
 		$attribute_id  = $get['attribute_id'];
 		$isAjaxBox     = $get['isAjaxBox'];
+		$product       = RedshopHelperProduct::getProductById($product_id);
 
 		if (isset($get['property_id']) && $get['property_id'])
 		{
@@ -223,8 +223,8 @@ class RedshopControllerProduct extends RedshopController
 				$product_id,
 				$accessory_id,
 				$relatedprd_id,
-				$property_id,
-				$subproperty_id
+				(int) $property_id,
+				(int) $subproperty_id
 			);
 
 			if (isset($pluginResults['attrbimg']))
