@@ -51,7 +51,7 @@ class RedshopControllerGiftcard extends RedshopControllerForm
 		$data      = $this->input->post->get('jform', array(), 'array');
 		$file      = $app->input->files->get('jform');
 		$model     = $this->getModel();
-		$context   = "$this->option.edit.$this->context";
+		$context   = "com_redshop.edit.giftcard";
 		$recordId  = $this->input->getInt($urlVar);
 		/** @scrutinizer ignore-call */
 		$form      = $model->getForm($data, false);
@@ -95,8 +95,8 @@ class RedshopControllerGiftcard extends RedshopControllerForm
 		}
 
 		// Redirect back to the edit screen.
-		$this->/** @scrutinizer ignore-deprecated */ setError(JText::sprintf('COM_REDSHOP_GIFTCARD_ERROR_NOT_IMAGE', $nameInput));
-		$this->setMessage($this->/** @scrutinizer ignore-deprecated */ getError(), 'error');
+		/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('COM_REDSHOP_GIFTCARD_ERROR_NOT_IMAGE', $nameInput));
+		$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 		$this->setRedirect(
 			$this->/** @scrutinizer ignore-call */ getRedirectToItemRoute($this->/** @scrutinizer ignore-call */ getRedirectToItemAppend($recordId, $urlVar))

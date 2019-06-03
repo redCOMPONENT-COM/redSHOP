@@ -33,13 +33,13 @@ class RedshopControllerForm extends JControllerForm
 	protected $name;
 
 	/**
-	 * @var    array
+	 * @var    string
 	 * @since  3.0
 	 */
 	public $option;
 
 	/**
-	 * @var    array
+	 * @var    string
 	 * @since  3.0
 	 */
 	public $context;
