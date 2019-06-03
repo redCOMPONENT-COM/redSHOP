@@ -85,8 +85,8 @@ class OnePageCheckoutMissingDataCest
 
 		$this->shippingMethod     = 'redSHOP - Standard Shipping';
 		$this->shipping           = array(
-			'shippingName'        => $this->faker->bothify('TestingShippingRate ?##?'),
-			'shippingRate'        => 10
+			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
+			'shippingRate' => 10
 		);
 	}
 
