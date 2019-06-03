@@ -39,7 +39,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 
 	/**
 	 * @param $customerInformation
-	 * * @since 2.1.2
+	 * @since 2.1.2
 	 * @throws \Exception
 	 */
 	private function fillInformationPrivate($customerInformation)
@@ -242,6 +242,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 
 			case 'payment':
 				$I->fillInformationPrivate($customerInformation);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				try
 				{
