@@ -118,7 +118,7 @@ class RedshopModelManufacturers extends RedshopModel
 			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
 			$shopper_group_manufactures = Joomla\Utilities\ArrayHelper::toInteger($shopper_group_manufactures);
 			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
-			$and                        .= " AND mn.id IN (" . $shopper_group_manufactures . ") ";
+			$and .= " AND mn.id IN (" . $shopper_group_manufactures . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
@@ -166,9 +166,9 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function _buildContentOrderBy()
 	{
-		$db     = JFactory::getDbo();
-		$app    = JFactory::getApplication();
-		$layout = $app->input->getCmd('layout', '');
+		$db  = JFactory::getDbo();
+		$app = JFactory::getApplication();
+		$layout  = $app->input->getCmd('layout', '');
 		$params = $app->getParams('com_redshop');
 
 		if ($app->input->getString('order_by', '') != null)
@@ -224,7 +224,7 @@ class RedshopModelManufacturers extends RedshopModel
 
 	public function getCategoryList()
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('c.id', 'value'))
 			->select($db->qn('c.name', 'text'))
@@ -249,7 +249,7 @@ class RedshopModelManufacturers extends RedshopModel
 	}
 
 	/**
-	 * @param   string $template_data Template content
+	 * @param   string  $template_data  Template content
 	 *
 	 * @return  JDatabaseQuery
 	 */
@@ -318,7 +318,7 @@ class RedshopModelManufacturers extends RedshopModel
 	public function getmanufacturercategory($mid, $tblobj)
 	{
 		$plg_manufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_category');
-		$db               = $this->_db;
+		$db = $this->_db;
 
 		$query = $db->getQuery(true)
 			->select('DISTINCT(c.id)')
