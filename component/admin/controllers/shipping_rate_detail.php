@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -170,6 +170,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 	public function GetStateDropdown()
 	{
 		$get   = $this->input->get->getArray();
+		/** @var RedshopModelShipping_rate_detail $model */
 		$model = $this->getModel('shipping_rate_detail');
 		$model->GetStateDropdown($get);
 		JFactory::getApplication()->close();

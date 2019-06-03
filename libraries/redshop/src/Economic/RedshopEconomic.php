@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.3
@@ -396,6 +396,7 @@ class RedshopEconomic
 
 		if (!empty($debtorHandle[0]))
 		{
+			$eco['eco_user_number'] = $debtorHandle[0]->Number;
 			self::handleExistingDebtorOnEmailVat($debtorHandle, $eco);
 		}
 
@@ -617,8 +618,8 @@ class RedshopEconomic
 		self::importEconomic();
 
 		$eco                   = array();
-		$eco['product_desc']   = utf8_encode(substr(strip_tags($row->product_desc), 0, 499));
-		$eco['product_s_desc'] = utf8_encode(substr(strip_tags($row->product_s_desc), 0, 499));
+		$eco['product_desc']   = substr(strip_tags($row->product_desc), 0, 499);
+		$eco['product_s_desc'] = substr(strip_tags($row->product_s_desc), 0, 499);
 
 		$ecoProductGroupNumber = self::createProductGroupInEconomic($row);
 
@@ -1727,7 +1728,8 @@ class RedshopEconomic
 
 		if ($bookInvoiceDate != 0)
 		{
-			$eco['invoiceDate'] = $bookInvoiceDate . "T" . date("h:i:s");
+			$date               = new \DateTime($bookInvoiceDate);
+			$eco['invoiceDate'] = $date->format('Y-m-d') . "T" . date("h:i:s");
 		}
 		else
 		{

@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -134,7 +134,22 @@ class OrderManagerPage extends AdminJ3Page
      * @var string
      */
     public static $nameXpath = "//td[4]/a";
-    
+
+    /**
+     * @var string
+     */
+    public static $fieldAttribute = "//select[@class='inputbox']";
+
+    /**
+     * @var string
+     */
+    public static $valueAttribute = "//select[@class='inputbox']/option[2]";
+
+    /**
+     * @var string
+     */
+    public static $adminFinalPriceEnd = "#tdtotalprdproduct1";
+
     //button
 
     /**

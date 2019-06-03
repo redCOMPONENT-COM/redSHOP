@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -383,6 +383,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<input type="hidden" name="task" value="update_shippingrates">
 							<input type="hidden" name="user_id" id="user_id"
 							       value="<?php echo $this->detail->user_id; ?>">
+							<input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id" value="<?php echo $shipping->users_info_id; ?>">
 							<input type="hidden" name="view" value="order_detail">
 							<input type="hidden" name="return" value="order_detail">
 							<input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">

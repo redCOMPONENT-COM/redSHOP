@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,7 +61,7 @@ class RedshopControllerStatistic_Product extends RedshopControllerAdmin
 
 		foreach ($data as $key => $value)
 		{
-			echo $value->viewdate . " ,";
+            echo date("Y-m-d", $value->order_create_date) . " ,";
 			echo $value->product_name . " ,";
 			echo $value->product_number . " ,";
 			echo $value->manufacturer_name . " ,";

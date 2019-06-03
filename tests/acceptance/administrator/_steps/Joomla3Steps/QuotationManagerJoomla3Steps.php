@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,15 +42,31 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         
         $I->click($userQuotationPage->xPathSearch($nameUser));
         $I->scrollTo(QuotationManagerPage::$newProductLink);
+        $I->waitForElement(QuotationManagerPage::$productId, 30);
+        $I->waitForElementVisible(QuotationManagerPage::$productId, 30);
         $I->click(QuotationManagerPage::$productId);
         $I->waitForElement(QuotationManagerPage::$productsSearch, 30);
+        try
+        {
+            $I->waitForElementVisible(QuotationManagerPage::$productsSearch, 30);
+        }
+        catch (\Exception $e)
+        {
+            $I->click(QuotationManagerPage::$productId);
+        }
         $I->fillField(QuotationManagerPage::$productsSearch, $nameProduct);
-        $I->waitForElement($userQuotationPage->xPathSearch($nameProduct), 30);
+        $I->waitForElement($userQuotationPage->xPathSearch($nameProduct), 60);
         $I->click($userQuotationPage->xPathSearch($nameProduct));
         $I->fillField(QuotationManagerPage::$quanlityFirst, $quantity);
 
         $I->click(QuotationManagerPage::$buttonSave);
-        $I->see(QuotationManagerPage::$messageSaveSuccess, QuotationManagerPage::$selectorSuccess);
+        try{
+            $I->waitForText(QuotationManagerPage::$messageSaveSuccess,10, QuotationManagerPage::$selectorSuccess);
+        }catch (\Exception $e)
+        {
+            $I->click(QuotationManagerPage::$buttonSave);
+            $I->see(QuotationManagerPage::$messageSaveSuccess, QuotationManagerPage::$selectorSuccess);
+        }
     }
 
     public function editQuotation($newQuantity)
@@ -60,10 +76,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(QuotationManagerPage::$quotationId);
         $I->waitForElement(QuotationManagerPage::$quantityp1,30);
         $I->scrollTo(QuotationManagerPage::$quantityp1);
-        $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
-        $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
-        $I->pressKey(QuotationManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::DELETE);
-        $I->fillField(QuotationManagerPage::$quantityp1, $newQuantity);
+        $I->addValueForField(QuotationManagerPage::$quantityp1, $newQuantity, 5);
         $I->click(QuotationManagerPage::$buttonSave);
         $I->scrollTo(QuotationManagerPage::$quantityp1);
         $I->seeInField(QuotationManagerPage::$quantityp1, $newQuantity);

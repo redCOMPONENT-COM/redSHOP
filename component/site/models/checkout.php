@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -2051,11 +2051,10 @@ class RedshopModelCheckout extends RedshopModel
 		$templateDesc = $this->_carthelper->replaceTermsConditions($templateDesc, $Itemid);
 		$templateDesc = $this->_carthelper->replaceNewsletterSubscription($templateDesc);
 
-		$checkoutOnClick = Redshop::getConfig()->getBool('ONESTEP_CHECKOUT_ENABLE') ?
-			'if(chkvalidaion() && validation()){checkout_disable(\'checkout_final\');}' : 'if(chkvalidaion()){checkout_disable(\'checkout_final\');}';
+		$checkoutOnClick = 'if(validation()){checkout_disable(\'checkout_final\');}';
 
 		$checkout = '<div id="checkoutfinal" style="float: right;">';
-		$checkout .= '<input type="submit" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="' . $checkoutOnClick . '"/>';
+		$checkout .= '<input type="button" id="checkout_final" name="checkout_final" class="greenbutton btn btn-primary" value="' . JText::_("COM_REDSHOP_BTN_CHECKOUTFINAL") . '" onclick="' . $checkoutOnClick . '"/>';
 		$checkout .= '<input type="hidden" name="task" value="checkoutfinal" />';
 		$checkout .= '<input type="hidden" name="view" value="checkout" />';
 		$checkout .= '<input type="hidden" name="option" value="com_redshop" />';

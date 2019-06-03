@@ -3,7 +3,7 @@
  * @package     Redshop.Libraries
  * @subpackage  Helpers
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -107,7 +107,7 @@ class RedshopHelperBreadcrumb
 					$customPathways = array();
 					$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
 
-					if (!empty($menu) && $menu->home != 1)
+					if (count($menu) > 0 && $menu->home != 1)
 					{
 						if (isset($menu->parent))
 						{
@@ -209,7 +209,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
 
-				if (!empty($menu) && $menu->home != 1)
+				if (count($menu) > 0 && $menu->home != 1)
 				{
 					if (property_exists($menu, 'parent'))
 					{
@@ -234,7 +234,7 @@ class RedshopHelperBreadcrumb
 				{
 					$menu = productHelper::getInstance()->getMenuInformation(0, $sectionId, "manufacturerid", "manufacturers");
 
-					if (!empty($menu))
+					if (!empty((array) $menu))
 					{
 						$main             = new stdClass;
 						$main->name       = $menu->title;
@@ -245,7 +245,7 @@ class RedshopHelperBreadcrumb
 					{
 						$menu = RedshopEntityManufacturer::getInstance($sectionId)->getItem();
 
-						if (!empty($menu))
+						if (!empty((array) $menu))
 						{
 							$main             = new stdClass;
 							$main->name       = $menu->name;
@@ -261,7 +261,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuInformation($itemId);
 
-				if (!empty($menu))
+				if (count($menu) > 0)
 				{
 					$main       = new stdClass;
 					$main->name = $menu->title;
@@ -310,7 +310,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = productHelper::getInstance()->getMenuInformation(0, 0, "", "account");
 
-				if (!empty($menu))
+				if (is_object($menu) && count(get_object_vars($menu)) > 0)
 				{
 					$main             = new stdClass;
 					$main->name       = $menu->title;

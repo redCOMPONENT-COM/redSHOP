@@ -9,7 +9,6 @@
   "modules": {
     "frontend": [
       "redshop_cart",
-      "redshop_filter",
       "redshop_search"
     ]
   },
@@ -28,6 +27,7 @@
       "category",
       "field",
       "manufacturer",
+      "newsletter_subscriber",
       "product",
       "product_stockroom_data",
       "related_product",
@@ -41,6 +41,7 @@
       "category",
       "field",
       "manufacturer",
+      "newsletter_subscriber",
       "product",
       "product_stockroom_data",
       "shipping_address",

@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -168,6 +168,11 @@ class VoucherManagerPage extends AdminJ3Page
      * @var string
      */
     public static $closeButton = "Close";
+
+    /**
+     * @var string
+     */
+    public static $resetButton = "Reset";
 
     //selector
 

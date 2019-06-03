@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,5 +43,5 @@ class SupplierPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $fieldEmailInvalid = 'Invalid field: Email';
+	public static $fieldEmailInvalid = 'The email address you entered is invalid. Please enter another email address.';
 }

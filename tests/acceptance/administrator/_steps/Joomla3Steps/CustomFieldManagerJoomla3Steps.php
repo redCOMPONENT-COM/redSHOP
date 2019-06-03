@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace AcceptanceTester;
@@ -38,7 +38,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldName, 30);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldName, $name);
         $I->click(\CustomFieldManagerJoomla3Page::$fieldTypeDropDown);
-        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldTypeSearch, 3);
+        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldTypeSearch, 30);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTypeSearch, $type);
 
         $I->click($customFieldsManagerPage->xPathChoice($type));
@@ -47,7 +47,7 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldTitle, $title);
 
         $I->click(\CustomFieldManagerJoomla3Page::$fieldSectionDropDown);
-        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, 3);
+        $I->waitForElement(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, 30);
         $I->fillField(\CustomFieldManagerJoomla3Page::$fieldSectionSearch, $section);
         $I->click($customFieldsManagerPage->xPathChoice($section));
 //        $I->click('Save');

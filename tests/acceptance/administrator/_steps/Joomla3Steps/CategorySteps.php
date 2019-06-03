@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,7 @@ class CategorySteps extends AbstractStep
 	 * @param   integer  $noPage          No page.
 	 *
 	 * @return  void
+	 * @throws \Exception
 	 */
 	public function addCategoryChild($categoryParent, $categoryName, $noPage)
 	{
@@ -36,14 +37,16 @@ class CategorySteps extends AbstractStep
 		$tester->amOnPage(CategoryPage::$url);
 		$tester->click(CategoryPage::$buttonNew);
 		$tester->fillField(CategoryPage::$idFieldName, $categoryName);
-		$tester->click(CategoryPage::$parentCategory);
-		$tester->click(CategoryPage::$choiceTemplate);
 		$tester->fillField(CategoryPage::$categoryNoPage, $noPage);
-		$tester->click(CategoryPage::$template);
-		$tester->click(CategoryPage::$choiceTemplate);
+		$tester->click(CategoryPage::$parentCategory);
+		$tester->waitForElement(CategoryPage::$parentCategoryInput, 30);
+		$tester->wait(0.5);
+		$tester->fillField(CategoryPage::$parentCategoryInput, $categoryParent);
+		$tester->pressKey(CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$tester->click(CategoryPage::$buttonSave);
 		$categoryParent = '- ' . $categoryParent;
-		$tester->see($categoryParent);
+		$tester->waitForText($categoryParent,10);
+		$tester->click(CategoryPage::$buttonClose);
 	}
 
 	/**

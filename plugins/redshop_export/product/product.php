@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,8 +96,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		// Prepare manufacturers list.
 		$db            = JFactory::getDbo();
 		$query         = $db->getQuery(true)
-			->select($db->qn('manufacturer_id', 'value'))
-			->select($db->qn('manufacturer_name', 'text'))
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
 			->from($db->qn('#__redshop_manufacturer'));
 		$manufacturers = $db->setQuery($query)->loadObjectList();
 		$options       = array();
@@ -145,8 +145,23 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			$this->writeData($headers, 'w+');
 		}
 
-		return (int) $this->getTotal();
+		return (int) $this->getTotalProduct_Export();
 	}
+
+    /**
+     *
+     * @return  int
+     *
+     * @since  2.1.1
+     */
+    protected function getTotalProduct_Export()
+    {
+        $query = $this->getQuery();
+        $query->clear('select')
+            ->clear('group')
+            ->select('COUNT(DISTINCT p.product_id)');
+        return (int) $this->db->setQuery($query)->loadResult();
+    }
 
 	/**
 	 * Event run on export process
@@ -196,7 +211,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
-			->select('m.manufacturer_name')
+			->select('m.name AS manufacturer_name')
+			->select('s.name AS supplier_name')
 			->select('p.*')
 			->select($db->quote(JUri::root()) . ' AS ' . $db->qn('sitepath'))
 			->select(
@@ -228,6 +244,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
 			->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.id'))
+			->leftJoin($db->qn('#__redshop_supplier', 's') . ' ON ' . $db->qn('p.supplier_id') . ' = ' . $db->qn('s.id'))
 			->group($db->qn('p.product_id'))
 			->order($db->qn('p.product_id') . ' asc');
 
@@ -480,7 +497,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			}
 
 			// Media process
-			$this->processMedia($item);
+			$this->/** @scrutinizer ignore-call */ processMedia($item);
 
 			if ($isAttributes)
 			{
@@ -510,13 +527,11 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	/**
 	 * Method for process medias of product.
 	 *
-	 * @param   array  $product  Product data.
-	 *
 	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
-	protected function processMedia(&$product)
+	protected function processMedia()
 	{
 		// @TODO: Would implement media check files exist.
 

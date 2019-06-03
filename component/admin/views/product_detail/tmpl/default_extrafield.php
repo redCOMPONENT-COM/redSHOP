@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -19,7 +19,6 @@ if (count($template) == 0)
 $template = $template[0]->template_desc;
 $sections = array(
 	RedshopHelperExtrafields::SECTION_PRODUCT,
-	RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD,
 	RedshopHelperExtrafields::SECTION_PRODUCT_FINDER_DATE_PICKER
 );
 

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -113,6 +113,7 @@ class RedshopHelperJs
 		// Prepare language string to add in javascript store
 		$languages = array(
 			'COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME',
+			'COM_REDSHOP_USERNAME_ALREADY_EXISTS',
 			'COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE',
 			'COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE',
 			'COM_REDSHOP_PASSWORD_MIN_CHARACTER_LIMIT',
@@ -129,6 +130,7 @@ class RedshopHelperJs
 			'COM_REDSHOP_PROVIDE_EMAIL_ADDRESS',
 			'COM_REDSHOP_EMAIL_NOT_MATCH',
 			'COM_REDSHOP_PASSWORD_NOT_MATCH',
+			'COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS',
 			'COM_REDSHOP_NOT_AVAILABLE',
 			'COM_REDSHOP_PLEASE_INSERT_HEIGHT',
 			'COM_REDSHOP_PLEASE_INSERT_WIDTH',

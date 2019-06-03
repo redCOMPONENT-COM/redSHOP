@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -287,4 +287,13 @@ echo eval ("?>" . $cart_data . "<?php ");
 		document.update_cart.task.value = 'update_all';
 		document.update_cart.submit();
 	}
+
+    jQuery(document).ready(function (){
+        jQuery('input[name=\'quantity\']').on("keypress", function(e) {
+            if (e.keyCode == 13){
+                jQuery('.update_cart').trigger('click');
+            }
+        })
+    })
+
 </script>
