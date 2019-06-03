@@ -55,7 +55,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 	<div class="row">
 	<div class="col-sm-2">
 			<label>
-				<?php echo JText::_('COM_REDSHOP_ATTRIBUTES_VALUE'); ?>
+				<?php echo JText::_('COM_REDSHOP_PARAMETER'); ?>
 			</label>
 			<input type="text" class="input-small" name="<?php echo $subPropPref; ?>[name]" value="<?php echo $subProperty->subattribute_color_name; ?>">
 			<input type="hidden" name="<?php echo $subPropPref; ?>[subproperty_id]" value="<?php echo $subProperty->subattribute_color_id; ?>" />
