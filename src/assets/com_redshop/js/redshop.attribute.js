@@ -1502,6 +1502,7 @@ function setSubpropertyImage(product_id, subpropertyObj, selValue) {
 }
 
 function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selectedproperty_id, selectedsubproperty_id) {
+    var allarg = arguments;
     var suburl = "&product_id=" + product_id;
     suburl = suburl + "&accessory_id=" + accessory_id;
     suburl = suburl + "&relatedprd_id=" + relatedprd_id;
@@ -1642,7 +1643,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
             // preload slimbox
             var imagehandle = {isenable: true, mainImage: false};
             preloadSlimbox(imagehandle);
-            jQuery(redSHOP).trigger('onAfterAjaxdisplayAdditionalImage', [arrResponse, product_id]);
+            jQuery(redSHOP).trigger('onAfterAjaxdisplayAdditionalImage', [arrResponse, product_id, allarg]);
         }
     };
     request.open("GET", url, true);
