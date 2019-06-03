@@ -25,6 +25,8 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	private function fillInformationBusiness($customerInformation)
 	{
 		$I = $this;
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
