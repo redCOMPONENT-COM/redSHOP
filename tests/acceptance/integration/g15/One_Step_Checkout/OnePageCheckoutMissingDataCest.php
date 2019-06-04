@@ -41,10 +41,10 @@ class OnePageCheckoutMissingDataCest
 			"firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
 			"address"    => "Some Place in the World",
-			"postalCode" => "23456",
-			"city"       => "Bangalore",
-			"country"    => "India",
-			"state"      => "Karnataka",
+			"postalCode" => "5000",
+			"city"       => "Odense SØ",
+			"country"    => "Denmark",
+			"state"      => "Blangstedgaardsvej 1",
 			"phone"      => "8787878787"
 		);
 
@@ -55,10 +55,10 @@ class OnePageCheckoutMissingDataCest
 			"firstName"      => $this->faker->bothify('firstName ?####?'),
 			"lastName"       => $this->faker->bothify('lastName ?####?'),
 			"address"        => "Some Place in the World",
-			"postalCode"     => "23456",
-			"city"           => "Bangalore",
-			"country"        => "India",
-			"state"          => "Karnataka",
+			"postalCode"     => "5000",
+			"city"           => "Odense SØ",
+			"country"        => "Denmark",
+			"state"          => "Blangstedgaardsvej 1",
 			"phone"          => "8787878787",
 			"eanNumber"      => 1212331331231,
 		);
