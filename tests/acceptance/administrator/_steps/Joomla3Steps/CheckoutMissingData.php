@@ -66,7 +66,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	 * @since 2.1.2
 	 * @throws \Exception
 	 */
-	public function onePageCheckoutMissingWithUserBusiness($productName,$customerInformation, $missing)
+	public function onePageCheckoutMissingWithUserBusiness($productName, $customerInformation, $missing)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
@@ -208,7 +208,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	 * @since 2.1.2
 	 * @throws \Exception
 	 */
-	public function onePageCheckoutMissingWithUserPrivate($productName,$customerInformation, $missing)
+	public function onePageCheckoutMissingWithUserPrivate($productName, $customerInformation, $missing)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
@@ -239,7 +239,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30,FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
 				break;
 
 			case 'payment':
@@ -280,7 +280,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid,30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("email1"));
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("email1"));
 				break;
 
 			case 'wrongPhone':

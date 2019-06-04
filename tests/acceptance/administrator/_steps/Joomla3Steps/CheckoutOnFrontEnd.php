@@ -116,10 +116,10 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 	/**
 	 * @param $categoryName
 	 * @param $productName
-	 * @since 2.1.0
+	 * @since 2.1.2
 	 * @throws Exception
 	 */
-	public function addToCart($categoryName,$productName)
+	public function addToCart($categoryName, $productName)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);

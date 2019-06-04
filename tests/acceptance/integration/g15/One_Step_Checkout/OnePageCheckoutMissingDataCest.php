@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedSHOP
+ * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -93,7 +93,6 @@ class OnePageCheckoutMissingDataCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
-	 *
 	 * @since 2.1.2
 	 * @throws Exception
 	 */
@@ -118,8 +117,8 @@ class OnePageCheckoutMissingDataCest
 		$I = new CheckoutMissingData($scenario);
 		$I->addToCart($this->CategoryName, $this->ProductName );
 		$I->wantToTest('Check out with missing user');
-		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName,$this->customerInformation, 'user');
-		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation,'user');
+		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'user');
+		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'user');
 
 		$I->wantToTest('Check out with missing click accept Terms');
 		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'acceptTerms');
@@ -153,7 +152,6 @@ class OnePageCheckoutMissingDataCest
 	/**
 	 * @param ProductManagerJoomla3Steps $I
 	 * @param $scenario
-	 *
 	 * @since 2.1.2
 	 * @throws Exception
 	 */
