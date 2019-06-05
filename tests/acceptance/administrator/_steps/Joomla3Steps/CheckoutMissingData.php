@@ -8,11 +8,7 @@
 
 /**
  * Class CheckoutMissingData
- *
- * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
- *
+ * @package  CheckoutMissingData
  * @since    2.1.2
  */
 class CheckoutMissingData extends CheckoutOnFrontEnd
