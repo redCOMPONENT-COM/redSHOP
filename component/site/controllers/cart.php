@@ -525,6 +525,9 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function empty_cart()
 	{
+		$app  = JFactory::getApplication();
+		$ajax = $app->input->getInt('ajax', 0);
+
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('cart');
 
@@ -537,8 +540,19 @@ class RedshopControllerCart extends RedshopController
 			RedshopHelperCart::removeCartFromDatabase(0, $user->id, true);
 		}
 
-		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
-		$this->setRedirect($link);
+		if ($ajax)
+		{
+			$carts = RedshopHelperCart::generateCartOutput(RedshopHelperCartSession::getCart());
+
+			echo $carts[0];
+
+			$app->close();
+		}
+		else
+		{
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
+			$this->setRedirect($link);
+		}
 	}
 
 	/**
