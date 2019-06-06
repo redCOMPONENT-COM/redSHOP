@@ -449,11 +449,16 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
         if (request.readyState == 4)
         {
             var property_id = (propArr.length > 0) ? propArr[0] : 0;
+            var withoutVAT = false;
 
             if (document.getElementById('property_responce' + commonid))
             {
                 document.getElementById('property_responce' + commonid).innerHTML = request.responseText;
                 document.getElementById('property_responce' + commonid).style.display = '';
+
+                if (request.responseText.indexOf('{without_vat}') != -1) {
+                    withoutVAT = true;
+                }
 
                 for (var p = 0; p < propArr.length; p++)
                 {
@@ -479,7 +484,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
                                 var subname = document.getElementById(subpropertycommonid + "_name" + subproperty_id).value;
                                 unique.addThumbnail(
                                     imgs[i],
-                                    "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "');",
+                                    "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "', '"+ withoutVAT +"');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "', '"+ withoutVAT +"');",
                                     subname,
                                     "",
                                     subpropertycommonid + "_subpropimg_" + subproperty_id,
@@ -513,8 +518,9 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
                 }
             }
 
-            displayAdditionalImage(product_id, accessory_id, relatedprd_id, property_id, 0);
-            calculateTotalPrice(product_id, relatedprd_id);
+            displayAdditionalImage(product_id, accessory_id, relatedprd_id, property_id, 0, withoutVAT);
+
+            calculateTotalPrice(product_id, relatedprd_id, withoutVAT);
 
             jQuery('select:not(".disableBootstrapChosen")').select2();
 
@@ -562,7 +568,7 @@ function display_image_add_out(img, product_id)
     }
 }
 
-function collectAttributes(productId, accessoryId, relatedProductId)
+function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 {
     var prefix,
         attributeIds         = [],
@@ -781,7 +787,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
     mainprice = price_without_vat;
 
     // Apply vat here in last. Just apply in case price is not below 0.
-    if (mainprice > 0)
+    if (mainprice > 0 && withoutVAT == false)
     {
         mainprice = mainprice * (1 + redSHOP.RSConfig._('BASE_TAX'));
     }
@@ -983,8 +989,7 @@ function calculateSingleProductPrice(price, oprandElementId, priceElementId, ele
 }
 
 // calculate attribute price
-function calculateTotalPrice(productId, relatedProductId) {
-
+function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
     if (productId == 0 || productId == "")
     {
         return false;
@@ -1001,7 +1006,7 @@ function calculateTotalPrice(productId, relatedProductId) {
         wprice                   = 0,
         wrapper_price_withoutvat = 0;
 
-    collectAttributes(productId, 0, relatedProductId);
+    collectAttributes(productId, 0, relatedProductId, withoutVAT);
 
     if (jQuery('#tmp_product_old_price').length)
     {
@@ -1501,7 +1506,7 @@ function setSubpropertyImage(product_id, subpropertyObj, selValue) {
     }
 }
 
-function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selectedproperty_id, selectedsubproperty_id) {
+function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selectedproperty_id, selectedsubproperty_id, withoutVAT) {
     var allarg = arguments;
     var suburl = "&product_id=" + product_id;
     suburl = suburl + "&accessory_id=" + accessory_id;
@@ -1517,7 +1522,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
     } else {
         prefix = "prd_";
     }
-    collectAttributes(product_id, 0, relatedprd_id);
+    collectAttributes(product_id, 0, relatedprd_id, withoutVAT);
 
     if (document.getElementById('property_data')) {
         var property_data = document.getElementById('property_data').value;
