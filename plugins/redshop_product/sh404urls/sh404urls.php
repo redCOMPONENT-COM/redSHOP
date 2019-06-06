@@ -40,9 +40,16 @@ class PlgRedshop_ProductSh404urls extends JPlugin
 			return false;
 		}
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$conds = array();
+		$db      = JFactory::getDbo();
+		$query   = $db->getQuery(true);
+		$conds   = array();
+		$results = $db->setQuery('SHOW TABLES')->loadColumn();
+		$table   = $db->getPrefix() . 'sh404sef_urls';
+
+		if (!in_array($table, $results))
+		{
+			return false;
+		}
 
 		foreach ($pids as $pid)
 		{
@@ -50,7 +57,7 @@ class PlgRedshop_ProductSh404urls extends JPlugin
 		}
 
 		$query->clear()
-			->delete($db->qn('#__sh404sef_urls'))
+			->delete($db->qn($table))
 			->where($db->qn('newurl') . ' LIKE ' . $db->q('%view=product%'))
 			->where($db->qn('newurl') . ' LIKE ' . $db->q('%option=com_redshop%'))
 			->where(implode(' OR ', $conds));

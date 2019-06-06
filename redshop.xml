@@ -153,7 +153,7 @@
         <plugin group="system" name="redshop" published="published"/>
         <plugin group="system" name="redgoogleanalytics"/>
 
-        <!-- System plugins -->
+        <!-- redSHOP product plugin -->
         <plugin group="redshop_product" name="sh404urls" published="published"/>
     </plugins>
 </extension>
