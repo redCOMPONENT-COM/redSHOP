@@ -706,6 +706,9 @@ class RedshopModelSearch extends RedshopModel
 			}
 		}
 
+		JPluginHelper::importPlugin('redshop_product');
+		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, 0));
+
 		return $query;
 	}
 
