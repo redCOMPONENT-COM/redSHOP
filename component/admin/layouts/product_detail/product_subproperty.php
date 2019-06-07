@@ -34,7 +34,7 @@ if ($subProperty->subattribute_color_image && JFile::exists(REDSHOP_FRONT_IMAGES
 $mainImage = '';
 $mainImageThumb = '';
 
-if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $property->subattribute_color_main_image))
+if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $subProperty->subattribute_color_main_image))
 {
 	$mainImage = REDSHOP_FRONT_IMAGES_ABSPATH . 'subproperty/' . $subProperty->subattribute_color_main_image;
 
@@ -150,7 +150,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 					<a class="joom-box btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 					   title=""
 					   href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id='
-						. $propertyId . '&showbuttons=1&media_section=property'); ?>">
+							. $subProperty->subattribute_color_id . '&showbuttons=1&media_section=subproperty'); ?>">
 						<img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>media16.png" alt=""/><?php echo JText::_('COM_REDSHOP_UPLOAD'); ?>
 					</a>
 				</div>
