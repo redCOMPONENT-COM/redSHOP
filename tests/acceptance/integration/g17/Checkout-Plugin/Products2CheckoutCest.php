@@ -94,7 +94,7 @@ class Products2CheckoutCest
 		$I->doAdministratorLogin();
 		$I->wantTo("install plugin payment 2Checkout ");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
-		$I->waitForText(AdminJ3Page:: $messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess,120, AdminJ3Page::$idInstallSuccess);
 		$I->enablePlugin($this->pluginName);
 		$I = new CheckoutWithPluginExtension($scenario);
 		$I->config2CheckoutPlugin($this->pluginName,$this->checkoutAccountInformation['vendorID'], $this->checkoutAccountInformation['secretWord']);
