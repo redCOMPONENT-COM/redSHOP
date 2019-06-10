@@ -71,13 +71,14 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		$I->wait(0.5);
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}catch (\Exception $e)
 		{
-			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -85,6 +86,8 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->click(FrontEndPaymentPluginPage::$reviewCart);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$shippingAddress1, 30);
 		$I->fillField(FrontEndPaymentPluginPage::$shippingAddress1, $checkoutAccountInformation['shippingAddress']);
+		$I->waitForElementVisible(FrontEndPaymentPluginPage::$shippingInformation, 30);
+
 		$I->click(FrontEndPaymentPluginPage::$shippingInformation);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$checkboxSamAsShipping, 30);
 		$I->wait(0.5);
