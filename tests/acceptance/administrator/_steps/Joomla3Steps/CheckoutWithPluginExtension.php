@@ -93,8 +93,8 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->wait(0.5);
 		$I->click(FrontEndPaymentPluginPage::$checkboxSamAsShipping);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$billingInformation, 30);
-		$I->click(FrontEndPaymentPluginPage::$billingInformation);
 		$I->wait(0.5);
+		$I->click(FrontEndPaymentPluginPage::$billingInformation);
 		$I->waitForElement(FrontEndPaymentPluginPage::$inputCartNumber, 30);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$inputCartNumber, 30);
 		$I->fillField(FrontEndPaymentPluginPage::$inputCartNumber, $checkoutAccountInformation['debitCardNumber']);
