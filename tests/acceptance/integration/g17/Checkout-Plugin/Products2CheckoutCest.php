@@ -86,6 +86,7 @@ class Products2CheckoutCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
+	 * @since    2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -95,6 +96,7 @@ class Products2CheckoutCest
 	/**
 	 * @param AdminManagerJoomla3Steps $I
 	 * @throws Exception
+	 * @since    2.1.2
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
@@ -111,6 +113,7 @@ class Products2CheckoutCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since    2.1.2
 	 */
 	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
 	{
@@ -145,6 +148,7 @@ class Products2CheckoutCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since    2.1.2
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
