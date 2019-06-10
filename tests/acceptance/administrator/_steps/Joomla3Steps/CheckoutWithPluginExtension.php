@@ -24,7 +24,7 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I = $this;
 		$I->amOnPage(PluginManagerJoomla3Page:: $URL);
 		$I->searchForItem($pluginName);
-		$pluginManagerPage = new \PluginManagerJoomla3Page;
+		$pluginManagerPage = new PluginManagerJoomla3Page;
 		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->seeElement(PluginManagerJoomla3Page:: $searchResultRow);
 		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
@@ -49,13 +49,14 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $password);
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->waitForText( FrontEndProductManagerJoomla3Page:: $alertSuccessMessage, 30, FrontEndProductManagerJoomla3Page:: $selectorSuccess);
 		$I->see( FrontEndProductManagerJoomla3Page:: $alertSuccessMessage, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
@@ -69,19 +70,19 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->click(FrontEndPaymentPluginPage::$payment2checkout);
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 
 		try
 		{
-			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}catch (\Exception $e)
 		{
-			$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
 
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForText(FrontEndPaymentPluginPage::$secureCheckout, 30, FrontEndPaymentPluginPage:: $h1);
 		$I->click(FrontEndPaymentPluginPage::$reviewCart);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$shippingAddress1, 30);
@@ -92,6 +93,7 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->click(FrontEndPaymentPluginPage::$checkboxSamAsShipping);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$billingInformation, 30);
 		$I->click(FrontEndPaymentPluginPage::$billingInformation);
+		$I->waitForElement(FrontEndPaymentPluginPage::$inputCartNumber, 30);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$inputCartNumber, 30);
 		$I->fillField(FrontEndPaymentPluginPage::$inputCartNumber, $checkoutAccountInformation['debitCardNumber']);
 		$I->click(FrontEndPaymentPluginPage::$buttonPayment2Checkout);

@@ -34,7 +34,6 @@ class Products2CheckoutCest
 		$this->minimumQuantity  = 1;
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
 
-
 		//configuration enable one page checkout
 		$this->addcart          = 'product';
 		$this->allowPreOrder    = 'yes';
@@ -82,7 +81,6 @@ class Products2CheckoutCest
 			"cardExpiryYear"  => '2022',
 			"shippingAddress" => "some place on earth"
 		);
-
 	}
 
 	/**
