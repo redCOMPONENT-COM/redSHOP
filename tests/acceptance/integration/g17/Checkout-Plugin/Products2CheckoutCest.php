@@ -86,12 +86,20 @@ class Products2CheckoutCest
 	}
 
 	/**
+	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 */
+	public function _before(AcceptanceTester $I)
+	{
+		$I->doAdministratorLogin();
+	}
+
+	/**
 	 * @param AdminManagerJoomla3Steps $I
 	 * @throws Exception
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->doAdministratorLogin();
 		$I->wantTo("install plugin payment 2Checkout ");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess,120, AdminJ3Page::$idInstallSuccess);
@@ -107,7 +115,6 @@ class Products2CheckoutCest
 	 */
 	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
 	{
-		$I->doAdministratorLogin();
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
 			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
@@ -142,7 +149,6 @@ class Products2CheckoutCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
-		$I->doAdministratorLogin();
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder( $this->customerInformation['firstName']);
