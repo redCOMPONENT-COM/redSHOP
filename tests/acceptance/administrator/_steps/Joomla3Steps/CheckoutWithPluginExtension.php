@@ -67,6 +67,7 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->waitForElementVisible(FrontEndPaymentPluginPage:: $labelPayment);
 		$I->scrollTo(FrontEndPaymentPluginPage::$labelPayment);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$payment2checkout, 30);
+		$I->wait(0.5);
 		$I->click(FrontEndPaymentPluginPage::$payment2checkout);
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));

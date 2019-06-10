@@ -169,4 +169,3 @@ class Products2CheckoutCest
 		$I->deleteUser($this->customerInformation["firstName"]);
 	}
 }
-
