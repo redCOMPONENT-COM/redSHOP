@@ -75,7 +75,7 @@ if ($print)
 }
 else
 {
-	$print_url = $url . "index.php?option=com_redshop&amp;task=order_detail.printPDF&amp;id=" . $oid . "";
+	$print_url = $url . "index.php?option=com_redshop&task=order_detail.printPDF&id=" . $oid . "";
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
