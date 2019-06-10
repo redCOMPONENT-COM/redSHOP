@@ -20,7 +20,7 @@ use AcceptanceTester\UserManagerJoomla3Steps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since    2.1.2
  */
 class Products2CheckoutCest
 {
@@ -52,8 +52,7 @@ class Products2CheckoutCest
 		$this->onePageNo        = 'no';
 		$this->onePageYes       = 'yes';
 
-		$this->group                = 'Registered';
-		$this->customerInformation= array(
+		$this->customerInformation = array(
 			"userName"      => $this->faker->bothify('UserName ?####?'),
 			"password"      => $this->faker->bothify('Password ?##?'),
 			"email"         => $this->faker->email,
@@ -67,6 +66,7 @@ class Products2CheckoutCest
 			"phone"         => "8787878787",
 			"shopperGroup"  => 'Default Private',
 		);
+		$this->group          = 'Registered';
 
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = '2Checkout Payments';
@@ -77,7 +77,7 @@ class Products2CheckoutCest
 			"vendorID"        => "901261371",
 			"secretWord"      => "tango",
 			"debitCardNumber" => "4000000000000002",
-			"cvv" => "123",
+			"cvv"             => "123",
 			"cardExpiryMonth" => '5',
 			"cardExpiryYear"  => '2022',
 			"shippingAddress" => "some place on earth"
@@ -130,7 +130,7 @@ class Products2CheckoutCest
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser(
-			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group,$this->customerInformation["shopperGroup"],
+			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
 			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
 		);
 
