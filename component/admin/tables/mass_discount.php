@@ -33,6 +33,16 @@ class RedshopTableMass_Discount extends RedshopTable
 	public $end_date;
 
 	/**
+	 * @var  integer
+	 */
+	public $type;
+
+	/**
+	 * @var  integer
+	 */
+	public $amount;
+
+	/**
 	 * Called before bind().
 	 *
 	 * Method to bind an associative array or object to the JTable instance.This
@@ -212,16 +222,14 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		if (empty($this->name))
 		{
-			/** @scrutinizer ignore-call */
-			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
+			/** @scrutinizer ignore-call */ $this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
 
 			return false;
 		}
 
 		if (empty($this->amount))
 		{
-			/** @scrutinizer ignore-call */
-			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
+			/** @scrutinizer ignore-call */ $this-> /** @scrutinizer ignore-call */setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
 
 			return false;
 		}
@@ -229,7 +237,7 @@ class RedshopTableMass_Discount extends RedshopTable
 		if (is_null($this->type))
 		{
 			/** @scrutinizer ignore-deprecated */
-			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_TYPE_IS_REQUIRED'), 'error');
+			$this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_TYPE_IS_REQUIRED'), 'error');
 
 			return false;
 		}
@@ -317,7 +325,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 			if (!$db->setQuery($query)->execute())
 			{
-				$this->setError($db->getErrorMsg());
+				$this->/** @scrutinizer ignore-deprecated */ setError($db-> /** @scrutinizer ignore-deprecated */getErrorMsg());
 
 				return false;
 			}
@@ -486,7 +494,7 @@ class RedshopTableMass_Discount extends RedshopTable
 			return true;
 		}
 
-		if (!is_array($productIds))
+		if (is_string($productIds))
 		{
 			$productIds = explode(',', $productIds);
 		}
@@ -647,7 +655,7 @@ class RedshopTableMass_Discount extends RedshopTable
 			catch (Exception $e)
 			{
 				/** @scrutinizer ignore-deprecated */
-				$this->setError($e->getMessage(), 'error');
+				$this->/** @scrutinizer ignore-call */ setError($e->getMessage(), 'error');
 			}
 		}
 
