@@ -80,6 +80,7 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForText(FrontEndPaymentPluginPage::$secureCheckout, 30, FrontEndPaymentPluginPage:: $h1);
@@ -87,7 +88,6 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$shippingAddress1, 30);
 		$I->fillField(FrontEndPaymentPluginPage::$shippingAddress1, $checkoutAccountInformation['shippingAddress']);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$shippingInformation, 30);
-
 		$I->click(FrontEndPaymentPluginPage::$shippingInformation);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$checkboxSamAsShipping, 30);
 		$I->wait(0.5);
