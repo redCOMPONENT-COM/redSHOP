@@ -251,7 +251,6 @@ class RedshopHelperCartDiscount
 					$oldCoupons = array();
 					unset($cart['voucher']);
 					unset($cart['coupon']);
-					$cart['cart_discount']    = 0;
 					$cart['voucher_discount'] = 0;
 					$return = true;
 
@@ -473,7 +472,6 @@ class RedshopHelperCartDiscount
 					$oldVouchers = array();
 					unset($cart['voucher']);
 					unset($cart['coupon']);
-					$cart['cart_discount']    = 0;
 					$cart['voucher_discount'] = 0;
 					$return = true;
 				}
