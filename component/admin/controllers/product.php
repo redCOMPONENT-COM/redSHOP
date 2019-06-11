@@ -338,4 +338,37 @@ class RedshopControllerProduct extends RedshopController
 			return true;
 		}
 	}
+
+	/**
+	 * Save order ajax.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function saveOrderAjax()
+	{
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
+
+		$order = $this->input->post->get('order', array(), 'array');
+
+		// Sanitize the input
+		$pks   = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
+
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('product_detail');
+
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+
+		if ($return)
+		{
+			echo '1';
+		}
+
+		// Close the application
+		\JFactory::getApplication()->close();
+	}
 }
