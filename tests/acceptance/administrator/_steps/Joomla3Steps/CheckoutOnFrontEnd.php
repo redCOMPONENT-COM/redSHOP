@@ -111,4 +111,90 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->seeElement(['link' => $productName]);
 		$I->doFrontendLogout();
 	}
+
+	/**
+	 * @param $pluginName
+	 * @param $accessId
+	 * @param $transactionKey
+	 * @param $md5Key
+	 * @throws Exception
+	 * @since 2.1.2
+	 */
+	public function configAuthorizeDPMPlugin($pluginName, $accessId, $transactionKey, $md5Key)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new \PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 60);
+		$I->checkExistenceOf($pluginName);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
+		$I->click($pluginName);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldAccessId, 60);
+		$I->fillField(PluginManagerJoomla3Page:: $fieldAccessId , $accessId);
+		$I->fillField(PluginManagerJoomla3Page:: $fieldTransactionID, $transactionKey);
+		$I->fillField(PluginManagerJoomla3Page:: $fieldMd5Key , $md5Key);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldTestMode, 60);
+		$I->click( PluginManagerJoomla3Page::$fieldTestMode);
+
+		// Choosing Test Mode to Yes
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$optionTestModeYes, 60);
+		$I->click(PluginManagerJoomla3Page::$optionTestModeYes);
+		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
+		$I->see('Plugin saved.', ['id' => 'system-message-container']);
+	}
+
+	/**
+	 * @param $user
+	 * @param $password
+	 * @param $checkoutAccountDetail
+	 * @param string $productName
+	 * @param string $categoryName
+	 * @throws Exception
+	 * @since 2.1.2
+	 */
+	public function checkoutProductWithAuthorizeDPMPayment( $user, $password, $checkoutAccountDetail, $productName, $categoryName)
+	{
+		$I = $this;
+		$I->doFrontEndLogin($user,$password);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 60);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 60);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, FrontEndProductManagerJoomla3Page:: $selectorSuccess);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
+		$I->waitForElementVisible("//h3[contains(text(),'Payment Method')]");
+		$I->click(FrontEndProductManagerJoomla3Page::$paymentAuthorizeDPM);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page:: $cardName, 60);
+		$I->fillField(FrontEndProductManagerJoomla3Page:: $cardName, $checkoutAccountDetail['customerName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page:: $cardNumber, $checkoutAccountDetail['debitCardNumber']);
+		$I->fillField( FrontEndProductManagerJoomla3Page::$cardCode, $checkoutAccountDetail['cvv']);
+		$I->selectOption(FrontEndProductManagerJoomla3Page:: $selectExpireMonth,$checkoutAccountDetail['cardExpiryMonth']);
+		$I->selectOption(FrontEndProductManagerJoomla3Page:: $selectExpireYear, $checkoutAccountDetail['cardExpiryMonth']);
+		$I->click(FrontEndProductManagerJoomla3Page::$typeCard);
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		$I->wait(0.5);
+		try
+		{
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->dontSeeInCurrentUrl('checkout');
+	}
 }
