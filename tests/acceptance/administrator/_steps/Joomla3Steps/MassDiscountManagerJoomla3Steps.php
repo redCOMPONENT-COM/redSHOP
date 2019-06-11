@@ -280,7 +280,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MassDiscountManagerPage::$URL);
 		$I->searchMassDiscount($massDiscountName);
-		$I->click(\MassDiscountManagerPage::$checkFirstItems);
+		$I->checkAllResults();
 		$I->click(\MassDiscountManagerPage::$deleteButton);
 		$I->acceptPopup();
 //		$I->waitForText(\MassDiscountManagerPage::$messageSuccess, 30, \MassDiscountManagerPage::$selectorSuccess);
