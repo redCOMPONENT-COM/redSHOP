@@ -65,13 +65,6 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->wait(0.5);
-		try
-		{
-			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}catch (\Exception $e)
-		{
-			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		try
