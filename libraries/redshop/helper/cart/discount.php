@@ -154,10 +154,6 @@ class RedshopHelperCartDiscount
 			{
 				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 				{
-					if (!empty($cart['cart_discount']))
-					{
-						$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
-					}
 					unset($cart['voucher']);
 					$cart['voucher_discount'] = 0;
 				}
@@ -251,20 +247,13 @@ class RedshopHelperCartDiscount
 					break;
 
 				case 2:
-					if ($cart['coupon']['coupon_code'] == $couponCode)
-					{
-						$return = false;
-					}
-					else
-					{
-						$coupons    = array();
-						$oldCoupons = array();
-						unset($cart['voucher']);
-						unset($cart['coupon']);
-						$cart['cart_discount']    = 0;
-						$cart['voucher_discount'] = 0;
-						$return = true;
-					}
+					$coupons    = array();
+					$oldCoupons = array();
+					unset($cart['voucher']);
+					unset($cart['coupon']);
+					$cart['cart_discount']    = 0;
+					$cart['voucher_discount'] = 0;
+					$return = true;
 
 					break;
 
@@ -274,7 +263,6 @@ class RedshopHelperCartDiscount
 					$oldCoupons = array();
 					unset($cart['voucher']);
 					unset($cart['coupon']);
-					$cart['cart_discount']    = 0;
 					$cart['voucher_discount'] = 0;
 
 					$return = true;
