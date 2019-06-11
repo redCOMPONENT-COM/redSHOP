@@ -72,12 +72,11 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
-
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		try
 		{
-			$I->dontSeeInCurrentUrl(FrontEndPaymentPluginPage::$checkout);
+			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 		}catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
