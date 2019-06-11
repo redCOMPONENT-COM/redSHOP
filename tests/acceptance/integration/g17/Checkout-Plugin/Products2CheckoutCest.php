@@ -93,21 +93,21 @@ class Products2CheckoutCest
 		$I->doAdministratorLogin();
 	}
 
-//	/**
-//	 * @param AdminManagerJoomla3Steps $I
-//	 * @throws Exception
-//	 * @since    2.1.2
-//	 */
-//	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
-//	{
-//		$I->wantTo("install plugin payment 2Checkout ");
-//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
-//		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-//		$I->wantTo('Enable Plugin 2Checkout Payments in Administrator');
-//		$I->enablePlugin($this->pluginName);
-//		$I = new CheckoutWithPluginExtension($scenario);
-//		$I->config2CheckoutPlugin($this->pluginName, $this->checkoutAccountInformation['vendorID'], $this->checkoutAccountInformation['secretWord']);
-//	}
+	/**
+	 * @param AdminManagerJoomla3Steps $I
+	 * @throws Exception
+	 * @since    2.1.2
+	 */
+	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
+	{
+		$I->wantTo("install plugin payment 2Checkout ");
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
+		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->wantTo('Enable Plugin 2Checkout Payments in Administrator');
+		$I->enablePlugin($this->pluginName);
+		$I = new CheckoutWithPluginExtension($scenario);
+		$I->config2CheckoutPlugin($this->pluginName, $this->checkoutAccountInformation['vendorID'], $this->checkoutAccountInformation['secretWord']);
+	}
 
 	/**
 	 * @param AcceptanceTester $I
