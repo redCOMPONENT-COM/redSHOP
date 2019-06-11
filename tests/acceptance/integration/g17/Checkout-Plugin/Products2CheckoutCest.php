@@ -28,7 +28,7 @@ class Products2CheckoutCest
 	{
 		$this->faker            = Faker\Factory::create();
 		$this->categoryName     = $this->faker->bothify('CategoryName ?###?');
-		$this->productName      = $this->faker->bothify('Testing ProductManagement ??####?');
+		$this->productName      = $this->faker->bothify('Testing Product ??####?');
 		$this->productNumber    = $this->faker->numberBetween(999, 9999);
 		$this->productPrice     = 100;
 		$this->minimumQuantity  = 1;
