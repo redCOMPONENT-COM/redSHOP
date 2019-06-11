@@ -75,6 +75,15 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		try
+		{
+			$I->dontSeeInCurrentUrl(FrontEndPaymentPluginPage::$checkout);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		}
 		$I->waitForText(FrontEndPaymentPluginPage::$secureCheckout, 30, FrontEndPaymentPluginPage:: $h1);
 		$I->click(FrontEndPaymentPluginPage::$reviewCart);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$shippingAddress1, 30);

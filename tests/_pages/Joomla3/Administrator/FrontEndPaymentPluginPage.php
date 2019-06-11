@@ -77,4 +77,10 @@ class FrontEndPaymentPluginPage extends FrontEndProductManagerJoomla3Page
 	 * @since 2.1.2
 	 */
 	public static $message2CheckoutSuccess = 'Your payment has been processed';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $checkout = 'checkout';
 }
