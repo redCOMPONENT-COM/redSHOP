@@ -55,8 +55,7 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
-		$I->waitForElement(FrontEndPaymentPluginPage:: $labelPayment);
-		$I->waitForElementVisible(FrontEndPaymentPluginPage:: $labelPayment);
+		$I->waitForElementVisible(FrontEndPaymentPluginPage:: $labelPayment, 30);
 		$I->scrollTo(FrontEndPaymentPluginPage::$labelPayment);
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$payment2checkout, 30);
 		$I->wait(0.5);
