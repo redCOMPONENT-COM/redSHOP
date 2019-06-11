@@ -26,7 +26,7 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->searchForItem($pluginName);
 		$pluginManagerPage = new PluginManagerJoomla3Page;
 		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
-		$I->seeElement(PluginManagerJoomla3Page:: $searchResultRow);
+		$I->waitForElementVisible(PluginManagerJoomla3Page:: $searchResultRow, 30);
 		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
 		$I->click($pluginName);
 		$I->waitForElementVisible( PluginManagerJoomla3Page:: $vendorID ,30);
@@ -61,8 +61,7 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 		$I->waitForElementVisible(FrontEndPaymentPluginPage::$payment2checkout, 30);
 		$I->wait(0.5);
 		$I->click(FrontEndPaymentPluginPage::$payment2checkout);
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
-		$I->seeElement($productFrontEndManagerPage->product($productName));
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
