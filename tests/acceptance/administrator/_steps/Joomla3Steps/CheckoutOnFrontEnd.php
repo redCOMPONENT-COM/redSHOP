@@ -111,4 +111,29 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->seeElement(['link' => $productName]);
 		$I->doFrontendLogout();
 	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @since 2.1.2
+	 * @throws Exception
+	 */
+	public function addToCart($categoryName, $productName)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		try{
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		}
+	}
 }

@@ -49,16 +49,8 @@ class CheckoutWithPluginExtension extends CheckoutOnFrontEnd
 	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $password);
-		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText( FrontEndProductManagerJoomla3Page:: $alertSuccessMessage, 30, FrontEndProductManagerJoomla3Page:: $selectorSuccess);
-		$I->see( FrontEndProductManagerJoomla3Page:: $alertSuccessMessage, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
