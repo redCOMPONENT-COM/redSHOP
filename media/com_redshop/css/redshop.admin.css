@@ -27243,6 +27243,7 @@ body.modal-open {
     padding: 10px 0;
     margin-top: 10px;
     border-top: 1px solid #3a87ad;
+    overflow: hidden;
 }
 
 .sub_attribute_table label

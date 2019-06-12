@@ -190,11 +190,21 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 				<input type="file" value="" name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_subproperty_<?php echo $keySubProp; ?>_image" />
 			</div>
 		</div>
-
-
-
 	</div>
 </div>
+
+<?php
+	/**
+	 * This is the place to inject sub property value data from a product type plugin.
+	 * Plugin group is already loaded in the view.html.php and you can use $data->dispatcher.
+	 * This is used for integration with other redSHOP extensions which can extend product type.
+	 */
+
+	if ($productId && !empty($subProperty->subattribute_color_id))
+	{
+		$data->dispatcher->trigger('productTypeSubPropertyValue', array($property, $subProperty));
+	}
+?>
 
 </div>
 

@@ -190,9 +190,6 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 					<input type="file" value="" name="attribute_<?php echo $keyAttr; ?>_property_<?php echo $keyProperty; ?>_image" />
 				</div>
 			</div>
-
-
-
 		</div>
 	</div>
 
@@ -211,8 +208,8 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 
 			$data->dispatcher->trigger('productTypeAttributeValue', array($property));
 		}
-		?>
-
+	?>
+	
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="form-group">
@@ -225,6 +222,8 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 			</div>
 		</div>
 	</div>
+	
+
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="form-group">
@@ -301,9 +300,6 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 			<?php
 			if ($totalSubProp != 0)
 			{ ?>
-
-
-
 				<?php
 				foreach ($property->subvalue as $keySubProp => $subProperty)
 				{
@@ -319,6 +315,7 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 							'keyProperty' => $keyProperty,
 							'keySubProp' => $keySubProp,
 							'property' => $property,
+							'productId' => $productId,
 							'data' => $data
 						)
 					);
@@ -326,8 +323,6 @@ if ($property->property_main_image && JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH
 				}
 
 				?>
-
-
 			<?php }
 			?>
 
