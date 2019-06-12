@@ -66,6 +66,7 @@ class RoboFile extends \Robo\Tasks
 			*/
 			$version = '3.9.8';
 
+
 			$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 			$this->say("Joomla CMS ($version) site created at tests/joomla-cms");
 		}
