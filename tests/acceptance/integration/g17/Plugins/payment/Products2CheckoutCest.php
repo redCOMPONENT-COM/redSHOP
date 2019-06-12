@@ -12,6 +12,8 @@ use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
+use Frontend\payment\CheckoutWith2Payment;
+use Administrator\plugins\PluginPaymentManager;
 
 /**
  * Class Products2CheckoutCest
@@ -105,7 +107,7 @@ class Products2CheckoutCest
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin 2Checkout Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
-		$I = new CheckoutWithPluginExtension($scenario);
+		$I = new PluginPaymentManager($scenario);
 		$I->config2CheckoutPlugin($this->pluginName, $this->checkoutAccountInformation['vendorID'], $this->checkoutAccountInformation['secretWord']);
 	}
 
@@ -136,8 +138,8 @@ class Products2CheckoutCest
 			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
 		);
 
-		$I = new CheckoutWithPluginExtension($scenario);
-		$I->checkoutProductWith2Checkout($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation, $this->productName, $this->categoryName);
+		$I = new CheckoutWith2Payment($scenario);
+		$I->checkoutProductWith2Checkout($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');

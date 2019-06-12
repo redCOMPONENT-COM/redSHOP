@@ -125,6 +125,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->pauseExecution();
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
