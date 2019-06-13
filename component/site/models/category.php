@@ -854,7 +854,7 @@ class RedshopModelCategory extends RedshopModel
 				$this->_is_filter_enable = true;
 			}
 
-			$tag = '';
+			$tag = array();
 
 			for ($f = 0, $fn = count($rs_filters); $f < $fn; $f++)
 			{
