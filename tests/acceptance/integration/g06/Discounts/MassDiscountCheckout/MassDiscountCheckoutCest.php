@@ -83,6 +83,7 @@ class MassDiscountCheckoutCest
 
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithDiscount($this->ProductName, $this->CategoryName, $this->subtotal, $this->Discount, $this->Total);
+
 	}
 
 
