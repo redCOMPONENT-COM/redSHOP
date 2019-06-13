@@ -7,16 +7,11 @@
  */
 
 /**
- * Class FrontEndPaymentPluginPage
+ * Class Frontend2PaymentPage
  * @since 2.1.2
  */
-class FrontEndPaymentPluginPage extends FrontEndProductManagerJoomla3Page
+class Frontend2PaymentPage extends FrontEndProductManagerJoomla3Page
 {
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $labelPayment = "//h3[contains(text(),'Payment Method')]";
 
 	/**
 	 * @var string
