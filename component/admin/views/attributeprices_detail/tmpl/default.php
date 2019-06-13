@@ -30,16 +30,16 @@ $producthelper = productHelper::getInstance();
 			return;
 		}
 		if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
-			alert("ATTRIBUTE_PRICE_NOT_VALID");
+			alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_NOT_VALID', true ); ?>");
 			form.product_price.focus();
 		} else if (isNaN(form.price_quantity_start.value)) {
-			alert("QUANTITY_NOT_VALID");
+			alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_START_QUANTITY_NOT_VALID', true ); ?>");
 			form.product_price.focus();
 		} else if (isNaN(form.price_quantity_end.value)) {
-			alert("QUANTITY_NOT_VALID");
+			alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_END_QUANTITY_NOT_VALID', true ); ?>");
 			form.product_price.focus();
 		} else if (isNaN(form.price_quantity_start.value) > isNaN(form.price_quantity_end.value)) {
-			alert("ERROR_SAVING_PRICE_QUNTITY_DETAIL");
+			alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL', true ); ?>");
 			form.product_price.focus();
 		} else {
 			submitform(pressbutton);
