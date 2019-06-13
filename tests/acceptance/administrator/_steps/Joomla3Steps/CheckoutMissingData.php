@@ -87,8 +87,6 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->wait(0.5);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
