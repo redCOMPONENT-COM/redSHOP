@@ -7,7 +7,6 @@
  */
 
 namespace Administrator\plugins;
-
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use PluginManagerJoomla3Page;
 
