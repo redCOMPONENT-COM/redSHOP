@@ -11,10 +11,10 @@ use AcceptanceTester\AdminManagerJoomla3Steps;
 use PluginManagerJoomla3Page;
 
 /**
- * Class PluginPaymentManager
+ * Class PluginPaymentManagerJoomla
  * @since 2.1.2
  */
-class PluginPaymentManager extends AdminManagerJoomla3Steps
+class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 {
 	/**
 	 * @param $pluginName

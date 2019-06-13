@@ -26,7 +26,7 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
      * @param $categoryName
      * @throws \Exception
      */
-	public function checkoutProductWith2Checkout( $userName , $password, $checkoutAccountInformation, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	public function checkoutProductWith2Checkout( $userName , $password, $checkoutAccountInformation, $productName, $categoryName)
 	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $password);
