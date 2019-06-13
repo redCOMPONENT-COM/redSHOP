@@ -1,4 +1,8 @@
 <?php
+namespace Administrator\Configuration;
+
+use AcceptanceTester\AdminManagerJoomla3Steps;
+
 /**
  * Created by PhpStorm.
  * User: nhung nguyen
@@ -6,7 +10,6 @@
  * Time: 3:51 PM
  */
 
-namespace AcceptanceTester;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
