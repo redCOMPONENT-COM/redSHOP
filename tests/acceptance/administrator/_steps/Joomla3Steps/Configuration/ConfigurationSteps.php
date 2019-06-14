@@ -6,7 +6,8 @@
  * Time: 3:51 PM
  */
 
-namespace AcceptanceTester;
+namespace Configuration;
+use AcceptanceTester\AdminManagerJoomla3Steps;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
