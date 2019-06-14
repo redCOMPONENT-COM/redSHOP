@@ -24,12 +24,6 @@ $producthelper  = productHelper::getInstance();
             form.price_quantity_start.focus();
             return;
         }
-        if (form.discount_start_date.value > form.discount_end_date.value)
-        {
-            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE', true ); ?>");
-            form.discount_start_date.focus();
-            return;
-        }
         if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
             alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_INVALID', true ); ?>");
             form.product_price.focus();

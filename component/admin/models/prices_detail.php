@@ -90,6 +90,15 @@ class RedshopModelPrices_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
+			// Get stored post data from user state
+			$tmpPost = JFactory::getApplication()->getUserState('com_redshop.edit.product_price.data', false);
+
+			if ($tmpPost)
+			{
+				$detail = json_decode($tmpPost);
+			}
+			else
+			{
 			$detail                       = new stdClass;
 			$detail->price_id             = 0;
 			$detail->product_id           = $this->_prodid;
@@ -103,6 +112,8 @@ class RedshopModelPrices_detail extends RedshopModel
 			$detail->discount_price       = 0;
 			$detail->discount_start_date  = 0;
 			$detail->discount_end_date    = 0;
+			}
+
 			$this->_data                  = $detail;
 
 			return (boolean) $this->_data;
