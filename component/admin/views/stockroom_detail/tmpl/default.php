@@ -26,11 +26,6 @@ $date   = JFactory::getDate();
 				alert("<?php echo JText::_('COM_REDSHOP_STOCKROOM_COMPARE_MINI_MAX_DELIVERY', true ); ?>");
 				return false;
 			}
-
-			if (form.min_stock_amount.value < 0) {
-				alert("<?php echo JText::_('COM_REDSHOP_STOCKROOM_MINIMUM_STOCK_AMOUNT_ZERO', true ); ?>");
-				return false;
-			}
 		}
 
 		if (form.stockroom_name.value == "") {
@@ -68,8 +63,8 @@ $date   = JFactory::getDate();
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="min_stock_amount" id="min_stock_amount" size="32"
-							   maxlength="250" value="<?php echo $this->detail->min_stock_amount; ?>"/>
+						<input class="text_area" type="number" name="min_stock_amount" id="min_stock_amount" size="32"
+							   maxlength="250" oninput="validity.valid || (value='');" value="<?php echo $this->detail->min_stock_amount; ?>"/>
 					</td>
 				</tr>
 				<tr>
