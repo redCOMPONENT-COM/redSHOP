@@ -60,7 +60,7 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
      * @throws \Exception
      * since 2.1.2
      */
-    public function checkProductWithAttributeStockRoom($categoryName,$productName)
+    public function checkProductWithAttributeStockRoom($categoryName, $productName)
     {
         $I = $this;
         $I->amOnPage(\ProductManagerPage::$url);
