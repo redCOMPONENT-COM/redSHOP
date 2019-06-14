@@ -47,11 +47,11 @@ class ProductAttributesVatCheckoutCest
 		$this->attributes           = array(
 			array(
 				'attributeName'  => $this->faker->bothify('AttributeValue ??###?'),
-				'attributePrice' => 10
+				'attributePrice' => 20
 			),
 			array(
 				'attributeName'  => $this->faker->bothify('AttributeValue ??###?'),
-				'attributePrice' => 30
+				'attributePrice' => 40
 			),
 		);
 
@@ -62,9 +62,9 @@ class ProductAttributesVatCheckoutCest
 		$this->calculationBase      = 'billing';
 		$this->requiVAT             = 'no';
 
-		$this->subtotal             = "DKK 240,00";
-		$this->vatPrice             = "DKK 60,00";
-		$this->total                = "DKK 300,00";
+		$this->product1             = "120";
+		$this->vatPrice             = "";
+		$this->product2             = "140";
 		$this->group                = 'Registered';
 
 		//configuration enable one page checkout
@@ -181,11 +181,11 @@ class ProductAttributesVatCheckoutCest
 
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductAttributeWithVatCheckout(
-			$this->customerInformation["userName"], $this->customerInformation["password"], $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total, $this->attributes
+			$this->customerInformation["userName"], $this->customerInformation["password"], $this->productName, $this->categoryName, $this->product1, $this->product2, $this->vatPrice, $this->attributes
 		);
 
 		$I->testProductAttributeWithVatCheckout(
-			$this->customerBussinesInformation["userName"], $this->customerBussinesInformation["password"], $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total, $this->attributes
+			$this->customerBussinesInformation["userName"], $this->customerBussinesInformation["password"], $this->productName, $this->categoryName, $this->product1, $this->product2, $this->vatPrice, $this->attributes
 		);
 
 		$I = new ConfigurationSteps($scenario);
