@@ -3162,12 +3162,13 @@ function addmywishlist(frmCartName, product_id, myitemid) {
 }
 
 function getStocknotify(product_id, property_id, subproperty_id, user_id) {
-    var email = jQuery('#email_notify').val();
+    if (jQuery('#email_notify')) {
+        var email = jQuery('#email_notify').val();
 
-    if (user_id == 0 && email == '' || (user_id == 0 && !validateEmail(email)))
-    {
-        alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'));
-        return false;
+        if (user_id == 0 && !validateEmail(email)) {
+            alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'));
+            return false;
+        }
     }
 
     var url = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&task=addNotifystock&tmpl=component&product_id=" + product_id;
