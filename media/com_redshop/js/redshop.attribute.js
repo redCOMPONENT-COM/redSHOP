@@ -3161,10 +3161,17 @@ function addmywishlist(frmCartName, product_id, myitemid) {
     request.send(params);
 }
 
-function getStocknotify(product_id, property_id, subproperty_id) {
+function getStocknotify(product_id, property_id, subproperty_id, user_id) {
+    var email = jQuery('#email_notify').val();
+
+    if (user_id == 0 && email == '' || (user_id == 0 && !validateEmail(email)))
+    {
+        alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'));
+        return false;
+    }
 
     var url = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&task=addNotifystock&tmpl=component&product_id=" + product_id;
-    url = url + "&property_id=" + property_id + "&subproperty_id=" + subproperty_id;
+    url = url + "&property_id=" + property_id + "&subproperty_id=" + subproperty_id + "&email_not_login=" + email;
 
     request = getHTTPObject();
     request.onreadystatechange = function () {
@@ -3182,4 +3189,9 @@ function getStocknotify(product_id, property_id, subproperty_id) {
     request.open("GET", url, true);
     request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     request.send();
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }
