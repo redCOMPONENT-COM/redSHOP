@@ -1,7 +1,5 @@
 <?php
-namespace Administrator\Configuration;
 
-use AcceptanceTester\AdminManagerJoomla3Steps;
 
 /**
  * Created by PhpStorm.
@@ -9,8 +7,9 @@ use AcceptanceTester\AdminManagerJoomla3Steps;
  * Date: 5/25/2017
  * Time: 3:51 PM
  */
-
-
+//namespace AcceptanceTester
+namespace Configuration;
+use AcceptanceTester\AdminManagerJoomla3Steps;
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
 	public function featureUsedStockRoom()
