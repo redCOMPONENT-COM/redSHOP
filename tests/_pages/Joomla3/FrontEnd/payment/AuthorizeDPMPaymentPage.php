@@ -12,7 +12,6 @@
  */
 class AuthorizeDPMPaymentPage extends FrontEndProductManagerJoomla3Page
 {
-
 	/**
 	 * @var string
 	 * @since 2.1.2

@@ -17,7 +17,6 @@ use CheckoutOnFrontEnd;
  */
 class CheckoutWithtAuthorizeDPMPayment extends CheckoutOnFrontEnd
 {
-
 	/**
 	 * @param $user
 	 * @param $password
@@ -44,7 +43,7 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutOnFrontEnd
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardName, $checkoutAccountDetail['customerName']);
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardNumber, $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField( AuthorizeDPMPaymentPage::$cardCode, $checkoutAccountDetail['cvv']);
-		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireMonth,$checkoutAccountDetail['cardExpiryMonth']);
+		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
 		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireYear, $checkoutAccountDetail['cardExpiryMonth']);
 		$I->click(AuthorizeDPMPaymentPage::$typeCard);
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);
@@ -64,6 +63,6 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutOnFrontEnd
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
-		$I->dontSeeInCurrentUrl('checkout');
+		$I->dontSeeInCurrentUrl(AuthorizeDPMPaymentPage::$uriCheckout);
 	}
 }

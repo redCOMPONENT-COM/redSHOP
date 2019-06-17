@@ -71,8 +71,8 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-
 	public static $vendorID = "//input[@id='jform_params_vendor_id']";
+
 	/**
 	 * @var string
 	 * @since 2.1.2
