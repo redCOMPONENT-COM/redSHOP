@@ -138,3 +138,4 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		}
 	}
 }
+
