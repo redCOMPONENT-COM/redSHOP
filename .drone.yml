@@ -668,6 +668,5 @@ services:
             - sh tests/drone/setup-stages.sh        "group10"                              "10-Group10"                 $php_versions
             - sh tests/drone/setup-stages.sh        "group11"                              "11-Group11"                 $php_versions
 
-
 branches:
     exclude: [ crowdin ]
