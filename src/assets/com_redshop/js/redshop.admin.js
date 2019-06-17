@@ -11582,7 +11582,7 @@ $.AdminLTE.options = {
  * functions and plugins as specified by the
  * options above.
  */
-$(function() {
+jQuery(document).ready(function($) {
     //Extend options if external options exist
     if (typeof AdminLTEOptions !== "undefined") {
         $.extend(true,
@@ -11594,7 +11594,7 @@ $(function() {
     var o = $.AdminLTE.options;
 
     //Set up the object
-    _init();
+    _init($);
 
     //Activate the layout maker
     $.AdminLTE.layout.activate();
@@ -11820,8 +11820,7 @@ $(function() {
  * ----------------------------------
  * All AdminLTE functions are implemented below.
  */
-function _init() {
-
+function _init($) {
 	/* Layout
 	 * ======
 	 * Fixes the layout height in case min-height fails.
