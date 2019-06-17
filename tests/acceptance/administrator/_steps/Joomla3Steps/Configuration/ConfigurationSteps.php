@@ -8,6 +8,7 @@
 
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
+use ConfigurationPage;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
@@ -216,10 +217,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($addcart)
 		{
 			case 'product':
-                $I->click(\ConfigurationPage::$addCartProduct);
+				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
-                $I->click(\ConfigurationPage::$addCartAttibute);
+				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
 		switch ($allowPreOrder)
@@ -455,5 +456,35 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->see($categoryName);
 		$I->see($priceProduct);
 		$I->see($priceTotal);
+	}
+
+	/**
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function productsUsedStockRoomAttribute()
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$productTab);
+		$I->click(ConfigurationPage::$stockRoomAttributeYes);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function productsOffStockRoomAttribute()
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$productTab);
+		$I->click(ConfigurationPage::$stockRoomAttributeNo);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 }
