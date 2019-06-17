@@ -12,6 +12,7 @@ use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
+use Administrator\plugins\PluginPaymentManagerJoomla;
 use Frontend\payment\CheckoutWithtAuthorizeDPMPayment;
 
 /**
@@ -106,7 +107,7 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin 2Checkout Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
-		$I = new CheckoutOnFrontEnd($scenario);
+		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configAuthorizeDPMPlugin($this->pluginName, $this->checkoutAccountInformation['accessId'], $this->checkoutAccountInformation['transactionId'], $this->checkoutAccountInformation['md5Key']);
 	}
 

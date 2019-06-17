@@ -113,40 +113,6 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 	}
 
 	/**
-<<<<<<< HEAD
-	 * @param $pluginName
-	 * @param $accessId
-	 * @param $transactionKey
-	 * @param $md5Key
-	 * @throws Exception
-	 * @since 2.1.2
-	 */
-	public function configAuthorizeDPMPlugin($pluginName, $accessId, $transactionKey, $md5Key)
-	{
-		$I = $this;
-		$I->amOnPage(PluginManagerJoomla3Page::$URL);
-		$I->checkForPhpNoticesOrWarnings();
-		$I->searchForItem($pluginName);
-		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 60);
-		$I->checkExistenceOf($pluginName);
-		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
-		$I->click($pluginName);
-		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldAccessId, 60);
-		$I->fillField(PluginManagerJoomla3Page:: $fieldAccessId , $accessId);
-		$I->fillField(PluginManagerJoomla3Page:: $fieldTransactionID, $transactionKey);
-		$I->fillField(PluginManagerJoomla3Page:: $fieldMd5Key , $md5Key);
-		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldTestMode, 60);
-		$I->click( PluginManagerJoomla3Page::$fieldTestMode);
-
-		// Choosing Test Mode to Yes
-		$I->waitForElementVisible(PluginManagerJoomla3Page::$optionTestModeYes, 60);
-		$I->click(PluginManagerJoomla3Page::$optionTestModeYes);
-		$I->click(['xpath' => "//div[@id='toolbar-save']/button"]);
-		$I->see('Plugin saved.', ['id' => 'system-message-container']);
-	}
-
-	/**
 	 * @param $categoryName
 	 * @param $productName
 	 * @since 2.1.2
