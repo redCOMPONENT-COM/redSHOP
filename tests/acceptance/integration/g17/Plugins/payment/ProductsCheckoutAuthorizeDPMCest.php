@@ -12,6 +12,7 @@ use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
+use Frontend\payment\CheckoutWithtAuthorizeDPMPayment;
 
 /**
  * Class ProductsCheckoutAuthorizeDPMCest
@@ -133,7 +134,7 @@ class ProductsCheckoutAuthorizeDPMCest
 			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
 			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
 		);
-		$I = new CheckoutOnFrontEnd($scenario);
+		$I = new CheckoutWithtAuthorizeDPMPayment($scenario);
 		$I->checkoutProductWithAuthorizeDPMPayment($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation, $this->productName, $this->categoryName);
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');

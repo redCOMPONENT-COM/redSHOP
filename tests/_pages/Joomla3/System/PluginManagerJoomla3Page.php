@@ -13,7 +13,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class PluginManagerJoomla3Page
+class PluginManagerJoomla3Page extends AdminJ3Page
 {
 	// Include url of current page
 
@@ -71,26 +71,38 @@ class PluginManagerJoomla3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $fieldAccessId = "#jform_params_access_id" ;
+	public static $vendorID = "//input[@id='jform_params_vendor_id']";
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $secretWords = "//input[@id='jform_params_secret_words']";
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $pluginSaveSuccessMessage = 'Plugin saved.';
 
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldAccessId = "#jform_params_access_id" ;
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $fieldTransactionID = "#jform_params_transaction_id" ;
-
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $fieldMd5Key = "#jform_params_md5_key" ;
-
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $fieldTestMode = "//div[@id='jform_params_is_test_chzn']/a" ;
-
 	/**
 	 * @var string
 	 * @since 2.1.2
