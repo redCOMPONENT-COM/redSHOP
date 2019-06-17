@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					[
 						'<?php echo $row->product_name ?>',
 						<?php echo $row->total_sale ?>,
-						"<?php echo $productHelper->getProductFormattedPrice($row->total_sale) ?>"
+						"<?php echo $row->total_sale . Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?>"
 					],
 					<?php endif; ?>
 				<?php endforeach; ?>

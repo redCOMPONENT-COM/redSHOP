@@ -33,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					[
 						'<?php echo $row->viewdate ?>',
 						<?php echo $row->order_total ?>,
-						"<?php echo $productHelper->getProductFormattedPrice($row->order_total) ?>"
+						"<?php echo $row->order_total .  Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?>"
 					],
 				<?php endforeach; ?>
 			 <?php else: ?>
