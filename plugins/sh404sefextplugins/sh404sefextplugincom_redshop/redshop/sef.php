@@ -790,6 +790,7 @@ switch ($view)
 			shRemoveFromGETVarsList('view');
 			shRemoveFromGETVarsList('mid');
 		}
+		break;
 
 	case 'newsletter':
 
@@ -861,7 +862,7 @@ if ($limitstart)
 // ------------------  standard plugin finalize function - don't change ---------------------------
 if ($dosef)
 {
-	$string = shFinalizePlugin(
+	$string = /** @scrutinizer ignore-call */ shFinalizePlugin(
 		$string, $title, $shAppendString, $shItemidString, (isset($limit) ? $limit : null),
 		(isset($limitstart) ? $limitstart : null), (isset($shLangName) ? $shLangName : null),
 		(isset($showall) ? $showall : null), $suppressPagination = true
