@@ -466,7 +466,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab);
 		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeYes);
 		$I->click(ConfigurationPage::$stockRoomAttributeYes);
 		$I->click(ConfigurationPage::$buttonSave);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
@@ -481,7 +483,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab);
 		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeNo);
 		$I->click(ConfigurationPage::$stockRoomAttributeNo);
 		$I->click(ConfigurationPage::$buttonSave);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);

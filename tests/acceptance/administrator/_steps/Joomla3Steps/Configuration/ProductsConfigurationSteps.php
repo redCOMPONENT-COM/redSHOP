@@ -8,6 +8,7 @@
 
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
+use ConfigurationPage;
 use ProductManagerPage as ProductManagerPage;
 
 /**
@@ -33,7 +34,7 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
 		$I->click(ProductManagerPage::$buttonNew);
-		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->waitForElementVisible(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
 		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
@@ -46,11 +47,11 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
 		$I->click(ProductManagerPage::$addAttribute);
 		$I->fillField($usePage->addAttributeName(0), $nameAttribute);
-		$I->waitForElement($usePage->attributeNameProperty(0),30);
+		$I->waitForElementVisible($usePage->attributeNameProperty(0),30);
 		$I->fillField($usePage->attributeNameProperty(0), $valueAttribute);
-		$I->waitForElement($usePage->attributePriceProperty(0), 30);
+		$I->waitForElementVisible($usePage->attributePriceProperty(0), 30);
 		$I->fillField($usePage->attributePriceProperty(0), $priceAttribute);
-		$I->waitForElement($usePage->attributePreSelect(0),30);
+		$I->waitForElementVisible($usePage->attributePreSelect(0),30);
 		$I->click($usePage->attributePreSelect(0));
 		$I->click(ProductManagerPage::$stockroomTab);
 		$I->fillField(ProductManagerPage::$quantityInStock,$valueAttribute);
@@ -73,9 +74,10 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click($categoryName);
 		$I->waitForText($productName,30);
 		$I->click($productName);
+		$I->waitForText($productName);
 		$I->see($nameAttribute);
-		$I->waitForText('Out of Stock.',30);
-		$I->see('Out of Stock.');
+		$I->waitForText(ConfigurationPage::$messOutOfStockRoom,30);
+		$I->see(ConfigurationPage::$messOutOfStockRoom);
 	}
 
 	/**
