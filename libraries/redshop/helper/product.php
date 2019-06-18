@@ -989,9 +989,8 @@ class RedshopHelperProduct
 	{
 		$redshopUser = JFactory::getSession()->get('rs_user');
 		$app         = JFactory::getApplication();
-		$isAdmin     = $app->isClient('administrator');
 
-		if ($userId == 0 && !$isAdmin)
+		if ($userId == 0 && !$app->isClient('administrator'))
 		{
 			$user   = JFactory::getUser();
 			$userId = $user->id;
