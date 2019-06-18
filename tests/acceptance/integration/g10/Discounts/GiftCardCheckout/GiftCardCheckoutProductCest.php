@@ -141,6 +141,7 @@ class GiftCardCheckoutProductCest
 		$I->waitForElement(\GiftCardCheckoutPage::$reciverName);
 		$I->fillField(\GiftCardCheckoutPage::$reciverName, $this->firstName);
 		$I->fillField(\GiftCardCheckoutPage::$reciverEmail, $this->email);
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$addToCart, 30);
 		$I->click(\GiftCardCheckoutPage::$addToCart);
 		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->see(GiftCardCheckoutPage::$alertSuccessMessage, \GiftCardCheckoutPage::$selectorSuccess);
