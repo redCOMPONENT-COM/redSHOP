@@ -23,7 +23,7 @@ $date   = JFactory::getDate();
 			return;
 		} else if (pressbutton == 'apply' || pressbutton == 'save') {
 			if (form.min_del_time.value > form.max_del_time.value) {
-				alert("<?php echo JText::_('COM_REDSHOP_STOCKROOM_COMPARE_MINI_MAX_DELIVERY', true ); ?>");
+				alert("<?php echo JText::_('COM_REDSHOP_STOCKROOM_MIN_MAX_DELIVERY_TIME_COMPARISON_ALERT', true ); ?>");
 				return false;
 			}
 		}
