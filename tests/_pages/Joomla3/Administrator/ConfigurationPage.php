@@ -478,6 +478,7 @@ class ConfigurationPage extends AdminJ3Page
 	 * since 2.1.2
 	 */
 	public static $stockRoomAttributeNo = '//label[@id="display_out_of_stock_attribute_data_0-lbl"]';
+
 	/**
 	 * @var string
 	 * since 2.1.2
