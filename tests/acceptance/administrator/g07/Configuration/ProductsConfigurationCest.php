@@ -91,7 +91,7 @@ class ProductsConfigurationCest
 		$I = new ConfigurationSteps($scenario);
 		$I->productsUsedStockRoomAttribute();
 
-		$I->wantTo('Create Category in Administrator');
+		$I->wantTo('Create a Category ');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
 		$I->addCategorySaveClose($this->randomCategoryName);
