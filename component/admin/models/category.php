@@ -397,7 +397,7 @@ class RedshopModelCategory extends RedshopModelForm
 					continue;
 				}
 
-				$accessoryId = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
+				$accessoryId    = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
 				$accessoryTable = JTable::getInstance('Accessory_detail', 'Table');
 
 				$accessoryTable->accessory_id        = $accessoryId;
