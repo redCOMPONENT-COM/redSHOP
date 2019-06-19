@@ -97,7 +97,7 @@ class ProductsConfigurationCest
 		$I->addCategorySave($this->randomCategoryName);
 
 		$I->wantTo('Test create Product with attribute Save Manager in Administrator');
-		$I = new ProductsConfigurationSteps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductWithAttributeStockRoom($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
 

@@ -832,4 +832,46 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->see($price);
 		}
 	}
+
+    /**
+     * @param $productName
+     * @param $category
+     * @param $productNumber
+     * @param $price
+     * @param $nameAttribute
+     * @param $valueAttribute
+     * @param $priceAttribute
+     * @throws \Exception
+     * since 2.1.2
+     */
+    public function createProductWithAttributeStockRoom($productName, $category, $productNumber, $price, $nameAttribute, $valueAttribute, $priceAttribute)
+    {
+        $I = $this;
+        $I->amOnPage(\ProductManagerPage::$URL);
+        $I->click(ProductManagerPage::$buttonNew);
+        $I->waitForElementVisible(ProductManagerPage::$productName, 30);
+        $I->fillField(ProductManagerPage::$productName, $productName);
+        $I->fillField(ProductManagerPage::$productNumber, $productNumber);
+        $I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+        $I->click(ProductManagerPage::$categoryId);
+        $I->fillField(ProductManagerPage::$categoryFile, $category);
+        $usePage = new ProductManagerPage();
+        $I->waitForElement($usePage->returnChoice($category), 30);
+        $I->click($usePage->returnChoice($category));
+        $I->click(ProductManagerPage::$buttonProductAttribute);
+        $I->waitForElement(ProductManagerPage::$attributeTab, 60);
+        $I->click(ProductManagerPage::$addAttribute);
+        $I->fillField($usePage->addAttributeName(0), $nameAttribute);
+        $I->waitForElementVisible($usePage->attributeNameProperty(0),30);
+        $I->fillField($usePage->attributeNameProperty(0), $valueAttribute);
+        $I->waitForElementVisible($usePage->attributePriceProperty(0), 30);
+        $I->fillField($usePage->attributePriceProperty(0), $priceAttribute);
+        $I->waitForElementVisible($usePage->attributePreSelect(0),30);
+        $I->click($usePage->attributePreSelect(0));
+        $I->click(ProductManagerPage::$stockroomTab);
+        $I->fillField(ProductManagerPage::$quantityInStock,$valueAttribute);
+        $I->click(ProductManagerPage::$buttonSave);
+        $I->waitForText(ProductManagerPage::$messageSaveSuccess, 30);
+    }
+
 }
