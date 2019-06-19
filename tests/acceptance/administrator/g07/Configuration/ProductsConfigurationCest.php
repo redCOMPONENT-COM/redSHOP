@@ -122,20 +122,20 @@ class ProductsConfigurationCest
 	 */
 	public function checkDisplayOutOfStockAttibuteNo(AcceptanceTester $I,$scenario)
 	{
-		$I->wantTo('Test enable Stockroom configuration');
+		$I->wantTo('Test enable Stockroom in configuration');
 		$I = new ConfigurationSteps($scenario);
 		$I->featureUsedStockRoom();
 
-		$I->wantTo('Test enable Stockroom Attribute in Administrator');
+		$I->wantTo('Test Off Stockroom Attribute ');
 		$I = new ConfigurationSteps($scenario);
 		$I->productsOffStockRoomAttribute();
 
-		$I->wantTo('Create Category in Administrator');
+		$I->wantTo('Create Category ');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
 		$I->addCategorySaveClose($this->randomCategoryName);
 
-		$I->wantTo('Test create Product with attributes in Administrator');
+		$I->wantTo('Create Product with attributes ');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product attributes inside the category');
 		$I->createProductWithAttributeStockRoom($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
