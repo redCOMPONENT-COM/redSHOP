@@ -22,7 +22,7 @@ $date   = JFactory::getDate();
 			submitform(pressbutton);
 			return;
 		} else if (pressbutton == 'apply' || pressbutton == 'save') {
-			if (form.min_del_time.value > form.max_del_time.value) {
+			if (parseInt(form.min_del_time.value) > parseInt(form.max_del_time.value)) {
 				alert("<?php echo JText::_('COM_REDSHOP_STOCKROOM_COMPARE_MINI_MAX_DELIVERY', true ); ?>");
 				return false;
 			}
@@ -63,7 +63,7 @@ $date   = JFactory::getDate();
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="number" name="min_stock_amount" id="min_stock_amount" size="32"
+						<input class="text_area" type="number" name="min_stock_amount" id="min_stock_amount" size="32" min="0"
 							   maxlength="250" oninput="validity.valid || (value='');" value="<?php echo $this->detail->min_stock_amount; ?>"/>
 					</td>
 				</tr>
@@ -94,8 +94,9 @@ $date   = JFactory::getDate();
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="min_del_time" id="min_del_time"
-							   value="<?php echo $this->detail->min_del_time; ?>" size="32" maxlength="250"/>
+						<input class="text_area" type="number" name="min_del_time" id="min_del_time" min="0"
+							   value="<?php echo $this->detail->min_del_time; ?>" size="32" maxlength="250"
+							   oninput="validity.valid || (value='');"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_DELIVERY_TIME'), JText::_('COM_REDSHOP_MINIMUM_DELIVERY_TIME'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
@@ -106,8 +107,9 @@ $date   = JFactory::getDate();
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="max_del_time" id="max_del_time"
-							   value="<?php echo $this->detail->max_del_time; ?>" size="32" maxlength="250"/>
+						<input class="text_area" type="number" name="max_del_time" id="max_del_time" min="0"
+							   value="<?php echo $this->detail->max_del_time; ?>" size="32" maxlength="250"
+							   oninput="validity.valid || (value='');"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_DELIVERY_TIME'), JText::_('COM_REDSHOP_MAXIMUM_DELIVERY_TIME'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
