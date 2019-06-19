@@ -292,7 +292,7 @@ class RedshopModelCategory extends RedshopModelForm
 			$post['level']                 = $copyData[$i]->level;
 			$post['product_filter_params'] = $copyData[$i]->product_filter_params;
 
-			$this->saveCategory($post);
+			$this->/** @scrutinizer ignore-call */ saveCategory($post);
 
 			/** @var RedshopEntityCategory $medias */
 			$medias = RedshopEntityCategory::getInstance($copyData[$i]->id)->getMedia();
