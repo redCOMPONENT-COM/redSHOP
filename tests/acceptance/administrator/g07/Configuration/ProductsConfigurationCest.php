@@ -133,10 +133,10 @@ class ProductsConfigurationCest
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
-		$I->addCategorySave($this->randomCategoryName);
+		$I->addCategorySaveClose($this->randomCategoryName);
 
 		$I->wantTo('Test create Product with attribute in Administrator');
-		$I = new ProductsConfigurationSteps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductWithAttributeStockRoom($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
 
