@@ -1,15 +1,18 @@
 <?php
+
 /**
  * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 use Faker\Factory;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
 use Configuration\ProductsConfigurationSteps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
+
 /**
  * Class ProductsConfigurationCest
  * since 2.1.2
@@ -21,36 +24,43 @@ class ProductsConfigurationCest
 	 * since 2.1.2
 	 */
 	protected $randomProductNameAttribute;
+
 	/**
 	 * @var string
 	 * since 2.1.2
 	 */
 	protected $randomCategoryName;
+
 	/**
 	 * @var int
 	 * since 2.1.2
 	 */
 	protected $randomProductAttributeNumber;
+
 	/**
 	 * @var int
 	 * since 2.1.2
 	 */
 	protected $randomProductPrice;
+
 	/**
 	 * @var string
 	 * since 2.1.2
 	 */
 	protected $nameAttribute;
+
 	/**
 	 * @var string
 	 * since 2.1.2
 	 */
 	protected $valueAttribute;
+
 	/**
 	 * @var string
 	 * since 2.1.2
 	 */
 	protected $priceAttribute;
+
 	/**
 	 * ProductsConfigurationCest constructor.
 	 * since 2.1.2
@@ -66,6 +76,7 @@ class ProductsConfigurationCest
 		$this->valueAttribute               = '10';
 		$this->priceAttribute               = '10';
 	}
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
@@ -75,6 +86,7 @@ class ProductsConfigurationCest
 	{
 		$I->doAdministratorLogin();
 	}
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -114,6 +126,7 @@ class ProductsConfigurationCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->randomCategoryName);
 	}
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
