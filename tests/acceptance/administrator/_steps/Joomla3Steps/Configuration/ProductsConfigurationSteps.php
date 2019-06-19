@@ -29,9 +29,9 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(ProductManagerPage::$url);
-		$I->waitForText($categoryName,30);
+		$I->waitForText($categoryName, 30);
 		$I->click($categoryName);
-		$I->waitForText($productName,30);
+		$I->waitForText($productName, 30);
 		$I->click($productName);
 		$I->waitForText($productName);
 		$I->see($nameAttribute);
