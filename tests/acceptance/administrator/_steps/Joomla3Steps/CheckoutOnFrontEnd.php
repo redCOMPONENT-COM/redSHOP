@@ -16,8 +16,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
  * @since    2.1.0
- */
-class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
+ */class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 {
 	/**
 	 * @param             $userName
@@ -138,4 +137,3 @@ class CheckoutOnFrontEnd extends ProductCheckoutManagerJoomla3Steps
 		}
 	}
 }
-
