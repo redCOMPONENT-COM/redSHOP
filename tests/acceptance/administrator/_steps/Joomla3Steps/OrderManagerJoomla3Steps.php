@@ -7,8 +7,6 @@
  */
 
 namespace AcceptanceTester;
-use ImageOptimizer\Exception\Exception;
-
 /**
  * Class OrderManagerJoomla3Steps
  *
