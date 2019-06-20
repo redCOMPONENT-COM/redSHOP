@@ -40,7 +40,7 @@ pipeline:
             # - composer install --prefer-dist -d plugins/redshop_pdf/tcpdf/helper              # Uncomment if not using composer cache for redshopb_pdf plugin
 
             # npm setup
-            - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
+#            - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm install ws@3.3.2 --save-dev --save-exact
             - mv gulp-config.json.dist gulp-config.json
