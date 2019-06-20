@@ -21,7 +21,7 @@ $tz = new \DateTimeZone($config->get('offset'));
 $media = RedshopEntityProduct::getInstance($this->detail->product_id)->getMedia();
 
 $fullMediaId = 0;
-$fullImage = "";
+$fullImage = $this->detail->product_full_image;
 
 foreach ($media->getAll() as $mediaItem)
 {
@@ -680,12 +680,14 @@ foreach ($media->getAll() as $mediaItem)
 						?>
 					</label>
 					<input class="form-control"
-						   type="text"
-						   name="minimum_per_product_total"
-						   id="minimum_per_product_total"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo $this->detail->minimum_per_product_total; ?>"/>
+						type="number"
+						name="minimum_per_product_total"
+						id="minimum_per_product_total"
+						min="0"
+						oninput="validity.valid || (value='');"
+						size="10"
+						maxlength="10"
+						value="<?php echo $this->detail->minimum_per_product_total; ?>"/>
 				</div>
 
 				<?php if (Redshop::getConfig()->get('ALLOW_PRE_ORDER')) : ?>
@@ -738,12 +740,14 @@ foreach ($media->getAll() as $mediaItem)
 						?>
 					</label>
 					<input class="form-control"
-						   type="text"
-						   name="min_order_product_quantity"
-						   id="min_order_product_quantity"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo $this->detail->min_order_product_quantity; ?>"
+						type="number"
+						name="min_order_product_quantity"
+						id="min_order_product_quantity"
+						min="0"
+						oninput="validity.valid || (value='');"
+						size="10"
+						maxlength="10"
+						value="<?php echo $this->detail->min_order_product_quantity; ?>"
 					/>
 				</div>
 
@@ -762,12 +766,14 @@ foreach ($media->getAll() as $mediaItem)
 						?>
 					</label>
 					<input class="form-control"
-						   type="text"
-						   name="max_order_product_quantity"
-						   id="max_order_product_quantity"
-						   size="10"
-						   maxlength="10"
-						   value="<?php echo @$this->detail->max_order_product_quantity; ?>"
+						type="number"
+						name="max_order_product_quantity"
+						id="max_order_product_quantity"
+						min="0"
+						oninput="validity.valid || (value='');"
+						size="10"
+						maxlength="10"
+						value="<?php echo @$this->detail->max_order_product_quantity; ?>"
 					/>
 				</div>
 			</div>

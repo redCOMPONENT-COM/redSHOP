@@ -355,14 +355,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->wait(0.5);
 		try{
-			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 5, \GiftCardCheckoutPage::$selectorSuccess);
+			$I->waitForElement(\GiftCardCheckoutPage::$selectorSuccess, 30);
+			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 30, \GiftCardCheckoutPage::$selectorSuccess);
 		}catch (\Exception $e)
 		{
-			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
-			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 5, \GiftCardCheckoutPage::$selectorSuccess);
 		}
 		$I->amOnPage(\GiftCardCheckoutPage::$cartPageUrL);
 		$I->see($productName);
@@ -513,16 +513,17 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		try{
-			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$selectorSuccess, 30);
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$selectorSuccess, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		}catch (\Exception $e)
 		{
-			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+
 		}
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
@@ -553,7 +554,14 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->wait(1);
+		try
+		{
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 10,\FrontEndProductManagerJoomla3Page::$selectorMessage);
+		}catch (\Exception $addToCart)
+		{
+			$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		}
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 //		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -576,7 +584,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}catch (\Exception $e)
 		{
 			$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-			$I->waitForText($ShippingRate, 5, \FrontEndProductManagerJoomla3Page::$shippingRate);
+			$I->waitForText($ShippingRate, 60, \FrontEndProductManagerJoomla3Page::$shippingRate);
 		}
 
 		$I->waitForText($Total, 10, \FrontEndProductManagerJoomla3Page::$priceEnd);
@@ -785,8 +793,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\FrontEndProductManagerJoomla3Page::$radioCompany);
 				try
 				{
+					$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-				}catch (Exception $e)
+				}catch (\Exception $e)
 				{
 					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
 					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
@@ -810,7 +819,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				try
 				{
 					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-				}catch (Exception $e)
+				}catch (\Exception $e)
 				{
 					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
@@ -836,7 +845,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				try
 				{
 					$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-				}catch (Exception $e)
+				}catch (\Exception $e)
 				{
 					$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
@@ -869,13 +878,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 10);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 
 		try{
-			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
+			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
 		}catch (\Exception $e)
 		{
-			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		}
 
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
@@ -932,10 +941,11 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 
 		try {
-			$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+			$I->waitForText(\FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		} catch (\Exception $e) {
 			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		}
