@@ -95,11 +95,11 @@ class ProductsConfigurationCest
 	 */
 	public function checkDisplayOutOfStockAttibuteYes(AcceptanceTester $I,$scenario )
 	{
-		$I->wantTo('Test enable Stockroom in Administrator');
+		$I->wantTo('Test enable Stockroom');
 		$I = new ConfigurationSteps($scenario);
 		$I->featureUsedStockRoom();
 
-		$I->wantTo('Test enable Stockroom Attribute in Administrator');
+		$I->wantTo('Test enable Stockroom');
 		$I = new ConfigurationSteps($scenario);
 		$I->productsUsedStockRoomAttribute();
 
