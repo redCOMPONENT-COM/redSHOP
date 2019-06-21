@@ -92,13 +92,13 @@ class ProductsConfigurationCest
 	 * @throws Exception
 	 * since 2.1.2
 	 */
-	public function checkDisplayOutOfStockAttibuteYes(AcceptanceTester $I,$scenario )
+	public function checkDisplayOutOfStockAttributeYes(AcceptanceTester $I,$scenario )
 	{
 		$I->wantTo('Test enable Stockroom');
 		$I = new ConfigurationSteps($scenario);
 		$I->featureUsedStockRoom();
 
-		$I->wantTo('Test enable Stockroom');
+		$I->wantTo('Test enable Stockroom Attributes');
 		$I = new ConfigurationSteps($scenario);
 		$I->productsUsedStockRoomAttribute();
 
