@@ -50,6 +50,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
                 $I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
                 $I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
                 $I->click($userManagerPage->shopperGroup($shopperGroup));
+                $I->scrollTo(\UserManagerJoomla3Page::$billingInformationTab);
+                $I->waitForElementVisible(\UserManagerJoomla3Page::$billingInformationTab, 30);
+                $I->pauseExecution();
                 $I->click(\UserManagerJoomla3Page::$billingInformationTab);
                 $I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
                 $I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
