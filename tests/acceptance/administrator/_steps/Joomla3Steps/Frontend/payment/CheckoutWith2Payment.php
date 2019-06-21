@@ -18,14 +18,14 @@ use Frontend2PaymentPage;
  */
 class CheckoutWith2Payment extends CheckoutOnFrontEnd
 {
-    /**
-     * @param $userName
-     * @param $password
-     * @param $checkoutAccountInformation
-     * @param $productName
-     * @param $categoryName
-     * @throws \Exception
-     */
+	/**
+	 * @param $userName
+	 * @param $password
+	 * @param $checkoutAccountInformation
+	 * @param $productName
+	 * @param $categoryName
+	 * @throws \Exception
+	 */
 	public function checkoutProductWith2Checkout( $userName , $password, $checkoutAccountInformation, $productName, $categoryName)
 	{
 		$I = $this;
@@ -54,9 +54,9 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		try
 		{
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 		}catch (\Exception $e)
 		{
