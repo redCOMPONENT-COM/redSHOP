@@ -249,8 +249,13 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkReview($nameProduct);
 		$I->see($nameProduct);
 		$I->click(\ProductManagerPage::$addToCart);
-		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
-		$I->see(\ProductManagerPage::$alertSuccessMessage);
+		try
+		{
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}catch (\Exception $e)
+		{
+			$I->click(\ProductManagerPage::$addToCart);
+		}
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
 		$I->click(\ProductManagerPage::$buttonLogin);
