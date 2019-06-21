@@ -443,12 +443,12 @@ pipeline:
         group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
-        - tests_user=admin
-        - tests_suite=08-Group8
-        - tests_db=group8
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-08-Group8-56
-        - php_version=56
+            - tests_user=admin
+            - tests_suite=08-Group8
+            - tests_db=group8
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-08-Group8-56
+            - php_version=56
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -464,12 +464,12 @@ pipeline:
         group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
-        - tests_user=admin
-        - tests_suite=08-Group8
-        - tests_db=group8
-        - build_path=/drone/src/github.com/${DRONE_REPO}
-        - output_append=-08-Group8-73
-        - php_version=73
+            - tests_user=admin
+            - tests_suite=08-Group8
+            - tests_db=group8
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-08-Group8-73
+            - php_version=73
         commands:
             # Regular entry point
             - /entrypoint.sh &
@@ -619,8 +619,8 @@ pipeline:
     error-report:
         image: redwebaps/testbox-chromedriver:2.38
         commands:
-        - if [ -z "${CI_PULL_REQUEST}" ]; then export CI_PULL_REQUEST=1; fi
-        - vendor/bin/robo send:build-report-error-slack redcomponent 365447364384436 Q94UM5kjZkZIrau8MIL93m0dN6U "$CI_REPO" "$CI_PULL_REQUEST" "https://hooks.slack.com/services/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" "#redshop-builds" "$CI_BUILD_URL"
+            - if [ -z "${CI_PULL_REQUEST}" ]; then export CI_PULL_REQUEST=1; fi
+            - vendor/bin/robo send:build-report-error-slack redcomponent 365447364384436 Q94UM5kjZkZIrau8MIL93m0dN6U "$CI_REPO" "$CI_PULL_REQUEST" "https://hooks.slack.com/services/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" "#redshop-builds" "$CI_BUILD_URL"
         when:
             status: [ failure ]
 
