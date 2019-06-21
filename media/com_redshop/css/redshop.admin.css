@@ -17403,6 +17403,12 @@ fieldset.redRadioGroup .iradio_minimal-blue {
     margin-top: 10px;
 }
 
+#lastmonthsales_statistics_bar {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
 .redSHOPAdminViewWizard .fa {
     width: auto !important;
     margin-right: 5px;

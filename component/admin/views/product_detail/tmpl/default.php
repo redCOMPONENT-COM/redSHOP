@@ -110,7 +110,9 @@ JHtml::_('behavior.formvalidation');
 		} else if (parseFloat(form.discount_price.value) >= parseFloat(form.product_price.value)) {
 			alert("<?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE_MUST_BE_LESS_THAN_PRICE', true); ?>");
 			return;
-		} else if ((parseInt(form.min_order_product_quantity.value) > parseInt(form.max_order_product_quantity.value))) {
+		} else if (parseInt(form.max_order_product_quantity.value) !== 0 &&
+			parseInt(form.min_order_product_quantity.value) > parseInt(form.max_order_product_quantity.value)
+		) {
 			alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_QUANTITY_PER_ORDER_MUST_BE_LESS_THAN_MAXIMUM_QUANTITY_PER_ORDER', true); ?>");
 			return;
 		} else if (form.discount_stratdate.value != '') {
@@ -138,7 +140,6 @@ JHtml::_('behavior.formvalidation');
 
 		if (pressbutton == 'apply' || pressbutton == 'save2new' || pressbutton == 'save2copy') {
 			resetAttributeset();
-			submitform(pressbutton);
 		}
 
 		submitform(pressbutton);
