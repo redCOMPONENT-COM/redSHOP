@@ -505,6 +505,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $labelPayment = "//h3[contains(text(),'Payment Method')]";
 
 	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $paymentBankTransferDiscount =  "//div[@id='rs_payment_banktransfer_discount']//label//input";
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
