@@ -138,7 +138,7 @@ class ProductsConfigurationCest
 		$I = new ConfigurationSteps($scenario);
 		$I->featureUsedStockRoom();
 
-		$I->wantTo('Test Off Stockroom Attribute ');
+		$I->wantTo('Test No Stockroom Attribute ');
 		$I = new ConfigurationSteps($scenario);
 		$I->productsOffStockRoomAttribute();
 
