@@ -86,6 +86,24 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	public static $pluginSaveSuccessMessage = 'Plugin saved.';
 
 	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $customerID = "#jform_params_eway_customer_id";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $visa = "//input[@id='jform_params_accepted_credict_card0']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $masterCard = "//input[@id='jform_params_accepted_credict_card1']";
+
+	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
 	 * @param   String  $pluginName  Name of the Plugin
