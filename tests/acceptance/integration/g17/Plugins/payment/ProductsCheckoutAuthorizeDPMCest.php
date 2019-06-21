@@ -111,7 +111,6 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->configAuthorizeDPMPlugin($this->pluginName, $this->checkoutAccountInformation['accessId'], $this->checkoutAccountInformation['transactionId'], $this->checkoutAccountInformation['md5Key']);
 	}
 
-
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
