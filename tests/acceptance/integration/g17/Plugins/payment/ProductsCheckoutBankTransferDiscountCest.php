@@ -59,7 +59,7 @@ class ProductsCheckoutBankTransferDiscountCest
 			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
 			"address"       => "Some Place in the World",
-			"postalCode"    => "23456",
+			"postalCode"    => "5000",
 			"city"          => "HCM",
 			"country"       => "Denmark",
 			"state"         => "Karnataka",
@@ -72,7 +72,6 @@ class ProductsCheckoutBankTransferDiscountCest
 		$this->pluginName     = 'Bank Transfer Discount Payments';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
 		$this->pakage         = 'plg_redshop_payment_rs_payment_banktransfer_discount.zip';
-
 	}
 
 	/**
@@ -91,10 +90,10 @@ class ProductsCheckoutBankTransferDiscountCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I)
 	{
-		$I->wantTo("install plugin payment 2Checkout ");
+		$I->wantTo("install plugin payment Bank Transfer Discount");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin 2Checkout Payments in Administrator');
+		$I->wantTo('Enable Plugin Bank Transfer Discount Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 	}
 
@@ -123,6 +122,7 @@ class ProductsCheckoutBankTransferDiscountCest
 			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
 		);
 
+		$I->wantTo('checkout with Plugin Bank Transfer Discount Payments in Administrator');
 		$I = new checkoutWithBankTransferDiscount($scenario);
 		$I->checkoutProductWithBankTransferDiscountPayment($this->customerInformation["userName"], $this->customerInformation["password"],$this->productName, $this->categoryName );
 
