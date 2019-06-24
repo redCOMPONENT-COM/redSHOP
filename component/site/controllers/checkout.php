@@ -565,7 +565,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 				else
 				{
-					$link = JUri::root() . 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
+					$link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
 					$link = JRoute::_($link, false);
 					$this->setRedirect($link);
 				}
