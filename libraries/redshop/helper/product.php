@@ -1326,7 +1326,7 @@ class RedshopHelperProduct
 						$subproperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedpropertyId);
 						$selectedId         = array();
 
-						for ($sp = 0; $sp < count((array) $subproperty); $sp++)
+						for ($sp = 0, $c = count($subproperty); $sp < $c; $sp++)
 						{
 							if ($subproperty[$sp]->setdefault_selected)
 							{
