@@ -410,6 +410,12 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$data_add = $producthelper->getProductFinderDatepickerValue($data_add, $product->product_id, $fieldArray);
 		// ProductFinderDatepicker Extra Field End
 
+		//Replace Product price when config enable discount is "No"
+		if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') === 0)
+		{
+			$data_add = str_replace('{product_old_price}', '', $data_add);
+		}
+
 		/*
 		 * Process the prepare Product plugins
 		 */
