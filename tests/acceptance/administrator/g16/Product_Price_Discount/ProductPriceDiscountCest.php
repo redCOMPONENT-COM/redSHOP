@@ -52,15 +52,15 @@ class ProductPriceDiscountCest
 		$this->lastname = $this->faker->lastName;
 		$this->discountname = $this->faker->bothify('Product price discounts ##');
 		$this->number = $this->faker->numberBetween(50, 1000);
-		$this->price = $this->faker->numberBetween(100, 1000);
+		$this->price = "200";
 		$this->totalAmount = '100';
 		// Higher
 		$this->condition = 3;
 		// Total
 		$this->type = 1;
-		$this->startDate = date('Y-m-d', "2019-06-19");
+		$this->startDate = date('Y-m-d', "2019-06-24");
 		$this->endDate = date('Y-m-d', "2019-06-25");
-		$this->discountAmount = $this->faker->numberBetween(1, 99);
+		$this->discountAmount = "50";
 		$this->total = $this->price - $this->discountAmount;
 		$this->currentcyunit = 'DKK ';
 	}
