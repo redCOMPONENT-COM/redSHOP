@@ -106,7 +106,7 @@ class ProductsConfigurationCest
 		$I->wantTo('Create a Category');
 		$I->addCategorySaveClose($this->randomCategoryName);
 
-		$I->wantTo('Create Product with attribute stock room');
+		$I->wantTo('Create Product with Attribute Stock room');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductWithAttributeStockRoom($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
