@@ -89,6 +89,5 @@ class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 
 		$I->waitForElement(\OrderManagerPage::$close, 30);
 		$I->waitForText(\OrderManagerPage::$buttonClose, 10, \OrderManagerPage::$close);
-
 	}
 }
