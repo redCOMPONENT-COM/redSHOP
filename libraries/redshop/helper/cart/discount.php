@@ -148,17 +148,14 @@ class RedshopHelperCartDiscount
 			}
 
 			$productSubtotal = $cart['product_subtotal'];
-			$subTotal        = $productSubtotal;
 
-			if ($view == 'cart')
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
-				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
-				{
-					unset($cart['voucher']);
-					$cart['voucher_discount'] = 0;
-				}
-				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
+				unset($cart['voucher']);
+				$cart['voucher_discount'] = 0;
 			}
+
+			$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 
 			if ($subTotal <= 0)
 			{
@@ -243,6 +240,10 @@ class RedshopHelperCartDiscount
 					{
 						$return = false;
 					}
+					$coupons    = array();
+					$oldCoupons = array();
+					unset($cart['coupon']);
+					$return = true;
 
 					break;
 
@@ -458,6 +459,10 @@ class RedshopHelperCartDiscount
 				{
 					$return = false;
 				}
+				$vouchers    = array();
+				$oldVouchers = array();
+				unset($cart['voucher']);
+				$return = true;
 
 				break;
 
