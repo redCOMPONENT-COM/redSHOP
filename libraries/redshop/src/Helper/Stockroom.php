@@ -119,7 +119,13 @@ class Stockroom
 				->from($db->qn('#__redshop_product_stockroom_xref'))
 				->where($db->qn('product_id') . ' = ' . $db->quote($productId));
 
-			$stockValue = $db->setQuery($query)->loadResult();
+			$stockValues = $db->setQuery($query)->loadAssocList();
+			$stock = 0;
+
+			foreach ($stockValues as $stockValue)
+			{
+				$stock += $stockValue['quantity'];
+			}
 
 			$stockTag     = strstr($html, "{stock_status");
 			$newStockTag  = explode("}", $stockTag);
@@ -153,7 +159,7 @@ class Stockroom
 			{
 				$stockStatus = '';
 			}
-			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stockValue == 0)
+			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stock == 0)
 			{
 				if (($stockStatuses['preorder'] && !$stockStatuses['preorder_stock']) || !$stockStatuses['preorder'])
 				{
