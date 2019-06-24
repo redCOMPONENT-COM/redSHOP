@@ -61,7 +61,8 @@ class ProductPriceDiscountCest
 		$this->startDate = date('Y-m-d', "2019-06-24");
 		$this->endDate = date('Y-m-d', "2019-06-25");
 		$this->discountAmount = "50";
-		$this->total = $this->price - $this->discountAmount;
+		$this->total1 = $this->price - $this->discountAmount;
+		$this->total = 'DKK 150';
 		$this->currentcyunit = 'DKK ';
 	}
 
@@ -103,7 +104,7 @@ class ProductPriceDiscountCest
 
 		$I = new \AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->doFrontEndLogin($this->username, $this->pass);
-		$I->checkDiscountWithCategoryChild($this->categoryname1, $this->categoryname2, $this->productname, $this->currentcyunit.$this->total);
+		$I->checkDiscountWithCategoryChild($this->categoryname1, $this->categoryname2, $this->productname, $this->total);
 	}
 
 	/**
