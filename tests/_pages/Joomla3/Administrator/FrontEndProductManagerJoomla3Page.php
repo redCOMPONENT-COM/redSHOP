@@ -342,6 +342,154 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
+	public static $locatorMessageEnterUser = "#onestep-createaccount-username-error";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $enableCreateAccount = "jQuery('#createaccount').click()";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $shippingMethod = "//strong[contains(text(),'Shipping Method')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $locatorMessagePassword = "#password1-error";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $locatorMessageConfirmPassword = "#password2-error";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $locatorMessageEAN = "#ean_number-error";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $locatorMessageAcceptTerms= "#termscondition-error";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $locatorMessagePayment = "#payment_method_id-error";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEnterUser = "Please enter username";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageFieldRequired = "This field is required";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEnterEmail = "Please enter email address";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEnterCompanyName = "Please enter company name";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEnterFirstName = "Please enter first name";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEnterLastName = "Please enter last name";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEnterAddress = "Please enter address";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEnterCity = "Please enter city";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEnterPhone = "Please specify a valid phone number";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageSelectPayment = "Select Payment Method";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageAcceptTerms = "Please accept Terms and conditions before clicking in the Checkout button.";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEmailInvalid = "Please enter a valid email address.";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $messageEAN = "Enter only 13 digits without spaces";
+
+	/**
+	 * @param $name
+	 * @since 2.1.2
+	 * @return string
+	 */
+	public function locatorMessagePrivate($name)
+	{
+		$xpath = "#private-$name-error";
+		return $xpath;
+	}
+
+	/**
+	 * @param $name
+	 * @since 2.1.2
+	 * @return string
+	 */
+	public function locatorMessageCompany($name)
+	{
+		$xpath = "#company-$name-error";
+		return $xpath;
+	}
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
 	public static $quantity1 = "//tr[1]//td[4]//span[1]//label[1]";
 
 	/**
@@ -349,6 +497,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $quantity2 = "//tr[2]//td[4]//span[1]//label[1]";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $labelPayment = "//h3[contains(text(),'Payment Method')]";
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List

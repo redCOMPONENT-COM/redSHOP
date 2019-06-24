@@ -578,28 +578,29 @@ class RedshopModelProduct extends RedshopModel
 		return $GLOBALS['childproductlist'];
 	}
 
-	public function addNotifystock($product_id, $property_id, $subproperty_id)
+	public function addNotifystock($product_id, $property_id, $subproperty_id, $email_not_login = null)
 	{
 		ob_clean();
-		$user                   = JFactory::getUser();
-		$user_id                = $user->id;
-		$data                   = array();
-		$data['product_id']     = $product_id;
-		$data['property_id']    = $property_id;
-		$data['subproperty_id'] = $subproperty_id;
-		$data['user_id']        = $user_id;
-		$row                    = $this->getTable('notifystock_user');
+		$user                    = JFactory::getUser();
+		$user_id                 = $user->id;
+		$data                    = array();
+		$data['product_id']      = $product_id;
+		$data['property_id']     = $property_id;
+		$data['subproperty_id']  = $subproperty_id;
+		$data['user_id']         = $user_id;
+		$data['email_not_login'] = $email_not_login;
+		$row                     = $this->getTable('notifystock_user');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
