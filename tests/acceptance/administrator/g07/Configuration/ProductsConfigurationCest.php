@@ -99,7 +99,6 @@ class ProductsConfigurationCest
 		$I->featureUsedStockRoom();
 
 		$I->wantTo('Test No Stockroom Attributes');
-		$I = new ConfigurationSteps($scenario);
 		$I->productsUsedStockRoomAttribute();
 
 		$I->wantTo('Create a Category ');
@@ -116,14 +115,6 @@ class ProductsConfigurationCest
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo('I Want to check Product With Attribute StockRoom');
 		$I->checkProductWithAttributeStockRoomYes($this->randomCategoryName, $this->randomProductNameAttribute, $this->nameAttribute);
-
-		$I->wantTo('I Want to delete product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->randomProductNameAttribute);
-
-		$I->wantTo('I Want to delete category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->randomCategoryName);
 	}
 
 	/**
@@ -139,18 +130,7 @@ class ProductsConfigurationCest
 		$I->featureUsedStockRoom();
 
 		$I->wantTo('Test No Stockroom Attribute ');
-		$I = new ConfigurationSteps($scenario);
 		$I->productsOffStockRoomAttribute();
-
-		$I->wantTo('Create Category ');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
-		$I->addCategorySaveClose($this->randomCategoryName);
-
-		$I->wantTo('Create Product with attributes ');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to add product attributes inside the category');
-		$I->createProductWithAttributeStockRoom($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
 
 		$I->wantTo('I Want to check Product With Attribute StockRoom');
 		$I = new ProductsConfigurationSteps($scenario);
