@@ -7,14 +7,14 @@
  */
 namespace Frontend\payment;
 use AuthorizeDPMPaymentPage;
-use CheckoutOnFrontEnd;
+use CheckoutMissingData;
 
 /**
  * Class CheckoutWithtAuthorizeDPMPayment
  * @package Frontend\payment
  * @since 2.1.2
  */
-class CheckoutWithtAuthorizeDPMPayment extends CheckoutOnFrontEnd
+class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 {
 	/**
 	 * @param $user
@@ -22,21 +22,31 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutOnFrontEnd
 	 * @param $checkoutAccountDetail
 	 * @param $productName
 	 * @param $categoryName
+	 * @param $customerInformation
+	 * @param $function
 	 * @throws \Exception
-	 * @since 2.1.2
 	 */
-	public function checkoutProductWithAuthorizeDPMPayment( $user, $password, $checkoutAccountDetail, $productName, $categoryName)
+	public function checkoutProductWithAuthorizeDPMPayment( $user, $password, $checkoutAccountDetail, $productName, $categoryName, $customerInformation, $function)
 	{
 		$I = $this;
-		$I->doFrontEndLogin($user,$password);
 		$I->amOnPage(AuthorizeDPMPaymentPage::$URL);
 		$I->waitForElement(AuthorizeDPMPaymentPage::$categoryDiv, 60);
 		$productFrontEndManagerPage = new \AuthorizeDPMPaymentPage;
 		$I->addToCart($categoryName, $productName);
 		$I->amOnPage(AuthorizeDPMPaymentPage::$cartPageUrL);
-		$I->seeElement(['link' => $productName]);
+		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(AuthorizeDPMPaymentPage:: $checkoutButton);
-		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$labelPayment);
+		switch ($function) {
+			case 'login':
+				$I->doFrontEndLogin($user,$password);
+				$I->amOnPage(AuthorizeDPMPaymentPage:: $checkoutURL);
+				break;
+			case 'OneStepCheckout':
+				$I->fillInformationPrivate($customerInformation);
+				break;
+		}
+		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$labelPayment, 30);
+		$I->wait(0.5);
 		$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
 		$I->waitForElement(AuthorizeDPMPaymentPage:: $cardName, 60);
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardName, $checkoutAccountDetail['customerName']);

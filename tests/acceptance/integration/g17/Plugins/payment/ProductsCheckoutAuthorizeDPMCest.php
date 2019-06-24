@@ -65,6 +65,19 @@ class ProductsCheckoutAuthorizeDPMCest
 			"phone"         => "8787878787",
 			"shopperGroup"  => 'Default Private',
 		);
+
+		$this->customerInformationSecond = array(
+			"email"      => "test@test" . rand() . ".com",
+			"firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
+			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
+			"address"    => "Some Place in the World",
+			"postalCode" => "5000",
+			"city"       => "HCM",
+			"country"    => "Denmark",
+			"state"      => "Karnataka",
+			"phone"      => "8787878787"
+		);
+
 		$this->group          = 'Registered';
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'Authorize Direct Post Method';
@@ -135,10 +148,17 @@ class ProductsCheckoutAuthorizeDPMCest
 			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
 		);
 		$I = new CheckoutWithtAuthorizeDPMPayment($scenario);
-		$I->checkoutProductWithAuthorizeDPMPayment($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation, $this->productName, $this->categoryName);
+		$I->wantTo('Check out with user login');
+		$I->checkoutProductWithAuthorizeDPMPayment($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformation, "login");
+		$I->doFrontendLogout();
+
+		$I->wantTo('One Steps checkout with payment');
+		$I->checkoutProductWithAuthorizeDPMPayment("", "", $this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformationSecond, "OneStepCheckout");
+
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
 		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
+		$I->checkPriceTotal($this->productPrice, $this->customerInformationSecond["firstName"], $this->customerInformationSecond["firstName"], $this->customerInformationSecond["lastName"], $this->productName, $this->categoryName, $this->pluginName);
 	}
 
 	/**
@@ -152,6 +172,7 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder( $this->customerInformation['firstName']);
+		$I->deleteOrder( $this->customerInformationSecond['firstName']);
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
