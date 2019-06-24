@@ -78,6 +78,7 @@ $remove         = isset($remove) ? @$remove : null;
 $Treeid         = isset($Treeid) ? @$Treeid : null;
 $print          = isset($print) ? @$print : null;
 $protalid       = isset($protalid) ? @$protalid : 0;
+$requestId       = isset($requestId) ? @$requestId : 0;
 
 // Get variables for pagination in category
 $category_template = isset($category_template) ? @$category_template : null;
@@ -789,6 +790,7 @@ switch ($view)
 			shRemoveFromGETVarsList('view');
 			shRemoveFromGETVarsList('mid');
 		}
+		break;
 
 	case 'newsletter':
 
@@ -840,6 +842,11 @@ switch ($view)
 		}
 
 		break;
+	default:
+		JPluginHelper::importPlugin('sh404sefextplugins');
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onBeforeParseLinkSh404sef', array(&$title, $view, $layout, $task, $msg, $requestId));
+		break;
 }
 
 if ($limitstart)
@@ -855,7 +862,7 @@ if ($limitstart)
 // ------------------  standard plugin finalize function - don't change ---------------------------
 if ($dosef)
 {
-	$string = shFinalizePlugin(
+	$string = /** @scrutinizer ignore-call */ shFinalizePlugin(
 		$string, $title, $shAppendString, $shItemidString, (isset($limit) ? $limit : null),
 		(isset($limitstart) ? $limitstart : null), (isset($shLangName) ? $shLangName : null),
 		(isset($showall) ? $showall : null), $suppressPagination = true
