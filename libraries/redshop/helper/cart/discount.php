@@ -236,10 +236,6 @@ class RedshopHelperCartDiscount
 					break;
 
 				case 3:
-					if ($valueExist && $key)
-					{
-						$return = false;
-					}
 					$coupons    = array();
 					$oldCoupons = array();
 					unset($cart['coupon']);
@@ -455,10 +451,7 @@ class RedshopHelperCartDiscount
 				break;
 
 			case 3:
-				if ($valueExist && $multiArrayKeyExists)
-				{
-					$return = false;
-				}
+
 				$vouchers    = array();
 				$oldVouchers = array();
 				unset($cart['voucher']);
