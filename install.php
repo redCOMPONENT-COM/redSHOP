@@ -333,8 +333,8 @@ class Com_RedshopInstallerScript
 				// Force to enable redSHOP Import - Product Stockroom Data plugin by anyways
 				$this->enablePlugin('product_stockroom_data', 'redshop_import');
 
-				// Force to enable redSHOP Import - Product plugin by anyways
-				$this->enablePlugin('related_product', 'Related Product');
+				// Force to enable redSHOP Import - Related Product plugin by anyways
+				$this->enablePlugin('related_product', 'redshop_import');
 
 				// Force to enable redSHOP Import - Shipping Address plugin by anyways
 				$this->enablePlugin('shipping_address', 'redshop_import');
