@@ -46,7 +46,7 @@ class PlgRedshop_ProductSh404urls extends JPlugin
 		$results = $db->setQuery('SHOW TABLES')->loadColumn();
 		$table   = $db->getPrefix() . 'sh404sef_urls';
 
-		if (!in_array($table, $results))
+		if (empty($results) || !in_array($table, $results))
 		{
 			return false;
 		}
