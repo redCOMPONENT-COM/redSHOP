@@ -1326,7 +1326,7 @@ class RedshopHelperProduct
 						$subproperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedpropertyId);
 						$selectedId         = array();
 
-						for ($sp = 0; $sp < count($subproperty); $sp++)
+						for ($sp = 0; $sp < count((array) $subproperty); $sp++)
 						{
 							if ($subproperty[$sp]->setdefault_selected)
 							{
@@ -1339,6 +1339,8 @@ class RedshopHelperProduct
 			}
 
 		}
+
+		$media_videos = array();
 
 		if (!empty($media_subproperty_videos))
 		{
