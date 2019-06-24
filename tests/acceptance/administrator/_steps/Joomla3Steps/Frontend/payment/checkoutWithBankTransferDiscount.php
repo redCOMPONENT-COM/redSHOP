@@ -13,25 +13,36 @@ use FrontEndProductManagerJoomla3Page;
  * Class checkoutWithBankTransferDiscount
  * @package Frontend\payment
  */
-class checkoutWithBankTransferDiscount extends CheckoutOnFrontEnd
+class checkoutWithBankTransferDiscount extends \CheckoutMissingData
 {
-	/**
-	 * @param $userName
-	 * @param $password
-	 * @param $productName
-	 * @param $categoryName
-	 * @throws \Exception
-	 */
-	public function checkoutProductWithBankTransferDiscountPayment( $userName , $password, $productName, $categoryName)
+    /**
+     * @param $userName
+     * @param $password
+     * @param $productName
+     * @param $categoryName
+     * @param $customerInformation
+     * @param $function
+     * @throws \Exception
+     * @since 2.1.2
+     */
+	public function checkoutProductWithBankTransferDiscountPayment( $productName, $categoryName, $customerInformation, $function)
 	{
 		$I = $this;
-		$I->doFrontEndLogin($userName, $password);
 		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
+		switch ($function) {
+			case 'login':
+				$I->doFrontEndLogin($customerInformation["userName"], $customerInformation["password"]);
+				$I->amOnPage(FrontEndProductManagerJoomla3Page:: $checkoutURL);
+				break;
+			case 'OneStepCheckout':
+				$I->fillInformationPrivate($customerInformation);
+				break;
+		}
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);

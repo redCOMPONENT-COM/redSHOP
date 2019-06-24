@@ -68,6 +68,18 @@ class ProductsCheckoutBankTransferDiscountCest
 		);
 		$this->group          = 'Registered';
 
+		$this->customerInformationSecond = array(
+			"email"      => "test@test" . rand() . ".com",
+			"firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
+			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
+			"address"    => "Some Place in the World",
+			"postalCode" => "5000",
+			"city"       => "HCM",
+			"country"    => "Denmark",
+			"state"      => "Karnataka",
+			"phone"      => "8787878787"
+		);
+
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'Bank Transfer Discount Payments';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
@@ -124,11 +136,16 @@ class ProductsCheckoutBankTransferDiscountCest
 
 		$I->wantTo('checkout with Plugin Bank Transfer Discount Payments in Administrator');
 		$I = new checkoutWithBankTransferDiscount($scenario);
-		$I->checkoutProductWithBankTransferDiscountPayment($this->customerInformation["userName"], $this->customerInformation["password"],$this->productName, $this->categoryName );
-
+		$I->wantTo('Check out with user login');
+		$I->checkoutProductWithBankTransferDiscountPayment( $this->productName, $this->categoryName,$this->customerInformation, "login");
+		$I->doFrontendLogout();
+		$I->wantTo('One Steps checkout with payment');
+		$I->checkoutProductWithBankTransferDiscountPayment($this->productName, $this->categoryName,$this->customerInformationSecond, "OneStepCheckout");
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
 		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"],
+			$this->productName, $this->categoryName, $this->pluginName);
+		$I->checkPriceTotal($this->productPrice, $this->customerInformationSecond["firstName"], $this->customerInformationSecond["firstName"], $this->customerInformationSecond["lastName"],
 			$this->productName, $this->categoryName, $this->pluginName);
 	}
 
@@ -143,6 +160,7 @@ class ProductsCheckoutBankTransferDiscountCest
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder( $this->customerInformation['firstName']);
+		$I->deleteOrder( $this->customerInformationSecond['firstName']);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
