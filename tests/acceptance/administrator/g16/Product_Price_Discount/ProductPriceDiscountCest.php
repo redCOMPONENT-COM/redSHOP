@@ -37,7 +37,7 @@ class ProductPriceDiscountCest
 		$this->username = $this->faker->bothify('test##');
 		$this->pass = $this->faker->bothify('???###?#');
 		$this->email = $this->faker->email;
-		$this->group = 'Public';
+		$this->group = 'Administrator';
 		$this->shoppergroupitem = $this->faker->bothify('Default Private');
 		$this->customerType = 'Company customer';
 		$this->shipping = 'no';
