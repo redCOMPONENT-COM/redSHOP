@@ -17,11 +17,7 @@ use Frontend\payment\CheckoutWithtAuthorizeDPMPayment;
 
 /**
  * Class ProductsCheckoutAuthorizeDPMCest
- *
  * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
  * @since    2.1.2
  */
 class ProductsCheckoutAuthorizeDPMCest
