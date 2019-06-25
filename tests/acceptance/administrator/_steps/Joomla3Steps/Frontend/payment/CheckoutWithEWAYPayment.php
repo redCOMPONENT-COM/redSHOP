@@ -34,9 +34,10 @@ class CheckoutWithEWAYPayment extends \CheckoutOnFrontEnd
 		$productFrontEndManagerPage = new \FrontEndEWAYPaymentPage;
 		$I->addToCart($categoryName, $productName);
 		$I->amOnPage(FrontEndEWAYPaymentPage::$cartPageUrL);
-		$I->seeElement(['link' => $productName]);
+		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndEWAYPaymentPage:: $checkoutButton);
-		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$labelPayment);
+		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$labelPayment,30);
+		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$paymentEWAY, 30);
 		$I->click(FrontEndEWAYPaymentPage::$paymentEWAY);
 		$I->waitForElement(FrontEndEWAYPaymentPage:: $cardName, 60);
 		$I->fillField(FrontEndEWAYPaymentPage:: $cardName, $checkoutAccountDetail['customerName']);
@@ -58,8 +59,17 @@ class CheckoutWithEWAYPayment extends \CheckoutOnFrontEnd
 		{
 			$I->click(FrontEndEWAYPaymentPage::$termAndConditions);
 		}
-		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$checkoutFinalStep, 30);
 		$I->click(FrontEndEWAYPaymentPage::$checkoutFinalStep);
-		$I->waitForElementNotVisible(FrontEndEWAYPaymentPage::$checkoutFinalStep, 30);
+		try
+		{
+			$I->waitForElementNotVisible(FrontEndEWAYPaymentPage::$checkoutFinalStep, 30);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndEWAYPaymentPage::$termAndConditions);
+			$I->waitForElementVisible(FrontEndEWAYPaymentPage::$checkoutFinalStep, 30);
+			$I->click(FrontEndEWAYPaymentPage::$checkoutFinalStep);
+		}
+		$I->waitForText(FrontEndEWAYPaymentPage:: $orderReceipt, 30, FrontEndEWAYPaymentPage:: $h1);
 	}
 }
