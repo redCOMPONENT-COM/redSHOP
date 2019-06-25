@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Plugins redSHOP Sidebar
+ * Plugin Redshop_ProductSh404urls
  *
  * @since __DEPLOY_VERSION__
  */
@@ -22,7 +22,7 @@ class PlgRedshop_ProductSh404urls extends JPlugin
 	 * @param    object $subject The object to observe
 	 * @param    array  $config  An array that holds the plugin configuration
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since    __DEPLOY_VERSION__
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -34,7 +34,8 @@ class PlgRedshop_ProductSh404urls extends JPlugin
 	 * @param   $pids  array  products id
 	 *
 	 * @return  boolean
-	 * @since __DEPLOY_VERSION__
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAfterProductDelete($pids)
 	{
