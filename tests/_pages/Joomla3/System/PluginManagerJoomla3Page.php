@@ -90,26 +90,54 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $fieldAccessId = "#jform_params_access_id" ;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $fieldTransactionID = "#jform_params_transaction_id" ;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $fieldMd5Key = "#jform_params_md5_key" ;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $fieldTestMode = "//div[@id='jform_params_is_test_chzn']/a" ;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $optionTestModeYes= "//div[@id='jform_params_is_test_chzn']/div/ul/li[contains(text(), 'Yes')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $btnClear = "//button[@class='btn hasTooltip js-stools-btn-clear']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $btnSearchTool = "//button[@class='btn hasTooltip js-stools-btn-filter']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldType = '//div[@id="filter_folder_chzn"]/a/span';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $inputType = '//div[@id="filter_folder_chzn"]/div/div/input';
 
 	/**
 	 * Function to return Path for the Plugin Name to be searched for
@@ -123,5 +151,10 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $pluginName . "')]";
 
 		return $path;
+	}
+
+	public function xPathButton($value)
+	{
+		return "//button[contains(text(), '" . $value . "')]";
 	}
 }

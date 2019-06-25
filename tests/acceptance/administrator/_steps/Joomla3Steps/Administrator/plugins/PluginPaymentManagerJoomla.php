@@ -17,6 +17,30 @@ use PluginManagerJoomla3Page;
 class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 {
 	/**
+	 * @param $type
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function disableType($type)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$btnClear, 10);
+		$I->click(PluginManagerJoomla3Page:: $btnClear);
+		$I->waitForElement(PluginManagerJoomla3Page::$btnSearchTool, 30);
+		$I->click(PluginManagerJoomla3Page::$btnSearchTool);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldType, 60);
+		$I->click(PluginManagerJoomla3Page::$fieldType);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$inputType, 30);
+		$I->fillField(PluginManagerJoomla3Page::$inputType, $type);
+		$I->pressKey(PluginManagerJoomla3Page::$inputType, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->checkAllResults();
+		$I->click(PluginManagerJoomla3Page::$btnDisable);
+		$I->waitForText(PluginManagerJoomla3Page::$messageDisable,30, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
+
+	/**
 	 * @param $pluginName
 	 * @param $vendorID
 	 * @param $secretWord
@@ -54,9 +78,10 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->searchForItem($pluginName);
 		$pluginManagerPage = new \PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 60);
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->checkExistenceOf($pluginName);
 		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
+		$I->waitForElementVisible($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->click($pluginName);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldAccessId, 60);
 		$I->fillField(PluginManagerJoomla3Page:: $fieldAccessId, $accessId);
