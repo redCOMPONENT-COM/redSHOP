@@ -33,7 +33,7 @@ class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 		$I->click(\OrderManagerPage::$buttonNew);
 		$I->waitForElementVisible(\OrderManagerPage::$titlePage, 30);
 		$I->click(\OrderManagerPage::$userId);
-		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
+		$I->waitForElementVisible(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
 
 		$I->fillField(\OrderManagerPage::$userSearch, $userName);
@@ -60,7 +60,7 @@ class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 		$I->waitForElement(\OrderManagerPage::$productsSearch, 60);
 
 		$I->fillField(\OrderManagerPage::$productsSearch, $productName);
-		$I->waitForElement($userOrderPage->returnSearch($productName), 30);
+		$I->waitForElementVisible($userOrderPage->returnSearch($productName), 30);
 		$I->click($userOrderPage->returnSearch($productName));
 		$I->wait(0.5);
 		$I->click(\OrderManagerPage::$buttonSave);
@@ -74,7 +74,7 @@ class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 		$I->scrollTo(\OrderManagerPage::$discountUpdate);
 		$I->waitForElementVisible(\OrderManagerPage::$discountUpdate, 30);
 		$I->fillField(\OrderManagerPage::$discountUpdate, $discountUpdate);
-		$I->waitForElement($userOrderPage->returnButtonUpdateDiscount($id), 30);
+		$I->waitForElementVisible($userOrderPage->returnButtonUpdateDiscount($id), 30);
 		$I->executeJS('window.scrollTo(65,80);');
 		$I->waitForElementVisible(\OrderManagerPage::$discountUpdate, 30);
 		$I->click($userOrderPage->returnButtonUpdateDiscount($id));
@@ -82,7 +82,7 @@ class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 		$I->scrollTo(\OrderManagerPage::$specialUpdate);
 		$I->waitForElementVisible(\OrderManagerPage::$specialUpdate, 30);
 		$I->fillField(\OrderManagerPage::$specialUpdate, $specialUpdate);
-		$I->waitForElement($userOrderPage->returnButtonSpecialDiscount($id), 30);
+		$I->waitForElementVisible($userOrderPage->returnButtonSpecialDiscount($id), 30);
 		$I->executeJS('window.scrollTo(65,80);');
 		$I->waitForElementVisible(\OrderManagerPage::$specialUpdate, 30);
 		$I->click($userOrderPage->returnButtonSpecialDiscount($id));
