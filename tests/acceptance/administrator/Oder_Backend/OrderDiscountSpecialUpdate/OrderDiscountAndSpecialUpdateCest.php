@@ -51,7 +51,6 @@ class OrderDiscountAndSpecialDiscountCest
 		$this->specialUpdate = '20';
 	}
 
-
 	/**
 	 * @param AcceptanceTester $I
 	 */
@@ -93,6 +92,5 @@ class OrderDiscountAndSpecialDiscountCest
 		$I->wantTo('Delete account in redSHOP and Joomla');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, false);
-
 	}
 }
