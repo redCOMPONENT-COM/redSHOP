@@ -47,8 +47,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSave);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemSaveSuccess);
 	}
@@ -80,7 +80,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $toDay);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $toDay);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemSaveSuccess);
@@ -126,7 +127,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->selectOption(\DiscountProductPage::$fieldDiscountType, $type);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorAmountZero);
@@ -159,7 +161,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorFieldRequired);
 	}
@@ -193,7 +196,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		
 		$client->addValueForField(\DiscountProductPage::$fieldStartDate, $endDate, 10);
 		$client->addValueForField(\DiscountProductPage::$fieldEndDate, $startDate, 10);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSave);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorStartDateHigherEndDate);

@@ -55,8 +55,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		};
 
 		//Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.ColumnChart(document.getElementById('customer_statistic_chart'));
-		chart.draw(data, options);
+		if (document.getElementById('customer_statistic_chart'))
+		{
+			var chart = new google.visualization.ColumnChart(document.getElementById('customer_statistic_chart'));
+			chart.draw(data, options);
+		}
 	}
 </script>
 <form action="index.php?option=com_redshop&view=statistic_customer" method="post" name="adminForm" id="adminForm">
