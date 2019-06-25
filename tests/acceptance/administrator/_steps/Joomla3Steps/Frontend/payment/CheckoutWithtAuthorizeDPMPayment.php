@@ -26,7 +26,7 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 	 * @param $function
 	 * @throws \Exception
 	 */
-	public function checkoutProductWithAuthorizeDPMPayment( $user, $password, $checkoutAccountDetail, $productName, $categoryName, $customerInformation, $function)
+	public function checkoutProductWithAuthorizeDPMPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation, $function)
 	{
 		$I = $this;
 		$I->amOnPage(AuthorizeDPMPaymentPage::$URL);
@@ -38,7 +38,7 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 		$I->click(AuthorizeDPMPaymentPage:: $checkoutButton);
 		switch ($function) {
 			case 'login':
-				$I->doFrontEndLogin($user,$password);
+				$I->doFrontEndLogin($customerInformation["userName"], $customerInformation["password"]);
 				$I->amOnPage(AuthorizeDPMPaymentPage:: $checkoutURL);
 				break;
 			case 'OneStepCheckout':
@@ -73,7 +73,16 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 		}
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
-		$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
+		try
+		{
+			$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 10);
+		}catch (\Exception $e)
+		{
+			$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
+			$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep);
+			$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
+			$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
+		}
 		$I->dontSeeInCurrentUrl(AuthorizeDPMPaymentPage::$uriCheckout);
 	}
 }

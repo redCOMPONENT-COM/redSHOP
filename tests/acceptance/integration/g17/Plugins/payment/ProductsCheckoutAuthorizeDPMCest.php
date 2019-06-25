@@ -149,11 +149,11 @@ class ProductsCheckoutAuthorizeDPMCest
 		);
 		$I = new CheckoutWithtAuthorizeDPMPayment($scenario);
 		$I->wantTo('Check out with user login');
-		$I->checkoutProductWithAuthorizeDPMPayment($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformation, "login");
+		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformation, "login");
 		$I->doFrontendLogout();
 
 		$I->wantTo('One Steps checkout with payment');
-		$I->checkoutProductWithAuthorizeDPMPayment("", "", $this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformationSecond, "OneStepCheckout");
+		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformationSecond, "OneStepCheckout");
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
