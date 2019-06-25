@@ -3,15 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
-
-$productHelper = productHelper::getInstance();
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -35,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					[
 						'<?php echo $row->product_name ?>',
 						<?php echo $row->total_sale ?>,
-						"<?php echo $productHelper->getProductFormattedPrice($row->total_sale) ?>"
+						"<?php echo strip_tags(RedshopHelperProductPrice::formattedPrice($row->total_sale)); ?>"
 					],
 					<?php endif; ?>
 				<?php endforeach; ?>
@@ -104,7 +102,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<td align="center"><?php echo $row->manufacturer_name ?></td>
 				<td align="center"><?php echo $row->order_count ?></td>
 				<td align="center"><?php echo $row->unit_sold ?></td>
-				<td align="center"><?php echo $productHelper->getProductFormattedPrice($row->total_sale); ?></td>
+				<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->total_sale); ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

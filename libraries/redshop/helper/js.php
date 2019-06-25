@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,7 +141,8 @@ class RedshopHelperJs
 			'COM_REDSHOP_SELECT_SUBSCRIPTION_PLAN',
 			'COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT',
 			'COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT',
-			'COM_REDSHOP_AVAILABLE_STOCK'
+			'COM_REDSHOP_AVAILABLE_STOCK',
+			'COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'
 		);
 
 		$backwardJS = array();

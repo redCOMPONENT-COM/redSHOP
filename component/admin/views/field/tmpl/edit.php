@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -160,9 +160,6 @@ $editor = JEditor::getInstance();
             // You can stack multiple messages of the same type
             var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED") ?>'];
             Joomla.renderMessages({"notice": jmsgs});
-
-            // Hide button
-            jQuery("#toolbar-apply,#toolbar-save").hide();
         }
         else {
             jQuery("#system-message-container > .alert-notice").remove();
