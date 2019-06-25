@@ -44,7 +44,7 @@ class InstallRedShopCest
 	{
 		$I->wantTo('Install extension');
 		$I->doAdministratorLogin(null, null, false);
-		$I->disableStatistics();
+//		$I->disableStatistics();
 		$I->wantTo('I Install redSHOP');
 		$I = new AdminManagerJoomla3Steps($scenario);
 		$I->installComponent('packages url', 'redshop.zip');
