@@ -124,14 +124,13 @@ class ProductsCheckoutAuthorizeDPMCest
 	}
 
 	/**
-	 * @param AcceptanceTester $I
+	 * @param ConfigurationSteps $I
 	 * @param $scenario
 	 * @throws Exception
 	 * @since    2.1.2
 	 */
-	public function testAuthorizeDPMPaymentPlugin(AcceptanceTester $I, $scenario)
+	public function testAuthorizeDPMPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
-		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
 			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 		$I->wantTo('Create Category in Administrator');
