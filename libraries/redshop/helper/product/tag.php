@@ -1041,9 +1041,10 @@ class RedshopHelperProductTag
 
 					$propertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($property->property_price);
 
-					$property->text = urldecode($property->property_name) . ' (' . $propertyOprand . ' ' . $propertyPrice
+					$property->text = urldecode($property->property_name) . ' (' . $propertyOprand . ' '
+						. strip_tags($propertyPrice)
 						. "excl. vat / "
-						. $propertyPriceWithVat . ")";
+						. strip_tags($propertyPriceWithVat) . ")";
 				}
 				else
 				{
