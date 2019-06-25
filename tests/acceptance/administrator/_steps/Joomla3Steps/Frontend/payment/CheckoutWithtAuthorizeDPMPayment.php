@@ -17,8 +17,6 @@ use CheckoutMissingData;
 class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 {
 	/**
-	 * @param $user
-	 * @param $password
 	 * @param $checkoutAccountDetail
 	 * @param $productName
 	 * @param $categoryName
