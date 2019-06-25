@@ -160,6 +160,11 @@ class OrderManagerPage extends AdminJ3Page
      */
     public static $specialUpdate = "#special_discount";
 
+    /**
+     * @var string
+     */
+    public static $orderID = "//div[@class='table-responsive']//td[3]//a[1]";
+
     //button
 
     //selector

@@ -40,7 +40,7 @@ class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
 		$I->see($userName);
-		$I->wait(2);
+		$I->wait(1.5);
 
 		$I->waitForElement(\OrderManagerPage::$address, 30);
 		$I->waitForElementVisible(\OrderManagerPage::$address, 30);
@@ -59,14 +59,14 @@ class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 		$I->fillField(\OrderManagerPage::$productsSearch, $productName);
 		$I->waitForElement($userOrderPage->returnSearch($productName), 30);
 		$I->click($userOrderPage->returnSearch($productName));
-		$I->wait(0.2);
+		$I->wait(0.5);
 		$I->click(\OrderManagerPage::$buttonSave);
 
 		$I->click(\OrderManagerPage::$buttonClose);
 		$I->searchOrder($firstName);
-		$id = $I->grabTextFrom("//div[@class='table-responsive']//td[3]//a[1]");
+		$id = $I->grabTextFrom(\OrderManagerPage::$orderID);
 		$I->fillField(\OrderManagerPage::$filter, $firstName);
-		$I->click("//div[@class='table-responsive']//td[3]//a[1]");
+		$I->click(\OrderManagerPage::$orderID);
 
 		$I->scrollTo(\OrderManagerPage::$discountUpdate);
 		$I->waitForElementVisible(\OrderManagerPage::$discountUpdate, 30);
