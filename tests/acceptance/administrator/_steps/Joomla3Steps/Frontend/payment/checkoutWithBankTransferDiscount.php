@@ -6,25 +6,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Frontend\payment;
-use CheckoutOnFrontEnd;
+use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
 
 /**
  * Class checkoutWithBankTransferDiscount
  * @package Frontend\payment
  */
-class checkoutWithBankTransferDiscount extends \CheckoutMissingData
+class checkoutWithBankTransferDiscount extends CheckoutMissingData
 {
-    /**
-     * @param $userName
-     * @param $password
-     * @param $productName
-     * @param $categoryName
-     * @param $customerInformation
-     * @param $function
-     * @throws \Exception
-     * @since 2.1.2
-     */
+	/**
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $customerInformation
+	 * @param $function
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
 	public function checkoutProductWithBankTransferDiscountPayment($productName, $categoryName, $customerInformation, $function)
 	{
 		$I = $this;
@@ -68,7 +66,7 @@ class checkoutWithBankTransferDiscount extends \CheckoutMissingData
 		}catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
