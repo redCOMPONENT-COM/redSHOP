@@ -23,6 +23,11 @@ class OrderManagerPage extends AdminJ3Page
     /**
      * @var string
      */
+    public static $titlePage = ".page-title";
+
+    /**
+     * @var string
+     */
     public static $userId = "//div[@id='s2id_user_id']/a";
 
     /**
