@@ -44,7 +44,7 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 				break;
 		}
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$labelPayment, 30);
-		$I->scrollTo(AuthorizeDPMPaymentPage::$labelPayment);
+		$I->executeJS("window.scrollTo(150,150);");
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM, 30);
 		$I->wait(0.5);
 		$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
