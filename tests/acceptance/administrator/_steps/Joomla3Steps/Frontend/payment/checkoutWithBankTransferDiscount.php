@@ -25,7 +25,7 @@ class checkoutWithBankTransferDiscount extends \CheckoutMissingData
      * @throws \Exception
      * @since 2.1.2
      */
-	public function checkoutProductWithBankTransferDiscountPayment( $productName, $categoryName, $customerInformation, $function)
+	public function checkoutProductWithBankTransferDiscountPayment($productName, $categoryName, $customerInformation, $function)
 	{
 		$I = $this;
 		$I->addToCart($categoryName, $productName);
