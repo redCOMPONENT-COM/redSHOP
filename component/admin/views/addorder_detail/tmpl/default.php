@@ -130,7 +130,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 			return;
 
 		}
-		if ((pressbutton == 'save')) {
+		if (pressbutton == 'save' || pressbutton == 'save_without_sendmail') {
 			if (form.user_id.value == 0) {
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER');?>");
 				return;
@@ -138,6 +138,11 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 			if (form.product1.value == 0) {
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_PRODUCT');?>");
 				return;
+			}
+			if (form.order_status.value == 0 || form.order_status.value == '')
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS');?>");
+				return false;
 			}
 			if (form.shipping_rate_id) {
 				if (form.shipping_rate_id.value == '' || form.shipping_rate_id.value == 0) {
@@ -158,14 +163,6 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 		{
 			validateUserDetail();
 			return false;
-		}
-		if (pressbutton == 'save_without_sendmail')
-		{
-			if (form.order_status.value == 0 || form.order_status.value == '')
-			{
-				alert("<?php echo JText::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS');?>");
-				return false;
-			}
 		}
 		submitform(pressbutton);
 	}
