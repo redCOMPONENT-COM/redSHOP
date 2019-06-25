@@ -159,7 +159,7 @@ class Stockroom
 			{
 				$stockStatus = '';
 			}
-			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stock === 0)
+			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stock < 1)
 			{
 				if (($stockStatuses['preorder'] && !$stockStatuses['preorder_stock']) || !$stockStatuses['preorder'])
 				{
