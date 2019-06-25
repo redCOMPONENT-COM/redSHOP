@@ -379,6 +379,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 		$productAccessories = array_merge(array(), $productAccessories);
 		$productList        = RedshopEntityCategory::getInstance($categoryId)->getProducts();
+		$productIds         = array_column($productList, 'id');
 
 		if (empty($productList))
 		{
@@ -391,13 +392,12 @@ class RedshopModelCategory extends RedshopModelForm
 
 			foreach ($productAccessories as $productAccessory)
 			{
-				$accessoryId = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
-
-				if ($productId == $productAccessory['child_product_id'])
+				if (in_array($productAccessory['child_product_id'], $productIds))
 				{
 					continue;
 				}
 
+				$accessoryId    = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
 				$accessoryTable = JTable::getInstance('Accessory_detail', 'Table');
 
 				$accessoryTable->accessory_id        = $accessoryId;
