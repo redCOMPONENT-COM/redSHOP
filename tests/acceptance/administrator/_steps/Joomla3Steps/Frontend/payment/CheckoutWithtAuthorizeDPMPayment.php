@@ -48,16 +48,16 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM, 30);
 		$I->wait(0.5);
 		$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
+		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $selectExpireMonth, 30);
+		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
+		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $selectExpireYear, 30);
+		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireYear, $checkoutAccountDetail['cardExpiryMonth']);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardName, 60);
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardName, $checkoutAccountDetail['customerName']);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardNumber, 10);
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardNumber, $checkoutAccountDetail['debitCardNumber']);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardCode, 10);
 		$I->fillField( AuthorizeDPMPaymentPage::$cardCode, $checkoutAccountDetail['cvv']);
-		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $selectExpireMonth, 30);
-		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
-		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $selectExpireYear, 30);
-		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireYear, $checkoutAccountDetail['cardExpiryMonth']);
 		$I->click(AuthorizeDPMPaymentPage::$typeCard);
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 
@@ -76,7 +76,7 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 		$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		try
 		{
-			$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 10);
+			$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
 		}catch (\Exception $e)
 		{
 			$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
