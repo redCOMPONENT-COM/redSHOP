@@ -50,14 +50,13 @@ class CheckoutWithtAuthorizeDPMPayment extends CheckoutMissingData
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM, 30);
 		$I->wait(0.5);
 		$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
-		$I->waitForElement(AuthorizeDPMPaymentPage:: $cardName, 60);
+		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardName, 60);
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardName, $checkoutAccountDetail['customerName']);
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardNumber, $checkoutAccountDetail['debitCardNumber']);
 		$I->fillField( AuthorizeDPMPaymentPage::$cardCode, $checkoutAccountDetail['cvv']);
 		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
 		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireYear, $checkoutAccountDetail['cardExpiryMonth']);
 		$I->click(AuthorizeDPMPaymentPage::$typeCard);
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$acceptTerms, 30);
