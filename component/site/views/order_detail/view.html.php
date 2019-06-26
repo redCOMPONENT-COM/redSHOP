@@ -76,18 +76,20 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		if ($user->id)
 		{
-			if ($orderDetail->user_id != $user->id)
+			$rUser = RedshopHelperUser::getUserInformation(0,'', $orderDetail->user_info_id, false, true);
+
+			if ($rUser->user_email != $user->email)
 			{
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false));
 			}
 		}
 		else
 		{
 			if ($encr)
 			{
-				$authorization = $model->checkauthorization($orderId, $encr);
+				$authorization = $model->checkauthorization($orderId, $encr, false);
 
-				if (!$authorization)
+				if (empty($authorization))
 				{
 					JError::raiseWarning(404, JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
 					echo JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE');
