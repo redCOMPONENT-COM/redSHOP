@@ -1052,8 +1052,10 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForText($total, 30,\FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement($productFrontEndManagerPage->product($productname), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productname));
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
