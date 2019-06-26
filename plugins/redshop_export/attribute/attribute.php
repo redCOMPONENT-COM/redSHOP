@@ -127,6 +127,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->qn('a.hide_attribute_price'))
 			->select($db->qn('a.attribute_required'))
 			->select($db->qn('a.display_type'))
+			->select($db->qn('a.attribute_published'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_name'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_stock'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_ordering'))
@@ -138,6 +139,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('property_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_image'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_main_image'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_published'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_name'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_stock'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_ordering'))
@@ -148,6 +150,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('required_sub_attribute'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_image'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_published'))
 			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
 			->select($db->quote('') . ' AS '. $db->qn('media_name'))
 			->select($db->quote('') . ' AS '. $db->qn('media_alternate_text'))
@@ -166,6 +169,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('hide_attribute_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('attribute_required'))
 			->select($db->quote('') . ' AS ' . $db->qn('display_type'))
+			->select($db->quote('') . ' AS ' . $db->qn('attribute_published'))
 			->select($db->qn('ap.property_name'))
 			->select(
 				'(SELECT GROUP_CONCAT(CONCAT('
@@ -183,6 +187,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->qn('ap.property_price'))
 			->select($db->qn('ap.property_image'))
 			->select($db->qn('ap.property_main_image'))
+			->select($db->qn('ap.property_published'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_name'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_stock'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_ordering'))
@@ -193,6 +198,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('required_sub_attribute'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('subattribute_color_image'))
+			->select($db->quote('') . ' AS ' . $db->qn('subattribute_published'))
 			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
 			->select($db->qn('m.media_name') . ' AS '. $db->qn('media_name'))
 			->select($db->qn('m.media_alternate_text') . ' AS '. $db->qn('media_alternate_text'))
@@ -208,7 +214,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 				$db->qn('#__redshop_media', 'm') . ' ON ' . $db->qn('m.section_id') . ' = ' . $db->qn('ap.property_id')
 				. ' AND ' . $db->qn('m.media_section') . ' = ' . $db->q('property')
 			)
-			->order($db->qn('product_number') . ',' . $db->qn('property_ordering'));
+			->order($db->qn('product_number') . ',' . $db->qn('ap.property_name') . ',' . $db->qn('property_ordering'));
 
 		// Sub-properties query
 		$subPropertiesQuery = $db->getQuery(true)
@@ -219,6 +225,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('hide_attribute_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('attribute_required'))
 			->select($db->quote('') . ' AS ' . $db->qn('display_type'))
+			->select($db->quote('') . ' AS ' . $db->qn('attribute_published'))
 			->select($db->qn('ap.property_name'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_stock'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_ordering'))
@@ -230,6 +237,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->quote('') . ' AS ' . $db->qn('property_price'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_image'))
 			->select($db->quote('') . ' AS ' . $db->qn('property_main_image'))
+			->select($db->quote('') . ' AS ' . $db->qn('property_published'))
 			->select($db->qn('sp.subattribute_color_name'))
 			->select(
 				'(SELECT GROUP_CONCAT(CONCAT('
@@ -246,6 +254,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 			->select($db->qn('ap.setrequire_selected', 'required_sub_attribute'))
 			->select($db->qn('sp.subattribute_color_price'))
 			->select($db->qn('sp.subattribute_color_image'))
+			->select($db->qn('sp.subattribute_published'))
 			->select($db->quote('0') . ' AS ' . $db->qn('delete'))
 			->select($db->qn('m1.media_name') . ' AS '. $db->qn('media_name'))
 			->select($db->qn('m1.media_alternate_text') . ' AS '. $db->qn('media_alternate_text'))
@@ -264,7 +273,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 				$db->qn('#__redshop_media', 'm1') . ' ON ' . $db->qn('m1.section_id') . ' = ' . $db->qn('sp.subattribute_color_id')
 				. ' AND ' . $db->qn('m1.media_section') . ' = ' . $db->q('subproperty')
 			)
-			->order($db->qn('product_number') . ',' . $db->qn('subattribute_color_ordering'));
+			->order($db->qn('product_number') . ',' . $db->qn('a.attribute_name') . ',' .$db->qn('ap.property_name'));
 
 		if (!empty($products))
 		{
@@ -290,10 +299,10 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 	{
 		return array(
 			'product_number','attribute_name','attribute_ordering','allow_multiple_selection','hide_attribute_price','attribute_required',
-			'display_type','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected','setrequire_selected',
-			'setdisplay_type', 'oprand','property_price','property_image','property_main_image','subattribute_color_name', 'subattribute_stock',
+			'display_type','attribute_published','property_name','property_stock','property_ordering','property_virtual_number','setdefault_selected','setrequire_selected',
+			'setdisplay_type', 'oprand','property_price','property_image','property_main_image','property_published','subattribute_color_name', 'subattribute_stock',
 			'subattribute_color_ordering','subattribute_setdefault_selected','subattribute_color_title','subattribute_virtual_number',
-			'subattribute_color_oprand','required_sub_attribute','subattribute_color_price','subattribute_color_image','delete',
+			'subattribute_color_oprand','required_sub_attribute','subattribute_color_price','subattribute_color_image','subattribute_published','delete',
 			'media_name', 'media_alternate_text', 'media_section', 'media_published', 'media_ordering'
 		);
 	}

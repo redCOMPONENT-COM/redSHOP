@@ -175,6 +175,11 @@ class AbstractImportPlugin extends \JPlugin
 	public function importing()
 	{
 		$files          = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
+
+		usort($files, function($a, $b) {
+			return $a - $b;
+		});
+
 		$result         = new \stdClass;
 		$result->status = 0;
 		$result->data   = array();
