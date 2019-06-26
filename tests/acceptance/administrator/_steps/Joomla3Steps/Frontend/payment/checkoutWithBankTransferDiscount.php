@@ -38,7 +38,7 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 				$I->amOnPage(FrontEndProductManagerJoomla3Page:: $checkoutURL);
 				break;
 			case 'OneStepCheckout':
-				$I->fillInformationPrivate($customerInformation);
+				$I->fillInformationBusiness($customerInformation);
 				break;
 		}
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
