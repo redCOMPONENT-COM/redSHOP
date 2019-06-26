@@ -16,6 +16,7 @@ function getIncludedExtensions() {
         "./plugins/system/redgoogleanalytics/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",
         "./plugins/redshop_payment/rs_payment_paypal/**",
+        "./plugins/redshop_product/sh404urls/**",
         "./plugins/finder/redshop/**",
         "./plugins/redshop_alert/alert/**",
         "./plugins/redshop_shipping/default_shipping/**",
