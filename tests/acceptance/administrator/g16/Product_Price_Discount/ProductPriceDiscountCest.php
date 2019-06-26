@@ -58,10 +58,10 @@ class ProductPriceDiscountCest
 		$this->condition = 3;
 		// Total
 		$this->type = 1;
-		$this->startDate = date('Y-m-d', "2019-06-19");
-		$this->endDate = date('Y-m-d', "2019-06-25");
 		$this->discountAmount = $this->faker->numberBetween(1, 99);
 		$this->total = $this->price - $this->discountAmount;
+		$this->startDate = date('Y-m-d');
+		$this->endDate = date('Y-m-d', strtotime('+2 day', strtotime($this->startDate)));
 		$this->currentcyunit = 'DKK ';
 	}
 
