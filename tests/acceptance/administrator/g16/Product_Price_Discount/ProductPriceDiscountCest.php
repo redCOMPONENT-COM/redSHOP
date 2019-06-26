@@ -52,17 +52,16 @@ class ProductPriceDiscountCest
 		$this->lastname = $this->faker->lastName;
 		$this->discountname = $this->faker->bothify('Product price discounts ##');
 		$this->number = $this->faker->numberBetween(50, 1000);
-		$this->price = "200";
+		$this->price = $this->faker->numberBetween(100, 1000);
 		$this->totalAmount = '100';
 		// Higher
 		$this->condition = 3;
 		// Total
 		$this->type = 1;
-		$this->startDate = date('Y-m-d', "2019-06-24");
+		$this->startDate = date('Y-m-d', "2019-06-19");
 		$this->endDate = date('Y-m-d', "2019-06-25");
-		$this->discountAmount = "50";
-		$this->total1 = $this->price - $this->discountAmount;
-		$this->total = 'DKK 150';
+		$this->discountAmount = $this->faker->numberBetween(1, 99);
+		$this->total = $this->price - $this->discountAmount;
 		$this->currentcyunit = 'DKK ';
 	}
 
@@ -104,7 +103,7 @@ class ProductPriceDiscountCest
 
 		$I = new \AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->doFrontEndLogin($this->username, $this->pass);
-		$I->checkDiscountWithCategoryChild($this->categoryname1, $this->categoryname2, $this->productname, $this->total);
+		$I->checkDiscountWithCategoryChild($this->categoryname1, $this->categoryname2, $this->productname, $this->currentcyunit.$this->total);
 	}
 
 	/**
