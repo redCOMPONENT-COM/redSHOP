@@ -50,6 +50,10 @@ class ProductPriceDiscountCest
 		$this->showPrice = 'Yes';
 		$this->firstname = $this->faker->firstName;
 		$this->lastname = $this->faker->lastName;
+		$this->address = $this->faker->address;
+		$this->postcode = '2000';
+		$this->city = 'Ho Chi Minh';
+		$this->phone = $this->faker->phoneNumber;
 		$this->discountname = $this->faker->bothify('Product price discounts ##');
 		$this->number = $this->faker->numberBetween(50, 1000);
 		$this->price = $this->faker->numberBetween(100, 1000);
@@ -97,6 +101,7 @@ class ProductPriceDiscountCest
 
 		$I = new UserSteps($scenario);
 		$I->addUser($this->username, $this->pass, $this->email, $this->group, $this->shoppergroupname, $this->firstname, $this->lastname, 'saveclose');
+		$I->editAddShipping($this->firstname, $this->pass, $this->address, $this->city, $this->phone, $this->postcode);
 
 		$I = new DiscountProductSteps($scenario);
 		$I->addDiscountProductSave($this->totalAmount, $this->condition, $this->type, $this->discountAmount, $this->startDate, $this->endDate, $this->categoryname2, $this->shoppergroupname);
