@@ -152,9 +152,4 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 
 		return $path;
 	}
-
-	public function xPathButton($value)
-	{
-		return "//button[contains(text(), '" . $value . "')]";
-	}
 }
