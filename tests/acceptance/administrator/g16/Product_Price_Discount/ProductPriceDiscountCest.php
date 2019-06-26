@@ -96,18 +96,22 @@ class ProductPriceDiscountCest
 		$I->wantToTest("I want to create product with category child");
 		$I->createProductSaveClose($this->productname, $this->categoryname2, $this->number, $this->price);
 
-		$I = new ShopperGroupSteps($scenario);
-		$I->addShopperGroups($this->shoppergroupname, $this->shoppergroupitem, $this->customerType, $this->shopperGroupPortal,$this->categoryname2,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
+        $I = new ShopperGroupSteps($scenario);
+        $I->wantToTest("I want to create shopper group");
+        $I->addShopperGroups($this->shoppergroupname, $this->shoppergroupitem, $this->customerType, $this->shopperGroupPortal,$this->categoryname2,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
 
-		$I = new UserSteps($scenario);
-		$I->addUser($this->username, $this->pass, $this->email, $this->group, $this->shoppergroupname, $this->firstname, $this->lastname, 'saveclose');
+        $I = new UserSteps($scenario);
+        $I->wantToTest("I want to create user");
+        $I->addUser($this->username, $this->pass, $this->email, $this->group, $this->shoppergroupname, $this->firstname, $this->lastname, 'saveclose');
 		$I->editAddShipping($this->firstname, $this->pass, $this->address, $this->city, $this->phone, $this->postcode);
 
-		$I = new DiscountProductSteps($scenario);
-		$I->addDiscountProductSave($this->totalAmount, $this->condition, $this->type, $this->discountAmount, $this->startDate, $this->endDate, $this->categoryname2, $this->shoppergroupname);
+        $I = new DiscountProductSteps($scenario);
+        $I->wantToTest("I want to create product price discounts");
+        $I->addDiscountProductSave($this->totalAmount, $this->condition, $this->type, $this->discountAmount, $this->startDate, $this->endDate, $this->categoryname2, $this->shoppergroupname);
 
-		$I = new \AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->doFrontEndLogin($this->username, $this->pass);
+        $I = new \AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+        $I->wantToTest("I want to check discount in frontend");
+        $I->doFrontEndLogin($this->username, $this->pass);
 		$I->checkDiscountWithCategoryChild($this->categoryname1, $this->categoryname2, $this->productname, $this->currentcyunit.$this->total);
 	}
 
