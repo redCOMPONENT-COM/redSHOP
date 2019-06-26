@@ -10,6 +10,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\UpdateDiscountAndSpecialDiscountSteps;
+use AcceptanceTester\OrderManagerJoomla3Steps;
 
 /**
  * Class UpdateDiscountAndSpecialDiscountCest
@@ -88,6 +89,10 @@ class OrderDiscountAndSpecialDiscountCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
+
+        $I->wantTo('Delete Order just create');
+        $I = new OrderManagerJoomla3Steps($scenario);
+        $I->deleteOrder($this->firstName);
 
 		$I->wantTo('Delete account in redSHOP and Joomla');
 		$I = new UserManagerJoomla3Steps($scenario);
