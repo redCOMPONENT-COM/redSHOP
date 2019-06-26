@@ -42,7 +42,6 @@ class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 		$I->waitForElement(\OrderManagerPage::$fistName, 30);
 		$I->see($userName);
 		$I->wait(1.5);
-
 		$I->waitForElement(\OrderManagerPage::$address, 30);
 		$I->waitForElementVisible(\OrderManagerPage::$address, 30);
 		$I->fillField(\OrderManagerPage::$address, 'address');
