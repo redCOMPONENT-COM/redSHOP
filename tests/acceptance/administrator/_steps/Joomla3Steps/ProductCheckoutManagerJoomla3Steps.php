@@ -1025,6 +1025,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $productname
 	 * @param $total
 	 * @throws \Exception
+	 * @since 2.1.2.2
 	 */
 	public function checkDiscountWithCategoryChild($categoryparent, $categorychild, $productname, $total)
 	{
@@ -1050,5 +1051,24 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement(['link' => $productname]);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForText($total, 30,\FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		try {
+			$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$billingFinal, 30);
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+			$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
+			$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		}catch (\Exception $e)
+		{
+			$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+			$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
+		}
+		$I->waitForElement($productFrontEndManagerPage->product($productname), 30);
+		$I->seeElement($productFrontEndManagerPage->product($productname));
+		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->see($total, \FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
+		$I->waitForText($total, 30,\FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 	}
 }
