@@ -269,7 +269,18 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 60, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+
+				try
+				{
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 10, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				}
+				catch (Exception $e)
+				{
+					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+					$I->wait(0.5);
+					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				}
 				break;
 
 			case 'wrongEmail':
