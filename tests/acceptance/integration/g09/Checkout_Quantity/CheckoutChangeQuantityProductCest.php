@@ -8,7 +8,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CheckoutChangeQuantityProductSteps;
-use AcceptanceTester\ConfigurationSteps;
+use Configuration\ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 /**
  * Class CheckoutChangeQuantityCest
