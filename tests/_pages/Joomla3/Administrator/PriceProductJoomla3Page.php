@@ -22,7 +22,7 @@ class PriceProductJoomla3Page extends AdminJ3Page
     /**
      * @var string
      */
-    public static $priceProduct = "#product_price_44";
+    public static $priceProduct = "#product_price";
 
     /**
      * @var string
@@ -61,5 +61,15 @@ class PriceProductJoomla3Page extends AdminJ3Page
 
 //    public static $selectorPage = ".page-title";
 
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $startDate = '#discount_start_date';
 
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $endDate = '#discount_end_date';
 }
