@@ -908,5 +908,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->fillField(\PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
         $I->fillField(\PriceProductJoomla3Page::$startDate, $startDate);
         $I->fillField(\PriceProductJoomla3Page::$endDate, $endDate);
+        $I->click(ProductManagerPage::$buttonSave);
+        $I->waitForText(\PriceProductJoomla3Page::$savePriceSuccess, 5, \AdminJ3Page::$selectorSuccess);
     }
 }

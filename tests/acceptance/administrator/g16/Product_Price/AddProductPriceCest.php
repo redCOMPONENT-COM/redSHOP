@@ -160,25 +160,10 @@ class AddProductPriceCest
      */
     protected $price;
     /**
-     * @var string
-     * @since 2.1.2
-     */
-    protected $totalAmount;
-    /**
      * @var int
      * @since 2.1.2
      */
-    protected $condition;
-    /**
-     * @var int
-     * @since 2.1.2
-     */
-    protected $type;
-    /**
-     * @var int
-     * @since 2.1.2
-     */
-    protected $discountAmount;
+    protected $discountPrice;
     /**
      * @var int
      * @since 2.1.2
@@ -194,12 +179,6 @@ class AddProductPriceCest
      * @since 2.1.2
      */
     protected $endDate;
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    protected $currentcyunit;
-
     /**
      * AddProductPriceCest constructor.
      * @since 2.1.2
@@ -230,16 +209,12 @@ class AddProductPriceCest
         $this->postcode = '2000';
         $this->city = 'Ho Chi Minh';
         $this->phone = $this->faker->phoneNumber;
-        $this->discountname = $this->faker->bothify('Product price discounts ##');
         $this->number = $this->faker->numberBetween(50, 1000);
         $this->price = $this->faker->numberBetween(100, 1000);
-        $this->totalAmount = '100';
-        // Higher
-        $this->condition = 3;
-        // Total
-        $this->type = 1;
-        $this->discountAmount = $this->faker->numberBetween(1, 99);
-        $this->total = $this->price - $this->discountAmount;
+        $this->addprice = '50';
+        $this->quantityStart = '2';
+        $this->quantityEnd = '10';
+        $this->discountPrice = '40';
         $this->startDate = date('Y-m-d');
         $this->endDate = date('Y-m-d', strtotime('+2 day', strtotime($this->startDate)));
         $this->currentcyunit = 'DKK ';
@@ -268,11 +243,11 @@ class AddProductPriceCest
 
         $I =new ProductSteps($scenario);
         $I->wantToTest("I want to create product with category child");
-        $I->createProductSaveClose($this->productname, $this->categoryname, $this->number, $this->price);
+        $I->createProductWithAddPrice($this->productname, $this->categoryname, $this->number, $this->price, $this->addprice, $this->quantityStart, $this->quantityEnd, $this->startDate, $this->endDate);
 
         $I = new ShopperGroupSteps($scenario);
         $I->wantToTest("I want to create shopper group");
-        $I->addShopperGroups($this->shoppergroupname, $this->shoppergroupitem, $this->customerType, $this->shopperGroupPortal,$this->categoryname2,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
+        $I->addShopperGroups($this->shoppergroupname, $this->shoppergroupitem, $this->customerType, $this->shopperGroupPortal,$this->categoryname,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
 
         $I = new UserSteps($scenario);
         $I->wantToTest("I want to create user");

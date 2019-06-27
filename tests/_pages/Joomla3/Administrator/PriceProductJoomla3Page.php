@@ -72,4 +72,10 @@ class PriceProductJoomla3Page extends AdminJ3Page
      * @since 2.1.2
      */
     public static $endDate = '#discount_end_date';
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $savePriceSuccess = 'Price detail saved';
 }
