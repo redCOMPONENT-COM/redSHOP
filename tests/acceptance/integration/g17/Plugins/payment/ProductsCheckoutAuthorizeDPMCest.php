@@ -13,7 +13,7 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use Administrator\plugins\PluginPaymentManagerJoomla;
-use Frontend\payment\CheckoutWithtAuthorizeDPMPayment;
+use Frontend\payment\CheckoutWithAuthorizeDPMPayment;
 
 /**
  * Class ProductsCheckoutAuthorizeDPMCest
@@ -22,6 +22,192 @@ use Frontend\payment\CheckoutWithtAuthorizeDPMPayment;
  */
 class ProductsCheckoutAuthorizeDPMCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.2
+	 */
+	public $faker;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $categoryName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productNumber;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $minimumQuantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $addcart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $allowPreOrder;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $cartTimeOut;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $enabldAjax;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $defaultCart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $buttonCartLead;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $onePage;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $showShippingCart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $attributeImage;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $quantityChange;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $quantityInCart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $minimunOrder;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $enableQuation;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $onePageNo;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $onePageYes;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $customerInformationSecond;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $checkoutAccountInformation;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $group;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $extensionURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $pluginName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $pluginURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $pakage;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $type_payment;
+
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
@@ -79,6 +265,8 @@ class ProductsCheckoutAuthorizeDPMCest
 		$this->pluginName     = 'Authorize Direct Post Method';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
 		$this->pakage         = 'plg_redshop_payment_rs_payment_authorize_dpm.zip';
+		$this->type_payment   = 'redshop_payment';
+
 		$this->checkoutAccountInformation = array(
 			"accessId"          => "5rCF42xJ",
 			"transactionId"     => "336VyCe7R62LyjZZ",
@@ -87,12 +275,11 @@ class ProductsCheckoutAuthorizeDPMCest
 			"password"          => "Pull416!t",
 			"debitCardNumber"   => "4012888818888",
 			"cvv"               => "123",
-			"cardExpiryMonth"   => '5',
+			"cardExpiryMonth"   => '12',
 			"cardExpiryYear"    => '2025',
 			"shippingAddress"   => "some place on earth",
 			"customerName"      => 'Your name'
 		);
-		$this->type_payment = 'redshop_payment';
 	}
 
 	/**
@@ -145,7 +332,7 @@ class ProductsCheckoutAuthorizeDPMCest
 			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
 			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
 		);
-		$I = new CheckoutWithtAuthorizeDPMPayment($scenario);
+		$I = new CheckoutWithAuthorizeDPMPayment($scenario);
 		$I->wantTo('Check out with user login');
 		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformation, "login");
 		$I->doFrontendLogout();
