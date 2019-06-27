@@ -379,7 +379,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $phone
 	 * @param $zipcode
 	 * @throws \Exception
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public function editAddShipping($firstName, $lastName, $address, $city, $phone, $zipcode)
 	{

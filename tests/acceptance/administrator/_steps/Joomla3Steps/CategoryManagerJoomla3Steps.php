@@ -123,7 +123,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $parentname
 	 * @param $childname
 	 * @throws \Exception
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public function createCategoryChild($parentname, $childname)
 	{

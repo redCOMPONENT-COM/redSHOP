@@ -289,7 +289,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @throws \Exception
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public function deleteAllDiscountProducts()
 	{

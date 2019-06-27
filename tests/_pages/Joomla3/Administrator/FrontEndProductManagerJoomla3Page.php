@@ -506,11 +506,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
-<<<<<<< HEAD
 	 * @since 2.1.2
-=======
-	 * @since 2.1.2.2
->>>>>>> e5e1435ae3908f4ca87e207e9e291fe1ab7b0bc8
 	 */
 	public static $totalFinalCheckout = '(//div[@class="form-group total"])/div';
 
