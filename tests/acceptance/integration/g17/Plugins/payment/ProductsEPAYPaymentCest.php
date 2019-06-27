@@ -17,12 +17,8 @@ use Frontend\payment\CheckoutWith2Payment;
 use Administrator\plugins\PluginPaymentManagerJoomla;
 
 /**
- * Class Products2CheckoutCest
- *
+ * Class ProductsEPAYPaymentCest
  * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
  * @since    2.1.2
  */
 class ProductsEPAYPaymentCest
@@ -110,57 +106,57 @@ class ProductsEPAYPaymentCest
 	 * @throws Exception
 	 * @since    2.1.2
 	 */
-//	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
-//	{
-//		$I = new ConfigurationSteps($scenario);
-//		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-//			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
-//
-//		$I->wantTo('Create Category in Administrator');
-//		$I = new CategoryManagerJoomla3Steps($scenario);
-//		$I->addCategorySave($this->categoryName);
-//
-//		$I = new ProductManagerJoomla3Steps($scenario);
-//		$I->wantTo('I Want to add product inside the category');
-//		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
-//
-//		$I->wantTo('Create user for checkout');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->addUser(
-//			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
-//			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
-//		);
-//
-//		$I = new CheckoutWith2Payment($scenario);
-//		$I->CheckoutWithEPAYPayment($this->customerInformation["userName"], $this->customerInformation["password"],$this->productName, $this->categoryName );
-//
-//		$I = new ConfigurationSteps($scenario);
-//		$I->wantTo('Check Order');
-//		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
-//	}
-//
-//	/**
-//	 * @param AcceptanceTester $I
-//	 * @param $scenario
-//	 * @throws Exception
-//	 * @since    2.1.2
-//	 */
-//	public function clearAllData(AcceptanceTester $I, $scenario)
-//	{
-//		$I->wantTo('Deletion of Order in Administrator');
-//		$I = new OrderManagerJoomla3Steps($scenario);
-//		$I->deleteOrder( $this->customerInformation['firstName']);
-//
-//		$I->wantTo('Delete product');
-//		$I = new ProductManagerJoomla3Steps($scenario);
-//		$I->deleteProduct($this->productName);
-//
-//		$I->wantTo('Delete Category');
-//		$I = new CategoryManagerJoomla3Steps($scenario);
-//		$I->deleteCategory($this->categoryName);
-//
-//		$I->wantToTest('Delete User');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->deleteUser($this->customerInformation["firstName"]);
-//	}
+	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
+	{
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+
+		$I->wantTo('Create Category in Administrator');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->addCategorySave($this->categoryName);
+
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('I Want to add product inside the category');
+		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
+
+		$I->wantTo('Create user for checkout');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser(
+			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
+			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
+		);
+
+		$I = new CheckoutWith2Payment($scenario);
+		$I->CheckoutWithEPAYPayment($this->customerInformation["userName"], $this->customerInformation["password"],$this->productName, $this->categoryName );
+
+		$I = new ConfigurationSteps($scenario);
+		$I->wantTo('Check Order');
+		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since    2.1.2
+	 */
+	public function clearAllData(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Deletion of Order in Administrator');
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->deleteOrder( $this->customerInformation['firstName']);
+
+		$I->wantTo('Delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName);
+
+		$I->wantTo('Delete Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
+
+		$I->wantToTest('Delete User');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->customerInformation["firstName"]);
+	}
 }
