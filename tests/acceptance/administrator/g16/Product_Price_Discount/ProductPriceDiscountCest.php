@@ -268,7 +268,7 @@ class ProductPriceDiscountCest
 		$this->lastname = $this->faker->lastName;
 		$this->address = $this->faker->address;
 		$this->postcode = '2000';
-		$this->city = 'Ho Chi Minh';
+		$this->city = 'Ho Chi Minh City';
 		$this->phone = $this->faker->phoneNumber;
 		$this->discountname = $this->faker->bothify('Product price discounts ##');
 		$this->number = $this->faker->numberBetween(50, 1000);
