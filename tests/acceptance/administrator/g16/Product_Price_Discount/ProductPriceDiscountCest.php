@@ -119,6 +119,7 @@ class ProductPriceDiscountCest
 	 * @param ProductSteps $I
 	 * @param $scenario
 	 * @throws Exception
+     * @since 2.1.2.2
 	 */
 	public function deleteAll(DiscountProductSteps $I, $scenario)
 	{
