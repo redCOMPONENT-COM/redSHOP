@@ -85,6 +85,9 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $pluginSaveSuccessMessage = 'Plugin saved.';
 
+	public static $merchantID = '//input[@id="jform_params_merchant_id"]';
+	public static $keyMD5 = '//input[@id="jform_params_epay_paymentkey"]';
+
 	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
