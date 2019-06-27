@@ -75,7 +75,7 @@ class ProductsEPAYPaymentCest
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'E-Pay-new Payments Windows';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->pakage         = 'plg_redshop_payment_rs_payment_epayv2-v1.5.1.zip';
+		$this->pakage         = 'plg_redshop_payment_rs_payment_epayv2.zip';
 	}
 
 	/**
