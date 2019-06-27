@@ -16,7 +16,7 @@ namespace AcceptanceTester;
  *
  * @since    2.4
  */
-class UpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
+class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 {
 	/**
 	 * @param $userName

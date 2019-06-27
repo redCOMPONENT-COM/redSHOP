@@ -9,7 +9,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
-use AcceptanceTester\UpdateDiscountAndSpecialDiscountSteps;
+use AcceptanceTester\OrderUpdateDiscountAndSpecialDiscountSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 
 /**
@@ -79,7 +79,7 @@ class OrderDiscountAndSpecialDiscountCest
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 
 		$I->wantTo('I want create order and update discount and special discount');
-		$I = new UpdateDiscountAndSpecialDiscountSteps($scenario);
+		$I = new OrderUpdateDiscountAndSpecialDiscountSteps($scenario);
 		$I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->discountUpdate, $this->specialUpdate, $this->randomProductPrice);
 	}
 
