@@ -10,7 +10,7 @@ use AcceptanceTester\TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
+use Configuration\ConfigurationSteps as ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps as OrderManagerJoomla3Steps;
 
