@@ -91,7 +91,7 @@ class ProductsEPAYPaymentCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install plugin payment 2Checkout ");
+		$I->wantTo("install plugin ");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin EPay Payments in Administrator');
