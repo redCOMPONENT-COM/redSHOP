@@ -106,7 +106,17 @@ class ImageAndSEOCategoryProductCest
 		$this->productPrice = rand(100,1000);
 		$this->titleSEOPD = "SEO title ".$this->productName;
 		$this->headingSEO = "SEO heading ".$this->productName;
-
+		$this->customerInformation    = array(
+			"email"      => "test@test" . rand() . ".com",
+			"firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
+			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
+			"address"    => "Some Place in the World",
+			"postalCode" => "5000",
+			"city"       => "Odense SØ",
+			"country"    => "Denmark",
+			"state"      => "Blangstedgaardsvej 1",
+			"phone"      => "8787878787"
+		);
 	}
 
 	/**
@@ -126,12 +136,12 @@ class ImageAndSEOCategoryProductCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductHaveImageAndSEO($this->productName,$this->categoryName, $this->productNumber,$this->productPrice,$this->titleSEOPD,$this->headingSEO,$this->image);
 
-        $I->wantTo('create product have image and SEO');
-        $I = new CheckoutOnFrontEnd($scenario);
-        $I->checkSEOCategoryProduct($this->categoryName,$this->titleSEO, $this->keySEO,$this->descriptionSEO,$this->productName,$this->titleSEOPD,$this->headingSEO);
+		$I->wantTo('create product have image and SEO');
+		$I = new CheckoutOnFrontEnd($scenario);
+		$I->checkSEOCategoryProduct($this->categoryName,$this->titleSEO, $this->keySEO,$this->descriptionSEO,$this->productName,$this->titleSEOPD,$this->headingSEO,$this->customerInformation);
 
-        $I = new ProductManagerJoomla3Steps($scenario);
-        $I->wantTo('Delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete product');
 		$I->deleteProduct($this->productName);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
