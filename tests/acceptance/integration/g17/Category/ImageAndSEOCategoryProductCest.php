@@ -90,6 +90,18 @@ class ImageAndSEOCategoryProductCest
 	public $headingSEO;
 
 	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	public $customerInformation;
+
+    /**
+     * @var array
+     * @since 2.1.2
+     */
+    public $cartSetting;
+
+	/**
 	 * ImageAndSEOCategoryProductCest constructor.
 	 * @since 2.1.2
 	 */
@@ -103,8 +115,8 @@ class ImageAndSEOCategoryProductCest
 		$this->keySEO = "SEO key ".$this->categoryName;
 		$this->descriptionSEO = "SEO description ".$this->categoryName;
 		$this->productName = $this->faker->bothify('ProductName ?####?');
-		$this->productNumber = rand(100,1000);
-		$this->productPrice = rand(100,1000);
+		$this->productNumber = $this->faker->numberBetween(100,1000);
+		$this->productPrice = $this->faker->numberBetween(100,1000);
 		$this->titleSEOPD = "SEO title ".$this->productName;
 		$this->headingSEO = "SEO heading ".$this->productName;
 		$this->customerInformation    = array(
@@ -119,21 +131,23 @@ class ImageAndSEOCategoryProductCest
 			"phone"      => "8787878787"
 		);
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->cartSetting = array(
+			"addcart"            => 'product',
+			"allowPreOrder"      => 'yes',
+			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
+			"enabldAjax"         => 'no',
+			"defaultCart"        => null,
+			"buttonCartLead"     => 'Back to current view',
+			"onePage"            => 'yes',
+			"showShippingCart"   => 'no',
+			"attributeImage"     => 'no',
+			"quantityChange"     => 'no',
+			"quantityInCart"     => 0,
+			"minimunOrder"       => 0,
+			"enableQuation"      => 'no',
+			"onePageNo"          => 'no',
+			"onePageYes"         => 'yes'
+		);
 	}
 
 	/**
@@ -148,8 +162,8 @@ class ImageAndSEOCategoryProductCest
 		$I->disablePlugin('PayPal');
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"]
+			, $this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
 		$I->wantTo('create category have image and SEO');
 		$I = new CategorySteps($scenario);
 		$I->createCategoryImageAndSEO( $this->categoryName,$this->noPage,$this->image, $this->titleSEO, $this->keySEO, $this->descriptionSEO);
