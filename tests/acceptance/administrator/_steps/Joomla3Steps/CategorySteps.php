@@ -120,6 +120,7 @@ class CategorySteps extends AbstractStep
 		$I->click(CategoryPage::$buttonSaveClose);
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->reloadPage();
 		$I->waitForText($categoryName,30);
 		$I->waitForElementVisible(CategoryPage:: imageCategory($categoryName),30);
 		$I->click(CategoryPage:: imageCategory($categoryName));
