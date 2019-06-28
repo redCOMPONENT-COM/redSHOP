@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -30,161 +30,218 @@ class AddProductPriceCest
 	 * @since 2.1.2
 	 */
 	protected $faker;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $productname;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $categoryname;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $shoppergroupname;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $username;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $pass;
+
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $email;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $group;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $shoppergroupitem;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $customerType;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $shipping;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $enableQuotation;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $showVat;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $shopperGroupPortal;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	protected $shippingRate;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	protected $shippingCheckout;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $catalog;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $showPrice;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $firstname;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $lastname;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $address;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $postcode;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $city;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $phone;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $discountname;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	protected $number;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	protected $price;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	protected $discountPrice;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	protected $total;
+
 	/**
 	 * @var false|string
 	 * @since 2.1.2
 	 */
 	protected $startDate;
+
 	/**
 	 * @var false|string
 	 * @since 2.1.2
 	 */
 	protected $endDate;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	protected $quantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $addprice;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $quantityStart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $quantityEnd;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $currentcyunit;
+
 	/**
 	 * AddProductPriceCest constructor.
 	 * @since 2.1.2
@@ -249,13 +306,13 @@ class AddProductPriceCest
 		$I->wantToTest("I want to create category parent");
 		$I->addCategorySaveClose($this->categoryname);
 
-		$I =new ProductSteps($scenario);
-		$I->wantToTest("I want to create product with category child");
-		$I->createProductWithAddPrice($this->productname, $this->categoryname, $this->number, $this->price, $this->addprice, $this->quantityStart, $this->quantityEnd, $this->startDate, $this->endDate);
-
 		$I = new ShopperGroupSteps($scenario);
 		$I->wantToTest("I want to create shopper group");
 		$I->addShopperGroups($this->shoppergroupname, $this->shoppergroupitem, $this->customerType, $this->shopperGroupPortal,$this->categoryname,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
+
+		$I =new ProductSteps($scenario);
+		$I->wantToTest("I want to create product with category child");
+		$I->createProductWithAddPrice($this->productname, $this->categoryname, $this->number, $this->price, $this->shoppergroupname, $this->addprice, $this->quantityStart, $this->quantityEnd, $this->discountPrice, $this->startDate, $this->endDate);
 
 		$I = new UserSteps($scenario);
 		$I->wantToTest("I want to create user");
@@ -263,6 +320,7 @@ class AddProductPriceCest
 		$I->editAddShipping($this->firstname, $this->pass, $this->address, $this->city, $this->phone, $this->postcode);
 
 		$I = new FrontEndSteps($scenario);
+		$I->wantToTest("I want to check total-price of product on frontend");
 		$I->doFrontEndLogin($this->username, $this->pass);
 		$I->checkoutProductwithAddPrice($this->productname, $this->categoryname, $this->discountPrice, $this->quantity, $this->currentcyunit.$this->total);
 	}

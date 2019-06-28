@@ -514,19 +514,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $buttonUpdateCart = "Update";
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
 	public static $totalFinalCheckout = '(//div[@class="form-group total"])/div';
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $priceexcl = '//tr[@class="tdborder"]/td[3]';
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List

@@ -18,6 +18,9 @@ namespace AcceptanceTester;
  * @since    1.4
  */
 use ProductManagerPage as ProductManagerPage;
+use PriceProductJoomla3Page;
+use UserManagerJoomla3Page;
+use AdminJ3Page;
 
 class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
@@ -880,13 +883,18 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $productNumber
 	 * @param $price
 	 * @param $addprice
+	 * @param $quantityStart
+	 * @param $quantityEnd
+	 * @param $discountprice
+	 * @param $startDate
+	 * @param $endDate
 	 * @throws \Exception
 	 * @since 2.1.2
 	 */
-	public function createProductWithAddPrice($productName, $category, $productNumber, $price, $addprice, $quantityStart, $quantityEnd, $startDate, $endDate)
+	public function createProductWithAddPrice($productName, $category, $productNumber, $price, $shoppergroup, $addprice, $quantityStart, $quantityEnd, $discountprice, $startDate, $endDate)
 	{
 		$I = $this;
-		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->amOnPage(ProductManagerPage::$URL);
 		$I->click(ProductManagerPage::$buttonNew);
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
@@ -902,13 +910,18 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(ProductManagerPage::$addPriceButton);
 		$I->waitForElementVisible(ProductManagerPage::$addPriceButton, 30);
 		$I->click(ProductManagerPage::$addPriceButton);
-		$I->waitForElementVisible(\PriceProductJoomla3Page::$priceProduct, 30);
-		$I->addValueForField(\PriceProductJoomla3Page::$priceProduct, $addprice, 6);
-		$I->fillField(\PriceProductJoomla3Page::$quantityStart, $quantityStart);
-		$I->fillField(\PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
-		$I->fillField(\PriceProductJoomla3Page::$startDate, $startDate);
-		$I->fillField(\PriceProductJoomla3Page::$endDate, $endDate);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$priceProduct, 30);
+		$userManagerPage = new UserManagerJoomla3Page;
+		$I->click(UserManagerJoomla3Page::$shopperGroupDropDown);
+		$I->waitForElement($userManagerPage->shopperGroup($shoppergroup), 30);
+		$I->click($userManagerPage->shopperGroup($shoppergroup));
+		$I->addValueForField(PriceProductJoomla3Page::$priceProduct, $addprice, 6);
+		$I->fillField(PriceProductJoomla3Page::$quantityStart, $quantityStart);
+		$I->fillField(PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
+		$I->fillField(PriceProductJoomla3Page::$discountPrice, $discountprice);
+		$I->fillField(PriceProductJoomla3Page::$startDate, $startDate);
+		$I->fillField(PriceProductJoomla3Page::$endDate, $endDate);
 		$I->click(ProductManagerPage::$buttonSave);
-		$I->waitForText(\PriceProductJoomla3Page::$savePriceSuccess, 5, \AdminJ3Page::$selectorSuccess);
+		$I->waitForText(PriceProductJoomla3Page::$savePriceSuccess, 5, AdminJ3Page::$selectorSuccess);
 	}
 }

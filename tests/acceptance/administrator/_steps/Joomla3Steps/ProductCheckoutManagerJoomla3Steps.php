@@ -20,6 +20,7 @@ namespace AcceptanceTester;
 use \ConfigurationPage as ConfigurationPage;
 use PHPUnit\Runner\Exception;
 use FrontEndProductManagerJoomla3Page;
+use CheckoutChangeQuantityProductPage;
 
 class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
@@ -1050,17 +1051,16 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productname]);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantityFieldCart);
-        $I->click(\CheckoutChangeQuantityProductPage::$quantityField);
-        $I->pressKey(\CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-        $quantities = 10;
-        $quantity = str_split($quantities);
-        foreach ($quantity as $char) {
-            $I->pressKey(\CheckoutChangeQuantityProductPage::$quantityField, $char);
-        }
-        $I->waitForElement(\CheckoutChangeQuantityProductPage::$updateCartButton, 30);
-        $I->click(\CheckoutChangeQuantityProductPage::$updateCartButton);
+		$I->click(CheckoutChangeQuantityProductPage::$quantityField);
+		$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+		$quantity = str_split($quantity);
+		foreach ($quantity as $char) {
+			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
+		}
+		$I->waitForElement(CheckoutChangeQuantityProductPage::$updateCartButton, 30);
+		$I->click(CheckoutChangeQuantityProductPage::$updateCartButton);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
-		$I->waitForText($total, 30,\FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->waitForText($total, 30,FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		try {
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
@@ -1078,6 +1078,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 		$I->waitForText($total, 30,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 	}
