@@ -55,11 +55,8 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->fillField( AuthorizeDPMPaymentPage::$cardCode, $checkoutAccountDetail['cvv']);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardName, 30);
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardName, $checkoutAccountDetail['customerName']);
-		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardNumber, 30);
 		$I->fillField(AuthorizeDPMPaymentPage:: $cardNumber, $checkoutAccountDetail['debitCardNumber']);
-		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $selectExpireMonth, 30);
 		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
-		$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $selectExpireYear, 30);
 		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireYear, $checkoutAccountDetail['cardExpiryYear']);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$typeCard, 30);
 		$I->click(AuthorizeDPMPaymentPage::$typeCard);
@@ -69,13 +66,6 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->scrollTo(AuthorizeDPMPaymentPage::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(AuthorizeDPMPaymentPage::$termAndConditionsId));
 		$I->wait(0.5);
-		try
-		{
-			$I->seeCheckboxIsChecked(AuthorizeDPMPaymentPage::$termAndConditions);
-		}catch (\Exception $e)
-		{
-			$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
-		}
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		try
