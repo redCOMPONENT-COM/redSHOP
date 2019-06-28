@@ -414,7 +414,7 @@ class RedshopModelSearch extends RedshopModel
 			$where[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
 		}
 
-		if (count($where) > 0)
+		if (!empty($where))
 		{
 			return '(' . implode(' ' . $glue . ' ', $where) . ')';
 		}
@@ -732,7 +732,7 @@ class RedshopModelSearch extends RedshopModel
 		$productid     = 0;
 		$products      = "";
 
-		if (count($getredfilter) != 0)
+		if (!empty($getredfilter))
 		{
 			$main_sal_sp   = array();
 			$main_sal_type = array();
