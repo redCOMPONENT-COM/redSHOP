@@ -118,11 +118,11 @@ class ImageAndSEOCategoryProductCest
 	{
 		$I->doAdministratorLogin();
 
-		$I->comment('create category have image and SEO');
+		$I->wantTo('create category have image and SEO');
 		$I = new CategorySteps($scenario);
 		$I->createCategoryImageAndSEO( $this->categoryName,$this->noPage,$this->image, $this->titleSEO, $this->keySEO, $this->descriptionSEO);
 
-		$I->comment('create product have image and SEO');
+		$I->wantTo('create product have image and SEO');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductHaveImageAndSEO($this->productName,$this->categoryName, $this->productNumber,$this->productPrice,$this->titleSEOPD,$this->headingSEO,$this->image);
 
