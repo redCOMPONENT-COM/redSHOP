@@ -155,7 +155,14 @@ class RedshopHelperCartDiscount
 				$cart['voucher_discount'] = 0;
 			}
 
-			$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 4)
+			{
+				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'] - $cart['coupon_discount'];
+			}
+			else
+			{
+				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
+			}
 
 			if ($subTotal <= 0)
 			{
