@@ -8,6 +8,9 @@
 
 namespace AcceptanceTester;
 
+use DiscountProductPage;
+use AdminJ3Page;
+
 /**
  * Class DiscountProductSteps
  *
@@ -294,10 +297,10 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 	public function deleteAllDiscountProducts()
 	{
 		$I = $this;
-		$I->amOnPage(\DiscountProductPage::$url);
+		$I->amOnPage(DiscountProductPage::$url);
 		$I->checkAllResults();
-		$I->click(\AdminJ3Page::$buttonDelete);
+		$I->click(AdminJ3Page::$buttonDelete);
 		$I->acceptPopup();
-		$I->waitForText(\DiscountProductPage::$deleteSuccess, 5, \AdminJ3Page::$selectorSuccess);
+		$I->waitForText(DiscountProductPage::$deleteSuccess, 5, AdminJ3Page::$selectorSuccess);
 	}
 }

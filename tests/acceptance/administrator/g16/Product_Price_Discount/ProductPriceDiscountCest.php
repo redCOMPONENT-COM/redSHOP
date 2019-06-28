@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,6 +11,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps as ShopperGroupSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserSteps;
 use AcceptanceTester\DiscountProductSteps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 
 /**
  * Class ProductPriceDiscountCest
@@ -325,7 +326,7 @@ class ProductPriceDiscountCest
 		$I->wantToTest("I want to create product price discounts");
 		$I->addDiscountProductSave($this->totalAmount, $this->condition, $this->type, $this->discountAmount, $this->startDate, $this->endDate, $this->categoryname2, $this->shoppergroupname);
 
-		$I = new \AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->wantToTest("I want to check discount in frontend");
 		$I->doFrontEndLogin($this->username, $this->pass);
 		$I->checkDiscountWithCategoryChild($this->categoryname1, $this->categoryname2, $this->productname, $this->currentcyunit.$this->total);
