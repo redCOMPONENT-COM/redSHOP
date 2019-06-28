@@ -233,20 +233,6 @@ class ProductsCheckoutAuthorizeDPMCest
 		$this->enableQuation    = 'no';
 		$this->onePageNo        = 'no';
 		$this->onePageYes       = 'yes';
-		$this->customerInformation = array(
-			"userName"      => $this->faker->bothify('UserName ?####?'),
-			"password"      => $this->faker->bothify('Password ?##?'),
-			"email"         => $this->faker->email,
-			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
-			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
-			"address"       => "Some Place in the World",
-			"postalCode"    => "23456",
-			"city"          => "HCM",
-			"country"       => "Denmark",
-			"state"         => "Karnataka",
-			"phone"         => "8787878787",
-			"shopperGroup"  => 'Default Private',
-		);
 
 		$this->customerInformationSecond = array(
 			"email"      => "test@test" . rand() . ".com",
@@ -324,23 +310,13 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
-		$I->wantTo('Create user for checkout');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser(
-			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
-			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
-		);
-		$I = new CheckoutWithAuthorizeDPMPayment($scenario);
-		$I->wantTo('Check out with user login');
-		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformation, "login");
-		$I->doFrontendLogout();
 
+		$I = new CheckoutWithAuthorizeDPMPayment($scenario);
 		$I->wantTo('One Steps checkout with payment');
-		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformationSecond, "OneStepCheckout");
+		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformationSecond);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
-		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
 		$I->checkPriceTotal($this->productPrice, $this->customerInformationSecond["firstName"], $this->customerInformationSecond["firstName"], $this->customerInformationSecond["lastName"], $this->productName, $this->categoryName, $this->pluginName);
 	}
 
@@ -352,9 +328,10 @@ class ProductsCheckoutAuthorizeDPMCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo('Disable Plugin');
+		$I->disablePlugin($this->pluginName);
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder( $this->customerInformation['firstName']);
 		$I->deleteOrder( $this->customerInformationSecond['firstName']);
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
@@ -362,8 +339,5 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-		$I->wantToTest('Delete User');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->customerInformation["firstName"]);
 	}
 }

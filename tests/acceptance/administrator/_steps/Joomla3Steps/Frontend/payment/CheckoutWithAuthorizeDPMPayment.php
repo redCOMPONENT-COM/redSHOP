@@ -24,7 +24,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 	 * @param $function
 	 * @throws \Exception
 	 */
-	public function checkoutProductWithAuthorizeDPMPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation, $function)
+	public function checkoutProductWithAuthorizeDPMPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation)
 	{
 		$I = $this;
 		$I->amOnPage(AuthorizeDPMPaymentPage::$URL);
@@ -34,17 +34,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->amOnPage(AuthorizeDPMPaymentPage::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(AuthorizeDPMPaymentPage:: $checkoutButton);
-
-		switch ($function) {
-			case 'login':
-				$I->doFrontEndLogin($customerInformation["userName"], $customerInformation["password"]);
-				$I->amOnPage(AuthorizeDPMPaymentPage:: $checkoutURL);
-				break;
-			case 'OneStepCheckout':
-				$I->fillInformationPrivate($customerInformation);
-				break;
-		}
-
+		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$labelPayment, 30);
 		$I->scrollTo(AuthorizeDPMPaymentPage::$labelPayment);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM, 30);
@@ -60,12 +50,17 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireYear, $checkoutAccountDetail['cardExpiryYear']);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$typeCard, 30);
 		$I->click(AuthorizeDPMPaymentPage::$typeCard);
-		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
-
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$acceptTerms, 30);
 		$I->scrollTo(AuthorizeDPMPaymentPage::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(AuthorizeDPMPaymentPage::$termAndConditionsId));
 		$I->wait(0.5);
+		try
+		{
+			$I->seeCheckboxIsChecked(AuthorizeDPMPaymentPage::$termAndConditions);
+		}catch (\Exception $e)
+		{
+			$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
+		}
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		try
