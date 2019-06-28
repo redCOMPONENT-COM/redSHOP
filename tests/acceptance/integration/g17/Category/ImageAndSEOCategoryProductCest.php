@@ -9,6 +9,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
+use Configuration\ConfigurationSteps;
 
 /**
  * Class ImageAndSEOCategoryProductCest
@@ -117,6 +118,22 @@ class ImageAndSEOCategoryProductCest
 			"state"      => "Blangstedgaardsvej 1",
 			"phone"      => "8787878787"
 		);
+		//configuration enable one page checkout
+		$this->addcart          = 'product';
+		$this->allowPreOrder    = 'yes';
+		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
+		$this->enabldAjax       = 'no';
+		$this->defaultCart      = null;
+		$this->buttonCartLead   = 'Back to current view';
+		$this->onePage          = 'yes';
+		$this->showShippingCart = 'no';
+		$this->attributeImage   = 'no';
+		$this->quantityChange   = 'no';
+		$this->quantityInCart   = 0;
+		$this->minimunOrder     = 0;
+		$this->enableQuation    = 'no';
+		$this->onePageNo        = 'no';
+		$this->onePageYes       = 'yes';
 	}
 
 	/**
@@ -127,7 +144,11 @@ class ImageAndSEOCategoryProductCest
 	public function createCategoryHaveImage(CategoryManagerJoomla3Steps $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-
+		$I->disablePlugin('PayPal');
+		$I->wantTo('setup up one page checkout at admin');
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 		$I->wantTo('create category have image and SEO');
 		$I = new CategorySteps($scenario);
 		$I->createCategoryImageAndSEO( $this->categoryName,$this->noPage,$this->image, $this->titleSEO, $this->keySEO, $this->descriptionSEO);
