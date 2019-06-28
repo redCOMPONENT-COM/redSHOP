@@ -94,7 +94,7 @@ class ProductsEPAYPaymentCest
 		$I->wantTo("install plugin EPay Payments ");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin EPay Payments in Administrator');
+		$I->wantTo('Enable Plugin EPay Payments');
 		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configEPayPlugin($this->pluginName, $this->merchantID, $this->keyMD5);
