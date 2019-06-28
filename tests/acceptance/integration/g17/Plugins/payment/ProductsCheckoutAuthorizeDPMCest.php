@@ -303,8 +303,6 @@ class ProductsCheckoutAuthorizeDPMCest
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I = new PluginPaymentManagerJoomla($scenario);
-		$I->wantToTest('Disable redshop_payment plugins');
-		$I->disableType($this->type_payment);
 		$I->enablePlugin($this->pluginName);
 		$I->wantTo('Enable Plugin 2Checkout Payments in Administrator');
 		$I->configAuthorizeDPMPlugin($this->pluginName, $this->checkoutAccountInformation['accessId'], $this->checkoutAccountInformation['transactionId'], $this->checkoutAccountInformation['md5Key']);
