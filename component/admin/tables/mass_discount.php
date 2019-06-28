@@ -129,7 +129,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	/**
 	 * Delete one or more registers
 	 *
-	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 * @param   string|array  $pk  Array of ids or ids comma separated
 	 *
 	 * @return  boolean  Deleted successfuly?
 	 */
@@ -222,19 +222,19 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		if (empty($this->name))
 		{
-			/** @scrutinizer ignore-call */ $this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
+			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
 
 			return false;
 		}
 
 		if (empty($this->amount))
 		{
-			/** @scrutinizer ignore-call */ $this-> /** @scrutinizer ignore-call */setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
+			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
 
 			return false;
 		}
 
-		if (is_null($this->type))
+		if (empty($this->type))
 		{
 			/** @scrutinizer ignore-deprecated */
 			$this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_TYPE_IS_REQUIRED'), 'error');
@@ -244,7 +244,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		if (empty($this->discount_product) && empty($this->category_id) && empty($this->manufacturer_id))
 		{
-			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
+			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
 
 			return false;
 		}
@@ -325,7 +325,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 			if (!$db->setQuery($query)->execute())
 			{
-				$this->/** @scrutinizer ignore-deprecated */ setError($db-> /** @scrutinizer ignore-deprecated */getErrorMsg());
+				$this->setError($db->getErrorMsg());
 
 				return false;
 			}
@@ -483,7 +483,7 @@ class RedshopTableMass_Discount extends RedshopTable
 	/**
 	 * Update Product On Sale status
 	 *
-	 * @param   array  $productIds  List of products.
+	 * @param   array|string  $productIds  List of products.
 	 *
 	 * @return  boolean
 	 */
