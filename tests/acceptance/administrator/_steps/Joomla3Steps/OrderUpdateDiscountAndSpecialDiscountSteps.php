@@ -35,7 +35,6 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->click(\OrderManagerPage::$userId);
 		$I->waitForElementVisible(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
-
 		$I->fillField(\OrderManagerPage::$userSearch, $userName);
 		$I->waitForElement($userOrderPage->returnSearch($userName), 30);
 		$I->pressKey(\OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
@@ -48,28 +47,23 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->fillField(\OrderManagerPage::$zipcode, 1201010);
 		$I->fillField(\OrderManagerPage::$city, "address");
 		$I->fillField(\OrderManagerPage::$phone, '123100120101');
-
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
 		$I->executeJS('window.scrollTo(65,80);');
-
 		$I->waitForElementVisible(\OrderManagerPage::$productId, 30);
 		$I->click(\OrderManagerPage::$productId);
 		$I->waitForElement(\OrderManagerPage::$productsSearch, 60);
-
 		$I->fillField(\OrderManagerPage::$productsSearch, $productName);
 		$I->waitForElementVisible($userOrderPage->returnSearch($productName), 30);
 		$I->click($userOrderPage->returnSearch($productName));
 		$I->wait(0.5);
 		$I->click(\OrderManagerPage::$buttonSave);
-
 		$I->click(\OrderManagerPage::$buttonClose);
 		$I->searchOrder($firstName);
 		$id = $I->grabTextFrom(\OrderManagerPage::$orderID);
 		$I->fillField(\OrderManagerPage::$filter, $firstName);
 		$I->click(\OrderManagerPage::$orderID);
-
 		$I->scrollTo(\OrderManagerPage::$discountUpdate);
 		$I->waitForElementVisible(\OrderManagerPage::$discountUpdate, 30);
 		$I->fillField(\OrderManagerPage::$discountUpdate, $discountUpdate);
@@ -77,7 +71,6 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->executeJS('window.scrollTo(65,80);');
 		$I->waitForElementVisible(\OrderManagerPage::$discountUpdate, 30);
 		$I->click($userOrderPage->returnButtonUpdateDiscount($id));
-
 		$I->scrollTo(\OrderManagerPage::$specialUpdate);
 		$I->waitForElementVisible(\OrderManagerPage::$specialUpdate, 30);
 		$I->fillField(\OrderManagerPage::$specialUpdate, $specialUpdate);
@@ -88,7 +81,6 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->scrollTo(\OrderManagerPage::$specialUpdate);
 		$adminFinalPriceEnd = $randomProductPrice-($discountUpdate+$specialUpdate);
 		$I->see($adminFinalPriceEnd);
-
 		$I->waitForElement(\OrderManagerPage::$close, 30);
 		$I->waitForText(\OrderManagerPage::$buttonClose, 10, \OrderManagerPage::$close);
 	}
