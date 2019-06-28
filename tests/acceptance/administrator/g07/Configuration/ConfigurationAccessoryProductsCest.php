@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
@@ -9,12 +14,46 @@ use Faker\Factory;
 
 class ConfigurationAccessoryProductsCest
 {
+    /**
+     * @var string
+     * since 2.1.2
+     */
     protected $productNameAccessories;
+
+    /**
+     * @var string
+     * since 2.1.2
+     */
     protected $productName;
+
+    /**
+     * @var string
+     * since 2.1.2
+     */
     protected $randomCategoryName;
+
+    /**
+     * @var int
+     * since 2.1.2
+     */
     protected $productNumber;
+
+    /**
+     * @var int
+     * since 2.1.2
+     */
     protected $price;
+
+    /**
+     * @var int
+     * since 2.1.2
+     */
     protected $productNumber1;
+
+    /**
+     * ConfigurationAccessoryProductsCest constructor.
+     * since 2.1.2
+     */
     public function __construct()
     {
         $this->faker = Faker\Factory::create();
@@ -36,6 +75,12 @@ class ConfigurationAccessoryProductsCest
         $I->doAdministratorLogin();
     }
 
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @throws Exception
+     * since 2.1.2
+     */
     public function createProductWithAccessoriesYes(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Accessories Save Manager in Administrator');
@@ -66,6 +111,12 @@ class ConfigurationAccessoryProductsCest
 
     }
 
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @throws Exception
+     * since 2.1.2
+     */
     public function createProductWithAccessoriesNo(AcceptanceTester $I, $scenario)
     {
         $I->wantTo('Test Product Accessories Save Manager in Administrator');

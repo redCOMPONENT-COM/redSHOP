@@ -57,19 +57,19 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->dontSee($nameAttribute);
 	}
 
-    /**
-     * @param $productName
-     * @param $productNameAccessories
-     * @throws \Exception
-     * since 2.1.2
-     */
+	/**
+	 * @param $productName
+	 * @param $productNameAccessories
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
 	public function checkCartWithAccessoryProductsYes($productName, $productNameAccessories)
-    {
-        $I = $this;
-        $I->amOnPage(ProductManagerPage::$cartPageUrL);
-        $I->waitForText($productName);
-        $I->see($productName);
-        $I->waitForText($productNameAccessories);
-        $I->see($productNameAccessories);
-    }
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$cartPageUrL);
+		$I->waitForText($productName);
+		$I->see($productName);
+		$I->waitForText($productNameAccessories);
+		$I->see($productNameAccessories);
+	}
 }
