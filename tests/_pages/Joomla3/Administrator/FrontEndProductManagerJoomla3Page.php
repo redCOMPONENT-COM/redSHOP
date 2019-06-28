@@ -508,7 +508,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $quantityFieldCart = '#quantitybox0';
+	public static $quantityFieldCart = '//input[@name="quantity"]';
 
 	/**
 	 * @var string

@@ -1050,11 +1050,15 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productname]);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantityFieldCart);
-        $I->pauseExecution();
-        $I->fillField(FrontEndProductManagerJoomla3Page::$quantityFieldCart, $quantity);
-		$I->pauseExecution();
-		$I->click(FrontEndProductManagerJoomla3Page::$buttonUpdateCart);
-		$I->waitForText($discountprice, 5, FrontEndProductManagerJoomla3Page::$priceexcl);
+        $I->click(\CheckoutChangeQuantityProductPage::$quantityField);
+        $I->pressKey(\CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
+        $quantities = 10;
+        $quantity = str_split($quantities);
+        foreach ($quantity as $char) {
+            $I->pressKey(\CheckoutChangeQuantityProductPage::$quantityField, $char);
+        }
+        $I->waitForElement(\CheckoutChangeQuantityProductPage::$updateCartButton, 30);
+        $I->click(\CheckoutChangeQuantityProductPage::$updateCartButton);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForText($total, 30,\FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
