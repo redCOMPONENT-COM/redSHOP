@@ -109,23 +109,14 @@ class CategorySteps extends AbstractStep
 		$I->fillField(CategoryPage::$idFieldName, $categoryName);
 		$I->fillField(CategoryPage::$categoryNoPage, $noPage);
 		$I->waitForElement(CategoryPage:: $fieldUploadImage, 30);
-		$I->attachFile(CategoryPage::$fieldUploadImage,$fileImage);
+		$I->attachFile(CategoryPage::$fieldUploadImage, $fileImage);
 		$I->click("SEO");
-		$I->waitForElementVisible(CategoryPage:: $titlePage,30);
-		$I->fillField(CategoryPage:: $titlePage,$titleSEO);
-		$I->waitForElementVisible(CategoryPage:: $metaKey,30);
-		$I->fillField(CategoryPage:: $metaKey,$keySEO);
-		$I->waitForElementVisible(CategoryPage:: $descriptionSEO,30);
-		$I->fillField(CategoryPage:: $descriptionSEO,$descriptionSEO);
+		$I->waitForElementVisible(CategoryPage:: $titlePage, 30);
+		$I->fillField(CategoryPage:: $titlePage, $titleSEO);
+		$I->waitForElementVisible(CategoryPage:: $metaKey, 30);
+		$I->fillField(CategoryPage:: $metaKey, $keySEO);
+		$I->waitForElementVisible(CategoryPage:: $descriptionSEO, 30);
+		$I->fillField(CategoryPage:: $descriptionSEO, $descriptionSEO);
 		$I->click(CategoryPage::$buttonSaveClose);
-
-		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$I->reloadPage();
-		$I->waitForText($categoryName,30);
-		$I->waitForElementVisible(CategoryPage:: imageCategory($categoryName),30);
-		$I->click(CategoryPage:: imageCategory($categoryName));
-		$I->seeInPageSource($titleSEO);
-		$I->seeInPageSource($keySEO);
-		$I->seeInPageSource($descriptionSEO);
 	}
 }

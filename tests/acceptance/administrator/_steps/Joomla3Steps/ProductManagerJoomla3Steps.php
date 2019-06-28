@@ -908,10 +908,5 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$headingSEO, $headingSEO);
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
-
-		$I->click(ProductManagerPage:: $buttonReview);
-		$I->waitForText($productName,30, ProductManagerPage::$h1);
-		$I->seeInPageSource($titleSEO);
-		$I->seeInPageSource($headingSEO);
 	}
 }

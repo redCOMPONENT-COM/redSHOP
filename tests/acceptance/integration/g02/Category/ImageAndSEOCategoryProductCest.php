@@ -126,7 +126,12 @@ class ImageAndSEOCategoryProductCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductHaveImageAndSEO($this->productName,$this->categoryName, $this->productNumber,$this->productPrice,$this->titleSEOPD,$this->headingSEO,$this->image);
 
-		$I->wantTo('Delete product');
+        $I->wantTo('create product have image and SEO');
+        $I = new CheckoutOnFrontEnd($scenario);
+        $I->checkSEOCategoryProduct($this->categoryName,$this->titleSEO, $this->keySEO,$this->descriptionSEO,$this->productName,$this->titleSEOPD,$this->headingSEO);
+
+        $I = new ProductManagerJoomla3Steps($scenario);
+        $I->wantTo('Delete product');
 		$I->deleteProduct($this->productName);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);

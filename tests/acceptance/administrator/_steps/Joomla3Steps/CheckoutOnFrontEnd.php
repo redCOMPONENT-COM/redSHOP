@@ -136,4 +136,33 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		}
 	}
+
+    /**
+     * @param $categoryName
+     * @param $titleSEO
+     * @param $keySEO
+     * @param $descriptionSEO
+     * @param $productName
+     * @param $titleSEOPD
+     * @param $headingSEO
+     * @throws Exception
+     */
+    public function checkSEOCategoryProduct($categoryName,$titleSEO, $keySEO, $descriptionSEO, $productName, $titleSEOPD,$headingSEO)
+    {
+        $I = $this;
+        $I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+        $I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+        $I->waitForText($categoryName,30);
+        $I->waitForElementVisible(CategoryPage:: imageCategory($categoryName),30);
+        $I->click(CategoryPage:: imageCategory($categoryName));
+        $I->seeInPageSource($titleSEO);
+        $I->seeInPageSource($keySEO);
+        $I->seeInPageSource($descriptionSEO);
+        $productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+        $I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+        $I->click($productFrontEndManagerPage->product($productName));
+        $I->waitForText($productName,30, ProductManagerPage::$h1);
+        $I->seeInPageSource($titleSEOPD);
+        $I->seeInPageSource($headingSEO);
+    }
 }
