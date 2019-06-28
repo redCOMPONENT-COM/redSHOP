@@ -874,41 +874,41 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30);
 	}
 
-    /**
-     * @param $productName
-     * @param $category
-     * @param $productNumber
-     * @param $price
-     * @param $addprice
-     * @throws \Exception
-     * @since 2.1.2
-     */
+	/**
+	 * @param $productName
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $addprice
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
 	public function createProductWithAddPrice($productName, $category, $productNumber, $price, $addprice, $quantityStart, $quantityEnd, $startDate, $endDate)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->click(ProductManagerPage::$buttonNew);
-        $I->waitForElement(ProductManagerPage::$productName, 30);
-        $I->fillField(ProductManagerPage::$productName, $productName);
-        $I->fillField(ProductManagerPage::$productNumber, $productNumber);
-        $I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
-        $I->click(ProductManagerPage::$categoryId);
-        $I->fillField(ProductManagerPage::$categoryFile, $category);
-        $usePage = new ProductManagerPage();
-        $I->waitForElement($usePage->returnChoice($category), 30);
-        $I->click($usePage->returnChoice($category));
-        $I->click(ProductManagerPage::$buttonSaveClose);
-        $I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
-        $I->click(ProductManagerPage::$addPriceButton);
-        $I->waitForElementVisible(\AdminJ3Page::$buttonNew, 30);
-        $I->click(\AdminJ3Page::$buttonNew);
-        $I->waitForElementVisible(\PriceProductJoomla3Page::$priceProduct, 30);
-        $I->addValueForField(\PriceProductJoomla3Page::$priceProduct, $addprice, 6);
-        $I->fillField(\PriceProductJoomla3Page::$quantityStart, $quantityStart);
-        $I->fillField(\PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
-        $I->fillField(\PriceProductJoomla3Page::$startDate, $startDate);
-        $I->fillField(\PriceProductJoomla3Page::$endDate, $endDate);
-        $I->click(ProductManagerPage::$buttonSave);
-        $I->waitForText(\PriceProductJoomla3Page::$savePriceSuccess, 5, \AdminJ3Page::$selectorSuccess);
-    }
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+		$I->click(ProductManagerPage::$addPriceButton);
+		$I->waitForElementVisible(ProductManagerPage::$addPriceButton, 30);
+		$I->click(ProductManagerPage::$addPriceButton);
+		$I->waitForElementVisible(\PriceProductJoomla3Page::$priceProduct, 30);
+		$I->addValueForField(\PriceProductJoomla3Page::$priceProduct, $addprice, 6);
+		$I->fillField(\PriceProductJoomla3Page::$quantityStart, $quantityStart);
+		$I->fillField(\PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
+		$I->fillField(\PriceProductJoomla3Page::$startDate, $startDate);
+		$I->fillField(\PriceProductJoomla3Page::$endDate, $endDate);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(\PriceProductJoomla3Page::$savePriceSuccess, 5, \AdminJ3Page::$selectorSuccess);
+	}
 }
