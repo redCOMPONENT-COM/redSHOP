@@ -320,7 +320,7 @@ class AddProductPriceCest
 		$I->editAddShipping($this->firstname, $this->pass, $this->address, $this->city, $this->phone, $this->postcode);
 
 		$I = new FrontEndSteps($scenario);
-		$I->wantToTest("I want to check total-price of product on frontend");
+		$I->wantToTest("I want to check price of product on frontend");
 		$I->doFrontEndLogin($this->username, $this->pass);
 		$I->checkoutProductwithAddPrice($this->productname, $this->categoryname, $this->discountPrice, $this->quantity, $this->currentcyunit.$this->total);
 	}
