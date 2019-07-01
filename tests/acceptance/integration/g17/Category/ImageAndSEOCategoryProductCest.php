@@ -8,7 +8,6 @@
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
-use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 use Configuration\ConfigurationSteps;
 
 /**
@@ -95,11 +94,11 @@ class ImageAndSEOCategoryProductCest
 	 */
 	public $customerInformation;
 
-    /**
-     * @var array
-     * @since 2.1.2
-     */
-    public $cartSetting;
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	public $cartSetting;
 
 	/**
 	 * ImageAndSEOCategoryProductCest constructor.
@@ -162,19 +161,19 @@ class ImageAndSEOCategoryProductCest
 		$I->disablePlugin('PayPal');
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"]
-			, $this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
+		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"],
+			$this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
 		$I->wantTo('create category have image and SEO');
 		$I = new CategorySteps($scenario);
-		$I->createCategoryImageAndSEO( $this->categoryName,$this->noPage,$this->image, $this->titleSEO, $this->keySEO, $this->descriptionSEO);
+		$I->createCategoryImageAndSEO( $this->categoryName, $this->noPage, $this->image, $this->titleSEO, $this->keySEO, $this->descriptionSEO);
 
 		$I->wantTo('create product have image and SEO');
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->createProductHaveImageAndSEO($this->productName,$this->categoryName, $this->productNumber,$this->productPrice,$this->titleSEOPD,$this->headingSEO,$this->image);
+		$I->createProductHaveImageAndSEO($this->productName, $this->categoryName, $this->productNumber, $this->productPrice, $this->titleSEOPD, $this->headingSEO, $this->image);
 
 		$I->wantTo('create product have image and SEO');
 		$I = new CheckoutOnFrontEnd($scenario);
-		$I->checkSEOCategoryProduct($this->categoryName,$this->titleSEO, $this->keySEO,$this->descriptionSEO,$this->productName,$this->titleSEOPD,$this->headingSEO,$this->customerInformation);
+		$I->checkSEOCategoryProduct($this->categoryName, $this->titleSEO, $this->keySEO, $this->descriptionSEO, $this->productName, $this->titleSEOPD, $this->headingSEO, $this->customerInformation);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete product');

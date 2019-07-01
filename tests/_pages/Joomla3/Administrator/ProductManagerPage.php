@@ -399,27 +399,27 @@ ProductManagerPage extends AdminJ3Page
 	 */
 	public static $priceFrontend = ".category_product_price";
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public static $fileUpload = '//input[@type=\'file\' and @multiple="multiple"]';
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fileUpload = '//input[@type=\'file\' and @multiple="multiple"]';
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public static $tabSEO = "SEO";
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $tabSEO = "SEO";
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public static $titleSEO ="//input[@id='pagetitle']";
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $titleSEO ="//input[@id='pagetitle']";
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public static $headingSEO ="//input[@id='pageheading']";
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $headingSEO ="//input[@id='pageheading']";
 }
