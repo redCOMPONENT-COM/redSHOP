@@ -1,13 +1,20 @@
 <?php
-
+/**
+ * @package     redSHOP
+ * @subpackage  Steps
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 namespace Frontend\payment;
 use CheckoutOnFrontEnd;
 use FrontEndProductManagerJoomla3Page;
 use Frontend2PaymentPage;
 
-
-
+/**
+ * Class CheckoutWithAmazonPayment
+ * @package Frontend\payment
+ */
 class CheckoutWithAmazonPayment extends CheckoutOnFrontEnd
 {
 	/**
