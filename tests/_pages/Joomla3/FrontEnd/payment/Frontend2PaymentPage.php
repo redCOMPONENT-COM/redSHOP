@@ -73,9 +73,9 @@ class Frontend2PaymentPage extends FrontEndProductManagerJoomla3Page
 	 */
 	public static $message2CheckoutSuccess = 'Your payment has been processed';
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public static $buttonEPay = "//div[@id=\"rs_payment_epayv2\"]/label";
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $buttonEPay = "//div[@id=\"rs_payment_epayv2\"]/label";
 }
