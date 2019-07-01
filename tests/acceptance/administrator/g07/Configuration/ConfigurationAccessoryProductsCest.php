@@ -88,7 +88,7 @@ class ConfigurationAccessoryProductsCest
 	{
 		$I->wantTo('Test Product Accessories ');
 		$I = new ProductsConfigurationSteps($scenario);
-		$I->wantTo ('I Want to add product inside the category');
+		$I->wantTo ('I Want to configuration Product Accessory Yes');
 		$I->configurationProductAccessoryYes();
 
 		$I->wantTo('Create Category ');
@@ -122,7 +122,7 @@ class ConfigurationAccessoryProductsCest
 	{
 		$I->wantTo('Test Product Accessories Save Manager in Administrator');
 		$I = new ProductsConfigurationSteps($scenario);
-		$I->wantTo ('I Want to add product inside the category');
+		$I->wantTo ('I Want to configuration Product Accessory No');
 		$I->configurationProductAccessoryNo();
 
 		$I->wantTo('check add');
