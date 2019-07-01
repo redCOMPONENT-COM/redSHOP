@@ -86,7 +86,7 @@ class ConfigurationAccessoryProductsCest
 	 */
 	public function createProductWithAccessoriesYes(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Accessories Save Manager ');
+		$I->wantTo('Test Product Accessories ');
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo ('I Want to add product inside the category');
 		$I->configurationProductAccessoryYes();
