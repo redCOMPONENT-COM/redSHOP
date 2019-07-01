@@ -108,7 +108,7 @@ class ConfigurationAccessoryProductsCest
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->checkAddProductAccessoryYesToCart($this->randomCategoryName, $this->productName,$this->productNameAccessories );
 
-		$I->wantTo('check cart');
+		$I->wantTo('check on cart');
 		$I->checkCartWithAccessoryProductsYes( $this->productName,$this->productNameAccessories );
 	}
 
