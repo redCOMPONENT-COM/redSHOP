@@ -1044,7 +1044,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		try{
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+			$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60 , \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		}catch (\Exception $e)
 		{
 		}
@@ -1060,7 +1060,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(CheckoutChangeQuantityProductPage::$updateCartButton, 30);
 		$I->click(CheckoutChangeQuantityProductPage::$updateCartButton);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
-		$I->waitForText($total, 30,FrontEndProductManagerJoomla3Page::$priceEnd);
+		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		try {
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
@@ -1080,6 +1080,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
-		$I->waitForText($total, 30,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
+		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 	}
 }

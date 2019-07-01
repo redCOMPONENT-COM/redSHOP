@@ -226,10 +226,10 @@ ProductManagerPage extends AdminJ3Page
 	 */
 	public static $addAttribute = '+ Add Attribute parameter';
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
 	public static $addPriceButton = '.button-new';
 
 	/**
