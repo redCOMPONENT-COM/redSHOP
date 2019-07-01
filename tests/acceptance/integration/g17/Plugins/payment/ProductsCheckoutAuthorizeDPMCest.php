@@ -11,7 +11,6 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
-use AcceptanceTester\UserManagerJoomla3Steps;
 use Administrator\plugins\PluginPaymentManagerJoomla;
 use Frontend\payment\CheckoutWithAuthorizeDPMPayment;
 
@@ -234,7 +233,7 @@ class ProductsCheckoutAuthorizeDPMCest
 
 		$I = new CheckoutWithAuthorizeDPMPayment($scenario);
 		$I->wantTo('One Steps checkout with payment');
-		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName,$this->customerInformationSecond);
+		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformationSecond);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');

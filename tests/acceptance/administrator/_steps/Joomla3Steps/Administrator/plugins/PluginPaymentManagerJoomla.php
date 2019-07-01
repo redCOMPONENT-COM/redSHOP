@@ -56,7 +56,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$pluginManagerPage = new PluginManagerJoomla3Page;
 		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->checkExistenceOf($pluginName);
-		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
 		$I->waitForElementVisible($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->click($pluginName);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldAccessId, 60);
