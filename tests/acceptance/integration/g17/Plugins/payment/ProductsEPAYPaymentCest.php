@@ -13,8 +13,8 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use Faker\Factory;
-use Frontend\payment\CheckoutWith2Payment;
 use Administrator\plugins\PluginPaymentManagerJoomla;
+use Frontend\payment\CheckoutWithEPAYPayment;
 
 /**
  * Class ProductsEPAYPaymentCest
@@ -127,7 +127,7 @@ class ProductsEPAYPaymentCest
 			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
 		);
 
-		$I = new CheckoutWith2Payment($scenario);
+		$I = new CheckoutWithEPAYPayment($scenario);
 		$I->CheckoutWithEPAYPayment($this->customerInformation["userName"], $this->customerInformation["password"],$this->productName, $this->categoryName );
 
 		$I = new ConfigurationSteps($scenario);
