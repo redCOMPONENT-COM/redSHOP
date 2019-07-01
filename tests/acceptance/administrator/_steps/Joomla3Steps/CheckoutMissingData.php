@@ -23,7 +23,17 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I = $this;
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+
+		try
+		{
+			$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$radioIDCompany);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+			$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+		}
+
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
@@ -71,7 +81,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->comment('Business');
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->wait(1);
 		$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
 		try
