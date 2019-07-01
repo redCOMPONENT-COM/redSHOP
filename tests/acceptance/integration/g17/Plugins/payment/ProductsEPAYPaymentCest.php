@@ -23,6 +23,185 @@ use Frontend\payment\CheckoutWithEPAYPayment;
  */
 class ProductsEPAYPaymentCest
 {
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $productName;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $productNumber;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $productPrice;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $addcart;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $allowPreOrder;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $cartTimeOut;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $enabldAjax;
+
+	/**
+	 * @var null
+	 * since 2.1.2
+	 */
+	protected $defaultCart;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $buttonCartLead;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $onePage;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $showShippingCart;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $attributeImage;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $quantityChange;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $quantityInCart;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $minimunOrder;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $enableQuation;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $onePageNo;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $onePageYes;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $merchantID;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $keyMD5;
+
+	/**
+	 * @var array
+	 * since 2.1.2
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $extensionURL;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $pluginName;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $pluginURL;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $pakage;
+
+
+	/**
+	 * ProductsEPAYPaymentCest constructor.
+	 * since 2.1.2
+	 */
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
