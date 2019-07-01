@@ -65,96 +65,6 @@ class ProductsCheckoutAuthorizeDPMCest
 	public $maximumQuantity;
 
 	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $addcart;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $allowPreOrder;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $cartTimeOut;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $enabldAjax;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $defaultCart;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $buttonCartLead;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $onePage;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $showShippingCart;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $attributeImage;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $quantityChange;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $quantityInCart;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $minimunOrder;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $enableQuation;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $onePageNo;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $onePageYes;
-
-	/**
 	 * @var array
 	 * @since 2.1.2
 	 */
@@ -200,7 +110,14 @@ class ProductsCheckoutAuthorizeDPMCest
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public $pakage;
+	public $package;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	public $cartSetting;
+
 
 	/**
 	 * @var string
@@ -217,22 +134,25 @@ class ProductsCheckoutAuthorizeDPMCest
 		$this->productPrice     = 100;
 		$this->minimumQuantity  = 1;
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
+
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->cartSetting = array(
+			"addcart"            => 'product',
+			"allowPreOrder"      => 'yes',
+			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
+			"enabldAjax"         => 'no',
+			"defaultCart"        => null,
+			"buttonCartLead"     => 'Back to current view',
+			"onePage"            => 'yes',
+			"showShippingCart"   => 'no',
+			"attributeImage"     => 'no',
+			"quantityChange"     => 'no',
+			"quantityInCart"     => 0,
+			"minimunOrder"       => 0,
+			"enableQuation"      => 'no',
+			"onePageNo"          => 'no',
+			"onePageYes"         => 'yes'
+		);
 
 		$this->customerInformationSecond = array(
 			"email"      => "test@test" . rand() . ".com",
@@ -250,7 +170,7 @@ class ProductsCheckoutAuthorizeDPMCest
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'Authorize Direct Post Method';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->pakage         = 'plg_redshop_payment_rs_payment_authorize_dpm.zip';
+		$this->package         = 'plg_redshop_payment_rs_payment_authorize_dpm.zip';
 		$this->type_payment   = 'redshop_payment';
 
 		$this->checkoutAccountInformation = array(
@@ -286,7 +206,7 @@ class ProductsCheckoutAuthorizeDPMCest
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo("install plugin payment 2Checkout ");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->enablePlugin($this->pluginName);
@@ -302,8 +222,9 @@ class ProductsCheckoutAuthorizeDPMCest
 	 */
 	public function testAuthorizeDPMPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->wantTo('setup up one page checkout at admin');
+		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"],
+			$this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
