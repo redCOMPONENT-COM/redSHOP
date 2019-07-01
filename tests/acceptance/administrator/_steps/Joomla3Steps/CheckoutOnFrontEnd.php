@@ -136,4 +136,63 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		}
 	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $productNameAccessories
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function checkAddProductAccessoryYesToCart($categoryName, $productName, $productNameAccessories)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$url);
+		$I->waitForText($categoryName, 30);
+		$I->click($categoryName);
+		$I->waitForText($productNameAccessories, 30);
+		$I->click($productNameAccessories);
+		$I->waitForText($productNameAccessories);
+		$I->see($productName);
+		$I->click(ConfigurationPage::$addAccessory);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $productNameAccessories
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function checkAddProductAccessoryNoToCart($categoryName, $productName, $productNameAccessories)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$url);
+		$I->waitForText($categoryName, 30);
+		$I->click($categoryName);
+		$I->waitForText($productNameAccessories, 30);
+		$I->click($productNameAccessories);
+		$I->waitForText($productNameAccessories, 30);
+		$I->see($productName);
+		$I->click(ConfigurationPage::$addAccessory);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$errorAddToCart, 30);
+	}
+
+	/**
+	 * @param $productName
+	 * @param $productNameAccessories
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function checkCartWithAccessoryProductsYes($productName, $productNameAccessories)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$cartPageUrL);
+		$I->waitForText($productName);
+		$I->see($productName);
+		$I->waitForText($productNameAccessories);
+		$I->see($productNameAccessories);
+	}
 }
