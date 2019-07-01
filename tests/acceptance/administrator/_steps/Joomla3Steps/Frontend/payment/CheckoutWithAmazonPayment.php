@@ -14,6 +14,7 @@ use Frontend2PaymentPage;
 /**
  * Class CheckoutWithAmazonPayment
  * @package Frontend\payment
+ * sice 2.1.2
  */
 class CheckoutWithAmazonPayment extends CheckoutOnFrontEnd
 {
