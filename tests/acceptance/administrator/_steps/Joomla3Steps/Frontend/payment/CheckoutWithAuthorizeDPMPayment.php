@@ -33,7 +33,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->addToCart($categoryName, $productName);
 		$I->amOnPage(AuthorizeDPMPaymentPage::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(AuthorizeDPMPaymentPage:: $checkoutButton);
+		$I->click(AuthorizeDPMPaymentPage::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$labelPayment, 30);
 		$I->scrollTo(AuthorizeDPMPaymentPage::$labelPayment);
@@ -47,22 +47,22 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 			$I->wait(0.5);
 			$I->fillField( AuthorizeDPMPaymentPage::$cardCode, $checkoutAccountDetail['cvv']);
 			$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardName, 30);
-			$I->fillField(AuthorizeDPMPaymentPage:: $cardName, $checkoutAccountDetail['customerName']);
-			$I->fillField(AuthorizeDPMPaymentPage:: $cardNumber, $checkoutAccountDetail['debitCardNumber']);
-			$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
-			$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireYear, $checkoutAccountDetail['cardExpiryYear']);
+			$I->fillField(AuthorizeDPMPaymentPage::$cardName, $checkoutAccountDetail['customerName']);
+			$I->fillField(AuthorizeDPMPaymentPage::$cardNumber, $checkoutAccountDetail['debitCardNumber']);
+			$I->selectOption(AuthorizeDPMPaymentPage::$selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
+			$I->selectOption(AuthorizeDPMPaymentPage::$selectExpireYear, $checkoutAccountDetail['cardExpiryYear']);
 		}
 		catch (\Exception $e)
 		{
 			$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
-			$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardCode, 30);
+			$I->waitForElementVisible(AuthorizeDPMPaymentPage::$cardCode, 30);
 			$I->wait(0.5);
 			$I->fillField( AuthorizeDPMPaymentPage::$cardCode, $checkoutAccountDetail['cvv']);
 			$I->waitForElementVisible(AuthorizeDPMPaymentPage:: $cardName, 30);
-			$I->fillField(AuthorizeDPMPaymentPage:: $cardName, $checkoutAccountDetail['customerName']);
-			$I->fillField(AuthorizeDPMPaymentPage:: $cardNumber, $checkoutAccountDetail['debitCardNumber']);
-			$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
-			$I->selectOption(AuthorizeDPMPaymentPage:: $selectExpireYear, $checkoutAccountDetail['cardExpiryYear']);
+			$I->fillField(AuthorizeDPMPaymentPage::$cardName, $checkoutAccountDetail['customerName']);
+			$I->fillField(AuthorizeDPMPaymentPage::$cardNumber, $checkoutAccountDetail['debitCardNumber']);
+			$I->selectOption(AuthorizeDPMPaymentPage::$selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
+			$I->selectOption(AuthorizeDPMPaymentPage::$selectExpireYear, $checkoutAccountDetail['cardExpiryYear']);
 		}
 
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$typeCard, 30);

@@ -116,30 +116,6 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	public static $optionTestModeYes= "//div[@id='jform_params_is_test_chzn']/div/ul/li[contains(text(), 'Yes')]";
 
 	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $btnClear = "//button[@class='btn hasTooltip js-stools-btn-clear']";
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $btnSearchTool = "//button[@class='btn hasTooltip js-stools-btn-filter']";
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $fieldType = '//div[@id="filter_folder_chzn"]/a/span';
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public static $inputType = '//div[@id="filter_folder_chzn"]/div/div/input';
-
-	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
 	 * @param   String  $pluginName  Name of the Plugin
