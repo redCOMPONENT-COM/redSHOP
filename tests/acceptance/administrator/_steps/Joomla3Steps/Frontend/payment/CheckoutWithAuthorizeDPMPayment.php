@@ -21,7 +21,6 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 	 * @param $productName
 	 * @param $categoryName
 	 * @param $customerInformation
-	 * @param $function
 	 * @throws \Exception
 	 */
 	public function checkoutProductWithAuthorizeDPMPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation)
@@ -71,6 +70,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->scrollTo(AuthorizeDPMPaymentPage::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(AuthorizeDPMPaymentPage::$termAndConditionsId));
 		$I->wait(0.5);
+
 		try
 		{
 			$I->seeCheckboxIsChecked(AuthorizeDPMPaymentPage::$termAndConditions);
@@ -78,8 +78,10 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		{
 			$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
 		}
+
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
+
 		try
 		{
 			$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
@@ -87,8 +89,10 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		{
 			$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
 			$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
+			$I->wait(0.5);
 			$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 		}
+
 		$I->dontSeeInCurrentUrl(AuthorizeDPMPaymentPage::$checkoutURL);
 	}
 }
