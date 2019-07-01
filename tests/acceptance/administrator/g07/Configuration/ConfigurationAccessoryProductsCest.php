@@ -120,7 +120,7 @@ class ConfigurationAccessoryProductsCest
 	 */
 	public function createProductWithAccessoriesNo(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Accessories Save Manager in Administrator');
+		$I->wantTo('Test Product Accessories');
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo ('I Want to configuration Product Accessory No');
 		$I->configurationProductAccessoryNo();
