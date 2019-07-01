@@ -104,7 +104,7 @@ class ConfigurationAccessoryProductsCest
 		$I->wantTo('Create a Category');
 		$I->createProductWithAccessories($this->productNameAccessories, $this->randomCategoryName, $this->productNumber1 ,$this->price,$this->productName );
 
-		$I->wantTo('check add');
+		$I->wantTo('check add to cart');
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->checkAddProductAccessoryYesToCart($this->randomCategoryName, $this->productName,$this->productNameAccessories );
 
