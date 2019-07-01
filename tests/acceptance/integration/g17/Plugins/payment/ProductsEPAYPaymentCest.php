@@ -120,7 +120,7 @@ class ProductsEPAYPaymentCest
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
-		$I->wantTo('Create user for checkout');
+		$I->wantTo('Create user');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser(
 			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
