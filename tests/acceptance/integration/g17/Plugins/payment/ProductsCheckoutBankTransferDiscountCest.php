@@ -8,10 +8,9 @@
 
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
-use AcceptanceTester\UserManagerJoomla3Steps;
+use Configuration\ConfigurationSteps;
 use Frontend\payment\checkoutWithBankTransferDiscount;
 
 /**
@@ -25,6 +24,103 @@ use Frontend\payment\checkoutWithBankTransferDiscount;
  */
 class ProductsCheckoutBankTransferDiscountCest
 {
+
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.2
+	 */
+	public $faker;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $categoryName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productNumber;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $minimumQuantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $maximumQuantity;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $customerInformationSecond;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $checkoutAccountInformation;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $group;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $extensionURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $pluginName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $pluginURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $package;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	public $cartSetting;
+
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
@@ -36,56 +132,41 @@ class ProductsCheckoutBankTransferDiscountCest
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
 
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->cartSetting = array(
+			"addcart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabldAjax"        => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimunOrder"      => 0,
+			"enableQuation"     => 'no',
+			"onePageNo"         => 'no',
+			"onePageYes"        => 'yes'
+		);
 
 		$this->customerInformation = array(
-			"userName"      => $this->faker->bothify('UserName ?####?'),
-			"password"      => $this->faker->bothify('Password ?##?'),
-			"email"         => $this->faker->email,
-			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
-			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
-			"address"       => "Some Place in the World",
-			"postalCode"    => "5000",
-			"city"          => "HCM",
-			"country"       => "Denmark",
-			"state"         => "Karnataka",
-			"phone"         => "8787878787",
-			"shopperGroup"  => 'Default Private',
+			"email"             => $this->faker->email,
+			"firstName"         => $this->faker->bothify('firstNameCustomer ?####?'),
+			"lastName"          => $this->faker->bothify('lastNameCustomer ?####?'),
+			"address"           => "Some Place in the World",
+			"postalCode"        => "5000",
+			"city"              => "Blangstedgaardsvej 1",
+			"country"           => "Denmark",
+			"state"             => "Odense SØ",
+			"phone"             => "8787878787",
+			"shopperGroup"      => 'Default Private',
 		);
-		$this->group          = 'Registered';
 
-		$this->customerBussinesInformation = array(
-			"email"          => "test@test" . rand() . ".com",
-			"companyName"    => "CompanyName",
-			"businessNumber" => 1231312,
-			"firstName"      => $this->faker->bothify('firstName ?####?'),
-			"lastName"       => $this->faker->bothify('lastName ?####?'),
-			"address"        => "Some Place in the World",
-			"postalCode"     => "5000",
-			"city"           => "Odense SØ",
-			"country"        => "Denmark",
-			"state"          => "Blangstedgaardsvej 1",
-			"phone"          => "8787878787",
-			"eanNumber"      => 1212331331231,
-		);
-		$this->extensionURL   = 'extension url';
-		$this->pluginName     = 'Bank Transfer Discount Payments';
-		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->pakage         = 'plg_redshop_payment_rs_payment_banktransfer_discount.zip';
+		$this->extensionURL     = 'extension url';
+		$this->pluginName       = 'Bank Transfer Discount Payments';
+		$this->pluginURL        = 'paid-extensions/tests/releases/plugins/';
+		$this->package          = 'plg_redshop_payment_rs_payment_banktransfer_discount.zip';
 	}
 
 	/**
@@ -105,7 +186,7 @@ class ProductsCheckoutBankTransferDiscountCest
 	public function installPlugin(AdminManagerJoomla3Steps $I)
 	{
 		$I->wantTo("install plugin payment Bank Transfer Discount");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin Bank Transfer Discount Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
@@ -118,8 +199,8 @@ class ProductsCheckoutBankTransferDiscountCest
 	 */
 	public function testBankTransferDiscountPaymentPlugin( ConfigurationSteps $I, $scenario)
 	{
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"],
+			$this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -129,25 +210,13 @@ class ProductsCheckoutBankTransferDiscountCest
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
-		$I->wantTo('Create user for checkout');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser(
-			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
-			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
-		);
-
 		$I->wantTo('checkout with Plugin Bank Transfer Discount Payments in Administrator');
 		$I = new checkoutWithBankTransferDiscount($scenario);
-		$I->wantTo('Check out with user login');
-		$I->checkoutProductWithBankTransferDiscountPayment( $this->productName, $this->categoryName,$this->customerInformation, "login");
-		$I->doFrontendLogout();
 		$I->wantTo('One Steps checkout with payment');
-		$I->checkoutProductWithBankTransferDiscountPayment($this->productName, $this->categoryName,$this->customerBussinesInformation, "OneStepCheckout");
+		$I->checkoutProductWithBankTransferDiscountPayment($this->productName, $this->categoryName,$this->customerInformation);
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
 		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"],
-			$this->productName, $this->categoryName, $this->pluginName);
-		$I->checkPriceTotal($this->productPrice, $this->customerBussinesInformation["firstName"], $this->customerBussinesInformation["firstName"], $this->customerBussinesInformation["lastName"],
 			$this->productName, $this->categoryName, $this->pluginName);
 	}
 
@@ -162,7 +231,6 @@ class ProductsCheckoutBankTransferDiscountCest
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder( $this->customerInformation['firstName']);
-		$I->deleteOrder( $this->customerBussinesInformation['firstName']);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
@@ -171,9 +239,5 @@ class ProductsCheckoutBankTransferDiscountCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-
-		$I->wantToTest('Delete User');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->customerInformation["firstName"]);
 	}
 }

@@ -19,11 +19,10 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 	 * @param $productName
 	 * @param $categoryName
 	 * @param $customerInformation
-	 * @param $function
 	 * @throws \Exception
 	 * @since 2.1.2
 	 */
-	public function checkoutProductWithBankTransferDiscountPayment($productName, $categoryName, $customerInformation, $function)
+	public function checkoutProductWithBankTransferDiscountPayment($productName, $categoryName, $customerInformation)
 	{
 		$I = $this;
 		$I->addToCart($categoryName, $productName);
@@ -31,30 +30,10 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
-		switch ($function) {
-			case 'login':
-				$I->doFrontEndLogin($customerInformation["userName"], $customerInformation["password"]);
-				$I->amOnPage(FrontEndProductManagerJoomla3Page:: $checkoutURL);
-				break;
-			case 'OneStepCheckout':
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
-				$I->comment('Business');
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
-				$I->wait(1);
-				$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
-				try
-				{
-					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-				}catch (\Exception $e)
-				{
-					$I->click(FrontEndProductManagerJoomla3Page::$radioIDCompany);
-					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-				}
-				$I->fillInformationBusiness($customerInformation);
-				break;
-		}
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->fillInformationPrivate($customerInformation);
+
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
 		$I->wait(0.5);
