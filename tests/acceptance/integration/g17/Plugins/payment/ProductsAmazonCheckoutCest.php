@@ -10,7 +10,6 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
-use AcceptanceTester\UserManagerJoomla3Steps;
 use Faker\Factory;
 use Frontend\payment\CheckoutWithAmazonPayment;
 
@@ -270,7 +269,7 @@ class ProductsAmazonCheckoutCest
 	{
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+						$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
