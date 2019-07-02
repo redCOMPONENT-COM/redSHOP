@@ -86,7 +86,7 @@ class ConfigurationAccessoryProductsCest
 	 */
 	public function createProductWithAccessoriesYes(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Accessories ');
+		$I->wantTo('Test Product Accessories Yes');
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo ('I Want to configuration Product Accessory Yes');
 		$I->configurationProductAccessoryYes();
