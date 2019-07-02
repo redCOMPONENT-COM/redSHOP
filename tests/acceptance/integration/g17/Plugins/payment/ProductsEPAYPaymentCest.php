@@ -296,7 +296,7 @@ class ProductsEPAYPaymentCest
 		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to add product inside the category');
+		$I->wantTo('I want to create Product');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
 		$I->wantTo('Create user');
