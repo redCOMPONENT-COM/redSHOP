@@ -73,12 +73,6 @@ class ProductsCheckoutAuthorizeDPMCest
 	 * @var array
 	 * @since 2.1.2
 	 */
-	protected $customerInformationSecond;
-
-	/**
-	 * @var array
-	 * @since 2.1.2
-	 */
 	protected $checkoutAccountInformation;
 
 	/**
@@ -117,13 +111,6 @@ class ProductsCheckoutAuthorizeDPMCest
 	 */
 	public $cartSetting;
 
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	public $type_payment;
-
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
@@ -153,7 +140,7 @@ class ProductsCheckoutAuthorizeDPMCest
 			"onePageYes"         => 'yes'
 		);
 
-		$this->customerInformationSecond = array(
+		$this->customerInformation = array(
 			"email"      => "test@test" . rand() . ".com",
 			"firstName"  => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"   => $this->faker->bothify('lastNameCustomer ?####?'),
@@ -165,12 +152,10 @@ class ProductsCheckoutAuthorizeDPMCest
 			"phone"      => "8787878787"
 		);
 
-		$this->group          = 'Registered';
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'Authorize Direct Post Method';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
 		$this->package         = 'plg_redshop_payment_rs_payment_authorize_dpm.zip';
-		$this->type_payment   = 'redshop_payment';
 
 		$this->checkoutAccountInformation = array(
 			"accessId"          => "5rCF42xJ",
@@ -233,11 +218,11 @@ class ProductsCheckoutAuthorizeDPMCest
 
 		$I = new CheckoutWithAuthorizeDPMPayment($scenario);
 		$I->wantTo('One Steps checkout with payment');
-		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformationSecond);
+		$I->checkoutProductWithAuthorizeDPMPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformation);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
-		$I->checkPriceTotal($this->productPrice, $this->customerInformationSecond["firstName"], $this->customerInformationSecond["firstName"], $this->customerInformationSecond["lastName"], $this->productName, $this->categoryName, $this->pluginName);
+		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
 	}
 
 	/**
@@ -248,16 +233,16 @@ class ProductsCheckoutAuthorizeDPMCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Disable Plugin');
-		$I->disablePlugin($this->pluginName);
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder( $this->customerInformationSecond['firstName']);
+		$I->deleteOrder( $this->customerInformation['firstName']);
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
+		$I->wantTo('Disable Plugin');
+		$I->disablePlugin($this->pluginName);
 	}
 }
