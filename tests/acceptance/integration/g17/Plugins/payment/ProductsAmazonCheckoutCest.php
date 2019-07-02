@@ -276,7 +276,7 @@ class ProductsAmazonCheckoutCest
 		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to add product inside the category');
+		$I->wantTo('I Want to add Product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
 		$I = new CheckoutWithAmazonPayment($scenario);
