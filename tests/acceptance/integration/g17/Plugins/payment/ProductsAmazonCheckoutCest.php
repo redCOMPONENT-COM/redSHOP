@@ -300,7 +300,7 @@ class ProductsAmazonCheckoutCest
 
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder( $this->customerInformationSecond['firstName']);
+		$I->deleteOrder( $this->customerInformation['firstName']);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
