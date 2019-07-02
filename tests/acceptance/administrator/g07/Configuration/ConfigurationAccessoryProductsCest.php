@@ -59,7 +59,7 @@ class ConfigurationAccessoryProductsCest
 	 */
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
+		$this->faker                        = Faker\Factory::create();
 		$this->productNameAccessories       = $this->faker->bothify('Testing Accessories_?##?');
 		$this->productName                  = $this->faker->bothify('Testing productName_?##?');
 		$this->randomCategoryName           = $this->faker->bothify('Category Demo_?##?');
@@ -96,7 +96,7 @@ class ConfigurationAccessoryProductsCest
 		$I->wantTo('Create a Category');
 		$I->addCategorySaveClose($this->randomCategoryName);
 
-		$I->wantTo('Create Category ');
+		$I->wantTo('Create Products ');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
 		$I->createProductSaveClose($this->productName, $this->randomCategoryName, $this->productNumber ,$this->price);
