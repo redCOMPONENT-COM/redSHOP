@@ -16,7 +16,7 @@ class AuthorizeDPMPaymentPage extends FrontEndProductManagerJoomla3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $paymentAuthorizeDPM = "//div[@id='rs_payment_authorize_dpm']//label//input";
+	public static $paymentAuthorizeDPM = "//input[@id='rs_payment_authorize_dpm']";
 
 	/**
 	 * @var string
