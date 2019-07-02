@@ -229,7 +229,6 @@ class ProductsAmazonCheckoutCest
 			"postalCode"    => "23456",
 			"city"          => "HCM",
 			"country"       => "Denmark",
-			"state"         => "Karnataka",
 			"phone"         => "8787878787",
 			"shopperGroup"  => 'Default Private',
 		);
