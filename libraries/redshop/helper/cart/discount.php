@@ -148,19 +148,19 @@ class RedshopHelperCartDiscount
 			}
 
 			$productSubtotal = $cart['product_subtotal'];
-			$subTotal        = $productSubtotal;
 
-			if ($view == 'cart')
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
-				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
-				{
-					if (!empty($cart['cart_discount']))
-					{
-						$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
-					}
-					unset($cart['voucher']);
-					$cart['voucher_discount'] = 0;
-				}
+				unset($cart['voucher']);
+				$cart['voucher_discount'] = 0;
+			}
+
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 4)
+			{
+				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'] - $cart['coupon_discount'];
+			}
+			else
+			{
 				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 			}
 
@@ -243,28 +243,20 @@ class RedshopHelperCartDiscount
 					break;
 
 				case 3:
-					if ($valueExist && $key)
-					{
-						$return = false;
-					}
+					$coupons    = array();
+					$oldCoupons = array();
+					unset($cart['coupon']);
+					$return = true;
 
 					break;
 
 				case 2:
-					if ($cart['coupon']['coupon_code'] == $couponCode)
-					{
-						$return = false;
-					}
-					else
-					{
-						$coupons    = array();
-						$oldCoupons = array();
-						unset($cart['voucher']);
-						unset($cart['coupon']);
-						$cart['cart_discount']    = 0;
-						$cart['voucher_discount'] = 0;
-						$return = true;
-					}
+					$coupons    = array();
+					$oldCoupons = array();
+					unset($cart['voucher']);
+					unset($cart['coupon']);
+					$cart['voucher_discount'] = 0;
+					$return = true;
 
 					break;
 
@@ -274,7 +266,6 @@ class RedshopHelperCartDiscount
 					$oldCoupons = array();
 					unset($cart['voucher']);
 					unset($cart['coupon']);
-					$cart['cart_discount']    = 0;
 					$cart['voucher_discount'] = 0;
 
 					$return = true;
@@ -467,10 +458,11 @@ class RedshopHelperCartDiscount
 				break;
 
 			case 3:
-				if ($valueExist && $multiArrayKeyExists)
-				{
-					$return = false;
-				}
+
+				$vouchers    = array();
+				$oldVouchers = array();
+				unset($cart['voucher']);
+				$return = true;
 
 				break;
 
@@ -485,7 +477,6 @@ class RedshopHelperCartDiscount
 					$oldVouchers = array();
 					unset($cart['voucher']);
 					unset($cart['coupon']);
-					$cart['cart_discount']    = 0;
 					$cart['voucher_discount'] = 0;
 					$return = true;
 				}
