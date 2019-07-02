@@ -503,10 +503,16 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $labelPayment = "//h3[contains(text(),'Payment Method')]";
+	
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $totalFinalCheckout = '(//div[@class="form-group total"])/div';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $errorAddToCart = 'Product was not added to cart';
 
