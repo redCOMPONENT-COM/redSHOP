@@ -106,10 +106,7 @@ class ConfigurationAccessoryProductsCest
 
 		$I->wantTo('check add to Cart');
 		$I = new CheckoutOnFrontEnd($scenario);
-		$I->checkAddProductAccessoryYesToCart($this->randomCategoryName, $this->productName, $this->productNameAccessories);
-
-		$I->wantTo('check on Cart');
-		$I->checkCartWithAccessoryProductsYes( $this->productName, $this->productNameAccessories);
+		$I->ConfigurationProductAccessoryOnCart($this->randomCategoryName, $this->productName, $this->productNameAccessories ,'Yes');
 	}
 
 	/**
@@ -127,7 +124,7 @@ class ConfigurationAccessoryProductsCest
 
 		$I->wantTo('check add');
 		$I = new CheckoutOnFrontEnd($scenario);
-		$I->checkAddProductAccessoryNoToCart($this->randomCategoryName, $this->productName, $this->productNameAccessories );
+		$I->ConfigurationProductAccessoryOnCart($this->randomCategoryName, $this->productName, $this->productNameAccessories , 'No');
 
 		$I->wantTo('I Want to delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
