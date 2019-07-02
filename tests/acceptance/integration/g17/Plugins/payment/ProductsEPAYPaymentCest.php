@@ -299,15 +299,8 @@ class ProductsEPAYPaymentCest
 		$I->wantTo('I want to create Product');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
-		$I->wantTo('Create user');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser(
-			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
-			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
-		);
-
 		$I = new CheckoutWithEPAYPayment($scenario);
-		$I->CheckoutWithEPAYPayment($this->customerInformation["userName"], $this->customerInformation["password"],$this->productName, $this->categoryName );
+		$I->CheckoutWithEPAYPayment($this->productName, $this->categoryName,$this->customerInformation);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
@@ -333,9 +326,5 @@ class ProductsEPAYPaymentCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-
-		$I->wantToTest('Delete User');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->customerInformation["firstName"]);
 	}
 }

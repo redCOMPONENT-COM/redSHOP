@@ -8,15 +8,15 @@
 
 namespace Frontend\payment;
 
-use CheckoutOnFrontEnd;
 use Frontend2PaymentPage;
 use FrontEndProductManagerJoomla3Page;
+use CheckoutMissingData;
 
 /**
  * Class CheckoutWithEPAYPayment
  * @since 2.1.2
  */
-class CheckoutWithEPAYPayment extends CheckoutOnFrontEnd
+class CheckoutWithEPAYPayment extends CheckoutMissingData
 {
 	/**
 	 * @param $userName
@@ -26,16 +26,17 @@ class CheckoutWithEPAYPayment extends CheckoutOnFrontEnd
 	 * @throws \Exception
 	 * since 2.1.2
 	 */
-	public function CheckoutWithEPAYPayment ($userName , $password, $productName, $categoryName)
+	public function CheckoutWithEPAYPayment ($productName, $categoryName, $customerInformation)
 	{
 		$I = $this;
-		$I->doFrontEndLogin($userName, $password);
 		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
+		$I->wait(0.5);
+		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(Frontend2PaymentPage::$buttonEPay, 30);
