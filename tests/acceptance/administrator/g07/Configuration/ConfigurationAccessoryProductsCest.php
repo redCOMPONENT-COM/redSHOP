@@ -102,14 +102,14 @@ class ConfigurationAccessoryProductsCest
 		$I->createProductSaveClose($this->productName, $this->randomCategoryName, $this->productNumber ,$this->price);
 
 		$I->wantTo('Create a Category');
-		$I->createProductWithAccessories($this->productNameAccessories, $this->randomCategoryName, $this->productNumber1 ,$this->price,$this->productName );
+		$I->createProductWithAccessories($this->productNameAccessories, $this->randomCategoryName, $this->productNumber1, $this->price, $this->productName);
 
 		$I->wantTo('check add to Cart');
 		$I = new CheckoutOnFrontEnd($scenario);
-		$I->checkAddProductAccessoryYesToCart($this->randomCategoryName, $this->productName,$this->productNameAccessories );
+		$I->checkAddProductAccessoryYesToCart($this->randomCategoryName, $this->productName, $this->productNameAccessories);
 
 		$I->wantTo('check on Cart');
-		$I->checkCartWithAccessoryProductsYes( $this->productName,$this->productNameAccessories );
+		$I->checkCartWithAccessoryProductsYes( $this->productName, $this->productNameAccessories);
 	}
 
 	/**
@@ -127,7 +127,7 @@ class ConfigurationAccessoryProductsCest
 
 		$I->wantTo('check add');
 		$I = new CheckoutOnFrontEnd($scenario);
-		$I->checkAddProductAccessoryNoToCart($this->randomCategoryName, $this->productName,$this->productNameAccessories );
+		$I->checkAddProductAccessoryNoToCart($this->randomCategoryName, $this->productName, $this->productNameAccessories );
 
 		$I->wantTo('I Want to delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
