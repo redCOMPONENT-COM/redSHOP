@@ -190,7 +190,7 @@ class ProductsConfigurationCest
 
 		$I->wantTo('Create Products ');
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
+		$I->wantTo('Create a Products');
 		$I->createProductSaveClose($this->productName, $this->randomCategoryName, $this->productNumber ,$this->randomProductPrice);
 
 		$I->wantTo('Create Product with Related');
