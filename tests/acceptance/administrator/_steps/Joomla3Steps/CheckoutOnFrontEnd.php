@@ -131,6 +131,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		}
 	}
+
 	/**
 	 * @param $categoryName
 	 * @param $titleSEO
@@ -194,7 +195,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 	}
 
-	/**\
+	/**
 	 * @param $categoryName
 	 * @param $productName
 	 * @param $productNameAccessories
@@ -235,5 +236,4 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				break;
 		}
 	}
-
 }
