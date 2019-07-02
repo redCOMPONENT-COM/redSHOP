@@ -188,7 +188,7 @@ class ProductsConfigurationCest
 		$I->wantTo('Create a Category');
 		$I->addCategorySaveClose($this->randomCategoryName);
 
-		$I->wantTo('Create Category ');
+		$I->wantTo('Create Products ');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
 		$I->createProductSaveClose($this->productName, $this->randomCategoryName, $this->productNumber ,$this->randomProductPrice);
