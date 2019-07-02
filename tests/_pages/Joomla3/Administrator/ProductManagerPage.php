@@ -404,4 +404,28 @@ ProductManagerPage extends AdminJ3Page
 	 * since 2.1.2
 	 */
 	public static $productRelated ='//input[@id="s2id_autogen1"]';
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+	public static $fileUpload = '//input[@type=\'file\' and @multiple="multiple"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $tabSEO = "SEO";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $titleSEO ="//input[@id='pagetitle']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $headingSEO ="//input[@id='pageheading']";
 }

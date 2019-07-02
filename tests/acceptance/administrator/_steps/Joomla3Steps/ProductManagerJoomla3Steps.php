@@ -907,4 +907,39 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
         $I->click(ProductManagerPage::$buttonSave);
         $I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
     }
+
+	/**
+	 * @param $productName
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $titleSEO
+	 * @param $headingSEO
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function createProductHaveImageAndSEO($productName, $category, $productNumber, $price, $titleSEO, $headingSEO,$image)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->waitForElement(ProductManagerPage::$fileUpload, 30);
+		$I->attachFile(ProductManagerPage::$fileUpload, $image);
+		$I->click(ProductManagerPage:: $tabSEO);
+		$I->waitForElementVisible(ProductManagerPage::$titleSEO, 30);
+		$I->fillField(ProductManagerPage::$titleSEO, $titleSEO);
+		$I->waitForElementVisible(ProductManagerPage::$headingSEO, 30);
+		$I->fillField(ProductManagerPage::$headingSEO, $headingSEO);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 }
