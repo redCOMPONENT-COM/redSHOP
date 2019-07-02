@@ -61,6 +61,31 @@ class ProductsConfigurationCest
 	protected $priceAttribute;
 
 	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $productName;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $productNumber;
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	protected $productRelated;
+
+	/**
+	 * @var int
+	 * since 2.1.2
+	 */
+	protected $productNumberRelated;
+
+
+	/**
 	 * ProductsConfigurationCest constructor.
 	 * since 2.1.2
 	 */
@@ -74,6 +99,12 @@ class ProductsConfigurationCest
 		$this->nameAttribute                = 'Testing Attribute' . rand(99, 999);
 		$this->valueAttribute               = '10';
 		$this->priceAttribute               = '10';
+
+		$this->productName                  = $this->faker->bothify('Testing product name?##?');
+		$this->productNumber                = $this->faker->numberBetween(999, 9999);
+		$this->productRelated               = $this->faker->bothify('Testing product related name?##?');
+		$this->productNumberRelated         = $this->faker->numberBetween(999, 9999);
+
 	}
 
 	/**
@@ -140,6 +171,63 @@ class ProductsConfigurationCest
 		$I->wantTo('I Want to delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->randomProductNameAttribute);
+
+		$I->wantTo('I Want to delete category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->randomCategoryName);
+	}
+
+	public function checkConfigurationProductRelatedTwoWayYes(AcceptanceTester $I,$scenario)
+	{
+		$I->wantTo('Test enable Related');
+		$I = new ConfigurationSteps($scenario);
+		$I->checkConfigurationProductRelated('Yes');
+
+		$I->wantTo('Create a Category ');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->wantTo('Create a Category');
+		$I->addCategorySaveClose($this->randomCategoryName);
+
+		$I->wantTo('Create Category ');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Create a Category');
+		$I->createProductSaveClose($this->productName, $this->randomCategoryName, $this->productNumber ,$this->randomProductPrice);
+
+		$I->wantTo('Create Product with Related');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('I Want to add product inside the category');
+		$I->createProductWithRelated($this->productRelated, $this->randomCategoryName, $this->productNumberRelated, $this->randomProductPrice, $this->productName );
+
+		$I->wantTo('I Want to check Product With Related');
+		$I = new ProductsConfigurationSteps($scenario);
+		$I->wantTo('I Want to check Product With Related');
+		$I->checkConfigurationProductRelated($this->randomCategoryName, $this->productName, $this->productRelated, 'Yes');
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * since 2.1.2
+	 */
+	public function checkConfigurationProductRelatedTwoWayNo(AcceptanceTester $I,$scenario)
+	{
+		$I->wantTo('Test enable related in Configuration');
+		$I = new ConfigurationSteps($scenario);
+		$I->checkConfigurationProductRelated('No');
+
+		$I->wantTo('I Want to check Product With Related');
+		$I = new ProductsConfigurationSteps($scenario);
+		$I->wantTo('I Want to check Product With Related');
+		$I->checkConfigurationProductRelated($this->randomCategoryName,  $this->productName, $this->productRelated, 'No');
+
+		$I->wantTo('I Want to delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productRelated);
+
+		$I->wantTo('I Want to delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName);
 
 		$I->wantTo('I Want to delete category');
 		$I = new CategoryManagerJoomla3Steps($scenario);

@@ -398,4 +398,10 @@ ProductManagerPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $priceFrontend = ".category_product_price";
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	public static $productRelated ='//input[@id="s2id_autogen1"]';
 }

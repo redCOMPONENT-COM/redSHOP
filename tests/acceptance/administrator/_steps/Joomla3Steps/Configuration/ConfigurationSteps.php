@@ -491,4 +491,30 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
+
+	/**
+	 * @param $function
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function checkConfigurationProductRelated($function)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab);
+		$I->click(ConfigurationPage::$productTab);
+		$I->click(ConfigurationPage::$relatedProductTab);
+		switch ($function)
+		{
+			case 'Yes':
+				$I->click(ConfigurationPage::$twoWayRelatedYes);
+				break;
+			case 'No':
+				$I->click(ConfigurationPage::$twoWayRelatedNo);
+				break;
+		}
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
 }

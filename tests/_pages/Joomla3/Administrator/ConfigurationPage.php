@@ -484,4 +484,23 @@ class ConfigurationPage extends AdminJ3Page
 	 * since 2.1.2
 	 */
 	public static $messOutOfStockRoom = 'Out of Stock.';
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	public static $relatedProductTab = '//a[@href="#related"]';
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	public static $twoWayRelatedYes = '//label[@id="twoway_related_product_1-lbl"]';
+
+	/**
+	 * @var string
+	 * since 2.1.2
+	 */
+	public static $twoWayRelatedNo = '//label[@id="twoway_related_product_0-lbl"]';
+
 }
