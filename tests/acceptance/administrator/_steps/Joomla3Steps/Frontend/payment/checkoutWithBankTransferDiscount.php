@@ -38,6 +38,13 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
 		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+		try
+		{
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+		}
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
@@ -57,7 +64,6 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 		}catch (\Exception $e)
 		{
-			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
