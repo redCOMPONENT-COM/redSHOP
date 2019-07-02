@@ -281,15 +281,8 @@ class ProductsAmazonCheckoutCest
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
-		$I->wantTo('Create user');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser(
-			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
-			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
-		);
-
 		$I = new CheckoutWithAmazonPayment($scenario);
-		$I->CheckoutWithAmazonPayment($this->customerInformation["userName"], $this->customerInformation["password"],$this->productName, $this->categoryName );
+		$I->CheckoutWithAmazonPayment($this->productName, $this->categoryName, $this->customerInformation);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
@@ -303,9 +296,12 @@ class ProductsAmazonCheckoutCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo('Disable Plugin');
+		$I->disablePlugin($this->pluginName);
+
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder( $this->customerInformation['firstName']);
+		$I->deleteOrder( $this->customerInformationSecond['firstName']);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
@@ -314,9 +310,5 @@ class ProductsAmazonCheckoutCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-
-		$I->wantToTest('Delete User');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->customerInformation["firstName"]);
 	}
 }

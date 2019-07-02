@@ -7,16 +7,16 @@
  */
 
 namespace Frontend\payment;
-use CheckoutOnFrontEnd;
+
 use FrontEndProductManagerJoomla3Page;
 use Frontend2PaymentPage;
-
+use CheckoutMissingData;
 /**
  * Class CheckoutWithAmazonPayment
  * @package Frontend\payment
  * sice 2.1.2
  */
-class CheckoutWithAmazonPayment extends CheckoutOnFrontEnd
+class CheckoutWithAmazonPayment extends CheckoutMissingData
 {
 	/**
 	 * @param $userName
@@ -26,16 +26,17 @@ class CheckoutWithAmazonPayment extends CheckoutOnFrontEnd
 	 * @throws \Exception
 	 * since 2.1.2
 	 */
-	public function CheckoutWithAmazonPayment ($userName , $password, $productName, $categoryName)
+	public function CheckoutWithAmazonPayment ($productName, $categoryName, $customerInformation)
 	{
 		$I = $this;
-		$I->doFrontEndLogin($userName, $password);
 		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
+		$I->wait(0.5);
+		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(Frontend2PaymentPage::$buttonAmazon, 30);
