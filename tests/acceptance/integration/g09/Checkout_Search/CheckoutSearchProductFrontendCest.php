@@ -8,7 +8,7 @@
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\CheckoutSearchProductFrontendSteps;
-use AcceptanceTester\ConfigurationSteps;
+use Configuration\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\PayPalPluginManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
