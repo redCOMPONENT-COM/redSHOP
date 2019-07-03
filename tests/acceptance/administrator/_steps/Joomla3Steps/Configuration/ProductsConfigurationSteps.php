@@ -73,7 +73,6 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForText($categoryName,30);
 		$I->click($categoryName);
 		$I->waitForText($productNameRelated,30);
-
 		switch ($function)
 		{
 			case 'Yes':
