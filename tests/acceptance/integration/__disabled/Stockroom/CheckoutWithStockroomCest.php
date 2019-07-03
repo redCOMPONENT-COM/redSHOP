@@ -5,7 +5,7 @@ c<?php
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps;
+use Configuration\ConfigurationSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 
