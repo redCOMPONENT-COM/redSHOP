@@ -43,6 +43,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		{
 			$I->seeCheckboxIsChecked(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
 			$I->waitForElementVisible(AuthorizeDPMPaymentPage::$cardCode, 30);
+			$I->fillField( AuthorizeDPMPaymentPage::$cardCode, $checkoutAccountDetail['cvv']);
 		}catch (\Exception $e)
 		{
 			$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
