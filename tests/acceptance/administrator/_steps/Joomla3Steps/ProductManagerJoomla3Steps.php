@@ -874,39 +874,39 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30);
 	}
 
-    /**
-     * @param $productRelated
-     * @param $category
-     * @param $productNumber
-     * @param $price
-     * @param $productName
-     * @throws \Exception
-     * since 2.1.2
-     */
-    public function createProductWithRelated($productRelated, $category, $productNumber, $price, $productName)
-    {
-        $I = $this;
-        $I->amOnPage(\ProductManagerPage::$URL);
-        $I->click(ProductManagerPage::$buttonNew);
-        $I->waitForElement(ProductManagerPage::$productName, 30);
-        $I->fillField(ProductManagerPage::$productName, $productRelated);
-        $I->fillField(ProductManagerPage::$productNumber, $productNumber);
-        $I->fillField(ProductManagerPage::$productPrice, $price);
-        $I->click(ProductManagerPage::$categoryId);
-        $I->fillField(ProductManagerPage::$categoryFile, $category);
-        $usePage = new ProductManagerPage();
-        $I->waitForElement($usePage->returnChoice($category), 30);
-        $I->click($usePage->returnChoice($category));
-        $I->click(ProductManagerPage::$accessoryTab);
-        $I->waitForElement(ProductManagerPage::$accessoriesValue, 60);
-        $I->waitForElement(ProductManagerPage::$relatedProduct, 60);
-        $I->fillField(ProductManagerPage::$productRelated, $productName);
-        $usePage = new ProductManagerPage();
-        $I->waitForElement($usePage->returnChoice($productName), 60);
-        $I->click($usePage->returnChoice($productName));
-        $I->click(ProductManagerPage::$buttonSave);
-        $I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
-    }
+	/**
+	 * @param $productRelated
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $productName
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function createProductWithRelated($productRelated, $category, $productNumber, $price, $productName)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productRelated);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$accessoryTab);
+		$I->waitForElement(ProductManagerPage::$accessoriesValue, 60);
+		$I->waitForElement(ProductManagerPage::$relatedProduct, 60);
+		$I->fillField(ProductManagerPage::$productRelated, $productName);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($productName), 60);
+		$I->click($usePage->returnChoice($productName));
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 
 	/**
 	 * @param $productName
