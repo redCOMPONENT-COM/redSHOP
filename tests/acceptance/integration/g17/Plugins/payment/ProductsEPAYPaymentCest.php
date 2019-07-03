@@ -11,7 +11,6 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
-use AcceptanceTester\UserManagerJoomla3Steps;
 use Faker\Factory;
 use Administrator\plugins\PluginPaymentManagerJoomla;
 use Frontend\payment\CheckoutWithEPAYPayment;
@@ -300,7 +299,7 @@ class ProductsEPAYPaymentCest
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
 		$I = new CheckoutWithEPAYPayment($scenario);
-		$I->CheckoutWithEPAYPayment($this->productName, $this->categoryName,$this->customerInformation);
+		$I->CheckoutWithEPAYPayment($this->productName, $this->categoryName, $this->customerInformation);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
