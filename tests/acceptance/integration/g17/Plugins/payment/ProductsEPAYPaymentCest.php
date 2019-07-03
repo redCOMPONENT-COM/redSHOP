@@ -272,7 +272,7 @@ class ProductsEPAYPaymentCest
 	{
 		$I->wantTo("Install plugin EPay Payments ");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
-		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin EPay Payments');
 		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);
@@ -317,7 +317,7 @@ class ProductsEPAYPaymentCest
 	{
 		$I->wantTo('Deletion of Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder( $this->customerInformation['firstName']);
+		$I->deleteOrder($this->customerInformation['firstName']);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);

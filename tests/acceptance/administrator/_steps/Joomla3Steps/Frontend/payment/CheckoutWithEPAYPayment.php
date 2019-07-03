@@ -31,13 +31,13 @@ class CheckoutWithEPAYPayment extends CheckoutMissingData
 		$I = $this;
 		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(0.5);
 		$I->fillInformationPrivate($customerInformation);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(Frontend2PaymentPage::$buttonEPay, 30);
 		$I->wait(0.5);
