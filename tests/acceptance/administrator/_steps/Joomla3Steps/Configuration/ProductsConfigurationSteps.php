@@ -9,6 +9,7 @@
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
+use FrontEndProductManagerJoomla3Page;
 use ProductManagerPage as ProductManagerPage;
 
 /**
@@ -61,30 +62,22 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * since 2.1.2
 	 */
-	public function configurationProductAccessoryYes()
+	public function configurationProductAccessory($function)
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
 		$I->waitForElementVisible(ConfigurationPage::$productTab);
 		$I->click(ConfigurationPage::$productTab);
 		$I->click(ConfigurationPage::$productAccessory);
-		$I->click(ConfigurationPage::$enableAccessoryYes);
-		$I->click(ConfigurationPage::$buttonSaveClose);
-		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
-	}
-
-	/**
-	 * @throws \Exception
-	 * since 2.1.2
-	 */
-	public function configurationProductAccessoryNo()
-	{
-		$I = $this;
-		$I->amOnPage(ConfigurationPage::$URL);
-		$I->waitForElementVisible(ConfigurationPage::$productTab);
-		$I->click(ConfigurationPage::$productTab);
-		$I->click(ConfigurationPage::$productAccessory);
-		$I->click(ConfigurationPage::$enableAccessoryNo);
+		switch ($function)
+		{
+			case 'Yes':
+				$I->click(ConfigurationPage::$enableAccessoryYes);
+				break;
+			case 'No':
+				$I->click(ConfigurationPage::$enableAccessoryNo);
+				break;
+		}
 		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}

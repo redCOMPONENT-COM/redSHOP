@@ -89,7 +89,7 @@ class ConfigurationAccessoryProductsCest
 		$I->wantTo('Test Product Accessories Yes');
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo ('I Want to configuration Product Accessory Yes');
-		$I->configurationProductAccessoryYes();
+		$I->configurationProductAccessory('Yes');
 
 		$I->wantTo('Create Category ');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -120,7 +120,7 @@ class ConfigurationAccessoryProductsCest
 		$I->wantTo('Test Product Accessories');
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo ('I Want to configuration Product Accessory No');
-		$I->configurationProductAccessoryNo();
+		$I->configurationProductAccessory('No');
 
 		$I->wantTo('check add');
 		$I = new CheckoutOnFrontEnd($scenario);

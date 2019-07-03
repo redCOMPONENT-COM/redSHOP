@@ -5,7 +5,9 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
+
 /**
  * Class ProductCheckoutFrontEndManagerSteps
  *
@@ -80,6 +82,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 			}
 		}
+
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$quantity1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
@@ -107,6 +110,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->seeElement(['link' => $productName]);
 		$I->doFrontendLogout();
 	}
+
 	/**
 	 * @param $categoryName
 	 * @param $productName
