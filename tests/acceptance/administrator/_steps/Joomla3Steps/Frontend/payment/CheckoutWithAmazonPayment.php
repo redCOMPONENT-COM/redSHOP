@@ -67,5 +67,4 @@ class CheckoutWithAmazonPayment extends CheckoutMissingData
 		}
 		$I->dontSee(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 	}
-
 }
