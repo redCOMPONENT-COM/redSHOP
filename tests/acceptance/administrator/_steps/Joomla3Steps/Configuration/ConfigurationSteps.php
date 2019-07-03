@@ -503,16 +503,20 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ConfigurationPage::$URL);
 		$I->waitForElementVisible(ConfigurationPage::$productTab);
 		$I->click(ConfigurationPage::$productTab);
+        $I->waitForElementVisible(ConfigurationPage::$relatedProductTab);
 		$I->click(ConfigurationPage::$relatedProductTab);
 		switch ($function)
 		{
 			case 'Yes':
+                $I->waitForElementVisible(ConfigurationPage::$twoWayRelatedYes);
 				$I->click(ConfigurationPage::$twoWayRelatedYes);
 				break;
 			case 'No':
+                $I->waitForElementVisible(ConfigurationPage::$twoWayRelatedNo);
 				$I->click(ConfigurationPage::$twoWayRelatedNo);
 				break;
 		}
+        $I->waitForElementVisible(ConfigurationPage::$buttonSave);
 		$I->click(ConfigurationPage::$buttonSave);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
