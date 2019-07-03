@@ -88,7 +88,7 @@ class ConfigurationAccessoryProductsCest
 	{
 		$I->wantTo('Test Product Accessories Yes');
 		$I = new ProductsConfigurationSteps($scenario);
-		$I->wantTo ('I Want to configuration Product Accessory Yes');
+		$I->wantTo ('I Want to Configuration Product Accessory Yes');
 		$I->configurationProductAccessory('Yes');
 
 		$I->wantTo('Create Category ');
