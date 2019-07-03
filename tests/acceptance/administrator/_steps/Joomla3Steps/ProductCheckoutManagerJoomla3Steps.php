@@ -1022,21 +1022,21 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $categoryparent
+	 * @param $categorychild
 	 * @param $productname
-	 * @param $categoryname
-	 * @param $discountprice
-	 * @param $quantity
 	 * @param $total
 	 * @throws \Exception
 	 * @since 2.1.2
 	 */
-	public function checkoutProductwithAddPrice($productname, $categoryname, $discountprice, $quantity, $total)
+	public function checkDiscountWithCategoryChild($categoryparent, $categorychild, $productname, $total)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryname));
+		$I->click($productFrontEndManagerPage->productCategory($categoryparent));
+		$I->click($productFrontEndManagerPage->productCategory($categorychild));
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productname), 30);
 		$I->click($productFrontEndManagerPage->product($productname));
@@ -1044,21 +1044,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		try{
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60 , \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+			$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		}catch (\Exception $e)
 		{
 		}
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productname]);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantityFieldCart);
-		$I->click(CheckoutChangeQuantityProductPage::$quantityField);
-		$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
-		$quantity = str_split($quantity);
-		foreach ($quantity as $char) {
-			$I->pressKey(CheckoutChangeQuantityProductPage::$quantityField, $char);
-		}
-		$I->waitForElement(CheckoutChangeQuantityProductPage::$updateCartButton, 30);
-		$I->click(CheckoutChangeQuantityProductPage::$updateCartButton);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -1078,8 +1069,55 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
+	}
+
+/**
+	 * @param $productName
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $addprice
+	 * @param $quantityStart
+	 * @param $quantityEnd
+	 * @param $discountprice
+	 * @param $startDate
+	 * @param $endDate
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function createProductWithAddPrice($productName, $category, $productNumber, $price, $shoppergroup, $addprice, $quantityStart, $quantityEnd, $discountprice, $startDate, $endDate)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+		$I->click(ProductManagerPage::$addPriceButton);
+		$I->waitForElementVisible(ProductManagerPage::$addPriceButton, 30);
+		$I->click(ProductManagerPage::$addPriceButton);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$priceProduct, 30);
+		$userManagerPage = new UserManagerJoomla3Page;
+		$I->click(UserManagerJoomla3Page::$shopperGroupDropDown);
+		$I->waitForElement($userManagerPage->shopperGroup($shoppergroup), 30);
+		$I->click($userManagerPage->shopperGroup($shoppergroup));
+		$I->addValueForField(PriceProductJoomla3Page::$priceProduct, $addprice, 6);
+		$I->fillField(PriceProductJoomla3Page::$quantityStart, $quantityStart);
+		$I->fillField(PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
+		$I->fillField(PriceProductJoomla3Page::$discountPrice, $discountprice);
+		$I->fillField(PriceProductJoomla3Page::$startDate, $startDate);
+		$I->fillField(PriceProductJoomla3Page::$endDate, $endDate);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(PriceProductJoomla3Page::$savePriceSuccess, 5, AdminJ3Page::$selectorSuccess);
 	}
 }
