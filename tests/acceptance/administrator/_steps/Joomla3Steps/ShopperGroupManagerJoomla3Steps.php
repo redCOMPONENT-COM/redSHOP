@@ -6,6 +6,7 @@
 namespace AcceptanceTester;
 
 use ShopperGroupJ3Page;
+use AdminJ3Page;
 
 class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
@@ -294,6 +295,6 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(ShopperGroupJ3Page::$buttonDelete);
 		$I->acceptPopup();
-		$I->waitForText(ShopperGroupJ3Page::$deleteShopperSuccess, 5, \AdminJ3Page::$selectorSuccess);
+		$I->waitForText(ShopperGroupJ3Page::$deleteShopperSuccess, 5, AdminJ3Page::$selectorSuccess);
 	}
 }
