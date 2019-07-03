@@ -168,6 +168,10 @@ class ProductsConfigurationCest
 		$I->wantTo('I Want to check Product With Attribute StockRoom');
 		$I->checkProductWithAttributeStockRoomNo($this->randomCategoryName,$this->randomProductNameAttribute, $this->nameAttribute);
 
+		$I->wantTo('Test Disable Stockroom in Configuration');
+		$I = new ConfigurationSteps($scenario);
+		$I->featureOffStockRoom();
+
 		$I->wantTo('I Want to delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->randomProductNameAttribute);
