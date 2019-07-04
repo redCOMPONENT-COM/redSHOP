@@ -270,7 +270,7 @@ class AddProductPriceCest
 		$this->lastname = $this->faker->lastName;
 		$this->address = $this->faker->address;
 		$this->postcode = '2000';
-		$this->city = 'Ho Chi Minh City';
+		$this->city = 'Ho Chi Minh';
 		$this->phone = $this->faker->phoneNumber;
 		$this->number = $this->faker->numberBetween(50, 1000);
 		$this->price = $this->faker->numberBetween(100, 1000);
