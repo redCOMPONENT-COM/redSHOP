@@ -34,10 +34,10 @@ class CheckoutWithAmazonPayment extends CheckoutMissingData
 		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(0.5);
 		$I->fillInformationPrivate($customerInformation);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(Frontend2PaymentPage::$buttonAmazon, 30);
 		$I->wait(0.5);
