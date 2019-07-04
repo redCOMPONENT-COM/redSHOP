@@ -295,7 +295,7 @@ class ProductsEPAYPaymentCest
 		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I want to create Product');
+		$I->wantTo('I want to Create Product');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
 		$I = new CheckoutWithEPAYPayment($scenario);
