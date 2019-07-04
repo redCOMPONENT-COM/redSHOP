@@ -22,175 +22,175 @@ class ProductsAmazonCheckoutCest
 {
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $categoryName;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productName;
 
 	/**
 	 * @var int
-	 * since s.1.2
+	 * @since 2.1.2
 	 */
 	protected $productNumber;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productPrice;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $minimumQuantity;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $maximumQuantity;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $addcart;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $allowPreOrder;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $cartTimeOut;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $enabldAjax;
 
 	/**
 	 * @var null
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $defaultCart;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $buttonCartLead;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $onePage;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $showShippingCart;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $attributeImage;
 
 	/**
 	 * @var
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $quantityChang;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $quantityChange;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $quantityInCart;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $minimunOrder;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $enableQuation;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $onePageNo;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $onePageYes;
 
 	/**
 	 * @var array
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $customerInformation;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $group;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $extensionURL;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $pluginName;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $pluginURL;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $pakage;
 
 	/**
 	 * ProductsAmazonCheckoutCest constructor.
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function __construct()
 	{
@@ -257,7 +257,7 @@ class ProductsAmazonCheckoutCest
 		$I->wantTo("Install plugin Amazon Payments");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin Amazon ');
+		$I->wantTo('Enable Plugin Amazon');
 		$I->enablePlugin($this->pluginName);
 	}
 
@@ -271,7 +271,7 @@ class ProductsAmazonCheckoutCest
 	{
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-            $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
 		$I->wantTo('Create Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);

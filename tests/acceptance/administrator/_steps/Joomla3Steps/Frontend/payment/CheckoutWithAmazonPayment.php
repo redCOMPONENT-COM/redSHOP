@@ -11,10 +11,11 @@ namespace Frontend\payment;
 use FrontEndProductManagerJoomla3Page;
 use Frontend2PaymentPage;
 use CheckoutMissingData;
+
 /**
  * Class CheckoutWithAmazonPayment
  * @package Frontend\payment
- * sice 2.1.2
+* @since 2.1.2
  */
 class CheckoutWithAmazonPayment extends CheckoutMissingData
 {
@@ -24,7 +25,7 @@ class CheckoutWithAmazonPayment extends CheckoutMissingData
 	 * @param $productName
 	 * @param $categoryName
 	 * @throws \Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function CheckoutWithAmazonPayment ($productName, $categoryName, $customerInformation)
 	{
@@ -58,11 +59,11 @@ class CheckoutWithAmazonPayment extends CheckoutMissingData
 		try
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		}catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
 		$I->dontSee(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
