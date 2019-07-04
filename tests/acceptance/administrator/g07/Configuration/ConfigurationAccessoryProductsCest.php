@@ -13,49 +13,49 @@ use Faker\Factory;
 
 /**
  * Class ConfigurationAccessoryProductsCest
- * since 2.1.2
+ * @since 2.1.2
  */
 class ConfigurationAccessoryProductsCest
 {
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productNameAccessories;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productName;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomCategoryName;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productNumber;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $price;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productNumber1;
 
 	/**
 	 * ConfigurationAccessoryProductsCest constructor.
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function __construct()
 	{
@@ -71,7 +71,7 @@ class ConfigurationAccessoryProductsCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -82,7 +82,7 @@ class ConfigurationAccessoryProductsCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function createProductWithAccessoriesYes(AcceptanceTester $I, $scenario)
 	{
@@ -113,7 +113,7 @@ class ConfigurationAccessoryProductsCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function createProductWithAccessoriesNo(AcceptanceTester $I, $scenario)
 	{

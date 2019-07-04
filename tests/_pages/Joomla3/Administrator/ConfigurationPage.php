@@ -464,7 +464,7 @@ class ConfigurationPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $productTab = '//a[@href="#producttab"]';
 	/**
@@ -475,31 +475,31 @@ class ConfigurationPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $stockRoomAttributeNo = '//label[@id="display_out_of_stock_attribute_data_0-lbl"]';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $messOutOfStockRoom = 'Out of Stock.';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $productAccessory = '//a[@href="#accessory"]';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $enableAccessoryYes = '//label[@id="accessory_as_product_in_cart_enable_1-lbl"]';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $enableAccessoryNo = '//label[@id="accessory_as_product_in_cart_enable_0-lbl"]';
 }

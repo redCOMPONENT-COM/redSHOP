@@ -205,7 +205,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 	 * @param $productNameAccessories
 	 * @param $function
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function ConfigurationProductAccessoryOnCart($categoryName, $productName, $productNameAccessories, $function)
 	{
@@ -219,6 +219,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->see($productName);
 		$I->click(ConfigurationPage::$addAccessory);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+
 		switch ($function)
 		{
 			case 'Yes':
