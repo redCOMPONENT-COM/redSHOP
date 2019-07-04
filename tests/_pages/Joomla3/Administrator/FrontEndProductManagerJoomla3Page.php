@@ -466,7 +466,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $messageRelated = 'You may also interested in this/these product(s)';
 
