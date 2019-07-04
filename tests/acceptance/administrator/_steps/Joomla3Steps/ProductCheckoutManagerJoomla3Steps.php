@@ -1021,7 +1021,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 	}
 
-
 	/**
 	 * @param $categoryparent
 	 * @param $categorychild
