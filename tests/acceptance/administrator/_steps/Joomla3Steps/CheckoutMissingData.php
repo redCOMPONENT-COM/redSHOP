@@ -40,7 +40,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	 * @since 2.1.2
 	 * @throws \Exception
 	 */
-	private function fillInformationPrivate($customerInformation)
+	public function fillInformationPrivate($customerInformation)
 	{
 		$I = $this;
 		$I->comment('checkout with private');
