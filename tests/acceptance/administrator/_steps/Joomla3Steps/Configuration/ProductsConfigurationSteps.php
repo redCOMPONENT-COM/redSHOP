@@ -93,5 +93,4 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 	}
-
 }

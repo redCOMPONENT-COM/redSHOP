@@ -61,31 +61,6 @@ class ProductsConfigurationCest
 	protected $priceAttribute;
 
 	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	protected $productName;
-
-	/**
-	 * @var int
-	 * @since 2.1.2
-	 */
-	protected $productNumber;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	protected $productRelated;
-
-	/**
-	 * @var int
-	 * @since 2.1.2
-	 */
-	protected $productNumberRelated;
-
-
-	/**
 	 * ProductsConfigurationCest constructor.
 	 * @since 2.1.2
 	 */
@@ -99,12 +74,6 @@ class ProductsConfigurationCest
 		$this->nameAttribute                = 'Testing Attribute' . rand(99, 999);
 		$this->valueAttribute               = '10';
 		$this->priceAttribute               = '10';
-
-		$this->productName                  = $this->faker->bothify('Testing product name?##?');
-		$this->productNumber                = $this->faker->numberBetween(999, 9999);
-		$this->productRelated               = $this->faker->bothify('Testing product related name?##?');
-		$this->productNumberRelated         = $this->faker->numberBetween(999, 9999);
-
 	}
 
 	/**
