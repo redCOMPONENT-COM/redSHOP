@@ -318,7 +318,7 @@ class ProductsEPAYPaymentCest
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder($this->customerInformation['firstName']);
 
-		$I->wantTo('Delete product');
+		$I->wantTo('Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 
