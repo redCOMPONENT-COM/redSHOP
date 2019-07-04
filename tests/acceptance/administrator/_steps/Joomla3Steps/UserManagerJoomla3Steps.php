@@ -372,7 +372,18 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(\UserManagerJoomla3Page::$saveError, \UserManagerJoomla3Page::$errorUserReady);
 	}
 
-	public function editAddShipping($firstName = 'Test', $lastName, $address, $city, $phone, $zipcode)
+
+	/**
+	 * @param string $firstName
+	 * @param $lastName
+	 * @param $address
+	 * @param $city
+	 * @param $phone
+	 * @param $zipcode
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function editAddShipping($firstName, $lastName, $address, $city, $phone, $zipcode)
 	{
 
 		$I = $this;
