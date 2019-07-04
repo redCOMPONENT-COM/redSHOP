@@ -314,7 +314,7 @@ class ProductsEPAYPaymentCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Deletion of Order in Administrator');
+		$I->wantTo('Deletion of Order In Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder($this->customerInformation['firstName']);
 
