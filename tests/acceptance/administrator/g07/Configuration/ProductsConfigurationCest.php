@@ -92,7 +92,7 @@ class ProductsConfigurationCest
 	 * @throws Exception
 	 * @since 2.1.2
 	 */
-	public function checkDisplayOutOfStockAttributeYes(AcceptanceTester $I,$scenario )
+	public function checkDisplayOutOfStockAttributeYes(AcceptanceTester $I, $scenario )
 	{
 		$I->wantTo('Test enable Stockroom in Configuration');
 		$I = new ConfigurationSteps($scenario);
@@ -123,7 +123,7 @@ class ProductsConfigurationCest
 	 * @throws Exception
 	 * @since 2.1.2
 	 */
-	public function checkDisplayOutOfStockAttibuteNo(AcceptanceTester $I,$scenario)
+	public function checkDisplayOutOfStockAttibuteNo(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test enable Stockroom in Configuration');
 		$I = new ConfigurationSteps($scenario);
@@ -135,7 +135,7 @@ class ProductsConfigurationCest
 		$I->wantTo('I Want to check Product With Attribute StockRoom');
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo('I Want to check Product With Attribute StockRoom');
-		$I->checkProductWithAttributeStockRoomNo($this->randomCategoryName,$this->randomProductNameAttribute, $this->nameAttribute);
+		$I->checkProductWithAttributeStockRoomNo($this->randomCategoryName, $this->randomProductNameAttribute, $this->nameAttribute);
 
 		$I->wantTo('Test Disable Stockroom in Configuration');
 		$I = new ConfigurationSteps($scenario);
