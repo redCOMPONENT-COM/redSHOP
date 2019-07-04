@@ -516,8 +516,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->click(ConfigurationPage::$twoWayRelatedNo);
 				break;
 		}
-        $I->waitForElementVisible(ConfigurationPage::$buttonSave);
-		$I->click(ConfigurationPage::$buttonSave);
+		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
