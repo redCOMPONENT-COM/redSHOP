@@ -73,11 +73,11 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($function)
 		{
 			case 'Yes':
-			    $I->waitForElementVisible(ConfigurationPage::$enableAccessoryYes);
+				$I->waitForElementVisible(ConfigurationPage::$enableAccessoryYes);
 				$I->click(ConfigurationPage::$enableAccessoryYes);
 				break;
 			case 'No':
-			    $I->waitForElementVisible(ConfigurationPage::$enableAccessoryNo);
+				$I->waitForElementVisible(ConfigurationPage::$enableAccessoryNo);
 				$I->click(ConfigurationPage::$enableAccessoryNo);
 				break;
 		}
