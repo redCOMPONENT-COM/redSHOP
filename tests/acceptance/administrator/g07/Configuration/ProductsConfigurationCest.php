@@ -14,80 +14,80 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 
 /**
  * Class ProductsConfigurationCest
- * since 2.1.2
+ * @since 2.1.2
  */
 class ProductsConfigurationCest
 {
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomProductNameAttribute;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomCategoryName;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomProductAttributeNumber;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomProductPrice;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $nameAttribute;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $valueAttribute;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $priceAttribute;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productName;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productNumber;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productRelated;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productNumberRelated;
 
 
 	/**
 	 * ProductsConfigurationCest constructor.
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function __construct()
 	{
@@ -110,7 +110,7 @@ class ProductsConfigurationCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -121,7 +121,7 @@ class ProductsConfigurationCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function checkDisplayOutOfStockAttributeYes(AcceptanceTester $I,$scenario )
 	{
@@ -152,7 +152,7 @@ class ProductsConfigurationCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function checkDisplayOutOfStockAttibuteNo(AcceptanceTester $I,$scenario)
 	{
@@ -175,63 +175,6 @@ class ProductsConfigurationCest
 		$I->wantTo('I Want to delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->randomProductNameAttribute);
-
-		$I->wantTo('I Want to delete category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->randomCategoryName);
-	}
-
-	public function checkConfigurationProductRelatedTwoWayYes(AcceptanceTester $I,$scenario)
-	{
-		$I->wantTo('Test enable Related');
-		$I = new ConfigurationSteps($scenario);
-		$I->checkConfigurationProductRelated('Yes');
-
-		$I->wantTo('Create a Category ');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category');
-		$I->addCategorySaveClose($this->randomCategoryName);
-
-		$I->wantTo('Create Products ');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Products');
-		$I->createProductSaveClose($this->productName, $this->randomCategoryName, $this->productNumber ,$this->randomProductPrice);
-
-		$I->wantTo('Create Product with Related');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to add product inside the category');
-		$I->createProductWithRelated($this->productRelated, $this->randomCategoryName, $this->productNumberRelated, $this->randomProductPrice, $this->productName );
-
-		$I->wantTo('I Want to check Product With Related');
-		$I = new ProductsConfigurationSteps($scenario);
-		$I->wantTo('I Want to check Product With Related');
-		$I->checkConfigurationProductRelated($this->randomCategoryName, $this->productName, $this->productRelated, 'Yes');
-	}
-
-	/**
-	 * @param AcceptanceTester $I
-	 * @param $scenario
-	 * @throws Exception
-	 * since 2.1.2
-	 */
-	public function checkConfigurationProductRelatedTwoWayNo(AcceptanceTester $I,$scenario)
-	{
-		$I->wantTo('Test enable related in Configuration');
-		$I = new ConfigurationSteps($scenario);
-		$I->checkConfigurationProductRelated('No');
-
-		$I->wantTo('I Want to check Product With Related');
-		$I = new ProductsConfigurationSteps($scenario);
-		$I->wantTo('I Want to check Product With Related');
-		$I->checkConfigurationProductRelated($this->randomCategoryName,  $this->productName, $this->productRelated, 'No');
-
-		$I->wantTo('I Want to delete product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->productRelated);
-
-		$I->wantTo('I Want to delete product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->productName);
 
 		$I->wantTo('I Want to delete category');
 		$I = new CategoryManagerJoomla3Steps($scenario);

@@ -14,49 +14,49 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 
 /**
  * Class ProductsConfigurationCest
- * since 2.1.2
+ * @since 2.1.2
  */
 class ProductsConfigurationRelatedTwoWayCest
 {
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomCategoryName;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomProductPrice;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productName;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productNumber;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productRelated;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $productNumberRelated;
 
 	/**
 	 * ProductsConfigurationCest constructor.
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function __construct()
 	{
@@ -72,7 +72,7 @@ class ProductsConfigurationRelatedTwoWayCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -83,7 +83,7 @@ class ProductsConfigurationRelatedTwoWayCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function checkConfigurationProductRelatedTwoWayYes(AcceptanceTester $I,$scenario)
 	{
@@ -116,7 +116,7 @@ class ProductsConfigurationRelatedTwoWayCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function checkConfigurationProductRelatedTwoWayNo(AcceptanceTester $I,$scenario)
 	{
