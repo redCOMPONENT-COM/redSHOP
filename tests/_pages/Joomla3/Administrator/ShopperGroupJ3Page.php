@@ -215,7 +215,7 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $deleteShopperSuccess = 'Shopper Group Detail Deleted Successfully';
-	
+
 	/**
 	 * Function to get the path for Search Shopper Group
 	 *
