@@ -288,8 +288,10 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ShopperGroupJ3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings(ShopperGroupJ3Page::$URL);
+
 		$I->fillField(ShopperGroupJ3Page::$searchField, $shoppergroupname);
 		$I->click(ShopperGroupJ3Page::$searchButton);
+
 		$shoppergroup = new ShopperGroupJ3Page();
 		$I->waitForElementVisible($shoppergroup->xPathShoppergroupName($shoppergroupname), 30);
 		$I->checkAllResults();
