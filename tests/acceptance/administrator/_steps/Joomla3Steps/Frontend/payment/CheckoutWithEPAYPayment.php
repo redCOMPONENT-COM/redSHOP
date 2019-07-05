@@ -24,7 +24,7 @@ class CheckoutWithEPAYPayment extends CheckoutMissingData
 	 * @param $productName
 	 * @param $categoryName
 	 * @throws \Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function CheckoutWithEPAYPayment ($productName, $categoryName, $customerInformation)
 	{

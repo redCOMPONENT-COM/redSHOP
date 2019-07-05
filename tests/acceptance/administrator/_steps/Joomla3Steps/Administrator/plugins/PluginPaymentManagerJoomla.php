@@ -44,7 +44,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	 * @param $merchantID
 	 * @param $keyMD5
 	 * @throws \Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function configEPayPlugin($pluginName, $merchantID, $keyMD5)
 	{
