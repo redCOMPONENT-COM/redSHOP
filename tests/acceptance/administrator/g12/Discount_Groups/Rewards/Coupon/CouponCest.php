@@ -29,6 +29,30 @@ class CouponCest extends AbstractCest
 	public $nameField = 'code';
 
 	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $couponInfo = array();
+
+	/**
+	 * @var
+	 * @since 2.1.2
+	 */
+	protected $startDate;
+
+	/**
+	 * @var
+	 * @since 2.1.2
+	 */
+	protected $endDate;
+
+	/**
+	 * @var
+	 * @since 2.1.2
+	 */
+	protected $type;
+
+	/**
 	 * Method for set new data.
 	 *
 	 * @return  array
@@ -99,5 +123,30 @@ class CouponCest extends AbstractCest
 			'effect'      => 'Global',
 			'amount_left' => '10'
 		);
+	}
+
+	/**
+	 * @param AcceptanceTester $tester
+	 * @param \Codeception\Scenario $scenario
+	 * @throws Exception
+	 * @since 2.1.2
+	 */
+	public function afterTestItemCreate(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
+	{
+		$tester->wantTo('I want to check create coupon with startdate larger than enddate');
+
+		$this->startDate = date('Y-m-d');
+		$this->endDate = date('Y-m-d', strtotime('-2 day', strtotime($this->startDate)));
+		$this->type = '0';
+		$this->couponInfo = array(
+			'code' => $this->faker->bothify('Coupon Code ?##?'),
+			'type' => 'Total',
+			'value' => 100,
+			'amount_left' => '10'
+		);
+
+		/** @var CouponSteps $tester */
+		$tester = new CouponSteps($scenario);
+		$tester->checkStartDateLargerThanEndDate($this->couponInfo, $this->type, $this->startDate, $this->endDate);
 	}
 }
