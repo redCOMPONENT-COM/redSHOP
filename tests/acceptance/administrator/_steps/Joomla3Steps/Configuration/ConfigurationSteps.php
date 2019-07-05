@@ -460,15 +460,15 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @throws \Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function productsUsedStockRoomAttribute()
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
-		$I->waitForElementVisible(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
 		$I->click(ConfigurationPage::$productTab);
-		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeYes);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeYes, 30);
 		$I->click(ConfigurationPage::$stockRoomAttributeYes);
 		$I->click(ConfigurationPage::$buttonSave);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
@@ -477,17 +477,46 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @throws \Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function productsOffStockRoomAttribute()
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
-		$I->waitForElementVisible(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
 		$I->click(ConfigurationPage::$productTab);
-		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeNo);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeNo, 30);
 		$I->click(ConfigurationPage::$stockRoomAttributeNo);
 		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $function
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function checkConfigurationProductRelated($function)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$relatedProductTab, 30);
+		$I->click(ConfigurationPage::$relatedProductTab);
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(ConfigurationPage::$twoWayRelatedYes, 30);
+				$I->click(ConfigurationPage::$twoWayRelatedYes);
+				break;
+			case 'No':
+				$I->waitForElementVisible(ConfigurationPage::$twoWayRelatedNo, 30);
+				$I->click(ConfigurationPage::$twoWayRelatedNo);
+				break;
+		}
+		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
