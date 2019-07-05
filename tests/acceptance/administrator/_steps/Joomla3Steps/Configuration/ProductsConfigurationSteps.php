@@ -9,6 +9,7 @@
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
+use FrontEndProductManagerJoomla3Page;
 use ProductManagerPage as ProductManagerPage;
 
 /**
@@ -58,6 +59,7 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+<<<<<<< HEAD
 	 * @throws \Exception
 	 * @since 2.1.2
 	 */
@@ -84,5 +86,40 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 
 		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+=======
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $productNameRelated
+	 * @param $function
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function checkConfigurationProductRelated($categoryName, $productName, $productNameRelated, $function)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$url);
+		$I->waitForText($categoryName,30);
+		$I->click($categoryName);
+		$I->waitForText($productNameRelated,30);
+		switch ($function)
+		{
+			case 'Yes':
+				$I->click($productNameRelated);
+				$I->waitForText($productName, 30);
+				$I->see($productName);
+				$I->click($productName);
+				$I->waitForText($productNameRelated, 30);
+				$I->see($productNameRelated);
+				$I->see(FrontEndProductManagerJoomla3Page::$messageRelated);
+				break;
+			case 'No':
+				$I->click($productNameRelated);
+				$I->waitForText($productName, 30);
+				$I->see($productName);
+				$I->click($productName);
+				$I->dontSee(FrontEndProductManagerJoomla3Page::$messageRelated);
+				break;
+		}
+>>>>>>> b1a3aba2791d81062b97b509a10f02dcf56affc3
 	}
 }
