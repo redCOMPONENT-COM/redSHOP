@@ -4299,7 +4299,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($sp)
 		{
-			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($sp);
+			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($sp, $subattribute_id, true);
 		}
 		else
 		{
