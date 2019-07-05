@@ -236,7 +236,7 @@ class ProductsEPAYPaymentCest
 			"email"         => $this->faker->email,
 			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
-			"address"       => "Some Place in the World",
+			"address"       => "Some Place In The World",
 			"postalCode"    => "23456",
 			"city"          => "HCM",
 			"country"       => "Denmark",
