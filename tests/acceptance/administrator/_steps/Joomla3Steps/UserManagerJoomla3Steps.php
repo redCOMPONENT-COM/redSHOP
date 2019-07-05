@@ -372,7 +372,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(\UserManagerJoomla3Page::$saveError, \UserManagerJoomla3Page::$errorUserReady);
 	}
 
-
 	/**
 	 * @param string $firstName
 	 * @param $lastName
@@ -397,8 +396,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\UserManagerJoomla3Page::$shippingInformation);
 		$I->see(\UserManagerJoomla3Page::$pageDetail, \UserManagerJoomla3Page::$pageDetailSelector);
 		$I->click(\UserManagerJoomla3Page::$addButton);
-
-		$I->amOnPage(\UserManagerJoomla3Page::$URLShipping);
 		$I->waitForElement(\UserManagerJoomla3Page::$firstName);
 		$I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
 		$I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
@@ -406,6 +403,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\UserManagerJoomla3Page::$city, $city);
 		$I->fillField(\UserManagerJoomla3Page::$phone, $phone);
 		$I->fillField(\UserManagerJoomla3Page::$zipcode, $zipcode);
+		$I->click(\UserManagerJoomla3Page::$saveCloseButton);
+		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 30);
+		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
 	}
 
 	public function checkCloseButton($firstName)

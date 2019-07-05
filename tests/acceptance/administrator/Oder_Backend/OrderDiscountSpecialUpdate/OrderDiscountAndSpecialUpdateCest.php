@@ -19,11 +19,99 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.4
+ * @since    2.1.2
  */
 class OrderDiscountAndSpecialDiscountCest
 {
-	public function __construct()
+    /**
+     * @var \Faker\Generator
+     */
+    public $faker;
+
+    /**
+     * @var string
+     */
+    public $productName;
+
+    /**
+     * @var string
+     */
+    public $categoryName;
+
+    /**
+     * @var int
+     */
+    public $randomProductNumber;
+
+    /**
+     * @var int
+     */
+    public $randomProductPrice;
+
+    /**
+     * @var string
+     */
+    public $userName;
+
+    /**
+     * @var string
+     */
+    public $password;
+
+    /**
+     * @var string
+     */
+    public $shopperGroup;
+
+    /**
+     * @var string
+     */
+    public $group;
+
+    /**
+     * @var string
+     */
+    public $firstName;
+
+    /**
+     * @var string
+     */
+    public $lastName;
+
+    /**
+     * @var string
+     */
+    public $address;
+
+    /**
+     * @var string
+     */
+    public $zipcode;
+
+    /**
+     * @var string
+     */
+    public $phone;
+
+    /**
+     * @var string
+     */
+    public $quantity;
+
+    /**
+     * @var string
+     */
+    public $discountUpdate;
+
+    /**
+     * @var string
+     */
+    public $specialUpdate;
+
+    /**
+     * OrderDiscountAndSpecialDiscountCest constructor.
+     */
+    public function __construct()
 	{
 		//Product & Category
 		$this->faker = Faker\Factory::create();
@@ -84,21 +172,21 @@ class OrderDiscountAndSpecialDiscountCest
 	}
 
 	public function deleteData(AcceptanceTester $I, $scenario)
-    {
-        $I->wantTo('Delete product');
-        $I = new ProductManagerJoomla3Steps($scenario);
-        $I->deleteProduct($this->productName);
+	{
+		$I->wantTo('Delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName);
 
-        $I->wantTo('Delete Category');
-        $I = new CategoryManagerJoomla3Steps($scenario);
-        $I->deleteCategory($this->categoryName);
+		$I->wantTo('Delete Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
 
-        $I->wantTo('Delete Order just create');
-        $I = new OrderManagerJoomla3Steps($scenario);
-        $I->deleteOrder($this->firstName);
+		$I->wantTo('Delete Order just create');
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->deleteOrder($this->firstName);
 
-        $I->wantTo('Delete account in redSHOP and Joomla');
-        $I = new UserManagerJoomla3Steps($scenario);
-        $I->deleteUser($this->firstName, false);
-    }
+		$I->wantTo('Delete account in redSHOP and Joomla');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName, false);
+	}
 }
