@@ -20,7 +20,7 @@ use Frontend\payment\checkoutWithBankTransferDiscount;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since 2.1.2
  */
 class ProductsCheckoutBankTransferDiscountCest
 {

@@ -519,7 +519,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var string
 	 * @since 2.1.2
-	 *
 	 */
 	public static $paymentBankTransferDiscount = "//div[@id='rs_payment_banktransfer_discount']//label//input";
 

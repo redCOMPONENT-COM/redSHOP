@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Frontend\payment;
 use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
@@ -12,15 +13,16 @@ use FrontEndProductManagerJoomla3Page;
 /**
  * Class checkoutWithBankTransferDiscount
  * @package Frontend\payment
+ * @since 2.1.2
  */
 class checkoutWithBankTransferDiscount extends CheckoutMissingData
 {
 	/**
 	 * @param $productName
 	 * @param $categoryName
-	 * @param $customerInformation
+	 * @param $custome@since 2.1.2rInformation
 	 * @throws \Exception
-	 * @since 2.1.2
+	 *
 	 */
 	public function checkoutProductWithBankTransferDiscountPayment($productName, $categoryName, $customerInformation)
 	{
