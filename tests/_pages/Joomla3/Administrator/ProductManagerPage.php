@@ -403,6 +403,12 @@ ProductManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
+	public static $productRelated ='//input[@id="s2id_autogen1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
 	public static $fileUpload = '//input[@type=\'file\' and @multiple="multiple"]';
 
 	/**
