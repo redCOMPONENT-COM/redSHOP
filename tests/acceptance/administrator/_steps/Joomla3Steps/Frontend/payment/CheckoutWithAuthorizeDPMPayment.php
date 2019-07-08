@@ -36,11 +36,12 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
+		$I->wait(0.5);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$labelPayment, 30);
 		$I->scrollTo(AuthorizeDPMPaymentPage::$labelPayment);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM, 30);
 		$I->wait(0.5);
-		$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
+		$I->checkOption(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
 		try
 		{
 			$I->seeCheckboxIsChecked(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
@@ -64,6 +65,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$acceptTerms, 30);
 		$I->scrollTo(AuthorizeDPMPaymentPage::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(AuthorizeDPMPaymentPage::$termAndConditionsId));
+
 		$I->wait(0.5);
 
 		try
