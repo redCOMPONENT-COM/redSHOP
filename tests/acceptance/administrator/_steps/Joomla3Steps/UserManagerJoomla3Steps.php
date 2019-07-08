@@ -40,7 +40,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		switch ($function) {
 			case 'save':
 			default:
-                $I->executeJS('window.scrollTo(0,0);');
+				$I->executeJS('window.scrollTo(0,0);');
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);

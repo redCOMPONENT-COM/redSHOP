@@ -170,7 +170,6 @@ class OrderManagerPage extends AdminJ3Page
 
     /**
      * @var string
-     * @since 2.1.2
      */
     public static $buttonSavePay = "Save + Pay";
 
