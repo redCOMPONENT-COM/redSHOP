@@ -464,7 +464,7 @@ class ConfigurationPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $productTab = '//a[@href="#producttab"]';
 	/**
@@ -475,13 +475,32 @@ class ConfigurationPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $stockRoomAttributeNo = '//label[@id="display_out_of_stock_attribute_data_0-lbl"]';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $messOutOfStockRoom = 'Out of Stock.';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $relatedProductTab = '//a[@href="#related"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $twoWayRelatedYes = '//label[@id="twoway_related_product_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $twoWayRelatedNo = '//label[@id="twoway_related_product_0-lbl"]';
+
 }
