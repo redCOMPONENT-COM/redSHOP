@@ -9,6 +9,7 @@
 namespace Frontend\payment;
 use AuthorizeDPMPaymentPage;
 use CheckoutMissingData;
+use FrontEndProductManagerJoomla3Page;
 
 /**
  * Class CheckoutWithAuthorizeDPMPayment
@@ -36,12 +37,12 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
-		$I->wait(0.5);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$labelPayment, 30);
 		$I->scrollTo(AuthorizeDPMPaymentPage::$labelPayment);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM, 30);
 		$I->wait(0.5);
 		$I->checkOption(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
+
 		try
 		{
 			$I->seeCheckboxIsChecked(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
@@ -65,17 +66,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$acceptTerms, 30);
 		$I->scrollTo(AuthorizeDPMPaymentPage::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(AuthorizeDPMPaymentPage::$termAndConditionsId));
-
 		$I->wait(0.5);
-
-		try
-		{
-			$I->seeCheckboxIsChecked(AuthorizeDPMPaymentPage::$termAndConditions);
-		}catch (\Exception $e)
-		{
-			$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
-		}
-
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
 
@@ -84,6 +75,11 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 			$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
 		}catch (\Exception $e)
 		{
+			if($I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms))
+			{
+				$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
+			}
+
 			$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
 			$I->wait(0.5);
 			$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);

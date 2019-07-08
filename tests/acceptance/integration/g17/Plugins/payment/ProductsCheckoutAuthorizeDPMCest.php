@@ -186,6 +186,7 @@ class ProductsCheckoutAuthorizeDPMCest
 	 * @param AdminManagerJoomla3Steps $I
 	 * @param $scenario
 	 * @throws Exception
+     * @since    2.1.2
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
