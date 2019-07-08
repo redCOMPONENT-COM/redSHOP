@@ -38,8 +38,8 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
+		$I->checkOption(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 		$I->wait(0.5);
-		$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 
 		try
 		{
