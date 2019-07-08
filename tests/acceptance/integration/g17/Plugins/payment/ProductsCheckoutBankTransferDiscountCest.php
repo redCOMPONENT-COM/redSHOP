@@ -182,6 +182,7 @@ class ProductsCheckoutBankTransferDiscountCest
 	/**
 	 * @param AdminManagerJoomla3Steps $I
 	 * @throws Exception
+	 * @since    2.1.2
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I)
 	{
@@ -196,6 +197,7 @@ class ProductsCheckoutBankTransferDiscountCest
 	 * @param ConfigurationSteps $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since    2.1.2
 	 */
 	public function testBankTransferDiscountPaymentPlugin( ConfigurationSteps $I, $scenario)
 	{
@@ -239,5 +241,8 @@ class ProductsCheckoutBankTransferDiscountCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
+
+		$I->wantTo("Disable Plugin");
+		$I->disablePlugin($this->pluginName);
 	}
 }
