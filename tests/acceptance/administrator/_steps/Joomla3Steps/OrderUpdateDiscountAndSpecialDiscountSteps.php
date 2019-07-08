@@ -50,7 +50,8 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
-		$I->executeJS('window.scrollTo(65,80);');
+        $I->scrollTo(\OrderManagerPage::$productId);
+		$I->executeJS('window.scrollTo(80,80);');
 		$I->waitForElementVisible(\OrderManagerPage::$productId, 30);
 		$I->click(\OrderManagerPage::$productId);
 		$I->waitForElement(\OrderManagerPage::$productsSearch, 60);
