@@ -23,111 +23,109 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
  */
 class OrderDiscountAndSpecialDiscountCest
 {
-    /**
-     * @var \Faker\Generator
-     */
-    public $faker;
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.2
+	 */
+	public $faker;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $productName;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productName;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $categoryName;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $categoryName;
 
-    /**
-     * @var int
-     * @since 2.1.2
-     */
-    public $randomProductNumber;
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	public $randomProductNumber;
 
-    /**
-     * @var int
-     * @since 2.1.2
-     */
-    public $randomProductPrice;
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	public $randomProductPrice;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $userName;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $userName;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $password;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $password;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $shopperGroup;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $shopperGroup;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $group;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $group;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $firstName;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $firstName;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $lastName;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $lastName;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $address;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $address;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $zipcode;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $zipcode;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $phone;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $phone;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $quantity;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $quantity;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $discountUpdate;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $discountUpdate;
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public $specialUpdate;
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $specialUpdate;
 
-    /**
-     * OrderDiscountAndSpecialDiscountCest constructor.
-     */
-    public function __construct()
+	public function __construct()
 	{
 		//Product & Category
 		$this->faker = Faker\Factory::create();
@@ -167,6 +165,7 @@ class OrderDiscountAndSpecialDiscountCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
+	 * @since 2.1.2
 	 */
 	public function updateDiscountAndSpecialDiscount(AcceptanceTester $I, $scenario)
 	{
@@ -187,10 +186,11 @@ class OrderDiscountAndSpecialDiscountCest
 		$I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->discountUpdate, $this->specialUpdate, $this->randomProductPrice);
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     * @param $scenario
-     */
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @since 2.1.2
+	 */
 	public function deleteData(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete product');

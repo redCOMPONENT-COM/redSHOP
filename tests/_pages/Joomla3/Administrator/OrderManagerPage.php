@@ -179,10 +179,6 @@ class OrderManagerPage extends AdminJ3Page
      */
     public static $orderID = "//div[@class='table-responsive']//td[3]//a[1]";
 
-    //button
-
-    //selector
-
     /**
      * @var string
      */
@@ -210,7 +206,7 @@ class OrderManagerPage extends AdminJ3Page
      * Function to get Path $idOder in Order detail
      *
      * @param $idOrder
-     *
+     * @since 2.1.2
      * @return string
      */
     public function returnButtonUpdateDiscount ($idOrder)
@@ -223,7 +219,7 @@ class OrderManagerPage extends AdminJ3Page
      * Function to get Path $idOder in Order detail
      *
      * @param $idOrder
-     *
+     * @since 2.1.2
      * @return string
      */
     public function returnButtonSpecialDiscount ($idOrder)
