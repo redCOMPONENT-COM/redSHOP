@@ -76,7 +76,14 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		{
 			if($I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms))
 			{
+				$I->waitForElementVisible(AuthorizeDPMPaymentPage::$termAndConditions, 30);
 				$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
+			}
+
+			if($I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$messageSelectPayment))
+			{
+				$I->waitForElementVisible(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM, 30);
+				$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
 			}
 
 			$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
