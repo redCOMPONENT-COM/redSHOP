@@ -58,7 +58,7 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->waitForElementVisible($userOrderPage->returnSearch($productName), 30);
 		$I->click($userOrderPage->returnSearch($productName));
 		$I->wait(0.5);
-		$I->click(\OrderManagerPage::$buttonSave);
+		$I->click(\OrderManagerPage::$buttonSavePay);
 		$I->click(\OrderManagerPage::$buttonClose);
 		$I->searchOrder($firstName);
 		$id = $I->grabTextFrom(\OrderManagerPage::$orderID);
