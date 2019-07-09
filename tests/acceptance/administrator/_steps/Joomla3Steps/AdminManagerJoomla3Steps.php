@@ -193,7 +193,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->click(\FrontEndProductManagerJoomla3Page::$buttonReset);
+		$I->click(\AdminJ3Page::$buttonReset);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text], 30);

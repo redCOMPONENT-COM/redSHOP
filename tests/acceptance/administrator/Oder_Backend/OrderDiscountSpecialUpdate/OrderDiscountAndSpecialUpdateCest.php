@@ -156,6 +156,7 @@ class OrderDiscountAndSpecialDiscountCest
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
