@@ -196,7 +196,6 @@ class ProductsEPAYPaymentCest
 	 */
 	protected $pakage;
 
-
 	/**
 	 * ProductsEPAYPaymentCest constructor.
 	 * @since 2.1.2
@@ -244,6 +243,7 @@ class ProductsEPAYPaymentCest
 			"phone"         => "8787878787",
 			"shopperGroup"  => 'Default Private',
 		);
+		$this->oder           = $this->customerInformation["firstName"].' '.$this->customerInformation["lastName"];
 		$this->group          = 'Registered';
 
 		$this->extensionURL   = 'extension url';
@@ -303,7 +303,7 @@ class ProductsEPAYPaymentCest
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
-		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
+		$I->checkPriceTotal($this->productPrice, $this->customerInformation["email"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
 	}
 
 	/**
@@ -316,7 +316,7 @@ class ProductsEPAYPaymentCest
 	{
 		$I->wantTo('Deletion Of Order In Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder($this->customerInformation['firstName']);
+		$I->deleteOrder($this->customerInformation["email"]);
 
 		$I->wantTo('Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);

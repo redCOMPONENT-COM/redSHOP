@@ -7,8 +7,8 @@
  */
 
 namespace Frontend\payment;
-
 use Frontend2PaymentPage;
+use FrontEndEPAYPaymentPage;
 use FrontEndProductManagerJoomla3Page;
 use CheckoutMissingData;
 
@@ -65,6 +65,16 @@ class CheckoutWithEPAYPayment extends CheckoutMissingData
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
-		$I->dontSee(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->scrollTo(FrontEndEPAYPaymentPage::$gotoPayment);
+		$I->click(FrontEndEPAYPaymentPage::$gotoPayment);
+		$I->wait(0.5);
+		$I->switchToNextTab(1);
+		$I->waitForText(FrontEndEPAYPaymentPage::$kuntest, 30);
+		$I->fillField(FrontEndEPAYPaymentPage::$kotholder, FrontEndEPAYPaymentPage::$kuntest);
+		$I->waitForElementVisible(FrontEndEPAYPaymentPage::$iconVisa);
+		$I->click(FrontEndEPAYPaymentPage::$iconVisa);
+		$I->waitForElementVisible(FrontEndEPAYPaymentPage::$submit);
+		$I->click(FrontEndEPAYPaymentPage::$submit);
+		$I->waitForText(FrontEndEPAYPaymentPage::$mesOrderPlaced , 30);
 	}
 }
