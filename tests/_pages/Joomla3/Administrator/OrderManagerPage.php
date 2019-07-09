@@ -204,7 +204,6 @@ class OrderManagerPage extends AdminJ3Page
 
     /**
      * Function to get Path $idOder in Order detail
-     *
      * @param $idOrder
      * @since 2.1.2
      * @return string
@@ -217,7 +216,6 @@ class OrderManagerPage extends AdminJ3Page
 
     /**
      * Function to get Path $idOder in Order detail
-     *
      * @param $idOrder
      * @since 2.1.2
      * @return string
