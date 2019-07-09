@@ -170,6 +170,12 @@ class OrderManagerPage extends AdminJ3Page
     public static $messageDeleteSuccess = "Order detail deleted successfully";
 
     /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $deteleButton = '//div[@id="toolbar-delete"]';
+
+    /**
      * Function to get Path $userName in Order item
      *
      * @param $userName
