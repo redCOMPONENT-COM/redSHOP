@@ -274,7 +274,7 @@ abstract class AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $buttonNew = "New";
+	public static $buttonNew = "//div[@id=\"toolbar-new\"]";
 
 	/**
 	 * @var string
