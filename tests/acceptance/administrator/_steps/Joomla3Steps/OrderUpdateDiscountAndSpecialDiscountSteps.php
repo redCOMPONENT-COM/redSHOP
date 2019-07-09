@@ -81,7 +81,7 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->waitForElementVisible(OrderManagerPage::$specialUpdate, 30);
 		$I->click($userOrderPage->returnButtonSpecialDiscount($id));
 		$I->scrollTo(OrderManagerPage::$specialUpdate);
-		$adminFinalPriceEnd = $randomProductPrice-($discountUpdate + $specialUpdate);
+		$adminFinalPriceEnd = $randomProductPrice - ($discountUpdate + $specialUpdate);
 		$I->see($adminFinalPriceEnd);
 		$I->waitForElement(OrderManagerPage::$close, 30);
 		$I->waitForText(OrderManagerPage::$buttonClose, 10, OrderManagerPage::$close);
