@@ -128,7 +128,7 @@ class ManufacturerCest extends AbstractCest
 	 */
 	public function badCaseMissingName(AcceptanceTester $tester, Scenario $scenario)
 	{
-		$tester->wantTo('Test Manufacturer Missing Name creation in Administrator');
+		$tester->wantTo('Test Manufacturer Missing Name Creation in Administrator');
 		$stepClass = $this->stepClass;
 
 		/** @var ManufacturerSteps $step */
