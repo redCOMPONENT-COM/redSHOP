@@ -41,6 +41,15 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 		$I->waitForElementVisible(Frontend2PaymentPage::$payment2checkout, 30);
 		$I->wait(0.5);
 		$I->click(Frontend2PaymentPage::$payment2checkout);
+
+		try
+		{
+			$I->seeCheckboxIsChecked(Frontend2PaymentPage::$payment2checkout);
+		}catch (\Exception $e)
+		{
+			$I->click(Frontend2PaymentPage::$payment2checkout);
+		}
+
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
@@ -70,7 +79,7 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 
 		try
 		{
-			$I->waitForText(Frontend2PaymentPage::$secureCheckout, 30, Frontend2PaymentPage:: $h1);
+			$I->waitForText(Frontend2PaymentPage::$secureCheckout, 30, Frontend2PaymentPage::$h1);
 			$I->click(Frontend2PaymentPage::$reviewCart);
 			$I->waitForElementVisible(Frontend2PaymentPage::$shippingAddress1, 30);
 			$I->fillField(Frontend2PaymentPage::$shippingAddress1, $checkoutAccountInformation['shippingAddress']);
@@ -86,7 +95,7 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 			$I->waitForElementVisible(Frontend2PaymentPage::$inputCartNumber, 30);
 			$I->fillField(Frontend2PaymentPage::$inputCartNumber, $checkoutAccountInformation['debitCardNumber']);
 			$I->click(Frontend2PaymentPage::$buttonPayment2Checkout);
-			$I->waitForText(Frontend2PaymentPage:: $message2CheckoutSuccess, 30, Frontend2PaymentPage:: $h1);
+			$I->waitForText(Frontend2PaymentPage::$message2CheckoutSuccess, 30, Frontend2PaymentPage::$h1);
 		}catch (\Exception $e)
 		{
 			$I->waitForText(Frontend2PaymentPage::$oderReceipt, 30);
