@@ -46,6 +46,7 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->wait(0.5);
+
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -53,7 +54,9 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+
 		try
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -64,6 +67,7 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
+
 		try
 		{
 			$I->waitForText(Frontend2PaymentPage::$secureCheckout, 30, Frontend2PaymentPage:: $h1);

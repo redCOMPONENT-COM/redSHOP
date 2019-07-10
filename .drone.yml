@@ -174,7 +174,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend/Orders 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall 0 0'
-#
+
     02-Group2-56:
         group: 01-tests
         image: redwebaps/testbox-chromedriver:2.38
