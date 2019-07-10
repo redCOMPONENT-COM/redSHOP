@@ -150,7 +150,7 @@ class ImageAndSEOCategoryProductCest
 	}
 
 	/**
-	 * @param CategoryManagerJoomla3Steps $I
+	 * @param CategoryManagerJoomla3Steps $I 
 	 * @param $scenario
 	 * @throws Exception
 	 * 2.1.2
