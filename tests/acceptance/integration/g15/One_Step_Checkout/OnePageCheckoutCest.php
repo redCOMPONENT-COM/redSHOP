@@ -3,7 +3,7 @@
 /**
  * @package     RedShop
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
+use Configuration\ConfigurationSteps as ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 
 class OnePageCheckoutCest

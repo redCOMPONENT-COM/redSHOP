@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -306,7 +306,7 @@ if (strstr($templateHtml, "{category_loop_start}") && strstr($templateHtml, "{ca
 
 				$ItemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $productId);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$pItemid = $ItemData->id;
 				}

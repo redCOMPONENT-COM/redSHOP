@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -256,6 +256,36 @@ ProductManagerPage extends AdminJ3Page
 	}
 
 	/**
+	 * Function to get Path $position in Attribute Name Property
+	 *
+	 * @param $positionParameter
+	 * @param $positionAttribute
+	 *
+	 * @return string
+	 */
+	public function attributeNameAttribute($positionParameter, $positionAttribute)
+	{
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][name]"]';
+
+		return $xpath;
+	}
+
+	/**
+	 * Function to get Path $position in Attribute Price Property
+	 *
+	 * @param $positionParameter
+	 * @param $positionAttribute
+	 *
+	 * @return string
+	 */
+	public function attributePricePropertyAttribute($positionParameter, $positionAttribute)
+	{
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][price]"]';
+
+		return $xpath;
+	}
+
+	/**
 	 * Function to get Path $position in Attribute Price Property
 	 *
 	 * @param $position
@@ -368,4 +398,34 @@ ProductManagerPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $priceFrontend = ".category_product_price";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $productRelated ='//input[@id="s2id_autogen1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fileUpload = '//input[@type=\'file\' and @multiple="multiple"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $tabSEO = "SEO";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $titleSEO ="//input[@id='pagetitle']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $headingSEO ="//input[@id='pageheading']";
 }

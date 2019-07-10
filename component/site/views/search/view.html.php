@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,7 +40,7 @@ class RedshopViewSearch extends RedshopView
 			$cntproduct   = $app->input->getInt('cnt', 0);
 			$getredfilter = $session->get('redfilter');
 
-			if (count($getredfilter) == 0)
+			if (empty($getredfilter))
 			{
 				$redfilter = array();
 			}
@@ -339,7 +339,7 @@ class RedshopViewSearch extends RedshopView
 
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$pItemid = $ItemData->id;
 				}

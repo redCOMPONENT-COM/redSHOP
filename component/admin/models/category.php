@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -160,7 +160,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @since   2.0.6
 	 */
-	public function save($data)
+	public function saveCategory(&$data)
 	{
 		JPluginHelper::importPlugin('redshop_category');
 
@@ -217,6 +217,8 @@ class RedshopModelCategory extends RedshopModelForm
 		{
 			return false;
 		}
+
+		$data['id'] = $row->id;
 
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterCategorySave', array(&$row, $data['id']));
 
@@ -290,32 +292,70 @@ class RedshopModelCategory extends RedshopModelForm
 			$post['level']                 = $copyData[$i]->level;
 			$post['product_filter_params'] = $copyData[$i]->product_filter_params;
 
-			if (!empty($copyData[$i]->category_thumb_image))
+			$this->/** @scrutinizer ignore-call */ saveCategory($post);
+
+			/** @var RedshopEntityCategory $medias */
+			$medias = RedshopEntityCategory::getInstance($copyData[$i]->id)->getMedia();
+
+			foreach ($medias->/** @scrutinizer ignore-call */ getAll() as $media)
 			{
-				$post['category_thumb_image'] = $this->renameToUniqueValue(
-					'category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category'
-				);
-			}
-
-			if (!empty($copyData[$i]->category_full_image))
-			{
-				$post['category_full_image'] = $this->renameToUniqueValue(
-					'category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category'
-				);
-
-				$src  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
-
-				if (JFile::exists($src))
+				/** @var RedshopEntityMedia $media */
+				if ($media->get('scope') == 'full')
 				{
-					JFile::copy($src, $dest);
+					$this->/** @scrutinizer ignore-call */ storeMediaCopy($copyData[$i]->id, $post['id'], $media, 'full');
+				}
+				elseif ($media->get('scope') == 'back')
+				{
+					$this->/** @scrutinizer ignore-call */ storeMediaCopy($copyData[$i]->id, $post['id'], $media, 'back');
 				}
 			}
 
-			$this->/** @scrutinizer ignore-call */ save($post);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for store media copy
+	 *
+	 * @param   integer  $copyCatId
+	 * @param   integer  $catId
+	 * @param   object   $media
+	 * @param   string   $scope
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	public function storeMediaCopy($copyCatId, $catId, $media, $scope)
+	{
+		/** @var RedshopEntityMediaImage $fullImage */
+		$fullImage     = RedshopEntityMediaImage::getInstance($media->getId());
+		$fullImageName = $fullImage->get('media_name');
+		$newFullImage  = time() . '_' . $fullImageName;
+
+		$src  = REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $copyCatId . '/' . $fullImageName;
+
+		$dest = REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $catId . '/' . $newFullImage;
+
+		if (JFile::exists($src))
+		{
+			JFile::copy($src, $dest);
+		}
+
+		if (JFile::exists($dest))
+		{
+			$mediaFullImage                       = new stdClass;
+			$mediaFullImage->media_name           = $newFullImage;
+			$mediaFullImage->media_alternate_text = '';
+			$mediaFullImage->media_section        = 'category';
+			$mediaFullImage->section_id           = $catId;
+			$mediaFullImage->media_type           = 'images';
+			$mediaFullImage->published            = 1;
+			$mediaFullImage->scope                = $scope;
+
+			$this->_db->insertObject('#__redshop_media', $mediaFullImage);
+		}
 	}
 
 	/**
@@ -339,6 +379,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 		$productAccessories = array_merge(array(), $productAccessories);
 		$productList        = RedshopEntityCategory::getInstance($categoryId)->getProducts();
+		$productIds         = array_column($productList, 'id');
 
 		if (empty($productList))
 		{
@@ -351,13 +392,12 @@ class RedshopModelCategory extends RedshopModelForm
 
 			foreach ($productAccessories as $productAccessory)
 			{
-				$accessoryId = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
-
-				if ($productId == $productAccessory['child_product_id'])
+				if (in_array($productAccessory['child_product_id'], $productIds))
 				{
 					continue;
 				}
 
+				$accessoryId    = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
 				$accessoryTable = JTable::getInstance('Accessory_detail', 'Table');
 
 				$accessoryTable->accessory_id        = $accessoryId;
@@ -486,6 +526,11 @@ class RedshopModelCategory extends RedshopModelForm
 			))
 			{
 				continue;
+			}
+
+			if (JFolder::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/thumb'))
+			{
+				JFolder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/thumb');
 			}
 
 			// Update media data with new file name.

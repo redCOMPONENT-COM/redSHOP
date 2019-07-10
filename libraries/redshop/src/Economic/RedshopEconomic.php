@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.3
@@ -396,6 +396,7 @@ class RedshopEconomic
 
 		if (!empty($debtorHandle[0]))
 		{
+			$eco['eco_user_number'] = $debtorHandle[0]->Number;
 			self::handleExistingDebtorOnEmailVat($debtorHandle, $eco);
 		}
 
