@@ -68,7 +68,7 @@ class ManufacturerCest extends AbstractCest
     /**
      * Abstract method for run after complete create item.
      *
-     * @param   \AcceptanceTester     $tester    Tester
+     * @param   \AcceptanceTester     $tester    Tester 
      * @param   Codeception\Scenario  $scenario  Scenario
      *
      * @return  void
