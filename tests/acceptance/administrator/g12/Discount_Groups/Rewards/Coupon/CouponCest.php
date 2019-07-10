@@ -133,7 +133,7 @@ class CouponCest extends AbstractCest
 	 */
 	public function afterTestItemCreate(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
 	{
-		$tester->wantTo('I want to check create coupon with startdate larger than enddate');
+		$tester->wantTo('I want to check create coupon with Start Date larger than End Date');
 
 		$this->startDate = date('Y-m-d');
 		$this->endDate = date('Y-m-d', strtotime('-2 day', strtotime($this->startDate)));
