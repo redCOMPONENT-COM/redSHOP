@@ -76,7 +76,7 @@ pipeline:
             - output_append=-00-setup
             - php_version=56
         commands:
-            # Regular entry point
+            # Regular entry point 
             - /entrypoint.sh &
 
             # Waiting for setup to be done
