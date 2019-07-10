@@ -52,7 +52,7 @@ class ProductsCheckoutAuthorizeCest
 			"email" => "test@test" . rand() . ".com",
 			"firstName" => "Tester",
 			"lastName" => "User",
-			"address" => "Some Place in the World",
+			"address" => "Some Place in The World",
 			"postalCode" => "23456",
 			"city" => "Bangalore",
 			"country" => "India",
