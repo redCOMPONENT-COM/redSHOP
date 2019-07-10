@@ -135,7 +135,7 @@ pipeline:
             - output_append=-01-Group1-56
             - php_version=56
         commands:
-            # Regular entry point
+            # Regular entry point 
             - /entrypoint.sh &
             # Performs test after ensuring that the scenario has been fully set up
             - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
