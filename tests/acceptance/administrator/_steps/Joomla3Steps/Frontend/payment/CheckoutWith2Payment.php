@@ -57,7 +57,7 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 		try
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		}catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
