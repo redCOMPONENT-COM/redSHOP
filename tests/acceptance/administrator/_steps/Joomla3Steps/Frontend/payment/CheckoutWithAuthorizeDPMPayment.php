@@ -71,7 +71,8 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 			$I->waitForElement(AuthorizeDPMPaymentPage::$selectExpireMonth, 30);
 			$I->selectOption(AuthorizeDPMPaymentPage::$selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
 			$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
-		}catch (\Exception $e)
+		}
+		catch (\Exception $e)
 		{
 			$I->click(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM);
 		}
@@ -88,7 +89,8 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		try
 		{
 			$I->waitForElementNotVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 10);
-		}catch (\Exception $e)
+		}
+		catch (\Exception $e)
 		{
 			try
 			{
