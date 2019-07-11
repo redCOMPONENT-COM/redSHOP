@@ -109,7 +109,7 @@ class ProductsConfigurationRelatedTwoWayCest
 		$I->wantTo('I Want to check Product With Related');
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo('I Want to check Product With Related');
-		$I->checkConfigurationProductRelated($this->randomCategoryName, $this->productName, $this->productRelated, 'Yes');
+		$I->checkConfigurationProductRelated($this->randomCategoryName, $this->productName, $this->productRelated,'Yes');
 	}
 
 	/**
