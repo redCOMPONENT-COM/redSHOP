@@ -99,6 +99,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 				$I->waitForElementVisible(AuthorizeDPMPaymentPage::$termAndConditions, 5);
 				$I->click(AuthorizeDPMPaymentPage::$termAndConditions);
 			}
+
 			$I->waitForElementVisible(AuthorizeDPMPaymentPage::$checkoutFinalStep, 30);
 			$I->wait(0.5);
 			$I->click(AuthorizeDPMPaymentPage::$checkoutFinalStep);
