@@ -152,7 +152,7 @@ class ImageAndSEOCategoryProductCest
 	/**
 	 * @param CategoryManagerJoomla3Steps $I
 	 * @param $scenario
-	 * @throws Exception
+	 * @throws Exception 
 	 * 2.1.2
 	 */
 	public function createCategoryHaveImage(CategoryManagerJoomla3Steps $I, $scenario)
