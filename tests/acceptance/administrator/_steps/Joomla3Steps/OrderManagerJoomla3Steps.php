@@ -103,7 +103,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->searchOrder($nameUser);
 		$I->waitForElement(\OrderManagerPage::$deleteFirst, 30);
 		$I->click(\OrderManagerPage::$deleteFirst);
-		$I->click(\OrderManagerPage::$buttonDelete);
+		$I->waitForElementVisible(\OrderManagerPage::$buttonDeleteOder, 30);
+		$I->click(\OrderManagerPage::$buttonDeleteOder);
 		$I->acceptPopup();
 		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
 	}
