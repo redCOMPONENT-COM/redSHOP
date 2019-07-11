@@ -120,6 +120,5 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->dontSee(FrontEndProductManagerJoomla3Page::$messageRelated);
 				break;
 		}
-
 	}
 }
