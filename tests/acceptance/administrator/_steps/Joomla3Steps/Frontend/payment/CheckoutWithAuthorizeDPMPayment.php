@@ -60,6 +60,7 @@ class CheckoutWithAuthorizeDPMPayment extends CheckoutMissingData
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(AuthorizeDPMPaymentPage::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
+		$I->wait(1);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$labelPayment, 30);
 		$I->scrollTo(AuthorizeDPMPaymentPage::$labelPayment);
 		$I->waitForElementVisible(AuthorizeDPMPaymentPage::$paymentAuthorizeDPM, 30);
