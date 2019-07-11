@@ -91,6 +91,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 	}
 
+
 	public function addUserMissing($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function)
 	{
 		$I = $this;
