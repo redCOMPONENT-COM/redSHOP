@@ -59,7 +59,6 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-<<<<<<< HEAD
 	 * @throws \Exception
 	 * @since 2.1.2
 	 */
