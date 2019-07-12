@@ -200,19 +200,19 @@ class ShopperGroupJ3Page extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public static $searchField = '#filter';
 
 	/**
 	 * @var string
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public static $searchButton = '//button[@onclick="document.adminForm.submit();"]';
 
 	/**
 	 * @var string
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public static $deleteShopperSuccess = 'Shopper Group Detail Deleted Successfully';
 
@@ -232,7 +232,7 @@ class ShopperGroupJ3Page extends AdminJ3Page
 	/**
 	 * @param $shoppergroupname
 	 * @return string
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public function xPathShoppergroupName($shoppergroupname)
 	{

@@ -9,6 +9,7 @@
 namespace AcceptanceTester;
 
 use CategoryManagerJ3Page as CategoryManagerJ3Page;
+use CategoryPage;
 
 /**
  * Class CategoryManagerJoomla3Steps
@@ -123,7 +124,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $parentname
 	 * @param $childname
 	 * @throws \Exception
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public function createCategoryChild($parentname, $childname)
 	{
@@ -133,9 +134,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(CategoryManagerJ3Page::$categoryName, 30);
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $childname);
 		$I->click(CategoryManagerJ3Page::$parentCategory);
-		$I->waitForElementVisible(\CategoryPage::$parentCategoryInput, 30);
-		$I->fillField(\CategoryPage::$parentCategoryInput, $parentname);
-		$I->pressKey(\CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElementVisible(CategoryPage::$parentCategoryInput, 30);
+		$I->fillField(CategoryPage::$parentCategoryInput, $parentname);
+		$I->pressKey(CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->click(CategoryManagerJ3Page::$saveCloseButton);
 		$I->waitForText(CategoryManagerJ3Page::$messageSaveSuccess, 30, CategoryManagerJ3Page::$selectorSuccess);
 	}

@@ -6,15 +6,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Faker\Factory;
+use Faker\Generator;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps as ShopperGroupSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserSteps;
-use AcceptanceTester\DiscountProductSteps;
-use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as FrontEndSteps;
 
 /**
- * Class ProductPriceDiscountCest
+ * Class AddProductPriceCest
  *
  * @package  AcceptanceTester
  *
@@ -22,10 +23,10 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
  *
  * @since    2.1.2
  */
-class ProductPriceDiscountCest
+class AddProductPriceCest
 {
 	/**
-	 * @var \Faker\Generator
+	 * @var Generator
 	 * @since 2.1.2
 	 */
 	protected $faker;
@@ -40,13 +41,7 @@ class ProductPriceDiscountCest
 	 * @var string
 	 * @since 2.1.2
 	 */
-	protected $categoryname1;
-
-	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	protected $categoryname2;
+	protected $categoryname;
 
 	/**
 	 * @var string
@@ -65,6 +60,7 @@ class ProductPriceDiscountCest
 	 * @since 2.1.2
 	 */
 	protected $pass;
+
 
 	/**
 	 * @var string
@@ -193,28 +189,10 @@ class ProductPriceDiscountCest
 	protected $price;
 
 	/**
-	 * @var string
-	 * @since 2.1.2
-	 */
-	protected $totalAmount;
-
-	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
-	protected $condition;
-
-	/**
-	 * @var int
-	 * @since 2.1.2
-	 */
-	protected $type;
-
-	/**
-	 * @var int
-	 * @since 2.1.2
-	 */
-	protected $discountAmount;
+	protected $discountPrice;
 
 	/**
 	 * @var int
@@ -235,21 +213,44 @@ class ProductPriceDiscountCest
 	protected $endDate;
 
 	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	protected $quantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $addprice;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $quantityStart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $quantityEnd;
+
+	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	protected $currentcyunit;
 
 	/**
-	 * ProductPriceDiscountCest constructor.
+	 * AddProductPriceCest constructor.
 	 * @since 2.1.2
 	 */
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
+		$this->faker = Factory::create();
 		$this->productname = $this->faker->bothify('Product demo ##');
-		$this->categoryname1 = $this->faker->bothify('Category parent ##');
-		$this->categoryname2 = $this->faker->bothify('Category child ##');
+		$this->categoryname = $this->faker->bothify('Category demo ##');
 		$this->shoppergroupname = $this->faker->bothify('VIP ##');
 		$this->username = $this->faker->bothify('test##');
 		$this->pass = $this->faker->bothify('???###?#');
@@ -271,19 +272,17 @@ class ProductPriceDiscountCest
 		$this->postcode = '2000';
 		$this->city = 'Ho Chi Minh City';
 		$this->phone = $this->faker->phoneNumber;
-		$this->discountname = $this->faker->bothify('Product price discounts ##');
 		$this->number = $this->faker->numberBetween(50, 1000);
 		$this->price = $this->faker->numberBetween(100, 1000);
-		$this->totalAmount = '100';
-		// Higher
-		$this->condition = 3;
-		// Total
-		$this->type = 1;
-		$this->discountAmount = $this->faker->numberBetween(1, 99);
-		$this->total = $this->price - $this->discountAmount;
+		$this->addprice = '50';
+		$this->quantityStart = '2';
+		$this->quantityEnd = '10';
+		$this->discountPrice = '40';
 		$this->startDate = date('Y-m-d');
 		$this->endDate = date('Y-m-d', strtotime('+2 day', strtotime($this->startDate)));
 		$this->currentcyunit = 'DKK ';
+		$this->quantity = $this->faker->numberBetween(2, 10);
+		$this->total = $this->quantity * $this->discountPrice;
 	}
 
 	/**
@@ -298,38 +297,32 @@ class ProductPriceDiscountCest
 
 	/**
 	 * @param CategorySteps $I
+	 * @param $scenario
 	 * @throws Exception
 	 * @since 2.1.2
 	 */
-	public function createCategory(CategorySteps $I, $scenario)
+	public function createPrice(CategorySteps $I, $scenario)
 	{
 		$I->wantToTest("I want to create category parent");
-		$I->addCategorySaveClose($this->categoryname1);
-
-		$I->wantToTest("I want to create category child");
-		$I->createCategoryChild($this->categoryname1, $this->categoryname2);
-
-		$I =new ProductSteps($scenario);
-		$I->wantToTest("I want to create product with category child");
-		$I->createProductSaveClose($this->productname, $this->categoryname2, $this->number, $this->price);
+		$I->addCategorySaveClose($this->categoryname);
 
 		$I = new ShopperGroupSteps($scenario);
 		$I->wantToTest("I want to create shopper group");
-		$I->addShopperGroups($this->shoppergroupname, $this->shoppergroupitem, $this->customerType, $this->shopperGroupPortal,$this->categoryname2,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
+		$I->addShopperGroups($this->shoppergroupname, $this->shoppergroupitem, $this->customerType, $this->shopperGroupPortal,$this->categoryname,$this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat,$this->showPrice,$this->enableQuotation, 'saveclose');
+
+		$I =new ProductSteps($scenario);
+		$I->wantToTest("I want to create product with category child");
+		$I->createProductWithAddPrice($this->productname, $this->categoryname, $this->number, $this->price, $this->shoppergroupname, $this->addprice, $this->quantityStart, $this->quantityEnd, $this->discountPrice, $this->startDate, $this->endDate);
 
 		$I = new UserSteps($scenario);
 		$I->wantToTest("I want to create user");
 		$I->addUser($this->username, $this->pass, $this->email, $this->group, $this->shoppergroupname, $this->firstname, $this->lastname, 'saveclose');
 		$I->editAddShipping($this->firstname, $this->pass, $this->address, $this->city, $this->phone, $this->postcode);
 
-		$I = new DiscountProductSteps($scenario);
-		$I->wantToTest("I want to create product price discounts");
-		$I->addDiscountProductSave($this->totalAmount, $this->condition, $this->type, $this->discountAmount, $this->startDate, $this->endDate, $this->categoryname2, $this->shoppergroupname);
-
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->wantToTest("I want to check discount in frontend");
+		$I = new FrontEndSteps($scenario);
+		$I->wantToTest("I want to check price of product on frontend");
 		$I->doFrontEndLogin($this->username, $this->pass);
-		$I->checkDiscountWithCategoryChild($this->categoryname1, $this->categoryname2, $this->productname, $this->currentcyunit.$this->total);
+		$I->checkoutProductwithAddPrice($this->productname, $this->categoryname, $this->discountPrice, $this->quantity, $this->currentcyunit.$this->total);
 	}
 
 	/**
@@ -338,28 +331,18 @@ class ProductPriceDiscountCest
 	 * @throws Exception
 	 * @since 2.1.2
 	 */
-	public function deleteAll(DiscountProductSteps $I, $scenario)
+	public function deleteAll(UserSteps $I, $scenario)
 	{
 		$I->wantToTest("I want to delete user");
-		$I->deleteAllDiscountProducts();
-
-		$I = new UserSteps($scenario);
-		$I->wantToTest("I want to delete user");
 		$I->deleteUser($this->firstname);
-
 		$I = new ShopperGroupSteps($scenario);
 		$I->wantToTest("I want to delete shopper group");
 		$I->deleteShopperGroups($this->shoppergroupname);
-
 		$I = new ProductSteps($scenario);
 		$I->wantToTest("I want to delete product");
 		$I->deleteProduct($this->productname);
-
 		$I = new CategorySteps($scenario);
-		$I->wantToTest("I want to delete category child");
-		$I->deleteCategory($this->categoryname2);
-
-		$I->wantToTest("I want to delete category parent");
-		$I->deleteCategory($this->categoryname1);
+		$I->wantToTest("I want to delete category");
+		$I->deleteCategory($this->categoryname);
 	}
 }

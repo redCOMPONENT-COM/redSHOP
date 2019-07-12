@@ -4,6 +4,10 @@
  */
 
 namespace AcceptanceTester;
+
+use ShopperGroupJ3Page;
+use AdminJ3Page;
+
 class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 	/**
@@ -277,22 +281,22 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	/**
 	 * @param $shoppergroupname
 	 * @throws \Exception
-	 * @since 2.1.2.2
+	 * @since 2.1.2
 	 */
 	public function deleteShopperGroups($shoppergroupname)
 	{
 		$I = $this;
-		$I->amOnPage(\ShopperGroupJ3Page::$URL);
-		$I->checkForPhpNoticesOrWarnings(\ShopperGroupJ3Page::$URL);
+		$I->amOnPage(ShopperGroupJ3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings(ShopperGroupJ3Page::$URL);
 
-		$I->fillField(\ShopperGroupJ3Page::$searchField, $shoppergroupname);
-		$I->click(\ShopperGroupJ3Page::$searchButton);
+		$I->fillField(ShopperGroupJ3Page::$searchField, $shoppergroupname);
+		$I->click(ShopperGroupJ3Page::$searchButton);
 
-		$shoppergroup = new \ShopperGroupJ3Page();
+		$shoppergroup = new ShopperGroupJ3Page();
 		$I->waitForElementVisible($shoppergroup->xPathShoppergroupName($shoppergroupname), 30);
 		$I->checkAllResults();
-		$I->click(\ShopperGroupJ3Page::$buttonDelete);
+		$I->click(ShopperGroupJ3Page::$buttonDelete);
 		$I->acceptPopup();
-		$I->waitForText(\ShopperGroupJ3Page::$deleteShopperSuccess, 5, \AdminJ3Page::$selectorSuccess);
+		$I->waitForText(ShopperGroupJ3Page::$deleteShopperSuccess, 5, AdminJ3Page::$selectorSuccess);
 	}
 }
