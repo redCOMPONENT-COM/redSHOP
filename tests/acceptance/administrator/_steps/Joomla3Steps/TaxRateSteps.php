@@ -145,16 +145,16 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	public function addTAXRatesValueAmountLessZeroSave($TAXRatesName, $VATGroupName, $TaxRatesValue)
 	{
 		$client = $this;
-		$client->amOnPage(TaxRatePage::$url);
-		$client->click(TaxRatePage::$buttonNew);
-		$client->verifyNotices(false, $this->checkForNotices(), TaxRatePage::$nameEditPage);
+		$client->amOnPage(\TaxRatePage::$url);
+		$client->click(\TaxRatePage::$buttonNew);
+		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->fillField(TaxRatePage::$fieldName, $TAXRatesName);
-		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
-		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
-		$client->click(TaxRatePage::$buttonSave);
-		$client->see(TaxRatePage::$messageError, TaxRatePage::$selectorMissing);
-		$client->click(TaxRatePage::$buttonCancel);
+		$client->fillField(\TaxRatePage::$fieldName, $TAXRatesName);
+		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
+		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
+		$client->click(\TaxRatePage::$buttonSave);
+		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
+		$client->click(\TaxRatePage::$buttonCancel);
 	}
 
 	/**
@@ -239,11 +239,12 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->click(TaxRatePage::$buttonNew);
 		$client->verifyNotices(false, $this->checkForNotices(), TaxRatePage::$nameEditPage);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->fillField(TaxRatePage::$fieldName, $TAXRatesName);
-		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
-		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
-		$client->click(TaxRatePage::$buttonSaveNew);
-		$client->see(TaxRatePage::$messageError, TaxRatePage::$selectorMissing);
+		$client->fillField(\TaxRatePage::$fieldName, $TAXRatesName);
+		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
+		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
+		$client->click(\TaxRatePage::$buttonSave);
+		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
+		$client->click(\TaxRatePage::$buttonCancel);
 	}
 
 	public function addTAXRatesValueAmountStringSave($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
@@ -318,17 +319,17 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	public function addTAXRatesSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
 	{
 		$client = $this;
-		$client->amOnPage(TaxRatePage::$url);
-		$client->click(TaxRatePage::$buttonNew);
-		$client->verifyNotices(false, $this->checkForNotices(), TaxRatePage::$nameEditPage);
+		$client->amOnPage(\TaxRatePage::$url);
+		$client->click(\TaxRatePage::$buttonNew);
+		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
 		$client->checkForPhpNoticesOrWarnings();
-		$client->fillField(TaxRatePage::$fieldName, $TAXRatesName);
-		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
-		$client->chooseOnSelect2(TaxRatePage::$fieldCountry, $nameCountry);
-		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
-		$client->click(TaxRatePage::$buttonSaveClose);
-		$client->waitForElement(TaxRatePage::$selectorSuccess,30);
-		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
+		$client->fillField(\TaxRatePage::$fieldName, $TAXRatesName);
+		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
+		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
+		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
+		$client->click(\TaxRatePage::$buttonSaveClose);
+		$client->waitForElement(\TaxRatePage::$selectorSuccess,30);
+		$client->see(\TaxRatePage::$messageItemSaveSuccess, \TaxRatePage::$selectorSuccess);
 	}
 
 	public function editTAXRatesName($TAXRatesName, $TAXRatesNameEdit)
