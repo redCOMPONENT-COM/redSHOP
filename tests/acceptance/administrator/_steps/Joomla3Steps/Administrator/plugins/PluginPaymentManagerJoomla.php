@@ -82,7 +82,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	public function configEWAYPlugin($pluginName, $customerID)
 	{
 		$I = $this;
-		$I->amOnPage(PluginManagerJoomla3Page:: $URL);
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
 		$I->searchForItem($pluginName);
 		$pluginManagerPage = new PluginManagerJoomla3Page;
 		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
@@ -96,7 +96,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$masterCard, 30);
 		$I->click(PluginManagerJoomla3Page::$masterCard);
 
-		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
 }

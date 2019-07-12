@@ -227,7 +227,7 @@ class ProductsCheckoutEWAYCest
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
 		$I = new CheckoutWithEWAYPayment($scenario);
-		$I->checkoutProductWithEWAYPayment($this->checkoutAccountInformation,$this->productName, $this->categoryName, $this->customerInformation);
+		$I->checkoutProductWithEWAYPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformation);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
@@ -257,5 +257,8 @@ class ProductsCheckoutEWAYCest
 		$I->wantToTest('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->customerInformation["firstName"]);
+
+		$I->wantTo('Disable Plugin');
+		$I->disablePlugin($this->pluginName);
 	}
 }
