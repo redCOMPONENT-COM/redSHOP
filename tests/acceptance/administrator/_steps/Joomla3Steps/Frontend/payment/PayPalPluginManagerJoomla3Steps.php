@@ -70,11 +70,9 @@ class PayPalPluginManagerJoomla3Steps extends \CheckoutMissingData
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
 
-		$I->waitForText(PayPalPluginManagerJoomla3Page::$textPaypalSteps1,60,FrontEndProductManagerJoomla3Page:: $h1);
 		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption, 60);
 		$I->wait(1.5);
 		$I->click(PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption);
-		$I->waitForText(PayPalPluginManagerJoomla3Page::$textPaypalSteps2,30,FrontEndProductManagerJoomla3Page:: $h1);
 
 		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payPalLoginEmailField, 30);
 		$I->fillField(PayPalPluginManagerJoomla3Page::$payPalLoginEmailField, $payPalAccountDetail["username"]);
@@ -88,7 +86,6 @@ class PayPalPluginManagerJoomla3Steps extends \CheckoutMissingData
 		$I->wait(1);
 		$I->click(PayPalPluginManagerJoomla3Page::$continueField);
 		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payNowField, 120);
-		$I->waitForText(PayPalPluginManagerJoomla3Page::$textPaypalSteps3,30);
 		$I->wait(1);
 		$I->click(PayPalPluginManagerJoomla3Page::$payNowField);
 		$I->waitForElement(PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
