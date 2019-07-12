@@ -40,6 +40,7 @@ class PayPalPluginManagerJoomla3Steps extends \CheckoutMissingData
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
 		$I->fillInformationPrivate($addressDetail);
+		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
 		$I->wait(0.5);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
