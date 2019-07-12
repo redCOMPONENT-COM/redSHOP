@@ -288,7 +288,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	public function checkEdit($taxRateName)
 	{
 		$I =  $this;
-		$I->amOnPage(\TaxRatePage::$url);
+		$I->amOnPage(TaxRatePage::$url);
 		$I->searchTAXRates($taxRateName);
 		$I->click($taxRateName);
 		$I->waitForText(TaxRatePage::$editTitle, 5, TaxRatePage::$selectorPageTitle);
@@ -311,7 +311,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	public function checkResetButton($taxRateName1, $taxRateName2)
 	{
 		$I =  $this;
-		$I->amOnPage(\TaxRatePage::$url);
+		$I->amOnPage(TaxRatePage::$url);
 		$I->searchTAXRates($taxRateName1);
 		$I->click(TaxRatePage::$buttonReset);
 		$I->waitForText($taxRateName2, 5, TaxRatePage::$tableTaxRate);
@@ -325,8 +325,9 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	public function checkSearchToolsEUCountry()
 	{
 		$I =  $this;
-		$I->amOnPage(\TaxRatePage::$url);
+		$I->amOnPage(TaxRatePage::$url);
 		$I->waitForElementVisible(TaxRatePage::$searchTools, 30);
+		$I->wantTo("Check Search tools button");
 		$I->click(TaxRatePage::$searchTools);
 		$I->waitForElementVisible(TaxRatePage::$eUCountry, 30);
 
@@ -336,9 +337,18 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$I->waitForText('EU country', 30 , TaxRatePage::$selectorEUCountry);
 	}
 
-	public function checkEUCountry()
+	/**
+	 * @param $taxRateName
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function checkInButton($taxRateName)
 	{
 		$I =  $this;
-		$I->amOnPage(\TaxRatePage::$url);
+		$I->amOnPage(TaxRatePage::$url);
+		$I->searchTAXRates($taxRateName);
+		$I->checkAllResults();
+		$I->click(TaxRatePage::$buttonCheckIn);
+		$I->waitForText(TaxRatePage::$messageCheckInSuccess, 30 , TaxRatePage::$selectorSuccess);
 	}
 }
