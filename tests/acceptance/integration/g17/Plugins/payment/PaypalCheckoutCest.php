@@ -180,14 +180,13 @@ class PaypalCheckoutCest
 	}
 
 	/**
-	 * @param AcceptanceTester $I
+	 * @param ConfigurationSteps $I
 	 * @param $scenario
 	 * @throws Exception
 	 * @since    2.1.2
 	 */
-	public function testProductsCheckoutFrontEnd(AcceptanceTester $I, $scenario)
+	public function testProductsCheckoutFrontEnd(ConfigurationSteps $I, $scenario)
 	{
-		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"],
 			$this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
 
@@ -208,15 +207,14 @@ class PaypalCheckoutCest
 	}
 
 	/**
-	 * @param AcceptanceTester $I
+	 * @param OrderManagerJoomla3Steps $I
 	 * @param $scenario
 	 * @throws Exception
 	 * @since    2.1.2
 	 */
-	public function clearAllData(AcceptanceTester $I, $scenario)
+	public function clearAllData(OrderManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo('Deletion of Order in Administrator');
-		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder( $this->customerInformation['firstName']);
 
 		$I->wantTo('Delete product');
