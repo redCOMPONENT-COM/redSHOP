@@ -116,6 +116,10 @@ class ProductsCheckoutEWAYCest
 	 */
 	public $cartSetting;
 
+	/**
+	 * ProductsCheckoutEWAYCest constructor.
+	 * @since 2.1.2
+	 */
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
@@ -171,9 +175,9 @@ class ProductsCheckoutEWAYCest
 			"debitCardNumber" => "4444333322221111",
 			"cvv"             => "123",
 			"cardExpiryMonth" => '5',
-			"cardExpiryYear" => '2025',
+			"cardExpiryYear"  => '2025',
 			"shippingAddress" => "some place on earth",
-			"customerName" => 'Your Name'
+			"customerName"    => 'Your Name'
 		);
 	}
 
@@ -194,9 +198,9 @@ class ProductsCheckoutEWAYCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-//		$I->wantTo("install plugin payment E-Way");
-//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
-//		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->wantTo("install plugin payment E-Way");
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
+		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);

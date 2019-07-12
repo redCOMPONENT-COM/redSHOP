@@ -40,6 +40,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $pluginName
 	 * @param $accessId
 	 * @param $transactionKey
 	 * @param $md5Key
@@ -76,7 +77,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	 * @param $pluginName
 	 * @param $customerID
 	 * @throws \Exception
-     *  @since 2.1.2
+	 *  @since 2.1.2
 	 */
 	public function configEWAYPlugin($pluginName, $customerID)
 	{
