@@ -8,11 +8,11 @@
 
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use Administrator\plugins\PluginPaymentManagerJoomla;
+use Configuration\ConfigurationSteps;
 use Frontend\payment\CheckoutWithEWAYPayment;
 
 /**
@@ -26,6 +26,96 @@ use Frontend\payment\CheckoutWithEWAYPayment;
  */
 class ProductsCheckoutEWAYCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.2
+	 */
+	public $faker;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $categoryName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productNumber;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $minimumQuantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $maximumQuantity;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $checkoutAccountInformation;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $group;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $extensionURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $pluginName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $pluginURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $package;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	public $cartSetting;
+
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
@@ -37,21 +127,23 @@ class ProductsCheckoutEWAYCest
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
 
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->cartSetting = array(
+			"addcart"            => 'product',
+			"allowPreOrder"      => 'yes',
+			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
+			"enabldAjax"         => 'no',
+			"defaultCart"        => null,
+			"buttonCartLead"     => 'Back to current view',
+			"onePage"            => 'yes',
+			"showShippingCart"   => 'no',
+			"attributeImage"     => 'no',
+			"quantityChange"     => 'no',
+			"quantityInCart"     => 0,
+			"minimunOrder"       => 0,
+			"enableQuation"      => 'no',
+			"onePageNo"          => 'no',
+			"onePageYes"         => 'yes'
+		);
 
 		$this->customerInformation = array(
 			"userName"      => $this->faker->bothify('UserName ?####?'),
@@ -88,7 +180,7 @@ class ProductsCheckoutEWAYCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * @since    2.1.2
+	 * @since  2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -98,13 +190,13 @@ class ProductsCheckoutEWAYCest
 	/**
 	 * @param AdminManagerJoomla3Steps $I
 	 * @throws Exception
-	 * @since    2.1.2
+	 * @since  2.1.2
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install plugin payment E-Way");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
-		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->wantTo("install plugin payment E-Way");
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
+//		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);
@@ -115,12 +207,12 @@ class ProductsCheckoutEWAYCest
 	 * @param ConfigurationSteps $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since  2.1.2
 	 */
 	public function testEWAYPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
-		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"],
+			$this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -130,15 +222,8 @@ class ProductsCheckoutEWAYCest
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
-		$I->wantTo('Create user for checkout');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser(
-			$this->customerInformation["userName"], $this->customerInformation["password"], $this->customerInformation["email"], $this->group, $this->customerInformation["shopperGroup"],
-			$this->customerInformation["firstName"], $this->customerInformation["lastName"], 'saveclose'
-		);
-
 		$I = new CheckoutWithEWAYPayment($scenario);
-		$I->checkoutProductWithEWAYPayment($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation,$this->productName, $this->categoryName);
+		$I->checkoutProductWithEWAYPayment($this->checkoutAccountInformation,$this->productName, $this->categoryName, $this->customerInformation);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
@@ -149,7 +234,7 @@ class ProductsCheckoutEWAYCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * @since    2.1.2
+	 * @since  2.1.2
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
