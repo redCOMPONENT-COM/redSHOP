@@ -20,9 +20,9 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 	/**
 	 * @param $productName
 	 * @param $categoryName
-	 * @param $custome@since 2.1.2rInformation
+	 * @param $customerInformation
 	 * @throws \Exception
-	 *
+	 * @since 2.1.2
 	 */
 	public function checkoutProductWithBankTransferDiscountPayment($productName, $categoryName, $customerInformation)
 	{
@@ -38,13 +38,14 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
-		$I->checkOption(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+		$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 		$I->wait(0.5);
 
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
-		}catch (\Exception $e)
+		}
+		catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 		}
@@ -58,7 +59,8 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}catch (\Exception $e)
+		}
+		catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
@@ -70,9 +72,21 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		try
 		{
 			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
-		}catch (\Exception $e)
+		}
+		catch (\Exception $e)
 		{
+			try
+			{
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 5, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+			}
+			catch (\Exception $e)
+			{
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 5);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			}
+
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+			$I->wait(0.5);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
 
