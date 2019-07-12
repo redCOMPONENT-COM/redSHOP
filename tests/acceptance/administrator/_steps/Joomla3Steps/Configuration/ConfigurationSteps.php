@@ -413,6 +413,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
+
 	/**
 	 * @param $name
 	 */
@@ -423,9 +424,17 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
+
 	/**
 	 * @param $price
 	 * @param $order
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @throws \Exception
+	 *
 	 */
 	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
 	{

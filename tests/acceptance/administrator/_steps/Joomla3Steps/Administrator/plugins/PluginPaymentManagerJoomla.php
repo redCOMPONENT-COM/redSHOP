@@ -24,14 +24,16 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	 */
 	public function config2CheckoutPlugin($pluginName, $vendorID, $secretWord)
 	{
-		$I = $this;
-		$I->amOnPage(PluginManagerJoomla3Page:: $URL);
-		$I->searchForItem($pluginName);
-		$pluginManagerPage = new PluginManagerJoomla3Page;
-		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
-		$I->waitForElementVisible(PluginManagerJoomla3Page:: $searchResultRow, 30);
-		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
-		$I->click($pluginName);
+        $I = $this;
+        $I->amOnPage(PluginManagerJoomla3Page::$URL);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->searchForItem($pluginName);
+        $pluginManagerPage = new PluginManagerJoomla3Page;
+        $I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+        $I->checkExistenceOf($pluginName);
+        $I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+        $I->waitForElementVisible($pluginManagerPage->searchResultPluginName($pluginName), 30);
+        $I->click($pluginName);
 		$I->waitForElementVisible( PluginManagerJoomla3Page:: $vendorID ,30);
 		$I->fillField( PluginManagerJoomla3Page:: $vendorID , $vendorID);
 		$I->fillField(PluginManagerJoomla3Page::$secretWords, $secretWord);
@@ -72,4 +74,29 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
+
+    /**
+     * @param $pluginName
+     * @param $businessUserEmail
+     * @throws \Exception
+     * @since 2.1.2
+     */
+    public function configPayPalPlugin($pluginName, $businessUserEmail)
+    {
+        $I = $this;
+        $I->amOnPage(PluginManagerJoomla3Page:: $URL);
+        $I->searchForItem($pluginName);
+        $pluginManagerPage = new PluginManagerJoomla3Page;
+        $I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+        $I->waitForElementVisible(PluginManagerJoomla3Page:: $searchResultRow, 30);
+        $I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
+        $I->click($pluginName);
+
+        $I->waitForElement(PluginManagerJoomla3Page::$payPalBusinessAccountEmail,30);
+        $I->fillField(PluginManagerJoomla3Page::$payPalBusinessAccountEmail, $businessUserEmail);
+        $I->click(PluginManagerJoomla3Page::$payPalUseField);
+        $I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
+        $I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+        $I->see(PluginManagerJoomla3Page::$pluginSaveSuccessMessage,PluginManagerJoomla3Page:: $idInstallSuccess);
+    }
 }
