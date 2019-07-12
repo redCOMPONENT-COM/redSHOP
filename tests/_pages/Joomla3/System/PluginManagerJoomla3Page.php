@@ -89,6 +89,37 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
+	public static $fieldAccessId = "#jform_params_access_id" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldTransactionID = "#jform_params_transaction_id" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldMd5Key = "#jform_params_md5_key" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldTestMode = "//div[@id='jform_params_is_test_chzn']/a" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $optionTestModeYes= "//div[@id='jform_params_is_test_chzn']/div/ul/li[contains(text(), 'Yes')]";
+
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
 	public static $customerID = "#jform_params_eway_customer_id";
 
 	/**

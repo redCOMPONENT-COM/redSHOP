@@ -123,7 +123,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
-
+#
 #    01-Group1-56:
 #        group: 01-tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -167,7 +167,7 @@ pipeline:
 #            # Waits until Chromedriver is up and running
 #            - while ! nc -z localhost 9515; do sleep 1; done
 #            # Performs test
-#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Manufacturer 0 0'
+##            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Products/Manufacturer 0 0'
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01 0 0'
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02 0 0'
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03 0 0'
@@ -581,7 +581,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins 0 0'
 
     11-Group11-73:
         group: 02-tests
@@ -601,7 +601,8 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Category 0 0'
 
     slack:
         image: plugins/slack
