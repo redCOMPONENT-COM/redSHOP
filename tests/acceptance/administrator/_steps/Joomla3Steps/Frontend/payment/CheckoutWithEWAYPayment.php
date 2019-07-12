@@ -7,7 +7,8 @@
  */
 
 namespace Frontend\payment;
-use FrontEndEWAYPaymentPage;
+use AuthorizeDPMPaymentPage;
+use FrontEndProductManagerJoomla3Page;
 
 /**
  * Class CheckoutWithEWAYPayment
@@ -27,29 +28,29 @@ class CheckoutWithEWAYPayment extends CheckoutWithAuthorizeDPMPayment
 	public function checkoutProductWithEWAYPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation)
 	{
 		$I = $this;
-		$I->amOnPage(FrontEndEWAYPaymentPage::$URL);
-		$I->waitForElement(FrontEndEWAYPaymentPage::$categoryDiv, 60);
-		$productFrontEndManagerPage = new \FrontEndEWAYPaymentPage;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 60);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->addToCart($categoryName, $productName);
-		$I->amOnPage(FrontEndEWAYPaymentPage::$cartPageUrL);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(FrontEndEWAYPaymentPage:: $checkoutButton);
+		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->wait(1);
-		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$labelPayment,30);
-		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$paymentEWAY, 30);
-		$I->click(FrontEndEWAYPaymentPage::$paymentEWAY);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment,30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentEWAY, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$paymentEWAY);
 		$I->wait(0.5);
 
 		try
 		{
-			$I->waitForElement(FrontEndEWAYPaymentPage::$selectExpireMonth, 30);
-			$I->selectOption(FrontEndEWAYPaymentPage::$selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
-			$I->click(FrontEndEWAYPaymentPage::$paymentEWAY);
+			$I->waitForElement(AuthorizeDPMPaymentPage::$selectExpireMonth, 30);
+			$I->selectOption(AuthorizeDPMPaymentPage::$selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
+			$I->click(FrontEndProductManagerJoomla3Page::$paymentEWAY);
 		}
 		catch (\Exception $e)
 		{
-			$I->click(FrontEndEWAYPaymentPage::$paymentEWAY);
+			$I->click(FrontEndProductManagerJoomla3Page::$paymentEWAY);
 		}
 
 		$I->wantTo("checkout with card");
@@ -57,35 +58,35 @@ class CheckoutWithEWAYPayment extends CheckoutWithAuthorizeDPMPayment
 
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
-		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$acceptTerms, 30);
-		$I->scrollTo(FrontEndEWAYPaymentPage::$acceptTerms);
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndEWAYPaymentPage::$termAndConditionsId));
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->wait(0.5);
-		$I->waitForElementVisible(FrontEndEWAYPaymentPage::$checkoutFinalStep, 30);
-		$I->click(FrontEndEWAYPaymentPage::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 
 		try
 		{
-			$I->waitForElementNotVisible(FrontEndEWAYPaymentPage::$checkoutFinalStep, 10);
+			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 		}
 		catch (\Exception $e)
 		{
 			try
 			{
-				$I->waitForText(FrontEndEWAYPaymentPage::$messageAcceptTerms, 5, FrontEndEWAYPaymentPage::$locatorMessageAcceptTerms);
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 5, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
 			}
 			catch (\Exception $e)
 			{
-				$I->waitForElementVisible(FrontEndEWAYPaymentPage::$termAndConditions, 5);
-				$I->click(FrontEndEWAYPaymentPage::$termAndConditions);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 5);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			}
 
-			$I->waitForElementVisible(FrontEndEWAYPaymentPage::$checkoutFinalStep, 30);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 			$I->wait(0.5);
-			$I->click(FrontEndEWAYPaymentPage::$checkoutFinalStep);
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
 
 		$I->wait(2);
-		$I->dontSeeInCurrentUrl(FrontEndEWAYPaymentPage::$checkoutURL);
+		$I->dontSeeInCurrentUrl(FrontEndProductManagerJoomla3Page::$checkoutURL);
 	}
 }
