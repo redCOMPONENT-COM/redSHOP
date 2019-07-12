@@ -8,6 +8,8 @@
 
 namespace AcceptanceTester;
 
+use TaxRatePage;
+
 /**
  * Class SupplierManagerJoomla3Steps
  *
@@ -40,7 +42,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\TaxRatePage::$fieldValue, $taxRateValue);
 		$client->wait(0.5);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
-        $client->wait(0.5);
+		$client->wait(0.5);
 		$client->waitForElement(\TaxRatePage::$stateDropdown, 30);
 		if (isset($stateName))
 		{
@@ -68,14 +70,14 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 
 		$client->click(\TaxRatePage::$buttonSave);
 		try
-        {
-            $client->waitForElement(\TaxGroupPage::$selectorMissing,10);
+		{
+			$client->waitForElement(\TaxGroupPage::$selectorMissing,10);
 
-        }catch (\Exception $e)
-        {
-            $client->click(\TaxRatePage::$buttonSaveClose);
-            $client->waitForElement(\TaxGroupPage::$selectorMissing,10);
-        }
+		}catch (\Exception $e)
+		{
+			$client->click(\TaxRatePage::$buttonSaveClose);
+			$client->waitForElement(\TaxGroupPage::$selectorMissing,10);
+		}
 
 		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
 		$client->click(\TaxRatePage::$buttonCancel);
@@ -122,6 +124,46 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->click(\TaxRatePage::$buttonSave);
 		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
 		$client->click(\TaxRatePage::$buttonCancel);
+	}
+
+	/**
+	 * @param $TAXRatesName
+	 * @param $VATGroupName
+	 * @param $TaxRatesValue
+	 * @since 2.1.2
+	 */
+	public function addTAXRatesValueAmountLessZeroSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue)
+	{
+		$client = $this;
+		$client->amOnPage(\TaxRatePage::$url);
+		$client->click(\TaxRatePage::$buttonNew);
+		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->fillField(\TaxRatePage::$fieldName, $TAXRatesName);
+		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
+		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
+		$client->click(\TaxRatePage::$buttonSaveClose);
+		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
+	}
+
+	/**
+	 * @param $TAXRatesName
+	 * @param $VATGroupName
+	 * @param $TaxRatesValue
+	 * @since 2.1.2
+	 */
+	public function addTAXRatesValueAmountLessZeroSaveNew($TAXRatesName, $VATGroupName, $TaxRatesValue)
+	{
+		$client = $this;
+		$client->amOnPage(\TaxRatePage::$url);
+		$client->click(\TaxRatePage::$buttonNew);
+		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->fillField(\TaxRatePage::$fieldName, $TAXRatesName);
+		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
+		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
+		$client->click(\TaxRatePage::$buttonSaveNew);
+		$client->see(\TaxRatePage::$messageError, \TaxRatePage::$selectorMissing);
 	}
 
 	public function addTAXRatesValueAmountStringSave($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
@@ -238,11 +280,65 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->click(\TaxRatePage::$buttonCancel);
 	}
 
+	/**
+	 * @param $name
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function checkEdit($taxRateName)
+	{
+		$I =  $this;
+		$I->amOnPage(\TaxRatePage::$url);
+		$I->searchTAXRates($taxRateName);
+		$I->click($taxRateName);
+		$I->waitForText(TaxRatePage::$editTitle, 5, TaxRatePage::$selectorPageTitle);
+	}
+
 	public function deleteButton()
 	{
 		$client = $this;
 		$client->amOnPage(\TaxRatePage::$url);
 		$client->click(\TaxRatePage::$buttonDelete);
 		$client->acceptPopup();
+	}
+
+	/**
+	 * @param $taxRateName1
+	 * @param $taxRateName2
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function checkResetButton($taxRateName1, $taxRateName2)
+	{
+		$I =  $this;
+		$I->amOnPage(\TaxRatePage::$url);
+		$I->searchTAXRates($taxRateName1);
+		$I->click(TaxRatePage::$buttonReset);
+		$I->waitForText($taxRateName2, 5, TaxRatePage::$tableTaxRate);
+	}
+
+	/**
+	 * @param $taxRateName
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function checkSearchToolsEUCountry()
+	{
+		$I =  $this;
+		$I->amOnPage(\TaxRatePage::$url);
+		$I->waitForElementVisible(TaxRatePage::$searchTools, 30);
+		$I->click(TaxRatePage::$searchTools);
+		$I->waitForElementVisible(TaxRatePage::$eUCountry, 30);
+
+		$I->wantTo("Check EU Country");
+		$I->click(TaxRatePage::$eUCountry);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->waitForText('EU country', 30 , TaxRatePage::$selectorEUCountry);
+	}
+
+	public function checkEUCountry()
+	{
+		$I =  $this;
+		$I->amOnPage(\TaxRatePage::$url);
 	}
 }
