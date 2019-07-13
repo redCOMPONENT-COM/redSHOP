@@ -122,15 +122,15 @@ class ConfigurationAccessoryProductsCest
 		$I->wantTo ('I Want to Configuration Product Accessory No');
 		$I->configurationProductAccessory('No');
 
-		$I->wantTo('check add');
+		$I->wantTo('Check Add');
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->ConfigurationProductAccessoryOnCart($this->randomCategoryName, $this->productName, $this->productNameAccessories, 'No');
 
-		$I->wantTo('I Want to delete product');
+		$I->wantTo('I Want To Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productNameAccessories);
 
-		$I->wantTo('I Want to delete product');
+		$I->wantTo('I Want To Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 
