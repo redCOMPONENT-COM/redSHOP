@@ -509,7 +509,6 @@ class ConfigurationPage extends AdminJ3Page
 	 */
 	public static $twoWayRelatedYes = '//label[@id="twoway_related_product_1-lbl"]';
 
-
 	/**
 	 * @var string
 	 * @since 2.1.2
