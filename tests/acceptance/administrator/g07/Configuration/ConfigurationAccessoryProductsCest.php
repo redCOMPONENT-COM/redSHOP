@@ -134,7 +134,7 @@ class ConfigurationAccessoryProductsCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 
-		$I->wantTo('I Want to delete category');
+		$I->wantTo('I Want To Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->randomCategoryName);
 	}
