@@ -128,65 +128,65 @@ class OrderManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-    public static $iconEdit = '//a[@title="Edit order"]';
+	public static $iconEdit = '//a[@title="Edit order"]';
 
-    /**
-     * @var string
-     */
-    public static $nameXpath = "//td[4]/a";
+	/**
+	 * @var string
+	 */
+	public static $nameXpath = "//td[4]/a";
 
-    /**
-     * @var string
-     */
-    public static $fieldAttribute = "//select[@class='inputbox']";
+	/**
+	 * @var string
+	 */
+	public static $fieldAttribute = "//select[@class='inputbox']";
 
-    /**
-     * @var string
-     */
-    public static $valueAttribute = "//select[@class='inputbox']/option[2]";
+	/**
+	 * @var string
+	 */
+	public static $valueAttribute = "//select[@class='inputbox']/option[2]";
 
-    /**
-     * @var string
-     */
-    public static $adminFinalPriceEnd = "#tdtotalprdproduct1";
+	/**
+	 * @var string
+	 */
+	public static $adminFinalPriceEnd = "#tdtotalprdproduct1";
 
-    //button
+	//button
 
-    /**
-     * @var string
-     */
-    public static $buttonSavePay = "Save + Pay";
+	/**
+	 * @var string
+	 */
+	public static $buttonSavePay = "Save + Pay";
 
-    //selector
+	//selector
 
-    /**
-     * @var string
-     */
-    public static $messageSaveSuccess = "Order Status Successfully Saved For Order Number 1";
+	/**
+	 * @var string
+	 */
+	public static $messageSaveSuccess = "Order Status Successfully Saved For Order Number 1";
 
-    /**
-     * @var string
-     */
-    public static $messageDeleteSuccess = "Order detail deleted successfully";
+	/**
+	 * @var string
+	 */
+	public static $messageDeleteSuccess = "Order detail deleted successfully";
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
-    public static $deteleButton = '//div[@id="toolbar-delete"]';
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $deteleButton = '//div[@id="toolbar-delete"]';
 
-    /**
-     * Function to get Path $userName in Order item
-     *
-     * @param $userName
-     *
-     * @return string
-     */
-    public function returnSearch($userName)
-    {
-        $path = "//span[contains(text(), '" . $userName . "')]";
-        return $path;
-    }
+	/**
+	 * Function to get Path $userName in Order item
+	 *
+	 * @param $userName
+	 *
+	 * @return string
+	 */
+	public function returnSearch($userName)
+	{
+		$path = "//span[contains(text(), '" . $userName . "')]";
+		return $path;
+	}
 
 	/**
 	 * @var string

@@ -97,10 +97,10 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $keyMD5 = '//input[@id="jform_params_epay_paymentkey"]';
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
 	public static $fieldAccessId = "#jform_params_access_id" ;
 
 	/**
