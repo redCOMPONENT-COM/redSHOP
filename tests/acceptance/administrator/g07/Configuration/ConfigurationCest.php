@@ -49,7 +49,7 @@ class ConfigurationCest
 	public function allCaseAtConfigurations(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test enable Stockroom in Administrator');
-		$I = new AcceptanceTester\ConfigurationSteps($scenario);
+		$I = new Configuration\ConfigurationSteps($scenario);
 		$I->featureUsedStockRoom();
 
 		$I->wantTo('Test off Stockroom in Administrator');

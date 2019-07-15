@@ -136,4 +136,68 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 			$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 		}
 	}
+
+	/**
+	 * @param $categoryName
+	 * @param $titleSEO
+	 * @param $keySEO
+	 * @param $descriptionSEO
+	 * @param $productName
+	 * @param $titleSEOPD
+	 * @param $headingSEO
+	 * @throws Exception
+	 */
+	public function checkSEOCategoryProduct($categoryName,$titleSEO, $keySEO, $descriptionSEO, $productName, $titleSEOPD,$headingSEO,$customerInformation)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->waitForText($categoryName,30);
+		$usePage = new CategoryPage();
+		$I->waitForElementVisible($usePage->imageCategory($categoryName),30);
+		$I->click($usePage->imageCategory($categoryName));
+		$I->seeInPageSource($titleSEO);
+		$I->seeInPageSource($keySEO);
+		$I->seeInPageSource($descriptionSEO);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForText($productName,30, ProductManagerPage::$h1);
+		$I->seeInPageSource($titleSEOPD);
+		$I->seeInPageSource($headingSEO);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		try
+		{
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		}
+		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $checkoutURL);
+		$I->comment('checkout with private');
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $customerInformation['email']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $customerInformation['firstName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $customerInformation['lastName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $customerInformation['address']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		try
+		{
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->wait(0.5);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+	}
 }
