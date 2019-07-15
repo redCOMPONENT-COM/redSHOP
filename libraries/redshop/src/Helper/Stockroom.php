@@ -115,17 +115,11 @@ class Stockroom
 			$product = \RedshopProduct::getInstance($productId);
 			$db    = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('quantity')
+				->select('SUM(`quantity`) as Quantity')
 				->from($db->qn('#__redshop_product_stockroom_xref'))
 				->where($db->qn('product_id') . ' = ' . $db->quote($productId));
 
 			$stockValues = $db->setQuery($query)->loadAssocList();
-			$stock = 0;
-
-			foreach ($stockValues as $stockValue)
-			{
-				$stock += $stockValue['quantity'];
-			}
 
 			$stockTag     = strstr($html, "{stock_status");
 			$newStockTag  = explode("}", $stockTag);
@@ -159,7 +153,7 @@ class Stockroom
 			{
 				$stockStatus = '';
 			}
-			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stock < 1)
+			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stockValues < 1)
 			{
 				if (($stockStatuses['preorder'] && !$stockStatuses['preorder_stock']) || !$stockStatuses['preorder'])
 				{
