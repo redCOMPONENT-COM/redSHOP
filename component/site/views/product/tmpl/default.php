@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,6 +62,12 @@ else
 	$template_desc .= "<div id=\"beskrivelse_lille\">{product_s_desc}</div>\r\n<div id=\"beskrivelse_stor\">{product_desc}</div>\r\n";
 	$template_desc .= "<div class=\"product_related_products\">{related_product:related_products}</div>\r\n</div>\r\n</div>\r\n";
 	$template_desc .= "<div id=\"produkt_anmeldelser\">\r\n{product_rating}</div>\r\n</div>\r\n</div>";
+}
+
+//Replace Product price when config enable discount is "No"
+if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
+{
+	$template_desc = str_replace('{product_old_price}', '', $template_desc);
 }
 ?>
 
@@ -153,11 +159,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 			'&Itemid=' . $this->itemId
 		);
 
-		if (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 0)
+		if ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 0)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . $nextproducts->product_name . "" . Redshop::getConfig()->get('DAFULT_NEXT_LINK_SUFFIX') . '</a>';
 		}
-        elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
+        elseif ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . Redshop::getConfig()->get('CUSTOM_NEXT_LINK_FIND') . '</a>';
 		}
@@ -178,7 +184,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 			'&Itemid=' . $this->itemId
 		);
 
-		if (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 0)
+		if (Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 0)
 		{
 			$prevbutton = '<a href="' . $prevlink . '">' . Redshop::getConfig()->get('DAFULT_PREVIOUS_LINK_PREFIX') . "" . $previousproducts->product_name . '</a>';
 		}
@@ -500,7 +506,7 @@ if (strstr($template_desc, "{product_delivery_time}"))
 // Facebook I like Button
 if (strstr($template_desc, "{facebook_like_button}"))
 {
-	$uri           = JFactory::getURI();
+	$uri           = JUri::getInstance();
 	$facebook_link = urlencode(JFilterOutput::cleanText($uri->toString()));
 	$facebook_like = '<iframe src="' . $Scheme . '://www.facebook.com/plugins/like.php?href=' . $facebook_link . '&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>';
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
@@ -517,7 +523,7 @@ if (strstr($template_desc, "{facebook_like_button}"))
 if (strstr($template_desc, "{googleplus1}"))
 {
 	JHTML::script('https://apis.google.com/js/plusone.js');
-	$uri           = JFactory::getURI();
+	$uri           = JUri::getInstance();
 	$google_like   = '<g:plusone></g:plusone>';
 	$template_desc = str_replace("{googleplus1}", $google_like, $template_desc);
 }
@@ -532,7 +538,7 @@ if (strstr($template_desc, "{bookmark}"))
 }
 
 //  Extra field display
-$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT);
+$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT, null);
 $template_desc  = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->data->product_id, "1", $template_desc);
 
 // Product thumb image
@@ -1566,7 +1572,7 @@ if (strstr($template_desc, "{product_rating_summary}"))
 
 if (strstr($template_desc, "{product_rating}"))
 {
-	if (Redshop::getConfig()->get('FAVOURED_REVIEWS') != "" || Redshop::getConfig()->get('FAVOURED_REVIEWS') != 0)
+	if ((int) Redshop::getConfig()->get('FAVOURED_REVIEWS') !== 0)
 	{
 		$mainblock = Redshop::getConfig()->get('FAVOURED_REVIEWS');
 	}

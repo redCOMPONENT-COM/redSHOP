@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -87,9 +87,13 @@ JFactory::getDocument()->addScriptDeclaration('
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 							?>
-							<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
-								<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
-							</a>
+							<?php if ($value) : ?>
+								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
+							<?php endif; ?>
+									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
+							<?php if ($value) : ?>
+								</a>
+							<?php endif; ?>
 							<?php echo $this->form->getInput('giftcard_bgimage') ?>
 						</div>
 					</div>
@@ -110,9 +114,13 @@ JFactory::getDocument()->addScriptDeclaration('
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 							?>
-							<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
-								<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
-							</a>
+							<?php if ($value) : ?>
+								<a class="joom-box" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'giftcard/' . $value; ?>">
+							<?php endif; ?>
+									<img src="<?php echo $giftCardImagePath;?>" class="img-polaroid">
+							<?php if ($value) : ?>
+								</a>
+							<?php endif; ?>
 							<?php echo $this->form->getInput('giftcard_image') ?>
 						</div>
 					</div>

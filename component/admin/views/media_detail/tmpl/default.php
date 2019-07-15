@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -35,8 +35,24 @@ JFactory::getDocument()->addScriptDeclaration('
 	$(document).ready(function () {
 		$("#media_section").on("change", function(){
 			$("#section_id").select2("val","");
+
+			if ($(this).val() == "catalog")
+			{
+				$("[name=media_type]").val("document").trigger("change.select2");
+				$("[name=media_type]").attr("disabled", true);
+			} else {
+				$("[name=media_type]").attr("disabled", false);
+			}
 		});
+
 		var media_type = $("select[name=media_type]").val();
+		var media_section   = "' . $this->detail->media_section . '";
+
+		if (media_section == "catalog")
+		{
+			$("[name=media_type]").val("document").trigger("change.select2");
+			$("[name=media_type]").attr("disabled", true);
+		}
 
 		if (media_type == "youtube"){
 			$("#youtube-wrapper").show();
@@ -130,7 +146,11 @@ if ($showbuttons)
 			// None zip images
 			switch (form.media_type.value) {
 				case 'youtube':
-					break;
+					var youtube_id = $("[name=youtube_id]").val();
+
+					if (youtube_id == '' || youtube_id == undefined) {
+						return cancelSubmit('<?php echo JText::_('COM_REDSHOP_TYPE_YOUTUBE_VIDEO_ID', true); ?>');
+					}
 				default:
 					<?php $input = JFactory::getApplication()->input; ?>
 					<?php $checkCid = $input->get('cid', []); ?>

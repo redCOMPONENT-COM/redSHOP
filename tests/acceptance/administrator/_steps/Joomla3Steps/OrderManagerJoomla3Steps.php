@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
-	
+
 	/**
 	 * @param $nameUser
 	 * @throws \Exception
@@ -103,7 +103,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->searchOrder($nameUser);
 		$I->waitForElement(\OrderManagerPage::$deleteFirst, 30);
 		$I->click(\OrderManagerPage::$deleteFirst);
-		$I->click(\OrderManagerPage::$buttonDelete);
+		$I->waitForElementVisible(\OrderManagerPage::$buttonDeleteOder, 30);
+		$I->click(\OrderManagerPage::$buttonDeleteOder);
 		$I->acceptPopup();
 		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
 	}
@@ -155,9 +156,15 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		$I->checkReview($nameProduct);
 		$I->see($nameProduct);
+		$I->waitForElementVisible(\ProductManagerPage::$addToCart, 30);
 		$I->click(\ProductManagerPage::$addToCart);
-		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
-		$I->see(\ProductManagerPage::$alertSuccessMessage, '.alert-message');
+		try
+		{
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}catch (\Exception $e)
+		{
+			$I->click(\ProductManagerPage::$addToCart);
+		}
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
 		$I->click(\ProductManagerPage::$buttonLogin);
@@ -193,11 +200,11 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 		try{
-            $I->waitForElement(\OrderManagerPage::$productId, 5);
-        }catch (\Exception $e)
-        {
-            $I->executeJS("jQuery('.button-apply').click()");
-        }
+			$I->waitForElement(\OrderManagerPage::$productId, 5);
+		}catch (\Exception $e)
+		{
+			$I->executeJS("jQuery('.button-apply').click()");
+		}
 		$I->waitForElement(\OrderManagerPage::$productId, 10);
 		$I->scrollTo(\OrderManagerPage::$productId);
 		$I->waitForElement(\OrderManagerPage::$productId, 30);
@@ -210,8 +217,9 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(1);
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->wait(1);
-		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
 		$adminFinalPriceEnd = $price+$priceAttribute;
+		$I->waitForText("$adminFinalPriceEnd",30);
+		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
 		$I->waitForElement(\OrderManagerPage::$adminFinalPriceEnd, 60);
 		$I->click(\OrderManagerPage::$buttonSave);
 		$I->scrollTo(\OrderManagerPage::$adminFinalPriceEnd);
@@ -242,8 +250,14 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkReview($nameProduct);
 		$I->see($nameProduct);
 		$I->click(\ProductManagerPage::$addToCart);
-		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
-		$I->see(\ProductManagerPage::$alertSuccessMessage);
+		try
+		{
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}catch (\Exception $e)
+		{
+			$I->click(\ProductManagerPage::$addToCart);
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
 		$I->click(\ProductManagerPage::$buttonLogin);

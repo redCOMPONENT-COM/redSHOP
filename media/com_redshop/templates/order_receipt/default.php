@@ -85,7 +85,7 @@
 			</tr>
 			<!--  {product_loop_start} -->
 			<tr>
-				<td>{product_name}<br/>{product_attribute}{product_accessory}{product_userfields}{product_wrapper}</td>
+				<td>{product_name}<br/>{product_attribute}{product_attribute_number}{product_accessory}{product_userfields}{product_wrapper}</td>
 				<td>{product_thumb_image}</td>
 				<td>{product_price}</td>
 				<td>{product_quantity}</td>

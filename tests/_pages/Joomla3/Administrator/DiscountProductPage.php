@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,6 +61,11 @@ class DiscountProductPage extends AdminJ3Page
 	public static $fieldCategory = "#jform_category_ids";
 
 	/**
+	 * @var string
+	 */
+	public static $inputCategoryID = "#s2id_autogen1";
+
+	/**
 	 * @var array
 	 */
 	public static $fieldShopperGroup = "#jform_shopper_group";
@@ -74,4 +79,10 @@ class DiscountProductPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $messageErrorAmountZero = 'Oops! Discount amount must be greater than 0';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $deleteSuccess = '1 item successfully deleted';
 }

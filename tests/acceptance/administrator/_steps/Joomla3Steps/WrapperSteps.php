@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace AcceptanceTester;
@@ -96,5 +96,24 @@ class WrapperSteps extends AdminManagerJoomla3Steps
 		$I->waitForText(\WrapperPage::$buttonDelete, 30);
 		$I->click(\WrapperPage::$buttonDelete);
 		$I->dontSeeElement(['link' => $nameWrapper]);
+	}
+
+	/**
+	 * @param $name
+	 * @param $categoryname
+	 * @param $price
+	 * @throws \Exception
+	 * @since 2.1.2.2
+	 */
+	public function checkWrapperInvalidField($name, $price)
+	{
+		$I = $this;
+		$I->amOnPage(\WrapperPage::$URL);
+		$I->click(\WrapperPage::$buttonNew);
+		$I->fillField(\WrapperPage::$wrapperName, $name);
+		$I->fillField(\WrapperPage::$wrapperPrice, $price);
+		$I->click(\WrapperPage::$buttonSaveClose);
+		$I->seeInPopup(\WrapperPage::$messageCheckInvalidPrice);
+		$I->acceptPopup();
 	}
 }

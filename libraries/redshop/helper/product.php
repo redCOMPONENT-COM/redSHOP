@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -988,11 +988,16 @@ class RedshopHelperProduct
 	public static function getProductTax($productId = 0, $productPrice = 0.0, $userId = 0, $taxExempt = 0)
 	{
 		$redshopUser = JFactory::getSession()->get('rs_user');
+		$app         = JFactory::getApplication();
 
-		if ($userId == 0)
+		if ($userId == 0 && !$app->isClient('administrator'))
 		{
 			$user   = JFactory::getUser();
 			$userId = $user->id;
+		}
+		else
+		{
+			$userId = $app->input->getInt('user_id', 0);
 		}
 
 		$productInfor = $productId != 0 ? self::getProductById($productId) : array();

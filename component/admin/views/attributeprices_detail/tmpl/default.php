@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -30,16 +30,16 @@ $producthelper = productHelper::getInstance();
 			return;
 		}
 		if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
-			alert("ATTRIBUTE_PRICE_NOT_VALID");
+			alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_NOT_VALID', true ); ?>");
 			form.product_price.focus();
 		} else if (isNaN(form.price_quantity_start.value)) {
-			alert("QUANTITY_NOT_VALID");
+			alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_START_QUANTITY_NOT_VALID', true ); ?>");
 			form.product_price.focus();
 		} else if (isNaN(form.price_quantity_end.value)) {
-			alert("QUANTITY_NOT_VALID");
+			alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_END_QUANTITY_NOT_VALID', true ); ?>");
 			form.product_price.focus();
 		} else if (isNaN(form.price_quantity_start.value) > isNaN(form.price_quantity_end.value)) {
-			alert("ERROR_SAVING_PRICE_QUNTITY_DETAIL");
+			alert("<?php echo JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL', true ); ?>");
 			form.product_price.focus();
 		} else {
 			submitform(pressbutton);
