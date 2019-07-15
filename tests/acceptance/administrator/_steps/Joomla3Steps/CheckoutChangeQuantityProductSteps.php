@@ -53,9 +53,9 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 		}
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 30);
 		$I->wait(0.5);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		try
 		{
@@ -66,8 +66,8 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		}
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
 		$I->executeJS("jQuery('#checkout_final').click()");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressAddress);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, "address");
@@ -77,7 +77,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->scrollTo(\CheckoutChangeQuantityProductPage::$acceptTerms);
 		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS("jQuery('#checkout_final').click()");

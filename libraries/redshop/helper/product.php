@@ -988,11 +988,16 @@ class RedshopHelperProduct
 	public static function getProductTax($productId = 0, $productPrice = 0.0, $userId = 0, $taxExempt = 0)
 	{
 		$redshopUser = JFactory::getSession()->get('rs_user');
+		$app         = JFactory::getApplication();
 
-		if ($userId == 0)
+		if ($userId == 0 && !$app->isClient('administrator'))
 		{
 			$user   = JFactory::getUser();
 			$userId = $user->id;
+		}
+		else
+		{
+			$userId = $app->input->getInt('user_id', 0);
 		}
 
 		$productInfor = $productId != 0 ? self::getProductById($productId) : array();

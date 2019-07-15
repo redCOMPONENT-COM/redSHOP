@@ -8,7 +8,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
-	use AcceptanceTester\ConfigurationSteps;
+	use Configuration\ConfigurationSteps;
 
 class CheckoutSpecificShopperGroupsCest
 {
@@ -91,7 +91,7 @@ class CheckoutSpecificShopperGroupsCest
 	public function checkoutWithSpecificShopperGroups(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
 		$I->wantTo('Test enable Stockroom in Administrator');
-		$I = new AcceptanceTester\ConfigurationSteps($scenario);
+		$I = new Configuration\ConfigurationSteps($scenario);
 		$I->wantTo('Test off Stockroom in Administrator');
 		$I->featureOffStockRoom();
 
