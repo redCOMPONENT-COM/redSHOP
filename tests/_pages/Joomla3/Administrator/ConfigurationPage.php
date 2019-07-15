@@ -469,7 +469,7 @@ class ConfigurationPage extends AdminJ3Page
 	public static $productTab = '//a[@href="#producttab"]';
 	/**
 	 * @var string
-	 * @sice 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $stockRoomAttributeYes = '//label[@id="display_out_of_stock_attribute_data_1-lbl"]';
 
