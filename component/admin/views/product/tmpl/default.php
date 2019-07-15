@@ -166,7 +166,7 @@ JHtml::_('redshopjquery.framework');
 					<th nowrap="nowrap"><?php echo JText::_($listInProduct->title); ?></th>
 				<?php endforeach; ?>
 				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA', 'media', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JText::_('COM_REDSHOP_MEDIA'); ?>
 				</th>
 				<th>
 					<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>
