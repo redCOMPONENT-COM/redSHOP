@@ -38,24 +38,14 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 		$I->wait(0.5);
-
-		try
-		{
-			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
-		}
-		catch (\Exception $e)
-		{
-			$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
-		}
-
+		$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->wait(0.5);
-		
+
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -77,11 +67,11 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		{
 			try
 			{
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 5, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 5, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
 			}
 			catch (\Exception $e)
 			{
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 5);
+				$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			}
 
