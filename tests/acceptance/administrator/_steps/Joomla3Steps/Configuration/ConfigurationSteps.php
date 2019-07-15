@@ -6,7 +6,9 @@
  * Time: 3:51 PM
  */
 
-namespace AcceptanceTester;
+namespace Configuration;
+use AcceptanceTester\AdminManagerJoomla3Steps;
+use ConfigurationPage;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
@@ -149,7 +151,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->waitForElement($userConfigurationPage->returnChoice($state), 30);
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
-		
+
 		// Get default vat
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);
@@ -215,10 +217,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($addcart)
 		{
 			case 'product':
-                $I->click(\ConfigurationPage::$addCartProduct);
+				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
-                $I->click(\ConfigurationPage::$addCartAttibute);
+				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
 		switch ($allowPreOrder)
@@ -440,6 +442,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		}
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->searchOrder($order);
+		$I->waitForElementVisible(\OrderManagerPage::$iconEdit, 30);
 		$I->click(\OrderManagerPage::$iconEdit);
 		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
@@ -454,5 +457,68 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->see($categoryName);
 		$I->see($priceProduct);
 		$I->see($priceTotal);
+	}
+
+	/**
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function productsUsedStockRoomAttribute()
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeYes, 30);
+		$I->click(ConfigurationPage::$stockRoomAttributeYes);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function productsOffStockRoomAttribute()
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeNo, 30);
+		$I->click(ConfigurationPage::$stockRoomAttributeNo);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $function
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function checkConfigurationProductRelated($function)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$relatedProductTab, 30);
+		$I->click(ConfigurationPage::$relatedProductTab);
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(ConfigurationPage::$twoWayRelatedYes, 30);
+				$I->click(ConfigurationPage::$twoWayRelatedYes);
+				break;
+			case 'No':
+				$I->waitForElementVisible(ConfigurationPage::$twoWayRelatedNo, 30);
+				$I->click(ConfigurationPage::$twoWayRelatedNo);
+				break;
+		}
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 }
