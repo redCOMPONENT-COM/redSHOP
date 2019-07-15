@@ -78,4 +78,11 @@ class Frontend2PaymentPage extends FrontEndProductManagerJoomla3Page
 	 * @since 2.1.2
 	 */
 	public static $buttonAmazon = '//div[@id="rs_payment_amazoncheckout"]/label';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $oderReceipt = 'Order Receipt';
+
 }

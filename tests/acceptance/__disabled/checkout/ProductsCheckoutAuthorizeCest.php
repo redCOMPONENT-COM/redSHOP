@@ -27,7 +27,7 @@ class ProductsCheckoutAuthorizeCest
 	 */
 	public function testAuthorizePaymentPlugin(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Checkout on Front End with Authorize Net Payment Plugin');
+		$I->wantTo('Test Product Checkout On Front End With Authorize Net Payment Plugin');
 		$I->doAdministratorLogin();
 		$pathToPlugin = $I->getConfig('repo folder') . 'plugins/redshop_payment/rs_payment_authorize/';
 		$I->installExtensionFromFolder($pathToPlugin, 'Plugin');
@@ -52,7 +52,7 @@ class ProductsCheckoutAuthorizeCest
 			"email" => "test@test" . rand() . ".com",
 			"firstName" => "Tester",
 			"lastName" => "User",
-			"address" => "Some Place in the World",
+			"address" => "Some Place in The World",
 			"postalCode" => "23456",
 			"city" => "Bangalore",
 			"country" => "India",
