@@ -119,7 +119,7 @@ class ConfigurationAccessoryProductsCest
 	{
 		$I->wantTo('Test Product Accessories');
 		$I = new ProductsConfigurationSteps($scenario);
-		$I->wantTo ('I Want to Configuration Product Accessory No');
+		$I->wantTo ('I Want To Configuration Product Accessory No');
 		$I->configurationProductAccessory('No');
 
 		$I->wantTo('Check Add');
