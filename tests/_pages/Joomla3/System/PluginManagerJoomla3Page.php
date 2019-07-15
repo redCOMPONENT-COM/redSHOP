@@ -87,15 +87,45 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $merchantID = '//input[@id="jform_params_merchant_id"]';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $keyMD5 = '//input[@id="jform_params_epay_paymentkey"]';
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+	public static $fieldAccessId = "#jform_params_access_id" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldTransactionID = "#jform_params_transaction_id" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldMd5Key = "#jform_params_md5_key" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldTestMode = "//div[@id='jform_params_is_test_chzn']/a" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $optionTestModeYes= "//div[@id='jform_params_is_test_chzn']/div/ul/li[contains(text(), 'Yes')]";
 
 	/**
 	 * Function to return Path for the Plugin Name to be searched for
