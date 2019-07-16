@@ -503,4 +503,57 @@ class ConfigurationPage extends AdminJ3Page
 	 */
 	public static $twoWayRelatedNo = '//label[@id="twoway_related_product_0-lbl"]';
 
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $ordersTab = '//a[@href="#ordertab"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $resetOderId = '//a[@title="Order ID Reset"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $sendOrderEmail = '//div[@id="s2id_order_mail_after"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $inputOderEmail = '//input[@id="s2id_autogen44_search"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $enableInvoiceEmailYes = '//label[@id="invoice_mail_enable_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $enableInvoiceEmailNo = '//label[@id="invoice_mail_enable_0-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $sendMailToCustomerInOrderYes = '//label[@id="send_mail_to_customer_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $sendMailToCustomerInOrderNo = '//label[@id="send_mail_to_customer_0-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $afterPayment = '//ul[@id="select2-results-44"]/li[3]';
 }

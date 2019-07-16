@@ -521,4 +521,80 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
+
+	public function ConfigurationOder ($function1, $function2)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$ordersTab, 30);
+		$I->click(ConfigurationPage::$ordersTab);
+		switch ($function1)
+		{
+			case 'Reset Id Oder':
+				$I->waitForElementVisible(ConfigurationPage::$resetOderId, 30);
+				$I->click(ConfigurationPage::$resetOderId);
+				$I->acceptPopup();
+				$I->wait(0.5);
+				$I->acceptPopup();
+				break;
+			case 'Send Oder Email':
+				switch ($function2)
+				{
+					case 'After Payment':
+						$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+						$I->click(ConfigurationPage::$sendOrderEmail);
+						$I->waitForElementVisible(ConfigurationPage::$afterPayment);
+						$I->click(ConfigurationPage::$afterPayment);
+						break;
+					case 'After Payment, but send before to administrator':
+						$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+						$I->click(ConfigurationPage::$sendOrderEmail);
+						$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
+						$I->fillField(ConfigurationPage::$inputOderEmail, $function2);
+						$usePage = new ConfigurationPage();
+						$I->waitForElement($usePage->returnChoice($function2), 30);
+						$I->click($usePage->returnChoice($function2));
+						break;
+					case 'Before Payment':
+						$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+						$I->click(ConfigurationPage::$sendOrderEmail);
+						$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
+						$I->fillField(ConfigurationPage::$inputOderEmail, $function2);
+						$usePage = new ConfigurationPage();
+						$I->waitForElement($usePage->returnChoice($function2), 30);
+						$I->click($usePage->returnChoice($function2));
+						break;
+				}
+				break;
+			case 'Enable In Voice Email':
+				switch ($function2)
+				{
+					case 'Yes':
+						$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailYes, 30);
+						$I->click(ConfigurationPage::$enableInvoiceEmailYes);
+						break;
+					case 'No':
+						$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailNo, 30);
+						$I->click(ConfigurationPage::$enableInvoiceEmailNo);
+						break;
+				}
+				break;
+			case 'Send mail to customer in oder':
+				switch ($function2)
+				{
+					case 'Yes':
+						$I->waitForElementVisible(ConfigurationPage::$sendMailToCustomerInOrderYes, 30);
+						$I->click(ConfigurationPage::$sendMailToCustomerInOrderYes);
+						break;
+					case 'No':
+						$I->waitForElementVisible(ConfigurationPage::$sendMailToCustomerInOrderNo, 30);
+						$I->click(ConfigurationPage::$sendMailToCustomerInOrderNo);
+						break;
+				}
+				break;
+		}
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
 }
