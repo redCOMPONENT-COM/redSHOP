@@ -222,19 +222,20 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		if (empty($this->name))
 		{
-			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */
+			setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_MISSING_DISCOUNT_NAME'), 'error');
 
 			return false;
 		}
 
 		if (empty($this->amount))
 		{
-			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_AMOUNT_MUST_BE_LARGER_THAN_ZERO'), 'error');
 
 			return false;
 		}
 
-		if (empty($this->type))
+		if (is_int($this->type))
 		{
 			/** @scrutinizer ignore-deprecated */
 			$this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DISCOUNT_TYPE_IS_REQUIRED'), 'error');
@@ -244,7 +245,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		if (empty($this->discount_product) && empty($this->category_id) && empty($this->manufacturer_id))
 		{
-			$this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
 
 			return false;
 		}
@@ -325,7 +326,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 			if (!$db->setQuery($query)->execute())
 			{
-				$this->setError($db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */  $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 				return false;
 			}
