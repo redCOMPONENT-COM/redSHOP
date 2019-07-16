@@ -176,6 +176,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 		);
 
 		$msg = $results[0]->msg;
+		$type = (!empty($results[0]->type)) ? $results[0]->type : '';
 
 		if (array_key_exists("order_id_temp", $results[0]))
 		{
@@ -218,7 +219,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 			        JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id, false
             );
 
-			$this->setRedirect($redirect_url, $msg);
+			$this->setRedirect($redirect_url, $msg, $type);
 		}
 	}
 
