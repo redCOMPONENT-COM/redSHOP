@@ -9,6 +9,7 @@
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
+use OrderManagerPage;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
@@ -424,9 +425,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
 	/**
-	 * @param $price
-	 * @param $order
-	 */
+ * @param $price
+ * @param $order
+ */
 	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
 	{
 		$I = $this;
@@ -520,5 +521,52 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $price
+	 * @param $order
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @param $status
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkPriceTotalHaveStatusOder($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod, $status)
+	{
+		$I = $this;
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+		$I->amOnPage(OrderManagerPage::$URL);
+		$I->searchOrder($order);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
+		$I->wait(0.5);
+		$I->click(OrderManagerPage::$iconEdit);
+		$I->waitForText(OrderManagerPage::$titlePage,30, OrderManagerPage:: $h1 );
+		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$firstName = 'First Name: '.$firstName;
+		$lastName = 'Last Name: '.$lastName;
+		$I->see($firstName);
+		$I->see($lastName);
+		$I->see($paymentMethod);
+		$I->see($productName);
+		$I->see($categoryName);
+		$I->see($priceProduct);
+		$I->see($priceTotal);
+		$I->see($status);
 	}
 }
