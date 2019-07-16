@@ -167,7 +167,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->seeInPageSource($headingSEO);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-		try{
+		try
+		{
 			$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		}catch (\Exception $e)
 		{
