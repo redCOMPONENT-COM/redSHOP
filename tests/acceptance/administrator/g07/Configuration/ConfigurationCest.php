@@ -9,6 +9,64 @@ use Configuration\ConfigurationSteps;
  */
 class ConfigurationCest
 {
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $resetIdOder;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $sendOderEmail;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $afterPayment;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $beforePayment;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $afterPayment2;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $enableInVoiceEmail;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $sendMailToCustomerInOder;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $Yes;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $No;
+
+	/**
+	 * ConfigurationCest constructor.
+	 * @since 2.1.2
+	 */
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
@@ -55,6 +113,8 @@ class ConfigurationCest
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{

@@ -522,6 +522,12 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @param $function1
+	 * @param $function2
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
 	public function ConfigurationOder ($function1, $function2)
 	{
 		$I = $this;
