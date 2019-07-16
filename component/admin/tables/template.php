@@ -246,7 +246,7 @@ class RedshopTableTemplate extends RedshopTable
 
 		if (empty($this->section))
 		{
-			$this->setError(JText::_('COM_REDSHOP_TEMPLATE_ERROR_SELECT_SECTION'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_TEMPLATE_ERROR_SELECT_SECTION'));
 			return false;
 		}
 
