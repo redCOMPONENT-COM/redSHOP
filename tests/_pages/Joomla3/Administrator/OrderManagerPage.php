@@ -128,7 +128,7 @@ class OrderManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-    public static $iconEdit = '(//a[@title="Edit order"])[1]';
+	public static $iconEdit = '(//a[@title="Edit order"])[1]';
 
 	/**
 	 * @var string
@@ -173,7 +173,7 @@ class OrderManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-    public static $buttonDeleteOder = '//div[@id="toolbar-delete"]';
+	public static $buttonDeleteOder = '//div[@id="toolbar-delete"]';
 
 	/**
 	 * Function to get Path $userName in Order item
