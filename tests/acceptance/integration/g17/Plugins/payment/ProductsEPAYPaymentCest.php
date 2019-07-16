@@ -298,7 +298,7 @@ class ProductsEPAYPaymentCest
 		$I->wantTo('I want to Create Product');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
-		$I->wantTo('I want to Checkout With EPAY');
+		$I->wantTo('I want to Checkout With EPAY payment');
 		$I = new CheckoutWithEPAYPayment($scenario);
 		$I->CheckoutWithEPAYPayment($this->productName, $this->categoryName, $this->customerInformation);
 
