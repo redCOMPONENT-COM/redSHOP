@@ -13,7 +13,7 @@ use FrontEndProductManagerJoomla3Page;
 /**
  * Class CheckoutWithEWAYPayment
  * @package Frontend\payment
- * @since 2.1.2
+ * @since 2.1.3
  */
 class CheckoutWithEWAYPayment extends CheckoutWithAuthorizeDPMPayment
 {
@@ -23,7 +23,7 @@ class CheckoutWithEWAYPayment extends CheckoutWithAuthorizeDPMPayment
 	 * @param $categoryName
 	 * @param $customerInformation
 	 * @throws \Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function checkoutProductWithEWAYPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation)
 	{

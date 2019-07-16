@@ -22,103 +22,103 @@ use Frontend\payment\CheckoutWithEWAYPayment;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.1.2
+ * @since    2.1.3
  */
 class ProductsCheckoutEWAYCest
 {
 	/**
 	 * @var \Faker\Generator
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $faker;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $categoryName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $productName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $productNumber;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $productPrice;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $minimumQuantity;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $maximumQuantity;
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $customerInformation;
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $checkoutAccountInformation;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $group;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $extensionURL;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $pluginName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $pluginURL;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $package;
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $cartSetting;
 
 	/**
 	 * ProductsCheckoutEWAYCest constructor.
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function __construct()
 	{
@@ -168,7 +168,7 @@ class ProductsCheckoutEWAYCest
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'E-Way Payments';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->pakage         = 'plg_redshop_payment_rs_payment_eway.zip';
+		$this->package         = 'plg_redshop_payment_rs_payment_eway.zip';
 
 		$this->checkoutAccountInformation = array(
 			"customerID" => "87654321",
@@ -184,7 +184,7 @@ class ProductsCheckoutEWAYCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * @since  2.1.2
+	 * @since  2.1.3
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -194,12 +194,12 @@ class ProductsCheckoutEWAYCest
 	/**
 	 * @param AdminManagerJoomla3Steps $I
 	 * @throws Exception
-	 * @since  2.1.2
+	 * @since  2.1.3
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo("install plugin payment E-Way");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
@@ -211,7 +211,7 @@ class ProductsCheckoutEWAYCest
 	 * @param ConfigurationSteps $I
 	 * @param $scenario
 	 * @throws Exception
-	 * @since  2.1.2
+	 * @since  2.1.3
 	 */
 	public function testEWAYPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
@@ -238,7 +238,7 @@ class ProductsCheckoutEWAYCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * @since  2.1.2
+	 * @since  2.1.3
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{

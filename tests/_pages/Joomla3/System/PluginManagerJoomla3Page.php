@@ -118,19 +118,19 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $customerID = "#jform_params_eway_customer_id";
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $visa = "//input[@id='jform_params_accepted_credict_card0']";
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $masterCard = "//input[@id='jform_params_accepted_credict_card1']";
 
