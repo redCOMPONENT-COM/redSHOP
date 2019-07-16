@@ -522,10 +522,10 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $totalFinalCheckout = '(//div[@class="form-group total"])/div';
 
-    /**
-     * @var string
-     * @since 2.1.2
-     */
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
 	public static $messageInvalidVoucher = 'The discount code is not valid';
 
 	/**

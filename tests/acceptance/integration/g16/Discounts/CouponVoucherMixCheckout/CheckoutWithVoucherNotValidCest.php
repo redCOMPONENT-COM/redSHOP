@@ -146,7 +146,7 @@ class CheckoutWithVoucherNotValidCest
 	 * @throws Exception
 	 * @since 2.1.2
 	 */
-	public function createCategory(AcceptanceTester $I, $scenario)
+	public function CheckOutWithVoucherNotValid(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create category for use in Voucher test');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -162,7 +162,7 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithInvalidVoucher($this->productName , $this->categoryName, $this->invalidVoucher);
+		$I->checkoutWithInvalidVoucher($this->productName, $this->categoryName, $this->invalidVoucher);
 
 		$I->wantTo('Test delete Voucher in Administrator');
 		$I = new VoucherManagerJoomla3Steps($scenario);
