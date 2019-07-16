@@ -298,7 +298,7 @@ class RedshopModelUser_detail extends RedshopModel
 					}
 					else
 					{
-						/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ 'You can not delete any superuser');
+						/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ JText::_('COM_REDSHOP_USER_DETAIL_CANNOT_DELETE_SUPERUSER'));
 
 						return false;
 					}
