@@ -540,7 +540,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->waitForElementVisible(ConfigurationPage::$resetOderId, 30);
 				$I->click(ConfigurationPage::$resetOderId);
 				$I->acceptPopup();
-				$I->wait(0.5);
+				$I->wait(1);
 				$I->acceptPopup();
 				break;
 
