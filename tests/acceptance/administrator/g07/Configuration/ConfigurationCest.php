@@ -121,6 +121,12 @@ class ConfigurationCest
 		$I->doAdministratorLogin();
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.2
+	 */
 	public function allCaseAtConfigurations(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test enable Stockroom in Administrator');
