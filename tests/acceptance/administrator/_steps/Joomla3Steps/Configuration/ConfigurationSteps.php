@@ -575,6 +575,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 						break;
 				}
 				break;
+
 			case 'Enable In Voice Email':
 				switch ($function2)
 				{
