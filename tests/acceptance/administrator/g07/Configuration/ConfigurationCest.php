@@ -154,35 +154,35 @@ class ConfigurationCest
 		$I->wantTo('setup VAT at admin');
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
-		$I->wantTo('Test reset id oder');
+		$I->wantTo('Test Configuration Oder reset id oder');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->resetIdOder, 0);
 
-		$I->wantTo('Test send oder email After Payment');
+		$I->wantTo('Test Configuration Oder oder email After Payment');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendOderEmail, $this->afterPayment);
 
-		$I->wantTo('Test send oder email After Payment, but send before to administrator');
+		$I->wantTo('Test Configuration Oder send oder email After Payment, but send before to administrator');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendOderEmail, $this->afterPayment2);
 
-		$I->wantTo('Test send oder email Before Payment');
+		$I->wantTo('Test Configuration Oder send oder email Before Payment');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendOderEmail, $this->beforePayment);
 
-		$I->wantTo('Test Enable In Voice Email Yes');
+		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->enableInVoiceEmail, $this->Yes);
 
-		$I->wantTo('Test Enable In Voice Email No');
+		$I->wantTo('Test Configuration OderEnable In Voice Email No');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->enableInVoiceEmail, $this->No);
 
-		$I->wantTo('Test Send mail to customer in oder Yes');
+		$I->wantTo('Test Configuration Oder Send mail to customer in oder Yes');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendMailToCustomerInOder, $this->Yes);
 
-		$I->wantTo('Test Send mail to customer in oder No');
+		$I->wantTo('Test Configuration Oder Send mail to customer in oder No');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendMailToCustomerInOder, $this->No);
 	}
