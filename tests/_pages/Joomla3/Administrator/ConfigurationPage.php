@@ -556,4 +556,28 @@ class ConfigurationPage extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $afterPayment = '//ul[@id="select2-results-44"]/li[3]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $noneButton = '//label[@id="invoice_mail_send_option_0-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $administratorButton = '//label[@id="invoice_mail_send_option_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $customerButton = '//label[@id="invoice_mail_send_option_2-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $bothButton = '//label[@id="invoice_mail_send_option_3-lbl"]';
 }

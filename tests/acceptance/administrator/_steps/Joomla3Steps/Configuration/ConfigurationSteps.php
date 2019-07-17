@@ -528,7 +528,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.2
 	 */
-	public function ConfigurationOder ($function1, $function2)
+	public function ConfigurationOder ($function1, $function2, $function)
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
@@ -578,6 +578,25 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 					case 'Yes':
 						$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailYes, 30);
 						$I->click(ConfigurationPage::$enableInvoiceEmailYes);
+						switch ($function)
+						{
+							case 'None':
+								$I->waitForElementVisible(ConfigurationPage::$noneButton, 30);
+								$I->click(ConfigurationPage::$noneButton);
+								break;
+							case 'Administrator':
+								$I->waitForElementVisible(ConfigurationPage::$administratorButton, 30);
+								$I->click(ConfigurationPage::$administratorButton);
+								break;
+							case 'Customer':
+								$I->waitForElementVisible(ConfigurationPage::$customerButton, 30);
+								$I->click(ConfigurationPage::$customerButton);
+								break;
+							case 'Both':
+								$I->waitForElementVisible(ConfigurationPage::$bothButton, 30);
+								$I->click(ConfigurationPage::$bothButton);
+								break;
+						}
 						break;
 					case 'No':
 						$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailNo, 30);
