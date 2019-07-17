@@ -224,7 +224,7 @@ class Property
 		if (strpos($cartForm, "{addtocart_button}") !== false)
 		{
 			$cartTag  = "{addtocart_button}";
-			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '" class="icon_cart"><input type="button" ' .
+			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . ' class="icon_cart"><input type="button" ' .
 				$onclick . $cartTitle . ' name="addtocart_button" value="' . $requestQuoteLabel . '" /></span>';
 		}
 
