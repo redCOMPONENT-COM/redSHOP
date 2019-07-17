@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -259,6 +259,8 @@ class RedshopControllerCart extends RedshopController
 	public function coupon()
 	{
 		$itemId = RedshopHelperRouter::getCartItemId();
+		$app    = JFactory::getApplication();
+		$ajax   = $app->input->getInt('ajax', 0);
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('Cart');
@@ -273,6 +275,9 @@ class RedshopControllerCart extends RedshopController
 		// Store cart entry in db
 		RedshopHelperCart::addCartToDatabase();
 
+		$message     = null;
+		$messageType = null;
+
 		// If coupon code is valid than apply to cart else raise error
 		if ($valid)
 		{
@@ -280,17 +285,35 @@ class RedshopControllerCart extends RedshopController
 
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
-				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+				$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+				$messageType = 'warning';
 			}
 			else
 			{
+				$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+
 				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
 			}
 		}
 		else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
-			$this->setRedirect($link, JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID'), 'error');
+
+			$message     = JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
+			$messageType = 'error';
+		}
+
+		if ($ajax)
+		{
+			$carts = RedshopHelperCart::generateCartOutput(RedshopHelperCartSession::getCart());
+
+			echo json_encode(array($valid, $message, $carts[0]));
+
+			$app->close();
+		}
+		else
+		{
+			$this->setRedirect($link, $message, $messageType);
 		}
 	}
 
@@ -566,7 +589,7 @@ class RedshopControllerCart extends RedshopController
 	public function discountCalculator()
 	{
 		ob_clean();
-		$get = JFactory::getApplication()->input->get->getArray('GET');
+		$get = JFactory::getApplication()->input->get->getArray();
 		rsCarthelper::getInstance()->discountCalculator($get);
 
 		JFactory::getApplication()->close();

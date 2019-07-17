@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,6 +54,7 @@ class RedshopControllerQuotation extends RedshopController
 
 		if ($row)
 		{
+			RedshopHelperExtrafields::extraFieldSave($post, RedshopHelperExtrafields::SECTION_QUOTATION, $row->quotation_id);
 			$dispatcher->trigger('onRedshopQuotationAfterAdded', array(&$cart, &$post, $row));
 
 			$sent = $model->sendQuotationMail($row->quotation_id);
@@ -105,7 +106,6 @@ class RedshopControllerQuotation extends RedshopController
 	{
 		$input  = JFactory::getApplication()->input;
 		$Itemid = $input->get('Itemid');
-		$return = $input->get('return');
 		$model  = $this->getModel('quotation');
 		$post   = $input->post->getArray();
 

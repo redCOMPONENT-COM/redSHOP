@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -214,13 +214,6 @@ if ($mail == 0)
 					if ($childproducts[$c]->product_parent_id == 0)
 					{
 						$level = "";
-					}
-					else
-					{
-						if ($parentid != $childproducts[$c]->product_parent_id)
-						{
-							$level = $level;
-						}
 					}
 
 					$parentid = $childproducts[$c]->product_parent_id;

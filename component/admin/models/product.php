@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,6 +70,7 @@ class RedshopModelProduct extends RedshopModel
 		$id .= ':' . $this->getState('search_field');
 		$id .= ':' . $this->getState('keyword');
 		$id .= ':' . $this->getState('category_id');
+		$id .= ':' . $this->getState('manufacturer_id');
 
 		return parent::getStoreId($id);
 	}
@@ -94,6 +95,9 @@ class RedshopModelProduct extends RedshopModel
 
 		$category_id = $this->getUserStateFromRequest($this->context . '.category_id', 'category_id', 0);
 		$this->setState('category_id', $category_id);
+
+		$manufacturer_id = $this->getUserStateFromRequest($this->context . '.manufacturer_id', 'manufacturer_id', 0);
+		$this->setState('manufacturer_id', $manufacturer_id);
 
 		$product_sort = $this->getUserStateFromRequest($this->context . '.product_sort', 'product_sort', 0);
 		$this->setState('product_sort', $product_sort);
@@ -153,13 +157,14 @@ class RedshopModelProduct extends RedshopModel
 
 		$db = JFactory::getDbo();
 
-		$orderby      = $this->_buildContentOrderBy();
-		$search_field = $this->getState('search_field');
-		$keyword      = $this->getState('keyword');
-		$category_id  = $this->getState('category_id');
-		$product_sort = $this->getState('product_sort');
-		$keyword      = addslashes($keyword);
-		$arr_keyword  = array();
+		$orderby          = $this->_buildContentOrderBy();
+		$search_field     = $this->getState('search_field');
+		$keyword          = $this->getState('keyword');
+		$category_id      = $this->getState('category_id');
+		$manufacturer_id  = $this->getState('manufacturer_id');
+		$product_sort     = $this->getState('product_sort');
+		$keyword          = addslashes($keyword);
+		$arr_keyword      = array();
 
 		$where = '';
 		$and   = '';
@@ -268,23 +273,42 @@ class RedshopModelProduct extends RedshopModel
 			$where .= " AND c.id = '" . $category_id . "'  ";
 		}
 
+		if ($manufacturer_id !== 0)
+		{
+			switch ($manufacturer_id)
+			{
+				case "all":
+
+					break;
+				case "undefined":
+					$where .= " AND p.manufacturer_id = 0  ";
+					break;
+				default:
+					$where .= " AND p.manufacturer_id = '" . $manufacturer_id . "'  ";
+			}
+		}
+
 		if ($where == '' && $search_field != 'pa.property_number')
 		{
-			$query = "SELECT p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name
+			$query = "SELECT x.category_id AS category_id, p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name
 			AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
 				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
 				. ",p.product_template "
+				. ",m.name "
 				. " FROM #__redshop_product AS p "
-				. "WHERE 1=1 " . $and . $orderby;
+				. "LEFT JOIN #__redshop_product_category_xref AS x ON x.product_id = p.product_id "
+				. "LEFT JOIN #__redshop_manufacturer AS m ON m.id = p.manufacturer_id "
+				. "WHERE 1=1 GROUP BY p.product_id " . $and . $orderby;
 		}
 		else
 		{
-			$query = "SELECT p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS
+			$query = "SELECT x.category_id AS category_id, p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS
 			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
-			x.ordering , x.category_id "
+			x.ordering , x.category_id ,m.name "
 				. " FROM #__redshop_product AS p " . "LEFT JOIN #__redshop_product_category_xref
-			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id ";
+			AS x ON x.product_id = p.product_id " . "LEFT JOIN #__redshop_category AS c ON x.category_id = c.id "
+			. "LEFT JOIN #__redshop_manufacturer AS m ON m.id = p.manufacturer_id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
@@ -470,7 +494,7 @@ class RedshopModelProduct extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}

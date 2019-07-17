@@ -3,14 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
-
-$productHelper = productHelper::getInstance();
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -33,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					[
 						'<?php echo $row->viewdate ?>',
 						<?php echo $row->order_total ?>,
-						"<?php echo $productHelper->getProductFormattedPrice($row->order_total) ?>"
+						"<?php echo strip_tags(RedshopHelperProductPrice::formattedPrice($row->order_total)); ?>"
 					],
 				<?php endforeach; ?>
 			 <?php else: ?>
@@ -61,17 +59,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 </script>
 <form action="index.php?option=com_redshop&view=statistic_order" method="post" name="adminForm" id="adminForm">
 	<div class="filterTool row-fluid">
-		<div class="filterItem col-md-3">
+		<div class="filterItem dateRange">
 			<div class="js-stools clearfix">
 				<?php echo $this->filterForm->getInput('date_range', 'filter') ?>
 			</div>
 		</div>
-		<div class="filterItem col-md-3">
+		<div class="filterItem">
 			<div class="js-stools clearfix">
 				<?php echo $this->filterForm->getInput('date_group', 'filter') ?>
 			</div>
 		</div>
-		<div class="filterItem col-md-1 pull-right">
+		<div class="filterItem pull-right">
 			<div class="js-stools clearfix">
 				<?php echo $this->filterForm->getInput('limit', 'list') ?>
 			</div>
@@ -105,7 +103,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<tr>
 				<td align="center"><?php echo $row->viewdate; ?></td>
 				<td align="center"><?php echo $row->count; ?></td>
-				<td style="text-align: right;"><?php echo $productHelper->getProductFormattedPrice($row->order_total) ?></td>
+				<td style="text-align: right;"><?php echo RedshopHelperProductPrice::formattedPrice($row->order_total) ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

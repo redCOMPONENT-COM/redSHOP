@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -243,6 +243,35 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_FIELDS'); ?></h3>
+            </div>
+
+            <div class="box-body">
+                <table border="0" cellspacing="0" cellpadding="0" class="adminlist table table-striped table-condensed">
+                    <tbody>
+                    <?php $rowData = RedshopHelperExtrafields::getSectionFieldList(16); ?>
+
+                    <?php foreach ($rowData as $rowDataItem): ?>
+
+                        <?php $dataValue = RedshopHelperExtrafields::getSectionFieldDataList($rowDataItem->id, 16, $quotation->quotation_id); ?>
+
+                        <tr>
+                            <td width="25%"><?php echo $rowDataItem->title; ?>:</td>
+                            <td><?php echo $dataValue->data_txt; ?></td>
+                        </tr>
+
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row">

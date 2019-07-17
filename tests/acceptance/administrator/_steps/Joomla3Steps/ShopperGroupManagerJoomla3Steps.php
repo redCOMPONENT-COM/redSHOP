@@ -4,6 +4,10 @@
  */
 
 namespace AcceptanceTester;
+
+use ShopperGroupJ3Page;
+use AdminJ3Page;
+
 class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 	/**
@@ -24,17 +28,17 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 */
 	public function addShopperGroups($shopperName, $shopperType, $shopperCustomer, $shopperGroupPortal, $category,
-	                                 $shipping, $shippingRate, $shippingCheckout, $showVat, $catalog, $showPrice, $enableQuotation, $function)
+									 $shipping, $shippingRate, $shippingCheckout, $showVat, $catalog, $showPrice, $enableQuotation, $function)
 	{
 		$tester = $this;
 		$tester->amOnPage(\ShopperGroupJ3Page::$URL);
-		$tester->click(\ShopperGroupJ3Page::$buttonNew);
+		$tester->click(\ShopperGroupJ3Page::$buttonNewXpath);
 		$tester->fillField(\ShopperGroupJ3Page::$shopperName, $shopperName);
 
 		if ($shopperType != null)
 		{
 			$tester->click(\ShopperGroupJ3Page::$shopperGroupType);
-			$tester->waitForElement(\ShopperGroupJ3Page::$shopperType);
+			$tester->waitForElement(\ShopperGroupJ3Page::$shopperType,30);
 			$tester->fillField(\ShopperGroupJ3Page::$shopperType, $shopperType);
 			$userShopperPage = new \ShopperGroupJ3Page();
 			$tester->waitForElement($userShopperPage->returnSearch($shopperType), 60);
@@ -42,7 +46,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		$tester->click(\ShopperGroupJ3Page::$customerType);
-		$tester->waitForElement(\ShopperGroupJ3Page::$customerTypeSearch);
+		$tester->waitForElement(\ShopperGroupJ3Page::$customerTypeSearch, 30);
 		$tester->fillField(\ShopperGroupJ3Page::$customerTypeSearch, $shopperCustomer);
 		$tester->pressKey(
 			\ShopperGroupJ3Page::$customerTypeSearch,
@@ -61,7 +65,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$tester->fillField(\ShopperGroupJ3Page::$categoryFill, $category);
 		$tester->pressKey(\ShopperGroupJ3Page::$categoryFill, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$tester->waitForElement(\ShopperGroupJ3Page::$shippingYes, 30);
+
 		if ($shipping == 'yes')
 		{
 			$tester->click(\ShopperGroupJ3Page::$shippingYes);
@@ -90,7 +94,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		if ($catalog != null)
 		{
 			$tester->click(\ShopperGroupJ3Page::$catalogId);
-			$tester->waitForElement(\ShopperGroupJ3Page::$catalogSearch);
+			$tester->waitForElement(\ShopperGroupJ3Page::$catalogSearch, 30);
 			$tester->fillField(\ShopperGroupJ3Page::$catalogSearch, $catalog);
 			$tester->pressKey(\ShopperGroupJ3Page::$catalogSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		}
@@ -254,7 +258,7 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(\ShopperGroupJ3Page::$buttonDelete);
 		$I->acceptPopup();
-		$I->waitForElement(\ShopperGroupJ3Page::$selectorSuccess);
+		$I->waitForElement(\ShopperGroupJ3Page::$selectorSuccess, 30);
 	}
 
 	public function getShopperGroupsStates()
@@ -272,5 +276,27 @@ class ShopperGroupManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param $shoppergroupname
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function deleteShopperGroups($shoppergroupname)
+	{
+		$I = $this;
+		$I->amOnPage(ShopperGroupJ3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings(ShopperGroupJ3Page::$URL);
+
+		$I->fillField(ShopperGroupJ3Page::$searchField, $shoppergroupname);
+		$I->click(ShopperGroupJ3Page::$searchButton);
+
+		$shoppergroup = new ShopperGroupJ3Page();
+		$I->waitForElementVisible($shoppergroup->xPathShoppergroupName($shoppergroupname), 30);
+		$I->checkAllResults();
+		$I->click(ShopperGroupJ3Page::$buttonDelete);
+		$I->acceptPopup();
+		$I->waitForText(ShopperGroupJ3Page::$deleteShopperSuccess, 5, AdminJ3Page::$selectorSuccess);
 	}
 }

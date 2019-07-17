@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Order
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,51 +29,57 @@ class Giftcard
 		$giftCardTemplate = self::getTemplate();
 		$productHelper    = \productHelper::getInstance();
 		$giftCards        = \RedshopHelperOrder::giftCardItems((int) $orderId);
+		$giftcardData = '';
+		$giftCardPrice = '';
+		$giftCardValue = '';
+		$userFields = '';
+		$giftCode = '';
 
 		if (empty($giftCards))
 		{
 			return false;
 		}
 
-		foreach ($giftCards as $eachOrders)
+		foreach ($giftCards as $eachOrder)
 		{
-			$giftcardData  = \RedshopEntityGiftcard::getInstance($eachOrders->product_id)->getItem();
-			$giftCardValue = \RedshopHelperProductPrice::formattedPrice($giftcardData->giftcard_value, true);
-			$giftCardPrice = $eachOrders->product_final_price;
-			$giftCode      = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
-			$userFields    = $productHelper->GetProdcutUserfield($eachOrders->order_item_id, 13);
-
-			/** @var \RedshopTableCoupon $couponItems */
-			$couponItems = \RedshopTable::getAdminInstance('Coupon');
-
-			if ($giftcardData->customer_amount)
+			for ($i = 0; $i < $eachOrder->product_quantity; $i++)
 			{
-				$giftcardData->giftcard_value = $eachOrders->product_final_price;
-			}
+				$giftcardData = \RedshopEntityGiftcard::getInstance($eachOrder->product_id)->getItem();
+				$giftCardValue = \RedshopHelperProductPrice::formattedPrice($giftcardData->giftcard_value, true);
+				$giftCardPrice = $eachOrder->product_final_price;
+				$giftCode = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
+				$userFields = $productHelper->GetProdcutUserfield($eachOrder->order_item_id, 13);
 
-			$couponEndDate = mktime(0, 0, 0, date('m'), date('d') + $giftcardData->giftcard_validity, date('Y'));
+				/** @var \RedshopTableCoupon $couponItems */
+				$couponItem = \RedshopTable::getAdminInstance('Coupon');
 
-			$couponItems->code          = $giftCode;
-			$couponItems->type          = 0;
-			$couponItems->value         = $giftcardData->giftcard_value;
-			$couponItems->start_date    = \JFactory::getDate()->toSql();
-			$couponItems->end_date      = $couponEndDate === false ? \JFactory::getDbo()->getNullDate() : \JFactory::getDate($couponEndDate)->toSql();
-			$couponItems->effect        = 0;
-			$couponItems->userid        = 0;
-			$couponItems->amount_left   = 1;
-			$couponItems->published     = 1;
-			$couponItems->free_shipping = $giftcardData->free_shipping;
-
-			try
-			{
-				if ($couponItems->store())
+				if ($giftcardData->customer_amount)
 				{
-					return false;
+					$giftcardData->giftcard_value = $eachOrder->product_final_price;
 				}
-			}
-			catch (\Exception $exception)
-			{
-				throw new \Exception($exception->getMessage());
+
+				$couponEndDate = mktime(0, 0, 0, date('m'), date('d') + $giftcardData->giftcard_validity, date('Y'));
+
+				$couponItem->id = null;
+				$couponItem->code = $giftCode;
+				$couponItem->type = 0;
+				$couponItem->value = $giftcardData->giftcard_value;
+				$couponItem->start_date = \JFactory::getDate()->toSql();
+				$couponItem->end_date = $couponEndDate === false ? \JFactory::getDbo()->getNullDate() : \JFactory::getDate($couponEndDate)->toSql();
+				$couponItem->effect = 0;
+				$couponItem->userid = 0;
+				$couponItem->amount_left = 1;
+				$couponItem->published = 1;
+				$couponItem->free_shipping = $giftcardData->free_shipping;
+
+				try
+				{
+					$couponItem->store();
+				}
+				catch (\Exception $exception)
+				{
+					throw new \Exception($exception->getMessage());
+				}
 			}
 
 			$mailSubject = $giftCardTemplate->mail_subject;
@@ -89,8 +95,8 @@ class Giftcard
 			$mailBody = str_replace("{giftcard_price}", \RedshopHelperProductPrice::formattedPrice($giftCardPrice), $mailBody);
 			$mailBody = str_replace("{giftcard_reciver_name_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $mailBody);
 			$mailBody = str_replace("{giftcard_reciver_email_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $mailBody);
-			$mailBody = str_replace("{giftcard_reciver_email}", $eachOrders->giftcard_user_email, $mailBody);
-			$mailBody = str_replace("{giftcard_reciver_name}", $eachOrders->giftcard_user_name, $mailBody);
+			$mailBody = str_replace("{giftcard_reciver_email}", $eachOrder->giftcard_user_email, $mailBody);
+			$mailBody = str_replace("{giftcard_reciver_name}", $eachOrder->giftcard_user_name, $mailBody);
 			$mailBody = $productHelper->getValidityDate($giftcardData->giftcard_validity, $mailBody);
 			$mailBody = str_replace("{giftcard_value}", $giftCardValue, $mailBody);
 			$mailBody = str_replace("{giftcard_value_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $mailBody);
@@ -136,7 +142,7 @@ class Giftcard
 			$mailBody = str_replace("{giftcard_image}", $mailImage, $mailBody);
 			Helper::imgInMail($mailBody);
 
-			self::executeSendMail($eachOrders->giftcard_user_email, $mailSubject, $mailBody, $giftCardAttachment);
+			self::executeSendMail($eachOrder->giftcard_user_email, $mailSubject, $mailBody, $giftCardAttachment);
 		}
 
 		return true;

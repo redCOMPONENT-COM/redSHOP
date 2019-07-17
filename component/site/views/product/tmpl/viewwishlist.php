@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,9 +80,6 @@ else // If user logged in than display this code.
 
 function display_products($rows)
 {
-	$url        = JURI::base();
-	$extra_data = productHelper::getInstance();
-
 	$producthelper = productHelper::getInstance();
 
 	for ($i = 0, $in = count($rows); $i < $in; $i++)

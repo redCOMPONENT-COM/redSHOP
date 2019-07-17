@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -385,6 +385,11 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	public function getSearchCondition($fields, $condition, $glue = 'OR')
 	{
+		if (empty($condition))
+		{
+			return '1 = 1';
+		}
+
 		$where        = array();
 		$db           = JFactory::getDbo();
 		$conditions   = explode(' ', trim($condition));
@@ -409,7 +414,7 @@ class RedshopModelSearch extends RedshopModel
 			$where[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
 		}
 
-		if (count($where) > 0)
+		if (!empty($where))
 		{
 			return '(' . implode(' ' . $glue . ' ', $where) . ')';
 		}
@@ -727,7 +732,7 @@ class RedshopModelSearch extends RedshopModel
 		$productid     = 0;
 		$products      = "";
 
-		if (count($getredfilter) != 0)
+		if (!empty($getredfilter))
 		{
 			$main_sal_sp   = array();
 			$main_sal_type = array();

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -25,7 +25,8 @@ switch ($name)
 	case 'account':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ACCOUNT_HINT'); ?></b><br /><br />
-		{welcome_introtext} {account_image} {account_title} {fullname_lbl} {fullname} {vatnumber_lbl} {vatnumber} {email_lbl} {email} {address_lbl} {address} {city_lbl} {city} <br />
+		{welcome_introtext} {account_image} {account_title}  {billing_address_start} {billing_address_end}
+        {fullname_lbl} {fullname} {vatnumber_lbl} {vatnumber} {email_lbl} {email} {address_lbl} {address} {city_lbl} {city} <br />
 		{zipcode_lbl} {zipcode} {state_lbl} {state} {country_lbl} {country} {phone_lbl} {phone}{phone_optional} {company_name_lbl} {company_name} {requesting_tax_exempt_lbl} {requesting_tax_exempt} {edit_account_link} {customer_custom_fields} <br />
 		{more_orders} {order_image} {order_title} {order_loop_start} {order_index} {order_id} {order_detail_link} {order_loop_end} <br />
 		{coupon_image} {coupon_title} {coupon_loop_start} {coupon_code_lbl} {coupon_code} {coupon_value_lbl} {coupon_value} {coupon_loop_end} <br />
@@ -369,13 +370,13 @@ switch ($name)
 	case 'quotation_detail':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_QUOTATION_DETAIL_HINT'); ?></b><br /><br />
-		{print} {quotation_information_lbl} {quotation_id_lbl} {quotaion_id} {quotation_number_lbl} {quotation_number} {quotation_date_lbl} {quotation_date} {quotation_status_lbl} {quotation_status} {quotation_note_lbl} {quotation_note} {account_information_lbl} {account_information} {quotation_detail_lbl} {product_name_lbl} {note_lbl} {price_lbl} {quantity_lbl} {total_price_lbl} {product_loop_start} {product_name} {product_attribute} {product_accessory} {product_number_lbl} {product_number} {product_price} {product_quantity} {product_total_price} {product_loop_end} {product_userfields} {quotation_subtotal_lbl} {quotation_subtotal} {total_lbl} {quotation_total} {quotation_discount_lbl} {quotation_discount}
+		{print} {quotation_information_lbl} {quotation_id_lbl} {quotaion_id} {quotation_number_lbl} {quotation_number} {quotation_date_lbl} {quotation_date} {quotation_status_lbl} {quotation_status} {quotation_note_lbl} {quotation_note} {account_information_lbl} {account_information} {quotation_detail_lbl} {product_name_lbl} {note_lbl} {price_lbl} {quantity_lbl} {total_price_lbl} {product_loop_start} {product_name} {product_attribute} {product_accessory} {product_number_lbl} {product_number} {product_price} {product_quantity} {product_total_price} {product_loop_end} {product_userfields} {quotation_subtotal_lbl} {quotation_subtotal} {total_lbl} {quotation_total} {quotation_discount_lbl} {quotation_discount} {quotation_custom_field_list}
 		<?php
 		break;
 	case 'quotation_request':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_QUOTATION_REQUEST_HINT'); ?></b><br /><br />
-		{order_detail_lbl} {product_name_lbl} {quantity_lbl} {product_loop_start} {product_name} {product_attribute} {product_accessory} {product_userfields} {update_cart} {product_wrapper} {product_loop_end} {customer_note_lbl} {customer_note} {billing_address_information_lbl} {billing_address} {cancel_btn} {request_quotation_btn}
+		{order_detail_lbl} {product_name_lbl} {quantity_lbl} {product_loop_start} {product_name} {product_attribute} {product_accessory} {product_userfields} {update_cart} {product_wrapper} {product_loop_end} {customer_note_lbl} {customer_note} {billing_address_information_lbl} {billing_address} {cancel_btn} {request_quotation_btn} {quotation_custom_field_list}
 		<?php
 		break;
 	case 'redproductfinder':
@@ -389,7 +390,7 @@ switch ($name)
 	case 'redshop_payment':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_PAYMENT_METHOD_HINT'); ?></b><br /><br />
-		{payment_heading} {payment_loop_start} {payment_method_name} {creditcard_information} {payment_loop_end}
+		{payment_heading} {payment_loop_start} {payment_method_name} {creditcard_information} {payment_extrafields} {payment_loop_end}
 		<?php
 		break;
 	case 'redshop_shipping':

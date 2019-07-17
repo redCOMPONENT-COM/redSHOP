@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.3
@@ -344,6 +344,7 @@ class RedshopHelperCartTag
 			{
 				$productId     = $cart[$i]['product_id'];
 				$product       = RedshopHelperProduct::getProductById($productId);
+				$catId         = $product->cat_in_sefurl;
 				$attributeCart = productHelper::getInstance()->makeAttributeCart(
 					$cart[$i]['cart_attribute'], $productId, 0, 0, $quantity, $cartHtml
 				);
@@ -359,10 +360,10 @@ class RedshopHelperCartTag
 				}
 				else
 				{
-					$itemId = RedshopHelperRouter::getItemId($productId);
+					$itemId = RedshopHelperUtility::getCategoryItemid($catId);
 				}
 
-				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $itemId);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&cid='. $catId .'&pid=' . $productId . '&Itemid=' . $itemId);
 
 				// Trigger to change product link.
 				$dispatcher->trigger('onSetCartOrderItemProductLink', array(&$cart, &$link, $product, $i));

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -121,9 +121,9 @@ class RedshopHelperProductPrice
 
 		foreach (self::$productSpecialPrices[$key] as $item)
 		{
-			if (($item->condition == 1 && $item->amount >= $productPrice)
+			if (($item->condition == 1 && $item->amount > $productPrice)
 				|| ($item->condition == 2 && $item->amount == $productPrice)
-				|| ($item->condition == 3 && $item->amount <= $productPrice))
+				|| ($item->condition == 3 && $item->amount < $productPrice))
 			{
 				return $item;
 			}
@@ -347,6 +347,10 @@ class RedshopHelperProductPrice
 		if (Redshop::getConfig()->getBool('SHOW_PRICE'))
 		{
 			$priceExcludingVat        = $priceText;
+			if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
+			{
+				$row->product_on_sale = 0;
+			}
 			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);
 			$oldPriceExcludeVat       = $productPriceExcludingVat;
 

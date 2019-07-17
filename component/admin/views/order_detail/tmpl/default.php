@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -383,6 +383,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<input type="hidden" name="task" value="update_shippingrates">
 							<input type="hidden" name="user_id" id="user_id"
 							       value="<?php echo $this->detail->user_id; ?>">
+							<input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id" value="<?php echo $shipping->users_info_id; ?>">
 							<input type="hidden" name="view" value="order_detail">
 							<input type="hidden" name="return" value="order_detail">
 							<input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
@@ -560,6 +561,28 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 		</div>
 	</div>
 
+	<?php if (!empty($this->lists['order_extra_fields'])): ?>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3><?php echo JText::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
+					</div>
+					<div class="box-body">
+						<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=storeExtraField'); ?>" method="post"
+						      name="adminForm" id="adminForm" enctype="multipart/form-data">
+							<?php echo $this->lists['order_extra_fields'] ?>
+							<input class="button btn btn-primary" name="submit"
+							       value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>" type="submit"/>
+							<input type="hidden" name="order_id" value="<?php echo $billing->order_id; ?>"/>
+							<input type="hidden" name="user_email" value="<?php echo $billing->user_email; ?>"/>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
+
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="box box-primary">
@@ -687,6 +710,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																	</div>
 																</div>
 															</td>
+															<td>
+		                                                        <?php $dispatcher->trigger('onAdminDisplayOrderItem', array($orderId, $products[$i])) ?>
+	                                                        </td>
 															<td width="15%">
 																<?php
 																echo $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
@@ -1238,28 +1264,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 			</div>
 		</div>
 	</div>
-
-	<?php if (!empty($this->lists['order_extra_fields'])): ?>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<h3><?php echo JText::_('COM_REDSHOP_EXTRA_FIELD'); ?></h3>
-					</div>
-					<div class="box-body">
-						<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=storeExtraField'); ?>" method="post"
-						      name="adminForm" id="adminForm">
-							<?php echo $this->lists['order_extra_fields'] ?>
-							<input class="button btn btn-primary" name="submit"
-							       value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>" type="submit"/>
-							<input type="hidden" name="order_id" value="<?php echo $billing->order_id; ?>"/>
-							<input type="hidden" name="user_email" value="<?php echo $billing->user_email; ?>"/>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	<?php endif; ?>
 </div>
 <?php echo $this->loadTemplate('plugin'); ?>
 <div id="divCalc"></div>

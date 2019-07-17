@@ -22,6 +22,7 @@ redSHOP.setProductTax = function(postData){
     jQuery.ajax({
         url: redSHOP.RSConfig._('AJAX_BASE_URL'),
         type: 'POST',
+        async: false,
         dataType: 'json',
         data: postData,
     }).done(function( product ) {
@@ -45,12 +46,14 @@ redSHOP.collectExtraFields = function(extraField, productId){
     switch(extraField.type)
     {
         case 'checkbox':
-        case 'radio':
+            field.name = redSHOP.filterExtraFieldName(extraField.id);
+            field.value = jQuery('[id^='+extraField.id+']:checked').val();
+            break
 
+        case 'radio':
             field.name = redSHOP.filterExtraFieldName(extraField.id);
             field.value = jQuery('[id^='+field.name+']:checked').val();
-
-        break;
+             break;
     }
 
     return field;
@@ -62,7 +65,22 @@ redSHOP.updateCartExtraFields = function(extraFields, productId, formName){
 
         var field = redSHOP.collectExtraFields(extraField, productId);
 
-        jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+        if (extraField.type == 'checkbox')
+        {
+            if (typeof field.value !== 'undefined') {
+                var text  = jQuery(formName + ' input[id=' + field.name +']').val()
+                text = text.replace(/(^,)|(,$)/g, "");
+
+                if (text == '') {
+                    jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+                } else {
+                    jQuery(formName + ' input[id=' + field.name +']').val(text + ',' + field.value);
+                }
+            }
+        }
+        else {
+            jQuery(formName + ' input[id=' + field.name +']').val(field.value);
+        }
     });
 };
 
@@ -432,11 +450,16 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
         if (request.readyState == 4)
         {
             var property_id = (propArr.length > 0) ? propArr[0] : 0;
+            var withoutVAT = false;
 
             if (document.getElementById('property_responce' + commonid))
             {
                 document.getElementById('property_responce' + commonid).innerHTML = request.responseText;
                 document.getElementById('property_responce' + commonid).style.display = '';
+
+                if (request.responseText.indexOf('{without_vat}') != -1) {
+                    withoutVAT = true;
+                }
 
                 for (var p = 0; p < propArr.length; p++)
                 {
@@ -462,7 +485,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
                                 var subname = document.getElementById(subpropertycommonid + "_name" + subproperty_id).value;
                                 unique.addThumbnail(
                                     imgs[i],
-                                    "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "');",
+                                    "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "', '"+ withoutVAT +"');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "', '"+ withoutVAT +"');",
                                     subname,
                                     "",
                                     subpropertycommonid + "_subpropimg_" + subproperty_id,
@@ -496,8 +519,9 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
                 }
             }
 
-            displayAdditionalImage(product_id, accessory_id, relatedprd_id, property_id, 0);
-            calculateTotalPrice(product_id, relatedprd_id);
+            displayAdditionalImage(product_id, accessory_id, relatedprd_id, property_id, 0, withoutVAT);
+
+            calculateTotalPrice(product_id, relatedprd_id, withoutVAT);
 
             jQuery('select:not(".disableBootstrapChosen")').select2();
 
@@ -545,7 +569,7 @@ function display_image_add_out(img, product_id)
     }
 }
 
-function collectAttributes(productId, accessoryId, relatedProductId)
+function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 {
     var prefix,
         attributeIds         = [],
@@ -764,7 +788,7 @@ function collectAttributes(productId, accessoryId, relatedProductId)
     mainprice = price_without_vat;
 
     // Apply vat here in last. Just apply in case price is not below 0.
-    if (mainprice > 0)
+    if (mainprice > 0 && withoutVAT == false)
     {
         mainprice = mainprice * (1 + redSHOP.RSConfig._('BASE_TAX'));
     }
@@ -966,7 +990,8 @@ function calculateSingleProductPrice(price, oprandElementId, priceElementId, ele
 }
 
 // calculate attribute price
-function calculateTotalPrice(productId, relatedProductId) {
+function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
+    redSHOP.setProductTax({id: productId, price: 1});
 
     if (productId == 0 || productId == "")
     {
@@ -984,7 +1009,7 @@ function calculateTotalPrice(productId, relatedProductId) {
         wprice                   = 0,
         wrapper_price_withoutvat = 0;
 
-    collectAttributes(productId, 0, relatedProductId);
+    collectAttributes(productId, 0, relatedProductId, withoutVAT);
 
     if (jQuery('#tmp_product_old_price').length)
     {
@@ -1049,6 +1074,7 @@ function calculateTotalPrice(productId, relatedProductId) {
         }
         else
         {
+            final_price_f = final_price_f + (final_price_f * redSHOP.baseTax);
             final_price = number_format(final_price_f, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
             final_price_novat = number_format(product_price_without_vat, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
         }
@@ -1335,7 +1361,11 @@ function setWrapper(id, price, price_withoutvat, product_id) {
 }
 
 function setPropImage(product_id, propertyObj, selValue) {
-    var propName = document.getElementById(propertyObj);
+    var propName = document.getElementById(propertyObj + '_' + selValue);
+
+    if (!propName) {
+        propName = document.getElementById(propertyObj);
+    }
 
     if (propName) {
         if (propName.type == 'checkbox' || propName.type == 'radio') {
@@ -1358,7 +1388,12 @@ function setPropImage(product_id, propertyObj, selValue) {
 }
 
 function setSubpropImage(product_id, subpropertyObj, selValue) {
-    var subpropName = document.getElementById(subpropertyObj);
+    var subpropName = document.getElementById(subpropertyObj + '_' + selValue);
+
+    if (!subpropName) {
+        subpropName = document.getElementById(subpropertyObj);
+    }
+
     if (subpropName) {
         if (subpropName.type == 'checkbox' || subpropName.type == 'radio') {
             var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
@@ -1414,6 +1449,19 @@ function setPropertyImage(product_id, propertyObj) {
             }
 
         }
+    } else {
+        var propNameObj = document.getElementsByName(propertyObj + "[]");
+        for (var p = 0; p < propNameObj.length; p++) {
+            var borderstyle = "";
+            selValue = propNameObj[p].value;
+            if (propNameObj[p].checked) {
+                borderstyle = "1px solid";
+            }
+            if (document.getElementById(propertyObj + "_propimg_" + selValue)) {
+
+                document.getElementById(propertyObj + "_propimg_" + selValue).style.border = borderstyle;
+            }
+        }
     }
 }
 
@@ -1447,10 +1495,22 @@ function setSubpropertyImage(product_id, subpropertyObj, selValue) {
             }
 
         }
+    } else {
+        var subpropNameObj = document.getElementsByName(subpropertyObj + "[]");
+        for (var p = 0; p < subpropNameObj.length; p++) {
+            var borderstyle = "";
+            selValue = subpropNameObj[p].value;
+            if (subpropNameObj[p].checked) {
+                borderstyle = "1px solid";
+            }
+            if (document.getElementById(subpropertyObj + "_subpropimg_" + selValue)) {
+                document.getElementById(subpropertyObj + "_subpropimg_" + selValue).style.border = borderstyle;
+            }
+        }
     }
 }
 
-function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selectedproperty_id, selectedsubproperty_id) {
+function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selectedproperty_id, selectedsubproperty_id, withoutVAT) {
     var suburl = "&product_id=" + product_id;
     suburl = suburl + "&accessory_id=" + accessory_id;
     suburl = suburl + "&relatedprd_id=" + relatedprd_id;
@@ -1465,7 +1525,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
     } else {
         prefix = "prd_";
     }
-    collectAttributes(product_id, 0, relatedprd_id);
+    collectAttributes(product_id, 0, relatedprd_id, withoutVAT);
 
     if (document.getElementById('property_data')) {
         var property_data = document.getElementById('property_data').value;
@@ -1549,8 +1609,10 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
             }
 
             document.getElementById('main_image' + product_id).src = arrResponse[4];
-            document.getElementsByClassName('product_more_videos')[0].innerHTML = arrResponse[16];
 
+            if (document.getElementsByClassName('product_more_videos')[0]) {
+                document.getElementsByClassName('product_more_videos')[0].innerHTML = arrResponse[16];
+            }
             if (document.getElementById('additional_images' + product_id) && arrResponse[1] != "") {
                 document.getElementById('additional_images' + product_id).innerHTML = arrResponse[1];
             }
@@ -1589,7 +1651,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
             // preload slimbox
             var imagehandle = {isenable: true, mainImage: false};
             preloadSlimbox(imagehandle);
-
+            jQuery(redSHOP).trigger('onAfterAjaxdisplayAdditionalImage', [arrResponse, product_id]);
         }
     };
     request.open("GET", url, true);
@@ -1898,7 +1960,7 @@ function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_i
     }
 
     redSHOP.updateCartExtraFields(
-        jQuery('#' + frmUserfieldName + ' :input:not(:button, :hidden)'),
+        jQuery('#' + frmUserfieldName + ' [name^=extrafields]'),
         product_id,
         '#' + frmCartName
     );
@@ -2572,6 +2634,8 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
                 document.getElementById('mod_cart_checkout_ajax').style.display = "";
             }
 
+            jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail', [responce, product_id]);
+
             // End
             var newurl = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&pid=" + product_id + "&r_template=cartbox&tmpl=component";
 
@@ -3101,10 +3165,18 @@ function addmywishlist(frmCartName, product_id, myitemid) {
     request.send(params);
 }
 
-function getStocknotify(product_id, property_id, subproperty_id) {
+function getStocknotify(product_id, property_id, subproperty_id, user_id) {
+    if (jQuery('#email_notify')) {
+        var email = jQuery('#email_notify').val();
+
+        if (user_id == 0 && !validateEmail(email)) {
+            alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'));
+            return false;
+        }
+    }
 
     var url = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&task=addNotifystock&tmpl=component&product_id=" + product_id;
-    url = url + "&property_id=" + property_id + "&subproperty_id=" + subproperty_id;
+    url = url + "&property_id=" + property_id + "&subproperty_id=" + subproperty_id + "&email_not_login=" + email;
 
     request = getHTTPObject();
     request.onreadystatechange = function () {
@@ -3121,4 +3193,10 @@ function getStocknotify(product_id, property_id, subproperty_id) {
     }
     request.open("GET", url, true);
     request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    request.send();
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }

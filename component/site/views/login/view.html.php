@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,8 +16,6 @@ class RedshopViewLogin extends RedshopView
 	{
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
-
-		$params = $app->getParams('com_redshop');
 
 		$model = $this->getModel();
 

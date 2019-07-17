@@ -2,13 +2,14 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace AcceptanceTester;
 
 use CategoryManagerJ3Page as CategoryManagerJ3Page;
+use CategoryPage;
 
 /**
  * Class CategoryManagerJoomla3Steps
@@ -27,6 +28,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $categoryName Name of category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function addCategorySave($categoryName)
 	{
@@ -41,6 +43,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$saveButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
 		$I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
+		$I->click(\CategoryPage::$buttonSaveClose);
 	}
 
 	/**
@@ -118,6 +121,27 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $parentname
+	 * @param $childname
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function createCategoryChild($parentname, $childname)
+	{
+		$I = $this;
+		$I->amOnPage(CategoryManagerJ3Page::$URL);
+		$I->click(CategoryManagerJ3Page::$newButton);
+		$I->waitForElementVisible(CategoryManagerJ3Page::$categoryName, 30);
+		$I->fillField(CategoryManagerJ3Page::$categoryName, $childname);
+		$I->click(CategoryManagerJ3Page::$parentCategory);
+		$I->waitForElementVisible(CategoryPage::$parentCategoryInput, 30);
+		$I->fillField(CategoryPage::$parentCategoryInput, $parentname);
+		$I->pressKey(CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click(CategoryManagerJ3Page::$saveCloseButton);
+		$I->waitForText(CategoryManagerJ3Page::$messageSaveSuccess, 30, CategoryManagerJ3Page::$selectorSuccess);
+	}
+
+	/**
 	 * @param $name
 	 */
 	public function checkReview($name)
@@ -182,7 +206,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->click(\CategoryManagerJ3Page::$accessorySearch);
-		$I->waitForElement(\CategoryManagerJ3Page::$searchFirst);
+		$I->waitForElement(\CategoryManagerJ3Page::$searchFirst, 30);
 		$I->fillField(\CategoryManagerJ3Page::$searchFirst, $accessoryName);
 		$userCategoryPage = new \CategoryManagerJ3Page();
 		$I->waitForElement($userCategoryPage->xPathAccessory($accessoryName), 60);

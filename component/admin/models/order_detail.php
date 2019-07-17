@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,6 +22,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public $_copydata = null;
 
+	private $_dispatcher = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,6 +33,10 @@ class RedshopModelOrder_detail extends RedshopModel
 		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
+
+		JPluginHelper::importPlugin('redshop');
+
+		$this->_dispatcher = RedshopHelperUtility::getDispatcher();
 	}
 
 	public function setId($id)
@@ -663,6 +669,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
+		$this->_dispatcher->trigger('onAfterAddNewOrderItem', array($orderdata));
+
 		return true;
 	}
 
@@ -702,7 +710,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (!$db->execute())
 		{
-			$this->setError($db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return false;
 		}
@@ -721,7 +729,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			->where($db->qn('order_item_id') . ' = ' . $orderItemId);
 		$db->setQuery($query)->execute();
 
-		$this->special_discount(
+		$this->/** @scrutinizer ignore-call */
+		special_discount(
 			array('order_item_id' => $orderItemId, 'special_discount' => $order->get('special_discount')),
 			true
 		);
@@ -835,13 +844,20 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if ($orderitemdata->store())
 		{
+			$this->_dispatcher->trigger('onAfterUpdateOrderItem', array($orderitemdata));
+
 			if (!$orderdata->store())
 			{
 				return false;
 			}
 
+			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+			{
+				RedshopEconomic::renewInvoiceInEconomic($orderdata);
+			}
+
 			$tmpArr['special_discount'] = $orderdata->special_discount;
-			$this->special_discount($tmpArr, true);
+			$this->/** @scrutinizer ignore-call */ special_discount($tmpArr, true);
 		}
 		else
 		{
@@ -915,9 +931,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$subtotal = 0;
 
-		for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+		if ($orderItems)
 		{
-			$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+			for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+			{
+				$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+			}
 		}
 
 		$temporder_total = $subtotal + $orderData->order_discount + $orderData->special_discount_amount;
@@ -952,6 +971,8 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			return false;
 		}
+
+		$this->_dispatcher->trigger('onAfterUpdateDiscount', array($orderData));
 
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
@@ -1032,6 +1053,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
+		$this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
+
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
 			RedshopEconomic::renewInvoiceInEconomic($orderData);
@@ -1064,7 +1087,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					$orderdata->ship_method_id     = $data['shipping_rate_id'];
 					$orderdata->order_shipping_tax = (isset($neworder_shipping[6]) && $neworder_shipping[6]) ? $neworder_shipping[6] : 0;
 					$orderdata->mdate              = time();
-					$orderdata->shop_id            = $data['shop_id'] . "###" . $data['gls_mobile'];
+					$orderdata->shop_id            = $data['shop_id'] . "###" . $data['gls_mobile'] . "###" . $data['gls_zipcode'];
 
 					if (!$orderdata->store())
 					{
@@ -1079,6 +1102,8 @@ class RedshopModelOrder_detail extends RedshopModel
 				}
 			}
 		}
+
+		$this->_dispatcher->trigger('onAfterUpdateShippingRates', array($orderdata));
 
 		return true;
 	}
@@ -1102,6 +1127,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
+
+			$this->_dispatcher->trigger('onAfterUpdateShippingAddress', array($data));
 
 			return true;
 		}
@@ -1130,6 +1157,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
+
+			$this->_dispatcher->trigger('onAfterUpdateBillingAddress', array($data));
 
 			return true;
 		}

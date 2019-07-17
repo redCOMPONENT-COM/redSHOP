@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -127,7 +127,7 @@ if ($this->params->get('show_page_heading', 1))
 			frm.email_address.focus();
 			return false;
 		}
-		var sampleArr = new Array;
+		var sampleArr = [];
 
 		if (document.getElementsByName('sample_code[]')) {
 			var sName = document.getElementsByName('sample_code[]');

@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,9 @@ namespace AcceptanceTester;
  * @since    1.4
  */
 use ProductManagerPage as ProductManagerPage;
+use PriceProductJoomla3Page;
+use UserManagerJoomla3Page;
+use AdminJ3Page;
 
 class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
@@ -115,17 +118,18 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
 		$I->waitForElement(ProductManagerPage::$productPrice, 30);
-		$I->addValueForField(ProductManagerPage::$productPrice, $prices);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($category));
+		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
 		$I->fillField(ProductManagerPage::$discountStart, $discountStart);
 		$I->fillField(ProductManagerPage::$discountEnd, $discountEnd);
 		$I->fillField(ProductManagerPage::$minimumPerProduct, $minimumPerProduct);
 		$I->fillField(ProductManagerPage::$minimumQuantity, $minimumQuantity);
 		$I->fillField(ProductManagerPage::$maximumQuantity, $maximumQuantity);
+		//$I->waitForElementVisible(ProductManagerPage::$buttonSave, 30);
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
@@ -161,7 +165,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(ProductManagerPage::$categoryId, 30);
 				$I->click(ProductManagerPage::$categoryId);
 				$I->fillField(ProductManagerPage::$categoryFile, $category);
-				$I->waitForElement($usePage->returnChoice($category));
+				$I->waitForElement($usePage->returnChoice($category), 30);
 				$I->click($usePage->returnChoice($category));
 				$I->click(ProductManagerPage::$buttonSave);
 				$I->acceptPopup();
@@ -195,24 +199,24 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $product['name']);
-		$I->fillField(ProductManagerPage::$productNumber, $product['number']);
 		$I->fillField(ProductManagerPage::$productPrice, $product['price']);
 		$usePage = new ProductManagerPage();
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $product['category']);
-		$I->waitForElement($usePage->returnChoice($product['category']));
+		$I->waitForElement($usePage->returnChoice($product['category']), 30);
 		$I->click($usePage->returnChoice($product['category']));
 
 		$I->wantToTest('check discount start date before discount end ');
 		if (isset($product['discountStart']))
 		{
-			$I->fillField(ProductManagerPage::$discountStart, $product['discountEnd']);
+			$I->addValueForField(ProductManagerPage::$discountStart, $product['discountEnd'], 10);
 		}
-
+		$I->fillField(ProductManagerPage::$productNumber, $product['number']);
 		if (isset($product['discountEnd']))
 		{
-			$I->fillField(ProductManagerPage::$discountEnd, $product['discountStart']);
+			$I->addValueForField(ProductManagerPage::$discountEnd, $product['discountStart'], 10);
 		}
+		
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->acceptPopup();
 
@@ -299,11 +303,11 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $price);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($category));
+		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
@@ -326,17 +330,17 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $price);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($category));
+		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
 		$I->waitForElement(ProductManagerPage::$vatDropdownList, 30);
 		$I->click(ProductManagerPage::$vatDropdownList);
 		$I->waitForElement(ProductManagerPage::$vatSearchField, 30);
 		$I->fillField(ProductManagerPage::$vatSearchField, $vatGroups);
-		$I->waitForElement($usePage->returnChoice($vatGroups));
+		$I->waitForElement($usePage->returnChoice($vatGroups), 30);
 		$I->click($usePage->returnChoice($vatGroups));
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
@@ -362,7 +366,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($category));
+		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
 		$I->click(ProductManagerPage::$buttonSaveNew);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
@@ -392,10 +396,10 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
 		$I->click(ProductManagerPage::$categorySearch);
-		$I->waitForElement(ProductManagerPage::$categorySearchField);
+		$I->waitForElement(ProductManagerPage::$categorySearchField, 30);
 		$I->fillField(ProductManagerPage::$categorySearchField, $category);
 		$usePage = new ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($category));
+		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
 		$I->waitForElement(\ProductManagerPage::$productFilter, 30);
 	}
@@ -410,7 +414,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
 		$I->click(ProductManagerPage::$searchStatusId);
-		$I->waitForElement(ProductManagerPage::$searchStatusField);
+		$I->waitForElement(ProductManagerPage::$searchStatusField, 30);
 		$I->fillField(ProductManagerPage::$searchStatusField, $statusSearch);
 
 		$usePage = new \ProductManagerPage();
@@ -439,7 +443,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($category));
+		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
 
 		$I->click(ProductManagerPage::$buttonSaveCopy);
@@ -465,19 +469,19 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $price);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($category));
+		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
 
 		$I->click(ProductManagerPage::$buttonProductAttribute);
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
 		$I->click(ProductManagerPage::$addAttribute);
 
-		$I->fillField($usePage->addAttributeName(1), $nameAttribute);
-		$I->attributeValueProperty(1, $valueAttribute,$priceAttribute);
+		$I->fillField($usePage->addAttributeName(0), $nameAttribute);
+		$I->attributeValueProperty(0, $valueAttribute,$priceAttribute);
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
@@ -501,7 +505,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
 		$I->waitForElement(ProductManagerPage::$productPrice, 30);
-		$I->addValueForField(ProductManagerPage::$productPrice, $price);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
@@ -514,11 +518,58 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wantToTest($length);
 		for($x = 0;  $x < $length; $x ++ )
 		{
-			$position = $x+1;
+			$position = $x;
 			$I->click(ProductManagerPage::$addAttribute);
 			$attribute  = $attributes[$x];
 			$I->fillField($usePage->addAttributeName($position), $attribute['name']);
 			$I->attributeValueProperty($position, $attribute['attributeName'], $attribute['attributePrice']);
+		}
+
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param       $productName
+	 * @param       $category
+	 * @param       $productNumber
+	 * @param       $price
+	 * @param       $nameParameter
+	 * @param array $attributes
+	 *
+	 * @throws \Exception
+	 */
+	public function productMultiAttributeValue($productName, $category, $productNumber, $price, $nameParameter, $attributes = array())
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->waitForElement(ProductManagerPage::$productPrice, 30);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+
+		$position = 0;
+		$I->click(ProductManagerPage::$addAttribute);
+		$I->fillField($usePage->addAttributeName($position), $nameParameter);
+		$length = count($attributes);
+		$I->wantToTest($length);
+		for($x = 0;  $x < $length; $x ++ )
+		{
+			$attribute  = $attributes[$x];
+			$I->waitForElement($usePage->attributeNameAttribute($position, $x),30);
+			$I->fillField($usePage->attributeNameAttribute($position, $x), $attribute["attributeName"]);
+			$I->waitForElement($usePage->attributePricePropertyAttribute($position, $x), 30);
+			$I->fillField($usePage->attributePricePropertyAttribute($position, $x), $attribute["attributePrice"]);
+			$I->click("+ Add Attribute value");
 		}
 
 		$I->click(ProductManagerPage::$buttonSave);
@@ -589,7 +640,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(ProductManagerPage::$categoryId);
 		$I->fillField(ProductManagerPage::$categoryFile, $category);
 		$usePage = new ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($category));
+		$I->waitForElement($usePage->returnChoice($category), 30);
 		$I->click($usePage->returnChoice($category));
 
 
@@ -609,7 +660,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function selectAccessories($accessoryName)
 	{
 		$I = $this;
-		$I->waitForElement(ProductManagerPage::$accessorySearchID);
+		$I->waitForElement(ProductManagerPage::$accessorySearchID, 30);
 		$I->click(ProductManagerPage::$accessorySearchID);
 		$I->fillField(\ProductManagerPage::$accessSearchField, $accessoryName);
 		$userPage = new ProductManagerPage();
@@ -654,11 +705,11 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
 		$I->fillField(\ProductManagerPage::$productName, $productName);
 		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
-		$I->addValueForField(ProductManagerPage::$productPrice, $prices);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices, 6);
 		$I->click(\ProductManagerPage::$categoryId);
 		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
 		$usePage = new \ProductManagerPage();
-		$I->waitForElement($usePage->returnChoice($productCategory));
+		$I->waitForElement($usePage->returnChoice($productCategory), 30);
 		$I->click($usePage->returnChoice($productCategory));
 
 
@@ -705,6 +756,243 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField($usePage->attributePriceProperty($position), $price);
 		$I->waitForElement($usePage->attributePreSelect($position),30);
 		$I->click($usePage->attributePreSelect($position));
-    }
+	}
 
+	//The test case for Product not for Sale
+
+	/**
+	 * @param $productName
+	 * @param $productNumber
+	 * @param $prices
+	 * @param $productCategory
+	 *
+	 * @throws \Exception
+	 */
+	public function createProductNotForSale($productName, $productNumber, $prices, $productCategory)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(\ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(\ProductManagerPage::$productName, $productName);
+		$I->fillField(\ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $prices,6);
+		$I->click(\ProductManagerPage::$categoryId);
+		$I->fillField(\ProductManagerPage::$categoryFile, $productCategory);
+		$usePage = new \ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($productCategory), 30);
+		$I->click($usePage->returnChoice($productCategory));
+		$I->scrollTo(\ProductManagerPage::$saleYes);
+		$I->waitForElement(\ProductManagerPage::$saleYes, 30);
+		$I->click(\ProductManagerPage::$saleYes);
+		if ($prices == 'No')
+		{
+			$I->wait(0.2);
+			$I->waitForElement(\ProductManagerPage::$showPriceNo, 60);
+			$I->click(\ProductManagerPage::$showPriceNo);
+		}
+		else
+		{
+			$I->waitForElement(\ProductManagerPage::$productDiscontionueYes, 30);
+
+			$I->waitForElement(\ProductManagerPage::$showPriceYes, 60);
+			$I->scrollTo(\ProductManagerPage::$productDiscontionueYes);
+			$I->wait(0.2);
+			$I->click(\ProductManagerPage::$showPriceYes);
+		}
+
+		$I->scrollTo(\ProductManagerPage::$productName);
+		$I->click(\ProductManagerPage::$buttonSave);
+	}
+
+	/**
+	 * @param $productCategory
+	 * @param $productID
+	 *
+	 * @throws \Exception
+	 */
+	public function productFrontend($productCategory, $productID, $showPriceYes, $price)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$url);
+		$I->waitForElement(\ProductManagerPage::$categoryID, 30);
+		$I->click($productCategory);
+		$I->waitForElement(\ProductManagerPage::$productID, 30);
+		$I->dontSee(\ProductManagerPage::$addToCart);
+		if($showPriceYes == 'No')
+		{
+			$I->waitForElement(\ProductManagerPage::$productID, 30);
+			$I->dontSee($price);
+			$I->click($productID);
+			$I->dontSee(\ProductManagerPage::$addToCart);
+			$I->dontSee($price);
+		}
+		else
+		{
+			$I->waitForElement(\ProductManagerPage::$productID, 30);
+			$I->see($price);
+			$I->click($productID);
+			$I->dontSee(\ProductManagerPage::$addToCart);
+			$I->see($price);
+		}
+	}
+
+	/**
+	 * @param $productName
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $nameAttribute
+	 * @param $valueAttribute
+	 * @param $priceAttribute
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function createProductWithAttributeStockRoom($productName, $category, $productNumber, $price, $nameAttribute, $valueAttribute, $priceAttribute)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElementVisible(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+		$I->click(ProductManagerPage::$addAttribute);
+		$I->fillField($usePage->addAttributeName(0), $nameAttribute);
+		$I->waitForElementVisible($usePage->attributeNameProperty(0),30);
+		$I->fillField($usePage->attributeNameProperty(0), $valueAttribute);
+		$I->waitForElementVisible($usePage->attributePriceProperty(0), 30);
+		$I->fillField($usePage->attributePriceProperty(0), $priceAttribute);
+		$I->waitForElementVisible($usePage->attributePreSelect(0),30);
+		$I->click($usePage->attributePreSelect(0));
+		$I->click(ProductManagerPage::$stockroomTab);
+		$I->fillField(ProductManagerPage::$quantityInStock,$valueAttribute);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30);
+	}
+
+	/**
+	 * @param $productRelated
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $productName
+	 * @throws \Exception
+	 * since 2.1.2
+	 */
+	public function createProductWithRelated($productRelated, $category, $productNumber, $price, $productName)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productRelated);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$accessoryTab);
+		$I->waitForElement(ProductManagerPage::$accessoriesValue, 60);
+		$I->waitForElement(ProductManagerPage::$relatedProduct, 60);
+		$I->fillField(ProductManagerPage::$productRelated, $productName);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($productName), 60);
+		$I->click($usePage->returnChoice($productName));
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param $productName
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $titleSEO
+	 * @param $headingSEO
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function createProductHaveImageAndSEO($productName, $category, $productNumber, $price, $titleSEO, $headingSEO,$image)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->waitForElement(ProductManagerPage::$fileUpload, 30);
+		$I->attachFile(ProductManagerPage::$fileUpload, $image);
+		$I->click(ProductManagerPage:: $tabSEO);
+		$I->waitForElementVisible(ProductManagerPage::$titleSEO, 30);
+		$I->fillField(ProductManagerPage::$titleSEO, $titleSEO);
+		$I->waitForElementVisible(ProductManagerPage::$headingSEO, 30);
+		$I->fillField(ProductManagerPage::$headingSEO, $headingSEO);
+		$I->waitForText(ProductManagerPage::$buttonSave, 30);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param $productName
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $addprice
+	 * @param $quantityStart
+	 * @param $quantityEnd
+	 * @param $discountprice
+	 * @param $startDate
+	 * @param $endDate
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function createProductWithAddPrice($productName, $category, $productNumber, $price, $shoppergroup, $addprice, $quantityStart, $quantityEnd, $discountprice, $startDate, $endDate)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElement(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->addValueForField(ProductManagerPage::$productPrice, $price, 6);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElement($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+		$I->click(ProductManagerPage::$addPriceButton);
+		$I->waitForElementVisible(ProductManagerPage::$addPriceButton, 30);
+		$I->click(ProductManagerPage::$addPriceButton);
+		$I->waitForElementVisible(PriceProductJoomla3Page::$priceProduct, 30);
+		$userManagerPage = new UserManagerJoomla3Page;
+		$I->click(UserManagerJoomla3Page::$shopperGroupDropDown);
+		$I->waitForElement($userManagerPage->shopperGroup($shoppergroup), 30);
+		$I->click($userManagerPage->shopperGroup($shoppergroup));
+		$I->addValueForField(PriceProductJoomla3Page::$priceProduct, $addprice, 6);
+		$I->fillField(PriceProductJoomla3Page::$quantityStart, $quantityStart);
+		$I->fillField(PriceProductJoomla3Page::$quantityEnd, $quantityEnd);
+		$I->fillField(PriceProductJoomla3Page::$discountPrice, $discountprice);
+		$I->fillField(PriceProductJoomla3Page::$startDate, $startDate);
+		$I->fillField(PriceProductJoomla3Page::$endDate, $endDate);
+		$I->click(ProductManagerPage::$buttonSave);
+		$I->waitForText(PriceProductJoomla3Page::$savePriceSuccess, 5, AdminJ3Page::$selectorSuccess);
+	}
 }

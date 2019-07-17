@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,6 +26,11 @@ class RedshopTableMass_Discount extends RedshopTable
 	 * @var  string
 	 */
 	protected $_tableName = 'redshop_mass_discount';
+
+	/**
+	 * @var  string
+	 */
+	public $end_date;
 
 	/**
 	 * Called before bind().
@@ -232,12 +237,6 @@ class RedshopTableMass_Discount extends RedshopTable
 
 			return false;
 		}
-
-		// Convert start date to same day but at early morning
-		$this->start_date = RedshopHelperDatetime::generateTimestamp($this->start_date, false);
-
-		// Convert end date to same day but at middle night
-		$this->end_date = RedshopHelperDatetime::generateTimestamp($this->end_date);
 
 		if ($this->start_date > $this->end_date)
 		{

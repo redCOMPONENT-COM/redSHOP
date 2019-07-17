@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -184,6 +184,15 @@ class RedshopTableDiscount extends RedshopTable
 		if ((float) $this->discount_amount <= 0.0)
 		{
 			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_DISCOUNT_AMOUNT_ZERO'));
+
+			return false;
+		}
+
+		// Check amount and discount amount
+		if (((float) $this->amount) < (float) $this->discount_amount)
+		{
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(JText::_('COM_REDSHOP_DISCOUNT_ERROR_AMOUNT_HIGHT_DISCOUNT_AMOUNT'));
 
 			return false;
 		}

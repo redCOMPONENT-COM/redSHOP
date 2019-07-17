@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class TaxGroupPage extends AdminJ3Page
 {
@@ -33,7 +33,7 @@ class TaxGroupPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $fieldName = ['id' => 'jform_name'];
+	public static $fieldName = "#jform_name";
 
 	/**
 	 * @var string
@@ -53,6 +53,6 @@ class TaxGroupPage extends AdminJ3Page
     /**
      * @var array
      */
-	public static $buttonSaveTax = ['xpath' => "//button[@onclick=\"Joomla.submitbutton('tax_group.apply');\"]"];
+	public static $buttonSaveTax = "//button[@onclick=\"Joomla.submitbutton('tax_group.apply');\"]";
 
 }

@@ -3,7 +3,7 @@
  * @package     Redshop.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,7 @@ $idText = $idtag ? $idtag : $name;
 			$id    = (isset($obj->id) ? $obj->id : null);
 
 			$extra = '';
-			$id    = $id ? $obj->id : $idText . $key;
+			$id    = $id ? $obj->id : $idText . '_' . $key;
 
 			if (is_array($selected))
 			{

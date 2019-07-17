@@ -17,6 +17,7 @@
                 table-sortable="1"
                 table-inline="1"
                 table-edit-link="1"
+                filter="trim"
         />
         <field
                 name="code"

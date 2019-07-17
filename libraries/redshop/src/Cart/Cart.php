@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -385,7 +385,6 @@ class Cart
 		$calcOutput      = "";
 		$calcOutputs     = array();
 		$productVatPrice = 0;
-		$productVatPrice = 0;
 
 		if (!empty($discounts))
 		{
@@ -404,11 +403,59 @@ class Cart
 		$generateAttributeCart = isset($data['cart_attribute']) ?
 			$data['cart_attribute'] : \Redshop\Cart\Helper::generateAttribute($data);
 
+		if (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
+		{
+			$templateCart = \RedshopHelperTemplate::getTemplate("quotation_cart");
+		}
+		else
+		{
+			if (!\Redshop::getConfig()->get('USE_AS_CATALOG'))
+			{
+				$templateCart = \RedshopHelperTemplate::getTemplate("cart");
+			}
+			else
+			{
+				$templateCart = \RedshopHelperTemplate::getTemplate("catalogue_cart");
+			}
+		}
+
 		$retAttArr = \productHelper::getInstance()->makeAttributeCart(
-			$generateAttributeCart, $product->product_id, 0, $data['product_price'], $quantity
+			$generateAttributeCart, $product->product_id, 0, $data['product_price'], $quantity, $templateCart[0]->template_desc
 		);
 
 		$selectProp                           = \productHelper::getInstance()->getSelectedAttributeArray($data);
+
+		if (\JFactory::getApplication()->input->getString('task') == 'reorder' && !empty($generateAttributeCart))
+		{
+			$propertyReOrderItemArr = array();
+			$subPropertyReOrderItemArr = array();
+
+			foreach ($generateAttributeCart as $idxRe => $itemRe)
+			{
+				if (!empty($itemRe['attribute_childs']))
+				{
+					$propertyReOrderItemArr[] = $itemRe['attribute_childs'][0]['property_id'];
+
+					if (!empty($itemRe['attribute_childs'][0]['property_childs']))
+					{
+						$subPropertyReOrderItemArr[] = $itemRe['attribute_childs'][0]['property_childs'][0]['subproperty_id'];
+					}
+					else
+					{
+						$subPropertyReOrderItemArr[] = '';
+					}
+				}
+			}
+
+			$propertyReOrderItemStr = implode('##', $propertyReOrderItemArr);
+			$subPropertyReOrderItemStr = implode('##', $subPropertyReOrderItemArr);
+
+			$dataReOrder = array();
+			$dataReOrder['property_data'] = $propertyReOrderItemStr;
+			$dataReOrder['subproperty_data'] = $subPropertyReOrderItemStr;
+			$selectProp = \productHelper::getInstance()->getSelectedAttributeArray($dataReOrder);
+		}
+
 		$data['product_old_price']            = $retAttArr[5] + $retAttArr[6];
 		$data['product_old_price_excl_vat']   = $retAttArr[5];
 		$data['product_price']                = $retAttArr[1];
@@ -458,7 +505,6 @@ class Cart
 		$selectedPropId       = $selectProp[0];
 		$notSelectedSubPropId = $retAttArr[8];
 		$productPreOrder      = $product->preorder;
-		$isPreOrderStock      = $retAttArr[7];
 
 		// Check for the required attributes if selected
 		$handleMessage = \rsCarthelper::getInstance()->handleRequiredSelectedAttributeCartMessage(
@@ -478,8 +524,6 @@ class Cart
 			{
 				return urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
 			}
-
-			return urldecode(\JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE'));
 		}
 
 		$cart[$idx]['subscription_id'] = 0;
@@ -686,7 +730,7 @@ class Cart
 					foreach ($rows as $row)
 					{
 						$productUserField = $row->name;
-						$addedUserField   = isset($data[$productUserField]) ?: '';
+						$addedUserField   = isset($data[$productUserField]) ? $data[$productUserField] : '';
 
 						if (isset($cart[$i][$productUserField]) && $addedUserField !== $cart[$i][$productUserField])
 						{
@@ -716,7 +760,7 @@ class Cart
 
 					if ($newCartQuantity != $cart[$i]['quantity'])
 					{
-						$cart[$i]['quantity'] = $quantity;
+						$cart[$i]['quantity'] = $newCartQuantity;
 
 						/*
 						 * Trigger the event of redSHOP product plugin support on Same product is going to add into cart
@@ -754,7 +798,7 @@ class Cart
 			return \JText::_('COM_REDSHOP_PER_PRODUCT_TOTAL') . " " . $perProductTotal;
 		}
 
-		if ($sameProduct === false)
+		if (!$sameProduct)
 		{
 			// SET VALVUES INTO SESSION CART
 			$cart[$idx]['giftcard_id']                = '';

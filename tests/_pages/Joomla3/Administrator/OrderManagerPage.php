@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,74 +11,181 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  1.4
+ * @since  2.4
  */
 class OrderManagerPage extends AdminJ3Page
 {
-    public static $URL = '/administrator/index.php?option=com_redshop&view=order';
+	/**
+	 * @var string
+	 */
+	public static $URL = '/administrator/index.php?option=com_redshop&view=order';
 
+	/**
+	 * @var string
+	 */
+	public static $userId = "//div[@id='s2id_user_id']/a";
 
-    public static $userId = "//div[@id='s2id_user_id']/a";
+	/**
+	 * @var string
+	 */
+	public static $userSearch = "//input[@id='s2id_autogen1_search']";
 
-    public static $userSearch = "//input[@id='s2id_autogen1_search']";
+	/**
+	 * @var string
+	 */
+	public static $address = "#address";
 
-    public static $address = ['id' => 'address'];
+	/**
+	 * @var string
+	 */
+	public static $zipcode = "#zipcode";
 
-    public static $zipcode = ['id' => 'zipcode'];
+	/**
+	 * @var string
+	 */
+	public static $fistName = "//input[@id='firstname']";
 
-    /**
-     * @var string
-     */
-    public static $fistName = "//input[@id=\"firstname\"]";
+	/**
+	 * @var string
+	 */
+	public static $city = "#city";
 
-    public static $city = ['id' => 'city'];
+	/**
+	 * @var string
+	 */
+	public static $phone = "#phone";
 
-    public static $phone = ['id' => 'phone'];
+	/**
+	 * @var string
+	 */
+	public static $close = "#toolbar-cancel";
 
-    public static $close = ['id' => 'toolbar-cancel'];
+	/**
+	 * @var string
+	 */
+	public static $filter = "#filter";
 
+	/**
+	 * @var string
+	 */
+	public static $applyUser = "#toolbar-apply";
 
-    public static $filter = ['id' => 'filter'];
+	/**
+	 * @var string
+	 */
+	public static $productId = "#s2id_product1";
 
-    public static $applyUser = ['id' => 'toolbar-apply'];
+	/**
+	 * @var string
+	 */
+	public static $productsSearch = "#s2id_autogen2_search";
 
+	/**
+	 * @var string
+	 */
+	public static $quanlityFirst = "#quantityproduct1";
 
-    public static $productId = ['id' => 's2id_product1'];
+	/**
+	 * @var string
+	 */
+	public static $quantityp1 = "#quantity";
 
-    public static $productsSearch = ['id' => 's2id_autogen2_search'];
+	/**
+	 * @var string
+	 */
+	public static $nameProductSuccess = "#order_product_detail_3";
 
-    public static $quanlityFirst = ['id' => 'quantityproduct1'];
+	/**
+	 * @var string
+	 */
+	public static $statusOrder = "#s2id_status";
 
-    public static $quantityp1 = ['id' => 'quantity'];
+	/**
+	 * @var string
+	 */
+	public static $statusSearch = "#s2id_autogen2_search";
 
-    public static $nameProductSuccess = ['id' => 'order_product_detail_3'];
+	/**
+	 * @var string
+	 */
+	public static $statusPaymentStatus = "#s2id_order_paymentstatus";
 
-    public static $statusOrder = ['id' => 's2id_status'];
+	/**
+	 * @var string
+	 */
+	public static $statusPaymentSearch = "#s2id_autogen3_search";
 
-    public static $statusSearch = ['id' => 's2id_autogen2_search'];
+	/**
+	 * @var array
+	 */
+	public static $nameButtonStatus = ['name' => 'order_status'];
 
-    public static $statusPaymentStatus = ['id' => 's2id_order_paymentstatus'];
+	/**
+	 * @var string
+	 */
+	public static $deleteFirst = "//input[@id='cb0']";
+	
+	/**
+	 * @var string
+	 */
+	public static $iconEdit = '(//a[@title="Edit order"])[1]';
 
-    public static $statusPaymentSearch = ['id' => 's2id_autogen3_search'];
+	/**
+	 * @var string
+	 */
+	public static $nameXpath = "//td[4]/a";
 
-    public static $nameButtonStatus = ['name' => 'order_status'];
+	/**
+	 * @var string
+	 */
+	public static $fieldAttribute = "//select[@class='inputbox']";
 
-    public static $deleteFirst = ['xpath' => '//input[@id=\'cb0\']'];
+	/**
+	 * @var string
+	 */
+	public static $valueAttribute = "//select[@class='inputbox']/option[2]";
 
-    public static $nameXpath = ['xpath' => '//td[4]/a'];
-    
-    //button
-    public static $buttonSavePay = "Save + Pay";
+	/**
+	 * @var string
+	 */
+	public static $adminFinalPriceEnd = "#tdtotalprdproduct1";
 
-    //selector
-    public static $messageSaveSuccess = "Order Status Successfully Saved For Order Number 1";
+	//button
 
-    public static $messageDeleteSuccess = "Order detail deleted successfully";
+	/**
+	 * @var string
+	 */
+	public static $buttonSavePay = "Save + Pay";
 
-    public function returnSearch($userName)
-    {
-        $path = ['xpath' => "//span[contains(text(), '" . $userName . "')]"];
-        return $path;
-    }
+	//selector
+
+	/**
+	 * @var string
+	 */
+	public static $messageSaveSuccess = "Order Status Successfully Saved For Order Number 1";
+
+	/**
+	 * @var string
+	 */
+	public static $messageDeleteSuccess = "Order detail deleted successfully";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $buttonDeleteOder = '//div[@id="toolbar-delete"]';
+
+	/**
+	 * Function to get Path $userName in Order item
+	 *
+	 * @param $userName
+	 *
+	 * @return string
+	 */
+	public function returnSearch($userName)
+	{
+		$path = "//span[contains(text(), '" . $userName . "')]";
+		return $path;
+	}
 
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -113,7 +113,8 @@ class RedshopModelPrices_detail extends RedshopModel
 
 	public function store($data)
 	{
-		if (($data['price_quantity_start'] > $data['price_quantity_end']) || ($data['discount_start_date'] > $data['discount_end_date']))
+		if (((float) $data['price_quantity_start'] > (float) $data['price_quantity_end']) ||
+			($data['discount_start_date'] > $data['discount_end_date']))
 		{
 			return false;
 		}

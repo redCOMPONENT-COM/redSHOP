@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,7 +96,8 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 	 */
 	public function processImport($table, $data)
 	{
-		$db = $this->db;
+		$table = $this->getTable();
+		$db    = $this->db;
 		$isNew = false;
 
 		$hasPropertyName    = !empty($data['property_name']) ? true : false;
@@ -257,7 +258,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($propertyStock[0]))
 								->where($db->quoteName('section') . ' = ' . $db->quote('property'))
 								->where($db->quoteName('section_id') . ' = ' . $db->quote($propertyId));
-							$db->setQuery($query)->clear();
+							$db->setQuery($query)->execute();
 						}
 						else
 						{
