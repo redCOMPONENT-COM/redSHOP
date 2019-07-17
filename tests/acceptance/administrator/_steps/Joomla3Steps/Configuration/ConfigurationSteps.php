@@ -526,7 +526,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	 * @param $function1
 	 * @param $function2
 	 * @throws \Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function ConfigurationOder ($function1, $function2, $function)
 	{

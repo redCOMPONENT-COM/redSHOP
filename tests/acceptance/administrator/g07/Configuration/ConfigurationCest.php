@@ -11,61 +11,91 @@ class ConfigurationCest
 {
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $resetIdOder;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $sendOderEmail;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $afterPayment;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $beforePayment;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $afterPayment2;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $enableInVoiceEmail;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $sendMailToCustomerInOder;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $Yes;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $No;
 
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+	protected $None;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+	protected $Administrator;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+	protected $Customer;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+	protected $Both;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+	protected $Null;
+
 	/**
 	 * ConfigurationCest constructor.
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function __construct()
 	{
@@ -119,7 +149,7 @@ class ConfigurationCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -130,7 +160,7 @@ class ConfigurationCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function allCaseAtConfigurations(AcceptanceTester $I, $scenario)
 	{
