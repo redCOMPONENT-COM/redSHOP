@@ -137,6 +137,12 @@ if (typeof(window['jQuery']) != "undefined") {
                 zipcode: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'),
                 city: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'),
                 phone: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE'),
+                firstname_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME'),
+                lastname_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME'),
+                address_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ADDRESS'),
+                zipcode_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'),
+                city_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'),
+                phone_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE'),
                 username: {
                     required: Joomla.JText._('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME'),
                     minlength: Joomla.JText._('COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT'),
