@@ -63,34 +63,34 @@ class ConfigurationCest
 	 */
 	protected $No;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	protected $None;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	protected $Administrator;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	protected $Customer;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	protected $Both;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	protected $Null;
 
 	/**
