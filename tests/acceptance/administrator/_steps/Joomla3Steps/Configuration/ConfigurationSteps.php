@@ -543,6 +543,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->wait(0.5);
 				$I->acceptPopup();
 				break;
+
 			case 'Send Oder Email':
 				switch ($function2)
 				{
@@ -552,6 +553,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 						$I->waitForElementVisible(ConfigurationPage::$afterPayment);
 						$I->click(ConfigurationPage::$afterPayment);
 						break;
+
 					case 'After Payment, but send before to administrator':
 						$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
 						$I->click(ConfigurationPage::$sendOrderEmail);
@@ -561,6 +563,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 						$I->waitForElement($usePage->returnChoice($function2), 30);
 						$I->click($usePage->returnChoice($function2));
 						break;
+
 					case 'Before Payment':
 						$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
 						$I->click(ConfigurationPage::$sendOrderEmail);
@@ -584,26 +587,31 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 								$I->waitForElementVisible(ConfigurationPage::$noneButton, 30);
 								$I->click(ConfigurationPage::$noneButton);
 								break;
+
 							case 'Administrator':
 								$I->waitForElementVisible(ConfigurationPage::$administratorButton, 30);
 								$I->click(ConfigurationPage::$administratorButton);
 								break;
+
 							case 'Customer':
 								$I->waitForElementVisible(ConfigurationPage::$customerButton, 30);
 								$I->click(ConfigurationPage::$customerButton);
 								break;
+
 							case 'Both':
 								$I->waitForElementVisible(ConfigurationPage::$bothButton, 30);
 								$I->click(ConfigurationPage::$bothButton);
 								break;
 						}
 						break;
+
 					case 'No':
 						$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailNo, 30);
 						$I->click(ConfigurationPage::$enableInvoiceEmailNo);
 						break;
 				}
 				break;
+
 			case 'Send mail to customer in oder':
 				switch ($function2)
 				{
@@ -611,6 +619,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 						$I->waitForElementVisible(ConfigurationPage::$sendMailToCustomerInOrderYes, 30);
 						$I->click(ConfigurationPage::$sendMailToCustomerInOrderYes);
 						break;
+
 					case 'No':
 						$I->waitForElementVisible(ConfigurationPage::$sendMailToCustomerInOrderNo, 30);
 						$I->click(ConfigurationPage::$sendMailToCustomerInOrderNo);
