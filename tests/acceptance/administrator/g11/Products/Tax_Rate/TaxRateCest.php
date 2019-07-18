@@ -33,7 +33,7 @@ class TaxRateCest
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $taxRateName2 = '';
 
