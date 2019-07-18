@@ -74,7 +74,7 @@ class OrderBackendProductAttributeCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductWithAttribute($this->productName, $this->categoryName, $this->productNumber, $this->price, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
 
-		$I->wantTo('Create User testing in Administrator');
+		$I->wantTo('Create User Testing in Administrator');
 		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->userName, $this->userName, 'saveclose');
 		$I->searchUser($this->userName);
