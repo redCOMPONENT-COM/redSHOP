@@ -230,7 +230,7 @@ class TaxRateCest
 	public function addTAXRatesMissingSaveCloseAndSaveNew(TaxRateSteps $I)
 	{
 		$I->doAdministratorLogin();
-		$I->wantTo('Test TAX Rates missing Name with Save & Close and Save & New');
+		$I->wantTo('Test TAX Rates missing name with Save & Close and Save & New');
 		$I->addTAXRatesMissingNameSaveCloseAndSaveNew($this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
 
 		$I->wantTo('Test TAX Rates missing groups with Save & Close and Save & New');
