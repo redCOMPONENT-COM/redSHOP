@@ -207,7 +207,7 @@ class ConfigurationCest
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendOderEmail, $this->afterPayment2, $this->Null);
 
-		$I->wantTo('Test Configuration Oder send oder email Before Payment');
+		$I->wantTo('Test Configuration Oder Send Oder Email Before Payment');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendOderEmail, $this->beforePayment, $this->Null);
 
