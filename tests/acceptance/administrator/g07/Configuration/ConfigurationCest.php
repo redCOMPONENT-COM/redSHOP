@@ -231,11 +231,11 @@ class ConfigurationCest
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->enableInVoiceEmail, $this->No, $this->Null);
 
-		$I->wantTo('Test Configuration Oder Send Mail To Customer In Oder Yes');
+		$I->wantTo('Test Configuration Oder Send Mail To Customer in Oder Yes');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendMailToCustomerInOder, $this->Yes, $this->Null);
 
-		$I->wantTo('Test Configuration Oder Send Mail To Customer In Oder No');
+		$I->wantTo('Test Configuration Oder Send Mail To Customer in Oder No');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->sendMailToCustomerInOder, $this->No, $this->Null);
 	}
