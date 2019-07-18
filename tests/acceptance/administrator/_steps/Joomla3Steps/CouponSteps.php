@@ -25,7 +25,7 @@ class CouponSteps extends AbstractStep
 	 * @param array $data
 	 * @param $startDate
 	 * @param $endDate
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function checkStartDateLargerThanEndDate($data = array(), $type, $startDate, $endDate)
 	{

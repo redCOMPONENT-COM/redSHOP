@@ -30,25 +30,25 @@ class CouponCest extends AbstractCest
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $couponInfo = array();
 
 	/**
 	 * @var
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $startDate;
 
 	/**
 	 * @var
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $endDate;
 
 	/**
 	 * @var
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $type;
 
@@ -65,7 +65,7 @@ class CouponCest extends AbstractCest
 		$this->couponInfo = array(
 			'code' => $this->faker->bothify('Coupon Code ?##?'),
 			'type' => 'Total',
-			'value' => '100',
+			'value' => '120',
 			'amount_left' => '10'
 		);
 
@@ -139,7 +139,7 @@ class CouponCest extends AbstractCest
 	 * @param AcceptanceTester $tester
 	 * @param \Codeception\Scenario $scenario
 	 * @throws Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function afterTestItemCreate(AcceptanceTester $tester, Codeception\Scenario $scenario)
 	{
