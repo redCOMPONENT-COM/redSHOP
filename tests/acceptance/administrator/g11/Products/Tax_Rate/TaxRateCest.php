@@ -111,7 +111,7 @@ class TaxRateCest
 	/**
 	 * @param TaxRateSteps $I
 	 * @throws Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function checkButton(TaxRateSteps $I)
 	{
@@ -225,7 +225,7 @@ class TaxRateCest
 	/**
 	 * @param TaxRateSteps $I
 	 * @throws Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function addTAXRatesMissingSaveCloseAndSaveNew(TaxRateSteps $I)
 	{
@@ -236,20 +236,7 @@ class TaxRateCest
 		$I->wantTo('Test TAX Rates missing groups with Save & Close and Save & New');
 		$I->addTAXRatesMissingGroupsSaveCloseAndSaveNew($this->taxRateName, $this->taxRateValue);
 
-		$I->wantTo('Test TAX missing tax value with Save & Close and Save & New');
-		$I->addTAXRatesMissingTaxValueSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName);
-
-		$I->wantTo('Test TAX amount less zero with Save & Close and Save & New');
-		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
-
-		$I->wantTo('Test TAX Rates with amount is string with Save & Close');
-		$I->addTAXRatesValueAmountStringSaveClose(
-			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName
-		);
-
-		$I->wantTo('Test TAX Rates with amount is string with Save & New');
-		$I->addTAXRatesValueAmountStringSaveNew(
-			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName
-		);
+		$I->wantTo('Test TAX Rates with rates value amount less zero Save Close & Save New');
+		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName,$this->taxRateValueNegative);
 	}
 }

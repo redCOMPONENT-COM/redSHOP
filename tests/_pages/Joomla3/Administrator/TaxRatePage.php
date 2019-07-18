@@ -82,37 +82,48 @@ class TaxRatePage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $editTitle = 'Tax Rate [ Edit ]';
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $tableTaxRate = '#table-tax_rates';
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $searchTools = '.js-stools-btn-filter';
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $selectorSearchTools = ".js-stools-container-filters";
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $eUCountry = '#select2-chosen-4';
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $selectorEUCountry = '#select2-results-4';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageMising = 'Field required: ';
+
+	/**
+	 * @var string
+	 */
+	public static $messageInvalid = 'Save failed with the following error: Invalid input of tax rate, it must be numeric & not less than zero';
 }
