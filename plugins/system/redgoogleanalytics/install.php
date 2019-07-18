@@ -79,7 +79,7 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 		$extensionTable->load($pluginId);
 		$pluginParams = $extensionTable->get('params');
 
-		jimport('redshop.library');
+		JLoader::import('redshop.library');
 
 		// Set the reset_status parameter to 0 and save the updated parameters
 		$pluginParams              = json_decode($pluginParams);

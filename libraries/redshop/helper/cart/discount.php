@@ -165,7 +165,7 @@ class RedshopHelperCartDiscount
 			}
 			else
 			{
-				$couponValue = ($subTotal * $coupon->value) / (100);
+				$couponValue = ($productSubtotal * $coupon->value) / (100);
 			}
 
 			$key = rsCarthelper::getInstance()->rs_multi_array_key_exists('coupon', $cart);
