@@ -66,20 +66,20 @@ class OrderBackendProductAttributeCest
 	 */
 	public function OrderBackendProductAttribute(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Create Category In Administrator');
+		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySaveClose($this->categoryName);
 
-		$I->wantTo('Create Product With Attribute In Administrator');
+		$I->wantTo('Create Product with attribute in Administrator');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductWithAttribute($this->productName, $this->categoryName, $this->productNumber, $this->price, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
 
-		$I->wantTo('Create User Testing In Administrator');
+		$I->wantTo('Create User testing in Administrator');
 		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->userName, $this->userName, 'saveclose');
 		$I->searchUser($this->userName);
 
-		$I->wantTo('Create Order In Administrator');
+		$I->wantTo('Create Order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->addOrderWithAttribute($this->userName, $this->productName, $this->price, $this->priceAttribute);
 
