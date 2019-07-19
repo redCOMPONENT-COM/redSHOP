@@ -120,10 +120,15 @@ class TaxRatePage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $messageMising = 'Field required: ';
+	public static $messageInvalid = 'Save failed with the following error: Invalid input of tax rate, it must be numeric & not less than zero';
 
 	/**
-	 * @var string
+	 * @param $nameField
+	 * @return string
+	 * @since 2.1.3
 	 */
-	public static $messageInvalid = 'Save failed with the following error: Invalid input of tax rate, it must be numeric & not less than zero';
+	public function messageMissing($nameField)
+	{
+		return $message = 'Field required: '.$nameField;
+	}
 }

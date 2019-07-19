@@ -138,7 +138,8 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->click(TaxRatePage::$buttonSaveNew);
 		$client->waitForElement(TaxGroupPage::$selectorMissing,10);
 
-		$client->waitForText(TaxRatePage::$messageMising.'Name', 30, TaxRatePage::$selectorMissing);
+		$taxRateMessage = new TaxRatePage();
+		$client->waitForText($taxRateMessage->messageMissing('Name'), 30, TaxRatePage::$selectorMissing);
 	}
 
 	public function addTAXRatesValueAmountLessZeroSave($TAXRatesName, $VATGroupName, $TaxRatesValue)
@@ -173,12 +174,13 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
 
 		$client->click(TaxRatePage::$buttonSaveClose);
-		$client->waitForElement(TaxGroupPage::$selectorMissing,30);
+		$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
 
 		$client->click(TaxRatePage::$buttonSaveNew);
-		$client->waitForElement(TaxGroupPage::$selectorMissing,30);
+		$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
 
-		$client->waitForText(TaxRatePage::$messageMising.'Group', 30, TaxRatePage::$selectorMissing);
+		$taxRateMessage = new TaxRatePage();
+		$client->waitForText($taxRateMessage->messageMissing('Group'), 30, TaxRatePage::$selectorMissing);
 	}
 
 	/**
@@ -265,7 +267,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
 
 		$client->click(TaxRatePage::$buttonSaveClose);
-		$client->waitForText(TaxRatePage::$messageItemSaveSuccess, 30 , TaxRatePage::$selectorSuccess);
+		$client->waitForText(TaxRatePage::$messageItemSaveSuccess, 30, TaxRatePage::$selectorSuccess);
 
 		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
 	}
@@ -449,7 +451,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$I->wantTo("Check EU Country");
 		$I->click(TaxRatePage::$eUCountry);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->waitForText('EU country', 30 , TaxRatePage::$selectorEUCountry);
+		$I->waitForText('EU country', 30, TaxRatePage::$selectorEUCountry);
 	}
 
 	/**
@@ -464,6 +466,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$I->searchTAXRates($taxRateName);
 		$I->checkAllResults();
 		$I->click(TaxRatePage::$buttonCheckIn);
-		$I->waitForText(TaxRatePage::$messageCheckInSuccess, 30 , TaxRatePage::$selectorSuccess);
+		$I->waitForText(TaxRatePage::$messageCheckInSuccess, 30, TaxRatePage::$selectorSuccess);
 	}
 }

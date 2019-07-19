@@ -237,6 +237,6 @@ class TaxRateCest
 		$I->addTAXRatesMissingGroupsSaveCloseAndSaveNew($this->taxRateName, $this->taxRateValue);
 
 		$I->wantTo('Test TAX Rates with rates value amount less zero Save Close & Save new');
-		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName,$this->taxRateValueNegative);
+		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
 	}
 }
