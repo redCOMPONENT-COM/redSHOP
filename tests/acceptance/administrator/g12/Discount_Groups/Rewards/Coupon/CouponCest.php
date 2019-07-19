@@ -135,10 +135,10 @@ class CouponCest extends AbstractCest
 		);
 	}
 
-    /**
-     * @param CouponSteps $tester
-     * @since 2.1.3
-     */
+	/**
+	 * @param CouponSteps $tester
+	 * @since 2.1.3
+	 */
 	public function afterTestItemCreate(CouponSteps $tester)
 	{
 		$tester->wantTo('I want to check create coupon with Start Date larger than End Date');
