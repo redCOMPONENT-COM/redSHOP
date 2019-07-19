@@ -251,10 +251,11 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	 * @param $VATGroupName
 	 * @param $TaxRatesValue
 	 * @param $nameCountry
+	 * @param $nameState
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function addTAXRatesValueAmountStringSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
+	public function addTAXRatesValueAmountStringSaveNew($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState, $buttonName = "SaveClose")
 	{
 		$client = $this;
 		$client->amOnPage(TaxRatePage::$url);
@@ -265,9 +266,18 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
 		$client->chooseOnSelect2(TaxRatePage::$fieldCountry, $nameCountry);
 		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
-
-		$client->click(TaxRatePage::$buttonSaveClose);
-		$client->waitForText(TaxRatePage::$messageItemSaveSuccess, 30, TaxRatePage::$selectorSuccess);
+		switch ($buttonName)
+		{
+			case 'SaveNew':
+				$client->click(TaxRatePage::$buttonSaveNew);
+				break;
+			case 'SaveClose':
+				$client->click(TaxRatePage::$buttonSaveClose);
+				break;
+			default:
+				break;
+		}
+		$client->waitForElement(TaxRatePage::$selectorSuccess,30);
 
 		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
 	}
@@ -278,28 +288,11 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	 * @param $TaxRatesValue
 	 * @param $nameCountry
 	 * @param $nameState
+	 * @param string $buttonName
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function addTAXRatesValueAmountStringSaveNew($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
-	{
-		$client = $this;
-		$client->amOnPage(TaxRatePage::$url);
-		$client->click(TaxRatePage::$buttonNew);
-		$client->verifyNotices(false, $this->checkForNotices(), TaxRatePage::$nameEditPage);
-		$client->checkForPhpNoticesOrWarnings();
-		$client->fillField(TaxRatePage::$fieldName, $TAXRatesName);
-		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
-		$client->chooseOnSelect2(TaxRatePage::$fieldCountry, $nameCountry);
-		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
-
-		$client->click(TaxRatePage::$buttonSaveNew);
-		$client->waitForElement(TaxRatePage::$selectorSuccess,30);
-
-		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
-	}
-
-	public function addTAXRatesSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
+	public function addTAXRatesSaveCloseOrSaveNew($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState, $buttonName = 'SaveClose')
 	{
 		$client = $this;
 		$client->amOnPage(\TaxRatePage::$url);
@@ -310,7 +303,17 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
-		$client->click(\TaxRatePage::$buttonSaveClose);
+		switch ($buttonName)
+		{
+			case 'SaveNew':
+				$client->click(TaxRatePage::$buttonSaveNew);
+				break;
+			case 'SaveClose':
+				$client->click(TaxRatePage::$buttonSaveClose);
+				break;
+			default:
+				break;
+		}
 		$client->waitForElement(\TaxRatePage::$selectorSuccess,30);
 		$client->see(\TaxRatePage::$messageItemSaveSuccess, \TaxRatePage::$selectorSuccess);
 	}
