@@ -252,10 +252,11 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	 * @param $TaxRatesValue
 	 * @param $nameCountry
 	 * @param $nameState
+	 * @param string $buttonName
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function addTAXRatesValueAmountStringSaveNew($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState, $buttonName = "SaveClose")
+	public function addTAXRatesValueAmountStringSaveNewOrSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState, $buttonName = "SaveClose")
 	{
 		$client = $this;
 		$client->amOnPage(TaxRatePage::$url);
