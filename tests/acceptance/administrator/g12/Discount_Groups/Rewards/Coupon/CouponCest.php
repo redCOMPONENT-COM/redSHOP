@@ -65,7 +65,7 @@ class CouponCest extends AbstractCest
 		$this->couponInfo = array(
 			'code' => $this->faker->bothify('Coupon Code ?##?'),
 			'type' => 'Total',
-			'value' => '100',
+			'value' => '110',
 			'amount_left' => '10'
 		);
 
