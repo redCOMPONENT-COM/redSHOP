@@ -612,6 +612,12 @@ abstract class AdminJ3Page
 	public static $labelLanguage = "Language";
 
 	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $addAccessory = '(//input[@type="checkbox"])[2]';
+
+	/**
 	 * @param $menuCategory
 	 * @return array
 	 * @since 2.1.2
