@@ -41,7 +41,6 @@ pipeline:
 
             # npm setup
             - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
-            - rm -rf node_modules package-lock.json
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm install ws@3.3.2 --save-dev --save-exact
             - mv gulp-config.json.dist gulp-config.json
@@ -51,6 +50,7 @@ pipeline:
             - vendor/bin/robo tests:paid-extensions-for-integration-tests
             - cd tests/extension/paid-extensions
             - mv gulp-config.sample.json gulp-config.json
+            - rm -rf node_modules package-lock.json
             - npm install
             - gulp release --skip-version
             - cd ../../..
