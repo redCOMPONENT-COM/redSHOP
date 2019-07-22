@@ -10,88 +10,71 @@ use Configuration\ConfigurationSteps;
 class ConfigurationCest
 {
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $resetIdOder;
+	protected $configurationOder1;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $sendOderEmail;
+	protected $configurationOder2;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $afterPayment;
+	protected $configurationOder3;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $beforePayment;
+	protected $configurationOder4;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $afterPayment2;
+	protected $configurationOder5;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $enableInVoiceEmail;
+	protected $configurationOder6;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $sendMailToCustomerInOder;
+	protected $configurationOder7;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $Yes;
+	protected $configurationOder8;
 
 	/**
-	 * @var string
-	 * @since 2.1.3
+	 * @var array
+	 * @since
 	 */
-	protected $No;
+	protected $configurationOder9;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $None;
+	protected $configurationOder10;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $Administrator;
+	protected $configurationOder11;
 
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $Customer;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $Both;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $Null;
 
 	/**
 	 * ConfigurationCest constructor.
@@ -127,23 +110,86 @@ class ConfigurationCest
 		$this->minimunOrder     = 0;
 		$this->enableQuation    = 'no';
 
-		//oder
-		$this->resetIdOder                  = 'Reset Id Oder';
-		$this->sendOderEmail                = 'Send Oder Email';
-		$this->afterPayment                 = 'After Payment';
-		$this->beforePayment                = 'Before Payment';
-		$this->afterPayment2                = 'After Payment, but send before to administrator';
-		$this->enableInVoiceEmail           = 'Enable In Voice Email';
-		$this->sendMailToCustomerInOder     = 'Send mail to customer in oder';
-		$this->Yes                          = 'Yes';
-		$this->No                           = 'No';
-		$this->None                         = 'None';
-		$this->Administrator                = 'Administrator';
-		$this->Customer                     = 'Customer';
-		$this->Both                         = 'Both';
-		$this->Null                         = '#';
+		//Configuration Oder Reset Id Oder
+		$this->configurationOder1 =
+			[
+				'resetIdOder'                   => 'Reset Id Oder',//
+			];
+
+		//Configuration Oder Oder Email After Payment
+		$this->configurationOder2 =
+			[
+				'sendOderEmail'                 => 'Send Oder Email',
+				'afterPayment'                  => 'After Payment',
+			];
+
+		//Configuration Oder Send Oder email After Payment, But Send Before To Administrator
+		$this->configurationOder3 =
+			[
+				'sendOderEmail'                 => 'Send Oder Email',
+				'afterPayment2'                 => 'After Payment, but send before to administrator',
+			];
 
 
+		//Configuration Oder Send Oder Email Before Payment
+		$this->configurationOder4 =
+			[
+				'sendOderEmail'                 => 'Send Oder Email',
+				'beforePayment'                 => 'Before Payment',
+			];
+
+		//Configuration Oder Enable In Voice Email Yes, None
+		$this->configurationOder5 =
+			[
+				'enableInVoiceEmail'            => 'Enable In Voice Email',
+				'Yes'                           => 'Yes',
+				'None'                          => 'None',
+			];
+
+		//Configuration Oder Enable In Voice Email Yes, Administrator
+		$this->configurationOder6 =
+			[
+				'enableInVoiceEmail'            => 'Enable In Voice Email',
+				'Yes'                           => 'Yes',
+				'Administrator'                 => 'Administrator',
+			];
+
+		//Configuration Oder Enable In Voice Email Yes, Customer
+		$this->configurationOder7 =
+			[
+				'enableInVoiceEmail'            => 'Enable In Voice Email',
+				'Yes'                           => 'Yes',
+				'Customer'                      => 'Customer',
+			];
+
+		//Configuration Oder Enable In Voice Email Yes, Both
+		$this->configurationOder8 =
+			[
+				'enableInVoiceEmail'            => 'Enable In Voice Email',
+				'Yes'                           => 'Yes',
+				'Both'                          => 'Both',
+			];
+
+		//Configuration OderEnable In Voice Email, No
+		$this->configurationOder9 =
+			[
+				'enableInVoiceEmail'            => 'Enable In Voice Email',
+				'No'                            => 'No',
+			];
+
+		//Configuration Oder Send Mail To Customer In Oder, Yes
+		$this->configurationOder10 =
+			[
+				'sendMailToCustomerInOder'      => 'Send mail to customer in oder',
+				'Yes'                           => 'Yes',
+			];
+
+		//Configuration Oder Send Mail To Customer In Oder, No
+		$this->configurationOder11 =
+			[
+				'sendMailToCustomerInOder'      => 'Send mail to customer in oder',
+				'No'                            => 'No',
+			];
 	}
 
 	/**
@@ -197,46 +243,46 @@ class ConfigurationCest
 
 		$I->wantTo('Test Configuration Oder Reset Id Oder');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->resetIdOder, $this->Null, $this->Null);
+		$I->ConfigurationOder($this->configurationOder1);
 
 		$I->wantTo('Test Configuration Oder Oder Email After Payment');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->sendOderEmail, $this->afterPayment, $this->Null);
+		$I->ConfigurationOder($this->configurationOder2);
 
 		$I->wantTo('Test Configuration Oder Send Oder email After Payment, But Send Before To Administrator');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->sendOderEmail, $this->afterPayment2, $this->Null);
+		$I->ConfigurationOder($this->configurationOder3);
 
 		$I->wantTo('Test Configuration Oder Send Oder Email Before Payment');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->sendOderEmail, $this->beforePayment, $this->Null);
+		$I->ConfigurationOder($this->configurationOder4);
 
 		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes None');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->enableInVoiceEmail, $this->Yes, $this->None);
+		$I->ConfigurationOder($this->configurationOder5);
 
 		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes Administrator');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->enableInVoiceEmail, $this->Yes, $this->Administrator);
+		$I->ConfigurationOder($this->configurationOder6);
 
 		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes Customer');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->enableInVoiceEmail, $this->Yes, $this->Customer);
+		$I->ConfigurationOder($this->configurationOder7);
 
 		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes Both');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->enableInVoiceEmail, $this->Yes, $this->Both);
+		$I->ConfigurationOder($this->configurationOder8);
 
 		$I->wantTo('Test Configuration OderEnable In Voice Email No');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->enableInVoiceEmail, $this->No, $this->Null);
+		$I->ConfigurationOder($this->configurationOder9);
 
 		$I->wantTo('Test Configuration Oder Send Mail To Customer In Oder Yes');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->sendMailToCustomerInOder, $this->Yes, $this->Null);
+		$I->ConfigurationOder($this->configurationOder10);
 
 		$I->wantTo('Test Configuration Oder Send Mail To Customer In Oder No');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigurationOder($this->sendMailToCustomerInOder, $this->No, $this->Null);
+		$I->ConfigurationOder($this->configurationOder11);
 	}
 }
