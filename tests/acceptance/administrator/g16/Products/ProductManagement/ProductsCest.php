@@ -248,7 +248,11 @@ class ProductsCest
 		$I->wantTo('Publish all products');
 		$I->publishAllProducts();
 	}
-
+	public function deleteProductAttribute(ProductManagerSteps $I)
+	{
+		$I->wantTo('Delete Product Manager in Administrator');
+		$I->deleteProduct($this->randomProductName);
+	}
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -260,6 +264,7 @@ class ProductsCest
 		$I->wantTo('Test create Product with attribute Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want To Add product inside the category');
+		$I->createProductWithAttribute($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
 		$I->checkStatusCopyProductAttrbute($this->randomProductNameAttribute);
 	}
 
@@ -274,4 +279,10 @@ class ProductsCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->randomCategoryName);
 	}
+	public function deleteProductAttributeCoppy(ProductManagerSteps $I)
+	{
+		$I->wantTo('Delete Product Manager in Administrator');
+		$I->deleteProduct($this->randomProductName);
+	}
+
 }
