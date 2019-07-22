@@ -143,7 +143,7 @@ class OrderManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $valueAttribute = "//select[@class='inputbox']/option[2]";
+	public static $valueAttribute = "(//select[@class='inputbox']/option[2])[1]";
 
 	/**
 	 * @var string
