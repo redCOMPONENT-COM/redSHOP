@@ -995,4 +995,24 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->waitForText(PriceProductJoomla3Page::$savePriceSuccess, 5, AdminJ3Page::$selectorSuccess);
 	}
+
+	/**
+	 * @param $productName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkStatusCopyProductAttrbute($productName)
+	{
+		$I = $this;
+		$I->wantTo('Search the Product');
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->filterListBySearchingProduct($productName);
+		$I->click($productName);
+		$I->waitForElementVisible(ProductManagerPage::$buttonSaveAsCopy, 30);
+		$I->click(ProductManagerPage::$buttonSaveAsCopy);
+		$I->waitForText(ProductManagerPage::$messageCopySuccess, 30);
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 30);
+		$I->seeCheckboxIsChecked(ProductManagerPage::$checkBoxPublishAttribute);
+	}
 }

@@ -16,7 +16,9 @@
  * @since    1.4
  */
 
+use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
 
 class ProductsCest
 {
@@ -74,7 +76,7 @@ class ProductsCest
 		$I->doAdministratorLogin();
 	}
 
-    public function checkButton(ProductManagerSteps $I)
+	public function checkButton(ProductManagerSteps $I)
 	{
 		$I->checkButton('edit');
 		$I->checkButton('copy');
@@ -245,5 +247,32 @@ class ProductsCest
 		$I->unPublishAllProducts();
 		$I->wantTo('Publish all products');
 		$I->publishAllProducts();
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function checkStatusCoppyProductAtrribute(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Test create Product with attribute Save Manager in Administrator');
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('I Want to add product inside the category');
+		$I->createProductWithAttribute($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
+		$I->checkStatusCopyProductAttrbute($this->randomProductNameAttribute);
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @since 2.1.3
+	 */
+	public function deteleCatagory(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Delete Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->randomCategoryName);
 	}
 }
