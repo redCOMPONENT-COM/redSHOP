@@ -259,7 +259,7 @@ class ProductsCest
 	{
 		$I->wantTo('Test create Product with attribute Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to add product inside the category');
+		$I->wantTo('I Want To add product inside the category');
 		$I->checkStatusCopyProductAttrbute($this->randomProductNameAttribute);
 	}
 
