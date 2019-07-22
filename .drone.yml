@@ -45,6 +45,7 @@ pipeline:
             - npm install ws@3.3.2 --save-dev --save-exact
             - npm audit fix
             - mv gulp-config.json.dist gulp-config.json
+            - npm rebuild node-sass
             - gulp release --skip-version
 
             # clone Paid Extensions
