@@ -286,5 +286,4 @@ class ProductsCest
 		$I->wantTo('Delete Product Manager in Administrator');
 		$I->deleteProduct($this->randomProductNameAttribute);
 	}
-
 }
