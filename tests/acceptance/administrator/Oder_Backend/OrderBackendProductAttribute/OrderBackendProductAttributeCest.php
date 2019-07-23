@@ -33,7 +33,7 @@ class OrderBackendProductAttributeCest
 		$this->nameAttribute        = 'Size';
 		$this->valueAttribute       = "Z";
 		$this->priceAttribute       = 12;
-		$this->userName             = $this->faker->bothify('ManageUserAdministrator ?##?');
+		$this->userName             = $this->faker->bothify('ManageUserAdministratorCest ?##?');
 		$this->password             = $this->faker->bothify('Password ?##?');
 		$this->email                = $this->faker->email;
 		$this->shopperGroup         = 'Default Private';
