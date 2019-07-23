@@ -8,7 +8,7 @@
 
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps;
+use Configuration\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
@@ -169,5 +169,8 @@ class Products2CheckoutCest
 		$I->wantToTest('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->customerInformation["firstName"]);
+
+		$I->wantTo('Disable Plugin');
+		$I->disablePlugin($this->pluginName);
 	}
 }

@@ -4,7 +4,7 @@ use AcceptanceTester\MassDiscountManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps;
+use Configuration\ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 class CheckoutMassDiscountsBeforeTodayCest
 {
