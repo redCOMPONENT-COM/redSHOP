@@ -50,7 +50,7 @@ class RedshopControllerVouchers extends RedshopControllerAdmin
 
 		foreach ($editData as $data)
 		{
-			if ($data['amount'] <= 0 || empty($data['amount']))
+			if (!empty($data['amount']) && $data['amount'] <= 0)
 			{
 				echo 0;
 				$app->close();

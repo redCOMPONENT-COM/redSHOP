@@ -83,12 +83,12 @@ class RedshopTableCurrency extends RedshopTable
 			return false;
 		}
 
-		if (empty($this->name))
+		if (empty(trim($this->name)))
 		{
 			return false;
 		}
 
-		if (empty($this->code))
+		if (empty(trim($this->code)))
 		{
 			return false;
 		}
