@@ -338,6 +338,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->searchCategory($categoryName);
 		$I->checkAllResults();
 		$I->click(\CategoryManagerJ3Page::$deleteButton);
+		$I->wait(0.5);
 		$I->acceptPopup();
 //		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageDeleteSuccess);
 		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
