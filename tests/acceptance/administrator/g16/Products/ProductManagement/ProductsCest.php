@@ -260,11 +260,6 @@ class ProductsCest
 		$I->wantTo('Publish all products');
 		$I->publishAllProducts();
 	}
-	public function deleteProductAttribute(ProductManagerSteps $I)
-	{
-		$I->wantTo('Delete Product Manager in Administrator');
-		$I->deleteProduct($this->randomProductName);
-	}
 
 	/**
 	 * @param AcceptanceTester $I
