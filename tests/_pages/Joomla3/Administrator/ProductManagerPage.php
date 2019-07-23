@@ -433,4 +433,16 @@ ProductManagerPage extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $headingSEO ="//input[@id='pageheading']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $buttonSaveAsCopy = '//button[@class="btn btn-small button-save-copy"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $checkBoxPublishAttribute = '(//input[@type="checkbox"])[6]';
 }
