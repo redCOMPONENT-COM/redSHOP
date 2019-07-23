@@ -232,17 +232,6 @@ class ProductsCest
 		$I->deleteAttribute($this->randomProductNameAttribute);
 	}
 
-	/**
-	 * @param ProductManagerJoomla3Steps $I
-	 * @throws Exception
-	 * @since 2.1.3
-	 */
-	public function deleteProductWithAttribute(ProductManagerSteps $I)
-	{
-		$I->wantTo('Delete Product Manager in Administrator');
-		$I->deleteProduct($this->randomProductNameAttribute);
-	}
-
 	public function createProductWithAccessories(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Accessories Save Manager in Administrator');
@@ -259,6 +248,17 @@ class ProductsCest
 		$I->unPublishAllProducts();
 		$I->wantTo('Publish all products');
 		$I->publishAllProducts();
+	}
+
+	/**
+	 * @param ProductManagerJoomla3Steps $I
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function deleteProductWithAttribute(ProductManagerSteps $I)
+	{
+		$I->wantTo('Delete Product Manager in Administrator');
+		$I->deleteProduct($this->randomProductNameAttribute);
 	}
 
 	/**
