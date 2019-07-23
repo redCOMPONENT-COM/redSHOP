@@ -277,18 +277,6 @@ class ProductsCest
 	}
 
 	/**
-	 * @param AcceptanceTester $I
-	 * @param $scenario
-	 * @since 2.1.3
-	 */
-	public function deteleCatagory(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Delete Category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->randomCategoryName);
-	}
-
-	/**
 	 * @param ProductManagerJoomla3Steps $I
 	 * @throws Exception
 	 * @since 2.1.3
