@@ -36,6 +36,7 @@ class ProductsCest
 		$this->randomProductNumber          = rand(999, 9999);
 		$this->randomProductNumberNew       = rand(999, 9999);
 		$this->randomProductAttributeNumber = rand(999, 9999);
+		$this->ProductAttributeCoppyNumber  = rand(999, 9999);
 		$this->randomProductNameAttribute   = 'Testing Attribute' . rand(99, 999);
 		$this->randomProductPrice           = rand(9, 19);
 		$this->discountPriceThanPrice       = 100;
@@ -264,7 +265,7 @@ class ProductsCest
 		$I->wantTo('Test create Product with attribute Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want To Add Product inside the category');
-		$I->createProductWithAttribute($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
+		$I->createProductWithAttribute($this->randomProductNameAttribute, $this->randomCategoryName, $this->ProductAttributeCoppyNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
 		$I->checkStatusCopyProductAttrbute($this->randomProductNameAttribute);
 	}
 
