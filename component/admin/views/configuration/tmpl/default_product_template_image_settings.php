@@ -291,7 +291,7 @@ echo RedshopLayoutHelper::render(
                        value="<?php echo $this->config->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH', 50); ?>"/>
             </div>
             <div class="col-sm-6">
-                <input type="number" name="category_product_preview_image_height" id="category_product_preview_image_height" class="form-control"
+                <input type="number" name="attribute_scroller_thumb_height" id="attribute_scroller_thumb_height" class="form-control"
                        value="<?php echo $this->config->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT', 50); ?>"/>
             </div>
         </div>
