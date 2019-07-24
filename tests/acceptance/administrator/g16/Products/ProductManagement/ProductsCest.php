@@ -283,7 +283,7 @@ class ProductsCest
 	 */
 	public function deleteProductCoppyWithAttribute(ProductManagerSteps $I)
 	{
-		$I->wantTo('Delete Product Manager in Administrator');
+		$I->wantTo('Delete Product Manager In Administrator');
 		$I->deleteProduct($this->randomProductNameAttribute);
 	}
 }
