@@ -1015,4 +1015,25 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ProductManagerPage::$attributeTab, 30);
 		$I->seeCheckboxIsChecked(ProductManagerPage::$checkBoxPublishAttribute);
 	}
+
+	/**
+	 * @param $productName
+	 * @since 2.1.3
+	 * @throws \Exception
+	 */
+	public function deteleAllProducts()
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+		$I->checkAllResults();
+		$I->click(ProductManagerPage::$buttonDelete);
+		$I->wantTo('Test with delete product but then cancel');
+		$I->cancelPopup();
+		$I->wantTo('Test with delete product then accept');
+		$I->click(ProductManagerPage::$buttonDelete);
+		$I->acceptPopup();
+		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);
+	}
 }

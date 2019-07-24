@@ -281,10 +281,10 @@ class ProductsCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-	public function deleteProductAttributeCoppy(ProductManagerSteps $I)
+	public function deteleAllProducts(ProductManagerSteps $I)
 	{
 		$I->wantTo('Delete Product Manager in Administrator');
-		$I->deleteProduct($this->randomProductNameAttribute);
+		$I->deteleAllProducts();
 	}
 
 	/**
