@@ -257,7 +257,7 @@ class ProductsCest
 	 */
 	public function deleteProductWithAttribute(ProductManagerSteps $I)
 	{
-		$I->wantTo('Delete Product Manager in Administrator');
+		$I->wantTo('Delete Product Manager In Administrator');
 		$I->deleteProduct($this->randomProductNameAttribute);
 	}
 
