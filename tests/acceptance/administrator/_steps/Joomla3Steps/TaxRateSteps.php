@@ -230,22 +230,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->waitForText(TaxRatePage::$messageInvalid, 30, TaxRatePage::$selectorMissing);
 	}
 
-	public function addTAXRatesValueAmountStringSave($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
-	{
-		$client = $this;
-		$client->amOnPage(\TaxRatePage::$url);
-		$client->click(\TaxRatePage::$buttonNew);
-		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
-		$client->checkForPhpNoticesOrWarnings();
-		$client->fillField(\TaxRatePage::$fieldName, $TAXRatesName);
-		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
-		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
-		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
-		$client->click(\TaxRatePage::$buttonSave);
-		$client->waitForElement(\TaxRatePage::$selectorSuccess,30);
-		$client->see(\TaxRatePage::$messageItemSaveSuccess, \TaxRatePage::$selectorSuccess);
-	}
-
 	/**
 	 * @param $TAXRatesName
 	 * @param $VATGroupName
@@ -256,7 +240,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function addTAXRatesValueAmountStringSaveNewOrSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState, $buttonName = "SaveClose")
+	public function addTAXRatesValueAmountString($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState, $buttonName = "SaveClose")
 	{
 		$client = $this;
 		$client->amOnPage(TaxRatePage::$url);
@@ -269,6 +253,9 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
 		switch ($buttonName)
 		{
+			case 'Save':
+				$client->click(TaxRatePage::$buttonSave);
+				break;
 			case 'SaveNew':
 				$client->click(TaxRatePage::$buttonSaveNew);
 				break;
@@ -279,7 +266,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 		$client->waitForElement(TaxRatePage::$selectorSuccess,30);
-
 		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
 	}
 
