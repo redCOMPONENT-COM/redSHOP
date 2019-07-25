@@ -16,7 +16,7 @@
  */
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
-use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
+use Configuration\ConfigurationSteps as ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps as OrderSteps;
 
