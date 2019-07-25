@@ -54,11 +54,11 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.($productPrice - $paymentPrice).$decimalSeparator.$NumberZero;
 		$pricePaymentDiscount = 'Payment Discount: '.$currencySymbol.' '.($paymentPrice).$decimalSeparator.$NumberZero;
 		$I->see($pricePaymentDiscount);
 		$I->see($priceTotalOnCart);
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
