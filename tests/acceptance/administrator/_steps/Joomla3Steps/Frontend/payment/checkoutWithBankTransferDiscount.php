@@ -13,7 +13,7 @@ use FrontEndProductManagerJoomla3Page;
 /**
  * Class checkoutWithBankTransferDiscount
  * @package Frontend\payment
- * @since 2.1.2
+ * @since 2.1.3
  */
 class checkoutWithBankTransferDiscount extends CheckoutMissingData
 {
@@ -22,11 +22,23 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 	 * @param $categoryName
 	 * @param $customerInformation
 	 * @throws \Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
-	public function checkoutProductWithBankTransferDiscountPayment($productName, $categoryName, $customerInformation)
+	public function checkoutProductWithBankTransferDiscountPayment($productName, $categoryName, $customerInformation, $productPrice, $paymentPrice)
 	{
 		$I = $this;
+
+		$I->amOnPage(\ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+
 		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
@@ -41,6 +53,12 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+
+		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.($productPrice - $paymentPrice).$decimalSeparator.$NumberZero;
+		$pricePaymentDiscount = 'Payment Discount: '.$currencySymbol.' '.($paymentPrice).$decimalSeparator.$NumberZero;
+		$I->see($pricePaymentDiscount);
+		$I->see($priceTotalOnCart);
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));

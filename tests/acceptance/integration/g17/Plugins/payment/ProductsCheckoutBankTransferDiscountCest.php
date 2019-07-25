@@ -10,6 +10,7 @@ use AcceptanceTester\AdminManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
+use Administrator\plugins\PluginPaymentManagerJoomla;
 use Configuration\ConfigurationSteps;
 use Frontend\payment\checkoutWithBankTransferDiscount;
 
@@ -20,106 +21,123 @@ use Frontend\payment\checkoutWithBankTransferDiscount;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since 2.1.2
+ * @since 2.1.3
  */
 class ProductsCheckoutBankTransferDiscountCest
 {
-
 	/**
 	 * @var \Faker\Generator
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $faker;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $categoryName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $productName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $productNumber;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $productPrice;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $minimumQuantity;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $maximumQuantity;
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $customerInformation;
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $customerInformationSecond;
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	protected $checkoutAccountInformation;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $group;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $extensionURL;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $pluginName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $pluginURL;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $package;
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $cartSetting;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public $paymentPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public $operand;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public $discountType;
 
 	public function __construct()
 	{
@@ -130,6 +148,9 @@ class ProductsCheckoutBankTransferDiscountCest
 		$this->productPrice     = 100;
 		$this->minimumQuantity  = 1;
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
+		$this->paymentPrice     = 5;
+		$this->operand          = '-';
+		$this->discountType     = 'Total';
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
@@ -172,7 +193,7 @@ class ProductsCheckoutBankTransferDiscountCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * @since    2.1.2
+	 * @since    2.1.3
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -182,22 +203,25 @@ class ProductsCheckoutBankTransferDiscountCest
 	/**
 	 * @param AdminManagerJoomla3Steps $I
 	 * @throws Exception
-	 * @since    2.1.2
+	 * @since    2.1.3
 	 */
-	public function installPlugin(AdminManagerJoomla3Steps $I)
+	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo("install plugin payment Bank Transfer Discount");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin Bank Transfer Discount Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
+
+		$I = new PluginPaymentManagerJoomla($scenario);
+		$I->configBankTransferDiscountPlugin($this->pluginName,$this->categoryName, $this->paymentPrice, $this->discountType);
 	}
 
 	/**
 	 * @param ConfigurationSteps $I
 	 * @param $scenario
 	 * @throws Exception
-	 * @since    2.1.2
+	 * @since    2.1.3
 	 */
 	public function testBankTransferDiscountPaymentPlugin( ConfigurationSteps $I, $scenario)
 	{
@@ -215,10 +239,12 @@ class ProductsCheckoutBankTransferDiscountCest
 		$I->wantTo('checkout with Plugin Bank Transfer Discount Payments in Administrator');
 		$I = new checkoutWithBankTransferDiscount($scenario);
 		$I->wantTo('One Steps checkout with payment');
-		$I->checkoutProductWithBankTransferDiscountPayment($this->productName, $this->categoryName,$this->customerInformation);
+		$I->checkoutProductWithBankTransferDiscountPayment($this->productName, $this->categoryName, $this->customerInformation, $this->productPrice, $this->paymentPrice);
+
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
-		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"],
+		$total = $this->productPrice- $this->paymentPrice;
+		$I->checkPriceTotal($total, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"],
 			$this->productName, $this->categoryName, $this->pluginName);
 	}
 
@@ -226,7 +252,7 @@ class ProductsCheckoutBankTransferDiscountCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * @since    2.1.2
+	 * @since    2.1.3
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
