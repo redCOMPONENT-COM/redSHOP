@@ -242,7 +242,7 @@ class TaxRateCest
 		$I->wantTo("Test TAX Rates value amount string with Save New");
 		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName, 'SaveNew');
 
-		$I->wantTo('Test TAX Rates with rates value amount less zero Save Close and Save new');
+		$I->wantTo('Test TAX Rates with rates value amount less zero Save Close and Save New');
 		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
 	}
 }
