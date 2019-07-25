@@ -483,6 +483,7 @@ class RedshopViewCategory extends RedshopView
 		$this->category_template_id = $categoryTemplateId;
 		$this->order_by_select      = $orderByMethod;
 		$this->manufacturer_id      = $manufacturerId;
+		$this->category_id          = $category_id;
 		$this->loadCategorytemplate = $loadCategorytemplate;
 
 		parent::display($tpl);

@@ -1071,6 +1071,7 @@ if (!$slide)
 		$orderby_form .= "<input type='hidden' name='texpricemin' id='texpricemin' value='" . $texpricemin . "' />";
 		$orderby_form .= "<input type='hidden' name='texpricemax' id='texpricemax' value='" . $texpricemax . "' />";
 		$orderby_form .= "<input type='hidden' name='manufacturer_id' id='manufacturer_id' value='" . $this->manufacturer_id . "' />";
+		$orderby_form .= "<input type='hidden' name='category_id' id='category_id' value='" . $this->category_id . "' />";
 		$orderby_form .= "<input type='hidden' name='category_template' id='category_template' value='" . $this->category_template_id . "' />";
 		$orderby_form .= "</form>";
 
