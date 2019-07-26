@@ -269,7 +269,7 @@ class ProductsCest
 	 */
 	public function checkStatusCoppyProductAtrribute(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Create Product With Attribute Save Manager In Administrator');
+		$I->wantTo('Test Create Product With Attribute Save In Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want To Add Product Inside The Category');
 		$I->createProductWithAttribute($this->randomProductNameAttribute, $this->randomCategoryName, $this->ProductAttributeCoppyNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
