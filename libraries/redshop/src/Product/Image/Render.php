@@ -39,7 +39,7 @@ class Render
 		$isLight = 2, $enableHover = 0, $preSelectedResult = array(), $suffixId = ''
 	)
 	{
-        $isLight       = (int) $isLight;
+		$isLight       = (int) $isLight;
 		$imageName     = trim($imageName);
 		$linkImageName = trim($linkImageName);
 		$productId     = $product->product_id;
