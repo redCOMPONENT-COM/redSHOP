@@ -146,6 +146,34 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
 
+		if ($post['task'] == 'save2copy')
+		{
+			$post['product_id'] = 0;
+
+			if (!empty($post['attribute']))
+			{
+				foreach ($post['attribute'] as $keyAttr => $attributes)
+				{
+					$post['attribute'][$keyAttr]['id'] = 0;
+
+					foreach ($attributes['property'] as $keyProp => $propetys)
+					{
+						$post['attribute'][$keyAttr]['property'][$keyProp]['property_id'] = 0;
+
+						foreach ($propetys['subproperty'] as $keySub => $subPros)
+						{
+							if ($keySub == 'title')
+							{
+								continue;
+							}
+
+							$post['attribute'][$keyAttr]['property'][$keyProp]['subproperty'][$keySub]['subproperty_id'] = 0;
+						}
+					}
+				}
+			}
+		}
+
 		if (!$post ['product_id'])
 		{
 			$post ['publish_date'] = date("Y-m-d H:i:s");
@@ -339,25 +367,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function save2copy()
 	{
-		$cid = $this->input->post->get('cid', array(), 'array');
-
-		/** @var RedshopModelProduct_Detail $model */
-		$model = $this->getModel('product_detail');
-
-		if ($row = $model->copy($cid, true))
-		{
-			$this->setRedirect(
-				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id,
-				JText::_('COM_REDSHOP_PRODUCT_COPIED')
-			);
-		}
-		else
-		{
-			$this->setRedirect(
-				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0],
-				JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED')
-			);
-		}
+		$this->apply();
 	}
 
 	/**
