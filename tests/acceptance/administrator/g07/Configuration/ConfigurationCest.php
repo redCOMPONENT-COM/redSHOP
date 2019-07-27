@@ -184,7 +184,7 @@ class ConfigurationCest
 				'Yes'                           => 'Yes',
 			];
 
-		//Configuration Oder Send Mail To Customer In Oder, No
+		//Configuration Oder Send Mail To Customer In oder, No
 		$this->configurationOder11 =
 			[
 				'sendMailToCustomerInOder'      => 'Send mail to customer in oder',
