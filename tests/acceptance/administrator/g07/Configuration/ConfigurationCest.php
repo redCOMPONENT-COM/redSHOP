@@ -241,7 +241,7 @@ class ConfigurationCest
 		$I->wantTo('setup VAT at admin');
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
-		$I->wantTo('Test Configuration Oder Reset Id Oder');
+		$I->wantTo('Test Configuration Oder Reset id Oder');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder1);
 
