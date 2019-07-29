@@ -257,31 +257,31 @@ class ConfigurationCest
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder4);
 
-		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes None');
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes None');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder5);
 
-		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes Administrator');
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Administrator');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder6);
 
-		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes Customer');
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Customer');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder7);
 
-		$I->wantTo('Test Configuration Oder Enable In Voice Email Yes Both');
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Both');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder8);
 
-		$I->wantTo('Test Configuration OderEnable In Voice Email No');
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email No');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder9);
 
-		$I->wantTo('Test Configuration Oder Send Mail To Customer In Oder Yes');
+		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder Yes');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder10);
 
-		$I->wantTo('Test Configuration Oder Send Mail To Customer In Oder No');
+		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder No');
 		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder11);
 	}
