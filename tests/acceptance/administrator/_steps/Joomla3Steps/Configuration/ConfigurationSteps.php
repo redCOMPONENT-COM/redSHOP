@@ -523,12 +523,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * @param $function1
-	 * @param $function2
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function ConfigurationOder ($configurationOder = array())
+	public function ConfigurationOder($configurationOder = array())
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
@@ -546,71 +544,71 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 
 		if(isset($configurationOder['sendOderEmail']))
 		{
-				if (isset($configurationOder['afterPayment'])) {
-					$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
-					$I->click(ConfigurationPage::$sendOrderEmail);
-					$I->waitForElementVisible(ConfigurationPage::$afterPayment);
-					$I->click(ConfigurationPage::$afterPayment);
-				}
+			if (isset($configurationOder['afterPayment'])) {
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$afterPayment);
+				$I->click(ConfigurationPage::$afterPayment);
+			}
 
-				if (isset($configurationOder['afterPayment2'])) {
-					$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
-					$I->click(ConfigurationPage::$sendOrderEmail);
-					$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
-					$I->fillField(ConfigurationPage::$inputOderEmail, $configurationOder['afterPayment2']);
-					$usePage = new ConfigurationPage();
-					$I->waitForElement($usePage->returnChoice($configurationOder['afterPayment2']), 30);
-					$I->click($usePage->returnChoice($configurationOder['afterPayment2']));
-				}
+			if (isset($configurationOder['afterPayment2'])) {
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
+				$I->fillField(ConfigurationPage::$inputOderEmail, $configurationOder['afterPayment2']);
+				$usePage = new ConfigurationPage();
+				$I->waitForElement($usePage->returnChoice($configurationOder['afterPayment2']), 30);
+				$I->click($usePage->returnChoice($configurationOder['afterPayment2']));
+			}
 
-				if (isset($configurationOder['beforePayment'])){
-						$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
-						$I->click(ConfigurationPage::$sendOrderEmail);
-						$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
-						$I->fillField(ConfigurationPage::$inputOderEmail, $configurationOder['beforePayment']);
-						$usePage = new ConfigurationPage();
-						$I->waitForElement($usePage->returnChoice($configurationOder['beforePayment']), 30);
-						$I->click($usePage->returnChoice($configurationOder['beforePayment']));
-				}
+			if (isset($configurationOder['beforePayment'])){
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
+				$I->fillField(ConfigurationPage::$inputOderEmail, $configurationOder['beforePayment']);
+				$usePage = new ConfigurationPage();
+				$I->waitForElement($usePage->returnChoice($configurationOder['beforePayment']), 30);
+				$I->click($usePage->returnChoice($configurationOder['beforePayment']));
+			}
 		}
 
 		if (isset($configurationOder['enableInVoiceEmail']))
 		{
-				if (isset($configurationOder['Yes']))
+			if (isset($configurationOder['Yes']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailYes, 30);
+				$I->click(ConfigurationPage::$enableInvoiceEmailYes);
+
+				if (isset($configurationOder['None']))
 				{
-						$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailYes, 30);
-						$I->click(ConfigurationPage::$enableInvoiceEmailYes);
-
-						if (isset($configurationOder['None']))
-						{
-							$I->waitForElementVisible(ConfigurationPage::$noneButton, 30);
-							$I->click(ConfigurationPage::$noneButton);
-						}
-
-						if (isset($configurationOder['Administrator']))
-						{
-							$I->waitForElementVisible(ConfigurationPage::$administratorButton, 30);
-							$I->click(ConfigurationPage::$administratorButton);
-						}
-
-						if (isset($configurationOder['Customer']))
-						{
-							$I->waitForElementVisible(ConfigurationPage::$customerButton, 30);
-							$I->click(ConfigurationPage::$customerButton);
-						}
-
-						if (isset($configurationOder['Both']))
-						{
-							$I->waitForElementVisible(ConfigurationPage::$bothButton, 30);
-							$I->click(ConfigurationPage::$bothButton);
-						}
-
+					$I->waitForElementVisible(ConfigurationPage::$noneButton, 30);
+					$I->click(ConfigurationPage::$noneButton);
 				}
-				if (isset($configurationOder['No']))
+
+				if (isset($configurationOder['Administrator']))
 				{
-						$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailNo, 30);
-						$I->click(ConfigurationPage::$enableInvoiceEmailNo);
+					$I->waitForElementVisible(ConfigurationPage::$administratorButton, 30);
+					$I->click(ConfigurationPage::$administratorButton);
 				}
+
+				if (isset($configurationOder['Customer']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$customerButton, 30);
+					$I->click(ConfigurationPage::$customerButton);
+				}
+
+				if (isset($configurationOder['Both']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$bothButton, 30);
+					$I->click(ConfigurationPage::$bothButton);
+				}
+
+			}
+			if (isset($configurationOder['No']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailNo, 30);
+				$I->click(ConfigurationPage::$enableInvoiceEmailNo);
+			}
 		}
 
 		if (isset($configurationOder['sendMailToCustomerInOder']))
