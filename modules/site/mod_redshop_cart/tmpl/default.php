@@ -79,18 +79,31 @@ JFactory::getDocument()->addStyleDeclaration(
 </div>
 
 <script type="text/javascript">
-	function deleteCartItem(idx)
-	{
-		jQuery.ajax({
-			type: "POST",
-			data: {
-				idx: idx,
-				"<?php echo $token ?>": "1"
-			},
-			url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>",
-			success: function(data) {
-				jQuery('#mod_cart_total').html(data);
-			}
-		});
-	}
+    function deleteCartItem(idx)
+    {
+        jQuery.ajax({
+            type: "POST",
+            data: {
+                idx: idx,
+                "<?php echo $token ?>": "1"
+            },
+            url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>",
+            success: function(data) {
+
+                responce = data.split("`");
+
+                if (document.getElementById('mod_cart_total') && responce[1]) {
+                    document.getElementById('mod_cart_total').innerHTML = responce[1];
+                }
+                if (document.getElementById('rs_promote_free_shipping_div') && responce[2]) {
+                    document.getElementById('rs_promote_free_shipping_div').innerHTML = responce[2];
+                }
+                if (document.getElementById('mod_cart_checkout_ajax')) {
+                    document.getElementById('mod_cart_checkout_ajax').style.display = "";
+                }
+
+                jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail', [data, product_id]);
+            }
+        });
+    }
 </script>
