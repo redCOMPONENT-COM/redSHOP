@@ -514,8 +514,20 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $totalFinalCheckout = '(//div[@class="form-group total"])/div';
+	public static $quantityFieldCart = '//input[@name="quantity"]';
 
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $totalFinalCheckout = '(//div[@class="form-group total"])/div';
+	
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $errorAddToCart = 'Product was not added to cart';
+	
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *

@@ -90,7 +90,6 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$total =$currencySymbol.((int)$quantity1*$price1 +$price2*(int)$quantity2).$decimalSeparator.$NumberZero;
 		$subTotal = $currencySymbol. (((int)$quantity1*$price1 +$price2*(int)$quantity2)*1.25).$decimalSeparator.$NumberZero;
 		$vatPrice = $currencySymbol. (((int)$quantity1*$price1 +$price2*(int)$quantity2)*0.25).$decimalSeparator.$NumberZero;
-
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		try
 		{
@@ -167,7 +166,8 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->seeInPageSource($headingSEO);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-		try{
+		try
+		{
 			$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		}catch (\Exception $e)
 		{
@@ -198,5 +198,48 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $productNameAccessories
+	 * @param $function
+	 * @throws Exception
+	 * @since 2.1.2
+	 */
+	public function ConfigurationProductAccessoryOnCart($categoryName, $productName, $productNameAccessories, $function)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$url);
+		$I->waitForText($categoryName, 30);
+		$I->click($categoryName);
+		$I->waitForText($productNameAccessories, 30);
+		$I->click($productNameAccessories);
+		$I->waitForText($productNameAccessories, 30);
+		$I->see($productName);
+		$I->click(ConfigurationPage::$addAccessory);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+
+		switch ($function)
+		{
+			case 'Yes':
+				$I = $this;
+				$I->amOnPage(ProductManagerPage::$cartPageUrL);
+				$I->waitForText($productName, 30);
+				$I->see($productName);
+				$I->waitForText($productNameAccessories, 30);
+				$I->see($productNameAccessories);
+				break;
+			case 'No':
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$errorAddToCart, 30);
+				$I->see(FrontEndProductManagerJoomla3Page::$errorAddToCart);
+				$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+				$I->amOnPage(ProductManagerPage::$cartPageUrL);
+				$I->waitForText($productNameAccessories, 30);
+				$I->see($productNameAccessories);
+				$I->dontSee($productName);
+				break;
+		}
 	}
 }

@@ -169,5 +169,8 @@ class Products2CheckoutCest
 		$I->wantToTest('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->customerInformation["firstName"]);
+
+		$I->wantTo('Disable Plugin');
+		$I->disablePlugin($this->pluginName);
 	}
 }

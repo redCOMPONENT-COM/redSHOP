@@ -109,7 +109,7 @@ class ImageAndSEOCategoryProductCest
 		$this->faker = Faker\Factory::create();
 		$this->categoryName = $this->faker->bothify('CategoryName ?####?');
 		$this->noPage = 5;
-		$this->image = 'hinhanh.jpg';
+		$this->image = 'image.jpg';
 		$this->titleSEO = "SEO title ".$this->categoryName;
 		$this->keySEO = "SEO key ".$this->categoryName;
 		$this->descriptionSEO = "SEO description ".$this->categoryName;

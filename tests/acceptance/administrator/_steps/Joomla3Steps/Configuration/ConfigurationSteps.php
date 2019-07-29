@@ -151,7 +151,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->waitForElement($userConfigurationPage->returnChoice($state), 30);
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
-		
+
 		// Get default vat
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);

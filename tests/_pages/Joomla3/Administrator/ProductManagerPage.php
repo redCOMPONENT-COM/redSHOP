@@ -226,6 +226,11 @@ ProductManagerPage extends AdminJ3Page
 	 */
 	public static $addAttribute = '+ Add Attribute parameter';
 
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $addPriceButton = '.button-new';
 
 	/**
 	 * Function to get Path $position in Add Attribute Name
