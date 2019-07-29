@@ -101,12 +101,12 @@ class PlgRedshop_ImportShopper_group_product_price extends AbstractImportPlugin
 
 		if (!empty($data['discount_start_date']))
 		{
-			$data['discount_start_date'] = is_int($data['discount_start_date']) ? $data['discount_start_date'] : strtotime($data['discount_start_date']);
+			$data['discount_start_date'] = is_numeric($data['discount_start_date']) ? $data['discount_start_date'] : strtotime($data['discount_start_date']);
 		}
 
 		if (!empty($data['discount_end_date']))
 		{
-			$data['discount_end_date'] = is_int($data['discount_end_date']) ? $data['discount_end_date'] : strtotime($data['discount_end_date']);
+			$data['discount_end_date'] = is_numeric($data['discount_end_date']) ? $data['discount_end_date'] : strtotime($data['discount_end_date']);
 		}
 
 		$data['cdate'] = date('Y-m-d');
