@@ -421,7 +421,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$I->wantTo("Check EU Country");
 		$I->click(TaxRatePage::$eUCountry);
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->waitForText('EU country', 30, TaxRatePage::$selectorEUCountry);
+		$I->waitForText(TaxRatePage::$labelEU, 30, TaxRatePage::$selectorEUCountry);
 	}
 
 	/**

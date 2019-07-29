@@ -123,6 +123,12 @@ class TaxRatePage extends AdminJ3Page
 	public static $messageInvalid = 'Save failed with the following error: Invalid input of tax rate, it must be numeric & not less than zero';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelEU = "EU country";
+
+	/**
 	 * @param $nameField
 	 * @return string
 	 * @since 2.1.3
