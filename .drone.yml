@@ -124,30 +124,30 @@ pipeline:
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
 
-    01-Group1-56:
-        group: 01-tests
-        image: redwebaps/testbox-chromedriver:2.38
-        environment:
-            - tests_user=admin
-            - tests_suite=01-Group1
-            - tests_db=group1
-            - build_path=/drone/src/github.com/${DRONE_REPO}
-            - output_append=-01-Group1-56
-            - php_version=56
-        commands:
-            # Regular entry point
-            - /entrypoint.sh &
-            # Performs test after ensuring that the scenario has been fully set up
-            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
-            # Waits until Chromedriver is up and running
-            - while ! nc -z localhost 9515; do sleep 1; done
-            # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall 0 0'
+#    01-Group1-56:
+#        group: 01-tests
+#        image: redwebaps/testbox-chromedriver:2.38
+#        environment:
+#            - tests_user=admin
+#            - tests_suite=01-Group1
+#            - tests_db=group1
+#            - build_path=/drone/src/github.com/${DRONE_REPO}
+#            - output_append=-01-Group1-56
+#            - php_version=56
+#        commands:
+#            # Regular entry point
+#            - /entrypoint.sh &
+#            # Performs test after ensuring that the scenario has been fully set up
+#            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+#            # Waits until Chromedriver is up and running
+#            - while ! nc -z localhost 9515; do sleep 1; done
+#            # Performs test
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g01 0 0'
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02 0 0'
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03 0 0'
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04 0 0'
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend 0 0'
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall 0 0'
 
 #    01-Group1-73:
 #        group: 01-tests
