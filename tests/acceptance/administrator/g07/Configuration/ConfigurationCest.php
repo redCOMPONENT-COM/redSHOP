@@ -1,11 +1,16 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 use Configuration\ConfigurationSteps;
 
 /**
- *
- * Configuration function
- *
+ * Class ConfigurationCest
+ * @since 2.1.3
  */
 class ConfigurationCest
 {
@@ -242,47 +247,36 @@ class ConfigurationCest
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
 		$I->wantTo('Test Configuration Oder - Reset Id Oder');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder1);
 
 		$I->wantTo('Test Configuration Oder - Oder Email After Payment');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder2);
 
 		$I->wantTo('Test Configuration Oder - Send Oder email After Payment, But Send Before To Administrator');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder3);
 
 		$I->wantTo('Test Configuration Oder - Send Oder Email Before Payment');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder4);
 
 		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes None');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder5);
 
 		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Administrator');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder6);
 
 		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Customer');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder7);
 
 		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Both');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder8);
 
 		$I->wantTo('Test Configuration Oder - Enable In Voice Email No');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder9);
 
 		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder Yes');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder10);
 
 		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder No');
-		$I = new ConfigurationSteps($scenario);
 		$I->ConfigurationOder($this->configurationOder11);
 	}
 }
