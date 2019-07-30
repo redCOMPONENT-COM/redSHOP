@@ -427,17 +427,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
-
 	/**
 	 * @param $price
 	 * @param $order
-	 * @param $firstName
-	 * @param $lastName
-	 * @param $productName
-	 * @param $categoryName
-	 * @param $paymentMethod
-	 * @throws \Exception
-	 * @since 2.1.3
 	 */
 	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
 	{
@@ -456,7 +448,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->searchOrder($order);
 		$I->waitForElementVisible(\OrderManagerPage::$iconEdit, 30);
 		$I->click(\OrderManagerPage::$iconEdit);
-		$I->waitForElementVisible(\OrderManagerPage::$quantityp1, 30);
 		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
 		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
