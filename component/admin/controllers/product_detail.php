@@ -146,33 +146,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
 
-		if ($post['task'] == 'save2copy')
-		{
-			$post['product_id'] = 0;
-
-			if (!empty($post['attribute']))
-			{
-				foreach ($post['attribute'] as $keyAttr => $attributes)
-				{
-					$post['attribute'][$keyAttr]['id'] = 0;
-
-					foreach ($attributes['property'] as $keyProp => $propetys)
-					{
-						$post['attribute'][$keyAttr]['property'][$keyProp]['property_id'] = 0;
-
-						foreach ($propetys['subproperty'] as $keySub => $subPros)
-						{
-							if ($keySub == 'title')
-							{
-								continue;
-							}
-
-							$post['attribute'][$keyAttr]['property'][$keyProp]['subproperty'][$keySub]['subproperty_id'] = 0;
-						}
-					}
-				}
-			}
-		}
+		$this->checkTask($post);
 
 		if (!$post ['product_id'])
 		{
@@ -1104,5 +1078,43 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Method check task is save2copy
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkTask(&$post)
+	{
+		if ($post['task'] == 'save2copy')
+		{
+			$post['product_id'] = 0;
+
+			if (!empty($post['attribute']))
+			{
+				foreach ($post['attribute'] as $keyAttr => $attributes)
+				{
+					$post['attribute'][$keyAttr]['id'] = 0;
+
+					foreach ($attributes['property'] as $keyProp => $propetys)
+					{
+						$post['attribute'][$keyAttr]['property'][$keyProp]['property_id'] = 0;
+
+						foreach ($propetys['subproperty'] as $keySub => $subPros)
+						{
+							if ($keySub == 'title')
+							{
+								continue;
+							}
+
+							$post['attribute'][$keyAttr]['property'][$keyProp]['subproperty'][$keySub]['subproperty_id'] = 0;
+						}
+					}
+				}
+			}
+		}
 	}
 }
