@@ -319,6 +319,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @param array $discount
+	 * @throws \Exception
+	 */
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
@@ -456,6 +460,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->waitForElementVisible(\OrderManagerPage::$iconEdit, 30);
 		$I->click(\OrderManagerPage::$iconEdit);
+		$I->waitForElementVisible(\OrderManagerPage::$quantityp1, 30);
 		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
 		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
