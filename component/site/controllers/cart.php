@@ -280,7 +280,7 @@ class RedshopControllerCart extends RedshopController
 		// If coupon code is valid than apply to cart else raise error
 		if ($valid)
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&lang='.JFactory::getLanguage()->getTag().'Itemid=' . $itemId, false);
 
 			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
@@ -320,7 +320,7 @@ class RedshopControllerCart extends RedshopController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&lang='.JFactory::getLanguage()->getTag().'Itemid=' . $itemId, false);
 
 			$message     = JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
 			$messageType = 'error';
