@@ -27,7 +27,12 @@ $session = JFactory::getSession();
 $user    = JFactory::getUser();
 $print   = JFactory::getApplication()->input->getInt('print');
 $Itemid  = RedshopHelperRouter::getCheckoutItemId();
-
+// update language
+$lang ='';
+if($lang=JFactory::getApplication()->input->get('lang', ''))
+{
+	$lang='lang='.$lang;
+}
 // Define array to store product detail for ajax cart display
 $cart_data = $this->data[0]->template_desc;
 
@@ -149,7 +154,7 @@ if (strstr($cart_data, "{shop_more}"))
 	}
 	else
 	{
-		$shopmorelink = JRoute::_('index.php');
+		$shopmorelink = JRoute::_('index.php?'.$lang);
 	}
 
 	$shop_more = '<input type=button class="blackbutton btn" value="' . JText::_('COM_REDSHOP_SHOP_MORE') . '" onclick="javascript:document.location=\'' . $shopmorelink . '\'">';
@@ -224,7 +229,7 @@ else
 	$cart_data = str_replace("{discount_rule}", '', $cart_data);
 }
 
-$discount_form = '<div class="discount_form"><form action="index.php?option=com_redshop&view=cart&tmpl=component" name="discount_form" method="POST" >';
+$discount_form = '<div class="discount_form"><form action="index.php?option=com_redshop&view=cart&tmpl=component&'.$lang.'" name="discount_form" method="POST" >';
 $coupon_lableFLG = 0;
 $coupon_lable = '';
 $confirmMsg = '';
