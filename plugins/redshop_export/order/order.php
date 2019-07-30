@@ -33,10 +33,10 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		$this->writeData($this->getHeader(), 'w+');
-		
+
 		return (int) $this->getTotalOrder_Export();
 	}
-	
+
 	/**
 	 *
 	 * @return  int
@@ -52,7 +52,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			->select('COUNT(DISTINCT o.order_id)');
 		return (int) $this->db->setQuery($query)->loadResult();
 	}
-	
+
 	/**
 	 * Event run on export process
 	 *
@@ -70,7 +70,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 		return $this->exporting($start, $limit);
 	}
-	
+
 	/**
 	 * Event run on export process
 	 *
@@ -81,10 +81,10 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	public function onAjaxOrder_Complete()
 	{
 		$this->downloadFile();
-		
+
 		JFactory::getApplication()->close();
 	}
-	
+
 	/**
 	 * Method for get query
 	 *
@@ -98,6 +98,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			->select(
 				array(
 					$this->db->qn('o.order_number'),
+					$this->db->qn('oi.order_item_id'),
 					$this->db->qn('os.order_status_name'),
 					$this->db->qn('o.order_payment_status'),
 					$this->db->qn('o.cdate'),
@@ -108,24 +109,47 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 					$this->db->qn('ouf.city'),
 					$this->db->qn('ouf.country_code'),
 					$this->db->qn('ouf.user_email'),
+					$this->db->qn('oi.product_id'),
+					$this->db->qn('oi.order_item_name'),
+					$this->db->qn('oi.product_item_price'),
+					$this->db->qn('oi.product_attribute'),
 					$this->db->qn('o.order_total')
 				)
 			)
 			->from($this->db->qn('#__redshop_orders', 'o'))
 			->leftJoin($this->db->qn('#__redshop_order_users_info', 'ouf') . ' ON ' . $this->db->qn('o.order_id') . ' = ' . $this->db->qn('ouf.order_id'))
+			->leftJoin($this->db->qn('#__redshop_order_item', 'oi') . ' ON ' . $this->db->qn('o.order_id') . ' = ' . $this->db->qn('oi.order_id'))
 			->leftJoin($this->db->qn('#__redshop_shipping_rate', 'sr') . ' ON ' . $this->db->qn('sr.shipping_rate_id') . ' = ' . $this->db->qn('o.ship_method_id'))
 			->leftJoin($this->db->qn('#__redshop_order_status', 'os') . ' ON ' . $this->db->qn('os.order_status_code') . ' = ' . $this->db->qn('o.order_status'))
 			->where($this->db->qn('ouf.address_type') . ' = ' . $this->db->q('ST'))
-			->order($this->db->qn('o.order_id') . ' DESC');
+			->order($this->db->qn('o.order_id') . ' ASC');
 
 		return $subQuery;
 	}
-	
+
 	protected function getHeader()
 	{
 		return array(
 			'Order number', 'Order status', 'Order Payment Status', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
-			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Order total'
+			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Order Item Number', 'Product Number', 'Order Item Name', 'Order Item Price', 'Order Item Attribute', 'Order total'
 		);
+	}
+
+	protected function processData(&$data)
+	{
+		$productHelper = productHelper::getInstance();
+		if (empty($data))
+		{
+			return;
+		}
+
+		foreach ($data as $newData)
+		{
+			if ($newData->product_attribute)
+			{
+				$productAttribute = $productHelper->makeAttributeOrder($newData->order_item_id, 0, $newData->product_id, 0, 1);
+				$newData->product_attribute = trim(str_replace("Subscription", " ", strip_tags(str_replace(",", " ", $productAttribute->product_attribute))));
+			}
+		}
 	}
 }
