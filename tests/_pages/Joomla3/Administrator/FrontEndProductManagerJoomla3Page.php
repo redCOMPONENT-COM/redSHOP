@@ -532,13 +532,19 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $messageInvalidVoucher = 'The discount code is not valid';
+	public static $paymentBankTransferDiscount = "//input[@value='rs_payment_banktransfer_discount']";
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $messageValidDisscount = 'The discount code is valid';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageInvalidVoucher = 'The discount code is not valid';
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
