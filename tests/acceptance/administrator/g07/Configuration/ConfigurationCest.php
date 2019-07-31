@@ -80,7 +80,6 @@ class ConfigurationCest
 	 */
 	protected $configurationOder11;
 
-
 	/**
 	 * ConfigurationCest constructor.
 	 * @since 2.1.3
