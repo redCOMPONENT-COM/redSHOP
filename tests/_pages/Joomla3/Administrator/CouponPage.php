@@ -63,4 +63,16 @@ class CouponPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $endDateField = '#jform_end_date';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $buttonDeleteCoupon =  '//div[@id="toolbar-delete"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageDeleteCouponSuccess = 'Test with delete product then accept';
 }

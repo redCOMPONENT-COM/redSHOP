@@ -42,4 +42,48 @@ class CouponSteps extends AbstractStep
 		$I->click(CouponPage::$buttonSave);
 		$I->assertSystemMessageContains(CouponPage::$messageFail);
 	}
+
+	/**
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function deleteAllCoupon()
+	{
+		$I = $this;
+		$I->amOnPage(CouponPage::$url);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->checkAllResults();
+		$I->waitForElementVisible(CouponPage::$buttonDeleteCoupon, 30);
+		$I->click(CouponPage::$buttonDeleteCoupon);
+		$I->acceptPopup();
+		$I->waitForText('item successfully deleted');
+	}
+
+	public function searchCoupon($coupontName)
+	{
+		$I = $this;
+		$I->wantTo('Search the Product');
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->filterListBySearchingProduct($coupontName);
+	}
+
+	public function deleteCoupon($coupontName)
+	{
+		$I = $this;
+		$I->amOnPage(CouponPage::$url);
+		$I->checkForPhpNoticesOrWarnings();
+		$this->searchProduct($coupontName);
+		$I->checkAllResults();
+		$I->click(ProductManagerPage::$buttonDelete);
+
+		$I->wantTo('Test with delete product but then cancel');
+		$I->cancelPopup();
+
+		$I->wantTo('Test with delete product then accept');
+		$I->click(ProductManagerPage::$coupontName);
+		$I->acceptPopup();
+		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);
+		$I->dontSee($productName);
+
+	}
 }

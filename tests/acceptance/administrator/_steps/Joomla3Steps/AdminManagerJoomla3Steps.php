@@ -29,12 +29,12 @@ class AdminManagerJoomla3Steps extends Redshop
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
-        try {
-            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-        } catch (\Exception $e) {
-            $I->click(\AdminJ3Page::$link);
-            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-        }
+		try {
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		} catch (\Exception $e) {
+			$I->click(\AdminJ3Page::$link);
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		}
 		$I->fillField(\AdminJ3Page::$urlID, $path);
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
@@ -295,5 +295,21 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
+	}
+
+	/**
+	 * @param $text
+	 * @param string $searchField
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function filterListBySearchingCoupon($text, $searchField = "#keyword")
+	{
+		$I = $this;
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(\FrontEndProductManagerJoomla3Page::$buttonReset);
+		$I->fillField($searchField, $text);
+		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $text], 30);
 	}
 }

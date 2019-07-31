@@ -235,8 +235,8 @@ class CheckoutWithVoucherNotValidCest
 		$I->deleteAllVoucher($this->randomVoucherCode);
 
 		$I->wantTo('Test delete Voucher in Administrator');
-		$I = new VoucherManagerJoomla3Steps($scenario);
-		$I->deleteDiscount($this->randomNameDisscount);
+		$I = new CouponSteps($scenario);
+		$I->deleteCoupon($this->dataCoupon['code']);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
@@ -246,15 +246,4 @@ class CheckoutWithVoucherNotValidCest
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->categoryName);
 	}
-//
-//    public function deleteDataSaveClose(\AcceptanceTester $tester, Codeception\Scenario $scenario)
-//    {
-//        $tester->doAdministratorLogin();
-//        $tester->wantTo('Run after create item with save button ');
-//        $stepClass = $this->stepClass;
-//
-//        /** @var AbstractStep $step */
-//        $tester = new $stepClass($scenario);
-//        $tester->deleteItem($this->dataCoupon['code']);
-//    }
 }
