@@ -2,12 +2,12 @@
 <extension version="3.0" type="plugin" group="redshop_export" method="upgrade">
     <name>PLG_REDSHOP_EXPORT_ORDER</name>
     <version>1.0.1</version>
-    <redshop>2.1.2.2</redshop>
-    <creationDate>June 2017</creationDate>
+    <redshop>2.1.2</redshop>
+    <creationDate>July 2019</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redcomponent.com</authorUrl>
-    <copyright>(C) 2017 redCOMPONENT.com</copyright>
+    <copyright>(C) 2019 redCOMPONENT.com</copyright>
     <license>GNU/GPL</license>
     <description>PLG_REDSHOP_EXPORT_ORDER_DESC</description>
     <files>

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Redshop\Plugin\AbstractExportPlugin;
-use Joomla\Utilities\ArrayHelper;
 
 JLoader::import('redshop.library');
 
@@ -41,12 +40,11 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	 *
 	 * @return  int
 	 *
-	 * @since  2.1.1
+	 * @since  1.0.0
 	 */
 	protected function getTotalOrder_Export()
 	{
 		$query = $this->getQuery();
-
 		$query->clear('select')
 			->clear('group')
 			->select('COUNT(DISTINCT o.order_id)');
@@ -94,7 +92,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	 */
 	protected function getQuery()
 	{
-		$subQuery = $this->db->getQuery(true)
+		$query = $this->db->getQuery(true)
 			->select(
 				array(
 					$this->db->qn('o.order_number'),
@@ -124,20 +122,30 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			->where($this->db->qn('ouf.address_type') . ' = ' . $this->db->q('ST'))
 			->order($this->db->qn('o.order_id') . ' ASC');
 
-		return $subQuery;
+		return $query;
 	}
 
 	protected function getHeader()
 	{
 		return array(
-			'Order number', 'Order status', 'Order Payment Status', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
-			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Order Item Number', 'Product Number', 'Order Item Name', 'Order Item Price', 'Order Item Attribute', 'Order total'
+			'Order number', 'Order Item Number', 'Order status', 'Order Payment Status', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
+			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Product Number', 'Order Item Name', 'Order Item Price', 'Order Item Attribute', 'Order total'
 		);
 	}
 
+	/**
+	 * Method for do some stuff for data return. (Like image path,...)
+	 *
+	 * @param   array  &$data  Array of data.
+	 *
+	 * @return  void
+	 *
+	 * @since  1.0.0
+	 */
 	protected function processData(&$data)
 	{
 		$productHelper = productHelper::getInstance();
+
 		if (empty($data))
 		{
 			return;
