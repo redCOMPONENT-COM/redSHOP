@@ -92,18 +92,6 @@ class DiscountPage extends AdminJ3Page
 	public static $urlMassDiscount = '/administrator/index.php?option=com_redshop&view=mass_discounts';
 
 	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $fieldProducts = '#jform_discount_product';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $amountTotal = '//div[@id="jform_type"]/label[2]';
-
-	/**
 	 * @return string
 	 *
 	 * @since  2.1.0
