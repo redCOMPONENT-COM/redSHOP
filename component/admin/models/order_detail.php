@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
-
+use Joomla\Registry\Registry;
 
 class RedshopModelOrder_detail extends RedshopModel
 {
@@ -857,6 +857,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			$tmpArr['special_discount'] = $orderdata->special_discount;
+			$tmpArr['payment_method_class'] = $data['payment_method_class'];
 			$this->/** @scrutinizer ignore-call */ special_discount($tmpArr, true);
 		}
 		else
@@ -962,6 +963,23 @@ class RedshopModelOrder_detail extends RedshopModel
 		}
 
 		$orderData->order_total        = $order_total;
+
+		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($data['payment_method_class']);
+		$paymentmethod                            = $paymentmethod[0];
+		$paymentparams                            = new Registry($paymentmethod->params);
+		$paymentinfo                              = new stdclass;
+		$paymentinfo->payment_price               = $paymentparams->get('payment_price', '');
+		$paymentinfo->is_creditcard               = $post['economic_is_creditcard'] = $paymentparams->get('is_creditcard', '');
+		$paymentinfo->payment_oprand              = $paymentparams->get('payment_oprand', '');
+		$paymentinfo->accepted_credict_card       = $paymentparams->get("accepted_credict_card");
+		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
+
+		$paymentMethod = RedshopHelperPayment::calculate($orderData->order_total, $paymentinfo, $orderData->order_subtotal);
+
+		$orderData->payment_discount = $paymentMethod[1];
+
+		$orderData->order_total = $orderData->order_total - $orderData->payment_discount;
+
 		$orderData->order_tax          = $orderData->order_tax + $orderData->order_discount_vat - $Discountvat;
 		$orderData->order_discount_vat = $Discountvat;
 		$orderData->order_discount     = $update_discount;
@@ -1044,6 +1062,24 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderData->special_discount_amount = $discountPrice;
 
 		$orderData->order_total    = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
+
+		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($data['payment_method_class']);
+		$paymentmethod                            = $paymentmethod[0];
+		$paymentparams                            = new Registry($paymentmethod->params);
+		$paymentinfo                              = new stdclass;
+		$paymentinfo->payment_price               = $paymentparams->get('payment_price', '');
+		$paymentinfo->is_creditcard               = $post['economic_is_creditcard'] = $paymentparams->get('is_creditcard', '');
+		$paymentinfo->payment_oprand              = $paymentparams->get('payment_oprand', '');
+		$paymentinfo->accepted_credict_card       = $paymentparams->get("accepted_credict_card");
+		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
+
+
+		$paymentMethod = RedshopHelperPayment::calculate($orderData->order_total, $paymentinfo, $orderData->order_subtotal);
+
+		$orderData->payment_discount = $paymentMethod[1];
+
+		$orderData->order_total = $orderData->order_total - $orderData->payment_discount;
+
 		$orderData->order_subtotal = $orderSubTotal;
 		$orderData->order_tax      = $orderTax;
 		$orderData->mdate          = time();
