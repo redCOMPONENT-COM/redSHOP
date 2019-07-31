@@ -7,6 +7,7 @@
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\MassDiscountManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\VoucherManagerJoomla3Steps;
@@ -164,9 +165,9 @@ class CheckoutWithVoucherNotValidCest
 		$this->discount1['enable'] = 'yes';
 		$this->discount1['allow']= 'Discount + voucher/coupon';
 		$this->discount1['enableCoupon']= 'yes';
-		$this->discount1['couponInfo'] = 'yes';
-		$this->discount1['enableVoucher'] = 'yes';
-		$this->discount1['spendTime'] = 'no';
+		$this->discount1['couponInfo'] = 'no';
+		$this->discount1['enableVoucher'] = 'no';
+		$this->discount1['spendTime'] = 'yes';
 		$this->discount1['applyForProductDiscount'] = 'yes';
 		$this->discount1['calculate'] = 'total';
 		$this->discount1['valueOfDiscount'] = 'Total';
@@ -215,8 +216,9 @@ class CheckoutWithVoucherNotValidCest
 		$I->checkoutWithInvalidVoucher($this->productName, $this->categoryName, $this->invalidVoucher);
 		$I->checkoutWithCouponAndVoucher($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode);
 
-		$I = new \AcceptanceTester\DiscountSteps($scenario);
-		$I->addMassDiscount($this->randomNameDisscount, $this->discountType, $this->randomAmount, $this->startDate, $this->endDate, $this->productName);
+		$I->wantTo('Test add mass discount');
+		$I = new MassDiscountManagerJoomla3Steps($scenario);
+		$I->addMassDiscount($this->randomNameDisscount, $this->randomAmount, $this->startDate, $this->endDate, $this->categoryName, $this->productName);
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
@@ -237,6 +239,10 @@ class CheckoutWithVoucherNotValidCest
 		$I->wantTo('Test delete Voucher in Administrator');
 		$I = new CouponSteps($scenario);
 		$I->deleteCoupon($this->dataCoupon['code']);
+
+		$I->wantTo('Test delete massdiscount in Administrator');
+		$I = new MassDiscountManagerJoomla3Steps($scenario);
+		$I->deleteMassDiscountOK($this->randomNameDisscount);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');

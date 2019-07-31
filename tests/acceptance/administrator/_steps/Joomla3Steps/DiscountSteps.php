@@ -420,32 +420,4 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountPage::$buttonSaveClose);
 		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 30, \DiscountPage::$selectorSuccess);
 	}
-
-	/**
-	 * @param $name
-	 * @param $discountType
-	 * @param $amount
-	 * @param $startDate
-	 * @param $endDate
-	 * @param $product
-	 * @throws \Exception
-	 * @since 2.1.3
-	 */
-	public function addMassDiscount($name, $discountType, $amount, $startDate, $endDate, $product)
-	{
-		$client = $this;
-		$client->amOnPage(\DiscountPage::$urlMassDiscount);
-		$client->checkForPhpNoticesOrWarnings();
-		$client->click(\DiscountPage::$buttonNew);
-		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
-		$client->fillField(\DiscountPage::$fieldName, $name);
-		$client->waitForElementVisible(\DiscountPage::$amountTotal);
-		$client->click(\DiscountPage::$amountTotal);
-		$client->fillField(\DiscountPage::$fieldAmount, $amount);
-		$client->fillField(\DiscountPage::$fieldStartDate, $startDate);
-		$client->fillField(\DiscountPage::$fieldEndDate, $endDate);
-		$client->chooseOnSelect2(\DiscountPage::$fieldProducts, $product);
-		$client->click(\DiscountPage::$buttonSaveClose);
-		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 60, \DiscountPage::$selectorSuccess);
-	}
 }

@@ -303,7 +303,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function filterListBySearchingCoupon($text, $searchField = "#keyword")
+	public function filterListBySearchingCoupon($text, $searchField = "//input[@id=\"filter_search\"]")
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');

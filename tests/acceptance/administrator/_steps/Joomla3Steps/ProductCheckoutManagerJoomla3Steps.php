@@ -1250,6 +1250,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
 		$I->see(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmptyCart);
 	}
 
 	/**
@@ -1278,6 +1281,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
 		$I->see(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmptyCart);
 	}
 
 	/**
@@ -1303,6 +1309,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
 		$I->see(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmptyCart);
 	}
 
 	/**
@@ -1331,8 +1340,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
 		$I->see(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmptyCart);
 	}
-
-
-
 }

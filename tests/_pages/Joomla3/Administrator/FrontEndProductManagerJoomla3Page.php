@@ -547,6 +547,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $messageInvalidVoucher = 'The discount code is not valid';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $buttonEmptyCart = '//input[@value="Empty cart"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageEmptyCart = 'The Cart is empty.';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
