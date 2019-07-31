@@ -117,7 +117,7 @@ class ConfigurationCest
 		//Configuration Oder Reset Id Oder
 		$this->configurationOder1 =
 			[
-				'resetIdOder'                   => 'Reset Id Oder',//
+				'resetIdOder'                   => 'Reset Id Oder',
 			];
 
 		//Configuration Oder Oder Email After Payment
