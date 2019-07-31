@@ -214,7 +214,7 @@ class CheckoutWithVoucherNotValidCest
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithInvalidVoucher($this->productName, $this->categoryName, $this->invalidVoucher);
-		$I->checkoutWithCouponAndVoucher($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode);
+		$I->checkoutWithCouponAndInvalidVoucher($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode);
 
 		$I->wantTo('Test add mass discount');
 		$I = new MassDiscountManagerJoomla3Steps($scenario);
@@ -222,7 +222,7 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithDisscountAndVoucher($this->productName, $this->categoryName, $this->randomVoucherCode);
+		$I->checkoutWithDisscountAndInvalidVoucher($this->productName, $this->categoryName, $this->randomVoucherCode);
 
 		$I->wantToTest('Configuration for Discount + voucher/coupon');
 		$I = new ConfigurationSteps($scenario);
@@ -230,7 +230,7 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithDisscountCouponAndVoucher($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode);
+		$I->checkoutWithDisscountCouponAndInvalidVoucher($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode);
 
 		$I->wantTo('Test delete Voucher in Administrator');
 		$I = new VoucherManagerJoomla3Steps($scenario);

@@ -1263,7 +1263,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithCouponAndVoucher($productName, $categoryName, $dataCoupon, $Voucher )
+	public function checkoutWithCouponAndInvalidVoucher($productName, $categoryName, $dataCoupon, $Voucher )
 	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -1293,7 +1293,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithDisscountAndVoucher($productName, $categoryName, $Voucher )
+	public function checkoutWithDisscountAndInvalidVoucher($productName, $categoryName, $Voucher )
 	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -1322,7 +1322,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithDisscountCouponAndVoucher($productName, $categoryName, $dataCoupon, $Voucher )
+	public function checkoutWithDisscountCouponAndInvalidVoucher($productName, $categoryName, $dataCoupon, $Voucher )
 	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
