@@ -79,7 +79,7 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 
 		try
 		{
-			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
 		}
 		catch (\Exception $e)
 		{
