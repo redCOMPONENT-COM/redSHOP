@@ -212,10 +212,9 @@ class ConfigurationCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-	public function allCaseAtConfigurations(AcceptanceTester $I, $scenario)
+	public function allCaseAtConfigurations(ConfigurationSteps $I)
 	{
 		$I->wantTo('Test enable Stockroom in Administrator');
-		$I = new ConfigurationSteps($scenario);
 		$I->featureUsedStockRoom();
 
 		$I->wantTo('Test off Stockroom in Administrator');
