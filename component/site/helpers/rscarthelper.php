@@ -309,6 +309,10 @@ class rsCarthelper
 
 		$cart_data = Redshop\Cart\Render\Label::replace($cart_data);
 
+		JPluginHelper::importPlugin('redshop_checkout');
+		$dispatcher   = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onReplaceTemplateCart', array(&$cart));
+
 		$total                     = $cart ['total'];
 		$subtotal_excl_vat         = $cart ['subtotal_excl_vat'];
 		$product_subtotal          = $cart ['product_subtotal'];
