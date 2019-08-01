@@ -117,21 +117,28 @@ class CheckoutWithVoucherNotValidCest
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->categoryName = $this->faker->bothify('TestingCategory ?##');
-		$this->productName =  $this->faker->bothify('Testing ProductManagement ?##');
-		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = $this->faker->numberBetween(300, 999);
-		$this->minimumPerProduct = 2;
-		$this->minimumQuantity = 3;
-		$this->maximumQuantity = 5;
-		$this->discountStart = "2019-01-05";
-		$this->discountEnd = "2019-08-08";
-		$this->randomVoucherCode = $this->faker->bothify('ManageVoucherAdministratorCest ?##?');
-		$this->voucherAmount = $this->faker->numberBetween(9, 99);
-		$this->startDate = "2019-01-05";
-		$this->endDate = "2019-07-07";
-		$this->voucherCount = $this->faker->numberBetween(99, 999);
-		$this->invalidVoucher = $this->faker->bothify('invalidvoucher ?##?');
+		$this->categoryName         = $this->faker->bothify('TestingCategory ?##');
+		$this->productName          = $this->faker->bothify('Testing Product ?##');
+		$this->productName2         = $this->faker->bothify('Testing Product name ?##');
+		$this->productName3         = $this->faker->bothify('Testing ProductManagement ?##');
+		$this->randomProductNumber  = $this->faker->numberBetween(999, 3333);
+		$this->randomProductNumber2 = $this->faker->numberBetween(3333, 5555);
+		$this->randomProductNumber3 = $this->faker->numberBetween(5555, 9999);
+		$this->randomProductPrice   = $this->faker->numberBetween(300, 999);
+		$this->minimumPerProduct    = 2;
+		$this->minimumQuantity      = 3;
+		$this->maximumQuantity      = 5;
+		$this->discountStart        = "2019-01-05";
+		$this->discountEnd          = "2019-08-08";
+		$this->randomVoucherCode    = $this->faker->bothify('ManageVoucherAdministratorCest ??');
+		$this->randomVoucherCode2   = $this->faker->bothify('ManageVoucherAdministratorCest ?#?');
+		$this->randomVoucherCode3   = $this->faker->bothify('ManageVoucherAdministratorCest ?##?');
+		$this->randomVoucherCode4   = $this->faker->bothify('ManageVoucherAdministratorCest ?##');
+		$this->voucherAmount        = $this->faker->numberBetween(9, 99);
+		$this->startDate            = "2019-01-05";
+		$this->endDate              = "2019-07-07";
+		$this->voucherCount         = $this->faker->numberBetween(99, 999);
+		$this->invalidVoucher       = $this->faker->bothify('invalidvoucher ?##?');
 
 		$this->dataCoupon = array();
 		$this->dataCoupon['code']        = $this->faker->bothify('Coupon Code ?##?');
@@ -154,7 +161,7 @@ class CheckoutWithVoucherNotValidCest
 		$this->discount['allow']= 'Discount/voucher/coupon';
 		$this->discount['enableCoupon']= 'yes';
 		$this->discount['couponInfo'] = 'no';
-		$this->discount['enableVoucher'] = 'no';
+		$this->discount['enableVoucher'] = 'yes';
 		$this->discount['spendTime'] = 'no';
 		$this->discount['applyForProductDiscount'] = 'yes';
 		$this->discount['calculate'] = 'total';
@@ -166,11 +173,35 @@ class CheckoutWithVoucherNotValidCest
 		$this->discount1['allow']= 'Discount + voucher/coupon';
 		$this->discount1['enableCoupon']= 'yes';
 		$this->discount1['couponInfo'] = 'no';
-		$this->discount1['enableVoucher'] = 'no';
+		$this->discount1['enableVoucher'] = 'yes';
 		$this->discount1['spendTime'] = 'yes';
 		$this->discount1['applyForProductDiscount'] = 'yes';
 		$this->discount1['calculate'] = 'total';
 		$this->discount1['valueOfDiscount'] = 'Total';
+
+		//price Discount + voucher (single) + coupon (single)
+		$this->discount2 = array();
+		$this->discount2['enable'] = 'yes';
+		$this->discount2['allow']= 'Discount + voucher (single) + coupon (single)';
+		$this->discount2['enableCoupon']= 'yes';
+		$this->discount2['couponInfo'] = 'no';
+		$this->discount2['enableVoucher'] = 'yes';
+		$this->discount2['spendTime'] = 'yes';
+		$this->discount2['applyForProductDiscount'] = 'yes';
+		$this->discount2['calculate'] = 'total';
+		$this->discount2['valueOfDiscount'] = 'Total';
+
+		//price Discount + voucher (multiple) + coupon (multiple)
+		$this->discount3 = array();
+		$this->discount3['enable'] = 'yes';
+		$this->discount3['allow']= 'Discount + voucher (multiple) + coupon (multiple)';
+		$this->discount3['enableCoupon']= 'yes';
+		$this->discount3['couponInfo'] = 'yes';
+		$this->discount3['enableVoucher'] = 'yes';
+		$this->discount3['spendTime'] = 'yes';
+		$this->discount3['applyForProductDiscount'] = 'yes';
+		$this->discount3['calculate'] = 'total';
+		$this->discount3['valueOfDiscount'] = 'Total';
 	}
 
 	/**
@@ -198,39 +229,76 @@ class CheckoutWithVoucherNotValidCest
 		$I->wantTo('Create product for use in Voucher test');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSave($this->productName2, $this->categoryName, $this->randomProductNumber2, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSave($this->productName3, $this->categoryName, $this->randomProductNumber3, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 		$I->wantTo('Create Voucher creation in Administrator');
 		$I = new VoucherManagerJoomla3Steps($scenario);
 		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'save');
+		$I->addVoucher($this->randomVoucherCode2, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName2, 'save');
+		$I->addVoucherNotHaveProducts($this->randomVoucherCode3, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount);
+		$I->addVoucherNotHaveProducts($this->randomVoucherCode4, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount);
 
 		$I->wantTo('Create a Coupon');
 		$I = new CouponSteps($scenario);
 		$I->addNewItem($this->dataCoupon);
 
+		$I->wantTo('Test add mass discount');
+		$I = new MassDiscountManagerJoomla3Steps($scenario);
+		$I->addMassDiscountHaveProduct($this->randomNameDisscount, $this->randomAmount, $this->startDate, $this->endDate, $this->categoryName, $this->productName);
+
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		// check out product with voucher of product2
+		$I->checkoutWithOneDisscount($this->productName,$this->categoryName,$this->randomVoucherCode2);
+		// checkout with invalid voucher
+		$I->checkoutWithInvalidVoucher($this->productName3, $this->categoryName, $this->invalidVoucher);
+
+
 		$I->wantToTest('Configuration for voucher/coupon/discount');
 		$I = new ConfigurationSteps($scenario);
+		// configuration price voucher/coupon/discount
 		$I->priceDiscount($this->discount);
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithInvalidVoucher($this->productName, $this->categoryName, $this->invalidVoucher);
-		$I->checkoutWithCouponAndInvalidVoucher($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode);
-
-		$I->wantTo('Test add mass discount');
-		$I = new MassDiscountManagerJoomla3Steps($scenario);
-		$I->addMassDiscount($this->randomNameDisscount, $this->randomAmount, $this->startDate, $this->endDate, $this->categoryName, $this->productName);
-
-		$I->wantTo('Test check out with invalid voucher');
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithDisscountAndInvalidVoucher($this->productName, $this->categoryName, $this->randomVoucherCode);
+		// checkout coupon -> voucher
+		$I->checkoutWithTowDisscount($this->productName3, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode3);
+		// checkout voucher -> voucher
+		$I->checkoutWithTowDisscount($this->productName3, $this->categoryName,$this->randomVoucherCode3, $this->randomVoucherCode3);
+		// checkout discount -> voucher
+		$I->checkoutWithOneDisscount($this->productName, $this->categoryName, $this->randomVoucherCode);
 
 		$I->wantToTest('Configuration for Discount + voucher/coupon');
 		$I = new ConfigurationSteps($scenario);
+		// configuration price Discount + voucher/coupon
 		$I->priceDiscount($this->discount1);
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithDisscountCouponAndInvalidVoucher($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode);
+		// checkout disscout products -> coupon -> voucher
+//		$I->checkoutWithTowDisscount($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode3);
+		// checkout discout products -> voucher -> voucher
+		$I->checkoutWithTowDisscount($this->productName, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
+
+		$I->wantToTest('Configuration for Discount + voucher (single) + coupon (single)');
+		$I = new ConfigurationSteps($scenario);
+		// configuration price Discount + voucher (single) + coupon (single)
+		$I->priceDiscount($this->discount2);
+
+		$I->wantTo('Test check out with invalid voucher');
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		// checkout discout products -> voucher -> voucher
+		$I->checkoutWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
+
+		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
+		$I = new ConfigurationSteps($scenario);
+		// configuration price Discount + voucher (multiple) + coupon (multiple)
+		$I->priceDiscount($this->discount3);
+
+		$I->wantTo('Test check out with invalid voucher');
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		// checkout discout products -> voucher -> voucher
+		$I->checkoutWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
 
 		$I->wantTo('Test delete Voucher in Administrator');
 		$I = new VoucherManagerJoomla3Steps($scenario);
@@ -242,11 +310,13 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test delete massdiscount in Administrator');
 		$I = new MassDiscountManagerJoomla3Steps($scenario);
-		$I->deleteMassDiscountOK($this->randomNameDisscount);
+		$I->deleteAllMassDiscountOK($this->randomNameDisscount);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
 		$I->deleteProduct($this->productName);
+		$I->deleteProduct($this->productName2);
+		$I->deleteProduct($this->productName3);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');

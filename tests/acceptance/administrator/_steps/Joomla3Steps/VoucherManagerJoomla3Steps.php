@@ -323,6 +323,22 @@ class VoucherManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->dontSeeElement(['link' => $updatedRandomVoucherCode]);
 	}
 
+	public function addVoucherNotHaveProducts($code, $amount, $voucherStartDate, $voucherEndDate, $count)
+	{
+		$I = $this;
+		$I->amOnPage(\VoucherManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings(\VoucherManagerPage::$URL);
+		$I->click(\VoucherManagerPage::$newButton);
+		$I->fillField(\VoucherManagerPage::$voucherCode, $code);
+		$I->fillField(\VoucherManagerPage::$voucherAmount, $amount);
+		$I->fillField(\VoucherManagerPage::$voucherStartDate, $voucherStartDate);
+		$I->fillField(\VoucherManagerPage::$voucherEndDate, $voucherEndDate);
+		$I->fillField(\VoucherManagerPage::$voucherLeft, $count);
+		$I->click(\VoucherManagerPage::$saveButton);
+		$I->see(\VoucherManagerPage::$messageSaveSuccess, \VoucherManagerPage::$selectorSuccess);
+		$I->click(\VoucherManagerPage::$closeButton);
+	}
+
 	/**
 	 * Function to return the Result of the State of a Voucher
 	 *

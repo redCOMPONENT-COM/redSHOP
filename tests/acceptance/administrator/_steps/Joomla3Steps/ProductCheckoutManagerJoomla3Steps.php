@@ -1263,7 +1263,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithCouponAndInvalidVoucher($productName, $categoryName, $dataCoupon, $Voucher )
+	public function checkoutWithTowDisscount($productName, $categoryName, $discount1, $discount2 )
 	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -1275,9 +1275,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->fillField(\GiftCardCheckoutPage::$couponInput, $dataCoupon);
+		$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount1);
 		$I->click(\GiftCardCheckoutPage::$couponButton);
-		$I->fillField(\GiftCardCheckoutPage::$couponInput, $Voucher);
+		$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount2);
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
 		$I->see(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
@@ -1293,7 +1293,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithDisscountAndInvalidVoucher($productName, $categoryName, $Voucher )
+	public function checkoutWithOneDisscount($productName, $categoryName, $discount1)
 	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
@@ -1305,38 +1305,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->fillField(\GiftCardCheckoutPage::$couponInput, $Voucher);
-		$I->click(\GiftCardCheckoutPage::$couponButton);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
-		$I->see(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
-		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmptyCart);
-	}
-
-	/**
-	 * @param $productName
-	 * @param $categoryName
-	 * @param $dataCoupon
-	 * @param $Voucher
-	 * @throws \Exception
-	 * @since 2.1.3
-	 */
-	public function checkoutWithDisscountCouponAndInvalidVoucher($productName, $categoryName, $dataCoupon, $Voucher )
-	{
-		$I = $this;
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->fillField(\GiftCardCheckoutPage::$couponInput, $dataCoupon);
-		$I->click(\GiftCardCheckoutPage::$couponButton);
-		$I->fillField(\GiftCardCheckoutPage::$couponInput, $Voucher);
+		$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount1);
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
 		$I->see(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);

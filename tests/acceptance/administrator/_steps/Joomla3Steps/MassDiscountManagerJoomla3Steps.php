@@ -21,13 +21,45 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
 		$I->fillField(\MassDiscountManagerPage::$fieldStartDate, $toDay);
 		$I->fillField(\MassDiscountManagerPage::$fieldEndDate, $toDay);
-		$I->click(\MassDiscountManagerPage::$saveButton);
-
 		$I->click(\MassDiscountManagerPage::$categoryForm);
 		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
 		$useMassDiscountPage = new \MassDiscountManagerPage();
 		$I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
 		$I->click($useMassDiscountPage->returnXpath($nameCategory));
+		$I->click(\MassDiscountManagerPage::$saveButton);
+		$I->see(\MassDiscountManagerPage::$saveOneSuccess, \MassDiscountManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param $massDiscountName
+	 * @param $amountValue
+	 * @param $discountStart
+	 * @param $discountEnd
+	 * @param $nameCategory
+	 * @param $nameProduct
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function addMassDiscountHaveProduct($massDiscountName, $amountValue, $discountStart, $discountEnd, $nameCategory, $nameProduct)
+	{
+		$I = $this;
+		$I->amOnPage(\MassDiscountManagerPage::$URL);
+		$I->click(\MassDiscountManagerPage::$newButton);
+		$I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
+
+		$toDay = date('Y-m-d');
+
+		$I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
+		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
+		$I->fillField(\MassDiscountManagerPage::$fieldStartDate, $toDay);
+		$I->fillField(\MassDiscountManagerPage::$fieldEndDate, $toDay);
+		$I->click(\MassDiscountManagerPage::$saveButton);
+
+		$I->click(\MassDiscountManagerPage::$inputProduct);
+		$I->fillField(\MassDiscountManagerPage::$inputProduct, $nameProduct);
+		$useMassDiscountPage = new \MassDiscountManagerPage();
+		$I->waitForElement($useMassDiscountPage->returnXpath($nameProduct));
+		$I->click($useMassDiscountPage->returnXpath($nameProduct));
 		$I->click(\MassDiscountManagerPage::$saveButton);
 		$I->see(\MassDiscountManagerPage::$saveOneSuccess, \MassDiscountManagerPage::$selectorSuccess);
 	}

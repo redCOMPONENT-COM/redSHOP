@@ -3,222 +3,228 @@
 
 class MassDiscountManagerPage extends AdminJ3Page
 {
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $URL = '/administrator/index.php?option=com_redshop&view=mass_discounts';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $URLNew = '/administrator/index.php?option=com_redshop&view=mass_discount&layout=edit';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $name = "#jform_name";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $valueAmount = "#jform_amount";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $pathNameProduct = "#s2id_autogen3";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $categoryField = "#s2id_jform_category_id";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $dayStart = "#jform_start_date";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $dayEnd = "#jform_end_date";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $checkFirstItems = "//input[@id='cb0']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $MassDiscountFilter = "#filter_search";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $MassDicountResultRow = "//div[@class='table-responsive']/table/tbody/tr/td[3]/a";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $categoryForm = "//div[@id='s2id_jform_category_id']//ul/li";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $categoryFormInput = "//div[@id='s2id_jform_category_id']//ul/li//input";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $discountForm = "//div[@id='s2id_jform_discount_product']//ul/li";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $discountFormInput = "//div[@id='s2id_jform_discount_product']//ul/li//input";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $dateCalender = '#jform_start_date_img';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $startDateIcon = "#jform_start_date_img";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $endDateIcon = "#jform_end_date_img";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $getToday = "//td[contains(@class, 'selected')]";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $fieldStartDate = "#jform_start_date";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $fieldEndDate = "#jform_end_date";
 
 
 	//page name
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $pageEdit = "Mass Discount  Edit";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $pageNew = "product mass discount new";
 
 	//Message
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $saveOneSuccess = "Item saved.";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $fieldName = "Field required: Name";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $saveError = "Save failed with the following error";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $messageSuccess = "Message";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $messageError = "Error";
 	//selector
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $selectorSuccess = ".alert-success";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $selectorError = ".alert-danger";
 
 
 	//button
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $newButton = "New";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $saveButton = "Save";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $unpublishButton = "Unpublish";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $publishButton = "Publish";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $saveCloseButton = "Save & Close";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $deleteButton = "Delete";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $editButton = "Edit";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $cancelButton = "Cancel";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $closeButton = "Close";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $addButton = "Add";
 
-    /**
-     * Function to get Path for $type in Mass Discount
-     *
-     * @param $type
-     *
-     * @return string
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $inputProduct = '//div[@id=\'s2id_jform_discount_product\']//ul/li//input';
+
+	/**
+	 * Function to get Path for $type in Mass Discount
+	 *
+	 * @param $type
+	 *
+	 * @return string
+	 */
 	public function returnXpath($type)
 	{
 		$path = "//span[contains(text(), '" . $type . "')]";
