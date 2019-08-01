@@ -188,7 +188,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->click(\OrderManagerPage::$buttonNew);
-		$I->click(\OrderManagerPage::$userId);
+        $I->waitForElementVisible(\OrderManagerPage::$userId, 30);
+        $I->click(\OrderManagerPage::$userId);
 		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
 		$I->fillField(\OrderManagerPage::$userSearch, $nameUser);
@@ -213,7 +214,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
 		$I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
 		$I->click($userOrderPage->returnSearch($nameProduct));
-		$I->waitForElement(\OrderManagerPage::$fieldAttribute, 30);
+		$I->waitForElementVisible(\OrderManagerPage::$valueAttribute, 30);
 		$I->wait(1);
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->wait(1);

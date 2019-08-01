@@ -208,14 +208,16 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForElement(['link' => $text], 30);
 	}
 
-	/**
-	 * @param $xpath
-	 * @param $value
-	 * @param $lengh
-	 */
+    /**
+     * @param $xpath
+     * @param $value
+     * @param $lengh
+     * @throws \Exception
+     */
 	public function addValueForField($xpath, $value, $lengh)
 	{
 		$I = $this;
+		$I->waitForElementVisible($xpath, 30);
 		$I->click($xpath);
 		for ($i = 1; $i <= $lengh; $i++)
 		{
