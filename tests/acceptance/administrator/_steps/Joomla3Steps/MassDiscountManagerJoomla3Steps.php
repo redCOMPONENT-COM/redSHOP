@@ -21,6 +21,8 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
 		$I->fillField(\MassDiscountManagerPage::$fieldStartDate, $toDay);
 		$I->fillField(\MassDiscountManagerPage::$fieldEndDate, $toDay);
+		$I->click(\MassDiscountManagerPage::$saveButton);
+
 		$I->click(\MassDiscountManagerPage::$categoryForm);
 		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
 		$useMassDiscountPage = new \MassDiscountManagerPage();

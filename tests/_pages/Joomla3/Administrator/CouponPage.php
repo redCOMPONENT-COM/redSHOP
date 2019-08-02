@@ -75,4 +75,10 @@ class CouponPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $messageDeleteCouponSuccess = '1 item successfully deleted';
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+	public static $searchFieldCopon = '//input[@id="filter_search"]';
 }
