@@ -1279,7 +1279,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\GiftCardCheckoutPage::$couponButton);
 		$I->fillField(\GiftCardCheckoutPage::$couponInput, $discount2);
 		$I->click(\GiftCardCheckoutPage::$couponButton);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher, 30g);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher, 30);
 		$I->see(\FrontEndProductManagerJoomla3Page::$messageInvalidVoucher);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);

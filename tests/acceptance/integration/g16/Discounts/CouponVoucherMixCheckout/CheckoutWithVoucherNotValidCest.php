@@ -407,9 +407,9 @@ class CheckoutWithVoucherNotValidCest
 		$I->addMassDiscountHaveProduct($this->randomNameDisscount, $this->randomAmount, $this->startDate, $this->endDate, $this->categoryName, $this->productName);
 
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// check out product with voucher of product2
-		$I->checkoutInvalidWithOneDisscount($this->productName,$this->categoryName,$this->randomVoucherCode2);
-		// checkout with invalid voucher
+		$I->wantToTest('check out product with voucher of product2');
+		$I->checkoutInvalidWithOneDisscount($this->productName, $this->categoryName, $this->randomVoucherCode2);
+		$I->wantToTest('checkout with invalid voucher');
 		$I->checkoutWithInvalidVoucher($this->productName3, $this->categoryName, $this->invalidVoucher);
 
 		$I->wantToTest('Configuration for voucher/coupon/discount');
@@ -419,31 +419,32 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// checkout coupon -> voucher
-		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode3);
-		// checkout voucher -> voucher
-		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName,$this->randomVoucherCode3, $this->randomVoucherCode3);
-		// checkout discount -> voucher
+		$I->wantToTest('checkout coupon -> voucher');
+		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName, $this->dataCoupon['code'], $this->randomVoucherCode3);
+		$I->wantToTest('checkout voucher -> voucher');
+		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
+		$I->wantToTest('checkout discount -> voucher');
 		$I->checkoutInvalidWithOneDisscount($this->productName, $this->categoryName, $this->randomVoucherCode);
 
 		$I->wantToTest('Configuration for Discount + voucher/coupon');
 		$I = new ConfigurationSteps($scenario);
-		// configuration price Discount + voucher/coupon
+		$I->wantToTest('configuration price Discount + voucher/coupon');
 		$I->priceDiscount($this->discount1);
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// checkout discout products -> voucher -> voucher
+		$I->wantToTest('checkout discout products -> voucher -> voucher');
 		$I->checkoutInvalidWithTowDisscount($this->productName, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
 
 		$I->wantToTest('Configuration for Discount + voucher (single) + coupon (single)');
 		$I = new ConfigurationSteps($scenario);
 		// configuration price Discount + voucher (single) + coupon (single)
+		$I->wantToTest('check out product with voucher of product2');
 		$I->priceDiscount($this->discount2);
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// checkout discout products -> voucher -> voucher
+		$I->wantToTest('checkout discout products -> voucher -> voucher');
 		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
 
 		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
@@ -453,7 +454,7 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// checkout discout products -> voucher -> voucher
+		$I->wantToTest('checkout discout products -> voucher -> voucher');
 		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
 
 		//enable Vouchers in price
@@ -463,32 +464,32 @@ class CheckoutWithVoucherNotValidCest
 		// price Discount/voucher/coupon + enable Vouchers in price
 		$I->priceDiscount($this->discount4);
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// check out product with voucher
-		$I->checkoutInvalidWithOneDisscount($this->productName3,$this->categoryName,$this->randomVoucherCode3);
+		$I->wantToTest('check out product with voucher');
+		$I->checkoutInvalidWithOneDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3);
 
 		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
 		$I = new ConfigurationSteps($scenario);
 		// configuration price Discount + voucher/coupon + enable Vouchers in price + enable Vouchers in price
 		$I->priceDiscount($this->discount5);
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// check out product with voucher
-		$I->checkoutInvalidWithOneDisscount($this->productName3,$this->categoryName,$this->randomVoucherCode3);
+		$I->wantToTest('check out product with voucher');
+		$I->checkoutInvalidWithOneDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3);
 
 		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
 		$I = new ConfigurationSteps($scenario);
 		// configuration price Discount + voucher (single) + coupon (single) + enable Vouchers in price
 		$I->priceDiscount($this->discount6);
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// check out product with voucher
-		$I->checkoutInvalidWithOneDisscount($this->productName3,$this->categoryName,$this->randomVoucherCode3);
+		$I->wantToTest('check out product with voucher');
+		$I->checkoutInvalidWithOneDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3);
 
 		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
 		$I = new ConfigurationSteps($scenario);
 		// configuration price Discount + voucher (multiple) + coupon (multiple) + enable Vouchers in price
 		$I->priceDiscount($this->discount7);
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// check out product with voucher
-		$I->checkoutInvalidWithOneDisscount($this->productName3,$this->categoryName,$this->randomVoucherCode3);
+		$I->wantToTest('check out product with voucher');
+		$I->checkoutInvalidWithOneDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3);
 	}
 
 	/**
