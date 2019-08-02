@@ -275,8 +275,6 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		// checkout disscout products -> coupon -> voucher
-//		$I->checkoutWithTowDisscount($this->productName, $this->categoryName,$this->dataCoupon['code'], $this->randomVoucherCode3);
 		// checkout discout products -> voucher -> voucher
 		$I->checkoutWithTowDisscount($this->productName, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
 
