@@ -554,10 +554,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	public function checkPriceTotalHaveStatusOder($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod, $status)
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
-		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
-		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
 		$NumberZero = null;
 		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)

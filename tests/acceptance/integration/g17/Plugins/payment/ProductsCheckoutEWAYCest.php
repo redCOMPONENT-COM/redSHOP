@@ -17,11 +17,7 @@ use Frontend\payment\CheckoutWithEWAYPayment;
 
 /**
  * Class ProductsCheckoutEWAYCest
- *
  * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
  * @since    2.1.3
  */
 class ProductsCheckoutEWAYCest
