@@ -175,7 +175,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 
-    /**
+	/**
 	 * @param $category
 	 * @param $productNumber
 	 * @param $productName
@@ -304,6 +304,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
 		$this->searchProduct($productName);
+		$I->wait(0.5);
 		$I->checkAllResults();
 		$I->click(ProductManagerPage::$buttonDelete);
 
