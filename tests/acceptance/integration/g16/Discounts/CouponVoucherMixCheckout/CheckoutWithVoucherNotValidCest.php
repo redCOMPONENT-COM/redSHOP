@@ -202,6 +202,54 @@ class CheckoutWithVoucherNotValidCest
 		$this->discount3['applyForProductDiscount'] = 'yes';
 		$this->discount3['calculate'] = 'total';
 		$this->discount3['valueOfDiscount'] = 'Total';
+
+		// price Discount/voucher/coupon + enable Vouchers in price
+		$this->discount = array();
+		$this->discount4['enable'] = 'yes';
+		$this->discount4['allow']= 'Discount/voucher/coupon';
+		$this->discount4['enableCoupon']= 'yes';
+		$this->discount4['couponInfo'] = 'no';
+		$this->discount4['enableVoucher'] = 'no';
+		$this->discount4['spendTime'] = 'no';
+		$this->discount4['applyForProductDiscount'] = 'yes';
+		$this->discount4['calculate'] = 'total';
+		$this->discount4['valueOfDiscount'] = 'Total';
+
+		//price Discount + voucher/coupon + enable Vouchers in price
+		$this->discount1 = array();
+		$this->discount5['enable'] = 'yes';
+		$this->discount5['allow']= 'Discount + voucher/coupon';
+		$this->discount5['enableCoupon']= 'yes';
+		$this->discount5['couponInfo'] = 'no';
+		$this->discount5['enableVoucher'] = 'no';
+		$this->discount5['spendTime'] = 'yes';
+		$this->discount5['applyForProductDiscount'] = 'yes';
+		$this->discount5['calculate'] = 'total';
+		$this->discount5['valueOfDiscount'] = 'Total';
+
+		//price Discount + voucher (single) + coupon (single) + enable Vouchers in price
+		$this->discount6 = array();
+		$this->discount6['enable'] = 'yes';
+		$this->discount6['allow']= 'Discount + voucher (single) + coupon (single)';
+		$this->discount6['enableCoupon']= 'yes';
+		$this->discount6['couponInfo'] = 'no';
+		$this->discount6['enableVoucher'] = 'no';
+		$this->discount6['spendTime'] = 'yes';
+		$this->discount6['applyForProductDiscount'] = 'yes';
+		$this->discount6['calculate'] = 'total';
+		$this->discount6['valueOfDiscount'] = 'Total';
+
+		//price Discount + voucher (multiple) + coupon (multiple) + enable Vouchers in price
+		$this->discount7 = array();
+		$this->discount7['enable'] = 'yes';
+		$this->discount7['allow']= 'Discount + voucher (multiple) + coupon (multiple)';
+		$this->discount7['enableCoupon']= 'yes';
+		$this->discount7['couponInfo'] = 'yes';
+		$this->discount7['enableVoucher'] = 'no';
+		$this->discount7['spendTime'] = 'yes';
+		$this->discount7['applyForProductDiscount'] = 'yes';
+		$this->discount7['calculate'] = 'total';
+		$this->discount7['valueOfDiscount'] = 'Total';
 	}
 
 	/**
@@ -237,7 +285,6 @@ class CheckoutWithVoucherNotValidCest
 		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'save');
 		$I->addVoucher($this->randomVoucherCode2, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName2, 'save');
 		$I->addVoucherNotHaveProducts($this->randomVoucherCode3, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount);
-		$I->addVoucherNotHaveProducts($this->randomVoucherCode4, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount);
 
 		$I->wantTo('Create a Coupon');
 		$I = new CouponSteps($scenario);
@@ -297,6 +344,39 @@ class CheckoutWithVoucherNotValidCest
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		// checkout discout products -> voucher -> voucher
 		$I->checkoutWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
+
+		//enable Vouchers in price
+		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
+		$I = new ConfigurationSteps($scenario);
+		// price Discount/voucher/coupon + enable Vouchers in price
+		$I->priceDiscount($this->discount4);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		// check out product with voucher
+		$I->checkoutWithOneDisscount($this->productName3,$this->categoryName,$this->randomVoucherCode3);
+
+		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
+		$I = new ConfigurationSteps($scenario);
+		// configuration price Discount + voucher/coupon + enable Vouchers in price + enable Vouchers in price
+		$I->priceDiscount($this->discount5);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		// check out product with voucher
+		$I->checkoutWithOneDisscount($this->productName3,$this->categoryName,$this->randomVoucherCode3);
+
+		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
+		$I = new ConfigurationSteps($scenario);
+		// configuration price Discount + voucher (single) + coupon (single) + enable Vouchers in price
+		$I->priceDiscount($this->discount6);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		// check out product with voucher
+		$I->checkoutWithOneDisscount($this->productName3,$this->categoryName,$this->randomVoucherCode3);
+
+		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
+		$I = new ConfigurationSteps($scenario);
+		// configuration price Discount + voucher (multiple) + coupon (multiple) + enable Vouchers in price
+		$I->priceDiscount($this->discount7);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		// check out product with voucher
+		$I->checkoutWithOneDisscount($this->productName3,$this->categoryName,$this->randomVoucherCode3);
 
 		$I->wantTo('Test delete Voucher in Administrator');
 		$I = new VoucherManagerJoomla3Steps($scenario);
