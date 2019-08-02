@@ -534,19 +534,4 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
-	public function enableVoucher($discount = array())
-	{
-		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$price);
-		if(isset($discount['enableVoucher']))
-		{
-			if ($discount['enableVoucher'] == 'yes')
-			{
-				$I->click(\ConfigurationPage::$enableVoucherYes);
-			}else{
-				$I->click(\ConfigurationPage::$enableVoucherNo);
-			}
-		}
-	}
 }
