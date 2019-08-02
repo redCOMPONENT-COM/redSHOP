@@ -91,6 +91,7 @@ class RedshopViewOrder_Detail extends RedshopView
 				{
 					JError::raiseWarning(404, JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
 					echo JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE');
+					$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&oid='.$session->get('order_id').'&encr='.$encr, false));
 				}
 			}
 
