@@ -27,7 +27,7 @@ class ProductNotForSaleOnFrontendCest
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
 		$this->ProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->price = $this->faker->numberBetween(100, 9999);
+		$this->price = $this->faker->numberBetween(100, 999);
 		$this->saleYes = 'Yes';
 		$this->saleNo = 'No';
 		$this->showPriceYes = 'Yes';
