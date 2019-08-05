@@ -421,7 +421,6 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $name
-	 * @since 2.1.3
 	 */
 	public function searchOrder($name)
 	{
