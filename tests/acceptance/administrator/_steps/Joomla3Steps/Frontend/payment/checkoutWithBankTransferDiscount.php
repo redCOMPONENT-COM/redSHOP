@@ -87,10 +87,19 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 			{
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 10, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
 				$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			}
 			catch (\Exception $e)
 			{
-				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+				try
+				{
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 10, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				catch (\Exception $e)
+				{
+
+				}
 			}
 
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
