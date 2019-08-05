@@ -90,8 +90,7 @@ class RedshopViewOrder_Detail extends RedshopView
 				if (!$authorization)
 				{
 					JError::raiseWarning(404, JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
-					echo JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE');
-					$app->redirect(JRoute::_('index.php?option=com_redshop&view=order_detail&oid='.$session->get('order_id').'&encr='.$encr, false));
+					$app->redirect(JRoute::_('index.php'));
 				}
 			}
 
@@ -107,7 +106,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		$this->OrdersDetail = $orderDetail;
 		$this->user         = $user;
-		$this->params       = $app->getParams('com_redshop');
+		$this->params       = /** @scrutinizer ignore-call */ $app->getParams('com_redshop');
 
 		parent::display($tpl);
 	}
