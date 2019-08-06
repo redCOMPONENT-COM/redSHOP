@@ -3,7 +3,7 @@
  */
 
 namespace AcceptanceTester;
-
+use MassDiscountManagerPage;
 
 class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
@@ -45,25 +45,25 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addMassDiscountHaveProduct($massDiscountName, $amountValue, $discountStart, $discountEnd, $nameCategory, $nameProduct)
 	{
 		$I = $this;
-		$I->amOnPage(\MassDiscountManagerPage::$URL);
-		$I->click(\MassDiscountManagerPage::$newButton);
-		$I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
+		$I->amOnPage(MassDiscountManagerPage::$URL);
+		$I->click(MassDiscountManagerPage::$newButton);
+		$I->checkForPhpNoticesOrWarnings(MassDiscountManagerPage::$URLNew);
 
 		$toDay = date('Y-m-d');
 
-		$I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
-		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
-		$I->fillField(\MassDiscountManagerPage::$fieldStartDate, $toDay);
-		$I->fillField(\MassDiscountManagerPage::$fieldEndDate, $toDay);
-		$I->click(\MassDiscountManagerPage::$saveButton);
+		$I->fillField(MassDiscountManagerPage::$name, $massDiscountName);
+		$I->fillField(MassDiscountManagerPage::$valueAmount, $amountValue);
+		$I->fillField(MassDiscountManagerPage::$fieldStartDate, $toDay);
+		$I->fillField(MassDiscountManagerPage::$fieldEndDate, $toDay);
+		$I->click(MassDiscountManagerPage::$saveButton);
 
-		$I->click(\MassDiscountManagerPage::$inputProduct);
-		$I->fillField(\MassDiscountManagerPage::$inputProduct, $nameProduct);
-		$useMassDiscountPage = new \MassDiscountManagerPage();
+		$I->click(MassDiscountManagerPage::$inputProduct);
+		$I->fillField(MassDiscountManagerPage::$inputProduct, $nameProduct);
+		$useMassDiscountPage = new MassDiscountManagerPage();
 		$I->waitForElement($useMassDiscountPage->returnXpath($nameProduct));
 		$I->click($useMassDiscountPage->returnXpath($nameProduct));
-		$I->click(\MassDiscountManagerPage::$saveButton);
-		$I->see(\MassDiscountManagerPage::$saveOneSuccess, \MassDiscountManagerPage::$selectorSuccess);
+		$I->click(MassDiscountManagerPage::$saveButton);
+		$I->see(MassDiscountManagerPage::$saveOneSuccess, MassDiscountManagerPage::$selectorSuccess);
 	}
 
 	public function addMassDiscountSaveClose($massDiscountName, $amountValue, $discountStart, $discountEnd, $nameCategory, $nameProduct)

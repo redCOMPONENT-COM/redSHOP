@@ -227,6 +227,7 @@ class CheckoutWithVoucherNotValidCest
 
 	/**
 	 * CheckoutWithVoucherNotValidCest constructor.
+     * @since 2.1.3
 	 */
 	public function __construct()
 	{
@@ -378,7 +379,7 @@ class CheckoutWithVoucherNotValidCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * @since 2.1.3
+	 * @since 2.1.3ConfigurationSteps.php
 	 */
 	public function CheckOutWithVoucherNotValid(AcceptanceTester $I, $scenario)
 	{
@@ -419,21 +420,20 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->wantToTest('checkout coupon -> voucher');
+		$I->wantToTest('checkout with coupon and voucher');
 		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName, $this->dataCoupon['code'], $this->randomVoucherCode3);
-		$I->wantToTest('checkout voucher -> voucher');
+		$I->wantToTest('checkout vwith duplicate voucher');
 		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
-		$I->wantToTest('checkout discount -> voucher');
+		$I->wantToTest('checkout with discount and voucher');
 		$I->checkoutInvalidWithOneDisscount($this->productName, $this->categoryName, $this->randomVoucherCode);
 
 		$I->wantToTest('Configuration for Discount + voucher/coupon');
 		$I = new ConfigurationSteps($scenario);
-		$I->wantToTest('configuration price Discount + voucher/coupon');
 		$I->priceDiscount($this->discount1);
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->wantToTest('checkout discout products -> voucher -> voucher');
+		$I->wantToTest('checkout products with duplicate voucher ');
 		$I->checkoutInvalidWithTowDisscount($this->productName, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
 
 		$I->wantToTest('Configuration for Discount + voucher (single) + coupon (single)');
@@ -444,7 +444,7 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->wantToTest('checkout discout products -> voucher -> voucher');
+		$I->wantToTest('checkout discout products with duplicate voucher');
 		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
 
 		$I->wantToTest('Discount + voucher (multiple) + coupon (multiple)');
@@ -454,7 +454,7 @@ class CheckoutWithVoucherNotValidCest
 
 		$I->wantTo('Test check out with invalid voucher');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->wantToTest('checkout discout products -> voucher -> voucher');
+		$I->wantToTest('checkout discout products with duplicate voucher');
 		$I->checkoutInvalidWithTowDisscount($this->productName3, $this->categoryName, $this->randomVoucherCode3, $this->randomVoucherCode3);
 
 		//enable Vouchers in price
