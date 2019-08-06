@@ -274,7 +274,7 @@ class ConfigurationCest
 		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder Yes');
 		$I->ConfigurationOder($this->configurationOder10);
 
-		$I->wantTo('Test Configuration Oder - Send Mail To Customer in Oder  No');
+		$I->wantTo('Test Configuration Oder - Send Mail To Customer in Oder No');
 		$I->ConfigurationOder($this->configurationOder11);
 	}
 }
