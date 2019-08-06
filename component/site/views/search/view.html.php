@@ -348,7 +348,7 @@ class RedshopViewSearch extends RedshopView
 					$pItemid = RedshopHelperRouter::getItemId($this->search[$i]->product_id, $this->search[$i]->category_id);
 				}
 
-				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $pItemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&cid=' . $this->search[$i]->category_id . '&Itemid=' . $pItemid);
 
 				if (strstr($data_add, '{product_name}'))
 				{
