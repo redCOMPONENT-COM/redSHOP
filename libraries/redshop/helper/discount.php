@@ -218,7 +218,7 @@ class RedshopHelperDiscount
 			$productPriceArray = RedshopHelperProductPrice::getNetPrice($cart[$i]['product_id']);
 
 			// If the product is already discount
-			if ($productPriceArray['product_price_saving_percentage'] > 0)
+			if ($productPriceArray['product_price_saving_percentage'] > 0 && empty($cart[$i]['cart_attribute']))
 			{
 				$amount = $percent * $productPriceArray['product_price'] / 100;
 				$value -= $amount * $cart[$i]['quantity'];

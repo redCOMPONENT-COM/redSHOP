@@ -469,7 +469,7 @@ class ConfigurationPage extends AdminJ3Page
 	public static $productTab = '//a[@href="#producttab"]';
 	/**
 	 * @var string
-	 * sice 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $stockRoomAttributeYes = '//label[@id="display_out_of_stock_attribute_data_1-lbl"]';
 
@@ -489,7 +489,19 @@ class ConfigurationPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
+	public static $productAccessory = '//a[@href="#accessory"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
 	public static $relatedProductTab = '//a[@href="#related"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $enableAccessoryYes = '//label[@id="accessory_as_product_in_cart_enable_1-lbl"]';
 
 	/**
 	 * @var string
@@ -501,6 +513,11 @@ class ConfigurationPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $twoWayRelatedNo = '//label[@id="twoway_related_product_0-lbl"]';
+	public static $enableAccessoryNo = '//label[@id="accessory_as_product_in_cart_enable_0-lbl"]';
 
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $twoWayRelatedNo = '//label[@id="twoway_related_product_0-lbl"]';
 }
