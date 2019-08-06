@@ -271,7 +271,7 @@ class ConfigurationCest
 		$I->wantTo('Test Configuration Oder - Enable In Voice Email No');
 		$I->ConfigurationOder($this->configurationOder9);
 
-		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder Yes');
+		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder  Yes');
 		$I->ConfigurationOder($this->configurationOder10);
 
 		$I->wantTo('Test Configuration Oder - Send Mail To Customer in Oder No');
