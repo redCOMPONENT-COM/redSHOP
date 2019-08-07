@@ -575,13 +575,13 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
 		$firstName = 'First Name: '.$firstName;
 		$lastName = 'Last Name: '.$lastName;
-		$I->see($firstName);
-		$I->see($lastName);
-		$I->see($paymentMethod);
-		$I->see($productName);
-		$I->see($categoryName);
+		$I->waitForText($firstName, 30);
+		$I->waitForText($lastName, 30);
+		$I->waitForText($paymentMethod, 30);
+		$I->waitForText($productName, 30);
+		$I->waitForText($categoryName, 30);
 		$I->see($priceProduct);
 		$I->see($priceTotal);
-		$I->see($status);
+		$I->waitForText($status, 30);
 	}
 }
