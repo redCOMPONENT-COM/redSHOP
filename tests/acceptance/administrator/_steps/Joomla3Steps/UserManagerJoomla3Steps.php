@@ -7,6 +7,9 @@
  */
 
 namespace AcceptanceTester;
+
+use UserManagerJoomla3Page;
+
 /**
  * Class UserManagerJoomla3Steps
  *
@@ -90,7 +93,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				break;
 		}
 	}
-
 
 	public function addUserMissing($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $function)
 	{
@@ -383,28 +385,27 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function editAddShipping($firstName, $lastName, $address, $city, $phone, $zipcode)
 	{
-
 		$I = $this;
-		$I->amOnPage(\UserManagerJoomla3Page::$URL);
+		$I->amOnPage(UserManagerJoomla3Page::$URL);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->searchUser($firstName);
-		$I->see($firstName, \UserManagerJoomla3Page::$firstResultRow);
+		$I->see($firstName, UserManagerJoomla3Page::$firstResultRow);
 
-		$I->click(\UserManagerJoomla3Page::$selectFirst);
-		$I->click(\UserManagerJoomla3Page::$editButton);
-		$I->click(\UserManagerJoomla3Page::$shippingInformation);
-		$I->see(\UserManagerJoomla3Page::$pageDetail, \UserManagerJoomla3Page::$pageDetailSelector);
-		$I->click(\UserManagerJoomla3Page::$addButton);
-		$I->waitForElement(\UserManagerJoomla3Page::$firstName);
-		$I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
-		$I->fillField(\UserManagerJoomla3Page::$lastName, $lastName);
-		$I->fillField(\UserManagerJoomla3Page::$address, $address);
-		$I->fillField(\UserManagerJoomla3Page::$city, $city);
-		$I->fillField(\UserManagerJoomla3Page::$phone, $phone);
-		$I->fillField(\UserManagerJoomla3Page::$zipcode, $zipcode);
-		$I->click(\UserManagerJoomla3Page::$saveCloseButton);
-		$I->waitForText(\UserManagerJoomla3Page::$userSuccessMessage, 30);
-		$I->see(\UserManagerJoomla3Page::$userSuccessMessage, \UserManagerJoomla3Page::$selectorSuccess);
+		$I->click(UserManagerJoomla3Page::$selectFirst);
+		$I->click(UserManagerJoomla3Page::$editButton);
+		$I->click(UserManagerJoomla3Page::$shippingInformation);
+		$I->see(UserManagerJoomla3Page::$pageDetail, UserManagerJoomla3Page::$pageDetailSelector);
+		$I->click(UserManagerJoomla3Page::$addButton);
+		$I->waitForElement(UserManagerJoomla3Page::$firstName);
+		$I->fillField(UserManagerJoomla3Page::$firstName, $firstName);
+		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
+		$I->fillField(UserManagerJoomla3Page::$address, $address);
+		$I->fillField(UserManagerJoomla3Page::$city, $city);
+		$I->fillField(UserManagerJoomla3Page::$phone, $phone);
+		$I->fillField(UserManagerJoomla3Page::$zipcode, $zipcode);
+		$I->click(UserManagerJoomla3Page::$saveCloseButton);
+		$I->waitForText(UserManagerJoomla3Page::$userSuccessMessage, 30);
+		$I->see(UserManagerJoomla3Page::$userSuccessMessage, UserManagerJoomla3Page::$selectorSuccess);
 	}
 
 	public function checkCloseButton($firstName)

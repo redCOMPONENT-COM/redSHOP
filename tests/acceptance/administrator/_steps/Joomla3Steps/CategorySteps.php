@@ -108,15 +108,15 @@ class CategorySteps extends AbstractStep
 		$I->click(CategoryPage::$buttonNew);
 		$I->fillField(CategoryPage::$idFieldName, $categoryName);
 		$I->fillField(CategoryPage::$categoryNoPage, $noPage);
-		$I->waitForElement(CategoryPage:: $fieldUploadImage, 30);
-		$I->attachFile(CategoryPage::$fieldUploadImage, $fileImage);
+		$I->waitForElement(CategoryPage::$fieldUploadImage, 30);
+//		$I->attachFile(CategoryPage::$fieldUploadImage, $fileImage);
 		$I->click(CategoryPage::$tabSEO);
-		$I->waitForElementVisible(CategoryPage:: $titlePage, 30);
-		$I->fillField(CategoryPage:: $titlePage, $titleSEO);
-		$I->waitForElementVisible(CategoryPage:: $metaKey, 30);
-		$I->fillField(CategoryPage:: $metaKey, $keySEO);
-		$I->waitForElementVisible(CategoryPage:: $descriptionSEO, 30);
-		$I->fillField(CategoryPage:: $descriptionSEO, $descriptionSEO);
+		$I->waitForElementVisible(CategoryPage::$titlePage, 30);
+		$I->fillField(CategoryPage::$titlePage, $titleSEO);
+		$I->waitForElementVisible(CategoryPage::$metaKey, 30);
+		$I->fillField(CategoryPage::$metaKey, $keySEO);
+		$I->waitForElementVisible(CategoryPage::$descriptionSEO, 30);
+		$I->fillField(CategoryPage::$descriptionSEO, $descriptionSEO);
 		$I->click(CategoryPage::$buttonSaveClose);
 	}
 }
