@@ -1568,9 +1568,11 @@ class rsCarthelper
 
 		if (isset($cart['coupon']))
 		{
-			if (count($cart['coupon']) > 1)
+			$maxCartCoupon = count($cart['coupon']);
+
+			if ($maxCartCoupon > 1)
 			{
-				for ($i = 0; $i < count($cart['coupon']); $i++)
+				for ($i = 0; $i < $maxCartCoupon; $i++)
 				{
 					$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
 
@@ -1597,9 +1599,11 @@ class rsCarthelper
 
 		if (isset($cart['voucher']))
 		{
-			if (count($cart['voucher']) > 1)
+			$maxCartVoucher = count($cart['voucher']);
+
+			if ($maxCartVoucher > 1)
 			{
-				for ($i = 0; $i < count($cart['voucher']); $i++)
+				for ($i = 0; $i < $maxCartVoucher; $i++)
 				{
 					$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
 
