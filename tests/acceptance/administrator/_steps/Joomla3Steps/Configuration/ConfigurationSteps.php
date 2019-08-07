@@ -414,6 +414,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				}
 			}
 		}
+		$I->pauseExecution();
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}

@@ -1263,7 +1263,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutInvalidWithTowDisscount($productName, $categoryName, $discount1, $discount2 )
+	public function checkoutInvalidWithTwoDisscount($productName, $categoryName, $discount1, $discount2 )
 	{
 		$I = $this;
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
