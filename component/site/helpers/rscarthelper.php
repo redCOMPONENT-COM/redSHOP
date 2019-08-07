@@ -1566,6 +1566,63 @@ class rsCarthelper
 		$cart['product_subtotal']          = $calArr[1];
 		$cart['product_subtotal_excl_vat'] = $calArr[2];
 
+		if (isset($cart['coupon']))
+		{
+			if (count($cart['coupon']) > 1)
+			{
+				for ($i = 0; $i < count($cart['coupon']); $i++)
+				{
+					$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
+
+					if ($couponCart->type == 0)
+					{
+						$couponValue = $couponCart->value;
+					}
+					else
+					{
+						$couponValue = ($couponCart->value * $cart['product_subtotal']) / 100;
+					}
+
+					$cart['coupon'][$i]['coupon_value'] = $couponValue;
+				}
+			}
+			else
+			{
+				$cart['coupon'][0]['coupon_value'] = 0;
+			}
+
+			$cart['coupon_discount'] = 0;
+		}
+
+
+		if (isset($cart['voucher']))
+		{
+			if (count($cart['voucher']) > 1)
+			{
+				for ($i = 0; $i < count($cart['voucher']); $i++)
+				{
+					$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
+
+					if ($voucherCart->type == 'Total')
+					{
+						$voucherValue = $voucherCart->amount;
+					}
+					else
+					{
+						$voucherValue = ($voucherCart->amount * $cart['product_subtotal']) / 100;
+					}
+
+					$cart['voucher'][$i]['voucher_value'] = $voucherValue;
+				}
+			}
+			else
+			{
+				$cart['voucher'][0]['voucher_value'] = 0;
+			}
+
+			$cart['voucher_discount'] = 0;
+		}
+
 		$couponIndex  = !empty($cart['coupon']) && is_array($cart['coupon']) ? count($cart['coupon']) : 0;
 		$voucherIndex = !empty($cart['voucher']) && is_array($cart['voucher']) ? count($cart['voucher']) : 0;
 
