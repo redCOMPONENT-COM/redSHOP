@@ -552,7 +552,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->click(ConfigurationPage::$resetOderId);
 			$I->acceptPopup();
 			$I->wait(1);
-			$I->acceptPopup();
+			$I->click('OK');
+//			$I->acceptPopup();
 		}
 
 		if(isset($configurationOder['sendOderEmail']))
