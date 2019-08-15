@@ -149,9 +149,9 @@ class InstallRedSHOPPaidExtensionsCest
 			array(
 				'package'  => 'plg_redshop_order_esms.zip',
 			),
-			array(
-				'package'  => 'plg_redshop_payment_baokim.zip',
-			),
+//			array(
+//				'package'  => 'plg_redshop_payment_baokim.zip',
+//			),
 			array(
 				'package'  => 'plg_redshop_payment_cielo.zip',
 			),
