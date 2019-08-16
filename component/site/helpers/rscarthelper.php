@@ -797,7 +797,7 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
-		if (/** @scrutinizer ignore-call */ $rateExist == 0)
+		if ($rateExist < 1)
 		{
 			$template_desc = "<div></div>";
 		}
@@ -1418,7 +1418,7 @@ class rsCarthelper
 					)
 					->from($db->qn('#__redshop_voucher', 'v'))
 					->where($db->qn('v.published') . ' = 1')
-					->where($db->qn('v.code') . ' = ' . $db->quote($voucher_code))
+					->where($db->qn('v.code') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($voucher_code))
 					->where('('
 						. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
 						. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($current_time) . ')'
@@ -1469,7 +1469,7 @@ class rsCarthelper
 			->select($db->qn('v.amount', 'total'))
 			->from($db->qn('#__redshop_voucher', 'v'))
 			->where($db->qn('v.published') . ' = 1')
-			->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
+			->where($db->qn('v.code') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($voucherCode))
 			->where('('
 				. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
 				. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
@@ -2189,7 +2189,7 @@ class rsCarthelper
 												for ($isp = 0; $isp < $countAccessorySubproperty; $isp++)
 												{
 													$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties(/** @scrutinizer ignore-type */ $acc_subproperty_data[$isp]);
-													$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
+													$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice(/** @scrutinizer ignore-type */ $acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
 
 													if (count($pricelist) > 0)
 													{
