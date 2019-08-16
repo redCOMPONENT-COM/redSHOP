@@ -214,67 +214,67 @@ class ConfigurationCest
 	 */
 	public function allCaseAtConfigurations(ConfigurationSteps $I)
 	{
-//		$I->wantTo('Test enable Stockroom in Administrator');
-//		$I->featureUsedStockRoom();
-//
-//		$I->wantTo('Test off Stockroom in Administrator');
-//		$I->featureOffStockRoom();
-//
-//		$I->wantTo('Test Edit inline is yes  in Administrator');
-//		$I->featureEditInLineYes();
-//
-//		$I->wantTo('Test Edit inline is yes  in Administrator');
-//		$I->featureEditInLineNo();
-//
-//		$I->wantTo('Test Comparison is yes  in Administrator');
-//		$I->featureComparisonYes();
-//
-//		$I->wantTo('Test Comparison is No  in Administrator');
-//		$I->featureComparisonNo();
-//
-//		$I->wantTo('Show Price is No  in Administrator');
-//		$I->featurePriceNo();
-//
-//		$I->wantTo('Show Price is Yes  in Administrator');
-//		$I->featurePriceYes();
-//
-//		$I->wantTo('setup VAT at admin');
-//		$I->setupVAT($this->country, $this->state, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
-//
-//		$I->wantTo('setup VAT at admin');
-//		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
-//
+		$I->wantTo('Test enable Stockroom in Administrator');
+		$I->featureUsedStockRoom();
+
+		$I->wantTo('Test off Stockroom in Administrator');
+		$I->featureOffStockRoom();
+
+		$I->wantTo('Test Edit inline is yes  in Administrator');
+		$I->featureEditInLineYes();
+
+		$I->wantTo('Test Edit inline is yes  in Administrator');
+		$I->featureEditInLineNo();
+
+		$I->wantTo('Test Comparison is yes  in Administrator');
+		$I->featureComparisonYes();
+
+		$I->wantTo('Test Comparison is No  in Administrator');
+		$I->featureComparisonNo();
+
+		$I->wantTo('Show Price is No  in Administrator');
+		$I->featurePriceNo();
+
+		$I->wantTo('Show Price is Yes  in Administrator');
+		$I->featurePriceYes();
+
+		$I->wantTo('setup VAT at admin');
+		$I->setupVAT($this->country, $this->state, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
+
+		$I->wantTo('setup VAT at admin');
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+
 		$I->wantTo('Test Configuration Oder - Reset Id Oder');
 		$I->ConfigurationOder($this->configurationOder1);
 
-//		$I->wantTo('Test Configuration Oder - Oder Email After Payment');
-//		$I->ConfigurationOder($this->configurationOder2);
-//
-//		$I->wantTo('Test Configuration Oder - Send Oder email After Payment, But Send Before To Administrator');
-//		$I->ConfigurationOder($this->configurationOder3);
-//
-//		$I->wantTo('Test Configuration Oder - Send Oder Email Before Payment');
-//		$I->ConfigurationOder($this->configurationOder4);
-//
-//		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes None');
-//		$I->ConfigurationOder($this->configurationOder5);
-//
-//		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Administrator');
-//		$I->ConfigurationOder($this->configurationOder6);
-//
-//		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Customer');
-//		$I->ConfigurationOder($this->configurationOder7);
-//
-//		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Both');
-//		$I->ConfigurationOder($this->configurationOder8);
-//
-//		$I->wantTo('Test Configuration Oder - Enable In Voice Email No');
-//		$I->ConfigurationOder($this->configurationOder9);
-//
-//		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder Yes');
-//		$I->ConfigurationOder($this->configurationOder10);
+		$I->wantTo('Test Configuration Oder - Oder Email After Payment');
+		$I->ConfigurationOder($this->configurationOder2);
 
-//		$I->wantTo('Test Configuration Oder - Send Mail To Customer in Oder No');
-//		$I->ConfigurationOder($this->configurationOder11);
+		$I->wantTo('Test Configuration Oder - Send Oder email After Payment, But Send Before To Administrator');
+		$I->ConfigurationOder($this->configurationOder3);
+
+		$I->wantTo('Test Configuration Oder - Send Oder Email Before Payment');
+		$I->ConfigurationOder($this->configurationOder4);
+
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes None');
+		$I->ConfigurationOder($this->configurationOder5);
+
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Administrator');
+		$I->ConfigurationOder($this->configurationOder6);
+
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Customer');
+		$I->ConfigurationOder($this->configurationOder7);
+
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email Yes Both');
+		$I->ConfigurationOder($this->configurationOder8);
+
+		$I->wantTo('Test Configuration Oder - Enable In Voice Email No');
+		$I->ConfigurationOder($this->configurationOder9);
+
+		$I->wantTo('Test Configuration Oder - Send Mail To Customer In Oder Yes');
+		$I->ConfigurationOder($this->configurationOder10);
+
+		$I->wantTo('Test Configuration Oder - Send Mail To Customer in Oder No');
+		$I->ConfigurationOder($this->configurationOder11);
 	}
 }
