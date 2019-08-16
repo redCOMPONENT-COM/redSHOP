@@ -52,11 +52,11 @@ class CouponSteps extends AbstractStep
 		$I = $this;
 		$I->wantTo('Search the Product');
 		$I->amOnPage(CouponPage::$url);
-        $I->executeJS('window.scrollTo(0,0)');
-        $I->click(\FrontEndProductManagerJoomla3Page::$buttonReset);
-        $I->fillField(CouponPage::$searchField, $coupontName);
-        $I->pressKey(CouponPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
-        $I->waitForElement(['link' => $coupontName], 30);
+		$I->executeJS('window.scrollTo(0,0)');
+		$I->click(\FrontEndProductManagerJoomla3Page::$buttonReset);
+		$I->fillField(CouponPage::$searchField, $coupontName);
+		$I->pressKey(CouponPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElement(['link' => $coupontName], 30);
 	}
 
 	/**

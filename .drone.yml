@@ -44,7 +44,7 @@ pipeline:
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
             - mv gulp-config.json.dist gulp-config.json
-            - gulp release --skip-version
+            - gulp release --skip-versionc
 
             # clone Paid Extensions
             - vendor/bin/robo tests:paid-extensions-for-integration-tests
