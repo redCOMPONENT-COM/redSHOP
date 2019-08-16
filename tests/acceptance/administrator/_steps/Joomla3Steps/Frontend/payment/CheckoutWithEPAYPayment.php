@@ -67,7 +67,7 @@ class CheckoutWithEPAYPayment extends CheckoutMissingData
 		}
 //		$I->waitForElement(FrontEndEPAYPaymentPage::$gotoPayment,30);
 //		$I->scrollTo(FrontEndEPAYPaymentPage::$gotoPayment);
-		$I->scrollTo('//div[@id="form-login-submit"]');
+		$I->scrollTo('//div[@id="form-login-submit"]'); 
 //		$I->waitForElement(FrontEndEPAYPaymentPage::$gotoPayment,30);
 //		$I->pauseExecution();
 		$I->click(FrontEndEPAYPaymentPage::$gotoPayment);
