@@ -598,4 +598,10 @@ class ConfigurationPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $bothButton = '//label[@id="invoice_mail_send_option_3-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messagePopup = 'Successfully reset order id';
 }

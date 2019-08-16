@@ -552,8 +552,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->click(ConfigurationPage::$resetOderId);
 			$I->acceptPopup();
 			$I->wait(1);
-			$I->canSeeInPopup('Successfully reset order id');
-			$I->seeInPopup('Successfully reset order id');
+			$I->canSeeInPopup(ConfigurationPage::$messagePopup);
+			$I->seeInPopup(ConfigurationPage::$messagePopup);
 			$I->acceptPopup();
 		}
 
