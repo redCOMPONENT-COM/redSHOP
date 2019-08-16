@@ -1566,69 +1566,7 @@ class rsCarthelper
 		$cart['product_subtotal']          = $calArr[1];
 		$cart['product_subtotal_excl_vat'] = $calArr[2];
 
-		if (isset($cart['coupon']))
-		{
-			$maxCartCoupon = count($cart['coupon']);
-
-			if ($maxCartCoupon > 1)
-			{
-				for ($i = 0; $i < $maxCartCoupon; $i++)
-				{
-					$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
-
-					if ($couponCart->type == 0)
-					{
-						$couponValue = $couponCart->value;
-					}
-					else
-					{
-						$couponValue = ($couponCart->value * $cart['product_subtotal']) / 100;
-					}
-
-					$cart['coupon'][$i]['coupon_value'] = $couponValue;
-				}
-			}
-			else
-			{
-				$cart['coupon'][0]['coupon_value'] = 0;
-			}
-
-			$cart['coupon_discount'] = 0;
-		}
-
-
-		if (isset($cart['voucher']))
-		{
-			$maxCartVoucher = count($cart['voucher']);
-
-			if ($maxCartVoucher > 1)
-			{
-				for ($i = 0; $i < $maxCartVoucher; $i++)
-				{
-					$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
-
-					if ($voucherCart->type == 'Total')
-					{
-						$voucherValue = $voucherCart->amount;
-					}
-					else
-					{
-						$voucherValue = ($voucherCart->amount * $cart['product_subtotal']) / 100;
-					}
-
-					$cart['voucher'][$i]['voucher_value'] = $voucherValue;
-				}
-			}
-			else
-			{
-				$cart['voucher'][0]['voucher_value'] = 0;
-			}
-
-			$cart['voucher_discount'] = 0;
-		}
-
-		$couponIndex  = !empty($cart['coupon']) && is_array($cart['coupon']) ? count($cart['coupon']) : 0;
-		$voucherIndex = !empty($cart['voucher']) && is_array($cart['voucher']) ? count($cart['voucher']) : 0;
+		$cart = $this->modifyDiscountVoucherCoupon($cart);
 
 		$discountAmount = 0;
 
@@ -1647,83 +1585,9 @@ class rsCarthelper
 			$cart['cart_discount'] = $discountAmount;
 		}
 
-		// Calculate voucher discount
-		$voucherDiscount = 0;
+		$cart = $this->modifyDiscountCart($cart);
 
-		if (array_key_exists('voucher', $cart))
-		{
-			if (count($cart['voucher']) > 1)
-			{
-				foreach ($cart['voucher'] as $cartVoucher)
-				{
-					$voucherDiscount += $cartVoucher['voucher_value'];
-				}
-			}
-			else
-			{
-				if (!empty($cart['voucher'][0]['voucher_value']))
-				{
-					$voucherDiscount = $cart['voucher'][0]['voucher_value'];
-				}
-				else
-				{
-					for ($v = 0; $v < $voucherIndex; $v++)
-					{
-						$voucherCode = $cart['voucher'][$v]['voucher_code'];
-
-						unset($cart['voucher'][$v]);
-
-						$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
-					}
-
-					$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
-
-					empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
-				}
-			}
-		}
-
-		$cart['voucher_discount'] = $voucherDiscount;
-
-		// Calculate coupon discount
-		$couponDiscount = 0;
-
-		if (array_key_exists('coupon', $cart))
-		{
-			if (count($cart['coupon']) > 1)
-			{
-				foreach ($cart['coupon'] as $cartCoupon)
-				{
-					$couponDiscount += $cartCoupon['coupon_value'];
-				}
-			}
-			else
-			{
-				if (!empty($cart['coupon'][0]['coupon_value']) && !Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
-				{
-					$couponDiscount = $cart['coupon'][0]['coupon_value'];
-				}
-				else
-				{
-					for ($c = 0; $c < $couponIndex; $c++)
-					{
-						$couponCode = $cart['coupon'][$c]['coupon_code'];
-
-						unset($cart['coupon'][$c]);
-
-						$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
-					}
-
-					$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
-
-					empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
-				}
-			}
-		}
-
-		$cart['coupon_discount'] = $couponDiscount;
-
-		$codeDiscount  = $voucherDiscount + $couponDiscount;
+		$codeDiscount  = $cart['voucher_discount'] + $cart['coupon_discount'];
 		$totalDiscount = $cart['cart_discount'] + $codeDiscount;
 
 		$calArr      = \Redshop\Cart\Helper::calculation((array) $cart);
@@ -3141,5 +3005,331 @@ class rsCarthelper
 		}
 
 		return;
+	}
+
+	public function modifyDiscountVoucherCoupon($cart)
+	{
+		$position = $this->checkPositionCouponVoucherCart($cart);
+
+		if ($position['coupon'] < $position['voucher'])
+		{
+			if (isset($cart['coupon']))
+			{
+				$maxCartCoupon = count($cart['coupon']);
+
+				if ($maxCartCoupon > 1)
+				{
+					for ($i = 0; $i < $maxCartCoupon; $i++)
+					{
+						$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
+
+						if ($couponCart->type == 0)
+						{
+							$couponValue = $couponCart->value;
+						}
+						else
+						{
+							$couponValue = ($couponCart->value * $cart['product_subtotal']) / 100;
+						}
+
+						$cart['coupon'][$i]['coupon_value'] = $couponValue;
+					}
+				}
+				else
+				{
+					$cart['coupon'][0]['coupon_value'] = 0;
+				}
+
+				$cart['coupon_discount'] = 0;
+			}
+
+			if (isset($cart['voucher']))
+			{
+				$maxCartVoucher = count($cart['voucher']);
+
+				if ($maxCartVoucher > 1)
+				{
+					for ($i = 0; $i < $maxCartVoucher; $i++)
+					{
+						$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
+						$productArr = rsCarthelper::getInstance()->getCartProductPrice($voucherCart->nproduct, $cart);
+
+						if ($voucherCart->type == 'Total')
+						{
+							$voucherValue = $voucherCart->total;
+						}
+						else
+						{
+							$voucherValue = ($voucherCart->total * $productArr['product_price']) / 100;
+						}
+
+						$cart['voucher'][$i]['voucher_value'] = $voucherValue;
+					}
+				}
+				else
+				{
+					$cart['voucher'][0]['voucher_value'] = 0;
+				}
+
+				$cart['voucher_discount'] = 0;
+			}
+		}
+		else
+		{
+			if (isset($cart['voucher']))
+			{
+				$cartVoucher = 0;
+				$maxCartVoucher = count($cart['voucher']);
+
+				if ($maxCartVoucher > 1)
+				{
+					for ($i = 0; $i < $maxCartVoucher; $i++)
+					{
+						$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
+						$productArr = rsCarthelper::getInstance()->getCartProductPrice($voucherCart->nproduct, $cart);
+
+						if ($voucherCart->type == 'Total')
+						{
+							$voucherValue = $voucherCart->total;
+						}
+						else
+						{
+							$voucherValue = ($voucherCart->total * $productArr['product_price']) / 100;
+						}
+
+						$cartVoucher += $voucherValue;
+						$cart['voucher'][$i]['voucher_value'] = $voucherValue;
+					}
+				}
+				else
+				{
+					$cart['voucher'][0]['voucher_value'] = 0;
+				}
+
+				$cart['voucher_discount'] = 0;
+			}
+
+			if (isset($cart['coupon']))
+			{
+				$maxCartCoupon = count($cart['coupon']);
+
+				if ($maxCartCoupon > 1)
+				{
+					for ($i = 0; $i < $maxCartCoupon; $i++)
+					{
+						$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
+
+						if ($couponCart->type == 0)
+						{
+							$couponValue = $couponCart->value;
+						}
+						else
+						{
+							$couponValue = ($couponCart->value * ($cart['product_subtotal'] - $cartVoucher)) / 100;
+						}
+
+						$cart['coupon'][$i]['coupon_value'] = $couponValue;
+					}
+				}
+				else
+				{
+					$cart['coupon'][0]['coupon_value'] = 0;
+				}
+
+				$cart['coupon_discount'] = 0;
+			}
+		}
+
+		return $cart;
+	}
+
+	public function checkPositionCouponVoucherCart($cart)
+	{
+		$index = array();
+		$indexCarts = array_keys($cart, true);
+
+		foreach ($indexCarts as $key => $value)
+		{
+			if ($value == 'coupon')
+			{
+				$couponKey = $key;
+				continue;
+			}
+
+			if ($value == 'voucher')
+			{
+				$voucherKey = $key;
+			}
+		}
+
+		$index['coupon']     = $couponKey;
+		$index['voucher']    = $voucherKey;
+		return $index;
+	}
+
+	public function modifyDiscountCart($cart)
+	{
+		$positionCouponVoucher = $this->checkPositionCouponVoucherCart($cart);
+		$couponIndex  = !empty($cart['coupon']) && is_array($cart['coupon']) ? count($cart['coupon']) : 0;
+		$voucherIndex = !empty($cart['voucher']) && is_array($cart['voucher']) ? count($cart['voucher']) : 0;
+
+		if ($positionCouponVoucher['coupon'] < $positionCouponVoucher['voucher'])
+		{
+			// Calculate coupon discount
+			$couponDiscount = 0;
+
+			if (array_key_exists('coupon', $cart))
+			{
+				if (count($cart['coupon']) > 1)
+				{
+					foreach ($cart['coupon'] as $cartCoupon)
+					{
+						$couponDiscount += $cartCoupon['coupon_value'];
+					}
+				}
+				else
+				{
+					if (!empty($cart['coupon'][0]['coupon_value']) && !Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+					{
+						$couponDiscount = $cart['coupon'][0]['coupon_value'];
+					}
+					else
+					{
+						for ($c = 0; $c < $couponIndex; $c++)
+						{
+							$couponCode = $cart['coupon'][$c]['coupon_code'];
+
+							unset($cart['coupon'][$c]);
+
+							$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
+						}
+
+						$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+
+						empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
+					}
+				}
+			}
+
+			$cart['coupon_discount'] = $couponDiscount;
+
+			// Calculate voucher discount
+			$voucherDiscount = 0;
+
+			if (array_key_exists('voucher', $cart))
+			{
+				if (count($cart['voucher']) > 1)
+				{
+					foreach ($cart['voucher'] as $cartVoucher)
+					{
+						$voucherDiscount += $cartVoucher['voucher_value'];
+					}
+				}
+				else
+				{
+					if (!empty($cart['voucher'][0]['voucher_value']))
+					{
+						$voucherDiscount = $cart['voucher'][0]['voucher_value'];
+					}
+					else
+					{
+						for ($v = 0; $v < $voucherIndex; $v++)
+						{
+							$voucherCode = $cart['voucher'][$v]['voucher_code'];
+
+							unset($cart['voucher'][$v]);
+
+							$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
+						}
+
+						$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+
+						empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
+					}
+				}
+			}
+
+			$cart['voucher_discount'] = $voucherDiscount;
+		}
+		else
+		{
+			// Calculate voucher discount
+			$voucherDiscount = 0;
+
+			if (array_key_exists('voucher', $cart))
+			{
+				if (count($cart['voucher']) > 1)
+				{
+					foreach ($cart['voucher'] as $cartVoucher)
+					{
+						$voucherDiscount += $cartVoucher['voucher_value'];
+					}
+				}
+				else
+				{
+					if (!empty($cart['voucher'][0]['voucher_value']))
+					{
+						$voucherDiscount = $cart['voucher'][0]['voucher_value'];
+					}
+					else
+					{
+						for ($v = 0; $v < $voucherIndex; $v++)
+						{
+							$voucherCode = $cart['voucher'][$v]['voucher_code'];
+
+							unset($cart['voucher'][$v]);
+
+							$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
+						}
+
+						$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+
+						empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
+					}
+				}
+			}
+
+			$cart['voucher_discount'] = $voucherDiscount;
+
+			// Calculate coupon discount
+			$couponDiscount = 0;
+
+			if (array_key_exists('coupon', $cart))
+			{
+				if (count($cart['coupon']) > 1)
+				{
+					foreach ($cart['coupon'] as $cartCoupon)
+					{
+						$couponDiscount += $cartCoupon['coupon_value'];
+					}
+				}
+				else
+				{
+					if (!empty($cart['coupon'][0]['coupon_value']) && !Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+					{
+						$couponDiscount = $cart['coupon'][0]['coupon_value'];
+					}
+					else
+					{
+						for ($c = 0; $c < $couponIndex; $c++)
+						{
+							$couponCode = $cart['coupon'][$c]['coupon_code'];
+
+							unset($cart['coupon'][$c]);
+
+							$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
+						}
+
+						$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+
+						empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
+					}
+				}
+			}
+
+			$cart['coupon_discount'] = $couponDiscount;
+		}
+
+		return $cart;
 	}
 }

@@ -356,6 +356,10 @@ class RedshopControllerCart extends RedshopController
 		$voucherDiscount          = 0;
 		$couponDiscount           = 0;
 
+		$cartHelper = rsCarthelper::getInstance();
+		$cart = $cartHelper->modifyDiscountVoucherCoupon($cart);
+		$cart = $cartHelper->modifyDiscountCart($cart);
+
 		if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 1)
 		{
 			$discountAmount = Redshop\Cart\Helper::getDiscountAmount($cart);
