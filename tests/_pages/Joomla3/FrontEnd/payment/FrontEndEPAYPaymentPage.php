@@ -48,4 +48,9 @@ class FrontEndEPAYPaymentPage extends FrontEndProductManagerJoomla3Page
 	 */
 	public static $mesOrderPlaced = 'Order placed.';
 
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $buttonLogin = '//div[@id="form-login-submit"]';
 }
