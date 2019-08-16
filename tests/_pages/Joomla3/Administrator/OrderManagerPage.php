@@ -187,5 +187,4 @@ class OrderManagerPage extends AdminJ3Page
 		$path = "//span[contains(text(), '" . $userName . "')]";
 		return $path;
 	}
-
 }
