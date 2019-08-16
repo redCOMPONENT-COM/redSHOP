@@ -3076,9 +3076,10 @@ class rsCarthelper
 		}
 		else
 		{
+			$cartVoucher = 0;
+
 			if (isset($cart['voucher']))
 			{
-				$cartVoucher = 0;
 				$maxCartVoucher = count($cart['voucher']);
 
 				if ($maxCartVoucher > 1)
@@ -3146,6 +3147,8 @@ class rsCarthelper
 	public function checkPositionCouponVoucherCart($cart)
 	{
 		$index = array();
+		$couponKey = 0;
+		$voucherKey = 0;
 		$indexCarts = array_keys($cart, true);
 
 		foreach ($indexCarts as $key => $value)
