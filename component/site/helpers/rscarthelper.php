@@ -32,6 +32,10 @@ class rsCarthelper
 
 	public $_globalvoucher = 0;
 
+	public $_extraFieldFront = null;
+
+	public $_c_remain = 0;
+
 	protected static $instance = null;
 
 	protected $input;
@@ -264,7 +268,6 @@ class rsCarthelper
 	* be applied BEFORE or AFTER the VAT is applied to the product price.
 	*
 	* @param   array     $cart      Cart data
-	* @param   integer   $shipping  Cart data
 	* @param   integer   $userId    Current user ID
 	*
 	* @return  array
@@ -273,7 +276,7 @@ class rsCarthelper
 	* @deprecated    2.1.0
 	 * @see \Redshop\Cart\Helper::calculation()
 	 */
-	public function calculation($cart, $shipping = 0, $userId = 0)
+	public function calculation($cart, $userId = 0)
 	{
 		return \Redshop\Cart\Helper::calculation($cart, $userId);
 	}
@@ -496,7 +499,7 @@ class rsCarthelper
 			$tax + $shippingVat,
 			$discount_amount + $tmp_discount,
 			0,
-			Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
+			/** @scrutinizer ignore-type */ Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
 		);
 
 		return $cart_data;
@@ -581,6 +584,7 @@ class rsCarthelper
 		if (count($shippingBoxes) > 0)
 		{
 			$shipping_box_list = "";
+			$shipping_box_priority_pre = "";
 
 			for ($i = 0, $in = count($shippingBoxes); $i < $in; $i++)
 			{
@@ -793,7 +797,7 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
-		if ($rateExist == 0)
+		if (/** @scrutinizer ignore-call */ $rateExist == 0)
 		{
 			$template_desc = "<div></div>";
 		}
@@ -996,7 +1000,7 @@ class rsCarthelper
 
 								$displayPayment .= '<table><tr><td>'
 									. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
-									. '</td><td>' . $this->getSubscriptionPlans()
+									. '</td><td>' . $this->/** @scrutinizer ignore-call */ getSubscriptionPlans()
 									. '<td></tr><table>';
 							}
 							else
@@ -1120,7 +1124,7 @@ class rsCarthelper
 			$finaltag       = ($terms_left_final != "") ? "{terms_and_conditions:$terms_left_final}" : "{terms_and_conditions}";
 			$termscondition = '';
 
-			if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && ((count($list) > 0 && $list->accept_terms_conditions == 0) || count($list) == 0)))
+			if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') === 0 || (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') === 1 && ((count($list) > 0 && $list->accept_terms_conditions === 0) || count($list) == 0)))
 			{
 				$finalwidth  = "500";
 				$finalheight = "450";
@@ -1179,7 +1183,7 @@ class rsCarthelper
 			$newslettersignup_lbl = "";
 			$link                 = "";
 
-			if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != 0)
+			if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') !== 0)
 			{
 				$user  = JFactory::getUser();
 				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
@@ -1187,7 +1191,7 @@ class rsCarthelper
 				$this->_db->setQuery($query);
 				$subscribe = $this->_db->loadResult();
 
-				if ($subscribe == 0)
+				if ($subscribe === 0)
 				{
 					if ($onchange)
 					{
@@ -1218,6 +1222,7 @@ class rsCarthelper
 		$quantity               = 0;
 		$product_idArr          = explode(',', $product_id);
 		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger($product_idArr);
+		$p_quantity = 0;
 
 		for ($v = 0; $v < $idx; $v++)
 		{
@@ -1375,7 +1380,7 @@ class rsCarthelper
 					)
 					->from($db->qn('#__redshop_voucher', 'v'))
 					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.id')
-					->where('vt.voucher_code = ' . $db->quote($voucher_code))
+					->where('vt.voucher_code = ' . /** @scrutinizer ignore-type */ $db->quote($voucher_code))
 					->where('vt.amount > 0')
 					->where('v.type = ' . $db->quote('Total'))
 					->where('v.published = 1')
@@ -1441,7 +1446,7 @@ class rsCarthelper
 			->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
 			->leftJoin($db->qn('#__redshop_voucher', 'v') . ' ON ' . $db->qn('v.id') . ' = ' . $db->qn('pv.voucher_id'))
 			->where($db->qn('v.published') . ' = 1')
-			->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
+			->where($db->qn('v.code') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($voucherCode))
 			->where('('
 				. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
 				. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
@@ -1641,6 +1646,7 @@ class rsCarthelper
 	{
 		$wrapper     = $this->_producthelper->getWrapper($cartArr['product_id'], $cartArr['wrapper_id']);
 		$wrapper_vat = 0;
+		$wrapper_price = 0;
 		$wrapperArr  = array();
 
 		if (count($wrapper) > 0)
@@ -1883,7 +1889,7 @@ class rsCarthelper
 	 *
 	 * @param   array  $cart   Cart
 	 *
-	 * @return  null
+	 * @return  boolean
 	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperCart::addCartToDatabase() instead.
@@ -2010,7 +2016,7 @@ class rsCarthelper
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_attribute_item "
 			. "WHERE is_accessory_att=" . (int) $is_accessory . " "
-			. "AND section=" . $db->quote($section) . " "
+			. "AND section=" . /** @scrutinizer ignore-type */ $db->quote($section) . " "
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -2128,7 +2134,7 @@ class rsCarthelper
 						for ($ia = 0; $ia < $countAccessoryAttribute; $ia++)
 						{
 							$accPropertyCart                         = array();
-							$attribute                               = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $acc_attribute_data[$ia]);
+							$attribute                               = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, /** @scrutinizer ignore-type */ $acc_attribute_data[$ia]);
 							$accAttributeCart[$ia]['attribute_id']   = $acc_attribute_data[$ia];
 							$accAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
 
@@ -2151,8 +2157,8 @@ class rsCarthelper
 									{
 										$accSubpropertyCart = array();
 										$property_price     = 0;
-										$property           = RedshopHelperProduct_Attribute::getAttributeProperties($acc_property_data[$ip]);
-										$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($acc_property_data[$ip], $data['quantity'], 'property', $user_id);
+										$property           = RedshopHelperProduct_Attribute::getAttributeProperties(/** @scrutinizer ignore-type */ $acc_property_data[$ip]);
+										$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice(/** @scrutinizer ignore-type */ $acc_property_data[$ip], $data['quantity'], 'property', $user_id);
 
 										if (count($pricelist) > 0)
 										{
@@ -2182,7 +2188,7 @@ class rsCarthelper
 
 												for ($isp = 0; $isp < $countAccessorySubproperty; $isp++)
 												{
-													$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($acc_subproperty_data[$isp]);
+													$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties(/** @scrutinizer ignore-type */ $acc_subproperty_data[$isp]);
 													$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
 
 													if (count($pricelist) > 0)
@@ -2250,7 +2256,7 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
-	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
+	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, /** @scrutinizer ignore-unused */ $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		$and          = "";
 		$astpublished = "";
@@ -2645,8 +2651,8 @@ class rsCarthelper
 		$calcHeight = str_replace(",", ".", $calcHeight);
 		$calcWidth  = str_replace(",", ".", $calcWidth);
 		$calcLength = str_replace(",", ".", $calcLength);
-		$calcRadius = $cart_mdata = str_replace(",", ".", $calcRadius);
-		$calcUnit   = $cart_mdata = str_replace(",", ".", $calcUnit);
+		$calcRadius = str_replace(",", ".", $calcRadius);
+		$calcUnit   = str_replace(",", ".", $calcUnit);
 
 		// Convert unit using helper function
 		$unit = \Redshop\Helper\Utility::getUnitConversation($globalUnit, $calcUnit);
@@ -2655,6 +2661,12 @@ class rsCarthelper
 		$calcWidth *= $unit;
 		$calcLength *= $unit;
 		$calcRadius *= $unit;
+		$product_height = 0;
+		$product_width = 0;
+		$product_length = 0;
+		$product_diameter = 0;
+		$product_area = 0;
+		$total_sheet = 0;
 
 		$product_unit = 1;
 
@@ -2703,7 +2715,7 @@ class rsCarthelper
 			$finalArea = number_format($finalArea, 8, '.', '');
 
 			// Calculation prices as per various area
-			$discount_calc_data = $this->getDiscountCalcData($finalArea, $productId);
+			$discount_calc_data = $this->getDiscountCalcData(/** @scrutinizer ignore-type */ $finalArea, $productId);
 
 		}
 		else
