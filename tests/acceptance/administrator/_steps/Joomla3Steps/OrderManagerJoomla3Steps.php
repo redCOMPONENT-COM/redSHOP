@@ -103,7 +103,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->searchOrder($nameUser);
 		$I->waitForElement(\OrderManagerPage::$deleteFirst, 30);
 		$I->click(\OrderManagerPage::$deleteFirst);
-		$I->click(\OrderManagerPage::$buttonDelete);
+		$I->waitForElementVisible(\OrderManagerPage::$buttonDeleteOder, 30);
+		$I->click(\OrderManagerPage::$buttonDeleteOder);
 		$I->acceptPopup();
 		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
 	}
@@ -212,7 +213,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
 		$I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
 		$I->click($userOrderPage->returnSearch($nameProduct));
-		$I->waitForElement(\OrderManagerPage::$fieldAttribute, 30);
+		$I->waitForElementVisible(\OrderManagerPage::$valueAttribute, 30);
 		$I->wait(1);
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->wait(1);

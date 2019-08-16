@@ -86,6 +86,60 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	public static $pluginSaveSuccessMessage = 'Plugin saved.';
 
 	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldAccessId = "#jform_params_access_id" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldTransactionID = "#jform_params_transaction_id" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldMd5Key = "#jform_params_md5_key" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fieldTestMode = "//div[@id='jform_params_is_test_chzn']/a" ;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $optionTestModeYes= "//div[@id='jform_params_is_test_chzn']/div/ul/li[contains(text(), 'Yes')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $fieldPaymentOprand = "#jform_params_payment_oprand";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $fieldPaymentPrice = "#jform_params_payment_price";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $optionPercentage = "#jform_params_payment_discount_is_percent0";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $optionTotal = "#jform_params_payment_discount_is_percent1";
+
+	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
 	 * @param   String  $pluginName  Name of the Plugin
