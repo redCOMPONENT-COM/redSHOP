@@ -177,13 +177,20 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 		$msg = $results[0]->msg;
 
-		if (array_key_exists("order_id_temp", $results[0]))
+		if ($results[0] === false)
 		{
-			$order_id = $results[0]->order_id_temp;
+			$order_id = $this->input->getInt('orderid');
 		}
 		else
 		{
-			$order_id = $results[0]->order_id;
+			if (array_key_exists("order_id_temp", $results[0]))
+			{
+				$order_id = $results[0]->order_id_temp;
+			}
+			else
+			{
+				$order_id = $results[0]->order_id;
+			}
 		}
 
 		// Change Order Status based on resutls
