@@ -65,9 +65,9 @@ class CheckoutWithEPAYPayment extends CheckoutMissingData
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
-//		$I->waitForElement(FrontEndEPAYPaymentPage::$gotoPayment,30);
-//		$I->scrollTo(FrontEndEPAYPaymentPage::$gotoPayment);
-		$I->scrollTo('//div[@id="form-login-submit"]');
+		$I->waitForElement(FrontEndEPAYPaymentPage::$gotoPayment,30);
+		$I->scrollTo(FrontEndEPAYPaymentPage::$gotoPayment);
+//		$I->scrollTo('//div[@id="form-login-submit"]');
 //		$I->waitForElement(FrontEndEPAYPaymentPage::$gotoPayment,30);
 //		$I->pauseExecution();
 		$I->click(FrontEndEPAYPaymentPage::$gotoPayment);
