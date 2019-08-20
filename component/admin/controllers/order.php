@@ -510,7 +510,7 @@ class RedshopControllerOrder extends RedshopController
 			$product_download_days_time = (time() + ($days * 24 * 60 * 60));
 
 			$endtime = mktime(
-				$clock, $clock_min, 0, date("m", $product_download_days_time), date("d", $product_download_days_time),
+				(int)$clock, (int)$clock_min, 0, date("m", $product_download_days_time), date("d", $product_download_days_time),
 				date("Y", $product_download_days_time)
 			);
 

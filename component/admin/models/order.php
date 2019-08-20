@@ -261,9 +261,9 @@ class RedshopModelOrder extends RedshopModel
 
 		$query = $db->getQuery(true)
 			->update($db->qn('#__redshop_product_download'))
-			->set($db->qn('download_max') . ' = ' . $limit)
-			->set($db->qn('end_date') . ' = ' . $enddate)
-			->where($db->qn('download_id') . ' = ' . $did);
+			->set($db->qn('download_max') . ' = ' . $db->q($limit))
+			->set($db->qn('end_date') . ' = ' . $db->q($enddate))
+			->where($db->qn('download_id') . ' = ' . $db->q($did));
 
 		return $db->setQuery($query)->execute();
 	}
