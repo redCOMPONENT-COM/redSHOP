@@ -50,7 +50,7 @@ pipeline:
             - vendor/bin/robo tests:paid-extensions-for-integration-tests
             - cd tests/extension/paid-extensions
             - mv gulp-config.sample.json gulp-config.json
-            - npm install
+            - npm install ws@3.3.2 --save-dev --save-exact
             - gulp release --skip-version
             - cd ../../..
 
