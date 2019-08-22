@@ -31,7 +31,8 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->comment($path);
 		try {
 			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-		} catch (\Exception $e) {
+		} catch (\Exception $e)
+		{
 			$I->click(\AdminJ3Page::$link);
 			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
 		}

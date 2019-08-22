@@ -115,7 +115,6 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $optionTestModeYes= "//div[@id='jform_params_is_test_chzn']/div/ul/li[contains(text(), 'Yes')]";
 
-
 	/**
 	 * @var string
 	 * @since 2.1.3
