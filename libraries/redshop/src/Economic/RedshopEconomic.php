@@ -628,9 +628,20 @@ class RedshopEconomic
 			$eco['product_group'] = $ecoProductGroupNumber[0]->Number;
 		}
 
+		if(    ($row->discount_enddate >= $row->discount_stratdate && time() <= $row->discount_enddate &&  time() >= $row->discount_stratdate  && $row->discount_price > 0)
+			|| (empty($row->discount_stratdate) && empty($row->discount_enddate) && $row->discount_price > 0 )
+			|| (!empty($row->discount_enddate) && empty($row->discount_stratdate) && time() <= $row->discount_enddate && $row->discount_price > 0 )
+		)
+		{
+			$eco['product_price'] = $row->discount_price;
+		}else
+		{
+			$eco['product_price']  = $row->product_price;
+		}
+		
+		
 		$eco['product_number'] = trim($row->product_number);
 		$eco['product_name']   = addslashes($row->product_name);
-		$eco['product_price']  = $row->product_price;
 		$eco['product_volume'] = $row->product_volume;
 
 		$debtorHandle          = \RedshopHelperUtility::getDispatcher()->trigger('Product_FindByNumber', array($eco));
