@@ -22,11 +22,11 @@ class ChecckVATChangedDependingOnTheUserCest
 {
 	public function __construct()
 	{
-//        groupVAT
+        #groupVAT
 		$this->faker = Faker\Factory::create();
 		$this->taxGroupName             = $this->faker->bothify('TaxGroupsName ?###?');
 
-//        configuration
+        #configuration
 		$this->country                  = 'Select';
 		$this->vatDefault               = $this->taxGroupName;
 		$this->vatCalculation           = 'Customer';
@@ -35,7 +35,7 @@ class ChecckVATChangedDependingOnTheUserCest
 		$this->calculationBase          = 'billing';
 		$this->requiVAT                 = 'no';
 
-//        VAT for User in Denmark
+        #VAT for User in Denmark
 		$this->faker = Faker\Factory::create();
 		$this->taxRateNameDenmark       = $this->faker->bothify('VAT Denmark ?###?');
 		$this->taxRateValueDenmark      = 0.1;
@@ -44,7 +44,7 @@ class ChecckVATChangedDependingOnTheUserCest
 		$this->vatPriceDenmark          = "DKK 10,00";
 		$this->totalDenmark             = "DKK 110,00";
 
-//        VAT for User in VN
+        #VAT for User in VN
 		$this->taxRateNameVN            = $this->faker->bothify('VAT VN ?###?');
 		$this->taxRateValueVN           = 0.2;
 		$this->countryVietNam           = 'Viet Nam';
@@ -52,14 +52,15 @@ class ChecckVATChangedDependingOnTheUserCest
 		$this->vatPriceVN               = "DKK 20,00";
 		$this->totalVN                  = "DKK 120,00";
 
-//      Categories
+        #Categories
 		$this->categoryName             = $this->faker->bothify('CategoryNameVAT ?###?');
 
-//      Products
+        #Products
 		$this->productName              = $this->faker->bothify('NameProductVAT ?###?');
 		$this->randomProductNumber      = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice       = 100;
-//        User in VN
+
+		#User in VN
 		$this->userNameVN               = $this->faker->bothify('User In VN ?####?');
 		$this->passwordVN               = $this->faker->bothify('Password VN ?##?');
 		$this->emailVN                    = $this->faker->email;
@@ -74,12 +75,12 @@ class ChecckVATChangedDependingOnTheUserCest
 		$this->countryVN                = 'Viet Nam';
 		$this->phone                    = 010101010;
 
-//       User in Denmark
+        #User in Denmark
 		$this->userNameDenmark          = $this->faker->bothify('User In DM ?####?');
 		$this->passwordDenmark          = $this->faker->bothify('Password DM ?##?');
 		$this->emailDM                  = $this->faker->email;
 
-		//configuration enable one page checkout
+		#configuration enable one page checkout
 		$this->addcart                  = 'product';
 		$this->allowPreOrder            = 'yes';
 		$this->cartTimeOut              = $this->faker->numberBetween(100, 10000);
