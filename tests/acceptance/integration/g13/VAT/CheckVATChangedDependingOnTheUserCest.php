@@ -148,16 +148,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->doFrontendLogout();
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductWithVatCheckout($this->userNameVN, $this->passwordVN, $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
-	}
 
-	/**
-	 * @param AcceptanceTester $client
-	 * @param $scenario
-	 * @throws Exception
-	 * @since 2.1.3
-	 */
-	public function clearUp(AcceptanceTester $client, $scenario)
-	{
 		$I->wantTo('VAT Groups - Save creation in Administrator');
 		$I = new TaxGroupSteps($scenario);
 		$I->deleteVATGroupOK($this->taxGroupName);
