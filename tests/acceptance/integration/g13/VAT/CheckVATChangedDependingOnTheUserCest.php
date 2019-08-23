@@ -149,13 +149,13 @@ class CheckVATChangedDependingOnTheUserCest
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductWithVatCheckout($this->userNameVN, $this->passwordVN, $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
 
+		$I = new TaxRateSteps($scenario);
+		$I->deleteTAXRatesOK($this->taxRateNameVN);
+		$I->deleteTAXRatesOK($this->taxRateNameDenmark);
+
 		$I->wantTo('VAT Groups - Save creation in Administrator');
 		$I = new TaxGroupSteps($scenario);
 		$I->deleteVATGroupOK($this->taxGroupName);
-
-		$I = new TaxRateSteps($scenario);
-		$I->deleteTAXRatesOK($this->taxRateNameVN);
-		$I->deleteTAXRatesOK($this->taxRateNameDenmark); 
 
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
