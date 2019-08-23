@@ -155,7 +155,7 @@ class CheckVATChangedDependingOnTheUserCest
 
 		$I = new TaxRateSteps($scenario);
 		$I->deleteTAXRatesOK($this->taxRateNameVN);
-		$I->deleteTAXRatesOK($this->taxRateNameDenmark);
+		$I->deleteTAXRatesOK($this->taxRateNameDenmark); 
 
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
