@@ -29,7 +29,8 @@ class AdminManagerJoomla3Steps extends Redshop
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
-		try {
+		try
+		{
 			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
 		} catch (\Exception $e)
 		{
