@@ -119,63 +119,63 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->wantTo('VAT Groups - Save creation in Administrator');
 		$I = new TaxGroupSteps($scenario);
 		$I->addVATGroupsSave($this->taxGroupName);
-//		$I = new TaxRateSteps($scenario);
-//		$I->addTAXRatesSave($this->taxRateNameVN, $this->taxGroupName, $this->taxRateValueVN, $this->countryVietNam, null);
-//		$I->addTAXRatesSave($this->taxRateNameDenmark, $this->taxGroupName, $this->taxRateValueDenmark, $this->countryDenmark, null);
+		$I = new TaxRateSteps($scenario);
+		$I->addTAXRatesSave($this->taxRateNameVN, $this->taxGroupName, $this->taxRateValueVN, $this->countryVietNam, null);
+		$I->addTAXRatesSave($this->taxRateNameDenmark, $this->taxGroupName, $this->taxRateValueDenmark, $this->countryDenmark, null);
 
 		$I->wantTo('setup VAT at admin');
 		$I = new Configuration\ConfigurationSteps($scenario);
 		$I->setupVAT(null, null, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
-//		$I->wantTo('Create user for checkout');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->addUserHaveCountry($this->userNameDenmark, $this->passwordDenmark, $this->emailDM, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->countryDenmark);
-//		$I->addUserHaveCountry($this->userNameVN, $this->passwordVN, $this->emailVN, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->countryVietNam);
-//
-//		$I->wantTo('Create new category ');
-//		$I = new CategoryManagerJoomla3Steps($scenario);
-//		$I->addCategorySave($this->categoryName);
-//
-//		$I->wantTo('Create new product');
-//		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-//		$I->wantTo('I Want to add product inside the category');
-//		$I->createProductWithVATGroups($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->taxGroupName);
-//
-//		$I = new CheckoutOnFrontEnd($scenario);
-//		$I->testProductWithVatCheckout($this->userNameDenmark, $this->passwordDenmark, $this->productName, $this->categoryName, $this->subtotalDenmark, $this->vatPriceDenmark, $this->totalDenmark);
-//		$I->doFrontendLogout();
-//		$I = new CheckoutOnFrontEnd($scenario);
-//		$I->testProductWithVatCheckout($this->userNameVN, $this->passwordVN, $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
+		$I->wantTo('Create user for checkout');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUserHaveCountry($this->userNameDenmark, $this->passwordDenmark, $this->emailDM, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->countryDenmark);
+		$I->addUserHaveCountry($this->userNameVN, $this->passwordVN, $this->emailVN, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->countryVietNam);
+
+		$I->wantTo('Create new category ');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->addCategorySave($this->categoryName);
+
+		$I->wantTo('Create new product');
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('I Want to add product inside the category');
+		$I->createProductWithVATGroups($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->taxGroupName);
+
+		$I = new CheckoutOnFrontEnd($scenario);
+		$I->testProductWithVatCheckout($this->userNameDenmark, $this->passwordDenmark, $this->productName, $this->categoryName, $this->subtotalDenmark, $this->vatPriceDenmark, $this->totalDenmark);
+		$I->doFrontendLogout();
+		$I = new CheckoutOnFrontEnd($scenario);
+		$I->testProductWithVatCheckout($this->userNameVN, $this->passwordVN, $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
 	}
 
-//	/**
-//	 * @param AcceptanceTester $client
-//	 * @param $scenario
-//	 * @throws Exception
-//	 * @since 2.1.3
-//	 */
-//	public function clearUp(AcceptanceTester $client, $scenario)
-//	{
-//		$I->wantTo('VAT Groups - Save creation in Administrator');
-//		$I = new TaxGroupSteps($scenario);
-//		$I->deleteVATGroupOK($this->taxGroupName);
-//
-//		$I = new TaxRateSteps($scenario);
-//		$I->deleteTAXRatesOK($this->taxRateNameVN);
-//		$I->deleteTAXRatesOK($this->taxRateNameDenmark);
-//
-//		$I->wantTo('Create user for checkout');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->deleteUser($this->userNameDenmark);
-//		$I->deleteUser($this->userNameVN);
-//
-//		$I->wantTo('Create new category ');
-//		$I = new CategoryManagerJoomla3Steps($scenario);
-//		$I->deleteCategory($this->categoryName);
-//
-//		$I->wantTo('Create new product');
-//		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
-//		$I->deleteProduct($this->productName);
-//	}
+	/**
+	 * @param AcceptanceTester $client
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function clearUp(AcceptanceTester $client, $scenario)
+	{
+		$I->wantTo('VAT Groups - Save creation in Administrator');
+		$I = new TaxGroupSteps($scenario);
+		$I->deleteVATGroupOK($this->taxGroupName);
+
+		$I = new TaxRateSteps($scenario);
+		$I->deleteTAXRatesOK($this->taxRateNameVN);
+		$I->deleteTAXRatesOK($this->taxRateNameDenmark);
+
+		$I->wantTo('Create user for checkout');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->userNameDenmark);
+		$I->deleteUser($this->userNameVN);
+
+		$I->wantTo('Create new category ');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
+
+		$I->wantTo('Create new product');
+		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName);
+	}
 }
