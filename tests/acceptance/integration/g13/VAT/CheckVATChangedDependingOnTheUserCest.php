@@ -22,11 +22,11 @@ class CheckVATChangedDependingOnTheUserCest
 {
 	public function __construct()
 	{
-		#groupVAT
+		//groupVAT
 		$this->faker = Faker\Factory::create();
 		$this->taxGroupName             = $this->faker->bothify('TaxGroupsName ?###?');
 
-		#configuration
+		//configuration
 		$this->country                  = 'Denmark';
 		$this->vatDefault               = $this->taxGroupName;
 		$this->vatCalculation           = 'Customer';
@@ -35,7 +35,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->calculationBase          = 'billing';
 		$this->requiVAT                 = 'no';
 
-		#VAT for User in Denmark
+		//VAT for User in Denmark
 		$this->faker = Faker\Factory::create();
 		$this->taxRateNameDenmark       = $this->faker->bothify('VAT Denmark ?###?');
 		$this->taxRateValueDenmark      = 0.1;
@@ -44,7 +44,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->vatPriceDenmark          = "DKK 10,00";
 		$this->totalDenmark             = "DKK 110,00";
 
-		#VAT for User in VN
+		//VAT for User in VN
 		$this->taxRateNameVN            = $this->faker->bothify('VAT VN ?###?');
 		$this->taxRateValueVN           = 0.2;
 		$this->countryVietNam           = 'Viet Nam';
@@ -52,21 +52,21 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->vatPriceVN               = "DKK 20,00";
 		$this->totalVN                  = "DKK 120,00";
 
-		#Categories
+		//Categories
 		$this->categoryName             = $this->faker->bothify('CategoryNameVAT ?###?');
 
-		#Products
+		//Products
 		$this->productName              = $this->faker->bothify('NameProductVAT ?###?');
 		$this->randomProductNumber      = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice       = 100;
 
-		#User in VN
+		//User in VN
 		$this->userNameVN               = $this->faker->bothify('User In VN ?####?');
 		$this->passwordVN               = $this->faker->bothify('Password VN ?##?');
-		$this->emailVN                    = $this->faker->email;
+		$this->emailVN                  = $this->faker->email;
 		$this->shopperGroup             = 'Default Private';
 		$this->group                    = 'Registered';
-		$this->firstName                = $this->faker->bothify('ManageUserAdministratorCest VN ?##?');
+		$this->firstNameVN              = $this->faker->bothify('User In VN ?##?');
 		$this->updateFirstName          = 'Updating ' . $this->firstName;
 		$this->lastName                 = $this->faker->bothify('LastName ?####?');
 		$this->address                  = '14 Phan Ton';
@@ -75,12 +75,14 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->countryVN                = 'Viet Nam';
 		$this->phone                    = 010101010;
 
-		#User in Denmark
+		//User in Denmark
+
 		$this->userNameDenmark          = $this->faker->bothify('User In DM ?####?');
 		$this->passwordDenmark          = $this->faker->bothify('Password DM ?##?');
 		$this->emailDM                  = $this->faker->email;
+		$this->firstNameDM              = $this->faker->bothify('User In DM ?##?');
 
-		#configuration enable one page checkout
+		//configuration enable one page checkout
 		$this->addcart                  = 'product';
 		$this->allowPreOrder            = 'yes';
 		$this->cartTimeOut              = $this->faker->numberBetween(100, 10000);
@@ -131,8 +133,8 @@ class CheckVATChangedDependingOnTheUserCest
 
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUserHaveCountry($this->userNameDenmark, $this->passwordDenmark, $this->emailDM, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->countryDenmark);
-		$I->addUserHaveCountry($this->userNameVN, $this->passwordVN, $this->emailVN, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->countryVietNam);
+		$I->addUserHaveCountry($this->userNameDenmark, $this->passwordDenmark, $this->emailDM, $this->group, $this->shopperGroup, $this->firstNameDM, $this->lastName, $this->countryDenmark);
+		$I->addUserHaveCountry($this->userNameVN, $this->passwordVN, $this->emailVN, $this->group, $this->shopperGroup, $this->firstNameVN, $this->lastName, $this->countryVietNam);
 
 		$I->wantTo('Create new category ');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -159,15 +161,15 @@ class CheckVATChangedDependingOnTheUserCest
 
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->userNameDenmark);
-		$I->deleteUser($this->userNameVN);
-
-		$I->wantTo('Create new category ');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->categoryName);
+		$I->deleteUser($this->firstNameDM);
+		$I->deleteUser($this->firstNameVN);
 
 		$I->wantTo('Create new product');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
+
+		$I->wantTo('Create new category ');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
 	}
 }
