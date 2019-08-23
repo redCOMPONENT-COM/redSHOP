@@ -22,11 +22,11 @@ class CheckVATChangedDependingOnTheUserCest
 {
 	public function __construct()
 	{
-        #groupVAT
+		#groupVAT
 		$this->faker = Faker\Factory::create();
 		$this->taxGroupName             = $this->faker->bothify('TaxGroupsName ?###?');
 
-        #configuration
+		#configuration
 		$this->country                  = 'Denmark';
 		$this->vatDefault               = $this->taxGroupName;
 		$this->vatCalculation           = 'Customer';
@@ -35,7 +35,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->calculationBase          = 'billing';
 		$this->requiVAT                 = 'no';
 
-        #VAT for User in Denmark
+		#VAT for User in Denmark
 		$this->faker = Faker\Factory::create();
 		$this->taxRateNameDenmark       = $this->faker->bothify('VAT Denmark ?###?');
 		$this->taxRateValueDenmark      = 0.1;
@@ -44,7 +44,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->vatPriceDenmark          = "DKK 10,00";
 		$this->totalDenmark             = "DKK 110,00";
 
-        #VAT for User in VN
+		#VAT for User in VN
 		$this->taxRateNameVN            = $this->faker->bothify('VAT VN ?###?');
 		$this->taxRateValueVN           = 0.2;
 		$this->countryVietNam           = 'Viet Nam';
@@ -52,10 +52,10 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->vatPriceVN               = "DKK 20,00";
 		$this->totalVN                  = "DKK 120,00";
 
-        #Categories
+		#Categories
 		$this->categoryName             = $this->faker->bothify('CategoryNameVAT ?###?');
 
-        #Products
+		#Products
 		$this->productName              = $this->faker->bothify('NameProductVAT ?###?');
 		$this->randomProductNumber      = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice       = 100;
@@ -75,7 +75,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->countryVN                = 'Viet Nam';
 		$this->phone                    = 010101010;
 
-        #User in Denmark
+		#User in Denmark
 		$this->userNameDenmark          = $this->faker->bothify('User In DM ?####?');
 		$this->passwordDenmark          = $this->faker->bothify('Password DM ?##?');
 		$this->emailDM                  = $this->faker->email;
@@ -128,6 +128,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->setupVAT($this->country, null, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
+
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUserHaveCountry($this->userNameDenmark, $this->passwordDenmark, $this->emailDM, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->countryDenmark);
@@ -140,7 +141,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->wantTo('Create new product');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->createProductWithVATGroups($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->taxGroupName);
+		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductWithVatCheckout($this->userNameDenmark, $this->passwordDenmark, $this->productName, $this->categoryName, $this->subtotalDenmark, $this->vatPriceDenmark, $this->totalDenmark);
