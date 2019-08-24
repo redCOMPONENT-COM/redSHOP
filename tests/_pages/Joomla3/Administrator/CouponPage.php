@@ -39,4 +39,28 @@ class CouponPage extends AdminJ3Page
 	 * @var array
 	 */
 	public static $selectValueCoupon =  "//a[contains(concat(' ', @class, ' '), 'btn-edit-item')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageFail = 'Save failed with the following error: Start date must be sooner or equal to end date';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $couponType = '//input[@name="jform[type]"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $startDateField = '#jform_start_date';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $endDateField = '#jform_end_date';
 }
