@@ -20,6 +20,343 @@ use Faker\Factory;
  */
 class CheckVATChangedDependingOnTheUserCest
 {
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $taxGroupName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $country;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $vatDefault;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $vatCalculation;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $vatAfter;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $vatNumber;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $calculationBase;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $requiVAT;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $taxRateNameDenmark;
+
+	/**
+	 * @var float
+	 * @since 2.1.3
+	 */
+	protected $taxRateValueDenmark;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $countryDenmark;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $subtotalDenmark;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $vatPriceDenmark;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $totalDenmark;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $taxRateNameVN;
+
+	/**
+	 * @var float
+	 * @since 2.1.3
+	 */
+	protected $taxRateValueVN;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $countryVietNam;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $subtotalVN;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $vatPriceVN;
+
+	/**
+	 * @var string
+	 */
+	protected $totalVN;
+
+	/**
+	 * @var string
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $productName;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $userNameVN;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $passwordVN;
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $emailVN;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $firstNameVN;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $updateFirstName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $lastName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $address;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $zipcode;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $city;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $countryVN;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $phone;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $userNameDenmark;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $passwordDenmark;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $emailDM;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $firstNameDM;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $addcart;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $allowPreOrder;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $cartTimeOut;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $enabldAjax;
+
+	/**
+	 * @var null
+	 * @since 2.1.3
+	 */
+	protected $defaultCart;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $buttonCartLead;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $onePage;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $showShippingCart;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $attributeImage;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $quantityChange;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $quantityInCart;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $minimunOrder;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $enableQuation;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $onePageNo;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $onePageYes;
+
+	/**
+	 * CheckVATChangedDependingOnTheUserCest constructor.
+	 * @since 2.1.3
+	 */
 	public function __construct()
 	{
 		//groupVAT
