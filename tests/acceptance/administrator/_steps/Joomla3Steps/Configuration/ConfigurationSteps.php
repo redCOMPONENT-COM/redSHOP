@@ -565,8 +565,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		}
 		$I->amOnPage(OrderManagerPage::$URL);
 		$I->searchOrder($order);
-		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
 		$I->wait(0.5);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
 		$I->click(OrderManagerPage::$iconEdit);
 		$I->waitForText(OrderManagerPage::$titlePage,30, OrderManagerPage:: $h1 );
 		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
