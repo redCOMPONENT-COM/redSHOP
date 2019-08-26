@@ -458,53 +458,56 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->wantTo('VAT Groups - Save creation in Administrator');
 		$I = new TaxGroupSteps($scenario);
 		$I->addVATGroupsSave($this->taxGroupName);
+		$I->wantTo('I Want to add Tax Rates');
 		$I = new TaxRateSteps($scenario);
 		$I->addTAXRatesSave($this->taxRateNameVN, $this->taxGroupName, $this->taxRateValueVN, $this->countryVietNam, null);
 		$I->addTAXRatesSave($this->taxRateNameDenmark, $this->taxGroupName, $this->taxRateValueDenmark, $this->countryDenmark, null);
 
 		$I->wantTo('setup VAT at admin');
-		$I = new Configuration\ConfigurationSteps($scenario);
+		$I = new ConfigurationSteps($scenario);
 		$I->setupVAT($this->country, null, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
 		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUserHaveCountry($this->userNameDenmark, $this->passwordDenmark, $this->emailDM, $this->group, $this->shopperGroup, $this->firstNameDM, $this->lastName, $this->countryDenmark);
-		$I->addUserHaveCountry($this->userNameVN, $this->passwordVN, $this->emailVN, $this->group, $this->shopperGroup, $this->firstNameVN, $this->lastName, $this->countryVietNam);
+		$I->addUserHaveCountry($this->userNameDenmark, $this->passwordDenmark, $this->emailDM, $this->group, $this->shopperGroup, $this->firstNameDM, $this->lastName, $this->address, $this->city, $this->zipcode, $this->phone, $this->countryDenmark);
+		$I->addUserHaveCountry($this->userNameVN, $this->passwordVN, $this->emailVN, $this->group, $this->shopperGroup, $this->firstNameVN, $this->lastName, $this->address, $this->city, $this->zipcode, $this->phone, $this->countryVietNam);
 
-		$I->wantTo('Create new category ');
+		$I->wantTo('Create new category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 
 		$I->wantTo('Create new product');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
+		$I->wantTo('I Want check VAT');
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductWithVatCheckout($this->userNameDenmark, $this->passwordDenmark, $this->productName, $this->categoryName, $this->subtotalDenmark, $this->vatPriceDenmark, $this->totalDenmark);
 		$I->doFrontendLogout();
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductWithVatCheckout($this->userNameVN, $this->passwordVN, $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
 
+		$I->wantTo('I Want to delete Tax Rates');
 		$I = new TaxRateSteps($scenario);
 		$I->deleteTAXRatesOK($this->taxRateNameVN);
 		$I->deleteTAXRatesOK($this->taxRateNameDenmark);
 
-		$I->wantTo('VAT Groups - Save creation in Administrator');
+		$I->wantTo('Detele VAT Group');
 		$I = new TaxGroupSteps($scenario);
 		$I->deleteVATGroupOK($this->taxGroupName);
 
-		$I->wantTo('Create user for checkout');
+		$I->wantTo('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstNameDM);
 		$I->deleteUser($this->firstNameVN);
 
-		$I->wantTo('Create new product');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete product');
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 
-		$I->wantTo('Create new category ');
+		$I->wantTo('Delete category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 	}

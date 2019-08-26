@@ -532,7 +532,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function addUserHaveCountry($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $country)
+	public function addUserHaveCountry($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $address, $city, $zipcode, $phone, $country)
 	{
 		$I = $this;
 		$I->amOnPage(UserManagerJoomla3Page::$URL);
@@ -553,10 +553,10 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(UserManagerJoomla3Page::$firstName, 30);
 		$I->fillField(UserManagerJoomla3Page::$firstName, $firstName);
 		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
-		$I->fillField(UserManagerJoomla3Page::$address, 'address');
-		$I->fillField(UserManagerJoomla3Page::$city, 'city');
-		$I->fillField(UserManagerJoomla3Page::$zipcode,'5000');
-		$I->fillField(UserManagerJoomla3Page::$phone, '4234324');
+		$I->fillField(UserManagerJoomla3Page::$address, $address);
+		$I->fillField(UserManagerJoomla3Page::$city, $city);
+		$I->fillField(UserManagerJoomla3Page::$zipcode, $zipcode);
+		$I->fillField(UserManagerJoomla3Page::$phone, $phone);
 		$I->click(UserManagerJoomla3Page::$country);
 		$I->waitForElement($userManagerPage->shopperGroup($country), 30);
 		$I->click($userManagerPage->shopperGroup($country));
