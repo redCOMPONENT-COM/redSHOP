@@ -151,12 +151,12 @@ class ProductsCheckoutEWAYCest
 			"email"         => $this->faker->email,
 			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
-			"address"       => "Some Place in the World",
-			"postalCode"    => "23456",
-			"city"          => "HCM",
+			"address"       => $this->faker->address,
+			"postalCode"    => $this->faker->postcode,
+			"city"          => $this->faker->city,
 			"country"       => "Denmark",
 			"state"         => "Karnataka",
-			"phone"         => "8787878787",
+			"phone"         => $this->faker->phoneNumber,
 			"shopperGroup"  => 'Default Private',
 		);
 		$this->group          = 'Registered';
@@ -164,7 +164,7 @@ class ProductsCheckoutEWAYCest
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'E-Way Payments';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->package         = 'plg_redshop_payment_rs_payment_eway.zip';
+		$this->package        = 'plg_redshop_payment_rs_payment_eway.zip';
 
 		$this->checkoutAccountInformation = array(
 			"customerID" => "87654321",
