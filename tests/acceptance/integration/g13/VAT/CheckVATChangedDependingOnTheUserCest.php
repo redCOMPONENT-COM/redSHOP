@@ -489,7 +489,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductWithVatCheckout($this->userNameVN, $this->passwordVN, $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
 
-		$I->wantTo('I Want to delete Tax Rates');
+		$I->wantTo('Delete Tax Rates');
 		$I = new TaxRateSteps($scenario);
 		$I->deleteTAXRatesOK($this->taxRateNameVN);
 		$I->deleteTAXRatesOK($this->taxRateNameDenmark);
