@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5.1" type="plugin" group="redshop_alert" method="upgrade">
+    <name>PLG_REDSHOP_ALERT_ALERT_MIN_STOCK</name>
+    <version>2.0.3</version>
+    <redshop>2.0.0.6</redshop>
+    <creationDate>January 2019</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2019 redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <description>PLG_REDSHOP_ALERT_ALERT_DESC_MIN_STOCK</description>
+    <languages >
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_alert_alert_notifications.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_alert_alert_notifications.sys.ini</language>
+        <language tag="lt-LT">language/lt-LT/lt-LT.plg_redshop_alert_alert_notifications.ini</language>
+        <language tag="lt-LT">language/lt-LT/lt-LT.plg_redshop_alert_alert_notifications.sys.ini</language>
+    </languages>
+    <files>
+        <filename plugin="alert_notifications">alert_notifications.php</filename>
+        <filename plugin="alert_notifications">alert_notifications.xml</filename>
+        <filename>index.html</filename>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="id_min_stock"
+                        type="sql"
+                        default="10"
+                        label="PLG_REDSHOP_ALERT_ALERT_MIN_STOCK_TITLE"
+                        query="SELECT  name , id  FROM #__redshop_fields where section=1 and published=1 "
+                        key_field="id"
+                        value_field="name"
+                />
+                <field
+                        name="id_alert_min_stock_template"
+                        type="sql"
+                        default="10"
+                        label="PLG_REDSHOP_ALERT_ALERT_MIN_STOCK_TEMPLATE"
+                        query="SELECT  `template_name` , `template_id`  FROM `#__redshop_template`  where  published=1 "
+                        key_field="template_id"
+                        value_field="template_name"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

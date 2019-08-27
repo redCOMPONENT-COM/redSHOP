@@ -20,7 +20,8 @@
       "redshop"
     ],
     "redshop_alert": [
-      "alert"
+      "alert",
+      "alert_notifications"
     ],
     "redshop_export": [
       "attribute",
