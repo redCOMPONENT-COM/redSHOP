@@ -347,6 +347,13 @@ class Com_RedshopInstallerScript
 
 				// Force to enable redSHOP Import - User plugin by anyways
 				$this->enablePlugin('user', 'redshop_import');
+
+				// Force to enable redSHOP Alert - alert_notifications plugin by anyways
+				$this->enablePlugin('alert_notifications', 'redshop_alert');
+
+				// Force to enable redSHOP Import - alert plugin by anyways
+				$this->enablePlugin('alert', 'redshop_alert');
+				
 			}
 		}
 	}
