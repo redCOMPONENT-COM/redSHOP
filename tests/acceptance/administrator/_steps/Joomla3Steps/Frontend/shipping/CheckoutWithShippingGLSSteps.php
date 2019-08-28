@@ -8,8 +8,14 @@
 
 namespace Frontend\payment;
 
+use CheckoutOnFrontEnd;
 
-class CheckoutWithShippingGLSSteps
+
+class CheckoutWithShippingGLSSteps extends CheckoutOnFrontEnd
 {
 
+    public function checkoutWithShippingGLS()
+    {
+
+    }
 }
