@@ -103,7 +103,7 @@
 
         <!-- Alert plugin -->
         <plugin group="redshop_alert" name="alert"/>
-        <plugin group="redshop_alert" name="alert_notifications"/>
+        <plugin group="redshop_alert" name="low_stock_alert" published="published"/>
 
         <!-- Redshop Export plugins -->
         <plugin name="attribute" group="redshop_export" published="published"/>

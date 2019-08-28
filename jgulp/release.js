@@ -63,6 +63,7 @@ gulp.task("release:md5:generate", function () {
         "./plugins/redshop_payment/rs_payment_paypal/**",
         "./plugins/finder/redshop/**",
         "./plugins/redshop_alert/alert/**",
+        "./plugins/redshop_alert/low_stock_alert/**",
         "./plugins/redshop_shipping/default_shipping/**",
         "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
         "./plugins/redshop_pdf/tcpdf/**",

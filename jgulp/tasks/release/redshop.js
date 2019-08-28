@@ -19,6 +19,7 @@ function getIncludedExtensions() {
         "./plugins/redshop_product/sh404urls/**",
         "./plugins/finder/redshop/**",
         "./plugins/redshop_alert/alert/**",
+        "./plugins/redshop_alert/low_stock_alert/**",
         "./plugins/redshop_shipping/default_shipping/**",
         "./plugins/sh404sefextplugins/sh404sefextplugincom_redshop/**",
         "./plugins/redshop_pdf/tcpdf/**",

@@ -21,7 +21,7 @@
     ],
     "redshop_alert": [
       "alert",
-      "alert_notifications"
+      "low_stock_alert"
     ],
     "redshop_export": [
       "attribute",
