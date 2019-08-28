@@ -10,7 +10,7 @@
 use Step\AbstractStep;
 
 /**
- * Class TaxGroupSteps
+ * Class Tax_GroupSteps
  *
  * @package  AcceptanceTester
  *

@@ -7,7 +7,6 @@
  */
 
 use AcceptanceTester\TaxRateSteps;
-use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
@@ -103,7 +102,7 @@ class ProductVatCheckoutCest
 	{
 
 		$client->wantTo('VAT Groups - Save creation in Administrator');
-		$client = new TaxGroupSteps($scenario);
+		$client = new Tax_GroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
@@ -161,7 +160,7 @@ class ProductVatCheckoutCest
 		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
 
 		$client->wantTo('Delete tax group');
-		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
+		(new Tax_GroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
 
 		$client->wantTo('Delete user');
 		(new UserManagerJoomla3Steps($scenario))->deleteUser($this->firstName);
