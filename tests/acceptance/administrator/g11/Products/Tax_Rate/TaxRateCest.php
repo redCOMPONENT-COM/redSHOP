@@ -7,7 +7,6 @@
  */
 
 use AcceptanceTester\TaxRateSteps;
-use AcceptanceTester\TaxGroupSteps;
 use Codeception\Scenario;
 
 /**
@@ -100,7 +99,7 @@ class TaxRateCest
 	{
 		$client->wantTo('VAT Groups - Save creation in Administrator');
 		$client->doAdministratorLogin();
-		$client = new TaxGroupSteps($scenario);
+		$client = new Tax_GroupSteps($scenario);
 		$client->addVATGroupsSave($this->taxGroupName);
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
