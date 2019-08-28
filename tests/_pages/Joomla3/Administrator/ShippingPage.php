@@ -173,4 +173,10 @@ class ShippingPage extends AdminJ3Page
      * @var string
      */
     public static $editShipping = "//a[@title='Edit Shipping']";
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public static $glsShipping = 'default GLS';
 }
