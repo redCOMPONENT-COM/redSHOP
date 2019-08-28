@@ -6,7 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use AcceptanceTester\TaxRateSteps;
-use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
@@ -129,16 +128,16 @@ class ProductAttributesVatCheckoutCest
 	/**
 	 * Create VAT Group with
 	 *
-	 * @param   TaxGroupSteps $I Current user state.
+	 * @param   Tax_GroupSteps $I Current user state.
 	 * @param   \Codeception\Scenario $scenario Scenario for test.
 	 *
 	 * @return  void
 	 * @throws  Exception
 	 */
-	public function createVATGroupSave(TaxGroupSteps $I, $scenario)
+	public function createVATGroupSave(Tax_GroupSteps $I, $scenario)
 	{
 		$I->wantTo('VAT Groups - Save creation in Administrator');
-		$I = new TaxGroupSteps($scenario);
+		$I = new Tax_GroupSteps($scenario);
 		$I->addVATGroupsSave($this->taxGroupName);
 
 		$I->wantTo('Test TAX Rates Save creation in Administrator');
@@ -204,7 +203,7 @@ class ProductAttributesVatCheckoutCest
 		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
 
 		$I->wantTo('Delete tax group');
-		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
+		(new Tax_GroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
 
 		$I->wantTo('Delete user');
 		(new UserManagerJoomla3Steps($scenario))->deleteUser($this->customerInformation["firstName"]);

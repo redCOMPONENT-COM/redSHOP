@@ -13,7 +13,6 @@ use AcceptanceTester\ShopperGroupManagerJoomla3Steps as ShopperGroupSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
 use AcceptanceTester\ShippingSteps as ShippingSteps;
 use AcceptanceTester\TaxRateSteps as TaxRateSteps;
-use AcceptanceTester\TaxGroupSteps as TaxGroupSteps;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
 
 /**
@@ -178,7 +177,7 @@ class AttributeUserCest
 		$client->doAdministratorLogin();
 
 		$client->wantTo('VAT Groups - Save creation in Administrator');
-		(new TaxGroupSteps($scenario))->addVATGroupsSave($this->taxGroupName);
+		(new Tax_GroupSteps($scenario))->addVATGroupsSave($this->taxGroupName);
 
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
 		(new TaxRateSteps($scenario))->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, null);
@@ -242,7 +241,7 @@ class AttributeUserCest
 		$client->wantTo('Delete  TAX Rates in Administrator');
 		(new TaxRateSteps($scenario))->deleteTAXRatesOK($this->taxRateName);
 		$client->wantTo(' Delete VAT Groups in Administrator');
-		(new TaxGroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
+		(new Tax_GroupSteps($scenario))->deleteVATGroupOK($this->taxGroupName);
 		
 		$client->wantTo('Delete product with attribute');
 		$client = new ProductSteps($scenario);
