@@ -133,10 +133,10 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
 
 		$client->click(TaxRatePage::$buttonSaveClose);
-		$client->waitForElement(TaxGroupPage::$selectorMissing, 10);
+		$client->waitForElement(Tax_GroupPage::$selectorMissing, 10);
 
 		$client->click(TaxRatePage::$buttonSaveNew);
-		$client->waitForElement(TaxGroupPage::$selectorMissing, 10);
+		$client->waitForElement(Tax_GroupPage::$selectorMissing, 10);
 
 		$taxRateMessage = new TaxRatePage();
 		$client->waitForText($taxRateMessage->messageMissing('Name'), 30, TaxRatePage::$selectorMissing);
@@ -174,10 +174,10 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
 
 		$client->click(TaxRatePage::$buttonSaveClose);
-		$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
+		$client->waitForElement(Tax_GroupPage::$selectorMissing, 30);
 
 		$client->click(TaxRatePage::$buttonSaveNew);
-		$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
+		$client->waitForElement(Tax_GroupPage::$selectorMissing, 30);
 
 		$taxRateMessage = new TaxRatePage();
 		$client->waitForText($taxRateMessage->messageMissing('Group'), 30, TaxRatePage::$selectorMissing);
