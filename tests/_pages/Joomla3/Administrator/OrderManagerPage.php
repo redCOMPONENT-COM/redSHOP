@@ -20,6 +20,12 @@ class OrderManagerPage extends AdminJ3Page
 	 */
 	public static $URL = '/administrator/index.php?option=com_redshop&view=order';
 
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $titlePage = ".page-title";
+
 	/**
 	 * @var string
 	 */
@@ -152,12 +158,27 @@ class OrderManagerPage extends AdminJ3Page
 
 	//button
 
-	/**
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $discountUpdate = "#update_discount";
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $specialUpdate = "#special_discount";
+    /**
 	 * @var string
 	 */
 	public static $buttonSavePay = "Save + Pay";
 
-	//selector
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $orderID = "//div[@class='table-responsive']//td[3]//a[1]";
 
 	/**
 	 * @var string
@@ -188,4 +209,27 @@ class OrderManagerPage extends AdminJ3Page
 		return $path;
 	}
 
+
+    /**
+     * Function to get Path $idOder in Order detail
+     * @param $idOrder
+     * @since 2.1.2
+     * @return string
+     */
+    public function returnButtonUpdateDiscount ($idOrder)
+    {
+        $path = "//a[@onclick= \"javascript:validateDiscount('#update_discount$idOrder');\"]";
+        return $path;
+    }
+    /**
+     * Function to get Path $idOder in Order detail
+     * @param $idOrder
+     * @since 2.1.2
+     * @return string
+     */
+    public function returnButtonSpecialDiscount ($idOrder)
+    {
+        $path = "//a[@onclick= \"javascript:validateDiscount('#special_discount$idOrder');\"]";
+        return $path;
+    }
 }
