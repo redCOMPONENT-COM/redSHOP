@@ -7,6 +7,9 @@
  */
 
 use AcceptanceTester\OrderStatusManagerSteps;
+use AcceptanceTester\UserManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\CategoryManagerJoomla3Steps;
 
 /**
  * Class OrderStatusManagerCest
@@ -46,28 +49,46 @@ class OrderStatusManagerCest
 	 *
 	 * @throws  Exception
 	 */
-	public function createEditDeleteOrderStatus(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo("I want create Order Status");
-		$I = new OrderStatusManagerSteps($scenario);
-		$I->createOrderStatus($this->orderStatusName, $this->orderStatusCode);
-		$I->createOrderStatusMissingName($this->orderStatusCode);
-		$I->createOrderStatusMissingCode($this->orderStatusName);
+//	public function createEditDeleteOrderStatus(AcceptanceTester $I, $scenario)
+//	{
+//		$I->wantTo("I want create Order Status");
+//		$I = new OrderStatusManagerSteps($scenario);
+//		$I->createOrderStatus($this->orderStatusName, $this->orderStatusCode);
+//		$I->createOrderStatusMissingName($this->orderStatusCode);
+//		$I->createOrderStatusMissingCode($this->orderStatusName);
+//
+//		$I->wantTo("I want edit Order Status");
+//		$I = new OrderStatusManagerSteps($scenario);
+//		$I->editOrderStatus($this->orderStatusName, $this->changeName);
+//
+//		$I->wantTo("I want edit Order Status");
+//		$I = new OrderStatusManagerSteps($scenario);
+//		$I->changeStatusUnpublish($this->changeName);
+//
+//		$I->wantTo("I want edit Order Status");
+//		$I = new OrderStatusManagerSteps($scenario);
+//		$I->changeStatusPublish($this->changeName);
+//
+//		$I->wantTo("I want to delete Order Status");
+//		$I = new OrderStatusManagerSteps($scenario);
+//		$I->deleteOrderStatus($this->changeName);
+//	}
 
-		$I->wantTo("I want edit Order Status");
-		$I = new OrderStatusManagerSteps($scenario);
-		$I->editOrderStatus($this->orderStatusName, $this->changeName);
 
-		$I->wantTo("I want edit Order Status");
-		$I = new OrderStatusManagerSteps($scenario);
-		$I->changeStatusUnpublish($this->changeName);
+    public function checkoutAndChangeOrderStatus(AcceptanceTester $I, $scenario)
+    {
+        $I->wantToTest('Create Order Status');
+        $I = new OrderStatusManagerSteps($scenario);
+        $I->createOrderStatus($this->orderStatusName, $this->orderStatusCode);
 
-		$I->wantTo("I want edit Order Status");
-		$I = new OrderStatusManagerSteps($scenario);
-		$I->changeStatusPublish($this->changeName);
+        $I->wantToTest('Create User');
+        $I = new UserManagerJoomla3Steps($scenario);
+    }
 
-		$I->wantTo("I want to delete Order Status");
-		$I = new OrderStatusManagerSteps($scenario);
-		$I->deleteOrderStatus($this->changeName);
-	}
+    public function clearAll(AcceptanceTester $I, $scenario)
+    {
+        $I->wantToTest('Delete Order Status');
+        $I = new OrderStatusManagerSteps($scenario);
+        $I->deleteOrderStatus($this->orderStatusName);
+    }
 }
