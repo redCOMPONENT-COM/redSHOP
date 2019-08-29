@@ -76,7 +76,7 @@ class Tax_GroupCest extends AbstractCest
 	 */
 	public function deleteDataSaveClose(\AcceptanceTester $tester, \Codeception\Scenario $scenario)
 	{
-		$tester->wantTo('Run after create item with save button ');
+		$tester->wantTo('Run after create item with save close button ');
 		$stepClass = $this->stepClass;
 
 		/** @var CategorySteps $tester */
