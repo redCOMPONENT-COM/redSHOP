@@ -5,47 +5,6 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 {
-	public function preflight()
-	{
-		$path = \JPath::clean(JPATH_ROOT . '/media/com_redshop/templates/low_stock_alert_mail_template');
-
-		$templateDesc = '<h1>Low stock message.</h1>
-		<p>Produc : <b> {product_name} - {product_number} </b> the quality in stock <b>{quantity_min_stock}</b>. The low stock for product is  -  <b>{value_min_stock} </b>.</p>';
-
-		if (!is_dir($path))
-		{
-			mkdir($path);
-		}
-
-		file_put_contents($path . '/low_stock_alert_mail_template.php', $templateDesc);
-
-		//connect database to create custome Field
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$values  = array(
-							$db->q('Low Stock Alert'), $db->q('rs_low_stock_alert'), $db->q('1'), $db->q(''), $db->q(''),
-							$db->q('1'), null, $db->q('1000'), $db->q('0'), $db->q('0'),
-							$db->q('100'), $db->q('1'), $db->q('0'), $db->q('1'), $db->q('0000-00-00 00:00:00'),
-							$db->q('0000-00-00 00:00:00'), $db->q('1'), $db->q('7'), $db->q('1'), $db->q('0'),
-							$db->q('0000-00-00 00:00:00'), $db->q('0000-00-00 00:00:00'), $db->q('249' ), $db->q('0000-00-00 00:00:00'), $db->q('249' )
-						);
-
-		// Insert custom field
-		$query->clear ()
-			->insert($db->quoteName('#__redshop_fields'))
-			->columns($db->quoteName( array(
-											'title', 'name', 'type', 'desc', 'class',
-											'section', 'groupId', 'maxlength', 'cols', 'rows',
-											'size', 'show_in_front', 'required', 'published', 'publish_up',
-											'publish_down', 'display_in_product', 'ordering', 'display_in_checkout', 'checked_out',
-											'checked_out_time', 'created_date', 'created_by', 'modified_date', 'modified_by'
-											)))
-			->values(implode(',', $values));
-
-		$db->setQuery($query)->execute();
-
-	}
-
 	public function __construct( &$subject , $config )
 	{
 		parent::__construct($subject, $config );
