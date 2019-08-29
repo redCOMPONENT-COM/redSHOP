@@ -535,6 +535,24 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $paymentBankTransferDiscount = "//input[@value='rs_payment_banktransfer_discount']";
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelShippingGLS = "//h3[contains(text(),'PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceShippingRate = '(//div[@class="form-group"]/div)[2]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $shippingRateGLS = '#shipping_rate_id_10048_0';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
