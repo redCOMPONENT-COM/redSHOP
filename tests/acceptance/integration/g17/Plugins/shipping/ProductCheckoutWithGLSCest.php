@@ -120,7 +120,7 @@ class ProductCheckoutWithGLSCest
 		$this->extensionURL     = 'extension url';
 		$this->pluginName       = 'default GLS';
 		$this->pluginURL        = 'paid-extensions/tests/releases/plugins/';
-		$this->package          = 'plg_redshop_shipping_default_shipping_gls-v2.0.zip';
+		$this->package          = 'plg_redshop_shipping_default_shipping_gls.zip';
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
