@@ -298,6 +298,12 @@ class UserManagerJoomla3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $titlePageUser = 'User Management';
+
+	/**
+	 * @var string
 	 */
 	public static $btnPlaceOder = "//button[@class='btn btn-small button-redshop_order32']";
 
