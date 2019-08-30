@@ -62,6 +62,7 @@ class ModuleMultiCurrenciesCest
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable module Curencies in Administrator');
 		$I->publishModule($this->moduleName);
+		$I->displayModuleOnAllPages($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationCurrent($this->moduleName);
 	}
@@ -101,8 +102,6 @@ class ModuleMultiCurrenciesCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-
-		$I->displayModuleOnAllPages($this->moduleName);
 	}
 
 }
