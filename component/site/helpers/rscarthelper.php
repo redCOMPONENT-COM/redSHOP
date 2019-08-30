@@ -3185,165 +3185,105 @@ class rsCarthelper
 	public function modifyDiscountCart($cart)
 	{
 		$positionCouponVoucher = $this->checkPositionCouponVoucherCart($cart);
-		$couponIndex  = !empty($cart['coupon']) && is_array($cart['coupon']) ? count($cart['coupon']) : 0;
-		$voucherIndex = !empty($cart['voucher']) && is_array($cart['voucher']) ? count($cart['voucher']) : 0;
 
 		if ($positionCouponVoucher['coupon'] < $positionCouponVoucher['voucher'])
 		{
-			// Calculate coupon discount
-			$couponDiscount = 0;
-
-			if (array_key_exists('coupon', $cart))
-			{
-				if (count($cart['coupon']) > 1)
-				{
-					foreach ($cart['coupon'] as $cartCoupon)
-					{
-						$couponDiscount += $cartCoupon['coupon_value'];
-					}
-				}
-				else
-				{
-					if (!empty($cart['coupon'][0]['coupon_value']) && !Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
-					{
-						$couponDiscount = $cart['coupon'][0]['coupon_value'];
-					}
-					else
-					{
-						for ($c = 0; $c < $couponIndex; $c++)
-						{
-							$couponCode = $cart['coupon'][$c]['coupon_code'];
-
-							unset($cart['coupon'][$c]);
-
-							$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
-						}
-
-						$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
-
-						empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
-					}
-				}
-			}
-
-			$cart['coupon_discount'] = $couponDiscount;
-
-			// Calculate voucher discount
-			$voucherDiscount = 0;
-
-			if (array_key_exists('voucher', $cart))
-			{
-				if (count($cart['voucher']) > 1)
-				{
-					foreach ($cart['voucher'] as $cartVoucher)
-					{
-						$voucherDiscount += $cartVoucher['voucher_value'];
-					}
-				}
-				else
-				{
-					if (!empty($cart['voucher'][0]['voucher_value']))
-					{
-						$voucherDiscount = $cart['voucher'][0]['voucher_value'];
-					}
-					else
-					{
-						for ($v = 0; $v < $voucherIndex; $v++)
-						{
-							$voucherCode = $cart['voucher'][$v]['voucher_code'];
-
-							unset($cart['voucher'][$v]);
-
-							$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
-						}
-
-						$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
-
-						empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
-					}
-				}
-			}
-
-			$cart['voucher_discount'] = $voucherDiscount;
+			$cart = $this->calculateCouponDiscount($cart);
+			$cart = $this->calculateVoucherDiscount($cart);
 		}
 		else
 		{
-			// Calculate voucher discount
-			$voucherDiscount = 0;
-
-			if (array_key_exists('voucher', $cart))
-			{
-				if (count($cart['voucher']) > 1)
-				{
-					foreach ($cart['voucher'] as $cartVoucher)
-					{
-						$voucherDiscount += $cartVoucher['voucher_value'];
-					}
-				}
-				else
-				{
-					if (!empty($cart['voucher'][0]['voucher_value']))
-					{
-						$voucherDiscount = $cart['voucher'][0]['voucher_value'];
-					}
-					else
-					{
-						for ($v = 0; $v < $voucherIndex; $v++)
-						{
-							$voucherCode = $cart['voucher'][$v]['voucher_code'];
-
-							unset($cart['voucher'][$v]);
-
-							$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
-						}
-
-						$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
-
-						empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
-					}
-				}
-			}
-
-			$cart['voucher_discount'] = $voucherDiscount;
-
-			// Calculate coupon discount
-			$couponDiscount = 0;
-
-			if (array_key_exists('coupon', $cart))
-			{
-				if (count($cart['coupon']) > 1)
-				{
-					foreach ($cart['coupon'] as $cartCoupon)
-					{
-						$couponDiscount += $cartCoupon['coupon_value'];
-					}
-				}
-				else
-				{
-					if (!empty($cart['coupon'][0]['coupon_value']) && !Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
-					{
-						$couponDiscount = $cart['coupon'][0]['coupon_value'];
-					}
-					else
-					{
-						for ($c = 0; $c < $couponIndex; $c++)
-						{
-							$couponCode = $cart['coupon'][$c]['coupon_code'];
-
-							unset($cart['coupon'][$c]);
-
-							$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
-						}
-
-						$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
-
-						empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
-					}
-				}
-			}
-
-			$cart['coupon_discount'] = $couponDiscount;
+			$cart = $this->calculateVoucherDiscount($cart);
+			$cart = $this->calculateCouponDiscount($cart);
 		}
+
+		return $cart;
+	}
+
+	public function calculateCouponDiscount($cart)
+	{
+		$couponIndex  = !empty($cart['coupon']) && is_array($cart['coupon']) ? count($cart['coupon']) : 0;
+		// Calculate coupon discount
+		$couponDiscount = 0;
+
+		if (array_key_exists('coupon', $cart))
+		{
+			if (count($cart['coupon']) > 1)
+			{
+				foreach ($cart['coupon'] as $cartCoupon)
+				{
+					$couponDiscount += $cartCoupon['coupon_value'];
+				}
+			}
+			else
+			{
+				if (!empty($cart['coupon'][0]['coupon_value']))
+				{
+					$couponDiscount = $cart['coupon'][0]['coupon_value'];
+				}
+				else
+				{
+					for ($c = 0; $c < $couponIndex; $c++)
+					{
+						$couponCode = $cart['coupon'][$c]['coupon_code'];
+
+						unset($cart['coupon'][$c]);
+
+						$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
+					}
+
+					$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+
+					empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
+				}
+			}
+		}
+
+		$cart['coupon_discount'] = $couponDiscount;
+
+		return $cart;
+	}
+
+	public function calculateVoucherDiscount($cart)
+	{
+		$voucherIndex = !empty($cart['voucher']) && is_array($cart['voucher']) ? count($cart['voucher']) : 0;
+		// Calculate voucher discount
+		$voucherDiscount = 0;
+
+		if (array_key_exists('voucher', $cart))
+		{
+			if (count($cart['voucher']) > 1)
+			{
+				foreach ($cart['voucher'] as $cartVoucher)
+				{
+					$voucherDiscount += $cartVoucher['voucher_value'];
+				}
+			}
+			else
+			{
+				if (!empty($cart['voucher'][0]['voucher_value']))
+				{
+					$voucherDiscount = $cart['voucher'][0]['voucher_value'];
+				}
+				else
+				{
+					for ($v = 0; $v < $voucherIndex; $v++)
+					{
+						$voucherCode = $cart['voucher'][$v]['voucher_code'];
+
+						unset($cart['voucher'][$v]);
+
+						$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
+					}
+
+					$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+
+					empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
+				}
+			}
+		}
+
+		$cart['voucher_discount'] = $voucherDiscount;
 
 		return $cart;
 	}
