@@ -9,30 +9,28 @@ namespace Administrator\Module;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ModuleManagerJoomlaPage;
 
+/**
+ * Class ModuleManagerJoomla
+ * @package Administrator\Module
+ * @since 2.1.3
+ */
 class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 {
-	public function configurationCurrent($moduleName, $position)
+	/**
+	 * @param $moduleName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configurationCurrent($moduleName)
 	{
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
-		$I->pauseExecution();
 		$I->searchForItem($moduleName);
-		$ModuleManagerPage = new ModuleManagerJoomlaPage;
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$searchResultRow, 30);
-		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$searchResultRow);
-		$I->click($moduleName);
-		$I->click(ModuleManagerJoomlaPage::$showButton);
-		$I->click(ModuleManagerJoomlaPage::$position);
-		$I->waitForElement($ModuleManagerPage->returnChoice($position), 30);
-		if ($position == 'position-7')
-		{
-			$I->pressKey(\ConfigurationPage::$countrySearchPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		}
-		else{
-			$I->click($ModuleManagerPage->returnChoice($position));
-		}
-
-
+		$I->waitForElement(ModuleManagerJoomlaPage::$curentConfiguration);
+		$I->click(ModuleManagerJoomlaPage::$curentConfiguration);
+		$I->fillField(ModuleManagerJoomlaPage::$input, ModuleManagerJoomlaPage::$currentSelect);
+		$I->pressKey(ModuleManagerJoomlaPage::$input, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->setModulePosition($moduleName);
 	}
 
 }

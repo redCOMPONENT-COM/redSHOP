@@ -1,7 +1,4 @@
 <?php
-
-use AcceptanceTester\AdminManagerJoomla3Steps;
-
 /**
  * @package     RedShop
  * @subpackage  Page Class
@@ -9,22 +6,32 @@ use AcceptanceTester\AdminManagerJoomla3Steps;
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-class ModuleManagerJoomlaPage extends AdminManagerJoomla3Steps
+/**
+ * Class ModuleManagerJoomlaPage
+ * @since 2.1.3
+ */
+class ModuleManagerJoomlaPage extends AdminJ3Page
 {
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $URL = '/administrator/index.php?option=com_modules';
-	public static $searchButton = '//input[@id="filter_search"]';
-	public static $buttonSearch = '(//button[@type="submit"])[1]';
-	public static $searchResultRow = "//form[@id='adminForm']/div/table/tbody/tr[1]";
-	public static $showButton = '//label[@class="btn active btn-success"]';
-	public static $position = '//div[@id="jform_position_chzn"]';
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $currentSelect = 'Euro';
 
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $input = '//div[@id="jform_params_product_currency_chzn"]/ul/li/input';
 
-	public function searchResultPluginName($moduleName)
-	{
-		$path = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[4]/a[contains(text(), '" . $moduleName . "')]";
-
-		return $path;
-	}
-
-
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $curentConfiguration = '//div[@class="pull-left"]';
 }
