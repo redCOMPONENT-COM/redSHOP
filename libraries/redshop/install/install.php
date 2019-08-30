@@ -200,7 +200,7 @@ class RedshopInstall
 			(461, 'company_billing_template', 'company_billing_template', 1),
 			(550, 'stock_note', 'stock_note', 1),
 			(551, 'login', 'login', 1),
-			(null, 'low_stock_template', 'low_stock_template', 1)";
+			(null, 'low_stock_alert_mail_template', 'low_stock_alert_mail_template', 1)";
 
 		$db->setQuery($query)->execute();
 
