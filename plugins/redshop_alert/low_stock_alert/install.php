@@ -35,7 +35,7 @@ class PlgRedshop_AlertLow_Stock_AlertInstallerScript
 			$low_stock_alert->store();
 		}
 		
-		$mailTemplateDesc = '<h1>Low stock message.</h1><p>Produc : <b> {product_name} - {product_number} </b> the quality in stock <b>{quantity_min_stock}</b>. The low stock for product is  -  <b>{value_min_stock} </b>.</p>';
+		$mailTemplateDesc = '<h1>Low stock message.</h1><br><p>Product: <b> {product_name} - Product Number:  {product_number} </b> the quality in stock <b>{quantity_min_stock}</b>. The low stock for product is  -  <b>{value_min_stock} </b>.</p>';
 		$path = JPATH_ROOT . '/media/com_redshop/templates/low_stock_alert_mail_template';
 		
 		if (!is_dir($path))
@@ -43,6 +43,6 @@ class PlgRedshop_AlertLow_Stock_AlertInstallerScript
 			mkdir($path);
 		}
 		
-		file_put_contents( $path.'/low_stock_alert_mail_template.php' , $mailTemplateDesc);
+		file_put_contents( $path.'/default.php' , $mailTemplateDesc);
 	}
 }

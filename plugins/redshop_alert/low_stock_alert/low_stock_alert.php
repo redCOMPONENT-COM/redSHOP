@@ -28,15 +28,15 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		}
 	}
 
-	public function storeAlertMinStock($cart)
+	public function storeLowStockAlert($cart)
 	{
 		// get ID Custom Field Min Stock:
-		$id_custom_field_min_stock = $this->params->get('id_min_stock');
+		$id_custom_field_min_stock = $this->params->get('id_low_stock_alert');
 
 		// get ID template min stock :
-		$id_min_stock_template = $this->params->get('id_alert_min_stock_template');
+		$id_min_stock_template = $this->params->get('id_low_stock_alert_template');
 
-		$template_mail = RedshopHelperTemplate::getTemplate('product', $id_min_stock_template);
+		$template_mail = RedshopHelperTemplate::getTemplate('low_stock_alert_mail_template', $id_min_stock_template);
 
 		// get list ID Product
 		$list_id = array();
@@ -100,7 +100,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 					$message='<a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]='.$info_product[$k]->product_id.'">';
 
 					$message .= JText::sprintf(
-						'PLG_REDSHOP_ALERT_ALERT_MIN_STOCK_MESSAGE',
+						'PLG_REDSHOP_ALERT_LOW_STOCK_ALERT_MESSAGE',
 						$info_product[$k]->product_name,
 						$info_product[$k]->product_number,
 						$value_product_in_stock[$k]->quantity, // = quantity in stock  - quantity in cart
@@ -135,6 +135,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 								$this->sendMail($template_mail['0']->template_desc,$value);
 							}
 						}
+						
 					}
 				}
 			}
@@ -144,8 +145,8 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 	function sendMail( $message , $mail )
 	{
 		$mailer = \JFactory::getMailer();
-		$name= \JText::_('PLG_REDSHOP_ALERT_ALERT_MIN_STOCK_MESSAGE_FROM_NAME');
-		$subject = \JText::_('PLG_REDSHOP_ALERT_ALERT_MIN_STOCK_MESSAGE_SUBJECT');
+		$name= \JText::_('PLG_REDSHOP_ALERT_LOW_STOCK_ALERT_MESSAGE_FROM_NAME');
+		$subject = \JText::_('PLG_REDSHOP_ALERT_LOW_STOCK_ALERT_MESSAGE_SUBJECT');
 		
 		if ( $mailer->sendMail($mail,$name , $mail,$subject, $message, 1,null, null,null,null,null) )
 		{

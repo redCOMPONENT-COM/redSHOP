@@ -533,6 +533,7 @@ class RedshopControllerCheckout extends RedshopController
 
 				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $order_id, $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
 				$dispatcher->trigger('storeAlert', array($message));
+				$dispatcher->trigger('storeLowStockAlert', array($cart));
 
 				$model->resetcart();
 
