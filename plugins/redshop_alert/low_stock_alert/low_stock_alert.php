@@ -40,12 +40,15 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 		// get list ID Product
 		$list_id = array();
-		for ( $i = 0 ; $i <= $cart['idx'] ;  $i++ )
+
+		foreach ($cart as $key => $value )
 		{
-			if ( !empty( $cart[$i]['product_id'] ) )
+			if(!is_numeric ($key))
 			{
-				$list_id[] = $cart[$i]['product_id'];
+				continue;
 			}
+
+			$list_id[] = $value['product_id'];
 		}
 
 		//get ID Custom Field Min Stock , Defaul :
