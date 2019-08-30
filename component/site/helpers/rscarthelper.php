@@ -3025,132 +3025,146 @@ class rsCarthelper
 
 		if ($position['coupon'] < $position['voucher'])
 		{
-			if (isset($cart['coupon']))
-			{
-				$maxCartCoupon = count($cart['coupon']);
-
-				if ($maxCartCoupon > 1)
-				{
-					for ($i = 0; $i < $maxCartCoupon; $i++)
-					{
-						$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
-
-						if ($couponCart->type == 0)
-						{
-							$couponValue = $couponCart->value;
-						}
-						else
-						{
-							$couponValue = ($couponCart->value * $cart['product_subtotal']) / 100;
-						}
-
-						$cart['coupon'][$i]['coupon_value'] = $couponValue;
-					}
-				}
-				else
-				{
-					$cart['coupon'][0]['coupon_value'] = 0;
-				}
-
-				$cart['coupon_discount'] = 0;
-			}
-
-			if (isset($cart['voucher']))
-			{
-				$maxCartVoucher = count($cart['voucher']);
-
-				if ($maxCartVoucher > 1)
-				{
-					for ($i = 0; $i < $maxCartVoucher; $i++)
-					{
-						$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
-						$productArr = rsCarthelper::getInstance()->getCartProductPrice($voucherCart->nproduct, $cart);
-
-						if ($voucherCart->type == 'Total')
-						{
-							$voucherValue = $voucherCart->total;
-						}
-						else
-						{
-							$voucherValue = ($voucherCart->total * $productArr['product_price']) / 100;
-						}
-
-						$cart['voucher'][$i]['voucher_value'] = $voucherValue;
-					}
-				}
-				else
-				{
-					$cart['voucher'][0]['voucher_value'] = 0;
-				}
-
-				$cart['voucher_discount'] = 0;
-			}
+			$cart = $this->modifyCouponVoucherIfCartApplyCouponFirst($cart);
 		}
 		else
 		{
-			$cartVoucher = 0;
+			$cart = $this->modifyCouponVoucherIfCartApplyVoucherFirst($cart);
+		}
 
-			if (isset($cart['voucher']))
+		return $cart;
+	}
+
+	public function modifyCouponVoucherIfCartApplyCouponFirst($cart)
+	{
+		if (isset($cart['coupon']))
+		{
+			$maxCartCoupon = count($cart['coupon']);
+
+			if ($maxCartCoupon > 1)
 			{
-				$maxCartVoucher = count($cart['voucher']);
-
-				if ($maxCartVoucher > 1)
+				for ($i = 0; $i < $maxCartCoupon; $i++)
 				{
-					for ($i = 0; $i < $maxCartVoucher; $i++)
+					$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
+
+					if ($couponCart->type == 0)
 					{
-						$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
-						$productArr = rsCarthelper::getInstance()->getCartProductPrice($voucherCart->nproduct, $cart);
-
-						if ($voucherCart->type == 'Total')
-						{
-							$voucherValue = $voucherCart->total;
-						}
-						else
-						{
-							$voucherValue = ($voucherCart->total * $productArr['product_price']) / 100;
-						}
-
-						$cartVoucher += $voucherValue;
-						$cart['voucher'][$i]['voucher_value'] = $voucherValue;
+						$couponValue = $couponCart->value;
 					}
-				}
-				else
-				{
-					$cart['voucher'][0]['voucher_value'] = 0;
-				}
+					else
+					{
+						$couponValue = ($couponCart->value * $cart['product_subtotal']) / 100;
+					}
 
-				$cart['voucher_discount'] = 0;
+					$cart['coupon'][$i]['coupon_value'] = $couponValue;
+				}
+			}
+			else
+			{
+				$cart['coupon'][0]['coupon_value'] = 0;
 			}
 
-			if (isset($cart['coupon']))
+			$cart['coupon_discount'] = 0;
+		}
+
+		if (isset($cart['voucher']))
+		{
+			$maxCartVoucher = count($cart['voucher']);
+
+			if ($maxCartVoucher > 1)
 			{
-				$maxCartCoupon = count($cart['coupon']);
-
-				if ($maxCartCoupon > 1)
+				for ($i = 0; $i < $maxCartVoucher; $i++)
 				{
-					for ($i = 0; $i < $maxCartCoupon; $i++)
+					$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
+					$productArr = rsCarthelper::getInstance()->getCartProductPrice($voucherCart->nproduct, $cart);
+
+					if ($voucherCart->type == 'Total')
 					{
-						$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
-
-						if ($couponCart->type == 0)
-						{
-							$couponValue = $couponCart->value;
-						}
-						else
-						{
-							$couponValue = ($couponCart->value * ($cart['product_subtotal'] - $cartVoucher)) / 100;
-						}
-
-						$cart['coupon'][$i]['coupon_value'] = $couponValue;
+						$voucherValue = $voucherCart->total;
 					}
-				}
-				else
-				{
-					$cart['coupon'][0]['coupon_value'] = 0;
-				}
+					else
+					{
+						$voucherValue = ($voucherCart->total * $productArr['product_price']) / 100;
+					}
 
-				$cart['coupon_discount'] = 0;
+					$cart['voucher'][$i]['voucher_value'] = $voucherValue;
+				}
 			}
+			else
+			{
+				$cart['voucher'][0]['voucher_value'] = 0;
+			}
+
+			$cart['voucher_discount'] = 0;
+		}
+
+		return $cart;
+	}
+
+	public function modifyCouponVoucherIfCartApplyVoucherFirst($cart)
+	{
+		$cartVoucher = 0;
+
+		if (isset($cart['voucher']))
+		{
+			$maxCartVoucher = count($cart['voucher']);
+
+			if ($maxCartVoucher > 1)
+			{
+				for ($i = 0; $i < $maxCartVoucher; $i++)
+				{
+					$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
+					$productArr = rsCarthelper::getInstance()->getCartProductPrice($voucherCart->nproduct, $cart);
+
+					if ($voucherCart->type == 'Total')
+					{
+						$voucherValue = $voucherCart->total;
+					}
+					else
+					{
+						$voucherValue = ($voucherCart->total * $productArr['product_price']) / 100;
+					}
+
+					$cartVoucher += $voucherValue;
+					$cart['voucher'][$i]['voucher_value'] = $voucherValue;
+				}
+			}
+			else
+			{
+				$cart['voucher'][0]['voucher_value'] = 0;
+			}
+
+			$cart['voucher_discount'] = 0;
+		}
+
+		if (isset($cart['coupon']))
+		{
+			$maxCartCoupon = count($cart['coupon']);
+
+			if ($maxCartCoupon > 1)
+			{
+				for ($i = 0; $i < $maxCartCoupon; $i++)
+				{
+					$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
+
+					if ($couponCart->type == 0)
+					{
+						$couponValue = $couponCart->value;
+					}
+					else
+					{
+						$couponValue = ($couponCart->value * ($cart['product_subtotal'] - $cartVoucher)) / 100;
+					}
+
+					$cart['coupon'][$i]['coupon_value'] = $couponValue;
+				}
+			}
+			else
+			{
+				$cart['coupon'][0]['coupon_value'] = 0;
+			}
+
+			$cart['coupon_discount'] = 0;
 		}
 
 		return $cart;
