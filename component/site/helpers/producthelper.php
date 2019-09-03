@@ -1336,7 +1336,7 @@ class productHelper
 
 			if (!empty($template_start))
 			{
-				$template_end = explode("{giftcard_userfield end if}", $template_start[1]);
+				$template_end = explode("{giftcard_userfield end if}", isset($template_start[1]) ? $template_start[1] : null );
 
 				if (!empty($template_end))
 				{

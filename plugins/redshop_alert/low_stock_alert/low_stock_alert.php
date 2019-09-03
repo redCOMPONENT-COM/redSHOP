@@ -55,7 +55,6 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		$section = 1;
 		$type = 1;
 
-		$custom_field_min_stock = array();
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
