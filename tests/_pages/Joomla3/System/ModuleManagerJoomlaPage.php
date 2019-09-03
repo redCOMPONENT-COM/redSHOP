@@ -27,7 +27,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $input = '//div[@id="jform_params_product_currency_chzn"]/ul/li/input';
+	public static $input = '//input[@value="Type or select some options"]';
 
 	/**
 	 * @var string
