@@ -35,11 +35,6 @@ class rsCarthelper
 	protected static $instance = null;
 
 	protected $input;
-	/**
-	 * @var int
-	 * @since version
-	 */
-	public $_c_remain = 0;
 	
 	/**
 	 * Returns the rsCarthelper object, only creating it
