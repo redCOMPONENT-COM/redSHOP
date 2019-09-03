@@ -1526,13 +1526,17 @@ class rsCarthelper
 			$db->setQuery($userQuery, 0, 1);
 			$coupon = $db->loadObject();
 
-			if (count(get_object_vars ($coupon)) > 0)
+			if (is_object($coupon) && count(get_object_vars($coupon)) > 0)
+			{
+				$this->_c_remain = 1;
+			}
+			elseif(is_array ($coupon) && count ($coupon) > 0)
 			{
 				$this->_c_remain = 1;
 			}
 		}
 
-		if (count(get_object_vars($coupon)) <= 0)
+		if ( is_object($coupon) && count(get_object_vars($coupon)) <= 0)
 		{
 			$query->where($db->qn('c.code') . ' = ' . $db->quote($couponCode))
 
