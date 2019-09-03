@@ -666,7 +666,7 @@ services:
 #            - sh tests/drone/setup-stages.sh        "group5"                               "05-Group5"                  $php_versions
 #            - sh tests/drone/setup-stages.sh        "group6"                               "06-Group6"                  $php_versions
 #            - sh tests/drone/setup-stages.sh        "group7"                               "07-Group7"                  $php_versions
-#            - sh tests/drone/setup-stages.sh        "group8"                               "08-Group8"                  $php_versions
+            - sh tests/drone/setup-stages.sh        "group8"                               "08-Group8"                  $php_versions
 #            - sh tests/drone/setup-stages.sh        "group9"                               "09-Group9"                  $php_versions
 #            - sh tests/drone/setup-stages.sh        "group10"                              "10-Group10"                 $php_versions
 #            - sh tests/drone/setup-stages.sh        "group11"                              "11-Group11"                 $php_versions
