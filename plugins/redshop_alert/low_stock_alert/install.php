@@ -36,7 +36,7 @@ class PlgRedshop_AlertLow_Stock_AlertInstallerScript
 		}
 
 		$mailTemplateDesc = '<h1> Low stock warning</h1><br>
-							The product <b> {product_name} </b> has only 9 items in stock.';
+							The product <b> {product_name} </b> has only {quantity_min_stock} items in stock.';
 		$path = JPATH_ROOT . '/media/com_redshop/templates/low_stock_alert_mail_template';
 
 		if (!is_dir($path))
