@@ -1124,7 +1124,7 @@ class rsCarthelper
 			$finaltag       = ($terms_left_final != "") ? "{terms_and_conditions:$terms_left_final}" : "{terms_and_conditions}";
 			$termscondition = '';
 
-			if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') === 0 || (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') === 1 && ((count($list) > 0 && $list->accept_terms_conditions === 0) || count($list) == 0)))
+			if (Redshop::getConfig()->getInt('SHOW_TERMS_AND_CONDITIONS') === 0 || (Redshop::getConfig()->getInt('SHOW_TERMS_AND_CONDITIONS') === 1 && ((count($list) > 0 && $list->accept_terms_conditions === 0) || count($list) == 0)))
 			{
 				$finalwidth  = "500";
 				$finalheight = "450";
@@ -1183,7 +1183,7 @@ class rsCarthelper
 			$newslettersignup_lbl = "";
 			$link                 = "";
 
-			if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') !== 0)
+			if (Redshop::getConfig()->getInt('DEFAULT_NEWSLETTER') !== 0)
 			{
 				$user  = JFactory::getUser();
 				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
@@ -1191,7 +1191,7 @@ class rsCarthelper
 				$this->_db->setQuery($query);
 				$subscribe = $this->_db->loadResult();
 
-				if ($subscribe === 0)
+				if ((int) $subscribe === 0)
 				{
 					if ($onchange)
 					{
