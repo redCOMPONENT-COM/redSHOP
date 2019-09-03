@@ -126,7 +126,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 					{
 						$mail = Redshop::getConfig()->get('ADMINISTRATOR_EMAIL');
 						$mail = explode(',',$mail);
-						
+
 						if( !is_array($mail) && !empty($mail) )
 						{
 							$this->sendMail($template_mail['0']->template_desc,$mail);
@@ -150,12 +150,12 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		$mailer = \JFactory::getMailer();
 		$name= \JText::_('PLG_REDSHOP_ALERT_LOW_STOCK_ALERT_MESSAGE_FROM_NAME');
 		$subject = \JText::_('PLG_REDSHOP_ALERT_LOW_STOCK_ALERT_MESSAGE_SUBJECT');
-		
+
 		if ( $mailer->sendMail($mail,$name , $mail,$subject, $message, 1,null, null,null,null,null) )
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
