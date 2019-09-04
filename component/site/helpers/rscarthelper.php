@@ -35,7 +35,7 @@ class rsCarthelper
 	protected static $instance = null;
 
 	protected $input;
-	
+
 	/**
 	 * Returns the rsCarthelper object, only creating it
 	 * if it doesn't already exist.

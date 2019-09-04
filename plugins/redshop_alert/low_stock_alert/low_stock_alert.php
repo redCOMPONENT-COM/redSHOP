@@ -30,29 +30,24 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 	public function storeAlert()
 	{
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 0)
+		if ( (int) Redshop::getConfig()->get('USE_STOCKROOM') === 0)
 		{
 			return;
 		}
-		//get cart session
-		$cart   = RedshopHelperCartSession::getCart();
-		// get ID Custom Field Min Stock:
-		$id_custom_field_min_stock = $this->params->get('id_low_stock_alert');
-		// get ID template min stock :
-		$id_min_stock_template = $this->params->get('id_low_stock_alert_template');
-		// get template
-		$template_mail = RedshopHelperTemplate::getTemplate('low_stock_alert_mail_template', $id_min_stock_template);
-		
-		if(empty($cart) || empty($id_custom_field_min_stock) || empty($id_min_stock_template) || empty($template_mail) )
-		{
-			return;
-		}
-		
-		$list_id = array();
+
 		$section = 1;
 		$type = 1;
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
+		$cart   = RedshopHelperCartSession::getCart();
+		$id_custom_field_min_stock = $this->params->get('id_low_stock_alert');
+		$id_min_stock_template = $this->params->get('id_low_stock_alert_template');
+		$template_mail = RedshopHelperTemplate::getTemplate('low_stock_alert_mail_template', $id_min_stock_template);
+
+		if(empty($cart) || empty($id_custom_field_min_stock) || empty($id_min_stock_template) || empty($template_mail) )
+		{
+			return;
+		}
 
 		foreach ($cart as $key => $value )
 		{
