@@ -28,7 +28,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		}
 	}
 
-	public function storeAlert($message)
+	public function storeAlert()
 	{
 		//get cart session
 		$cart   = RedshopHelperCartSession::getCart();
