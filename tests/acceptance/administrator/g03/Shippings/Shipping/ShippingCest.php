@@ -87,12 +87,6 @@ class ShippingCest
 	public $total;
 
 	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public $currencyUnit;
-
-	/**
 	 * ShippingCest constructor.
 	 */
 	public function __construct()
@@ -138,7 +132,6 @@ class ShippingCest
 		);
 
 		$this->total = $this->product['price'] + $this->shipping['shippingRate'];
-		$this->currencyUnit = 'DKK ';
 	}
 
 	/**
@@ -205,7 +198,7 @@ class ShippingCest
 		$I->wantToTest('checkout with '.$this->shipping['shippingName'].' just create');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithShippingRate($this->customerInformation['userName'], $this->customerInformation['userName'], $this->categoryName,
-			$this->product['name'], $this->currencyUnit, $this->shipping, $this->total);
+			$this->product['name'], $this->shipping, $this->total);
 
 		$I->wantToTest('Check Order on Backend');
 		$I = new ConfigurationSteps($scenario);

@@ -1237,9 +1237,11 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithShippingRate($username, $pass, $categoryName, $productName, $currencyUnit, $shipping = array(), $total)
+	public function checkoutWithShippingRate($username, $pass, $categoryName, $productName, $shipping = array(), $total)
 	{
 		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencyUnit = $I->getCurrencyValue();
 		$I->doFrontEndLogin($username, $pass);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
@@ -1251,14 +1253,17 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+
 		try{
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60 , \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+			$I->waitForElement(FrontEndProductManagerJoomla3Page::$selectorSuccess, 60 , FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		}catch (\Exception $e)
 		{
 		}
+
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+
 		try {
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
@@ -1266,21 +1271,46 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-			$I->waitForText($currencyUnit.$shipping['shippingRate'], 30 , FrontEndProductManagerJoomla3Page::$shippingRate);
 		}catch (\Exception $e)
 		{
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-			$I->waitForText($currencyUnit.$shipping['shippingRate'], 30 , FrontEndProductManagerJoomla3Page::$shippingRate);
 		}
+
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
-		$I->see($currencyUnit.$total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
-		$I->waitForText($currencyUnit.$total, 30 ,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
+		$priceRate = 'Shipping with vat: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$I->see($priceRate);
+		$I->see($priceTotal);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
+	}
+
+	/**
+	 * @return array
+	 * @since 2.1.3
+	 */
+	public function getCurrencyValue()
+	{
+		$I = $this;
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for($b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+		return array(
+			'currencySymbol'            => $currencySymbol,
+			'decimalSeparator'          => $decimalSeparator,
+			'numberZero'                => $NumberZero
+		);
 	}
 }
