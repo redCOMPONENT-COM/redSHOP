@@ -60,21 +60,21 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 		$this->paymentMethod             = 'RedSHOP - Bank Transfer Payment';
 
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->fake->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->fake->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 	}
 
 	/**
@@ -123,14 +123,12 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	{
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->wantTo('Add products in cart');
 		$I->addProductToCart($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 	}
 
 	/**

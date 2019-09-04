@@ -208,13 +208,18 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
 
-	public function cartSetting($addcart, $allowPreOrder, $enableQuation, $cartTimeOut, $enabldAjax, $defaultCart, $buttonCartLead, $onePage, $showShippingCart, $attributeImage, $quantityChange, $quantityInCart, $minimunOrder)
+	/**
+	 * @param $cartSetting
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function cartSetting($cartSetting)
 	{
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$cartCheckout);
 		$userConfiguration = new \ConfigurationPage();
-		switch ($addcart)
+		switch ($cartSetting['addCart'])
 		{
 			case 'product':
 				$I->click(\ConfigurationPage::$addCartProduct);
@@ -223,7 +228,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
-		switch ($allowPreOrder)
+		switch ($cartSetting['allowPreOrder'])
 		{
 			case 'yes':
 				$I->click(\ConfigurationPage::$allowPreOrOderYes);
@@ -233,7 +238,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->click(\ConfigurationPage::$allowPreorderNo);
 				break;
 		}
-		switch ($enableQuation)
+		switch ($cartSetting['enableQuotation'])
 		{
 			case 'yes':
 				$I->click(\ConfigurationPage::$enableQuotationYes);
@@ -243,9 +248,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 
-		$I->fillField(\ConfigurationPage::$cartTimeOut, $cartTimeOut);
+		$I->fillField(\ConfigurationPage::$cartTimeOut, $cartSetting['cartTimeOut']);
 
-		switch ($enabldAjax)
+		switch ($cartSetting['enabledAjax'])
 		{
 			case 'yes':
 				$I->click(\ConfigurationPage::$enableAjaxYes);
@@ -255,23 +260,23 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 		//choice default cart/checkout item ID
-		if ($defaultCart != null)
+		if ($cartSetting['defaultCart'] != null)
 		{
 			$I->click(\ConfigurationPage::$defaultCart);
 			$I->waitForElement(\ConfigurationPage::$defaultCartSearch, 5);
-			$I->fillField(\ConfigurationPage::$defaultCartSearch, $defaultCart);
-			$I->waitForElement($userConfiguration->returnChoice($defaultCart));
-			$I->click($userConfiguration->returnChoice($defaultCart));
+			$I->fillField(\ConfigurationPage::$defaultCartSearch, $cartSetting['defaultCart']);
+			$I->waitForElement($userConfiguration->returnChoice($cartSetting['defaultCart']));
+			$I->click($userConfiguration->returnChoice($cartSetting['defaultCart']));
 		}
 
 		//Choice add to cart button lead
 		$I->click(\ConfigurationPage::$buttonCartLead);
 		$I->waitForElement(\ConfigurationPage::$buttonCartSearch);
-		$I->fillField(\ConfigurationPage::$buttonCartSearch, $buttonCartLead);
-		$I->waitForElement($userConfiguration->returnChoice($buttonCartLead),30);
+		$I->fillField(\ConfigurationPage::$buttonCartSearch, $cartSetting['buttonCartLead']);
+		$I->waitForElement($userConfiguration->returnChoice($cartSetting['buttonCartLead']),30);
 		$I->click(\ConfigurationPage::$firstCartSearch);
 
-		switch ($onePage)
+		switch ($cartSetting['onePage'])
 		{
 			case 'yes':
 				$I->click(\ConfigurationPage::$onePageYes);
@@ -281,7 +286,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 
-		switch ($showShippingCart)
+		switch ($cartSetting['showShippingCart'])
 		{
 			case 'yes':
 				$I->click(\ConfigurationPage::$showShippingCartYes);
@@ -291,7 +296,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 
-		switch ($attributeImage)
+		switch ($cartSetting['attributeImage'])
 		{
 			case 'yes':
 				$I->click(\ConfigurationPage::$attributeImageInCartYes);
@@ -301,7 +306,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 
-		switch ($quantityChange)
+		switch ($cartSetting['quantityChange'])
 		{
 			case 'yes':
 				$I->click(\ConfigurationPage::$quantityChangeInCartYes);
@@ -310,9 +315,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->click(\ConfigurationPage::$quantityChangeInCartNo);
 				break;
 		}
-		$I->fillField(\ConfigurationPage::$quantityInCart, $quantityInCart);
+		$I->fillField(\ConfigurationPage::$quantityInCart, $cartSetting['quantityInCart']);
 
-		$I->fillField(\ConfigurationPage::$minimunOrderTotal, $minimunOrder);
+		$I->fillField(\ConfigurationPage::$minimunOrderTotal, $cartSetting['quantityInCart']);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
