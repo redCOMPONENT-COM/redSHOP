@@ -28,8 +28,10 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		}
 	}
 
-	public function storeLowStockAlert(&$cart)
+	public function storeAlert($message)
 	{
+		//get cart session
+		$cart   = RedshopHelperCartSession::getCart();
 		// get ID Custom Field Min Stock:
 		$id_custom_field_min_stock = $this->params->get('id_low_stock_alert');
 
