@@ -100,12 +100,6 @@ class ProductCheckoutWithGLSCest
 	public $shipping;
 
 	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public $currentcyunit;
-
-	/**
 	 * ProductCheckoutWithGLSCest constructor.
 	 * @since 2.1.3
 	 */
@@ -160,8 +154,6 @@ class ProductCheckoutWithGLSCest
 			"shopperGroup"      => 'Default Private',
 		);
 		$this->group          = 'Registered';
-
-		$this->currentcyunit = 'DKK ';
 		$this->total = $this->productPrice + $this->shipping['shippingRate'];
 	}
 
@@ -183,8 +175,8 @@ class ProductCheckoutWithGLSCest
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo("install plugin payment Bank Transfer Discount");
-        $I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-        $I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin Bank Transfer Discount Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 
@@ -225,7 +217,7 @@ class ProductCheckoutWithGLSCest
 
 		$I->wantTo('checkout with '.$this->pluginName);
 		$I = new CheckoutWithShippingGLSSteps($scenario);
-		$I->checkoutWithShippingGLS($this->categoryName, $this->productName, $this->customerInformation['username'], $this->customerInformation['username'], $this->currentcyunit.$this->shipping['shippingRate'], $this->currentcyunit.$this->total);
+		$I->checkoutWithShippingGLS($this->categoryName, $this->productName, $this->customerInformation['username'], $this->customerInformation['username'], $this->shipping['shippingName'], $this->shipping['shippingRate'], $this->total);
 
 		$I->wantTo('Check Order');
 		$I = new ConfigurationSteps($scenario);

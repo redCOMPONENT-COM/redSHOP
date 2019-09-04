@@ -242,4 +242,28 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				break;
 		}
 	}
+
+	/**
+	 * @return array
+	 * @since 2.1.3
+	 */
+	public function getCurrencyValue()
+	{
+		$I = $this;
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+
+		return array(
+			'currencySymbol'            => $currencySymbol,
+			'decimalSeparator'          => $decimalSeparator,
+			'numberZero'                => $NumberZero
+		);
+	}
 }

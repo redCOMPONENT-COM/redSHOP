@@ -544,13 +544,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $priceShippingRate = '(//div[@class="form-group"]/div)[2]';
+//	public static $shippingRateGLS = '#shipping_rate_id_10048_0';
+	public function xpathShippingRateGLS($shippingName)
+	{
+		$xpath = "//span[text()='".$shippingName."']";
 
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $shippingRateGLS = '#shipping_rate_id_10048_0';
+		return $xpath;
+	}
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
