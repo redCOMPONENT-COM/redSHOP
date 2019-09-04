@@ -13,7 +13,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 	public function  onAfterProductDeleteAlertMinStock($list_product_deleted)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		foreach ( explode(',',$list_product_deleted) as $k => $v )
@@ -30,26 +30,129 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 	public function storeAlert()
 	{
+
 		if ( (int) Redshop::getConfig()->get('USE_STOCKROOM') === 0)
 		{
 			return;
 		}
 
-		$section = 1;
-		$type = 1;
-		$list_id= array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$cart   = RedshopHelperCartSession::getCart();
-		$id_custom_field_min_stock = $this->params->get('id_low_stock_alert');
-		$id_min_stock_template = $this->params->get('id_low_stock_alert_template');
-		$template_mail = RedshopHelperTemplate::getTemplate('low_stock_alert_mail_template', $id_min_stock_template);
+		//Construct:
+		$section                    = 1;
+		$type                       = 1;
+		$db                         = JFactory::getDbo();
+		$query                      = $db->getQuery(true);
+
+		$list_id                    = array();
+		$cart                       = RedshopHelperCartSession::getCart();
+		$id_custom_field_min_stock  = (int) $this->params->get('id_low_stock_alert');
+		$id_min_stock_template      = $this->params->get('id_low_stock_alert_template');
+		$template_mail              = RedshopHelperTemplate::getTemplate('low_stock_alert_mail_template', $id_min_stock_template);
 
 		if(empty($cart) || empty($id_custom_field_min_stock) || empty($id_min_stock_template) || empty($template_mail) )
 		{
 			return;
 		}
 
+		$list_id                     = $this->getListIdProduct($cart);
+		$custom_field_min_stock      = $this->getCustomFieldMinStock($id_custom_field_min_stock,$section,$type);
+		$min_value_product_in_stock  = $this->getMinValueProduct ($id_custom_field_min_stock,$section,$list_id);
+		$info_product                = $this->getInfoProduct ($list_id);
+		$value_product_in_stock      = $this->getValueProduct ($list_id);
+
+		// check validation
+		($list_id != false)                    ? $list_id                      : null ;
+		($custom_field_min_stock != false)     ? $custom_field_min_stock       : null ;
+		($min_value_product_in_stock != false) ? $min_value_product_in_stock   : null ;
+		($info_product != false)               ? $info_product                 : null ;
+		($value_product_in_stock != false)     ? $value_product_in_stock       : null ;
+
+		if(empty($custom_field_min_stock) || empty($min_value_product_in_stock) || empty($info_product) || empty($value_product_in_stock) )
+		{
+			return;
+		}
+
+		$this->ProcessLowStockMail($cart,$min_value_product_in_stock,$value_product_in_stock,$custom_field_min_stock,$id_custom_field_min_stock,$info_product,$template_mail);
+
+	}
+
+	public function getCustomFieldMinStock($id_custom_field_min_stock,$section,$type)
+	{
+		$db        = JFactory::getDbo();
+		$query     = $db->getQuery(true);
+
+		$query->clear()
+			->select('*')
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('section') . ' = ' . (int)$section)
+			->where($db->qn('type') . ' = ' . (int)$type)
+			->where($db->qn('id') . ' = ' . (int)$id_custom_field_min_stock);
+
+		if($db->setQuery($query)->loadObjectList('id'))
+		{
+			return $db->setQuery($query)->loadObjectList('id');
+		}
+
+		return false;
+	}
+
+	public function getMinValueProduct($id_custom_field_min_stock,$section,$list_id)
+	{
+		$db        = JFactory::getDbo();
+		$query     = $db->getQuery(true);
+
+		$query->clear()
+			->select('*')
+			->from($db->qn('#__redshop_fields_data'))
+			->where($db->qn('fieldid') . ' = ' . (int)$id_custom_field_min_stock)
+			->where($db->qn('section') . ' = ' . (int)$section)
+			->where($db->qn('itemid') . ' in (' . implode(',', $list_id) . ')');
+
+		if($db->setQuery($query)->loadObjectList('itemid'))
+		{
+			return (array)$db->setQuery($query)->loadObjectList('itemid');
+		}
+
+		return false;
+	}
+
+	public function getInfoProduct($list_id)
+	{
+		$db        = JFactory::getDbo();
+		$query     = $db->getQuery(true);
+
+		$query->clear()
+			->select([$db->qn('product_id'), $db->qn('product_name'), $db->qn('product_number')])
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('product_id') . ' in (' . implode(',', $list_id) . ')');
+
+		if($db->setQuery($query)->loadObjectList('product_id'))
+		{
+			return (array)$db->setQuery($query)->loadObjectList('product_id');
+		}
+
+		return false;
+	}
+
+	public function getValueProduct($list_id)
+	{
+		$db        = JFactory::getDbo();
+		$query     = $db->getQuery(true);
+
+		$query->clear()
+			->select('*')
+			->from($db->qn('#__redshop_product_stockroom_xref'))
+			->where($db->qn('product_id') . ' in (' . implode(',', $list_id) . ')');
+
+		if($db->setQuery($query)->loadObjectList('product_id'))
+		{
+			return $db->setQuery($query)->loadObjectList('product_id');
+		}
+
+		return false;
+	}
+
+	public function getListIdProduct($cart)
+	{
 		foreach ($cart as $key => $value )
 		{
 			if(!is_numeric ($key))
@@ -60,45 +163,18 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 			$list_id[] = $value['product_id'];
 		}
 
-		$query->clear()
-			->select('*')
-			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('section') . ' = ' . (int)$section)
-			->where($db->qn('type') . ' = ' . (int)$type)
-			->where($db->qn('id') . ' = ' . (int)$id_custom_field_min_stock);
-
-		$custom_field_min_stock = $db->setQuery($query)->loadObjectList('id');
-
-		// Get Value Min Stock of Product
-		$query->clear()
-			->select('*')
-			->from($db->qn('#__redshop_fields_data'))
-			->where($db->qn('fieldid') . ' = ' . (int)$id_custom_field_min_stock)
-			->where($db->qn('section') . ' = ' . (int)$section)
-			->where($db->qn('itemid') . ' in (' . implode(',', $list_id) . ')');
-
-		$min_value_product_in_stock = (array)$db->setQuery($query)->loadObjectList('itemid');
-
-		// get infor Product -> add to message
-		$query->clear()
-			->select([$db->qn('product_id'), $db->qn('product_name'), $db->qn('product_number')])
-			->from($db->qn('#__redshop_product'))
-			->where($db->qn('product_id') . ' in (' . implode(',', $list_id) . ')');
-
-		$info_product = (array)$db->setQuery($query)->loadObjectList('product_id');
-
-		// get value product in stock
-		$query->clear()
-			->select('*')
-			->from($db->qn('#__redshop_product_stockroom_xref'))
-			->where($db->qn('product_id') . ' in (' . implode(',', $list_id) . ')');
-
-		$value_product_in_stock = $db->setQuery($query)->loadObjectList('product_id');
-
-		if(empty($custom_field_min_stock) || empty($min_value_product_in_stock) || empty($info_product) || empty($value_product_in_stock) )
+		if($list_id)
 		{
-			return;
+			return $list_id;
 		}
+
+		return false;
+	}
+
+	public function ProcessLowStockMail($cart,$min_value_product_in_stock,$value_product_in_stock,$custom_field_min_stock,$id_custom_field_min_stock,$info_product,$template_mail)
+	{
+		$db        = JFactory::getDbo();
+		$query     = $db->getQuery(true);
 
 		foreach ($cart as $key_cart => $value_cart )
 		{
@@ -112,7 +188,6 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 				if ( $value_cart['product_id'] == $k  && $value_product_in_stock[$k]->quantity <= $v->data_txt )
 				{
 					$message='<a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]='.$info_product[$k]->product_id.'">';
-
 					$message .= JText::sprintf(
 						'PLG_REDSHOP_ALERT_LOW_STOCK_ALERT_MESSAGE',
 						$info_product[$k]->product_name,
@@ -141,6 +216,8 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 						if( !is_array($mail) && !empty($mail) )
 						{
 							$this->sendMail($template_mail['0']->template_desc,$mail);
+
+							return true;
 						}
 						else
 						{
@@ -148,11 +225,15 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 							{
 								$this->sendMail($template_mail['0']->template_desc,$value_mail);
 							}
+
+							return true;
 						}
 					}
 				}
 			}
 		}
+
+		return false;
 	}
 
 	public function sendMail( $message= null , $mail = null )
