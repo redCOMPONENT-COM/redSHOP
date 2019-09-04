@@ -30,7 +30,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 	public function storeAlert()
 	{
-		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 0)
 		{
 			return;
 		}
