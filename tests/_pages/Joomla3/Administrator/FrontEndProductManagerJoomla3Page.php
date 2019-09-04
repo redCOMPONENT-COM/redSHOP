@@ -541,10 +541,10 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $labelShippingGLS = "//h3[contains(text(),'PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS')]";
 
 	/**
-	 * @var string
+	 * @param $shippingName
+	 * @return string
 	 * @since 2.1.3
 	 */
-//	public static $shippingRateGLS = '#shipping_rate_id_10048_0';
 	public function xpathShippingRateGLS($shippingName)
 	{
 		$xpath = "//span[text()='".$shippingName."']";
