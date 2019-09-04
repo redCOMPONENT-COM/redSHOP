@@ -30,18 +30,29 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 	public function storeAlert()
 	{
+		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
+		{
+			return;
+		}
 		//get cart session
 		$cart   = RedshopHelperCartSession::getCart();
 		// get ID Custom Field Min Stock:
 		$id_custom_field_min_stock = $this->params->get('id_low_stock_alert');
-
 		// get ID template min stock :
 		$id_min_stock_template = $this->params->get('id_low_stock_alert_template');
-
+		// get template
 		$template_mail = RedshopHelperTemplate::getTemplate('low_stock_alert_mail_template', $id_min_stock_template);
-
-		// get list ID Product
+		
+		if(empty($cart) || empty($id_custom_field_min_stock) || empty($id_min_stock_template) || empty($template_mail) )
+		{
+			return;
+		}
+		
 		$list_id = array();
+		$section = 1;
+		$type = 1;
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		foreach ($cart as $key => $value )
 		{
@@ -52,13 +63,6 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 			$list_id[] = $value['product_id'];
 		}
-
-		//get ID Custom Field Min Stock , Defaul :
-		$section = 1;
-		$type = 1;
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
 
 		$query->clear()
 			->select('*')
@@ -95,11 +99,21 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 		$value_product_in_stock = $db->setQuery($query)->loadObjectList('product_id');
 
-		for ( $i = 0 ; $i <= $cart['idx'] ;  $i++ )
+		if(empty($custom_field_min_stock) || empty($min_value_product_in_stock) || empty($info_product) || empty($value_product_in_stock) )
 		{
+			return;
+		}
+
+		foreach ($cart as $key => $value )
+		{
+			if(!is_numeric ($key))
+			{
+				continue;
+			}
+
 			foreach ( $min_value_product_in_stock as $k => $v )
 			{
-				if ( $cart[$i]['product_id'] == $k  && $value_product_in_stock[$k]->quantity <= $v->data_txt )
+				if ( $value['product_id'] == $k  && $value_product_in_stock[$k]->quantity <= $v->data_txt )
 				{
 					$message='<a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]='.$info_product[$k]->product_id.'">';
 
@@ -139,7 +153,6 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 								$this->sendMail($template_mail['0']->template_desc,$value);
 							}
 						}
-						
 					}
 				}
 			}
@@ -150,7 +163,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 	{
 		if( empty($mail) || empty($message) )
 		{
-			return false;
+			return;
 		}
 
 		$mailer = \JFactory::getMailer();
