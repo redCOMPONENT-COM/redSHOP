@@ -221,12 +221,14 @@ class OrderManagerPage extends AdminJ3Page
 		$path = "//a[@onclick= \"javascript:validateDiscount('#update_discount$idOrder');\"]";
 		return $path;
 	}
+
 	/**
 	 * Function to get Path $idOder in Order detail
 	 * @param $idOrder
 	 * @since 2.1.2
 	 * @return string
 	 */
+
 	public function returnButtonSpecialDiscount ($idOrder)
 	{
 		$path = "//a[@onclick= \"javascript:validateDiscount('#special_discount$idOrder');\"]";

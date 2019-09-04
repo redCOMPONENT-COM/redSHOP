@@ -10,6 +10,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\OrderUpdateDiscountAndSpecialDiscountSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
+
 /**
  * Class UpdateDiscountAndSpecialDiscountCest
  *
@@ -19,6 +20,7 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
  *
  * @since    2.1.2
  */
+
 class OrderDiscountAndSpecialDiscountCest
 {
 	/**
@@ -26,86 +28,107 @@ class OrderDiscountAndSpecialDiscountCest
 	 * @since 2.1.2
 	 */
 	public $faker;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $productName;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $categoryName;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	public $randomProductNumber;
+
 	/**
 	 * @var int
 	 * @since 2.1.2
 	 */
 	public $randomProductPrice;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $userName;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $password;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $shopperGroup;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $group;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $firstName;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $lastName;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $address;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $zipcode;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $phone;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $quantity;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $discountUpdate;
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public $specialUpdate;
+
+    /**
+     * OrderDiscountAndSpecialDiscountCest constructor.
+     * @since 2.1.2
+     */
 	public function __construct()
 	{
 		//Product & Category
@@ -131,6 +154,7 @@ class OrderDiscountAndSpecialDiscountCest
 		$this->discountUpdate = '20';
 		$this->specialUpdate = '20';
 	}
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @since 2.1.2
@@ -139,6 +163,7 @@ class OrderDiscountAndSpecialDiscountCest
 	{
 		$I->doAdministratorLogin();
 	}
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
