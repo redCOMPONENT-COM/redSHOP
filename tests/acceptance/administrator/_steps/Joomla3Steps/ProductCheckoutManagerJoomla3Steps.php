@@ -1266,7 +1266,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		}catch (\Exception $e)
+		} catch (\Exception $e)
 		{
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
