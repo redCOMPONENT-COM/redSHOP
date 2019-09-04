@@ -13,6 +13,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ShippingSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
+use Configuration\ConfigurationSteps;
 
 /**
  * Class OrderStatusManagerCest
@@ -56,10 +57,6 @@ class OrderStatusManagerCest
 	 */
 	public $shippingMethod;
 
-	public $currencyUnit;
-
-	public $total;
-
 	public function __construct()
 	{
 		//create user for quotation
@@ -94,9 +91,6 @@ class OrderStatusManagerCest
 			'shippingName'          => $this->faker->bothify("Demo Rate ?##?"),
 			'shippingRate'         => '10'
 		);
-
-		$this->currencyUnit = 'DKK ';
-		$this->total = $this->product['price'] + $this->shipping['shippingRate'];
 	}
 	/**
 	 * @param AcceptanceTester $I
@@ -167,6 +161,11 @@ class OrderStatusManagerCest
 		$I->wantToTest('Checkout');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkOutProductWithBankTransfer($this->customerInformation, $this->customerInformation, $this->product['name'], $this->categoryName);
+
+		$I->wantToTest('Check Order on backend');
+		$I = new ConfigurationSteps($scenario);
+		$I->checkPriceTotal($this->product['price'], $this->customerInformation['firstName'], $this->customerInformation['firstName'],
+			$this->customerInformation['lastName'], $this->product['name'], $this->categoryName, $this->shippingMethod);
 
 		$I->wantToTest('Change order status');
 		$I = new OrderManagerJoomla3Steps($scenario);
