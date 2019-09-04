@@ -146,7 +146,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		return $cart;
 	}
 
-	function sendMail( $message= null , $mail = null )
+	public function sendMail( $message= null , $mail = null )
 	{
 		if( empty($mail) || empty($message) )
 		{
