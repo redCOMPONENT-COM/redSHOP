@@ -28,7 +28,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		}
 	}
 
-	public function storeLowStockAlert($cart)
+	public function storeLowStockAlert(&$cart)
 	{
 		// get ID Custom Field Min Stock:
 		$id_custom_field_min_stock = $this->params->get('id_low_stock_alert');
@@ -142,8 +142,6 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 				}
 			}
 		}
-
-		return $cart;
 	}
 
 	public function sendMail( $message= null , $mail = null )
