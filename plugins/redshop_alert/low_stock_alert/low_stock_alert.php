@@ -37,6 +37,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 
 		$section = 1;
 		$type = 1;
+		$list_id= array();
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$cart   = RedshopHelperCartSession::getCart();
@@ -99,16 +100,16 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 			return;
 		}
 
-		foreach ($cart as $key => $value )
+		foreach ($cart as $key_cart => $value_cart )
 		{
-			if(!is_numeric ($key))
+			if(!is_numeric ($key_cart))
 			{
 				continue;
 			}
 
 			foreach ( $min_value_product_in_stock as $k => $v )
 			{
-				if ( $value['product_id'] == $k  && $value_product_in_stock[$k]->quantity <= $v->data_txt )
+				if ( $value_cart['product_id'] == $k  && $value_product_in_stock[$k]->quantity <= $v->data_txt )
 				{
 					$message='<a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]='.$info_product[$k]->product_id.'">';
 
@@ -143,9 +144,9 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 						}
 						else
 						{
-							foreach ( $mail as  $value )
+							foreach ( $mail as  $value_mail )
 							{
-								$this->sendMail($template_mail['0']->template_desc,$value);
+								$this->sendMail($template_mail['0']->template_desc,$value_mail);
 							}
 						}
 					}
