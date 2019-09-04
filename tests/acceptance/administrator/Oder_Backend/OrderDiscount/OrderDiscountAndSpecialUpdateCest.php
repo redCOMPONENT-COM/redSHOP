@@ -125,10 +125,10 @@ class OrderDiscountAndSpecialDiscountCest
 	 */
 	public $specialUpdate;
 
-    /**
-     * OrderDiscountAndSpecialDiscountCest constructor.
-     * @since 2.1.2
-     */
+	/**
+	 * OrderDiscountAndSpecialDiscountCest constructor.
+	 * @since 2.1.2
+	 */
 	public function __construct()
 	{
 		//Product & Category
@@ -184,6 +184,7 @@ class OrderDiscountAndSpecialDiscountCest
 		$I = new OrderUpdateDiscountAndSpecialDiscountSteps($scenario);
 		$I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->discountUpdate, $this->specialUpdate, $this->randomProductPrice);
 	}
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
