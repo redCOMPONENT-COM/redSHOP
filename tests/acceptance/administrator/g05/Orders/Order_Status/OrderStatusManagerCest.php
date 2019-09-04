@@ -10,8 +10,9 @@ use AcceptanceTester\OrderStatusManagerSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use CheckoutOnFrontEnd;
+use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ShippingSteps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 
 /**
  * Class OrderStatusManagerCest
@@ -64,11 +65,10 @@ class OrderStatusManagerCest
 		//create user for quotation
 		$this->faker           = Faker\Factory::create();
 		$this->orderStatusName = $this->faker->bothify('ManageNameStatus ?##?');
-		$this->orderStatusCode = $this->faker->bothify('ManageCodeStatus ?##?');
+		$this->orderStatusCode = $this->faker->bothify('?##?');
 		$this->changeName      = $this->faker->bothify('ManageChangeNameStatus ?##?');
 
 		$this->customerInformation = array(
-			"userName"      => $this->faker->userName,
 			"email"         => $this->faker->email,
 			"firstName"     => $this->faker->firstName,
 			"lastName"      => $this->faker->lastName,
@@ -144,19 +144,13 @@ class OrderStatusManagerCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.1.3
 	 */
 	public function checkoutAndChangeOrderStatus(AcceptanceTester $I, $scenario)
 	{
 		$I->wantToTest('Create Order Status');
 		$I = new OrderStatusManagerSteps($scenario);
 		$I->createOrderStatus($this->orderStatusName, $this->orderStatusCode);
-
-		$I->wantToTest('Create User');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser($this->customerInformation['userName'], $this->customerInformation['userName'], $this->customerInformation['email'], $this->customerInformation['group'],
-			$this->customerInformation['shopperGroup'], $this->customerInformation['firstName'], $this->customerInformation['lastName']);
-		$I->editAddShipping($this->customerInformation['firstName'], $this->customerInformation['lastName'], $this->customerInformation['address'], $this->customerInformation['city'],
-			$this->customerInformation['phone'], $this->customerInformation['postalCode']);
 
 		$I->wantToTest("Create Category");
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -171,8 +165,12 @@ class OrderStatusManagerCest
 		$I->createShippingRateStandard($this->shippingMethod, $this->shipping);
 
 		$I->wantToTest('Checkout');
-		$I = new \AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkOutProductWithBankTransfer($this->customerInformation, $this->customerInformation, $this->product['name'], $this->categoryName);
+
+		$I->wantToTest('Change order status');
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->changeOrderStatus($this->customerInformation['firstName'], $this->orderStatusName, $this->orderStatusCode);
 	}
 
 	/**
@@ -183,9 +181,17 @@ class OrderStatusManagerCest
 	 */
 	public function clearAll(AcceptanceTester $I, $scenario)
 	{
-		$I->wantToTest('Delete User');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->customerInformation['firstName']);
+		$I->wantToTest('Delete Order Status is using');
+		$I = new OrderStatusManagerSteps($scenario);
+		$I->deleteOrderStatusUsing($this->orderStatusName);
+
+		$I->wantToTest('Delete Order');
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->deleteOrder($this->customerInformation['firstName']);
+
+		$I->wantToTest('Delete Order Status');
+		$I = new OrderStatusManagerSteps($scenario);
+		$I->deleteOrderStatus($this->orderStatusName);
 
 		$I->wantToTest('Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);
@@ -197,10 +203,10 @@ class OrderStatusManagerCest
 
 		$I->wantToTest('Delete Shipping Rate');
 		$I = new ShippingSteps($scenario);
-		$I->deleteShippingRate($this->shippingMethod, $this->shipping['name']);
+		$I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
 
-		$I->wantToTest('Delete Order Status');
-		$I = new OrderStatusManagerSteps($scenario);
-		$I->deleteOrderStatus($this->orderStatusName);
+		$I->wantToTest('Delete User');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->customerInformation['firstName']);
 	}
 }
