@@ -21,7 +21,6 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
  *
  * @since    2.1.2
  */
-
 class OrderDiscountAndSpecialDiscountCest
 {
 	/**
