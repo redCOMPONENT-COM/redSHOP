@@ -109,30 +109,30 @@ class OrderStatusManagerCest
 	 *
 	 * @throws  Exception
 	 */
-//	public function createEditDeleteOrderStatus(AcceptanceTester $I, $scenario)
-//	{
-//		$I->wantTo("I want create Order Status");
-//		$I = new OrderStatusManagerSteps($scenario);
-//		$I->createOrderStatus($this->orderStatusName, $this->orderStatusCode);
-//		$I->createOrderStatusMissingName($this->orderStatusCode);
-//		$I->createOrderStatusMissingCode($this->orderStatusName);
-//
-//		$I->wantTo("I want edit Order Status");
-//		$I = new OrderStatusManagerSteps($scenario);
-//		$I->editOrderStatus($this->orderStatusName, $this->changeName);
-//
-//		$I->wantTo("I want edit Order Status");
-//		$I = new OrderStatusManagerSteps($scenario);
-//		$I->changeStatusUnpublish($this->changeName);
-//
-//		$I->wantTo("I want edit Order Status");
-//		$I = new OrderStatusManagerSteps($scenario);
-//		$I->changeStatusPublish($this->changeName);
-//
-//		$I->wantTo("I want to delete Order Status");
-//		$I = new OrderStatusManagerSteps($scenario);
-//		$I->deleteOrderStatus($this->changeName);
-//	}
+	public function createEditDeleteOrderStatus(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo("I want create Order Status");
+		$I = new OrderStatusManagerSteps($scenario);
+		$I->createOrderStatus($this->orderStatusName, $this->orderStatusCode);
+		$I->createOrderStatusMissingName($this->orderStatusCode);
+		$I->createOrderStatusMissingCode($this->orderStatusName);
+
+		$I->wantTo("I want edit Order Status");
+		$I = new OrderStatusManagerSteps($scenario);
+		$I->editOrderStatus($this->orderStatusName, $this->changeName);
+
+		$I->wantTo("I want edit Order Status");
+		$I = new OrderStatusManagerSteps($scenario);
+		$I->changeStatusUnpublish($this->changeName);
+
+		$I->wantTo("I want edit Order Status");
+		$I = new OrderStatusManagerSteps($scenario);
+		$I->changeStatusPublish($this->changeName);
+
+		$I->wantTo("I want to delete Order Status");
+		$I = new OrderStatusManagerSteps($scenario);
+		$I->deleteOrderStatus($this->changeName);
+	}
 
 	/**
 	 * @param AcceptanceTester $I
