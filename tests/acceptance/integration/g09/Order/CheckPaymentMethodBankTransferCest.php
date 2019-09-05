@@ -44,8 +44,6 @@ class CheckPaymentMethodBankTransferCest
 		$this->priceProductForThan          = 10;
 		$this->totalAmount                  = $this->faker->numberBetween(100, 999);
 		$this->discountAmount               = $this->faker->numberBetween(10, 100);
-		
-		
 		$this->userName                    = $this->faker->bothify('UserAdministratorCest ?##?');
 		$this->password                    = $this->faker->bothify('Password ?##?');
 		$this->email                       = $this->faker->email;
@@ -60,25 +58,24 @@ class CheckPaymentMethodBankTransferCest
 		$this->userNameDelete              = $this->firstName;
 		$this->searchOrder                 = $this->firstName.' '.$this->lastName ;
 		$this->paymentMethod               = 'RedSHOP - Bank Transfer Payment';
-		
-		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 	}
-	
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
@@ -87,39 +84,37 @@ class CheckPaymentMethodBankTransferCest
 	public function checkPaymentMethodOnOrderDetail(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
 		$I->doAdministratorLogin();
-		
+
 		$I->wantTo('Enable PayPal');
 		$I->enablePlugin('PayPal');
-		
+
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserSteps($scenario);
 		$I->addUser($this->userName, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
-		
+
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategorySteps($scenario);
 		$I->addCategorySave($this->randomCategoryName);
-		
+
 		$I->wantTo('I want to add product inside the category');
 		$I = new ProductSteps($scenario);
 		$I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->productStart, $this->productEnd);
-		
+
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
-		
+		$I->cartSetting($this->cartSetting);
+
 		$I->wantTo('Add products in cart');
 		$I = new OrderSteps($scenario);
 		$I->addProductToCartWithBankTransfer($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
-		
+
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 		$I->wantTo('Check Order');
 		$I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName, $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
 	}
-	
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -128,19 +123,19 @@ class CheckPaymentMethodBankTransferCest
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-		
+
 		$I->wantTo('Deletion Product in Administrator');
 		$I = new ProductSteps($scenario);
 		$I->deleteProduct($this->randomProductName);
-		
+
 		$I->wantTo('Deletion Category in Administrator');
 		$I = new CategorySteps($scenario);
 		$I->deleteCategory($this->randomCategoryName);
-		
+
 		$I->wantTo('Deletion of User in Administrator');
 		$I = new UserSteps($scenario);
 		$I->deleteUser($this->userNameDelete, 'true');
-		
+
 		$I->wantTo('Deletion of Order Total Discount in Administrator');
 		$I = new OrderSteps($scenario);
 		$I->deleteOrder( $this->searchOrder);
