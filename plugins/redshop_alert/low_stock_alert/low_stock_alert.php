@@ -39,10 +39,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		//Construct:
 		$section                    = 1;
 		$type                       = 1;
-		$db                         = JFactory::getDbo();
-		$query                      = $db->getQuery(true);
 
-		$list_id                    = array();
 		$cart                       = RedshopHelperCartSession::getCart();
 		$id_custom_field_min_stock  = (int) $this->params->get('id_low_stock_alert');
 		$id_min_stock_template      = $this->params->get('id_low_stock_alert_template');
@@ -60,11 +57,11 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		$value_product_in_stock      = $this->getValueProduct ($list_id);
 
 		// check validation
-		($list_id != false)                    ? $list_id                      : null ;
-		($custom_field_min_stock != false)     ? $custom_field_min_stock       : null ;
-		($min_value_product_in_stock != false) ? $min_value_product_in_stock   : null ;
-		($info_product != false)               ? $info_product                 : null ;
-		($value_product_in_stock != false)     ? $value_product_in_stock       : null ;
+		($list_id !== false)                    ? $list_id                      : null ;
+		($custom_field_min_stock !== false)     ? $custom_field_min_stock       : null ;
+		($min_value_product_in_stock !== false) ? $min_value_product_in_stock   : null ;
+		($info_product !== false)               ? $info_product                 : null ;
+		($value_product_in_stock !== false)     ? $value_product_in_stock       : null ;
 
 		if(empty($custom_field_min_stock) || empty($min_value_product_in_stock) || empty($info_product) || empty($value_product_in_stock) )
 		{
@@ -163,7 +160,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 			$list_id[] = $value['product_id'];
 		}
 
-		if($list_id)
+		if(!empty($list_id))
 		{
 			return $list_id;
 		}
