@@ -39,7 +39,6 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		//Construct:
 		$section                    = 1;
 		$type                       = 1;
-
 		$cart                       = RedshopHelperCartSession::getCart();
 		$id_custom_field_min_stock  = (int) $this->params->get('id_low_stock_alert');
 		$id_min_stock_template      = $this->params->get('id_low_stock_alert_template');
@@ -51,19 +50,18 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		}
 
 		$list_id                     = $this->getListIdProduct($cart);
-		$custom_field_min_stock      = $this->getCustomFieldMinStock($id_custom_field_min_stock,$section,$type);
-		$min_value_product_in_stock  = $this->getMinValueProduct ($id_custom_field_min_stock,$section,$list_id);
 		$info_product                = $this->getInfoProduct ($list_id);
 		$value_product_in_stock      = $this->getValueProduct ($list_id);
+		$custom_field_min_stock      = $this->getCustomFieldMinStock($id_custom_field_min_stock,$section,$type);
+		$min_value_product_in_stock  = $this->getMinValueProduct ($id_custom_field_min_stock,$section,$list_id);
 
 		// check validation
-		($list_id !== false)                    ? $list_id                      : null ;
-		($custom_field_min_stock !== false)     ? $custom_field_min_stock       : null ;
-		($min_value_product_in_stock !== false) ? $min_value_product_in_stock   : null ;
 		($info_product !== false)               ? $info_product                 : null ;
 		($value_product_in_stock !== false)     ? $value_product_in_stock       : null ;
+		($custom_field_min_stock !== false)     ? $custom_field_min_stock       : null ;
+		($min_value_product_in_stock !== false) ? $min_value_product_in_stock   : null ;
 
-		if(empty($custom_field_min_stock) || empty($min_value_product_in_stock) || empty($info_product) || empty($value_product_in_stock) )
+		if( empty($info_product) || empty($value_product_in_stock) || empty($custom_field_min_stock) || empty($min_value_product_in_stock) )
 		{
 			return;
 		}
