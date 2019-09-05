@@ -152,5 +152,8 @@
         <!-- System plugins -->
         <plugin group="system" name="redshop" published="published"/>
         <plugin group="system" name="redgoogleanalytics"/>
+
+        <!-- redSHOP product plugin -->
+        <plugin group="redshop_product" name="sh404urls" published="published"/>
     </plugins>
 </extension>

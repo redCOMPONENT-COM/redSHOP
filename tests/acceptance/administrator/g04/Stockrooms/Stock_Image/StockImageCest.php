@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use AcceptanceTester\StockImageSteps;
-use AcceptanceTester\ConfigurationSteps;
+use Configuration\ConfigurationSteps;
 /**
  * Class ManageStockImageAdministratorCest
  *
