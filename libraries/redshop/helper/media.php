@@ -741,7 +741,7 @@ class RedshopHelperMedia
 		try
 		{
 			// If main image not exists - display noimage
-			if (!file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage))
+			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage))
 			{
 				$pathMainImage = 'noimage.jpg';
 
