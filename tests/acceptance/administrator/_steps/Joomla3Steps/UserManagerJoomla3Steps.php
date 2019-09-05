@@ -539,9 +539,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(UserManagerJoomla3Page::$titlePageUser, 30);
 		$I->click(UserManagerJoomla3Page::$newButton);
 		$userManagerPage = new UserManagerJoomla3Page;
-		$I->waitForElement(UserManagerJoomla3Page::$generalTab, 30);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$generalTab, 30);
 		$I->click(UserManagerJoomla3Page::$generalTab);
-		$I->waitForElement(UserManagerJoomla3Page::$userName, 30);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$userName, 30);
 		$I->fillField(UserManagerJoomla3Page::$userName, $userName);
 		$I->fillField(UserManagerJoomla3Page::$newPassword, $password);
 		$I->fillField(UserManagerJoomla3Page::$confirmNewPassword, $password);
@@ -551,13 +551,14 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
 		$I->click($userManagerPage->shopperGroup($shopperGroup));
 		$I->click(UserManagerJoomla3Page::$billingInformationTab);
-		$I->waitForElement(UserManagerJoomla3Page::$firstName, 30);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$firstName, 30);
 		$I->fillField(UserManagerJoomla3Page::$firstName, $firstName);
 		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
 		$I->fillField(UserManagerJoomla3Page::$address, $address);
 		$I->fillField(UserManagerJoomla3Page::$city, $city);
 		$I->fillField(UserManagerJoomla3Page::$zipcode, $zipcode);
 		$I->fillField(UserManagerJoomla3Page::$phone, $phone);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$country, 30);
 		$I->click(UserManagerJoomla3Page::$country);
 		$I->waitForElement($userManagerPage->shopperGroup($country), 30);
 		$I->click($userManagerPage->shopperGroup($country));

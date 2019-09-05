@@ -12,7 +12,6 @@ use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\TaxRateSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
-use Faker\Factory;
 
 /**
  * Class CheckVATChangedDependingOnTheUserCest
@@ -66,7 +65,7 @@ class CheckVATChangedDependingOnTheUserCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $requiVAT;
+	protected $requireVAT;
 
 	/**
 	 * @var string
@@ -285,7 +284,7 @@ class CheckVATChangedDependingOnTheUserCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $enabldAjax;
+	protected $enableAjax;
 
 	/**
 	 * @var null
@@ -333,7 +332,7 @@ class CheckVATChangedDependingOnTheUserCest
 	 * @var int
 	 * @since 2.1.3
 	 */
-	protected $minimunOrder;
+	protected $minimumOrder;
 
 	/**
 	 * @var string
@@ -354,6 +353,12 @@ class CheckVATChangedDependingOnTheUserCest
 	protected $onePageYes;
 
 	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.3
+	 */
+	protected $faker;
+
+	/**
 	 * CheckVATChangedDependingOnTheUserCest constructor.
 	 * @since 2.1.3
 	 */
@@ -370,10 +375,9 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->vatAfter                 = 'after';
 		$this->vatNumber                = 0;
 		$this->calculationBase          = 'billing';
-		$this->requiVAT                 = 'no';
+		$this->requireVAT               = 'no';
 
 		//VAT for User in Denmark
-		$this->faker = Faker\Factory::create();
 		$this->taxRateNameDenmark       = $this->faker->bothify('VAT Denmark ?###?');
 		$this->taxRateValueDenmark      = 0.1;
 		$this->countryDenmark           = 'Denmark';
@@ -404,13 +408,12 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->shopperGroup             = 'Default Private';
 		$this->group                    = 'Registered';
 		$this->firstNameVN              = $this->faker->bothify('User In VN ?##?');
-		$this->updateFirstName          = 'Updating ' . $this->firstName;
 		$this->lastName                 = $this->faker->bothify('LastName ?####?');
-		$this->address                  = '14 Phan Ton';
-		$this->zipcode                  = 2000;
+		$this->address                  = $this->faker->address;
+		$this->zipcode                  = $this->faker->postcode;
 		$this->city                     = 'Ho Chi Minh';
 		$this->countryVN                = 'Viet Nam';
-		$this->phone                    = 010101010;
+		$this->phone                    = $this->faker->phoneNumber;
 
 		//User in Denmark
 
@@ -423,7 +426,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->addcart                  = 'product';
 		$this->allowPreOrder            = 'yes';
 		$this->cartTimeOut              = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax               = 'no';
+		$this->enableAjax               = 'no';
 		$this->defaultCart              = null;
 		$this->buttonCartLead           = 'Back to current view';
 		$this->onePage                  = 'yes';
@@ -431,7 +434,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->attributeImage           = 'no';
 		$this->quantityChange           = 'no';
 		$this->quantityInCart           = 0;
-		$this->minimunOrder             = 0;
+		$this->minimumOrder             = 0;
 		$this->enableQuation            = 'no';
 		$this->onePageNo                = 'no';
 		$this->onePageYes               = 'yes';
@@ -453,7 +456,7 @@ class CheckVATChangedDependingOnTheUserCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-	public function ChecckVATChangedDependingOnTheUserCest(AcceptanceTester $I, $scenario)
+	public function CheckVATChangedDependingOnTheUserCest(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('VAT Groups - Save creation in Administrator');
 		$I = new TaxGroupSteps($scenario);
@@ -465,8 +468,8 @@ class CheckVATChangedDependingOnTheUserCest
 
 		$I->wantTo('Setup VAT at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->setupVAT($this->country, null, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->setupVAT($this->country, null, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requireVAT);
+		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enableAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimumOrder);
 
 		$I->wantTo('Create user have country');
 		$I = new UserManagerJoomla3Steps($scenario);
@@ -482,7 +485,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
-		$I->wantTo('I Want check VAT');
+		$I->wantTo('I Want to check VAT');
 		$I = new CheckoutOnFrontEnd($scenario);
 		$I->testProductWithVatCheckout($this->userNameDenmark, $this->passwordDenmark, $this->productName, $this->categoryName, $this->subtotalDenmark, $this->vatPriceDenmark, $this->totalDenmark);
 		$I->doFrontendLogout();
@@ -494,7 +497,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->deleteTAXRatesOK($this->taxRateNameVN);
 		$I->deleteTAXRatesOK($this->taxRateNameDenmark);
 
-		$I->wantTo('Detele VAT Group');
+		$I->wantTo('Delete VAT Group');
 		$I = new TaxGroupSteps($scenario);
 		$I->deleteVATGroupOK($this->taxGroupName);
 
