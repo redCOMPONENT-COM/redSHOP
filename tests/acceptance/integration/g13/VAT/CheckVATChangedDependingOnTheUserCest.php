@@ -219,7 +219,7 @@ class CheckVATChangedDependingOnTheUserCest
 
 		//VAT for User in VN
 		$this->taxRateNameVN            = $this->faker->bothify('VAT VN ?###?');
-		$this->taxRateValueVN           = 0.2;
+		$this->taxRateValueVN           = 0.2; 
 		$this->countryVietNam           = 'Viet Nam';
 		$this->subtotalVN               = "DKK 100,00";
 		$this->vatPriceVN               = "DKK 20,00";
