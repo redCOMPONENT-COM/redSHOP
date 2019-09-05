@@ -78,4 +78,10 @@ class WrapperPage extends AdminJ3Page
 	 * @var array
 	 */
 	public static $wrapperImage = "#wrapper_image";
+
+	/**
+	 * @var string
+	 * @since 2.1.2.2
+	 */
+	public static $messageCheckInvalidPrice = 'Wrapping Price not valid';
 }

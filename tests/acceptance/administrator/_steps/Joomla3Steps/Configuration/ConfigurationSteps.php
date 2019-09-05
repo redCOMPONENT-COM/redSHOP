@@ -6,7 +6,9 @@
  * Time: 3:51 PM
  */
 
-namespace AcceptanceTester;
+namespace Configuration;
+use AcceptanceTester\AdminManagerJoomla3Steps;
+use ConfigurationPage;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
@@ -149,7 +151,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->waitForElement($userConfigurationPage->returnChoice($state), 30);
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
-		
+
 		// Get default vat
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);
@@ -215,10 +217,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($addcart)
 		{
 			case 'product':
-                $I->click(\ConfigurationPage::$addCartProduct);
+				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
-                $I->click(\ConfigurationPage::$addCartAttibute);
+				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
 		switch ($allowPreOrder)
@@ -316,6 +318,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @param array $discount
+	 * @throws \Exception
+	 */
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
@@ -421,9 +427,17 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
+
 	/**
 	 * @param $price
 	 * @param $order
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
 	{
@@ -440,7 +454,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		}
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->searchOrder($order);
+		$I->waitForElementVisible(\OrderManagerPage::$iconEdit, 30);
 		$I->click(\OrderManagerPage::$iconEdit);
+		$I->waitForElementVisible(\OrderManagerPage::$quantityp1, 30);
 		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
 		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
@@ -454,5 +470,178 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->see($categoryName);
 		$I->see($priceProduct);
 		$I->see($priceTotal);
+	}
+
+	/**
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function productsUsedStockRoomAttribute()
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeYes, 30);
+		$I->click(ConfigurationPage::$stockRoomAttributeYes);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function productsOffStockRoomAttribute()
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeNo, 30);
+		$I->click(ConfigurationPage::$stockRoomAttributeNo);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $function
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function checkConfigurationProductRelated($function)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$relatedProductTab, 30);
+		$I->click(ConfigurationPage::$relatedProductTab);
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(ConfigurationPage::$twoWayRelatedYes, 30);
+				$I->click(ConfigurationPage::$twoWayRelatedYes);
+				break;
+			case 'No':
+				$I->waitForElementVisible(ConfigurationPage::$twoWayRelatedNo, 30);
+				$I->click(ConfigurationPage::$twoWayRelatedNo);
+				break;
+		}
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function ConfigurationOder($configurationOder = array())
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$ordersTab, 30);
+		$I->click(ConfigurationPage::$ordersTab);
+
+		if(isset($configurationOder['resetIdOder']))
+		{
+			$I->waitForElementVisible(ConfigurationPage::$resetOderId, 30);
+			$I->click(ConfigurationPage::$resetOderId);
+			$I->acceptPopup();
+			$I->wait(2); 
+			$I->canSeeInPopup(ConfigurationPage::$messagePopup);
+			$I->seeInPopup(ConfigurationPage::$messagePopup);
+			$I->acceptPopup();
+		}
+
+		if(isset($configurationOder['sendOderEmail']))
+		{
+			if (isset($configurationOder['afterPayment'])) {
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$afterPayment);
+				$I->click(ConfigurationPage::$afterPayment);
+			}
+
+			if (isset($configurationOder['afterPayment2'])) {
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
+				$I->fillField(ConfigurationPage::$inputOderEmail, $configurationOder['afterPayment2']);
+				$usePage = new ConfigurationPage();
+				$I->waitForElement($usePage->returnChoice($configurationOder['afterPayment2']), 30);
+				$I->click($usePage->returnChoice($configurationOder['afterPayment2']));
+			}
+
+			if (isset($configurationOder['beforePayment'])){
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
+				$I->fillField(ConfigurationPage::$inputOderEmail, $configurationOder['beforePayment']);
+				$usePage = new ConfigurationPage();
+				$I->waitForElement($usePage->returnChoice($configurationOder['beforePayment']), 30);
+				$I->click($usePage->returnChoice($configurationOder['beforePayment']));
+			}
+		}
+
+		if (isset($configurationOder['enableInVoiceEmail']))
+		{
+			if (isset($configurationOder['Yes']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailYes, 30);
+				$I->click(ConfigurationPage::$enableInvoiceEmailYes);
+
+				if (isset($configurationOder['None']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$noneButton, 30);
+					$I->click(ConfigurationPage::$noneButton);
+				}
+
+				if (isset($configurationOder['Administrator']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$administratorButton, 30);
+					$I->click(ConfigurationPage::$administratorButton);
+				}
+
+				if (isset($configurationOder['Customer']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$customerButton, 30);
+					$I->click(ConfigurationPage::$customerButton);
+				}
+
+				if (isset($configurationOder['Both']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$bothButton, 30);
+					$I->click(ConfigurationPage::$bothButton);
+				}
+
+			}
+			if (isset($configurationOder['No']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailNo, 30);
+				$I->click(ConfigurationPage::$enableInvoiceEmailNo);
+			}
+		}
+
+		if (isset($configurationOder['sendMailToCustomerInOder']))
+		{
+			if (isset($configurationOder['Yes']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$sendMailToCustomerInOrderYes, 30);
+				$I->click(ConfigurationPage::$sendMailToCustomerInOrderYes);
+			}
+			if (isset($configurationOder['No']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$sendMailToCustomerInOrderNo, 30);
+				$I->click(ConfigurationPage::$sendMailToCustomerInOrderNo);
+			}
+		}
+
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 }

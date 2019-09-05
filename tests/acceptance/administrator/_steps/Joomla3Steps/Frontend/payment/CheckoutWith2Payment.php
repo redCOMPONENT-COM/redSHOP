@@ -18,34 +18,44 @@ use Frontend2PaymentPage;
  */
 class CheckoutWith2Payment extends CheckoutOnFrontEnd
 {
-    /**
-     * @param $userName
-     * @param $password
-     * @param $checkoutAccountInformation
-     * @param $productName
-     * @param $categoryName
-     * @throws \Exception
-     */
-	public function checkoutProductWith2Checkout( $userName , $password, $checkoutAccountInformation, $productName, $categoryName)
+	/**
+	 * @param $userName
+	 * @param $password
+	 * @param $checkoutAccountInformation
+	 * @param $productName
+	 * @param $categoryName
+	 * @throws \Exception
+	 */
+	public function checkoutProductWith2Checkout($userName, $password, $checkoutAccountInformation, $productName, $categoryName)
 	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $password);
 		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(Frontend2PaymentPage::$payment2checkout, 30);
 		$I->wait(0.5);
 		$I->click(Frontend2PaymentPage::$payment2checkout);
+
+		try
+		{
+			$I->seeCheckboxIsChecked(Frontend2PaymentPage::$payment2checkout);
+		}catch (\Exception $e)
+		{
+			$I->click(Frontend2PaymentPage::$payment2checkout);
+		}
+
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->wait(0.5);
+
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -53,33 +63,43 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+
 		try
 		{
-			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		}catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
-		$I->waitForText(Frontend2PaymentPage::$secureCheckout, 30, Frontend2PaymentPage:: $h1);
-		$I->click(Frontend2PaymentPage::$reviewCart);
-		$I->waitForElementVisible(Frontend2PaymentPage::$shippingAddress1, 30);
-		$I->fillField(Frontend2PaymentPage::$shippingAddress1, $checkoutAccountInformation['shippingAddress']);
-		$I->waitForElementVisible(Frontend2PaymentPage::$shippingInformation, 30);
-		$I->click(Frontend2PaymentPage::$shippingInformation);
-		$I->waitForElementVisible(Frontend2PaymentPage::$checkboxSamAsShipping, 30);
-		$I->wait(0.5);
-		$I->click(Frontend2PaymentPage::$checkboxSamAsShipping);
-		$I->waitForElementVisible(Frontend2PaymentPage::$billingInformation, 30);
-		$I->wait(0.5);
-		$I->click(Frontend2PaymentPage::$billingInformation);
-		$I->waitForElement(Frontend2PaymentPage::$inputCartNumber, 30);
-		$I->waitForElementVisible(Frontend2PaymentPage::$inputCartNumber, 30);
-		$I->fillField(Frontend2PaymentPage::$inputCartNumber, $checkoutAccountInformation['debitCardNumber']);
-		$I->click(Frontend2PaymentPage::$buttonPayment2Checkout);
-		$I->waitForText(Frontend2PaymentPage:: $message2CheckoutSuccess, 30, Frontend2PaymentPage:: $h1);
+
+		try
+		{
+			$I->waitForText(Frontend2PaymentPage::$secureCheckout, 30, Frontend2PaymentPage::$h1);
+			$I->click(Frontend2PaymentPage::$reviewCart);
+			$I->waitForElementVisible(Frontend2PaymentPage::$shippingAddress1, 30);
+			$I->fillField(Frontend2PaymentPage::$shippingAddress1, $checkoutAccountInformation['shippingAddress']);
+			$I->waitForElementVisible(Frontend2PaymentPage::$shippingInformation, 30);
+			$I->click(Frontend2PaymentPage::$shippingInformation);
+			$I->waitForElementVisible(Frontend2PaymentPage::$checkboxSamAsShipping, 30);
+			$I->wait(0.5);
+			$I->click(Frontend2PaymentPage::$checkboxSamAsShipping);
+			$I->waitForElementVisible(Frontend2PaymentPage::$billingInformation, 30);
+			$I->wait(0.5);
+			$I->click(Frontend2PaymentPage::$billingInformation);
+			$I->waitForElement(Frontend2PaymentPage::$inputCartNumber, 30);
+			$I->waitForElementVisible(Frontend2PaymentPage::$inputCartNumber, 30);
+			$I->fillField(Frontend2PaymentPage::$inputCartNumber, $checkoutAccountInformation['debitCardNumber']);
+			$I->click(Frontend2PaymentPage::$buttonPayment2Checkout);
+			$I->waitForText(Frontend2PaymentPage::$message2CheckoutSuccess, 30, Frontend2PaymentPage::$h1);
+		}catch (\Exception $e)
+		{
+			$I->waitForText(Frontend2PaymentPage::$oderReceipt, 30);
+		}
+
 	}
 }
