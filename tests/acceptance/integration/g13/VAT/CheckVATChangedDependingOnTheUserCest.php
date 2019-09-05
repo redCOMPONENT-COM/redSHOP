@@ -162,184 +162,16 @@ class CheckVATChangedDependingOnTheUserCest
 	protected $randomProductPrice;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $userNameVN;
+	protected $userVN;
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
-	protected $passwordVN;
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $emailVN;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $shopperGroup;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $group;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $firstNameVN;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $updateFirstName;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $lastName;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $address;
-
-	/**
-	 * @var int
-	 * @since 2.1.3
-	 */
-	protected $zipcode;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $city;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $countryVN;
-
-	/**
-	 * @var int
-	 * @since 2.1.3
-	 */
-	protected $phone;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $userNameDenmark;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $passwordDenmark;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $emailDM;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $firstNameDM;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $addcart;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $allowPreOrder;
-
-	/**
-	 * @var int
-	 * @since 2.1.3
-	 */
-	protected $cartTimeOut;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $enableAjax;
-
-	/**
-	 * @var null
-	 * @since 2.1.3
-	 */
-	protected $defaultCart;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $buttonCartLead;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $onePage;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $showShippingCart;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $attributeImage;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $quantityChange;
-
-	/**
-	 * @var int
-	 * @since 2.1.3
-	 */
-	protected $quantityInCart;
-
-	/**
-	 * @var int
-	 * @since 2.1.3
-	 */
-	protected $minimumOrder;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $enableQuation;
-
+	protected $userDM;
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -401,43 +233,52 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->randomProductNumber      = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice       = 100;
 
-		//User in VN
-		$this->userNameVN               = $this->faker->bothify('User In VN ?####?');
-		$this->passwordVN               = $this->faker->bothify('Password VN ?##?');
-		$this->emailVN                  = $this->faker->email;
-		$this->shopperGroup             = 'Default Private';
-		$this->group                    = 'Registered';
-		$this->firstNameVN              = $this->faker->bothify('User In VN ?##?');
-		$this->lastName                 = $this->faker->bothify('LastName ?####?');
-		$this->address                  = $this->faker->address;
-		$this->zipcode                  = $this->faker->postcode;
-		$this->city                     = 'Ho Chi Minh';
-		$this->countryVN                = 'Viet Nam';
-		$this->phone                    = $this->faker->phoneNumber;
-
+		$this->userVN = array(
+			"userNameVN"            => $this->faker->bothify('User In VN ?####?'),
+			"passwordVN"            => $this->faker->bothify('Password VN ?##?'),
+			"email"               => $this->faker->email,
+			"shopperGroup"          => 'Default Private',
+			"defaultCart"           => 'Registered',
+			"firstNameVN"           => $this->faker->bothify('User In VN ?##?'),
+			"lastName"              => $this->faker->bothify('LastName ?####?'),
+			"address"               => $this->faker->address,
+			"zipcode"               => $this->faker->postcode,
+			"city"                  => 'Ho Chi Minh',
+			"country"               => 'Viet Nam',
+			"phone"                 => $this->faker->phoneNumber,
+		);
 		//User in Denmark
-
-		$this->userNameDenmark          = $this->faker->bothify('User In DM ?####?');
-		$this->passwordDenmark          = $this->faker->bothify('Password DM ?##?');
-		$this->emailDM                  = $this->faker->email;
-		$this->firstNameDM              = $this->faker->bothify('User In DM ?##?');
+		$this->userDM = array(
+			"userName"              => $this->faker->bothify('User In DM ?####?'),
+			"password"              =>$this->faker->bothify('Password DM ?##?'),
+			"email"                 => $this->faker->email,
+			"shopperGroup"          => 'Default Private',
+			"defaultCart"           => 'Registered',
+			"firstNameVN"           => $this->faker->bothify('User In DM ?##?'),
+			"lastName"              => $this->faker->bothify('LastName ?####?'),
+			"address"               => $this->faker->address,
+			"zipcode"               => $this->faker->postcode,
+			"city"                  => 'Ho Chi Minh',
+			"country"               => 'Denmark',
+			"phone"                 => $this->faker->phoneNumber,
+		);
 
 		//configuration enable one page checkout
-		$this->addcart                  = 'product';
-		$this->allowPreOrder            = 'yes';
-		$this->cartTimeOut              = $this->faker->numberBetween(100, 10000);
-		$this->enableAjax               = 'no';
-		$this->defaultCart              = null;
-		$this->buttonCartLead           = 'Back to current view';
-		$this->onePage                  = 'yes';
-		$this->showShippingCart         = 'no';
-		$this->attributeImage           = 'no';
-		$this->quantityChange           = 'no';
-		$this->quantityInCart           = 0;
-		$this->minimumOrder             = 0;
-		$this->enableQuation            = 'no';
-		$this->onePageNo                = 'no';
-		$this->onePageYes               = 'yes';
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 	}
 
 	/**
@@ -469,12 +310,12 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->wantTo('Setup VAT at admin');
 		$I = new ConfigurationSteps($scenario);
 		$I->setupVAT($this->country, null, $this->vatDefault, $this->vatCalculation, $this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requireVAT);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enableAjax, $this->defaultCart, $this->buttonCartLead, $this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimumOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create user have country');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUserHaveCountry($this->userNameDenmark, $this->passwordDenmark, $this->emailDM, $this->group, $this->shopperGroup, $this->firstNameDM, $this->lastName, $this->address, $this->city, $this->zipcode, $this->phone, $this->countryDenmark);
-		$I->addUserHaveCountry($this->userNameVN, $this->passwordVN, $this->emailVN, $this->group, $this->shopperGroup, $this->firstNameVN, $this->lastName, $this->address, $this->city, $this->zipcode, $this->phone, $this->countryVietNam);
+		$I->addUserHaveCountry($this->userVN);
+		$I->addUserHaveCountry($this->userDM);
 
 		$I->wantTo('Create new category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
