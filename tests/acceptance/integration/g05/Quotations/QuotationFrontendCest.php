@@ -45,7 +45,7 @@ class QuotationFrontendCest
 			"quantityChange"    => 'no',
 			"quantityInCart"    => 0,
 			"minimumOrder"      => 0,
-			"enableQuotation"   => 'no'
+			"enableQuotation"   => 'yes'
 		);
 
 		//user
@@ -101,7 +101,6 @@ class QuotationFrontendCest
 
 		$I->wantTo(' Enable Quotation at configuration ');
 		$I = new ConfigurationSteps($scenario);
-		$this->cartSetting["onePage"] = 'yes';
 		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Quotation at frontend ');
@@ -129,6 +128,7 @@ class QuotationFrontendCest
 
 		$I->wantTo(' Disable Quotation at configuration ');
 		$I = new ConfigurationSteps($scenario);
+		$this->cartSetting["enableQuotation"] = 'no';
 		$I->cartSetting($this->cartSetting);
 	}
 }
