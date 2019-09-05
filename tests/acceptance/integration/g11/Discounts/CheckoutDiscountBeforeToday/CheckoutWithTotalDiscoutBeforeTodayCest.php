@@ -127,8 +127,6 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->wantTo('Add products in cart');
 		$I->addProductToCart($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
-		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->cartSetting);
 	}
 
 	/**
@@ -148,6 +146,10 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Deletion Product in Administrator');
 		$I = new ProductManagerSteps($scenario);

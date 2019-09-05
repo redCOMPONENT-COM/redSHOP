@@ -125,6 +125,7 @@ class CheckoutSpecificShopperGroupsCest
 		$I->checkoutSpecificShopperGroup($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
 
 		$I = new ConfigurationSteps($scenario);
+		$this->cartSetting["onePage"] = 'no';
 		$I->cartSetting($this->cartSetting);
 	}
 

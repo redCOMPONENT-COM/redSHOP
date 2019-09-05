@@ -139,6 +139,8 @@ class ProductVatCheckoutCest
 			$this->userName, $this->password, $this->productName, $this->categoryName, $this->subtotal, $this->vatPrice, $this->total
 		);
 
+		$client->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
 		$client = new ConfigurationSteps($scenario);
 		$client->cartSetting($this->cartSetting);
 	}

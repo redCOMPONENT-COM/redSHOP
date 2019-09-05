@@ -205,6 +205,7 @@ class CheckoutChangeQuantityProductCest
 
 		$I->wantTo("Disable One page checkout");
 		$I = new ConfigurationSteps($scenario);
+		$this->cartSetting["onePage"] = 'no';
 		$I->cartSetting($this->cartSetting);
 	}
 }

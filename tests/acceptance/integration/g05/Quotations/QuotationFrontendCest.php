@@ -101,6 +101,7 @@ class QuotationFrontendCest
 
 		$I->wantTo(' Enable Quotation at configuration ');
 		$I = new ConfigurationSteps($scenario);
+		$this->cartSetting["onePage"] = 'yes';
 		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Quotation at frontend ');

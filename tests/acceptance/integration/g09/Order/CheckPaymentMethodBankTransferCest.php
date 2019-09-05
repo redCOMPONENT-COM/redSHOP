@@ -108,9 +108,6 @@ class CheckPaymentMethodBankTransferCest
 		$I = new OrderSteps($scenario);
 		$I->addProductToCartWithBankTransfer($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
 
-		$I->wantTo('setup up one page checkout at admin');
-		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->cartSetting);
 		$I->wantTo('Check Order');
 		$I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName, $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
 	}
@@ -123,6 +120,11 @@ class CheckPaymentMethodBankTransferCest
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
+
+		$I->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Deletion Product in Administrator');
 		$I = new ProductSteps($scenario);

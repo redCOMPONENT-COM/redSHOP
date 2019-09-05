@@ -208,7 +208,8 @@ class OnePageCheckoutCest
 	public function clearUpDatabase(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-		$I->wantTo('setup up one page checkout is no at admin');
+		$I->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->cartSetting);
 
