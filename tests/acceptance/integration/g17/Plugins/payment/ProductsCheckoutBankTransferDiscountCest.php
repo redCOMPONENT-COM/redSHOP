@@ -223,7 +223,7 @@ class ProductsCheckoutBankTransferDiscountCest
 	 */
 	public function testBankTransferDiscountPaymentPlugin( ConfigurationSteps $I, $scenario)
 	{
-        $I->cartSetting($this->cartSetting);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
