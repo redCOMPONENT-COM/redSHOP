@@ -42,7 +42,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userQuotationPage->xPathSearch($nameUser), 30);
 		$I->click($userQuotationPage->xPathSearch($nameUser));
 		$I->scrollTo(QuotationManagerPage::$newProductLink);
-		$I->waitForElementVisible(QuotationManagerPage::$productId);
+		$I->waitForElementVisible(QuotationManagerPage::$productId, 30);
 		$I->click(QuotationManagerPage::$productId);
 		$I->waitForElementVisible(QuotationManagerPage::$productsSearch, 30);
 		$I->fillField(QuotationManagerPage::$productsSearch, $nameProduct);

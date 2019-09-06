@@ -256,7 +256,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $radioCompany = "//input[@billing_type='company']";
+	public static $radioCompany = "//input[@id='toggler2']";
 
 	/**
 	 * @var array
@@ -528,6 +528,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $errorAddToCart = 'Product was not added to cart';
 	
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $paymentBankTransferDiscount = "//input[@value='rs_payment_banktransfer_discount']";
+
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
