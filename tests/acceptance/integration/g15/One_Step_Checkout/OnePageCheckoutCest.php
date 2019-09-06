@@ -112,26 +112,24 @@ class OnePageCheckoutCest
 			"eanNumber"      => 1212331331231,
 		);
 
-		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
-
-		$this->buttonCartLeadEdit = 'Back to current view';
 		$this->shippingWithVat    = "DKK 0,00";
 
+		//configuration enable one page checkout
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 	}
 
 	/**
@@ -153,8 +151,7 @@ class OnePageCheckoutCest
 
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -211,9 +208,10 @@ class OnePageCheckoutCest
 	public function clearUpDatabase(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-		$I->wantTo('setup up one page checkout is no at admin');
+		$I->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLeadEdit, $this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Test Order delete by user  in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
