@@ -21,7 +21,7 @@ use AcceptanceTester\UserManagerJoomla3Steps;
  */
 class CheckoutChangeQuantityProductCest
 {
-	 /**
+	/**
 	 * @var string
 	 */
 	public $categoryName;
@@ -96,6 +96,12 @@ class CheckoutChangeQuantityProductCest
 	 */
 	public $faker;
 
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $cartSetting;
+
 	public function __construct()
 	{
 		//Product & Category
@@ -107,21 +113,21 @@ class CheckoutChangeQuantityProductCest
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice = 100;
 
-		//Configuration cart checkout
-		$this->addcart = 'product';
-		$this->allowPreOrder = 'no';
-		$this->enableQuation = 'no';
-		$this->cartTimeOut = 'no';
-		$this->enabldAjax = 'no';
-		$this->defaultCart = null;
-		$this->buttonCartLead = 'Back to current view';
-		$this->showShippingCart = 'no';
-		$this->attributeImage = 'no';
-		$this->minimunOrder = 0;
-		$this->onePage = "yes";
-		$this->quantityChange = "yes";
-		$this->quantityInCart = 3;
-		$this->disableonepage = "no";
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'no',
+			"cartTimeOut"       => 'no',
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'yes',
+			"quantityInCart"    => 3,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 
 		//User
 		$this->userName = $this->faker->bothify('QuantityChangeCest ?##?');
@@ -134,9 +140,9 @@ class CheckoutChangeQuantityProductCest
 	}
 
 
-    /**
-     * @param AcceptanceTester $I
-     */
+	/**
+	 * @param AcceptanceTester $I
+	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -161,7 +167,7 @@ class CheckoutChangeQuantityProductCest
 	{
 		$I->wantTo('Enable Quantity Change in Cart');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -199,6 +205,7 @@ class CheckoutChangeQuantityProductCest
 
 		$I->wantTo("Disable One page checkout");
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->disableonepage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$this->cartSetting["onePage"] = 'no';
+		$I->cartSetting($this->cartSetting);
 	}
 }
