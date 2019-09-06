@@ -183,26 +183,20 @@ class OrderDiscountAndSpecialDiscountCest
 		$I->wantTo('I want create order and update discount and special discount');
 		$I = new OrderUpdateDiscountAndSpecialDiscountSteps($scenario);
 		$I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->discountUpdate, $this->specialUpdate, $this->randomProductPrice);
+
+		//Detele data
+        $I->wantTo('Delete product');
+        $I = new ProductManagerJoomla3Steps($scenario);
+        $I->deleteProduct($this->productName);
+        $I->wantTo('Delete Category');
+        $I = new CategoryManagerJoomla3Steps($scenario);
+        $I->deleteCategory($this->categoryName);
+        $I->wantTo('Delete Order just create');
+        $I = new OrderManagerJoomla3Steps($scenario);
+        $I->deleteOrder($this->firstName);
+        $I->wantTo('Delete account in redSHOP and Joomla');
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->deleteUser($this->firstName, false);
 	}
 
-	/**
-	 * @param AcceptanceTester $I
-	 * @param $scenario
-	 * @since 2.1.2
-	 */
-	public function deleteData(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Delete product');
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->deleteProduct($this->productName);
-		$I->wantTo('Delete Category');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->categoryName);
-		$I->wantTo('Delete Order just create');
-		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder($this->firstName);
-		$I->wantTo('Delete account in redSHOP and Joomla');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstName, false);
-	}
 }
