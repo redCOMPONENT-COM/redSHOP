@@ -108,6 +108,7 @@ class CheckPaymentMethodBankTransferCest
 		$I = new OrderSteps($scenario);
 		$I->addProductToCartWithBankTransfer($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
 
+		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
 		$I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName, $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
 	}

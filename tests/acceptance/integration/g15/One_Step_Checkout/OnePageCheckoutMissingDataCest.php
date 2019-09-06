@@ -156,6 +156,7 @@ class OnePageCheckoutMissingDataCest
 	 */
 	public function clearUpDatabase(ProductManagerJoomla3Steps $I, $scenario)
 	{
+		$I->doAdministratorLogin();
 		$I->wantTo('Disable one page checkout');
 		$this->cartSetting["onePage"] = 'no';
 		$I = new ConfigurationSteps($scenario);
