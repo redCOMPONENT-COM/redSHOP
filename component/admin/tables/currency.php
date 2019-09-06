@@ -110,15 +110,34 @@ class RedshopTableCurrency extends RedshopTable
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('(' . $codeQuery . ') AS ' . $db->qn('data'))
-			->where($db->qn('data.code') . ' = ' . $db->quote($code));
+			->where($db->qn('data.code') . ' = ' . $db->q($code));
 
 		if ($db->setQuery($query)->loadResult())
 		{
-			$this->setError(JText::_('COM_REDSHOP_CURRENCY_CODE_ALREADY_EXISTS'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_CURRENCY_CODE_ALREADY_EXISTS'));
 
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   mixed  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfully?
+	 */
+	protected function doDelete($pk = null)
+	{
+		if (Redshop::getConfig()->get('CURRENCY_CODE') == $this->code)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_CURRENCY_ERROR_DELETE_CURRENCY_SET_IN_CONFIG'));
+
+			return false;
+		}
+
+		return parent::doDelete();
 	}
 }

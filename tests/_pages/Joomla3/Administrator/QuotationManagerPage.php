@@ -87,7 +87,6 @@ class QuotationManagerPage extends AdminJ3Page
      */
     public static $buttonSend = "Send";
 
-
     //selector
 
     /**
@@ -116,6 +115,18 @@ class QuotationManagerPage extends AdminJ3Page
      * @var string
      */
     public static $messageDeleteSuccess = "Quotation detail deleted successfully";
+
+    /**
+     * @var string
+     * since 2.1.2
+     */
+    public static $email = '//input[@id="user_email"]';
+
+    /**
+     * @var string
+     * since 2.1.2
+     */
+    public static $enterPhoneNumber = 'Please enter phone number';
 
     /**
      * Function to get the path for User Name
