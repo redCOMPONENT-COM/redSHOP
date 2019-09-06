@@ -26,17 +26,17 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 	 * @param $categoryName
 	 * @throws \Exception
 	 */
-	public function checkoutProductWith2Checkout( $userName , $password, $checkoutAccountInformation, $productName, $categoryName)
+	public function checkoutProductWith2Checkout($userName, $password, $checkoutAccountInformation, $productName, $categoryName)
 	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $password);
 		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->amOnPage(FrontEndProductManagerJoomla3Page:: $cartPageUrL);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $labelPayment, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(Frontend2PaymentPage::$payment2checkout, 30);
 		$I->wait(0.5);
