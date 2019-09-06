@@ -37,23 +37,20 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		}
 
 		//Construct:
-		$section                    = 1;
-		$type                       = 1;
-		$cart                       = RedshopHelperCartSession::getCart();
 		$id_custom_field_min_stock  = (int) $this->params->get('id_low_stock_alert');
 		$id_min_stock_template      = $this->params->get('id_low_stock_alert_template');
 		$template_mail              = RedshopHelperTemplate::getTemplate('low_stock_alert_mail_template', $id_min_stock_template);
 
-		if(empty($cart) || empty($id_custom_field_min_stock) || empty($id_min_stock_template) || empty($template_mail) )
+		if( empty($id_custom_field_min_stock) || empty($id_min_stock_template) || empty($template_mail) )
 		{
 			return;
 		}
 
-		$list_id                     = $this->getListIdProduct($cart);
+		$list_id                     = $this->getListIdProduct();
 		$info_product                = $this->getInfoProduct ($list_id);
 		$value_product_in_stock      = $this->getValueProduct ($list_id);
-		$custom_field_min_stock      = $this->getCustomFieldMinStock($id_custom_field_min_stock,$section,$type);
-		$min_value_product_in_stock  = $this->getMinValueProduct ($id_custom_field_min_stock,$section,$list_id);
+		$custom_field_min_stock      = $this->getCustomFieldMinStock($id_custom_field_min_stock);
+		$min_value_product_in_stock  = $this->getMinValueProduct ($id_custom_field_min_stock,$list_id);
 
 		// check validation
 		($info_product !== false)               ? $info_product                 : null ;
@@ -66,15 +63,17 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 			return;
 		}
 
-		$this->ProcessLowStockMail($cart,$min_value_product_in_stock,$value_product_in_stock,$custom_field_min_stock,$id_custom_field_min_stock,$info_product,$template_mail);
+		$this->ProcessLowStockMail($min_value_product_in_stock,$value_product_in_stock,$custom_field_min_stock,$id_custom_field_min_stock,$info_product,$template_mail);
 
 	}
 
-	public function getCustomFieldMinStock($id_custom_field_min_stock,$section,$type)
+	public function getCustomFieldMinStock($id_custom_field_min_stock)
 	{
 		$db        = JFactory::getDbo();
 		$query     = $db->getQuery(true);
-
+		$section = 1;
+		$type    = 1;
+		
 		$query->clear()
 			->select('*')
 			->from($db->qn('#__redshop_fields'))
@@ -90,11 +89,12 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		return false;
 	}
 
-	public function getMinValueProduct($id_custom_field_min_stock,$section,$list_id)
+	public function getMinValueProduct($id_custom_field_min_stock,$list_id)
 	{
 		$db        = JFactory::getDbo();
 		$query     = $db->getQuery(true);
-
+		$section  = 1;
+		
 		$query->clear()
 			->select('*')
 			->from($db->qn('#__redshop_fields_data'))
@@ -114,7 +114,7 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 	{
 		$db        = JFactory::getDbo();
 		$query     = $db->getQuery(true);
-
+		
 		$query->clear()
 			->select([$db->qn('product_id'), $db->qn('product_name'), $db->qn('product_number')])
 			->from($db->qn('#__redshop_product'))
@@ -146,8 +146,9 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		return false;
 	}
 
-	public function getListIdProduct($cart)
+	public function getListIdProduct()
 	{
+		$cart = RedshopHelperCartSession::getCart();
 		foreach ($cart as $key => $value )
 		{
 			if(!is_numeric ($key))
@@ -166,10 +167,11 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 		return false;
 	}
 
-	public function ProcessLowStockMail($cart,$min_value_product_in_stock,$value_product_in_stock,$custom_field_min_stock,$id_custom_field_min_stock,$info_product,$template_mail)
+	public function ProcessLowStockMail($min_value_product_in_stock,$value_product_in_stock,$custom_field_min_stock,$id_custom_field_min_stock,$info_product,$template_mail)
 	{
 		$db        = JFactory::getDbo();
 		$query     = $db->getQuery(true);
+		$cart      = RedshopHelperCartSession::getCart();
 
 		foreach ($cart as $key_cart => $value_cart )
 		{
@@ -178,50 +180,56 @@ class PlgRedshop_AlertLow_Stock_Alert extends JPlugin
 				continue;
 			}
 
-			foreach ( $min_value_product_in_stock as $k => $v )
+			foreach ($cart as $key_cart => $value_cart )
 			{
-				if ( $value_cart['product_id'] == $k  && $value_product_in_stock[$k]->quantity <= $v->data_txt )
+				if(!is_numeric ($key_cart))
 				{
-					$message='<a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]='.$info_product[$k]->product_id.'">';
-					$message .= JText::sprintf(
-						'PLG_REDSHOP_ALERT_LOW_STOCK_ALERT_MESSAGE',
-						$info_product[$k]->product_name,
-						$info_product[$k]->product_number,
-						$value_product_in_stock[$k]->quantity, // = quantity in stock  - quantity in cart
-						$custom_field_min_stock[$id_custom_field_min_stock]->title,
-						$v->data_txt
-					);
+					continue;
+				}
 
-					$template_mail['0']->template_desc = str_replace("{product_name}", $info_product[$k]->product_name, $template_mail['0']->template_desc);
-					$template_mail['0']->template_desc = str_replace("{product_number}", $info_product[$k]->product_number, $template_mail['0']->template_desc);
-					$template_mail['0']->template_desc = str_replace("{title_min_stock}", $custom_field_min_stock[$id_custom_field_min_stock]->title, $template_mail['0']->template_desc);
-					$template_mail['0']->template_desc = str_replace("{quantity_min_stock}", $value_product_in_stock[$k]->quantity, $template_mail['0']->template_desc);
-					$template_mail['0']->template_desc = str_replace("{value_min_stock}", $v->data_txt, $template_mail['0']->template_desc);
+				foreach ( $min_value_product_in_stock as $k => $v )
+				{
+					$template_mail_tmp = $template_mail['0']->template_desc;
 
-					$query->clear()
-						->insert($db->qn('#__redshop_alerts'))
-						->columns($db->qn(['message', 'sent_date', 'read']))
-						->values($db->q($message) . ',' . $db->q(date('Y-m-d H:i:s')) . ',' . $db->q('0'));
-
-					if( $db->setQuery($query)->execute() )
+					if ( $value_cart['product_id'] == $k  && $value_product_in_stock[$k]->quantity <= $v->data_txt )
 					{
-						$mail = Redshop::getConfig()->get('ADMINISTRATOR_EMAIL');
-						$mail = explode(',',$mail);
+						$message='<a href="index.php?option=com_redshop&view=product_detail&task=edit&cid[]='.$info_product[$k]->product_id.'">';
+						$message .= JText::sprintf(
+							'PLG_REDSHOP_ALERT_LOW_STOCK_ALERT_MESSAGE',
+							$info_product[$k]->product_name,
+							$info_product[$k]->product_number,
+							$value_product_in_stock[$k]->quantity, // = quantity in stock  - quantity in cart
+							$custom_field_min_stock[$id_custom_field_min_stock]->title,
+							$v->data_txt
+						);
 
-						if( !is_array($mail) && !empty($mail) )
-						{
-							$this->sendMail($template_mail['0']->template_desc,$mail);
+						$template_mail_tmp = str_replace("{product_name}", $info_product[$k]->product_name, $template_mail_tmp);
+						$template_mail_tmp = str_replace("{product_number}", $info_product[$k]->product_number, $template_mail_tmp);
+						$template_mail_tmp = str_replace("{title_min_stock}", $custom_field_min_stock[$id_custom_field_min_stock]->title, $template_mail_tmp);
+						$template_mail_tmp = str_replace("{quantity_min_stock}", $value_product_in_stock[$k]->quantity, $template_mail_tmp);
+						$template_mail_tmp = str_replace("{value_min_stock}", $v->data_txt, $template_mail_tmp);
 
-							return true;
-						}
-						else
+						$query->clear()
+							->insert($db->qn('#__redshop_alerts'))
+							->columns($db->qn(['message', 'sent_date', 'read']))
+							->values($db->q($message) . ',' . $db->q(date('Y-m-d H:i:s')) . ',' . $db->q('0'));
+
+						if( $db->setQuery($query)->execute() )
 						{
-							foreach ( $mail as  $value_mail )
+							$mail = Redshop::getConfig()->get('ADMINISTRATOR_EMAIL');
+							$mail = explode(',',$mail);
+
+							if( !is_array($mail) && !empty($mail) )
 							{
-								$this->sendMail($template_mail['0']->template_desc,$value_mail);
+								$this->sendMail($template_mail_tmp,$mail);
 							}
-
-							return true;
+							elseif(is_array($mail) && !empty($mail))
+							{
+								foreach ( $mail as  $value_mail )
+								{
+									$this->sendMail($template_mail_tmp,$value_mail);
+								}
+							}
 						}
 					}
 				}
