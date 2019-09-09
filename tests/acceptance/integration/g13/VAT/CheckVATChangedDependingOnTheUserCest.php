@@ -237,30 +237,30 @@ class CheckVATChangedDependingOnTheUserCest
 			"userName"              => $this->faker->bothify('User In VN ?####?'),
 			"password"              => $this->faker->bothify('Password VN ?##?'),
 			"email"                 => $this->faker->email,
-			"group"                 => 'Default Private',
-			"defaultCart"           => 'Registered',
+			"group"                 => 'Registered',
+			"shopperGroup"          => 'Default Private',
 			"firstName"             => $this->faker->bothify('User In VN ?##?'),
 			"lastName"              => $this->faker->bothify('LastName ?####?'),
 			"address"               => $this->faker->address,
 			"zipcode"               => $this->faker->postcode,
 			"city"                  => 'Ho Chi Minh',
-			"country"               => 'Viet Nam',
-			"phone"                 => $this->faker->phoneNumber
+			"phone"                 => $this->faker->phoneNumber,
+			"country"               => 'Viet Nam'
 		);
 		//User in Denmark
 		$this->userDM = array(
 			"userName"              => $this->faker->bothify('User In DM ?####?'),
 			"password"              =>$this->faker->bothify('Password DM ?##?'),
 			"email"                 => $this->faker->email,
-			"shopperGroup"          => 'Default Private',
 			"group"                 => 'Registered',
+			"shopperGroup"          => 'Default Private',
 			"firstName"             => $this->faker->bothify('User In DM ?##?'),
 			"lastName"              => $this->faker->bothify('LastName ?####?'),
 			"address"               => $this->faker->address,
 			"zipcode"               => $this->faker->postcode,
 			"city"                  => 'Ho Chi Minh',
-			"country"               => 'Denmark',
-			"phone"                 => $this->faker->phoneNumber
+			"phone"                 => $this->faker->phoneNumber,
+			"country"               => 'Denmark'
 		);
 
 		//configuration enable one page checkout
