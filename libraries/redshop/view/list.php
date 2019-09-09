@@ -222,7 +222,7 @@ class RedshopViewList extends AbstractView
 		{
 			if ($this->enableDuplicate)
 			{
-				JToolbarHelper::checkin($this->getInstancesName() . '.copy', 'COM_REDSHOP_TOOLBAR_COPY', true);
+				JToolbarHelper::save2copy($this->getInstancesName() . '.copy', 'COM_REDSHOP_TOOLBAR_COPY');
 			}
 
 			if (!empty($this->stateColumns))
