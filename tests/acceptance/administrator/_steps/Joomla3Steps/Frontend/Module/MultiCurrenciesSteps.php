@@ -36,6 +36,8 @@ class MultiCurrenciesSteps extends CheckoutOnFrontEnd
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceOfEuro, 30, FrontEndProductManagerJoomla3Page::$productPrice);
+		$I->see(FrontEndProductManagerJoomla3Page::$priceOfEuro);
 	}
 }
