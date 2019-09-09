@@ -297,6 +297,7 @@ class rsCarthelper
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
 		JPluginHelper::importPlugin('redshop_checkout');
+		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher   = RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onBeforeReplaceTemplateCart', array(&$cart, &$cart_data, $checkout));
 		
@@ -501,6 +502,8 @@ class rsCarthelper
 			0,
 			Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
 		);
+		
+		$dispatcher->trigger('onAfterReplaceTemplateCart', array(&$cart_data, $checkout));
 
 		return $cart_data;
 	}
