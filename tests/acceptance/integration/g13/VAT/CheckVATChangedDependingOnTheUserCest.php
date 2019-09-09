@@ -344,8 +344,8 @@ class CheckVATChangedDependingOnTheUserCest
 
 		$I->wantTo('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstNameDM);
-		$I->deleteUser($this->firstNameVN);
+		$I->deleteUser($this->userDM["userName"]);
+		$I->deleteUser($this->userVN["userName"]);
 
 		$I->wantTo('Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);
