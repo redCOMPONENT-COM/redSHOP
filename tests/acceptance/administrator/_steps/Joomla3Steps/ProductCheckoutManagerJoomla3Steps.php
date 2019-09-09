@@ -1279,9 +1279,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$priceRate = 'Shipping with vat: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
 		$I->see($priceRate);
 		$I->see($priceTotal);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
 	}
 
 	/**
@@ -1300,10 +1300,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
 		$NumberZero = null;
+
 		for($b = 1; $b <= $numberOfPriceDecimals; $b++)
 		{
 			$NumberZero = $NumberZero."0";
 		}
+
 		return array(
 			'currencySymbol'            => $currencySymbol,
 			'decimalSeparator'          => $decimalSeparator,
