@@ -17110,6 +17110,9 @@ svg {
 .icon-32-print_f2 {
     background-image: url(../images/print_f2.png);
 }
+.icon-checkin {
+    background-image: url(../images/check.png);
+}
 
 .popup .btn.btn-small {
     font-size: 14px;
