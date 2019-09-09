@@ -123,10 +123,10 @@ class ProductsCheckoutAuthorizeDPMCest
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
-			"addcart"            => 'product',
+			"addCart"            => 'product',
 			"allowPreOrder"      => 'yes',
 			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
-			"enabldAjax"         => 'no',
+			"enabledAjax"         => 'no',
 			"defaultCart"        => null,
 			"buttonCartLead"     => 'Back to current view',
 			"onePage"            => 'yes',
@@ -134,10 +134,8 @@ class ProductsCheckoutAuthorizeDPMCest
 			"attributeImage"     => 'no',
 			"quantityChange"     => 'no',
 			"quantityInCart"     => 0,
-			"minimunOrder"       => 0,
-			"enableQuation"      => 'no',
-			"onePageNo"          => 'no',
-			"onePageYes"         => 'yes'
+			"minimumOrder"       => 0,
+			"enableQuotation"      => 'no'
 		);
 
 		$this->customerInformation = array(
@@ -186,7 +184,7 @@ class ProductsCheckoutAuthorizeDPMCest
 	 * @param AdminManagerJoomla3Steps $I
 	 * @param $scenario
 	 * @throws Exception
-     * @since    2.1.2
+	 * @since    2.1.2
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
@@ -208,8 +206,8 @@ class ProductsCheckoutAuthorizeDPMCest
 	public function testAuthorizeDPMPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
 		$I->wantTo('setup up one page checkout at admin');
-		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"],
-			$this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
