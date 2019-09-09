@@ -31,31 +31,31 @@ class OrderStatusManagerCest
 	 * @var \Faker\Generator
 	 * @since 2.1.3
 	 */
-	public $faker;
+	protected $faker;
 
 	/**
 	 * @var array
 	 * @since 2.1.3
 	 */
-	public $customerInformation;
+	protected $customerInformation;
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public $categoryName;
+	protected $categoryName;
 
 	/**
 	 * @var array
 	 * @since 2.1.3
 	 */
-	public $shipping;
+	protected $shipping;
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public $shippingMethod;
+	protected $shippingMethod;
 
 	public function __construct()
 	{

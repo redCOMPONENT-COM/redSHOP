@@ -283,6 +283,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	/**
 	 * @param $firstName
 	 * @param $statusName
+	 * @param $statusCode
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
