@@ -331,7 +331,7 @@ class CheckVATChangedDependingOnTheUserCest
 		$I->testProductWithVatCheckout($this->userDM["userName"], $this->userDM["password"], $this->productName, $this->categoryName, $this->subtotalDenmark, $this->vatPriceDenmark, $this->totalDenmark);
 		$I->doFrontendLogout();
 		$I = new CheckoutOnFrontEnd($scenario);
-		$I->testProductWithVatCheckout($this->userVN["userNameVN"], $this->userVN["passwordVN"], $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
+		$I->testProductWithVatCheckout($this->userVN["userName"], $this->userVN["password"], $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
 
 		$I->wantTo('Delete Tax Rates');
 		$I = new TaxRateSteps($scenario);
