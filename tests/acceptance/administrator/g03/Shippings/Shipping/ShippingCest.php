@@ -198,7 +198,7 @@ class ShippingCest
 		$I->wantToTest('checkout with '.$this->shipping['shippingName'].' just create');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithShippingRate($this->customerInformation['userName'], $this->customerInformation['userName'], $this->categoryName,
-			$this->product['name'], $this->shipping, $this->total);
+			$this->product['name'], $this->total, $this->shipping);
 
 		$I->wantToTest('Check Order on Backend');
 		$I = new ConfigurationSteps($scenario);
