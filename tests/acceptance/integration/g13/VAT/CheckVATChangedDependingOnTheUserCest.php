@@ -234,18 +234,18 @@ class CheckVATChangedDependingOnTheUserCest
 		$this->randomProductPrice       = 100;
 
 		$this->userVN = array(
-			"userNameVN"            => $this->faker->bothify('User In VN ?####?'),
-			"passwordVN"            => $this->faker->bothify('Password VN ?##?'),
-			"email"               => $this->faker->email,
-			"shopperGroup"          => 'Default Private',
+			"userName"              => $this->faker->bothify('User In VN ?####?'),
+			"password"              => $this->faker->bothify('Password VN ?##?'),
+			"email"                 => $this->faker->email,
+			"group"                 => 'Default Private',
 			"defaultCart"           => 'Registered',
-			"firstNameVN"           => $this->faker->bothify('User In VN ?##?'),
+			"firstName"             => $this->faker->bothify('User In VN ?##?'),
 			"lastName"              => $this->faker->bothify('LastName ?####?'),
 			"address"               => $this->faker->address,
 			"zipcode"               => $this->faker->postcode,
 			"city"                  => 'Ho Chi Minh',
 			"country"               => 'Viet Nam',
-			"phone"                 => $this->faker->phoneNumber,
+			"phone"                 => $this->faker->phoneNumber
 		);
 		//User in Denmark
 		$this->userDM = array(
@@ -253,14 +253,14 @@ class CheckVATChangedDependingOnTheUserCest
 			"password"              =>$this->faker->bothify('Password DM ?##?'),
 			"email"                 => $this->faker->email,
 			"shopperGroup"          => 'Default Private',
-			"defaultCart"           => 'Registered',
-			"firstNameVN"           => $this->faker->bothify('User In DM ?##?'),
+			"group"                 => 'Registered',
+			"firstName"             => $this->faker->bothify('User In DM ?##?'),
 			"lastName"              => $this->faker->bothify('LastName ?####?'),
 			"address"               => $this->faker->address,
 			"zipcode"               => $this->faker->postcode,
 			"city"                  => 'Ho Chi Minh',
 			"country"               => 'Denmark',
-			"phone"                 => $this->faker->phoneNumber,
+			"phone"                 => $this->faker->phoneNumber
 		);
 
 		//configuration enable one page checkout

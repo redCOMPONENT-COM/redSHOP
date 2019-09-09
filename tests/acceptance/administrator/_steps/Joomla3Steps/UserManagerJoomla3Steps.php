@@ -532,7 +532,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function addUserHaveCountry($userName, $password, $email, $group, $shopperGroup, $firstName, $lastName, $address, $city, $zipcode, $phone, $country)
+	public function addUserHaveCountry($user= array())
 	{
 		$I = $this;
 		$I->amOnPage(UserManagerJoomla3Page::$URL);
@@ -542,26 +542,26 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(UserManagerJoomla3Page::$generalTab, 30);
 		$I->click(UserManagerJoomla3Page::$generalTab);
 		$I->waitForElementVisible(UserManagerJoomla3Page::$userName, 30);
-		$I->fillField(UserManagerJoomla3Page::$userName, $userName);
-		$I->fillField(UserManagerJoomla3Page::$newPassword, $password);
-		$I->fillField(UserManagerJoomla3Page::$confirmNewPassword, $password);
-		$I->fillField(UserManagerJoomla3Page::$email, $email);
-		$I->selectOption(UserManagerJoomla3Page::$groupRadioButton, $group);
+		$I->fillField(UserManagerJoomla3Page::$userName, $user['userName']);
+		$I->fillField(UserManagerJoomla3Page::$newPassword, $user['password']);
+		$I->fillField(UserManagerJoomla3Page::$confirmNewPassword, $user['password']);
+		$I->fillField(UserManagerJoomla3Page::$email, $user['email']);
+		$I->selectOption(UserManagerJoomla3Page::$groupRadioButton, $user['group']);
 		$I->click(UserManagerJoomla3Page::$shopperGroupDropDown);
-		$I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
-		$I->click($userManagerPage->shopperGroup($shopperGroup));
+		$I->waitForElement($userManagerPage->shopperGroup($user['shopperGroup']), 30);
+		$I->click($userManagerPage->shopperGroup($user['shopperGroup']));
 		$I->click(UserManagerJoomla3Page::$billingInformationTab);
 		$I->waitForElementVisible(UserManagerJoomla3Page::$firstName, 30);
-		$I->fillField(UserManagerJoomla3Page::$firstName, $firstName);
-		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
-		$I->fillField(UserManagerJoomla3Page::$address, $address);
-		$I->fillField(UserManagerJoomla3Page::$city, $city);
-		$I->fillField(UserManagerJoomla3Page::$zipcode, $zipcode);
-		$I->fillField(UserManagerJoomla3Page::$phone, $phone);
+		$I->fillField(UserManagerJoomla3Page::$firstName, $user['firstName']);
+		$I->fillField(UserManagerJoomla3Page::$lastName, $user['lastName']);
+		$I->fillField(UserManagerJoomla3Page::$address, $user['address']);
+		$I->fillField(UserManagerJoomla3Page::$city, $user['city']);
+		$I->fillField(UserManagerJoomla3Page::$zipcode, $user['zipcode']);
+		$I->fillField(UserManagerJoomla3Page::$phone, $user['phone']);
 		$I->waitForElementVisible(UserManagerJoomla3Page::$country, 30);
 		$I->click(UserManagerJoomla3Page::$country);
-		$I->waitForElement($userManagerPage->shopperGroup($country), 30);
-		$I->click($userManagerPage->shopperGroup($country));
+		$I->waitForElement($userManagerPage->shopperGroup($user['country']), 30);
+		$I->click($userManagerPage->shopperGroup($user['country']));
 		$I->click(UserManagerJoomla3Page::$saveCloseButton);
 		$I->waitForText(UserManagerJoomla3Page::$userSuccessMessage, 60, UserManagerJoomla3Page::$selectorSuccess);
 		$I->see(UserManagerJoomla3Page::$userSuccessMessage, UserManagerJoomla3Page::$selectorSuccess);
