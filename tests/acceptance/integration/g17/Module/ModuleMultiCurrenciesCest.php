@@ -64,9 +64,9 @@ class ModuleMultiCurrenciesCest
 		$I->publishModule($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationCurrent($this->moduleName);
-        $I->setModulePosition($this->moduleName);
-        $I->displayModuleOnAllPages($this->moduleName);
-    }
+		$I->setModulePosition($this->moduleName);
+		$I->displayModuleOnAllPages($this->moduleName);
+	}
 
 	/**
 	 * @param AcceptanceTester $I
