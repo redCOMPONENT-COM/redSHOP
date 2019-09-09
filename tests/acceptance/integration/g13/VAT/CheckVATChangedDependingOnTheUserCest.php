@@ -265,19 +265,19 @@ class CheckVATChangedDependingOnTheUserCest
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
-			"addCart"           => 'product',
-			"allowPreOrder"     => 'yes',
-			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
-			"enabledAjax"       => 'no',
-			"defaultCart"       => null,
-			"buttonCartLead"    => 'Back to current view',
-			"onePage"           => 'yes',
-			"showShippingCart"  => 'no',
-			"attributeImage"    => 'no',
-			"quantityChange"    => 'no',
-			"quantityInCart"    => 0,
-			"minimumOrder"      => 0,
-			"enableQuotation"   => 'no'
+			"addCart"            => 'product',
+			"allowPreOrder"      => 'yes',
+			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"        => 'no',
+			"defaultCart"        => null,
+			"buttonCartLead"     => 'Back to current view',
+			"onePage"            => 'yes',
+			"showShippingCart"   => 'no',
+			"attributeImage"     => 'no',
+			"quantityChange"     => 'no',
+			"quantityInCart"     => 0,
+			"minimumOrder"       => 0,
+			"enableQuotation"    => 'no'
 		);
 	}
 
@@ -328,10 +328,10 @@ class CheckVATChangedDependingOnTheUserCest
 
 		$I->wantTo('I Want to check VAT');
 		$I = new CheckoutOnFrontEnd($scenario);
-		$I->testProductWithVatCheckout($this->userNameDenmark, $this->passwordDenmark, $this->productName, $this->categoryName, $this->subtotalDenmark, $this->vatPriceDenmark, $this->totalDenmark);
+		$I->testProductWithVatCheckout($this->userDM["userName"], $this->userDM["password"], $this->productName, $this->categoryName, $this->subtotalDenmark, $this->vatPriceDenmark, $this->totalDenmark);
 		$I->doFrontendLogout();
 		$I = new CheckoutOnFrontEnd($scenario);
-		$I->testProductWithVatCheckout($this->userNameVN, $this->passwordVN, $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
+		$I->testProductWithVatCheckout($this->userVN["userNameVN"], $this->userVN["passwordVN"], $this->productName, $this->categoryName, $this->subtotalVN, $this->vatPriceVN, $this->totalVN);
 
 		$I->wantTo('Delete Tax Rates');
 		$I = new TaxRateSteps($scenario);
