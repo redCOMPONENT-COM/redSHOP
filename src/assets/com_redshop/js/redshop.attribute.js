@@ -1587,6 +1587,8 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
     var url = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=product&task=displayAdditionImage&redview=" + redSHOP.RSConfig._('REDSHOP_VIEW') + "&redlayout=" + redSHOP.RSConfig._('REDSHOP_LAYOUT');
     url = url + suburl;
 
+    jQuery(redSHOP).trigger('onBeforeAjaxdisplayAdditionalImage', [url, product_id, allarg]);
+
     request = getHTTPObject();
     request.onreadystatechange = function () {
 
