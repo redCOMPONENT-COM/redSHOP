@@ -1231,12 +1231,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $pass
 	 * @param $categoryName
 	 * @param $productName
-	 * @param array $shipping
 	 * @param $total
+	 * @param array $shipping
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithShippingRate($username, $pass, $categoryName, $productName, $shipping = array(), $total)
+	public function checkoutWithShippingRate($username, $pass, $categoryName, $productName, $total, $shipping = array())
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
