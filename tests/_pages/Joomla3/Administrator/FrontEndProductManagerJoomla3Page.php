@@ -538,31 +538,19 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $chooseCurrent = '//div[@id="s2id_product_currency"]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $input = '//input[@id="s2id_autogen2_search"]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
 	public static $submitCurrent = 'Change Currency';
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $priceOfEuro = 'EUR 13,41';
+	public static $productPrice = '//div[@id="product_price"]';
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $page = 'Product Front End Page';
+	public static $priceOfEuro = 'EUR 13,41';
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List

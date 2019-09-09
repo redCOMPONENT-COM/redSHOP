@@ -27,7 +27,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $input = '(//input[ @type="text"])[2]';
+	public static $inputCurrent = '(//input[ @type="text"])[2]';
 
 	/**
 	 * @var string
