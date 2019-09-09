@@ -33,5 +33,23 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $curentConfiguration = '//div[@class="pull-left"]';
+	public static $curentConfiguration = ['link' => "Redshop Multi Currencies"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $saveCloseButton = '//div[@id="toolbar-save"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageModuleSaved = 'Module saved';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $h2 = '//h2';
 }

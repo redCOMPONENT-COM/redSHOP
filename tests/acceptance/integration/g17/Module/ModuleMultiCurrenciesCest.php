@@ -62,10 +62,11 @@ class ModuleMultiCurrenciesCest
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable module Curencies in Administrator');
 		$I->publishModule($this->moduleName);
-		$I->displayModuleOnAllPages($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationCurrent($this->moduleName);
-	}
+        $I->setModulePosition($this->moduleName);
+        $I->displayModuleOnAllPages($this->moduleName);
+    }
 
 	/**
 	 * @param AcceptanceTester $I
@@ -103,5 +104,4 @@ class ModuleMultiCurrenciesCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 	}
-
 }

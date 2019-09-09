@@ -26,11 +26,13 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
 		$I->searchForItem($moduleName);
-		$I->waitForElement(ModuleManagerJoomlaPage::$curentConfiguration);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$curentConfiguration, 30);
 		$I->click(ModuleManagerJoomlaPage::$curentConfiguration);
+		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$input, 30);
 		$I->fillField(ModuleManagerJoomlaPage::$input, ModuleManagerJoomlaPage::$currentSelect);
 		$I->pressKey(ModuleManagerJoomlaPage::$input, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->setModulePosition($moduleName);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
 	}
-
 }
