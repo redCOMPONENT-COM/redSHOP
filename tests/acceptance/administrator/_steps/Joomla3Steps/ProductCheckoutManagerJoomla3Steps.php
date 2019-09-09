@@ -1231,7 +1231,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $pass
 	 * @param $categoryName
 	 * @param $productName
-	 * @param $currencyUnit
 	 * @param array $shipping
 	 * @param $total
 	 * @throws \Exception
@@ -1240,7 +1239,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function checkoutWithShippingRate($username, $pass, $categoryName, $productName, $shipping = array(), $total)
 	{
 		$I = $this;
-		$I->amOnPage(ConfigurationPage::$URL);
 		$currencyUnit = $I->getCurrencyValue();
 		$I->doFrontEndLogin($username, $pass);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -1288,14 +1286,18 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @return array
+	 * @throws \Exception
 	 * @since 2.1.3
 	 */
 	public function getCurrencyValue()
 	{
 		$I = $this;
-		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
-		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
-		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$price);
+		$I->waitForElementVisible(ConfigurationPage::$priceTab, 30);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
 		$NumberZero = null;
 		for($b = 1; $b <= $numberOfPriceDecimals; $b++)
