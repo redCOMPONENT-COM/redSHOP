@@ -18,6 +18,7 @@ class OrderStatusManagerPage extends AdminJ3Page
 {
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $URL = '/administrator/index.php?option=com_redshop&view=order_statuses';
 

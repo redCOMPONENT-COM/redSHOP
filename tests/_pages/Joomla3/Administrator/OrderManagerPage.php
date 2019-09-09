@@ -161,6 +161,7 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $messageChangeOrderSuccess = "Order Status Successfully Saved For Order Number ";
 
