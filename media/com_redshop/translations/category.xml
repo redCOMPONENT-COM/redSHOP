@@ -7,10 +7,10 @@
     <description>Translation definition for redSHOP Categories</description>
     <reference>
         <table name="redshop_category">
-            <field type="referenceid" name="category_id" translate="0">ID</field>
-            <field type="titletext" name="category_name" translate="1" >Name</field>
-            <field type="htmltext" name="category_short_description" translate="1" ebuttons="readmore,pagebreak">Short description</field>
-            <field type="htmltext" name="category_description" translate="1" ebuttons="readmore,pagebreak">Description</field>
+            <field type="referenceid" name="id" translate="0">ID</field>
+            <field type="titletext" name="name" translate="1" >Name</field>
+            <field type="htmltext" name="short_description" translate="1" ebuttons="readmore,pagebreak">Short description</field>
+            <field type="htmltext" name="description" translate="1" ebuttons="readmore,pagebreak">Description</field>
             <field type="text" name="category_thumb_image" translate="1">Full image</field>
             <field type="text" name="category_full_image" translate="1">Thumb image</field>
             <field type="text" name="metakey" translate="1" >Meta Key</field>
