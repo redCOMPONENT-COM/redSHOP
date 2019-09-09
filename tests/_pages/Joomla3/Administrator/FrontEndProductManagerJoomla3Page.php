@@ -553,6 +553,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $priceOfEuro = 'EUR 13,41';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $page = 'Product Front End Page';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
