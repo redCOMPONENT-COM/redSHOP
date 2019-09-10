@@ -24,36 +24,43 @@ class OrderStatusManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $filterSearch = "//input[@id='filter_search']";
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $editButton = ".btn-edit-item";
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $buttonReset = "Reset";
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $orderstatusName = "#jform_order_status_name";
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $orderstatusCode = "#jform_order_status_code";
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $messageNameFieldRequired = "Field required: Name";
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $messageCodeFieldRequired = "Field required: Code";
 
