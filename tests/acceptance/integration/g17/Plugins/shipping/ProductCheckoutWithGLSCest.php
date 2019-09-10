@@ -106,7 +106,7 @@ class ProductCheckoutWithGLSCest
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
-		$this->categoryName     = $this->faker->bothify('Category Name ?###?');
+		$this->categoryName     = $this->faker->bothify('Category Name Demo ?###?');
 		$this->productName      = $this->faker->bothify('Product Name ?###?');
 		$this->productNumber    = $this->faker->numberBetween(999, 9999);
 		$this->productPrice     = 100;
