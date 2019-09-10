@@ -32,6 +32,8 @@ class ModuleMultiCurrenciesCest
 		$this->productPrice     = 100;
 		$this->minimumQuantity  = 1;
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
+		$this->currency         = 'Euro';
+
 		//install module
 		$this->extensionURL   = 'extension url';
 		$this->moduleName     = 'Redshop Multi Currencies';
@@ -85,7 +87,7 @@ class ModuleMultiCurrenciesCest
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
 		$I = new MultiCurrenciesSteps($scenario);
-		$I->checkModuleCurrencies($this->categoryName, $this->productName, 'Euro');
+		$I->checkModuleCurrencies($this->categoryName, $this->productName, $this->currency);
 	}
 
 	/**

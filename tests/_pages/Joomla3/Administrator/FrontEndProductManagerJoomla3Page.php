@@ -550,7 +550,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $priceOfEuro = 'EUR 13,4';
+	public static $priceOfEuro = 'EUR';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceDenmark = 'DKK';
 
 	/**
 	 * @var string
