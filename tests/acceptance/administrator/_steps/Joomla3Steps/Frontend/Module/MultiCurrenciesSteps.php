@@ -35,6 +35,13 @@ class MultiCurrenciesSteps extends CheckoutOnFrontEnd
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceDenmark, 30, FrontEndProductManagerJoomla3Page::$productPrice);
+
+		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
+		$I->wait(1);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceKorean, 30, FrontEndProductManagerJoomla3Page::$productPrice);
+
+		$I->chooseOnSelect2(FrontEndProductManagerJoomla3Page::$curentChooseButton, FrontEndProductManagerJoomla3Page::$currentEuro);
 		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
 		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     redSHOP
- * @subpackage  Cest
+ * @subpackage  ModuleMultiCurrencies
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,7 +10,6 @@ use AcceptanceTester\AdminManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use Administrator\Module\ModuleManagerJoomla;
-use Faker\Factory;
 use Frontend\Module\MultiCurrenciesSteps;
 
 /**
@@ -65,12 +64,6 @@ class ModuleMultiCurrenciesCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $currency;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
 	protected $extensionURL;
 
 	/**
@@ -89,7 +82,7 @@ class ModuleMultiCurrenciesCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $pakage;
+	protected $package;
 
 	/**
 	 * ModuleMultiCurrenciesCest constructor.
@@ -101,16 +94,15 @@ class ModuleMultiCurrenciesCest
 		$this->categoryName     = $this->faker->bothify('CategoryName ?###?');
 		$this->productName      = $this->faker->bothify('Testing Product ??####?');
 		$this->productNumber    = $this->faker->numberBetween(999, 9999);
-		$this->productPrice     = 100;
-		$this->minimumQuantity  = 1;
+		$this->productPrice     = $this->faker->numberBetween(999, 9999);
+		$this->minimumQuantity  = $this->faker->numberBetween(1, 10);
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
-		$this->currency         = 'Euro';
 
 		//install module
 		$this->extensionURL   = 'extension url';
 		$this->moduleName     = 'Redshop Multi Currencies';
 		$this->moduleURL      = 'paid-extensions/tests/releases/modules/site/';
-		$this->pakage         = 'mod_redshop_currencies.zip';
+		$this->package         = 'mod_redshop_currencies.zip';
 	}
 
 	/**
@@ -132,9 +124,8 @@ class ModuleMultiCurrenciesCest
 	public function installModule(AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo("install module Multi Currencies");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->pakage);
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable module Curencies in Administrator');
 		$I->publishModule($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationCurrent($this->moduleName);
@@ -150,16 +141,15 @@ class ModuleMultiCurrenciesCest
 	 */
 	public function checkModuleMultiCurrencies(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Create Category in Administrator');
+		$I->wantTo('Check Module Currencies');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
 		$I = new MultiCurrenciesSteps($scenario);
-		$I->checkModuleCurrencies($this->categoryName, $this->productName, $this->currency);
+		$I->checkModuleCurrencies($this->categoryName, $this->productName);
 	}
 
 	/**
@@ -170,11 +160,10 @@ class ModuleMultiCurrenciesCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Delete product');
+		$I->wantTo('Delete data');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 
-		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 	}

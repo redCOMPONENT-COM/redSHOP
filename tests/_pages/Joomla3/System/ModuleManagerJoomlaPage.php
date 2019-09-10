@@ -17,11 +17,18 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $URL = '/administrator/index.php?option=com_modules';
+
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $currentSelect = 'Euro';
+	public static $currentSelectEuro = 'Euro';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $currentSelectKorean = '(South) Korean Won';
 
 	/**
 	 * @var string
@@ -33,7 +40,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $curentConfiguration = ['link' => "Redshop Multi Currencies"];
+	public static $currentConfiguration = ['link' => "Redshop Multi Currencies"];
 
 	/**
 	 * @var string

@@ -562,7 +562,25 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $priceKorean = 'KRW';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $page = 'Product Front End Page';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $curentChooseButton = '#product_currency';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $currentEuro = 'Euro';
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
