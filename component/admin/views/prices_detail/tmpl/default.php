@@ -24,12 +24,6 @@ $producthelper  = productHelper::getInstance();
             form.price_quantity_start.focus();
             return;
         }
-        if (form.discount_start_date.value > form.discount_end_date.value)
-        {
-            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE', true ); ?>");
-            form.discount_start_date.focus();
-            return;
-        }
         if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
             alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_INVALID', true ); ?>");
             form.product_price.focus();
@@ -58,8 +52,9 @@ $producthelper  = productHelper::getInstance();
                     <td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_LBL'); ?>
                         :
                     </td>
-                    <td><input class="text_area" type="text" name="product_price" id="product_price" size="10"
-                               maxlength="10"
+                    <td><input class="text_area" type="number" name="product_price" id="product_price" size="10"
+                               maxlength="10" min="0"
+                               oninput="validity.valid || (value='');"
                                value="<?php echo $producthelper->redpriceDecimal($this->detail->product_price); ?>"/>
                     </td>
                 </tr>
@@ -68,20 +63,22 @@ $producthelper  = productHelper::getInstance();
                         :
                     </td>
                     <td><input class="text_area" type="number" name="price_quantity_start" id="price_quantity_start"
-                               size="10" maxlength="10" value="<?php echo $this->detail->price_quantity_start; ?>"/>
+                               size="10" min="0" maxlength="10" oninput="validity.valid || (value='');"
+                               value="<?php echo $this->detail->price_quantity_start; ?>"/>
                     </td>
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_QUANTITY_END_LBL'); ?>:
                     </td>
                     <td><input class="text_area" type="number" name="price_quantity_end" id="price_quantity_end" size="10"
-                               maxlength="20" value="<?php echo $this->detail->price_quantity_end; ?>"/></td>
+                               maxlength="20" min="0" oninput="validity.valid || (value='')"
+                               value="<?php echo $this->detail->price_quantity_end; ?>"/></td>
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_DISCOUNT_PRICE'); ?>:
                     </td>
-                    <td><input class="text_area" type="text" name="discount_price" id="discount_price" size="10"
-                               maxlength="10"
+                    <td><input class="text_area" type="number" name="discount_price" id="discount_price" size="10"
+                               maxlength="10" min="0" oninput="validity.valid || (value='');"
                                value="<?php echo $producthelper->redpriceDecimal($this->detail->discount_price); ?>"/>
                     </td>
                 </tr>
