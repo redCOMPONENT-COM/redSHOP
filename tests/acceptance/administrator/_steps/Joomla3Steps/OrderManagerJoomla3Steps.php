@@ -103,7 +103,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->searchOrder($nameUser);
 		$I->waitForElement(\OrderManagerPage::$deleteFirst, 30);
 		$I->click(\OrderManagerPage::$deleteFirst);
-		$I->click(\OrderManagerPage::$buttonDelete);
+		$I->waitForElementVisible(\OrderManagerPage::$buttonDeleteOder, 30);
+		$I->click(\OrderManagerPage::$buttonDeleteOder);
 		$I->acceptPopup();
 		$I->see(\OrderManagerPage::$messageDeleteSuccess, \OrderManagerPage::$selectorSuccess);
 	}
@@ -157,8 +158,13 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($nameProduct);
 		$I->waitForElementVisible(\ProductManagerPage::$addToCart, 30);
 		$I->click(\ProductManagerPage::$addToCart);
-		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
-		$I->see(\ProductManagerPage::$alertSuccessMessage, '.alert-message');
+		try
+		{
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}catch (\Exception $e)
+		{
+			$I->click(\ProductManagerPage::$addToCart);
+		}
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
 		$I->click(\ProductManagerPage::$buttonLogin);
@@ -207,7 +213,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\OrderManagerPage::$productsSearch, $nameProduct);
 		$I->waitForElement($userOrderPage->returnSearch($nameProduct), 30);
 		$I->click($userOrderPage->returnSearch($nameProduct));
-		$I->waitForElement(\OrderManagerPage::$fieldAttribute, 30);
+		$I->waitForElementVisible(\OrderManagerPage::$valueAttribute, 30);
 		$I->wait(1);
 		$I->click(\OrderManagerPage::$valueAttribute);
 		$I->wait(1);
@@ -244,8 +250,14 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkReview($nameProduct);
 		$I->see($nameProduct);
 		$I->click(\ProductManagerPage::$addToCart);
-		$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 10, \ProductManagerPage::$selectorMessage);
-		$I->see(\ProductManagerPage::$alertSuccessMessage);
+		try
+		{
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}catch (\Exception $e)
+		{
+			$I->click(\ProductManagerPage::$addToCart);
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
 		$I->click(\ProductManagerPage::$buttonLogin);

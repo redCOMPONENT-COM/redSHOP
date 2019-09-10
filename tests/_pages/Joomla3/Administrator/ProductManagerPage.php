@@ -226,6 +226,11 @@ ProductManagerPage extends AdminJ3Page
 	 */
 	public static $addAttribute = '+ Add Attribute parameter';
 
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $addPriceButton = '.button-new';
 
 	/**
 	 * Function to get Path $position in Add Attribute Name
@@ -398,4 +403,34 @@ ProductManagerPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $priceFrontend = ".category_product_price";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $productRelated ='//input[@id="s2id_autogen1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fileUpload = '//input[@type=\'file\' and @multiple="multiple"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $tabSEO = "SEO";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $titleSEO ="//input[@id='pagetitle']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $headingSEO ="//input[@id='pageheading']";
 }
