@@ -20,6 +20,78 @@ use Frontend\Module\MultiCurrenciesSteps;
 class ModuleMultiCurrenciesCest
 {
 	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.3
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $productName;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $productNumber;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $productPrice;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * @since 2.1.3
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $currency;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $extensionURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $moduleName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $moduleURL;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $pakage;
+
+	/**
 	 * ModuleMultiCurrenciesCest constructor.
 	 * @since 2.1.3
 	 */
