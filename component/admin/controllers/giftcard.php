@@ -52,6 +52,19 @@ class RedshopControllerGiftcard extends RedshopControllerForm
 		$file      = $app->input->files->get('jform');
 		$model     = $this->getModel();
 		$context   = "com_redshop.edit.giftcard";
+		$table     = $model->getTable();
+
+		if (null === $key)
+		{
+			$key = $table->getKeyName();
+		}
+
+		// To avoid data collisions the urlVar may be different from the primary key.
+		if (null === $urlVar)
+		{
+			$urlVar = $key;
+		}
+
 		$recordId  = $this->input->getInt($urlVar);
 		/** @scrutinizer ignore-call */
 		$form      = $model->getForm($data, false);
@@ -89,7 +102,7 @@ class RedshopControllerGiftcard extends RedshopControllerForm
 		$supportedImage = array('gif', 'jpg', 'jpeg', 'png');
 		$ext            = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
 
-		if (in_array($ext, $supportedImage))
+		if (empty($imageName) || in_array($ext, $supportedImage))
 		{
 			return true;
 		}
