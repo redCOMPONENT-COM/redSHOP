@@ -115,7 +115,7 @@ class ShippingCest
 			"firstName"     => $this->faker->firstName,
 			"lastName"      => $this->faker->lastName,
 			"address"       => $this->faker->address,
-			"postalCode"    => "700000",
+			"postalCode"    => $this->faker->postcode,
 			"city"          => "HCM",
 			"country"       => "Denmark",
 			"state"         => "Karnataka",
@@ -128,7 +128,7 @@ class ShippingCest
 		$this->product = array(
 			"name"          => $this->faker->bothify("Product Demo ?##?"),
 			"number"        => $this->faker->numberBetween(999,9999),
-			"price"         => "100"
+			"price"         => $this->faker->numberBetween(1,9999)
 		);
 
 		$this->total = $this->product['price'] + $this->shipping['shippingRate'];
