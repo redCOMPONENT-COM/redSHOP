@@ -9,6 +9,7 @@
 namespace AcceptanceTester;
 
 use Step\Acceptance\Redshop;
+use \ConfigurationPage as ConfigurationPage;
 
 /**
  * Class AdminManagerJoomla3Steps
@@ -29,12 +30,12 @@ class AdminManagerJoomla3Steps extends Redshop
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
-        try {
-            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-        } catch (\Exception $e) {
-            $I->click(\AdminJ3Page::$link);
-            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-        }
+		try {
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		} catch (\Exception $e) {
+			$I->click(\AdminJ3Page::$link);
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		}
 		$I->fillField(\AdminJ3Page::$urlID, $path);
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
@@ -295,5 +296,34 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
+	}
+
+	/**
+	 * @return array
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function getCurrencyValue()
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$price);
+		$I->waitForElementVisible(ConfigurationPage::$priceTab, 30);
+		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+
+		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+
+		return array(
+			'currencySymbol'            => $currencySymbol,
+			'decimalSeparator'          => $decimalSeparator,
+			'numberZero'                => $NumberZero
+		);
 	}
 }
