@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     redSHOP
- * @subpackage  Steps
+ * @subpackage  MultiCurrenciesSteps
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -36,17 +36,18 @@ class MultiCurrenciesSteps extends CheckoutOnFrontEnd
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceDenmark, 30, FrontEndProductManagerJoomla3Page::$productPrice);
 
-		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
-		$I->wait(1);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceKorean, 30, FrontEndProductManagerJoomla3Page::$productPrice);
-
 		$I->chooseOnSelect2(FrontEndProductManagerJoomla3Page::$curentChooseButton, FrontEndProductManagerJoomla3Page::$currentEuro);
 		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
 		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceOfEuro, 30, FrontEndProductManagerJoomla3Page::$productPrice);
 		$I->see(FrontEndProductManagerJoomla3Page::$priceOfEuro);
+
+		$I->chooseOnSelect2(FrontEndProductManagerJoomla3Page::$curentChooseButton, FrontEndProductManagerJoomla3Page::$currentKorean);
+		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
+		$I->wait(1);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceKorean, 30, FrontEndProductManagerJoomla3Page::$productPrice);
 	}
 }
 
