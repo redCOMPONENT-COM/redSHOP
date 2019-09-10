@@ -172,23 +172,18 @@ class CheckVATChangedDependingOnTheUserCest
 	 * @since 2.1.3
 	 */
 	protected $userDM;
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $onePageNo;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $onePageYes;
 
 	/**
 	 * @var \Faker\Generator
 	 * @since 2.1.3
 	 */
 	protected $faker;
+
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $cartSetting;
 
 	/**
 	 * CheckVATChangedDependingOnTheUserCest constructor.
@@ -247,6 +242,7 @@ class CheckVATChangedDependingOnTheUserCest
 			"phone"                 => $this->faker->phoneNumber,
 			"country"               => 'Viet Nam'
 		);
+
 		//User in Denmark
 		$this->userDM = array(
 			"userName"              => $this->faker->bothify('User In DM ?####?'),

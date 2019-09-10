@@ -521,14 +521,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * @param $userName
-	 * @param $password
-	 * @param $email
-	 * @param $group
-	 * @param $shopperGroup
-	 * @param $firstName
-	 * @param $lastName
-	 * @param $country
+	 * @param array $user
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
