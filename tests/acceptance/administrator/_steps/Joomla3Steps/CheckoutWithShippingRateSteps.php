@@ -8,6 +8,7 @@
 
 namespace AcceptanceTester;
 
+use \CheckoutOnFrontEnd;
 use FrontEndProductManagerJoomla3Page;
 
 /**
@@ -15,7 +16,7 @@ use FrontEndProductManagerJoomla3Page;
  * @package AcceptanceTester
  * @since 2.1.3
  */
-class CheckoutWithShippingRateSteps extends ProductCheckoutManagerJoomla3Steps
+class CheckoutWithShippingRateSteps extends CheckoutOnFrontEnd
 {
 	/**
 	 * @param $username
@@ -32,17 +33,8 @@ class CheckoutWithShippingRateSteps extends ProductCheckoutManagerJoomla3Steps
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
 		$I->doFrontEndLogin($username, $pass);
-		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->addToCart($categoryName, $productName);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCart, 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30 , FrontEndProductManagerJoomla3Page::$selectorMessage);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
