@@ -1,0 +1,78 @@
+<?php
+/**
+ * @package     RedShop
+ * @subpackage  Step Class
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace AcceptanceTester;
+
+use FrontEndProductManagerJoomla3Page;
+
+/**
+ * Class CheckoutWithShippingRateSteps
+ * @package AcceptanceTester
+ * @since 2.1.3
+ */
+class CheckoutWithShippingRateSteps extends ProductCheckoutManagerJoomla3Steps
+{
+	/**
+	 * @param $username
+	 * @param $pass
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $total
+	 * @param array $shipping
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkoutWithShippingRate($username, $pass, $categoryName, $productName, $total, $shipping = array())
+	{
+		$I = $this;
+		$currencyUnit = $I->getCurrencyValue();
+		$I->doFrontEndLogin($username, $pass);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+		$I->click($productFrontEndManagerPage->product($productName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30 , FrontEndProductManagerJoomla3Page::$selectorMessage);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->seeElement(['link' => $productName]);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+
+		try
+		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
+			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
+			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+		} catch (\Exception $e)
+		{
+			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
+			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
+		}
+
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
+		$priceRate = 'Shipping with vat: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
+		$I->see($priceRate);
+		$I->see($priceTotal);
+	}
+}

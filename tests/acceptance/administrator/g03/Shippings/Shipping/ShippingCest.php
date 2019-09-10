@@ -7,8 +7,8 @@ use AcceptanceTester\ShippingSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
+use AcceptanceTester\CheckoutWithShippingRateSteps;
 
 /**
  * Class ShippingCest
@@ -196,7 +196,7 @@ class ShippingCest
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
 		$I->wantToTest('checkout with '.$this->shipping['shippingName'].' just create');
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I = new CheckoutWithShippingRateSteps($scenario);
 		$I->checkoutWithShippingRate($this->customerInformation['userName'], $this->customerInformation['userName'], $this->categoryName,
 			$this->product['name'], $this->total, $this->shipping);
 
@@ -228,5 +228,9 @@ class ShippingCest
 		$I->wantToTest('Delete Shipping Rate');
 		$I = new ShippingSteps($scenario);
 		$I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
+
+		$I->wantToTest('Delete Order');
+		$I = new \AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I->deleteOrder($this->customerInformation['firstName']);
 	}
 }
