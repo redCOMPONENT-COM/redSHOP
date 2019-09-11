@@ -297,7 +297,7 @@ class CheckVATChangedDependingOnTheUserCest
 	{
 		$I->wantTo('VAT Groups - Save creation in Administrator');
 		$I = new TaxGroupSteps($scenario);
-		$I->addVATGroupsSave($this->taxGroupName);
+		$I->addVATGroupsSave($this->taxGroupName); 
 		$I->wantTo('I Want to add Tax Rates');
 		$I = new TaxRateSteps($scenario);
 		$I->addTAXRatesSave($this->taxRateNameVN, $this->taxGroupName, $this->taxRateValueVN, $this->countryVietNam, null);
