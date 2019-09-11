@@ -128,21 +128,19 @@ class ProductsCheckoutEWAYCest
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
-			"addcart"            => 'product',
-			"allowPreOrder"      => 'yes',
-			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
-			"enabldAjax"         => 'no',
-			"defaultCart"        => null,
-			"buttonCartLead"     => 'Back to current view',
-			"onePage"            => 'yes',
-			"showShippingCart"   => 'no',
-			"attributeImage"     => 'no',
-			"quantityChange"     => 'no',
-			"quantityInCart"     => 0,
-			"minimunOrder"       => 0,
-			"enableQuation"      => 'no',
-			"onePageNo"          => 'no',
-			"onePageYes"         => 'yes'
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
 		);
 
 		$this->customerInformation = array(
@@ -211,8 +209,7 @@ class ProductsCheckoutEWAYCest
 	 */
 	public function testEWAYPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
-		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"],
-			$this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
