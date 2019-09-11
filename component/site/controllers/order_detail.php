@@ -213,7 +213,8 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
-			die("TRUE");
+			echo "TRUE";
+			JFactory::getApplication()->close();
 		}
 
 		if ($request['payment_plugin'] != "rs_payment_worldpay")
@@ -223,7 +224,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 			        JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id, false
             );
 
-			$this->setRedirect($redirect_url, $msg, $type);
+			$this->setRedirect($redirect_url, $msg);
 		}
 	}
 
@@ -331,7 +332,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
-			if (JError::isError(JError::getError()))
+			if (/** @scrutinizer ignore-deprecated */ JError::isError(/** @scrutinizer ignore-deprecated */ JError::getError()))
 			{
 				$errorMessage = JError::getError()->getMessage();
 			}
