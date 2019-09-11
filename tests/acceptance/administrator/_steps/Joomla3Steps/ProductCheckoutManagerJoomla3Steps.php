@@ -79,7 +79,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		} catch (\Exception $e)
 		{
 			$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
-			$this->addressInformation($addressDetail);$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+			$this->addressInformation($addressDetail);
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 		}
