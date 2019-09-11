@@ -158,7 +158,7 @@ class ModuleMultiCurrenciesCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Delete data');
+		$I->wantTo('Delete Data');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 
