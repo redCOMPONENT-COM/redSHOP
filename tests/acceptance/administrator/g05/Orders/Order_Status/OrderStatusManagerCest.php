@@ -70,7 +70,7 @@ class OrderStatusManagerCest
 			"firstName"     => $this->faker->firstName,
 			"lastName"      => $this->faker->lastName,
 			"address"       => $this->faker->address,
-			"postalCode"    => $this->faker->postcode,
+			"postalCode"    => "700000",
 			"city"          => "HCM",
 			"country"       => "Denmark",
 			"state"         => "Karnataka",
