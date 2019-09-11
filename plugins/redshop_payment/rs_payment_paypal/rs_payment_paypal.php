@@ -60,8 +60,8 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		{
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
-			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
-			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
+			$values->log  = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
+			$values->msg  = JText::_('PLG_RS_PAYMENT_PAYPAL_ORDER_PLACED');
 		}
 		else
 		{
@@ -69,6 +69,7 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
 			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+			$values->type = 'error';
 		}
 
 		$values->transaction_id = $tid;

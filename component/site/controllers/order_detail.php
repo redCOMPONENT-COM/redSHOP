@@ -224,7 +224,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 			        JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id, false
             );
 
-			$this->setRedirect($redirect_url, $msg);
+			$this->setRedirect($redirect_url, $msg, $type);
 		}
 	}
 
