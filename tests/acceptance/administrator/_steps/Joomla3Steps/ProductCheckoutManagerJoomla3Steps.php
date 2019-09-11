@@ -70,7 +70,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
 			} catch (\Exception $e)
 			{
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal);
+				$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 			}
 
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
