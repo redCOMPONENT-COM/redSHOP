@@ -116,7 +116,7 @@ class ShippingCest
 			"lastName"      => $this->faker->lastName,
 			"address"       => $this->faker->address,
 			"postalCode"    => $this->faker->postcode,
-			"city"          => "HCM",
+			"city"          => "HCMC",
 			"country"       => "Denmark",
 			"state"         => "Karnataka",
 			"phone"         => $this->faker->phoneNumber,
