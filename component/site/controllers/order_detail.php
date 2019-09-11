@@ -178,7 +178,11 @@ class RedshopControllerOrder_Detail extends RedshopController
 		$msg = $results[0]->msg;
 		$type = (!empty($results[0]->type)) ? $results[0]->type : '';
 
-		if (array_key_exists("order_id_temp", $results[0]))
+		if ($results[0] === false)
+		{
+			$order_id = $this->input->getInt('orderid');
+		}
+		elseif (array_key_exists("order_id_temp", $results[0]))
 		{
 			$order_id = $results[0]->order_id_temp;
 		}
