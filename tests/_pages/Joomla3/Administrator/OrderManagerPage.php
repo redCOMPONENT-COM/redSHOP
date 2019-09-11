@@ -183,8 +183,9 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
-	public static $messageSaveSuccess = "Order Status Successfully Saved For Order Number 1";
+	public static $messageChangeOrderSuccess = "Order Status Successfully Saved For Order Number ";
 
 	/**
 	 * @var string
@@ -208,6 +209,18 @@ class OrderManagerPage extends AdminJ3Page
 	{
 		$path = "//span[contains(text(), '" . $userName . "')]";
 		return $path;
+	}
+
+	/**
+	 * @param $code
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function xpathOrderStatus($code)
+	{
+		$xpath = ".order_status_".$code;
+
+		return $xpath;
 	}
 
 	/**
