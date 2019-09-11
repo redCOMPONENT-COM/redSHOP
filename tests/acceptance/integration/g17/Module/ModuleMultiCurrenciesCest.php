@@ -128,7 +128,7 @@ class ModuleMultiCurrenciesCest
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationCurrent($this->moduleName);
+		$I->configurationCurrent($this->moduleName); 
 		$I->setModulePosition($this->moduleName);
 		$I->displayModuleOnAllPages($this->moduleName);
 	}
