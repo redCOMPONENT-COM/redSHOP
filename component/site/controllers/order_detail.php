@@ -176,14 +176,15 @@ class RedshopControllerOrder_Detail extends RedshopController
 		);
 
 		$msg = $results[0]->msg;
+		$order_id = $results[0]->order_id;
 
-		if (array_key_exists("order_id_temp", $results[0]))
+		if ($results[0] === false)
+		{
+			$order_id = $this->input->getInt('orderid');
+		}
+		elseif (array_key_exists("order_id_temp", $results[0]))
 		{
 			$order_id = $results[0]->order_id_temp;
-		}
-		else
-		{
-			$order_id = $results[0]->order_id;
 		}
 
 		// Change Order Status based on resutls
@@ -208,7 +209,8 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
-			die("TRUE");
+			echo 'TRUE';
+			JFactory::getApplication()->close();
 		}
 
 		if ($request['payment_plugin'] != "rs_payment_worldpay")
@@ -326,7 +328,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
-			if (JError::isError(JError::getError()))
+			if (/** @scrutinizer ignore-deprecated */ JError::isError(/** @scrutinizer ignore-deprecated */ JError::getError()))
 			{
 				$errorMessage = JError::getError()->getMessage();
 			}
