@@ -85,12 +85,6 @@ class OrderStatusManagerCest
 			'number'        => $this->faker->numberBetween(999,9999),
 			'price'         => '100'
 		);
-
-		$this->shippingMethod = 'redSHOP - Standard Shipping';
-		$this->shipping = array(
-			'shippingName'          => $this->faker->bothify("Demo Rate ?##?"),
-			'shippingRate'         => '10'
-		);
 	}
 	/**
 	 * @param AcceptanceTester $I
@@ -154,13 +148,9 @@ class OrderStatusManagerCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
-		$I->wantToTest('Create Shipping rate');
-		$I = new ShippingSteps($scenario);
-		$I->createShippingRateStandard($this->shippingMethod, $this->shipping);
-
 		$I->wantToTest('Checkout');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkOutProductWithBankTransfer($this->customerInformation, $this->customerInformation, $this->product['name'], $this->categoryName);
+		$I->checkOutProductWithBankTransfer($this->customerInformation, $this->customerInformation, $this->product['name'], $this->categoryName, 'no');
 
 		$I->wantToTest('Check Order on backend');
 		$I = new ConfigurationSteps($scenario);
@@ -200,9 +190,6 @@ class OrderStatusManagerCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 
-		$I->wantToTest('Delete Shipping Rate');
-		$I = new ShippingSteps($scenario);
-		$I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
 
 		$I->wantToTest('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);

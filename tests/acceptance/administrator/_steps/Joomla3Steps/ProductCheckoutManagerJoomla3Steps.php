@@ -36,7 +36,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkOutProductWithBankTransfer($addressDetail, $shipmentDetail, $productName, $categoryName)
+	public function checkOutProductWithBankTransfer($addressDetail, $shipmentDetail, $productName, $categoryName, $function)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -54,37 +54,30 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->seeElement(['link' => $productName]);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 
-		try
-		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
-			$function = 'no';
-		} catch (\Exception $e)
-		{
-			$function = 'yes';
-		}
-
 		switch ($function)
 		{
 			case 'no':
-				{
+					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
 					$this->addressInformation($addressDetail);
 					$this->shippingInformation($shipmentDetail);
-					$I->waitForElement(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
+					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 					$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 					$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-				}
+
 				break;
+
 			case 'yes':
-				{
+
 					$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
 					$this->addressInformation($addressDetail);
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
-				}
+
+				break;
 		}
 
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);

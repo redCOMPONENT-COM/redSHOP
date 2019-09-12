@@ -113,7 +113,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $proceedButtonId = "#submitbtn";
+	public static $proceedButtonId = "//input[@value = 'Proceed']";
 
 	/**
 	 * @var string
