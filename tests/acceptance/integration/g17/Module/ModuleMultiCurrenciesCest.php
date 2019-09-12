@@ -174,7 +174,7 @@ class ModuleMultiCurrenciesCest
 	public function checkModuleMultiCurrencies(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Check Module Currencies');
-		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario); 
 		$I->addCategorySave($this->categoryName);
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
