@@ -150,11 +150,11 @@ class ProductsCheckoutEWAYCest
 			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
 			"address"       => $this->faker->address,
-			"postalCode"    => $this->faker->postcode,
+			"postalCode"    => "5000",
 			"city"          => $this->faker->city,
 			"country"       => "Denmark",
 			"state"         => "Karnataka",
-			"phone"         => $this->faker->phoneNumber,
+			"phone"         => "0334110366",
 			"shopperGroup"  => 'Default Private',
 		);
 		$this->group          = 'Registered';
@@ -192,13 +192,13 @@ class ProductsCheckoutEWAYCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install plugin payment E-Way");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
+//		$I->wantTo("install plugin payment E-Way");
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+//		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
-		$I = new PluginPaymentManagerJoomla($scenario);
-		$I->configEWayPlugin($this->pluginName, $this->checkoutAccountInformation['customerID']);
+//		$I = new PluginPaymentManagerJoomla($scenario);
+//		$I->configEWayPlugin($this->pluginName, $this->checkoutAccountInformation['customerID']);
 	}
 
 	/**
@@ -209,7 +209,7 @@ class ProductsCheckoutEWAYCest
 	 */
 	public function testEWAYPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
-		$I->cartSetting($this->cartSetting);
+//		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
