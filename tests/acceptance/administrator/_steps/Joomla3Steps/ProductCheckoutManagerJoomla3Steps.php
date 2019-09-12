@@ -62,15 +62,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			try
 			{
 				$this->addressInformation($addressDetail);
-				$this->shippingInformation($shipmentDetail);
 			} catch (\Exception $e)
 			{
 				$this->addressInformation($addressDetail);
-				$this->shippingInformation($shipmentDetail);
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
-				$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
 			}
 
+			$this->shippingInformation($shipmentDetail);
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
@@ -108,7 +105,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$addressEmail);
+//		$I->scrollTo(FrontEndProductManagerJoomla3Page::$addressEmail);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
