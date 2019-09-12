@@ -39,4 +39,24 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
 	}
+
+	/**
+	 * @param $moduleName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configurationProductTab($moduleName)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productTabConfiguration, 30);
+		$I->click(ModuleManagerJoomlaPage::$productTabConfiguration);
+		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$adjustToCategoryNo, 30);
+		$I->click(ModuleManagerJoomlaPage::$adjustToCategoryNo);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+	}
 }

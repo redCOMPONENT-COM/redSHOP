@@ -59,4 +59,16 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $h2 = '//h2';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $adjustToCategoryNo = '//label[@for="jform_params_adjust_category1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
 }

@@ -556,19 +556,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $priceOfEuro = 'EUR';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
 	public static $priceDenmark = 'DKK';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $priceKorean = 'KRW';
 
 	/**
 	 * @var string
@@ -586,13 +574,19 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $currentEuro = 'Euro';
+	public static $mostSoldProducts = 'Most Sold Products';
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $currentKorean = '(South) Korean Won';
+	public static $latestProducts = 'Latest Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $newestProducts = 'Newest Products';
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
