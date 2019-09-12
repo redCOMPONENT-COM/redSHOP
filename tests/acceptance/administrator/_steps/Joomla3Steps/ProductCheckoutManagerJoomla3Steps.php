@@ -36,7 +36,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkOutProductWithBankTransfer($addressDetail, $shipmentDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	public function checkOutProductWithBankTransfer($addressDetail, $shipmentDetail, $productName, $categoryName)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -56,30 +56,35 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		try
 		{
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
-			$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-
-			try
-			{
-				$this->addressInformation($addressDetail);
-			} catch (\Exception $e)
-			{
-				$this->addressInformation($addressDetail);
-			}
-
-			$this->shippingInformation($shipmentDetail);
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
-			$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
-			$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
+			$function = 'no';
 		} catch (\Exception $e)
 		{
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
-			$this->addressInformation($addressDetail);
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-			$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
+			$function = 'yes';
+		}
+
+		switch ($function)
+		{
+			case 'no':
+				{
+					$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+					$this->addressInformation($addressDetail);
+					$this->shippingInformation($shipmentDetail);
+					$I->waitForElement(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
+					$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
+					$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
+					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+					$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
+					$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+				}
+				break;
+			case 'yes':
+				{
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
+					$this->addressInformation($addressDetail);
+					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+					$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
+				}
 		}
 
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
@@ -119,8 +124,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
 			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
 			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
-		} catch (\Exception $e)
-		{
+		} catch (\Exception $e) {
 			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		}
 	}
