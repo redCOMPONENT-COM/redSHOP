@@ -158,7 +158,7 @@ class ModuleMultiCurrenciesCest
 		$I->wantTo("install module Multi Currencies");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->publishModule($this->moduleName);
+		$I->publishModule($this->moduleName); 
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationCurrent($this->moduleName);
 		$I->setModulePosition($this->moduleName);
