@@ -85,6 +85,8 @@ class OrderStatusManagerCest
 			'number'        => $this->faker->numberBetween(999,9999),
 			'price'         => '100'
 		);
+
+		$this->shippingMethod = 'redSHOP - Standard Shipping';
 	}
 	/**
 	 * @param AcceptanceTester $I
