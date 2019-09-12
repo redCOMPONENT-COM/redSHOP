@@ -61,33 +61,22 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$this->addressInformation($addressDetail);
 			$this->shippingInformation($shipmentDetail);
 			$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
-
-			try
-			{
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 10);
-				$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
-				$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
-			} catch (\Exception $e)
-			{
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
-			}
-
+			$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal);
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		} catch (\Exception $e)
 		{
 			$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
-			$this->addressInformation($addressDetail);
+			$this->addressInformation($addressDetail);$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-			$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
+			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 		}
 
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 10, FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
