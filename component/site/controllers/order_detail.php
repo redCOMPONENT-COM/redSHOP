@@ -176,7 +176,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 		);
 
 		$msg = $results[0]->msg;
-		$order_id = $results[0]->order_id;
+		$type = (!empty($results[0]->type)) ? $results[0]->type : '';
 
 		if ($results[0] === false)
 		{
@@ -185,6 +185,10 @@ class RedshopControllerOrder_Detail extends RedshopController
 		elseif (array_key_exists("order_id_temp", $results[0]))
 		{
 			$order_id = $results[0]->order_id_temp;
+		}
+		else
+		{
+			$order_id = $results[0]->order_id;
 		}
 
 		// Change Order Status based on resutls
@@ -209,7 +213,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 		if ($request['payment_plugin'] == "rs_payment_payer")
 		{
-			echo 'TRUE';
+			echo "TRUE";
 			JFactory::getApplication()->close();
 		}
 
@@ -220,7 +224,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 			        JUri::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $order_id, false
             );
 
-			$this->setRedirect($redirect_url, $msg);
+			$this->setRedirect($redirect_url, $msg, $type);
 		}
 	}
 
