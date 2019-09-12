@@ -58,8 +58,19 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-			$this->addressInformation($addressDetail);
-			$this->shippingInformation($shipmentDetail);
+
+			try
+			{
+				$this->addressInformation($addressDetail);
+				$this->shippingInformation($shipmentDetail);
+			} catch (\Exception $e)
+			{
+				$this->addressInformation($addressDetail);
+				$this->shippingInformation($shipmentDetail);
+				$I->waitForElement(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
+			}
+
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$proceedButton);
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
@@ -108,24 +119,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		try
 		{
-			$I->dontSee(FrontEndProductManagerJoomla3Page::$messageEnterEmail);
-			$I->dontSee(FrontEndProductManagerJoomla3Page::$messageEnterFirstName);
-			$I->dontSee(FrontEndProductManagerJoomla3Page::$messageEnterLastName);
-			$I->dontSee(FrontEndProductManagerJoomla3Page::$messageEnterAddress);
-			$I->dontSee(FrontEndProductManagerJoomla3Page::$messageEnterCity);
-		} catch (\Exception $e)
-		{
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
-		}
-
-		try
-		{
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 10);
 			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
 			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
@@ -156,24 +149,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingDetail['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingCity, $shippingDetail['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
-
-		try
-		{
-			$I->dontSee(FrontEndProductManagerJoomla3Page::$messageFieldRequired);
-			$I->dontSee(FrontEndProductManagerJoomla3Page::$messageEnterAddress);
-			$I->dontSee(FrontEndProductManagerJoomla3Page::$messageEnterZipcode);
-		} catch (\Exception $e)
-		{
-			$I->fillField(FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingDetail['firstName']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingDetail['lastName']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingDetail['postalCode']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$shippingCity, $shippingDetail['city']);
-			$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
-		}
-
-		$I->seeInField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
-
 	}
 
 	/**
