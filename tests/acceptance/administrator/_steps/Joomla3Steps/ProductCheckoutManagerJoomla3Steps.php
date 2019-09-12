@@ -91,6 +91,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function addressInformation($addressDetail)
 	{
@@ -142,6 +143,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function shippingInformation($shippingDetail)
 	{
