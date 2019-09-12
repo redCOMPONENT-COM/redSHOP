@@ -111,6 +111,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $proceedButtonId = "#submitbtn";
+
+	/**
+	 * @var string
 	 */
 	public static $addressEmail = "#private-email1";
 
@@ -445,6 +451,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $messageEnterPhone = "Please specify a valid phone number";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageEnterZipcode = "Please enter post code";
 
 	/**
 	 * @var string
