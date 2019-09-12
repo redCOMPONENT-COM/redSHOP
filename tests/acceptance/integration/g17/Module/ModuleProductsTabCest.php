@@ -239,7 +239,7 @@ class ModuleProductsTabCest
 		$I->wantTo('check Module Products Tab');
 
 		//enablePlugin
-		$I->enablePlugin('PayPal');
+		$I->enablePlugin('PayPal'); 
 
 		// create user
 		$I = new UserSteps($scenario);
