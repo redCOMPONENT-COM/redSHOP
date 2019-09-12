@@ -31,6 +31,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   Array  $shipmentDetail Shipment Detail Array
 	 * @param   string $productName    Name of the Product which we are going to Checkout
 	 * @param   string $categoryName   Name of the Product Category
+	 * @param   string $function       One Step Checkout: no/yes
 	 *
 	 * @return void
 	 * @throws \Exception
