@@ -329,6 +329,30 @@ class UserManagerJoomla3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $country = '//div[@id="s2id_rs_country_country_code"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $vietNam = '//div[@id="select2-result-label-26"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $generalTab = ['link' => 'General User Information'];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $titlePageUser = 'User Management';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $btnPlaceOder = "//button[@class='btn btn-small button-redshop_order32']";
 
 	/**
