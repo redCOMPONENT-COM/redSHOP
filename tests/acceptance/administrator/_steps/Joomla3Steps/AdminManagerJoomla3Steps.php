@@ -29,12 +29,14 @@ class AdminManagerJoomla3Steps extends Redshop
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
-        try {
-            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-        } catch (\Exception $e) {
-            $I->click(\AdminJ3Page::$link);
-            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-        }
+		try
+		{
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		} catch (\Exception $e)
+		{
+			$I->click(\AdminJ3Page::$link);
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		}
 		$I->fillField(\AdminJ3Page::$urlID, $path);
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
@@ -212,10 +214,12 @@ class AdminManagerJoomla3Steps extends Redshop
 	 * @param $xpath
 	 * @param $value
 	 * @param $lengh
+	 * @throws \Exception
 	 */
 	public function addValueForField($xpath, $value, $lengh)
 	{
 		$I = $this;
+		$I->waitForElementVisible($xpath, 30);
 		$I->click($xpath);
 		for ($i = 1; $i <= $lengh; $i++)
 		{
