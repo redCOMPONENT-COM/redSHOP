@@ -550,7 +550,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $productPrice = '//div[@id="product_price"]';
+	public static $productPrice = '#product_price';
 
 	/**
 	 * @var string
