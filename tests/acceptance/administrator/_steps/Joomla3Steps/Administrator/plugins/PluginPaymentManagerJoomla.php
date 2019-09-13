@@ -25,12 +25,14 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	public function config2CheckoutPlugin($pluginName, $vendorID, $secretWord)
 	{
 		$I = $this;
-		$I->amOnPage(PluginManagerJoomla3Page:: $URL);
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
 		$I->searchForItem($pluginName);
 		$pluginManagerPage = new PluginManagerJoomla3Page;
 		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
-		$I->waitForElementVisible(PluginManagerJoomla3Page:: $searchResultRow, 30);
-		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
+		$I->checkExistenceOf($pluginName);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->waitForElementVisible($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->click($pluginName);
 		$I->waitForElementVisible( PluginManagerJoomla3Page:: $vendorID ,30);
 		$I->fillField( PluginManagerJoomla3Page:: $vendorID , $vendorID);
@@ -100,8 +102,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPaymentPrice, 60);
 		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentPrice, $paymentPrice);
 
-		switch ($discountType)
-		{
+		switch ($discountType) {
 			case 'Percentage':
 				$I->waitForElementVisible(PluginManagerJoomla3Page::$optionPercentage, 30);
 				$I->click(PluginManagerJoomla3Page::$optionPercentage);
@@ -116,5 +117,36 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		// Click Save & Close
 		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
+
+	/**
+	 * @param $pluginName
+	 * @param $businessUserEmail
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function configPayPalPlugin($pluginName, $businessUserEmail)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page:: $URL);
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page:: $searchResultRow, 30);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
+        $I->waitForElementVisible(['link'=> $pluginName], 30);
+        $I->click(['link'=> $pluginName]);
+
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$payPalBusinessAccountEmail,30);
+		$I->fillField(PluginManagerJoomla3Page::$payPalBusinessAccountEmail, $businessUserEmail);
+
+		$I->selectOptionInChosenById("jform_params_currency", "US Dollar $ (USD)");
+
+        $I->waitForElementVisible(PluginManagerJoomla3Page::$payPalUseField,30);
+        $I->click(PluginManagerJoomla3Page::$payPalUseField);
+
+		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+		$I->see(PluginManagerJoomla3Page::$pluginSaveSuccessMessage,PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
 }

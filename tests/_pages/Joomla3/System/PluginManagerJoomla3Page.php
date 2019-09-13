@@ -140,6 +140,24 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	public static $optionTotal = "#jform_params_payment_discount_is_percent1";
 
 	/**
+     * @var string
+	 * @since 2.1.2
+	 */
+	public static $payPalUseField = "//fieldset[@id='jform_params_sandbox']/label[2]";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $payPalBusinessAccountEmail = '#jform_params_merchant_email';
+
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $payPalCurrency = 'jform_params_currency';
+
+	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
 	 * @param   String  $pluginName  Name of the Plugin

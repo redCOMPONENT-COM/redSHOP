@@ -128,62 +128,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
 	}
 
-	/**
-	 * Function to Test Checkout Process of a Product using the Paypal Payment Plugin
-	 *
-	 * @param   Array  $addressDetail       Address Detail
-	 * @param   Array  $shipmentDetail      Shipping Address Detail
-	 * @param   Array  $payPalAccountDetail PayPal Account Detail
-	 * @param   string $productName         Name of the Product
-	 * @param   string $categoryName        Name of the Category
-	 *
-	 * @return void
-	 * @throws \Exception
-	 */
-	public function checkoutProductWithPayPalPayment($addressDetail, $shipmentDetail, $payPalAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
-	{
-		$I = $this;
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
-		$I->see("Product has been added to your cart.", '.alert-message');
-		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->checkForPhpNoticesOrWarnings();
-		$I->seeElement(['link' => $productName]);
-		$I->click(['xpath' => "//input[@value='Checkout']"]);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-		$this->addressInformation($addressDetail);
-		$this->shippingInformation($shipmentDetail);
-		$I->click("Proceed");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
-		$I->click(\PayPalPluginManagerJoomla3Page::$payPalPaymentOptionSelectOnCheckout);
-		$I->click("Checkout");
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
-		$I->seeElement($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->click(\PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption);
-		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, 30);
-		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalLoginEmailField, $payPalAccountDetail["email"]);
-		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, $payPalAccountDetail["password"]);
-		$I->click(\PayPalPluginManagerJoomla3Page::$privateComputerField);
-		$I->click(\PayPalPluginManagerJoomla3Page::$submitLoginField);
-		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$payNowField, 30);
-		$I->seeElement(\PayPalPluginManagerJoomla3Page::$payNowField);
-		$I->click(\PayPalPluginManagerJoomla3Page::$payNowField);
-		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
-		$I->seeElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage);
-	}
 
 	/**
 	 * Function to Test Checkout Process of a Product using the 2Checkout Payment Plugin
