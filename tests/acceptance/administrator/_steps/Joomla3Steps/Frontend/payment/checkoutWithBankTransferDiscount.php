@@ -9,7 +9,6 @@
 namespace Frontend\payment;
 use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
-use ImageOptimizer\Exception\Exception;
 
 /**
  * Class checkoutWithBankTransferDiscount

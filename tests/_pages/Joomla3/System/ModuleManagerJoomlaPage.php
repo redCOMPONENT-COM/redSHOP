@@ -46,7 +46,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $saveCloseButton = '//div[@id="toolbar-save"]';
+	public static $saveCloseButton = '#toolbar-save';
 
 	/**
 	 * @var string
