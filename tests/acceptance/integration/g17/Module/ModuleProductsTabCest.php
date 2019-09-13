@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Cest ModuleProductsTab
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
@@ -9,15 +15,10 @@ use Administrator\Module\ModuleManagerJoomla;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
 use Frontend\Module\ProductTabsSteps;
 
-
 /**
- * @package     redSHOP
- * @subpackage  Cest ModuleProductsTab
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * Class ModuleProductsTabCest
+ * @since 2.1.3
  */
-
-
 class ModuleProductsTabCest
 {
 	/**
