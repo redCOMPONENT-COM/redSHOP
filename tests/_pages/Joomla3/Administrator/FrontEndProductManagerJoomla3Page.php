@@ -541,6 +541,36 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $paymentBankTransferDiscount = "//input[@value='rs_payment_banktransfer_discount']";
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $submitCurrent = 'Change Currency';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productPrice = '#product_price';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceDenmark = 'DKK';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $page = 'Product Front End Page';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $currencyChooseButton = '#product_currency';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
