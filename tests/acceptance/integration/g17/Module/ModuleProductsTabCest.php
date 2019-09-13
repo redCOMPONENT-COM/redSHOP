@@ -153,6 +153,12 @@ class ModuleProductsTabCest
 	protected $cartSetting;
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $function;
+
+	/**
 	 * ModuleProductsTabCest constructor.
 	 * @since 2.1.3
 	 */
@@ -162,8 +168,8 @@ class ModuleProductsTabCest
 		$this->categoryName     = $this->faker->bothify('CategoryName ?###?');
 		$this->productName      = $this->faker->bothify('Testing Product ??####?');
 		$this->productName1     = $this->faker->bothify('Product ??####?');
-		$this->productNumber    = $this->faker->numberBetween(999, 5555);
-		$this->productNumber1    = $this->faker->numberBetween(5555, 9999);
+		$this->productNumber    = $this->faker->numberBetween(100, 500);
+		$this->productNumber1   = $this->faker->numberBetween(501, 999);
 		$this->productPrice     = $this->faker->numberBetween(9, 19);
 		$this->minimumQuantity  = $this->faker->numberBetween(1, 10);
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
@@ -176,6 +182,7 @@ class ModuleProductsTabCest
 		$this->group                       = 'Registered';
 		$this->firstName                   = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
 		$this->lastName                    = 'Last';
+		$this->function                   = 'saveclose';
 
 		//install module
 		$this->extensionURL   = 'extension url';
@@ -239,11 +246,11 @@ class ModuleProductsTabCest
 		$I->wantTo('check Module Products Tab');
 
 		//enablePlugin
-		$I->enablePlugin('PayPal'); 
+		$I->enablePlugin('PayPal');
 
 		// create user
 		$I = new UserSteps($scenario);
-		$I->addUser($this->userName, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
+		$I->addUser($this->userName, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->function);
 
 		//create categories
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -260,7 +267,7 @@ class ModuleProductsTabCest
 
 		//checkout one product
 		$I = new OrderSteps($scenario);
-		$I->addProductToCartWithBankTransfer($this->productName, $this->productPrice, $this->userName, $this->password);
+		$I->addProductToCartWithBankTransfer($this->productName, $this->productPrice,'hai', 'hai');
 
 		//check module Products Tab
 		$I = new ProductTabsSteps($scenario);
@@ -278,9 +285,9 @@ class ModuleProductsTabCest
 		$I->wantTo('Delete Data');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
+		$I->deleteProduct($this->productName1);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 	}
-
 }
