@@ -121,7 +121,6 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $pluginName
-<<<<<<< HEAD
 	 * @param $businessUserEmail
 	 * @throws \Exception
 	 * @since 2.1.2
@@ -135,21 +134,23 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
 		$I->waitForElementVisible(PluginManagerJoomla3Page:: $searchResultRow, 30);
 		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
-        $I->waitForElementVisible(['link'=> $pluginName], 30);
-        $I->click(['link'=> $pluginName]);
+		$I->waitForElementVisible(['link' => $pluginName], 30);
+		$I->click(['link' => $pluginName]);
 
-		$I->waitForElementVisible(PluginManagerJoomla3Page::$payPalBusinessAccountEmail,30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$payPalBusinessAccountEmail, 30);
 		$I->fillField(PluginManagerJoomla3Page::$payPalBusinessAccountEmail, $businessUserEmail);
 
 		$I->selectOptionInChosenById("jform_params_currency", "US Dollar $ (USD)");
 
-        $I->waitForElementVisible(PluginManagerJoomla3Page::$payPalUseField,30);
-        $I->click(PluginManagerJoomla3Page::$payPalUseField);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$payPalUseField, 30);
+		$I->click(PluginManagerJoomla3Page::$payPalUseField);
 
 		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
-		$I->see(PluginManagerJoomla3Page::$pluginSaveSuccessMessage,PluginManagerJoomla3Page:: $idInstallSuccess);
-=======
+		$I->see(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
+
+	/**
 	 * @param $customerID
 	 * @throws \Exception
 	 * @since 2.1.3
@@ -173,6 +174,5 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
->>>>>>> a92e28c3c0098584f4a4ae8a31f341804f9e0393
 	}
 }

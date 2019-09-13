@@ -169,7 +169,7 @@ class PaypalCheckoutCest
 	 * @throws Exception
 	 * @since    2.1.2
 	 */
-	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
+	public function configPayPalPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo('Enable Plugin payment Paypal');
 		$I->enablePlugin($this->pluginName);
