@@ -259,7 +259,7 @@ class ModuleProductsTabCest
 
 		//create products
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
+		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);  
 		$I->createProductSaveClose($this->productName1, $this->categoryName, $this->productNumber1, $this->productPrice);
 
 		//setup up one page checkout at admin
