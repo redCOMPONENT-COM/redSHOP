@@ -550,7 +550,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $productPrice = '//div[@id="product_price"]';
+	public static $productPrice = '#product_price';
 
 	/**
 	 * @var string
@@ -564,16 +564,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $page = 'Product Front End Page';
 
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $curentChooseButton = '#product_currency';
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $currencyChooseButton = '#product_currency';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+
 	public static $mostSoldProducts = 'Most Sold Products';
 
 	/**

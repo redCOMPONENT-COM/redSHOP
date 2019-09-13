@@ -85,6 +85,30 @@ class ModuleMultiCurrenciesCest
 	protected $package;
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $curentEuro;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $curentKorean;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $priceEuro;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $price1Korean;
+
+	/**
 	 * ModuleMultiCurrenciesCest constructor.
 	 * @since 2.1.3
 	 */
@@ -103,6 +127,14 @@ class ModuleMultiCurrenciesCest
 		$this->moduleName     = 'Redshop Multi Currencies';
 		$this->moduleURL      = 'paid-extensions/tests/releases/modules/site/';
 		$this->package        = 'mod_redshop_currencies.zip';
+
+		//currency
+		$this->curentEuro     = 'Euro';
+		$this->curentKorean   = '(South) Korean Won';
+
+		//price
+		$this->priceEuro      = 'EUR';
+		$this->price1Korean   = 'KRW';
 	}
 
 	/**
@@ -123,7 +155,7 @@ class ModuleMultiCurrenciesCest
 	 */
 	public function installModule(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install module Multi Currencies");
+		$I->wantTo("Install Module Multi Currencies");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
@@ -147,7 +179,7 @@ class ModuleMultiCurrenciesCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 		$I = new MultiCurrenciesSteps($scenario);
-		$I->checkModuleCurrencies($this->categoryName, $this->productName);
+		$I->checkModuleCurrencies($this->categoryName, $this->productName, $this->curentEuro, $this->priceEuro, $this->curentKorean, $this->price1Korean);
 	}
 
 	/**

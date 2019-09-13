@@ -18,12 +18,29 @@ use CheckoutOnFrontEnd;
 class MultiCurrenciesSteps extends CheckoutOnFrontEnd
 {
 	/**
+	 * @param $current
+	 * @param $price
+	 * @since 2.1.3
+	 */
+	public function checkCurrencyUnit($current, $price)
+	{
+		$I = $this;
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$currencyChooseButton ,30);
+		$I->chooseOnSelect2(FrontEndProductManagerJoomla3Page::$currencyChooseButton, $current);
+		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
+		$I->wait(1);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
+		$I->waitForText($price, 30, FrontEndProductManagerJoomla3Page::$productPrice);
+		$I->see($price);
+	}
+
+	/**
 	 * @param $categoryName
 	 * @param $productName
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkModuleCurrencies($categoryName, $productName)
+	public function checkModuleCurrencies($categoryName, $productName, $current1, $price1, $current2, $price2 )
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -35,19 +52,8 @@ class MultiCurrenciesSteps extends CheckoutOnFrontEnd
 		$I->click($productFrontEndManagerPage->product($productName));
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceDenmark, 30, FrontEndProductManagerJoomla3Page::$productPrice);
-
-		$I->chooseOnSelect2(FrontEndProductManagerJoomla3Page::$curentChooseButton, FrontEndProductManagerJoomla3Page::$currentEuro);
-		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
-		$I->wait(1);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceOfEuro, 30, FrontEndProductManagerJoomla3Page::$productPrice);
-		$I->see(FrontEndProductManagerJoomla3Page::$priceOfEuro);
-
-		$I->chooseOnSelect2(FrontEndProductManagerJoomla3Page::$curentChooseButton, FrontEndProductManagerJoomla3Page::$currentKorean);
-		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
-		$I->wait(1);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$priceKorean, 30, FrontEndProductManagerJoomla3Page::$productPrice);
+		$I->checkCurrencyUnit($current1, $price1);
+		$I->checkCurrencyUnit($current2, $price2);
 	}
 }
 
