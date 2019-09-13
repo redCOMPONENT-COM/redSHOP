@@ -564,7 +564,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $page = 'Product Front End Page';
 
-
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -575,7 +574,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-
 	public static $mostSoldProducts = 'Most Sold Products';
 
 	/**
@@ -590,22 +588,22 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $newestProducts = 'Newest Products';
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $nameProductNewest = '(//div[@class="col-md-12 "]/p/a)[1]';
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $namProductsLatest = '(//div[@class="col-md-12 "]/p/a)[2]';
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $nameProductSold = '(//div[@class="col-md-12 "]/p/a)[3]';
 
 	/**

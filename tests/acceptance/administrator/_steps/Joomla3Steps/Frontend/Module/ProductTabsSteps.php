@@ -29,25 +29,19 @@ class ProductTabsSteps extends CheckoutOnFrontEnd
 		$I = $this;
 		$I->amOnPage('/');
 
-        $I->waitForText(FrontEndProductManagerJoomla3Page::$newestProducts, 30);
-        $I->click(FrontEndProductManagerJoomla3Page::$newestProducts);
-        $value = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameProductNewest);
-        $I->assertEquals($value, $productname1);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$newestProducts, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$newestProducts);
+		$value = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameProductNewest);
+		$I->assertEquals($value, $productname1);
 
-        $I->waitForText(FrontEndProductManagerJoomla3Page::$latestProducts, 30);
-        $I->click(FrontEndProductManagerJoomla3Page::$latestProducts);
-        $value2 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$namProductsLatest);
-        $I->assertEquals($value2, $productname1);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$latestProducts, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$latestProducts);
+		$value2 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$namProductsLatest);
+		$I->assertEquals($value2, $productname1);
 
-        $I->waitForText(FrontEndProductManagerJoomla3Page::$mostSoldProducts, 30);
-        $I->click(FrontEndProductManagerJoomla3Page::$mostSoldProducts);
-        $value3 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameProductSold);
-        $I->assertEquals($value3, $productname);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$mostSoldProducts, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$mostSoldProducts);
+		$value3 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameProductSold);
+		$I->assertEquals($value3, $productname);
 	}
-
-	public function checkCompare()
-    {
-
-    }
-
 }

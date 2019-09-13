@@ -267,7 +267,7 @@ class ModuleProductsTabCest
 
 		//checkout one product
 		$I = new OrderSteps($scenario);
-		$I->addProductToCartWithBankTransfer($this->productName, $this->productPrice,'hai', 'hai');
+		$I->addProductToCartWithBankTransfer($this->productName, $this->productPrice, $this->userName , $this->password);
 
 		//check module Products Tab
 		$I = new ProductTabsSteps($scenario);
