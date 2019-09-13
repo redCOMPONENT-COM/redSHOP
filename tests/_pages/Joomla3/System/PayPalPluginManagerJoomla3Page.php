@@ -13,7 +13,7 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-class PayPalPluginManagerJoomla3Page
+class PayPalPluginManagerJoomla3Page extends FrontEndProductManagerJoomla3Page
 {
 	/**
 	 * @var string
@@ -49,25 +49,13 @@ class PayPalPluginManagerJoomla3Page
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $privateComputerField = "//input[@id='privateDeviceCheckbox']";
-
-	/**
-	 * @var string
-	 * @since  2.1.2
-	 */
 	public static $submitLoginField = "//button[@id='btnLogin']";
 
 	/**
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $continueField = '//button[@ng-click="continue()"]';
-
-	/**
-	 * @var string
-	 * @since  2.1.2
-	 */
-	public static $payNowField = "//input[@id='confirmButtonTop']";
+	public static $payNowField = "#confirmButtonTop";
 
 	/**
 	 * @var string
@@ -79,17 +67,11 @@ class PayPalPluginManagerJoomla3Page
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $textPaypalSteps1 = "Pay with debit or credit card";
+	public static $successMessage = "You paid";
 
 	/**
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $textPaypalSteps2 = "Pay with PayPal";
-
-	/**
-	 * @var string
-	 * @since  2.1.2
-	 */
-	public static $textPaypalSteps3 = "Ship to";
+	public static $merchantReturnBtn = '#merchantReturnBtn';
 }

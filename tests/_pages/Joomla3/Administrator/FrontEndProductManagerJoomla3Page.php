@@ -240,6 +240,11 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $orderReceipt = "Order Receipt";
 
 	/**
+	 * @var string
+	 */
+	public static $orderPlaced= "Order placed.";
+
+	/**
 	 * @var array
 	 */
 	public static $idAddAccount = "//label//input[@id='createaccount']";
@@ -475,6 +480,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $messageRelated = 'You may also interested in this/these product(s)';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $paymentEWAY = "//div[@id='rs_payment_eway']//label//input";
 
 	/**
 	 * @param $name

@@ -9,6 +9,7 @@
 namespace Frontend\payment;
 
 use FrontEndProductManagerJoomla3Page;
+use ImageOptimizer\Exception\Exception;
 use PayPalPluginManagerJoomla3Page;
 
 /**
@@ -52,19 +53,22 @@ class PayPalPluginManagerJoomla3Steps extends \CheckoutMissingData
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->wait(0.5);
+
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		}catch (\Exception $e)
+		} catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+
 		try
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
-		}catch (\Exception $e)
+		} catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -72,23 +76,26 @@ class PayPalPluginManagerJoomla3Steps extends \CheckoutMissingData
 		}
 
 		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption, 60);
-		$I->wait(1.5);
+		$I->seeElement(\PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption);
+		$I->wait(1);
+		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption, 60);
 		$I->click(PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption);
 
-		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payPalLoginEmailField, 30);
-		$I->fillField(PayPalPluginManagerJoomla3Page::$payPalLoginEmailField, $payPalAccountDetail["username"]);
-		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payPalPasswordField, 30);
-		$I->fillField(PayPalPluginManagerJoomla3Page::$payPalPasswordField, $payPalAccountDetail["password"]);
-		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$submitLoginField, 30);
-		$I->click(PayPalPluginManagerJoomla3Page::$submitLoginField);
-
-		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$continueField, 60);
+		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, 30);
+		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalLoginEmailField, $payPalAccountDetail["username"]);
+		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, $payPalAccountDetail["password"]);
+		$I->click(\PayPalPluginManagerJoomla3Page::$submitLoginField);
+		$I->waitForElementVisible(\PayPalPluginManagerJoomla3Page::$payNowField, 30);
+		$I->seeElement(\PayPalPluginManagerJoomla3Page::$payNowField);
 		$I->wait(1);
-		$I->click(PayPalPluginManagerJoomla3Page::$continueField);
+		$I->waitForElementVisible(\PayPalPluginManagerJoomla3Page::$payNowField, 60);
+		$I->click(\PayPalPluginManagerJoomla3Page::$payNowField);
+		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
+		$I->seeElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage);
+		$I->waitForText(PayPalPluginManagerJoomla3Page::$successMessage, 30);
 
-		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payNowField, 120);
-		$I->wait(1);
-		$I->click(PayPalPluginManagerJoomla3Page::$payNowField);
-		$I->waitForElement(PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
+		$I->waitForElement(PayPalPluginManagerJoomla3Page::$merchantReturnBtn, 30);
+		$I->click(PayPalPluginManagerJoomla3Page::$merchantReturnBtn);
+		$I->waitForText(PayPalPluginManagerJoomla3Page::$orderPlaced, 30);
 	}
 }

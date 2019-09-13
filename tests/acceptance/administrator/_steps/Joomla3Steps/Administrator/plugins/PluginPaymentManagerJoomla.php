@@ -121,6 +121,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $pluginName
+<<<<<<< HEAD
 	 * @param $businessUserEmail
 	 * @throws \Exception
 	 * @since 2.1.2
@@ -148,5 +149,30 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 		$I->see(PluginManagerJoomla3Page::$pluginSaveSuccessMessage,PluginManagerJoomla3Page:: $idInstallSuccess);
+=======
+	 * @param $customerID
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configEWAYPlugin($pluginName, $customerID)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$searchResultRow, 30);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->click($pluginName);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$customerID, 30);
+		$I->fillField(PluginManagerJoomla3Page::$customerID, $customerID);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$visa, 30);
+		$I->click(PluginManagerJoomla3Page::$visa);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$masterCard, 30);
+		$I->click(PluginManagerJoomla3Page::$masterCard);
+
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+>>>>>>> a92e28c3c0098584f4a4ae8a31f341804f9e0393
 	}
 }
