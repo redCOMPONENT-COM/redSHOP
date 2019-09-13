@@ -25,8 +25,8 @@ class MultiCurrenciesSteps extends CheckoutOnFrontEnd
 	public function checkCurrencyUnit($current, $price)
 	{
 		$I = $this;
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$curentChooseButton ,30);
-		$I->chooseOnSelect2(FrontEndProductManagerJoomla3Page::$curentChooseButton, $current);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$currencyChooseButton ,30);
+		$I->chooseOnSelect2(FrontEndProductManagerJoomla3Page::$currencyChooseButton, $current);
 		$I->click(FrontEndProductManagerJoomla3Page::$submitCurrent);
 		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$productPrice, 30);

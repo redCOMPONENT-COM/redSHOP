@@ -128,7 +128,7 @@ class ModuleMultiCurrenciesCest
 		$this->moduleURL      = 'paid-extensions/tests/releases/modules/site/';
 		$this->package        = 'mod_redshop_currencies.zip';
 
-		//curent
+		//currency
 		$this->curentEuro     = 'Euro';
 		$this->curentKorean   = '(South) Korean Won';
 
