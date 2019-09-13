@@ -567,10 +567,12 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
 		$NumberZero = null;
-		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
+
+		for ($b = 1; $b <= $numberOfPriceDecimals; $b++)
 		{
 			$NumberZero = $NumberZero."0";
 		}
+
 		$I->amOnPage(OrderManagerPage::$URL);
 		$I->searchOrder($order);
 		$I->wait(0.5);
