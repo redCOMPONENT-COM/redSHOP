@@ -22,9 +22,9 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
-	public static $titlePage = ".page-title";
+	public static $titlePage = 'Order';
 
 	/**
 	 * @var string
