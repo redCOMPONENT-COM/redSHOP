@@ -25,31 +25,25 @@ class PayPalPluginManagerJoomla3Page extends FrontEndProductManagerJoomla3Page
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $payPalAccountLoginPage = "//h2[@id='loginPageTitle']";
-
-	/**
-	 * @var string
-	 * @since  2.1.2
-	 */
 	public static $payWithPayPalAccountOption = "//a[@ng-click='logWebviewLoginClickWrapper(); redirect()']";
 
 	/**
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $payPalLoginEmailField = "//input[@id='email']";
+	public static $payPalLoginEmailField = '#email';
 
 	/**
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $payPalPasswordField = "//input[@id='password']";
+	public static $payPalPasswordField = '#password';
 
 	/**
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $submitLoginField = "//button[@id='btnLogin']";
+	public static $submitLoginField = '#btnLogin';
 
 	/**
 	 * @var string
@@ -61,7 +55,7 @@ class PayPalPluginManagerJoomla3Page extends FrontEndProductManagerJoomla3Page
 	 * @var string
 	 * @since  2.1.2
 	 */
-	public static $paymentCompletionSuccessMessage = "//div[@id='merchant-text']";
+	public static $paymentCompletionSuccessMessage = '#merchant-text';
 
 	/**
 	 * @var string
