@@ -132,7 +132,7 @@ class PaypalCheckoutCest
 		$this->customerInformation = array(
 			"userName"      => "qa_test_buyer@gmail.com",
 			"password"      => $this->faker->bothify('Password ?##?'),
-			"email"         => $this->faker->email,
+			"email"         => "qa_test_buyer@gmail.com",
 			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
 			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
 			"address"       => "Some Place in the World",
