@@ -108,7 +108,7 @@ class PaypalCheckoutCest
 		$this->categoryName     = $this->faker->bothify('CategoryName ?###?');
 		$this->productName      = $this->faker->bothify('Testing Product ??####?');
 		$this->productNumber    = $this->faker->numberBetween(999, 9999);
-		$this->productPrice     = 10;
+		$this->productPrice     = $this->faker->numberBetween(9, 99);
 		$this->minimumQuantity  = 1;
 		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
 
