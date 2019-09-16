@@ -486,6 +486,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $selectorEmailInvalid = '//label[@for = "private-email1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $paymentEWAY = "//div[@id='rs_payment_eway']//label//input";
 
 	/**

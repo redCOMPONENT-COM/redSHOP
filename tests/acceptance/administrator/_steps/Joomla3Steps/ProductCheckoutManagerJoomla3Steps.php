@@ -60,25 +60,22 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			case 'no':
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-					$this->addressInformation($addressDetail);
-					$this->shippingInformation($shipmentDetail);
+					$I->addressInformation($addressDetail);
+					$I->shippingInformation($shipmentDetail);
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 					$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 					$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-
-				break;
+					break;
 
 			case 'yes':
-
 					$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
-					$this->addressInformation($addressDetail);
+					$I->addressInformation($addressDetail);
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
-
-				break;
+					break;
 		}
 
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
@@ -114,11 +111,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		try
 		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 10);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$selectorEmailInvalid, 10);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
 			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
 			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
 			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
-		} catch (\Exception $e) {
+		} catch (\Exception $e)
+		{
 			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		}
 	}
