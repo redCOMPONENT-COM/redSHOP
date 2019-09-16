@@ -54,7 +54,7 @@ class OrderStatusManagerCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $shippingMethod;
+	protected $paymentMethod;
 
 	public function __construct()
 	{
@@ -85,7 +85,7 @@ class OrderStatusManagerCest
 			'price'         => '100'
 		);
 
-		$this->shippingMethod = 'redSHOP - Standard Shipping';
+		$this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
 	}
 	/**
 	 * @param AcceptanceTester $I
@@ -156,7 +156,7 @@ class OrderStatusManagerCest
 		$I->wantToTest('Check Order on backend');
 		$I = new ConfigurationSteps($scenario);
 		$I->checkPriceTotal($this->product['price'], $this->customerInformation['firstName'], $this->customerInformation['firstName'],
-			$this->customerInformation['lastName'], $this->product['name'], $this->categoryName, $this->shippingMethod);
+			$this->customerInformation['lastName'], $this->product['name'], $this->categoryName, $this->paymentMethod);
 
 		$I->wantToTest('Change order status');
 		$I = new OrderManagerJoomla3Steps($scenario);
