@@ -81,7 +81,8 @@ class PayPalPluginManagerJoomla3Steps extends \CheckoutMissingData
 		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption, 60);
 		$I->click(PayPalPluginManagerJoomla3Page::$payWithPayPalAccountOption);
 
-		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, 30);
+		$I->waitForElementVisible(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, 30);
+		$I->wait(1);
 		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalLoginEmailField, $payPalAccountDetail["username"]);
 		$I->fillField(\PayPalPluginManagerJoomla3Page::$payPalPasswordField, $payPalAccountDetail["password"]);
 		$I->click(\PayPalPluginManagerJoomla3Page::$submitLoginField);
