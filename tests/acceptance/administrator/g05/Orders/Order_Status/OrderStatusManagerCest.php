@@ -11,7 +11,6 @@ use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
-use AcceptanceTester\ShippingSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
 
