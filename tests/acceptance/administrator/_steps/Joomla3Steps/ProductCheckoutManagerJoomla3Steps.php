@@ -134,7 +134,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function shippingInformation($shippingDetail)
 	{
 		$I = $this;
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingFirstName, 30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$shippingFirstName, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingDetail['firstName']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingDetail['lastName']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
