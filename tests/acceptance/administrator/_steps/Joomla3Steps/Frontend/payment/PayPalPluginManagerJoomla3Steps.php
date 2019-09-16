@@ -88,9 +88,15 @@ class PayPalPluginManagerJoomla3Steps extends \CheckoutMissingData
 		$I->click(PayPalPluginManagerJoomla3Page::$submitLoginField);
 		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payNowField, 30);
 		$I->seeElement(PayPalPluginManagerJoomla3Page::$payNowField);
-		$I->wait(1);
-		$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payNowField, 60);
-		$I->click(PayPalPluginManagerJoomla3Page::$payNowField);
+
+		try
+		{
+			$I->waitForElementVisible(PayPalPluginManagerJoomla3Page::$payNowField, 60);
+			$I->click(PayPalPluginManagerJoomla3Page::$payNowField);
+		}catch (\Exception $e)
+		{
+			$I->waitForElement(PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
+		}
 
 		$I->wait(1);
 		$I->waitForElement(PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
