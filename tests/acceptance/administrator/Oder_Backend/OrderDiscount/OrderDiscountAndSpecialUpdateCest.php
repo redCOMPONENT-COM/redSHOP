@@ -198,5 +198,4 @@ class OrderDiscountAndSpecialDiscountCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, false);
 	}
-
 }
