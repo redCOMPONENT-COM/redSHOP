@@ -9,6 +9,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
 use AcceptanceTester\CheckoutWithShippingRateSteps;
+use AcceptanceTester\OrderManagerJoomla3Steps;
 
 /**
  * Class ShippingCest
@@ -230,7 +231,7 @@ class ShippingCest
 		$I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
 
 		$I->wantToTest('Delete Order');
-		$I = new \AcceptanceTester\OrderManagerJoomla3Steps($scenario);
+		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder($this->customerInformation['firstName']);
 	}
 }
