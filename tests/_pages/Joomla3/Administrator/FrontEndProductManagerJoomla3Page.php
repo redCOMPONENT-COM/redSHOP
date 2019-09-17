@@ -105,6 +105,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $proceedButton = 'Proceed';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $proceedButtonId = "#submitbtn";
+
+	/**
+	 * @var string
 	 */
 	public static $addressEmail = "#private-email1";
 
@@ -471,6 +483,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $messageRelated = 'You may also interested in this/these product(s)';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectorEmailInvalid = '//label[@for = "private-email1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $paymentEWAY = "//div[@id='rs_payment_eway']//label//input";
+
+	/**
 	 * @param $name
 	 * @since 2.1.2
 	 * @return string
@@ -533,6 +557,36 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $paymentBankTransferDiscount = "//input[@value='rs_payment_banktransfer_discount']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $submitCurrent = 'Change Currency';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productPrice = '#product_price';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceDenmark = 'DKK';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $page = 'Product Front End Page';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $currencyChooseButton = '#product_currency';
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List

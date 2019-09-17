@@ -7,6 +7,9 @@
  */
 
 namespace AcceptanceTester;
+
+use OrderManagerPage;
+
 /**
  * Class OrderManagerJoomla3Steps
  *
@@ -188,6 +191,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->click(\OrderManagerPage::$buttonNew);
+		$I->waitForElementVisible(\OrderManagerPage::$userId, 30);
 		$I->click(\OrderManagerPage::$userId);
 		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
@@ -275,5 +279,31 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\ProductManagerPage::$checkoutFinalStep);
 		$I->waitForElement(\ProductManagerPage::$priceTotalOrderFrontend, 30);
 		$I->see($priceTotalOnCart);
+	}
+
+	/**
+	 * @param $firstName
+	 * @param $statusName
+	 * @param $statusCode
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function changeOrderStatus($firstName, $statusName, $statusCode)
+	{
+		$I = $this;
+		$I->amOnPage(OrderManagerPage::$URL);
+		$I->searchOrder($firstName);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
+		$idOrder = $I->grabValueFrom(OrderManagerPage::$iconEdit);
+		$I->click(OrderManagerPage::$iconEdit);
+
+		$I->waitForElementVisible(OrderManagerPage::$statusOrder, 30);
+		$I->chooseOnSelect2(OrderManagerPage::$statusOrder, $statusName);
+		$I->click(OrderManagerPage::$nameButtonStatus);
+		$I->waitForText(OrderManagerPage::$messageChangeOrderSuccess.$idOrder, 30, OrderManagerPage::$selectorSuccess);
+		$I->click(OrderManagerPage::$buttonClose);
+		$oderStatus = new OrderManagerPage();
+		$I->waitForText($statusName, 30, $oderStatus->xpathOrderStatus($statusCode));
+		$I->see($statusName);
 	}
 }
