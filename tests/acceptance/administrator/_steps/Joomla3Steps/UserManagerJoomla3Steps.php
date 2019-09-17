@@ -396,7 +396,16 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(UserManagerJoomla3Page::$shippingInformation);
 		$I->see(UserManagerJoomla3Page::$pageDetail, UserManagerJoomla3Page::$pageDetailSelector);
 		$I->click(UserManagerJoomla3Page::$addButton);
-		$I->waitForElement(UserManagerJoomla3Page::$firstName);
+
+		try
+		{
+			$I->waitForElementVisible(UserManagerJoomla3Page::$firstName, 30);
+		} catch (\Exception $e)
+		{
+			$I->click(UserManagerJoomla3Page::$shippingInformation);
+			$I->waitForElementVisible(UserManagerJoomla3Page::$firstName, 30);
+		}
+
 		$I->fillField(UserManagerJoomla3Page::$firstName, $firstName);
 		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
 		$I->fillField(UserManagerJoomla3Page::$address, $address);
