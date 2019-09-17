@@ -111,6 +111,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $proceedButtonId = "#submitbtn";
+
+	/**
+	 * @var string
 	 */
 	public static $addressEmail = "#private-email1";
 
@@ -475,6 +481,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $messageRelated = 'You may also interested in this/these product(s)';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectorEmailInvalid = '//label[@for = "private-email1"]';
 
 	/**
 	 * @var string
