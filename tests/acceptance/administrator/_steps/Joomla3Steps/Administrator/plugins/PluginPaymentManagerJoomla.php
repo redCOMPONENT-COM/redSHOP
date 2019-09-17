@@ -72,4 +72,76 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
+
+	/**
+	 * @param $pluginName
+	 * @param $operand
+	 * @param $paymentPrice
+	 * @param $discountType
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configBankTransferDiscountPlugin($pluginName, $operand, $paymentPrice, $discountType)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->checkExistenceOf($pluginName);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->waitForElementVisible($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->click($pluginName);
+
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPaymentOprand, 60);
+		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentOprand, $operand);
+
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPaymentPrice, 60);
+		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentPrice, $paymentPrice);
+
+		switch ($discountType)
+		{
+			case 'Percentage':
+				$I->waitForElementVisible(PluginManagerJoomla3Page::$optionPercentage, 30);
+				$I->click(PluginManagerJoomla3Page::$optionPercentage);
+				break;
+
+			case 'Total':
+				$I->waitForElementVisible(PluginManagerJoomla3Page::$optionTotal, 30);
+				$I->click(PluginManagerJoomla3Page::$optionTotal);
+				break;
+		}
+
+		// Click Save & Close
+		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
+
+	/**
+	 * @param $pluginName
+	 * @param $customerID
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configEWAYPlugin($pluginName, $customerID)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$searchResultRow, 30);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->click($pluginName);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$customerID, 30);
+		$I->fillField(PluginManagerJoomla3Page::$customerID, $customerID);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$visa, 30);
+		$I->click(PluginManagerJoomla3Page::$visa);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$masterCard, 30);
+		$I->click(PluginManagerJoomla3Page::$masterCard);
+
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
 }
