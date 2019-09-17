@@ -31,43 +31,60 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   Array  $shipmentDetail Shipment Detail Array
 	 * @param   string $productName    Name of the Product which we are going to Checkout
 	 * @param   string $categoryName   Name of the Product Category
+	 * @param   string $function       One Step Checkout: no/yes
 	 *
 	 * @return void
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
-	public function checkOutProductWithBankTransfer($addressDetail, $shipmentDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
+	public function checkOutProductWithBankTransfer($addressDetail, $shipmentDetail, $productName, $categoryName, $function)
 	{
 		$I = $this;
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
-		$I->see("Product has been added to your cart.", '.alert-message');
-		$I->amOnPage('index.php?option=com_redshop&view=cart');
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30, FrontEndProductManagerJoomla3Page::$selectorMessage);
+		$I->see(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, FrontEndProductManagerJoomla3Page::$selectorMessage);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->seeElement(['link' => $productName]);
-		$I->click(['xpath' => "//input[@value='Checkout']"]);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-		$this->addressInformation($addressDetail);
-		$this->shippingInformation($shipmentDetail);
-		$I->click("Proceed");
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$billingFinal);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
-		$I->click("Checkout");
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+
+		switch ($function)
+		{
+			case 'no':
+					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
+					$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+					$I->addressInformation($addressDetail);
+					$I->shippingInformation($shipmentDetail);
+					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
+					$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
+					$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
+					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+					$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
+					$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+					break;
+
+			case 'yes':
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$headBilling, 30);
+					$I->addressInformation($addressDetail);
+					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+					$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
+					break;
+		}
+
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
 		$I->seeElement($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForText('Order Receipt', 10, \FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
+		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 10, FrontEndProductManagerJoomla3Page::$orderReceiptTitle);
 		$I->seeElement($productFrontEndManagerPage->finalCheckout($productName));
 	}
 
@@ -78,20 +95,31 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function addressInformation($addressDetail)
 	{
 		$I = $this;
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 10);
-		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$addressEmail);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail, 60);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
+
+		try
+		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$selectorEmailInvalid, 10);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
+			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
+			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
+			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
+		} catch (\Exception $e)
+		{
+			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
+		}
 	}
 
 	/**
@@ -101,19 +129,18 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @return void
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function shippingInformation($shippingDetail)
 	{
 		$I = $this;
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingFirstName, 30);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$shippingFirstName,10);
-		$I->scrollTo(\FrontEndProductManagerJoomla3Page::$shippingFirstName);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingDetail['firstName']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingDetail['lastName']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingDetail['postalCode']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingCity, $shippingDetail['city']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$shippingFirstName, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingDetail['firstName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingDetail['lastName']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingDetail['address']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingDetail['postalCode']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingCity, $shippingDetail['city']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingDetail['phone']);
 	}
 
 	/**
@@ -1062,6 +1089,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
+		$I->waitfortext(\FrontEndProductManagerJoomla3Page::$orderReceipt, 30); 
 		$I->seeElement(['link' => $productName]);
 	}
 
