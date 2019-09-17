@@ -196,7 +196,7 @@ class ShippingCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
-		$I->wantToTest('checkout with '.$this->shipping['shippingName'].' just create');
+		$I->wantToTest('Checkout with '.$this->shipping['shippingName'].' just create');
 		$I = new CheckoutWithShippingRateSteps($scenario);
 		$I->checkoutWithShippingRate($this->customerInformation['userName'], $this->customerInformation['userName'], $this->categoryName,
 			$this->product['name'], $this->total, $this->shipping);
