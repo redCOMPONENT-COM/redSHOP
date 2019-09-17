@@ -1012,7 +1012,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$termAndConditions);
-		
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		  try{
