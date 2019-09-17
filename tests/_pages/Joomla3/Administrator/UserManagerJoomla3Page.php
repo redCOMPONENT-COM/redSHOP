@@ -195,7 +195,6 @@ class UserManagerJoomla3Page
 	 */
 	public static $headPage = "//h1";
 
-
 	//button
 
 	/**
@@ -283,7 +282,6 @@ class UserManagerJoomla3Page
 	 * @since 2.1.3
 	 */
 	public static $selectorNamePage = '.page-title';
-
 
 	//selector
 

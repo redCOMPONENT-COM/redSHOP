@@ -191,6 +191,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->click(\OrderManagerPage::$buttonNew);
+		$I->waitForElementVisible(\OrderManagerPage::$userId, 30);
 		$I->click(\OrderManagerPage::$userId);
 		$I->waitForElement(\OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new \OrderManagerPage();
