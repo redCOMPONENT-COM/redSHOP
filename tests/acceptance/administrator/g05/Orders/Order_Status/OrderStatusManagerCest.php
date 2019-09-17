@@ -11,7 +11,6 @@ use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
-use AcceptanceTester\ShippingSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
 
@@ -55,7 +54,7 @@ class OrderStatusManagerCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $shippingMethod;
+	protected $paymentMethod;
 
 	public function __construct()
 	{
@@ -71,7 +70,7 @@ class OrderStatusManagerCest
 			"lastName"      => $this->faker->lastName,
 			"address"       => $this->faker->address,
 			"postalCode"    => "700000",
-			"city"          => "HCM",
+			"city"          => "HCMC",
 			"country"       => "Denmark",
 			"state"         => "Karnataka",
 			"phone"         => '0123456789',
@@ -86,11 +85,7 @@ class OrderStatusManagerCest
 			'price'         => '100'
 		);
 
-		$this->shippingMethod = 'redSHOP - Standard Shipping';
-		$this->shipping = array(
-			'shippingName'          => $this->faker->bothify("Demo Rate ?##?"),
-			'shippingRate'         => '10'
-		);
+		$this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
 	}
 	/**
 	 * @param AcceptanceTester $I
@@ -154,18 +149,14 @@ class OrderStatusManagerCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
-		$I->wantToTest('Create Shipping rate');
-		$I = new ShippingSteps($scenario);
-		$I->createShippingRateStandard($this->shippingMethod, $this->shipping);
-
 		$I->wantToTest('Checkout');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkOutProductWithBankTransfer($this->customerInformation, $this->customerInformation, $this->product['name'], $this->categoryName);
+		$I->checkOutProductWithBankTransfer($this->customerInformation, $this->customerInformation, $this->product['name'], $this->categoryName, 'no');
 
 		$I->wantToTest('Check Order on backend');
 		$I = new ConfigurationSteps($scenario);
 		$I->checkPriceTotal($this->product['price'], $this->customerInformation['firstName'], $this->customerInformation['firstName'],
-			$this->customerInformation['lastName'], $this->product['name'], $this->categoryName, $this->shippingMethod);
+			$this->customerInformation['lastName'], $this->product['name'], $this->categoryName, $this->paymentMethod);
 
 		$I->wantToTest('Change order status');
 		$I = new OrderManagerJoomla3Steps($scenario);
@@ -200,9 +191,6 @@ class OrderStatusManagerCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 
-		$I->wantToTest('Delete Shipping Rate');
-		$I = new ShippingSteps($scenario);
-		$I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
 
 		$I->wantToTest('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
