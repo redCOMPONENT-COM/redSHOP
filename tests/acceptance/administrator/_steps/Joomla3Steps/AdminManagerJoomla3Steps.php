@@ -319,7 +319,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
 		$NumberZero = null;
 
-		for ( $b = 1; $b <= $numberOfPriceDecimals; $b++ )
+		for ($b = 1; $b <= $numberOfPriceDecimals; $b++)
 		{
 			$NumberZero = $NumberZero."0";
 		}

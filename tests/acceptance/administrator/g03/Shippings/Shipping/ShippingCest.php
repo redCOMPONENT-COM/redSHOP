@@ -170,7 +170,7 @@ class ShippingCest
 	}
 
 	/**
-	 * @param UserManagerJoomla3Steps $I
+	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
 	 * @since 2.1.3
