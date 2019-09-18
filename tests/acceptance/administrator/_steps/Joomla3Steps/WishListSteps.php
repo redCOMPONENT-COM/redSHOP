@@ -10,7 +10,6 @@ namespace AcceptanceTester;
 
 use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
-use ProductManagerPage;
 
 /**
  * Class WishListSteps
@@ -29,7 +28,7 @@ class WishListSteps extends CheckoutMissingData
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkWistListAtFrontend($categoryName, $productName, $username, $pass, $wishlistName, $login = 'no')
+	public function checkWistListAtFrontend($categoryName, $productName, $username, $pass, $wishlistName, $login)
 	{
 		$I = $this;
 
@@ -118,8 +117,6 @@ class WishListSteps extends CheckoutMissingData
 	public function removeProductInWishList($username, $pass, $wishlistName)
 	{
 		$I = $this;
-		$I->amOnPage(ProductManagerPage::$URL);
-		$I->waitForElementVisible(ProductManagerPage::$getProductId);
 		$I->doFrontEndLogin($username, $pass);
 		$product = new FrontEndProductManagerJoomla3Page();
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$wishListPageURL);

@@ -198,11 +198,13 @@ class ConfigurationPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $loginRequireNo = '#wishlist_login_required_0-lbl';
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	public static $loginRequireYes = '#wishlist_login_required_1-lbl';
 
