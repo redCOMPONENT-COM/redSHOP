@@ -130,7 +130,7 @@ class WishListCest
 	{
 		$I->wantToTest('Configure WishList with no login');
 		$I = new ConfigurationSteps($scenario);
-		$I->featureWishList('no');
+		$I->ConfigFeatureWishList('no');
 
 		$I->wantToTest("Check Wish List at frontend");
 		$I = new WishListSteps($scenario);
@@ -161,7 +161,7 @@ class WishListCest
 	{
 		$I->wantToTest('Configure WishList with login');
 		$I = new ConfigurationSteps($scenario);
-		$I->featureWishList('yes');
+		$I->ConfigFeatureWishList('yes');
 
 		$I->wantToTest("Check Wish List at frontend");
 		$I = new WishListSteps($scenario);

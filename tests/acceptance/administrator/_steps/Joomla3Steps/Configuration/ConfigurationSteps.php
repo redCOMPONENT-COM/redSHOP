@@ -120,7 +120,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function featureWishList($function)
+	public function ConfigFeatureWishList($function)
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);

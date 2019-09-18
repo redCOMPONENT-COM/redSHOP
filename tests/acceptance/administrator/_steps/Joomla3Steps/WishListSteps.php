@@ -9,7 +9,7 @@
 namespace AcceptanceTester;
 
 use CheckoutMissingData;
-use FrontEndProductManagerJoomla3Page;
+use WishListPage;
 
 /**
  * Class WishListSteps
@@ -35,56 +35,56 @@ class WishListSteps extends CheckoutMissingData
 		switch ($login)
 		{
 			case 'no':
-				$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-				$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+				$I->amOnPage(WishListPage::$URL);
+				$I->waitForElement(WishListPage::$categoryDiv, 30);
+				$productFrontEndManagerPage = new WishListPage;
 				$I->click($productFrontEndManagerPage->productCategory($categoryName));
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+				$I->waitForElement(WishListPage::$productList, 30);
 				$I->click($productFrontEndManagerPage->product($productName));
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToWishListNoLogin, 30);
-				$I->click(FrontEndProductManagerJoomla3Page::$addToWishListNoLogin);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$selectorMessage, 30);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAddWishListSuccess, 30, FrontEndProductManagerJoomla3Page::$selectorMessage);
-				$I->amOnPage(FrontEndProductManagerJoomla3Page::$wishListPageURL);
+				$I->waitForElementVisible(WishListPage::$addToWishListNoLogin, 30);
+				$I->click(WishListPage::$addToWishListNoLogin);
+				$I->waitForElementVisible(WishListPage::$selectorMessage, 30);
+				$I->waitForText(WishListPage::$messageAddWishListSuccess, 30, WishListPage::$selectorMessage);
+				$I->amOnPage(WishListPage::$wishListPageURL);
 				$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 				$I->waitForText($productName, 30);
 				$I->doFrontEndLogin($username, $pass);
-				$I->amOnPage(FrontEndProductManagerJoomla3Page::$wishListPageURL);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$saveWishListButton, 30);
-				$I->click(FrontEndProductManagerJoomla3Page::$saveWishListButton);
+				$I->amOnPage(WishListPage::$wishListPageURL);
+				$I->waitForElementVisible(WishListPage::$saveWishListButton, 30);
+				$I->click(WishListPage::$saveWishListButton);
 				break;
 
 			case 'yes':
 				$I->doFrontEndLogin($username, $pass);
-				$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-				$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+				$I->amOnPage(WishListPage::$URL);
+				$I->waitForElement(WishListPage::$categoryDiv, 30);
+				$productFrontEndManagerPage = new WishListPage;
 				$I->click($productFrontEndManagerPage->productCategory($categoryName));
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+				$I->waitForElement(WishListPage::$productList, 30);
 				$I->click($productFrontEndManagerPage->product($productName));
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToWishListLogin, 30);
-				$I->click(FrontEndProductManagerJoomla3Page::$addToWishListLogin);
+				$I->waitForElementVisible(WishListPage::$addToWishListLogin, 30);
+				$I->click(WishListPage::$addToWishListLogin);
 				break;
 		}
 
 		$I->executeJS('jQuery(".iframe").attr("name", "wishlist-iframe")');
-		$I->waitForElementVisible('//iframe[@name="wishlist-iframe"]', 30);
-		$I->switchToIFrame('wishlist-iframe');
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkNewWishList, 30);
-		$I->checkOption(FrontEndProductManagerJoomla3Page::$checkNewWishList);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$wishListNameField, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$wishListNameField, $wishlistName);
-		$I->click(FrontEndProductManagerJoomla3Page::$buttonSave);
+		$I->waitForElementVisible(WishListPage::$iframeWishList, 30);
+		$I->switchToIFrame(WishListPage::$iframeWishListName);
+		$I->waitForElementVisible(WishListPage::$checkNewWishList, 30);
+		$I->checkOption(WishListPage::$checkNewWishList);
+		$I->waitForElementVisible(WishListPage::$wishListNameField, 30);
+		$I->fillField(WishListPage::$wishListNameField, $wishlistName);
+		$I->click(WishListPage::$buttonSave);
 
 		try
 		{
-			$I->see(FrontEndProductManagerJoomla3Page::$messageAddWishListSuccessPopup);
+			$I->see(WishListPage::$messageAddWishListSuccessPopup);
 		} catch (\Exception $e)
 		{
 			$I->acceptPopup();
-			$I->fillField(FrontEndProductManagerJoomla3Page::$wishListNameField, $wishlistName);
-			$I->click(FrontEndProductManagerJoomla3Page::$buttonSave);
-			$I->see(FrontEndProductManagerJoomla3Page::$messageAddWishListSuccessPopup);
+			$I->fillField(WishListPage::$wishListNameField, $wishlistName);
+			$I->click(WishListPage::$buttonSave);
+			$I->see(WishListPage::$messageAddWishListSuccessPopup);
 		}
 
 		switch ($login)
@@ -96,11 +96,11 @@ class WishListSteps extends CheckoutMissingData
 
 			case 'yes':
 				$I->waitForElementVisible($productFrontEndManagerPage->productTitle($productName), 30);
-				$I->waitForText($productName, 30, FrontEndProductManagerJoomla3Page::$productTitle);
+				$I->waitForText($productName, 30, WishListPage::$productTitle);
 				break;
 		}
 
-		$I->amOnPage(FrontEndProductManagerJoomla3Page::$wishListPageURL);
+		$I->amOnPage(WishListPage::$wishListPageURL);
 		$I->waitForElementVisible($productFrontEndManagerPage->wishListName($wishlistName), 30);
 		$I->click($productFrontEndManagerPage->wishListName($wishlistName));
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
@@ -118,12 +118,12 @@ class WishListSteps extends CheckoutMissingData
 	{
 		$I = $this;
 		$I->doFrontEndLogin($username, $pass);
-		$product = new FrontEndProductManagerJoomla3Page();
-		$I->amOnPage(FrontEndProductManagerJoomla3Page::$wishListPageURL);
+		$product = new WishListPage();
+		$I->amOnPage(WishListPage::$wishListPageURL);
 		$I->waitForElementVisible($product->wishListName($wishlistName), 30);
 		$I->click($product->wishListName($wishlistName));
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$removeOnWishList, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$removeOnWishList);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$messageRemoveProductWishList, 30, FrontEndProductManagerJoomla3Page::$selectorMessage);
+		$I->waitForElementVisible(WishListPage::$removeOnWishList, 30);
+		$I->click(WishListPage::$removeOnWishList);
+		$I->waitForText(WishListPage::$messageRemoveProductWishList, 30, WishListPage::$selectorMessage);
 	}
 }
