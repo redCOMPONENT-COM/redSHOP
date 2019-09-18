@@ -433,4 +433,10 @@ ProductManagerPage extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $headingSEO ="//input[@id='pageheading']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $getProductId = "(//tr[@class=\"row0\"])/td[12]";
 }

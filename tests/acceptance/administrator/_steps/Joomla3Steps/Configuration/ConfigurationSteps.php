@@ -116,6 +116,35 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $function
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function featureWishList($function)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$wishListTab, 60);
+		$I->click(ConfigurationPage::$wishListYes);
+
+		switch ($function)
+		{
+			case 'yes':
+				$I->click(ConfigurationPage::$loginRequireYes);
+				break;
+
+			case 'no':
+				$I->click(ConfigurationPage::$loginRequireNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
 	 * @param   string $country
 	 * @param $state
 	 * @param $vatDefault

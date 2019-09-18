@@ -34,6 +34,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListPageURL = '/index.php?option=com_redshop&view=wishlist&layout=viewwishlist';
+
+	/**
+	 * @var string
 	 */
 	public static $addQuotation = "//input[@name='addquotation']";
 
@@ -495,6 +501,66 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $paymentEWAY = "//div[@id='rs_payment_eway']//label//input";
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $addToWishListLogin = '//div[@class = "wishlist_link"]/a';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $addToWishListNoLogin = '//div[@class = "wishlist_link"]/form/a';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $addToWishList = '//input[@value ="Add to Wishlist"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $checkNewWishList = '//input[@id="chkNewwishlist"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListNameField = "#txtWishlistname";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $saveWishListButton = '//input[@value="Save Wishlist"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageAddWishListSuccess = 'Product Added To Wishlist';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageAddWishListSuccessPopup = "Product added to wishlist successfully";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageRemoveProductWishList = 'Wishlist Deleted Successfully';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectorAddWishListSuccess = '.wishlistmsg';
+
+	/**
 	 * @param $name
 	 * @since 2.1.2
 	 * @return string
@@ -589,6 +655,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $currencyChooseButton = '#product_currency';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productTitle = '.product_title';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
@@ -680,5 +752,44 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 		$path = "//div[text()='" . $productName . "']";
 
 		return $path;
+	}
+
+	/**
+	 * Function to get Path in Product Detail
+	 *
+	 * @param String $productName Name of the product
+	 *
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function productTitle($productName)
+	{
+		$xpath = "//h1[text()='" . $productName . "']";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $wishListName
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function wishListName($wishListName)
+	{
+		$path = "//a[text() = '" . $wishListName . "']";
+
+		return $path;
+	}
+
+	/**
+	 * @param $productID
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function removeWishListURL($productID)
+	{
+		$url = "/index.php/en/wishlist/wishlist/mysessdelwishlist/" . $productID . "?mydel=1";
+
+		return $url;
 	}
 }
