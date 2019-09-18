@@ -9,6 +9,7 @@
 namespace AcceptanceTester;
 
 use CheckoutMissingData;
+use FrontEndProductManagerJoomla3Page;
 use WishListPage;
 
 /**
@@ -35,11 +36,11 @@ class WishListSteps extends CheckoutMissingData
 		switch ($login)
 		{
 			case 'no':
-				$I->amOnPage(WishListPage::$URL);
-				$I->waitForElement(WishListPage::$categoryDiv, 30);
-				$productFrontEndManagerPage = new WishListPage;
+				$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+				$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+				$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 				$I->click($productFrontEndManagerPage->productCategory($categoryName));
-				$I->waitForElement(WishListPage::$productList, 30);
+				$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 				$I->click($productFrontEndManagerPage->product($productName));
 				$I->waitForElementVisible(WishListPage::$addToWishListNoLogin, 30);
 				$I->click(WishListPage::$addToWishListNoLogin);
@@ -56,11 +57,11 @@ class WishListSteps extends CheckoutMissingData
 
 			case 'yes':
 				$I->doFrontEndLogin($username, $pass);
-				$I->amOnPage(WishListPage::$URL);
-				$I->waitForElement(WishListPage::$categoryDiv, 30);
-				$productFrontEndManagerPage = new WishListPage;
+				$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+				$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+				$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 				$I->click($productFrontEndManagerPage->productCategory($categoryName));
-				$I->waitForElement(WishListPage::$productList, 30);
+				$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 				$I->click($productFrontEndManagerPage->product($productName));
 				$I->waitForElementVisible(WishListPage::$addToWishListLogin, 30);
 				$I->click(WishListPage::$addToWishListLogin);
@@ -87,6 +88,8 @@ class WishListSteps extends CheckoutMissingData
 			$I->see(WishListPage::$messageAddWishListSuccessPopup);
 		}
 
+		$product = new WishListPage();
+
 		switch ($login)
 		{
 			case 'no':
@@ -95,14 +98,14 @@ class WishListSteps extends CheckoutMissingData
 				break;
 
 			case 'yes':
-				$I->waitForElementVisible($productFrontEndManagerPage->productTitle($productName), 30);
+				$I->waitForElementVisible($product->productTitle($productName), 30);
 				$I->waitForText($productName, 30, WishListPage::$productTitle);
 				break;
 		}
 
 		$I->amOnPage(WishListPage::$wishListPageURL);
-		$I->waitForElementVisible($productFrontEndManagerPage->wishListName($wishlistName), 30);
-		$I->click($productFrontEndManagerPage->wishListName($wishlistName));
+		$I->waitForElementVisible($product->wishListName($wishlistName), 30);
+		$I->click($product->wishListName($wishlistName));
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->waitForText($productName, 30);
 	}
