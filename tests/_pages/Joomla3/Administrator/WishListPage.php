@@ -128,4 +128,13 @@ class WishListPage extends FrontEndProductManagerJoomla3Page
 
 		return $path;
 	}
+
+	/**
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function jqueryIFrame()
+	{
+		return $jqueryString = 'jQuery(".iframe").attr("name", "wishlist-iframe")';
+	}
 }
