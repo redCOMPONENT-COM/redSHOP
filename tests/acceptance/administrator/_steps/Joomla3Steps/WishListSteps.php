@@ -32,6 +32,7 @@ class WishListSteps extends CheckoutMissingData
 	public function checkWistListAtFrontend($categoryName, $productName, $username, $pass, $wishlistName, $login)
 	{
 		$I = $this;
+		$product = new WishListPage();
 
 		switch ($login)
 		{
@@ -68,7 +69,7 @@ class WishListSteps extends CheckoutMissingData
 				break;
 		}
 
-		$I->executeJS('jQuery(".iframe").attr("name", "wishlist-iframe")');
+		$I->executeJS($product->jqueryIFrame());
 		$I->waitForElementVisible(WishListPage::$iframeWishList, 30);
 		$I->switchToIFrame(WishListPage::$iframeWishListName);
 		$I->waitForElementVisible(WishListPage::$checkNewWishList, 30);
@@ -87,8 +88,6 @@ class WishListSteps extends CheckoutMissingData
 			$I->click(WishListPage::$buttonSave);
 			$I->see(WishListPage::$messageAddWishListSuccessPopup);
 		}
-
-		$product = new WishListPage();
 
 		switch ($login)
 		{
