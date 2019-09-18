@@ -540,6 +540,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $removeOnWishList = '//a[text()="Remove Product"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $messageAddWishListSuccess = 'Product Added To Wishlist';
 
 	/**
@@ -552,7 +558,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $messageRemoveProductWishList = 'Wishlist Deleted Successfully';
+	public static $messageRemoveProductWishList = 'Product Deleted From Wishlist Successfully';
 
 	/**
 	 * @var string
@@ -779,17 +785,5 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 		$path = "//a[text() = '" . $wishListName . "']";
 
 		return $path;
-	}
-
-	/**
-	 * @param $productID
-	 * @return string
-	 * @since 2.1.3
-	 */
-	public function removeWishListURL($productID)
-	{
-		$url = "/index.php/en/wishlist/wishlist/mysessdelwishlist/" . $productID . "?mydel=1";
-
-		return $url;
 	}
 }

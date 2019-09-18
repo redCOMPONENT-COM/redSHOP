@@ -50,6 +50,12 @@ class WishListCest
 	 */
 	protected $wishListName;
 
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    protected $wishListName1;
+
 	/**
 	 * WishlistCest constructor.
 	 * @since 2.1.3
@@ -58,6 +64,7 @@ class WishListCest
 	{
 		$this->faker = Faker\Factory::create();
 		$this->wishListName = $this->faker->bothify('WishList Demo ?##?');
+        $this->wishListName1 = $this->faker->bothify('WishList Demo 1 ?##?');
 		$this->customerInformation = array(
 			"userName"      => $this->faker->userName,
 			"email"         => $this->faker->email,
@@ -141,7 +148,7 @@ class WishListCest
 	{
 		$I->wantToTest("Remove Product just add WishList");
 		$I = new WishListSteps($scenario);
-		$I->removeProductInWishList($this->customerInformation['userName'],$this->customerInformation['userName'], $this->product['name']);
+		$I->removeProductInWishList($this->customerInformation['userName'],$this->customerInformation['userName'], $this->wishListName);
 	}
 
 	/**
@@ -159,7 +166,7 @@ class WishListCest
 		$I->wantToTest("Check Wish List at frontend");
 		$I = new WishListSteps($scenario);
 		$I->checkWistListAtFrontend($this->categoryName, $this->product['name'], $this->customerInformation['userName'], $this->customerInformation['userName'],
-			$this->wishListName, 'yes');
+			$this->wishListName1, 'yes');
 	}
 
 	/**

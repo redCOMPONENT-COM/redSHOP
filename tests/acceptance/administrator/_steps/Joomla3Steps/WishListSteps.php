@@ -115,16 +115,18 @@ class WishListSteps extends CheckoutMissingData
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function removeProductInWishList($username, $pass, $productName)
+	public function removeProductInWishList($username, $pass, $wishlistName)
 	{
 		$I = $this;
 		$I->amOnPage(ProductManagerPage::$URL);
-		$I->filterListBySearchingProduct($productName);
 		$I->waitForElementVisible(ProductManagerPage::$getProductId);
-		$productID = $I->grabValueFrom(ProductManagerPage::$getProductId);
 		$I->doFrontEndLogin($username, $pass);
 		$product = new FrontEndProductManagerJoomla3Page();
-		$I->amOnPage($product->removeWishListURL($productID));
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$wishListPageURL);
+		$I->waitForElementVisible($product->wishListName($wishlistName), 30);
+		$I->click($product->wishListName($wishlistName));
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$removeOnWishList, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$removeOnWishList);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$messageRemoveProductWishList, 30, FrontEndProductManagerJoomla3Page::$selectorMessage);
 	}
 }
