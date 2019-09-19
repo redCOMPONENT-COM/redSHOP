@@ -116,7 +116,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * @param $function
+	 * @param string $function Enable login require: no/yes
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
@@ -126,6 +126,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ConfigurationPage::$URL);
 		$I->click(ConfigurationPage::$featureSetting);
 		$I->waitForElement(ConfigurationPage::$wishListTab, 60);
+		$I->waitForElement(ConfigurationPage::$wishListYes, 30);
 		$I->click(ConfigurationPage::$wishListYes);
 
 		switch ($function)

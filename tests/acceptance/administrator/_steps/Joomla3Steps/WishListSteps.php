@@ -84,6 +84,7 @@ class WishListSteps extends CheckoutMissingData
 		} catch (\Exception $e)
 		{
 			$I->acceptPopup();
+			$I->waitForElementVisible(WishListPage::$wishListNameField, 30);
 			$I->fillField(WishListPage::$wishListNameField, $wishlistName);
 			$I->click(WishListPage::$buttonSave);
 			$I->see(WishListPage::$messageAddWishListSuccessPopup);
@@ -92,21 +93,18 @@ class WishListSteps extends CheckoutMissingData
 		switch ($login)
 		{
 			case 'no':
-				$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
-				$I->waitForText($productName, 30);
+				$I->waitForText($productName, 60, $productFrontEndManagerPage->product($productName));
 				break;
 
 			case 'yes':
-				$I->waitForElementVisible($product->productTitle($productName), 30);
-				$I->waitForText($productName, 30, WishListPage::$productTitle);
+				$I->waitForText($productName, 60, $product->productTitle($productName));
 				break;
 		}
 
 		$I->amOnPage(WishListPage::$wishListPageURL);
 		$I->waitForElementVisible($product->wishListName($wishlistName), 30);
 		$I->click($product->wishListName($wishlistName));
-		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
-		$I->waitForText($productName, 30);
+		$I->waitForText($productName, 60, $productFrontEndManagerPage->product($productName));
 	}
 
 	/**

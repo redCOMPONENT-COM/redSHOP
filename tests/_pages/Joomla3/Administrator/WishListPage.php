@@ -46,12 +46,6 @@ class WishListPage extends FrontEndProductManagerJoomla3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $addToWishList = '//input[@value ="Add to Wishlist"]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
 	public static $checkNewWishList = '//input[@id="chkNewwishlist"]';
 
 	/**
@@ -89,18 +83,6 @@ class WishListPage extends FrontEndProductManagerJoomla3Page
 	 * @since 2.1.3
 	 */
 	public static $messageRemoveProductWishList = 'Product Deleted From Wishlist Successfully';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $selectorAddWishListSuccess = '.wishlistmsg';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $productTitle = '.product_title';
 
 	/**
 	 * Function to get Path in Product Detail
