@@ -23,6 +23,7 @@ class WishListCest
 {
 	/**
 	 * @var \Faker\Generator
+	 * @since 2.1.3
 	 */
 	protected $faker;
 
@@ -84,7 +85,7 @@ class WishListCest
 		$this->product = array(
 			"name"          => $this->faker->bothify("Product Demo ?##?"),
 			"number"        => $this->faker->numberBetween(999,9999),
-			"price"         => $this->faker->numberBetween(1,990)
+			"price"         => $this->faker->numberBetween(1,900)
 		);
 	}
 
