@@ -111,6 +111,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $proceedButtonId = "#submitbtn";
+
+	/**
+	 * @var string
 	 */
 	public static $addressEmail = "#private-email1";
 
@@ -480,6 +486,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $selectorEmailInvalid = '//label[@for = "private-email1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $paymentEWAY = "//div[@id='rs_payment_eway']//label//input";
 
 	/**
@@ -643,6 +655,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var array
 	 */
 	public static $attributeSearchFirst = "//input[@id='s2id_autogen1_search']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $radioShippingRate = '//label[@class="radio inline"]';
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
