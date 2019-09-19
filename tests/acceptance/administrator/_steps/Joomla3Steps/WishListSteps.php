@@ -25,7 +25,7 @@ class WishListSteps extends CheckoutMissingData
 	 * @param $username
 	 * @param $pass
 	 * @param $wishlistName
-	 * @param string $login     enable Login Require: yes/no
+	 * @param string $login     Enable Login Require: yes/no
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
