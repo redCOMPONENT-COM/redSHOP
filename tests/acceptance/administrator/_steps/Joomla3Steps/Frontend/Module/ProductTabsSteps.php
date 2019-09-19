@@ -42,11 +42,8 @@ class ProductTabsSteps extends CheckoutOnFrontEnd
 	public function checkModuleProductTab($productname, $productname1)
 	{
 		$I = $this;
-
 		$I->valueComparison(FrontEndProductManagerJoomla3Page::$newestProducts, FrontEndProductManagerJoomla3Page::$nameProductNewest, $productname);
-
 		$I->valueComparison(FrontEndProductManagerJoomla3Page::$latestProducts,FrontEndProductManagerJoomla3Page::$namProductsLatest, $productname1);
-
 		$I->valueComparison(FrontEndProductManagerJoomla3Page::$mostSoldProducts, FrontEndProductManagerJoomla3Page::$nameProductSold, $productname);
 	}
 }
