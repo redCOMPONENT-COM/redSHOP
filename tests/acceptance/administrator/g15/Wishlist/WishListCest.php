@@ -127,7 +127,7 @@ class WishListCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-	public function configureAndCheckWishListAtFrontend(AcceptanceTester $I, $scenario)
+	public function configureAndCheckWishListNoLogin(AcceptanceTester $I, $scenario)
 	{
 		$I->wantToTest('Configure WishList with no login');
 		$I = new ConfigurationSteps($scenario);
