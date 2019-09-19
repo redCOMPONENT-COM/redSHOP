@@ -44,7 +44,7 @@ pipeline:
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
             - mv gulp-config.json.dist gulp-config.json
-            - php -i | grep -i ssl
+            - composer update -vvv
             - gulp release --skip-version
 
             # clone Paid Extensions
