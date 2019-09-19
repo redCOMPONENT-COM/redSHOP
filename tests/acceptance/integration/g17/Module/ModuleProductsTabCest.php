@@ -97,7 +97,7 @@ class ModuleProductsTabCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $emailsave;
+	protected $emailSave;
 
 	/**
 	 * @var string
@@ -178,7 +178,7 @@ class ModuleProductsTabCest
 
 		$this->userName                    = $this->faker->bothify('UserAdministratorCest ?##?');
 		$this->password                    = $this->faker->bothify('Password ?##?');
-		$this->emailsave                   = $this->faker->email;
+		$this->emailSave                   = $this->faker->email;
 		$this->shopperGroup                = 'Default Private';
 		$this->group                       = 'Registered';
 		$this->firstName                   = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
@@ -251,7 +251,7 @@ class ModuleProductsTabCest
 
 		// create user
 		$I = new UserSteps($scenario);
-		$I->addUser($this->userName, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->function);
+		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->function);
 
 		//create categories
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -259,7 +259,7 @@ class ModuleProductsTabCest
 
 		//create products
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);   
+		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 		$I->createProductSaveClose($this->productName1, $this->categoryName, $this->productNumber1, $this->productPrice);
 
 		//setup up one page checkout at admin
