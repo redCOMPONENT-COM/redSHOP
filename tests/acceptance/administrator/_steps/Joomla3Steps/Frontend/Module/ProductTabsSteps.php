@@ -39,11 +39,11 @@ class ProductTabsSteps extends CheckoutOnFrontEnd
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkModuleProductTab($productname, $productNewest)
+	public function checkModuleProductTab($productName, $productNewest)
 	{
 		$I = $this;
 		$I->valueComparison(FrontEndProductManagerJoomla3Page::$newestProducts, FrontEndProductManagerJoomla3Page::$nameProductNewest, $productNewest);
 		$I->valueComparison(FrontEndProductManagerJoomla3Page::$latestProducts,FrontEndProductManagerJoomla3Page::$namProductsLatest, $productNewest);
-		$I->valueComparison(FrontEndProductManagerJoomla3Page::$mostSoldProducts, FrontEndProductManagerJoomla3Page::$nameProductSold, $productname);
+		$I->valueComparison(FrontEndProductManagerJoomla3Page::$mostSoldProducts, FrontEndProductManagerJoomla3Page::$nameProductSold, $productName);
 	}
 }

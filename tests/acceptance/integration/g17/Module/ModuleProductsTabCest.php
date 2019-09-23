@@ -64,24 +64,6 @@ class ModuleProductsTabCest
 	protected $productPrice;
 
 	/**
-	 * @var int
-	 * @since 2.1.3
-	 */
-	protected $minimumQuantity;
-
-	/**
-	 * @var int
-	 * @since 2.1.3
-	 */
-	protected $maximumQuantity;
-
-	/**
-	 * @var int
-	 * @since 2.1.3
-	 */
-	protected $paymentPrice;
-
-	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
@@ -172,9 +154,6 @@ class ModuleProductsTabCest
 		$this->productNumber    = $this->faker->numberBetween(100, 500);
 		$this->productNumber1   = $this->faker->numberBetween(501, 999);
 		$this->productPrice     = $this->faker->numberBetween(9, 19);
-		$this->minimumQuantity  = $this->faker->numberBetween(1, 10);
-		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
-		$this->paymentPrice     = 5;
 
 		$this->userName                    = $this->faker->bothify('UserAdministratorCest ?##?');
 		$this->password                    = $this->faker->bothify('Password ?##?');
