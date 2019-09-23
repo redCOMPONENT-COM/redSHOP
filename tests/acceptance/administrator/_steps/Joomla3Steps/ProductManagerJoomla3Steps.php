@@ -175,7 +175,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 
-    /**
+	/**
 	 * @param $category
 	 * @param $productNumber
 	 * @param $productName
