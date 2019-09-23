@@ -65,117 +65,130 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		{
 			if ($moduleSetting['showImage'] == 'Yes')
 			{
-				$I->waitForElementVisible($module->showProductImage(''), 30);
-				$I->click($module->showProductImage(1));
+				$I->waitForElementVisible($module->showProductImage(0), 30);
+				$I->click($module->showProductImage(0));
 			}
 			else
 			{
-//			    $I->executeJS('jQuery(".fieldset").attr("id","jform_params_image")');
-                $I->waitForElementVisible('#jform_params_image', 30);
-                $I->executeJS('return jQuery(".fieldset").attr("text","Show product image")');
-//				$I->selectOptionInChosenjs('Show product image', 'No');
-                $I->click($module->showProductImage(0));
+				$I->waitForElementVisible($module->showProductImage(1), 30);
+				$I->click($module->showProductImage(1));
 			}
 		}
-//
-//		if (isset($moduleSetting['imageWidth']))
-//		{
-//			$I->waitForElementVisible(ModuleManagerJoomlaPage::$productImageWidth, 30);
-//			$I->fillField(ModuleManagerJoomlaPage::$productImageWidth, $moduleSetting['imageWidth']);
-//		}
-//
-//		if (isset($moduleSetting['imageHeight']))
-//		{
-//			$I->waitForElementVisible(ModuleManagerJoomlaPage::$productImageHeight, 30);
-//			$I->fillField(ModuleManagerJoomlaPage::$productImageWidth, $moduleSetting['imageWidth']);
-//		}
-//
-//		if (isset($moduleSetting['showPrice']))
-//		{
-//			if ($moduleSetting['showPrice'] == 'Yes')
-//			{
-//				$I->waitForElementVisible('#jform_params_show_price', 30);
-//				$I->checkOption($module->showProductPrice(1));
-//			}
-//			else
-//			{
-//				$I->waitForElementVisible($module->showProductPrice(''), 30);
-//				$I->checkOption($module->showProductPrice(0));
-//			}
-//		}
-//
-//		if (isset($moduleSetting['showVAT']))
-//		{
-//			if ($moduleSetting['showVAT'] == 'Yes')
-//			{
-//				$I->waitForElementVisible($module->showVAT(''), 30);
-//				$I->checkOption($module->showVAT(1));
-//			}
-//			else
-//			{
-//				$I->waitForElementVisible($module->showVAT(''), 30);
-//				$I->checkOption($module->showVAT(0));
-//			}
-//		}
-//
-//		if (isset($moduleSetting['showDescription']))
-//		{
-//			if ($moduleSetting['showDescription'] == 'Yes')
-//			{
-//				$I->waitForElementVisible($module->showShortDescription(''), 30);
-//				$I->checkOption($module->showShortDescription(1));
-//			}
-//			else
-//			{
-//				$I->waitForElementVisible($module->showShortDescription(''), 30);
-//				$I->checkOption($module->showShortDescription(0));
-//			}
-//		}
-//
-//		if (isset($moduleSetting['showReadMore']))
-//		{
-//			if ($moduleSetting['showReadMore'] == 'Yes')
-//			{
-//				$I->waitForElementVisible($module->showReadMore(''), 30);
-//				$I->checkOption($module->showReadMore(1));
-//			}
-//			else
-//			{
-//				$I->waitForElementVisible($module->showReadMore(''), 30);
-//				$I->checkOption($module->showReadMore(0));
-//			}
-//		}
-//
-//		if (isset($moduleSetting['showAddToCart']))
-//		{
-//			if ($moduleSetting['showAddToCart'] == 'Yes')
-//			{
-//				$I->waitForElementVisible($module->showAddToCart(''), 30);
-//				$I->checkOption($module->showAddToCart(1));
-//			}
-//			else
-//			{
-//				$I->waitForElementVisible($module->showAddToCart(''), 30);
-//				$I->checkOption($module->showAddToCart(0));
-//			}
-//		}
-//
-//		if (isset($moduleSetting['displayPriceLayout']))
-//		{
-//			if ($moduleSetting['displayPriceLayout'] == 'Yes')
-//			{
-//				$I->waitForElementVisible($module->displayDiscountPrice(''), 30);
-//				$I->checkOption($module->displayDiscountPrice(1));
-//			}
-//			else
-//			{
-//				$I->waitForElementVisible($module->displayDiscountPrice(''), 30);
-//				$I->checkOption($module->displayDiscountPrice(0));
-//			}
-//		}
-//
-//		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
-//		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
-//		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+
+		if (isset($moduleSetting['imageWidth']))
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$productImageWidth, 30);
+			$I->fillField(ModuleManagerJoomlaPage::$productImageWidth, $moduleSetting['imageWidth']);
+		}
+
+		if (isset($moduleSetting['imageHeight']))
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$productImageHeight, 30);
+			$I->fillField(ModuleManagerJoomlaPage::$productImageHeight, $moduleSetting['imageHeight']);
+		}
+
+		if (isset($moduleSetting['showPrice']))
+		{
+			if ($moduleSetting['showPrice'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showProductPrice(0), 30);
+				$I->click($module->showProductPrice(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showProductPrice(1), 30);
+				$I->click($module->showProductPrice(1));
+			}
+		}
+
+		if (isset($moduleSetting['showVAT']))
+		{
+			if ($moduleSetting['showVAT'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showVAT(0), 30);
+				$I->click($module->showVAT(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showVAT(1), 30);
+				$I->click($module->showVAT(1));
+			}
+		}
+
+		if (isset($moduleSetting['showDescription']))
+		{
+			if ($moduleSetting['showDescription'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showShortDescription(0), 30);
+				$I->click($module->showShortDescription(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showShortDescription(1), 30);
+				$I->click($module->showShortDescription(1));
+			}
+		}
+
+		if (isset($moduleSetting['showReadMore']))
+		{
+			if ($moduleSetting['showReadMore'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showReadMore(0), 30);
+				$I->click($module->showReadMore(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showReadMore(1), 30);
+				$I->click($module->showReadMore(1));
+			}
+		}
+
+		if (isset($moduleSetting['showAddToCart']))
+		{
+			if ($moduleSetting['showAddToCart'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showAddToCart(0), 30);
+				$I->click($module->showAddToCart(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showAddToCart(1), 30);
+				$I->click($module->showAddToCart(1));
+			}
+		}
+
+		if (isset($moduleSetting['displayPriceLayout']))
+		{
+			if ($moduleSetting['displayPriceLayout'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->displayDiscountPrice(0), 30);
+				$I->click($module->displayDiscountPrice(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->displayDiscountPrice(1), 30);
+				$I->click($module->displayDiscountPrice(1));
+			}
+		}
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+	}
+
+	/**
+	 * @param $moduleName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function unpublishModule($moduleName)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$shopperGroupProduct, 30);
+		$I->checkAllResults();
+		$I->click(ModuleManagerJoomlaPage::$buttonUnpublish);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageUnpublishSuccess, 30, ModuleManagerJoomlaPage::$selectorMessage);
 	}
 }

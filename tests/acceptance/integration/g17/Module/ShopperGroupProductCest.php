@@ -13,6 +13,8 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps;
+use Frontend\Module\ShopperGroupProductSteps;
+use Configuration\ConfigurationSteps;
 
 /**
  * Class ShopperGroupProductCest
@@ -112,6 +114,23 @@ class ShopperGroupProductCest
 			'showAddToCart'     => 'Yes'
 		);
 
+		//configuration enable one page checkout
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
+
 		//customer information
 		$this->customerInformation = array(
 			"userName"          => $this->faker->userName,
@@ -166,7 +185,7 @@ class ShopperGroupProductCest
 		$I = new AdminManagerJoomla3Steps($scenario);
 //        $I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
 //        $I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
-//		$I->publishModule($this->moduleName);
+		$I->publishModule($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configShopperGroupProduct($this->moduleName, $this->moduleSetting);
 		$I->setModulePosition($this->moduleName, $this->position);
@@ -179,51 +198,61 @@ class ShopperGroupProductCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-//	public function createData(AcceptanceTester $I, $scenario)
-//	{
-//		$I->wantToTest('Create Category');
-//		$I = new CategoryManagerJoomla3Steps($scenario);
-//		$I->addCategorySaveClose($this->categoryName);
-//
-//		$I->wantToTest('Create Product');
-//		$I = new ProductManagerJoomla3Steps($scenario);
-//		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
-//
-//		$I->wantToTest('Create Shopper Group');
-//		$I = new ShopperGroupManagerJoomla3Steps($scenario);
-//		$I->addShopperGroups($this->shopperGroup['shopperName'], $this->shopperGroup['type'], $this->shopperGroup['customerType'], $this->shopperGroup['shopperGroupPortal'], $this->categoryName, $this->shopperGroup['shipping'],
-//			$this->shopperGroup['shippingRate'], $this->shopperGroup['shippingCheckout'], $this->shopperGroup['catalog'], $this->shopperGroup['showVat'], $this->shopperGroup['showPrice'], $this->shopperGroup['enableQuotation'], 'saveclose');
-//
-//		$I->wantToTest('Create User');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->addUser($this->customerInformation['userName'], $this->customerInformation['userName'], $this->customerInformation['email'], $this->customerInformation['group'],
-//			$this->shopperGroup['shopperName'], $this->customerInformation['firstName'], $this->customerInformation['lastName'], 'saveclose');
-//		$I->editAddShipping($this->customerInformation['firstName'], $this->customerInformation['lastName'], $this->customerInformation['address'],
-//			$this->customerInformation['city'], $this->customerInformation['phone'], $this->customerInformation['postalCode']);
-//	}
-//
-//	/**
-//	 * @param AcceptanceTester $I
-//	 * @param $scenario
-//	 * @throws Exception
-//	 * @since 2.1.3
-//	 */
-//	public function clearAll(AcceptanceTester $I, $scenario)
-//	{
-//		$I->wantToTest('Delete Product');
-//		$I = new ProductManagerJoomla3Steps($scenario);
-//		$I->deleteProduct($this->product['name']);
-//
-//		$I->wantToTest('Delete Category');
-//		$I = new CategoryManagerJoomla3Steps($scenario);
-//		$I->deleteCategory($this->categoryName);
-//
-//		$I->wantToTest('Delete User');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->deleteUser($this->customerInformation['firstName']);
-//
-//		$I->wantToTest('Delete Shopper Group');
-//		$I = new ShopperGroupManagerJoomla3Steps($scenario);
-//		$I->deleteShopperGroups($this->shopperGroup['shopperName']);
-//	}
+	public function createData(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Setup up one page checkout at admin');
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
+
+		$I->wantToTest('Create Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->addCategorySaveClose($this->categoryName);
+
+		$I->wantToTest('Create Product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
+
+		$I->wantToTest('Create Shopper Group');
+		$I = new ShopperGroupManagerJoomla3Steps($scenario);
+		$I->addShopperGroups($this->shopperGroup['shopperName'], $this->shopperGroup['type'], $this->shopperGroup['customerType'], $this->shopperGroup['shopperGroupPortal'], $this->categoryName, $this->shopperGroup['shipping'],
+			$this->shopperGroup['shippingRate'], $this->shopperGroup['shippingCheckout'], $this->shopperGroup['catalog'], $this->shopperGroup['showVat'], $this->shopperGroup['showPrice'], $this->shopperGroup['enableQuotation'], 'saveclose');
+
+		$I->wantToTest('Create User');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->customerInformation['userName'], $this->customerInformation['userName'], $this->customerInformation['email'], $this->customerInformation['group'],
+			$this->shopperGroup['shopperName'], $this->customerInformation['firstName'], $this->customerInformation['lastName'], 'save');
+
+		$I = new ShopperGroupProductSteps($scenario);
+		$I->checkShopperGroupProduct($this->customerInformation['userName'], $this->customerInformation['userName'], $this->categoryName, $this->product['name'],
+			$this->shopperGroup['shippingRate'], $this->product['price']);
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function clearAll(AcceptanceTester $I, $scenario)
+	{
+		$I->wantToTest('Delete Product');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->product['name']);
+
+		$I->wantToTest('Delete Category');
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
+
+		$I->wantToTest('Delete User');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->customerInformation['firstName']);
+
+		$I->wantToTest('Delete Shopper Group');
+		$I = new ShopperGroupManagerJoomla3Steps($scenario);
+		$I->deleteShopperGroups($this->shopperGroup['shopperName']);
+
+		$I->wantToTest('Unpublish module');
+		$I = new ModuleManagerJoomla($scenario);
+		$I->unpublishModule($this->moduleName);
+	}
 }

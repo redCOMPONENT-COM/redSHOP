@@ -22,6 +22,12 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $messageUnpublishSuccess = 'module unpublished.';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $currentSelectEuro = 'Euro';
 
 	/**
@@ -93,7 +99,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public function showProductImage($yesNo)
 	{
-		return $path = "//input[@id='jform_params_image".$yesNo."']";
+		return $path = "//label[@for='jform_params_image".$yesNo."']";
 	}
 
 	/**
@@ -103,7 +109,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public function showProductPrice($yesNo)
 	{
-		return $path = "//input[@id='jform_params_show_price0']".$yesNo;
+		return $path = "//label[@for='jform_params_show_price".$yesNo."']";
 	}
 
 	/**
@@ -113,7 +119,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public function showVAT($yesNo)
 	{
-		return $path = '#jform_params_show_vat'.$yesNo;
+		return $path = "//label[@for='jform_params_show_vat".$yesNo."']";
 	}
 
 	/**
@@ -123,7 +129,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public function showShortDescription($yesNo)
 	{
-		return $path = '#jform_params_show_short_description'.$yesNo;
+		return $path = "//label[@for='jform_params_show_short_description".$yesNo."']";
 	}
 
 	/**
@@ -133,7 +139,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public function showReadMore($yesNo)
 	{
-		return $path = '#jform_params_show_readmore'.$yesNo;
+		return $path = "//label[@for='jform_params_show_readmore".$yesNo."']";
 	}
 
 	/**
@@ -143,7 +149,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public function showAddToCart($yesNo)
 	{
-		return $path = '#jform_params_show_addtocart'.$yesNo;
+		return $path = "//label[@for='jform_params_show_addtocart".$yesNo."']";
 	}
 
 	/**
@@ -153,6 +159,6 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public function displayDiscountPrice($yesNo)
 	{
-		return $path = '#jform_params_show_discountpricelayout'.$yesNo;
+		return $path = "//label[@for='jform_params_show_discountpricelayout".$yesNo."']";
 	}
 }
