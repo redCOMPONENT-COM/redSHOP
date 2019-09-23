@@ -139,7 +139,7 @@ class ShopperGroupProductCest
 			"lastName"          => $this->faker->lastName,
 			"address"           => $this->faker->address,
 			"postalCode"        => "700000",
-			"city"              => "HCMC",
+			"city"              => "HCM",
 			"country"           => "Denmark",
 			"state"             => "Karnataka",
 			"phone"             => '0123456789',
