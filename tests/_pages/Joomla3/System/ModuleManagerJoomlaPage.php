@@ -59,4 +59,100 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $h2 = '//h2';
+
+	//redSHOP - ShopperGroup Product
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $shopperGroupProduct = ['link' => "redSHOP - ShopperGroup Product"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $numberOfProductDisplay = '#jform_params_count';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productImageHeight = '#jform_params_thumbwidth';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productImageWidth = '//label[@data-original-title=\'Show product image\']';
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showProductImage($yesNo)
+	{
+		return $path = "//input[@id='jform_params_image".$yesNo."']";
+	}
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showProductPrice($yesNo)
+	{
+		return $path = "//input[@id='jform_params_show_price0']".$yesNo;
+	}
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showVAT($yesNo)
+	{
+		return $path = '#jform_params_show_vat'.$yesNo;
+	}
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showShortDescription($yesNo)
+	{
+		return $path = '#jform_params_show_short_description'.$yesNo;
+	}
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showReadMore($yesNo)
+	{
+		return $path = '#jform_params_show_readmore'.$yesNo;
+	}
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showAddToCart($yesNo)
+	{
+		return $path = '#jform_params_show_addtocart'.$yesNo;
+	}
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function displayDiscountPrice($yesNo)
+	{
+		return $path = '#jform_params_show_discountpricelayout'.$yesNo;
+	}
 }
