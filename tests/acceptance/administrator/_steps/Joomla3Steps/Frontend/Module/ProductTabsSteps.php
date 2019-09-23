@@ -19,8 +19,8 @@ class ProductTabsSteps extends CheckoutOnFrontEnd
 {
 	/**
 	 * @param $name
-	 * @param $xpathvalue
-	 * @param $productname
+	 * @param $xpathValue
+	 * @param $productName
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
