@@ -29,8 +29,8 @@ else
 {
 	$paypalurl = "https://www.paypal.com/cgi-bin/webscr";
 }
-
-$key = array($data['order_id'], (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
+$orderTotal = RedshopHelperCurrency::convert($data['order']->order_total, '', $paymentCurrency);
+$key        = array($data['order_id'], $orderTotal, (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
 $key = md5(implode('|', $key));
 
 $returnUrl = JUri::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&"
@@ -59,7 +59,7 @@ $paypalPostData = Array(
 	"rm"                 => '2',
 	"item_number"        => $data['order_id'],
 	"invoice"            => $data['order']->order_number,
-	"amount"             => RedshopHelperCurrency::convert($data['order']->order_total, '', $paymentCurrency),
+	"amount"             => $orderTotal,
 	"landing_page"       => "billing",
 	"return"             => $returnUrl,
 	"notify_url"         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
