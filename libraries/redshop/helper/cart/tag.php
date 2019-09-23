@@ -767,7 +767,7 @@ class RedshopHelperCartTag
 					. ' value="' . $quantity . '" /><input type="button" id="minus" value="-"'
 					. ' onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">';
 
-				$updateCartMinusPlus .= '<input type="button" value="+"
+				$updateCartMinusPlus .= '<input type="button" id="plus" value="+"
 						onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
 						<input type="hidden" name="cart_index" value="' . $i . '">
 						<input type="hidden" name="Itemid" value="' . $itemId . '">

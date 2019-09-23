@@ -139,4 +139,52 @@ jQuery(document).ready(function($) {
 	jQuery(document).on('change', 'select[id^="rs_country_"]', function() {
 		redSHOP.prepareStateList(jQuery(this), jQuery('#' + jQuery(this).attr('stateid')));
 	});
+
+    $('body')
+        .on('change', 'form[name^="update_cart"]', function() {
+            updateCartAjax($, $(this));
+        })
+        .on('keyup keypress keydown', 'form[name^="update_cart"]', function(e) {
+            if (event.which == 13)
+            {
+                updateCartAjax($, $(this));
+                e.preventDefault();
+            }
+        })
+        .on('click', '#plus, #minus', function() {
+            var form = $($(this).closest('form[name^="update_cart"]'));
+            updateCartAjax($, form);
+        })
 });
+
+function updateCartAjax($, form)
+{
+    var quantity   = form.children('[name=quantity]').val();
+    var productId  = form.children('[name=productId]').val();
+    var cart_index = form.children('[name=cart_index]').val();
+    var Itemid     = form.children('[name=Itemid]').val();
+
+    var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=cart&task=update'
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            'quantity'  : quantity,
+            'productId' : productId,
+            'cart_index': cart_index,
+            'Itemid'    : Itemid
+        },
+        beforeSend: function() {
+            $('<div id="cart-ajax-loader"><img src="/media/com_redshop/images/reloading.gif" alt="" border="0"></div>').appendTo('body');
+            $('body').css({'overflow' : 'hidden'});
+        },
+        success: function(data) {
+            $('#redshopcomponent').html($(data).find('#redshopcomponent').html());
+        },
+        complete: function(){
+            //afer ajax call is completed
+            $('#cart-ajax-loader').remove();
+            $('body').css({'overflow' : ''});
+        }
+    });
+}
