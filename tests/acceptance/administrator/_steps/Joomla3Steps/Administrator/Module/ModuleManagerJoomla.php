@@ -53,7 +53,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productTabConfiguration, 30);
 		$I->click(ModuleManagerJoomlaPage::$productTabConfiguration);
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
-		$I->selectOption(ModuleManagerJoomlaPage::$labelAdjustToCategoryNo,'No');
+		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelAdjustToCategory,'No');
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
