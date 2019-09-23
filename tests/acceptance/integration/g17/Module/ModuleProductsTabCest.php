@@ -247,7 +247,7 @@ class ModuleProductsTabCest
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 		$I->createProductSaveClose($this->productNewest, $this->categoryName, $this->productNumber1, $this->productPrice);
 
-		$I->comment('setup up one page checkout at admin'); 
+		$I->comment('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->cartSetting);
 
