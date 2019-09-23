@@ -18,115 +18,127 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.1.2
+ * @since    2.1.3
  */
 class OrderDiscountAndSpecialDiscountCest
 {
 	/**
 	 * @var \Faker\Generator
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $faker;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $productName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $categoryName;
 
 	/**
 	 * @var int
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $randomProductNumber;
 
 	/**
 	 * @var int
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $randomProductPrice;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $userName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $password;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
+	 */
+	public $email;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
 	 */
 	public $shopperGroup;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $group;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $firstName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $lastName;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $address;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $zipcode;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
+	 */
+	public $city;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
 	 */
 	public $phone;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $quantity;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $discountUpdate;
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public $specialUpdate;
 
 	/**
 	 * OrderDiscountAndSpecialDiscountCest constructor.
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function __construct()
 	{
@@ -166,7 +178,7 @@ class OrderDiscountAndSpecialDiscountCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function updateDiscountAndSpecialDiscount(AcceptanceTester $I, $scenario)
 	{
