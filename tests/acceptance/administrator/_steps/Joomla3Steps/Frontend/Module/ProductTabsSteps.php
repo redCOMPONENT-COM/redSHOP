@@ -18,32 +18,32 @@ use FrontEndProductManagerJoomla3Page;
 class ProductTabsSteps extends CheckoutOnFrontEnd
 {
 	/**
-	 * @param $xpath
-	 * @param $text
+	 * @param $name
+	 * @param $xpathvalue
 	 * @param $productname
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function valueComparison($xpath, $xpathvalue, $productname)
+	public function valueComparison($name, $xpathValue, $productName)
 	{
 		$I = $this;
-		$I->waitForText($xpath, 30);
-		$I->click($xpath);
-		$text = $I->grabTextFrom($xpathvalue);
-		$I->assertEquals($text, $productname);
+		$I->waitForText($name, 30);
+		$I->click($name);
+		$text = $I->grabTextFrom($xpathValue);
+		$I->assertEquals($text, $productnName);
 	}
 
 	/**
 	 * @param $productname
-	 * @param $productname1
+	 * @param $productNewest
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkModuleProductTab($productname, $productname1)
+	public function checkModuleProductTab($productname, $productNewest)
 	{
 		$I = $this;
-		$I->valueComparison(FrontEndProductManagerJoomla3Page::$newestProducts, FrontEndProductManagerJoomla3Page::$nameProduct, $productname1);
-		$I->valueComparison(FrontEndProductManagerJoomla3Page::$latestProducts,FrontEndProductManagerJoomla3Page::$nameProduct, $productname1);
-		$I->valueComparison(FrontEndProductManagerJoomla3Page::$mostSoldProducts, FrontEndProductManagerJoomla3Page::$nameProduct, $productname);
+		$I->valueComparison(FrontEndProductManagerJoomla3Page::$newestProducts, FrontEndProductManagerJoomla3Page::$nameProductNewest, $productNewest);
+		$I->valueComparison(FrontEndProductManagerJoomla3Page::$latestProducts,FrontEndProductManagerJoomla3Page::$namProductsLatest, $productNewest);
+		$I->valueComparison(FrontEndProductManagerJoomla3Page::$mostSoldProducts, FrontEndProductManagerJoomla3Page::$nameProductSold, $productname);
 	}
 }

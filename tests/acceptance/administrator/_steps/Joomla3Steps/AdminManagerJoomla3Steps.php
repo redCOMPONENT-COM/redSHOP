@@ -8,6 +8,7 @@
 
 namespace AcceptanceTester;
 
+use AdminJ3Page;
 use Step\Acceptance\Redshop;
 use \ConfigurationPage as ConfigurationPage;
 
@@ -300,6 +301,7 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForElement(\AdminJ3Page::$installButton, 30);
 		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
+		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 	}
 
 	/**

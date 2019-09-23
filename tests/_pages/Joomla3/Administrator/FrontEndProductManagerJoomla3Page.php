@@ -610,7 +610,19 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $nameProduct = '//div[@class =\'current\']/dd/div/div/p/a';
+	public static $nameProductNewest = '(//div[@class =\'current\']/dd/div/div/p/a)[1]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $namProductsLatest = '(//div[@class =\'current\']/dd/div/div/p/a)[2]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $nameProductSold = '(//div[@class =\'current\']/dd/div/div/p/a)[3]';
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
