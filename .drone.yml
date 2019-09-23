@@ -43,6 +43,7 @@ pipeline:
             - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
+            - composer config -g repo.packagist composer https?://packagist.jp
             - mv gulp-config.json.dist gulp-config.json
             - gulp release --skip-version
 
