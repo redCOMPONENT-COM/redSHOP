@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redShop
  * @subpackage  Step Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -29,7 +29,7 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 	 * @param $specialUpdate
 	 * @param $randomProductPrice
 	 */
-	public function updateDiscountAndSpecialDiscount($userName, $productName, $firstName, $discountUpdate, $specialUpdate, $randomProductPrice)
+	public function updateDiscountAndSpecialDiscount($userName, $productName, $firstName, $address, $zipcode, $city, $phone, $discountUpdate, $specialUpdate, $randomProductPrice)
 	{
 		$I = $this;
 		$I->amOnPage(OrderManagerPage::$URL);
@@ -46,10 +46,10 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->wait(1.5);
 		$I->waitForElement(OrderManagerPage::$address, 30);
 		$I->waitForElementVisible(OrderManagerPage::$address, 30);
-		$I->fillField(OrderManagerPage::$address, 'address');
-		$I->fillField(OrderManagerPage::$zipcode, 1201010);
-		$I->fillField(OrderManagerPage::$city, "address");
-		$I->fillField(OrderManagerPage::$phone, '123100120101');
+		$I->fillField(OrderManagerPage::$address, $address);
+		$I->fillField(OrderManagerPage::$zipcode, $zipcode);
+		$I->fillField(OrderManagerPage::$city, $city);
+		$I->fillField(OrderManagerPage::$phone, $phone);
 		$I->waitForElement(OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
 		$I->waitForElement(OrderManagerPage::$productId, 30);

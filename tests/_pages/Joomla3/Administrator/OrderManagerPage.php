@@ -160,13 +160,13 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $discountUpdate = "#update_discount";
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $specialUpdate = "#special_discount";
 
@@ -177,7 +177,7 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $orderID = "//div[@class='table-responsive']//td[3]//a[1]";
 
@@ -226,7 +226,7 @@ class OrderManagerPage extends AdminJ3Page
 	/**
 	 * Function to get Path $idOder in Order detail
 	 * @param $idOrder
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 * @return string
 	 */
 	public function returnButtonUpdateDiscount ($idOrder)
@@ -238,7 +238,7 @@ class OrderManagerPage extends AdminJ3Page
 	/**
 	 * Function to get Path $idOder in Order detail
 	 * @param $idOrder
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 * @return string
 	 */
 	public function returnButtonSpecialDiscount ($idOrder)
