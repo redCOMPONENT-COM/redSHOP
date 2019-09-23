@@ -11,6 +11,11 @@ namespace Frontend\Module;
 use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
 
+/**
+ * Class ShopperGroupProductSteps
+ * @package Frontend\Module
+ * @since 2.1.3
+ */
 class ShopperGroupProductSteps extends CheckoutMissingData
 {
 	/**
@@ -42,7 +47,7 @@ class ShopperGroupProductSteps extends CheckoutMissingData
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 			try{
 				$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-			}catch (Exception $e)
+			}catch (\Exception $e)
 			{
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			}
