@@ -34,7 +34,7 @@ class ProductTabsSteps extends CheckoutOnFrontEnd
 	}
 
 	/**
-	 * @param $productname
+	 * @param $productName
 	 * @param $productNewest
 	 * @throws \Exception
 	 * @since 2.1.3

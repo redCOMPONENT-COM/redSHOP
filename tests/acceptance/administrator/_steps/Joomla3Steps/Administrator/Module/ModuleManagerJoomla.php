@@ -45,7 +45,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function configurationProductTab($moduleName)
+	public function configurationProductTab($moduleName, $option)
 	{
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
@@ -53,7 +53,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productTabConfiguration, 30);
 		$I->click(ModuleManagerJoomlaPage::$productTabConfiguration);
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
-		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelAdjustToCategory, ModuleManagerJoomlaPage::$optionNo);
+		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelAdjustToCategory, $option);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);

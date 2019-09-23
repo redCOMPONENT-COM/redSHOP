@@ -142,6 +142,12 @@ class ModuleProductsTabCest
 	protected $function;
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $option;
+
+	/**
 	 * ModuleProductsTabCest constructor.
 	 * @since 2.1.3
 	 */
@@ -169,6 +175,7 @@ class ModuleProductsTabCest
 		$this->moduleName     = 'redSHOP - Product Tab Module';
 		$this->moduleURL      = 'paid-extensions/tests/releases/modules/site/';
 		$this->package        = 'mod_redproducttab.zip';
+		$this->option         = 'No';
 
 		$this->cartSetting = array(
 			"addCart"           => 'product',
@@ -210,7 +217,7 @@ class ModuleProductsTabCest
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationProductTab($this->moduleName);
+		$I->configurationProductTab($this->moduleName, $this->option);
 		$I->setModulePosition($this->moduleName);
 		$I->displayModuleOnAllPages($this->moduleName);
 	}
