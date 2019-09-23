@@ -186,7 +186,6 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
 		$I->searchForItem($moduleName);
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$shopperGroupProduct, 30);
 		$I->checkAllResults();
 		$I->click(ModuleManagerJoomlaPage::$buttonUnpublish);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageUnpublishSuccess, 30, ModuleManagerJoomlaPage::$selectorMessage);
