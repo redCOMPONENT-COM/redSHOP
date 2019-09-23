@@ -183,8 +183,8 @@ class ShopperGroupProductCest
 	{
 		$I->wantTo("Install Module Shopper Group Product");
 		$I = new AdminManagerJoomla3Steps($scenario);
-//        $I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
-//        $I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
+		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configShopperGroupProduct($this->moduleName, $this->moduleSetting);
