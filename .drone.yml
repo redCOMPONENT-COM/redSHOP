@@ -18,7 +18,7 @@ pipeline:
             # redSHOP Composer cache for redshopb_pdf plugin
             - mv /opt/cache/redSHOP/plugins/redshop_pdf/tcpdf/helper/vendor plugins/redshop_pdf/tcpdf/helper
             - touch tests/.cache.plugins.redshop_pdf.composer.tmp
-            # redSHOP npm cachepackagist
+            # redSHOP npm cache
             - mv /opt/cache/redSHOP/node_modules .
             - touch tests/.cache.npm.tmp
             # Joomla CMS
