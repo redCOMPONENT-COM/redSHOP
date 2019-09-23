@@ -30,7 +30,7 @@ class ProductTabsSteps extends CheckoutOnFrontEnd
 		$I->waitForText($name, 30);
 		$I->click($name);
 		$text = $I->grabTextFrom($xpathValue);
-		$I->assertEquals($text, $productnName);
+		$I->assertEquals($text, $productName);
 	}
 
 	/**
