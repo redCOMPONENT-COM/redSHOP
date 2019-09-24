@@ -147,7 +147,7 @@ class OrderDiscountAndSpecialDiscountCest
 		$this->productName = $this->faker->bothify('Product Name ?##?');;
 		$this->categoryName = $this->faker->bothify('Category Name ?##?');
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = 100;
+		$this->randomProductPrice = 1000;
 		//User
 		$this->userName = $this->faker->bothify('ManagerUser ?##?');
 		$this->password = $this->faker->bothify('123456');
