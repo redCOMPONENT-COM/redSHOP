@@ -22,6 +22,12 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $messageUnpublishSuccess = 'module unpublished.';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $currentSelectEuro = 'Euro';
 
 	/**
@@ -59,4 +65,40 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $h2 = '//h2';
+
+	//redSHOP - redMASSCART
+
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $redMassCartLink = ['link' => "redSHOP - redMASSCART"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $moduleClassSuffix = "//input[@id='jform_params_moduleclass_sfx']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $titleButtonID = "//input[@id='jform_params_cartbtntitle']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $titleInputBox = "//input[@id='jform_params_title']";
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function productQuantityBox($yesNo)
+	{
+		return $xPath = '//label[@for="jform_params_chk_quantity'.$yesNo.'"]';
+	}
 }

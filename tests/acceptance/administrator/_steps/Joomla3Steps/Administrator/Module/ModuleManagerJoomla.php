@@ -39,4 +39,61 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
 	}
+
+	/**
+	 * @param $moduleName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function unpublishModule($moduleName)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->checkAllResults();
+		$I->click(ModuleManagerJoomlaPage::$buttonUnpublish);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageUnpublishSuccess, 30, ModuleManagerJoomlaPage::$selectorMessage);
+	}
+
+	/**
+	 * @param $moduleName
+	 * @param $moduleConfig
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configRedMassCart($moduleName, $moduleConfig)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redMassCartLink, 30);
+		$I->click(ModuleManagerJoomlaPage::$redMassCartLink);
+		$module = new ModuleManagerJoomlaPage();
+
+		if (isset($moduleConfig['moduleClassSuffix']))
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleClassSuffix, 30);
+			$I->fillField(ModuleManagerJoomlaPage::$moduleClassSuffix, $moduleConfig['moduleClassSuffix']);
+		}
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$titleButtonID, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$titleButtonID, $moduleConfig['titleButton']);
+
+		if ($moduleConfig['productQuantityBox'] == 'Yes')
+		{
+			$I->waitForElementVisible($module->productQuantityBox(0), 30);
+			$I->click($module->productQuantityBox(0));
+		}
+		else
+		{
+			$I->waitForElementVisible($module->productQuantityBox(1), 30);
+			$I->click($module->productQuantityBox(1));
+		}
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$titleInputBox, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$titleInputBox, $moduleConfig['titleInputBox']);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+	}
 }
