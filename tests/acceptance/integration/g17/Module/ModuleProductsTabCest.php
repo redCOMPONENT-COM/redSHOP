@@ -231,9 +231,6 @@ class ModuleProductsTabCest
 	public function checkModuleProductTab(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('check Module Products Tab');
-		$I->comment('enablePlugin');
-		$I->enablePlugin('PayPal');
-
 		$I->comment('create user');
 		$I = new UserSteps($scenario);
 		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->function);
