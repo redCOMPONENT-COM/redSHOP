@@ -2634,7 +2634,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
                 document.getElementById('mod_cart_checkout_ajax').style.display = "";
             }
 
-            jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail', [params, responce, aj_flag, product_id, totAttribute, totAccessory]);
+            jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail', [responce, product_id, params, aj_flag, totAttribute, totAccessory]);
 
             // End
             var newurl = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&pid=" + product_id + "&r_template=cartbox&tmpl=component";

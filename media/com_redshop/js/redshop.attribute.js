@@ -2606,7 +2606,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
-    var aj_flag = true;
+    var aj_flag = {'show_final_cart_box': true};
     request.onreadystatechange = function () {
         if (request.readyState == 4) {
             var responce = request.responseText;
@@ -2634,7 +2634,7 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
                 document.getElementById('mod_cart_checkout_ajax').style.display = "";
             }
 
-            jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail', [responce, product_id]);
+            jQuery(redSHOP).trigger('onAfterSubmitAjaxCartdetail', [responce, product_id, params, aj_flag, totAttribute, totAccessory]);
 
             // End
             var newurl = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=product&pid=" + product_id + "&r_template=cartbox&tmpl=component";
@@ -2642,10 +2642,10 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
             request_inner = getHTTPObject();
 
             request_inner.onreadystatechange = function () {
-                if (request_inner.readyState == 4 && request_inner.status == 200 && aj_flag) {
+                if (request_inner.readyState == 4 && request_inner.status == 200 && aj_flag.show_final_cart_box) {
                     var responcebox = request_inner.responseText;
 
-                    aj_flag = false;
+                    aj_flag.show_final_cart_box = false;
 
                     var options = {url: newurl, handler: 'html', size: {x: parseInt(redSHOP.RSConfig._('AJAX_BOX_WIDTH')), y: parseInt(redSHOP.RSConfig._('AJAX_BOX_HEIGHT'))}, htmldata: responcebox, onOpen: function () {
                         if (redSHOP.RSConfig._('AJAX_CART_DISPLAY_TIME') > 0) {
