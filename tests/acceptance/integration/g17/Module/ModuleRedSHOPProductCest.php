@@ -124,7 +124,7 @@ class ModuleRedSHOPProductCest
 	 */
 	public function checkRedShopProduct(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Check Module Currencies');
+		$I->wantTo('Check Module redSHOP product');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 		$I = new ProductManagerJoomla3Steps($scenario);
