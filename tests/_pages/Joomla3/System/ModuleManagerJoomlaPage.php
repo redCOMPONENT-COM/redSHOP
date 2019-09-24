@@ -59,4 +59,22 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $h2 = '//h2';
+
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $redShopProductConfiguration = ['link' => "redSHOP - Products"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $inputCategories = '(//input[@value="Type or select some options"])[2]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageUnpublishSuccess = 'module unpublished.';
 }
