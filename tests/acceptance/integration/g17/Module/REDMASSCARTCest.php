@@ -162,6 +162,7 @@ class REDMASSCARTCest
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
+
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configRedMassCart($this->moduleName, $this->moduleConfig);
 		$I->setModulePosition($this->moduleName, $this->position);
