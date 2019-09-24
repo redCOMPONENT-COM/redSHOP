@@ -43,7 +43,7 @@ class ProductTabsSteps extends CheckoutOnFrontEnd
 	{
 		$I = $this;
 		$I->valueComparison(FrontEndProductManagerJoomla3Page::$newestProducts, FrontEndProductManagerJoomla3Page::$nameProductNewest, $productNewest);
-		$I->valueComparison(FrontEndProductManagerJoomla3Page::$latestProducts,FrontEndProductManagerJoomla3Page::$namProductsLatest, $productNewest);
+		$I->valueComparison(FrontEndProductManagerJoomla3Page::$latestProducts, FrontEndProductManagerJoomla3Page::$namProductsLatest, $productNewest);
 		$I->valueComparison(FrontEndProductManagerJoomla3Page::$mostSoldProducts, FrontEndProductManagerJoomla3Page::$nameProductSold, $productName);
 	}
 }
