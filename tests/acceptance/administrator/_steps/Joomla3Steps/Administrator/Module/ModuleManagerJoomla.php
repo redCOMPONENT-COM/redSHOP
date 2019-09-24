@@ -54,7 +54,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
 		$I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$inputCategories, 30);
+		$I->waitForElement(ModuleManagerJoomlaPage::$inputCategories, 30);
 		$I->fillField(ModuleManagerJoomlaPage::$inputCategories, $categoryName);
 		$I->pressKey(ModuleManagerJoomlaPage::$inputCategories, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);

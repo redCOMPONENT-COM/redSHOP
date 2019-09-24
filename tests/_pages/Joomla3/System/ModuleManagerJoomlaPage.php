@@ -70,7 +70,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $inputCategories = '(//input[@value="Type or select some options"])[2]';
+	public static $inputCategories = "//div[@id='jform_params_category_chzn']//input[@class='default']";
 
 	/**
 	 * @var string

@@ -11,6 +11,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use Administrator\Module\ModuleManagerJoomla;
 use Frontend\Module\redSHOPProductSteps;
+use AcceptanceTester\UserManagerJoomla3Steps;
 
 /**
  * Class ModuleRedSHOPProduct
@@ -73,6 +74,54 @@ class ModuleRedSHOPProductCest
 	protected $package;
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $userName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $emailSave;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $lastName;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $function;
+
+	/**
 	 * ModuleRedSHOPProduct constructor.
 	 * @since 2.1.3
 	 */
@@ -89,6 +138,15 @@ class ModuleRedSHOPProductCest
 		$this->moduleName     = 'redSHOP - Products';
 		$this->moduleURL      = 'paid-extensions/tests/releases/modules/site/';
 		$this->package        = 'mod_redshop_products.zip';
+
+		$this->userName       = $this->faker->bothify('UserAdministratorCest ?##?');
+		$this->password       = $this->faker->bothify('Password ?##?');
+		$this->emailSave      = $this->faker->email;
+		$this->shopperGroup   = 'Default Private';
+		$this->group          = 'Registered';
+		$this->firstName      = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName       = 'Last';
+		$this->function       = 'saveclose';
 	}
 
 	/**
@@ -132,9 +190,13 @@ class ModuleRedSHOPProductCest
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationRedShopProduct($this->moduleName, $this->categoryName);
 
+		$I->comment('create user');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->function);
+
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName, $this->productName);
+		$I->checkModuleRedSHOPProduct($this->moduleName, $this->productPrice, $this->productName, $this->userName, $this->password);
 	}
 
 	/**
