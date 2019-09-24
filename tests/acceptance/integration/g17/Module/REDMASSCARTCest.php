@@ -138,6 +138,7 @@ class REDMASSCARTCest
 			'group'             => 'Registered'
 		);
 	}
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
