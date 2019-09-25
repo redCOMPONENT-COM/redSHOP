@@ -59,4 +59,22 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $h2 = '//h2';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelAdjustToCategory = 'Adjust To Category';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageUnpublishSuccess = 'module unpublished.';
 }

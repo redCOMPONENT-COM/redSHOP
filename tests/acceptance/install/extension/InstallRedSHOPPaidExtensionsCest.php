@@ -435,7 +435,7 @@ class InstallRedSHOPPaidExtensionsCest
 		{
 			$modules  =  $this->modules[$x];
 			$I->installExtensionPackageFromURL($this->extensionURL, $this->modulesURL, $modules['package']);
-			$I->waitForText(AdminJ3Page:: $messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
+			$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		}
 	}
 
