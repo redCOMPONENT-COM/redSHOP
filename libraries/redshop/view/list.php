@@ -368,6 +368,10 @@ class RedshopViewList extends AbstractView
 			return '<a href="index.php?option=com_redshop&task=' . $this->getInstanceName() . '.edit&' . $primaryKey . '=' . $itemId . '">'
 				. $value . '</a>';
 		}
+		elseif ($config['dataCol'] === 'description')
+		{
+			return JHtml::_('redshopgrid.slidetext', $value);
+		}
 
 		return '<div class="normal-data">' . $value . '</div>';
 	}
