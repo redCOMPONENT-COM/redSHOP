@@ -32,7 +32,7 @@ class redSHOPProductSteps extends CheckoutOnFrontEnd
 		$I->waitForText($moduleName, 30);
 		$text = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct);
 		$I->assertEquals($text, $productName);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$imageAddToCart);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$imageAddToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$imageAddToCart);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30);
 		$I->waitForElementVisible(ProductManagerPage::$username, 30);
