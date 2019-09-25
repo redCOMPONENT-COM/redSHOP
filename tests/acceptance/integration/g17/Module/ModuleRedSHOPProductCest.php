@@ -127,11 +127,11 @@ class ModuleRedSHOPProductCest
 	 */
 	public function __construct()
 	{
-		$this->faker            = Faker\Factory::create();
-		$this->categoryName     = $this->faker->bothify('CategoryName ?###?');
-		$this->productName      = $this->faker->bothify('Testing Product ??####?');
-		$this->productNumber    = $this->faker->numberBetween(100, 500);
-		$this->productPrice     = $this->faker->numberBetween(9, 19);
+		$this->faker          = Faker\Factory::create();
+		$this->categoryName   = $this->faker->bothify('CategoryName ?###?');
+		$this->productName    = $this->faker->bothify('Testing Product ??####?');
+		$this->productNumber  = $this->faker->numberBetween(100, 500);
+		$this->productPrice   = $this->faker->numberBetween(9, 19);
 
 		//install module
 		$this->extensionURL   = 'extension url';
