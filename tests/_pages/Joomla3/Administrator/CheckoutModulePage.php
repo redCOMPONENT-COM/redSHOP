@@ -6,6 +6,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/**
+ * Class CheckoutModulePage'
+ * @since 2.1.3
+ */
 class CheckoutModulePage extends FrontEndProductManagerJoomla3Page
 {
 	//redSHOP - redMASSCART module
