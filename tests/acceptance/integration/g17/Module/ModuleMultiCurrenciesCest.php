@@ -196,5 +196,8 @@ class ModuleMultiCurrenciesCest
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
+
+		$I = new ModuleManagerJoomla($scenario);
+		$I->unpublishModule($this->moduleName);
 	}
 }
