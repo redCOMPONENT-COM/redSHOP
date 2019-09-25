@@ -153,22 +153,22 @@ class ModuleProductsTabCest
 	 */
 	public function __construct()
 	{
-		$this->faker            = Faker\Factory::create();
-		$this->categoryName     = $this->faker->bothify('CategoryName ?###?');
-		$this->productName      = $this->faker->bothify('Testing Product ??####?');
-		$this->productNewest    = $this->faker->bothify('Product ??####?');
-		$this->productNumber    = $this->faker->numberBetween(100, 500);
-		$this->productNumber1   = $this->faker->numberBetween(501, 999);
-		$this->productPrice     = $this->faker->numberBetween(9, 19);
+		$this->faker          = Faker\Factory::create();
+		$this->categoryName   = $this->faker->bothify('CategoryName ?###?');
+		$this->productName    = $this->faker->bothify('Testing Product ??####?');
+		$this->productNewest  = $this->faker->bothify('Product ??####?');
+		$this->productNumber  = $this->faker->numberBetween(100, 500);
+		$this->productNumber1 = $this->faker->numberBetween(501, 999);
+		$this->productPrice   = $this->faker->numberBetween(9, 19);
 
-		$this->userName                    = $this->faker->bothify('UserAdministratorCest ?##?');
-		$this->password                    = $this->faker->bothify('Password ?##?');
-		$this->emailSave                   = $this->faker->email;
-		$this->shopperGroup                = 'Default Private';
-		$this->group                       = 'Registered';
-		$this->firstName                   = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-		$this->lastName                    = 'Last';
-		$this->function                   = 'saveclose';
+		$this->userName       = $this->faker->bothify('UserAdministratorCest ?##?');
+		$this->password       = $this->faker->bothify('Password ?##?');
+		$this->emailSave      = $this->faker->email;
+		$this->shopperGroup   = 'Default Private';
+		$this->group          = 'Registered';
+		$this->firstName      = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName       = 'Last';
+		$this->function       = 'saveclose';
 
 		//install module
 		$this->extensionURL   = 'extension url';
