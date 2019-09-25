@@ -111,6 +111,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $proceedButtonId = "#submitbtn";
+
+	/**
+	 * @var string
 	 */
 	public static $addressEmail = "#private-email1";
 
@@ -477,6 +483,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $messageRelated = 'You may also interested in this/these product(s)';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectorEmailInvalid = '//label[@for = "private-email1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $paymentEWAY = "//div[@id='rs_payment_eway']//label//input";
+
+	/**
 	 * @param $name
 	 * @since 2.1.2
 	 * @return string
@@ -541,6 +559,72 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $paymentBankTransferDiscount = "//input[@value='rs_payment_banktransfer_discount']";
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $submitCurrent = 'Change Currency';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productPrice = '#product_price';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceDenmark = 'DKK';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $page = 'Product Front End Page';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $currencyChooseButton = '#product_currency';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $mostSoldProducts = 'Most Sold Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $latestProducts = 'Latest Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $newestProducts = 'Newest Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $nameProductNewest = '(//div[@class =\'current\']/dd/div/div/p/a)[1]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $namProductsLatest = '(//div[@class =\'current\']/dd/div/div/p/a)[2]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $nameProductSold = '(//div[@class =\'current\']/dd/div/div/p/a)[3]';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
@@ -571,6 +655,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var array
 	 */
 	public static $attributeSearchFirst = "//input[@id='s2id_autogen1_search']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $radioShippingRate = '//label[@class="radio inline"]';
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page

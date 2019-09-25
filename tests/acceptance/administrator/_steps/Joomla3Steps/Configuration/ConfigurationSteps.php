@@ -9,6 +9,7 @@
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
+use OrderManagerPage;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
@@ -425,6 +426,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
+
 	/**
 	 * @param $name
 	 */
@@ -462,6 +464,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		}
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->searchOrder($order);
+		$I->wait(0.5);
 		$I->waitForElementVisible(\OrderManagerPage::$iconEdit, 30);
 		$I->click(\OrderManagerPage::$iconEdit);
 		$I->waitForElementVisible(\OrderManagerPage::$quantityp1, 30);
@@ -544,6 +547,56 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $price
+	 * @param $order
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @param $status
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkPriceTotalHaveStatusOder($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod, $status)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+
+		for ($b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+
+		$I->amOnPage(OrderManagerPage::$URL);
+		$I->searchOrder($order);
+		$I->wait(0.5);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
+		$I->click(OrderManagerPage::$iconEdit);
+		$I->waitForText(OrderManagerPage::$titlePage,30, OrderManagerPage:: $h1 );
+		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$firstName = 'First Name: '.$firstName;
+		$lastName = 'Last Name: '.$lastName;
+		$I->waitForText($firstName, 30);
+		$I->waitForText($lastName, 30);
+		$I->waitForText($paymentMethod, 30);
+		$I->waitForText($productName, 30);
+		$I->waitForText($categoryName, 30);
+		$I->see($priceProduct);
+		$I->see($priceTotal);
+		$I->waitForText($status, 30);
+	}
+
+	/**
+	 * @param array $configurationOder
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */

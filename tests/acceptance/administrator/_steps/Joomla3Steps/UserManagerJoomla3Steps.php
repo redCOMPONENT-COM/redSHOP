@@ -43,6 +43,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		switch ($function) {
 			case 'save':
 			default:
+				$I->executeJS('window.scrollTo(0,0);');
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -53,6 +54,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
 				$I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
 				$I->click($userManagerPage->shopperGroup($shopperGroup));
+				$I->executeJS('window.scrollTo(0,0);');
 				$I->click(\UserManagerJoomla3Page::$billingInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
@@ -396,7 +398,16 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(UserManagerJoomla3Page::$shippingInformation);
 		$I->see(UserManagerJoomla3Page::$pageDetail, UserManagerJoomla3Page::$pageDetailSelector);
 		$I->click(UserManagerJoomla3Page::$addButton);
-		$I->waitForElement(UserManagerJoomla3Page::$firstName);
+
+		try
+		{
+			$I->waitForElementVisible(UserManagerJoomla3Page::$firstName, 30);
+		} catch (\Exception $e)
+		{
+			$I->click(UserManagerJoomla3Page::$shippingInformation);
+			$I->waitForElementVisible(UserManagerJoomla3Page::$firstName, 30);
+		}
+
 		$I->fillField(UserManagerJoomla3Page::$firstName, $firstName);
 		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
 		$I->fillField(UserManagerJoomla3Page::$address, $address);
