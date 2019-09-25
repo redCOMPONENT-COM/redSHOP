@@ -32,18 +32,24 @@ class redSHOPProductSteps extends CheckoutOnFrontEnd
 		$I->waitForText($moduleName, 30);
 		$text = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct);
 		$I->assertEquals($text, $productName);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$imageAddToCart);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$imageAddToCart);
 		$I->click(FrontEndProductManagerJoomla3Page::$imageAddToCart);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30);
+		$I->waitForElementVisible(ProductManagerPage::$username, 30);
 		$I->fillField(ProductManagerPage::$username, $username);
+		$I->waitForElementVisible(ProductManagerPage::$password, 30);
 		$I->fillField(ProductManagerPage::$password, $password);
+		$I->waitForElementVisible(ProductManagerPage::$buttonLogin, 30);
 		$I->click(ProductManagerPage::$buttonLogin);
 		$I->amOnPage(ProductManagerPage::$cartPageUrL);
+		$I->waitForElementVisible(ProductManagerPage::$buttonCheckOut, 30);
 		$I->click(ProductManagerPage::$buttonCheckOut);
-		$I->waitForElement(ProductManagerPage::$priceEnd, 60);
+		$I->waitForElementVisible(ProductManagerPage::$priceEnd, 60);
+		$I->waitForElementVisible(ProductManagerPage::$bankTransfer, 30);
 		$I->click(ProductManagerPage::$bankTransfer);
-		$I->waitForElement(ProductManagerPage::$acceptTerms, 30);
+		$I->waitForElementVisible(ProductManagerPage::$acceptTerms, 30);
 		$I->click(ProductManagerPage::$acceptTerms);
+		$I->waitForElementVisible(ProductManagerPage::$checkoutFinalStep, 30);
 		$I->click(ProductManagerPage::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 	}

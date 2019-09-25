@@ -144,8 +144,8 @@ class ModuleRedSHOPProductCest
 		$this->emailSave      = $this->faker->email;
 		$this->shopperGroup   = 'Default Private';
 		$this->group          = 'Registered';
-		$this->firstName      = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-		$this->lastName       = 'Last';
+		$this->firstName      = $this->faker->bothify('First Name FN ?##?');
+		$this->lastName       = $this->faker->bothify('LastName FN ?##?');
 		$this->function       = 'saveclose';
 	}
 
