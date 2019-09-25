@@ -133,7 +133,7 @@ abstract class RedshopHelperProduct_Attribute
 					$query->where('a.attribute_required = ' . (int) $attributeRequired);
 				}
 
-				if ($notAttributeId != 0 && $notAttributeId != null)
+				if ($notAttributeId !== '')
 				{
 					// Sanitize ids
 					$notAttributeIds = explode(',', $notAttributeId);
