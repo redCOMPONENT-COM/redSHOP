@@ -46,20 +46,21 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function configurationRedShopProduct($moduleName, $categoryName)
+	public function configurationProductTab($moduleName, $option)
+
 	{
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
 		$I->searchForItem($moduleName);
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
-		$I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productTabConfiguration, 30);
+		$I->click(ModuleManagerJoomlaPage::$productTabConfiguration);
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
-		$I->waitForElement(ModuleManagerJoomlaPage::$inputCategories, 30);
-		$I->fillField(ModuleManagerJoomlaPage::$inputCategories, $categoryName);
-		$I->pressKey(ModuleManagerJoomlaPage::$inputCategories, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelAdjustToCategory, $option);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+
+
 	}
 
 	/**
@@ -76,4 +77,27 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(ModuleManagerJoomlaPage::$buttonUnpublish);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageUnpublishSuccess, 30, ModuleManagerJoomlaPage::$selectorMessage);
 	}
+
+    /**
+     * @param $moduleName
+     * @param $categoryName
+     * @throws \Exception
+     * @since 2.1.3
+     */
+    public function configurationRedShopProduct($moduleName, $categoryName)
+    {
+        $I = $this;
+        $I->amOnPage(ModuleManagerJoomlaPage::$URL);
+        $I->searchForItem($moduleName);
+        $I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
+        $I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
+        $I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+        $I->waitForElementVisible(ModuleManagerJoomlaPage::$inputCategories, 30);
+        $I->fillField(ModuleManagerJoomlaPage::$inputCategories, $categoryName);
+        $I->pressKey(ModuleManagerJoomlaPage::$inputCategories, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+        $I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+        $I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+        $I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+    }
+
 }
