@@ -65,11 +65,13 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $labelAdjustToCategory = 'Adjust To Category';
+
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
+
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -88,19 +90,19 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $moduleClassSuffix = "//input[@id='jform_params_moduleclass_sfx']";
+	public static $moduleClassSuffix = "#jform_params_moduleclass_sfx";
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $titleButtonID = "//input[@id='jform_params_cartbtntitle']";
+	public static $titleButtonID = "#jform_params_cartbtntitle";
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $titleInputBox = "//input[@id='jform_params_title']";
+	public static $titleInputBox = "#jform_params_title";
 
 	/**
 	 * @param $yesNo

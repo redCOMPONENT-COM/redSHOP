@@ -26,13 +26,13 @@ class CheckoutModulePage extends FrontEndProductManagerJoomla3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $productNumberTextarea = "//textarea[@id='numbercart']";
+	public static $productNumberTextarea = "#numbercart";
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $productQuantity = "//input[@id='mod_quantity']";
+	public static $productQuantity = "#mod_quantity";
 
 	/**
 	 * @param $title
