@@ -60,23 +60,23 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public static $h2 = '//h2';
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $labelAdjustToCategory = 'Adjust To Category';
 
-    /**
-     * @var array
-     * @since 2.1.3
-     */
-    public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
-    public static $messageUnpublishSuccess = 'module unpublished.';
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageUnpublishSuccess = 'module unpublished.';
 
 	/**
 	 * @var string
@@ -84,9 +84,9 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 */
 	public static $inputCategories = "//div[@id='jform_params_category_chzn']//input[@class='default']";
 
-    /**
-     * @var array
-     * @since 2.1.3
-     */
-    public static $redShopProductConfiguration = ['link' => "redSHOP - Products"];
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $redShopProductConfiguration = ['link' => "redSHOP - Products"];
 }
