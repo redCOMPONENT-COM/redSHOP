@@ -208,7 +208,7 @@ class ModuleRedSHOPProductCest
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete Data');
-		$I = new ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario); 
 		$I->deleteProduct($this->productName);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
