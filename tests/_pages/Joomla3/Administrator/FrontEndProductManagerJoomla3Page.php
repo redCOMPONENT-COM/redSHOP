@@ -589,6 +589,42 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $currencyChooseButton = '#product_currency';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $mostSoldProducts = 'Most Sold Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $latestProducts = 'Latest Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $newestProducts = 'Newest Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $nameProductNewest = '(//div[@class =\'current\']/dd/div/div/p/a)[1]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $namProductsLatest = '(//div[@class =\'current\']/dd/div/div/p/a)[2]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $nameProductSold = '(//div[@class =\'current\']/dd/div/div/p/a)[3]';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
