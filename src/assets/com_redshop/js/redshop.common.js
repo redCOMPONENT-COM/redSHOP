@@ -881,6 +881,10 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			{
 				users_info_id = propName[p].value;
 			}
+			else if (propName[p].type == 'hidden')
+			{
+				users_info_id = propName[p].value;
+			}
 		}
 
 		var propName = document.getElementsByName('shipping_box_id');
