@@ -22,18 +22,12 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 	 * @param $moduleName
 	 * @param $username
 	 * @param $password
-	 * @param $usernameDC
-	 * @param $passwordDC
-	 * @param $valueDiscount
-	 * @param $categoryName
-	 * @param $productName
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	function checkModuleRedSHOPDiscount($moduleName, $username, $password, $usernameDC, $passwordDC, $valueDiscount, $categoryName, $productName)
+	public function checkModuleRedSHOPDiscountWithUserInGroupDontHaveDiscount($moduleName, $username, $password)
 	{
 		$I = $this;
-		$currencyUnit = $I->getCurrencyValue();
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElementVisible(ProductManagerPage::$username, 30);
 		$I->fillField(ProductManagerPage::$username, $username);
@@ -43,6 +37,23 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 		$I->dontSee($moduleName);
 		$I->waitForElementVisible(ProductManagerPage::$buttonLogOut, 30);
 		$I->click(ProductManagerPage::$buttonLogOut);
+	}
+
+	/**
+	 * @param $moduleName
+	 * @param $usernameDC
+	 * @param $passwordDC
+	 * @param $valueDiscount
+	 * @param $categoryName
+	 * @param $productName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkModuleRedSHOPDiscountWithUserInGroupHaveDiscount($moduleName, $usernameDC, $passwordDC, $valueDiscount, $categoryName, $productName)
+	{
+		$I = $this;
+		$currencyUnit = $I->getCurrencyValue();
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElementVisible(ProductManagerPage::$username, 30);
 		$I->fillField(ProductManagerPage::$username, $usernameDC);
 		$I->waitForElementVisible(ProductManagerPage::$password, 30);
@@ -50,7 +61,7 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 		$I->waitForElementVisible(ProductManagerPage::$buttonLogin, 30);
 		$I->waitForElementVisible(ProductManagerPage::$buttonLogin, 30);
 		$I->click(ProductManagerPage::$buttonLogin);
-		$I->waitForText($moduleName);
+		$I->waitForText($moduleName, 30);
 		$text = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$valueDiscount);
 		$priceTotal = $currencyUnit['currencySymbol'].($valueDiscount).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$I->assertEquals($text, $priceTotal);
@@ -72,4 +83,23 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 		$I->click(ProductManagerPage::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 	}
+
+	/**
+	 * @param $moduleName
+	 * @param $username
+	 * @param $password
+	 * @param $usernameDC
+	 * @param $passwordDC
+	 * @param $valueDiscount
+	 * @param $categoryName
+	 * @param $productName
+	 * @since 2.1.3
+	 */
+	public function checkModuleRedSHOPDiscount($moduleName, $username, $password, $usernameDC, $passwordDC, $valueDiscount, $categoryName, $productName)
+	{
+		$I = $this;
+		$I->checkModuleRedSHOPDiscountWithUserInGroupDontHaveDiscount($moduleName, $username, $password);
+		$I->checkModuleRedSHOPDiscountWithUserInGroupHaveDiscount($moduleName, $usernameDC, $passwordDC, $valueDiscount, $categoryName, $productName);
+	}
+
 }

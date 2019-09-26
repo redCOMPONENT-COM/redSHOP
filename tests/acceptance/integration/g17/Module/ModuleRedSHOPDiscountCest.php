@@ -372,7 +372,7 @@ class ModuleRedSHOPDiscountCest
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
 		$I->setModulePosition($this->moduleName);
-		$I->displayModuleOnAllPages($this->moduleName);
+        $I->displayModuleOnAllPages($this->moduleName);
 	}
 
 	/**
