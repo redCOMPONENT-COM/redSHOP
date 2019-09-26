@@ -661,16 +661,16 @@ services:
             # Base installation
             - sh tests/drone/setup-base-install.sh  $tests_db                              $tests_suite                 $php_versions
             # Stages setup
-            - sh tests/drone/setup-stages.sh        "group1"                               "01-Group1"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group2"                               "02-Group2"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group3"                               "03-Group3"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group4"                               "04-Group4"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group5"                               "05-Group5"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group6"                               "06-Group6"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group7"                               "07-Group7"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group8"                               "08-Group8"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group9"                               "09-Group9"                  $php_versions
-            - sh tests/drone/setup-stages.sh        "group10"                              "10-Group10"                 $php_versions
+#            - sh tests/drone/setup-stages.sh        "group1"                               "01-Group1"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group2"                               "02-Group2"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group3"                               "03-Group3"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group4"                               "04-Group4"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group5"                               "05-Group5"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group6"                               "06-Group6"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group7"                               "07-Group7"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group8"                               "08-Group8"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group9"                               "09-Group9"                  $php_versions
+#            - sh tests/drone/setup-stages.sh        "group10"                              "10-Group10"                 $php_versions
             - sh tests/drone/setup-stages.sh        "group11"                              "11-Group11"                 $php_versions
 
 branches:

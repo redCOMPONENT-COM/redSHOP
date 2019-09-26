@@ -424,7 +424,7 @@ class ModuleRedSHOPDiscountCest
 		$I->deleteProduct($this->productName);
 
 		$I = new ShopperGroupSteps($scenario);
-		$I->deleteShopperGroups($this->shoppergroupname);
+		$I->deleteShopperGroups($this->shopperGroupName);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
