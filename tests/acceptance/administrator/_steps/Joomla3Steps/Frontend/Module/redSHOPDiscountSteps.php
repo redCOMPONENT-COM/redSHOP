@@ -70,7 +70,7 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 		$I->waitForText($productName, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5, FrontEndProductManagerJoomla3Page::$selectorSuccess);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(ProductManagerPage::$cartPageUrL);
 		$I->waitForElementVisible(ProductManagerPage::$buttonCheckOut, 30);
 		$I->click(ProductManagerPage::$buttonCheckOut);
@@ -101,5 +101,4 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 		$I->checkModuleRedSHOPDiscountWithUserInGroupDontHaveDiscount($moduleName, $username, $password);
 		$I->checkModuleRedSHOPDiscountWithUserInGroupHaveDiscount($moduleName, $usernameDC, $passwordDC, $valueDiscount, $categoryName, $productName);
 	}
-
 }
