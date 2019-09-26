@@ -628,13 +628,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $nameRedSHOPProduct = '//div[@class="mod_redshop_products_title"]';
+	public static $nameRedSHOPProduct = '.mod_redshop_products_title';
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $imageAddToCart = '//span[@class="pdaddtocart_img_link"]';
+	public static $imageAddToCart = '.pdaddtocart_img_link';
 
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
