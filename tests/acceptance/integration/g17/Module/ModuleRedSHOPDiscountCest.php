@@ -12,6 +12,7 @@ use AcceptanceTester\DiscountSteps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ShopperGroupManagerJoomla3Steps as ShopperGroupSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserSteps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use Administrator\Module\ModuleManagerJoomla;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
 use Frontend\Module\redSHOPDiscountSteps;
@@ -408,5 +409,31 @@ class ModuleRedSHOPDiscountCest
 
 		$I = new redSHOPDiscountSteps($scenario);
 		$I->checkModuleRedSHOPDiscount($this->moduleName, $this->userName, $this->password, $this->userNameDC, $this->passwordDC, $this->discountAmount, $this->categoryName, $this->productName);
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function clearAllData(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Delete Data');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName);
+
+		$I = new ShopperGroupSteps($scenario);
+		$I->deleteShopperGroups($this->shoppergroupname);
+
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
+
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName);
+		$I->deleteUser($this->firstNameDC);
+
+		$I = new ModuleManagerJoomla($scenario);
+		$I->unpublishModule($this->moduleName);
 	}
 }
