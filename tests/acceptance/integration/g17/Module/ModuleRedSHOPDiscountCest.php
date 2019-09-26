@@ -396,7 +396,7 @@ class ModuleRedSHOPDiscountCest
 		$I->cartSetting($this->cartSetting);
 
 		$I = new ShopperGroupSteps($scenario);
-		$I->wantToTest("I want to create shopper group");
+		$I->comment("create shopper group");
 		$I->addShopperGroups($this->shopperGroupName, $this->shopperGroupItem, $this->customerType, $this->shopperGroupPortal, $this->categoryName, $this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat, $this->showPrice, $this->enableQuotation, $this->saveClose);
 
 		$I->comment('create user');
