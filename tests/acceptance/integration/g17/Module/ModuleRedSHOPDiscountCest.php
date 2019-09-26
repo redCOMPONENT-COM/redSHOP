@@ -367,7 +367,7 @@ class ModuleRedSHOPDiscountCest
 	 */
 	public function installModule(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install module Multi Currencies");
+		$I->wantTo("install module redSHOP Discount");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
