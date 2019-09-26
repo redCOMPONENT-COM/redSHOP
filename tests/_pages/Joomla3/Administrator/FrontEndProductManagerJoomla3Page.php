@@ -625,6 +625,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $nameProductSold = '(//div[@class =\'current\']/dd/div/div/p/a)[3]';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $valueDiscount = '//div[@class="mod_discount_main"]//td[2]';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
