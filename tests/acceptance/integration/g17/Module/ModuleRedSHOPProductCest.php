@@ -215,6 +215,6 @@ class ModuleRedSHOPProductCest
 		$I->deleteCategory($this->categoryName);
 
 		$I = new ModuleManagerJoomla($scenario);
-		$I->unpublishModule($this->moduleName);
+		$I->unpublishModule($this->moduleName); 
 	}
 }
