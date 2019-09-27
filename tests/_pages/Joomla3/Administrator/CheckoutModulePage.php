@@ -53,10 +53,4 @@ class CheckoutModulePage extends FrontEndProductManagerJoomla3Page
 	 * @since 2.1.3
 	 */
 	public static $productNameOnCart = "//div[@class='product_name']/a";
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $quantityOnCheckoutFinal = "//div[@class='update_cart']";
 }

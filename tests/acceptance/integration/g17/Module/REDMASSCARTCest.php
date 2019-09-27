@@ -12,6 +12,7 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use Administrator\Module\ModuleManagerJoomla;
 use Frontend\Module\REDMASSCARTSteps;
+use AcceptanceTester\OrderManagerJoomla3Steps;
 
 /**
  * Class REDMASSCARTCest
@@ -206,6 +207,10 @@ class REDMASSCARTCest
 		$I->wantToTest('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
+
+		$I->wantToTest('Delete Order');
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->deleteOrder($this->customerInformation['firstName']);
 
 		$I->wantToTest('Unpublish Module');
 		$I = new ModuleManagerJoomla($scenario);
