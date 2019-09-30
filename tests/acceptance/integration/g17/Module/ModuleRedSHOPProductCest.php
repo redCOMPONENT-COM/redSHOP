@@ -164,15 +164,15 @@ class ModuleRedSHOPProductCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-	public function installModule(AdminManagerJoomla3Steps $I)
-	{
-		$I->wantTo("Install Module Multi Currencies");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
-		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->publishModule($this->moduleName);
-		$I->setModulePosition($this->moduleName);
-		$I->displayModuleOnAllPages($this->moduleName);
-	}
+//	public function installModule(AdminManagerJoomla3Steps $I)
+//	{
+//		$I->wantTo("Install Module Multi Currencies");
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
+//		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->publishModule($this->moduleName);
+//		$I->setModulePosition($this->moduleName);
+//		$I->displayModuleOnAllPages($this->moduleName);
+//	}
 
 	/**
 	 * @param AcceptanceTester $I
@@ -182,21 +182,21 @@ class ModuleRedSHOPProductCest
 	 */
 	public function checkRedShopProduct(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Check Module redSHOP product');
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->addCategorySave($this->categoryName);
-		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
+//		$I->wantTo('Check Module redSHOP product');
+//		$I = new CategoryManagerJoomla3Steps($scenario);
+//		$I->addCategorySave($this->categoryName);
+//		$I = new ProductManagerJoomla3Steps($scenario);
+//		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationRedShopProduct($this->moduleName, $this->categoryName);
+		$I->configurationRedShopProduct($this->moduleName);
 
-		$I->comment('create user');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->function);
-
-		$I->comment('check module redSHOP Products ');
-		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName, $this->productPrice, $this->productName, $this->userName, $this->password);
+//		$I->comment('create user');
+//		$I = new UserManagerJoomla3Steps($scenario);
+//		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->function);
+//
+//		$I->comment('check module redSHOP Products ');
+//		$I = new redSHOPProductSteps($scenario);
+//		$I->checkModuleRedSHOPProduct($this->moduleName, $this->productPrice, $this->productName, $this->userName, $this->password);
 	}
 
 	/**
@@ -205,16 +205,16 @@ class ModuleRedSHOPProductCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-	public function clearAllData(AcceptanceTester $I, $scenario)
-	{
-		$I->wantTo('Delete Data');
-		$I = new ProductManagerJoomla3Steps($scenario); 
-		$I->deleteProduct($this->productName);
-
-		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->deleteCategory($this->categoryName);
-
-		$I = new ModuleManagerJoomla($scenario);
-		$I->unpublishModule($this->moduleName); 
-	}
+//	public function clearAllData(AcceptanceTester $I, $scenario)
+//	{
+//		$I->wantTo('Delete Data');
+//		$I = new ProductManagerJoomla3Steps($scenario);
+//		$I->deleteProduct($this->productName);
+//
+//		$I = new CategoryManagerJoomla3Steps($scenario);
+//		$I->deleteCategory($this->categoryName);
+//
+//		$I = new ModuleManagerJoomla($scenario);
+//		$I->unpublishModule($this->moduleName);
+//	}
 }

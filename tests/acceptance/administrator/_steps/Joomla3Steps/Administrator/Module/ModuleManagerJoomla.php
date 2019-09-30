@@ -76,24 +76,117 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * @param $moduleName
-	 * @param $categoryName
+	 * @param $moduleConfig
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function configurationRedShopProduct($moduleName, $categoryName)
+	public function configRedMassCart($moduleName, $moduleConfig)
 	{
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
 		$I->searchForItem($moduleName);
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
-		$I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
-		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$inputCategories, 30);
-		$I->fillField(ModuleManagerJoomlaPage::$inputCategories, $categoryName);
-		$I->pressKey(ModuleManagerJoomlaPage::$inputCategories, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redMassCartLink, 30);
+		$I->click(ModuleManagerJoomlaPage::$redMassCartLink);
+		$module = new ModuleManagerJoomlaPage();
+
+		if (isset($moduleConfig['moduleClassSuffix']))
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleClassSuffix, 30);
+			$I->fillField(ModuleManagerJoomlaPage::$moduleClassSuffix, $moduleConfig['moduleClassSuffix']);
+		}
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$titleButtonID, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$titleButtonID, $moduleConfig['titleButton']);
+
+		if ($moduleConfig['productQuantityBox'] == 'Yes')
+		{
+			$I->waitForElementVisible($module->productQuantityBox(0), 30);
+			$I->click($module->productQuantityBox(0));
+		}
+		else
+		{
+			$I->waitForElementVisible($module->productQuantityBox(1), 30);
+			$I->click($module->productQuantityBox(1));
+		}
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$titleInputBox, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$titleInputBox, $moduleConfig['titleInputBox']);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
 	}
+
+	/**
+     * @param $moduleName
+     * @param $categoryName
+     * @throws \Exception
+     * @since 2.1.3
+     */
+    public function configurationRedShopProduct($moduleName)
+    {
+        $I = $this;
+        $I->amOnPage(ModuleManagerJoomlaPage::$URL);
+        $I->searchForItem($moduleName);
+        $I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
+        $I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
+        $I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+        $I->chooseOnSelect2(ModuleManagerJoomlaPage::$moduleType,  'Latest products');
+
+
+
+//        if ($moduleType)
+//        {
+//
+//        }
+//
+//        if ($moduleType)
+//        {
+//
+//        }
+//
+//        if ($moduleType)
+//        {
+//
+//        }
+//
+//        if ($moduleType)
+//        {
+//
+//        }
+//
+//        if ($moduleType)
+//        {
+//
+//        }
+//
+//        if ($moduleType)
+//        {
+//
+//        }
+//
+//        if ($moduleType)
+//        {
+//
+//        }
+//
+//        if ($moduleType)
+//        {
+//
+//        }
+
+
+
+
+
+
+
+
+
+//        $I->waitForElementVisible(ModuleManagerJoomlaPage::$inputCategories, 30);
+//        $I->fillField(ModuleManagerJoomlaPage::$inputCategories, $categoryName);
+//        $I->pressKey(ModuleManagerJoomlaPage::$inputCategories, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+//        $I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+//        $I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+//        $I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+    }
 }
