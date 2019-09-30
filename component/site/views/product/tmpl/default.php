@@ -1915,4 +1915,14 @@ echo eval("?>" . $template_desc . "<?php ");
         elm.href = elm + '&imageName=' + imageName[0];
     }
 
+	jQuery(window).load(function()
+	{
+		var wishlist =  <?php echo JFactory::getApplication()->input->get('addwishlist', '0'); ?>
+
+		if(wishlist==1)
+		{
+			jQuery('.redshop-wishlist-link').trigger('click');
+		}
+	});
+
 </script>

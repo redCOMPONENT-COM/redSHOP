@@ -10,17 +10,19 @@
 defined('_JEXEC') or die;
 
 $app        = JFactory::getApplication();
+$return     = $app->input->getString('return');
 $Itemid     = $app->input->getInt('Itemid');
-$loginlink  = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
+$loginlink  = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid .'&return=' . $return;
 $mywishlist = $app->input->getString('wishlist');
 
-if ($mywishlist != '')
+
+if (!empty($mywishlist))
 {
-	$newuser_link = 'index.php?wishlist=' . $mywishlist . '&option=com_redshop&view=registration&Itemid=' . $Itemid;
+	$newuser_link = 'index.php?wishlist=' . $mywishlist . '&option=com_redshop&view=registration&Itemid=' . $Itemid .'&return=' . $return;
 }
 else
 {
-	$newuser_link = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid;
+	$newuser_link = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid .'&return=' . $return;
 }
 
 $params       = $app->getParams('com_redshop');

@@ -26,13 +26,14 @@ class RedshopControllerLogin extends RedshopController
 	 */
 	public function setlogin()
 	{
-		$username     = $this->input->getUsername('username', '');
-		$password     = $this->input->post->get('password', '', 'raw');
-		$Itemid       = $this->input->get('Itemid');
-		$returnitemid = $this->input->get('returnitemid');
-		$mywishlist   = $this->input->get('mywishlist');
-		$menu         = JFactory::getApplication()->getMenu();
-		$item         = $menu->getItem($returnitemid);
+		$username         = $this->input->getUsername('username', '');
+		$password         = $this->input->post->get('password', '', 'raw');
+		$Itemid           = $this->input->get('Itemid');
+		$return_wishlist  = $this->input->get('return');
+		$returnitemid     = $this->input->get('returnitemid');
+		$mywishlist       = $this->input->get('mywishlist');
+		$menu             = JFactory::getApplication()->getMenu();
+		$item             = $menu->getItem($returnitemid);
 
 		$redhelper = redhelper::getInstance();
 
@@ -70,7 +71,9 @@ class RedshopControllerLogin extends RedshopController
 
 			if ($error == true)
 			{
-				$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
+				$return_wishlist = base64_decode($return_wishlist);
+				$return_wishlist = $return_wishlist.'&addwishlist=1';
+				$wishreturn = JRoute::_($return_wishlist, false);
 			}
 			else
 			{
