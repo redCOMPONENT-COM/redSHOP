@@ -72,7 +72,7 @@ class RedshopControllerLogin extends RedshopController
 			if ($error == true)
 			{
 				$return_wishlist = base64_decode($return_wishlist);
-				$return_wishlist = $return_wishlist.'&addwishlist=1';
+				$return_wishlist .= '&addwishlist=1';
 				$wishreturn = JRoute::_($return_wishlist, false);
 			}
 			else
