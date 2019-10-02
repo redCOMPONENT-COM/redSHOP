@@ -77,4 +77,40 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $messageUnpublishSuccess = 'module unpublished.';
+
+	//redSHOP - redMASSCART
+
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $redMassCartLink = ['link' => "redSHOP - redMASSCART"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $moduleClassSuffix = "#jform_params_moduleclass_sfx";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $titleButtonID = "#jform_params_cartbtntitle";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $titleInputBox = "#jform_params_title";
+
+	/**
+	 * @param $yesNo
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function productQuantityBox($yesNo)
+	{
+		return $xPath = '//label[@for="jform_params_chk_quantity'.$yesNo.'"]';
+	}
 }
