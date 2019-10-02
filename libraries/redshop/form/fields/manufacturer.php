@@ -43,7 +43,7 @@ class JFormFieldmanufacturer extends JFormFieldList
 		$options = $db->loadObjectList();
 		array_unshift($options, JHTML::_('select.option', '', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -', 'id', 'name'));
 
-		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr = $this->required ? ' required aria-required="true"' : '';
 
 		return JHTML::_('select.genericlist', $options, $name, trim($attr), 'id', 'name', $this->value, $this->id);
 	}
