@@ -144,4 +144,21 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
+
+    public function configCheckoutBankTransferPlugin($pluginName, $priceDiscount)
+    {
+        $I = $this;
+        $I->amOnPage(PluginManagerJoomla3Page:: $URL);
+        $I->searchForItem($pluginName);
+        $pluginManagerPage = new PluginManagerJoomla3Page;
+        $I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+        $I->waitForElementVisible(PluginManagerJoomla3Page:: $searchResultRow, 30);
+        $I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
+        $I->click($pluginName);
+        $I->waitForElementVisible( PluginManagerJoomla3Page:: $fieldPaymentPrice ,30);
+        $I->fillField( PluginManagerJoomla3Page:: $fieldPaymentPrice , $priceDiscount);
+        $I->click( PluginManagerJoomla3Page::$optionPercentage);
+        $I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
+        $I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+    }
 }

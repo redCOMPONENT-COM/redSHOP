@@ -170,6 +170,10 @@ class OrderManagerPage extends AdminJ3Page
 	 */
 	public static $specialUpdate = "#special_discount";
 
+	public static $bankTranferPayment = "//td[@id='tdPayment']//label[1]";
+
+	public static $payPalPayment = "//td[@id='tdPayment']//label[2]";
+
 	/**
 	 * @var string
 	 */
