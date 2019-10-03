@@ -9,7 +9,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
-use AcceptanceTester\OrderUpdateDiscountAndSpecialDiscountSteps;
+use AcceptanceTester\OrderPaymentDiscountAndSpecialDiscountSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use Administrator\plugins\PluginPaymentManagerJoomla;
 
@@ -25,17 +25,151 @@ use Administrator\plugins\PluginPaymentManagerJoomla;
 
 class OrderPaymentDiscountAndSpecialDiscountCest
 {
+
+    /**
+     * @var \Faker\Generator
+     * @since 2.1.3
+     */
+    public $faker;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $productName;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $categoryName;
+
+    /**
+     * @var int
+     * @since 2.1.3
+     */
+    public $randomProductNumber;
+
+    /**
+     * @var int
+     * @since 2.1.3
+     */
+    public $randomProductPrice;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $userName;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $password;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $email;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $shopperGroup;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $group;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $firstName;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $lastName;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $address;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $zipcode;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $city;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $phone;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $specialUpdate;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $extensionURL;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $pluginName;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $pluginURL;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $priceDiscount;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $type1;
+
+    /**
+     * @var string
+     * @since 2.1.3
+     */
+    public $type2;
+
     /**
      * OrderPaymentDiscountAndSpecialDiscountCest constructor.
      * @since 2.1.3
      */
     public function __construct()
     {
-        //Plugin BankTransfer
-        $this->pluginName = 'redSHOP - Bank Transfer Payment';
-        $this->priceDiscount ='20';
-        $this->type1 = 'Total';
-        $this->type2 = 'Discount';
         //Product & Category
         $this->faker = Faker\Factory::create();
         $this->productName = $this->faker->bothify('Product Name ?##?');;
@@ -55,13 +189,16 @@ class OrderPaymentDiscountAndSpecialDiscountCest
         $this->zipcode = '5000';
         $this->city = 'Ho Chi Minh';
         $this->phone = '0126541687';
-        $this->quantity = '1';
         $this->specialUpdate = '20';
 
+        //Plugin BankTransfer
         $this->extensionURL   = 'extension url';
         $this->pluginName     = 'RedSHOP - Bank Transfer Payment';
         $this->pluginURL      = 'redSHOP/tests/releases/plugins/';
         $this->package        = 'plg_redshop_payment_rs_payment_banktransfer.zip';
+        $this->priceDiscount ='20';
+        $this->type1 = 'Total';
+        $this->type2 = 'Discount';
     }
 
     /**
@@ -95,10 +232,6 @@ class OrderPaymentDiscountAndSpecialDiscountCest
      */
     public function orderPaymentDiscountAndSpecialDiscount (AcceptanceTester $I, $scenario)
     {
-//        // install Payment BankTransfer
-//        $I->wantTo('Install Payment Banktranfer');
-
-
         $I->wantTo('Create Category in Administrator');
         $I = new CategoryManagerJoomla3Steps($scenario);
         $I->addCategorySave($this->categoryName);
@@ -108,8 +241,8 @@ class OrderPaymentDiscountAndSpecialDiscountCest
         $I->wantTo('Test User creation with save button in Administrator');
         $I = new UserManagerJoomla3Steps($scenario);
         $I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
-        $I->wantTo('I want create order and update discount and special discount');
-        $I = new OrderUpdateDiscountAndSpecialDiscountSteps($scenario);
+        $I->wantTo('I want create order and payment discount and special discount');
+        $I = new OrderPaymentDiscountAndSpecialDiscountSteps($scenario);
         $I->updatePaymentDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->address, $this->zipcode, $this->city, $this->phone, $this->priceDiscount, $this->specialUpdate, $this->randomProductPrice);
 
         //Detele data

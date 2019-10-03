@@ -1,8 +1,42 @@
 <?php
+/**
+ * @package     redShop
+ * @subpackage  Step Class
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
+namespace AcceptanceTester;
 
-class OrderPaymentDiscountAndSpecialDiscountSteps
+use OrderManagerPage;
+
+/**
+ * Class OrderPaymentDiscountAndSpecialDiscountSteps
+ *
+ * @package  AcceptanceTester
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
+ *
+ * @since    2.1.3
+ */
+
+class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 {
+    /**
+     * @param $userName
+     * @param $productName
+     * @param $firstName
+     * @param $address
+     * @param $zipcode
+     * @param $city
+     * @param $phone
+     * @param $priceDiscount
+     * @param $specialUpdate
+     * @param $randomProductPrice
+     * @throws \Exception
+     * @since 2.1.3
+     */
+
     public function updatePaymentDiscountAndSpecialDiscount($userName, $productName, $firstName, $address, $zipcode, $city, $phone, $priceDiscount, $specialUpdate, $randomProductPrice)
     {
         $I = $this;
