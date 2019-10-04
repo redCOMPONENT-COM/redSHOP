@@ -42,6 +42,9 @@ class InstallRedSHOPPaidExtensionsCest
 				'package'  => 'mod_redfeaturedproduct.zip',
 			),
 			array(
+				'package'  => 'mod_redheremap.zip',
+			),
+			array(
 				'package'  => 'mod_redmanufacturer.zip',
 			),
 			array(
@@ -58,6 +61,9 @@ class InstallRedSHOPPaidExtensionsCest
 			),
 			array(
 				'package'  => 'mod_redshop_aesir_products.zip',
+			),
+			array(
+				'package'  => 'mod_redshop_categories.zip',
 			),
 			array(
 				'package'  => 'mod_redshop_category_product_filters.zip',
@@ -164,6 +170,9 @@ class InstallRedSHOPPaidExtensionsCest
 			array(
 				'package'  => 'plg_redshop_payment_ingenico.zip',
 			),
+            array(
+                'package'  => 'plg_redshop_payment_klarna.zip',
+            ),
 			array(
 				'package'  => 'plg_redshop_payment_mollieideal.zip',
 			),
@@ -245,6 +254,9 @@ class InstallRedSHOPPaidExtensionsCest
 			array(
 				'package'  => 'plg_redshop_payment_rs_payment_payment_express.zip',
 			),
+            array(
+                'package'  => 'plg_redshop_payment_rs_payment_paymill.zip',
+            ),
 			array(
 				'package'  => 'plg_redshop_payment_rs_payment_payoo.zip',
 			),
@@ -278,12 +290,18 @@ class InstallRedSHOPPaidExtensionsCest
 			array(
 				'package'  => 'plg_redshop_payment_rs_payment_worldpay.zip',
 			),
+            array(
+                'package'  => 'plg_redshop_payment_stripe.zip',
+            ),
 			array(
 				'package'  => 'plg_redshop_pdf_dompdf.zip',
 			),
 			array(
 				'package'  => 'plg_redshop_pdf_mpdf.zip',
 			),
+            array(
+                'package'  => 'plg_redshop_product_bundle.zip',
+            ),
 			array(
 				'package'  => 'plg_redshop_product_canonical.zip',
 			),
