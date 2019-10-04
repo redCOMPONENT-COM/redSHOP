@@ -77,10 +77,13 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 60);
+		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 60);
 		$I->scrollTo(\CheckoutChangeQuantityProductPage::$acceptTerms);
 		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
-		$I->executeJS("jQuery('#checkout_final').click()");
-
+		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+		$I->waitForText(\FrontEndProductManagerJoomla3Page::$orderReceipt);
 	}
 }

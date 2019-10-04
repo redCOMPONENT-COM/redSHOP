@@ -117,76 +117,103 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 	}
 
 	/**
-     * @param $moduleName
-     * @param $categoryName
-     * @throws \Exception
-     * @since 2.1.3
-     */
-    public function configurationRedShopProduct($moduleName)
-    {
-        $I = $this;
-        $I->amOnPage(ModuleManagerJoomlaPage::$URL);
-        $I->searchForItem($moduleName);
-        $I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
-        $I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
-        $I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
-        $I->chooseOnSelect2(ModuleManagerJoomlaPage::$moduleType,  'Latest products');
+	 * @param $moduleName
+	 * @param $productName
+	 * @param $productName1
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configurationRedSHOPProductWithModuleTypeSpecificProduct($moduleName, $productName, $productName1)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
+		$I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
+		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+		$I->click(ModuleManagerJoomlaPage::$moduleType);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeSpecificProducts, 30);
+		$I->click(ModuleManagerJoomlaPage::$moduleTypeSpecificProducts);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$specificProducts, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$specificProducts, $productName);
+		$I->pressKey(ModuleManagerJoomlaPage::$specificProducts, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->fillField(ModuleManagerJoomlaPage::$specificProducts2, $productName1);
+		$I->pressKey(ModuleManagerJoomlaPage::$specificProducts2, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+	}
 
+	/**
+	 * @param $moduleName
+	 * @param $option
+	 * @param $moduleConfig
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configurationRedShopProduct($moduleName, $option, $moduleConfig)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
+		$I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
+		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+		$I->click(ModuleManagerJoomlaPage::$moduleType);
 
+		if ($moduleConfig['moduleType'] == 'Newest')
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeNewest, 30);
+			$I->click(ModuleManagerJoomlaPage::$moduleTypeNewest);
+		}
 
-//        if ($moduleType)
-//        {
-//
-//        }
-//
-//        if ($moduleType)
-//        {
-//
-//        }
-//
-//        if ($moduleType)
-//        {
-//
-//        }
-//
-//        if ($moduleType)
-//        {
-//
-//        }
-//
-//        if ($moduleType)
-//        {
-//
-//        }
-//
-//        if ($moduleType)
-//        {
-//
-//        }
-//
-//        if ($moduleType)
-//        {
-//
-//        }
-//
-//        if ($moduleType)
-//        {
-//
-//        }
+		if ($moduleConfig['moduleType'] == 'Latest products')
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeLatestProducts, 30);
+			$I->click(ModuleManagerJoomlaPage::$moduleTypeLatestProducts);
+		}
 
+		if ($moduleConfig['moduleType'] == 'Most sold products')
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeMostSoldProducts, 30);
+			$I->click(ModuleManagerJoomlaPage::$moduleTypeMostSoldProducts);
+		}
 
+		if ($moduleConfig['moduleType'] == 'Random Product')
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeRandomProduct, 30);
+			$I->click(ModuleManagerJoomlaPage::$moduleTypeRandomProduct);
+		}
 
+		if ($moduleConfig['moduleType'] == 'Product on sale')
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeProductOnSale, 30);
+			$I->click(ModuleManagerJoomlaPage::$moduleTypeProductOnSale);
+		}
 
+		if ($moduleConfig['moduleType'] == 'Product On Sale and discount date check')
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeProductOnSaleAndDiscountDateCheck, 30);
+			$I->click(ModuleManagerJoomlaPage::$moduleTypeProductOnSaleAndDiscountDateCheck);
+		}
 
+		if ($moduleConfig['moduleType'] == 'Watched Product')
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeWatchedProduct, 30);
+			$I->click(ModuleManagerJoomlaPage::$moduleTypeWatchedProduct);
+		}
 
+		if ($moduleConfig['moduleType'] == 'Ordering')
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeOrdering, 30);
+			$I->click(ModuleManagerJoomlaPage::$moduleTypeOrdering);
+		}
 
-
-
-//        $I->waitForElementVisible(ModuleManagerJoomlaPage::$inputCategories, 30);
-//        $I->fillField(ModuleManagerJoomlaPage::$inputCategories, $categoryName);
-//        $I->pressKey(ModuleManagerJoomlaPage::$inputCategories, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-//        $I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
-//        $I->click(ModuleManagerJoomlaPage::$saveCloseButton);
-//        $I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
-    }
+		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelShowProductPrice, $option);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, $moduleConfig['Products display']);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+	}
 }
