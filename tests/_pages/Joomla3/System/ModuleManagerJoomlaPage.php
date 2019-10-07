@@ -148,60 +148,6 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $moduleTypeNewest = '//div[@id="jform_params_type_chzn"]/div/ul/li[1]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleTypeLatestProducts = '//div[@id="jform_params_type_chzn"]/div/ul/li[2]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleTypeMostSoldProducts = '//div[@id="jform_params_type_chzn"]/div/ul/li[3]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleTypeRandomProduct = '//div[@id="jform_params_type_chzn"]/div/ul/li[4]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleTypeProductOnSale = '//div[@id="jform_params_type_chzn"]/div/ul/li[5]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleTypeProductOnSaleAndDiscountDateCheck = '//div[@id="jform_params_type_chzn"]/div/ul/li[6]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleTypeWatchedProduct = '//div[@id="jform_params_type_chzn"]/div/ul/li[7]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleTypeSpecificProducts = '//div[@id="jform_params_type_chzn"]/div/ul/li[8]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleTypeOrdering = '//div[@id="jform_params_type_chzn"]/div/ul/li[9]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
 	public static $specificProducts = "//div[@id='jform_params_specific_products_chzn']//input[@class='default']";
 
 	/**
@@ -217,13 +163,13 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	public static $productsDisplay = '#jform_params_count';
 
 	/**
-	 * @param $userName
+	 * @param $nameType
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function returnSearch($userName)
+	public function moduleXpath($nameType)
 	{
-		$path = "//span[contains(text(),'" . $userName . "')]";
+		$path = "//li[contains(text(),'" . $nameType . "')]";
 		return $path;
 	}
 }

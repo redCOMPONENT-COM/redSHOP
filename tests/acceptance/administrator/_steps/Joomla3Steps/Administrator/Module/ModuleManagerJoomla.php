@@ -134,10 +134,12 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
 
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);
-		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, $number);
+		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, $moduleConfig['Products display']);
 		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelShowProductPrice, 'Yes');
 		$I->click(ModuleManagerJoomlaPage::$moduleType);
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeSpecificProducts, 30);
+
+		$moduleType = new ModuleManagerJoomlaPage();
+		$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 		$I->click(ModuleManagerJoomlaPage::$moduleTypeSpecificProducts);
 
 		$I->fillField(ModuleManagerJoomlaPage::$specificProducts, $productName);
@@ -172,50 +174,58 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 
 		if ($moduleConfig['moduleType'] == 'Newest')
 		{
-			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeNewest, 30);
+			$moduleType = new ModuleManagerJoomlaPage();
+			$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeNewest);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Latest products')
 		{
-			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeLatestProducts, 30);
+			$moduleType = new ModuleManagerJoomlaPage();
+			$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeLatestProducts);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Most sold products')
 		{
-			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeMostSoldProducts, 30);
+			$moduleType = new ModuleManagerJoomlaPage();
+			$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeMostSoldProducts);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Random Product')
 		{
-			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeRandomProduct, 30);
+			$moduleType = new ModuleManagerJoomlaPage();
+			$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeRandomProduct);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Product on sale')
 		{
 			$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelDiscountPriceLayout);
-			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeProductOnSale, 30);
+			$moduleType = new ModuleManagerJoomlaPage();
+			$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeProductOnSale);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Product On Sale and discount date check')
 		{
-			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeProductOnSaleAndDiscountDateCheck, 30);
+			$moduleType = new ModuleManagerJoomlaPage();
+			$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeProductOnSaleAndDiscountDateCheck);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Watched Product')
 		{
-			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeWatchedProduct, 30);
+			$moduleType = new ModuleManagerJoomlaPage();
+			$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeWatchedProduct);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Ordering')
 		{
-			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeOrdering, 30);
+			$moduleType = new ModuleManagerJoomlaPage();
+			$I->waitForElement($moduleType->moduleXpath($moduleConfig['moduleType']), 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeOrdering);
 		}
 
