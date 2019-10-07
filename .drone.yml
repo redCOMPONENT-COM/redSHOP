@@ -57,7 +57,6 @@ pipeline:
             - ls -la
             - cd paid-extensions
             - mv gulp-config.sample.json gulp-config.json
-            - npm install
             - gulp composer
             - gulp release --skip-version
             - cd ../../..
