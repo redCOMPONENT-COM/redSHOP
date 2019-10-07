@@ -237,7 +237,7 @@ class ModuleRedSHOPProductCest
 		$this->maximumQuantity   = $this->faker->numberBetween(9, 19);
 		$this->discountStart     = '25-09-' . date('Y', strtotime('-1 year'));
 		$this->discountEnd       = '27-10-' . date('Y', strtotime('+1 year'));
-		$this->total = "DKK 1.000,00";
+		$this->total             = "DKK 1.000,00";
 
 		//product2
 //		$this->productName2    = $this->faker->bothify('Testing Product ??####?');
@@ -321,7 +321,6 @@ class ModuleRedSHOPProductCest
 	 */
 	public function checkRedShopProduct(AcceptanceTester $I, $scenario)
 	{
-
 		$I->wantTo('Enable PayPal');
 		$I->enablePlugin('PayPal');
 
@@ -398,9 +397,8 @@ class ModuleRedSHOPProductCest
 		$I = new redSHOPProductSteps($scenario);
 		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2 ,$this->productName3);
 
-		$this->moduleConfig['moduleType'] = 'Specific products';
 		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationRedSHOPProductWithModuleTypeSpecificProduct($this->moduleName, $this->productName2, $this->productName3);
+		$I->configurationRedSHOPProductWithModuleTypeSpecificProduct($this->moduleName, $this->productName2, $this->productName3, $this->moduleConfig, $this->moduleConfig['Products display']);
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);

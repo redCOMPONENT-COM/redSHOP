@@ -142,6 +142,12 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $labelDiscountPriceLayout = 'Display Discount Price Layout';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $moduleTypeNewest = '//div[@id="jform_params_type_chzn"]/div/ul/li[1]';
 
 	/**

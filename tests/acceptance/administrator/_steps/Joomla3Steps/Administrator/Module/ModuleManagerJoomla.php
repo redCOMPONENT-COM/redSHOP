@@ -124,7 +124,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function configurationRedSHOPProductWithModuleTypeSpecificProduct($moduleName, $productName, $productName1)
+	public function configurationRedSHOPProductWithModuleTypeSpecificProduct($moduleName, $productName, $productName1, $number)
 	{
 		$I = $this;
 		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
@@ -132,33 +132,18 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
 		$I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, $number);
+		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelShowProductPrice, 'Yes');
 		$I->click(ModuleManagerJoomlaPage::$moduleType);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeSpecificProducts, 30);
 		$I->click(ModuleManagerJoomlaPage::$moduleTypeSpecificProducts);
-
-//		$I->waitForElementVisible(ModuleManagerJoomlaPage::$specificProducts, 30);
-//		$I->selectOptionInChosenWithTextField('Specific products', $productName);
-
-//        $userOrderPage = new ModuleManagerJoomlaPage();
-//        $I->fillField(ModuleManagerJoomlaPage::$specificProducts, 'Testing Product om9476w(205)');
-//        $I->pauseExecution();
-//        $I->waitForElement($userOrderPage->returnSearch($productName), 30);
-//        $I->click($userOrderPage->returnSearch('Testing Product om9476w(205)'));
-
-//        $I->fillField(ModuleManagerJoomlaPage::$specificProducts2, $productName1);
-//        $I->waitForElement($userOrderPage->returnSearch($productName1), 30);
-//        $I->click($userOrderPage->returnSearch($productName1));
 
 		$I->fillField(ModuleManagerJoomlaPage::$specificProducts, $productName);
 		$I->pressKey(ModuleManagerJoomlaPage::$specificProducts, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->fillField(ModuleManagerJoomlaPage::$specificProducts2, $productName1);
 		$I->pressKey(ModuleManagerJoomlaPage::$specificProducts2, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);
-		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, '3');
-		$I->pauseExecution();
-		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelShowProductPrice, 'Yes');
-
 
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
@@ -180,6 +165,9 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$redShopProductConfiguration, 30);
 		$I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelShowProductPrice, $option);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, $moduleConfig['Products display']);
 		$I->click(ModuleManagerJoomlaPage::$moduleType);
 
 		if ($moduleConfig['moduleType'] == 'Newest')
@@ -208,6 +196,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 
 		if ($moduleConfig['moduleType'] == 'Product on sale')
 		{
+			$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelDiscountPriceLayout);
 			$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeProductOnSale, 30);
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeProductOnSale);
 		}
@@ -230,9 +219,6 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 			$I->click(ModuleManagerJoomlaPage::$moduleTypeOrdering);
 		}
 
-		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelShowProductPrice, $option);
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);
-		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, $moduleConfig['Products display']);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
