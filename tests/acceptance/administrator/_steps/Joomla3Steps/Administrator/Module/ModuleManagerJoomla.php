@@ -76,6 +76,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $moduleName
 	 * @param $moduleConfig
 	 * @throws \Exception
 	 * @since 2.1.3
@@ -134,11 +135,31 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(ModuleManagerJoomlaPage::$moduleType);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$moduleTypeSpecificProducts, 30);
 		$I->click(ModuleManagerJoomlaPage::$moduleTypeSpecificProducts);
-		$I->waitForElementVisible(ModuleManagerJoomlaPage::$specificProducts, 30);
+
+//		$I->waitForElementVisible(ModuleManagerJoomlaPage::$specificProducts, 30);
+//		$I->selectOptionInChosenWithTextField('Specific products', $productName);
+
+//        $userOrderPage = new ModuleManagerJoomlaPage();
+//        $I->fillField(ModuleManagerJoomlaPage::$specificProducts, 'Testing Product om9476w(205)');
+//        $I->pauseExecution();
+//        $I->waitForElement($userOrderPage->returnSearch($productName), 30);
+//        $I->click($userOrderPage->returnSearch('Testing Product om9476w(205)'));
+
+//        $I->fillField(ModuleManagerJoomlaPage::$specificProducts2, $productName1);
+//        $I->waitForElement($userOrderPage->returnSearch($productName1), 30);
+//        $I->click($userOrderPage->returnSearch($productName1));
+
 		$I->fillField(ModuleManagerJoomlaPage::$specificProducts, $productName);
 		$I->pressKey(ModuleManagerJoomlaPage::$specificProducts, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->fillField(ModuleManagerJoomlaPage::$specificProducts2, $productName1);
 		$I->pressKey(ModuleManagerJoomlaPage::$specificProducts2, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, '3');
+		$I->pauseExecution();
+		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelShowProductPrice, 'Yes');
+
+
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);

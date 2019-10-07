@@ -240,11 +240,13 @@ class ModuleRedSHOPProductCest
 		$this->total = "DKK 1.000,00";
 
 		//product2
-		$this->productName2    = $this->faker->bothify('Testing Product ??####?');
+//		$this->productName2    = $this->faker->bothify('Testing Product ??####?');
+		$this->productName2    = 'Testing Product om9476w';
 		$this->productNumber2  = $this->faker->numberBetween(100, 500);
 
 		//product3
-		$this->productName3    = $this->faker->bothify('Testing Product ??####?');
+//		$this->productName3    = $this->faker->bothify('Testing Product ??####?');
+		$this->productName3    = 'Testing Product ua3163c';
 		$this->productNumber3  = $this->faker->numberBetween(100, 500);
 
 		//install module
@@ -348,7 +350,7 @@ class ModuleRedSHOPProductCest
 
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserManagerJoomla3Steps($scenario);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 
 		$I->wantTo('I want to login in site page');
 		$I->doFrontEndLogin($this->userName, $this->password);
@@ -428,7 +430,5 @@ class ModuleRedSHOPProductCest
 
 		$I = new ModuleManagerJoomla($scenario);
 		$I->unpublishModule($this->moduleName);
-
-
 	}
 }

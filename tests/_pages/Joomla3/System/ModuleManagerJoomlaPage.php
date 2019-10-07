@@ -209,4 +209,15 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $productsDisplay = '#jform_params_count';
+
+	/**
+	 * @param $userName
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function returnSearch($userName)
+	{
+		$path = "//span[contains(text(),'" . $userName . "')]";
+		return $path;
+	}
 }
