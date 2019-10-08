@@ -240,13 +240,11 @@ class ModuleRedSHOPProductCest
 		$this->total             = "DKK 1.000,00";
 
 		//product2
-//		$this->productName2    = $this->faker->bothify('Testing Product ??####?');
-		$this->productName2    = 'Testing Product om9476w';
+		$this->productName2    = $this->faker->bothify('Testing Product ??####?');
 		$this->productNumber2  = $this->faker->numberBetween(100, 500);
 
 		//product3
-//		$this->productName3    = $this->faker->bothify('Testing Product ??####?');
-		$this->productName3    = 'Testing Product ua3163c';
+		$this->productName3    = $this->faker->bothify('Testing Product ??####?');
 		$this->productNumber3  = $this->faker->numberBetween(100, 500);
 
 		//install module
@@ -303,15 +301,15 @@ class ModuleRedSHOPProductCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-	public function installModule(AdminManagerJoomla3Steps $I)
-	{
-		$I->wantTo("Install Module Multi Currencies");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
-		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->publishModule($this->moduleName);
-		$I->setModulePosition($this->moduleName);
-		$I->displayModuleOnAllPages($this->moduleName);
-	}
+//	public function installModule(AdminManagerJoomla3Steps $I)
+//	{
+//		$I->wantTo("Install Module Multi Currencies");
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
+//		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->publishModule($this->moduleName);
+//		$I->setModulePosition($this->moduleName);
+//		$I->displayModuleOnAllPages($this->moduleName);
+//	}
 
 	/**
 	 * @param AcceptanceTester $I
@@ -379,7 +377,7 @@ class ModuleRedSHOPProductCest
 
 		$this->moduleConfig['moduleType'] = 'Product on sale';
 		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationRedShopProduct($this->moduleName,$this->option, $this->moduleConfig);
+		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
@@ -397,7 +395,7 @@ class ModuleRedSHOPProductCest
 		$I = new redSHOPProductSteps($scenario);
 		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2 ,$this->productName3);
 
-        $this->moduleConfig['moduleType'] = 'Specific products';
+		$this->moduleConfig['moduleType'] = 'Specific products';
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationRedSHOPProductWithModuleTypeSpecificProduct($this->moduleName, $this->productName2, $this->productName3, $this->moduleConfig, $this->moduleConfig);
 
@@ -425,6 +423,7 @@ class ModuleRedSHOPProductCest
 		$I->deleteCategory($this->categoryName1);
 
 		$I->comment("I want to delete user");
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 
 		$I = new ModuleManagerJoomla($scenario);

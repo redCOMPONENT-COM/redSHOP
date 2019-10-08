@@ -115,22 +115,10 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	}
 
 	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $inputCategories = "//div[@id='jform_params_category_chzn']//input[@class='default']";
-
-	/**
 	 * @var array
 	 * @since 2.1.3
 	 */
 	public static $redShopProductConfiguration = ['link' => "redSHOP - Products"];
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $moduleType = '#jform_params_type_chzn';
 
 	/**
 	 * @var string
@@ -163,13 +151,14 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	public static $productsDisplay = '#jform_params_count';
 
 	/**
-	 * @param $nameType
-	 * @return string
+	 * @var string
+	 * @since
+	 */
+	public static $labelModuleType = 'Module Type';
+
+	/**
+	 * @var string
 	 * @since 2.1.3
 	 */
-	public function moduleXpath($nameType)
-	{
-		$path = "//li[contains(text(),'" . $nameType . "')]";
-		return $path;
-	}
+	public static $showDiscountProductPrice = '#jform_params_show_discountpricelayout-lbl';
 }
