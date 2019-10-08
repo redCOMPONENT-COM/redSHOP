@@ -191,6 +191,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 			$I->selectOptionInChosenjs(ModuleManagerJoomlaPage::$labelModuleType, $moduleConfig['moduleType']);
 			$I->scrollTo(ModuleManagerJoomlaPage::$showDiscountProductPrice);
 			$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelDiscountPriceLayout, $option);
+			$I->wait(2);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Product On Sale and discount date check')
