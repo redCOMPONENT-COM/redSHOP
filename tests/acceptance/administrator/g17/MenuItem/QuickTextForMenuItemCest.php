@@ -86,9 +86,9 @@ class QuickTextForMenuItemCest
 			array(
 				'menuItem' => 'Sample',
 			),
-			array(
-				'menuItem' => 'Account',
-			),
+//			array(
+//				'menuItem' => 'Account',
+//			),
 			array(
 				'menuItem' => 'Login',
 			),
