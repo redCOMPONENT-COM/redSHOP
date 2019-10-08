@@ -42,9 +42,6 @@ class QuickTextForMenuItemCest
 		$this->menu = 'Main Menu';
 		$this->menuItem = array(
 			array(
-				'menuItem' => 'Account',
-			),
-			array(
 				'menuItem' => 'All Wish Lists',
 			),
 			array(
@@ -88,6 +85,9 @@ class QuickTextForMenuItemCest
 			),
 			array(
 				'menuItem' => 'Sample',
+			),
+			array(
+				'menuItem' => 'Account',
 			),
 			array(
 				'menuItem' => 'Login',
