@@ -166,7 +166,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);
 		$I->fillField(ModuleManagerJoomlaPage::$productsDisplay, $moduleConfig['Products display']);
 
-		if ($moduleConfig['moduleType'] == 'Newest')
+		if ($moduleConfig['moduleType'] == 'Newest') 
 		{
 			$I->selectOptionInChosenjs(ModuleManagerJoomlaPage::$labelModuleType, $moduleConfig['moduleType']);
 		}
