@@ -108,10 +108,10 @@ class QuickTextForMenuItemCest
 		$I->doAdministratorLogin();
 		$length = count($this->menuItem);
 		$I->wantToTest($length);
-		for($x = 0;  $x < $length; $x ++ )
+		for($x = 0;  $x < $length; $x ++)
 		{
 			$menuItem  =  $this->menuItem[$x];
-			$I->createNewMenuItem( $menuItem['menuItem'], $this->menuCategory, $menuItem['menuItem'], $this->menu);
+			$I->createNewMenuItem($menuItem['menuItem'], $this->menuCategory, $menuItem['menuItem'], $this->menu);
 		}
 	}
 
@@ -126,7 +126,7 @@ class QuickTextForMenuItemCest
 
 		$length = count($this->menuItem);
 		$I->wantToTest($length);
-		for($x = 0;  $x < $length; $x ++ )
+		for($x = 0;  $x < $length; $x ++)
 		{
 			$menuItem = $this->menuItem[$x];
 
