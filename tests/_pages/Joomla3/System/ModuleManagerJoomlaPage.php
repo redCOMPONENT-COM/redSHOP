@@ -161,4 +161,10 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $showDiscountProductPrice = '#jform_params_show_discountpricelayout-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $optionYesDisplayDisscountPrice = '//fieldset[@id="jform_params_show_discountpricelayout"]/label[1]';
 }
