@@ -69,7 +69,7 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 			$text1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(1));
 			$I->assertEquals($text1, $productName1);
 			$text = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$discount);
-			$priceTotal = $currencyUnit['currencySymbol'].($productName1).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+			$priceTotal = $currencyUnit['currencySymbol'].($productName2).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 			$I->assertEquals($text, $priceTotal);
 		}
 
