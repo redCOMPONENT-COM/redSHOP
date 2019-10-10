@@ -79,10 +79,41 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 60);
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 60);
-		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
-		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$orderReceipt);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->wait(0.5);
+
+		try
+		{
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
+		}
+		catch (\Exception $e)
+		{
+			try
+			{
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 10, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			}
+			catch (\Exception $e)
+			{
+				try
+				{
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 10, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				catch (\Exception $e)
+				{
+
+				}
+			}
+
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+			$I->wait(0.5);
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		}
+
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
 	}
 }
