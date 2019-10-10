@@ -29,20 +29,22 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 	public function assertEqualsValue($productName1, $productName2)
 	{
 		$I = $this;
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(1), 30);
-		$text1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(1));
+
+		$thisPage = new FrontEndProductManagerJoomla3Page();
+		$I->waitForElementVisible($thisPage->nameRedSHOPProduct(1), 30);
+		$text1 = $I->grabTextFrom($thisPage->nameRedSHOPProduct(1));
 		$I->assertEquals($text1, $productName1);
 
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(2), 30);
-		$text2 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(2));
+		$I->waitForElementVisible($thisPage->nameRedSHOPProduct(2), 30);
+		$text2 = $I->grabTextFrom($thisPage->nameRedSHOPProduct(2));
 		$I->assertEquals($text2, $productName2);
 	}
 
 	/**
 	 * @param $moduleName
 	 * @param $moduleConfig
-	 * @param $value
-	 * @param $value1
+	 * @param $productName1
+	 * @param $productName2
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
@@ -51,6 +53,8 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForText($moduleName, 30);
+
+        $thisPage = new FrontEndProductManagerJoomla3Page();
 
 		if ($moduleConfig['moduleType'] == 'Newest')
 		{
@@ -66,7 +70,7 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 		{
 			$currencyUnit = $I->getCurrencyValue();
 			$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-			$text1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(1));
+			$text1 = $I->grabTextFrom($thisPage->nameRedSHOPProduct(1));
 			$I->assertEquals($text1, $productName1);
 			$text = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$discount);
 			$priceTotal = $currencyUnit['currencySymbol'].($productName2).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
@@ -89,6 +93,7 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 	/**
 	 * @param $product
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function checkWatchedProductForntEnd($product)
 	{
