@@ -338,13 +338,13 @@ class ModuleRedSHOPProductCest
 		$I = new redSHOPProductSteps($scenario);
 		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName3 ,$this->productName2);
 
-		$this->moduleConfig['moduleType'] = 'Product on sale';
-		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
-
-		$I->comment('check module redSHOP Products ');
-		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName1 ,$this->discountPrice);
+//		$this->moduleConfig['moduleType'] = 'Product on sale';
+//		$I = new ModuleManagerJoomla($scenario);
+//		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
+//
+//		$I->comment('check module redSHOP Products ');
+//		$I = new redSHOPProductSteps($scenario);
+//		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName1 ,$this->discountPrice);
 
 		$this->moduleConfig['moduleType'] = 'Most sold products';
 		$I = new ModuleManagerJoomla($scenario);
