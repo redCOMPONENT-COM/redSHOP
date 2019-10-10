@@ -323,85 +323,85 @@ class ModuleRedSHOPProductCest
 	 */
 	public function checkRedShopProduct(AcceptanceTester $I, $scenario)
 	{
-//		$I->wantTo('Enable PayPal');
-//		$I->enablePlugin('PayPal');
+		$I->wantTo('Enable PayPal');
+		$I->enablePlugin('PayPal');
 
 		$I->wantTo('Check Module redSHOP product');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 		$I = new ProductManagerJoomla3Steps($scenario);
-//		$I->createProductSaveHaveDiscount($this->productName1, $this->categoryName, $this->productNumber1, $this->productPrice, $this->discountPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSaveHaveDiscount($this->productName1, $this->categoryName, $this->productNumber1, $this->productPrice, $this->discountPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 		$I->createProductSaveClose($this->productName2, $this->categoryName, $this->productNumber2, $this->productPrice);
 		$I->createProductSaveClose($this->productName3, $this->categoryName, $this->productNumber3, $this->productPrice);
 
-//		$I = new ModuleManagerJoomla($scenario);
-//		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
-//
-//		$I->comment('check module redSHOP Products ');
-//		$I = new redSHOPProductSteps($scenario);
-//		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName3 ,$this->productName2);
-//
-//		$this->moduleConfig['moduleType'] = 'Product on sale';
-//		$I = new ModuleManagerJoomla($scenario);
-//		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
-//
-//		$I->comment('check module redSHOP Products ');
-//		$I = new redSHOPProductSteps($scenario);
-//		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName1 ,$this->discountPrice);
-//
-//		$this->moduleConfig['moduleType'] = 'Specific products';
-//		$I = new ModuleManagerJoomla($scenario);
-//		$I->configurationRedSHOPProductWithModuleTypeSpecificProduct($this->moduleName, $this->productName2, $this->productName3, $this->moduleConfig);
-//
-//		$I->comment('check module redSHOP Products ');
-//		$I = new redSHOPProductSteps($scenario);
-//		$I->checkModuleRedSHOPProduct($this->moduleName, $this->moduleConfig, $this->productName2 ,$this->productName3);
+		$I = new ModuleManagerJoomla($scenario);
+		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
+
+		$I->comment('check module redSHOP Products ');
+		$I = new redSHOPProductSteps($scenario);
+		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName3 ,$this->productName2);
+
+		$this->moduleConfig['moduleType'] = 'Product on sale';
+		$I = new ModuleManagerJoomla($scenario);
+		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
+
+		$I->comment('check module redSHOP Products ');
+		$I = new redSHOPProductSteps($scenario);
+		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName1 ,$this->discountPrice);
+
+		$this->moduleConfig['moduleType'] = 'Specific products';
+		$I = new ModuleManagerJoomla($scenario);
+		$I->configurationRedSHOPProductWithModuleTypeSpecificProduct($this->moduleName, $this->productName2, $this->productName3, $this->moduleConfig);
+
+		$I->comment('check module redSHOP Products ');
+		$I = new redSHOPProductSteps($scenario);
+		$I->checkModuleRedSHOPProduct($this->moduleName, $this->moduleConfig, $this->productName2 ,$this->productName3);
 	}
-//
-//	/**
-//	 * @param AcceptanceTester $I
-//	 * @param $scenario
-//	 * @throws Exception
-//	 */
-//	public function checkProductMostSold(AcceptanceTester $I, $scenario)
-//	{
-//		$this->moduleConfig['moduleType'] = 'Most sold products';
-//		$I = new ModuleManagerJoomla($scenario);
-//		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
-//
-//		$I = new ConfigurationSteps($scenario);
-//		$I->cartSetting($this->cartSetting);
-//
-//		$I->wantTo('Test User creation with save button in Administrator');
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
-//
-//		$I->wantTo('I want to login in site page');
-//		$I->doFrontEndLogin($this->userName, $this->password);
-//
-//		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
-//		$I = new CheckoutChangeQuantityProductSteps($scenario);
-//		$I->checkoutChangeQuantity($this->categoryName, $this->productName2, $this->total);
-//
-//		$this->cartSetting['allowPreOrder'] = 'yes';
-//		$this->cartSetting['quantityChange'] = 'no';
-//		$this->cartSetting['quantityInCart'] = 0;
-//		$this->cartSetting['cartTimeOut'] = $this->faker->numberBetween(100, 10000);
-//
-//		$I = new ConfigurationSteps($scenario);
-//		$I->cartSetting($this->cartSetting);
-//
-//		$I->wantTo('I want to login Site page with user just create');
-//		$I->doFrontendLogout();
-//
-//		$I->comment('checkout one product');
-//		$I = new OrderSteps($scenario);
-//		$I->addProductToCartWithBankTransfer($this->productName3, $this->productPrice, $this->userName , $this->password);
-//
-//		$I->comment('check module redSHOP Products ');
-//		$I = new redSHOPProductSteps($scenario);
-//		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2, $this->productName3);
-//	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 */
+	public function checkProductMostSold(AcceptanceTester $I, $scenario)
+	{
+		$this->moduleConfig['moduleType'] = 'Most sold products';
+		$I = new ModuleManagerJoomla($scenario);
+		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
+
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
+
+		$I->wantTo('Test User creation with save button in Administrator');
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
+
+		$I->wantTo('I want to login in site page');
+		$I->doFrontEndLogin($this->userName, $this->password);
+
+		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
+		$I = new CheckoutChangeQuantityProductSteps($scenario);
+		$I->checkoutChangeQuantity($this->categoryName, $this->productName2, $this->total);
+
+		$this->cartSetting['allowPreOrder'] = 'yes';
+		$this->cartSetting['quantityChange'] = 'no';
+		$this->cartSetting['quantityInCart'] = 0;
+		$this->cartSetting['cartTimeOut'] = $this->faker->numberBetween(100, 10000);
+
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
+
+		$I->wantTo('I want to login Site page with user just create');
+		$I->doFrontendLogout();
+
+		$I->comment('checkout one product');
+		$I = new OrderSteps($scenario);
+		$I->addProductToCartWithBankTransfer($this->productName3, $this->productPrice, $this->userName , $this->password);
+
+		$I->comment('check module redSHOP Products ');
+		$I = new redSHOPProductSteps($scenario);
+		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2, $this->productName3);
+	}
 
 	/**
 	 * @param AcceptanceTester $I
@@ -428,29 +428,29 @@ class ModuleRedSHOPProductCest
 		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2 ,$this->productName3);
 	}
 
-//	/**
-//	 * @param AcceptanceTester $I
-//	 * @param $scenario
-//	 * @throws Exception
-//	 * @since 2.1.3
-//	 */
-//	public function clearAllData(AcceptanceTester $I, $scenario)
-//	{
-//		$I->wantTo('Delete Data');
-//		$I = new ProductManagerJoomla3Steps($scenario);
-//		$I->deleteProduct($this->productName1);
-//		$I->deleteProduct($this->productName2);
-//		$I->deleteProduct($this->productName3);
-//
-//		$I = new CategoryManagerJoomla3Steps($scenario);
-//		$I->deleteCategory($this->categoryName);
-//		$I->deleteCategory($this->categoryName1);
-//
-//		$I->comment("I want to delete user");
-//		$I = new UserManagerJoomla3Steps($scenario);
-//		$I->deleteUser($this->firstName);
-//
-//		$I = new ModuleManagerJoomla($scenario);
-//		$I->unpublishModule($this->moduleName);
-//	}
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function clearAllData(AcceptanceTester $I, $scenario)
+	{
+		$I->wantTo('Delete Data');
+		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->deleteProduct($this->productName1);
+		$I->deleteProduct($this->productName2);
+		$I->deleteProduct($this->productName3);
+
+		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->categoryName);
+		$I->deleteCategory($this->categoryName1);
+
+		$I->comment("I want to delete user");
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName);
+
+		$I = new ModuleManagerJoomla($scenario);
+		$I->unpublishModule($this->moduleName);
+	}
 }
