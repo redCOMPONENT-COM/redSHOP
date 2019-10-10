@@ -385,7 +385,7 @@ class ModuleRedSHOPProductCest
 
 		$this->moduleConfig['moduleType'] = 'Watched Product';
 		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationRedShopProduct($this->moduleName,$this->option, $this->moduleConfig);
+		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
 
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->checkReview($this->productName3);
@@ -393,7 +393,7 @@ class ModuleRedSHOPProductCest
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2 ,$this->productName3);
+		$I->checkModuleRedSHOPProduct($this->moduleName, $this->moduleConfig, $this->productName2 ,$this->productName3);
 
 		$this->moduleConfig['moduleType'] = 'Specific products';
 		$I = new ModuleManagerJoomla($scenario);
