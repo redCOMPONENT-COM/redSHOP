@@ -25,12 +25,15 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 	 * @param $total
 	 * @throws \Exception
 	 */
-	public function checkoutChangeQuantity($category, $total)
+	public function checkoutChangeQuantity($category, $productName, $total)
 	{
 		$I = $this;
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->amOnPage(\CheckoutChangeQuantityProductPage::$url);
 		$I->click($category);
+		$I->waitForElementVisible(["link" => $productName], 30);
+		$I->click(["link" => $productName]);
+		$I->waitForElementVisible(\CheckoutChangeQuantityProductPage::$addToCart, 30);
 		$I->click(\CheckoutChangeQuantityProductPage::$addToCart);
 		$I->amOnPage(\CheckoutChangeQuantityProductPage::$cartPageUrL);
 		$I->click(\CheckoutChangeQuantityProductPage::$quantityField);

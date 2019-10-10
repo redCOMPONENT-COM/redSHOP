@@ -235,8 +235,7 @@ class ModuleRedSHOPProductCest
 		$this->minimumPerProduct = '1';
 		$this->minimumQuantity   = '1';
 		$this->maximumQuantity   = $this->faker->numberBetween(9, 19);
-		$this->discountStart     = '25-09-' . date('Y', strtotime('-1 year'));
-		$this->discountEnd       = '27-10-' . date('Y', strtotime('+1 year'));
+
 		$this->total             = "DKK 1.000,00";
 
 		//product2
@@ -284,6 +283,11 @@ class ModuleRedSHOPProductCest
 			"minimumOrder"      => 0,
 			"enableQuotation"   => 'no'
 		);
+
+		$dateNow = date('Y-m-d');
+		$this->discountStart  = $dateNow;
+		$this->discountEnd  = date('Y-m-d', strtotime('+2 day', strtotime($dateNow)));
+
 	}
 
 	/**
@@ -325,10 +329,9 @@ class ModuleRedSHOPProductCest
 		$I->wantTo('Check Module redSHOP product');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
-		$I->addCategorySave($this->categoryName1);
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->createProductSaveHaveDiscount($this->productName1, $this->categoryName1, $this->productNumber1, $this->productPrice, $this->discountPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
-		$I->createProductSaveClose($this->productName2, $this->categoryName1, $this->productNumber2, $this->productPrice);
+		$I->createProductSaveHaveDiscount($this->productName1, $this->categoryName, $this->productNumber1, $this->productPrice, $this->discountPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
+		$I->createProductSaveClose($this->productName2, $this->categoryName, $this->productNumber2, $this->productPrice);
 		$I->createProductSaveClose($this->productName3, $this->categoryName, $this->productNumber3, $this->productPrice);
 
 		$I = new ModuleManagerJoomla($scenario);
@@ -362,7 +365,7 @@ class ModuleRedSHOPProductCest
 
 		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
 		$I = new CheckoutChangeQuantityProductSteps($scenario);
-		$I->checkoutChangeQuantity($this->categoryName, $this->total);
+		$I->checkoutChangeQuantity($this->categoryName, $this->productName2, $this->total);
 
 		$this->cartSetting['allowPreOrder'] = 'yes';
 		$this->cartSetting['quantityChange'] = 'no';
@@ -377,11 +380,11 @@ class ModuleRedSHOPProductCest
 
 		$I->comment('checkout one product');
 		$I = new OrderSteps($scenario);
-		$I->addProductToCartWithBankTransfer($this->productName2, $this->productPrice, $this->userName , $this->password);
+		$I->addProductToCartWithBankTransfer($this->productName3, $this->productPrice, $this->userName , $this->password);
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName3 ,$this->productName2);
+		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2, $this->productName3);
 
 		$this->moduleConfig['moduleType'] = 'Watched Product';
 		$I = new ModuleManagerJoomla($scenario);
@@ -397,7 +400,7 @@ class ModuleRedSHOPProductCest
 
 		$this->moduleConfig['moduleType'] = 'Specific products';
 		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationRedSHOPProductWithModuleTypeSpecificProduct($this->moduleName, $this->productName2, $this->productName3, $this->moduleConfig, $this->moduleConfig);
+		$I->configurationRedSHOPProductWithModuleTypeSpecificProduct($this->moduleName, $this->productName2, $this->productName3, $this->moduleConfig);
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
