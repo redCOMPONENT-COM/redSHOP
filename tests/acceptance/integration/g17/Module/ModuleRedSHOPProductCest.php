@@ -444,7 +444,6 @@ class ModuleRedSHOPProductCest
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-		$I->deleteCategory($this->categoryName1);
 
 		$I->comment("I want to delete user");
 		$I = new UserManagerJoomla3Steps($scenario);

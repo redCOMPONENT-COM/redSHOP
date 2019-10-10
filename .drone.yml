@@ -587,9 +587,9 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-#            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/payment 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Module/modulRedSHOPPrduct 0 0'
-#            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Category 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/payment 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Module 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Category 0 0'
 
     11-Group11-73:
         group: 02-tests
@@ -609,7 +609,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Module/modulRedSHOPPrduct 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17'
 
     slack:
         image: plugins/slack
