@@ -401,6 +401,9 @@ class ModuleRedSHOPProductCest
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
 		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2, $this->productName3);
+
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->checkReview($this->productName3);
 	}
 
 	/**
@@ -410,9 +413,6 @@ class ModuleRedSHOPProductCest
 	 */
 	public function checkWatchedProduct(AcceptanceTester $I, $scenario)
 	{
-		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->checkReview($this->productName3);
-
 		$this->moduleConfig['moduleType'] = 'Watched Product';
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
