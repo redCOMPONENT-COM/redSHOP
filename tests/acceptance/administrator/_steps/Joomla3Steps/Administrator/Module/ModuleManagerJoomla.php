@@ -32,9 +32,9 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$inputCurrent, 30);
 		$I->fillField(ModuleManagerJoomlaPage::$inputCurrent, ModuleManagerJoomlaPage::$currentSelectEuro);
-		$I->pressKey(ModuleManagerJoomlaPage::$inputCurrent, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->pressKey(ModuleManagerJoomlaPage::$inputCurrent, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->fillField(ModuleManagerJoomlaPage::$inputCurrent, ModuleManagerJoomlaPage::$currentSelectKorean);
-		$I->pressKey(ModuleManagerJoomlaPage::$inputCurrent, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->pressKey(ModuleManagerJoomlaPage::$inputCurrent, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
@@ -196,7 +196,6 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 			$I->selectOptionInChosenjs(ModuleManagerJoomlaPage::$labelModuleType, $moduleConfig['moduleType']);
 			$I->scrollTo(ModuleManagerJoomlaPage::$showDiscountProductPrice);
 			$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelDiscountPriceLayout, $option);
-			$I->wait(2);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Product On Sale and discount date check')

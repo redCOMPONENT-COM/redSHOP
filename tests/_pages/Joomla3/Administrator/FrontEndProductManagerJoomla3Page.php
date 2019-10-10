@@ -624,23 +624,17 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $nameProductSold = '(//div[@class =\'current\']/dd/div/div/p/a)[3]';
 
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $nameRedSHOPProduct1 = '(//div[@class="mod_redshop_products_title"])[1]';
+    /**
+     * @param $position
+     * @return string
+     * @since 2.1.3
+     */
+    public function nameRedSHOPProduct($position)
+    {
+        $xpath = "(//div[@Class='mod_redshop_products_title'])[$position]";
 
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $nameRedSHOPProduct2 = '(//div[@class="mod_redshop_products_title"])[2]';
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $nameRedSHOPProduct3 = '(//div[@class="mod_redshop_products_title"])[3]';
+        return $xpath;
+    }
 
 	/**
 	 * @var string

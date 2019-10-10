@@ -339,7 +339,7 @@ class ModuleRedSHOPProductCest
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName3 ,$this->productName2);
+		$I->checkModuleRedSHOPProduct($this->moduleName, $this->moduleConfig, $this->productName3, $this->productName2);
 
 		$this->moduleConfig['moduleType'] = 'Product on sale';
 		$I = new ModuleManagerJoomla($scenario);
@@ -347,7 +347,7 @@ class ModuleRedSHOPProductCest
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName1 ,$this->discountPrice);
+		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName1, $this->discountPrice);
 
 		$this->moduleConfig['moduleType'] = 'Specific products';
 		$I = new ModuleManagerJoomla($scenario);
@@ -355,13 +355,14 @@ class ModuleRedSHOPProductCest
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName, $this->moduleConfig, $this->productName2 ,$this->productName3);
+		$I->checkModuleRedSHOPProduct($this->moduleName, $this->moduleConfig, $this->productName2, $this->productName3);
 	}
 
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+     * @since 2.1.3
 	 */
 	public function checkProductMostSold(AcceptanceTester $I, $scenario)
 	{
@@ -396,17 +397,18 @@ class ModuleRedSHOPProductCest
 
 		$I->comment('checkout one product');
 		$I = new OrderSteps($scenario);
-		$I->addProductToCartWithBankTransfer($this->productName3, $this->productPrice, $this->userName , $this->password);
+		$I->addProductToCartWithBankTransfer($this->productName3, $this->productPrice, $this->userName, $this->password);
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2, $this->productName3);
+		$I->checkModuleRedSHOPProduct($this->moduleName, $this->moduleConfig, $this->productName2, $this->productName3);
 	}
 
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+     * @since 2.1.3
 	 */
 	public function checkWatchedProduct(AcceptanceTester $I, $scenario)
 	{
@@ -425,7 +427,7 @@ class ModuleRedSHOPProductCest
 
 		$I->checkWatchedProductForntEnd($product);
 
-		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2 ,$this->productName3);
+		$I->checkModuleRedSHOPProduct($this->moduleName, $this->moduleConfig, $this->productName2, $this->productName3);
 	}
 
 	/**

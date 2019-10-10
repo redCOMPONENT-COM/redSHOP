@@ -22,8 +22,10 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 {
 	/**
 	 * @param $category
+	 * @param $productName
 	 * @param $total
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function checkoutChangeQuantity($category, $productName, $total)
 	{

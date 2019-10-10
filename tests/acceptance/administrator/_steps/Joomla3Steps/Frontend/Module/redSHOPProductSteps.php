@@ -21,20 +21,21 @@ use ProductManagerPage;
 class redSHOPProductSteps extends ProductManagerJoomla3Steps
 {
 	/**
-	 * @param $value
-	 * @param $value1
+	 * @param $productName1
+	 * @param $productName2
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
-	public function assertEqualsValue($value, $value1)
+	public function assertEqualsValue($productName1, $productName2)
 	{
 		$I = $this;
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct1, 30);
-		$text1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct1);
-		$I->assertEquals($text1, $value);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(1), 30);
+		$text1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(1));
+		$I->assertEquals($text1, $productName1);
 
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct2, 30);
-		$text2 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct2);
-		$I->assertEquals($text2, $value1);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(2), 30);
+		$text2 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(2));
+		$I->assertEquals($text2, $productName2);
 	}
 
 	/**
@@ -45,7 +46,7 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkModuleRedSHOPProduct($moduleName, $moduleConfig, $value, $value1)
+	public function checkModuleRedSHOPProduct($moduleName, $moduleConfig, $productName1, $productName2)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -53,35 +54,35 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 
 		if ($moduleConfig['moduleType'] == 'Newest')
 		{
-		   $I->assertEqualsValue($value, $value1);
+		   $I->assertEqualsValue($productName1, $productName2);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Most sold products')
 		{
-			$I->assertEqualsValue($value, $value1);
+			$I->assertEqualsValue($productName1, $productName2);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Product on sale')
 		{
 			$currencyUnit = $I->getCurrencyValue();
 			$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-			$text1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct1);
-			$I->assertEquals($text1, $value);
+			$text1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::nameRedSHOPProduct(1));
+			$I->assertEquals($text1, $productName1);
 			$text = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$discount);
-			$priceTotal = $currencyUnit['currencySymbol'].($value1).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+			$priceTotal = $currencyUnit['currencySymbol'].($productName1).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 			$I->assertEquals($text, $priceTotal);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Watched Product')
 		{
 			$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-			$I->assertEqualsValue($value, $value1);
+			$I->assertEqualsValue($productName1, $productName2);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Specific products')
 		{
 			$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-			$I->assertEqualsValue($value, $value1);
+			$I->assertEqualsValue($productName1, $productName2);
 		}
 	}
 
