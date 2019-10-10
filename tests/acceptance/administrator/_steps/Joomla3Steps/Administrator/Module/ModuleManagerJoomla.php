@@ -164,8 +164,8 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(ModuleManagerJoomlaPage::$redShopProductConfiguration);
 		$I->waitForText($moduleName, 30);
 
-		$I->waitForElementVisible("#jform_params_show_price-lbl", 30);
-        $I->scrollTo("#jform_params_show_price-lbl");
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$idLabelShowProductPrice, 30);
+        $I->scrollTo(ModuleManagerJoomlaPage::$idLabelShowProductPrice);
 
 		$I->selectOptionInRadioField(ModuleManagerJoomlaPage::$labelShowProductPrice, $option);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$productsDisplay, 30);

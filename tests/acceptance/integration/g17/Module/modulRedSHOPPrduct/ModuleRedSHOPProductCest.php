@@ -408,11 +408,17 @@ class ModuleRedSHOPProductCest
 	 * @param $scenario
 	 * @throws Exception
 	 */
-	public function checkWatchedProduc(AcceptanceTester $I, $scenario)
+	public function checkWatchedProduct(AcceptanceTester $I, $scenario)
 	{
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->checkReview($this->productName3);
+
 		$this->moduleConfig['moduleType'] = 'Watched Product';
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationRedShopProduct($this->moduleName, $this->option, $this->moduleConfig);
+
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->checkReview($this->productName2);
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
