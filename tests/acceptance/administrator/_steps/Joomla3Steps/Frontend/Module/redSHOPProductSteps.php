@@ -20,11 +20,11 @@ use ProductManagerPage;
  */
 class redSHOPProductSteps extends ProductManagerJoomla3Steps
 {
-    /**
-     * @param $value
-     * @param $value1
-     * @throws \Exception
-     */
+	/**
+	 * @param $value
+	 * @param $value1
+	 * @throws \Exception
+	 */
 	public function assertEqualsValue($value, $value1)
 	{
 		$I = $this;
@@ -92,28 +92,23 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 	public function checkWatchedProductForntEnd($product)
 	{
 		$I = $this;
+		$length = count($product);
 
-		$lenght = count($product);
+		for ($a = 0 ; $a < $length; $a++)
+		{
+			$I->amOnPage(ProductManagerPage::$URL);
+			$I->searchProduct($product[$a]['productName']);
+			$I->click(['link' => $product[$a]['productName']]);
+			$I->waitForElement(ProductManagerPage::$productName, 30);
+			$I->click(ProductManagerPage::$buttonReview);
 
-		for ($a = 0 ;  $a < $lenght; $a++)
-        {
+			$I->switchToNextTab();
+			$I->waitForElement(ProductManagerPage::$namePageXpath, 30);
+			$I->waitForText($product[$a]['productName'], 30, ProductManagerPage::$namePageXpath);
+			$I->closeTab();
 
-            $I->amOnPage(\ProductManagerPage::$URL);
-
-            $I->searchProduct( $product[$a]['productName']);
-            $I->click(['link' => $product[$a]['productName']]);
-            $I->waitForElement(\ProductManagerPage::$productName, 30);
-            $I->click(\ProductManagerPage::$buttonReview);
-            $I->switchToNextTab();
-            $I->waitForElement(\ProductManagerPage::$namePageXpath, 30);
-            $I->waitForText($product[$a]['productName'], 30, \ProductManagerPage::$namePageXpath);
-            $I->closeTab();
-
-            $I->waitForElement(\ProductManagerPage::$productName, 30);
-
-            $I->click(\ProductManagerPage::$buttonClose);
-        }
-
-
+			$I->waitForElement(ProductManagerPage::$productName, 30);
+			$I->click(ProductManagerPage::$buttonClose);
+		}
 	}
 }
