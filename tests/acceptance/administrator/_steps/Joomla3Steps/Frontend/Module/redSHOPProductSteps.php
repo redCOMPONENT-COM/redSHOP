@@ -8,6 +8,7 @@
 
 namespace Frontend\Module;
 use AcceptanceTester\OrderManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
 use CheckoutOnFrontEnd;
 use FrontEndProductManagerJoomla3Page;
 use ProductManagerPage;
@@ -17,18 +18,21 @@ use ProductManagerPage;
  * @package Frontend\Module
  * @since 2.1.3
  */
-class redSHOPProductSteps extends CheckoutOnFrontEnd
+class redSHOPProductSteps extends ProductManagerJoomla3Steps
 {
-	/**
-	 * @param $value
-	 * @param $value1
-	 * @since 2.1.3
-	 */
+    /**
+     * @param $value
+     * @param $value1
+     * @throws \Exception
+     */
 	public function assertEqualsValue($value, $value1)
 	{
 		$I = $this;
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct1, 30);
 		$text1 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct1);
 		$I->assertEquals($text1, $value);
+
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct2, 30);
 		$text2 = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$nameRedSHOPProduct2);
 		$I->assertEquals($text2, $value1);
 	}
@@ -79,5 +83,37 @@ class redSHOPProductSteps extends CheckoutOnFrontEnd
 			$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 			$I->assertEqualsValue($value, $value1);
 		}
+	}
+
+	/**
+	 * @param $product
+	 * @throws \Exception
+	 */
+	public function checkWatchedProductForntEnd($product)
+	{
+		$I = $this;
+
+		$lenght = count($product);
+
+		for ($a = 0 ;  $a < $lenght; $a++)
+        {
+
+            $I->amOnPage(\ProductManagerPage::$URL);
+
+            $I->searchProduct( $product[$a]['productName']);
+            $I->click(['link' => $product[$a]['productName']]);
+            $I->waitForElement(\ProductManagerPage::$productName, 30);
+            $I->click(\ProductManagerPage::$buttonReview);
+            $I->switchToNextTab();
+            $I->waitForElement(\ProductManagerPage::$namePageXpath, 30);
+            $I->waitForText($product[$a]['productName'], 30, \ProductManagerPage::$namePageXpath);
+            $I->closeTab();
+
+            $I->waitForElement(\ProductManagerPage::$productName, 30);
+
+            $I->click(\ProductManagerPage::$buttonClose);
+        }
+
+
 	}
 }
