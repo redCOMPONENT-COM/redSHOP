@@ -349,18 +349,6 @@ class ModuleRedSHOPProductCest
 		$I = new redSHOPProductSteps($scenario);
 		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName1 ,$this->discountPrice);
 
-		$this->moduleConfig['moduleType'] = 'Watched Product';
-		$I = new ModuleManagerJoomla($scenario);
-		$I->configurationRedShopProduct($this->moduleName,$this->option, $this->moduleConfig);
-
-		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->checkReview($this->productName3);
-		$I->checkReview($this->productName2);
-
-		$I->comment('check module redSHOP Products ');
-		$I = new redSHOPProductSteps($scenario);
-		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2 ,$this->productName3);
-
 		$this->moduleConfig['moduleType'] = 'Specific products';
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationRedSHOPProductWithModuleTypeSpecificProduct($this->moduleName, $this->productName2, $this->productName3, $this->moduleConfig);
@@ -413,6 +401,26 @@ class ModuleRedSHOPProductCest
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
 		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2, $this->productName3);
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 */
+	public function checkWatchedProduc(AcceptanceTester $I, $scenario)
+	{
+		$this->moduleConfig['moduleType'] = 'Watched Product';
+		$I = new ModuleManagerJoomla($scenario);
+		$I->configurationRedShopProduct($this->moduleName,$this->option, $this->moduleConfig);
+
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->checkReview($this->productName3);
+		$I->checkReview($this->productName2);
+
+		$I->comment('check module redSHOP Products ');
+		$I = new redSHOPProductSteps($scenario);
+		$I->checkModuleRedSHOPProduct($this->moduleName , $this->moduleConfig, $this->productName2 ,$this->productName3);
 	}
 
 	/**
