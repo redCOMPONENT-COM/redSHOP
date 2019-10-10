@@ -624,6 +624,30 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $nameProductSold = '(//div[@class =\'current\']/dd/div/div/p/a)[3]';
 
+    /**
+     * @param $position
+     * @return string
+     * @since 2.1.3
+     */
+    public function nameRedSHOPProduct($position)
+    {
+        $xpath = "(//div[@Class='mod_redshop_products_title'])[$position]";
+
+        return $xpath;
+    }
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $imageAddToCart = '.pdaddtocart_img_link';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $discount = '#mod_redmainprice';
+
 	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
