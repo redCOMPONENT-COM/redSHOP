@@ -631,7 +631,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
      */
     public function nameRedSHOPProduct($position)
     {
-        $xpath = "(//div[@Class='mod_redshop_products_title'])[$position]";
+        $xpath = "(//div[@class='mod_redshop_products_title'])[$position]";
 
         return $xpath;
     }
