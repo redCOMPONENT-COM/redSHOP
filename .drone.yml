@@ -125,7 +125,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:setup 0 0'
             # Touching temp file to start the environment cloning (see setup-stages service)
             - touch tests/.setup$php_version.tmp
-
+#
 #    01-Group1-56:
 #        group: 01-tests
 #        image: redwebaps/testbox-chromedriver:2.38
@@ -379,6 +379,7 @@ pipeline:
 #            # Performs test
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 #
 #    06-Group6-73:
 #        group: 02-tests
@@ -400,6 +401,7 @@ pipeline:
 #            # Performs test
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 #
 #    07-Group7-56:
 #        group: 02-tests
