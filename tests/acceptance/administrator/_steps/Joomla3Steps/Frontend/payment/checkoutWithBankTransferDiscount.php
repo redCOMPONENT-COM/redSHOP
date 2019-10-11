@@ -48,6 +48,7 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->fillInformationPrivate($customerInformation);
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
+		$I->seeElement(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
 		$I->wait(0.5);
@@ -57,8 +58,24 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.($productPrice - $paymentPrice).$decimalSeparator.$NumberZero;
 		$pricePaymentDiscount = 'Payment Discount: '.$currencySymbol.' '.($paymentPrice).$decimalSeparator.$NumberZero;
-		$I->see($pricePaymentDiscount);
-		$I->see($priceTotalOnCart);
+
+		try
+		{
+			$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+			$I->wait(0.5);
+			$I->see($pricePaymentDiscount);
+			$I->see($priceTotalOnCart);
+		}
+		catch (\Exception $e)
+		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
+			$I->wait(0.5);
+			$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+			$I->wait(0.5);
+			$I->see($pricePaymentDiscount);
+			$I->see($priceTotalOnCart);
+		}
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
@@ -79,18 +96,28 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 
 		try
 		{
-			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
 		}
 		catch (\Exception $e)
 		{
 			try
 			{
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 5, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 10, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			}
 			catch (\Exception $e)
 			{
-				$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
-				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+				try
+				{
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 10, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+				}
+				catch (\Exception $e)
+				{
+
+				}
 			}
 
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);

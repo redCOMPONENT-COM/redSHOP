@@ -49,6 +49,12 @@ class ProductUpdateOnQuantityCest
 	 */
 	protected  $quantity;
 
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $cartSetting;
+
 	public function __construct()
 	{
 		$this->faker               = Faker\Factory::create();
@@ -73,22 +79,22 @@ class ProductUpdateOnQuantityCest
 			"state"      => "",
 			"phone"      => "0334110355"
 		);
-		//configuration enable one page checkout
-		$this->addcart            = 'product';
-		$this->allowPreOrder      = 'yes';
-		$this->cartTimeOut        = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax         = 'no';
-		$this->defaultCart        = null;
-		$this->buttonCartLead     = 'Back to current view';
-		$this->onePage            = 'yes';
-		$this->showShippingCart   = 'no';
-		$this->attributeImage     = 'no';
-		$this->quantityChange     = 'no';
-		$this->quantityInCart     = 0;
-		$this->minimunOrder       = 0;
-		$this->enableQuation      = 'no';
-		$this->onePageNo          = 'no';
-		$this->onePageYes         = 'yes';
+
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 	}
 
 	/**
@@ -118,8 +124,7 @@ class ProductUpdateOnQuantityCest
 	public function addToCartWithProductUpdateQuantity(ProductUpdateOnQuantitySteps $I,$scenario)
 	{
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I = new PayPalPluginManagerJoomla3Steps($scenario);
 		$I->wantTo('Disable PayPal');

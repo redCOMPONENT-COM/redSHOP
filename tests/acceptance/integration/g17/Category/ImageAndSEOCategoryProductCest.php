@@ -131,10 +131,10 @@ class ImageAndSEOCategoryProductCest
 		);
 		//configuration enable one page checkout
 		$this->cartSetting = array(
-			"addcart"            => 'product',
+			"addCart"            => 'product',
 			"allowPreOrder"      => 'yes',
 			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
-			"enabldAjax"         => 'no',
+			"enabledAjax"         => 'no',
 			"defaultCart"        => null,
 			"buttonCartLead"     => 'Back to current view',
 			"onePage"            => 'yes',
@@ -142,17 +142,15 @@ class ImageAndSEOCategoryProductCest
 			"attributeImage"     => 'no',
 			"quantityChange"     => 'no',
 			"quantityInCart"     => 0,
-			"minimunOrder"       => 0,
-			"enableQuation"      => 'no',
-			"onePageNo"          => 'no',
-			"onePageYes"         => 'yes'
+			"minimumOrder"       => 0,
+			"enableQuotation"      => 'no'
 		);
 	}
 
 	/**
 	 * @param CategoryManagerJoomla3Steps $I
 	 * @param $scenario
-	 * @throws Exception 
+	 * @throws Exception
 	 * 2.1.2
 	 */
 	public function createCategoryHaveImage(CategoryManagerJoomla3Steps $I, $scenario)
@@ -161,8 +159,7 @@ class ImageAndSEOCategoryProductCest
 		$I->disablePlugin('PayPal');
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->cartSetting["addcart"], $this->cartSetting["allowPreOrder"], $this->cartSetting["enableQuation"],$this->cartSetting["cartTimeOut"], $this->cartSetting["enabldAjax"], $this->cartSetting["defaultCart"],
-			$this->cartSetting["buttonCartLead"], $this->cartSetting["onePageYes"], $this->cartSetting["showShippingCart"], $this->cartSetting["attributeImage"], $this->cartSetting["quantityChange"], $this->cartSetting["quantityInCart"], $this->cartSetting["minimunOrder"]);
+		$I->cartSetting($this->cartSetting);
 		$I->wantTo('create category have image and SEO');
 		$I = new CategorySteps($scenario);
 		$I->createCategoryImageAndSEO( $this->categoryName, $this->noPage, $this->image, $this->titleSEO, $this->keySEO, $this->descriptionSEO);
