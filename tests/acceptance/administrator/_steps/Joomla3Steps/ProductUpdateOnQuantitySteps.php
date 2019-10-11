@@ -91,9 +91,9 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 			{
 				$I->waitForText(AdminJ3Page::$alertSuccessMessage, 120, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
 			}
-			catch(Exception $e)
+			catch(\Exception $e)
 			{
-
+				$I->click(AdminJ3Page:: $addToCart);
 			}
 		}
 		$I->click($menuItem);

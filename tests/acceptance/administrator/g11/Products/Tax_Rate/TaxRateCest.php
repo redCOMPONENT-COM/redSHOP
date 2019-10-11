@@ -33,6 +33,12 @@ class TaxRateCest
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public $taxRateName2 = '';
+
+	/**
+	 * @var string
 	 */
 	public $taxRateNameEdit = '';
 
@@ -72,6 +78,7 @@ class TaxRateCest
 	public function __construct()
 	{
 		$this->taxRateName          = 'Testing Tax Rates Groups' . rand(1, 199);
+		$this->taxRateName2         = 'Testing Tax Rates Groups2' . rand(1, 199);
 		$this->taxRateNameEdit      = $this->taxRateName . 'Edit';
 		$this->taxGroupName         = 'Testing VAT Groups690';
 		$this->taxRateValue         = rand(0, 1);
@@ -99,6 +106,23 @@ class TaxRateCest
 		$client->wantTo('Test TAX Rates Save creation in Administrator');
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesSave($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+	}
+
+	/**
+	 * @param TaxRateSteps $I
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function checkButton(TaxRateSteps $I)
+	{
+		$I->doAdministratorLogin();
+		$I->wantTo("Check button");
+		$I->checkEdit($this->taxRateName);
+		$I->addTAXRatesSave($this->taxRateName2, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+		$I->checkResetButton($this->taxRateName, $this->taxRateName2);
+		$I->deleteTAXRatesOK($this->taxRateName2);
+		$I->checkSearchToolsEUCountry();
+		$I->checkInButton($this->taxRateName);
 	}
 
 	/**
@@ -193,8 +217,32 @@ class TaxRateCest
 		$client->addTAXRatesValueAmountLessZeroSave($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
 
 		$client->wantTo('Test TAX Rates with amount is string  Save creation in Administrator');
-		$client->addTAXRatesValueAmountStringSave(
-			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName
+		$client->addTAXRatesValueAmountString(
+			$this->taxRateValueString, $this->taxGroupName, $this->taxRateValueString, $this->countryName, $this->stateName, 'Save'
 		);
+	}
+
+	/**
+	 * @param TaxRateSteps $I
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function addTAXRatesMissingSaveCloseAndSaveNew(TaxRateSteps $I)
+	{
+		$I->doAdministratorLogin();
+		$I->wantTo('Test TAX Rates missing name with Save & Close and Save & New');
+		$I->addTAXRatesMissingNameSaveCloseAndSaveNew($this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+
+		$I->wantTo('Test TAX Rates missing groups with Save & Close and Save & New');
+		$I->addTAXRatesMissingGroupsSaveCloseAndSaveNew($this->taxRateName, $this->taxRateValue);
+
+		$I->wantTo("Test TAX Rates value amount string with Save Close");
+		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
+
+		$I->wantTo("Test TAX Rates value amount string with Save New");
+		$I->addTAXRatesValueAmountString($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName, 'SaveNew');
+
+		$I->wantTo('Test TAX Rates with rates value amount less zero Save & Close and Save & New');
+		$I->addTAXRatesValueAmountLessZeroSaveCloseAndSaveNew($this->taxRateName, $this->taxGroupName, $this->taxRateValueNegative);
 	}
 }

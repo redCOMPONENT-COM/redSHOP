@@ -1652,34 +1652,36 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function copyProductAttribute($cid, $product_id)
 	{
-		$db = JFactory::getDbo();
-		$query = 'SELECT attribute_id,`attribute_id`,`attribute_name`,`attribute_required`, `ordering`, `attribute_description`
-				  FROM ' . $this->table_prefix . 'product_attribute
-				  WHERE product_id IN ( ' . $cid . ' ) order by ordering asc';
-		$this->_db->setQuery($query);
-		$attribute = $this->_db->loadObjectList();
+		$db = $this->_db;
+
+		$query = $db->getQuery(true)
+			->select(
+				$db->qn(
+					array(
+						'attribute_id',
+						'attribute_name',
+						'attribute_required',
+						'ordering',
+						'attribute_description',
+						'attribute_published'
+					)
+				)
+			)
+			->from($db->qn('#__redshop_product_attribute'))
+			->where($db->qn('product_id') . " IN ( " . $cid . " )")
+			->order($db->qn('ordering'));
+
+		$attribute = $db->setQuery($query)->loadObjectList();
 
 		for ($att = 0, $countAttribute = count($attribute); $att < $countAttribute; $att++)
 		{
-			$query = 'INSERT INTO ' . $this->table_prefix . 'product_attribute (attribute_name,
-																				attribute_required,
-																				allow_multiple_selection,
-																				hide_attribute_price,
-																				product_id,
-																				ordering,
-																				attribute_set_id,
-																				attribute_description)
-					  VALUES ("' . $attribute[$att]->attribute_name . '",
-							  "' . $attribute[$att]->attribute_required . '",
-							  "' . $attribute[$att]->allow_multiple_selection . '",
-							  "' . $attribute[$att]->hide_attribute_price . '",
-							  "' . $product_id . '",
-							  "' . $attribute[$att]->ordering . '",
-							  "' . $attribute[$att]->attribute_set_id . '",
-							  "' . $attribute[$att]->attribute_description . '")';
-			$this->_db->setQuery($query);
+			$attribute[$att]->product_id   = $product_id;
+			$oldAttributeId                = $attribute[$att]->attribute_id;
+			$attribute[$att]->attribute_id = 0;
 
-			if (!$this->_db->execute())
+			$resultInsertAttr = $db->insertObject('#__redshop_product_attribute', $attribute[$att]);
+
+			if (!$resultInsertAttr)
 			{
 				/** @scrutinizer ignore-deprecated */
 				$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
@@ -1689,7 +1691,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			$attribute_id = $this->_db->insertid();
 			$query        = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_property`
-					  WHERE `attribute_id` = "' . $attribute[$att]->attribute_id . '" order by ordering asc';
+					  WHERE `attribute_id` = "' . $oldAttributeId . '" order by ordering asc';
 			$this->_db->setQuery($query);
 			$att_property = $this->_db->loadObjectList();
 
@@ -1841,8 +1843,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 					// Update image names and copy
 					if (!empty($subatt_property[$subprop]->subattribute_color_image))
 					{
-						$subattribute_color_image = 'subproperty/' . $subatt_property[$subprop]->subattribute_color_image;
-						$new_subattribute_color_image = $this->copy_image_from_path($subattribute_color_image, 'subproperty');
+						$subattribute_color_image = 'subcolor/' . $subatt_property[$subprop]->subattribute_color_image;
+						$new_subattribute_color_image = $this->copy_image_from_path($subattribute_color_image, 'subcolor');
 					}
 
 					if (!empty($subatt_property[$subprop]->subattribute_color_main_image))
