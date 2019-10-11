@@ -624,24 +624,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $nameProductSold = '(//div[@class =\'current\']/dd/div/div/p/a)[3]';
 
-    /**
-     * @param $position
-     * @return string
-     * @since 2.1.3
-     */
-    public function nameRedSHOPProduct($position)
-    {
-        $xpath = "(//div[@class='mod_redshop_products_title'])[$position]";
-
-        return $xpath;
-    }
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $imageAddToCart = '.pdaddtocart_img_link';
-
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -740,5 +722,17 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 		$path = "//div[text()='" . $productName . "']";
 
 		return $path;
+	}
+
+	/**
+	 * @param $position
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function nameRedSHOPProduct($position)
+	{
+		$xpath = "(//div[@class='mod_redshop_products_title'])[$position]";
+
+		return $xpath;
 	}
 }

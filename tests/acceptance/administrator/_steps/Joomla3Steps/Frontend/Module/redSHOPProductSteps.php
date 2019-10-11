@@ -29,7 +29,6 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 	public function assertEqualsValue($productName1, $productName2)
 	{
 		$I = $this;
-
 		$thisPage = new FrontEndProductManagerJoomla3Page();
 		$I->waitForElementVisible($thisPage->nameRedSHOPProduct(1), 30);
 		$text1 = $I->grabTextFrom($thisPage->nameRedSHOPProduct(1));
@@ -54,11 +53,11 @@ class redSHOPProductSteps extends ProductManagerJoomla3Steps
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForText($moduleName, 30);
 
-        $thisPage = new FrontEndProductManagerJoomla3Page();
+		$thisPage = new FrontEndProductManagerJoomla3Page();
 
 		if ($moduleConfig['moduleType'] == 'Newest')
 		{
-		   $I->assertEqualsValue($productName1, $productName2);
+			$I->assertEqualsValue($productName1, $productName2);
 		}
 
 		if ($moduleConfig['moduleType'] == 'Most sold products')
