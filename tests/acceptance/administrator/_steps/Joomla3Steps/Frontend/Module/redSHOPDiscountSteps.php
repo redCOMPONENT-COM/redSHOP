@@ -36,7 +36,7 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 		$currencyUnit = $I->getCurrencyValue();
 
 		$I->comment("I checkout with User In Group Don't Have Discount");
-		$I->doFrontEndLogin($usernameDC, $passwordDC);
+		$I->doFrontEndLogin($username, $password);
 		$I->dontSee($moduleName);
 		$I->doFrontendLogout();
 
@@ -64,5 +64,4 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 		$I->click(ProductManagerPage::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 	}
-
 }
