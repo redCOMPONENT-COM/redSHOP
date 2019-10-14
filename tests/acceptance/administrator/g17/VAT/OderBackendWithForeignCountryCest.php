@@ -196,7 +196,7 @@ class OderBackendWithForeignCountryCest
 		$this->categoryName         = $this->faker->bothify('Category Name ?###?');
 
 		//Products
-		$this->productName         = $this->faker->bothify('Name Product  ?###?');
+		$this->productName         = $this->faker->bothify('Name Product ?###?');
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice  = 100;
 
