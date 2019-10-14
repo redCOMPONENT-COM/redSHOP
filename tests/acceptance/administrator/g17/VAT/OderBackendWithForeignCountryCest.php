@@ -332,10 +332,21 @@ class OderBackendWithForeignCountryCest
 		$I->createProductAttribute($this->productName, $this->attributeParameter, $this->attributes, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->wantTo('I Want to create order with user DM');
 		$I->addOrderWithVATWithUserForeignCountry($this->userDM['userName'], $this->functionHaveVAT, $this->taxRateValueDenmark, $this->productOder);
 
+		$I->wantTo('I Want to create order with user VN');
 		$I->addOrderWithVATWithUserForeignCountry($this->userVN['userName'], $this->functionNotVAT, $this->taxRateValueDenmark, $this->productOder);
+	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.3
+	 */
+	public function deleteAlldata(AcceptanceTester $I, $scenario)
+	{
 		$I->wantTo('Delete Tax Rates');
 		$I = new TaxRateSteps($scenario);
 		$I->deleteTAXRatesOK($this->taxRateNameDenmark);

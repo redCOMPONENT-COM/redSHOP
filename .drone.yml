@@ -401,7 +401,7 @@ pipeline:
             # Performs test
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17/VAT 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17/VAT 1 1'
 
 #    07-Group7-56:
 #        group: 02-tests
