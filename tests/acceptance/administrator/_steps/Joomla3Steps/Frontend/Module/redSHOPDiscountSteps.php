@@ -48,7 +48,7 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 			case 'haveDisscount':
 			{
 				$I->comment("I checkout with User In Group Have Discount");
-				$I->doFrontEndLogin($usernameDC, $passwordDC);
+				$I->doFrontEndLogin($username, $password);
 				$I->waitForText($moduleName, 30);
 				$text = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$valueDiscount);
 				$priceTotal = $currencyUnit['currencySymbol'].($valueDiscount).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
