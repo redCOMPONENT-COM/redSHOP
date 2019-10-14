@@ -415,7 +415,7 @@ class ModuleRedSHOPDiscountCest
 		$I->addShopperGroups($this->shopperGroupName, $this->shopperGroupItem, $this->customerType, $this->shopperGroupPortal, $this->categoryName, $this->shipping, $this->shippingRate, $this->shippingCheckout, $this->catalog, $this->showVat, $this->showPrice, $this->enableQuotation, $this->saveClose);
 
 		$I->comment('create user');
-		$I = new UserSteps($scenario);
+		$I = new UserSteps($scenario); 
 		$I->addUser($this->userName, $this->password, $this->emailSave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, $this->function);
 		$I->addUser($this->userNameDC, $this->passwordDC, $this->emailSaveDC, $this->group, $this->shopperGroupName, $this->firstNameDC, $this->lastNameDC, $this->function);
 
