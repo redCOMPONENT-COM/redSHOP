@@ -339,7 +339,11 @@ class RedshopViewList extends AbstractView
 		$primaryKey       = $this->getPrimaryKey();
 		$itemId           = $row->{$primaryKey};
 
-		if (in_array($config['dataCol'], $this->stateColumns))
+		if ($config['dataCol'] === 'description')
+		{
+			return JHtml::_('redshopgrid.slidetext', $value);
+		}
+		elseif (in_array($config['dataCol'], $this->stateColumns))
 		{
 			if ($this->canEdit)
 			{
