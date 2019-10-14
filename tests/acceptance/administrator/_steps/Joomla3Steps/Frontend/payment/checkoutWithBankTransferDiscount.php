@@ -48,6 +48,7 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->fillInformationPrivate($customerInformation);
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
+		$I->seeElement(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
 		$I->wait(0.5);
@@ -60,12 +61,15 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 
 		try
 		{
+			$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+			$I->wait(0.5);
 			$I->see($pricePaymentDiscount);
 			$I->see($priceTotalOnCart);
 		}
 		catch (\Exception $e)
 		{
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
+			$I->wait(0.5);
 			$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
 			$I->wait(0.5);
 			$I->see($pricePaymentDiscount);
