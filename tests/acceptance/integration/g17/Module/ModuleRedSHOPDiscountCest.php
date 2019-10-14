@@ -276,6 +276,18 @@ class ModuleRedSHOPDiscountCest
 	protected $cartSetting;
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $functionHaveDisscount;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $functionDontHaveDisscount;
+
+	/**
 	 * ModuleRedSHOPDiscountCest constructor.
 	 * @since 2.1.3
 	 */
@@ -348,6 +360,8 @@ class ModuleRedSHOPDiscountCest
 			"minimumOrder"      => 0,
 			"enableQuotation"   => 'no'
 		);
+		$this->functionDontHaveDisscount      = 'dontHaveHisscount';
+		$this->functionHaveDisscount          = 'haveDisscount';
 	}
 
 	/**
@@ -409,7 +423,8 @@ class ModuleRedSHOPDiscountCest
 		$I->addTotalDiscountSaveClose($this->discountName, $this->amount, $this->discountCondition, $this->discountType, $this->discountAmount, $this->startDate, $this->endDate, $this->shopperGroupName);
 
 		$I = new redSHOPDiscountSteps($scenario);
-		$I->checkModuleRedSHOPDiscount($this->moduleName, $this->userName, $this->password, $this->userNameDC, $this->passwordDC, $this->discountAmount, $this->categoryName, $this->productName);
+		$I->checkModuleRedSHOPDiscount($this->moduleName, $this->userName, $this->password, $this->functionDontHaveDisscount, $this->discountAmount, $this->categoryName, $this->productName);
+		$I->checkModuleRedSHOPDiscount($this->moduleName, $this->userNameDC, $this->passwordDC, $this->functionHaveDisscount, $this->discountAmount, $this->categoryName, $this->productName);
 	}
 
 	/**
