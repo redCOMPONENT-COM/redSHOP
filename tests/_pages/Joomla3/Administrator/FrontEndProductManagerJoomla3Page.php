@@ -628,6 +628,11 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $discount = '#mod_redmainprice';
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $valueDiscount = '//div[@class="mod_discount_main"]//td[2]';
 
 	/**
@@ -722,5 +727,17 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 		$path = "//div[text()='" . $productName . "']";
 
 		return $path;
+	}
+
+	/**
+	 * @param $position
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function nameRedSHOPProduct($position)
+	{
+		$xpath = "(//div[@class='mod_redshop_products_title'])[$position]";
+
+		return $xpath;
 	}
 }

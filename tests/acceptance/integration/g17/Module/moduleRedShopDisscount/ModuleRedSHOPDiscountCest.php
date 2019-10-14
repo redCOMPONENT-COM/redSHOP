@@ -323,8 +323,9 @@ class ModuleRedSHOPDiscountCest
 		$this->discountAmount     = 50;
 		$this->discountType       = 'Total';
 		$this->discountCondition  = 'Lower';
-		$this->startDate          = '25-09-' . date('Y', strtotime('-1 year'));
-		$this->endDate            = '27-10-' . date('Y', strtotime('+1 year'));
+		$dateNow                  = date('Y-m-d');
+		$this->startDate          = $dateNow;
+		$this->endDate            = date('Y-m-d', strtotime('+2 day', strtotime($dateNow)));
 
 		//install module
 		$this->extensionURL       = 'extension url';
@@ -372,7 +373,7 @@ class ModuleRedSHOPDiscountCest
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
 		$I->setModulePosition($this->moduleName);
-        $I->displayModuleOnAllPages($this->moduleName);
+		$I->displayModuleOnAllPages($this->moduleName);
 	}
 
 	/**
