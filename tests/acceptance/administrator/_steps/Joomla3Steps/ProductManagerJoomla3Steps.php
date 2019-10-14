@@ -1050,7 +1050,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function createProductAttribute($productName, $attributeParameter, $attributes, $category, $productNumber, $price)
 	{
 		$I = $this;
-		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->amOnPage(ProductManagerPage::$URL);
 		$I->click(ProductManagerPage::$buttonNew);
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
@@ -1073,14 +1073,14 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		for($x = 0;  $x < $length; $x ++)
 		{
 			$attribute = $attributes[$x];
-			$I->waitForElementVisible($usePage->attributeNameAttribute($position, $x),30);
+			$I->waitForElementVisible($usePage->attributeNameAttribute($position, $x), 30);
 			$I->fillField($usePage->attributeNameAttribute($position, $x), $attribute["attributeName"]);
 			$I->waitForElementVisible($usePage->attributePricePropertyAttribute($position, $x), 30);
 			$I->fillField($usePage->attributePricePropertyAttribute($position, $x), $attribute["attributePrice"]);
 
-			$lengthSubProperty =  count($attribute["listSubProperty"]);
+			$lengthSubProperty = count($attribute["listSubProperty"]);
 
-			$I->waitForElementVisible($usePage->buttonAddSubProperty($position, $x),30);
+			$I->waitForElementVisible($usePage->buttonAddSubProperty($position, $x), 30);
 			$I->click($usePage->buttonAddSubProperty($position, $x));
 
 			$I->waitForElementVisible($usePage->nameSubProperty($position, $x), 30);
@@ -1096,12 +1096,15 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElementVisible($usePage->subPriceProperty($position, $x, $y), 30);
 				$I->fillField($usePage->subPriceProperty($position, $x, $y), $sub['subPropertyPrice']);
 
+				$I->waitForElementVisible($usePage->buttonAddSubProperty($position, $x), 30);
 				$I->click($usePage->buttonAddSubProperty($position, $x));
 			}
 
+			$I->waitForElementVisible(ProductManagerPage::$addAttributeValue, 30);
 			$I->click(ProductManagerPage::$addAttributeValue);
 		}
 
+		$I->waitForElementVisible(ProductManagerPage::$xpathSaveClose, 30);
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}

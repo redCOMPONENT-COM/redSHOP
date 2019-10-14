@@ -414,8 +414,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$priceProductString = $currencyUnit['currencySymbol'].' '.$priceProductTotal.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 
 				$I->assertEquals($vatProduct, $product['priceVAT']);
-
 				$I->assertEquals($priceProduct, $priceProductString);
+
 				break;
 			}
 		}

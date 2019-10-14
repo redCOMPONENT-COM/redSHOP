@@ -94,6 +94,7 @@ class OderBackendWithForeignCountryCest
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
 	protected $categoryName;
 
@@ -259,16 +260,16 @@ class OderBackendWithForeignCountryCest
 
 		$this->attributes = array(
 			array(
-				'attributeName'  => $this->faker->bothify('Size ??###?'),
-				'attributePrice' => 0,
+				'attributeName'   => $this->faker->bothify('Size ??###?'),
+				'attributePrice'  => 0,
 				'nameSubProperty' => $this->faker->bothify('Color'),
-				'listSubProperty'  => $this->attributes1
+				'listSubProperty' => $this->attributes1
 			),
 			array(
-				'attributeName'  => $this->faker->bothify('Size ??###?'),
-				'attributePrice' => 10,
+				'attributeName'   => $this->faker->bothify('Size ??###?'),
+				'attributePrice'  => 10,
 				'nameSubProperty' => $this->faker->bothify('Color'),
-				'listSubProperty'  => $this->attributes2
+				'listSubProperty' => $this->attributes2
 			)
 		);
 

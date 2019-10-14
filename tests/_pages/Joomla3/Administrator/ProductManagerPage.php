@@ -440,6 +440,12 @@ class ProductManagerPage extends AdminJ3Page
 	public static $headingSEO ="//input[@id='pageheading']";
 
 	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $xpathSaveClose = '//button[@onclick="Joomla.submitbutton(\'save\');"]';
+
+	/**
 	 * @param $position
 	 * @param $x
 	 * @param $y
