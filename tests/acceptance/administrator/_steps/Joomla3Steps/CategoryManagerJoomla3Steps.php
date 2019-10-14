@@ -43,7 +43,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$saveButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
 		$I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
-		$I->click(\CategoryPage::$buttonSaveClose);
+		$I->click(\CategoryPage::$buttonClose);
 	}
 
 	/**
