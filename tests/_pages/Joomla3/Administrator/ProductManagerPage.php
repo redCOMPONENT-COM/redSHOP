@@ -433,10 +433,4 @@ ProductManagerPage extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $headingSEO ="//input[@id='pageheading']";
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $buttonLogOut = '//div[@class="logout-button"]/input[@value="Log out"]';
 }

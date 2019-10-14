@@ -629,6 +629,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $discount = '#mod_redmainprice';
+
 	/**
 	 * @var string
 	 * @since 2.1.3
