@@ -46,6 +46,7 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 		$text = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$valueDiscount);
 		$priceTotal = $currencyUnit['currencySymbol'].($valueDiscount).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$I->assertEquals($text, $priceTotal);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForText($categoryName, 30);
 		$I->click($categoryName);
 		$I->waitForText($productName, 30);
