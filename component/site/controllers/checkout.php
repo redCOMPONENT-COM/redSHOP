@@ -93,7 +93,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			if (count($post['extrafields0']) > 0 && count($post['extrafields']) > 0)
 			{
-				for ($r = 0, $countExtrafield = count($post['extrafieldstra']); $r < $countExtrafield; $r++)
+				for ($r = 0, $countExtrafield = count($post['extrafields']); $r < $countExtrafield; $r++)
 				{
 					$post['extrafields_values'][$post['extrafields'][$r]] = $post['extrafields0'][$r];
 				}

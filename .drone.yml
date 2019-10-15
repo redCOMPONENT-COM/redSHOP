@@ -52,6 +52,7 @@ pipeline:
             - cd tests/extension/paid-extensions
             - mv gulp-config.sample.json gulp-config.json
             - npm install
+            - gulp composer
             - gulp release --skip-version
             - cd ../../..
 
@@ -59,7 +60,7 @@ pipeline:
             - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
             # Test setup
             - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
-            # - vendor/bin/robo tests:site-preparation 0 0
+            #- vendor/bin/robo tests:site-preparation 0 0
             # Ownership for uid 82
             - chown -R www-data:www-data .
             # Touching temp file to start the setup of each installation (in each PHP version - via services)
@@ -378,6 +379,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     06-Group6-73:
         group: 02-tests
@@ -399,6 +401,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     07-Group7-56:
         group: 02-tests
