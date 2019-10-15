@@ -40,6 +40,10 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 			case 'dontHaveHisscount':
 			{
 				$I->doFrontEndLogin($username, $password);
+				$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+				$I->waitForText($categoryName, 30);
+				$I->click($categoryName);
+				$I->waitForText($productName, 30);
 				$I->dontSee($moduleName);
 				$I->doFrontendLogout();
 				break;
