@@ -1100,7 +1100,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click($usePage->buttonAddSubProperty($position, $x));
 			}
 
-			$I->click(ProductManagerPage::$addAttributeValue);
+            $I->waitForElementVisible(["link" =>ProductManagerPage::$addAttributeValue], 30);
+			$I->click(["link" =>ProductManagerPage::$addAttributeValue]);
 		}
 
 		$I->waitForElementVisible(ProductManagerPage::$xpathSaveClose, 30);
