@@ -350,8 +350,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		}catch (\Exception $e)
 		{
-		   $I->waitForElementVisible(CategoryManagerJ3Page::$checkAllXpath, 30);
-		   $I->click(CategoryManagerJ3Page::$checkAllXpath);
+			$I->waitForElementVisible(CategoryManagerJ3Page::$checkAllXpath, 30);
+			$I->click(CategoryManagerJ3Page::$checkAllXpath);
 			$I->click(\CategoryManagerJ3Page::$deleteButton);
 			$I->acceptPopup();
 		}

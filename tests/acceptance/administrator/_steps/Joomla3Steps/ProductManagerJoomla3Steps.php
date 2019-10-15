@@ -1070,7 +1070,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField($usePage->addAttributeName($position), $attributeParameter);
 		$length = count($attributes);
 		$I->wantToTest($length);
-		for($x = 0;  $x < $length; $x++)
+		for($x = 0; $x < $length; $x++)
 		{
 			$attribute = $attributes[$x];
 			$I->waitForElementVisible($usePage->attributeNameAttribute($position, $x), 30);
@@ -1088,7 +1088,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 			$subProperty = $attribute["listSubProperty"];
 
-			for($y = 0;  $y < $lengthSubProperty; $y++)
+			for($y = 0; $y < $lengthSubProperty; $y++)
 			{
 				$sub = $subProperty[$y];
 				$I->waitForElementVisible($usePage->subNameProperty($position, $x, $y), 30);
