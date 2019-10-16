@@ -247,7 +247,7 @@ class ProductsCheckoutStripePaymentCest
 		$I->deleteProduct($this->productName);
 
 		$I->wantTo('Deletion Category in Administrator');
-		$I = new CategorySteps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 
 		$I->wantTo('Deletion of Order Total Discount in Administrator');
