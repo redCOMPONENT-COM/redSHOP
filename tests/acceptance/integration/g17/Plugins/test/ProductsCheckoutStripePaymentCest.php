@@ -6,9 +6,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use AcceptanceTester\AdminManagerJoomla3Steps;
-use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
+use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps as OrderSteps;
-use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
 use Administrator\plugins\PluginPaymentManagerJoomla;
 use Configuration\ConfigurationSteps;
 use Frontend\payment\CheckoutWithStripePayment;
@@ -212,10 +212,10 @@ class ProductsCheckoutStripePaymentCest
 		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
-		$I = new CategorySteps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 
-		$I = new ProductSteps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
@@ -243,7 +243,7 @@ class ProductsCheckoutStripePaymentCest
 		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Deletion Product in Administrator');
-		$I = new ProductSteps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 
 		$I->wantTo('Deletion Category in Administrator');
