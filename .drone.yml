@@ -52,6 +52,7 @@ pipeline:
             - cd tests/extension/paid-extensions
             - mv gulp-config.sample.json gulp-config.json
             - npm install
+            - gulp composer
             - gulp release --skip-version
             - cd ../../..
 
@@ -378,6 +379,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     06-Group6-73:
         group: 02-tests
@@ -399,6 +401,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     07-Group7-56:
         group: 02-tests
