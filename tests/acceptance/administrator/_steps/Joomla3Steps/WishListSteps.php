@@ -50,9 +50,6 @@ class WishListSteps extends CheckoutMissingData
 				$I->waitForElementVisible(WishListPage::$selectorMessage, 30);
 				$I->waitForText(WishListPage::$messageAddWishListSuccess, 30, WishListPage::$selectorMessage);
 
-				$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
-				$I->waitForText($productName, 30);
-
 				$I->doFrontEndLogin($username, $pass);
 				$I->waitForElementVisible(["link" => $wishListMenuItem], 30);
 				$I->click(["link" => $wishListMenuItem]);
