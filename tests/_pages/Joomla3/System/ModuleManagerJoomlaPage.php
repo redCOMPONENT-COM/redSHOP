@@ -67,7 +67,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	public static $labelAdjustToCategory = 'Adjust To Category';
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
 	public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
@@ -113,4 +113,64 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	{
 		return $xPath = '//label[@for="jform_params_chk_quantity'.$yesNo.'"]';
 	}
+
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $redShopProductConfiguration = ['link' => "redSHOP - Products"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelShowProductPrice = 'Show product price';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $idLabelShowProductPrice = "#jform_params_show_price-lbl";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelDiscountPriceLayout = 'Display Discount Price Layout';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $specificProducts = "//div[@id='jform_params_specific_products_chzn']//input[@class='default']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $specificProducts2 = '//div[@id="jform_params_specific_products_chzn"]/ul/li[2]/input';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productsDisplay = '#jform_params_count';
+
+	/**
+	 * @var string
+	 * @since
+	 */
+	public static $labelModuleType = 'Module Type';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $showDiscountProductPrice = '#jform_params_show_discountpricelayout-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $optionYesDisplayDisscountPrice = '//fieldset[@id="jform_params_show_discountpricelayout"]/label[1]';
 }
