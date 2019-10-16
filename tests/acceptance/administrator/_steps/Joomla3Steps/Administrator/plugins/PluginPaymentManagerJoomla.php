@@ -144,4 +144,30 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
+
+	/**
+	 * @param $pluginName
+	 * @param $secretKey
+	 * @param $publishableKey
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configStripePlugin($pluginName, $secretKey, $publishableKey)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$searchResultRow, 30);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->click($pluginName);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$secretKey, 30);
+		$I->fillField(PluginManagerJoomla3Page::$secretKey, $secretKey);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$publishableKey, 30);
+		$I->fillField(PluginManagerJoomla3Page::$publishableKey, $publishableKey);
+
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
 }

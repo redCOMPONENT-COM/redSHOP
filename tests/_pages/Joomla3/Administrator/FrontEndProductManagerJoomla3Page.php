@@ -631,6 +631,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $discount = '#mod_redmainprice';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $paymentStripe = "//div[@id='stripe']//label[1]";
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
@@ -661,6 +667,36 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var array
 	 */
 	public static $attributeSearchFirst = "//input[@id='s2id_autogen1_search']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $nameIframeStripe = 'stripe_checkout_app';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $cardNumberIframe = '//input[@placeholder="Card number"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $dateIframe = '//input[@placeholder="MM / YY"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $cvcIframe = '//input[@placeholder="CVC"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $submitIframe = '//button[@class="Button-animationWrapper-child--primary Button"]';
 
 	/**
 	 * @var string
