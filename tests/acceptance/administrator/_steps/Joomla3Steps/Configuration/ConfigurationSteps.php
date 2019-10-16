@@ -126,16 +126,18 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ConfigurationPage::$URL);
 		$I->click(ConfigurationPage::$featureSetting);
 		$I->waitForElement(ConfigurationPage::$wishListTab, 60);
-		$I->waitForElement(ConfigurationPage::$wishListYes, 30);
+		$I->waitForElementVisible(ConfigurationPage::$wishListYes, 30);
 		$I->click(ConfigurationPage::$wishListYes);
 
 		switch ($function)
 		{
 			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireYes, 30);
 				$I->click(ConfigurationPage::$loginRequireYes);
 				break;
 
 			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireNo, 30);
 				$I->click(ConfigurationPage::$loginRequireNo);
 				break;
 		}
