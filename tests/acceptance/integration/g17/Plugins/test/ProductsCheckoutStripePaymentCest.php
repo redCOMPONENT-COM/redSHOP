@@ -212,10 +212,10 @@ class ProductsCheckoutStripePaymentCest
 		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
-		$I = new CategoryManagerJoomla3Steps($scenario);
+		$I = new CategorySteps($scenario);
 		$I->addCategorySave($this->categoryName);
 
-		$I = new ProductManagerJoomla3Steps($scenario);
+		$I = new ProductSteps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
