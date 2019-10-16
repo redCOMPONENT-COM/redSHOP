@@ -254,9 +254,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['addCart'])
 		{
 			case 'product':
+				$I->waitForElementVisible(\ConfigurationPage::$addCartProduct, 30);
 				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
+				$I->waitForElementVisible(\ConfigurationPage::$addCartAttibute, 30);
 				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
@@ -264,9 +266,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['allowPreOrder'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$allowPreOrOderYes, 30);
 				$I->click(\ConfigurationPage::$allowPreOrOderYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$allowPreorderNo, 30);
 				$I->click(\ConfigurationPage::$allowPreorderNo);
 				break;
 		}
@@ -274,9 +278,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['enableQuotation'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationYes, 30);
 				$I->click(\ConfigurationPage::$enableQuotationYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationNo, 30);
 				$I->click(\ConfigurationPage::$enableQuotationNo);
 				break;
 		}
@@ -286,9 +292,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['enabledAjax'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxYes, 30);
 				$I->click(\ConfigurationPage::$enableAjaxYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxNo, 30);
 				$I->click(\ConfigurationPage::$enableAjaxNo);
 				break;
 		}
@@ -313,9 +321,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['onePage'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$onePageYes, 30);
 				$I->click(\ConfigurationPage::$onePageYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$onePageNo, 30);
 				$I->click(\ConfigurationPage::$onePageNo);
 				break;
 		}
@@ -323,9 +333,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['showShippingCart'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartYes, 30);
 				$I->click(\ConfigurationPage::$showShippingCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartNo, 30);
 				$I->click(\ConfigurationPage::$showShippingCartNo);
 				break;
 		}
@@ -333,9 +345,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['attributeImage'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartYes, 30);
 				$I->click(\ConfigurationPage::$attributeImageInCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartNo, 30);
 				$I->click(\ConfigurationPage::$attributeImageInCartNo);
 				break;
 		}
@@ -343,9 +357,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['quantityChange'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartYes, 30);
 				$I->click(\ConfigurationPage::$quantityChangeInCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartNo, 30);
 				$I->click(\ConfigurationPage::$quantityChangeInCartNo);
 				break;
 		}

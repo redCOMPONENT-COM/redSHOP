@@ -19,22 +19,24 @@ use WishListPage;
  */
 class WishListSteps extends CheckoutMissingData
 {
+
 	/**
 	 * @param $categoryName
 	 * @param $productName
 	 * @param $username
 	 * @param $pass
-	 * @param $wishlistName
-	 * @param string $login     Enable Login Require: yes/no
+	 * @param $wishListMenuItem
+	 * @param $wishListName
+	 * @param $function
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkWistListAtFrontend($categoryName, $productName, $username, $pass, $wishlistName, $login)
+	public function checkWistListAtFrontend($categoryName, $productName, $username, $pass, $wishListMenuItem, $wishListName, $function)
 	{
 		$I = $this;
 		$product = new WishListPage();
 
-		switch ($login)
+		switch ($function)
 		{
 			case 'no':
 				$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -47,11 +49,14 @@ class WishListSteps extends CheckoutMissingData
 				$I->click(WishListPage::$addToWishListNoLogin);
 				$I->waitForElementVisible(WishListPage::$selectorMessage, 30);
 				$I->waitForText(WishListPage::$messageAddWishListSuccess, 30, WishListPage::$selectorMessage);
-				$I->amOnPage(WishListPage::$wishListPageURL);
+
 				$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 				$I->waitForText($productName, 30);
+
 				$I->doFrontEndLogin($username, $pass);
-				$I->amOnPage(WishListPage::$wishListPageURL);
+				$I->waitForElementVisible(["link" => $wishListMenuItem], 30);
+				$I->click(["link" => $wishListMenuItem]);
+
 				$I->waitForElementVisible(WishListPage::$saveWishListButton, 30);
 				$I->click(WishListPage::$saveWishListButton);
 				break;
@@ -75,7 +80,7 @@ class WishListSteps extends CheckoutMissingData
 		$I->waitForElementVisible(WishListPage::$checkNewWishList, 30);
 		$I->checkOption(WishListPage::$checkNewWishList);
 		$I->waitForElementVisible(WishListPage::$wishListNameField, 30);
-		$I->fillField(WishListPage::$wishListNameField, $wishlistName);
+		$I->fillField(WishListPage::$wishListNameField, $wishListName);
 		$I->click(WishListPage::$buttonSave);
 
 		try
@@ -85,12 +90,12 @@ class WishListSteps extends CheckoutMissingData
 		{
 			$I->acceptPopup();
 			$I->waitForElementVisible(WishListPage::$wishListNameField, 30);
-			$I->fillField(WishListPage::$wishListNameField, $wishlistName);
+			$I->fillField(WishListPage::$wishListNameField, $wishListName);
 			$I->click(WishListPage::$buttonSave);
 			$I->see(WishListPage::$messageAddWishListSuccessPopup);
 		}
 
-		switch ($login)
+		switch ($function)
 		{
 			case 'no':
 				$I->waitForText($productName, 60, $productFrontEndManagerPage->product($productName));
@@ -101,27 +106,31 @@ class WishListSteps extends CheckoutMissingData
 				break;
 		}
 
-		$I->amOnPage(WishListPage::$wishListPageURL);
-		$I->waitForElementVisible($product->wishListName($wishlistName), 30);
-		$I->click($product->wishListName($wishlistName));
+		$I->waitForElementVisible(["link" => $wishListMenuItem], 30);
+		$I->click(["link" => $wishListMenuItem]);
+		$I->waitForElementVisible($product->wishListName($wishListName), 30);
+		$I->click($product->wishListName($wishListName));
 		$I->waitForText($productName, 60, $productFrontEndManagerPage->product($productName));
 	}
 
 	/**
 	 * @param $username
 	 * @param $pass
-	 * @param $productName
+	 * @param $wishListName
+	 * @param $wishListMenuItem
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function removeProductInWishList($username, $pass, $wishlistName)
+	public function removeProductInWishList($username, $pass, $wishListName, $wishListMenuItem)
 	{
 		$I = $this;
 		$I->doFrontEndLogin($username, $pass);
 		$product = new WishListPage();
-		$I->amOnPage(WishListPage::$wishListPageURL);
-		$I->waitForElementVisible($product->wishListName($wishlistName), 30);
-		$I->click($product->wishListName($wishlistName));
+		$I->amOnPage("/");
+		$I->waitForElementVisible(["link" => $wishListMenuItem], 30);
+		$I->click(["link" => $wishListMenuItem]);
+		$I->waitForElementVisible($product->wishListName($wishListName), 30);
+		$I->click($product->wishListName($wishListName));
 		$I->waitForElementVisible(WishListPage::$removeOnWishList, 30);
 		$I->click(WishListPage::$removeOnWishList);
 		$I->waitForText(WishListPage::$messageRemoveProductWishList, 30, WishListPage::$selectorMessage);
