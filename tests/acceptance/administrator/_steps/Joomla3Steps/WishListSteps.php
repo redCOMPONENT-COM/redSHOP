@@ -35,6 +35,7 @@ class WishListSteps extends CheckoutMissingData
 	{
 		$I = $this;
 		$product = new WishListPage();
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 
 		switch ($function)
 		{
@@ -62,7 +63,6 @@ class WishListSteps extends CheckoutMissingData
 				$I->doFrontEndLogin($username, $pass);
 				$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-				$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 				$I->click($productFrontEndManagerPage->productCategory($categoryName));
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
 				$I->click($productFrontEndManagerPage->product($productName));

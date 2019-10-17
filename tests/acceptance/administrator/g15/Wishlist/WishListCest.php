@@ -88,8 +88,8 @@ class WishListCest
 	 */
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
-		$this->wishListName = $this->faker->bothify('WishList Demo ?##?');
+		$this->faker         = Faker\Factory::create();
+		$this->wishListName  = $this->faker->bothify('WishList Demo ?##?');
 		$this->wishListName1 = $this->faker->bothify('WishList Demo 1 ?##?');
 		$this->customerInformation = array(
 			"userName"      => $this->faker->userName,
@@ -116,7 +116,7 @@ class WishListCest
 		$this->menuItemName = "My Wishlist";
 		$this->menuCategory = 'redSHOP';
 		$this->menu         = 'Main Menu';
-		$this->menuItem = 'All Wish Lists';
+		$this->menuItem     = 'All Wish Lists';
 	}
 
 	/**
@@ -183,7 +183,7 @@ class WishListCest
 	{
 		$I->wantToTest("Remove Product just add WishList");
 		$I = new WishListSteps($scenario);
-		$I->removeProductInWishList($this->customerInformation['userName'],$this->customerInformation['userName'], $this->wishListName, $this->menuItemName);
+		$I->removeProductInWishList($this->customerInformation['userName'], $this->customerInformation['userName'], $this->wishListName, $this->menuItemName);
 	}
 
 	/**
