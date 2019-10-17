@@ -631,12 +631,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $discount = '#mod_redmainprice';
 
 	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $paymentStripe = "//div[@id='stripe']//label[1]";
-
-	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
@@ -672,6 +666,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $paymentStripe = "//div[@id='stripe']//label[1]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $nameIframeStripe = 'stripe_checkout_app';
 
 	/**
@@ -702,13 +702,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $radioShippingRate = '//label[@class="radio inline"]';
+	public static $messagePopupStripe = 'failed to load.';
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $messagePopupStripe = 'failed to load.';
+	public static $radioShippingRate = '//label[@class="radio inline"]';
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
