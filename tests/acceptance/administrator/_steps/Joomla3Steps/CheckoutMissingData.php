@@ -245,10 +245,10 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 
 				try
 				{
+					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				}
 				catch (Exception $e)
