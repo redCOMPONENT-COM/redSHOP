@@ -176,13 +176,13 @@ class ConfigurationPage extends AdminJ3Page
 	 */
 	public static $ratingTab = "//h3[text()='Rating']";
 
+	//WishList
+
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $wishListTab = "//h3[text()='Wishlist']";
-
-	//WishList
 
 	/**
 	 * @var string
@@ -207,6 +207,18 @@ class ConfigurationPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $loginRequireYes = '#wishlist_login_required_1-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListListNo = '#wishlist_list_0-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListListYes = '#wishlist_list_1-lbl';
 
 	//button
 

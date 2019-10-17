@@ -83,6 +83,12 @@ class WishListCest
 	protected $menuItem;
 
 	/**
+	 * @var array
+	 * since 2.1.3
+	 */
+	protected $configureWithlist;
+
+	/**
 	 * WishlistCest constructor.
 	 * @since 2.1.3
 	 */
@@ -112,6 +118,13 @@ class WishListCest
 			"number"        => $this->faker->numberBetween(999,9999),
 			"price"         => $this->faker->numberBetween(1,900)
 		);
+
+		$this->configureWithlist =
+			[
+				"enableWishList"        => "yes",
+				"wishlistLoginRequired" => "no",
+				"enableWishlistList"    => "yes"
+			];
 
 		$this->menuItemName = "My Wishlist";
 		$this->menuCategory = 'redSHOP';
@@ -165,7 +178,7 @@ class WishListCest
 	{
 		$I->wantToTest('Configure WishList with no login');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigFeatureWishList('no');
+		$I->ConfigFeatureWishList($this->configureWithlist);
 
 		$I->wantToTest("Check Wish List at frontend");
 		$I = new WishListSteps($scenario);
@@ -196,7 +209,9 @@ class WishListCest
 	{
 		$I->wantToTest('Configure WishList with login');
 		$I = new ConfigurationSteps($scenario);
-		$I->ConfigFeatureWishList('yes');
+
+		$this->configureWithlist["wishlistLoginRequired"] = 'yes';
+		$I->ConfigFeatureWishList($this->configureWithlist);
 
 		$I->wantToTest("Check Wish List at frontend");
 		$I = new WishListSteps($scenario);
