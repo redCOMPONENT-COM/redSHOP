@@ -45,7 +45,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->wait(1);
+		$I->wait(0.5);
 
 		try
 		{
@@ -67,7 +67,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->fillField(FrontEndProductManagerJoomla3Page::$cvcIframe, $informationVisa['cvc']);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$submitIframe, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$submitIframe);
-		$I->wait(1);
+		$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$submitIframe, 30);
 		$I->dontSeeInCurrentUrl(FrontEndProductManagerJoomla3Page::$checkoutURL);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt,  30, FrontEndProductManagerJoomla3Page:: $h1);
 	}

@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps as OrderSteps;
@@ -19,6 +20,11 @@ use Frontend\payment\CheckoutWithStripePayment;
  */
 class ProductsCheckoutStripePaymentCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.3
+	 */
+	protected $faker;
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -54,12 +60,6 @@ class ProductsCheckoutStripePaymentCest
 	 * @since 2.1.3
 	 */
 	protected $publishableKey;
-
-	/**
-	 * @var \Faker\Generator
-	 * @since 2.1.3
-	 */
-	protected $faker;
 
 	/**
 	 * @var array
@@ -121,14 +121,14 @@ class ProductsCheckoutStripePaymentCest
 	 */
 	public function __construct()
 	{
+		$this->faker            = Faker\Factory::create();
+
 		$this->extensionURL     = 'extension url';
 		$this->pluginName       = 'redSHOP Payment - Stripe';
 		$this->pluginURL        = 'paid-extensions/tests/releases/plugins/';
 		$this->package          = 'plg_redshop_payment_stripe.zip';
 		$this->secretKey        = 'sk_test_3macQ0wmSqMrOzfyneBCdAaa';
 		$this->publishableKey   = 'pk_test_dbkhgfbAZjhDJGpZ863DgwXe';
-
-		$this->faker            = Faker\Factory::create();
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(

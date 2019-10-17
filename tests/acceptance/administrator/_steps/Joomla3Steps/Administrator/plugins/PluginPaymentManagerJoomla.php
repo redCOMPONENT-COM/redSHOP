@@ -142,7 +142,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(PluginManagerJoomla3Page::$masterCard);
 
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
-		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
 	}
 
 	/**
@@ -168,6 +168,6 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->fillField(PluginManagerJoomla3Page::$publishableKey, $publishableKey);
 
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
-		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
 	}
 }
