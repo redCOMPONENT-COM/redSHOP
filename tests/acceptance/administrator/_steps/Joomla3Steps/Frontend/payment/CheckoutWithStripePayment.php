@@ -49,12 +49,12 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 
 		try
 		{
-			$I->canSeeInPopup('failed to load.');
+			$I->canSeeInPopup(FrontEndProductManagerJoomla3Page::$messagePopupStripe);
 		}
 		catch (\Exception $e)
 		{
 			$I->wait(2);
-			$I->canSeeInPopup('failed to load.');
+			$I->canSeeInPopup(FrontEndProductManagerJoomla3Page::$messagePopupStripe);
 		}
 
 		$I->acceptPopup();

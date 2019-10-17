@@ -705,6 +705,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $radioShippingRate = '//label[@class="radio inline"]';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messagePopupStripe = 'failed to load.';
+
+	/**
 	 * Function to get the Path for Category on the FrontEnd Page
 	 *
 	 * @param   String $categoryName Name of the Category
