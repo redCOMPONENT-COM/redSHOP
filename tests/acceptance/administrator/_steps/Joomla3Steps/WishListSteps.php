@@ -19,7 +19,6 @@ use WishListPage;
  */
 class WishListSteps extends CheckoutMissingData
 {
-
 	/**
 	 * @param $categoryName
 	 * @param $productName
