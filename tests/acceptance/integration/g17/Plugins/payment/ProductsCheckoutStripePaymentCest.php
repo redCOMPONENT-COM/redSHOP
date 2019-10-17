@@ -163,7 +163,7 @@ class ProductsCheckoutStripePaymentCest
 			"city"              => "Blangstedgaardsvej 1",
 			"country"           => "Denmark",
 			"state"             => "Odense SØ",
-			"phone"             => "8787878787",
+			"phone"             => "8787878887",
 			"shopperGroup"      => 'Default Private',
 			);
 
