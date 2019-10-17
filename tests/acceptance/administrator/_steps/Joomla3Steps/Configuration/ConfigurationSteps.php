@@ -124,6 +124,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForText(ConfigurationPage::$namePage, 30, ConfigurationPage::$h1);
+		$I->waitForElementVisible(["link" => ConfigurationPage::$featureSetting], 30);
 		$I->click(ConfigurationPage::$featureSetting);
 		$I->waitForElement(ConfigurationPage::$wishListTab, 60);
 		$I->waitForElementVisible(ConfigurationPage::$wishListYes, 30);
