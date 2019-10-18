@@ -168,9 +168,9 @@ class ProductsCheckoutStripePaymentCest
 			);
 
 		$this->informationVisa = array(
-			"cardNumber"       => '5105105105105100',
-			"date"             => '0220',
-			"cvc"              =>'123',
+			"cardNumber"     => '5105105105105100',
+			"date"           => '0220',
+			"cvc"            =>'123',
 		);
 	}
 

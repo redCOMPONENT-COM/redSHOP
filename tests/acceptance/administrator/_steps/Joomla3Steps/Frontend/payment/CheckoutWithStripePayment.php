@@ -35,7 +35,6 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
-		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentStripe, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$paymentStripe);
@@ -70,6 +69,6 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$submitIframe);
 		$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$submitIframe, 30);
 		$I->dontSeeInCurrentUrl(FrontEndProductManagerJoomla3Page::$checkoutURL);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt,  30, FrontEndProductManagerJoomla3Page::$h1);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 	}
 }
