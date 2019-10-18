@@ -55,33 +55,20 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 		try
 		{
 			$I->wantTo("checkout with card");
-
 			$I->waitForElementVisible(SkillPaymentPage::$inputCart, 30);
 			$I->fillField(SkillPaymentPage::$inputCart, $checkoutAccountDetail['debitCardNumber']);
-
 			$I->waitForElementVisible(SkillPaymentPage::$inputMonth, 30);
-
 			$I->fillField(SkillPaymentPage::$inputMonth, $checkoutAccountDetail['cardExpiryMonth']);
-
 			$I->waitForElementVisible(SkillPaymentPage::$inputYear, 30);
-
 			$I->fillField(SkillPaymentPage::$inputYear, $checkoutAccountDetail['cardExpiryYear']);
-
 			$I->waitForElementVisible(SkillPaymentPage::$inputCvv, 30);
-
 			$I->fillField(SkillPaymentPage::$inputCvv, $checkoutAccountDetail['cvv']);
-
 			$I->waitForElementVisible(SkillPaymentPage::$inputFirstName, 30);
-
 			$I->fillField(SkillPaymentPage::$inputFirstName, $checkoutAccountDetail['First']);
-
 			$I->waitForElementVisible(SkillPaymentPage::$inputLastName, 30);
-
 			$I->fillField(SkillPaymentPage::$inputLastName, $checkoutAccountDetail['Last']);
-
-			$I->waitForElementVisible(SkillPaymentPage::$inputEmail, 30);
-
-			$I->fillField(SkillPaymentPage::$inputEmail, $checkoutAccountDetail['email']);
+			$I->waitForElementVisible(SkillPaymentPage::$email, 30);
+			$I->fillField(SkillPaymentPage::$email, $checkoutAccountDetail['email']);
 
 			$I->waitForElementVisible(SkillPaymentPage::$buttonPay, 30);
 			$I->click(SkillPaymentPage::$buttonPay);

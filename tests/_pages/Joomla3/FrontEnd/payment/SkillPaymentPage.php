@@ -10,7 +10,7 @@
  * Class SkillPaymentPage
  * @since 2.1.3
  */
-class SkillPaymentPage extends FrontEndProductManagerJoomla3Page
+class SkillPaymentPage extends UserManagerJoomla3Page
 {
 	/**
 	 * @var string
@@ -53,12 +53,6 @@ class SkillPaymentPage extends FrontEndProductManagerJoomla3Page
 	 * @since 2.1.3
 	 */
 	public static $inputLastName = "#last_name";
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	public static $inputEmail = "#email";
 
 	/**
 	 * @var string

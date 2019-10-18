@@ -188,6 +188,7 @@ class CheckoutWithSKRILLPaymentCest
 
 	/**
 	 * @param AdminManagerJoomla3Steps $I
+	 * @param $scenario
 	 * @throws Exception
 	 * @since  2.1.3
 	 */
