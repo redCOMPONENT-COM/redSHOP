@@ -116,6 +116,64 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $configureWithlist
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function ConfigFeatureWishList($configureWithlist)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForText(ConfigurationPage::$namePage, 30, ConfigurationPage::$h1);
+		$I->waitForElementVisible(["link" => ConfigurationPage::$featureSetting], 30);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$wishListTab, 60);
+
+		switch ($configureWithlist['enableWishList'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$wishListYes, 30);
+				$I->click(ConfigurationPage::$wishListYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$wishListNo, 30);
+				$I->click(ConfigurationPage::$wishListNo);
+				break;
+		}
+
+		switch ($configureWithlist['wishlistLoginRequired'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireYes, 30);
+				$I->click(ConfigurationPage::$loginRequireYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireNo, 30);
+				$I->click(ConfigurationPage::$loginRequireNo);
+				break;
+		}
+
+		switch ($configureWithlist['enableWishlistList'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$wishListListYes, 30);
+				$I->click(ConfigurationPage::$wishListListYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$wishListListNo, 30);
+				$I->click(ConfigurationPage::$wishListListNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
 	 * @param   string $country
 	 * @param $state
 	 * @param $vatDefault
