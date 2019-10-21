@@ -40,8 +40,17 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->waitForElementVisible(SkillPaymentPage::$paymentMoneyBooker, 30);
-		$I->click(SkillPaymentPage::$paymentMoneyBooker);
-		$I->wait(0.5);
+
+		try
+		{
+			$I->click(SkillPaymentPage::$paymentMoneyBooker);
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(SkillPaymentPage::$paymentMoneyBooker, 30);
+			$I->wait(0.5);
+			$I->click(SkillPaymentPage::$paymentMoneyBooker);
+		}
+
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);
 		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
