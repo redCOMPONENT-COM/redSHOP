@@ -35,10 +35,10 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 		$I->addToCart($categoryName, $productName);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->wait(1);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment,30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->waitForElementVisible(SkillPaymentPage::$paymentMoneyBooker, 30);
 		$I->click(SkillPaymentPage::$paymentMoneyBooker);
 		$I->wait(0.5);
@@ -72,11 +72,11 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 
 			$I->waitForElementVisible(SkillPaymentPage::$buttonPay, 30);
 			$I->click(SkillPaymentPage::$buttonPay);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 		}
 		catch (\Exception $e)
 		{
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page:: $h1);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 		}
 	}
 }
