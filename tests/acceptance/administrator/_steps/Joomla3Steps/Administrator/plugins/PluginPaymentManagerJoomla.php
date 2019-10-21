@@ -149,7 +149,6 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	 * @param $pluginName
 	 * @param $accessId
 	 * @param $transactionKey
-	 * @param $md5Key
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
@@ -174,6 +173,13 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		// Choosing Test Mode to Yes
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$optionTestModeYes, 60);
 		$I->click(PluginManagerJoomla3Page::$optionTestModeYes);
+
+		// Select Credit Cards
+		$I->waitForElement(PluginManagerJoomla3Page::$advancedTag, 60);
+		$I->click(PluginManagerJoomla3Page::$advancedTag);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$visa, 60);
+		$I->click(PluginManagerJoomla3Page::$visa);
+
 		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}

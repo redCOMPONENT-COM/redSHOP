@@ -125,6 +125,12 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $advancedTag = "//a[contains(text(),'Advanced')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $visa = '#jform_params_accepted_credict_card0';
 
 	/**
