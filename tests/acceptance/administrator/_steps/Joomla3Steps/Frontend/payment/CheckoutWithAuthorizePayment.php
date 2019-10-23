@@ -18,7 +18,12 @@ use FrontEndProductManagerJoomla3Page;
  */
 class CheckoutWithAuthorizePayment extends CheckoutMissingData
 {
-	public function fillInformationCard($checkoutAccountDetail)
+    /**
+     * @param $checkoutAccountDetail
+     * @throws \Exception
+     * @since 2.1.3
+     */
+    public function fillInformationCard($checkoutAccountDetail)
 	{
 		$I = $this;
 		$I->wantTo("Enter information of card");
