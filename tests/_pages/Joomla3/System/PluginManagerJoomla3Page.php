@@ -176,6 +176,30 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	public static $merchantPassword = "#jform_params_pay_to_password";
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $fieldPublicKey = "#jform_params_paymill_public_key";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $fieldPrivateKey = "#jform_params_paymill_private_key";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelEnvironment = "Environment";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $discountTypeTotal= '//label[@for="jform_params_payment_discount_is_percent1"]';
+
+	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
 	 * @param   String  $pluginName  Name of the Plugin
