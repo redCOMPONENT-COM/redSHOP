@@ -1481,16 +1481,21 @@ class RedshopHelperProduct
 
 				$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 				$catidmain = $input->get("cid");
+				$catItemid = RedshopHelperRouter::getCategoryItemid($product->cat_in_sefurl);
 
-				if (!empty($ItemData))
+				if (!empty($catItemid))
 				{
-					$pItemid = $ItemData->id;
+					$pItemid = $catItemid;
 				}
 				else
 				{
+					$pItemid = $ItemData->id;
+
+					if (!empty($pItemid))
+				{
 					$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
 				}
-
+				}
 				$data_add              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);
 				$data_add              = str_replace("{product_id}", $product->product_id, $data_add);
 				$data_add              = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $data_add);
