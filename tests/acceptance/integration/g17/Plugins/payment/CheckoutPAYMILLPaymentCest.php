@@ -79,12 +79,6 @@ class CheckoutPAYMILLPaymentCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public $group;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
 	public $extensionURL;
 
 	/**
@@ -126,41 +120,40 @@ class CheckoutPAYMILLPaymentCest
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
-			"addCart"           => 'product',
-			"allowPreOrder"     => 'yes',
-			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
-			"enabledAjax"       => 'no',
-			"defaultCart"       => null,
-			"buttonCartLead"    => 'Back to current view',
-			"onePage"           => 'yes',
-			"showShippingCart"  => 'no',
-			"attributeImage"    => 'no',
-			"quantityChange"    => 'no',
-			"quantityInCart"    => 0,
-			"minimumOrder"      => 0,
-			"enableQuotation"   => 'no'
+			"addCart"          => 'product',
+			"allowPreOrder"    => 'yes',
+			"cartTimeOut"      => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"      => 'no',
+			"defaultCart"      => null,
+			"buttonCartLead"   => 'Back to current view',
+			"onePage"          => 'yes',
+			"showShippingCart" => 'no',
+			"attributeImage"   => 'no',
+			"quantityChange"   => 'no',
+			"quantityInCart"   => 0,
+			"minimumOrder"     => 0,
+			"enableQuotation"  => 'no'
 		);
 
 		$this->customerInformation = array(
-			"userName"      => $this->faker->bothify('UserName ?####?'),
-			"password"      => $this->faker->bothify('Password ?##?'),
-			"email"         => $this->faker->email,
-			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
-			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
-			"address"       => $this->faker->address,
-			"postalCode"    => "5000",
-			"city"          => $this->faker->city,
-			"country"       => "Denmark",
-			"state"         => "Karnataka",
-			"phone"         => "0334110366",
-			"shopperGroup"  => 'Default Private',
+			"userName"     => $this->faker->bothify('UserName ?####?'),
+			"password"     => $this->faker->bothify('Password ?##?'),
+			"email"        => $this->faker->email,
+			"firstName"    => $this->faker->bothify('firstNameCustomer ?####?'),
+			"lastName"     => $this->faker->bothify('lastNameCustomer ?####?'),
+			"address"      => $this->faker->address,
+			"postalCode"   => "5000",
+			"city"         => $this->faker->city,
+			"country"      => "Denmark",
+			"state"        => "Karnataka",
+			"phone"        => "0334110366",
+			"shopperGroup" => 'Default Private',
 		);
-		$this->group          = 'Registered';
 
-		$this->extensionURL   = 'extension url';
-		$this->pluginName     = 'Paymill Payments';
-		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->package        = 'plg_redshop_payment_rs_payment_paymill.zip';
+		$this->extensionURL = 'extension url';
+		$this->pluginName   = 'Paymill Payments';
+		$this->pluginURL    = 'paid-extensions/tests/releases/plugins/';
+		$this->package      = 'plg_redshop_payment_rs_payment_paymill.zip';
 
 		$this->checkoutAccountInformation = array(
 			"private"         => "10fd7300329f46df3d011c65d3b5b940",
@@ -191,10 +184,10 @@ class CheckoutPAYMILLPaymentCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install plugin payment Skrill");
+		$I->wantTo("install plugin payment Paymill");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
+		$I->wantTo('Enable Plugin Paymill Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configPaymillPlugin($this->pluginName, $this->checkoutAccountInformation['public'], $this->checkoutAccountInformation['private'], $this->checkoutAccountInformation['environment']);
@@ -208,7 +201,7 @@ class CheckoutPAYMILLPaymentCest
 	 */
 	public function testPAYMILLPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
-		$I->wantTo('I Want to setting cart');
+		$I->wantTo('I want to setting cart');
 		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
@@ -221,6 +214,7 @@ class CheckoutPAYMILLPaymentCest
 
 		$I = new CheckoutWithPAYMILLPayment($scenario);
 		$I->checkoutProductWithPAYMILLPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformation);
+
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
 		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
@@ -234,7 +228,7 @@ class CheckoutPAYMILLPaymentCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Deletion of Order in Administrator');
+		$I->wantTo('Deletion of order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder( $this->customerInformation['firstName']);
 
