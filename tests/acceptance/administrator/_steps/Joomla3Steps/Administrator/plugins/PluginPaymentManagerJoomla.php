@@ -180,12 +180,12 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$visa, 60);
 		$I->click(PluginManagerJoomla3Page::$visa);
 
-		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
-        $I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
 
-    /**
-     * @param $pluginName
+	/**
+	 * @param $pluginName
 	 * @param $email
 	 * @param $passWord
 	 * @throws \Exception

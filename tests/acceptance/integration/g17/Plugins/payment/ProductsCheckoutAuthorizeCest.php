@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     redSHOP
  * @subpackage  Cest
@@ -105,11 +104,10 @@ class ProductsCheckoutAuthorizeCest
 	 */
 	public $cartSetting;
 
-	/**
-	 * @param $checkoutAccountDetail
-	 * @throws \Exception
-	 * @since 2.1.3
-	 */
+    /**
+     * ProductsCheckoutAuthorizeCest constructor.
+     * @since 2.1.3
+     */
 	public function __construct()
 	{
 		$this->faker            = Faker\Factory::create();
@@ -169,7 +167,7 @@ class ProductsCheckoutAuthorizeCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -184,9 +182,9 @@ class ProductsCheckoutAuthorizeCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install plugin Authorize Payment");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->wantTo("install plugin Authorize Payment");
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+//		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->enablePlugin($this->pluginName);
 		$I->wantTo('Enable Plugin Authorize Payments in Administrator');

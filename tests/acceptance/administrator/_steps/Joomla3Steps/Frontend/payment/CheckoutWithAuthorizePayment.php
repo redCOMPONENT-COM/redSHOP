@@ -22,10 +22,10 @@ class CheckoutWithAuthorizePayment extends CheckoutMissingData
 	{
 		$I = $this;
 		$I->wantTo("Enter information of card");
-		$I->waitForElementVisible(AuthorizePaymentPage:: $cardName, 30);
+		$I->waitForElementVisible(AuthorizePaymentPage::$cardName, 30);
 		$I->wait(0.5);
 		$I->fillField(AuthorizePaymentPage::$cardName, $checkoutAccountDetail['customerName']);
-		$I->waitForElementVisible(AuthorizePaymentPage:: $cardNumber, 30);
+		$I->waitForElementVisible(AuthorizePaymentPage::$cardNumber, 30);
 		$I->fillField(AuthorizePaymentPage::$cardNumber, $checkoutAccountDetail['debitCardNumber']);
 		$I->waitForElement(AuthorizePaymentPage::$selectExpireMonth, 30);
 		$I->selectOption(AuthorizePaymentPage::$selectExpireMonth, $checkoutAccountDetail['cardExpiryMonth']);
