@@ -43,6 +43,7 @@ pipeline:
             - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
+            - composer config -g repo.packagist composer https?://packagist.jp
             - mv gulp-config.json.dist gulp-config.json
             - gulp release --skip-version
 
@@ -51,6 +52,7 @@ pipeline:
             - cd tests/extension/paid-extensions
             - mv gulp-config.sample.json gulp-config.json
             - npm install
+            - gulp composer
             - gulp release --skip-version
             - cd ../../..
 
@@ -58,7 +60,7 @@ pipeline:
             - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
             # Test setup
             - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
-            # - vendor/bin/robo tests:site-preparation 0 0
+            #- vendor/bin/robo tests:site-preparation 0 0
             # Ownership for uid 82
             - chown -R www-data:www-data .
             # Touching temp file to start the setup of each installation (in each PHP version - via services)
@@ -377,6 +379,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     06-Group6-73:
         group: 02-tests
@@ -398,6 +401,7 @@ pipeline:
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     07-Group7-56:
         group: 02-tests
@@ -583,7 +587,9 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/payment 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Module 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Category 0 0'
 
     11-Group11-73:
         group: 02-tests
@@ -603,8 +609,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Category 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17 0 0'
 
     slack:
         image: plugins/slack
