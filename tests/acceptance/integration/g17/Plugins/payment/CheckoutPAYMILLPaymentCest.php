@@ -107,6 +107,7 @@ class CheckoutPAYMILLPaymentCest
 
 	/**
 	 * CheckoutPAYMILLPaymentCest constructor.
+	 * @since  2.1.3
 	 */
 	public function __construct()
 	{
@@ -230,7 +231,7 @@ class CheckoutPAYMILLPaymentCest
 	{
 		$I->wantTo('Deletion of order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder( $this->customerInformation['firstName']);
+		$I->deleteOrder($this->customerInformation['firstName']);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);

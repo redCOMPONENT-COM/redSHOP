@@ -174,13 +174,14 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
 
-    /**
-     * @param $pluginName
-     * @param $publicKey
-     * @param $privateKey
-     * @param $environment
-     * @throws \Exception
-     */
+	/**
+	 * @param $pluginName
+	 * @param $publicKey
+	 * @param $privateKey
+	 * @param $environment
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
 	public function configPaymillPlugin($pluginName, $publicKey, $privateKey, $environment)
 	{
 		$I = $this;
