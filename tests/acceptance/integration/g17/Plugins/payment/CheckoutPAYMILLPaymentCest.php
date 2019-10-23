@@ -160,7 +160,7 @@ class CheckoutPAYMILLPaymentCest
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'Paymill Payments';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->package        = 'plg_redshop_payment_rs_payment_moneybooker.zip';
+		$this->package        = 'plg_redshop_payment_rs_payment_paymill.zip';
 
 		$this->checkoutAccountInformation = array(
 			"private"         => "10fd7300329f46df3d011c65d3b5b940",
@@ -191,11 +191,11 @@ class CheckoutPAYMILLPaymentCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-//		$I->wantTo("install plugin payment Skrill");
-//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-//		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-//		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
-//		$I->enablePlugin($this->pluginName);
+		$I->wantTo("install plugin payment Skrill");
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
+		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configPaymillPlugin($this->pluginName, $this->checkoutAccountInformation['public'], $this->checkoutAccountInformation['private'], $this->checkoutAccountInformation['environment']);
 	}
