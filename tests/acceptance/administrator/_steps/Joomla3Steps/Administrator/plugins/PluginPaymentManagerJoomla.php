@@ -144,4 +144,63 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
+
+	/**
+	 * @param $pluginName
+	 * @param $email
+	 * @param $passWord
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configMoneyBookerPlugin($pluginName, $email, $passWord)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$searchResultRow, 30);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->waitForElementVisible(['link' => $pluginName], 30);
+		$I->click(['link' => $pluginName]);
+
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$merchantEmail, 30);
+		$I->fillField(PluginManagerJoomla3Page::$merchantEmail, $email);
+
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$merchantPassword, 30);
+		$I->fillField(PluginManagerJoomla3Page::$merchantPassword, $passWord);
+
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
+
+	/**
+	 * @param $pluginName
+	 * @param $publicKey
+	 * @param $privateKey
+	 * @param $environment
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configPaymillPlugin($pluginName, $publicKey, $privateKey, $environment)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$searchResultRow, 30);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->waitForElementVisible(['link' => $pluginName], 30);
+		$I->click(['link' => $pluginName]);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPublicKey, 30);
+		$I->fillField(PluginManagerJoomla3Page::$fieldPublicKey, $publicKey);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPrivateKey, 30);
+		$I->fillField(PluginManagerJoomla3Page::$fieldPrivateKey, $privateKey);
+		$I->selectOptionInChosen(PluginManagerJoomla3Page::$labelEnvironment, $environment);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$discountTypeTotal, 30);
+		$I->click(PluginManagerJoomla3Page::$discountTypeTotal);
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
 }
