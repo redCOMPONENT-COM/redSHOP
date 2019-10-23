@@ -150,7 +150,7 @@ class ProductsCheckoutAuthorizeCest
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'Authorize Payments';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->package         = 'plg_redshop_payment_rs_payment_authorize.zip';
+		$this->package        = 'plg_redshop_payment_rs_payment_authorize.zip';
 
 		$this->checkoutAccountInformation = array(
 			"accessId"          => "62qpC9xN9nN4",
