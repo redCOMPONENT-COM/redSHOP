@@ -20,6 +20,8 @@ JLoader::import('redshop.library');
  */
 class PlgRedshop_ExportOrder extends AbstractExportPlugin
 {
+	protected $arrOrderItem = array();
+
 	/**
 	 * Event run when user click on Start Export
 	 *
@@ -95,10 +97,11 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		$query = $this->db->getQuery(true)
 			->select(
 				array(
-					$this->db->qn('o.order_number'),
+					$this->db->qn('o.order_id'),
 					$this->db->qn('oi.order_item_id'),
 					$this->db->qn('os.order_status_name'),
 					$this->db->qn('o.order_payment_status'),
+					$this->db->qn('o.customer_note'),
 					$this->db->qn('o.cdate'),
 					$this->db->qn('sr.shipping_class'),
 					' concat(ouf.firstname, " " , ouf.lastname)  as shipping_user',
@@ -108,10 +111,6 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 					$this->db->qn('ouf.country_code'),
 					$this->db->qn('ouf.user_email'),
 					$this->db->qn('oi.product_id'),
-					$this->db->qn('oi.order_item_name'),
-					$this->db->qn('oi.product_item_price'),
-					$this->db->qn('oi.product_attribute'),
-					$this->db->qn('o.order_total')
 				)
 			)
 			->from($this->db->qn('#__redshop_orders', 'o'))
@@ -120,17 +119,29 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			->leftJoin($this->db->qn('#__redshop_shipping_rate', 'sr') . ' ON ' . $this->db->qn('sr.shipping_rate_id') . ' = ' . $this->db->qn('o.ship_method_id'))
 			->leftJoin($this->db->qn('#__redshop_order_status', 'os') . ' ON ' . $this->db->qn('os.order_status_code') . ' = ' . $this->db->qn('o.order_status'))
 			->where($this->db->qn('ouf.address_type') . ' = ' . $this->db->q('ST'))
-			->order($this->db->qn('o.order_id') . ' ASC');
+			->order($this->db->qn('o.order_id') . ' ASC')
+			->group($this->db->qn('o.order_id'));
 
 		return $query;
 	}
 
+	/**
+	 * Method for get headers data.
+	 *
+	 * @return array|bool
+	 *
+	 * @since  2.0.3
+	 */
 	protected function getHeader()
 	{
-		return array(
-			'Order number', 'Order Item Number', 'Order status', 'Order Payment Status', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
-			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Product Number', 'Order Item Name', 'Order Item Price', 'Order Item Attribute', 'Order total'
-		);
+		$header = array(
+			'Order number', 'Order Item Number', 'Order status', 'Order Payment Status', 'Customer Note', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
+			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Product Number');
+
+		$orderItemHeader = $this->getHeaderOrderItem();
+		$orderItemHeader[] = 'Order Total';
+		$headers = array_merge($header, $orderItemHeader);
+		return $headers;
 	}
 
 	/**
@@ -144,20 +155,89 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	 */
 	protected function processData(&$data)
 	{
-		$productHelper = productHelper::getInstance();
-
 		if (empty($data))
 		{
 			return;
 		}
 
-		foreach ($data as $newData)
+		$arrayData = array();
+		$db = JFactory::getDbo();
+		$headers = $this->getHeaderOrderItem();
+
+		foreach ($data as $item)
 		{
-			if ($newData->product_attribute)
+			$item = (array) $item;
+			$query = $db->getQuery(true)
+				->select('order_item_name, product_item_price')
+				->from($db->qn('#__redshop_order_item'))
+				->where($db->qn('order_id') . ' = ' . $db->q($item['order_id']));
+
+			$orderItems = $db->setQuery($query)->loadAssocList();
+			$maxColumnHeaderOrderItem = count($headers) - count($orderItems);
+
+			for ($i = 0; $i < $maxColumnHeaderOrderItem; $i++)
 			{
-				$productAttribute = $productHelper->makeAttributeOrder($newData->order_item_id, 0, $newData->product_id, 0, 1);
-				$newData->product_attribute = trim(str_replace("Subscription", " ", strip_tags(str_replace(",", " ", $productAttribute->product_attribute))));
+				if ($orderItems[$i])
+				{
+					foreach ($orderItems[$i] as $key => $value)
+					{
+						$item[] = $value;
+					}
+				}
+				else
+				{
+					$item[] = '';
+				}
+			}
+
+			$query = $db->getQuery(true)
+				->select('order_total')
+				->from($db->qn('#__redshop_orders'))
+				->where($db->qn('order_id') . ' = ' . $db->q($item['order_id']));
+
+			$orderTotal = $db->setQuery($query)->loadResult();
+			$item[] = $orderTotal;
+			$arrayData[] = $item;
+		}
+
+		$data = $arrayData;
+	}
+
+	public function getHeaderOrderItem()
+	{
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('order_id, order_total')
+			->from($db->qn('#__redshop_orders'));
+
+		$orders = $db->setQuery($query)->loadAssocList();
+		$arrayHeaders = array();
+
+		foreach ($orders as $order)
+		{
+			$query = $db->getQuery(true)
+				->select('order_item_name, product_item_price')
+				->from($db->qn('#__redshop_order_item'))
+				->where($db->qn('order_id') . ' = ' . $db->q($order['order_id']));
+
+			$orderItemNames = $db->setQuery($query)->loadAssocList();
+
+			for ($i = 0; $i < count($orderItemNames); $i++)
+			{
+				foreach ($orderItemNames[$i] as $key => $orderItemName)
+				{
+					if (in_array($key . ' '. $i, $arrayHeaders))
+					{
+						continue;
+					}
+
+					$arrayHeaders[] = $key . ' ' . $i;
+				}
 			}
 		}
+
+		$this->arrOrderItem[] = $arrayHeaders;
+		return $arrayHeaders;
 	}
 }
