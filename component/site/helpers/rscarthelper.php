@@ -296,6 +296,11 @@ class rsCarthelper
 
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
+		JPluginHelper::importPlugin('redshop_checkout');
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher   = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onBeforeReplaceTemplateCart', array(&$cart, &$cart_data, $checkout));
+		
 		if (strpos($cart_data, "{product_loop_start}") !== false && strpos($cart_data, "{product_loop_end}") !== false)
 		{
 			$template_sdata  = explode('{product_loop_start}', $cart_data);
@@ -308,7 +313,6 @@ class rsCarthelper
 		}
 
 		$cart_data = Redshop\Cart\Render\Label::replace($cart_data);
-
 		$total                     = $cart ['total'];
 		$subtotal_excl_vat         = $cart ['subtotal_excl_vat'];
 		$product_subtotal          = $cart ['product_subtotal'];
@@ -498,6 +502,8 @@ class rsCarthelper
 			0,
 			Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
 		);
+		
+		$dispatcher->trigger('onAfterReplaceTemplateCart', array(&$cart_data, $checkout));
 
 		return $cart_data;
 	}
