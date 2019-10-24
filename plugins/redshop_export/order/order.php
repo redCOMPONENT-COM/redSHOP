@@ -77,11 +77,11 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 		if ($this->orderItemWithRow)
 		{
-			return $this->exportDataWithRow();
+			return \PlgRedshop_ExportOrder::exportDataWithRow();
 		}
 		else
 		{
-			return $this->exportDataWithColumn();
+			return \PlgRedshop_ExportOrder::exportDataWithColumn();
 		}
 	}
 
@@ -191,7 +191,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		$headersOrderItem = array_merge($orderItemHeaders, array('Order Total'));
 		$headers = array_merge($headers, $headersOrderItem);
 
-		$this->writeData($headers, '', $handle);
+		$this->writeData($headers, '', /** @scrutinizer ignore-type */ $handle);
 
 		foreach ($data as $item)
 		{
@@ -267,7 +267,6 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			}
 		}
 
-		$this->arrOrderItem[] = $arrayHeaders;
 		return $arrayHeaders;
 	}
 }
