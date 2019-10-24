@@ -186,7 +186,7 @@ class CheckoutChangeQuantityProductCest
 
 		$I->wantTo('I want go to Product tab, Choose Product and Add to cart');
 		$I = new CheckoutChangeQuantityProductSteps($scenario);
-		$I->checkoutChangeQuantity($this->categoryName, $this->total);
+		$I->checkoutChangeQuantity($this->categoryName, $this->productName, $this->total);
 
 		$I->wantTo('I want to login Site page with user just create');
 		$I->doFrontendLogout();
