@@ -25,6 +25,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	public function onAjaxOrder_Config()
 	{
 		\Redshop\Helper\Ajax::validateAjaxRequest();
+		$configs = array();
 
 		// Radio for load extra fields
 		$configs[] = '<div class="form-group">
@@ -67,13 +68,6 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		return (int) $this->db->setQuery($query)->loadResult();
 	}
 
-	/**
-	 * Event run on export process
-	 *
-	 * @return  int
-	 *
-	 * @since  1.0.0
-	 */
 	public function onAjaxOrder_Export()
 	{
 		\Redshop\Helper\Ajax::validateAjaxRequest();
@@ -91,13 +85,6 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		}
 	}
 
-	/**
-	 * Event run on export process
-	 *
-	 * @return  void
-	 *
-	 * @since  1.0.0
-	 */
 	public function onAjaxOrder_Complete()
 	{
 		$this->downloadFile();
@@ -105,13 +92,6 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		JFactory::getApplication()->close();
 	}
 
-	/**
-	 * Method for get query
-	 *
-	 * @return \JDatabaseQuery
-	 *
-	 * @since  1.0.0
-	 */
 	protected function getQuery()
 	{
 		$query = $this->db->getQuery(true)
@@ -145,45 +125,6 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		return $query;
 	}
 
-//	/**
-//	 * Method for get headers data.
-//	 *
-//	 * @return array|bool
-//	 *
-//	 * @since  2.0.3
-//	 */
-//	protected function getHeader()
-//	{
-//		if ($this->orderItemWithRow)
-//		{
-//			die('xxx');
-//			$header = array(
-//				'Order number', 'Order Item Number', 'Order status', 'Order Payment Status', 'Customer Note', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
-//				'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Product Number', 'Order Total');
-//		}
-//		else
-//		{
-//			die('xxxxx');
-//			$header = array(
-//				'Order number', 'Order Item Number', 'Order status', 'Order Payment Status', 'Customer Note', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
-//				'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Product Number');
-//
-//			$orderItemHeader = $this->getHeaderOrderItem();
-//			$orderItemHeader[] = 'Order Total';
-//			$headers = array_merge($header, $orderItemHeader);
-//			return $headers;
-//		}
-//	}
-
-	/**
-	 * Method for do some stuff for data return. (Like image path,...)
-	 *
-	 * @param   array  &$data  Array of data.
-	 *
-	 * @return  void
-	 *
-	 * @since  1.0.0
-	 */
 	protected function exportDataWithRow()
 	{
 		$data = $this->getData(0, 0);
@@ -198,7 +139,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		$headers = array('Order number', 'Order Item Number', 'Order status', 'Order Payment Status', 'Customer Note', 'Order date', 'Shipping method', 'Shipping user', 'Shipping address',
 			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Product Number', 'Order Total');
 
-		$this->writeData($headers, '', $handle);
+		$this->writeData($headers, '', /** @scrutinizer ignore-type */ $handle);
 		$orderTotal = array();
 
 		foreach ($data as $item)
@@ -211,7 +152,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 			$orderTotal['order_total'] = $db->setQuery($query)->loadResult();
 			$item = array_merge($item, $orderTotal);
-			$this->writeData($item, '', $handle);
+			$this->writeData($item, '', /** @scrutinizer ignore-type */ $handle);
 
 			$query = $db->getQuery(true)
 				->select('order_item_name, product_item_price')
@@ -220,28 +161,18 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 			$orderItems = $db->setQuery($query)->loadAssocList();
 			$headerOrderItem = array(' ', 'Order Item Name', 'Product Item Price');
-			$this->writeData($headerOrderItem, '', $handle);
+			$this->writeData($headerOrderItem, '', /** @scrutinizer ignore-type */ $handle);
 
 			foreach ($orderItems as $orderItem)
 			{
 				$arrOrderItem = array_merge(array(''), $orderItem);
-				$this->writeData($arrOrderItem, '', $handle);
+				$this->writeData($arrOrderItem, '', /** @scrutinizer ignore-type */ $handle);
 			}
 		}
 
 		fclose($handle);
 	}
 
-
-	/**
-	 * Method for do some stuff for data return. (Like image path,...)
-	 *
-	 * @param   array  &$data  Array of data.
-	 *
-	 * @return  void
-	 *
-	 * @since  1.0.0
-	 */
 	protected function exportDataWithColumn()
 	{
 		$data = $this->getData(0, 0);
@@ -295,7 +226,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 			$orderTotal = $db->setQuery($query)->loadResult();
 			$item[] = $orderTotal;
-			$this->writeData($item, '', $handle);
+			$this->writeData($item, '', /** @scrutinizer ignore-type */ $handle);
 		}
 
 		fclose($handle);
@@ -320,8 +251,9 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 				->where($db->qn('order_id') . ' = ' . $db->q($order['order_id']));
 
 			$orderItemNames = $db->setQuery($query)->loadAssocList();
+			$maxOrderItemName = count($orderItemNames);
 
-			for ($i = 0; $i < count($orderItemNames); $i++)
+			for ($i = 0; $i < $maxOrderItemName; $i++)
 			{
 				foreach ($orderItemNames[$i] as $key => $orderItemName)
 				{
