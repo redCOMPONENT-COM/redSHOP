@@ -77,12 +77,10 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 		if ($this->orderItemWithRow)
 		{
-			return \PlgRedshop_ExportOrder::exportDataWithRow();
+			return $this->exportDataWithRow();
 		}
-		else
-		{
-			return \PlgRedshop_ExportOrder::exportDataWithColumn();
-		}
+
+		return $this->exportDataWithColumn();
 	}
 
 	public function onAjaxOrder_Complete()
