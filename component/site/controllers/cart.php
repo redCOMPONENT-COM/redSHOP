@@ -662,12 +662,16 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function redmasscart()
 	{
-		// Check for request forgeries.
-		//JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
-		\Redshop\Helper\Ajax::validateAjaxRequest('get');
-
 		$app  = JFactory::getApplication();
 		$post = $app->input->post->getArray();
+
+		// Check for request forgeries.
+		if (!JSession::checkToken())
+		{
+			$msg  = JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
+			$rurl = base64_decode($post["rurl"]);
+			$app->redirect($rurl, $msg);;
+		}
 
 		if ($post["numbercart"] == "")
 		{

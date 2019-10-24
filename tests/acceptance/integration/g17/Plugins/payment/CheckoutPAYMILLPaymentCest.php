@@ -13,14 +13,13 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use Administrator\plugins\PluginPaymentManagerJoomla;
 use Configuration\ConfigurationSteps;
-use Frontend\payment\CheckoutWithEWAYPayment;
+use Frontend\payment\CheckoutWithPAYMILLPayment;
 
 /**
- * Class ProductsCheckoutEWAYCest
- * @package  AcceptanceTester
- * @since    2.1.3
+ * Class CheckoutPAYMILLPaymentCest
+ * @since 2.1.3
  */
-class ProductsCheckoutEWAYCest
+class CheckoutPAYMILLPaymentCest
 {
 	/**
 	 * @var \Faker\Generator
@@ -80,12 +79,6 @@ class ProductsCheckoutEWAYCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public $group;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
 	public $extensionURL;
 
 	/**
@@ -113,65 +106,64 @@ class ProductsCheckoutEWAYCest
 	public $cartSetting;
 
 	/**
-	 * ProductsCheckoutEWAYCest constructor.
-	 * @since 2.1.3
+	 * CheckoutPAYMILLPaymentCest constructor.
+	 * @since  2.1.3
 	 */
 	public function __construct()
 	{
-		$this->faker            = Faker\Factory::create();
-		$this->categoryName     = $this->faker->bothify('CategoryName ?###?');
-		$this->productName      = $this->faker->bothify('Testing Product ??####?');
-		$this->productNumber    = $this->faker->numberBetween(999, 9999);
-		$this->productPrice     = 100;
-		$this->minimumQuantity  = 1;
-		$this->maximumQuantity  = $this->faker->numberBetween(11, 100);
+		$this->faker           = Faker\Factory::create();
+		$this->categoryName    = $this->faker->bothify('CategoryName ?###?');
+		$this->productName     = $this->faker->bothify('Product Testing ??##?');
+		$this->productNumber   = $this->faker->numberBetween(999, 9999);
+		$this->productPrice    = 100;
+		$this->minimumQuantity = 1;
+		$this->maximumQuantity = $this->faker->numberBetween(11, 100);
 
 		//configuration enable one page checkout
 		$this->cartSetting = array(
-			"addCart"           => 'product',
-			"allowPreOrder"     => 'yes',
-			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
-			"enabledAjax"       => 'no',
-			"defaultCart"       => null,
-			"buttonCartLead"    => 'Back to current view',
-			"onePage"           => 'yes',
-			"showShippingCart"  => 'no',
-			"attributeImage"    => 'no',
-			"quantityChange"    => 'no',
-			"quantityInCart"    => 0,
-			"minimumOrder"      => 0,
-			"enableQuotation"   => 'no'
+			"addCart"          => 'product',
+			"allowPreOrder"    => 'yes',
+			"cartTimeOut"      => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"      => 'no',
+			"defaultCart"      => null,
+			"buttonCartLead"   => 'Back to current view',
+			"onePage"          => 'yes',
+			"showShippingCart" => 'no',
+			"attributeImage"   => 'no',
+			"quantityChange"   => 'no',
+			"quantityInCart"   => 0,
+			"minimumOrder"     => 0,
+			"enableQuotation"  => 'no'
 		);
 
 		$this->customerInformation = array(
-			"userName"      => $this->faker->bothify('UserName ?####?'),
-			"password"      => $this->faker->bothify('Password ?##?'),
-			"email"         => $this->faker->email,
-			"firstName"     => $this->faker->bothify('firstNameCustomer ?####?'),
-			"lastName"      => $this->faker->bothify('lastNameCustomer ?####?'),
-			"address"       => $this->faker->address,
-			"postalCode"    => "5000",
-			"city"          => $this->faker->city,
-			"country"       => "Denmark",
-			"state"         => "Karnataka",
-			"phone"         => "0334110366",
-			"shopperGroup"  => 'Default Private',
+			"userName"     => $this->faker->bothify('UserName ?####?'),
+			"password"     => $this->faker->bothify('Password ?##?'),
+			"email"        => $this->faker->email,
+			"firstName"    => $this->faker->bothify('firstNameCustomer ?####?'),
+			"lastName"     => $this->faker->bothify('lastNameCustomer ?####?'),
+			"address"      => $this->faker->address,
+			"postalCode"   => "5000",
+			"city"         => $this->faker->city,
+			"country"      => "Denmark",
+			"state"        => "Karnataka",
+			"phone"        => "0334110366",
+			"shopperGroup" => 'Default Private',
 		);
-		$this->group          = 'Registered';
 
-		$this->extensionURL   = 'extension url';
-		$this->pluginName     = 'E-Way Payments';
-		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
-		$this->package        = 'plg_redshop_payment_rs_payment_eway.zip';
+		$this->extensionURL = 'extension url';
+		$this->pluginName   = 'Paymill Payments';
+		$this->pluginURL    = 'paid-extensions/tests/releases/plugins/';
+		$this->package      = 'plg_redshop_payment_rs_payment_paymill.zip';
 
 		$this->checkoutAccountInformation = array(
-			"customerID" => "87654321",
-			"debitCardNumber" => "4444333322221111",
+			"private"         => "10fd7300329f46df3d011c65d3b5b940",
+			"public"          => "677394657823ea81f0255274961423a1",
+			'environment'     => 'Sandbox',
+			"debitCardNumber" => "4111111111111111",
 			"cvv"             => "123",
-			"cardExpiryMonth" => '5',
-			"cardExpiryYear"  => '2025',
-			"shippingAddress" => "some place on earth",
-			"customerName"    => 'Your Name'
+			"expires"         => '05/25',
+			"cardHolder"      => 'YourName',
 		);
 	}
 
@@ -187,18 +179,19 @@ class ProductsCheckoutEWAYCest
 
 	/**
 	 * @param AdminManagerJoomla3Steps $I
+	 * @param $scenario
 	 * @throws Exception
 	 * @since  2.1.3
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install plugin payment E-Way");
+		$I->wantTo("install plugin payment Paymill");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin E-Way Payments in Administrator');
+		$I->wantTo('Enable Plugin Paymill Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);
-		$I->configEWayPlugin($this->pluginName, $this->checkoutAccountInformation['customerID']);
+		$I->configPaymillPlugin($this->pluginName, $this->checkoutAccountInformation['public'], $this->checkoutAccountInformation['private'], $this->checkoutAccountInformation['environment']);
 	}
 
 	/**
@@ -207,8 +200,9 @@ class ProductsCheckoutEWAYCest
 	 * @throws Exception
 	 * @since  2.1.3
 	 */
-	public function testEWAYPaymentPlugin(ConfigurationSteps $I, $scenario)
+	public function testPAYMILLPaymentPlugin(ConfigurationSteps $I, $scenario)
 	{
+		$I->wantTo('I want to setting cart');
 		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
@@ -219,12 +213,12 @@ class ProductsCheckoutEWAYCest
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
-		$I = new CheckoutWithEWAYPayment($scenario);
-		$I->checkoutProductWithEWAYPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformation);
+		$I = new CheckoutWithPAYMILLPayment($scenario);
+		$I->checkoutProductWithPAYMILLPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformation);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
-		$I->checkPriceTotalHaveStatusOder($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName, "Paid");
+		$I->checkPriceTotal($this->productPrice, $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->productName, $this->categoryName, $this->pluginName);
 	}
 
 	/**
@@ -235,9 +229,9 @@ class ProductsCheckoutEWAYCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Deletion of Order in Administrator');
+		$I->wantTo('Deletion of order in Administrator');
 		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder( $this->customerInformation['firstName']);
+		$I->deleteOrder($this->customerInformation['firstName']);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
