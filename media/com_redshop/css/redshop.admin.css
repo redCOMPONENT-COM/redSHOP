@@ -17187,6 +17187,9 @@ svg {
 .icon-32-print_f2 {
     background-image: url(../images/print_f2.png);
 }
+.icon-checkin {
+    background-image: url(../images/check.png);
+}
 
 .popup .btn.btn-small {
     font-size: 14px;
@@ -17398,6 +17401,12 @@ fieldset.redRadioGroup .iradio_minimal-blue {
 }
 
 #lastmonthsales_statistics_pie {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+#lastmonthsales_statistics_bar {
     width: 100%;
     overflow: hidden;
     margin-top: 10px;

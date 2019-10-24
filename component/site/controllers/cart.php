@@ -66,7 +66,6 @@ class RedshopControllerCart extends RedshopController
 		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
 		$isAjaxCartBox = Redshop::getConfig()->getBool('AJAX_CART_BOX');
-
 		$result = Redshop\Cart\Cart::addProduct($post);
 
 		if (!is_bool($result) || (is_bool($result) && !$result))
@@ -283,6 +282,30 @@ class RedshopControllerCart extends RedshopController
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			{
+				foreach ($cart as $index => $value)
+				{
+					if (!is_numeric($index))
+					{
+						continue;
+					}
+
+					$checkDiscountPro = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+				}
+
+				if ($checkDiscountPro != 0)
+				{
+					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+					$messageType = 'error';
+				}
+				else
+				{
+					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+					$messageType = 'success';
+				}
+			}
+
 			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
 				$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
@@ -327,7 +350,6 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function modifyCalculation($cart)
 	{
-		$cart                     = !is_array($cart) ? (array) $cart : $cart;
 		$calArr                   = \Redshop\Cart\Helper::calculation($cart);
 		$cart['product_subtotal'] = $calArr[1];
 		$discountAmount           = 0;
@@ -349,6 +371,10 @@ class RedshopControllerCart extends RedshopController
 		if (array_key_exists('voucher', $cart))
 		{
 			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+			{
+				$voucherDiscount = $voucherDiscount - $cart['voucher'][1]['voucher_value'];
+			}
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
@@ -356,6 +382,10 @@ class RedshopControllerCart extends RedshopController
 		if (array_key_exists('coupon', $cart))
 		{
 			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+			{
+				$couponDiscount = $couponDiscount - $cart['coupon'][1]['coupon_value'];
+			}
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;
@@ -435,6 +465,32 @@ class RedshopControllerCart extends RedshopController
 			RedshopHelperCart::cartFinalCalculation(false);
 
 			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $itemId, false);
+			$message     = null;
+			$messageType = null;
+
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			{
+				foreach ($cart as $index => $value)
+				{
+					if (!is_numeric($index))
+					{
+						continue;
+					}
+
+					$checkDiscountPro = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+				}
+
+				if ($checkDiscountPro != 0)
+				{
+					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+					$messageType = 'error';
+				}
+				else
+				{
+					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+					$messageType = 'success';
+				}
+			}
 
 			if (Redshop::getConfig()->getInt('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
@@ -589,7 +645,7 @@ class RedshopControllerCart extends RedshopController
 	public function discountCalculator()
 	{
 		ob_clean();
-		$get = JFactory::getApplication()->input->get->getArray('GET');
+		$get = JFactory::getApplication()->input->get->getArray(/** @scrutinizer ignore-type */ 'GET');
 		rsCarthelper::getInstance()->discountCalculator($get);
 
 		JFactory::getApplication()->close();
@@ -603,11 +659,16 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function redmasscart()
 	{
-		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
-
 		$app  = JFactory::getApplication();
 		$post = $app->input->post->getArray();
+
+		// Check for request forgeries.
+		if (!JSession::checkToken())
+		{
+			$msg  = JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
+			$rurl = base64_decode($post["rurl"]);
+			$app->redirect($rurl, $msg);;
+		}
 
 		if ($post["numbercart"] == "")
 		{
@@ -702,7 +763,7 @@ class RedshopControllerCart extends RedshopController
 				$productId,
 				$productPrice,
 				$userId,
-				$taxExempt
+				/** @scrutinizer ignore-type */ $taxExempt
 			)
 		);
 

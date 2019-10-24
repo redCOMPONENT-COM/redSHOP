@@ -396,6 +396,7 @@ class RedshopEconomic
 
 		if (!empty($debtorHandle[0]))
 		{
+			$eco['eco_user_number'] = $debtorHandle[0]->Number;
 			self::handleExistingDebtorOnEmailVat($debtorHandle, $eco);
 		}
 

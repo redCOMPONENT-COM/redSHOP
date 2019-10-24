@@ -882,6 +882,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_notifystock_users` (
   `subproperty_id` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
   `notification_status` INT(11) NOT NULL DEFAULT '0',
+  `email_not_login` VARCHAR(255)  NULL,
   PRIMARY KEY (`id`),
   INDEX `idx_common` (`product_id` ASC, `property_id` ASC, `subproperty_id` ASC, `notification_status` ASC, `user_id` ASC),
   INDEX `idx_user_id` (`user_id` ASC))
