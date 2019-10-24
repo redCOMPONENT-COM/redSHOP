@@ -549,18 +549,14 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 
-		$query = 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_orders') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_item') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_users_info') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_status_log') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_acc_item');
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_attribute_item') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_payment') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_product_download') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_product_download_log') . ';';
-
-		$db->setQuery($query);
-		$db->execute();
+		$db->truncateTable('#__redshop_orders');
+		$db->truncateTable('#__redshop_order_item');
+		$db->truncateTable('#__redshop_order_users_info');
+		$db->truncateTable('#__redshop_order_status_log');
+		$db->truncateTable('#__redshop_order_attribute_item');
+		$db->truncateTable('#__redshop_order_payment');
+		$db->truncateTable('#__redshop_product_download');
+		$db->truncateTable('#__redshop_product_download_log');
 	}
 
 	/**
