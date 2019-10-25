@@ -7,8 +7,6 @@
  */
 
 namespace Frontend\payment;
-
-use Dompdf\Exception;
 use FrontEndProductManagerJoomla3Page;
 use SkillPaymentPage;
 
