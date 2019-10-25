@@ -203,4 +203,36 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
+
+	/**
+	 * @param $pluginName
+	 * @param $apiKey
+	 * @param $secretKey
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configBaoKimPlugin($pluginName, $apiKey, $secretKey)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$searchResultRow, 30);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->waitForElementVisible(['link' => $pluginName], 30);
+		$I->click(['link' => $pluginName]);
+
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$tabExtra, 30);
+		$I->click(PluginManagerJoomla3Page::$tabExtra);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldApiKey, 30);
+		$I->fillField(PluginManagerJoomla3Page::$fieldApiKey, $apiKey);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldSecretKey, 30);
+		$I->fillField(PluginManagerJoomla3Page::$fieldSecretKey, $secretKey);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$buttonTestEnable, 30);
+		$I->click(PluginManagerJoomla3Page::$buttonTestEnable);
+
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+	}
 }

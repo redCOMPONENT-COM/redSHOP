@@ -8,6 +8,7 @@
 
 namespace Frontend\payment;
 
+use Dompdf\Exception;
 use FrontEndProductManagerJoomla3Page;
 use SkillPaymentPage;
 
@@ -86,6 +87,70 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 		catch (\Exception $e)
 		{
 			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
+		}
+	}
+
+	/**
+	 * @param $checkoutAccountDetail
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $customerInformation
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkoutProductWithBaoKimPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 60);
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
+		$I->addToCart($categoryName, $productName);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->fillInformationPrivate($customerInformation);
+		$I->wait(1);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
+		$I->waitForElementVisible(SkillPaymentPage::$paymentBaoKim, 30);
+
+		try
+		{
+			$I->click(SkillPaymentPage::$paymentBaoKim);
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(SkillPaymentPage::$paymentBaoKim, 30);
+			$I->wait(0.5);
+			$I->click(SkillPaymentPage::$paymentBaoKim);
+		}
+
+		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);
+		$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		$I->wait(0.5);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->dontSeeInCurrentUrl(FrontEndProductManagerJoomla3Page::$checkoutURL);
+
+		try
+		{
+			$I->wantTo("Checkout with Bao Kim");
+			$I->waitForElementVisible(SkillPaymentPage::$paymentVietComBank, 30);
+			$I->click(SkillPaymentPage::$paymentVietComBank);
+
+			$I->waitForElementVisible(SkillPaymentPage::$email, 30);
+			$I->fillField(SkillPaymentPage::$email, $checkoutAccountDetail['email']);
+
+			$I->waitForElementVisible(SkillPaymentPage::$fieldPhone, 30);
+			$I->fillField(SkillPaymentPage::$fieldPhone, $checkoutAccountDetail['phone']);
+
+			$I->waitForElementVisible(SkillPaymentPage::$buttonPayment, 30);
+			$I->click(SkillPaymentPage::$buttonPayment);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
+		}catch (\Exception $e)
+		{
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 10, FrontEndProductManagerJoomla3Page::$h1);
 		}
 	}
 }

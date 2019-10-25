@@ -59,4 +59,30 @@ class SkillPaymentPage extends UserManagerJoomla3Page
 	 * @since 2.1.3
 	 */
 	public static $buttonPay = "#pay_button";
+
+	// payment BaoKim
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $paymentBaoKim = "//input[@value='baokim']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $paymentVietComBank = "//div[@id ='15']/img";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $fieldPhone = "#phone_no";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $buttonPayment = '.btn-payment';
 }
