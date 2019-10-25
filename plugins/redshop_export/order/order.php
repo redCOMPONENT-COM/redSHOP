@@ -20,7 +20,7 @@ JLoader::import('redshop.library');
  */
 class PlgRedshop_ExportOrder extends AbstractExportPlugin
 {
-	protected $orderItemWithRow = false;
+	protected $orderItemWithRow = true;
 
 	public function onAjaxOrder_Config()
 	{
