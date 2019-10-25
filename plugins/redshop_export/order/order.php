@@ -20,7 +20,7 @@ JLoader::import('redshop.library');
  */
 class PlgRedshop_ExportOrder extends AbstractExportPlugin
 {
-	protected $orderItemWithRow = true;
+	protected $orderItemWithRow = false;
 
 	public function onAjaxOrder_Config()
 	{
@@ -30,8 +30,8 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		$configs[] = '<div class="form-group">
 			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_ORDER_ITEM') . '</label>
 			<div class="col-md-10">
-				<label class="radio-inline"><input name="order_item" value="1" type="radio" />' . JText::_('JYES') . '</label>
-				<label class="radio-inline"><input name="order_item" value="0" type="radio" checked />' . JText::_('JNO') . '</label>
+				<label class="radio-inline"><input name="order_item" value="1" type="radio" checked />' . JText::_('JYES') . '</label>
+				<label class="radio-inline"><input name="order_item" value="0" type="radio"/>' . JText::_('JNO') . '</label>
 			</div>
 		</div>';
 
