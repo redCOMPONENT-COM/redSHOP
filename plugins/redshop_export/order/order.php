@@ -172,6 +172,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			$item = (array) $item;
 			$shippingDetail = \Redshop\Shipping\Rate::decrypt($item['ship_method_id']);
 			$item['ship_method_id'] = \JText::_($shippingDetail[1]);
+			$item['cdate'] = \RedshopHelperDatetime::convertDateFormat($item['cdate']);
 
 			$query = $db->getQuery(true)
 				->select('order_total')
@@ -236,6 +237,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			$item = (array) $item;
 			$shippingDetail = \Redshop\Shipping\Rate::decrypt($item['ship_method_id']);
 			$item['ship_method_id'] = \JText::_($shippingDetail[1]);
+			$item['cdate'] = \RedshopHelperDatetime::convertDateFormat($item['cdate']);
 
 			$query = $db->getQuery(true)
 				->select('order_item_name, product_id, product_item_price')
