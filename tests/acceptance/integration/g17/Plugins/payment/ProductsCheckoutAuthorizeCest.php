@@ -123,7 +123,7 @@ class ProductsCheckoutAuthorizeCest
 			"addCart"            => 'product',
 			"allowPreOrder"      => 'yes',
 			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
-			"enabledAjax"         => 'no',
+			"enabledAjax"        => 'no',
 			"defaultCart"        => null,
 			"buttonCartLead"     => 'Back to current view',
 			"onePage"            => 'yes',
