@@ -69,7 +69,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->waitForElementVisible(StripePaymentPage::$submitIframe, 30);
 		$I->click(StripePaymentPage::$submitIframe);
 		$I->waitForElementNotVisible(StripePaymentPage::$submitIframe, 30);
-		$I->dontSeeInCurrentUrl(StripePaymentPage::$checkoutURL);
-		$I->waitForText(StripePaymentPage::$orderReceipt,30, FrontEndProductManagerJoomla3Page::$h1);
+		$I->dontSeeInCurrentUrl(FrontEndProductManagerJoomla3Page::$checkoutURL);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt,30, FrontEndProductManagerJoomla3Page::$h1);
 	}
 }
