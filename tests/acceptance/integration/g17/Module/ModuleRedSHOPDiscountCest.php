@@ -279,13 +279,13 @@ class ModuleRedSHOPDiscountCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $functionHaveDisscount;
+	protected $functionHaveDiscount;
 
 	/**
 	 * @var string
 	 * @since 2.1.3
 	 */
-	protected $functionDontHaveDisscount;
+	protected $functionDontHaveDiscount;
 
 	/**
 	 * ModuleRedSHOPDiscountCest constructor.
@@ -360,8 +360,8 @@ class ModuleRedSHOPDiscountCest
 			"minimumOrder"      => 0,
 			"enableQuotation"   => 'no'
 		);
-		$this->functionDontHaveDisscount      = 'dontHaveHisscount';
-		$this->functionHaveDisscount          = 'haveDisscount';
+		$this->functionDontHaveDiscount      = 'dontHaveHisscount';
+		$this->functionHaveDiscount          = 'haveDiscount';
 	}
 
 	/**
@@ -423,8 +423,10 @@ class ModuleRedSHOPDiscountCest
 		$I->addTotalDiscountSaveClose($this->discountName, $this->amount, $this->discountCondition, $this->discountType, $this->discountAmount, $this->startDate, $this->endDate, $this->shopperGroupName);
 
 		$I = new redSHOPDiscountSteps($scenario);
-		$I->checkModuleRedSHOPDiscount($this->moduleName, $this->userName, $this->password, $this->functionDontHaveDisscount, $this->discountAmount, $this->categoryName, $this->productName);
-		$I->checkModuleRedSHOPDiscount($this->moduleName, $this->userNameDC, $this->passwordDC, $this->functionHaveDisscount, $this->discountAmount, $this->categoryName, $this->productName);
+		$I->comment('check with user dont have discount');
+		$I->checkModuleRedSHOPDiscount($this->moduleName, $this->userName, $this->password, $this->functionDontHaveDiscount, $this->discountAmount, $this->categoryName, $this->productName);
+		$I->comment('check with user have discount');
+		$I->checkModuleRedSHOPDiscount($this->moduleName, $this->userNameDC, $this->passwordDC, $this->functionHaveDiscount, $this->discountAmount, $this->categoryName, $this->productName);
 	}
 
 	/**

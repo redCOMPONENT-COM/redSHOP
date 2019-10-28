@@ -22,20 +22,19 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 	 * @param $moduleName
 	 * @param $username
 	 * @param $password
-	 * @param $usernameDC
-	 * @param $passwordDC
+	 * @param $function
 	 * @param $valueDiscount
 	 * @param $categoryName
 	 * @param $productName
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkModuleRedSHOPDiscount($moduleName, $username, $password, $funcution, $valueDiscount, $categoryName, $productName)
+	public function checkModuleRedSHOPDiscount($moduleName, $username, $password, $function, $valueDiscount, $categoryName, $productName)
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
 
-		switch ($funcution)
+		switch ($function)
 		{
 			case 'dontHaveHisscount':
 			{
