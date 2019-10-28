@@ -86,19 +86,23 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(FrontEndProductManagerJoomla3Page::$bankTransfer);
 
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 30);
-		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		$I->wait(0.5);
+
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->waitForElementVisible(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+			$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+			$I->waitForText(\FrontEndProductManagerJoomla3Page::$orderReceipt, 30);
 		}catch (\Exception $e)
 		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+			$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
+			$I->waitForText(\FrontEndProductManagerJoomla3Page::$orderReceipt, 30);
 		}
-
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
-		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
-		$I->waitForText(\FrontEndProductManagerJoomla3Page::$orderReceipt);
 	}
 }
