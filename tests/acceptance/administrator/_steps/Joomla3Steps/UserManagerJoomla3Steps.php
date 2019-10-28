@@ -543,6 +543,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(UserManagerJoomla3Page::$titlePageUser, 30);
 		$I->click(UserManagerJoomla3Page::$newButton);
 		$userManagerPage = new UserManagerJoomla3Page;
+		$I->waitForText(UserManagerJoomla3Page::$titlePageUser, 30);
 		$I->waitForElementVisible(UserManagerJoomla3Page::$generalTab, 30);
 		$I->click(UserManagerJoomla3Page::$generalTab);
 		$I->waitForElementVisible(UserManagerJoomla3Page::$userName, 30);
