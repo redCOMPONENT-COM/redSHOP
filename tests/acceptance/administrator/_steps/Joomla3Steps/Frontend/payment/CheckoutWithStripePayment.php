@@ -8,6 +8,7 @@
 
 namespace Frontend\payment;
 use FrontEndProductManagerJoomla3Page;
+use StripePaymentPage;
 
 /**
  * Class CheckoutWithStripePayment
@@ -36,8 +37,8 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page:: $checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentStripe, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$paymentStripe);
+		$I->waitForElementVisible(StripePaymentPage::$paymentStripe, 30);
+		$I->click(StripePaymentPage::$paymentStripe);
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
@@ -49,26 +50,26 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 
 		try
 		{
-			$I->canSeeInPopup(FrontEndProductManagerJoomla3Page::$messagePopupStripe);
+			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
 		}
 		catch (\Exception $e)
 		{
 			$I->wait(2);
-			$I->canSeeInPopup(FrontEndProductManagerJoomla3Page::$messagePopupStripe);
+			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
 		}
 
 		$I->acceptPopup();
-		$I->switchToIFrame(FrontEndProductManagerJoomla3Page::$nameIframeStripe);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$cardNumberIframe, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$cardNumberIframe, $informationVisa['cardNumber']);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$dateIframe, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$dateIframe, $informationVisa['date']);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$cvcIframe, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$cvcIframe, $informationVisa['cvc']);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$submitIframe, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$submitIframe);
-		$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$submitIframe, 30);
-		$I->dontSeeInCurrentUrl(FrontEndProductManagerJoomla3Page::$checkoutURL);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt,30, FrontEndProductManagerJoomla3Page::$h1);
+		$I->switchToIFrame(StripePaymentPage::$nameIframeStripe);
+		$I->waitForElementVisible(StripePaymentPage::$cardNumberIframe, 30);
+		$I->fillField(StripePaymentPage::$cardNumberIframe, $informationVisa['cardNumber']);
+		$I->waitForElementVisible(StripePaymentPage::$dateIframe, 30);
+		$I->fillField(StripePaymentPage::$dateIframe, $informationVisa['date']);
+		$I->waitForElementVisible(StripePaymentPage::$cvcIframe, 30);
+		$I->fillField(StripePaymentPage::$cvcIframe, $informationVisa['cvc']);
+		$I->waitForElementVisible(StripePaymentPage::$submitIframe, 30);
+		$I->click(StripePaymentPage::$submitIframe);
+		$I->waitForElementNotVisible(StripePaymentPage::$submitIframe, 30);
+		$I->dontSeeInCurrentUrl(StripePaymentPage::$checkoutURL);
+		$I->waitForText(StripePaymentPage::$orderReceipt,30, FrontEndProductManagerJoomla3Page::$h1);
 	}
 }
