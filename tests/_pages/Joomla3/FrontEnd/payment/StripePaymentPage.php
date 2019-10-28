@@ -6,9 +6,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/**
+ * Class StripePaymentPage
+ * @since 2.1.3
+ */
 class StripePaymentPage extends UserManagerJoomla3Page
 {
-
 	/**
 	 * @var string
 	 * @since 2.1.3
