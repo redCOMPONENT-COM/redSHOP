@@ -47,7 +47,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		{
 			$I->waitForElementVisible(StripePaymentPage::$paymentStripe, 30);
 			$I->wait(0.5);
-			$I->click(PStripePaymentPage::$paymentStripe);
+			$I->click(StripePaymentPage::$paymentStripe);
 		}
 
 		$I->wait(0.5);
