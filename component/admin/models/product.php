@@ -298,7 +298,7 @@ class RedshopModelProduct extends RedshopModel
 				. " FROM #__redshop_product AS p "
 				. "LEFT JOIN #__redshop_product_category_xref AS x ON x.product_id = p.product_id "
 				. "LEFT JOIN #__redshop_manufacturer AS m ON m.id = p.manufacturer_id "
-				. "WHERE 1=1 GROUP BY p.product_id " . $and . $orderby;
+				. "WHERE 1=1 ". $and . "GROUP BY p.product_id ". $orderby;
 		}
 		else
 		{
