@@ -238,7 +238,7 @@ class ProductsCheckoutStripePaymentCest
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Disable one page checkout');
-		$this->cartSetting["onePage"] = 'no';
+		$this->cartSetting["onePage"] = 'no'; 
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->cartSetting);
 
