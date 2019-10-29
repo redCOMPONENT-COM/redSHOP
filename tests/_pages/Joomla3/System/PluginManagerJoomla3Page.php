@@ -200,6 +200,18 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	public static $discountTypeTotal= '//label[@for="jform_params_payment_discount_is_percent1"]';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $secretKey = '#jform_params_secretKey';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $publishableKey = '#jform_params_publishableKey';
+
+	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
 	 * @param   String  $pluginName  Name of the Plugin
