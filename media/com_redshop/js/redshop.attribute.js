@@ -1608,8 +1608,9 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 }
             }
 
-            document.getElementById('main_image' + product_id).src = arrResponse[4];
-
+            if (document.getElementById('main_image' + product_id)) {
+                document.getElementById('main_image' + product_id).src = arrResponse[4];
+            }
             if (document.getElementsByClassName('product_more_videos')[0]) {
                 document.getElementsByClassName('product_more_videos')[0].innerHTML = arrResponse[16];
             }

@@ -947,6 +947,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			rs_customer_message_ta	: rs_customer_message_ta,
 			txt_referral_code	: txt_referral_code,
 			objectname	: objectname,
+			objecttype	: classname,
 			Itemid	: Itemid,
 			sid	: Math.random(),
 			anonymous: anonymous
@@ -993,7 +994,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 
 			SqueezeBox.initialize({});
 
-			$$('a.modal').each(function(el) {
+			$$('a.modal:last-child').each(function(el) {
 				el.addEvent('click', function(e) {
 					e.preventDefault();
 					SqueezeBox.fromElement(el);
