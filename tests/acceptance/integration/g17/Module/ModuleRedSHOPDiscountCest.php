@@ -360,7 +360,7 @@ class ModuleRedSHOPDiscountCest
 			"minimumOrder"      => 0,
 			"enableQuotation"   => 'no'
 		);
-		$this->functionDontHaveDiscount      = 'dontHaveHisscount';
+		$this->functionDontHaveDiscount      = 'dontHaveDiscount';
 		$this->functionHaveDiscount          = 'haveDiscount';
 	}
 

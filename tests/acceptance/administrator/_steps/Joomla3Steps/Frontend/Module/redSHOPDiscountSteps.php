@@ -36,7 +36,7 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 
 		switch ($function)
 		{
-			case 'dontHaveHisscount':
+			case 'dontHaveDiscount':
 			{
 				$I->doFrontEndLogin($username, $password);
 				$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -48,7 +48,7 @@ class redSHOPDiscountSteps extends CheckoutOnFrontEnd
 				break;
 			}
 
-			case 'haveDisscount':
+			case 'haveDiscount':
 			{
 				$I->comment("I checkout with User In Group Have Discount");
 				$I->doFrontEndLogin($username, $password);
