@@ -947,7 +947,6 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			rs_customer_message_ta	: rs_customer_message_ta,
 			txt_referral_code	: txt_referral_code,
 			objectname	: objectname,
-			objecttype	: classname,
 			Itemid	: Itemid,
 			sid	: Math.random(),
 			anonymous: anonymous
