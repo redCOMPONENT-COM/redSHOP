@@ -21,66 +21,66 @@ use Configuration\ConfigurationSteps;
  */
 class shippingDefaultGLSCest
 {
-    /**
-     * @var \Faker\Generator
-     * @since 2.1.3
-     */
-    protected $faker;
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.3
+	 */
+	protected $faker;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
-    protected $extensionURL;
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $extensionURL;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
-    protected $pluginName;
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $pluginName;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
-    protected $pluginURL;
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $pluginURL;
 
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
-    protected $package;
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $package;
 
-    /**
-     * @var array
-     * @since 2.1.3
-     */
-    protected $shipping;
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $shipping;
 
-    /**
-     * @var string
-     * @since 2.1.3
-     */
-    protected $categoryName;
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $categoryName;
 
-    /**
-     * @var array
-     * @since 2.1.3
-     */
-    protected $product;
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $product;
 
-    /**
-     * @var mixed
-     * @since 2.1.3
-     */
-    protected $total;
+	/**
+	 * @var mixed
+	 * @since 2.1.3
+	 */
+	protected $total;
 
-    /**
-     * @var array
-     * @since 2.1.3
-     */
-    protected $customerInformation;
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $customerInformation;
 
 	/**
 	 * shippingDefaultGLSCest constructor.
@@ -98,7 +98,7 @@ class shippingDefaultGLSCest
 		// Shipping info
 		$this->shipping = array(
 			'shippingName' => 'Shipping Default GLS',
-			'shippingRate' => $this->faker->numberBetween(20,80)
+			'shippingRate' => 10
 		);
 
 		$this->categoryName = $this->faker->bothify("Category Demo ?##?");
