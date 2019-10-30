@@ -993,7 +993,7 @@ class RedshopHelperExtrafields
 			{
 				if ($row->type == self::TYPE_WYSIWYG || $row->type == self::TYPE_TEXT || $row->type == self::TYPE_TEXT_AREA)
 				{
-					$dataTxt = JFactory::getApplication()->input->get($row->name, '', 'RAW');
+					$dataTxt = \JFilterInput::getInstance()->clean($data[$row->name]);
 				}
 				else
 				{
