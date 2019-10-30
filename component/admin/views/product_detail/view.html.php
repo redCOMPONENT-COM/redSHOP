@@ -545,11 +545,15 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		$lists['product_tax_group_id'] = JHtml::_('select.genericlist', $productVatGroup, 'product_tax_group_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->product_tax_group_id
 		);
-		$prop_oprand                   = array();
-		$prop_oprand[]                 = JHtml::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-		$prop_oprand[]                 = JHtml::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
-		$prop_oprand[]                 = JHtml::_('select.option', '=', JText::_('COM_REDSHOP_EQUAL'));
-		$prop_oprand[]                 = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
+
+		$propOprand   = array();
+		$propOprand[] = JHtml::_('select.option', '+', '+');
+		$propOprand[] = JHtml::_('select.option', '-', '-');
+		$propOprand[] = JHtml::_('select.option', '=', '=');
+		$propOprand[] = JHtml::_('select.option', '*', '*');
+		$propOprand[] = JHtml::_('select.option', '/', '/');
+
+		$lists['prop_oprand'] = $propOprand;
 
 		$cat_in_sefurl          = $model->catin_sefurl($detail->product_id);
 		$lists['cat_in_sefurl'] = JHtml::_('select.genericlist', $cat_in_sefurl, 'cat_in_sefurl',

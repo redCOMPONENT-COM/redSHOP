@@ -25,9 +25,12 @@ class RedshopHelperJs
 	 */
 	public static function init()
 	{
-		$doc     = JFactory::getDocument();
-		$input   = JFactory::getApplication()->input;
-		$session = JFactory::getSession();
+		$doc       = JFactory::getDocument();
+		$input     = JFactory::getApplication()->input;
+		$session   = JFactory::getSession();
+		$langCode  = JFactory::getLanguage()->getTag();
+		$languages = JLanguageHelper::getLanguages('lang_code');
+		$langSef   = $languages[$langCode]->sef;
 
 		$view   = $input->getCmd('view');
 		$layout = $input->getCmd('layout');
@@ -54,7 +57,7 @@ class RedshopHelperJs
 		$dynamicVars = array(
 			'SITE_URL'                          => JUri::root(),
 			'AJAX_TOKEN'                        => $token,
-			'AJAX_BASE_URL'                     => "index.php?tmpl=component&option=com_redshop&" . $token . "=1",
+			'AJAX_BASE_URL'                     => JUri::root() . "index.php?tmpl=component&option=com_redshop&" . $token . "=1&lang=" . $langSef,
 			'AJAX_CART_BOX'                     => $config->get('AJAX_CART_BOX'),
 			'REDSHOP_VIEW'                      => $view,
 			'REDSHOP_LAYOUT'                    => $layout,
