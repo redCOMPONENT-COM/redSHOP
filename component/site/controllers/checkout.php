@@ -271,7 +271,9 @@ class RedshopControllerCheckout extends RedshopController
 
 				return $return;
 			}
-			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
+			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1
+				&& Redshop::getConfig()->get('REQUIRED_EAN_NUMBER')
+				&& trim($billingaddresses->ean_number) != '')
 			{
 				RedshopEconomic::createUserInEconomic($billingaddresses);
 
@@ -287,7 +289,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
-		if (!trim($billingaddresses->address))
+		if (!trim($billingaddresses->address) && Redshop::getConfig()->get('REQUIRED_ADDRESS'))
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS');
@@ -295,7 +297,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			return $return;
 		}
-		elseif (!$billingaddresses->country_code)
+		elseif (!$billingaddresses->country_code && Redshop::getConfig()->get('REQUIRED_COUNTRY_CODE'))
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_SELECT_COUNTRY');
@@ -303,7 +305,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			return $return;
 		}
-		elseif (!$billingaddresses->zipcode)
+		elseif (!$billingaddresses->zipcode && Redshop::getConfig()->get('REQUIRED_POSTAL_CODE'))
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE');
@@ -311,7 +313,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			return $return;
 		}
-		elseif (!$billingaddresses->phone)
+		elseif (!$billingaddresses->phone && Redshop::getConfig()->get('REQUIRED_PHONE'))
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE');
