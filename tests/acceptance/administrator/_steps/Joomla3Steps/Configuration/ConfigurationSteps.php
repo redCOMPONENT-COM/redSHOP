@@ -9,6 +9,7 @@
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
+use OrderManagerPage;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
@@ -115,6 +116,64 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $configureWithlist
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function ConfigFeatureWishList($configureWithlist)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForText(ConfigurationPage::$namePage, 30, ConfigurationPage::$h1);
+		$I->waitForElementVisible(["link" => ConfigurationPage::$featureSetting], 30);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$wishListTab, 60);
+
+		switch ($configureWithlist['enableWishList'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$wishListYes, 30);
+				$I->click(ConfigurationPage::$wishListYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$wishListNo, 30);
+				$I->click(ConfigurationPage::$wishListNo);
+				break;
+		}
+
+		switch ($configureWithlist['wishlistLoginRequired'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireYes, 30);
+				$I->click(ConfigurationPage::$loginRequireYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireNo, 30);
+				$I->click(ConfigurationPage::$loginRequireNo);
+				break;
+		}
+
+		switch ($configureWithlist['enableWishlistList'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$wishListListYes, 30);
+				$I->click(ConfigurationPage::$wishListListYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$wishListListNo, 30);
+				$I->click(ConfigurationPage::$wishListListNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
 	 * @param   string $country
 	 * @param $state
 	 * @param $vatDefault
@@ -151,7 +210,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->waitForElement($userConfigurationPage->returnChoice($state), 30);
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
-		
+
 		// Get default vat
 		$I->click(\ConfigurationPage::$vatGroup);
 		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);
@@ -208,116 +267,144 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
 
-	public function cartSetting($addcart, $allowPreOrder, $enableQuation, $cartTimeOut, $enabldAjax, $defaultCart, $buttonCartLead, $onePage, $showShippingCart, $attributeImage, $quantityChange, $quantityInCart, $minimunOrder)
+	/**
+	 * @param $cartSetting
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function cartSetting($cartSetting)
 	{
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
 		$I->click(\ConfigurationPage::$cartCheckout);
 		$userConfiguration = new \ConfigurationPage();
-		switch ($addcart)
+
+		switch ($cartSetting['addCart'])
 		{
 			case 'product':
+				$I->waitForElementVisible(\ConfigurationPage::$addCartProduct, 30);
 				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
+				$I->waitForElementVisible(\ConfigurationPage::$addCartAttibute, 30);
 				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
-		switch ($allowPreOrder)
+
+		switch ($cartSetting['allowPreOrder'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$allowPreOrOderYes, 30);
 				$I->click(\ConfigurationPage::$allowPreOrOderYes);
 				break;
-
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$allowPreorderNo, 30);
 				$I->click(\ConfigurationPage::$allowPreorderNo);
 				break;
 		}
-		switch ($enableQuation)
+
+		switch ($cartSetting['enableQuotation'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationYes, 30);
 				$I->click(\ConfigurationPage::$enableQuotationYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationNo, 30);
 				$I->click(\ConfigurationPage::$enableQuotationNo);
 				break;
 		}
 
-		$I->fillField(\ConfigurationPage::$cartTimeOut, $cartTimeOut);
+		$I->fillField(\ConfigurationPage::$cartTimeOut, $cartSetting['cartTimeOut']);
 
-		switch ($enabldAjax)
+		switch ($cartSetting['enabledAjax'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxYes, 30);
 				$I->click(\ConfigurationPage::$enableAjaxYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxNo, 30);
 				$I->click(\ConfigurationPage::$enableAjaxNo);
 				break;
 		}
+
 		//choice default cart/checkout item ID
-		if ($defaultCart != null)
+		if ($cartSetting['defaultCart'] != null)
 		{
 			$I->click(\ConfigurationPage::$defaultCart);
 			$I->waitForElement(\ConfigurationPage::$defaultCartSearch, 5);
-			$I->fillField(\ConfigurationPage::$defaultCartSearch, $defaultCart);
-			$I->waitForElement($userConfiguration->returnChoice($defaultCart));
-			$I->click($userConfiguration->returnChoice($defaultCart));
+			$I->fillField(\ConfigurationPage::$defaultCartSearch, $cartSetting['defaultCart']);
+			$I->waitForElement($userConfiguration->returnChoice($cartSetting['defaultCart']));
+			$I->click($userConfiguration->returnChoice($cartSetting['defaultCart']));
 		}
 
 		//Choice add to cart button lead
 		$I->click(\ConfigurationPage::$buttonCartLead);
 		$I->waitForElement(\ConfigurationPage::$buttonCartSearch);
-		$I->fillField(\ConfigurationPage::$buttonCartSearch, $buttonCartLead);
-		$I->waitForElement($userConfiguration->returnChoice($buttonCartLead),30);
+		$I->fillField(\ConfigurationPage::$buttonCartSearch, $cartSetting['buttonCartLead']);
+		$I->waitForElement($userConfiguration->returnChoice($cartSetting['buttonCartLead']),30);
 		$I->click(\ConfigurationPage::$firstCartSearch);
 
-		switch ($onePage)
+		switch ($cartSetting['onePage'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$onePageYes, 30);
 				$I->click(\ConfigurationPage::$onePageYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$onePageNo, 30);
 				$I->click(\ConfigurationPage::$onePageNo);
 				break;
 		}
 
-		switch ($showShippingCart)
+		switch ($cartSetting['showShippingCart'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartYes, 30);
 				$I->click(\ConfigurationPage::$showShippingCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartNo, 30);
 				$I->click(\ConfigurationPage::$showShippingCartNo);
 				break;
 		}
 
-		switch ($attributeImage)
+		switch ($cartSetting['attributeImage'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartYes, 30);
 				$I->click(\ConfigurationPage::$attributeImageInCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartNo, 30);
 				$I->click(\ConfigurationPage::$attributeImageInCartNo);
 				break;
 		}
 
-		switch ($quantityChange)
+		switch ($cartSetting['quantityChange'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartYes, 30);
 				$I->click(\ConfigurationPage::$quantityChangeInCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartNo, 30);
 				$I->click(\ConfigurationPage::$quantityChangeInCartNo);
 				break;
 		}
-		$I->fillField(\ConfigurationPage::$quantityInCart, $quantityInCart);
 
-		$I->fillField(\ConfigurationPage::$minimunOrderTotal, $minimunOrder);
+		$I->fillField(\ConfigurationPage::$quantityInCart, $cartSetting['quantityInCart']);
+		$I->fillField(\ConfigurationPage::$minimunOrderTotal, $cartSetting['quantityInCart']);
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @param array $discount
+	 * @throws \Exception
+	 */
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
@@ -413,6 +500,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
+
 	/**
 	 * @param $name
 	 */
@@ -423,9 +511,17 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
 	}
+
 	/**
 	 * @param $price
 	 * @param $order
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
 	{
@@ -442,7 +538,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		}
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->searchOrder($order);
+		$I->wait(0.5);
+		$I->waitForElementVisible(\OrderManagerPage::$iconEdit, 30);
 		$I->click(\OrderManagerPage::$iconEdit);
+		$I->waitForElementVisible(\OrderManagerPage::$quantityp1, 30);
 		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
 		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
@@ -460,15 +559,15 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @throws \Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function productsUsedStockRoomAttribute()
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
-		$I->waitForElementVisible(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
 		$I->click(ConfigurationPage::$productTab);
-		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeYes);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeYes, 30);
 		$I->click(ConfigurationPage::$stockRoomAttributeYes);
 		$I->click(ConfigurationPage::$buttonSave);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
@@ -477,17 +576,206 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @throws \Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function productsOffStockRoomAttribute()
 	{
 		$I = $this;
 		$I->amOnPage(ConfigurationPage::$URL);
-		$I->waitForElementVisible(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
 		$I->click(ConfigurationPage::$productTab);
-		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeNo);
+		$I->waitForElementVisible(ConfigurationPage::$stockRoomAttributeNo, 30);
 		$I->click(ConfigurationPage::$stockRoomAttributeNo);
 		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $function
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function checkConfigurationProductRelated($function)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$relatedProductTab, 30);
+		$I->click(ConfigurationPage::$relatedProductTab);
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(ConfigurationPage::$twoWayRelatedYes, 30);
+				$I->click(ConfigurationPage::$twoWayRelatedYes);
+				break;
+			case 'No':
+				$I->waitForElementVisible(ConfigurationPage::$twoWayRelatedNo, 30);
+				$I->click(ConfigurationPage::$twoWayRelatedNo);
+				break;
+		}
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $price
+	 * @param $order
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @param $status
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkPriceTotalHaveStatusOder($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod, $status)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+
+		for ($b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+
+		$I->amOnPage(OrderManagerPage::$URL);
+		$I->searchOrder($order);
+		$I->wait(0.5);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
+		$I->click(OrderManagerPage::$iconEdit);
+		$I->waitForText(OrderManagerPage::$titlePage,30, OrderManagerPage:: $h1 );
+		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$firstName = 'First Name: '.$firstName;
+		$lastName = 'Last Name: '.$lastName;
+		$I->waitForText($firstName, 30);
+		$I->waitForText($lastName, 30);
+		$I->waitForText($paymentMethod, 30);
+		$I->waitForText($productName, 30);
+		$I->waitForText($categoryName, 30);
+		$I->see($priceProduct);
+		$I->see($priceTotal);
+		$I->waitForText($status, 30);
+	}
+
+	/**
+	 * @param array $configurationOder
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function ConfigurationOder($configurationOder = array())
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$ordersTab, 30);
+		$I->click(ConfigurationPage::$ordersTab);
+
+		if(isset($configurationOder['resetIdOder']))
+		{
+			$I->waitForElementVisible(ConfigurationPage::$resetOderId, 30);
+			$I->click(ConfigurationPage::$resetOderId);
+			$I->acceptPopup();
+			$I->wait(2); 
+			$I->canSeeInPopup(ConfigurationPage::$messagePopup);
+			$I->seeInPopup(ConfigurationPage::$messagePopup);
+			$I->acceptPopup();
+		}
+
+		if(isset($configurationOder['sendOderEmail']))
+		{
+			if (isset($configurationOder['afterPayment'])) {
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$afterPayment);
+				$I->click(ConfigurationPage::$afterPayment);
+			}
+
+			if (isset($configurationOder['afterPayment2'])) {
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
+				$I->fillField(ConfigurationPage::$inputOderEmail, $configurationOder['afterPayment2']);
+				$usePage = new ConfigurationPage();
+				$I->waitForElement($usePage->returnChoice($configurationOder['afterPayment2']), 30);
+				$I->click($usePage->returnChoice($configurationOder['afterPayment2']));
+			}
+
+			if (isset($configurationOder['beforePayment'])){
+				$I->waitForElementVisible(ConfigurationPage::$sendOrderEmail);
+				$I->click(ConfigurationPage::$sendOrderEmail);
+				$I->waitForElementVisible(ConfigurationPage::$inputOderEmail, 30);
+				$I->fillField(ConfigurationPage::$inputOderEmail, $configurationOder['beforePayment']);
+				$usePage = new ConfigurationPage();
+				$I->waitForElement($usePage->returnChoice($configurationOder['beforePayment']), 30);
+				$I->click($usePage->returnChoice($configurationOder['beforePayment']));
+			}
+		}
+
+		if (isset($configurationOder['enableInVoiceEmail']))
+		{
+			if (isset($configurationOder['Yes']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailYes, 30);
+				$I->click(ConfigurationPage::$enableInvoiceEmailYes);
+
+				if (isset($configurationOder['None']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$noneButton, 30);
+					$I->click(ConfigurationPage::$noneButton);
+				}
+
+				if (isset($configurationOder['Administrator']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$administratorButton, 30);
+					$I->click(ConfigurationPage::$administratorButton);
+				}
+
+				if (isset($configurationOder['Customer']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$customerButton, 30);
+					$I->click(ConfigurationPage::$customerButton);
+				}
+
+				if (isset($configurationOder['Both']))
+				{
+					$I->waitForElementVisible(ConfigurationPage::$bothButton, 30);
+					$I->click(ConfigurationPage::$bothButton);
+				}
+
+			}
+			if (isset($configurationOder['No']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$enableInvoiceEmailNo, 30);
+				$I->click(ConfigurationPage::$enableInvoiceEmailNo);
+			}
+		}
+
+		if (isset($configurationOder['sendMailToCustomerInOder']))
+		{
+			if (isset($configurationOder['Yes']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$sendMailToCustomerInOrderYes, 30);
+				$I->click(ConfigurationPage::$sendMailToCustomerInOrderYes);
+			}
+			if (isset($configurationOder['No']))
+			{
+				$I->waitForElementVisible(ConfigurationPage::$sendMailToCustomerInOrderNo, 30);
+				$I->click(ConfigurationPage::$sendMailToCustomerInOrderNo);
+			}
+		}
+
+		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}

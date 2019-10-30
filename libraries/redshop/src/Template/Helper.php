@@ -72,7 +72,7 @@ class Helper
 	{
 		$userId          = !$userId ? \JFactory::getUser()->id : $userId;
 		$userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
-		$userInformation = ($userInformation === new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
+		$userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
 
 		if (!empty($userInformation)
 			&& isset($userInformation->show_price_without_vat)

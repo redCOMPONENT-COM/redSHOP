@@ -14,55 +14,55 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 
 /**
  * Class ProductsConfigurationCest
- * since 2.1.2
+ * @since 2.1.2
  */
 class ProductsConfigurationCest
 {
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomProductNameAttribute;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomCategoryName;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomProductAttributeNumber;
 
 	/**
 	 * @var int
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $randomProductPrice;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $nameAttribute;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $valueAttribute;
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	protected $priceAttribute;
 
 	/**
 	 * ProductsConfigurationCest constructor.
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function __construct()
 	{
@@ -79,7 +79,7 @@ class ProductsConfigurationCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -90,9 +90,9 @@ class ProductsConfigurationCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
-	public function checkDisplayOutOfStockAttributeYes(AcceptanceTester $I,$scenario )
+	public function checkDisplayOutOfStockAttributeYes(AcceptanceTester $I, $scenario )
 	{
 		$I->wantTo('Test enable Stockroom in Configuration');
 		$I = new ConfigurationSteps($scenario);
@@ -121,9 +121,9 @@ class ProductsConfigurationCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
-	public function checkDisplayOutOfStockAttibuteNo(AcceptanceTester $I,$scenario)
+	public function checkDisplayOutOfStockAttibuteNo(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test enable Stockroom in Configuration');
 		$I = new ConfigurationSteps($scenario);
@@ -135,7 +135,11 @@ class ProductsConfigurationCest
 		$I->wantTo('I Want to check Product With Attribute StockRoom');
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->wantTo('I Want to check Product With Attribute StockRoom');
-		$I->checkProductWithAttributeStockRoomNo($this->randomCategoryName,$this->randomProductNameAttribute, $this->nameAttribute);
+		$I->checkProductWithAttributeStockRoomNo($this->randomCategoryName, $this->randomProductNameAttribute, $this->nameAttribute);
+
+		$I->wantTo('Test Disable Stockroom in Configuration');
+		$I = new ConfigurationSteps($scenario);
+		$I->featureOffStockRoom();
 
 		$I->wantTo('I Want to delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);

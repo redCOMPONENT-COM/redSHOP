@@ -176,6 +176,50 @@ class ConfigurationPage extends AdminJ3Page
 	 */
 	public static $ratingTab = "//h3[text()='Rating']";
 
+	//WishList
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListTab = "//h3[text()='Wishlist']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListNo = '#my_wishlist_0-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListYes = '#my_wishlist_1-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $loginRequireNo = '#wishlist_login_required_0-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $loginRequireYes = '#wishlist_login_required_1-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListListNo = '#wishlist_list_0-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $wishListListYes = '#wishlist_list_1-lbl';
+
 	//button
 
 	/**
@@ -464,24 +508,144 @@ class ConfigurationPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $productTab = '//a[@href="#producttab"]';
 	/**
 	 * @var string
-	 * sice 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $stockRoomAttributeYes = '//label[@id="display_out_of_stock_attribute_data_1-lbl"]';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $stockRoomAttributeNo = '//label[@id="display_out_of_stock_attribute_data_0-lbl"]';
 
 	/**
 	 * @var string
-	 * since 2.1.2
+	 * @since 2.1.2
 	 */
 	public static $messOutOfStockRoom = 'Out of Stock.';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $productAccessory = '//a[@href="#accessory"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $relatedProductTab = '//a[@href="#related"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $enableAccessoryYes = '//label[@id="accessory_as_product_in_cart_enable_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $twoWayRelatedYes = '//label[@id="twoway_related_product_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $enableAccessoryNo = '//label[@id="accessory_as_product_in_cart_enable_0-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $twoWayRelatedNo = '//label[@id="twoway_related_product_0-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $ordersTab = '//a[@href="#ordertab"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $resetOderId = '//a[@title="Order ID Reset"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $sendOrderEmail = '//div[@id="s2id_order_mail_after"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $inputOderEmail = '//input[@id="s2id_autogen44_search"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $enableInvoiceEmailYes = '//label[@id="invoice_mail_enable_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $enableInvoiceEmailNo = '//label[@id="invoice_mail_enable_0-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $sendMailToCustomerInOrderYes = '//label[@id="send_mail_to_customer_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $sendMailToCustomerInOrderNo = '//label[@id="send_mail_to_customer_0-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $afterPayment = '//ul[@id="select2-results-44"]/li[3]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $noneButton = '//label[@id="invoice_mail_send_option_0-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $administratorButton = '//label[@id="invoice_mail_send_option_1-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $customerButton = '//label[@id="invoice_mail_send_option_2-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $bothButton = '//label[@id="invoice_mail_send_option_3-lbl"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messagePopup = 'Successfully reset order id';
 }
