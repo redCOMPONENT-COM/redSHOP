@@ -9,6 +9,7 @@
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
+use OrderManagerPage;
 
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
@@ -112,6 +113,64 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $configureWithlist
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function ConfigFeatureWishList($configureWithlist)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForText(ConfigurationPage::$namePage, 30, ConfigurationPage::$h1);
+		$I->waitForElementVisible(["link" => ConfigurationPage::$featureSetting], 30);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$wishListTab, 60);
+
+		switch ($configureWithlist['enableWishList'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$wishListYes, 30);
+				$I->click(ConfigurationPage::$wishListYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$wishListNo, 30);
+				$I->click(ConfigurationPage::$wishListNo);
+				break;
+		}
+
+		switch ($configureWithlist['wishlistLoginRequired'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireYes, 30);
+				$I->click(ConfigurationPage::$loginRequireYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireNo, 30);
+				$I->click(ConfigurationPage::$loginRequireNo);
+				break;
+		}
+
+		switch ($configureWithlist['enableWishlistList'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$wishListListYes, 30);
+				$I->click(ConfigurationPage::$wishListListYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$wishListListNo, 30);
+				$I->click(ConfigurationPage::$wishListListNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
 	/**
@@ -223,9 +282,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['addCart'])
 		{
 			case 'product':
+				$I->waitForElementVisible(\ConfigurationPage::$addCartProduct, 30);
 				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
+				$I->waitForElementVisible(\ConfigurationPage::$addCartAttibute, 30);
 				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
@@ -233,9 +294,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['allowPreOrder'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$allowPreOrOderYes, 30);
 				$I->click(\ConfigurationPage::$allowPreOrOderYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$allowPreorderNo, 30);
 				$I->click(\ConfigurationPage::$allowPreorderNo);
 				break;
 		}
@@ -243,9 +306,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['enableQuotation'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationYes, 30);
 				$I->click(\ConfigurationPage::$enableQuotationYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationNo, 30);
 				$I->click(\ConfigurationPage::$enableQuotationNo);
 				break;
 		}
@@ -255,9 +320,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['enabledAjax'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxYes, 30);
 				$I->click(\ConfigurationPage::$enableAjaxYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxNo, 30);
 				$I->click(\ConfigurationPage::$enableAjaxNo);
 				break;
 		}
@@ -282,9 +349,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['onePage'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$onePageYes, 30);
 				$I->click(\ConfigurationPage::$onePageYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$onePageNo, 30);
 				$I->click(\ConfigurationPage::$onePageNo);
 				break;
 		}
@@ -292,9 +361,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['showShippingCart'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartYes, 30);
 				$I->click(\ConfigurationPage::$showShippingCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartNo, 30);
 				$I->click(\ConfigurationPage::$showShippingCartNo);
 				break;
 		}
@@ -302,9 +373,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['attributeImage'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartYes, 30);
 				$I->click(\ConfigurationPage::$attributeImageInCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartNo, 30);
 				$I->click(\ConfigurationPage::$attributeImageInCartNo);
 				break;
 		}
@@ -312,9 +385,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['quantityChange'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartYes, 30);
 				$I->click(\ConfigurationPage::$quantityChangeInCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartNo, 30);
 				$I->click(\ConfigurationPage::$quantityChangeInCartNo);
 				break;
 		}
@@ -425,6 +500,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(\ConfigurationPage::$buttonSave);
 		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
 	}
+
 	/**
 	 * @param $name
 	 */
@@ -462,6 +538,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		}
 		$I->amOnPage(\OrderManagerPage::$URL);
 		$I->searchOrder($order);
+		$I->wait(0.5);
 		$I->waitForElementVisible(\OrderManagerPage::$iconEdit, 30);
 		$I->click(\OrderManagerPage::$iconEdit);
 		$I->waitForElementVisible(\OrderManagerPage::$quantityp1, 30);
@@ -544,6 +621,56 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $price
+	 * @param $order
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @param $status
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkPriceTotalHaveStatusOder($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod, $status)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+
+		for ($b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+
+		$I->amOnPage(OrderManagerPage::$URL);
+		$I->searchOrder($order);
+		$I->wait(0.5);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
+		$I->click(OrderManagerPage::$iconEdit);
+		$I->waitForText(OrderManagerPage::$titlePage,30, OrderManagerPage:: $h1 );
+		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
+		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
+		$firstName = 'First Name: '.$firstName;
+		$lastName = 'Last Name: '.$lastName;
+		$I->waitForText($firstName, 30);
+		$I->waitForText($lastName, 30);
+		$I->waitForText($paymentMethod, 30);
+		$I->waitForText($productName, 30);
+		$I->waitForText($categoryName, 30);
+		$I->see($priceProduct);
+		$I->see($priceTotal);
+		$I->waitForText($status, 30);
+	}
+
+	/**
+	 * @param array $configurationOder
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */

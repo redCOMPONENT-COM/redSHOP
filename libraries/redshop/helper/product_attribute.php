@@ -77,7 +77,7 @@ abstract class RedshopHelperProduct_Attribute
 					{
 						if (($attributeSetId && $attributeSetId !== $attribute->attribute_set_id)
 							|| ($attributeId && $attributeId !== $attribute->attribute_id)
-							|| ($published && $published !== $attribute->attribute_published)
+							|| ($published && $published !== (int) $attribute->attribute_published)
 							|| ($published && $attributeSetId && $published !== $attribute->attribute_set_published)
 							|| ($attributeRequired && $attributeRequired !== (int) $attribute->attribute_required))
 						{
@@ -133,7 +133,7 @@ abstract class RedshopHelperProduct_Attribute
 					$query->where('a.attribute_required = ' . (int) $attributeRequired);
 				}
 
-				if ($notAttributeId != 0)
+				if ($notAttributeId !== '')
 				{
 					// Sanitize ids
 					$notAttributeIds = explode(',', $notAttributeId);
