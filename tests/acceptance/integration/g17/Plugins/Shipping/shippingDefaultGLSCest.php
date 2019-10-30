@@ -83,6 +83,12 @@ class shippingDefaultGLSCest
 	protected $customerInformation;
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $function;
+
+	/**
 	 * shippingDefaultGLSCest constructor.
 	 * @since 2.1.3
 	 */
@@ -110,6 +116,7 @@ class shippingDefaultGLSCest
 
 		$this->total = $this->product['price'] + $this->shipping['shippingRate'];
 
+		$this->function    = 'saveclose';
 		$this->customerInformation = array(
 			"userName"      => $this->faker->userName,
 			"email"         => $this->faker->email,
@@ -150,7 +157,7 @@ class shippingDefaultGLSCest
 		$I->enablePlugin($this->pluginName);
 
 		$I = new ShippingSteps($scenario);
-		$I->createShippingRateStandard($this->pluginName, $this->shipping, 'saveclose');
+		$I->createShippingRateStandard($this->pluginName, $this->shipping, $this->function);
 	}
 
 	/**
