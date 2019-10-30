@@ -622,7 +622,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @throws \Exception
 	 */
-	public function deleteAttributeValue($productName)
+	public function deleteAttributeValue($productName, $nameAttribute)
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
@@ -631,6 +631,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
 		$I->click(ProductManagerPage::$buttonProductAttribute);
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+		$I->waitForElementVisible(['link' => 'Attribute value: '.$nameAttribute], 30);
+		$I->click(['link' => 'Attribute value: '.$nameAttribute]);
 		$I->click(ProductManagerPage::$buttonDelete);
 		$I->cancelPopup();
 		$I->click(ProductManagerPage::$buttonDelete);

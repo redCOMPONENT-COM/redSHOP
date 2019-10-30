@@ -123,9 +123,9 @@ class OnePageCheckoutMissingDataCest
 		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'acceptTerms');
 		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'acceptTerms');
 
-		$I->wantToTest('Check out with missing click payment');
-		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'payment');
-		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'payment');
+//		$I->wantToTest('Check out with missing click payment');
+//		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'payment');
+//		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'payment');
 
 		$I->wantToTest('Check out with wrong address email');
 		$this->customerInformation['email'] = "test";
