@@ -1,0 +1,65 @@
+/**********************************
+
+Name: cmxform Styles
+
+***********************************/
+
+form.cmxform {
+  width: 370px;
+  font-size: 1.0em;
+  color: #333;
+  legend {
+    padding-left: 0;
+    color: #333;
+  }
+  label {
+    color: #333;
+  }
+  fieldset {
+    border: none;
+    border-top: 1px solid #C9DCA6;
+    background: url(../images/cmxform-fieldset.gif) left bottom repeat-x;
+    background-color: #F8FDEF;
+    fieldset {
+      background: none;
+    }
+    p, fieldset {
+      padding: 5px 10px 7px;
+      background: url(../images/cmxform-divider.gif) left bottom repeat-x;
+    }
+  }
+  label.error {
+    /* remove the next line when you have trouble in IE6 with labels in list */
+    color: red;
+    font-style: italic;
+  }
+}
+
+label.error {
+  /* remove the next line when you have trouble in IE6 with labels in list */
+  color: red;
+  font-style: italic;
+}
+
+table div.error {
+  display: none;
+}
+
+input {
+  &.checkbox {
+    border: none;
+  }
+  &.error {
+    border: 1px dotted red;
+  }
+}
+
+/*input:focus { border: 1px dotted black; }*/
+
+select.error {
+  border: 1px dotted red;
+}
+
+form.cmxform .gray * {
+  color: gray;
+}

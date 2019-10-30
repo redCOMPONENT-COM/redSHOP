@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_REDSHOP_FEATURED_PRODUCT_LAYOUT">
+        <message>
+            <![CDATA[COM_REDSHOP_FEATURED_PRODUCT_LAYOUT_DESC]]>
+        </message>
+    </layout>
+    <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+        <fieldset name="basic">
+                <field name="template_id" type="template" label="COM_REDSHOP_SELECT_TEMPLATE" required="true"
+                       description="Displays the Products of selected category Template"/>
+        </fieldset>
+    </fields>
+</metadata>
+
+
+

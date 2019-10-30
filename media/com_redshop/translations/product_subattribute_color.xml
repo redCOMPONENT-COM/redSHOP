@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contentelement type="contentelement">
+    <name>Redshop Sub-Attribute Colors</name>
+    <author>redCOMPONENT</author>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <version>1.5.0</version>
+    <description>Translation definition for redSHOP Sub-Attribute Colors</description>
+    <reference>
+        <table name="redshop_product_subattribute_color">
+            <field type="referenceid" name="subattribute_color_id" translate="0">ID</field>
+            <field type="titlettext" name="subattribute_color_title" translate="1" >Title</field>
+            <field type="text" name="subattribute_color_name" translate="1" >Name</field>
+            <field type="text" name="subattribute_color_image" translate="1">Image</field>
+            <field type="text" name="subattribute_color_main_image" translate="1">Main Image</field>
+            <field type="state" name="subattribute_published" stateoptions="0,1" translate="1">State</field>
+        </table>
+        <component>
+            <form>com_redshop#colors#cid#task#!edit</form>
+        </component>
+    </reference>
+</contentelement>

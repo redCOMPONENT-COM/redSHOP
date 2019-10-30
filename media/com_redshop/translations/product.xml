@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contentelement type="contentelement">
+    <name>Redshop Products</name>
+    <author>redCOMPONENT</author>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <version>1.5.0</version>
+    <description>Translation definition for redSHOP Products</description>
+    <reference>
+        <table name="redshop_product">
+            <field type="referenceid" name="product_id" translate="0">ID</field>
+            <field type="titletext" name="product_name" translate="1" >Name</field>
+            <field type="htmltext" name="product_s_desc" translate="1" ebuttons="readmore,pagebreak">Short description</field>
+            <field type="htmltext" name="product_desc" translate="1" ebuttons="readmore,pagebreak">Description</field>
+            <field type="text" name="product_thumb_image" translate="1">Thumb image</field>
+            <field type="text" name="product_full_image" translate="1">Full image</field>
+            <field type="text" name="metakey" translate="1" >Meta Key</field>
+            <field type="text" name="metadesc" translate="1" >Meta Description</field>
+            <field type="text" name="pagetitle" translate="1" >Page Title</field>
+            <field type="text" name="pageheading" translate="1" >Page Heading</field>
+            <field type="text" name="sef_url" translate="1" >SEF URL</field>
+            <field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
+            <field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
+            <field type="state" name="published" stateoptions="0,1" translate="1">State</field>
+        </table>
+        <component>
+            <form>com_redshop#products#cid#task#!edit</form>
+        </component>
+    </reference>
+</contentelement>

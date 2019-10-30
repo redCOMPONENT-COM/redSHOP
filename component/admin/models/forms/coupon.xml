@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="id"
+                type="hidden"
+        />
+        <field
+                name="code"
+                type="redshop.text"
+                label="COM_REDSHOP_COUPON_CODE"
+                description="COM_REDSHOP_COUPON_CODE_DESC"
+                placeholder="COM_REDSHOP_COUPON_CODE"
+                class="form-control"
+                default=""
+                required="true"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="type"
+                type="redshop.radio"
+                label="COM_REDSHOP_COUPON_TYPE"
+                description="COM_REDSHOP_COUPON_TYPE_DESC"
+                label-class="radio-inline"
+                default="0"
+                table-sortable="1"
+                table-width="5%">
+            <option value="0">COM_REDSHOP_COUPON_TYPE_OPTION_TOTAL</option>
+            <option value="1">COM_REDSHOP_COUPON_TYPE_OPTION_PERCENTAGE</option>
+        </field>
+        <field
+                name="value"
+                type="redshop.text"
+                label="COM_REDSHOP_COUPON_VALUE"
+                description="COM_REDSHOP_COUPON_VALUE_DESC"
+                class="form-control"
+                default="0.0"
+                filter="float"
+                required="true"
+                table-width="10%"
+                table-sortable="1"
+                table-inline="1"
+                table-edit-link="1"
+        />
+        <field
+                name="start_date"
+                type="redshop.calendar"
+                label="COM_REDSHOP_COUPON_START_DATE"
+                description="COM_REDSHOP_COUPON_START_DATE_DESC"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-width="10%"
+        />
+        <field
+                name="end_date"
+                type="redshop.calendar"
+                label="COM_REDSHOP_COUPON_END_DATE"
+                description="COM_REDSHOP_COUPON_END_DATE_DESC"
+                class="form-control"
+                default=""
+                table-sortable="1"
+                table-width="10%"
+        />
+        <field
+                name="effect"
+                type="redshop.radio"
+                label="COM_REDSHOP_COUPON_EFFECT"
+                description="COM_REDSHOP_COUPON_EFFECT_DESC"
+                label-class="radio-inline"
+                default="0"
+                table-sortable="1"
+                table-width="5%">
+            <option value="0">COM_REDSHOP_COUPON_EFFECT_OPTION_GLOBAL</option>
+            <option value="1">COM_REDSHOP_COUPON_EFFECT_OPTION_USER</option>
+        </field>
+        <field
+                name="userid"
+                type="redshop.users"
+                label="COM_REDSHOP_COUPON_USER_SPECIFIC"
+                description="COM_REDSHOP_COUPON_USER_SPECIFIC_DESC"
+                showon="effect:1"
+                class="form-control"
+                default=""
+                table-hide="1">
+            <option value="">COM_REDSHOP_COUPON_USER_SPECIFIC_SELECT</option>
+        </field>
+        <field
+                name="subtotal"
+                type="redshop.text"
+                label="COM_REDSHOP_COUPON_SUBTOTAL"
+                description="COM_REDSHOP_COUPON_SUBTOTAL_DESC"
+                class="form-control"
+                default="0.0"
+                filter="float"
+                table-hide="1"
+        />
+        <field
+                name="free_shipping"
+                type="redshop.radio"
+                label="COM_REDSHOP_COUPON_FREE_SHIPPING"
+                description="COM_REDSHOP_COUPON_FREE_SHIPPING_DESC"
+                label-class="radio-inline"
+                default="0"
+                table-hide="1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="amount_left"
+                type="redshop.text"
+                label="COM_REDSHOP_COUPON_LEFT"
+                description="COM_REDSHOP_COUPON_LEFT_DESC"
+                class="form-control"
+                default="0"
+                filter="integer"
+                table-sortable="1"
+                table-inline="1"
+                table-width="10%"
+        />
+        <field
+                name="published"
+                type="redshop.radio"
+                default="1"
+                label-class="radio-inline"
+                label="COM_REDSHOP_PUBLISHED"
+                description="COM_REDSHOP_PUBLISHED"
+                table-sortable="1"
+                table-width="5%">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fieldset>
+</form>

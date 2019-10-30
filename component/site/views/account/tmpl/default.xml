@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_REDSHOP_ACCOUNT_LAYOUT">
+        <message>
+            <![CDATA[COM_REDSHOP_ACCOUNT_LAYOUT_DESC]]>
+        </message>
+    </layout>
+
+    <fields name="request">
+        <fieldset name="request">
+            <field name="logout" type="menuitem"
+                   disable="separator"
+                   label="COM_REDSHOP_LOGOUT_REDIRECTION_PAGE"
+                   description="COM_REDSHOP_PARAMLOGOUTREDIRECTURL"
+                    />
+        </fieldset>
+    </fields>
+</metadata>

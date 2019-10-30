@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contentelement type="contentelement">
+    <name>Redshop Mails</name>
+    <author>redCOMPONENT</author>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <version>1.5.0</version>
+    <description>Translation definition for redSHOP Mails</description>
+    <reference>
+        <table name="redshop_mail">
+            <field type="referenceid" name="mail_id" translate="0">ID</field>
+            <field type="titletext" name="mail_name" translate="1" >Name</field>
+            <field type="text" name="mail_subject" translate="1" >Subject</field>
+            <field type="htmltext" name="mail_body" translate="1" ebuttons="readmore,pagebreak">Body</field>
+            <field type="state" name="published" stateoptions="0,1" translate="1">State</field>
+            <field type="text" name="mail_bcc" translate="1" >BCC</field>
+        </table>
+        <component>
+            <form>com_redshop#mails#cid#task#!edit</form>
+        </component>
+    </reference>
+</contentelement>

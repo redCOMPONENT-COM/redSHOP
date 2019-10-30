@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+        <field
+                name="giftcard_id"
+                type="hidden"
+                />
+        <field
+                name="giftcard_name"
+                type="redshop.text"
+                label="COM_REDSHOP_GIFTCARD_NAME"
+                description="COM_REDSHOP_GIFTCARD_NAME_TOOLTIP"
+                placeholder="COM_REDSHOP_GIFTCARD_NAME_TOOLTIP"
+                class="form-control"
+                default=""
+                required="true"
+                />
+        <field
+                name="customer_amount"
+                type="redshop.radio"
+                label="COM_REDSHOP_CUSTOMER_AMOUNT"
+                description="COM_REDSHOP_CUSTOMER_AMOUNT_TOOLTIP"
+                label-class="radio-inline"
+                default="0"
+                required="true"
+                >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="giftcard_price"
+                type="redshop.text"
+                label="COM_REDSHOP_GIFTCARD_PRICE"
+                description="COM_REDSHOP_GIFTCARD_PRICE_TOOLTIP"
+                placeholder="COM_REDSHOP_GIFTCARD_PRICE_TOOLTIP"
+                class="form-control"
+                filter="float"
+                size="1"
+                required="true"
+                />
+        <field
+                name="giftcard_value"
+                type="redshop.text"
+                label="COM_REDSHOP_GIFTCARD_VALUE"
+                description="COM_REDSHOP_GIFTCARD_VALUE_TOOLTIP"
+                placeholder="COM_REDSHOP_GIFTCARD_VALUE_TOOLTIP"
+                class="form-control"
+                filter="float"
+                required="true"
+                />
+        <field
+                name="giftcard_validity"
+                type="redshop.text"
+                label="COM_REDSHOP_GIFTCARD_VALIDITY"
+                description="COM_REDSHOP_GIFTCARD_VALIDITY_TOOLTIP"
+                placeholder="COM_REDSHOP_GIFTCARD_VALIDITY_TOOLTIP"
+                class="form-control"
+                filter="integer"
+                required="true"
+                />
+        <field
+                name="free_shipping"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="0"
+                label="COM_REDSHOP_GIFTCARD_FREE_SHIPPING"
+                description="COM_REDSHOP_GIFTCARD_FREE_SHIPPING_DESC"
+                >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="giftcard_bgimage_file"
+                type="file"
+                label="COM_REDSHOP_GIFTCARD_BGIMAGE"
+                description="COM_REDSHOP_GIFTCARD_BGIMAGE_TOOLTIP"
+                required="false"
+                />
+        <field
+                name="giftcard_bgimage"
+                type="hidden"
+                default=""
+                readonly="true"
+                />
+        <field
+                name="giftcard_image_file"
+                type="file"
+                label="COM_REDSHOP_GIFTCARD_IMAGE"
+                description="COM_REDSHOP_GIFTCARD_IMAGE_TOOLTIP"
+                required="false"
+                />
+        <field
+                name="giftcard_image"
+                type="hidden"
+                default=""
+                readonly="true"
+                />
+        <field
+                name="published"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="1"
+                label="COM_REDSHOP_PUBLISHED"
+                required="true">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+        </field>
+    </fieldset>
+    <fieldset name="economic">
+        <field
+                name="accountgroup_id"
+                type="economicaccountgroup"
+                label="COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL"
+                description="COM_REDSHOP_TOOLTIP_ECONOMIC_ACCOUNTGROUP_LBL"
+                class="form-control"
+                size="1"
+                />
+    </fieldset>
+    <fieldset name="description">
+        <field
+                name="giftcard_desc"
+                type="editor"
+                label="COM_REDSHOP_DESCRIPTION"
+                class="inputbox"
+                size="1"
+                filter="safehtml"
+                required="false"
+                />
+    </fieldset>
+</form>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contentelement type="contentelement">
+    <name>Redshop Templates</name>
+    <author>redCOMPONENT</author>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <version>1.6.0</version>
+    <description>Translation definition for redSHOP Templates</description>
+    <reference>
+        <table name="redshop_template">
+            <field type="referenceid" name="id" translate="0">ID</field>
+            <field type="titletext" name="name" translate="1" >Name</field>
+            <field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
+            <field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
+            <field type="state" name="published" stateoptions="0,1" translate="1">State</field>
+        </table>
+        <component>
+            <form>com_redshop#templates#cid#task#!edit</form>
+        </component>
+    </reference>
+</contentelement>

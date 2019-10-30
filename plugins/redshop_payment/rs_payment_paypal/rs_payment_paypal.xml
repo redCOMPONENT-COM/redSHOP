@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redshop_payment"
+           method="upgrade">
+    <name>PLG_RS_PAYMENT_PAYPAL</name>
+    <version>1.5.2</version>
+    <redshop>2.0</redshop>
+    <creationDate>Sep 2016</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>PLG_RS_PAYMENT_PAYPAL_DESC</description>
+    <files>
+        <filename plugin="rs_payment_paypal">rs_payment_paypal.php</filename>
+        <filename>index.html</filename>
+        <folder>rs_payment_paypal</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_paypal.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_paypal.sys.ini</language>
+    </languages>
+    <config addfieldpath="/libraries/redshop/form/fields">
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="debug_mode"
+                        type="radio"
+                        default="1"
+                        label="PLG_RS_PAYMENT_PAYPAL_DEBUG_MODE_LBL"
+                        class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="merchant_email"
+                        type="text"
+                        size="30"
+                        default=""
+                        label="PLG_RS_PAYMENT_PAYPAL_MERCHANT_EMAIL_LBL"
+                />
+                <field
+                        name="verify_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="C"
+                        label="PLG_RS_PAYMENT_PAYPAL_VERIFY_STATUS_LBL"
+                        description="PLG_RS_PAYMENT_PAYPAL_VERIFY_STATUS_DESC"
+                />
+                <field
+                        name="invalid_status"
+                        type="sql"
+                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                        key_field="st_value"
+                        value_field="st_title"
+                        default="P"
+                        label="PLG_RS_PAYMENT_PAYPAL_INVALID_STATUS_LBL"
+                        description="PLG_RS_PAYMENT_PAYPAL_INVALID_STATUS_DESC"
+                />
+                <field
+                        name="currency"
+                        type="list"
+                        default="0"
+                        label="PLG_RS_PAYMENT_PAYPAL_CURRENCY_LBL">
+                    <option value="DKK">PLG_RS_PAYMENT_PAYPAL_DKK</option>
+                    <option value="EUR">PLG_RS_PAYMENT_PAYPAL_EUR</option>
+                    <option value="USD">PLG_RS_PAYMENT_PAYPAL_USD</option>
+                    <option value="GBP">PLG_RS_PAYMENT_PAYPAL_GBP</option>
+                    <option value="SEK">PLG_RS_PAYMENT_PAYPAL_SEK</option>
+                    <option value="AUD">PLG_RS_PAYMENT_PAYPAL_AUD</option>
+                    <option value="CAD">PLG_RS_PAYMENT_PAYPAL_CAD</option>
+                    <option value="ISK">PLG_RS_PAYMENT_PAYPAL_ISK</option>
+                    <option value="JPY">PLG_RS_PAYMENT_PAYPAL_JPY</option>
+                    <option value="NZD">PLG_RS_PAYMENT_PAYPAL_NZD</option>
+                    <option value="NOK">PLG_RS_PAYMENT_PAYPAL_NOK</option>
+                    <option value="CHF">PLG_RS_PAYMENT_PAYPAL_CHF</option>
+                    <option value="TRY">PLG_RS_PAYMENT_PAYPAL_TRY</option>
+                    <option value="ILS">PLG_RS_PAYMENT_PAYPAL_ILS</option>
+                </field>
+                <field
+                        name="action_type"
+                        type="radio"
+                        default="sale"
+                        label="PLG_RS_PAYMENT_PAYPAL_ACTION_TYPE_LBL"
+                        description="PLG_RS_PAYMENT_PAYPAL_ACTION_TYPE_DESC" class="btn-group">
+                    <option value="sale">PLG_RS_PAYMENT_PAYPAL_INSTANT_CAPTURE</option>
+                    <option value="authorization">PLG_RS_PAYMENT_PAYPAL_AUTHORIZE_ONLY</option>
+                </field>
+                <field
+                        name="sandbox"
+                        type="radio"
+                        default="0"
+                        label="PLG_RS_PAYMENT_PAYPAL_SANDBOX_LBL"
+                        class="btn-group">
+                    <option value="0">PLG_RS_PAYMENT_PAYPAL_LIVE</option>
+                    <option value="1">PLG_RS_PAYMENT_PAYPAL_SANDBOX</option>
+                </field>
+                <field
+                        name="extrafield_payment"
+                        type="extrafields"
+                        field_section="18"
+                        multiple="multiple"
+                        label="PLG_RS_PAYMENT_PAYPAL_EXTRAFIELD_PAYMENT_LBL"
+                        description="PLG_RS_PAYMENT_PAYPAL_EXTRAFIELD_PAYMENT_DESC"
+                />
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                        name="auto_return"
+                        type="radio"
+                        default="0"
+                        class="btn-group btn-group-yesno"
+                        label="PLG_RS_PAYMENT_PAYPAL_AUTO_RETURN_LBL">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="auto_return_url"
+                        type="text"
+                        default=""
+                        label="PLG_RS_PAYMENT_PAYPAL_AUTO_RETURN_URL_LBL"
+                        size="60"
+                />
+                <field
+                        name="payment_oprand"
+                        type="text"
+                        size="10"
+                        default="-"
+                        label="PLG_RS_PAYMENT_PAYPAL_PAYMENT_OPRAND_LBL"
+                />
+                <field
+                        name="payment_price"
+                        type="text"
+                        size="30"
+                        default=""
+                        label="PLG_RS_PAYMENT_PAYPAL_PAYMENT_PRICE_LBL"
+                />
+                <field
+                        name="payment_discount_is_percent"
+                        type="radio"
+                        default="1"
+                        class="btn-group"
+                        label="PLG_RS_PAYMENT_PAYPAL_PAYMENT_IS_PERCENTAGE_LBL"
+                        description="PLG_RS_PAYMENT_PAYPAL_PAYMENT_IS_PERCENTAGE_DESC">
+                    <option value="1">PLG_RS_PAYMENT_PAYPAL_PAYMENT_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_PAYPAL_PAYMENT_TOTAL</option>
+                </field>
+                <field
+                        name="private_person"
+                        type="radio"
+                        default="1"
+                        class="btn-group btn-group-yesno"
+                        label="PLG_RS_PAYMENT_PAYPAL_PRIVATE_PERSON_LBL">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="business"
+                        type="radio"
+                        default="1"
+                        label="PLG_RS_PAYMENT_PAYPAL_BUSINESS_LBL"
+                        class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="economic_payment_terms_id"
+                        type="text"
+                        default=""
+                        label="PLG_RS_PAYMENT_PAYPAL_ECONOMIC_PAYMENT_TERMS_ID_LBL"
+                />
+                <field
+                        name="economic_design_layout"
+                        type="text"
+                        default=""
+                        label="PLG_RS_PAYMENT_PAYPAL_ECONOMIC_DESIGN_LAYOUT_LBL"
+                />
+                <field
+                        name="is_creditcard"
+                        type="hidden"
+                        default="0"
+                        value="0"
+                />
+                <field
+                        name="shopper_group_id"
+                        type="shoppergrouplist"
+                        multiple="multiple"
+                        default="0"
+                        label="PLG_RS_PAYMENT_PAYPAL_SHOPPER_GROUP_ID_LBL"
+                        description="PLG_RS_PAYMENT_PAYPAL_SHOPPER_GROUP_ID_DESC"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

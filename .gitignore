@@ -1,0 +1,80 @@
+# OSX
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# PHPStorm
+.idea/
+
+# Sublime Text
+*.sublime*
+
+# Eclipse
+.buildpath
+.project
+.settings
+
+# Temp files
+*.tmp
+*.bak
+*.swp
+*~.nib
+*~
+
+# Ignore mergetool files
+*.orig
+
+# Phing build script
+build.properties
+phing-latest.phar
+
+# Gulp Build script
+gulp-config.json
+npm-debug.log
+node_modules/
+
+# Composer
+composer.lock
+vendor/*
+tests/vendor/*
+**/vendor/*
+
+# Bower
+bower_components/
+
+# Test related files
+tests/system/servers/configdef.php
+tests/system/webdriver/tests/logs/
+codecept.phar
+tests/*/*Tester.php
+selenium.log
+tests/_output
+tests/joomla-cms
+tests/cache
+tests/RoboFile.ini
+selenium-server-standalone.jar
+tests/_support/_generated/*
+tests/releases/*
+tests/acceptance.suite.yml
+
+# Ignore redSHOP config
+component/admin/config/config.php
+
+# Never ignore
+!.gitignore
+!index.html
+!index.php
+
+# Releases folder
+releases/*
+
+# Checksum MD5 Files
+checksum.md5
+checksum.md5.json
+component/admin/assets/checksum.md5
+component/admin/assets/checksum.md5.json

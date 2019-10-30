@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<form>
+	<fieldset name="details">
+		<field
+				name="catalog_id"
+				type="hidden"
+		/>
+		<field
+				name="catalog_name"
+				type="redshop.text"
+				label="COM_REDSHOP_CATALOG_NAME"
+				description="COM_REDSHOP_CATALOG_NAME_DESC"
+				placeholder="COM_REDSHOP_CATALOG_NAME_DESC"
+				class="form-control"
+				default=""
+				required="true"
+				table-inline="1"
+				table-edit-link="1"
+				table-sortable="1"
+		/>
+		<field
+				name="media"
+				type="text"
+				label="COM_REDSHOP_MEDIA"
+				description="COM_REDSHOP_MEDIA"
+				placeholder="COM_REDSHOP_MEDIA"
+				class="form-control"
+		/>
+		<field
+				name="published"
+				type="redshop.radio"
+				label="COM_REDSHOP_PUBLISHED"
+				label-class="radio-inline"
+				default="1"
+				required="true"
+				table-sortable="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+</form>

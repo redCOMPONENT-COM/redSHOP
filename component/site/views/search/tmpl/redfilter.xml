@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_REDSHOP_STANDARD_RED_FILTER_LAYOUT">
+        <message>
+            <![CDATA[COM_REDSHOP_STANDARD_RED_FILTER_LAYOUT_DESC]]>
+        </message>
+    </layout>
+
+    <fields addpath="/libraries/redshop/form/fields">
+        <fieldset name="basic">
+            <field name="categorytemplate" type="redshopcategory" default="0" label="COM_REDSHOP_Enter_Category_Id_For_Templet"
+                   description="COM_REDSHOP_Category_id_for_newest_product_search_Template"/>
+            <field name="productlimit" type="text" size="4" default="" label="COM_REDSHOP_How_Many_products_To_Show"
+                   description="COM_REDSHOP_Enter_No_of_Amount_How_Many_products_To_Show"/>
+        </fieldset>
+    </fields>
+</metadata>

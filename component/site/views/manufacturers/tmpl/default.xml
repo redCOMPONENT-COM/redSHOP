@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_REDSHOP_STANDARD_MANUFACTURERS_LAYOUT">
+        <message>
+            <![CDATA[COM_REDSHOP_STANDARD_MANUFACTURERS_LAYOUT_DESC]]>
+        </message>
+    </layout>
+
+    <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+        <fieldset name="basic">
+            <field name="maxmanufacturer" type="text" size="4" default="5"
+                   label="COM_REDSHOP_HOW_MANY_MANUFACTURERS"
+                   description="COM_REDSHOP_HOW_MANY_MANUFACTURERS_DESCRIPTION"/>
+            <field name="order_by" type="orderbymanufacturer"
+                   label="COM_REDSHOP_DEFAULT_MANUFACTURER_ORDERING_METHOD_LBL"
+                   description="COM_REDSHOP_TOOLTIP_DEFAULT_MANUFACTURER_ORDERING_METHOD_LBL"/>
+            <field name="cid" type="categorylist" label="COM_REDSHOP_SELECT_CATEGORY_LBL"
+                   description="Displays the selected category product"/>
+        </fieldset>
+    </fields>
+</metadata>

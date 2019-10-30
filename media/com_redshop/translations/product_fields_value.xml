@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contentelement type="contentelement">
+    <name>Redshop Field Values</name>
+    <author>redCOMPONENT</author>
+    <copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+    <version>1.5.0</version>
+    <description>Translation definition for redSHOP Field Values</description>
+    <reference>
+        <table name="redshop_fields_value">
+            <field type="referenceid" name="value_id" translate="0">ID</field>
+            <field type="titletext" name="field_value" translate="1" >Value</field>
+            <field type="text" name="field_name" translate="1" >Name</field>
+            <field type="text" name="alt_text" translate="1" >Alt Text</field>
+            <field type="text" name="image_link" translate="1" >Image Link</field>
+        </table>
+        <component>
+            <form>com_redshop#fields#cid#task#!edit</form>
+        </component>
+    </reference>
+</contentelement>

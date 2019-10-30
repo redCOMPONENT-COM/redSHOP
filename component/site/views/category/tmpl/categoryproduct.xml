@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_REDSHOP_STANDARD_CATEGORY_LAYOUT_TO_SHOW_ALL_CATEGORY_PRODUCT">
+        <message>
+            <![CDATA[COM_REDSHOP_STANDARD_CATEGORY_LAYOUT_TO_SHOW_ALL_CATEGORY_PRODUCT_DESC]]>
+        </message>
+    </layout>
+
+    <fields name="params" addfieldpath="/libraries/redshop/form/fields">
+        <fieldset name="basic">
+            <field name="maxcategory" type="text" size="4" default="5"
+                       label="COM_REDSHOP_HOW_MANY_CATEGROY_TO_DISPLAY_PER_PAGE_LBL"
+                       description="COM_REDSHOP_HOW_MANY_CATEGROY_TO_DISPLAY_PER_PAGE"/>
+            <field name="maxproduct" type="text" size="4" default="5"
+                       label="COM_REDSHOP_HOW_MANY_PRODUCTS_TO_DISPLAY_PER_CATEGROY_LBL"
+                       description="COM_REDSHOP_HOW_MANY_PRODUCTS_TO_DISPLAY_PER_CATEGROY"/>
+            <field name="order_by" type="orderbyproduct" label="COM_REDSHOP_PRODUCT_SORTING"
+                       description="COM_REDSHOP_SELECT_PRODUCT_SORTING"/>
+            <field name="editTimestamp" type="timestamp" default="0" />
+        </fieldset>
+    </fields>
+
+    <fields name="request">
+        <fieldset name="request"
+                      addfieldpath="/libraries/redshop/form/fields">
+            <field name="cid" type="categorylist" label="COM_REDSHOP_SELECT_CATEGORY_LBL" required="true"
+                       description="COM_REDSHOP_DISPLAYS_THE_SELECTED_CATEGORY_PRODUCT"/>
+        </fieldset>
+    </fields>
+</metadata>
