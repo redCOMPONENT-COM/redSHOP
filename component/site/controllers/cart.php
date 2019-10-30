@@ -257,9 +257,10 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function coupon()
 	{
-		$itemId = RedshopHelperRouter::getCartItemId();
-		$app    = JFactory::getApplication();
-		$ajax   = $app->input->getInt('ajax', 0);
+		$itemId   = RedshopHelperRouter::getCartItemId();
+		$app      = JFactory::getApplication();
+		$ajax     = $app->input->getInt('ajax', 0);
+		$language = JFactory::getLanguage()->getTag();
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('Cart');
@@ -280,7 +281,7 @@ class RedshopControllerCart extends RedshopController
 		// If coupon code is valid than apply to cart else raise error
 		if ($valid)
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId, false);
 
 			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
@@ -320,7 +321,7 @@ class RedshopControllerCart extends RedshopController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId, false);
 
 			$message     = JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
 			$messageType = 'error';
@@ -452,7 +453,8 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function voucher()
 	{
-		$itemId = RedshopHelperRouter::getCartItemId();
+		$itemId   = RedshopHelperRouter::getCartItemId();
+		$language = JFactory::getLanguage()->getTag();
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('Cart');
@@ -464,7 +466,7 @@ class RedshopControllerCart extends RedshopController
 			$this->modifyCalculation($cart);
 			RedshopHelperCart::cartFinalCalculation(false);
 
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&lang=' . $language . '&Itemid=' . $itemId, false);
 			$message     = null;
 			$messageType = null;
 
@@ -504,7 +506,8 @@ class RedshopControllerCart extends RedshopController
 		else
 		{
 			$msg  = JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&lang=' . $language 
+				. '&Itemid=' . $itemId, false);
 			$this->setRedirect($link, $msg, 'error');
 		}
 	}
