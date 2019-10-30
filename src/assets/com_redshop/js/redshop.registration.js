@@ -88,7 +88,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 email2: {
                     required: true,
-                    equalTo: "#email1"
+                    equalTo: "[name=email1]:visible"
                 },
                 password1: {
                     required: function () {

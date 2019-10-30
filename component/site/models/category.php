@@ -404,7 +404,7 @@ class RedshopModelCategory extends RedshopModel
 			$db->setQuery($query, $limitstart, $endlimit);
 		}
 
-		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query));
+		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, $categories));
 
 		$productFilters = $this->getState('filterform');
 

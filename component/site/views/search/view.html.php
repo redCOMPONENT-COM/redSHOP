@@ -679,7 +679,7 @@ class RedshopViewSearch extends RedshopView
 				$data_add = RedshopHelperAttribute::replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 				// Cart Template
-				$data_add = Redshop\Cart\Render::replace($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field);
+				$data_add = Redshop\Cart\Render::replace($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $this->search[$i]->total_accessories, $count_no_user_field);
 
 				$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
 
