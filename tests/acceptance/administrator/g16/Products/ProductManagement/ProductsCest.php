@@ -74,7 +74,7 @@ class ProductsCest
 		$I->doAdministratorLogin();
 	}
 
-    public function checkButton(ProductManagerSteps $I)
+	public function checkButton(ProductManagerSteps $I)
 	{
 		$I->checkButton('edit');
 		$I->checkButton('copy');
@@ -218,7 +218,7 @@ class ProductsCest
 		$I->wantTo('Test delete attribute value DeProduct Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->deleteAttributeValue($this->randomProductNameAttribute);
+		$I->deleteAttributeValue($this->randomProductNameAttribute, $this->valueAttribute);
 	}
 
 	public function deleteAttribute(AcceptanceTester $I, $scenario)
