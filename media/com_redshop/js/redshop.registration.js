@@ -67,6 +67,11 @@ if (typeof(window['jQuery']) != "undefined") {
                         return rs("#toggler2").is(":checked");
                     }
                 },
+                address: {
+                    required: function() {
+                        return redSHOP.RSConfig._('REQUIRED_ADDRESS') == 1
+                    }
+                },
                 vat_number: {
                     required: function () {
                         return rs("#toggler2").is(":checked") && redSHOP.RSConfig._('REQUIRED_VAT_NUMBER') == 1;

@@ -1596,6 +1596,12 @@ class RedshopHelperShipping
 		$allowCustomer = $isCompany == 1 ? 'style="display:none;"' : '';
 		$allowCompany  = $isCompany != 1 ? 'style="display:none;"' : '';
 
+		$requiredPostalCode  =  Redshop::getConfig()->get('REQUIRED_POSTAL_CODE') == 1 ? 'billingRequired' : '';
+		$requiredEanNumber   =  Redshop::getConfig()->get('REQUIRED_EAN_NUMBER') == 1 ? 'billingRequired' : '';
+		$requiredAddress     =  Redshop::getConfig()->get('REQUIRED_ADDRESS') == 1 ? 'billingRequired' : '';
+		$requiredPhone       =  Redshop::getConfig()->get('REQUIRED_PHONE') == 1 ? 'billingRequired' : '';
+		$requiredCountryCode =  Redshop::getConfig()->get('REQUIRED_COUNTRY_CODE') == 1 ? 'billingRequired' : '';
+
 		$readOnly  = "";
 		$countries = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox form-control billingRequired valid', 'state_code_ST');
 
@@ -1631,7 +1637,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["address_ST"])) ? $post["address_ST"] : '';
 		$templateHtml = str_replace(
 			"{address_st}",
-			'<input class="inputbox form-control billingRequired valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control '. $requiredAddress .' valid" type="text" name="address_ST" id="address_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"/>',
 			$templateHtml
 		);
@@ -1640,7 +1646,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["zipcode_ST"])) ? $post["zipcode_ST"] : '';
 		$templateHtml = str_replace(
 			"{zipcode_st}",
-			'<input class="inputbox form-control billingRequired valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" '
+			'<input class="inputbox form-control '. $requiredPostalCode .' valid zipcode" type="text" name="zipcode_ST" id="zipcode_ST" size="32" maxlength="10" '
 			. 'value="' . $value . '" onblur="return autoFillCity(this.value,\'ST\');" '
 			. 'data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP') . '" />',
 			$templateHtml
@@ -1659,7 +1665,7 @@ class RedshopHelperShipping
 		$value        = (!empty($post["phone_ST"])) ? $post["phone_ST"] : '';
 		$templateHtml = str_replace(
 			"{phone_st}",
-			'<input class="inputbox form-control billingRequired valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" '
+			'<input class="inputbox form-control '. $requiredPhone .' valid phone" type="text" name="phone_ST" id="phone_ST" size="32" maxlength="250" '
 			. 'value="' . $value . '" onblur="return searchByPhone(this.value,\'ST\');" '
 			. 'data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE') . '"/>',
 			$templateHtml
