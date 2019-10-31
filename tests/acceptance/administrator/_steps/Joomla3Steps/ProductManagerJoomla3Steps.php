@@ -619,8 +619,9 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $productName
-	 *
+	 * @param $nameAttribute
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function deleteAttributeValue($productName, $nameAttribute)
 	{
