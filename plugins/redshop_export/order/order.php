@@ -40,11 +40,11 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		</div>';
 
 		$configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_SPECIFIC_FROM_DATE') . '</label>
+			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_FROM_DATE') . '</label>
 			<div class="col-md-4">
 				<label class="text-inline"><input name="form_date" type="date" checked/></label>
 			</div>
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_SPECIFIC_TO_DATE') . '</label>
+			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_TO_DATE') . '</label>
 			<div class="col-md-4">
 				<label class="text-inline"><input name="to_date" type="date" checked/></label>
 			</div>
