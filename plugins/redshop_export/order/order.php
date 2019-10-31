@@ -22,7 +22,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 {
 	protected $orderItemWithRow = false;
 
-	protected $formDate = '';
+	protected $fromDate = '';
 
 	protected $toDate = '';
 
@@ -42,7 +42,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		$configs[] = '<div class="form-group">
 			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_FROM_DATE') . '</label>
 			<div class="col-md-4">
-				<label class="text-inline"><input name="form_date" type="date" checked/></label>
+				<label class="text-inline"><input name="from_date" type="date" checked/></label>
 			</div>
 			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_TO_DATE') . '</label>
 			<div class="col-md-4">
@@ -76,7 +76,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	protected function getTotalOrder_Export()
 	{
 		$input = JFactory::getApplication()->input;
-		$this->formDate = $input->get('from_date', '');
+		$this->fromDate = $input->get('from_date', '');
 		$this->toDate = $input->get('to_date', '');
 
 		$query = $this->getQuery();
@@ -85,10 +85,10 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			->select('COUNT(DISTINCT o.order_id)');
 
 
-		if ($this->formDate)
+		if ($this->fromDate)
 		{
-			$formDate = strtotime($this->formDate);
-			$query->where($this->db->qn('o.cdate') . ' > ' . $this->db->q($formDate));
+			$fromDate = strtotime($this->fromDate);
+			$query->where($this->db->qn('o.cdate') . ' > ' . $this->db->q($fromDate));
 		}
 
 		if ($this->toDate)
@@ -113,7 +113,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 		$input = JFactory::getApplication()->input;
 		$this->orderItemWithRow = (boolean) $input->getInt('order_item', 0);
-		$this->formDate = $input->get('from_date', '');
+		$this->fromDate = $input->get('from_date', '');
 		$this->toDate = $input->get('to_date', '');
 
 		if ($this->orderItemWithRow)
@@ -177,10 +177,10 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			->where($this->db->qn('ouf.address_type') . ' = ' . $this->db->q('ST'))
 			->order($this->db->qn('o.order_id') . ' ASC');
 
-		if ($this->formDate)
+		if ($this->fromDate)
 		{
-			$formDate = strtotime($this->formDate);
-			$query->where($this->db->qn('o.cdate') . ' > ' . $this->db->q($formDate));
+			$fromDate = strtotime($this->fromDate);
+			$query->where($this->db->qn('o.cdate') . ' > ' . $this->db->q($fromDate));
 		}
 
 		if ($this->toDate)
