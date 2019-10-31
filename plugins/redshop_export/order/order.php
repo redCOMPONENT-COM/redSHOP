@@ -75,10 +75,28 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	 */
 	protected function getTotalOrder_Export()
 	{
+		$input = JFactory::getApplication()->input;
+		$this->formDate = $input->get('form_date', '');
+		$this->toDate = $input->get('to_date', '');
+
 		$query = $this->getQuery();
 		$query->clear('select')
 			->clear('group')
 			->select('COUNT(DISTINCT o.order_id)');
+
+
+		if ($this->formDate)
+		{
+			$formDate = strtotime($this->formDate);
+			$query->where($this->db->qn('o.cdate') . ' > ' . $this->db->q($formDate));
+		}
+
+		if ($this->toDate)
+		{
+			$toDate = strtotime($this->toDate);
+			$query->where($this->db->qn('o.cdate') . ' < ' . $this->db->q($toDate));
+		}
+
 		return (int) $this->db->setQuery($query)->loadResult();
 	}
 
@@ -145,6 +163,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 					$this->db->qn('ouf.country_code'),
 					$this->db->qn('ouf.user_email'),
 					$this->db->qn('oi.order_item_name'),
+					'oi.customer_note AS item_note',
 					$this->db->qn('oi.order_item_sku'),
 					$this->db->qn('oi.product_item_price'),
 					$this->db->qn('o.order_total')
@@ -193,8 +212,8 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 		$db = JFactory::getDbo();
 		$handle = fopen($this->getFilePath(), 'a');
-		$headers = array('Order number', 'Order Item status', 'Order Payment Status', 'Order date', 'Customer Note', 'Shipping method', 'Shipping user', 'Shipping address',
-			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Category Name', 'Product Name', 'Product Number', 'Colour', 'Product Price', 'Total');
+		$headers = array('Order number', 'Order Item status', 'Order Payment Status', 'Order date', 'Order Customer Note', 'Shipping method', 'Shipping user', 'Shipping address',
+			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Category Name', 'Product Name', 'Item Customer Note', 'Product Number', 'Colour', 'Product Price', 'Total');
 
 		$this->writeData($headers, '', $handle);
 		$arrData = array();
@@ -235,6 +254,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			$arrData['user_email'] = $item['user_email'];
 			$arrData['category_name'] = \productHelper::getCategoryNameByProductId($productId);
 			$arrData['order_item_name'] = $item['order_item_name'];
+			$arrData['item_customer_note'] = $item['item_note'];
 			$arrData['order_item_sku'] = $item['order_item_sku'];
 			$arrData['section_name'] = $this->getOrderItemAttribute($orderItemId);
 			$arrData['product_item_price'] = $item['product_item_price'];
