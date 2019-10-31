@@ -40,7 +40,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		</div>';
 
 		$configs[] = '<div class="form-group">
-			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_SPECIFIC_FORM_DATE') . '</label>
+			<label class="col-md-2 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_SPECIFIC_FROM_DATE') . '</label>
 			<div class="col-md-4">
 				<label class="text-inline"><input name="form_date" type="date" checked/></label>
 			</div>
@@ -76,7 +76,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	protected function getTotalOrder_Export()
 	{
 		$input = JFactory::getApplication()->input;
-		$this->formDate = $input->get('form_date', '');
+		$this->formDate = $input->get('from_date', '');
 		$this->toDate = $input->get('to_date', '');
 
 		$query = $this->getQuery();
@@ -113,7 +113,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 		$input = JFactory::getApplication()->input;
 		$this->orderItemWithRow = (boolean) $input->getInt('order_item', 0);
-		$this->formDate = $input->get('form_date', '');
+		$this->formDate = $input->get('from_date', '');
 		$this->toDate = $input->get('to_date', '');
 
 		if ($this->orderItemWithRow)
