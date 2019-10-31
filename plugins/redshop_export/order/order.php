@@ -179,12 +179,14 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 		if ($this->fromDate)
 		{
+			$this->fromDate = $this->fromDate .' '. '00:00:00';
 			$fromDate = strtotime($this->fromDate);
 			$query->where($this->db->qn('o.cdate') . ' > ' . $this->db->q($fromDate));
 		}
 
 		if ($this->toDate)
 		{
+			$this->toDate = $this->toDate .' '. '23:59:59';
 			$toDate = strtotime($this->toDate);
 			$query->where($this->db->qn('o.cdate') . ' < ' . $this->db->q($toDate));
 		}
