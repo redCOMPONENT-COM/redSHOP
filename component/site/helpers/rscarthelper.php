@@ -1644,7 +1644,7 @@ class rsCarthelper
 			}
 			else
 			{
-				if (!empty($cart['coupon'][0]['coupon_value']) && !Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+				if (!empty($cart['coupon'][0]['coupon_value']) && (int)Redshop::getConfig()->get('DISCOUNT_TYPE') !== 2)
 				{
 					$couponDiscount = $cart['coupon'][0]['coupon_value'];
 				}
