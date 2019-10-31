@@ -215,7 +215,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 		$db = JFactory::getDbo();
 		$handle = fopen($this->getFilePath(), 'a');
-		$headers = array('Order number', 'Order Item status', 'Order Payment Status', 'Order date', 'Order Customer Note', 'Shipping method', 'Shipping user', 'Shipping address',
+		$headers = array('Order number', 'Order Item status', 'Order Payment Status', 'Order date', 'Invoice date', 'Order Customer Note', 'Shipping method', 'Shipping user', 'Shipping address',
 			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Category Name', 'Product Name', 'Item Customer Note', 'Product Number', 'Colour', 'Product Price', 'Total');
 
 		$this->writeData($headers, '', /** @scrutinizer ignore-type */ $handle);
@@ -243,10 +243,19 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 
 			$orderItemId = $db->setQuery($query)->loadResult();
 
+			$query = $db->getQuery(true)
+				->select('mdate')
+				->from($db->qn('#__redshop_orders'))
+				->where($db->qn('order_status') . ' = ' . $db->q('S'))
+				->where($db->qn('order_id') . ' = ' . $db->q($item['order_id']));
+
+			$invoiceDate = $db->setQuery($query)->loadResult();
+
 			$arrData['order_id'] = $item['order_id'];
 			$arrData['order_status_name'] = $item['order_status_name'];
 			$arrData['order_payment_status'] = $item['order_payment_status'];
 			$arrData['cdate'] = $item['cdate'];
+			$arrData['mdate'] = ($invoiceDate) ? date('d-m-Y', $invoiceDate) : '';
 			$arrData['customer_note'] = $item['customer_note'];
 			$arrData['ship_method_id'] = $item['ship_method_id'];
 			$arrData['shipping_user'] = $item['shipping_user'];
