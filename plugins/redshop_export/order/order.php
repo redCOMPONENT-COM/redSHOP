@@ -30,6 +30,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 	{
 		\Redshop\Helper\Ajax::validateAjaxRequest();
 
+		$configs = array();
 		// Radio for load extra fields
 		$configs[] = '<div class="form-group">
 			<label class="col-md-3 control-label">' . JText::_('PLG_REDSHOP_EXPORT_ORDER_CONFIG_ORDER_ITEM') . '</label>
@@ -217,7 +218,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		$headers = array('Order number', 'Order Item status', 'Order Payment Status', 'Order date', 'Order Customer Note', 'Shipping method', 'Shipping user', 'Shipping address',
 			'Shipping postalcode', 'Shipping city', 'Shipping country', 'Email', 'Category Name', 'Product Name', 'Item Customer Note', 'Product Number', 'Colour', 'Product Price', 'Total');
 
-		$this->writeData($headers, '', $handle);
+		$this->writeData($headers, '', /** @scrutinizer ignore-type */ $handle);
 		$arrData = array();
 
 		foreach ($data as $item)
@@ -308,10 +309,10 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			->order($this->db->qn('o.order_id') . ' ASC')
 			->group($this->db->qn('o.order_id'));
 
-		if ($this->formDate)
+		if ($this->fromDate)
 		{
-			$formDate = strtotime($this->formDate);
-			$query->where($this->db->qn('o.cdate') . ' > ' . $this->db->q($formDate));
+			$fromDate = strtotime($this->fromDate);
+			$query->where($this->db->qn('o.cdate') . ' > ' . $this->db->q($fromDate));
 		}
 
 		if ($this->toDate)
@@ -335,7 +336,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		$headersOrderItem = array_merge($orderItemHeaders, array('Order Total'));
 		$headers = array_merge($headers, $headersOrderItem);
 
-		$this->writeData($headers, '', $handle);
+		$this->writeData($headers, '', /** @scrutinizer ignore-type */ $handle);
 
 		foreach ($data as $item)
 		{
@@ -399,8 +400,9 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 				->where($db->qn('order_id') . ' = ' . $db->q($order['order_id']));
 
 			$orderItemNames = $db->setQuery($query)->loadAssocList();
+			$maxOrderItemName = count($orderItemNames);
 
-			for ($i = 0; $i < count($orderItemNames); $i++)
+			for ($i = 0; $i < $maxOrderItemName; $i++)
 			{
 				foreach ($orderItemNames[$i] as $key => $orderItemName)
 				{
@@ -414,7 +416,6 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 			}
 		}
 
-		$this->arrOrderItem[] = $arrayHeaders;
 		return $arrayHeaders;
 	}
 
@@ -424,7 +425,7 @@ class PlgRedshop_ExportOrder extends AbstractExportPlugin
 		$query = $db->getQuery(true)
 			->select('section_name')
 			->from($db->qn('#__redshop_order_attribute_item'))
-			->where($db->qn('order_item_id') . ' = ' . $db->quote($orderId))
+			->where($db->qn('order_item_id') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($orderId))
 			->where($db->qn('section') . ' = ' . $db->quote('property'));
 
 		return $db->setQuery($query)->loadResult();
