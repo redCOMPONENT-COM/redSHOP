@@ -1270,4 +1270,18 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 	}
+
+	/**
+	 * @return  void
+	 */
+	public function resetcart()
+	{
+		RedshopHelperCartSession::reset();
+		$session = JFactory::getSession();
+		$session->set('ccdata', null);
+		$session->set('issplit', null);
+		$session->set('userfield', null);
+
+		unset($_SESSION ['ccdata']);
+	}
 }
