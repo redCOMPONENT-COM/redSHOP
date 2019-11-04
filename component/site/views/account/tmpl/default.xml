@@ -17,9 +17,9 @@
     </fields>
     <fields name="params">
         <fieldset name="basic">
-            <field name="login" type="menuitem" default="" disable="separator"
+            <field name="login" type="menuitem" default="0" disable="separator"
                    label="COM_REDSHOP_LOGIN_REDIRECTION_PAGE" description="COM_REDSHOP_PARAMLOGINREDIRECTURL"/>
-            <field name="logout" type="menuitem" default="" disable="separator"
+            <field name="logout" type="menuitem" default="0" disable="separator"
                    label="COM_REDSHOP_LOGOUT_REDIRECTION_PAGE"
                    description="COM_REDSHOP_PARAMLOGOUTREDIRECTURL"/>
         </fieldset>
