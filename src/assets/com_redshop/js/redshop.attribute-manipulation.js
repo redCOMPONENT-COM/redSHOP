@@ -166,7 +166,7 @@
 				if ($this.closest('.attribute_parameter_tr').find('.sub_attribute_table').size() == 1) {
 					$this.closest('.attribute_parameter_tr').find('.showsubproperty').css({'display': 'none'});
 				}
-				$this.closest('.sub_attribute_table').remove();
+                $this.closest('.sub_property_table').remove();
 			}
 		}).on('click', '.deletePropertyMainImage', function () {
 			if (confirm(Joomla.JText._('COM_REDSHOP_DO_WANT_TO_DELETE'))) {
@@ -208,6 +208,7 @@
 				}
 
 				$this.closest('.attr_tbody').prev('.showhidearrow').remove();
+                $this.closest('.attr_tbody').prev('.add_property').remove();
 				$this.closest('.attr_tbody').remove();
 
 			}
