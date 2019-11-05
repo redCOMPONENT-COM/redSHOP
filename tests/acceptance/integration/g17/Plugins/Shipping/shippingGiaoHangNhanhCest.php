@@ -81,6 +81,12 @@ class shippingGiaoHangNhanhCest
 	protected $total;
 
 	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $cartSetting;
+
+	/**
 	 * shippingGiaoHangNhanhCest constructor.
 	 * @since 2.1.3
 	 */
@@ -92,6 +98,22 @@ class shippingGiaoHangNhanhCest
 		$this->pluginName     = 'redSHOP: Giao hàng nhanh';
 		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
 		$this->package        = 'plg_redshop_shipping_giaohangnhanh.zip';
+
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 
 		$this->shipping       = array(
 			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
@@ -154,6 +176,8 @@ class shippingGiaoHangNhanhCest
 	 */
 	public function checkoutShippingGiaoHangNhanh(AcceptanceTester $I, $scenario)
 	{
+		$I->cartSetting($this->cartSetting);
+
 		$I = new ShippingSteps($scenario);
 		$I->wantTo('Check create new Shipping rate with save button');
 		$I->createShippingRateStandard($this->pluginName, $this->shipping, 'save');
