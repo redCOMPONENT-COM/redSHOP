@@ -87,6 +87,12 @@ class shippingGiaoHangNhanhCest
 	protected $cartSetting;
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $paymentMethod;
+
+	/**
 	 * shippingGiaoHangNhanhCest constructor.
 	 * @since 2.1.3
 	 */
@@ -143,6 +149,8 @@ class shippingGiaoHangNhanhCest
 			'group'         => 'Registered'
 		);
 
+		$this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
+
 		$this->total = $this->product['price'] + $this->shipping['shippingRate'];
 	}
 
@@ -156,17 +164,17 @@ class shippingGiaoHangNhanhCest
 		$I->doAdministratorLogin();
 	}
 
-	/**
-	 * @param AdminManagerJoomla3Steps $I
-	 * @since 2.1.3
-	 */
-	public function installPlugin(AdminManagerJoomla3Steps $I)
-	{
-		$I->wantTo("install plugin shipping Giao Hang Nhanh");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->enablePlugin($this->pluginName);
-	}
+//	/**
+//	 * @param AdminManagerJoomla3Steps $I
+//	 * @since 2.1.3
+//	 */
+//	public function installPlugin(AdminManagerJoomla3Steps $I)
+//	{
+//		$I->wantTo("install plugin shipping Giao Hang Nhanh");
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+//		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->enablePlugin($this->pluginName);
+//	}
 
 	/**
 	 * @param AcceptanceTester $I
@@ -198,7 +206,7 @@ class shippingGiaoHangNhanhCest
 
 		$I->wantToTest('Check Order on Backend');
 		$I = new ConfigurationSteps($scenario);
-		$I->checkPriceTotal($this->product['price'], $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->product['name'], $this->categoryName, $this->pluginName);
+		$I->checkShippingTotal($this->shipping, $this->product['price'], $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"], $this->product['name'], $this->categoryName, $this->paymentMethod, $this->pluginName);
 	}
 
 	/**

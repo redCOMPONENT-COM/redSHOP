@@ -779,4 +779,48 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
+
+	/**
+	 * @param $shipping
+	 * @param $price
+	 * @param $order
+	 * @param $firstName
+	 * @param $lastName
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @param $shippingMethod
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkShippingTotal($shipping, $price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod, $shippingMethod)
+	{
+		$I = $this;
+		$currencyUnit = $I->getCurrencyValue();
+
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->searchOrder($order);
+		$I->wait(0.5);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
+		$I->click(OrderManagerPage::$iconEdit);
+		$I->waitForElementVisible(OrderManagerPage::$quantityp1, 30);
+		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$total = $price*$quantity + $shipping['shippingRate'];
+		$priceProduct = $currencyUnit['currencySymbol'].' '.$price*$quantity.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceRate = 'Shipping: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$firstName = 'First Name: '.$firstName;
+		$lastName = 'Last Name: '.$lastName;
+
+		$I->see($firstName);
+		$I->see($lastName);
+		$I->see($paymentMethod);
+		$I->see($shippingMethod);
+		$I->see($categoryName);
+		$I->see($productName);
+		$I->see($priceProduct);
+		$I->see($priceRate);
+		$I->see($priceTotal);
+	}
 }
