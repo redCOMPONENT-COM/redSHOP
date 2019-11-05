@@ -165,6 +165,7 @@ class shippingGiaoHangNhanhCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
+		$I->wantToTest('Check on Front-end');
 		$I = new ShippingGiaoHangNhanh($scenario);
 		$I->checkoutWithShippingGiaoHangNhanh($this->categoryName, $this->product['name'], $this->customerInformation, $this->total, $this->shipping, $this->pluginName);
 
