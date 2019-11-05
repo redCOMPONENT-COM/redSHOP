@@ -710,6 +710,7 @@ function getBillingTemplate(el)
 	var isCompany = jQuery(el).val();
 	var type = jQuery(el).attr('billing_type');
 	var url = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getBillingTemplate";
+    showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
 
     jQuery.ajax({
         url: url,
