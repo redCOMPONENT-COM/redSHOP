@@ -164,17 +164,17 @@ class shippingGiaoHangNhanhCest
 		$I->doAdministratorLogin();
 	}
 
-//	/**
-//	 * @param AdminManagerJoomla3Steps $I
-//	 * @since 2.1.3
-//	 */
-//	public function installPlugin(AdminManagerJoomla3Steps $I)
-//	{
-//		$I->wantTo("install plugin shipping Giao Hang Nhanh");
-//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-//		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-//		$I->enablePlugin($this->pluginName);
-//	}
+	/**
+	 * @param AdminManagerJoomla3Steps $I
+	 * @since 2.1.3
+	 */
+	public function installPlugin(AdminManagerJoomla3Steps $I)
+	{
+		$I->wantTo("install plugin shipping Giao Hang Nhanh");
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->enablePlugin($this->pluginName);
+	}
 
 	/**
 	 * @param AcceptanceTester $I
