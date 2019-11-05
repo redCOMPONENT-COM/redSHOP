@@ -637,6 +637,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $valueDiscount = '//div[@class="mod_discount_main"]//td[2]';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $shippingWithVat = '#spnShippingrate';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $iconShippingRate = '(//input[@name="shipping_rate_id"])[1]';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
