@@ -176,6 +176,7 @@ class shippingGiaoHangNhanhCest
 	 */
 	public function checkoutShippingGiaoHangNhanh(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo('setting one page checkout');
 		$I->cartSetting($this->cartSetting);
 
 		$I = new ShippingSteps($scenario);
