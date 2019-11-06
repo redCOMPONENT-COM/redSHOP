@@ -70,7 +70,7 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		}
 
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep); 
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 		$I->see($pluginName);
