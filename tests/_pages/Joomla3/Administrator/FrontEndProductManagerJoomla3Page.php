@@ -589,6 +589,54 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $currencyChooseButton = '#product_currency';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $mostSoldProducts = 'Most Sold Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $latestProducts = 'Latest Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $newestProducts = 'Newest Products';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $nameProductNewest = '(//div[@class =\'current\']/dd/div/div/p/a)[1]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $namProductsLatest = '(//div[@class =\'current\']/dd/div/div/p/a)[2]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $nameProductSold = '(//div[@class =\'current\']/dd/div/div/p/a)[3]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $discount = '#mod_redmainprice';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $valueDiscount = '//div[@class="mod_discount_main"]//td[2]';
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
@@ -680,5 +728,17 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 		$path = "//div[text()='" . $productName . "']";
 
 		return $path;
+	}
+
+	/**
+	 * @param $position
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function nameRedSHOPProduct($position)
+	{
+		$xpath = "(//div[@class='mod_redshop_products_title'])[$position]";
+
+		return $xpath;
 	}
 }
