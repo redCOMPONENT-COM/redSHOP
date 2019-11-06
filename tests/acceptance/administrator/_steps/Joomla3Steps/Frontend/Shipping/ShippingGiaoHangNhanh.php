@@ -23,7 +23,9 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 	 * @param $customerInformation
 	 * @param $total
 	 * @param $shipping
+	 * @param $pluginName
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function checkoutWithShippingGiaoHangNhanh($categoryName, $productName, $customerInformation, $total, $shipping, $pluginName )
 	{
