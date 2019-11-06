@@ -26,7 +26,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 	 * @return  void
 	 * @throws \Exception
 	 */
-	public function createShippingRateStandard($shippingMethod, $shipping = array(), $function)
+	public function createShippingRateStandard($shippingMethod, $shipping = array(), $function = 'save')
 	{
 		$I = $this;
 		$I->amOnPage(ShippingPage::$shippingManagementUrl);
