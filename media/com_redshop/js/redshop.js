@@ -180,6 +180,7 @@ function updateCartAjax($, form)
         },
         success: function(data) {
             $('#redshopcomponent').html($(data).find('#redshopcomponent').html());
+            $(redSHOP).trigger('onAfterUpdateCartAjax', [data]);
         },
         complete: function(){
             //afer ajax call is completed
