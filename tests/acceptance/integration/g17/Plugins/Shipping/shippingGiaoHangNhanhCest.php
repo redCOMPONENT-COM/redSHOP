@@ -93,6 +93,12 @@ class shippingGiaoHangNhanhCest
 	protected $paymentMethod;
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $function;
+
+	/**
 	 * shippingGiaoHangNhanhCest constructor.
 	 * @since 2.1.3
 	 */
@@ -125,6 +131,8 @@ class shippingGiaoHangNhanhCest
 			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
 			'shippingRate' => $this->faker->numberBetween(10,50)
 		);
+
+		$this->function = 'saveclose';
 
 		$this->categoryName = $this->faker->bothify("Category Demo ?##?");
 
@@ -190,7 +198,7 @@ class shippingGiaoHangNhanhCest
 
 		$I = new ShippingSteps($scenario);
 		$I->wantTo('Check create new Shipping rate with save button');
-		$I->createShippingRateStandard($this->pluginName, $this->shipping, 'save');
+		$I->createShippingRateStandard($this->pluginName, $this->shipping, $this->function);
 
 		$I->wantToTest('Create Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
