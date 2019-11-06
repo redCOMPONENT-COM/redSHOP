@@ -27,12 +27,10 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithShippingGiaoHangNhanh($categoryName, $productName, $customerInformation, $total, $shipping, $pluginName )
+	public function checkoutWithShippingGiaoHangNhanh($categoryName, $productName, $customerInformation, $price, $shipping, $pluginName )
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
-		$priceRate = $currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
-		$priceTotal = $currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
@@ -73,7 +71,12 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
-		
+		$quantity = $I->grabValueFrom(FrontEndProductManagerJoomla3Page::$quantilyOrderReceipt);
+		$total = $price*$quantity + $shipping['shippingRate'];
+		$priceTotal = $currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceRate = $currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+
+		$I->waitForText($pluginName, 30);
 		$I->see($pluginName);
 		$I->see($priceRate);
 		$I->see($priceTotal);

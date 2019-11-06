@@ -210,7 +210,7 @@ class shippingGiaoHangNhanhCest
 
 		$I->wantToTest('Check on Front-end');
 		$I = new ShippingGiaoHangNhanh($scenario);
-		$I->checkoutWithShippingGiaoHangNhanh($this->categoryName, $this->product['name'], $this->customerInformation, $this->total, $this->shipping, $this->pluginName);
+		$I->checkoutWithShippingGiaoHangNhanh($this->categoryName, $this->product['name'], $this->customerInformation, $this->product['price'], $this->shipping, $this->pluginName);
 
 		$I->wantToTest('Check Order on Backend');
 		$I = new ConfigurationSteps($scenario);

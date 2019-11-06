@@ -813,11 +813,17 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$firstName = 'First Name: '.$firstName;
 		$lastName = 'Last Name: '.$lastName;
 
+		$I->waitForText($firstName, 30);
 		$I->see($firstName);
+		$I->waitForText($lastName, 30);
 		$I->see($lastName);
+		$I->waitForText($paymentMethod, 30);
 		$I->see($paymentMethod);
+		$I->waitForText($shippingMethod, 30);
 		$I->see($shippingMethod);
+		$I->waitForText($categoryName, 30);
 		$I->see($categoryName);
+		$I->waitForText($productName, 30);
 		$I->see($productName);
 		$I->see($priceProduct);
 		$I->see($priceRate);

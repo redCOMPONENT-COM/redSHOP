@@ -26,7 +26,7 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 	 * @param $categoryName
 	 * @throws \Exception
 	 */
-	public function checkoutProductWith2Checkout($userName, $password, $checkoutAccountInformation, $productName, $categoryName)
+	public function checkoutProductWith2Checkout($userName, $password, $checkoutAccountInformation, $productName, $categoryName, $city)
 	{
 		$I = $this;
 		$I->doFrontEndLogin($userName, $password);
@@ -83,6 +83,8 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 			$I->click(Frontend2PaymentPage::$reviewCart);
 			$I->waitForElementVisible(Frontend2PaymentPage::$shippingAddress1, 30);
 			$I->fillField(Frontend2PaymentPage::$shippingAddress1, $checkoutAccountInformation['shippingAddress']);
+			$I->waitForElementVisible(Frontend2PaymentPage::$city, 30);
+			$I->fillField(Frontend2PaymentPage::$city, $city);
 			$I->waitForElementVisible(Frontend2PaymentPage::$shippingInformation, 30);
 			$I->click(Frontend2PaymentPage::$shippingInformation);
 			$I->waitForElementVisible(Frontend2PaymentPage::$checkboxSamAsShipping, 30);
