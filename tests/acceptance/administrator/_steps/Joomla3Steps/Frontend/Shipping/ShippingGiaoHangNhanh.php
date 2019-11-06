@@ -62,7 +62,7 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 
 		try{
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions); 
 		}catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
