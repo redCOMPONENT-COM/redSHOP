@@ -208,11 +208,11 @@ class RedshopHelperProductPrice
 
 		if ($position === 'behind')
 		{
-			$currencySymbol = ' <span class="product-currency-symbol">' . (string) $currencySymbol . '</span>';
+			$currencySymbol = (string) $currencySymbol;
 		}
 		else
 		{
-			$currencySymbol = '<span class="product-currency-symbol">' . (string) $currencySymbol . '</span> ';
+			$currencySymbol = (string) $currencySymbol;
 		}
 
 		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
