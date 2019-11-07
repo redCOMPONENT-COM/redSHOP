@@ -24,7 +24,9 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 	 * @param $checkoutAccountInformation
 	 * @param $productName
 	 * @param $categoryName
+	 * @param $city
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
 	public function checkoutProductWith2Checkout($userName, $password, $checkoutAccountInformation, $productName, $categoryName, $city)
 	{

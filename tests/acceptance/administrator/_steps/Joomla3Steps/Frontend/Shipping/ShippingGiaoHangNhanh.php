@@ -21,7 +21,7 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 	 * @param $categoryName
 	 * @param $productName
 	 * @param $customerInformation
-	 * @param $total
+	 * @param $price
 	 * @param $shipping
 	 * @param $pluginName
 	 * @throws \Exception
@@ -45,7 +45,8 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
 
-		try{
+		try
+		{
 			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingRate);
 		} catch (\Exception $e)
 		{
@@ -59,7 +60,8 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 
-		try{
+		try
+		{
 			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}catch (\Exception $e)
 		{

@@ -174,6 +174,7 @@ class shippingGiaoHangNhanhCest
 
 	/**
 	 * @param AdminManagerJoomla3Steps $I
+	 * @throws Exception
 	 * @since 2.1.3
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I)
