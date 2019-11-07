@@ -157,7 +157,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 			</div>
 		</div>
 
-	<div class="col-sm-3">
+	<div class="col-sm-4">
 
 		<label>
 			<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_IMAGE'); ?>
