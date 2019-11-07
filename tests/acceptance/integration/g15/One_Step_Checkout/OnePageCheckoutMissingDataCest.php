@@ -64,21 +64,21 @@ class OnePageCheckoutMissingDataCest
 		);
 
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 
 		$this->buttonCartLeadEdit = 'Back to current view';
 		$this->shippingWithVat    = "DKK 0,00";
@@ -103,8 +103,7 @@ class OnePageCheckoutMissingDataCest
 
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -123,10 +122,6 @@ class OnePageCheckoutMissingDataCest
 		$I->wantToTest('Check out with missing click accept Terms');
 		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'acceptTerms');
 		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'acceptTerms');
-
-		$I->wantToTest('Check out with missing click payment');
-		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'payment');
-		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'payment');
 
 		$I->wantToTest('Check out with wrong address email');
 		$this->customerInformation['email'] = "test";
@@ -158,9 +153,10 @@ class OnePageCheckoutMissingDataCest
 	public function clearUpDatabase(ProductManagerJoomla3Steps $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-		$I->wantTo('setup up one page checkout is no at admin');
+		$I->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLeadEdit, $this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
