@@ -191,7 +191,7 @@ class shippingDefaultGLSCest
 		$I->wantToTest('Check Order on Backend');
 		$I = new ConfigurationSteps($scenario);
 		$I->checkPriceTotal($this->product['price'], $this->customerInformation["firstName"], $this->customerInformation["firstName"], $this->customerInformation["lastName"],
-			$this->product['name'], $this->categoryName, $this->pluginName);
+			$this->product['name'], $this->categoryName, $this->pluginName); 
 	}
 
 	/**
