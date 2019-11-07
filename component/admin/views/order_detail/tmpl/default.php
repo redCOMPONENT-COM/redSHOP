@@ -1082,7 +1082,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 			</div>
 		</div>
 	</div>
-
+	<?php
+	$dispatcher->trigger('onAfterAdminDisplayOrderDetail', array($orderId, $this->detail));
+	?>
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="box box-primary">
