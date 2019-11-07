@@ -178,7 +178,7 @@ class shippingGiaoHangNhanhCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I)
 	{
-		$I->wantTo("install plugin shipping Giao Hang Nhanh");
+		$I->wantTo("Install plugin shipping Giao Hang Nhanh");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->enablePlugin($this->pluginName);
