@@ -333,7 +333,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 * @param   object $orderData Order detail
 	 * @param   string $pdfHtml   Html template of PDF
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.0.0
 	 */
