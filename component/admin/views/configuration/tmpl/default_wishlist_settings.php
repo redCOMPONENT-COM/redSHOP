@@ -41,5 +41,3 @@ echo RedshopLayoutHelper::render(
 );
 
 
-?>
-
