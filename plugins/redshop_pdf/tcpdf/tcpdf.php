@@ -232,6 +232,11 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 			$message = Template::replaceTemplate($ordersDetail, $message, true);
 			$this->replacePathImage($message);
 
+			if (end($orderIds) != $orderId)
+			{
+				$message = $message . '<br pagebreak="true"/>';
+			}
+
 			$this->tcpdf->WriteHTML($message, true, false, true, false, '');
 		}
 
@@ -330,7 +335,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 * @param   object $orderData Order detail
 	 * @param   string $pdfHtml   Html template of PDF
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.0.0
 	 */
