@@ -715,7 +715,8 @@ class RedshopHelperProduct
 
 		return JHtml::_(
 			'select.genericlist',
-			$rateArr, 'shipping_rate_id',
+			$rateArr,
+			'shipping_rate_id',
 			'class="inputbox" onchange="calculateOfflineShipping();" ',
 			'value',
 			'text',

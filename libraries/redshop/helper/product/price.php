@@ -194,8 +194,9 @@ class RedshopHelperProductPrice
 			$productPrice    = RedshopHelperCurrency::convert($productPrice);
 			$productCurrency = $session->get('product_currency');
 			$currencySymbol  = (int) $productCurrency;
-			$currencySymbol  = !$currencySymbol ?
-				$productCurrency : RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
+			$currencySymbol  = !$currencySymbol
+				? $productCurrency
+				: RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
 		}
 
 		if (!is_numeric($productPrice))
@@ -206,11 +207,6 @@ class RedshopHelperProductPrice
 		// Prepare currency symbol
 		$position = Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION', 'front');
 
-		if ($position === 'behind' || $position === 'front')
-		{
-			$currencySymbol = '<span class="product-currency-symbol">' . (string) $currencySymbol . '</span>';
-		}
-
 		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
 		$priceSeparator    = Redshop::getConfig()->get('PRICE_SEPERATOR');
 		$thousandSeparator = Redshop::getConfig()->get('THOUSAND_SEPERATOR', '');
@@ -220,14 +216,14 @@ class RedshopHelperProductPrice
 		switch ($position)
 		{
 			case 'behind':
-				return $productPrice . $currencySymbol;
+				return $productPrice . ' <span class="product-currency-symbol">' . $currencySymbol . '</span>';
 
 			case 'none':
 				return $productPrice;
 
 			case 'front':
 			default:
-				return $currencySymbol . $productPrice;
+				return '<span class="product-currency-symbol">' . $currencySymbol . '</span> ' . $productPrice;
 		}
 	}
 
