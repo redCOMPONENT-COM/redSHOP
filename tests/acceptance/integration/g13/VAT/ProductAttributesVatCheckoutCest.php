@@ -8,7 +8,7 @@
 use AcceptanceTester\TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
+use Configuration\ConfigurationSteps as ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps as OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
@@ -68,21 +68,21 @@ class ProductAttributesVatCheckoutCest
 		$this->group                = 'Registered';
 
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 
 		$this->customerInformation= array(
 			"userName"      => $this->faker->bothify('UserName ?####?'),
@@ -164,8 +164,7 @@ class ProductAttributesVatCheckoutCest
 			$this->countryName, null, $this->taxGroupName, $this->vatCalculation, $this->vatAfter, $this->vatNumber,
 			$this->calculationBase, $this->requiVAT
 		);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create user for checkout');
 		$I = new UserManagerJoomla3Steps($scenario);
@@ -188,9 +187,10 @@ class ProductAttributesVatCheckoutCest
 			$this->customerBussinesInformation["userName"], $this->customerBussinesInformation["password"], $this->productName, $this->categoryName, $this->product1, $this->product2, $this->vatPrice, $this->attributes
 		);
 
+		$I->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 	}
 
 	/**

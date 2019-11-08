@@ -230,6 +230,11 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 			$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 			$message = Template::replaceTemplate($ordersDetail, $message, true);
 
+			if (end($orderIds) != $orderId)
+			{
+				$message = $message . '<br pagebreak="true"/>';
+			}
+
 			$this->tcpdf->WriteHTML($message, true, false, true, false, '');
 		}
 
@@ -328,7 +333,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 * @param   object $orderData Order detail
 	 * @param   string $pdfHtml   Html template of PDF
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.0.0
 	 */

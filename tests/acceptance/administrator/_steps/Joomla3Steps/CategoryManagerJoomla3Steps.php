@@ -9,6 +9,7 @@
 namespace AcceptanceTester;
 
 use CategoryManagerJ3Page as CategoryManagerJ3Page;
+use CategoryPage;
 
 /**
  * Class CategoryManagerJoomla3Steps
@@ -21,14 +22,14 @@ use CategoryManagerJ3Page as CategoryManagerJ3Page;
  */
 class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
-    /**
-     * Method for save category
-     *
-     * @param   string $categoryName Name of category
-     *
-     * @return void
-     * @throws \Exception
-     */
+	/**
+	 * Method for save category
+	 *
+	 * @param   string $categoryName Name of category
+	 *
+	 * @return void
+	 * @throws \Exception
+	 */
 	public function addCategorySave($categoryName)
 	{
 		$I = $this;
@@ -42,7 +43,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$saveButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
 		$I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
-		$I->click(\CategoryPage::$buttonSaveClose);
+		$I->click(\CategoryPage::$buttonClose);
 	}
 
 	/**
@@ -117,6 +118,27 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->pauseExecution();
 		$I->click(\CategoryManagerJ3Page::$saveCloseButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+	}
+
+	/**
+	 * @param $parentname
+	 * @param $childname
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function createCategoryChild($parentname, $childname)
+	{
+		$I = $this;
+		$I->amOnPage(CategoryManagerJ3Page::$URL);
+		$I->click(CategoryManagerJ3Page::$newButton);
+		$I->waitForElementVisible(CategoryManagerJ3Page::$categoryName, 30);
+		$I->fillField(CategoryManagerJ3Page::$categoryName, $childname);
+		$I->click(CategoryManagerJ3Page::$parentCategory);
+		$I->waitForElementVisible(CategoryPage::$parentCategoryInput, 30);
+		$I->fillField(CategoryPage::$parentCategoryInput, $parentname);
+		$I->pressKey(CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click(CategoryManagerJ3Page::$saveCloseButton);
+		$I->waitForText(CategoryManagerJ3Page::$messageSaveSuccess, 30, CategoryManagerJ3Page::$selectorSuccess);
 	}
 
 	/**
@@ -308,6 +330,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String $categoryName Name of the Category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function deleteCategory($categoryName)
 	{
@@ -317,9 +340,22 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(\CategoryManagerJ3Page::$deleteButton);
 		$I->acceptPopup();
-//		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageDeleteSuccess);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		try
+		{
+			$I->waitForElementVisible(CategoryManagerJ3Page::$categoryFilter, 30);
+			$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
+			$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			$I->dontSee($categoryName);
+
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(CategoryManagerJ3Page::$checkAllXpath, 30);
+			$I->click(CategoryManagerJ3Page::$checkAllXpath);
+			$I->click(\CategoryManagerJ3Page::$deleteButton);
+			$I->acceptPopup();
+		}
+
 		$I->dontSee($categoryName);
 	}
 
