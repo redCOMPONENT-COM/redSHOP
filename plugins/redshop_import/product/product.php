@@ -540,7 +540,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$query->clear()
 				->select('data_id')
 				->from($db->qn('#__redshop_fields_data'))
-				->where($db->qn('fieldid') . ' = ' . $db->quote($fieldId))
+				->where($db->qn('fieldid') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($fieldId))
 				->where($db->qn('itemid') . ' = ' . (int) $productId)
 				->where($db->qn('section') . ' = 1');
 
@@ -900,7 +900,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			$query->clear()
 				->select('media_id')
 				->from($db->qn('#__redshop_media'))
-				->where($db->qn('media_name') . ' LIKE ' . $db->quote($image))
+				->where($db->qn('media_name') . ' LIKE ' . /** @scrutinizer ignore-type */ $db->quote($image))
 				->where($db->qn('media_section') . ' = ' . $db->quote('product'))
 				->where($db->qn('section_id') . ' = ' . $db->quote($productId))
 				->where($db->qn('media_type') . ' = ' . $db->quote('images'));
