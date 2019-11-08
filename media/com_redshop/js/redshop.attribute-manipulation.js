@@ -19,14 +19,11 @@
 		}
 
 		function renderProperty(propPref, gh, sh, or) {
-			return '<input type="hidden" value="0" name="' + propPref + '[count_subprop]" class="count_subprop" />'
-			+ '<input type="hidden" value="' + sh + '" name="' + propPref + '[key_prop]" class="key_prop" />'
-
-			+ '<a class="btn btn-success add_property btn-small">+ ' + Joomla.JText._('COM_REDSHOP_ADD_SUB_ATTRIBUTE') + '</a>'
-			+ '<a href="#" class="showhidearrow">' + Joomla.JText._('COM_REDSHOP_SUB_ATTRIBUTE') + ': <span class="propertyName"></span><img class="arrowimg" src="' + redSHOP.RSConfig._('SITE_URL') + 'media/com_redshop/images/arrow.png" alt=""/></a>'
+			return '<a href="#" class="showhidearrow">' + Joomla.JText._('COM_REDSHOP_SUB_ATTRIBUTE') + ': <span class="propertyName"></span><img class="arrowimg" src="' + redSHOP.RSConfig._('SITE_URL') + 'media/com_redshop/images/arrow.png" alt=""/></a>'
 
 			+ '<div class="attr_tbody form-inline divInspectFromHideShow">'
-
+			+ '<input type="hidden" value="0" name="' + propPref + '[count_subprop]" class="count_subprop" />'
+			+ '<input type="hidden" value="' + sh + '" name="' + propPref + '[key_prop]" class="key_prop" />'
 			+ '<div class="row">'
 			+ '<div class="col-sm-4">'
 			+ '<div class="form-group"><label>' + Joomla.JText._('COM_REDSHOP_SUB_ATTRIBUTE') + '</label><input type="text" class="form-control propertyInput" name="' + propPref + '[name]" value=""><input type="hidden"  name="attribute[' + gh + '][property][' + sh + '][mainImage]" value="" id="propmainImage' + gh + sh + '"><input type="hidden" name="attribute[' + gh + '][property][' + sh + '][property_image]" id="propertyImageName' + gh + sh + '" /></div>'
@@ -138,7 +135,7 @@
 				+ '<div class="form-group"><input type="checkbox" value="1"  name="' + attrPref + '[hide_attribute_price]" /><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE') + '</label></div>'
 				+ '<div class="form-group"><input type="checkbox" checked="checked" name="' + attrPref + '[published]" value="1" /><label class="checkbox inline">' + Joomla.JText._('COM_REDSHOP_PUBLISHED') + '</label></div>'
 				+ '</div>'
-
+				+ '<a class="btn btn-success add_property btn-small">+ ' + Joomla.JText._('COM_REDSHOP_ADD_SUB_ATTRIBUTE') + '</a>'
 				// rowAttribute
 				+ '</div>'
 
@@ -168,7 +165,7 @@
 				if ($this.closest('.attribute_parameter_tr').find('.sub_attribute_table').size() == 1) {
 					$this.closest('.attribute_parameter_tr').find('.showsubproperty').css({'display': 'none'});
 				}
-				$this.closest('.sub_attribute_table').remove();
+				$this.closest('.sub_property_table').remove();
 			}
 		}).on('click', '.deletePropertyMainImage', function () {
 			if (confirm(Joomla.JText._('COM_REDSHOP_DO_WANT_TO_DELETE'))) {
