@@ -782,36 +782,33 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $shipping
-	 * @param $price
-	 * @param $order
-	 * @param $firstName
-	 * @param $lastName
-	 * @param $productName
+	 * @param $product
+	 * @param $customerInformation
 	 * @param $categoryName
 	 * @param $paymentMethod
 	 * @param $shippingMethod
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkShippingTotal($shipping, $price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod, $shippingMethod)
+	public function checkShippingTotal($shipping, $product, $customerInformation, $categoryName, $paymentMethod, $shippingMethod)
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
 
 		$I->amOnPage(\OrderManagerPage::$URL);
-		$I->searchOrder($order);
+		$I->searchOrder($customerInformation["firstName"]);
 		$I->wait(0.5);
 		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
 		$I->click(OrderManagerPage::$iconEdit);
 		$I->waitForElementVisible(OrderManagerPage::$quantityp1, 30);
 		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
-		$total = $price*$quantity + $shipping['shippingRate'];
-		$priceProduct = $currencyUnit['currencySymbol'].' '.$price*$quantity.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$total = $product['price']*$quantity + $shipping['shippingRate'];
+		$priceProduct = $currencyUnit['currencySymbol'].' '.$product['price']*$quantity.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$priceRate = 'Shipping: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
-		$firstName = 'First Name: '.$firstName;
-		$lastName = 'Last Name: '.$lastName;
+		$firstName = 'First Name: '.$customerInformation["firstName"];
+		$lastName = 'Last Name: '.$customerInformation["lastName"];
 
 		$I->waitForText($firstName, 30);
 		$I->see($firstName);
@@ -823,8 +820,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->see($shippingMethod);
 		$I->waitForText($categoryName, 30);
 		$I->see($categoryName);
-		$I->waitForText($productName, 30);
-		$I->see($productName);
+		$I->waitForText($product['name'], 30);
+		$I->see($product['name']);
 		$I->see($priceProduct);
 		$I->see($priceRate);
 		$I->see($priceTotal);
