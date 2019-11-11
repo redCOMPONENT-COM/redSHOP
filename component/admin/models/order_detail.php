@@ -963,6 +963,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		}
 
 		$orderData->order_total        = $order_total;
+		$post                          = array();
 
 		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($data['payment_method_class']);
 		$paymentmethod                            = $paymentmethod[0];
@@ -1062,6 +1063,7 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderData->special_discount_amount = $discountPrice;
 
 		$orderData->order_total    = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
+		$post                      = array();
 
 		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($data['payment_method_class']);
 		$paymentmethod                            = $paymentmethod[0];
