@@ -64,7 +64,7 @@ class RoboFile extends \Robo\Tasks
 			* When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
 			* Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
 			*/
-			$version = '3.9.11'; 
+			$version = '3.9.13';
 
 			$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 			$this->say("Joomla CMS ($version) site created at tests/joomla-cms");
@@ -101,7 +101,7 @@ class RoboFile extends \Robo\Tasks
 		}
 
 		$version = 'master';
-		$this->_exec("git clone --recursive -b $version --single-branch https://REDWEB_QA_TOKEN:aXpne9NyZmDVt2R5cxjY@gitlab.redhost.dk/redshop-extensions/redshop-paid-extensions tests/extension/paid-extensions");
+		$this->_exec("git clone --recursive -b $version --single-branch https://REDWEB_QA_TOKEN:aXpne9NyZmDVt2R5cxjY@gitlab.redweb.dk/redshop-extensions/redshop-paid-extensions tests/extension/paid-extensions");
 
 		$this->say("paid-extensions ($version) cloned at tests/extension/");
 	}
