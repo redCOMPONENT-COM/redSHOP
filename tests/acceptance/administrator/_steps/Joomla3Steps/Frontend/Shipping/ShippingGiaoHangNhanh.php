@@ -27,7 +27,7 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithShippingGiaoHangNhanh($categoryName, $productName, $customerInformation, $price, $shipping, $pluginName )
+	public function checkoutWithShippingGiaoHangNhanh($categoryName, $productName, $customerInformation, $price, $shipping, $pluginName)
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
@@ -39,6 +39,7 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
