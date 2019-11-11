@@ -315,13 +315,15 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->acceptPopup();
 		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);
 		$I->amOnPage(ProductManagerPage::$URL);
-		$I->searchProduct($productName);
+		$I->waitForElement(ProductManagerPage::$resetButton, 30);
+		$I->click(ProductManagerPage::$resetButton);
 
 		try
 		{
 			$I->dontSee($productName);
 		} catch (\Exception $e)
 		{
+			$I->searchProduct($productName);
 			$I->checkAllResults();
 			$I->waitForElement(ProductManagerPage::$buttonDelete, 30);
 			$I->click(ProductManagerPage::$buttonDelete);
