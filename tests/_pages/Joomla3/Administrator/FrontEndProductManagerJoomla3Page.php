@@ -101,7 +101,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $checkoutButton = ".checkout_button";
+	public static $checkoutButton = "//input[@class='greenbutton btn btn-primary']";
 
 	/**
 	 * @var string
@@ -690,7 +690,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $quantilyOrderReceipt = '//div[@class="update_cart"]';
+	public static $quantityOrderReceipt = '//div[@class="update_cart"]';
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
