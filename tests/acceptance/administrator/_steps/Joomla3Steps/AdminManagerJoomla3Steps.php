@@ -25,7 +25,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->amOnPage(\AdminJ3Page::$installURL);
-		$I->waitForElement(\AdminJ3Page::$link, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$link, 30);
 		$I->click(\AdminJ3Page::$link);
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
