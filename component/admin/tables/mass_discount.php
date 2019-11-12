@@ -38,6 +38,11 @@ class RedshopTableMass_Discount extends RedshopTable
 	public $amount;
 
 	/**
+	 * @var  integer
+	 */
+	public $type;
+
+	/**
 	 * Called before bind().
 	 *
 	 * Method to bind an associative array or object to the JTable instance.This
@@ -232,7 +237,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		if (empty($this->discount_product) && empty($this->category_id) && empty($this->manufacturer_id))
 		{
-			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_DETAIL_NO_PRODUCTS_SELECTED'), 'error');
 
 			return false;
 		}
