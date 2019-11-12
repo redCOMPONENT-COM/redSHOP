@@ -22,6 +22,7 @@ class CheckoutWithPAYMILLPayment extends CheckoutWithAuthorizeDPMPayment
 	 * @param $productName
 	 * @param $categoryName
 	 * @param $customerInformation
+	 * @param $payment
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
