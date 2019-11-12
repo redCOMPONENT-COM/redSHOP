@@ -1900,6 +1900,8 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping_vat'] = (!isset($shipArr['shipping_vat'])) ? 0 : $shipArr['shipping_vat'];
 		}
 
+		Redshop\Cart\Helper::calculateShipping($cart['shipping'], $cart['shipping_vat'], $cart, 0, JFactory::getUser()->id);
+
 		$cart = $this->_carthelper->modifyDiscount($cart);
 
 		// Plugin support:  Process the shipping cart
