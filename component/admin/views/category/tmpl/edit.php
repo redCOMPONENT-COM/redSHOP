@@ -22,6 +22,10 @@ JHtml::_('behavior.formvalidator');
         {
             Joomla.submitform(task);
         }
+
+        $('#toolbar-apply > button').attr("disabled","disabled");
+        $('#toolbar-save > button').attr("disabled","disabled");
+        $('#toolbar-save-new > button').attr("disabled","disabled");
     };
 </script>
 <form
