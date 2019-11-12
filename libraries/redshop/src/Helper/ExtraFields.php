@@ -168,7 +168,7 @@ class ExtraFields
 
 				foreach ($fieldValues as $value)
 				{
-					if (!in_array(urlencode($value->field_value), $checkData))
+					if (!in_array(urlencode($value->field_value), $checkData) && !in_array($value->field_value, $checkData))
 					{
 						continue;
 					}
