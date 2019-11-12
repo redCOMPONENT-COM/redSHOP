@@ -66,8 +66,10 @@ class CompareProductsCest
 	{
 		$I->wantTo('Delete Product in Administrator');
 		$I->deleteProduct($this->productNameCompares);
+
 		$I->wantTo('Delete Product Compares in Administrator');
-		$I->deleteProduct($this->productName);
+		$I->deleteProduct($this->ProductName);
+
 		$I = new CategorySteps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->CategoryName);
