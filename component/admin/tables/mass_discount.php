@@ -244,7 +244,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		if ($this->start_date > $this->end_date)
 		{
-			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_MASS_DISCOUNT_ENDDATE_LOWER_STARTDATE'), 'error');
 
 			return false;
 		}
