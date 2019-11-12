@@ -257,9 +257,10 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function coupon()
 	{
-		$itemId = RedshopHelperRouter::getCartItemId();
-		$app    = JFactory::getApplication();
-		$ajax   = $app->input->getInt('ajax', 0);
+		$itemId   = RedshopHelperRouter::getCartItemId();
+		$app      = JFactory::getApplication();
+		$ajax     = $app->input->getInt('ajax', 0);
+		$language = JFactory::getLanguage()->getTag();
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('Cart');
@@ -280,7 +281,7 @@ class RedshopControllerCart extends RedshopController
 		// If coupon code is valid than apply to cart else raise error
 		if ($valid)
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId, false);
 
 			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
@@ -320,7 +321,7 @@ class RedshopControllerCart extends RedshopController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId, false);
 
 			$message     = JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
 			$messageType = 'error';
@@ -452,7 +453,8 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function voucher()
 	{
-		$itemId = RedshopHelperRouter::getCartItemId();
+		$itemId   = RedshopHelperRouter::getCartItemId();
+		$language = JFactory::getLanguage()->getTag();
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('Cart');
@@ -464,7 +466,7 @@ class RedshopControllerCart extends RedshopController
 			$this->modifyCalculation($cart);
 			RedshopHelperCart::cartFinalCalculation(false);
 
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&lang=' . $language . '&Itemid=' . $itemId, false);
 			$message     = null;
 			$messageType = null;
 
@@ -504,7 +506,8 @@ class RedshopControllerCart extends RedshopController
 		else
 		{
 			$msg  = JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&Itemid=' . $itemId, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&lang=' . $language 
+				. '&Itemid=' . $itemId, false);
 			$this->setRedirect($link, $msg, 'error');
 		}
 	}
@@ -517,7 +520,10 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function update()
 	{
-		$post = JFactory::getApplication()->input->post->getArray();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+		$post  = $input->post->getArray();
+		$ajax  = $input->getInt('ajax', 0);
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('cart');
@@ -533,8 +539,19 @@ class RedshopControllerCart extends RedshopController
 		RedshopHelperCart::cartFinalCalculation();
 		RedshopHelperCart::addCartToDatabase();
 
-		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
-		$this->setRedirect($link);
+		if ($ajax)
+		{
+			$carts = RedshopHelperCart::generateCartOutput(RedshopHelperCartSession::getCart());
+
+			echo $carts[0];
+
+			$app->close();
+		}
+		else
+		{
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
+			$this->setRedirect($link);
+		}
 	}
 
 	/**
@@ -567,6 +584,9 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function empty_cart()
 	{
+		$app  = JFactory::getApplication();
+		$ajax = $app->input->getInt('ajax', 0);
+
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('cart');
 
@@ -579,8 +599,19 @@ class RedshopControllerCart extends RedshopController
 			RedshopHelperCart::removeCartFromDatabase(0, $user->id, true);
 		}
 
-		$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
-		$this->setRedirect($link);
+		if ($ajax)
+		{
+			$carts = RedshopHelperCart::generateCartOutput(RedshopHelperCartSession::getCart());
+
+			echo $carts[0];
+
+			$app->close();
+		}
+		else
+		{
+			$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . RedshopHelperRouter::getCartItemId(), false);
+			$this->setRedirect($link);
+		}
 	}
 
 	/**
@@ -659,12 +690,16 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function redmasscart()
 	{
-		// Check for request forgeries.
-		//JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
-		\Redshop\Helper\Ajax::validateAjaxRequest('get');
-
 		$app  = JFactory::getApplication();
 		$post = $app->input->post->getArray();
+
+		// Check for request forgeries.
+		if (!JSession::checkToken())
+		{
+			$msg  = JText::_('COM_REDSHOP_TOKEN_VARIFICATION');
+			$rurl = base64_decode($post["rurl"]);
+			$app->redirect($rurl, $msg);;
+		}
 
 		if ($post["numbercart"] == "")
 		{

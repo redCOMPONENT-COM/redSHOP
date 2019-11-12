@@ -619,7 +619,7 @@ function searchByPhone()
 				}
 			}
 		}
-		var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=searchUserdetailByPhone&tmpl=component&phone="+value;
+		var linktocontroller = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=registration&task=searchUserdetailByPhone&phone="+value;
 		xmlhttp.open("GET",linktocontroller,true);
 		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
@@ -656,7 +656,7 @@ function showCompanyOrCustomer(obj)
 		jQuery('#exCustomerFieldST').show();
 	}
 
-	var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
+	var linktocontroller = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=registration&task=getCompanyOrCustomer";
 		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
 
 	var postData = jQuery("#redshopRegistrationForm #adminForm").serializeArray();
@@ -881,6 +881,10 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			{
 				users_info_id = propName[p].value;
 			}
+			else if (propName[p].type == 'hidden')
+			{
+				users_info_id = propName[p].value;
+			}
 		}
 
 		var propName = document.getElementsByName('shipping_box_id');
@@ -993,7 +997,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 
 			SqueezeBox.initialize({});
 
-			$$('a.modal').each(function(el) {
+			$$('a.modal:last-child').each(function(el) {
 				el.addEvent('click', function(e) {
 					e.preventDefault();
 					SqueezeBox.fromElement(el);
@@ -1128,7 +1132,7 @@ function autoFillCity(str,isShipping)
 				}
 			}
 		}
-		var linktocontroller = redSHOP.RSConfig._('SITE_URL')+"index.php?option=com_redshop&view=category&task=autofillcityname&tmpl=component&q="+str;
+		var linktocontroller = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=category&task=autofillcityname&q="+str;
 		xmlhttp.open("GET",linktocontroller,true);
 		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);

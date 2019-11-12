@@ -58,7 +58,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 
 		$I->wantTo("Choose the menu item type: $menuItem");
 		$I->wait(0.5);
-		$I->waitForElement(AdminJ3Page::returnMenuItem($menuItem),5);
+		$I->waitForElementVisible(AdminJ3Page::returnMenuItem($menuItem), 30);
 		$I->click(AdminJ3Page::returnMenuItem($menuItem));
 		$I->wantTo('I switch back to the main window');
 		$I->switchToIFrame();

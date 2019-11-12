@@ -16,43 +16,57 @@
 
 class OrderStatusManagerPage extends AdminJ3Page
 {
-    /**
-     * @var string
-     */
-    public static $URL = '/administrator/index.php?option=com_redshop&view=order_statuses';
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $URL = '/administrator/index.php?option=com_redshop&view=order_statuses';
 
-    /**
-     * @var string
-     */
-    public static $filterSearch = "//input[@id='filter_search']";
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $filterSearch = "//input[@id='filter_search']";
 
-    /**
-     * @var string
-     */
-    public static $editButton = ".btn-edit-item";
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $editButton = ".btn-edit-item";
 
-    /**
-     * @var string
-     */
-    public static $buttonReset = "Reset";
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $buttonReset = "Reset";
 
-    /**
-     * @var string
-     */
-    public static $orderstatusName = "#jform_order_status_name";
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $orderstatusName = "#jform_order_status_name";
 
-    /**
-     * @var string
-     */
-    public static $orderstatusCode = "#jform_order_status_code";
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $orderstatusCode = "#jform_order_status_code";
 
-    /**
-     * @var string
-     */
-    public static $messageNameFieldRequired = "Field required: Name";
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageNameFieldRequired = "Field required: Name";
 
-    /**
-     * @var string
-     */
-    public static $messageCodeFieldRequired = "Field required: Code";
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageCodeFieldRequired = "Field required: Code";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageDeleteFail = "Order Status can't be delete because it used somewhere";
 }

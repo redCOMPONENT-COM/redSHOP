@@ -22,6 +22,12 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $titlePage = 'Order';
+
+	/**
+	 * @var string
 	 */
 	public static $userId = "//div[@id='s2id_user_id']/a";
 
@@ -154,15 +160,32 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
 	 */
-	public static $buttonSavePay = "Save + Pay";
+	public static $discountUpdate = "#update_discount";
 
-	//selector
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $specialUpdate = "#special_discount";
 
 	/**
 	 * @var string
 	 */
-	public static $messageSaveSuccess = "Order Status Successfully Saved For Order Number 1";
+	public static $buttonSavePay = "Save + Pay";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $orderID = "//div[@class='table-responsive']//td[3]//a[1]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageChangeOrderSuccess = "Order Status Successfully Saved For Order Number ";
 
 	/**
 	 * @var string
@@ -174,6 +197,24 @@ class OrderManagerPage extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $buttonDeleteOder = '//div[@id="toolbar-delete"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceVAT = "#prdtaxproduct1";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceProduct = "#prdpriceproduct1";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectSubProperty = "//select[@onchange=\"javascript:calculateOfflineTotalPrice('product1', true);\"]";
 
 	/**
 	 * Function to get Path $userName in Order item
@@ -188,4 +229,61 @@ class OrderManagerPage extends AdminJ3Page
 		return $path;
 	}
 
+	/**
+	 * @param $code
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function xpathOrderStatus($code)
+	{
+		$xpath = ".order_status_".$code;
+
+		return $xpath;
+	}
+
+	/**
+	 * Function to get Path $idOder in Order detail
+	 * @param $idOrder
+	 * @since 2.1.3
+	 * @return string
+	 */
+	public function returnButtonUpdateDiscount ($idOrder)
+	{
+		$path = "//a[@onclick= \"javascript:validateDiscount('#update_discount$idOrder');\"]";
+		return $path;
+	}
+
+	/**
+	 * Function to get Path $idOder in Order detail
+	 * @param $idOrder
+	 * @since 2.1.3
+	 * @return string
+	 */
+	public function returnButtonSpecialDiscount ($idOrder)
+	{
+		$path = "//a[@onclick= \"javascript:validateDiscount('#special_discount$idOrder');\"]";
+		return $path;
+	}
+
+	/**
+	 * @param $nameValue
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function returnXpathAttributeValue($nameValue)
+	{
+		$path = "(//select/option[contains(text(),'$nameValue')])[1]";
+		return $path;
+	}
+
+	/**
+	 * @param $nameAttribute
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function returnXpathAttributeName($nameAttribute)
+	{
+		$path = "//select[@attribute_name='$nameAttribute']";
+		return $path;
+	}
 }
