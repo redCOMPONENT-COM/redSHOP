@@ -73,7 +73,9 @@
                 description="COM_REDSHOP_MASS_DISCOUNT_PRODUCTS_DESC"
                 multiple="true"
                 default=""
-                class="form-control">
+                class="form-control"
+                required="true"
+                >
             <option value="">COM_REDSHOP_MASS_DISCOUNT_PRODUCTS_SELECT_OPTION</option>
         </field>
         <field

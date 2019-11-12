@@ -173,7 +173,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($validData))
+		if (!$model->/** @scrutinizer ignore-call */ saveCategory($validData))
 		{
 			// Save the data in the session.
 			$app->setUserState($context . '.data', $validData);
