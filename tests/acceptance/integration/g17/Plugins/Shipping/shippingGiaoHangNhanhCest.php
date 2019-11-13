@@ -198,7 +198,7 @@ class shippingGiaoHangNhanhCest
 		$I->cartSetting($this->cartSetting);
 
 		$I = new ShippingSteps($scenario);
-		$I->wantTo('Check create new Shipping rate with save button');
+		$I->wantTo('Check create new Shipping rate');
 		$I->createShippingRateStandard($this->pluginName, $this->shipping, $this->function);
 
 		$I->wantToTest('Create Category');
