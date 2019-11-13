@@ -197,19 +197,6 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" class="form-validate"
 	  enctype="multipart/form-data">
 
-	<?php
-		echo RedshopLayoutHelper::render(
-			'component.full.tab.main',
-			array(
-				'view'    => $this,
-				'tabMenu' => $this->tabmenu->getData('tab')->items,
-			)
-		);
-
-		// Echo plugin tabs.
-		$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
-	?>
-
 	<div class="clr"></div>
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->product_id; ?>"/>
 	<input type="hidden" name="product_id" id="product_id" value="<?php echo $this->detail->product_id; ?>"/>
@@ -226,6 +213,19 @@ JHtml::_('behavior.formvalidation');
 	<input type="hidden" name="visited" value="<?php echo $this->detail->visited ?>"/>
 	<input type="hidden" name="view" value="product_detail"/>
 	<input type="hidden" name="selectedTabPosition" value=""/>
+
+	<?php
+		echo RedshopLayoutHelper::render(
+			'component.full.tab.main',
+			array(
+				'view'    => $this,
+				'tabMenu' => $this->tabmenu->getData('tab')->items,
+			)
+		);
+
+		// Echo plugin tabs.
+		$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
+	?>
 </form>
 <script type="text/javascript">
 
