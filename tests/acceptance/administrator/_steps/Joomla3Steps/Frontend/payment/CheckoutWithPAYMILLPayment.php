@@ -39,10 +39,10 @@ class CheckoutWithPAYMILLPayment extends CheckoutWithAuthorizeDPMPayment
 		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->waitForElementVisible(PAYMILLPaymentPage::$paymentPaymill, 30);
-
+		$I->click(PAYMILLPaymentPage::$paymentPaymill);
 		try
 		{
-			$I->click(PAYMILLPaymentPage::$paymentPaymill);
+			$I->seeCheckboxIsChecked(PAYMILLPaymentPage::$paymentPaymill);
 		}catch (\Exception $e)
 		{
 			$I->waitForElementVisible(PAYMILLPaymentPage::$paymentPaymill, 30);
