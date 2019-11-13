@@ -261,7 +261,7 @@ if ($mail == 0)
 
 					$attributes = $producthelper->getProductAttribute($row->product_id);
 
-					$attributes = array_merge($attributes, $wishlist_data);
+					$attributes = array_merge($attributes, /** @scrutinizer ignore-type */ $wishlist_data);
 				}
 				else
 				{
