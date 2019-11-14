@@ -2036,13 +2036,10 @@ class RedshopModelCheckout extends RedshopModel
 		// CalculatePayment
 		$templateDesc = RedshopHelperPayment::replaceConditionTag($templateDesc, $payment_amount, 0, $payment_oprand);
 
-		$shippinPrice        = '';
-		$shippinPriceWithVat = '';
-
 		if (!empty($shipping_rate_id) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
-			$shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
-			$shippinPrice        = RedshopHelperProductPrice::formattedPrice($cart ['shipping'] - $cart['shipping_vat']);
+			RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
+			RedshopHelperProductPrice::formattedPrice($cart ['shipping'] - $cart['shipping_vat']);
 		}
 		else
 		{
