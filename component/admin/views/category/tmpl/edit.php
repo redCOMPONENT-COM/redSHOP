@@ -20,6 +20,9 @@ JHtml::_('behavior.formvalidator');
     {
         if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
         {
+            $('#toolbar-apply > button').attr("disabled","disabled");
+            $('#toolbar-save > button').attr("disabled","disabled");
+            $('#toolbar-save-new > button').attr("disabled","disabled");
             Joomla.submitform(task);
         }
     };
