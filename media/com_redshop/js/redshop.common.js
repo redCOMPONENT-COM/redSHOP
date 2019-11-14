@@ -997,8 +997,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 
 			SqueezeBox.initialize({});
 
-			$$('a.modal.modal-termscondition').each(function(el) {
-				console.log(el);
+			$$('a.modal:last-child').each(function(el) {
 				el.addEvent('click', function(e) {
 					e.preventDefault();
 					SqueezeBox.fromElement(el);
