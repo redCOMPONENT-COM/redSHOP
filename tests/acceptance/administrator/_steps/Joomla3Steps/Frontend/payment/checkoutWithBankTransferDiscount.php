@@ -21,6 +21,8 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 	 * @param $productName
 	 * @param $categoryName
 	 * @param $customerInformation
+	 * @param $productPrice
+	 * @param $paymentPrice
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
