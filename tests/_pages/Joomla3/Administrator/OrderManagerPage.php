@@ -162,7 +162,7 @@ class OrderManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $discountUpdate = "#update_discount";
+	public static $discountUpdate = "//input[@id='update_discount']";
 
 	/**
 	 * @var string
