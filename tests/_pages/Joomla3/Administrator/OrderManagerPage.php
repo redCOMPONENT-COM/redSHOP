@@ -203,6 +203,24 @@ class OrderManagerPage extends AdminJ3Page
 	public static $buttonDeleteOder = '//div[@id="toolbar-delete"]';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceVAT = "#prdtaxproduct1";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceProduct = "#prdpriceproduct1";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectSubProperty = "//select[@onchange=\"javascript:calculateOfflineTotalPrice('product1', true);\"]";
+
+	/**
 	 * Function to get Path $userName in Order item
 	 *
 	 * @param $userName
@@ -248,6 +266,28 @@ class OrderManagerPage extends AdminJ3Page
 	public function returnButtonSpecialDiscount ($idOrder)
 	{
 		$path = "//a[@onclick= \"javascript:validateDiscount('#special_discount$idOrder');\"]";
+		return $path;
+	}
+
+	/**
+	 * @param $nameValue
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function returnXpathAttributeValue($nameValue)
+	{
+		$path = "(//select/option[contains(text(),'$nameValue')])[1]";
+		return $path;
+	}
+
+	/**
+	 * @param $nameAttribute
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function returnXpathAttributeName($nameAttribute)
+	{
+		$path = "//select[@attribute_name='$nameAttribute']";
 		return $path;
 	}
 }
