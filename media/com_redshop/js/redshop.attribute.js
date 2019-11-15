@@ -461,62 +461,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
                     withoutVAT = true;
                 }
 
-                for (var p = 0; p < propArr.length; p++)
-                {
-                    property_id = propArr[p];
-                    var scrollercommonid = commonid + '_' + property_id;
-
-                    if (document.getElementById('divsubimgscroll' + scrollercommonid))
-                    {
-                        var scrollhtml = document.getElementById('divsubimgscroll' + scrollercommonid).innerHTML;
-
-                        if (scrollhtml != "")
-                        {
-                            var imgs = scrollhtml.split('#_#');
-                            var unique = "isFlowers" + scrollercommonid;
-                            unique = new ImageScroller('isFlowersFrame' + scrollercommonid, 'isFlowersImageRow' + scrollercommonid);
-                            var subpropertycommonid = 'subproperty_id_' + scrollercommonid;
-                            var subinfo = '';
-
-                            for (i = 0; i < imgs.length; i++)
-                            {
-                                subinfo = imgs[i].match(/\d+/g);
-                                var subproperty_id = subinfo[0];
-                                var subname = document.getElementById(subpropertycommonid + "_name" + subproperty_id).value;
-                                unique.addThumbnail(
-                                    imgs[i],
-                                    "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "', '"+ withoutVAT +"');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "', '"+ withoutVAT +"');",
-                                    subname,
-                                    "",
-                                    subpropertycommonid + "_subpropimg_" + subproperty_id,
-                                    ""
-                                );
-                            }
-
-                            var rs_size = 50;
-
-                            if (mph_thumb > mpw_thumb)
-                            {
-                                rs_size = mph_thumb;
-                            }
-                            else
-                            {
-                                rs_size = mpw_thumb;
-                            }
-
-                            unique.setThumbnailHeight(parseInt(redSHOP.RSConfig._('ATTRIBUTE_SCROLLER_THUMB_HEIGHT')));
-                            unique.setThumbnailWidth(parseInt(redSHOP.RSConfig._('ATTRIBUTE_SCROLLER_THUMB_WIDTH')));
-                            unique.setThumbnailPadding(5);
-                            unique.setScrollType(0);
-                            unique.enableThumbBorder(false);
-                            unique.setClickOpenType(1);
-                            unique.setThumbsShown(redSHOP.RSConfig._('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER'));
-                            unique.setNumOfImageToScroll(1);
-                            unique.renderScroller();
-                            window["isFlowers" + scrollercommonid] = unique;
-                        }
-                    }
-                }
+                eval(jQuery(request.responseText).find('script').text());
             }
 
             displayAdditionalImage(product_id, accessory_id, relatedprd_id, property_id, 0, withoutVAT);
