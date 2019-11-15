@@ -104,7 +104,7 @@ class OrderDiscountAndSpecialDiscountCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public $zipcode;
+	public $zipCode;
 
 	/**
 	 * @var string
