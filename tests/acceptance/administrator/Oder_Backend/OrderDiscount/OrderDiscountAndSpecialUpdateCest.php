@@ -162,8 +162,8 @@ class OrderDiscountAndSpecialDiscountCest
 		$this->city = 'Ho Chi Minh';
 		$this->phone = '0126541687';
 		$this->quantity = '1';
-		$this->discountUpdate = '20';
-		$this->specialUpdate = '20';
+		$this->discountUpdate = '10';
+		$this->specialUpdate = '10';
 	}
 
 	/**
