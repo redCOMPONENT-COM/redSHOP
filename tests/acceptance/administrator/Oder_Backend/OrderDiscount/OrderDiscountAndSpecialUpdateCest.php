@@ -158,7 +158,7 @@ class OrderDiscountAndSpecialDiscountCest
 		$this->lastName = "LastName";
 		//Orders
 		$this->address = '449 Tran Hung Dao';
-		$this->zipcode = '5000';
+		$this->zipCode = '5000';
 		$this->city = 'Ho Chi Minh';
 		$this->phone = '0126541687';
 		$this->quantity = '1';
@@ -168,6 +168,7 @@ class OrderDiscountAndSpecialDiscountCest
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
 	 * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
@@ -178,7 +179,8 @@ class OrderDiscountAndSpecialDiscountCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
-	 * @since 2.1.3
+	 * @throws Exception
+	 * @since 2.1.2
 	 */
 	public function updateDiscountAndSpecialDiscount(AcceptanceTester $I, $scenario)
 	{
@@ -193,7 +195,7 @@ class OrderDiscountAndSpecialDiscountCest
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 		$I->wantTo('I want create order and update discount and special discount');
 		$I = new OrderUpdateDiscountAndSpecialDiscountSteps($scenario);
-		$I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->address, $this->zipcode, $this->city, $this->phone, $this->discountUpdate, $this->specialUpdate, $this->randomProductPrice);
+		$I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->address, $this->zipCode, $this->city, $this->phone, $this->discountUpdate, $this->specialUpdate, $this->randomProductPrice);
 
 		//Detele data
 		$I->wantTo('Delete product');
