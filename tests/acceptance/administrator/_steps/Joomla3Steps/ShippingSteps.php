@@ -197,13 +197,13 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		}
 		
 	}
-    /**
-     * @param $shippingName
-     * @param $shippingNameEdit
-     * @param $shippingRate
-     * @param $function
-     * @throws \Exception
-     */
+	/**
+	 * @param $shippingName
+	 * @param $shippingNameEdit
+	 * @param $shippingRate
+	 * @param $function
+	 * @throws \Exception
+	 */
 	public function editShippingRateStandard($shippingName, $shippingNameEdit, $shippingRate, $function)
 	{
 		$I = $this;
@@ -239,11 +239,11 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		}
 
 	}
-    /**
-     * @param $shippingMethod
-     * @param $shippingName
-     * @throws \Exception
-     */
+	/**
+	 * @param $shippingMethod
+	 * @param $shippingName
+	 * @throws \Exception
+	 */
 	public function deleteShippingRate($shippingMethod, $shippingName)
 	{
 		$I = $this;
