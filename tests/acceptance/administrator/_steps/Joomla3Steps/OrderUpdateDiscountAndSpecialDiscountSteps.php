@@ -78,12 +78,9 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->scrollTo(OrderManagerPage::$discountUpdate);
 		$I->fillField(OrderManagerPage::$discountUpdate, $discountUpdate);
 		$I->waitForElementVisible($userOrderPage->returnButtonUpdateDiscount($id), 30);
-		$I->executeJS('window.scrollTo(65,80);');
-		$I->waitForElementVisible(OrderManagerPage::$discountUpdate, 30);
 		$I->click($userOrderPage->returnButtonUpdateDiscount($id));
 		$I->waitForElementVisible(OrderManagerPage::$specialUpdate, 30);
 		$I->scrollTo(OrderManagerPage::$specialUpdate);
-		$I->waitForElementVisible(OrderManagerPage::$specialUpdate, 30);
 		$I->fillField(OrderManagerPage::$specialUpdate, $specialUpdate);
 		$I->waitForElementVisible($userOrderPage->returnButtonSpecialDiscount($id), 30);
 		$I->click($userOrderPage->returnButtonSpecialDiscount($id));
