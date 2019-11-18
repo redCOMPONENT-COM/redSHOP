@@ -73,7 +73,7 @@ class RedshopModelNewsletter extends RedshopModel
 		// Filter: Country
 		if (!empty($filterCountry))
 		{
-			$query->where($db->qn('uf.country_code') . ' IN (' . implode(',', $filterCountry) . ')');
+			$query->where($db->qn('uf.country_code') . ' IN (' . "'" . implode("','", $filterCountry) . "'" . ')');
 		}
 
 		// Filter: Start date and end date
@@ -374,7 +374,7 @@ class RedshopModelNewsletter extends RedshopModel
 		$subscribers = array();
 		$db          = JFactory::getDbo();
 		$query       = $db->getQuery(true);
-		$columns     = $db->qn(array('tracker_id', 'newsletter_id', 'subscription_id', 'subscriber_name', 'user_id', 'read', 'date'));
+		$columns     = $db->qn(array('newsletter_id', 'subscription_id', 'subscriber_name', 'user_id', 'read', 'date'));
 		$today       = time();
 
 		foreach ($subscriberIds as $index => $subscriberId)
@@ -396,7 +396,7 @@ class RedshopModelNewsletter extends RedshopModel
 			}
 
 			$unSubscribeLink = $url . 'index.php?option=com_redshop&view=newsletter&task=unsubscribe&email1=' . $subscribeEmail;
-			$values          = array('', $newsletterId, $subscriberId, $username[$index], $userid[$index], 0, $today);
+			$values          = array($newsletterId, $subscriberId, $username[$index], $userid[$index], 0, $today);
 
 			$query->clear()
 				->insert($db->qn('#__redshop_newsletter_tracker'))
