@@ -339,7 +339,7 @@ class AbstractImportPlugin extends \JPlugin
 				fwrite($fileHandle, '"' . implode('"' . $this->separator . '"', $row) . '"' . "\n");
 			}
 
-			fclose($fileHandle);
+			fclose(/** @scrutinizer ignore-type */ $fileHandle);
 		}
 
 		return count($rows);

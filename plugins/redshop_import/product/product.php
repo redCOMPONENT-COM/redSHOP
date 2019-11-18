@@ -861,38 +861,7 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 
 		foreach ($images as $index => $image)
 		{
-			// Copy file
-			$source = $data['sitepath'] . "components/com_redshop/assets/images/product/" . $image;
-
-			if (JFile::exists($source))
-			{
-				$file = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $image;
-
-				if (!JFile::exists($file))
-				{
-					JFile::copy($source, $file);
-				}
-			}
-			else
-			{
-				if (!JUri::isInternal($image))
-				{
-					$binaryData = @file_get_contents($image);
-
-					if ($binaryData === false)
-					{
-						unset($data['product_full_image']);
-					}
-					else
-					{
-						$imageName = basename($image);
-						$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
-						$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
-						JFile::write($dest, $binaryData);
-						$data['product_preview_image'] = $fileName;
-					}
-				}
-			}
+			$this->copyAdditionalImages($data, $image);
 
 			$ordering      = isset($sectionImagesOrder[$index]) ? $sectionImagesOrder[$index] : 0;
 			$alternateText = isset($sectionImagesText[$index]) ? $sectionImagesText[$index] : '';
@@ -932,6 +901,50 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 						->set($db->qn('ordering') . ' = ' . $db->quote((string) $ordering))
 						->where($db->qn('media_id') . ' = ' . $db->quote((string) $mediaId));
 					$db->setQuery($query)->execute();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Method for copy additional images
+	 *
+	 * @param   array  $data      Data
+	 * @param   string $image     Image
+	 *
+	 * @return  void
+	 */
+	public function copyAdditionalImages(&$data, $image)
+	{
+		// Copy file
+		$source = $data['sitepath'] . "components/com_redshop/assets/images/product/" . $image;
+
+		if (JFile::exists($source))
+		{
+			$file = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $image;
+
+			if (!JFile::exists($file))
+			{
+				JFile::copy($source, $file);
+			}
+		}
+		else
+		{
+			if (!JUri::isInternal($image))
+			{
+				$binaryData = @file_get_contents($image);
+
+				if ($binaryData === false)
+				{
+					unset($data['product_full_image']);
+				}
+				else
+				{
+					$imageName = basename($image);
+					$fileName  = RedshopHelperMedia::cleanFileName($imageName, $data['product_id']);
+					$dest      = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
+					JFile::write($dest, $binaryData);
+					$data['product_preview_image'] = $fileName;
 				}
 			}
 		}
