@@ -61,9 +61,14 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->click(\CategoryManagerJ3Page::$newButton);
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$categoryName, 30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
+
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$template, 30);
 		$I->click(\CategoryManagerJ3Page::$template);
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$choiceTemplate, 30);
 		$I->click(\CategoryManagerJ3Page::$choiceTemplate);
+
 		$I->click(\CategoryManagerJ3Page::$saveCloseButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 		$I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
@@ -80,10 +85,16 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->click(\CategoryManagerJ3Page::$newButton);
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$categoryName, 30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$categoryNoPage, 30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
+
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$template, 30);
 		$I->click(\CategoryManagerJ3Page::$template);
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$choiceTemplate, 30);
 		$I->click(\CategoryManagerJ3Page::$choiceTemplate);
+
 		$I->click(\CategoryManagerJ3Page::$saveNewButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
 
