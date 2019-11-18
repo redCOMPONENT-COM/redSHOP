@@ -15,7 +15,6 @@ $producthelper = productHelper::getInstance();
 $turnover = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalTurnOverCpanel();
 
 $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCpanel();
-
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -39,7 +38,7 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 		<?php if (count($turnover) > 0) {?>
 			<?php $turnover = array_reverse($turnover); ?>
 			<?php foreach ($turnover as $row) { ?>
-                <?php $price = strip_tags(RedshopHelperProductPrice::formattedPrice($row[1])); ?>
+				<?php $price = strip_tags(RedshopHelperProductPrice::formattedPrice($row[1])); ?>
 				data.addRow(['<?php echo $row[0] ?>', <?php echo $row[1] ?>, '<?php echo $price ?>', '<?php echo $price . ' in ' . $row[0]; ?>']);
 			<?php } ?>
 		<?php } ?>
@@ -53,35 +52,89 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 		};
 
 		//Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.LineChart(document.getElementById('lastmonthsales_statistics_pie'));
-		chart.draw(data, options);
+		var chartBar = new google.visualization.ColumnChart(document.getElementById('lastmonthsales_statistics_bar'));
+		chartBar.draw(data, options);
+
+		if (window.innerWidth > 1500) {
+			widthLine = 1000;
+		} else if (window.innerWidth > 1366) {
+			widthLine = 700
+		} else {
+			widthLine = ''
+		}
+
+
+		var optionsLine = {
+			height: 400,
+			width: widthLine,
+			colors: ['#1ab395'],
+			legend: { position: "none" },
+			chartArea: {'width': '90%', 'height': '90%'},
+			curveType: 'function'
+		};
+		var chartLine = new google.visualization.LineChart(document.getElementById('lastmonthsales_statistics_pie'));
+		chartLine.draw(data, optionsLine);
 	}
+
+	jQuery(document).ready(function() {
+		jQuery('#type_chart').change(function() {
+			jQuery('#lastmonthsales_statistics_bar').toggle();
+			jQuery('#lastmonthsales_statistics_pie').toggle();
+		});
+
+		setTimeout(function() {
+			jQuery('#lastmonthsales_statistics_pie').hide();
+		},500)
+	})
 </script>
 
 <div class="row">
 	<div class="col-sm-8">
 		<form action="index.php?option=com_redshop" method="post" name="chartform" id="chartForm">
 			<div id="editcell">
-				<?php
-					echo JText::_('COM_REDSHOP_FILTER') . ": ";
-					$options = array();
-					$options[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
-					$options[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
-					$options[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
-					$options[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
+				<div class="filterTool">
+					<div class="filterItem">
+						<?php
+						echo JText::_('COM_REDSHOP_FILTER') . ": ";
+						$options = array();
+						$options[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DAILY'));
+						$options[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_WEEKLY'));
+						$options[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_MONTHLY'));
+						$options[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_YEARLY'));
 
-					echo JHTML::_(
-						'select.genericlist',
-						$options,
-						'filteroption',
-						'class="inputbox" size="1" onchange="document.chartform.submit();"',
-						'value',
-						'text',
-						JFactory::getApplication()->input->getInt('filteroption', 1)
-					);
+						echo JHTML::_(
+							'select.genericlist',
+							$options,
+							'filteroption',
+							'class="inputbox" size="1" onchange="document.chartform.submit();"',
+							'value',
+							'text',
+							JFactory::getApplication()->input->getInt('filteroption', 1)
+						);
 
-				?>
+						?>
+					</div>
+					<div class="filterItem">
+						<?php
+						echo JText::_('chart') . ": ";
+						$options = array();
+						$options[] = JHTML::_('select.option', '1', JText::_('Bar'));
+						$options[] = JHTML::_('select.option', '2', JText::_('Line'));
+
+						echo JHTML::_(
+							'select.genericlist',
+							$options,
+							'type_chart',
+							'class="inputbox" size="1"',
+							'value',
+							'text'
+						);
+
+						?>
+					</div>
+				</div>
 				<div style="float:left;" id="lastmonthsales_statistics_pie"></div>
+				<div style="float:left;" id="lastmonthsales_statistics_bar"></div>
 			</div>
 			<input type="hidden" name="view" value="redshop"/>
 		</form>

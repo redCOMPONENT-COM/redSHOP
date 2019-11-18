@@ -70,6 +70,9 @@
     "system": [
       "redgoogleanalytics",
       "redshop"
+    ],
+    "redshop_product": [
+      "sh404urls"
     ]
   }
 }

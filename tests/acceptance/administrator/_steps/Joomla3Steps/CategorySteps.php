@@ -90,4 +90,33 @@ class CategorySteps extends AbstractStep
 		$tester->waitForElement($userCategoryPage->xPathAccessory($accessoryName), 60);
 		$tester->click($userCategoryPage->xPathAccessory($accessoryName));
 	}
+
+	/**
+	 * @param $categoryName
+	 * @param $noPage
+	 * @param $fileImage
+	 * @param $titleSEO
+	 * @param $keySEO
+	 * @param $descriptionSEO
+	 * @throws Exception
+	 * @since 2.1.2
+	 */
+	public function createCategoryImageAndSEO($categoryName, $noPage, $fileImage, $titleSEO, $keySEO, $descriptionSEO)
+	{
+		$I = $this;
+		$I->amOnPage(CategoryPage::$url);
+		$I->click(CategoryPage::$buttonNew);
+		$I->fillField(CategoryPage::$idFieldName, $categoryName);
+		$I->fillField(CategoryPage::$categoryNoPage, $noPage);
+		$I->waitForElement(CategoryPage::$fieldUploadImage, 30);
+//		$I->attachFile(CategoryPage::$fieldUploadImage, $fileImage);
+		$I->click(CategoryPage::$tabSEO);
+		$I->waitForElementVisible(CategoryPage::$titlePage, 30);
+		$I->fillField(CategoryPage::$titlePage, $titleSEO);
+		$I->waitForElementVisible(CategoryPage::$metaKey, 30);
+		$I->fillField(CategoryPage::$metaKey, $keySEO);
+		$I->waitForElementVisible(CategoryPage::$descriptionSEO, 30);
+		$I->fillField(CategoryPage::$descriptionSEO, $descriptionSEO);
+		$I->click(CategoryPage::$buttonSaveClose);
+	}
 }
