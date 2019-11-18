@@ -138,7 +138,7 @@ class Products2CheckoutCest
 		);
 
 		$I = new CheckoutWith2Payment($scenario);
-		$I->checkoutProductWith2Checkout($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation,$this->productName, $this->categoryName );
+		$I->checkoutProductWith2Checkout($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation,$this->productName, $this->categoryName, $this->customerInformation["city"]);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
