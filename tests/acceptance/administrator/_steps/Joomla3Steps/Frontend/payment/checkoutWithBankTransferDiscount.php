@@ -21,6 +21,8 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 	 * @param $productName
 	 * @param $categoryName
 	 * @param $customerInformation
+	 * @param $productPrice
+	 * @param $paymentPrice
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
@@ -57,8 +59,24 @@ class checkoutWithBankTransferDiscount extends CheckoutMissingData
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$priceTotalOnCart = 'Total: '.$currencySymbol.' '.($productPrice - $paymentPrice).$decimalSeparator.$NumberZero;
 		$pricePaymentDiscount = 'Payment Discount: '.$currencySymbol.' '.($paymentPrice).$decimalSeparator.$NumberZero;
-		$I->see($pricePaymentDiscount);
-		$I->see($priceTotalOnCart);
+
+		try
+		{
+			$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+			$I->wait(0.5);
+			$I->see($pricePaymentDiscount);
+			$I->see($priceTotalOnCart);
+		}
+		catch (\Exception $e)
+		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount, 30);
+			$I->wait(0.5);
+			$I->click(FrontEndProductManagerJoomla3Page::$paymentBankTransferDiscount);
+			$I->wait(0.5);
+			$I->see($pricePaymentDiscount);
+			$I->see($priceTotalOnCart);
+		}
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));

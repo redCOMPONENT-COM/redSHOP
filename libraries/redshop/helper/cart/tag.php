@@ -799,7 +799,7 @@ class RedshopHelperCartTag
 
 				if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
 				{
-					if (strstr($cartHtml, "{quantity_increase_decrease}") && $view == 'cart')
+					if (strstr($cartHtml, "{quantity_increase_decrease}") && $view != 'checkout')
 					{
 						$cartHtml = str_replace("{quantity_increase_decrease}", $updateCartMinusPlus, $cartHtml);
 						$cartHtml = str_replace("{update_cart}", '', $cartHtml);

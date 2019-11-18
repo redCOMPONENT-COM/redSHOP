@@ -7,6 +7,9 @@
  */
 
 namespace AcceptanceTester;
+
+use OrderStatusManagerPage;
+
 /**
  * Class OrderStatusManagerSteps
  *
@@ -166,5 +169,21 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 		$I->acceptPopup();
 		$I->waitForText(\OrderStatusManagerPage::$messageDeleteSuccess, 60, \OrderStatusManagerPage::$selectorSuccess);
 		$I->dontSee($changeName);
+	}
+
+	/**
+	 * @param $statusName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function deleteOrderStatusUsing($statusName)
+	{
+		$I = $this;
+		$I->amOnPage(OrderStatusManagerPage::$URL);
+		$I->searchOrderStatus($statusName);
+		$I->checkAllResults();
+		$I->click(OrderStatusManagerPage::$buttonDelete);
+		$I->acceptPopup();
+		$I->waitForText(OrderStatusManagerPage::$messageDeleteFail, 60, OrderStatusManagerPage::$selectorMissing);
 	}
 }

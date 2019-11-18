@@ -59,8 +59,7 @@ abstract class RedshopHelperProduct_Attribute
 	 * @return  array
 	 * @throws  Exception
 	 */
-	public static function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0,
-	                                           $notAttributeId = '')
+	public static function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0, $notAttributeId = '')
 	{
 		$key = md5($productId . '_' . $attributeSetId . '_' . $attributeId . '_' . $published . '_' . $attributeRequired . '_' . $notAttributeId);
 
@@ -133,7 +132,7 @@ abstract class RedshopHelperProduct_Attribute
 					$query->where('a.attribute_required = ' . (int) $attributeRequired);
 				}
 
-				if ($notAttributeId != 0)
+				if (!empty($notAttributeId))
 				{
 					// Sanitize ids
 					$notAttributeIds = explode(',', $notAttributeId);
