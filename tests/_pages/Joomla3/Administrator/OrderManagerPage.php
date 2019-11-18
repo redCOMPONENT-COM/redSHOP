@@ -104,7 +104,7 @@ class OrderManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $statusOrder = "#s2id_status";
+	public static $statusOrder = "(//div[@id='s2id_status'])[1]";
 
 	/**
 	 * @var string

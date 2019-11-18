@@ -83,7 +83,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(\OrderManagerPage::$statusPaymentSearch, $paymentStatus);
 		$I->waitForElement($userOrderPage->returnSearch($paymentStatus), 30);
 		$I->click($userOrderPage->returnSearch($paymentStatus));
-		$I->fillField(\OrderManagerPage::$quantityp1, $newQuantity);
 		$I->click(\OrderManagerPage::$nameButtonStatus);
 	}
 
