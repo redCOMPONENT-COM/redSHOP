@@ -269,7 +269,7 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
 	}
 
-	public function addTAXRatesSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry, $nameState)
+	public function addTAXRatesSaveClose($TAXRatesName, $VATGroupName, $TaxRatesValue, $nameCountry)
 	{
 		$client = $this;
 		$client->amOnPage(\TaxRatePage::$url);
