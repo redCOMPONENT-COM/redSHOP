@@ -297,7 +297,9 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(OrderManagerPage::$iconEdit);
 
 		$I->waitForElementVisible(OrderManagerPage::$statusOrder, 30);
-		$I->chooseOnSelect2(OrderManagerPage::$statusOrder, $statusName);
+		$I->click(OrderManagerPage::$statusOrder);
+		$I->fillField(OrderManagerPage::$inputOrderStatus, $statusName);
+		$I->pressKey(OrderManagerPage::$inputOrderStatus, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->click(OrderManagerPage::$nameButtonStatus);
 		$I->waitForText(OrderManagerPage::$messageChangeOrderSuccess.$idOrder, 30, OrderManagerPage::$selectorSuccess);
 		$I->click(OrderManagerPage::$buttonClose);

@@ -217,6 +217,12 @@ class OrderManagerPage extends AdminJ3Page
 	public static $selectSubProperty = "//select[@onchange=\"javascript:calculateOfflineTotalPrice('product1', true);\"]";
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $inputOrderStatus = "//input[@id='s2id_autogen2_search']";
+
+	/**
 	 * Function to get Path $userName in Order item
 	 *
 	 * @param $userName
