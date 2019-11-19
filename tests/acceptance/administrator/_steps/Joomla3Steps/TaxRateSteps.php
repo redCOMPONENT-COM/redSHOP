@@ -276,13 +276,14 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->click(\TaxRatePage::$buttonNew);
 		$client->verifyNotices(false, $this->checkForNotices(), \TaxRatePage::$nameEditPage);
 		$client->checkForPhpNoticesOrWarnings();
+		$client->waitForElementVisible(\TaxRatePage::$fieldName, 30);
 		$client->fillField(\TaxRatePage::$fieldName, $TAXRatesName);
+		$client->waitForElementVisible(\TaxRatePage::$fieldValue, 30);
 		$client->fillField(\TaxRatePage::$fieldValue, $TaxRatesValue);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldCountry, $nameCountry);
 		$client->chooseOnSelect2(\TaxRatePage::$fieldGroup, $VATGroupName);
 		$client->click(\TaxRatePage::$buttonSaveClose);
-		$client->waitForElement(\TaxRatePage::$selectorSuccess, 30);
-		$client->see(\TaxRatePage::$messageItemSaveSuccess, \TaxRatePage::$selectorSuccess);
+		$client->waitForText(\TaxRatePage::$messageItemSaveSuccess, 30, \TaxRatePage::$selectorSuccess);
 	}
 
 	public function editTAXRatesName($TAXRatesName, $TAXRatesNameEdit)
