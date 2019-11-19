@@ -241,12 +241,16 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
+				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 60);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 60);
+				$I->wait(1);
+				$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+
 				try
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				}
 				catch (Exception $e)
 				{
@@ -254,6 +258,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 					$I->wait(1);
 					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				}
+
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("firstname"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("lastname"));

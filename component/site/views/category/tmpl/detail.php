@@ -560,7 +560,12 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		}
 		else
 		{
-			$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
+			$pItemid = RedshopHelperRouter::getCategoryItemid($product->category_id);
+
+			if (empty($pItemid))
+			{
+				$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
+			}
 		}
 
 		$data_add              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);
