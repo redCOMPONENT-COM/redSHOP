@@ -268,6 +268,8 @@ class Invoice
 		$replaceSub[] = \RedshopHelperDatetime::convertDateFormat($orderDetail->cdate);
 		$subject      = str_replace($searchSub, $replaceSub, $subject);
 
+		$search   = array();
+		$replace  = array();
 		$search[] = "{name}";
 		$search[] = "{fullname}";
 		$search[] = "{order_number}";
