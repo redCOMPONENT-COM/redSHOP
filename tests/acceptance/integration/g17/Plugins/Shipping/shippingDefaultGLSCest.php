@@ -121,7 +121,7 @@ class shippingDefaultGLSCest
 		);
 
 		$this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
-		$this->function    = 'saveclose';
+		$this->function      = 'saveclose';
 
 		$this->customerInformation = array(
 			"userName"      => $this->faker->userName,
