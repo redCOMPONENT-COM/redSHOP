@@ -255,16 +255,28 @@ class Invoice
 		$orderDetail     = \RedshopEntityOrder::getInstance($orderId)->getItem();
 		$userBillingInfo = \RedshopEntityOrder::getInstance($orderId)->getBilling()->getItem();
 
-		$search  = array();
-		$replace = array();
+		// Replace tags in mail's subject, reference:  KON-417
+		$searchSub    = array();
+		$replaceSub   = array();
+		$searchSub[]  = "{order_id}";
+		$replaceSub[] = $orderDetail->order_id;
+		$searchSub[]  = "{order_number}";
+		$replaceSub[] = $orderDetail->order_number;
+		$searchSub[]  = "{shopname}";
+		$replaceSub[] = \Redshop::getConfig()->get('SHOP_NAME');
+		$searchSub[]  = "{order_date}";
+		$replaceSub[] = \RedshopHelperDatetime::convertDateFormat($orderDetail->cdate);
+		$subject      = str_replace($searchSub, $replaceSub, $subject);
 
 		$search[] = "{name}";
+		$search[] = "{fullname}";
 		$search[] = "{order_number}";
 		$search[] = "{order_comment}";
 		$search[] = "{order_id}";
 		$search[] = "{order_date}";
+		$search[] = "{customer_email}";
 
-		if ($userBillingInfo->is_company == 1 && $userBillingInfo->company_name != '')
+		if ($userBillingInfo->is_company == 1 && !empty($userBillingInfo->company_name))
 		{
 			$replace[] = $userBillingInfo->company_name;
 		}
@@ -273,10 +285,12 @@ class Invoice
 			$replace[] = $userBillingInfo->firstname . " " . $userBillingInfo->lastname;
 		}
 
+		$replace[] = $replace[0];
 		$replace[] = $orderDetail->order_number;
 		$replace[] = $orderDetail->customer_note;
 		$replace[] = $orderDetail->order_id;
 		$replace[] = \RedshopHelperDatetime::convertDateFormat($orderDetail->cdate);
+		$replace[] = $userBillingInfo->user_email;
 
 		$dataAdd = str_replace($search, $replace, $dataAdd);
 
@@ -284,7 +298,7 @@ class Invoice
 
 		$attachment[] = $bookInvoicePdf;
 
-		if ($userBillingInfo->user_email != "")
+		if (!empty($userBillingInfo->user_email))
 		{
 			Helper::sendEmail(
 				$from, $fromName, $userBillingInfo->user_email, $subject, $dataAdd, 1,
