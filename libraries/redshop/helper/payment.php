@@ -508,7 +508,10 @@ class RedshopHelperPayment
 			return array($finalAmount, 0);
 		}
 
-		$discount    = $total < $discount ? $total : $discount;
+        if ($payment->payment_oprand == '-')
+        {
+            $discount = $total < $discount ? $total : $discount;
+        }
 		$finalAmount = $payment->payment_oprand == '+' ? $finalAmount + $discount : $finalAmount - $discount;
 
 		return array($finalAmount, $discount);

@@ -847,7 +847,7 @@ $attributeproductStockStatus = null;
 $selectedpropertyId          = 0;
 $selectedsubpropertyId       = 0;
 
-if (count($attributes) > 0 && count($attribute_template) > 0)
+if (!empty($attributes) && !empty($attribute_template))
 {
 	for ($a = 0, $an = count($attributes); $a < $an; $a++)
 	{
