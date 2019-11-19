@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     redSHOP
- * @subpackage  ProductsCheckoutStripePaymentCest
+ * @subpackage  shippingGiaoHangNhanhCest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -11,15 +11,14 @@ use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ShippingSteps;
-use AcceptanceTester\UserManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
-use Frontend\Shipping\shippingDefaultGLSS;
+use Frontend\Shipping\ShippingGiaoHangNhanh;
 
 /**
- * Class shippingDefaultGLSCest
+ * Class shippingGiaoHangNhanhCest
  * @since 2.1.3
  */
-class shippingDefaultGLSCest
+class shippingGiaoHangNhanhCest
 {
 	/**
 	 * @var \Faker\Generator
@@ -44,7 +43,6 @@ class shippingDefaultGLSCest
 	 * @since 2.1.3
 	 */
 	protected $pluginURL;
-
 
 	/**
 	 * @var string
@@ -77,16 +75,10 @@ class shippingDefaultGLSCest
 	protected $customerInformation;
 
 	/**
-	 * @var string
+	 * @var mixed
 	 * @since 2.1.3
 	 */
-	protected $function;
-
-	/**
-	 * @var string
-	 * @since 2.1.3
-	 */
-	protected $paymentMethod;
+	protected $total;
 
 	/**
 	 * @var array
@@ -95,48 +87,29 @@ class shippingDefaultGLSCest
 	protected $cartSetting;
 
 	/**
-	 * shippingDefaultGLSCest constructor.
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $paymentMethod;
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	protected $function;
+
+	/**
+	 * shippingGiaoHangNhanhCest constructor.
 	 * @since 2.1.3
 	 */
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
+		$this->faker            = Faker\Factory::create();
 
-		$this->extensionURL = 'extension url';
-		$this->pluginName = 'default GLS';
-		$this->pluginURL = 'paid-extensions/tests/releases/plugins/';
-		$this->package = 'plg_redshop_shipping_default_shipping_gls.zip';
-
-		// Shipping info
-		$this->shipping = array(
-			'shippingName' => 'Shipping Default GLS',
-			'shippingRate' => 10
-		);
-
-		$this->categoryName = $this->faker->bothify("Category Demo ?##?");
-		$this->product = array(
-			"name"          => $this->faker->bothify("Product Demo ?##?"),
-			"number"        => $this->faker->numberBetween(999,9999),
-			"price"         => $this->faker->numberBetween(1,990)
-		);
-
-		$this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
-		$this->function    = 'saveclose';
-
-		$this->customerInformation = array(
-			"userName"      => $this->faker->userName,
-			"email"         => $this->faker->email,
-			"firstName"     => $this->faker->firstName,
-			"lastName"      => $this->faker->lastName,
-			"address"       => $this->faker->address,
-			"postalCode"    => "700000",
-			"city"          => "HCM",
-			"country"       => "Denmark",
-			"state"         => "Karnataka",
-			"phone"         => $this->faker->phoneNumber,
-			"shopperGroup"  => 'Default Private',
-			'group'         => 'Registered'
-		);
+		$this->extensionURL   = 'extension url';
+		$this->pluginName     = 'redSHOP: Giao hàng nhanh';
+		$this->pluginURL      = 'paid-extensions/tests/releases/plugins/';
+		$this->package        = 'plg_redshop_shipping_giaohangnhanh.zip';
 
 		$this->cartSetting = array(
 			"addCart"           => 'product',
@@ -153,12 +126,46 @@ class shippingDefaultGLSCest
 			"minimumOrder"      => 0,
 			"enableQuotation"   => 'no'
 		);
+
+		$this->shipping       = array(
+			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
+			'shippingRate' => $this->faker->numberBetween(10,50)
+		);
+
+		$this->function = 'saveclose';
+
+		$this->categoryName = $this->faker->bothify("Category Demo ?##?");
+
+		$this->product = array(
+			"name"          => $this->faker->bothify("Product Demo ?##?"),
+			"number"        => $this->faker->numberBetween(999,9999),
+			"price"         => $this->faker->numberBetween(50,200)
+		);
+
+		$this->customerInformation = array(
+			"userName"      => $this->faker->userName,
+			"email"         => $this->faker->email,
+			"firstName"     => $this->faker->firstName,
+			"lastName"      => $this->faker->lastName,
+			"address"       => $this->faker->address,
+			"postalCode"    => "700000",
+			"city"          => "HCM",
+			"country"       => "Denmark",
+			"state"         => "Karnataka",
+			"phone"         => '0967692988',
+			"shopperGroup"  => 'Default Private',
+			'group'         => 'Registered'
+		);
+
+		$this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
+
+		$this->total = $this->product['price'] + $this->shipping['shippingRate'];
 	}
 
 	/**
-	 * @param AcceptanceTes
+	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * @since    2.1.3
+	 * @since 2.1.3
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -168,14 +175,13 @@ class shippingDefaultGLSCest
 	/**
 	 * @param AdminManagerJoomla3Steps $I
 	 * @throws Exception
-	 * @since    2.1.3
+	 * @since 2.1.3
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I)
 	{
-		$I->wantTo("install plugin shipping default GLS");
+		$I->wantTo("Install plugin shipping Giao Hang Nhanh");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable plugin shipping default GLS');
 		$I->enablePlugin($this->pluginName);
 	}
 
@@ -185,7 +191,7 @@ class shippingDefaultGLSCest
 	 * @throws Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithShippingDefaultGLS(AcceptanceTester $I, $scenario)
+	public function checkoutShippingGiaoHangNhanh(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Setting one page checkout');
 		$I = new ConfigurationSteps($scenario);
@@ -204,8 +210,8 @@ class shippingDefaultGLSCest
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
 		$I->wantToTest('Check on Front-end');
-		$I = new shippingDefaultGLSS($scenario);
-		$I->checkoutWithShippingDefaultGLS($this->categoryName, $this->product, $this->customerInformation, $this->shipping, $this->pluginName);
+		$I = new ShippingGiaoHangNhanh($scenario); 
+		$I->checkoutWithShippingGiaoHangNhanh($this->categoryName, $this->product['name'], $this->customerInformation, $this->product['price'], $this->shipping, $this->pluginName);
 
 		$I->wantToTest('Check Order on Backend');
 		$I = new ConfigurationSteps($scenario);
@@ -226,10 +232,6 @@ class shippingDefaultGLSCest
 		$I->wantToTest('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-
-		$I->wantToTest('Delete User');
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->customerInformation['firstName']);
 
 		$I->wantToTest('Delete Shipping Rate');
 		$I = new ShippingSteps($scenario);
