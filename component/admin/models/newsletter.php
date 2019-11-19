@@ -80,7 +80,7 @@ class RedshopModelNewsletter extends RedshopModel
 		if (!empty($startDate) && !empty($endDate))
 		{
 			$query->where(
-				'CAST(' . $db->qn('u.registerDate') . ' AS ' . $db->qn('date') . ') '
+				'CAST(' . $db->qn('u.registerDate') . ' AS datetime) '
 				. 'BETWEEN ' . $db->quote($startDate) . ' AND ' . $db->quote($endDate)
 			);
 		}
@@ -104,16 +104,20 @@ class RedshopModelNewsletter extends RedshopModel
 		if (!empty($filterCity))
 		{
 			$cityQuery    = $db->getQuery(true)
-				->select($db->qn('field_id'))
+				->select($db->qn('id'))
 				->from($db->qn('#__redshop_fields'))
-				->where($db->qn('field_name') . ' = ' . $db->quote('field_city'));
+				->where($db->qn('name') . ' = ' . $db->quote('field_city'));
 			$cityFieldIds = $db->setQuery($cityQuery)->loadRow();
 
-			$query->leftJoin($db->qn('#__redshop_fields_data', 'f') . ' ON ' . $db->qn('f.itemid') . ' = ' . $db->qn('ns.users_info_id'))
+			$query->leftJoin($db->qn('#__redshop_fields_data', 'f') . ' ON ' . $db->qn('f.itemid') . ' = ' . $db->qn('uf.users_info_id'))
 				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
-				->where($db->qn('f.fieldid') . ' IN (' . implode(',', $cityFieldIds) . ')')
 				->where($db->qn('f.section') . ' = 7')
 				->where($db->qn('f.data_txt') . ' LIKE ' . $db->quote($filterCity . '%'));
+
+			if ($cityFieldIds)
+			{
+				$query->where($db->qn('f.fieldid') . ' IN (' . implode(',', $cityFieldIds) . ')');
+			}
 		}
 		else
 		{
