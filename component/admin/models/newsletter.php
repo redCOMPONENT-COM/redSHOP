@@ -73,7 +73,7 @@ class RedshopModelNewsletter extends RedshopModel
 		// Filter: Country
 		if (!empty($filterCountry))
 		{
-			$query->where($db->qn('uf.country_code') . ' IN (' . "'" . implode("','", $filterCountry) . "'" . ')');
+			$query->where($db->qn('uf.country_code') . ' IN (' . implode(',', $db->q($filterCountry)) . ')');
 		}
 
 		// Filter: Start date and end date

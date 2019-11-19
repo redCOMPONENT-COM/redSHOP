@@ -76,9 +76,9 @@ class RedshopViewNewsletter extends RedshopView
 		$shopper_option   = array();
 		$shopper_option[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
 		$shoppergroup     = $app->input->get('shoppergroups', '');
-		$ShopperGrup      = $model->getShopperGroup();
+		$shoppergroups      = $model->getShopperGroup();
 
-		$lists['shoppergroups'] = JHtml::_('select.genericlist', $ShopperGrup, 'shoppergroups[]',
+		$lists['shoppergroups'] = JHtml::_('select.genericlist', $shoppergroups, 'shoppergroups[]',
 			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $shoppergroup
 		);
 
