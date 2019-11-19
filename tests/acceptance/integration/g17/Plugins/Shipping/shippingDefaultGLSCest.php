@@ -133,7 +133,7 @@ class shippingDefaultGLSCest
 			"city"          => "HCM",
 			"country"       => "Denmark",
 			"state"         => "Karnataka",
-			"phone"         => $this->faker->phoneNumber,
+			"phone"         => "0909909999",
 			"shopperGroup"  => 'Default Private',
 			'group'         => 'Registered'
 		);
@@ -156,9 +156,9 @@ class shippingDefaultGLSCest
 	}
 
 	/**
-	 * @param AcceptanceTes
+	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * @since    2.1.3
+	 * @since 2.1.3
 	 */
 	public function _before(AcceptanceTester $I)
 	{

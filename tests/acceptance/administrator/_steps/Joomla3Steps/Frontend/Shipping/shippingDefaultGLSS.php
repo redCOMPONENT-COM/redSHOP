@@ -10,8 +10,22 @@ namespace Frontend\Shipping;
 use Frontend\payment\CheckoutWithEWAYPayment;
 use FrontEndProductManagerJoomla3Page;
 
+/**
+ * Class shippingDefaultGLSS
+ * @package Frontend\Shipping
+ * @since 2.1.3
+ */
 class shippingDefaultGLSS extends CheckoutWithEWAYPayment
 {
+    /**
+     * @param $categoryName
+     * @param $product
+     * @param $customerInformation
+     * @param $shipping
+     * @param $shippingName
+     * @throws \Exception
+     * @since 2.1.3
+     */
 	public function checkoutWithShippingDefaultGLS($categoryName, $product, $customerInformation, $shipping, $shippingName)
 	{
 		$I = $this;
