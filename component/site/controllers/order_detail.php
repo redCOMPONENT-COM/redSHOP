@@ -360,7 +360,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 		{
 			if (empty($auth['users_info_id']))
 			{
-				$orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
+				$orderDetail = RedshopEntityOrder::getInstance($orderId)->getItem();
 				$auth['users_info_id'] = $orderDetail->user_info_id;
 				$session->set('auth', $auth);
 			}
