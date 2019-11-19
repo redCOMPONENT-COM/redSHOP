@@ -22,10 +22,11 @@ class CheckoutWithPAYMILLPayment extends CheckoutWithAuthorizeDPMPayment
 	 * @param $productName
 	 * @param $categoryName
 	 * @param $customerInformation
+	 * @param $payment
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutProductWithPAYMILLPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation)
+	public function checkoutProductWithPAYMILLPayment($checkoutAccountDetail, $productName, $categoryName, $customerInformation, $payment)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -38,16 +39,17 @@ class CheckoutWithPAYMILLPayment extends CheckoutWithAuthorizeDPMPayment
 		$I->fillInformationPrivate($customerInformation);
 		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
-		$I->waitForElementVisible(PAYMILLPaymentPage::$paymentPaymill, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
+		$I->waitForText($payment, 30);
+		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioPayment, $payment);
 
 		try
 		{
-			$I->click(PAYMILLPaymentPage::$paymentPaymill);
-		}catch (\Exception $e)
+			$I->canSeeCheckboxIsChecked(PAYMILLPaymentPage::$paymentPaymill);
+		} catch (\Exception $e)
 		{
-			$I->waitForElementVisible(PAYMILLPaymentPage::$paymentPaymill, 30);
-			$I->wait(0.5);
-			$I->click(PAYMILLPaymentPage::$paymentPaymill);
+			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioPayment, $payment);
+			$I->canSeeCheckboxIsChecked(PAYMILLPaymentPage::$paymentPaymill);
 		}
 
 		$I->waitForElement($productFrontEndManagerPage->product($productName), 60);

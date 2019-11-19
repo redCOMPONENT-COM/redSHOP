@@ -39,10 +39,30 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->waitForElementVisible(StripePaymentPage::$paymentStripe, 30);
 		$I->click(StripePaymentPage::$paymentStripe);
+
+		try
+		{
+			$I->seeCheckboxIsChecked(StripePaymentPage::$paymentStripe);
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(StripePaymentPage::$paymentStripe, 30);
+			$I->wait(0.5);
+			$I->click(StripePaymentPage::$paymentStripe);
+		}
+
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
+		try
+		{
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+		}
+		
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -51,8 +71,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		try
 		{
 			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
-		}
-		catch (\Exception $e)
+		}catch (\Exception $e)
 		{
 			$I->wait(2);
 			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);

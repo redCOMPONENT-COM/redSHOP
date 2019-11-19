@@ -619,7 +619,7 @@ function searchByPhone()
 				}
 			}
 		}
-		var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=searchUserdetailByPhone&tmpl=component&phone="+value;
+		var linktocontroller = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=registration&task=searchUserdetailByPhone&phone="+value;
 		xmlhttp.open("GET",linktocontroller,true);
 		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
@@ -656,7 +656,7 @@ function showCompanyOrCustomer(obj)
 		jQuery('#exCustomerFieldST').show();
 	}
 
-	var linktocontroller = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getCompanyOrCustomer&tmpl=component";
+	var linktocontroller = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=registration&task=getCompanyOrCustomer";
 		linktocontroller += "&is_company="+obj.value+"&template_id="+template_id;
 
 	var postData = jQuery("#redshopRegistrationForm #adminForm").serializeArray();
@@ -710,21 +710,22 @@ function getBillingTemplate(el)
 	var isCompany = jQuery(el).val();
 	var type = jQuery(el).attr('billing_type');
 	var url = redSHOP.RSConfig._('SITE_URL') + "index.php?option=com_redshop&view=registration&task=getBillingTemplate";
+	showCompanyOrCustomer(jQuery('[id^=toggler]:checked').get(0));
 
-    jQuery.ajax({
-        url: url,
-        type: 'POST',
-        data: {type: type, isCompany: isCompany},
-        success: function (html) {
-            jQuery('#wrapper-billing').html('');
-            jQuery('#wrapper-billing').append(html);
-            jQuery('#wrapper-billing select:not(".disableBootstrapChosen")').select2();
-            jQuery(document).trigger("AfterGetBillingTemplate");
+	jQuery.ajax({
+		url: url,
+		type: 'POST',
+		data: {type: type, isCompany: isCompany},
+		success: function (html) {
+			jQuery('#wrapper-billing').html('');
+			jQuery('#wrapper-billing').append(html);
+			jQuery('#wrapper-billing select:not(".disableBootstrapChosen")').select2();
+			jQuery(document).trigger("AfterGetBillingTemplate");
 
-            var event = {};
-            handleAjaxOnestep(event);
-        }
-    });
+			var event = {};
+			handleAjaxOnestep(event);
+		}
+	});
 }
 
 function handleAjaxOnestep(event) {
@@ -881,6 +882,10 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			{
 				users_info_id = propName[p].value;
 			}
+			else if (propName[p].type == 'hidden')
+			{
+				users_info_id = propName[p].value;
+			}
 		}
 
 		var propName = document.getElementsByName('shipping_box_id');
@@ -947,7 +952,6 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			rs_customer_message_ta	: rs_customer_message_ta,
 			txt_referral_code	: txt_referral_code,
 			objectname	: objectname,
-			objecttype	: classname,
 			Itemid	: Itemid,
 			sid	: Math.random(),
 			anonymous: anonymous
@@ -1129,7 +1133,7 @@ function autoFillCity(str,isShipping)
 				}
 			}
 		}
-		var linktocontroller = redSHOP.RSConfig._('SITE_URL')+"index.php?option=com_redshop&view=category&task=autofillcityname&tmpl=component&q="+str;
+		var linktocontroller = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=category&task=autofillcityname&q="+str;
 		xmlhttp.open("GET",linktocontroller,true);
 		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
