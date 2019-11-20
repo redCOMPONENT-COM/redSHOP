@@ -103,7 +103,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail, 60);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressFirstName, 60);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressLastName, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
