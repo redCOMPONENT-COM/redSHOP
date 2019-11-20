@@ -2,6 +2,8 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
+use Configuration\ConfigurationSteps;
+
 class CompareProductsCest
 {
 
@@ -43,6 +45,10 @@ class CompareProductsCest
 	 */
 	public function compareProducts(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo("Config Comparison");
+		$I = new ConfigurationSteps($scenario);
+		$I->featureComparisonYes();
+
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategorySteps($scenario);
 		$I->addCategorySave($this->CategoryName);
@@ -65,9 +71,11 @@ class CompareProductsCest
 	public function deleteDataEnd(ProductSteps $I, $scenario)
 	{
 		$I->wantTo('Delete Product in Administrator');
-		$I->deleteProduct($this->ProductName);
-		$I->wantTo('Delete Product Compares in Administrator');
 		$I->deleteProduct($this->productNameCompares);
+
+		$I->wantTo('Delete Product Compares in Administrator');
+		$I->deleteProduct($this->ProductName);
+
 		$I = new CategorySteps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->CategoryName);
