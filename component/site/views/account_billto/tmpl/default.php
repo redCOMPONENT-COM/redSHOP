@@ -35,6 +35,14 @@ if ($post["user_id"] < 0)
 ?>
 <script type="text/javascript">
 	<?php if ($isEdit == 1) : ?>
+		window.parent.SqueezeBox.options.closeBtn = false;
+		window.parent.SqueezeBox.options.closable = false;
+
+		jQuery(document).ready(function () {
+			jQuery('input[name="submitbtn"]').attr('disabled',true);
+			jQuery('input[name="back"]').attr('disabled',true);
+		});
+
 		setTimeout(function(){
 			window.parent.location.href = '<?php echo JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false); ?>';
 		}, 2000);
