@@ -306,13 +306,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->searchProduct($productName);
 		$I->checkAllResults();
 		$I->click(ProductManagerPage::$buttonDelete);
-
-		$I->wantTo('Test with delete product but then cancel');
-		$I->cancelPopup();
-
-		$I->wantTo('Test with delete product then accept');
-		$I->click(ProductManagerPage::$buttonDelete);
-		$I->acceptPopup();
 		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);
 		$I->dontSee($productName);
 	}
