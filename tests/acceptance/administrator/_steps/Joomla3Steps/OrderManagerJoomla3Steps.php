@@ -343,8 +343,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}catch (\Exception $e)
 		{
 			$I->waitForElementVisible(OrderManagerPage::$userSearch, 30);
-
-			$userOrderPage = new OrderManagerPage();
 			$I->fillField(OrderManagerPage::$userSearch, $nameUser);
 			$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
 			$I->pressKey(OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
