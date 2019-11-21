@@ -1071,10 +1071,10 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			if($x > 0)
 			{
-				$I->waitForElementVisible(["link" =>ProductManagerPage::$addAttributeValue], 30);
+				$I->waitForElementVisible(["link" => ProductManagerPage::$addAttributeValue], 30);
 				$I->executeJS('window.scrollTo(0,0)');
-				$I->waitForElementVisible(["link" =>ProductManagerPage::$addAttributeValue], 30);
-				$I->click(["link" =>ProductManagerPage::$addAttributeValue]);
+				$I->waitForElementVisible(["link" => ProductManagerPage::$addAttributeValue], 30);
+				$I->click(["link" => ProductManagerPage::$addAttributeValue]);
 			}
 
 			$attribute = $attributes[$x];

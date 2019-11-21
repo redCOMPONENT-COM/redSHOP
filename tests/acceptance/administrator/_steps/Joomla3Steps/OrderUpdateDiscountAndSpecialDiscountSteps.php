@@ -41,7 +41,7 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->amOnPage(OrderManagerPage::$URL);
 		$I->click(OrderManagerPage::$buttonNew);
 		$I->waitForText(OrderManagerPage::$titlePage, 30);
-		$I->waitForElementVisible(OrderManagerPage::$userId,30);
+		$I->waitForElementVisible(OrderManagerPage::$userId, 30);
 		$I->click(OrderManagerPage::$userId);
 		$I->waitForElementVisible(OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new OrderManagerPage();
