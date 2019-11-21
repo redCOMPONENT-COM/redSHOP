@@ -27,6 +27,8 @@ class RedshopViewCategory extends RedshopView
 
 	public $productPriceSliderEnable = false;
 
+	public $category_id;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -386,8 +388,9 @@ class RedshopViewCategory extends RedshopView
 		if ($model->getState('include_sub_categories_products', false))
 		{
 			$categories = RedshopEntityCategory::getInstance($this->catid)->getChildCategories();
-			$category_id = $model->getState('category_id');
 			$lists['categories'] = '';
+			$this->category_id   = $model->getState('category_id');
+
 			$categoryList = array(
 				(object) array(
 					'id'   => 0,
@@ -409,7 +412,7 @@ class RedshopViewCategory extends RedshopView
 				'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
 				'id',
 				'name',
-				$category_id
+					$this->category_id
 			);
 		}
 		}
@@ -483,7 +486,6 @@ class RedshopViewCategory extends RedshopView
 		$this->category_template_id = $categoryTemplateId;
 		$this->order_by_select      = $orderByMethod;
 		$this->manufacturer_id      = $manufacturerId;
-		$this->category_id          = $category_id;
 		$this->loadCategorytemplate = $loadCategorytemplate;
 
 		parent::display($tpl);

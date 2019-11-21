@@ -386,7 +386,7 @@ class RedshopModelCategory extends RedshopModel
 			}
 		}
 
-		if ($this->getState('category_id') != 0)
+		if ($this->getState('category_id') !== 0)
 		{
 			$query->where($db->qn('pc.category_id') . ' = ' . $db->q($this->getState('category_id')));
 		}
