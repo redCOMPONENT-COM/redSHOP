@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Plugin\AbstractImportPlugin;
+use Joomla\CMS\Filesystem\File;
 
 JLoader::import('redshop.library');
 
@@ -130,6 +131,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				'hide_attribute_price' => $data['hide_attribute_price'],
 				'attribute_required' => $data['attribute_required'],
 				'display_type' => $data['display_type'],
+				'attribute_published'      => $data['attribute_published'],
 				'product_id' => $productId
 			);
 
@@ -153,6 +155,7 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				'hide_attribute_price' => $data['hide_attribute_price'],
 				'attribute_required' => $data['attribute_required'],
 				'display_type' => $data['display_type'],
+				'attribute_published'      => $data['attribute_published']
 			);
 
 			if (!$table->bind($attributeData) || !$table->store())
@@ -197,11 +200,11 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				$propertyTable->set('setdefault_selected', $data['setdefault_selected']);
 				$propertyTable->set('setrequire_selected', $data['setrequire_selected']);
 				$propertyTable->set('setdisplay_type', $data['setdisplay_type']);
+				$propertyTable->set('property_published', $data['property_published']);
 				$oprand = in_array($data['oprand'], array('+', '-', '*', '/', '=')) ? $data['oprand'] : '';
-
-				$propertyTable->set('oprand', $oprand);
 				$propertyTable->set('property_image', isset($data['property_image']) ? basename($data['property_image']) : '');
 				$propertyTable->set('property_main_image', isset($data['property_main_image']) ? basename($data['property_main_image']) : '');
+				$propertyTable->set('oprand', $oprand);
 
 				if (!$propertyTable->store())
 				{
@@ -330,42 +333,56 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 				}
 
 				// Property image
-				if (!empty($data['property_image']) && JFile::exists($data['property_image']))
+				if (!empty($data['property_image']))
 				{
 					$file = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . basename($data['property_image']);
 
 					// Copy If file is not already exist
-					if (!JFile::exists($file))
+					if (!File::exists($file))
 					{
-						copy($data['property_image'], $file);
+						if (File::exists($data['property_image']))
+						{
+							File::copy($data['property_image'], $file);
+						}
+						elseif (file_get_contents($data['property_image']))
+						{
+							copy($data['property_image'], $file);
+						}
 					}
 				}
 
 				// Property main image
-				if (!empty($data['property_main_image']) && JFile::exists($data['property_main_image']))
+				if (!empty($data['property_main_image']) && getimagesize($data['property_main_image']))
 				{
-					$file = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . basename($data['property_main_image']);
+					$src              = $data['property_main_image'];
+					$productMainImage = basename($data['property_main_image']);
 
-					// Copy If file is not already exist
+					$file = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $productMainImage;
+
 					if (!JFile::exists($file))
 					{
-						copy($data['property_main_image'], $file);
+						JFile::copy($src, $file);
 					}
 				}
 
 				// Media
-				if (!empty($data['media_name']) && ($data['media_section'] == 'property') && JFile::exists($data['media_name']))
+				if (!empty($data['media_name']) && ($data['media_section'] == 'property'))
 				{
 					$file = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . basename($data['media_name']);
 
 					// Copy If file is not already exist
-					if (!JFile::exists($file))
+					if (!File::exists($file))
 					{
-						copy($data['media_name'], $file);
+						if (File::exists($data['media_name']))
+						{
+							File::copy($data['media_name'], $file);
+						}
+						elseif (file_get_contents($data['media_name']))
+						{
+							copy($data['media_name'], $file);
+						}
 					}
 				}
-
-				return true;
 			}
 			elseif (!$propertyId)
 			{
@@ -400,10 +417,12 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 			$subPropertyTable->setdefault_selected = $data['subattribute_setdefault_selected'];
 			$subPropertyTable->subattribute_color_title = $data['subattribute_color_title'];
 			$subPropertyTable->subattribute_color_number = $data['subattribute_virtual_number'];
+			$subPropertyTable->subattribute_published    = $data['subattribute_published'];
 
 			$oprand = in_array($data['subattribute_color_oprand'], array('+', '-', '*', '/', '=')) ? $data['subattribute_color_oprand'] : '';
 			$subPropertyTable->oprand = $oprand;
 			$subPropertyTable->subattribute_color_image = isset($data['subattribute_color_image']) ? basename($data['subattribute_color_image']) : '';
+			$subPropertyTable->subattribute_color_main_image = isset($data['media_name']) ? basename($data['media_name']) : '';
 			$subPropertyTable->subattribute_id = $propertyId;
 
 			if (!$subPropertyTable->store())
@@ -532,25 +551,39 @@ class PlgRedshop_ImportAttribute extends AbstractImportPlugin
 			}
 
 			// Sub-property image
-			if (!empty($data['subattribute_color_image']) && JFile::exists($data['subattribute_color_image']))
+			if (!empty($data['subattribute_color_image']))
 			{
 				$file = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . basename($data['subattribute_color_image']);
 
 				// Copy If file is not already exist
-				if (!JFile::exists($file))
+				if (!File::exists($file))
 				{
-					copy($data['subattribute_color_image'], $file);
+					if (File::exists($data['subattribute_color_image']))
+					{
+						File::copy($data['subattribute_color_image'], $file);
+					}
+					elseif (file_get_contents($data['subattribute_color_image']))
+					{
+						File::copy($data['subattribute_color_image'], $file);
+					}
 				}
 			}
 
-			if (!empty($data['media_name']) && ($data['media_section'] == 'subproperty') && JFile::exists($data['media_name']))
+			if (!empty($data['media_name']) && ($data['media_section'] == 'subproperty'))
 			{
 				$file = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . basename($data['media_name']);
 
 				// Copy If file is not already exist
-				if (!JFile::exists($file))
+				if (!File::exists($file))
 				{
-					copy($data['media_name'], $file);
+					if (File::exists($data['media_name']))
+					{
+						File::copy($data['media_name'], $file);
+					}
+					elseif (file_get_contents($data['media_name']))
+					{
+						File::copy($data['media_name'], $file);
+					}
 				}
 			}
 		}
