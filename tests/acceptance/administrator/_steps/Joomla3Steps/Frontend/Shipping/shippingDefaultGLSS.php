@@ -82,7 +82,5 @@ class shippingDefaultGLSS extends CheckoutWithEWAYPayment
 		$I->see($shippingName);
 		$I->see($priceRate);
 		$I->see($priceTotal);
-
 	}
-
 }
