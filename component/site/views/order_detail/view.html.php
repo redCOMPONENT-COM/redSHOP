@@ -83,6 +83,8 @@ class RedshopViewOrder_Detail extends RedshopView
 		}
 		else
 		{
+			$sessionOrderId = $session->get('order_id');
+
 			if ($encr)
 			{
 				$authorization = $model->checkauthorization($orderId, $encr);
@@ -96,6 +98,10 @@ class RedshopViewOrder_Detail extends RedshopView
 
 			// Preform security checks
             elseif (!$user->id && !isset($auth['users_info_id']))
+			{
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
+			}
+            elseif ($sessionOrderId != $orderId)
 			{
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
 			}
