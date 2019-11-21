@@ -3,9 +3,11 @@
   "version": "2.0.6",
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "node-sass": "^4.13.0"
+  },
   "devDependencies": {
-    "browser-sync": "^2.26.3",
+    "browser-sync": "^2.26.7",
     "del": "^2.2.2",
     "fs": "0.0.2",
     "glob-stream": "^6.1.0",
@@ -27,10 +29,10 @@
     "minimatch": "^3.0.4",
     "pretty-data": "^0.40.0",
     "require-dir": "^0.3.2",
-    "through2": "^2.0.3",
-    "upath": "^1.1.0",
+    "through2": "^2.0.5",
+    "upath": "^1.2.0",
     "vinyl-fs": "^3.0.3",
-    "xml2js": "^0.4.19",
+    "xml2js": "^0.4.22",
     "yargs": "^8.0.2"
   },
   "scripts": {

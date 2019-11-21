@@ -28,14 +28,15 @@ extract($displayData);
 </td>
 <td>
 	<?php foreach ($fieldCheck as $key => $field) : ?>
-		<?php $checked = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' checked="checked" ' : ''; ?>
+		<?php $checked = (!empty($checkData) && (in_array(urlencode($field->field_value), $checkData)) ||
+				in_array($field->field_value, $checkData)) ? ' checked="checked" ' : ''; ?>
 		<label>
 			<input
 				type="radio"
 				id="<?php echo $rowData->name . '_' . $field->value_id; ?>"
 				name="<?php echo $rowData->name; ?>"
 				class="<?php echo $rowData->class; ?>"
-				value="<?php echo urlencode($field->field_value); ?>"
+				value="<?php echo $field->field_value; ?>"
 				<?php echo $required; ?>
 				<?php echo $requiredLabel; ?>
 				<?php echo $errorMsg; ?>

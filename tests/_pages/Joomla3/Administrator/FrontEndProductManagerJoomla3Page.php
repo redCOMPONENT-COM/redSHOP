@@ -101,7 +101,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $checkoutButton = "Checkout";
+	public static $checkoutButton = "//input[@class='greenbutton btn btn-primary']";
 
 	/**
 	 * @var string
@@ -631,6 +631,24 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $discount = '#mod_redmainprice';
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $valueDiscount = '//div[@class="mod_discount_main"]//td[2]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $shippingWithVat = '#spnShippingrate';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $iconShippingRate = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'giaohangnhanh');\"]";
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
@@ -667,6 +685,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $radioShippingRate = '//label[@class="radio inline"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $radioPayment = '//label[@class="radio"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $quantityOrderReceipt = '//div[@class="update_cart"]';
 
 	/**
 	 * Function to get the Path for Category on the FrontEnd Page
