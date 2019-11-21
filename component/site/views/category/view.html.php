@@ -54,6 +54,7 @@ class RedshopViewCategory extends RedshopView
 		$layout       = $this->input->getString('layout', '');
 		$this->print  = $this->input->getBool('print', false);
 
+		/** @scrutinizer ignore-call */
 		$params = $this->app->getParams('com_redshop');
 		/** @var RedshopModelCategory $model */
 		$model       = $this->getModel('category');
