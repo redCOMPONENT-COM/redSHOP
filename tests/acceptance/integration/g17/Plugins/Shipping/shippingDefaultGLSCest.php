@@ -45,7 +45,6 @@ class shippingDefaultGLSCest
 	 */
 	protected $pluginURL;
 
-
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -100,12 +99,50 @@ class shippingDefaultGLSCest
 	 */
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
+		$this->faker        = Faker\Factory::create();
+		$this->categoryName = $this->faker->bothify("Category Demo ?##?");
+
+		$this->product = array(
+			"name"          => $this->faker->bothify("Product Demo ?##?"),
+			"number"        => $this->faker->numberBetween(999,9999),
+			"price"         => $this->faker->numberBetween(1,990)
+		);
+
+		$this->customerInformation = array(
+			"userName"     => $this->faker->userName,
+			"email"        => $this->faker->email,
+			"firstName"    => $this->faker->firstName,
+			"lastName"     => $this->faker->lastName,
+			"address"      => $this->faker->address,
+			"postalCode"   => "700000",
+			"city"         => "HCM",
+			"country"      => "Denmark",
+			"state"        => "Karnataka",
+			"phone"        => "0909909999",
+			"shopperGroup" => 'Default Private',
+			'group'        => 'Registered'
+		);
+
+		$this->cartSetting = array(
+			"addCart"          => 'product',
+			"allowPreOrder"    => 'yes',
+			"cartTimeOut"      => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"      => 'no',
+			"defaultCart"      => null,
+			"buttonCartLead"   => 'Back to current view',
+			"onePage"          => 'yes',
+			"showShippingCart" => 'no',
+			"attributeImage"   => 'no',
+			"quantityChange"   => 'no',
+			"quantityInCart"   => 0,
+			"minimumOrder"     => 0,
+			"enableQuotation"  => 'no'
+		);
 
 		$this->extensionURL = 'extension url';
-		$this->pluginName = 'default GLS';
-		$this->pluginURL = 'paid-extensions/tests/releases/plugins/';
-		$this->package = 'plg_redshop_shipping_default_shipping_gls.zip';
+		$this->pluginName   = 'default GLS';
+		$this->pluginURL    = 'paid-extensions/tests/releases/plugins/';
+		$this->package      = 'plg_redshop_shipping_default_shipping_gls.zip';
 
 		// Shipping info
 		$this->shipping = array(
@@ -113,46 +150,8 @@ class shippingDefaultGLSCest
 			'shippingRate' => 10
 		);
 
-		$this->categoryName = $this->faker->bothify("Category Demo ?##?");
-		$this->product = array(
-			"name"          => $this->faker->bothify("Product Demo ?##?"),
-			"number"        => $this->faker->numberBetween(999,9999),
-			"price"         => $this->faker->numberBetween(1,990)
-		);
-
 		$this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
 		$this->function      = 'saveclose';
-
-		$this->customerInformation = array(
-			"userName"      => $this->faker->userName,
-			"email"         => $this->faker->email,
-			"firstName"     => $this->faker->firstName,
-			"lastName"      => $this->faker->lastName,
-			"address"       => $this->faker->address,
-			"postalCode"    => "700000",
-			"city"          => "HCM",
-			"country"       => "Denmark",
-			"state"         => "Karnataka",
-			"phone"         => "0909909999",
-			"shopperGroup"  => 'Default Private',
-			'group'         => 'Registered'
-		);
-
-		$this->cartSetting = array(
-			"addCart"           => 'product',
-			"allowPreOrder"     => 'yes',
-			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
-			"enabledAjax"       => 'no',
-			"defaultCart"       => null,
-			"buttonCartLead"    => 'Back to current view',
-			"onePage"           => 'yes',
-			"showShippingCart"  => 'no',
-			"attributeImage"    => 'no',
-			"quantityChange"    => 'no',
-			"quantityInCart"    => 0,
-			"minimumOrder"      => 0,
-			"enableQuotation"   => 'no'
-		);
 	}
 
 	/**
