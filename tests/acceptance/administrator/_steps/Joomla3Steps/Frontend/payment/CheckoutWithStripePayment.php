@@ -62,9 +62,9 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 			$I->wait(0.5);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30);
 		}catch (\Exception $e)
 		{
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30);
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			$I->wait(0.5);
