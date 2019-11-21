@@ -426,10 +426,10 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				{
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
+					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}
 
 				$priceProductTotal = $product['priceProduct'] + $product['priceSize'];
-				$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
 				$priceProductString = $currencyUnit['currencySymbol'].' '.$priceProductTotal.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 				$I->assertEquals($vatProduct, $product['priceVAT']);
