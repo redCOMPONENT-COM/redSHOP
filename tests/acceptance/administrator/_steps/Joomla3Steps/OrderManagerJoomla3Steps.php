@@ -387,6 +387,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
 				}
 
+				$I->waitForElement(OrderManagerPage::$priceVAT, 30);
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
 
 				$priceVATString = $currencyUnit['currencySymbol'].' '.$priceVATAttribute.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
