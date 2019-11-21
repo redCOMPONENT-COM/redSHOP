@@ -11,11 +11,11 @@ use Frontend\payment\CheckoutWithEWAYPayment;
 use FrontEndProductManagerJoomla3Page;
 
 /**
- * Class shippingDefaultGLSS
+ * Class shippingDefaultGLS
  * @package Frontend\Shipping
  * @since 2.1.3
  */
-class shippingDefaultGLSS extends CheckoutWithEWAYPayment
+class shippingDefaultGLS extends CheckoutWithEWAYPayment
 {
 	/**
 	 * @param $categoryName

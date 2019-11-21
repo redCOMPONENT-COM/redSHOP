@@ -13,7 +13,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\ShippingSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use Configuration\ConfigurationSteps;
-use Frontend\Shipping\shippingDefaultGLSS;
+use Frontend\Shipping\shippingDefaultGLS;
 
 /**
  * Class shippingDefaultGLSCest
@@ -203,7 +203,7 @@ class shippingDefaultGLSCest
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
 		$I->wantToTest('Check on Front-end');
-		$I = new shippingDefaultGLSS($scenario);
+		$I = new shippingDefaultGLS($scenario);
 		$I->checkoutWithShippingDefaultGLS($this->categoryName, $this->product, $this->customerInformation, $this->shipping, $this->pluginName);
 
 		$I->wantToTest('Check Order on Backend');
