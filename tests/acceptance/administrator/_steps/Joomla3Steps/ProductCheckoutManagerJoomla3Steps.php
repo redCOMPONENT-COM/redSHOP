@@ -60,6 +60,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			case 'no':
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+					$I->wait(1);
 					$I->addressInformation($addressDetail);
 					$I->shippingInformation($shipmentDetail);
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
