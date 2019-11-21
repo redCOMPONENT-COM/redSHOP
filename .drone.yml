@@ -148,7 +148,6 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall 0 0'
 
     01-Group1-73:
