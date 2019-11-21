@@ -38,7 +38,6 @@ class ShippingSelfPickup extends CheckoutMissingData
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $product['name']], 30);
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantity1, 30);
 		$quantity = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
 
