@@ -51,7 +51,7 @@ class CompareProductsCest
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategorySteps($scenario);
-		$I->addCategorySave($this->CategoryName);
+		$I->addCategorySaveClose($this->CategoryName);
 
 		$I = new ProductSteps($scenario);
 		$I->wantTo('I Want to add product inside the category');
