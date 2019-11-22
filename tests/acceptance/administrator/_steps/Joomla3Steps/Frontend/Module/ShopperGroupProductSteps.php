@@ -7,7 +7,6 @@
  */
 
 namespace Frontend\Module;
-
 use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
 
@@ -45,9 +44,11 @@ class ShopperGroupProductSteps extends CheckoutMissingData
 			$priceTotal = $currencyUnit['currencySymbol'].($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 			$I->checkoutOnePageWithLogin($userName, $pass, $productName, $categoryName, $shippingRate, $priceTotal);
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
-			try{
+
+			try
+			{
 				$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
-			}catch (\Exception $e)
+			} catch (\Exception $e)
 			{
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			}

@@ -116,6 +116,64 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $configureWithlist
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function ConfigFeatureWishList($configureWithlist)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForText(ConfigurationPage::$namePage, 30, ConfigurationPage::$h1);
+		$I->waitForElementVisible(["link" => ConfigurationPage::$featureSetting], 30);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$wishListTab, 60);
+
+		switch ($configureWithlist['enableWishList'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$wishListYes, 30);
+				$I->click(ConfigurationPage::$wishListYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$wishListNo, 30);
+				$I->click(ConfigurationPage::$wishListNo);
+				break;
+		}
+
+		switch ($configureWithlist['wishlistLoginRequired'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireYes, 30);
+				$I->click(ConfigurationPage::$loginRequireYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$loginRequireNo, 30);
+				$I->click(ConfigurationPage::$loginRequireNo);
+				break;
+		}
+
+		switch ($configureWithlist['enableWishlistList'])
+		{
+			case 'yes':
+				$I->waitForElementVisible(ConfigurationPage::$wishListListYes, 30);
+				$I->click(ConfigurationPage::$wishListListYes);
+				break;
+
+			case 'no':
+				$I->waitForElementVisible(ConfigurationPage::$wishListListNo, 30);
+				$I->click(ConfigurationPage::$wishListListNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
 	 * @param   string $country
 	 * @param $state
 	 * @param $vatDefault
@@ -224,9 +282,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['addCart'])
 		{
 			case 'product':
+				$I->waitForElementVisible(\ConfigurationPage::$addCartProduct, 30);
 				$I->click(\ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
+				$I->waitForElementVisible(\ConfigurationPage::$addCartAttibute, 30);
 				$I->click(\ConfigurationPage::$addCartAttibute);
 				break;
 		}
@@ -234,9 +294,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['allowPreOrder'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$allowPreOrOderYes, 30);
 				$I->click(\ConfigurationPage::$allowPreOrOderYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$allowPreorderNo, 30);
 				$I->click(\ConfigurationPage::$allowPreorderNo);
 				break;
 		}
@@ -244,9 +306,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['enableQuotation'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationYes, 30);
 				$I->click(\ConfigurationPage::$enableQuotationYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationNo, 30);
 				$I->click(\ConfigurationPage::$enableQuotationNo);
 				break;
 		}
@@ -256,9 +320,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['enabledAjax'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxYes, 30);
 				$I->click(\ConfigurationPage::$enableAjaxYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxNo, 30);
 				$I->click(\ConfigurationPage::$enableAjaxNo);
 				break;
 		}
@@ -283,9 +349,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['onePage'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$onePageYes, 30);
 				$I->click(\ConfigurationPage::$onePageYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$onePageNo, 30);
 				$I->click(\ConfigurationPage::$onePageNo);
 				break;
 		}
@@ -293,9 +361,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['showShippingCart'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartYes, 30);
 				$I->click(\ConfigurationPage::$showShippingCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartNo, 30);
 				$I->click(\ConfigurationPage::$showShippingCartNo);
 				break;
 		}
@@ -303,9 +373,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['attributeImage'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartYes, 30);
 				$I->click(\ConfigurationPage::$attributeImageInCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartNo, 30);
 				$I->click(\ConfigurationPage::$attributeImageInCartNo);
 				break;
 		}
@@ -313,9 +385,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($cartSetting['quantityChange'])
 		{
 			case 'yes':
+				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartYes, 30);
 				$I->click(\ConfigurationPage::$quantityChangeInCartYes);
 				break;
 			case 'no':
+				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartNo, 30);
 				$I->click(\ConfigurationPage::$quantityChangeInCartNo);
 				break;
 		}
@@ -704,5 +778,52 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->click(ConfigurationPage::$buttonSaveClose);
 		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
 		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $shipping
+	 * @param $product
+	 * @param $customerInformation
+	 * @param $categoryName
+	 * @param $paymentMethod
+	 * @param $shippingMethod
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function checkShippingTotal($shipping, $product, $customerInformation, $categoryName, $paymentMethod, $shippingMethod)
+	{
+		$I = $this;
+		$currencyUnit = $I->getCurrencyValue();
+
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->searchOrder($customerInformation["firstName"]);
+		$I->wait(0.5);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
+		$I->click(OrderManagerPage::$iconEdit);
+		$I->waitForElementVisible(OrderManagerPage::$quantityp1, 30);
+		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
+		$quantity = (int)$quantity;
+		$total = $product['price']*$quantity + $shipping['shippingRate'];
+		$priceProduct = $currencyUnit['currencySymbol'].' '.$product['price']*$quantity.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceRate = 'Shipping: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$firstName = 'First Name: '.$customerInformation["firstName"];
+		$lastName = 'Last Name: '.$customerInformation["lastName"];
+
+		$I->waitForText($firstName, 30);
+		$I->see($firstName);
+		$I->waitForText($lastName, 30);
+		$I->see($lastName);
+		$I->waitForText($paymentMethod, 30);
+		$I->see($paymentMethod);
+		$I->waitForText($shippingMethod, 30);
+		$I->see($shippingMethod);
+		$I->waitForText($categoryName, 30);
+		$I->see($categoryName);
+		$I->waitForText($product['name'], 30);
+		$I->see($product['name']);
+		$I->see($priceProduct);
+		$I->see($priceRate);
+		$I->see($priceTotal);
 	}
 }

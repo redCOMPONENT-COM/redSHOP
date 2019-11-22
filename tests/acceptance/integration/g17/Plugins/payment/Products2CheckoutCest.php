@@ -104,7 +104,7 @@ class Products2CheckoutCest
 	{
 		$I->wantTo("install plugin payment 2Checkout ");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->pakage);
-		$I->waitForText(AdminJ3Page:: $messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin 2Checkout Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 		$I = new PluginPaymentManagerJoomla($scenario);
@@ -138,7 +138,7 @@ class Products2CheckoutCest
 		);
 
 		$I = new CheckoutWith2Payment($scenario);
-		$I->checkoutProductWith2Checkout($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation,$this->productName, $this->categoryName );
+		$I->checkoutProductWith2Checkout($this->customerInformation["userName"], $this->customerInformation["password"], $this->checkoutAccountInformation,$this->productName, $this->categoryName, $this->customerInformation["city"]);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
