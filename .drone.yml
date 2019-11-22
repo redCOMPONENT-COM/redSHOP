@@ -44,6 +44,7 @@ pipeline:
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
             - composer config -g repo.packagist composer https?://packagist.jp
+            - npm cache clean
             - mv gulp-config.json.dist gulp-config.json
             - gulp release --skip-version
 
