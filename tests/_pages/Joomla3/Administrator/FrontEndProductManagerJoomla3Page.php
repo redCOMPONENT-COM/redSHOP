@@ -777,4 +777,17 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 		return $xpath;
 	}
+
+	/**
+	 * Shopper group product header in frontend
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $shopperGroupProductHeader = "redSHOP - ShopperGroup Product";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectorPageHeader = "//h3[contains(text(),'redSHOP - ShopperGroup Product')]";
 }
