@@ -11,21 +11,21 @@ use Frontend\payment\CheckoutWithEWAYPayment;
 use FrontEndProductManagerJoomla3Page;
 
 /**
- * Class shippingDefaultGLSS
+ * Class shippingDefaultGLS
  * @package Frontend\Shipping
  * @since 2.1.3
  */
-class shippingDefaultGLSS extends CheckoutWithEWAYPayment
+class shippingDefaultGLS extends CheckoutWithEWAYPayment
 {
-    /**
-     * @param $categoryName
-     * @param $product
-     * @param $customerInformation
-     * @param $shipping
-     * @param $shippingName
-     * @throws \Exception
-     * @since 2.1.3
-     */
+	/**
+	 * @param $categoryName
+	 * @param $product
+	 * @param $customerInformation
+	 * @param $shipping
+	 * @param $shippingName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
 	public function checkoutWithShippingDefaultGLS($categoryName, $product, $customerInformation, $shipping, $shippingName)
 	{
 		$I = $this;
@@ -38,6 +38,9 @@ class shippingDefaultGLSS extends CheckoutWithEWAYPayment
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $product['name']], 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantity1, 30);
+		$quantity = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
@@ -73,7 +76,7 @@ class shippingDefaultGLSS extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
-		$quantity = $I->grabValueFrom(FrontEndProductManagerJoomla3Page::$quantityOrderReceipt);
+
 		$total = $product['price']*$quantity + $shipping['shippingRate'];
 		$priceTotal = $currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$priceRate = $currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
