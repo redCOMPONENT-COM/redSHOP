@@ -630,7 +630,7 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Module 0 0'
-#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Wishlist 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Wishlist 0 0'
 
     12-Group12-73:
         group: 02-tests
@@ -651,7 +651,7 @@ pipeline:
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Module 0 0'
-#            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Wishlist 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Wishlist 0 0'
 
     slack:
         image: plugins/slack
