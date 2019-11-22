@@ -38,10 +38,10 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->waitForElementVisible(StripePaymentPage::$paymentStripe, 30);
-		$I->click(StripePaymentPage::$paymentStripe);
 
 		try
 		{
+			$I->click(StripePaymentPage::$paymentStripe);
 			$I->seeCheckboxIsChecked(StripePaymentPage::$paymentStripe);
 		}catch (\Exception $e)
 		{
