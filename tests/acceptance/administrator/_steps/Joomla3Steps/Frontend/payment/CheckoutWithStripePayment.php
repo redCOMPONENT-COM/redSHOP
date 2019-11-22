@@ -38,10 +38,10 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->waitForElementVisible(StripePaymentPage::$paymentStripe, 30);
-		$I->click(StripePaymentPage::$paymentStripe);
 
 		try
 		{
+			$I->click(StripePaymentPage::$paymentStripe);
 			$I->seeCheckboxIsChecked(StripePaymentPage::$paymentStripe);
 		}catch (\Exception $e)
 		{
@@ -58,15 +58,20 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->wait(0.5);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+			$I->wait(0.5);
 		}catch (\Exception $e)
 		{
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->wait(0.5);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+			$I->wait(0.5);
 		}
-		
-		$I->wait(0.5);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->wait(0.5);
 
 		try
 		{

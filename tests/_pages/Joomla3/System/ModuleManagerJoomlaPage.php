@@ -173,4 +173,100 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $optionYesDisplayDisscountPrice = '//fieldset[@id="jform_params_show_discountpricelayout"]/label[1]';
+
+	//redSHOP - ShopperGroup Product
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $shopperGroupProduct = ['link' => "redSHOP - ShopperGroup Product"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $numberOfProductDisplay = '#jform_params_count';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productImageHeight = '#jform_params_thumbwidth';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productImageWidth = '//label[@data-original-title=\'Show product image\']';
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showProductImage($option)
+	{
+		return $path = "//label[@for='jform_params_image".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showProductPrice($option)
+	{
+		return $path = "//label[@for='jform_params_show_price".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showVAT($option)
+	{
+		return $path = "//label[@for='jform_params_show_vat".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showShortDescription($option)
+	{
+		return $path = "//label[@for='jform_params_show_short_description".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showReadMore($option)
+	{
+		return $path = "//label[@for='jform_params_show_readmore".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showAddToCart($option)
+	{
+		return $path = "//label[@for='jform_params_show_addtocart".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function displayDiscountPrice($option)
+	{
+		return $path = "//label[@for='jform_params_show_discountpricelayout".$option."']";
+	}
 }
