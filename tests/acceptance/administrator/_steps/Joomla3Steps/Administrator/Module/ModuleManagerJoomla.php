@@ -62,6 +62,21 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $moduleName
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function unpublishModule($moduleName)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->checkAllResults();
+		$I->click(ModuleManagerJoomlaPage::$buttonUnpublish);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageUnpublishSuccess, 30, ModuleManagerJoomlaPage::$selectorMessage);
+	}
+
+	/**
+	 * @param $moduleName
 	 * @param $moduleConfig
 	 * @throws \Exception
 	 * @since 2.1.3
@@ -205,21 +220,6 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $moduleName
-	 * @throws \Exception
-	 * @since 2.1.3
-	 */
-	public function unpublishModule($moduleName)
-	{
-		$I = $this;
-		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
-		$I->searchForItem($moduleName);
-		$I->checkAllResults();
-		$I->click(ModuleManagerJoomlaPage::$buttonUnpublish);
-		$I->waitForText(ModuleManagerJoomlaPage::$messageUnpublishSuccess, 30, ModuleManagerJoomlaPage::$selectorMessage);
-	}
-
-	/**
-	 * @param $moduleName
 	 * @param array $moduleSetting
 	 * @throws \Exception
 	 * @since 2.1.3
@@ -231,6 +231,7 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->searchForItem($moduleName);
 		$I->waitForElementVisible(ModuleManagerJoomlaPage::$shopperGroupProduct, 30);
 		$I->click(ModuleManagerJoomlaPage::$shopperGroupProduct);
+
 		$module = new ModuleManagerJoomlaPage();
 
 		if (isset($moduleSetting['numberOfProduct']))

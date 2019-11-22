@@ -201,72 +201,72 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	public static $productImageWidth = '//label[@data-original-title=\'Show product image\']';
 
 	/**
-	 * @param $yesNo
+	 * @param $option
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function showProductImage($yesNo)
+	public function showProductImage($option)
 	{
-		return $path = "//label[@for='jform_params_image".$yesNo."']";
+		return $path = "//label[@for='jform_params_image".$option."']";
 	}
 
 	/**
-	 * @param $yesNo
+	 * @param $option
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function showProductPrice($yesNo)
+	public function showProductPrice($option)
 	{
-		return $path = "//label[@for='jform_params_show_price".$yesNo."']";
+		return $path = "//label[@for='jform_params_show_price".$option."']";
 	}
 
 	/**
-	 * @param $yesNo
+	 * @param $option
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function showVAT($yesNo)
+	public function showVAT($option)
 	{
-		return $path = "//label[@for='jform_params_show_vat".$yesNo."']";
+		return $path = "//label[@for='jform_params_show_vat".$option."']";
 	}
 
 	/**
-	 * @param $yesNo
+	 * @param $option
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function showShortDescription($yesNo)
+	public function showShortDescription($option)
 	{
-		return $path = "//label[@for='jform_params_show_short_description".$yesNo."']";
+		return $path = "//label[@for='jform_params_show_short_description".$option."']";
 	}
 
 	/**
-	 * @param $yesNo
+	 * @param $option
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function showReadMore($yesNo)
+	public function showReadMore($option)
 	{
-		return $path = "//label[@for='jform_params_show_readmore".$yesNo."']";
+		return $path = "//label[@for='jform_params_show_readmore".$option."']";
 	}
 
 	/**
-	 * @param $yesNo
+	 * @param $option
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function showAddToCart($yesNo)
+	public function showAddToCart($option)
 	{
-		return $path = "//label[@for='jform_params_show_addtocart".$yesNo."']";
+		return $path = "//label[@for='jform_params_show_addtocart".$option."']";
 	}
 
 	/**
-	 * @param $yesNo
+	 * @param $option
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function displayDiscountPrice($yesNo)
+	public function displayDiscountPrice($option)
 	{
-		return $path = "//label[@for='jform_params_show_discountpricelayout".$yesNo."']";
+		return $path = "//label[@for='jform_params_show_discountpricelayout".$option."']";
 	}
 }
