@@ -655,6 +655,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	public static $iconShippingGLS = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'default_shipping_gls');\"]";
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $iconSelfPickup = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'self_pickup');\"]";
+
+	/**
 	 * Function to get the Path $position for Attribute Dropdown List
 	 *
 	 * @param $position
