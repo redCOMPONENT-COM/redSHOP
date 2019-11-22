@@ -369,6 +369,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 		$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
+		$I->wait(0.5);
 
 		switch ($function)
 		{
@@ -385,6 +386,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				{
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
+					$I->wait(1);
+					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}
 
 				$I->waitForElement(OrderManagerPage::$priceVAT, 30);
