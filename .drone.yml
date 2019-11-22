@@ -611,7 +611,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/payment 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Category 0 0'
 
     12-Group12-56:
