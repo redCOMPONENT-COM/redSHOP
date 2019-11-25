@@ -60,6 +60,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			case 'no':
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+					$I->wait(1);
 					$I->addressInformation($addressDetail);
 					$I->shippingInformation($shipmentDetail);
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
@@ -101,10 +102,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail, 60);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressFirstName, 60);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressLastName, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
