@@ -214,7 +214,7 @@ class CheckoutPAYMILLPaymentCest
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
 		$I = new CheckoutWithPAYMILLPayment($scenario);
-		$I->checkoutProductWithPAYMILLPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformation);
+		$I->checkoutProductWithPAYMILLPayment($this->checkoutAccountInformation, $this->productName, $this->categoryName, $this->customerInformation, $this->pluginName);
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
