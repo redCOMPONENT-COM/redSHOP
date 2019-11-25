@@ -26,13 +26,14 @@ class ModuleWhoBoughtSteps extends CheckoutOnFrontEnd
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
-		$priceProduct = $currencyUnit['currencySymbol'].' '.$price.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceProduct = $currencyUnit['currencySymbol'].$price.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$page = new FrontEndProductManagerJoomla3Page();
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->verifyNotices(false, $this->checkForNotices(), FrontEndProductManagerJoomla3Page::$page);
 		$I->waitForElementVisible($page->nameModule($moduleName), 30);
 		$I->waitForElement(['link' => $productName], 30);
+		$I->waitForText($priceProduct, 30, FrontEndProductManagerJoomla3Page::$priceWhoBought);
 		$I->see($priceProduct, FrontEndProductManagerJoomla3Page::$priceWhoBought);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$btnAddToCartWhoBought, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$btnAddToCartWhoBought);
