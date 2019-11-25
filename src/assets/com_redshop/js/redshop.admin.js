@@ -11664,7 +11664,7 @@ jQuery(document).ready(function($) {
         // 1: section product
         // 2: section category
         var  allowSection = ['1', '2'];
-        options = $('#jform_section option');
+        options = $('.redSHOPAdminViewField #jform_section option');
         if (type == 16)
         {
             options.each(function(i, el) {
@@ -11674,7 +11674,7 @@ jQuery(document).ready(function($) {
                 }
             });
 
-            $('#jform_section').val(1).trigger('change');
+            $('.redSHOPAdminViewField #jform_section').val(1).trigger('change');
         } else {
             options.each(function(i, el) {
                 $(options[i]).attr('disabled', false);

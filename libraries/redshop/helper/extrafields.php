@@ -665,7 +665,7 @@ class RedshopHelperExtrafields
 
 						if (!empty($dataValue->data_txt))
 						{
-						$chkData  = explode(",", $dataValue->data_txt);
+							$chkData  = explode(",", $dataValue->data_txt);
 						}
 
 						$exField  .= RedshopLayoutHelper::render(
