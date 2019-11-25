@@ -194,7 +194,7 @@ abstract class AdminJ3Page
 
 	/**
 	 * @var array
-	 * @since 2.1.2
+	 * @since 2.1.3
 	 */
 	public static $headPage = "//h1";
 

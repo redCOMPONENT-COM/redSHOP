@@ -39,6 +39,6 @@ class ModuleWhoBoughtSteps extends CheckoutOnFrontEnd
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30, FrontEndProductManagerJoomla3Page::$selectorSuccess);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page:: $checkoutButton, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 	}
 }
