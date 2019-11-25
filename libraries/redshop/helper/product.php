@@ -696,7 +696,7 @@ class RedshopHelperProduct
 				{
 					$displayrate = ($rate[$i]->rate > 0) ? " (" . RedshopHelperProductPrice::formattedPrice($rate[$i]->rate) . " )" : "";
 					$rateArr[$r] = new stdClass;
-					$rateArr[$r]->text = JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate;
+					$rateArr[$r]->text = strip_tags(JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate);
 					$rateArr[$r]->value = $rate[$i]->value;
 					$r++;
 				}
@@ -715,7 +715,8 @@ class RedshopHelperProduct
 
 		return JHtml::_(
 			'select.genericlist',
-			$rateArr, 'shipping_rate_id',
+			$rateArr,
+			'shipping_rate_id',
 			'class="inputbox" onchange="calculateOfflineShipping();" ',
 			'value',
 			'text',
