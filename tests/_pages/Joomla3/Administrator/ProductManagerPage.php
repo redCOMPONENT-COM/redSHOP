@@ -487,14 +487,13 @@ class ProductManagerPage extends AdminJ3Page
 	}
 
 	/**
-	 * @param $position
 	 * @param $x
 	 * @return string
 	 * @since 2.1.3
 	 */
-	public function buttonAddSubProperty($position, $x)
+	public function buttonAddSubProperty($x)
 	{
-		$xpath = "#add_subproperty_".$position."_$x";
+		$xpath = "(//a[@class ='btn btn-success add_subproperty btn-small'])[$x]";
 
 		return $xpath;
 	}
