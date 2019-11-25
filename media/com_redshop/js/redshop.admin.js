@@ -11657,8 +11657,30 @@ jQuery(document).ready(function($) {
             $(this).addClass("active");
             e.preventDefault();
         });
-
     });
+
+    $('.redSHOPAdminViewField #jform_type').change(function () {
+        var type = $(this).val();
+        // 1: section product
+        // 2: section category
+        var  allowSection = ['1', '2'];
+        options = $('#jform_section option');
+        if (type == 16)
+        {
+            options.each(function(i, el) {
+                if (allowSection.indexOf($(el).val()) == -1)
+                {
+                    $(options[i]).attr('disabled', true);
+                }
+            });
+
+            $('#jform_section').val(1).trigger('change');
+        } else {
+            options.each(function(i, el) {
+                $(options[i]).attr('disabled', false);
+            });
+        }
+    })
 });
 
 /*!

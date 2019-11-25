@@ -119,6 +119,13 @@ class RedshopHelperExtrafields
 	const TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS = 15;
 
 	/**
+	 * Extra Field Type joomla articles related
+	 *
+	 * @var  int
+	 */
+	const TYPE_JOOMLA_ARTICLES_RELATED = 16;
+
+	/**
 	 * Extra Field Type for product finder date picker.
 	 *
 	 * @var  int
@@ -653,6 +660,40 @@ class RedshopHelperExtrafields
 							->select('*')
 							->from($db->qn('#__redshop_country'));
 						$db->setQuery($query);
+						$fieldChk = $db->loadObjectList();
+						$chkData  = array();
+
+						if (!empty($dataValue->data_txt))
+						{
+						$chkData  = explode(",", $dataValue->data_txt);
+						}
+
+						$exField  .= RedshopLayoutHelper::render(
+							'extrafields.field.multiple',
+							array(
+								'rowData'         => $customField,
+								'extraFieldLabel' => $extraFieldLabel,
+								'required'        => $required,
+								'requiredLabel'   => $reqlbl,
+								'errorMsg'        => $errormsg,
+								'fieldCheck'      => $fieldChk,
+								'checkData'       => $chkData
+							),
+							'',
+							array(
+								'component' => 'com_redshop',
+								'client'    => 0
+							)
+						);
+						break;
+
+					case self::TYPE_JOOMLA_ARTICLES_RELATED:
+						$query = $db->getQuery(true)
+							->select('*')
+							->from($db->qn('#__content'))
+							->where($db->qn('state') . ' = 1');
+						$db->setQuery($query);
+
 						$fieldChk = $db->loadObjectList();
 						$chkData  = explode(",", $dataValue->data_txt);
 						$exField  .= RedshopLayoutHelper::render(

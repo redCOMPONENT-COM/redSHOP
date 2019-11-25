@@ -27299,3 +27299,12 @@ body.modal-open {
 {
     width: 50%;
 }
+
+#redSHOPAdminContainer .select2-container {
+    width: 100%;
+    display: block;
+}
+
+.select2-disabled {
+    color: #999;
+}

@@ -196,6 +196,19 @@ class ExtraFields
 
 				break;
 
+			case \RedshopHelperExtrafields::TYPE_JOOMLA_ARTICLES_RELATED:
+				if (!empty($fieldValue->data_txt))
+				{
+					$data = self::getArticleJoomlaById($fieldValue->data_txt);
+
+					$displayValue = \RedshopLayoutHelper::render(
+						'extrafields.display.article',
+						array('data' => $data)
+					);
+				}
+
+				break;
+
 			case \RedshopHelperExtrafields::TYPE_DOCUMENTS:
 				// Support Legacy string.
 				if (preg_match('/\n/', $fieldValue->data_txt))
@@ -374,5 +387,17 @@ class ExtraFields
 		}
 
 		return $result;
+	}
+
+	public static function getArticleJoomlaById($ids)
+	{
+		$db = \JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__content'))
+			->where($db->qn('id') . ' IN (' . $ids . ')');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
