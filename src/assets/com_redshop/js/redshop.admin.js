@@ -11661,12 +11661,10 @@ jQuery(document).ready(function($) {
 
     $('.redSHOPAdminViewField #jform_type').change(function () {
         var type = $(this).val();
-        // 1: section product
-        // 2: section category
-        var  allowSection = ['1', '2'];
-        options = $('.redSHOPAdminViewField #jform_section option');
-        if (type == 16)
-        {
+        var  allowSection = ['1', '2']; // section product & category
+        var options = $('.redSHOPAdminViewField #jform_section option');
+
+        if (type == 16) {
             options.each(function(i, el) {
                 if (allowSection.indexOf($(el).val()) == -1)
                 {

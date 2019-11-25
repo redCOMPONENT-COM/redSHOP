@@ -123,7 +123,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @var  int
 	 */
-	const TYPE_JOOMLA_ARTICLES_RELATED = 16;
+	const TYPE_JOOMLA_RELATED_ARTICLES = 16;
 
 	/**
 	 * Extra Field Type for product finder date picker.
@@ -687,7 +687,7 @@ class RedshopHelperExtrafields
 						);
 						break;
 
-					case self::TYPE_JOOMLA_ARTICLES_RELATED:
+					case self::TYPE_JOOMLA_RELATED_ARTICLES:
 						$query = $db->getQuery(true)
 							->select('*')
 							->from($db->qn('#__content'))

@@ -196,7 +196,7 @@ class ExtraFields
 
 				break;
 
-			case \RedshopHelperExtrafields::TYPE_JOOMLA_ARTICLES_RELATED:
+			case \RedshopHelperExtrafields::TYPE_JOOMLA_RELATED_ARTICLES:
 				if (!empty($fieldValue->data_txt))
 				{
 					$data = self::getArticleJoomlaById($fieldValue->data_txt);
