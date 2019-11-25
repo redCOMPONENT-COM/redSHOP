@@ -73,6 +73,24 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
 
 	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $tabModule = ['link' => "Module"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $categoryOption = "#jform_params_category_chzn";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $categoryInput = "//input[@class='default']";
+
+	/**
 	 * @var string
 	 * @since 2.1.3
 	 */

@@ -790,4 +790,27 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $selectorPageHeader = "//h3[contains(text(),'redSHOP - ShopperGroup Product')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceWhoBought = '.priceWhoBought';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $btnAddToCartWhoBought = '.addToCartWhoBought';
+
+	/**
+	 * @param $name
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function nameModule($name)
+	{
+		$xpath = "//h3[contains(text(),'$name')]";
+		return $xpath;
+	}
 }
