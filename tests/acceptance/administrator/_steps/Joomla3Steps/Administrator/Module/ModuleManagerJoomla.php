@@ -217,4 +217,141 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
 	}
+
+	/**
+	 * @param $moduleName
+	 * @param array $moduleSetting
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configShopperGroupProduct($moduleName, $moduleSetting)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$shopperGroupProduct, 30);
+		$I->click(ModuleManagerJoomlaPage::$shopperGroupProduct);
+
+		$module = new ModuleManagerJoomlaPage();
+
+		if (isset($moduleSetting['numberOfProduct']))
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$numberOfProductDisplay, 30);
+			$I->fillField(ModuleManagerJoomlaPage::$numberOfProductDisplay, $moduleSetting['numberOfProduct']);
+		}
+
+		if (isset($moduleSetting['showImage']))
+		{
+			if ($moduleSetting['showImage'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showProductImage(0), 30);
+				$I->click($module->showProductImage(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showProductImage(1), 30);
+				$I->click($module->showProductImage(1));
+			}
+		}
+
+		if (isset($moduleSetting['imageWidth']))
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$productImageWidth, 30);
+			$I->fillField(ModuleManagerJoomlaPage::$productImageWidth, $moduleSetting['imageWidth']);
+		}
+
+		if (isset($moduleSetting['imageHeight']))
+		{
+			$I->waitForElementVisible(ModuleManagerJoomlaPage::$productImageHeight, 30);
+			$I->fillField(ModuleManagerJoomlaPage::$productImageHeight, $moduleSetting['imageHeight']);
+		}
+
+		if (isset($moduleSetting['showPrice']))
+		{
+			if ($moduleSetting['showPrice'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showProductPrice(0), 30);
+				$I->click($module->showProductPrice(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showProductPrice(1), 30);
+				$I->click($module->showProductPrice(1));
+			}
+		}
+
+		if (isset($moduleSetting['showVAT']))
+		{
+			if ($moduleSetting['showVAT'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showVAT(0), 30);
+				$I->click($module->showVAT(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showVAT(1), 30);
+				$I->click($module->showVAT(1));
+			}
+		}
+
+		if (isset($moduleSetting['showDescription']))
+		{
+			if ($moduleSetting['showDescription'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showShortDescription(0), 30);
+				$I->click($module->showShortDescription(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showShortDescription(1), 30);
+				$I->click($module->showShortDescription(1));
+			}
+		}
+
+		if (isset($moduleSetting['showReadMore']))
+		{
+			if ($moduleSetting['showReadMore'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showReadMore(0), 30);
+				$I->click($module->showReadMore(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showReadMore(1), 30);
+				$I->click($module->showReadMore(1));
+			}
+		}
+
+		if (isset($moduleSetting['showAddToCart']))
+		{
+			if ($moduleSetting['showAddToCart'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->showAddToCart(0), 30);
+				$I->click($module->showAddToCart(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showAddToCart(1), 30);
+				$I->click($module->showAddToCart(1));
+			}
+		}
+
+		if (isset($moduleSetting['displayPriceLayout']))
+		{
+			if ($moduleSetting['displayPriceLayout'] == 'Yes')
+			{
+				$I->waitForElementVisible($module->displayDiscountPrice(0), 30);
+				$I->click($module->displayDiscountPrice(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->displayDiscountPrice(1), 30);
+				$I->click($module->displayDiscountPrice(1));
+			}
+		}
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+	}
 }
