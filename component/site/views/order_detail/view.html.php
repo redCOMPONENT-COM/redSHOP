@@ -123,9 +123,9 @@ class RedshopViewOrder_Detail extends RedshopView
 	public function replaceReorderButton(&$template)
 	{
 		$app     = JFactory::getApplication();
-		$order   = $this->OrdersDetail;
 		$orderId = $app->input->getInt('oid', 0);
 		$print   = $app->input->getInt('print', 0);
+		$order   = RedshopEntityOrder::getInstance($orderId)->getItem();
 
 		if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid')
 		{
