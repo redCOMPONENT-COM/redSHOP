@@ -37,13 +37,15 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$newButton);
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
 
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$template, 30);
 		$I->click(\CategoryManagerJ3Page::$template);
+		$I->waitForElementVisible(\CategoryManagerJ3Page::$choiceTemplate, 30);
 		$I->click(\CategoryManagerJ3Page::$choiceTemplate);
 
 		$I->click(\CategoryManagerJ3Page::$saveButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
 		$I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);
-		$I->click(\CategoryPage::$buttonSaveClose);
+		$I->click(\CategoryPage::$buttonClose);
 	}
 
 	/**
@@ -330,6 +332,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String $categoryName Name of the Category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function deleteCategory($categoryName)
 	{
@@ -339,9 +342,22 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(\CategoryManagerJ3Page::$deleteButton);
 		$I->acceptPopup();
-//		$I->assertSystemMessageContains(\CategoryManagerJ3Page::$messageDeleteSuccess);
-		$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
-		$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		try
+		{
+			$I->waitForElementVisible(CategoryManagerJ3Page::$categoryFilter, 30);
+			$I->fillField(\CategoryManagerJ3Page::$categoryFilter, $categoryName);
+			$I->pressKey(\CategoryManagerJ3Page::$categoryFilter, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			$I->dontSee($categoryName);
+
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(CategoryManagerJ3Page::$checkAllXpath, 30);
+			$I->click(CategoryManagerJ3Page::$checkAllXpath);
+			$I->click(\CategoryManagerJ3Page::$deleteButton);
+			$I->acceptPopup();
+		}
+
 		$I->dontSee($categoryName);
 	}
 

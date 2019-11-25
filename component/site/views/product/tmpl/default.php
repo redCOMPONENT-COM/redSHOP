@@ -111,6 +111,12 @@ else
 	$template_desc = str_replace('{discount_calculator}', '', $template_desc);
 }
 
+if (Redshop::getConfig()->getInt('COMPARE_PRODUCTS') === 0)
+{
+	$template_desc = str_replace('{compare_products_button}', '', $template_desc);
+	$template_desc = str_replace('{compare_product_div}', '', $template_desc);
+}
+
 $template_desc = str_replace('{component_heading}', $this->escape($this->data->product_name), $template_desc);
 
 if (strstr($template_desc, '{back_link}'))
@@ -163,11 +169,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . $nextproducts->product_name . "" . Redshop::getConfig()->get('DAFULT_NEXT_LINK_SUFFIX') . '</a>';
 		}
-        elseif ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
+		elseif ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 1)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . Redshop::getConfig()->get('CUSTOM_NEXT_LINK_FIND') . '</a>';
 		}
-        elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
+		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
 		{
 			$nextbutton = '<a href="' . $nextlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . Redshop::getConfig()->get('IMAGE_NEXT_LINK_FIND') . '" /></a>';
 		}
@@ -188,11 +194,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		{
 			$prevbutton = '<a href="' . $prevlink . '">' . Redshop::getConfig()->get('DAFULT_PREVIOUS_LINK_PREFIX') . "" . $previousproducts->product_name . '</a>';
 		}
-        elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
+		elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
 		{
 			$prevbutton = '<a href="' . $prevlink . '">' . Redshop::getConfig()->get('CUSTOM_PREVIOUS_LINK_FIND') . '</a>';
 		}
-        elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
+		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
 		{
 			$prevbutton = '<a href="' . $prevlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND') . '" /></a>';
 		}
@@ -847,7 +853,7 @@ $attributeproductStockStatus = null;
 $selectedpropertyId          = 0;
 $selectedsubpropertyId       = 0;
 
-if (count($attributes) > 0 && count($attribute_template) > 0)
+if (!empty($attributes) && !empty($attribute_template))
 {
 	for ($a = 0, $an = count($attributes); $a < $an; $a++)
 	{

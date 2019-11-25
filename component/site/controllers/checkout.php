@@ -838,13 +838,37 @@ class RedshopControllerCheckout extends RedshopController
 		$app        = JFactory::getApplication();
 		$carthelper = rsCarthelper::getInstance();
 		$post       = $app->input->post->getArray();
+		$cart       = RedshopHelperCartSession::getCart();
 
 		$isCompany = $post['is_company'];
 		$eanNumber = $post['eanNumber'];
+		$paymentMethods          = RedshopHelperUtility::getPlugins('redshop_payment');
+		$selectedPaymentMethodId = 0;
+
+		if (count($paymentMethods) > 0)
+		{
+			$productId = $cart[0]['product_id'];
+
+			if (!empty(RedshopHelperPayment::getPaymentByIdProduct($productId)[0]))
+			{
+				$selectedPaymentMethodId = RedshopHelperPayment::getPaymentByIdProduct($productId)[0];
+			}
+			else
+			{
+				foreach ($paymentMethods as $paymentMethod)
+				{
+					if ($paymentMethod->enabled == 1)
+					{
+						$selectedPaymentMethodId = $paymentMethod->element;
+						break;
+					}
+				}
+			}
+		}
 
 		$templates    = RedshopHelperTemplate::getTemplate("redshop_payment");
 		$templateHtml = !empty($templates) ? $templates[0]->template_desc : '';
-		$templateHtml = $carthelper->replacePaymentTemplate($templateHtml, 0, $isCompany, $eanNumber);
+		$templateHtml = $carthelper->replacePaymentTemplate($templateHtml, $selectedPaymentMethodId, $isCompany, $eanNumber);
 
 		echo $templateHtml;
 

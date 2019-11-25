@@ -70,6 +70,15 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['attributes'] = $attributes;
 
+		$propOprand   = array();
+		$propOprand[] = JHtml::_('select.option', '+', '+');
+		$propOprand[] = JHtml::_('select.option', '-', '-');
+		$propOprand[] = JHtml::_('select.option', '=', '=');
+		$propOprand[] = JHtml::_('select.option', '*', '*');
+		$propOprand[] = JHtml::_('select.option', '/', '/');
+
+		$lists['prop_oprand'] = $propOprand;
+
 		$this->model       = $model;
 		$this->lists       = $lists;
 		$this->detail      = $detail;

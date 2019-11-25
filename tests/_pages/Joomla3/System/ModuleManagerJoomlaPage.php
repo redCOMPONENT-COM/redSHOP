@@ -67,7 +67,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	public static $labelAdjustToCategory = 'Adjust To Category';
 
 	/**
-	 * @var string
+	 * @var array
 	 * @since 2.1.3
 	 */
 	public static $productTabConfiguration = ['link' => "redSHOP - Product Tab Module"];
@@ -112,5 +112,161 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	public function productQuantityBox($yesNo)
 	{
 		return $xPath = '//label[@for="jform_params_chk_quantity'.$yesNo.'"]';
+	}
+
+	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $redShopProductConfiguration = ['link' => "redSHOP - Products"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelShowProductPrice = 'Show product price';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $idLabelShowProductPrice = "#jform_params_show_price-lbl";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelDiscountPriceLayout = 'Display Discount Price Layout';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $specificProducts = "//div[@id='jform_params_specific_products_chzn']//input[@class='default']";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $specificProducts2 = '//div[@id="jform_params_specific_products_chzn"]/ul/li[2]/input';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productsDisplay = '#jform_params_count';
+
+	/**
+	 * @var string
+	 * @since
+	 */
+	public static $labelModuleType = 'Module Type';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $showDiscountProductPrice = '#jform_params_show_discountpricelayout-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $optionYesDisplayDisscountPrice = '//fieldset[@id="jform_params_show_discountpricelayout"]/label[1]';
+
+	//redSHOP - ShopperGroup Product
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $shopperGroupProduct = ['link' => "redSHOP - ShopperGroup Product"];
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $numberOfProductDisplay = '#jform_params_count';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productImageHeight = '#jform_params_thumbwidth';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $productImageWidth = '//label[@data-original-title=\'Show product image\']';
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showProductImage($option)
+	{
+		return $path = "//label[@for='jform_params_image".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showProductPrice($option)
+	{
+		return $path = "//label[@for='jform_params_show_price".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showVAT($option)
+	{
+		return $path = "//label[@for='jform_params_show_vat".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showShortDescription($option)
+	{
+		return $path = "//label[@for='jform_params_show_short_description".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showReadMore($option)
+	{
+		return $path = "//label[@for='jform_params_show_readmore".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function showAddToCart($option)
+	{
+		return $path = "//label[@for='jform_params_show_addtocart".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function displayDiscountPrice($option)
+	{
+		return $path = "//label[@for='jform_params_show_discountpricelayout".$option."']";
 	}
 }

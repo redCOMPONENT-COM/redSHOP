@@ -13,8 +13,7 @@
  *
  * @since  2.4
  */
-class
-ProductManagerPage extends AdminJ3Page
+class ProductManagerPage extends AdminJ3Page
 {
 
 	/**
@@ -228,6 +227,12 @@ ProductManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $addAttributeValue = '+ Add Attribute value';
+
+	/**
+	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $addPriceButton = '.button-new';
@@ -433,4 +438,63 @@ ProductManagerPage extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $headingSEO ="//input[@id='pageheading']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $xpathSaveClose = '//button[@onclick="Joomla.submitbutton(\'save\');"]';
+
+	/**
+	 * @param $position
+	 * @param $x
+	 * @param $y
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function subNameProperty($position, $x, $y)
+	{
+		$xpath = "//input[@name='attribute[$position][property][$x][subproperty][$y][name]']";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $position
+	 * @param $x
+	 * @param $y
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function subPriceProperty($position, $x, $y)
+	{
+		$xpath = "//input[@name='attribute[$position][property][$x][subproperty][$y][price]']";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $position
+	 * @param $x
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function nameSubProperty($position, $x)
+	{
+		$xpath = "//input[@name='attribute[$position][property][$x][subproperty][title]']";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $x
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function buttonAddSubProperty($x)
+	{
+		$xpath = "(//a[@class ='btn btn-success add_subproperty btn-small'])[$x]";
+
+		return $xpath;
+	}
 }
