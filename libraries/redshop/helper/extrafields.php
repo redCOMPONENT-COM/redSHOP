@@ -716,7 +716,8 @@ class RedshopHelperExtrafields
 						break;
 
 					case self::TYPE_WYSIWYG:
-						$editor        = JFactory::getEditor();
+						$config        = JFactory::getConfig();
+						$editor        = JEditor::getInstance($config->get('editor'));
 						$textareaValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
 
 						$exField .= RedshopLayoutHelper::render(
