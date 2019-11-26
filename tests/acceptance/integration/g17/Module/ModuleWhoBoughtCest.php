@@ -123,7 +123,7 @@ class ModuleWhoBoughtCest
 	 */
 	public function installModule(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("Install Module Multi Currencies");
+		$I->wantTo("Install Module Who Bought");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
