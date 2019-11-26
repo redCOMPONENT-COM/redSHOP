@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     redSHOP
- * @subpackage  ProductsCheckoutStripePaymentCest
+ * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,10 +16,10 @@ use Configuration\ConfigurationSteps;
 use Frontend\Shipping\shippingDefaultGLS;
 
 /**
- * Class shippingGLSBusinessCest
+ * Class ShippingGLSBusinessCest
  *  @since 2.1.3
  */
-class shippingGLSBusinessCest
+class ShippingGLSBusinessCest
 {
 	/**
 	 * @var \Faker\Generator
@@ -94,7 +94,7 @@ class shippingGLSBusinessCest
 	protected $cartSetting;
 
 	/**
-	 * shippingGLSBusinessCest constructor.
+	 * ShippingGLSBusinessCest constructor.
 	 * @since 2.1.3
 	 */
 	public function __construct()
@@ -109,7 +109,7 @@ class shippingGLSBusinessCest
 		);
 
 		$this->customerInformation = array(
-			"email"        => $this->faker->email,
+			"email"          => $this->faker->email,
 			"companyName"    => "CompanyName",
 			"businessNumber" => 1231312,
 			"firstName"      => $this->faker->bothify('firstName ?####?'),
@@ -146,8 +146,8 @@ class shippingGLSBusinessCest
 
 		// Shipping rate info
 		$this->shippingRate = array(
-			'shippingName' => $this->faker->bothify("Shipping GLS Business ?##?"),
-			'shippingRate' => 10,
+			'shippingName'          => $this->faker->bothify("Shipping GLS Business ?##?"),
+			'shippingRate'          => 10,
 			'shippingShopperGroups' => 'Default Company'
 		);
 
@@ -172,10 +172,10 @@ class shippingGLSBusinessCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I)
 	{
-		$I->wantTo("install plugin shipping GLS Business");
+		$I->wantTo("install plugin shipping GLS business");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable plugin shipping GLS Business');
+		$I->wantTo('Enable plugin shipping GLS business');
 		$I->enablePlugin($this->pluginName);
 	}
 
@@ -192,10 +192,10 @@ class shippingGLSBusinessCest
 		$I->cartSetting($this->cartSetting);
 
 		$I = new ShippingSteps($scenario);
-		$I->wantTo('Check create new Shipping rate');
+		$I->wantTo('Check create new shipping rate');
 		$I->createShippingRateStandard($this->pluginName, $this->shippingRate, $this->function);
 
-		$I->wantToTest('Create Category');
+		$I->wantToTest('Create category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
 
