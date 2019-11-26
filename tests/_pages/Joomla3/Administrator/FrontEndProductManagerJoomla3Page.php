@@ -658,6 +658,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $iconShippingGLSBusiness = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'default_shipping_glsbusiness');\"]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $iconSelfPickup = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'self_pickup');\"]";
 
 	/**
