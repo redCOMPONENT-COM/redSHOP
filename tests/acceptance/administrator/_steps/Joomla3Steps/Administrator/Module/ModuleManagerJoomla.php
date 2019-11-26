@@ -354,4 +354,32 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
 	}
+
+	/**
+	 * @param $moduleName
+	 * @param $category
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function configurationModuleredSHOPWhoBought($moduleName, $category)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->waitForElementVisible(["link" => $moduleName], 30);
+		$I->click(["link" => $moduleName]);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$tabModule, 30);
+		$I->click(ModuleManagerJoomlaPage::$tabModule);
+		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$categoryOption, 30);
+		$I->click(ModuleManagerJoomlaPage::$categoryOption);
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$categoryInput, 30);
+		$I->fillField(ModuleManagerJoomlaPage::$categoryInput, $category);
+		$I->pressKey(ModuleManagerJoomlaPage::$categoryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+	}
 }
