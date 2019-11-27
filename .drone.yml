@@ -379,9 +379,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/install/extension 0 0'
 
     06-Group6-73:
         group: 01-tests
@@ -401,9 +399,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/install/extension 0 0'
 
     07-Group7-56:
         group: 02-tests
@@ -549,7 +545,9 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/install/extension 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     10-Group10-73:
         group: 02-tests
@@ -569,7 +567,9 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/install/extension 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g12 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g14 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     11-Group11-56:
         group: 02-tests
