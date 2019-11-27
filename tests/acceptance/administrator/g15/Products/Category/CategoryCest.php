@@ -108,7 +108,7 @@ class CategoryCest extends AbstractCest
 		$nameCategoryChild = $this->faker->bothify('CategiryChild ?##? ');
 		$productName       = $this->faker->bothify('ProductCategory ?##?');
 		$productNameSecond = $this->faker->bothify('Product ?##?');
-		$productNumber     = $this->faker->numberBetween(1, 10000);
+		$productNumber     = $this->faker->numberBetween(100, 10000);
 		$price             = $this->faker->numberBetween(1, 100);
 
 		$tester->addCategoryChild('New' . $this->dataNew['name'], $nameCategoryChild, 3);

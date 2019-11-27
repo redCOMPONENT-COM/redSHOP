@@ -939,7 +939,7 @@ class RedshopHelperUtility
 		$order = array();
 
 		$order[0]        = new stdClass;
-		$order[0]->value = "mn.manufacturer_name ASC";
+		$order[0]->value = "mn.name ASC";
 		$order[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
 
 		$order[1]        = new stdClass;

@@ -159,6 +159,14 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 			validateUserDetail();
 			return false;
 		}
+		if (pressbutton == 'save_without_sendmail')
+		{
+			if (form.order_status.value == 0 || form.order_status.value == '')
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS');?>");
+				return false;
+			}
+		}
 		submitform(pressbutton);
 	}
 	function validateUserDetail() {

@@ -160,9 +160,6 @@ $editor = JEditor::getInstance();
             // You can stack multiple messages of the same type
             var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED") ?>'];
             Joomla.renderMessages({"notice": jmsgs});
-
-            // Hide button
-            jQuery("#toolbar-apply,#toolbar-save").hide();
         }
         else {
             jQuery("#system-message-container > .alert-notice").remove();
@@ -212,7 +209,9 @@ $editor = JEditor::getInstance();
                     <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
                 </div>
                 <div class="box-body">
+                    <?php if ($this->item->id) $this->form->setFieldAttribute('type', 'disabled', 'disabled')?>
 					<?php echo $this->form->renderField('type') ?>
+                    <?php if ($this->item->id) $this->form->setFieldAttribute('section', 'disabled', 'disabled') ?>
 					<?php echo $this->form->renderField('section') ?>
 					<?php echo $this->form->renderField('groupId') ?>
 					<?php echo $this->form->renderField('name') ?>
@@ -356,3 +355,8 @@ $editor = JEditor::getInstance();
     <input type="hidden" value="<?php echo $k; ?>" name="total_extra" id="total_extra">
     <input type="hidden" name="task" value=""/>
 </form>
+<style type="text/css">
+    .select2-container-disabled {
+        opacity: 0.5;
+    }
+</style>

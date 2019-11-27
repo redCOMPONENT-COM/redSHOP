@@ -126,6 +126,13 @@ class PlgRedshop_ImportCategory extends AbstractImportPlugin
 			$table->setLocation($data['parent_id'], 'last-child');
 		}
 
+		if ($data['parent_id'] == null || $data['parent_id'] == 0)
+		{
+			$data['parent_id'] = RedshopHelperCategory::getRootId();
+			$data['level']     = 1;
+			$table->setLocation($data['parent_id'], 'last-child');
+		}
+
 		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
 		{
 			$table->load($data[$this->primaryKey]);

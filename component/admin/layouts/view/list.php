@@ -62,6 +62,8 @@ if ($data->hasOrdering)
                 form.submit();
             }
             else {
+                form.view.value = "<?php echo $viewName ?>";
+                form.task.value = '';
                 return false;
             }
         }

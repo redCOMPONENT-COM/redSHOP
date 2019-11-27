@@ -27,6 +27,7 @@
       "category",
       "field",
       "manufacturer",
+      "newsletter_subscriber",
       "product",
       "product_stockroom_data",
       "related_product",
@@ -40,6 +41,7 @@
       "category",
       "field",
       "manufacturer",
+      "newsletter_subscriber",
       "product",
       "product_stockroom_data",
       "shipping_address",
@@ -68,6 +70,9 @@
     "system": [
       "redgoogleanalytics",
       "redshop"
+    ],
+    "redshop_product": [
+      "sh404urls"
     ]
   }
 }

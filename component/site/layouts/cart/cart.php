@@ -76,6 +76,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 		<?php endif; ?>
     </div>
 <?php endif; ?>
+<span id="mod_cart_total_quantity" class="hidden"><?php echo  $displayData['totalQuantity']; ?></span>
 <?php if ((!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && $displayData['totalQuantity']): ?>
     <div class="mod_cart_totalprice">
 		<?php if ($displayData['showShippingLine']):

@@ -103,7 +103,7 @@ class Tag
 		$shopLocation = $shipping->shop_id;
 
 		// @TODO: Shipping GLS
-		if (!empty($shippingDetail) && $shippingDetail[0] != 'plgredshop_shippingdefault_shipping_gls')
+		if (!empty($shippingDetail) && strtolower($shippingDetail[0]) != 'plgredshop_shippingdefault_shipping_gls')
 		{
 			$shopLocation = '';
 		}

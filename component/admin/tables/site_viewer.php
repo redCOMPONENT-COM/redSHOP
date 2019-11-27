@@ -24,4 +24,11 @@ class RedshopTableSite_Viewer extends RedshopTable
 	 * @var  string
 	 */
 	protected $_tableName = 'redshop_siteviewer';
+
+	/**
+	 * Format for audit date fields (created_date, modified_date)
+	 *
+	 * @var  string
+	 */
+	protected $_auditDateFormat = 'U';
 }

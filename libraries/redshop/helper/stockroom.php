@@ -421,7 +421,7 @@ class RedshopHelperStockroom
 	 */
 	public static function getPreorderStockAmountWithReserve($sectionId = 0, $section = "product", $stockroomId = 0)
 	{
-		if (Redshop::getConfig()->get('USE_STOCKTOOM') != 1)
+		if (!Redshop::getConfig()->get('USE_STOCKROOM'))
 		{
 			return 1;
 		}
@@ -962,11 +962,11 @@ class RedshopHelperStockroom
 			$query = $db->getQuery(true)
 				->select('DISTINCT(sm.stock_amount_id), sm.*')
 				->from($db->qn('#__redshop_stockroom_amount_image', 'sm'))
-				->leftJoin(
+				->innerJoin(
 					$db->qn('#__redshop_product_stockroom_xref', 'sx') . ' ON '
 					. $db->qn('sx.stockroom_id') . ' = ' . $db->qn('sm.stockroom_id')
 				)
-				->leftJoin(
+				->innerJoin(
 					$db->qn('#__redshop_stockroom', 's') . ' ON '
 					. $db->qn('sx.stockroom_id') . ' = ' . $db->qn('s.stockroom_id')
 				)

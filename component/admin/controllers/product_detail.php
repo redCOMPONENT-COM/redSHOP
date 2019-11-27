@@ -141,7 +141,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
 
 		if (is_array($post['product_category'])
-			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
+			&& !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
@@ -1062,5 +1062,37 @@ class RedshopControllerProduct_Detail extends RedshopController
 		echo json_encode(RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
 
 		$app->close();
+	}
+
+	/**
+	 * Method display product attribute
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function ajaxDisplayAttributeSet()
+	{
+		$post = $this->input->post->getArray();
+
+		if ($post['attribute_set'])
+		{
+			$attributes = \RedshopHelperProduct_Attribute::getProductAttribute(0, $post['attribute_set'], 0, 1, 0);
+			foreach ($attributes as $attribute)
+			{
+				$attribute->propeties = \RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id, 0);
+
+				foreach ($attribute->propeties as $propety)
+				{
+					$propety->subProperties = \RedshopHelperProduct_Attribute::getAttributeSubProperties(0,$propety->property_id);
+				}
+			}
+
+			$result = json_encode($attributes);
+
+			echo $result;
+		}
+
+		JFactory::getApplication()->close();
 	}
 }
