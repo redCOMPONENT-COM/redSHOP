@@ -528,7 +528,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g11 0 0'
 
     10-Group10-56:
-        group: 01-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
@@ -550,7 +550,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g17 0 0'
 
     10-Group10-73:
-        group: 01-tests
+        group: 02-tests
         image: redwebaps/testbox-chromedriver:2.38
         environment:
             - tests_user=admin
