@@ -1955,4 +1955,67 @@ class RedshopHelperExtrafields
 	{
 		return ExtraFields::displayExtraFields($fieldSection, $sectionId, $fieldName, $templateContent, (boolean) $categoryPage);
 	}
+
+	/**
+	 * Method for get article joomla by id.
+	 *
+	 * @param   string  $ids   Is required?
+	 *
+	 * @return  mixed
+	 */
+	public static function getArticleJoomlaById($ids)
+	{
+		$db = \JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__content'))
+			->where($db->qn('id') . ' IN (' . $ids . ')');
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * Method generate display value
+	 *
+	 * @param   mixed    $data   Is required?
+	 * @param   string   $layout   Is required?
+	 * @param   integer  $fieldId
+	 * @param   string   $dataTxt
+	 *
+	 * @return  string
+	 */
+	public static function generateDisplayValue($data, $layout, $fieldId = 0, $dataTxt = '')
+	{
+		if (empty($data))
+		{
+			$fieldValues = \RedshopEntityField::getInstance($fieldId)->getFieldValues();
+			$checkData   = explode(',', $dataTxt);
+			$data        = $layout == 'select' ? array() : '';
+
+			foreach ($fieldValues as $value)
+			{
+				if (!in_array(urlencode($value->field_value), $checkData) && !in_array($value->field_value, $checkData))
+				{
+					continue;
+				}
+
+				if ($layout == 'select')
+				{
+					$data[] = urldecode($value->field_name);
+				}
+				else
+				{
+					$data = urldecode($value->field_name);
+				}
+			}
+		}
+
+		return \RedshopLayoutHelper::render(
+			'extrafields.display.' . $layout,
+			array(
+				'data' => $data
+			)
+		);
+	}
 }

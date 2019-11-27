@@ -162,19 +162,19 @@ class ExtraFields
 			case \RedshopHelperExtrafields::TYPE_CHECK_BOX:
 			case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
 			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_MULTIPLE:
-				$displayValue = self::generateDisplayValue('', 'select', $field->id, $fieldValue->data_txt);
+				$displayValue = \RedshopHelperExtrafields::generateDisplayValue('', 'select', $field->id, $fieldValue->data_txt);
 
 				break;
 
 			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
-				$displayValue = self::generateDisplayValue('', 'text', $field->id, $fieldValue->data_txt);
+				$displayValue = \RedshopHelperExtrafields::generateDisplayValue('', 'text', $field->id, $fieldValue->data_txt);
 
 				break;
 
 			case \RedshopHelperExtrafields::TYPE_SELECT_COUNTRY_BOX:
 				if (!empty($fieldValue->data_txt))
 				{
-					$displayValue = self::generateDisplayValue((int) $fieldValue->data_txt, 'country');
+					$displayValue = \RedshopHelperExtrafields::generateDisplayValue((int) $fieldValue->data_txt, 'country');
 				}
 
 				break;
@@ -182,9 +182,9 @@ class ExtraFields
 			case \RedshopHelperExtrafields::TYPE_JOOMLA_RELATED_ARTICLES:
 				if (!empty($fieldValue->data_txt))
 				{
-					$data = self::getArticleJoomlaById($fieldValue->data_txt);
+					$data = \RedshopHelperExtrafields::getArticleJoomlaById($fieldValue->data_txt);
 
-					$displayValue = self::generateDisplayValue($data, 'article');
+					$displayValue = \RedshopHelperExtrafields::generateDisplayValue($data, 'article');
 				}
 
 				break;
@@ -366,68 +366,5 @@ class ExtraFields
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Method for get article joomla by id.
-	 *
-	 * @param   string  $ids   Is required?
-	 *
-	 * @return  mixed
-	 */
-	public static function getArticleJoomlaById($ids)
-	{
-		$db = \JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__content'))
-			->where($db->qn('id') . ' IN (' . $ids . ')');
-
-		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
-	 * Method generate display value
-	 *
-	 * @param   mixed    $data   Is required?
-	 * @param   string   $layout   Is required?
-	 * @param   integer  $fieldId
-	 * @param   string   $dataTxt
-	 *
-	 * @return  string
-	 */
-	public static function generateDisplayValue($data, $layout, $fieldId = 0, $dataTxt = '')
-	{
-		if (empty($data))
-		{
-			$fieldValues = \RedshopEntityField::getInstance($fieldId)->getFieldValues();
-			$checkData   = explode(',', $dataTxt);
-			$data        = $layout == 'select' ? array() : '';
-
-			foreach ($fieldValues as $value)
-			{
-				if (!in_array(urlencode($value->field_value), $checkData) && !in_array($value->field_value, $checkData))
-				{
-					continue;
-				}
-
-				if ($layout == 'select')
-				{
-					$data[] = urldecode($value->field_name);
-				}
-				else
-				{
-					$data = urldecode($value->field_name);
-				}
-			}
-		}
-
-		return \RedshopLayoutHelper::render(
-			'extrafields.display.' . $layout,
-			array(
-				'data' => $data
-			)
-		);
 	}
 }
