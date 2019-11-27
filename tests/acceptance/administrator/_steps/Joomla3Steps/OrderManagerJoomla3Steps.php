@@ -342,6 +342,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElement(OrderManagerPage::$productId, 30);
 		}catch (\Exception $e)
 		{
+			$I->acceptPopup();
 			$I->waitForElementVisible(OrderManagerPage::$userSearch, 30);
 			$I->fillField(OrderManagerPage::$userSearch, $nameUser);
 			$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
