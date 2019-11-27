@@ -87,7 +87,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 		</label>
 		<input class="text-center input-xmini" type="text" name="<?php echo $subPropPref; ?>[order]" value="<?php echo $subProperty->ordering; ?>">
 
-		<a class="btn" rel="{handler: 'iframe', size: {x: 950, y: 500}}" title="" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'); ?>">
+		<a class="btn joom-box" rel="{handler: 'iframe', size: {x: 950, y: 500}}" title="" href="<?php echo JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices&section_id=' . $subProperty->subattribute_color_id . '&cid=' . $productId . '&section=subproperty'); ?>">
 					<img
 						src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
 						alt=""/><?php echo JText::_('COM_REDSHOP_ADD_PRICE_LBL'); ?>
@@ -157,7 +157,7 @@ if ($subProperty->subattribute_color_main_image && JFile::exists(REDSHOP_FRONT_I
 			</div>
 		</div>
 
-	<div class="col-sm-3">
+	<div class="col-sm-4">
 
 		<label>
 			<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_IMAGE'); ?>

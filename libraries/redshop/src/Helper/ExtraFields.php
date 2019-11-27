@@ -168,16 +168,40 @@ class ExtraFields
 
 				foreach ($fieldValues as $value)
 				{
+					if (!in_array(urlencode($value->field_value), $checkData) && !in_array($value->field_value, $checkData))
+					{
+						continue;
+					}
+
+					$htmlData[] = urldecode($value->field_name);
+				}
+
+				$displayValue = \RedshopLayoutHelper::render(
+					'extrafields.display.select',
+					array(
+						'data' => $htmlData
+					)
+				);
+
+				break;
+
+			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
+				$fieldValues = \RedshopEntityField::getInstance($field->id)->getFieldValues();
+				$checkData   = explode(',', $fieldValue->data_txt);
+				$htmlData    = '';
+
+				foreach ($fieldValues as $value)
+				{
 					if (!in_array(urlencode($value->field_value), $checkData))
 					{
 						continue;
 					}
 
-					$htmlData[] = urldecode($value->field_value);
+					$htmlData = urldecode($value->field_name);
 				}
 
 				$displayValue = \RedshopLayoutHelper::render(
-					'extrafields.display.select',
+					'extrafields.display.text',
 					array(
 						'data' => $htmlData
 					)
@@ -278,7 +302,6 @@ class ExtraFields
 			case \RedshopHelperExtrafields::TYPE_TEXT:
 			case \RedshopHelperExtrafields::TYPE_WYSIWYG:
 			case \RedshopHelperExtrafields::TYPE_DATE_PICKER:
-			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
 			default:
 				$displayValue = \RedshopLayoutHelper::render(
 					'extrafields.display.text',
