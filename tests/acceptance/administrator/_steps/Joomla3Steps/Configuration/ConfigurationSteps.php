@@ -804,9 +804,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
 		$total = $product['price']*$quantity + $shipping['shippingRate'];
-		$priceProduct = $currencyUnit['currencySymbol'].' '.$product['price']*$quantity.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
-		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
-		$priceRate = 'Shipping: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceProduct = $currencyUnit['currencySymbol'].$product['price']*$quantity.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceShippingRate = 'Shipping: '.$currencyUnit['currencySymbol'].($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$firstName = 'First Name: '.$customerInformation["firstName"];
 		$lastName = 'Last Name: '.$customerInformation["lastName"];
 
@@ -822,8 +822,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->see($categoryName);
 		$I->waitForText($product['name'], 30);
 		$I->see($product['name']);
+		$I->waitForText($priceProduct, 30);
 		$I->see($priceProduct);
-		$I->see($priceRate);
+		$I->waitForText($priceShippingRate, 30);
+		$I->see($priceShippingRate);
+		$I->waitForText($priceTotal, 30);
 		$I->see($priceTotal);
 	}
 }

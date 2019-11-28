@@ -18,7 +18,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	 * @since 2.1.2
 	 * @throws \Exception
 	 */
-	private function fillInformationBusiness($customerInformation)
+	public function fillInformationBusiness($customerInformation)
 	{
 		$I = $this;
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
