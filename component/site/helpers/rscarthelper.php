@@ -237,7 +237,7 @@ class rsCarthelper
 	 * @deprecated 2.1.0 Use Redshop\Order\Item::replaceItems
 	 * @see Redshop\Order\Item::replaceItems
 	 */
-	public function replaceOrderItems($data, $rowitem = array(), $sendMail = false)
+	public function repalceOrderItems($data, $rowitem = array(), $sendMail = false)
 	{
 		return Redshop\Order\Item::replaceItems($data, $rowitem, $sendMail);
 	}
