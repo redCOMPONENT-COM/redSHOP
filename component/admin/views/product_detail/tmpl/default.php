@@ -140,7 +140,6 @@ JHtml::_('behavior.formvalidation');
 
 		if (pressbutton == 'apply' || pressbutton == 'save2new' || pressbutton == 'save2copy') {
 			resetAttributeset();
-			submitform(pressbutton);
 		}
 
 		submitform(pressbutton);
