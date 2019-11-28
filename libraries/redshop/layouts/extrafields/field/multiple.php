@@ -42,6 +42,11 @@ extract($displayData);
 				<?php $selected = (!empty($checkData) && in_array(urlencode($field->country_3_code), $checkData)) ? ' selected="selected" ' : ''; ?>
 				<option <?php echo $selected; ?> value="<?php echo urlencode($field->country_3_code); ?>"><?php echo $field->country_name; ?></option>
 			<?php endforeach; ?>
+		<?php elseif ($rowData->type == 16) : ?>
+			<?php foreach ($fieldCheck as $key => $field) : ?>
+				<?php $selected = (!empty($checkData) && in_array(($field->id), $checkData)) ? ' selected="selected" ' : ''; ?>
+				<option <?php echo $selected; ?> value="<?php echo ($field->id); ?>"><?php echo $field->title; ?></option>
+			<?php endforeach; ?>
 		<?php else : ?>
 			<?php foreach ($fieldCheck as $key => $field) : ?>
 				<?php $selected = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' selected="selected" ' : ''; ?>

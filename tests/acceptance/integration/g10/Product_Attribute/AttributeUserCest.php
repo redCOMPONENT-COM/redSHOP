@@ -14,7 +14,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
 use AcceptanceTester\ShippingSteps as ShippingSteps;
 use AcceptanceTester\TaxRateSteps as TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps as TaxGroupSteps;
-use AcceptanceTester\ConfigurationSteps as ConfigurationSteps;
+use Configuration\ConfigurationSteps as ConfigurationSteps;
 
 /**
  * Class AttributeUserCest
