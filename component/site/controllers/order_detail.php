@@ -476,7 +476,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 	public function printPDF()
 	{
 		$app     = JFactory::getApplication();
-		$orderId = $this->input->getInt('id', 0);
+		$orderId = $this->input->get->getInt('oid', 0);
 		
 		if (!$orderId)
 		{
