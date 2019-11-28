@@ -51,9 +51,9 @@ else
 		form.cityfilter.value = "";
 		form.country.value = "";
 		form.shoppergroups.value = "";
+		form.product.value = "";
+		form.product_category.value = "";
 		form.checkoutshoppers.checked = false;
-
-
 		form.submit();
 	}
 </script>
