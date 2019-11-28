@@ -342,6 +342,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElement(OrderManagerPage::$productId, 30);
 		}catch (\Exception $e)
 		{
+			$I->acceptPopup();
 			$I->waitForElementVisible(OrderManagerPage::$userSearch, 30);
 			$I->fillField(OrderManagerPage::$userSearch, $nameUser);
 			$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
@@ -384,6 +385,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}catch (\Exception $e)
 				{
+					$I->waitForElementVisible($userOrderPage->returnXpathAttributeName($product['attributeName']), 30);
+					$I->click($userOrderPage->returnXpathAttributeName($product['attributeName']));
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
 					$I->wait(2);
@@ -427,8 +430,11 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}catch (\Exception $e)
 				{
+					$I->waitForElementVisible($userOrderPage->returnXpathAttributeName($product['attributeName']), 30);
+					$I->click($userOrderPage->returnXpathAttributeName($product['attributeName']));
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
+					$I->wait(2);
 					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}
 
