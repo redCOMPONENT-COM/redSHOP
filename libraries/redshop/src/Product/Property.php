@@ -223,22 +223,25 @@ class Property
 
 		if (strpos($cartForm, "{addtocart_button}") !== false)
 		{
+			$class    = 'class="icon_cart"';
 			$cartTag  = "{addtocart_button}";
-			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '" class="icon_cart"><input type="button" ' .
+			$cartIcon = '<span id="pdaddtocart' . $stockId . '" ' . $class . ' ' . $title . '><input type="button" ' .
 				$onclick . $cartTitle . ' name="addtocart_button" value="' . $requestQuoteLabel . '" /></span>';
 		}
 
 		if (strpos($cartForm, "{addtocart_link}") !== false)
 		{
+			$class    = 'class="tag_cart"';
 			$cartTag  = "{addtocart_link}";
 			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '" ' . $onclick . $cartTitle .
-				' style="cursor: pointer;" class="tag_cart">' . $requestQuoteLabel . '</span>';
+				' style="cursor: pointer;">' . $requestQuoteLabel . '</span>';
 		}
 
 		if (strpos($cartForm, "{addtocart_image_aslink}") !== false)
 		{
+			$class    = 'class="img_linkcart"';
 			$cartTag  = "{addtocart_image_aslink}";
-			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '" class="img_linkcart"><img ' . $onclick .
+			$cartIcon = '<span ' . $class . ' ' . $title . ' id="pdaddtocart' . $stockId . '"><img ' . $onclick .
 				$cartTitle . ' alt="' . $requestQuoteLabel . '" style="cursor: pointer;" src="' . REDSHOP_FRONT_IMAGES_ABSPATH .
 				$requestQuoteImage . '" /></span>';
 		}

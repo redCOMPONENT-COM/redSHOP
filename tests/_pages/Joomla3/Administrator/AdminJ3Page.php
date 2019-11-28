@@ -199,6 +199,12 @@ abstract class AdminJ3Page
 	public static $headPage = "//h1";
 
 	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	public static $h3 = "//h3";
+
+	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
@@ -610,6 +616,12 @@ abstract class AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $labelLanguage = "Language";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $addAccessory = '//input[@totalattributs="0"]';
 
 	/**
 	 * @param $menuCategory
