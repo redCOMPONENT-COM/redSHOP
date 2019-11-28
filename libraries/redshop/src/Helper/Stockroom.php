@@ -115,11 +115,11 @@ class Stockroom
 			$product = \RedshopProduct::getInstance($productId);
 			$db    = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('SUM(`quantity`) as Quantity')
+				->select('SUM quantity')
 				->from($db->qn('#__redshop_product_stockroom_xref'))
 				->where($db->qn('product_id') . ' = ' . $db->quote($productId));
 
-			$stockValues = $db->setQuery($query)->loadAssocList();
+			$stockValues = $db->setQuery($query)->loadResult();
 
 			$stockTag     = strstr($html, "{stock_status");
 			$newStockTag  = explode("}", $stockTag);
