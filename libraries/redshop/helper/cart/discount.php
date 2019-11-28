@@ -80,6 +80,14 @@ class RedshopHelperCartDiscount
 
 		$coupon = rsCarthelper::getInstance()->getCouponData($couponCode, $cart['product_subtotal']);
 
+		foreach ($cart['coupon'] as $cartCoupon)
+		{
+			if ($coupon->id == $cartCoupon['coupon_id'])
+			{
+				return false;
+			}
+		}
+
 		if (!empty($coupon))
 		{
 			$discountType = $coupon->type;
@@ -140,9 +148,18 @@ class RedshopHelperCartDiscount
 			}
 
 			$productSubtotal = $cart['product_subtotal'];
-			$subTotal        = $productSubtotal;
 
-			if ($view == 'cart')
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			{
+				unset($cart['voucher']);
+				$cart['voucher_discount'] = 0;
+			}
+
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 4)
+			{
+				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'] - $cart['coupon_discount'];
+			}
+			else
 			{
 				$subTotal = $productSubtotal - $cart['voucher_discount'] - $cart['cart_discount'];
 			}
@@ -192,6 +209,13 @@ class RedshopHelperCartDiscount
 			{
 				$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
 			}
+			else
+			{
+				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+				{
+					$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
+				}
+			}
 
 			$couponRemaining = 0;
 
@@ -219,20 +243,20 @@ class RedshopHelperCartDiscount
 					break;
 
 				case 3:
-					if ($valueExist && $key)
-					{
-						$return = false;
-					}
+					$coupons    = array();
+					$oldCoupons = array();
+					unset($cart['coupon']);
+					$return = true;
 
 					break;
 
 				case 2:
-					$voucherKey = rsCarthelper::getInstance()->rs_multi_array_key_exists('voucher', $cart);
-
-					if ($valueExist || $voucherKey)
-					{
-						$return = false;
-					}
+					$coupons    = array();
+					$oldCoupons = array();
+					unset($cart['voucher']);
+					unset($cart['coupon']);
+					$cart['voucher_discount'] = 0;
+					$return = true;
 
 					break;
 
@@ -242,7 +266,6 @@ class RedshopHelperCartDiscount
 					$oldCoupons = array();
 					unset($cart['voucher']);
 					unset($cart['coupon']);
-					$cart['cart_discount']    = 0;
 					$cart['voucher_discount'] = 0;
 
 					$return = true;
@@ -267,6 +290,25 @@ class RedshopHelperCartDiscount
 				$coupons['coupon'][$couponIndex]['transaction_coupon_id']     = $transactionCouponId;
 
 				$coupons['coupon']     = array_merge($coupons['coupon'], $oldCoupons);
+
+				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+				{
+					foreach ($cart as $index => $value)
+					{
+						if (!is_numeric($index))
+						{
+							continue;
+						}
+
+						$checkDiscountPrice = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+
+						if ($checkDiscountPrice != 0)
+						{
+							return false;
+						}
+					}
+				}
+
 				$cart                  = array_merge($cart, $coupons);
 				$cart['free_shipping'] = $coupon->free_shipping;
 				RedshopHelperCartSession::setCart($cart);
@@ -309,6 +351,14 @@ class RedshopHelperCartDiscount
 
 		$voucher = rsCarthelper::getInstance()->getVoucherData($voucherCode);
 
+		foreach ($cart['voucher'] as $cartVoucher)
+		{
+			if ($voucher->id == $cartVoucher['voucher_id'])
+			{
+				return false;
+			}
+		}
+
 		if (null === $voucher)
 		{
 			return !empty($cartData) ? $cart : false;
@@ -337,7 +387,7 @@ class RedshopHelperCartDiscount
 
 		if (empty($productArr['product_ids']))
 		{
-			$return = false;
+			return false;
 		}
 
 		$productPrice    = $productArr['product_price'];
@@ -374,6 +424,13 @@ class RedshopHelperCartDiscount
 		{
 			$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
 		}
+		else
+		{
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			{
+				$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
+			}
+		}
 
 		$remainingVoucherDiscount = 0;
 
@@ -401,19 +458,27 @@ class RedshopHelperCartDiscount
 				break;
 
 			case 3:
-				if ($valueExist && $multiArrayKeyExists)
-				{
-					$return = false;
-				}
+
+				$vouchers    = array();
+				$oldVouchers = array();
+				unset($cart['voucher']);
+				$return = true;
 
 				break;
 
 			case 2:
-				$couponKey = rsCarthelper::getInstance()->rs_multi_array_key_exists('coupon', $cart);
-
-				if ($valueExist || $couponKey)
+				if ($cart['voucher']['voucher_code'] == $voucherCode)
 				{
 					$return = false;
+				}
+				else
+				{
+					$vouchers    = array();
+					$oldVouchers = array();
+					unset($cart['voucher']);
+					unset($cart['coupon']);
+					$cart['voucher_discount'] = 0;
+					$return = true;
 				}
 
 				break;
@@ -452,6 +517,25 @@ class RedshopHelperCartDiscount
 			$vouchers['voucher'][$voucherIndex]['transaction_voucher_id']     = $transactionVoucherId;
 
 			$vouchers['voucher']   = array_merge($vouchers['voucher'], $oldVouchers);
+
+			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			{
+				foreach ($cart as $index => $value)
+				{
+					if (!is_numeric($index))
+					{
+						continue;
+					}
+
+					$checkDiscountPrice = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+
+					if ($checkDiscountPrice != 0)
+					{
+						return false;
+					}
+				}
+			}
+
 			$cart                  = array_merge($cart, $vouchers);
 			$cart['free_shipping'] = $voucher->free_ship;
 
