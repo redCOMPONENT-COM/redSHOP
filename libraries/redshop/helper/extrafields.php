@@ -997,8 +997,8 @@ class RedshopHelperExtrafields
 				}
 				elseif ($row->type == self::TYPE_WYSIWYG)
 				{
-					$inputField = JFactory::getApplication()->input->post->get($row->name, array(), 'array');
-					$dataTxt    = \JFilterInput::getInstance(null, null, 1, 1)->clean($inputField[0], 'html');
+					$inputField = JFactory::getApplication()->input->post->get($row->name, '', 'raw');
+					$dataTxt    = \JFilterInput::getInstance(null, null, 1, 1)->clean($inputField, 'html');
 				}
 				else
 				{
