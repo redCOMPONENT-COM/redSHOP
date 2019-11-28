@@ -17,6 +17,7 @@ $configobj       = Redconfiguration::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
+$document        = JFactory::getDocument();
 
 $app      = JFactory::getApplication();
 $db       = JFactory::getDbo();
@@ -28,6 +29,7 @@ $order_id = $app->input->getInt('oid');
 $model = $this->getModel('order_detail');
 
 $order = $this->OrdersDetail;
+$document->setTitle(JText::_('COM_REDSHOP_ORDER_RECEIPT_TITLE'));
 ?>
 <?php
 if ($this->params->get('show_page_title', 1))

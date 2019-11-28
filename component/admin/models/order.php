@@ -215,6 +215,13 @@ class RedshopModelOrder extends RedshopModel
 		$filterOrder    = $this->getState('list.ordering');
 		$query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
 
+		// Get the dispatcher and load the users plugins.
+		$dispatcher = JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop');
+
+		// Trigger the data preparation event.
+		$dispatcher->trigger('onBuildQueryGetOrderList', array(&$query));
+
 		return $query;
 	}
 

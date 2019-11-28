@@ -306,12 +306,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->searchProduct($productName);
 		$I->checkAllResults();
 		$I->click(ProductManagerPage::$buttonDelete);
-
-		$I->wantTo('Test with delete product but then cancel');
-		$I->cancelPopup();
-
-		$I->wantTo('Test with delete product then accept');
-		$I->click(ProductManagerPage::$buttonDelete);
 		$I->acceptPopup();
 		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);
 		$I->dontSee($productName);
@@ -619,10 +613,11 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $productName
-	 *
+	 * @param $nameAttribute
 	 * @throws \Exception
+	 * @since 2.1.3
 	 */
-	public function deleteAttributeValue($productName)
+	public function deleteAttributeValue($productName, $nameAttribute)
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
@@ -631,6 +626,8 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
 		$I->click(ProductManagerPage::$buttonProductAttribute);
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+		$I->waitForElementVisible(['link' => 'Attribute value: '.$nameAttribute], 30);
+		$I->click(['link' => 'Attribute value: '.$nameAttribute]);
 		$I->click(ProductManagerPage::$buttonDelete);
 		$I->cancelPopup();
 		$I->click(ProductManagerPage::$buttonDelete);
@@ -1072,6 +1069,14 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wantToTest($length);
 		for($x = 0; $x < $length; $x++)
 		{
+			if($x > 0)
+			{
+				$I->waitForElementVisible(["link" => ProductManagerPage::$addAttributeValue], 30);
+				$I->executeJS('window.scrollTo(0,0)');
+				$I->waitForElementVisible(["link" => ProductManagerPage::$addAttributeValue], 30);
+				$I->click(["link" => ProductManagerPage::$addAttributeValue]);
+			}
+
 			$attribute = $attributes[$x];
 			$I->waitForElementVisible($usePage->attributeNameAttribute($position, $x), 30);
 			$I->fillField($usePage->attributeNameAttribute($position, $x), $attribute["attributeName"]);
@@ -1079,9 +1084,6 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->fillField($usePage->attributePricePropertyAttribute($position, $x), $attribute["attributePrice"]);
 
 			$lengthSubProperty = count($attribute["listSubProperty"]);
-
-			$I->waitForElementVisible($usePage->buttonAddSubProperty($position, $x), 30);
-			$I->click($usePage->buttonAddSubProperty($position, $x));
 
 			$I->waitForElementVisible($usePage->nameSubProperty($position, $x), 30);
 			$I->fillField($usePage->nameSubProperty($position, $x), $attribute['nameSubProperty']);
@@ -1091,17 +1093,13 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			for($y = 0; $y < $lengthSubProperty; $y++)
 			{
 				$sub = $subProperty[$y];
+				$I->waitForElementVisible($usePage->buttonAddSubProperty($x + 1), 30);
+				$I->click($usePage->buttonAddSubProperty($x + 1));
 				$I->waitForElementVisible($usePage->subNameProperty($position, $x, $y), 30);
 				$I->fillField($usePage->subNameProperty($position, $x, $y), $sub['subPropertyName']);
 				$I->waitForElementVisible($usePage->subPriceProperty($position, $x, $y), 30);
 				$I->fillField($usePage->subPriceProperty($position, $x, $y), $sub['subPropertyPrice']);
-
-				$I->waitForElementVisible($usePage->buttonAddSubProperty($position, $x), 30);
-				$I->click($usePage->buttonAddSubProperty($position, $x));
 			}
-
-            $I->waitForElementVisible(["link" =>ProductManagerPage::$addAttributeValue], 30);
-			$I->click(["link" =>ProductManagerPage::$addAttributeValue]);
 		}
 
 		$I->waitForElementVisible(ProductManagerPage::$xpathSaveClose, 30);

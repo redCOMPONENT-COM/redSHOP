@@ -127,7 +127,7 @@ class ShippingPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $shippingShopperGroups = "#s2id_shipping_rate_on_shopper_group";
+    public static $shippingShopperGroups = "#s2id_autogen5";
 
     /**
      * @var string

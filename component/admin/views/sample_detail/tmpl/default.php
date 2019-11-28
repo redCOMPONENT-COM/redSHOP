@@ -24,7 +24,7 @@ $url = $uri->root();
 			return;
 		}
 
-		if (form.sample_name.value == 1) {
+		if (form.sample_name.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_ENTER_SAMPLE_NAME', true ); ?>");
 			return false;
 		}

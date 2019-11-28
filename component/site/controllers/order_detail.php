@@ -353,9 +353,18 @@ class RedshopControllerOrder_Detail extends RedshopController
 	{
 		$app     = JFactory::getApplication();
 		$orderId = $this->input->getInt('order_id');
+		$session = JFactory::getSession();
+		$auth    = $session->get('auth');
 
 		if ($orderId)
 		{
+			if (empty($auth['users_info_id']))
+			{
+				$orderDetail = RedshopEntityOrder::getInstance($orderId)->getItem();
+				$auth['users_info_id'] = $orderDetail->user_info_id;
+				$session->set('auth', $auth);
+			}
+
 			// First Empty Cart and then oder it again
             $cart = array();
 			$cart['idx'] = 0;

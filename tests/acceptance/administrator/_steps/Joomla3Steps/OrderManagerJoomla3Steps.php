@@ -325,7 +325,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(OrderManagerPage::$titlePage, 30, OrderManagerPage::$h1);
 		$I->waitForElementVisible(OrderManagerPage::$userId, 30);
 		$I->click(OrderManagerPage::$userId);
-
 		$I->waitForElementVisible(OrderManagerPage::$userSearch, 30);
 
 		$userOrderPage = new OrderManagerPage();
@@ -337,6 +336,24 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElementVisible(OrderManagerPage::$applyUser, 30);
 		$I->executeJS("jQuery('.button-apply').click()");
+
+		try
+		{
+			$I->waitForElement(OrderManagerPage::$productId, 30);
+		}catch (\Exception $e)
+		{
+			$I->acceptPopup();
+			$I->waitForElementVisible(OrderManagerPage::$userSearch, 30);
+			$I->fillField(OrderManagerPage::$userSearch, $nameUser);
+			$I->waitForElement($userOrderPage->returnSearch($nameUser), 30);
+			$I->pressKey(OrderManagerPage::$userSearch, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			$I->waitForElement(OrderManagerPage::$fistName, 30);
+			$I->see($nameUser);
+
+			$I->waitForElementVisible(OrderManagerPage::$applyUser, 30);
+			$I->executeJS("jQuery('.button-apply').click()");
+		}
+
 		$I->waitForElement(OrderManagerPage::$productId, 30);
 		$I->scrollTo(OrderManagerPage::$productId);
 
@@ -353,6 +370,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 		$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
+		$I->wait(0.5);
 
 		switch ($function)
 		{
@@ -367,10 +385,15 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}catch (\Exception $e)
 				{
+					$I->waitForElementVisible($userOrderPage->returnXpathAttributeName($product['attributeName']), 30);
+					$I->click($userOrderPage->returnXpathAttributeName($product['attributeName']));
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
+					$I->wait(2);
+					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}
 
+				$I->waitForElement(OrderManagerPage::$priceVAT, 30);
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
 
 				$priceVATString = $currencyUnit['currencySymbol'].' '.$priceVATAttribute.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
@@ -407,12 +430,15 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}catch (\Exception $e)
 				{
+					$I->waitForElementVisible($userOrderPage->returnXpathAttributeName($product['attributeName']), 30);
+					$I->click($userOrderPage->returnXpathAttributeName($product['attributeName']));
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
+					$I->wait(2);
+					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}
 
 				$priceProductTotal = $product['priceProduct'] + $product['priceSize'];
-				$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				$vatProduct = $I->grabTextFrom(OrderManagerPage::$priceVAT);
 				$priceProductString = $currencyUnit['currencySymbol'].' '.$priceProductTotal.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 				$I->assertEquals($vatProduct, $product['priceVAT']);
