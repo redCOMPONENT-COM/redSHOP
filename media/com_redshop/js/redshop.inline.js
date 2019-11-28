@@ -25,6 +25,11 @@
                     $(this).hide("fast", function () {
                         $label.show("fast");
                     });
+                    var $count = index + 1;
+                    var $input_id = '#name-' + $count + '-edit-inline';
+                    var $div_id = '#name-' + $count;
+
+                    jQuery($input_id).val(jQuery($div_id).text());
                 })
                 .on("keypress", function (event) {
                     var keyCode = event.keyCode || event.which;

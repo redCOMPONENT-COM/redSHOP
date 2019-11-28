@@ -41,7 +41,7 @@ class RedshopModelOrder_detail extends RedshopModel
 	 *
 	 * @return  integer  User Info id - redSHOP User Id if validate.
 	 */
-	public function checkauthorization($oid, $encr)
+	public function checkauthorization($oid, $encr, $setUser = true)
 	{
 		// Initialize variables.
 		$db    = JFactory::getDbo();
@@ -65,7 +65,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		if ($userInfoIdEncr)
+		if ($userInfoIdEncr && $setUser)
 		{
 			$session               = JFactory::getSession();
 			$auth['users_info_id'] = $userInfoIdEncr;

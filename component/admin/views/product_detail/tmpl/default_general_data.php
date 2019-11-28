@@ -21,7 +21,7 @@ $tz = new \DateTimeZone($config->get('offset'));
 $media = RedshopEntityProduct::getInstance($this->detail->product_id)->getMedia();
 
 $fullMediaId = 0;
-$fullImage = "";
+$fullImage = $this->detail->product_full_image;
 
 foreach ($media->getAll() as $mediaItem)
 {
