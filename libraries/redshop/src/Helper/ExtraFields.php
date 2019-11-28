@@ -162,19 +162,19 @@ class ExtraFields
 			case \RedshopHelperExtrafields::TYPE_CHECK_BOX:
 			case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
 			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_MULTIPLE:
-				$displayValue = \RedshopHelperExtrafields::generateDisplayValue('', 'select', $field->id, $fieldValue->data_txt);
+				$displayValue = \RedshopHelperExtrafields::getDisplayFieldData('', 'select', $field->id, $fieldValue->data_txt);
 
 				break;
 
 			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
-				$displayValue = \RedshopHelperExtrafields::generateDisplayValue('', 'text', $field->id, $fieldValue->data_txt);
+				$displayValue = \RedshopHelperExtrafields::getDisplayFieldData('', 'text', $field->id, $fieldValue->data_txt);
 
 				break;
 
 			case \RedshopHelperExtrafields::TYPE_SELECT_COUNTRY_BOX:
 				if (!empty($fieldValue->data_txt))
 				{
-					$displayValue = \RedshopHelperExtrafields::generateDisplayValue((int) $fieldValue->data_txt, 'country');
+					$displayValue = \RedshopHelperExtrafields::getDisplayFieldData((int) $fieldValue->data_txt, 'country');
 				}
 
 				break;
@@ -184,7 +184,7 @@ class ExtraFields
 				{
 					$data = \RedshopHelperExtrafields::getArticleJoomlaById($fieldValue->data_txt);
 
-					$displayValue = \RedshopHelperExtrafields::generateDisplayValue($data, 'article');
+					$displayValue = \RedshopHelperExtrafields::getDisplayFieldData($data, 'article');
 				}
 
 				break;

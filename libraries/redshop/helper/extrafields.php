@@ -1976,7 +1976,7 @@ class RedshopHelperExtrafields
 	}
 
 	/**
-	 * Method generate display value
+	 * Method get display field data
 	 *
 	 * @param   mixed    $data   Is required?
 	 * @param   string   $layout   Is required?
@@ -1985,7 +1985,7 @@ class RedshopHelperExtrafields
 	 *
 	 * @return  string
 	 */
-	public static function generateDisplayValue($data, $layout, $fieldId = 0, $dataTxt = '')
+	public static function getDisplayFieldData($data, $layout, $fieldId = 0, $dataTxt = '')
 	{
 		if (empty($data))
 		{
