@@ -179,6 +179,11 @@ class AbstractImportPlugin extends \JPlugin
 	public function importing()
 	{
 		$files          = \JFolder::files($this->getPath() . '/' . $this->folder, '.', true);
+
+		usort($files, function($a, $b) {
+			return $a - $b;
+		});
+
 		$result         = new \stdClass;
 		$result->status = 0;
 		$result->data   = array();
@@ -236,7 +241,7 @@ class AbstractImportPlugin extends \JPlugin
 			$result->data[] = $rowResult;
 		}
 
-		fclose($handle);
+		fclose(/** @scrutinizer ignore-type */ $handle);
 		\JFile::delete($this->getPath() . '/' . $this->folder . '/' . $file);
 
 		$result->status = 1;
@@ -285,7 +290,7 @@ class AbstractImportPlugin extends \JPlugin
 	 *
 	 * @param   string  $file  Path of file.
 	 *
-	 * @return  integer
+	 * @return  integer|boolean
 	 *
 	 * @since   2.0.3
 	 */
@@ -305,7 +310,7 @@ class AbstractImportPlugin extends \JPlugin
 			$rows[] = $row;
 		}
 
-		fclose($handler);
+		fclose(/** @scrutinizer ignore-type */ $handler);
 
 		$headers = array_shift($rows);
 		$maxLine = \Redshop::getConfig()->get('IMPORT_MAX_LINE', 10);
@@ -334,7 +339,7 @@ class AbstractImportPlugin extends \JPlugin
 				fwrite($fileHandle, '"' . implode('"' . $this->separator . '"', $row) . '"' . "\n");
 			}
 
-			fclose($fileHandle);
+			fclose(/** @scrutinizer ignore-type */ $fileHandle);
 		}
 
 		return count($rows);

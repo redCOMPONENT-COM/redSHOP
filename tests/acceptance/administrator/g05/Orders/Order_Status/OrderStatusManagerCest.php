@@ -191,7 +191,6 @@ class OrderStatusManagerCest
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
 
-
 		$I->wantToTest('Delete User');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->customerInformation['firstName']);

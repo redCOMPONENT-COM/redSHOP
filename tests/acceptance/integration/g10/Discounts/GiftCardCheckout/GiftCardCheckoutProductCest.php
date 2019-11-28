@@ -164,11 +164,15 @@ class GiftCardCheckoutProductCest
 		$I->click(GiftCardCheckoutPage::$buttonSave);
 
 		$I->waitForElement(\GiftCardCheckoutPage::$addressLink, 30);
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$paymentPayPad, 30);
 		$I->click(\GiftCardCheckoutPage::$paymentPayPad);
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$checkoutButton, 30);
 		$I->click(\GiftCardCheckoutPage::$checkoutButton);
 
 		//accept
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$acceptTerms, 30);
 		$I->click(\GiftCardCheckoutPage::$acceptTerms);
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$checkoutFinalStep, 30);
 		$I->click(\GiftCardCheckoutPage::$checkoutFinalStep);
 	}
 
