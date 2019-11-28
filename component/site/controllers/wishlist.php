@@ -37,6 +37,7 @@ class RedshopControllerWishlist extends RedshopController
 		$post['user_id']       = $user->id;
 		$post['cdate']         = time();
 		$post['product_id']    = $input->post->getInt('product_id', 0);
+		$return_wishlist       = $input->getString('return', '');
 
 		if ($model->store($post))
 		{
@@ -49,7 +50,7 @@ class RedshopControllerWishlist extends RedshopController
 
 		if ($input->getInt('loginwishlist', 0) == 1)
 		{
-			$return = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $this->input->post->getInt('Itemid'), false);
+			$return = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $this->input->post->getInt('Itemid') . '&return=' . $return_wishlist, false);
 			$this->setRedirect($return);
 		}
 		else
