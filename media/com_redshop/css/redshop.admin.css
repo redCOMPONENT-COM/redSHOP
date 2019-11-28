@@ -27268,7 +27268,7 @@ body.modal-open {
     background-color: #fff;
     margin: 0 15px;
     border: 1px solid #ccc;
-    display: flex;
+    display: block;
     align-items: center;
 }
 
