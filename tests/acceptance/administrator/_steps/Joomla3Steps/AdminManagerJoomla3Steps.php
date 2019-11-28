@@ -25,7 +25,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->amOnPage(\AdminJ3Page::$installURL);
-		$I->waitForElement(\AdminJ3Page::$link, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$link, 30);
 		$I->click(\AdminJ3Page::$link);
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
@@ -39,7 +39,7 @@ class AdminManagerJoomla3Steps extends Redshop
 			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
 		}
 		$I->fillField(\AdminJ3Page::$urlID, $path);
-		$I->waitForElement(\AdminJ3Page::$installButton, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
 	}
 	/**
@@ -128,7 +128,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->waitForElement($searchField, 30);
+		$I->waitForElementVisible($searchField, 30);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
