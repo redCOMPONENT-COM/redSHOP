@@ -577,7 +577,8 @@ class RedshopHelperTemplate
 			'11' => JText::_('COM_REDSHOP_IMAGE'),
 			'12' => JText::_('COM_REDSHOP_DATE_PICKER'),
 			'13' => JText::_('COM_REDSHOP_IMAGE_WITH_LINK'),
-			'15' => JText::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS')
+			'15' => JText::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS'),
+			'16' => JText::_('COM_REDSHOP_JOOMLA_RELATED_ARTICLES')
 		);
 
 		JPluginHelper::importPlugin('system');

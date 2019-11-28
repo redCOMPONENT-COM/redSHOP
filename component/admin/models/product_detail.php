@@ -4305,7 +4305,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($sp)
 		{
-			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($sp);
+			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($sp, $subattribute_id, true);
 		}
 		else
 		{
@@ -4351,7 +4351,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($property_id)
 		{
-			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id);
+			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id, $attribute_id, 0, '', 0, 0, true);
 		}
 		else
 		{
