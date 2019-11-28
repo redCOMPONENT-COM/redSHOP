@@ -13,8 +13,7 @@
  *
  * @since  2.4
  */
-class
-ProductManagerPage extends AdminJ3Page
+class ProductManagerPage extends AdminJ3Page
 {
 
 	/**
@@ -226,6 +225,17 @@ ProductManagerPage extends AdminJ3Page
 	 */
 	public static $addAttribute = '+ Add Attribute parameter';
 
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $addAttributeValue = '+ Add Attribute value';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $addPriceButton = '.button-new';
 
 	/**
 	 * Function to get Path $position in Add Attribute Name
@@ -251,6 +261,36 @@ ProductManagerPage extends AdminJ3Page
 	public function attributeNameProperty($position)
 	{
 		$xpath = ['xpath'=>'//input[@name="attribute[' . $position . '][property][0][name]"]'];
+
+		return $xpath;
+	}
+
+	/**
+	 * Function to get Path $position in Attribute Name Property
+	 *
+	 * @param $positionParameter
+	 * @param $positionAttribute
+	 *
+	 * @return string
+	 */
+	public function attributeNameAttribute($positionParameter, $positionAttribute)
+	{
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][name]"]';
+
+		return $xpath;
+	}
+
+	/**
+	 * Function to get Path $position in Attribute Price Property
+	 *
+	 * @param $positionParameter
+	 * @param $positionAttribute
+	 *
+	 * @return string
+	 */
+	public function attributePricePropertyAttribute($positionParameter, $positionAttribute)
+	{
+		$xpath = '//input[@name="attribute[' . $positionParameter . '][property]['.$positionAttribute.'][price]"]';
 
 		return $xpath;
 	}
@@ -368,4 +408,93 @@ ProductManagerPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $priceFrontend = ".category_product_price";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $productRelated ='//input[@id="s2id_autogen1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $fileUpload = '//input[@type=\'file\' and @multiple="multiple"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $tabSEO = "SEO";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $titleSEO ="//input[@id='pagetitle']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $headingSEO ="//input[@id='pageheading']";
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $xpathSaveClose = '//button[@onclick="Joomla.submitbutton(\'save\');"]';
+
+	/**
+	 * @param $position
+	 * @param $x
+	 * @param $y
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function subNameProperty($position, $x, $y)
+	{
+		$xpath = "//input[@name='attribute[$position][property][$x][subproperty][$y][name]']";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $position
+	 * @param $x
+	 * @param $y
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function subPriceProperty($position, $x, $y)
+	{
+		$xpath = "//input[@name='attribute[$position][property][$x][subproperty][$y][price]']";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $position
+	 * @param $x
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function nameSubProperty($position, $x)
+	{
+		$xpath = "//input[@name='attribute[$position][property][$x][subproperty][title]']";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $x
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function buttonAddSubProperty($x)
+	{
+		$xpath = "(//a[@class ='btn btn-success add_subproperty btn-small'])[$x]";
+
+		return $xpath;
+	}
 }

@@ -92,6 +92,7 @@ class RedshopControllerConfiguration extends RedshopController
 		// Only check if this email is filled
 		if (!empty($post['administrator_email']))
 		{
+			$post['administrator_email'] = trim($post['administrator_email']);
 			$emails = explode(',', $post['administrator_email']);
 
 			if (!empty($emails))

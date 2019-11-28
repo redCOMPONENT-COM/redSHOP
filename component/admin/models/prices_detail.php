@@ -90,19 +90,30 @@ class RedshopModelPrices_detail extends RedshopModel
 	{
 		if (empty($this->_data))
 		{
-			$detail                       = new stdClass;
-			$detail->price_id             = 0;
-			$detail->product_id           = $this->_prodid;
-			$detail->product_name         = $this->_prodname;
-			$detail->product_price        = 0.00;
-			$detail->product_currency     = null;
-			$detail->shopper_group_id     = 0;
-			$detail->price_quantity_start = 0;
-			$detail->price_quantity_end   = 0;
-			$detail->shopper_group_name   = null;
-			$detail->discount_price       = 0;
-			$detail->discount_start_date  = 0;
-			$detail->discount_end_date    = 0;
+			// Get stored post data from user state
+			$tmpPost = JFactory::getApplication()->getUserState('com_redshop.edit.product_price.data', false);
+
+			if ($tmpPost)
+			{
+				$detail = json_decode($tmpPost);
+			}
+			else
+			{
+				$detail                       = new stdClass;
+				$detail->price_id             = 0;
+				$detail->product_id           = $this->_prodid;
+				$detail->product_name         = $this->_prodname;
+				$detail->product_price        = 0.00;
+				$detail->product_currency     = null;
+				$detail->shopper_group_id     = 0;
+				$detail->price_quantity_start = 0;
+				$detail->price_quantity_end   = 0;
+				$detail->shopper_group_name   = null;
+				$detail->discount_price       = 0;
+				$detail->discount_start_date  = 0;
+				$detail->discount_end_date    = 0;
+			}
+
 			$this->_data                  = $detail;
 
 			return (boolean) $this->_data;
@@ -113,7 +124,8 @@ class RedshopModelPrices_detail extends RedshopModel
 
 	public function store($data)
 	{
-		if (($data['price_quantity_start'] > $data['price_quantity_end']) || ($data['discount_start_date'] > $data['discount_end_date']))
+		if (((float) $data['price_quantity_start'] > (float) $data['price_quantity_end']) ||
+			($data['discount_start_date'] > $data['discount_end_date']))
 		{
 			return false;
 		}

@@ -715,8 +715,8 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																</div>
 															</td>
 															<td>
-		                                                        <?php $dispatcher->trigger('onAdminDisplayOrderItem', array($orderId, $products[$i])) ?>
-	                                                        </td>
+																<?php $dispatcher->trigger('onAdminDisplayOrderItem', array($orderId, $products[$i])) ?>
+															</td>
 															<td width="15%">
 																<?php
 																echo $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
@@ -794,6 +794,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													<input type="hidden" name="return" value="order_detail"/>
 													<input type="hidden" name="isproduct" value="1"/>
 													<input type="hidden" name="option" value="com_redshop"/>
+													<input type="hidden" name="payment_method_class" value="<?php echo $this->payment_detail->payment_method_class ?>">
 													<?php if ($tmpl)
 													{ ?>
 														<input type="hidden" name="tmpl" value="<?php echo $tmpl; ?>"/>
@@ -1021,6 +1022,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 														<input type="hidden" name="task" value="update_discount">
 														<input type="hidden" name="view" value="order_detail">
 														<input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
+														<input type="hidden" name="payment_method_class" value="<?php echo $this->payment_detail->payment_method_class ?>">
 													</form>
 												</td>
 											</tr>
@@ -1052,6 +1054,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 														<input type="hidden" name="order_total" value="<?php echo $this->detail->order_total; ?>">
 														<input type="hidden" name="task" value="special_discount">
 														<input type="hidden" name="view" value="order_detail">
+														<input type="hidden" name="payment_method_class" value="<?php echo $this->payment_detail->payment_method_class ?>">
 														<input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
 													</form>
 												</td>
@@ -1083,7 +1086,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 			</div>
 		</div>
 	</div>
-
+	<?php
+	$dispatcher->trigger('onAfterAdminDisplayOrderDetail', array($orderId, $this->detail));
+	?>
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="box box-primary">

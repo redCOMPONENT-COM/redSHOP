@@ -527,18 +527,16 @@ function getvatremove(vattax_rate_id) {
 
 function validateExtrafield(form) {
     var me = form.elements;
-    var r = new RegExp("^[a-zA-Z](([\.\-a-zA-Z0-9@])?[a-zA-Z0-9]*)*$", "i");
     var errorMSG = '';
     var iserror = 0;
-    // loop through all input elements in form
-    var fieldErrorMessages = new Array;
+    var fieldErrorMessages = [];
 
+    // loop through all input elements in form
     for (var i = 0; i < me.length; i++) {
         // check if element is mandatory; here required="1"
-        var myenabled = (typeof(me[i].getAttribute('required')) == 'undefined') || (me[i].getAttribute('required') != 1);
         var mytyp = me[i].type;
-        var myact = myenabled && mytyp != 'reset' && mytyp != 'button' && mytyp != 'submit' && mytyp != 'image';
         var myname = me[i].getAttribute('name');
+        var myid = me[i].getAttribute('id');
         var req = me[i].getAttribute('required');
         var lbl = me[i].getAttribute('reqlbl');
         if (lbl == null) {
@@ -566,6 +564,7 @@ function validateExtrafield(form) {
 
             // validation for select box
             if (mytyp == 'select-multiple' || mytyp == 'select-one') {
+                var productId = form.product1.value;
                 var opSelect = 0;
                 if (me[i].options.selectedIndex == -1) {
                     opSelect = 1;
@@ -575,14 +574,29 @@ function validateExtrafield(form) {
                         opSelect = 1;
                     }
                 }
+
+                if (myid.indexOf("property_id_product1acc_" + productId) !== -1) {
+                    var tmp = myid.split("_");
+
+                    if (jQuery("input[type='checkbox']#accessory_id_" + tmp[3] + "_" + tmp[4] + "product1").length > 0) {
+                        var checkedAcc = jQuery("input[type='checkbox']#accessory_id_" + tmp[3] + "_" + tmp[4] + "product1:checked");
+
+                        if (checkedAcc.length === 0) {
+                            opSelect = 0;
+                        }
+                    }
+                }
+
                 if (opSelect == 1) {
                     var alreadyFlagged = false;
+
                     for (var j = 0, n = fieldErrorMessages.length; j < n; j++) {
                         if (fieldErrorMessages[j] == me[i].getAttribute('name')) {
                             alreadyFlagged = true;
                             break
                         }
                     }
+
                     if (!alreadyFlagged) {
                         fieldErrorMessages.push(me[i].getAttribute('name'));
                         // add up all error messages
@@ -702,37 +716,35 @@ jQuery(document).ready(function(){
         }
     });
 
-    jQuery(document).ready(function(){
-        jQuery(document).on('keydown', "input[name*='phone']", function (e) {
-            // Allow: backspace, delete, tab, escape, enter and .
-            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
-                 // Allow: Ctrl+A, Command+A
-                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                 // Allow: home, end, left, right, down, up
-                (e.keyCode >= 35 && e.keyCode <= 40)) {
-                     // let it happen, don't do anything
-                     return;
-            }
-            // Ensure that it is a number and stop the keypress
-            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                e.preventDefault();
-            }
-        });
+    jQuery(document).on('keydown', "input[name*='phone']", function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
 
-        jQuery(document).on('keydown', "input[name*='phone_ST']", function (e) {
-            // Allow: backspace, delete, tab, escape, enter and .
-            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
-                 // Allow: Ctrl+A, Command+A
-                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                 // Allow: home, end, left, right, down, up
-                (e.keyCode >= 35 && e.keyCode <= 40)) {
-                     // let it happen, don't do anything
-                     return;
-            }
-            // Ensure that it is a number and stop the keypress
-            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                e.preventDefault();
-            }
-        });
+    jQuery(document).on('keydown', "input[name*='phone_ST']", function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 107, 109, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
     });
 });

@@ -9,6 +9,7 @@
 namespace AcceptanceTester;
 
 use Step\Acceptance\Redshop;
+use \ConfigurationPage as ConfigurationPage;
 
 /**
  * Class AdminManagerJoomla3Steps
@@ -24,19 +25,21 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->amOnPage(\AdminJ3Page::$installURL);
-		$I->waitForElement(\AdminJ3Page::$link, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$link, 30);
 		$I->click(\AdminJ3Page::$link);
 		$path = $I->getConfig($name) . $package;
 		$I->wantToTest($path);
 		$I->comment($path);
-        try {
-            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-        } catch (\Exception $e) {
-            $I->click(\AdminJ3Page::$link);
-            $I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
-        }
+		try
+		{
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		} catch (\Exception $e)
+		{
+			$I->click(\AdminJ3Page::$link);
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		}
 		$I->fillField(\AdminJ3Page::$urlID, $path);
-		$I->waitForElement(\AdminJ3Page::$installButton, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
 		$I->click(\AdminJ3Page::$installButton);
 	}
 	/**
@@ -125,7 +128,7 @@ class AdminManagerJoomla3Steps extends Redshop
 	{
 		$I = $this;
 		$I->executeJS('window.scrollTo(0,0)');
-		$I->waitForElement($searchField, 30);
+		$I->waitForElementVisible($searchField, 30);
 		$I->fillField($searchField, $text);
 		$I->pressKey($searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text]);
@@ -207,15 +210,17 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->pressKey('#name_filter', \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->waitForElement(['link' => $text], 30);
 	}
-	
+
 	/**
 	 * @param $xpath
 	 * @param $value
 	 * @param $lengh
+	 * @throws \Exception
 	 */
 	public function addValueForField($xpath, $value, $lengh)
 	{
 		$I = $this;
+		$I->waitForElementVisible($xpath, 30);
 		$I->click($xpath);
 		for ($i = 1; $i <= $lengh; $i++)
 		{
@@ -265,6 +270,64 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->waitForJS(
 			"jQuery('#$selectID').trigger('change'); return true;",
 			30
+		);
+	}
+
+	/**
+	 * @param $extensionURL
+	 * @param $pathExtension
+	 * @param $package
+	 * @since 2.1.2
+	 * @throws \Exception
+	 */
+	public function installExtensionPackageFromURL($extensionURL, $pathExtension,$package)
+	{
+		$I = $this;
+		$I->amOnPage(\AdminJ3Page::$installURL);
+		$I->waitForElement(\AdminJ3Page::$link, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$link, 30);
+		$I->click(\AdminJ3Page::$link);
+		$path = $I->getConfig($extensionURL) . $pathExtension. $package;
+		$I->wantToTest($path);
+		$I->comment($path);
+		try {
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		} catch (\Exception $e) {
+			$I->click(\AdminJ3Page::$link);
+			$I->waitForElementVisible(\AdminJ3Page::$urlID, 10);
+		}
+		$I->fillField(\AdminJ3Page::$urlID, $path);
+		$I->waitForElement(\AdminJ3Page::$installButton, 30);
+		$I->waitForElementVisible(\AdminJ3Page::$installButton, 30);
+		$I->click(\AdminJ3Page::$installButton);
+	}
+
+	/**
+	 * @return array
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
+	public function getCurrencyValue()
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$price);
+		$I->waitForElementVisible(ConfigurationPage::$priceTab, 30);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
+		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
+		$NumberZero = null;
+
+		for ($b = 1; $b <= $numberOfPriceDecimals; $b++)
+		{
+			$NumberZero = $NumberZero."0";
+		}
+
+		return array(
+			'currencySymbol'            => $currencySymbol,
+			'decimalSeparator'          => $decimalSeparator,
+			'numberZero'                => $NumberZero
 		);
 	}
 }

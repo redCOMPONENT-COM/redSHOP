@@ -47,7 +47,7 @@ class RedshopControllerWishlist extends RedshopController
 			echo "<div class='wishlistmsg-error'>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
 		}
 
-		if ($input->post->getInt('loginwishlist', 0) == 1)
+		if ($input->getInt('loginwishlist', 0) == 1)
 		{
 			$return = JRoute::_('index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=' . $this->input->post->getInt('Itemid'), false);
 			$this->setRedirect($return);
