@@ -141,10 +141,12 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
 
 		if (is_array($post['product_category'])
-			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
+			&& !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
+
+		$this->checkTask($post);
 
 		if (!$post ['product_id'])
 		{
@@ -339,25 +341,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function save2copy()
 	{
-		$cid = $this->input->post->get('cid', array(), 'array');
-
-		/** @var RedshopModelProduct_Detail $model */
-		$model = $this->getModel('product_detail');
-
-		if ($row = $model->copy($cid, true))
-		{
-			$this->setRedirect(
-				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id,
-				JText::_('COM_REDSHOP_PRODUCT_COPIED')
-			);
-		}
-		else
-		{
-			$this->setRedirect(
-				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0],
-				JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED')
-			);
-		}
+		$this->apply();
 	}
 
 	/**
@@ -1094,5 +1078,43 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Method check task is save2copy
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkTask(&$post)
+	{
+		if ($post['task'] == 'save2copy')
+		{
+			$post['product_id'] = 0;
+
+			if (!empty($post['attribute']))
+			{
+				foreach ($post['attribute'] as $keyAttr => $attributes)
+				{
+					$post['attribute'][$keyAttr]['id'] = 0;
+
+					foreach ($attributes['property'] as $keyProp => $propetys)
+					{
+						$post['attribute'][$keyAttr]['property'][$keyProp]['property_id'] = 0;
+
+						foreach ($propetys['subproperty'] as $keySub => $subPros)
+						{
+							if ($keySub == 'title')
+							{
+								continue;
+							}
+
+							$post['attribute'][$keyAttr]['property'][$keyProp]['subproperty'][$keySub]['subproperty_id'] = 0;
+						}
+					}
+				}
+			}
+		}
 	}
 }

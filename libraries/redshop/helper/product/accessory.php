@@ -108,7 +108,7 @@ class RedshopHelperProductAccessory
 				$commonId          = $prefix . $productId . '_' . $accessory[$a]->accessory_id;
 				$accessoryWrapper .= "<div id='divaccstatus" . $commonId . "' class='accessorystatus'>" . $accessoryWrapperMiddle . "</div>";
 
-				$accessoryProductName = RedshopHelperUtility::limitText(
+				$accessoryProductName = RedshopHelperUtility::maxChars(
 					$accessory[$a]->product_name,
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')

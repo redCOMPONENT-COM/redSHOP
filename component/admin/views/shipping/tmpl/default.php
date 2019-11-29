@@ -18,6 +18,9 @@ $ordering = ($this->lists['order'] == 'ordering');
         <thead>
         <tr>
             <th width="1">#</th>
+            <th width="1">
+				<?php echo JHtml::_('redshopgrid.checkall'); ?>
+            </th>
             <th class="title">
 				<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_SHIPPING_NAME', 'name ', $this->lists['order_Dir'], $this->lists['order']); ?>
             </th>
@@ -56,6 +59,9 @@ $ordering = ($this->lists['order'] == 'ordering');
             <tr class="<?php echo "row$k"; ?>">
                 <td align="center">
 					<?php echo $this->pagination->getRowOffset($i); ?>
+                </td>
+                <td align="center">
+					<?php echo JHtml::_('grid.id', $i, $row->extension_id); ?>
                 </td>
                 <td width="50%">
                     <a href="<?php echo $link; ?>"

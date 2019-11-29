@@ -40,7 +40,7 @@ class RedshopViewSearch extends RedshopView
 			$cntproduct   = $app->input->getInt('cnt', 0);
 			$getredfilter = $session->get('redfilter');
 
-			if (count($getredfilter) == 0)
+			if (empty($getredfilter))
 			{
 				$redfilter = array();
 			}
@@ -339,7 +339,7 @@ class RedshopViewSearch extends RedshopView
 
 				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$pItemid = $ItemData->id;
 				}
@@ -348,7 +348,7 @@ class RedshopViewSearch extends RedshopView
 					$pItemid = RedshopHelperRouter::getItemId($this->search[$i]->product_id, $this->search[$i]->category_id);
 				}
 
-				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $pItemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&cid=' . $this->search[$i]->category_id . '&Itemid=' . $pItemid);
 
 				if (strstr($data_add, '{product_name}'))
 				{
@@ -679,7 +679,7 @@ class RedshopViewSearch extends RedshopView
 				$data_add = RedshopHelperAttribute::replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 				// Cart Template
-				$data_add = Redshop\Cart\Render::replace($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field);
+				$data_add = Redshop\Cart\Render::replace($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $this->search[$i]->total_accessories, $count_no_user_field);
 
 				$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $this->search[$i]->product_id, "1", $data_add);
 

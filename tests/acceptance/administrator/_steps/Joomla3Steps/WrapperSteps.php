@@ -97,4 +97,23 @@ class WrapperSteps extends AdminManagerJoomla3Steps
 		$I->click(\WrapperPage::$buttonDelete);
 		$I->dontSeeElement(['link' => $nameWrapper]);
 	}
+
+	/**
+	 * @param $name
+	 * @param $categoryname
+	 * @param $price
+	 * @throws \Exception
+	 * @since 2.1.2.2
+	 */
+	public function checkWrapperInvalidField($name, $price)
+	{
+		$I = $this;
+		$I->amOnPage(\WrapperPage::$URL);
+		$I->click(\WrapperPage::$buttonNew);
+		$I->fillField(\WrapperPage::$wrapperName, $name);
+		$I->fillField(\WrapperPage::$wrapperPrice, $price);
+		$I->click(\WrapperPage::$buttonSaveClose);
+		$I->seeInPopup(\WrapperPage::$messageCheckInvalidPrice);
+		$I->acceptPopup();
+	}
 }

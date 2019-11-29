@@ -36,6 +36,9 @@ $user  = JFactory::getUser();
 $pagetitle     = JText::_('COM_REDSHOP_MY_WISHLIST');
 $isIndividualAddToCart = (boolean) Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE');
 
+JPluginHelper::importPlugin('redshop_product');
+$dispatcher = RedshopHelperUtility::getDispatcher();
+
 if ($window == 1)
 {
 	?>
@@ -180,6 +183,8 @@ if ($mail == 0)
 			}*/
 			$wishlist_data = str_replace('{product_s_desc}', $row->product_s_desc, $wishlist_data);
 
+			$dispatcher->trigger('onPrepareWishlistProduct', array(&$wishlist_data, $row));
+
 			// Checking for child products start
 			if (strstr($wishlist_data, "{child_products}"))
 			{
@@ -256,7 +261,7 @@ if ($mail == 0)
 
 					$attributes = $producthelper->getProductAttribute($row->product_id);
 
-					$attributes = array_merge($attributes, $wishlist_data);
+					$attributes = array_merge($attributes, /** @scrutinizer ignore-type */ $wishlist_data);
 				}
 				else
 				{
