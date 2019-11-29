@@ -76,7 +76,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		if ($orderDetail === null)
 		{
-			$app->redirect(JUri::root(), JText::_('JERROR_PAGE_NOT_FOUND'), 'error');
+			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 		}
 
 		if ($user->id)
@@ -97,7 +97,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
 				if (empty($authorization))
 				{
-					JError::raiseError(404, JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
+					throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 				}
 			}
 			elseif ((int) $orderDetail->user_id > 0)
@@ -106,7 +106,7 @@ class RedshopViewOrder_Detail extends RedshopView
 			}
 			elseif ((int) $auth['users_info_id'] !== (int) $orderDetail->user_info_id)
 			{
-				JError::raiseError(404, '');
+				throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 			}
 		}
 
