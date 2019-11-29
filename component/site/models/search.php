@@ -394,6 +394,15 @@ class RedshopModelSearch extends RedshopModel
 		$db           = JFactory::getDbo();
 		$conditions   = explode(' ', trim($condition));
 
+		if (!is_array($fields))
+		{
+			$fields = array($fields, 'fds.data_txt');
+		}
+		else
+		{
+			$fields[] = 'fds.data_txt';
+		}
+
 		foreach ((array) $fields as $field)
 		{
 			$glueOneField = array();
@@ -414,7 +423,7 @@ class RedshopModelSearch extends RedshopModel
 			$where[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
 		}
 
-		if (count($where) > 0)
+		if (!empty($where))
 		{
 			return '(' . implode(' ' . $glue . ' ', $where) . ')';
 		}
@@ -422,6 +431,21 @@ class RedshopModelSearch extends RedshopModel
 		{
 			return '1 = 1';
 		}
+	}
+
+	public function getSearchableProductCustomfields()
+	{
+		$db = JFactory::getDbo();
+
+		$subQuery = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('section') . ' = 1') // product section
+			->where($db->qn('type') . ' IN(1,2)') // text input or text area
+			->where($db->qn('is_searchable') . ' = 1');
+
+		return $db->setQuery($subQuery)->loadColumn();
 	}
 
 	/**
@@ -634,6 +658,13 @@ class RedshopModelSearch extends RedshopModel
 		else
 		{
 			$keyword           = $this->getState('keyword');
+
+			$fieldSearchable = $this->getSearchableProductCustomfields();
+			$joinSearchable = !$fieldSearchable ? '' : (' AND ' . $db->qn('fds.fieldid') . ' IN ('
+				. implode(",", $fieldSearchable) . ')');
+			$query->leftJoin($db->qn('#__redshop_fields_data', 'fds') . ' ON p.product_id = fds.itemid'
+				. $joinSearchable);
+
 			$defaultSearchType = $app->input->getCmd('search_type', 'product_name');
 
 			if (!empty($manudata['search_type']))
@@ -641,38 +672,50 @@ class RedshopModelSearch extends RedshopModel
 				$defaultSearchType = $manudata['search_type'];
 			}
 
+			if ($defaultSearchType == "name_number_desc" || $defaultSearchType == "virtual_product_num")
+			{
+				$query->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.product_id = p.product_id')
+					->leftJoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON pap.attribute_id = a.attribute_id')
+					->leftJoin($db->qn('#__redshop_product_subattribute_color', 'ps') . ' ON ps.subattribute_id = pap.property_id');
+			}
+
+			$columnsCondition = array();
+
 			switch ($defaultSearchType)
 			{
 				case 'name_number':
-					$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number'), $keyword));
+					$columnsCondition = array('p.product_name', 'p.product_number');
 					break;
 				case 'name_desc':
-					$query->where($this->getSearchCondition(array('p.product_name', 'p.product_desc', 'p.product_s_desc'), $keyword));
+					$columnsCondition = array('p.product_name', 'p.product_desc', 'p.product_s_desc');
 					break;
 				case 'virtual_product_num':
-					$query->where($this->getSearchCondition(array('pap.property_number', 'ps.subattribute_color_number'), $keyword));
+					$columnsCondition = array('pap.property_number', 'ps.subattribute_color_number');
 					break;
 				case 'name_number_desc':
-					$query->where(
-						$this->getSearchCondition(
-							array(
+					$columnsCondition = array(
 								'p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number',
 								'ps.subattribute_color_number'
-							),
-							$keyword
-						)
 					);
 					break;
 				case 'product_desc':
-					$query->where($this->getSearchCondition(array('p.product_s_desc', 'p.product_desc'), $keyword));
+					$columnsCondition = array('p.product_s_desc', 'p.product_desc');
 					break;
 				case 'product_name':
-					$query->where($this->getSearchCondition('p.product_name', $keyword));
+					$columnsCondition = array('p.product_name');
 					break;
 				case 'product_number':
-					$query->where($this->getSearchCondition('p.product_number', $keyword));
+					$columnsCondition = array('p.product_number');
 					break;
 			}
+
+			if ($input->getString('searchProductByCategoryName') == 'yes')
+			{
+				$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON  pc.category_id = c.id');
+				$columnsCondition[] = 'c.name';
+			}
+
+			$query->where($this->getSearchCondition($columnsCondition, $keyword));
 
 			if ($manufacture_id == 0)
 			{
@@ -680,13 +723,6 @@ class RedshopModelSearch extends RedshopModel
 				{
 					$manufacture_id = $manudata['manufacturer_id'];
 				}
-			}
-
-			if ($defaultSearchType == "name_number_desc" || $defaultSearchType == "virtual_product_num")
-			{
-				$query->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.product_id = p.product_id')
-					->leftJoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON pap.attribute_id = a.attribute_id')
-					->leftJoin($db->qn('#__redshop_product_subattribute_color', 'ps') . ' ON ps.subattribute_id = pap.property_id');
 			}
 
 			$query->where('p.expired = 0');
@@ -705,6 +741,9 @@ class RedshopModelSearch extends RedshopModel
 				$query->where('p.manufacturer_id = ' . (int) $manufacture_id);
 			}
 		}
+
+		JPluginHelper::importPlugin('redshop_product');
+		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, 0));
 
 		return $query;
 	}
@@ -727,12 +766,9 @@ class RedshopModelSearch extends RedshopModel
 
 		// Initialise variables
 		$lstproduct_id = array();
-		$lasttypeid    = 0;
-		$lasttagid     = 0;
-		$productid     = 0;
 		$products      = "";
 
-		if (count($getredfilter) != 0)
+		if (!empty($getredfilter))
 		{
 			$main_sal_sp   = array();
 			$main_sal_type = array();
@@ -890,11 +926,11 @@ class RedshopModelSearch extends RedshopModel
 				}
 
 				$q = "SELECT DISTINCT j.tag_id as tagid ,ra.product_id,count(ra.product_id) as ptotal ,CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name
-			FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
-			LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
-			LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
-			WHERE j.tag_id = t.id
-			AND j.type_id = " . (int) $id . "  ";
+					FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
+					LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
+					LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
+					WHERE j.tag_id = t.id
+					AND j.type_id = " . (int) $id . "  ";
 
 				if ($productids != "")
 				{
@@ -1178,18 +1214,19 @@ class RedshopModelSearch extends RedshopModel
 	public function getajaxData()
 	{
 		JLoader::import('joomla.application.module.helper');
-		$module         = JModuleHelper::getModule('redshop_search');
-		$params         = new JRegistry($module->params);
-		$limit          = $params->get('noofsearchresults');
-		$app            = JFactory::getApplication();
-		$keyword        = $app->input->getString('keyword', '');
-		$search_type    = $app->input->getCmd('search_type', '');
-		$category_id    = $app->input->getInt('category_id', 0);
-		$manufacture_id = $app->input->getInt('manufacture_id', 0);
+		$module                          = JModuleHelper::getModule('redshop_search');
+		$params                          = new JRegistry($module->params);
+		$limit                           = $params->get('noofsearchresults');
+		$app                             = JFactory::getApplication();
+		$keyword                         = $app->input->getString('keyword', '');
+		$search_type                     = $app->input->getCmd('search_type', '');
+		$search_product_by_category_name = $params->get('searchProductByCategoryName');
+		$category_id                     = $app->input->getInt('category_id', 0);
+		$manufacture_id                  = $app->input->getInt('manufacture_id', 0);
 
-		$db             = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('p.product_id AS id, p.product_name AS value')
+			->select('p.product_id AS id, p.product_name AS value, p.cat_in_sefurl')
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'x') . ' ON x.product_id = p.product_id')
 			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON x.category_id = c.id')
@@ -1197,33 +1234,46 @@ class RedshopModelSearch extends RedshopModel
 			->where('p.expired = 0')
 			->group('p.product_id');
 
+		$columnsCondition = array();
+		
 		switch ($search_type)
 		{
 			case 'product_name':
+				$columnsCondition = array('p.product_name');
+				break;
 			case 'product_number':
-				$query->where($this->getSearchCondition('p.' . $search_type, $keyword));
+				$columnsCondition = array('p.product_number');
 				break;
 			case 'name_number':
-				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number'), $keyword));
+				$columnsCondition = array('p.product_name', 'p.product_number');
 				break;
 			case 'product_desc':
-				$query->where($this->getSearchCondition(array('p.product_s_desc', 'p.product_desc'), $keyword));
+				$columnsCondition = array('p.product_s_desc', 'p.product_desc');
 				break;
 			case 'name_desc':
-				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_s_desc', 'p.product_desc'), $keyword));
+				$columnsCondition = array('p.product_name', 'p.product_s_desc', 'p.product_desc');
 				break;
 			case 'virtual_product_num':
-				$query->where($this->getSearchCondition(array('pap.property_number', 'ps.subattribute_color_number'), $keyword));
+				$columnsCondition = array('pap.property_number', 'ps.subattribute_color_number');
 				break;
 			case 'name_number_desc':
-				$query->where(
-					$this->getSearchCondition(
-						array('p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number', 'ps.subattribute_color_number'),
-						$keyword
-					)
-				);
+				$columnsCondition = array('p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc',
+					'pap.property_number', 'ps.subattribute_color_number');
 				break;
 		}
+
+		$fieldSearchable = $this->getSearchableProductCustomfields();
+		$joinSearchable  = !$fieldSearchable ? '' : (' AND ' . $db->qn('fds.fieldid') . ' IN ('
+			. implode(",", $fieldSearchable) . ')');
+		$query->leftJoin($db->qn('#__redshop_fields_data', 'fds') . ' ON p.product_id = fds.itemid'
+			. $joinSearchable);
+
+		if ($search_product_by_category_name == 'yes')
+		{
+			$columnsCondition[] = 'c.name';
+		}
+
+		$query->where($this->getSearchCondition($columnsCondition, $keyword));
 
 		if ($search_type == "name_number_desc" || $search_type == "virtual_product_num")
 		{
@@ -1252,29 +1302,40 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('x.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
 		}
 
+		$pk = array(
+			'keyword' => $keyword
+		);
+
+		JPluginHelper::importPlugin('redshop_product');
+		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
+
 		$data = $db->setQuery($query, 0, $limit)->loadObjectList();
 
 		if ($data)
 		{
 			foreach ($data as &$row)
 			{
-				$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $row->id);
+				if (empty($category_id))
+				{
+					$category_id = (int) $row->cat_in_sefurl;
+				}
 
-				if (count($itemData) > 0)
-				{
-					$pItemid = $itemData->id;
-				}
-				else
-				{
 					$pItemid = RedshopHelperRouter::getItemId($row->id, $category_id);
-				}
 
 				$row->link = JRoute::_(
 					'index.php?option=com_redshop' .
 					'&view=product&pid=' . $row->id .
-					'&cid=' . $category_id .
-					'&Itemid=' . $pItemid
+					'&cid=' . $row->cat_in_sefurl .
+					'&Itemid=' . $pItemid, false
 				);
+
+				//get product image
+				$row->product_image = Redshop\Product\Image\Image::getImage($row->id, $row->link,
+					Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 80), Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 40));
+
+				//get product price
+				$row->product_price = RedshopHelperProductPrice::formattedPrice(Redshop\Product\Price::getPrice($row->id, false, 0));
+
 			}
 		}
 
