@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plugin Redshop_ProductSh404urls
  *
- * @since __DEPLOY_VERSION__
+ * @since 2.1.3
  */
 class PlgRedshop_ProductSh404urls extends JPlugin
 {
@@ -22,7 +22,7 @@ class PlgRedshop_ProductSh404urls extends JPlugin
 	 * @param    object $subject The object to observe
 	 * @param    array  $config  An array that holds the plugin configuration
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    2.1.3
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -35,7 +35,7 @@ class PlgRedshop_ProductSh404urls extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	public function onAfterProductDelete($pids)
 	{
