@@ -58,15 +58,14 @@ class RedshopViewNewsletter extends RedshopView
 
 		$country = $model->getContry();
 
-		$country_data = array_merge($country_option, $country);
-
 		$country_value = $app->input->get('country', '');
 
-		$lists['country'] = JHtml::_('select.genericlist', $country_data, 'country[]',
+		$lists['country'] = JHtml::_('select.genericlist', $country, 'country[]',
 			'class="inputbox" multiple="multiple" size="4" ', 'value', 'text', $country_value
 		);
 
-		$categories          = RedshopHelperCategory::listAll("product_category[]", 0, '', 10, true, true);
+		$selectedCategory    = $app->input->get('product_category', array());
+		$categories          = RedshopHelperCategory::listAll("product_category[]", 0, $selectedCategory, 10, true, true);
 		$lists['categories'] = $categories;
 
 		$product_data = $model->getProduct();
@@ -78,10 +77,9 @@ class RedshopViewNewsletter extends RedshopView
 		$shopper_option   = array();
 		$shopper_option[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
 		$shoppergroup     = $app->input->get('shoppergroups', '');
-		$ShopperGrup      = $model->getShopperGroup();
-		$ShopperGroups    = array_merge($shopper_option, $ShopperGrup);
+		$shoppergroups      = $model->getShopperGroup();
 
-		$lists['shoppergroups'] = JHtml::_('select.genericlist', $ShopperGroups, 'shoppergroups[]',
+		$lists['shoppergroups'] = JHtml::_('select.genericlist', $shoppergroups, 'shoppergroups[]',
 			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $shoppergroup
 		);
 
