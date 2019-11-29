@@ -719,7 +719,7 @@ switch ($view)
 
 		if (!$mid)
 		{
-			$mid = $myparams->get('manufacturer');
+			$mid = $myparams->get('manufacturer') ?? $myparams->get('manufacturerid');
 		}
 
 		if ($mid)
