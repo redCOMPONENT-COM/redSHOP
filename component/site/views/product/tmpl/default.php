@@ -111,6 +111,12 @@ else
 	$template_desc = str_replace('{discount_calculator}', '', $template_desc);
 }
 
+if (Redshop::getConfig()->getInt('COMPARE_PRODUCTS') === 0)
+{
+	$template_desc = str_replace('{compare_products_button}', '', $template_desc);
+	$template_desc = str_replace('{compare_product_div}', '', $template_desc);
+}
+
 $template_desc = str_replace('{component_heading}', $this->escape($this->data->product_name), $template_desc);
 
 if (strstr($template_desc, '{back_link}'))
@@ -163,11 +169,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . $nextproducts->product_name . "" . Redshop::getConfig()->get('DAFULT_NEXT_LINK_SUFFIX') . '</a>';
 		}
-        elseif ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
+		elseif ((int) Redshop::getConfig()->get('DEFAULT_LINK_FIND') === 1)
 		{
 			$nextbutton = '<a href="' . $nextlink . '">' . Redshop::getConfig()->get('CUSTOM_NEXT_LINK_FIND') . '</a>';
 		}
-        elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
+		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
 		{
 			$nextbutton = '<a href="' . $nextlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . Redshop::getConfig()->get('IMAGE_NEXT_LINK_FIND') . '" /></a>';
 		}
@@ -188,11 +194,11 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 		{
 			$prevbutton = '<a href="' . $prevlink . '">' . Redshop::getConfig()->get('DAFULT_PREVIOUS_LINK_PREFIX') . "" . $previousproducts->product_name . '</a>';
 		}
-        elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
+		elseif (Redshop::getConfig()->get('DEFAULT_LINK_FIND') == 1)
 		{
 			$prevbutton = '<a href="' . $prevlink . '">' . Redshop::getConfig()->get('CUSTOM_PREVIOUS_LINK_FIND') . '</a>';
 		}
-        elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
+		elseif (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND')))
 		{
 			$prevbutton = '<a href="' . $prevlink . '"><img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . Redshop::getConfig()->get('IMAGE_PREVIOUS_LINK_FIND') . '" /></a>';
 		}
@@ -847,7 +853,7 @@ $attributeproductStockStatus = null;
 $selectedpropertyId          = 0;
 $selectedsubpropertyId       = 0;
 
-if (count($attributes) > 0 && count($attribute_template) > 0)
+if (!empty($attributes) && !empty($attribute_template))
 {
 	for ($a = 0, $an = count($attributes); $a < $an; $a++)
 	{
@@ -1157,66 +1163,25 @@ if (strstr($template_desc, $mpimg_tag))
 // More videos (youtube)
 if (strstr($template_desc, "{more_videos}"))
 {
-	$media_product_videos = RedshopHelperMedia::getAdditionMediaImage($this->data->product_id, "product", "youtube");
-
-	if (count($attributes) > 0 && count($attribute_template) > 0)
-	{
-		for ($a = 0, $an = count($attributes); $a < $an; $a++)
-		{
-			$selectedId = array();
-			$property   = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id);
-
-			if ($attributes[$a]->text != "" && count($property) > 0)
-			{
-				for ($i = 0, $in = count($property); $i < $in; $i++)
-				{
-					if ($property[$i]->setdefault_selected)
-					{
-						$media_property_videos = RedshopHelperMedia::getAdditionMediaImage($property[$i]->property_id, "property", "youtube");
-						$selectedId[]          = $property[$i]->property_id;
-					}
-				}
-
-				if (count($selectedId) > 0)
-				{
-					$selectedpropertyId = $selectedId[count($selectedId) - 1];
-					$subproperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedpropertyId);
-					$selectedId         = array();
-
-					for ($sp = 0; $sp < count($subproperty); $sp++)
-					{
-						if ($subproperty[$sp]->setdefault_selected)
-						{
-							$media_subproperty_videos = RedshopHelperMedia::getAdditionMediaImage($subproperty[$sp]->subattribute_color_id, "subproperty", "youtube");
-							$selectedId[]             = $subproperty[$sp]->subattribute_color_id;
-						}
-					}
-				}
-			}
-		}
-
-	}
-
-	if (!empty($media_subproperty_videos))
-	{
-		$media_videos = $media_subproperty_videos;
-	}
-    elseif (!empty($media_property_videos))
-	{
-		$media_videos = $media_property_videos;
-	}
-    elseif (!empty($media_product_videos))
-	{
-		$media_videos = $media_product_videos;
-	}
+	$media_youtube = RedshopHelperProduct::getVideosProduct($this->data->product_id, $attributes, $attribute_template, 'youtube');
+	$media_videos = RedshopHelperProduct::getVideosProduct($this->data->product_id, $attributes, $attribute_template, 'video');
 
 	$insertStr = '';
+
+	if (count($media_youtube) > 0)
+	{
+		for ($m = 0, $mn = count($media_youtube); $m < $mn; $m++)
+		{
+			$insertStr .= "<div id='additional_vids_" . $media_youtube[$m]->media_id . "'><a class='modal' title='" . $media_youtube[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_youtube[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_youtube[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+		}
+	}
 
 	if (count($media_videos) > 0)
 	{
 		for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
 		{
-			$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='modal' title='" . $media_videos[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_videos[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+			$videoPath = REDSHOP_FRONT_VIDEO_ABSPATH . $media_videos[$m]->media_section . '/' . $media_videos[$m]->media_name;
+			$insertStr .= '<video width="400" controls autoplay><source src="'. $videoPath .'" type="'. $media_videos[$m]->media_mimetype .'"></video>';
 		}
 	}
 
