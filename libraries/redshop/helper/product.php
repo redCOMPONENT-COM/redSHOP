@@ -696,7 +696,7 @@ class RedshopHelperProduct
 				{
 					$displayrate = ($rate[$i]->rate > 0) ? " (" . RedshopHelperProductPrice::formattedPrice($rate[$i]->rate) . " )" : "";
 					$rateArr[$r] = new stdClass;
-					$rateArr[$r]->text = JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate;
+					$rateArr[$r]->text = strip_tags(JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate);
 					$rateArr[$r]->value = $rate[$i]->value;
 					$r++;
 				}
@@ -715,7 +715,8 @@ class RedshopHelperProduct
 
 		return JHtml::_(
 			'select.genericlist',
-			$rateArr, 'shipping_rate_id',
+			$rateArr,
+			'shipping_rate_id',
 			'class="inputbox" onchange="calculateOfflineShipping();" ',
 			'value',
 			'text',
@@ -1285,5 +1286,76 @@ class RedshopHelperProduct
 		}
 
 		return $results;
+	}
+
+	/**
+	 * Method get videos product
+	 *
+	 * @param   integer  $product_id
+	 * @param   array    $attributes
+	 * @param   object   $attribute_template
+	 * @param   string   $media_type
+	 *
+	 * @return  mixed
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getVideosProduct($product_id, $attributes, $attribute_template, $media_type = 'youtube')
+	{
+		$media_product_videos = RedshopHelperMedia::getAdditionMediaImage($product_id, "product", "$media_type");
+
+		if (count($attributes) > 0 && count($attribute_template) > 0)
+		{
+			for ($a = 0, $an = count($attributes); $a < $an; $a++)
+			{
+				$selectedId = array();
+				$property   = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id);
+
+				if ($attributes[$a]->text != "" && count($property) > 0)
+				{
+					for ($i = 0, $in = count($property); $i < $in; $i++)
+					{
+						if ($property[$i]->setdefault_selected)
+						{
+							$media_property_videos = RedshopHelperMedia::getAdditionMediaImage($property[$i]->property_id, "property", $media_type);
+							$selectedId[]          = $property[$i]->property_id;
+						}
+					}
+
+					if (count($selectedId) > 0)
+					{
+						$selectedpropertyId = $selectedId[count($selectedId) - 1];
+						$subproperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedpropertyId);
+						$selectedId         = array();
+
+						for ($sp = 0, $c = count($subproperty); $sp < $c; $sp++)
+						{
+							if ($subproperty[$sp]->setdefault_selected)
+							{
+								$media_subproperty_videos = RedshopHelperMedia::getAdditionMediaImage($subproperty[$sp]->subattribute_color_id, "subproperty", $media_type);
+								$selectedId[]             = $subproperty[$sp]->subattribute_color_id;
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		$media_videos = array();
+
+		if (!empty($media_subproperty_videos))
+		{
+			$media_videos = $media_subproperty_videos;
+		}
+		elseif (!empty($media_property_videos))
+		{
+			$media_videos = $media_property_videos;
+		}
+		elseif (!empty($media_product_videos))
+		{
+			$media_videos = $media_product_videos;
+		}
+
+		return $media_videos;
 	}
 }

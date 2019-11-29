@@ -44,7 +44,14 @@ class RedshopFormFieldTemplate extends JFormFieldList
 
 		if (null !== $section)
 		{
-			$query->where($db->qn('section') . ' = ' . $db->q($section));
+			$arrSection = explode(',', $section);
+
+			foreach ($arrSection as $value)
+			{
+				$sections[] = "'". $value ."'";
+			}
+
+			$query->where($db->qn('section') . ' IN (' . implode(',', $sections) . ')');
 		}
 
 		$items   = $db->setQuery($query)->loadObjectList();
