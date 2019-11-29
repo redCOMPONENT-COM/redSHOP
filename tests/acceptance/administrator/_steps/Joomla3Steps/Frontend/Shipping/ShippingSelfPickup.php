@@ -7,27 +7,26 @@
  */
 
 namespace Frontend\Shipping;
-use Frontend\payment\CheckoutWithEWAYPayment;
+use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
 
 /**
- * Class ShippingGiaoHangNhanh
+ * Class ShippingSelfPickup
  * @package Frontend\Shipping
  * @since 2.1.3
  */
-class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
+class ShippingSelfPickup extends CheckoutMissingData
 {
 	/**
 	 * @param $categoryName
-	 * @param $productName
+	 * @param $product
 	 * @param $customerInformation
-	 * @param $price
 	 * @param $shipping
-	 * @param $pluginName
+	 * @param $shippingName
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */
-	public function checkoutWithShippingGiaoHangNhanh($categoryName, $productName, $customerInformation, $price, $shipping, $pluginName)
+	public function checkoutWithShippingSelfPickup($categoryName, $product, $customerInformation, $shipping, $shippingName)
 	{
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
@@ -35,27 +34,28 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 60);
-		$I->addToCart($categoryName, $productName);
+		$I->addToCart($categoryName, $product['name']);
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->waitForElementVisible(['link' => $product['name']], 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantity1, 30);
 		$quantity = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
 
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioShippingRate, 30);
 		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
 
 		try
 		{
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingRate);
+			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconSelfPickup);
 		} catch (\Exception $e)
 		{
 			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingRate);
+			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconSelfPickup);
 		}
 
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
@@ -73,17 +73,17 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}
 
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 
-		$total = $price*$quantity + $shipping['shippingRate'];
+		$total = $product['price']*$quantity + $shipping['shippingRate'];
 		$priceTotal = $currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$priceRate = $currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 
-		$I->waitForText($pluginName, 30);
-		$I->see($pluginName);
+		$I->waitForText($shippingName, 30);
+		$I->see($shippingName);
 		$I->see($priceRate);
 		$I->see($priceTotal);
 	}

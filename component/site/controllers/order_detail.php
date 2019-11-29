@@ -353,9 +353,18 @@ class RedshopControllerOrder_Detail extends RedshopController
 	{
 		$app     = JFactory::getApplication();
 		$orderId = $this->input->getInt('order_id');
+		$session = JFactory::getSession();
+		$auth    = $session->get('auth');
 
 		if ($orderId)
 		{
+			if (empty($auth['users_info_id']))
+			{
+				$orderDetail = RedshopEntityOrder::getInstance($orderId)->getItem();
+				$auth['users_info_id'] = $orderDetail->user_info_id;
+				$session->set('auth', $auth);
+			}
+
 			// First Empty Cart and then oder it again
             $cart = array();
 			$cart['idx'] = 0;
@@ -458,4 +467,33 @@ class RedshopControllerOrder_Detail extends RedshopController
 		ob_clean();
 		echo $status;
 	}
+	
+	/**
+	 * Method for generate PDF for order detail .
+	 *
+	 * @return void
+	 */
+	public function printPDF()
+	{
+		$app     = JFactory::getApplication();
+		$orderId = $this->input->get->getInt('oid', 0);
+		
+		if (!$orderId)
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ORDER_DOWNLOAD_ERROR_MISSING_ORDER_ID'), 'error');
+			$this->setRedirect('index.php?option=com_redshop&view=order');
+		}
+		
+		// Check pdf plugins
+		if (!RedshopHelperPdf::isAvailablePdfPlugins())
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ERROR_MISSING_PDF_PLUGIN'), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=order'));
+		}
+		
+		RedshopHelperOrder::generateInvoicePdf($orderId, 'I');
+		
+		$app->close();
+	}
+	
 }
