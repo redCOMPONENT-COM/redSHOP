@@ -27,6 +27,7 @@ $document->addScriptDeclaration(
 
 $enableAjaxsearch       = trim($params->get('enableAjaxsearch', 0));
 $defaultSearchType      = trim($params->get('defaultSearchType', 'product_name'));
+$searchProductByCategoryName = trim($params->get('searchProductByCategoryName'));
 $showSearchTypeField    = trim($params->get('showSearchTypeField'));
 $showSearchField        = trim($params->get('showSearchField'));
 $showCategory           = trim($params->get('showCategory'));
