@@ -126,6 +126,7 @@ class RedshopModelProduct extends RedshopModel
 			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
 			$query->where($db->qn('p.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
+		// Shopper group - choose from manufactures End
 
 		return $query;
 	}
