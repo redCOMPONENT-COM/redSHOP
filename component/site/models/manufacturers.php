@@ -152,7 +152,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$layout = JFactory::getApplication()->input->getCmd('layout');
 		$query  = $this->_buildQuery();
 
-		if ($layout == "products")
+		if ($layout == "detail")
 		{
 			$this->_data = $this->_getList($query);
 		}
