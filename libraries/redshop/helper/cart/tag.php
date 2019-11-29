@@ -170,7 +170,7 @@ class RedshopHelperCartTag
 
 	/**
 	 * @param   string $template      Template
-	 * @param   int    $order         Order data
+	 * @param   object $order         Order data
 	 * @param   int    $quotationMode Quotation mode
 	 *
 	 * @return  string
