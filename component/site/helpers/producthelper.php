@@ -4299,6 +4299,20 @@ class productHelper
 					$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
 				}
 
+				if (strstr($related_template_data, "{relproduct_rating_summary}"))
+				{
+					$final_avgreview_data = Redshop\Product\Rating::getRating($relatedProduct [$r]->product_id);
+
+					if ($final_avgreview_data != "")
+					{
+						$related_template_data = str_replace("{relproduct_rating_summary}", $final_avgreview_data, $related_template_data);
+					}
+					else
+					{
+						$related_template_data = str_replace("{relproduct_rating_summary}", '', $related_template_data);
+					}
+				}
+
 				$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);
 				$related_template_data = str_replace("{relproduct_number}", $relatedProduct [$r]->product_number, $related_template_data);
 				$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);

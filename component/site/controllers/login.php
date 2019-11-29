@@ -84,6 +84,11 @@ class RedshopControllerLogin extends RedshopController
 			if ($item)
 			{
 				$link = $item->link . '&Itemid=' . $returnitemid;
+
+				if ($item->params->get('aliasoptions'))
+				{
+					$link = '/?Itemid=' . $returnitemid;
+				}
 			}
 			else
 			{
