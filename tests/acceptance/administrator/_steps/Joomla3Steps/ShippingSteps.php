@@ -31,9 +31,9 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ShippingPage::$shippingManagementUrl);
 		$usePage = new ShippingPage;
-		$I->waitForElement($usePage->xPathATag($shippingMethod), 30);
+		$I->waitForElementVisible($usePage->xPathATag($shippingMethod), 30);
 		$I->click($usePage->xPathATag($shippingMethod));
-		$I->waitForElement(ShippingPage::$shippingRate, 30);
+		$I->waitForElementVisible(ShippingPage::$shippingRate, 30);
 		$I->click(ShippingPage::$shippingRate);
 		$I->click(ShippingPage::$buttonNew);
 		$I->waitForElement(ShippingPage::$shippingName, 30);
@@ -73,7 +73,10 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 			$I->fillField(ShippingPage::$shippingRateLenghtStart, $shipping['shippingRateLenghtStart']);
 		}
 
-		$I->fillField(ShippingPage::$shippingRateValue, $shipping['shippingRate']);
+		if (isset($shipping['shippingRate']))
+		{
+			$I->fillField(ShippingPage::$shippingRateValue, $shipping['shippingRate']);
+		}
 
 		if (isset($shipping['shippingRateLegnhtEnd']))
 		{
@@ -197,18 +200,24 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		}
 		
 	}
-    /**
-     * @param $shippingName
-     * @param $shippingNameEdit
-     * @param $shippingRate
-     * @param $function
-     * @throws \Exception
-     */
+	/**
+	 * @param $shippingName
+	 * @param $shippingNameEdit
+	 * @param $shippingRate
+	 * @param $function
+	 * @throws \Exception
+	 */
 	public function editShippingRateStandard($shippingName, $shippingNameEdit, $shippingRate, $function)
 	{
 		$I = $this;
 		$I->amOnPage(ShippingPage::$shippingManagementUrl);
-		$I->click(ShippingPage::$standShipping);
+		$I->waitForElementVisible(ShippingPage:: $editShipping, 30);
+		try{
+			$I->click(ShippingPage::$standShipping);
+		}catch (Exception $e)
+		{
+			$I->click(ShippingPage:: $editShipping);
+		}
 		$I->waitForElement(ShippingPage::$shippingRate, 30);
 		$I->click(ShippingPage::$shippingRate);
 		$I->seeLink($shippingName);
@@ -233,11 +242,11 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		}
 
 	}
-    /**
-     * @param $shippingMethod
-     * @param $shippingName
-     * @throws \Exception
-     */
+	/**
+	 * @param $shippingMethod
+	 * @param $shippingName
+	 * @throws \Exception
+	 */
 	public function deleteShippingRate($shippingMethod, $shippingName)
 	{
 		$I = $this;

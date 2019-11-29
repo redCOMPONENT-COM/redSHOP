@@ -79,7 +79,7 @@
         />
         <field
                 name="category_ids"
-                type="Categories"
+                type="redshopcategory"
                 label="COM_REDSHOP_DISCOUNT_PRODUCT_CATEGORY"
                 description="COM_REDSHOP_DISCOUNT_PRODUCT_CATEGORY_DESC"
                 multiple="true"

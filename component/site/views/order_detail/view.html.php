@@ -74,30 +74,39 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		$orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
 
+		if ($orderDetail === null)
+		{
+			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+		}
+
 		if ($user->id)
 		{
-			if ($orderDetail->user_id != $user->id)
+			$rUser = RedshopHelperUser::getUserInformation(0,'', $orderDetail->user_info_id, false, true);
+
+			if ($rUser->user_email != $user->email)
 			{
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false));
 			}
 		}
 		else
 		{
 			if ($encr)
 			{
-				$authorization = $model->checkauthorization($orderId, $encr);
+				// Preform security checks
+				$authorization = $model->checkauthorization($orderId, $encr, false);
 
-				if (!$authorization)
+				if (empty($authorization))
 				{
-					JError::raiseWarning(404, JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
-					echo JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE');
+					throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 				}
 			}
-
-			// Preform security checks
-            elseif (!$user->id && !isset($auth['users_info_id']))
+			elseif ((int) $orderDetail->user_id > 0)
 			{
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false));
+			}
+			elseif ((int) $auth['users_info_id'] !== (int) $orderDetail->user_info_id)
+			{
+				throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 			}
 		}
 
@@ -106,7 +115,7 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		$this->OrdersDetail = $orderDetail;
 		$this->user         = $user;
-		$this->params       = $app->getParams('com_redshop');
+		$this->params       = /** @scrutinizer ignore-call */ $app->getParams('com_redshop');
 
 		parent::display($tpl);
 	}
@@ -121,9 +130,9 @@ class RedshopViewOrder_Detail extends RedshopView
 	public function replaceReorderButton(&$template)
 	{
 		$app     = JFactory::getApplication();
-		$order   = $this->OrdersDetail;
 		$orderId = $app->input->getInt('oid', 0);
 		$print   = $app->input->getInt('print', 0);
+		$order   = RedshopEntityOrder::getInstance($orderId)->getItem();
 
 		if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid')
 		{
