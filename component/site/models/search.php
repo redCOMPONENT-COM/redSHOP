@@ -766,9 +766,6 @@ class RedshopModelSearch extends RedshopModel
 
 		// Initialise variables
 		$lstproduct_id = array();
-		$lasttypeid    = 0;
-		$lasttagid     = 0;
-		$productid     = 0;
 		$products      = "";
 
 		if (!empty($getredfilter))
@@ -929,11 +926,11 @@ class RedshopModelSearch extends RedshopModel
 				}
 
 				$q = "SELECT DISTINCT j.tag_id as tagid ,ra.product_id,count(ra.product_id) as ptotal ,CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name
-			FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
-			LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
-			LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
-			WHERE j.tag_id = t.id
-			AND j.type_id = " . (int) $id . "  ";
+					FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
+					LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
+					LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
+					WHERE j.tag_id = t.id
+					AND j.type_id = " . (int) $id . "  ";
 
 				if ($productids != "")
 				{
@@ -1217,8 +1214,8 @@ class RedshopModelSearch extends RedshopModel
 	public function getajaxData()
 	{
 		JLoader::import('joomla.application.module.helper');
-		$module         = JModuleHelper::getModule('redshop_search');
-		$params         = new JRegistry($module->params);
+		$module                          = JModuleHelper::getModule('redshop_search');
+		$params                          = new JRegistry($module->params);
 		$limit                           = $params->get('noofsearchresults');
 		$app                             = JFactory::getApplication();
 		$keyword                         = $app->input->getString('keyword', '');
