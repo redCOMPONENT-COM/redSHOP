@@ -719,7 +719,7 @@ switch ($view)
 
 		if (!$mid)
 		{
-			$mid = $myparams->get('manufacturer');
+			$mid = $myparams->get('manufacturer') ?? $myparams->get('manufacturerid');
 		}
 
 		if ($mid)
@@ -843,11 +843,13 @@ switch ($view)
 
 		break;
 	default:
-		JPluginHelper::importPlugin('sh404sefextplugins');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeParseLinkSh404sef', array(&$title, $view, $layout, $task, $msg, $requestId));
+		
 		break;
 }
+
+JPluginHelper::importPlugin('sh404sefextplugins');
+$dispatcher = JDispatcher::getInstance();
+$dispatcher->trigger('onBeforeParseLinkSh404sef', array(&$title, $view, $layout, $task, $msg, $requestId));
 
 if ($limitstart)
 {
