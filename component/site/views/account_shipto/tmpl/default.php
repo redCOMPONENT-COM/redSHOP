@@ -20,6 +20,9 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 
 <script type="text/javascript">
 	<?php if ($isEdit == 1) : ?>
+		window.parent.SqueezeBox.options.closeBtn = false;
+		window.parent.SqueezeBox.options.closable = false;
+
 		setTimeout(function(){
 			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid=" . $itemId, false); ?>';
 		}, 2000);
