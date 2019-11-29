@@ -71,21 +71,20 @@ redSHOP.AjaxOrderPaymentStatusCheck = function(){
 };
 
 redSHOP.prepareStateList = function(countryListEle, stateListEle){
-
-	var dataAjax =  {
+	var postData =  {
 		view: 'search',
 		task: 'getStatesAjax',
 		country: countryListEle.val()
 	};
 
 	// Add token field
-	dataAjax[jQuery('input[name=token]').val()] = 1;
+	postData[redSHOP.RSConfig._('AJAX_TOKEN')] = 1;
 
 	jQuery.ajax({
 		url: redSHOP.RSConfig._('AJAX_BASE_URL'),
 		type: 'POST',
 		dataType: 'json',
-		data: dataAjax
+		data: postData
 	})
 	.done(function(data) {
 
