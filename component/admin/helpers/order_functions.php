@@ -475,7 +475,7 @@ class order_functions
 	 * @param   integer $orderItemId Order Item ID
 	 * @param   integer $section     Section ID
 	 *
-	 * @return  object
+	 * @return  object|mixed
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderUserFieldData() instead
 	 */
@@ -616,7 +616,7 @@ class order_functions
 	 *
 	 * @param   string  $shippingname  Shipping name
 	 *
-	 * @return  object
+	 * @return  object|mixed
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getShippingLocationInfo() instead
 	 */

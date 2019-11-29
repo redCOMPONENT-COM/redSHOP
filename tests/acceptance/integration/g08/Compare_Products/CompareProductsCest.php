@@ -2,6 +2,8 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
+use Configuration\ConfigurationSteps;
+
 class CompareProductsCest
 {
 
@@ -43,9 +45,13 @@ class CompareProductsCest
 	 */
 	public function compareProducts(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo("Config Comparison");
+		$I = new ConfigurationSteps($scenario);
+		$I->featureComparisonYes();
+
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategorySteps($scenario);
-		$I->addCategorySave($this->CategoryName);
+		$I->addCategorySaveClose($this->CategoryName);
 
 		$I = new ProductSteps($scenario);
 		$I->wantTo('I Want to add product inside the category');

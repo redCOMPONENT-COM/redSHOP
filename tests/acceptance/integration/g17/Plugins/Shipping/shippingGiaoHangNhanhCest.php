@@ -240,5 +240,8 @@ class shippingGiaoHangNhanhCest
 		$I->wantToTest('Delete Order');
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->deleteOrder($this->customerInformation['firstName']);
+
+		$I->wantTo('Disable Plugin');
+		$I->disablePlugin($this->pluginName);
 	}
 }
