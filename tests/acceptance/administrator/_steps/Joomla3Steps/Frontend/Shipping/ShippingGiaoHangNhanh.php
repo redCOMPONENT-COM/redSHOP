@@ -39,6 +39,9 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantity1, 30);
+		$quantity = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
+
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
@@ -74,7 +77,7 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
-		$quantity = $I->grabValueFrom(FrontEndProductManagerJoomla3Page::$quantityOrderReceipt);
+
 		$total = $price*$quantity + $shipping['shippingRate'];
 		$priceTotal = $currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$priceRate = $currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
