@@ -162,36 +162,29 @@ class ExtraFields
 			case \RedshopHelperExtrafields::TYPE_CHECK_BOX:
 			case \RedshopHelperExtrafields::TYPE_RADIO_BUTTON:
 			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_MULTIPLE:
-				$fieldValues = \RedshopEntityField::getInstance($field->id)->getFieldValues();
-				$checkData   = explode(',', $fieldValue->data_txt);
-				$htmlData    = array();
+				$displayValue = \RedshopHelperExtrafields::getDisplayFieldData('', 'select', $field->id, $fieldValue->data_txt);
 
-				foreach ($fieldValues as $value)
-				{
-					if (!in_array(urlencode($value->field_value), $checkData) && !in_array($value->field_value, $checkData))
-					{
-						continue;
-					}
+				break;
 
-					$htmlData[] = urldecode($value->field_value);
-				}
-
-				$displayValue = \RedshopLayoutHelper::render(
-					'extrafields.display.select',
-					array(
-						'data' => $htmlData
-					)
-				);
+			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
+				$displayValue = \RedshopHelperExtrafields::getDisplayFieldData('', 'text', $field->id, $fieldValue->data_txt);
 
 				break;
 
 			case \RedshopHelperExtrafields::TYPE_SELECT_COUNTRY_BOX:
 				if (!empty($fieldValue->data_txt))
 				{
-					$displayValue = \RedshopLayoutHelper::render(
-						'extrafields.display.country',
-						array('data' => (int) $fieldValue->data_txt)
-					);
+					$displayValue = \RedshopHelperExtrafields::getDisplayFieldData((int) $fieldValue->data_txt, 'country');
+				}
+
+				break;
+
+			case \RedshopHelperExtrafields::TYPE_JOOMLA_RELATED_ARTICLES:
+				if (!empty($fieldValue->data_txt))
+				{
+					$data = \RedshopHelperExtrafields::getArticleJoomlaById($fieldValue->data_txt);
+
+					$displayValue = \RedshopHelperExtrafields::getDisplayFieldData($data, 'article');
 				}
 
 				break;
@@ -278,7 +271,6 @@ class ExtraFields
 			case \RedshopHelperExtrafields::TYPE_TEXT:
 			case \RedshopHelperExtrafields::TYPE_WYSIWYG:
 			case \RedshopHelperExtrafields::TYPE_DATE_PICKER:
-			case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
 			default:
 				$displayValue = \RedshopLayoutHelper::render(
 					'extrafields.display.text',
