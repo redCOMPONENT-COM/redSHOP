@@ -58,6 +58,7 @@ $returnitemid = $params->get('login', $Itemid);
 
 	<input type="hidden" name="task" id="task" value="setlogin">
 	<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo $app->input->getString('wishlist'); ?>">
+	<input type="hidden" name="product_id" id="product_id" value="<?php echo $app->input->getString('product_id'); ?>">
 	<input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
 	<input type="hidden" name="option" id="option" value="com_redshop"/>
 </form>

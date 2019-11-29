@@ -232,6 +232,7 @@ $editor = JEditor::getInstance();
 					}
 					?>
 					<?php echo $this->form->renderField('display_in_product') ?>
+					<?php echo $this->form->renderField('is_searchable') ?>
 					<?php echo $this->form->renderField('display_in_checkout') ?>
 					<?php echo $this->form->renderField('show_in_front') ?>
 					<?php echo $this->form->renderField('required') ?>
