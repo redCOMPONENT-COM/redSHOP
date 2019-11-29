@@ -104,7 +104,7 @@ class OrderDiscountAndSpecialDiscountCest
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public $zipcode;
+	public $zipCode;
 
 	/**
 	 * @var string
@@ -147,7 +147,7 @@ class OrderDiscountAndSpecialDiscountCest
 		$this->productName = $this->faker->bothify('Product Name ?##?');;
 		$this->categoryName = $this->faker->bothify('Category Name ?##?');
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = 1000;
+		$this->randomProductPrice = '1000';
 		//User
 		$this->userName = $this->faker->bothify('ManagerUser ?##?');
 		$this->password = $this->faker->bothify('123456');
@@ -158,16 +158,17 @@ class OrderDiscountAndSpecialDiscountCest
 		$this->lastName = "LastName";
 		//Orders
 		$this->address = '449 Tran Hung Dao';
-		$this->zipcode = '5000';
+		$this->zipCode = '5000';
 		$this->city = 'Ho Chi Minh';
 		$this->phone = '0126541687';
 		$this->quantity = '1';
-		$this->discountUpdate = '20';
-		$this->specialUpdate = '20';
+		$this->discountUpdate = '10';
+		$this->specialUpdate = '10';
 	}
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
 	 * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
@@ -178,7 +179,8 @@ class OrderDiscountAndSpecialDiscountCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
-	 * @since 2.1.3
+	 * @throws Exception
+	 * @since 2.1.2
 	 */
 	public function updateDiscountAndSpecialDiscount(AcceptanceTester $I, $scenario)
 	{
@@ -193,7 +195,7 @@ class OrderDiscountAndSpecialDiscountCest
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName);
 		$I->wantTo('I want create order and update discount and special discount');
 		$I = new OrderUpdateDiscountAndSpecialDiscountSteps($scenario);
-		$I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->address, $this->zipcode, $this->city, $this->phone, $this->discountUpdate, $this->specialUpdate, $this->randomProductPrice);
+		$I->updateDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->address, $this->zipCode, $this->city, $this->phone, $this->discountUpdate, $this->specialUpdate, $this->randomProductPrice);
 
 		//Detele data
 		$I->wantTo('Delete product');

@@ -123,6 +123,18 @@
             <option value="0">JNO</option>
         </field>
         <field
+                name="is_searchable"
+                type="redshop.radio"
+                label-class="radio-inline"
+                default="0"
+                label="COM_REDSHOP_CUSTOM_FIELD_IS_SEARCHABLE_LBL"
+                description="COM_REDSHOP_CUSTOM_FIELD_IS_SEARCHABLE_DESC"
+                showon="section:1[AND]type:1,2"
+                table-hide="1">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
                 name="display_in_checkout"
                 type="redshop.radio"
                 label-class="radio-inline"

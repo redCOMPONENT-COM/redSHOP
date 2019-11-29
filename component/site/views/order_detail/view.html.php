@@ -74,6 +74,11 @@ class RedshopViewOrder_Detail extends RedshopView
 
 		$orderDetail = RedshopHelperOrder::getOrderDetails($orderId);
 
+		if ($orderDetail === null)
+		{
+			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+		}
+
 		if ($user->id)
 		{
 			$rUser = RedshopHelperUser::getUserInformation(0,'', $orderDetail->user_info_id, false, true);
@@ -87,19 +92,21 @@ class RedshopViewOrder_Detail extends RedshopView
 		{
 			if ($encr)
 			{
+				// Preform security checks
 				$authorization = $model->checkauthorization($orderId, $encr, false);
 
 				if (empty($authorization))
 				{
-					JError::raiseWarning(404, JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
-					$app->redirect(JRoute::_('index.php'));
+					throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 				}
 			}
-
-			// Preform security checks
-            elseif (!$user->id && !isset($auth['users_info_id']))
+			elseif ((int) $orderDetail->user_id > 0)
 			{
-				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid')));
+				$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $app->input->getInt('Itemid'), false));
+			}
+			elseif ((int) $auth['users_info_id'] !== (int) $orderDetail->user_info_id)
+			{
+				throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 			}
 		}
 
