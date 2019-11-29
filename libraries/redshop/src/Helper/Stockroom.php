@@ -115,7 +115,7 @@ class Stockroom
 			$product = \RedshopProduct::getInstance($productId);
 			$db    = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('SUM (quantity)')
+				->select('SUM(quantity)')
 				->from($db->qn('#__redshop_product_stockroom_xref'))
 				->where($db->qn('product_id') . ' = ' . $db->quote($productId));
 
