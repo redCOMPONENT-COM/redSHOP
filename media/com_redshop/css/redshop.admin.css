@@ -27308,3 +27308,12 @@ body.modal-open {
 .select2-disabled {
     color: #999;
 }
+
+.images-rating {
+    list-style: none;
+}
+
+.images-rating .item-image-rating {
+    width: 150px;
+    padding-bottom: 10px;
+}

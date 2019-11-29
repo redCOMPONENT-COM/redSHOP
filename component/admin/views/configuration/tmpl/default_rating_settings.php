@@ -29,6 +29,25 @@ echo RedshopLayoutHelper::render(
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
+		'title' => JText::_('COM_REDSHOP_RATING_THUMB_IMAGE_WITH_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_RATING_THUMB_IMAGE_WITH_DESC'),
+		'field' => '<input type="number" name="rating_thumb_image_with" id="rating_thumb_image_with"'
+			. ' class="form-control" value="' . $this->config->get('RATING_THUMB_IMAGE_WITH') . '" />'
+	)
+);
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_RATING_THUMB_IMAGE_HEIGHT_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_RATING_THUMB_IMAGE_HEIGHT_DESC'),
+		'field' => '<input type="number" name="rating_thumb_image_height" id="rating_thumb_image_height"'
+			. ' class="form-control" value="' . $this->config->get('RATING_THUMB_IMAGE_HEIGHT') . '" />'
+	)
+);
+
+echo RedshopLayoutHelper::render(
+	'config.config',
+	array(
 		'title' => JText::_('COM_REDSHOP_RATING_REVIEW_LOGIN_REQUIRED_LBL'),
 		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_RATING_REVIEW_LOGIN_REQUIRED_LBL'),
 		'line'  => false,
