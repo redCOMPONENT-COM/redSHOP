@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Model
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.3
  */
 class RedshopModelZipcode extends RedshopModelForm
 {
@@ -24,7 +24,7 @@ class RedshopModelZipcode extends RedshopModelForm
 	 * @param   array  $data data
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 * @throws  Exception
 	 */
 	public function save($data)
