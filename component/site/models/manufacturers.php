@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -152,7 +152,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$layout = JFactory::getApplication()->input->getCmd('layout');
 		$query  = $this->_buildQuery();
 
-		if ($layout == "products")
+		if ($layout == "detail")
 		{
 			$this->_data = $this->_getList($query);
 		}
@@ -293,7 +293,7 @@ class RedshopModelManufacturers extends RedshopModel
 		$app        = JFactory::getApplication();
 		$menu       = $app->getMenu();
 		$active     = $menu->getActive();
-		$itemId     = $active->id;
+		$itemId     = isset($active->id) ? $active->id : null;
 		$menuParams = $menu->getParams($itemId);
 		$cid        = $menuParams->get('cid');
 
@@ -335,7 +335,7 @@ class RedshopModelManufacturers extends RedshopModel
 			->where($db->qn('p.expired') . ' = 0')
 			->where($db->qn('p.product_parent_id') . ' = 0');
 
-		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
+		if (!empty($plg_manufacturer) && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
 		{
 			$excluding_category_list = explode(',', $tblobj->excluding_category_list);
 

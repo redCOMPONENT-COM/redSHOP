@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_search
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,23 +25,24 @@ $document->addScriptDeclaration(
 	"var base_url = '" . JUri::root() . "';"
 );
 
-$enableAjaxsearch       = trim($params->get('enableAjaxsearch', 0));
-$defaultSearchType      = trim($params->get('defaultSearchType', 'product_name'));
-$showSearchTypeField    = trim($params->get('showSearchTypeField'));
-$showSearchField        = trim($params->get('showSearchField'));
-$showCategory           = trim($params->get('showCategory'));
-$showManufacturer       = trim($params->get('showManufacturer'));
-$showProductSearchTitle = trim($params->get('showProductsearchtitle'));
-$showKeywordTitle       = trim($params->get('showKeywordtitle'));
-$standardKeyword        = trim($params->get('stdsearchtext'));
-$templateId             = trim($params->get('templateid'));
-$productPerpage         = trim($params->get('productperpage'));
-$modSearchItemid        = trim($params->get('modsearchitemid', ''));
-$productFields          = $params->get('product_fields', array());
-$showCustomfield        = trim($params->get('showCustomfield', ''));
-$excludeCategories      = implode(',', $params->get('excludeCategories', array()));
-$javaFun                = "";
-$itemId                 = RedshopHelperRouter::getItemId();
+$enableAjaxsearch            = trim($params->get('enableAjaxsearch', 0));
+$defaultSearchType           = trim($params->get('defaultSearchType', 'product_name'));
+$searchProductByCategoryName = trim($params->get('searchProductByCategoryName'));
+$showSearchTypeField         = trim($params->get('showSearchTypeField'));
+$showSearchField             = trim($params->get('showSearchField'));
+$showCategory                = trim($params->get('showCategory'));
+$showManufacturer            = trim($params->get('showManufacturer'));
+$showProductSearchTitle      = trim($params->get('showProductsearchtitle'));
+$showKeywordTitle            = trim($params->get('showKeywordtitle'));
+$standardKeyword             = trim($params->get('stdsearchtext'));
+$templateId                  = trim($params->get('templateid'));
+$productPerpage              = trim($params->get('productperpage'));
+$modSearchItemid             = trim($params->get('modsearchitemid', ''));
+$productFields               = $params->get('product_fields', array());
+$showCustomfield             = trim($params->get('showCustomfield', ''));
+$excludeCategories           = implode(',', $params->get('excludeCategories', array()));
+$javaFun                     = "";
+$itemId                      = RedshopHelperRouter::getItemId();
 
 $categoryData     = ModRedshopSearch::getCategories();
 $manufacturerData = ModRedshopSearch::getManufacturers();

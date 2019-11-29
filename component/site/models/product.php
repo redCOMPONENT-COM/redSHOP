@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -126,12 +126,7 @@ class RedshopModelProduct extends RedshopModel
 			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
 			$query->where($db->qn('p.manufacturer_id') . ' IN (' . $shopperGroupManufactures . ')');
 		}
-
 		// Shopper group - choose from manufactures End
-		if (isset($this->_catid) && $this->_catid != 0)
-		{
-			$query->where($db->qn('pcx.category_id') . ' = ' . $db->q((int) $this->_catid));
-		}
 
 		return $query;
 	}
@@ -224,14 +219,14 @@ class RedshopModelProduct extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -300,7 +295,7 @@ class RedshopModelProduct extends RedshopModel
 		$query = "SELECT pt.*,ptx.product_id,ptx.users_id "
 			. "FROM " . $this->_table_prefix . "product_tags AS pt "
 			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
-			. "WHERE pt.tags_name LIKE " . $this->_db->quote($tagname) . " ";
+			. "WHERE pt.tags_name LIKE " . /** @scrutinizer ignore-type */ $this->_db->quote($tagname) . " ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -322,14 +317,14 @@ class RedshopModelProduct extends RedshopModel
 
 		if (!$tags->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$tags->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -343,14 +338,14 @@ class RedshopModelProduct extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -475,7 +470,7 @@ class RedshopModelProduct extends RedshopModel
 		$user  = JFactory::getUser();
 		$query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM " . $this->_table_prefix . "product_tags AS pt "
 			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
-			. "WHERE pt.tags_name LIKE " . $this->_db->quote($tagname) . " "
+			. "WHERE pt.tags_name LIKE " . /** @scrutinizer ignore-type */ $this->_db->quote($tagname) . " "
 			. "AND ptx.product_id = " . (int) $productid . " "
 			. "AND ptx.users_id = " . (int) $user->id;
 		$this->_db->setQuery($query);
@@ -578,28 +573,29 @@ class RedshopModelProduct extends RedshopModel
 		return $GLOBALS['childproductlist'];
 	}
 
-	public function addNotifystock($product_id, $property_id, $subproperty_id)
+	public function addNotifystock($product_id, $property_id, $subproperty_id, $email_not_login = null)
 	{
 		ob_clean();
-		$user                   = JFactory::getUser();
-		$user_id                = $user->id;
-		$data                   = array();
-		$data['product_id']     = $product_id;
-		$data['property_id']    = $property_id;
-		$data['subproperty_id'] = $subproperty_id;
-		$data['user_id']        = $user_id;
-		$row                    = $this->getTable('notifystock_user');
+		$user                    = JFactory::getUser();
+		$user_id                 = $user->id;
+		$data                    = array();
+		$data['product_id']      = $product_id;
+		$data['property_id']     = $property_id;
+		$data['subproperty_id']  = $subproperty_id;
+		$data['user_id']         = $user_id;
+		$data['email_not_login'] = $email_not_login;
+		$row                     = $this->getTable('notifystock_user');
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}

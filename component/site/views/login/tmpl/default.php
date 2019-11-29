@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,6 +58,7 @@ $returnitemid = $params->get('login', $Itemid);
 
 	<input type="hidden" name="task" id="task" value="setlogin">
 	<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo $app->input->getString('wishlist'); ?>">
+	<input type="hidden" name="product_id" id="product_id" value="<?php echo $app->input->getString('product_id'); ?>">
 	<input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
 	<input type="hidden" name="option" id="option" value="com_redshop"/>
 </form>

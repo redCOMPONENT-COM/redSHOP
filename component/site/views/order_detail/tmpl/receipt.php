@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,6 +17,7 @@ $configobj       = Redconfiguration::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
+$document        = JFactory::getDocument();
 
 $app      = JFactory::getApplication();
 $db       = JFactory::getDbo();
@@ -28,6 +29,7 @@ $order_id = $app->input->getInt('oid');
 $model = $this->getModel('order_detail');
 
 $order = $this->OrdersDetail;
+$document->setTitle(JText::_('COM_REDSHOP_ORDER_RECEIPT_TITLE'));
 ?>
 <?php
 if ($this->params->get('show_page_title', 1))
@@ -76,7 +78,7 @@ if ($print)
 }
 else
 {
-	$print_url = $url . "index.php?option=com_redshop&view=order_detail&layout=receipt&oid=" . $order_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
+	$print_url = $url . "index.php?option=com_redshop&task=order_detail.printPDF&oid=" . $order_id ;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 

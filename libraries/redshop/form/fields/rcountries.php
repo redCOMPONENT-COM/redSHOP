@@ -29,13 +29,11 @@ class JFormFieldRcountries extends JFormFieldList
 	/**
 	 * Method to get the field input markup for a generic list.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  array  The field input markup.
 	 */
 	public function getOptions()
 	{
-		$options = array();
-
-		$db = JFactory::getDBO();
+		$db    = JFactory::getDBO();
 		$query = $db->getQuery(true)
 			->select($db->qn('id', 'value'))
 			->select($db->qn('country_name', 'text'))

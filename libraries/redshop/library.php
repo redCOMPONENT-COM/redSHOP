@@ -4,7 +4,7 @@
  * Including this file into your application will make redSHOP available to use.
  *
  * @package    RedShopb.Library
- * @copyright  Copyright (C) 2012 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -30,6 +30,11 @@ define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . '/components/com_redshop/ass
 define('REDSHOP_FRONT_IMAGES_RELPATH_PRODUCT', REDSHOP_FRONT_IMAGES_RELPATH . 'product/');
 define('REDSHOP_FRONT_DOCUMENT_ABSPATH', JUri::root() . 'components/com_redshop/assets/document/');
 define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/document/');
+
+// Video
+define('REDSHOP_FRONT_VIDEO_ABSPATH', JUri::root() . 'components/com_redshop/assets/video/');
+define('REDSHOP_FRONT_VIDEO_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/video/');
+
 
 define('REDSHOP_MEDIA_IMAGE_RELPATH', JPATH_ROOT . '/media/com_redshop/images/');
 define('REDSHOP_MEDIA_IMAGE_ABSPATH', JUri::root() . 'media/com_redshop/images/');

@@ -3,7 +3,7 @@
  * @package     Redshop
  * @subpackage  Libraries
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -129,6 +129,9 @@ abstract class AbstractView extends \JViewLegacy
 		// Add toolbar
 		$this->addToolbar();
 
+		\JPluginHelper::importPlugin('system');
+		\RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminBeforeRender', array(&$render));
+
 		$render = \RedshopLayoutHelper::render(
 			$this->componentLayout,
 			array(
@@ -139,7 +142,6 @@ abstract class AbstractView extends \JViewLegacy
 			)
 		);
 
-		\JPluginHelper::importPlugin('system');
 		\RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
 
 		if ($render instanceof \Exception)

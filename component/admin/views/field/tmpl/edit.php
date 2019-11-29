@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -160,9 +160,6 @@ $editor = JEditor::getInstance();
             // You can stack multiple messages of the same type
             var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED") ?>'];
             Joomla.renderMessages({"notice": jmsgs});
-
-            // Hide button
-            jQuery("#toolbar-apply,#toolbar-save").hide();
         }
         else {
             jQuery("#system-message-container > .alert-notice").remove();
@@ -212,7 +209,9 @@ $editor = JEditor::getInstance();
                     <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_DETAIL') ?></h3>
                 </div>
                 <div class="box-body">
+                    <?php if ($this->item->id) $this->form->setFieldAttribute('type', 'disabled', 'disabled')?>
 					<?php echo $this->form->renderField('type') ?>
+                    <?php if ($this->item->id) $this->form->setFieldAttribute('section', 'disabled', 'disabled') ?>
 					<?php echo $this->form->renderField('section') ?>
 					<?php echo $this->form->renderField('groupId') ?>
 					<?php echo $this->form->renderField('name') ?>
@@ -233,6 +232,7 @@ $editor = JEditor::getInstance();
 					}
 					?>
 					<?php echo $this->form->renderField('display_in_product') ?>
+					<?php echo $this->form->renderField('is_searchable') ?>
 					<?php echo $this->form->renderField('display_in_checkout') ?>
 					<?php echo $this->form->renderField('show_in_front') ?>
 					<?php echo $this->form->renderField('required') ?>
@@ -356,3 +356,8 @@ $editor = JEditor::getInstance();
     <input type="hidden" value="<?php echo $k; ?>" name="total_extra" id="total_extra">
     <input type="hidden" name="task" value=""/>
 </form>
+<style type="text/css">
+    .select2-container-disabled {
+        opacity: 0.5;
+    }
+</style>

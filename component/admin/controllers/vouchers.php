@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,5 +34,29 @@ class RedshopControllerVouchers extends RedshopControllerAdmin
 		$model = parent::getModel($name, $prefix, $config);
 
 		return $model;
+	}
+
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
+	public function ajaxInlineEdit()
+	{
+		$editData = $this->input->get('jform_inline', array(), 'ARRAY');
+		$app = JFactory::getApplication();
+
+		foreach ($editData as $data)
+		{
+			if (!empty($data['amount']) && $data['amount'] <= 0)
+			{
+				echo 0;
+				$app->close();
+			}
+		}
+
+		parent::ajaxInlineEdit();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -34,8 +34,10 @@ $thumbUrl = RedshopHelperMedia::getImagePath(
 			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_TOOLTIP_MUST_HAVE_A_NAME', true ); ?>");
 		} else if (form.stock_option.value == 0) {
 			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_OPTION_MUST_HAVE_VALUE', true ); ?>");
-		} else if (form.stock_quantity.value == "" || isNaN(form.stock_quantity.value)) {
+		} else if (form.stock_quantity.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_QUANTITY_MUST_HAVE_VALUE', true ); ?>");
+		} else if (isNaN(form.stock_quantity.value) || form.stock_quantity.value < 0) {
+			alert("<?php echo JText::_('COM_REDSHOP_STOCKIMAGE_QUANTITY_INVALID_INPUT_MSG', true ); ?>");
 		} else {
 			submitform(pressbutton);
 		}

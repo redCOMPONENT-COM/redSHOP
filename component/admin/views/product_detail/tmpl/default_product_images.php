@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -39,34 +39,6 @@ defined('_JEXEC') or die;
 							'displayid' => 'thumb_image_display',
 							'type'      => 'product',
 							'image'     => $this->detail->product_thumb_image
-						)
-					);
-					?>
-				</div>
-
-				<div class="form-group">
-					<label for="product_back_full_image">
-						<?php echo JText::_('COM_REDSHOP_PRODUCT_BACK_IMAGE'); ?>
-						<?php
-						echo JHtml::tooltip(
-							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_BACK_IMAGE'),
-							JText::_('COM_REDSHOP_PRODUCT_BACK_IMAGE'),
-							'tooltip.png',
-							'',
-							'',
-							false
-						);
-						?>
-					</label>
-					<?php
-					echo RedshopLayoutHelper::render(
-						'component.image',
-						array(
-							'id'        => 'product_back_full_image',
-							'deleteid'  => 'back_image_delete',
-							'displayid' => 'back_image_display',
-							'type'      => 'product',
-							'image'     => $this->detail->product_back_full_image
 						)
 					);
 					?>

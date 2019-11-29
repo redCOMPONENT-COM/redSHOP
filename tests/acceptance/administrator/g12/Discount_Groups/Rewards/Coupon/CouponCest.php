@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,12 +29,46 @@ class CouponCest extends AbstractCest
 	public $nameField = 'code';
 
 	/**
+	 * @var array
+	 * @since 2.1.3
+	 */
+	protected $couponInfo = array();
+
+	/**
+	 * @var
+	 * @since 2.1.3
+	 */
+	protected $startDate;
+
+	/**
+	 * @var
+	 * @since 2.1.3
+	 */
+	protected $endDate;
+
+	/**
+	 * @var
+	 * @since 2.1.3
+	 */
+	protected $type;
+
+	/**
 	 * Method for set new data.
 	 *
 	 * @return  array
 	 */
 	protected function prepareNewData()
 	{
+		$this->startDate = date('Y-m-d');
+		$this->endDate = date('Y-m-d', strtotime('-2 day', strtotime($this->startDate)));
+		$this->type = '0';
+		$this->couponInfo = array(
+			'code' => $this->faker->bothify('Coupon Code ?##?'),
+			'type' => 'Total',
+			'value' => '110',
+			'amount_left' => '10'
+		);
+
 		return array(
 			'code'        => $this->faker->bothify('Coupon Code ?##?'),
 			'type'        => 'Total',
@@ -99,5 +133,15 @@ class CouponCest extends AbstractCest
 			'effect'      => 'Global',
 			'amount_left' => '10'
 		);
+	}
+
+	/**
+	 * @param CouponSteps $tester
+	 * @since 2.1.3
+	 */
+	public function afterTestItemCreate(CouponSteps $tester)
+	{
+		$tester->wantTo('I want to check create coupon with Start Date larger than End Date');
+		$tester->checkStartDateLargerThanEndDate($this->couponInfo, $this->type, $this->startDate, $this->endDate);
 	}
 }

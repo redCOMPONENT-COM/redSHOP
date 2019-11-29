@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -108,7 +108,7 @@ class RedshopHelperProductAccessory
 				$commonId          = $prefix . $productId . '_' . $accessory[$a]->accessory_id;
 				$accessoryWrapper .= "<div id='divaccstatus" . $commonId . "' class='accessorystatus'>" . $accessoryWrapperMiddle . "</div>";
 
-				$accessoryProductName = RedshopHelperUtility::limitText(
+				$accessoryProductName = RedshopHelperUtility::maxChars(
 					$accessory[$a]->product_name,
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')

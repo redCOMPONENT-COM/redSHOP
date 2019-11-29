@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -319,7 +319,9 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			$query  = $db->getQuery(true)
 				->select($db->qn('name'))
 				->from($db->qn('#__redshop_fields'))
-				->where($db->qn('section') . ' = 1');
+				->where($db->qn('section') . ' = 1')
+				->where($db->qn('published') . ' = 1');
+
 			$result = $db->setQuery($query)->loadColumn();
 
 			if (!empty($result))
@@ -407,6 +409,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				->leftJoin($db->qn('#__redshop_fields_data', 'd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('d.fieldid'))
 				->where($db->qn('f.section') . ' = ' . RedshopHelperExtrafields::SECTION_PRODUCT)
 				->where($db->qn('d.itemid') . ' IN (' . implode(',', $productIds) . ')')
+				->where($db->qn('published') . ' = 1')
 				->order($db->qn('f.id') . ' ASC');
 
 			$fieldResults = $db->setQuery($query)->loadObjectList();
@@ -432,7 +435,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		{
 			$item          = (array) $item;
 			$attributeRows = array();
-
+			$item['product_s_desc'] = htmlentities($item['product_s_desc']);
+			$item['product_desc'] = htmlentities($item['product_desc']);
 			// Stockroom process
 			if (!empty($stockrooms))
 			{
@@ -731,37 +735,34 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 			$newItem = array_merge($newItem, $result);
 
-			foreach ($newItem as $key => $value)
+			// Property image
+			if (!empty($newItem['property_image']))
 			{
-				// Property image
-				if (!empty($newItem['property_image']))
-				{
-					$newItem['property_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $newItem['property_image'];
-				}
+				$newItem['property_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $newItem['property_image'];
+			}
 
-				// Property main image
-				if (!empty($newItem['property_main_image']))
-				{
-					$newItem['property_main_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['property_main_image'];
-				}
+			// Property main image
+			if (!empty($newItem['property_main_image']))
+			{
+				$newItem['property_main_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['property_main_image'];
+			}
 
-				// Property Media Image
-				if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'property'))
-				{
-					$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['media_name'];
-				}
+			// Property Media Image
+			if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'property'))
+			{
+				$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['media_name'];
+			}
 
-				// Sub-attribute image
-				if (!empty($newItem['subattribute_color_image']))
-				{
-					$newItem['subattribute_color_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $newItem['subattribute_color_image'];
-				}
+			// Sub-attribute image
+			if (!empty($newItem['subattribute_color_image']))
+			{
+				$newItem['subattribute_color_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $newItem['subattribute_color_image'];
+			}
 
-				// Property Media Image
-				if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'subproperty'))
-				{
-					$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subproperty/' . $newItem['media_name'];
-				}
+			// Property Media Image
+			if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'subproperty'))
+			{
+				$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subproperty/' . $newItem['media_name'];
 			}
 
 			$attributes[] = $newItem;

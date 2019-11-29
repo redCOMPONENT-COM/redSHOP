@@ -3,7 +3,7 @@
  * @package     RedSHOP.sh404sef
  * @subpackage  sef_ext sh404sef
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -78,6 +78,7 @@ $remove         = isset($remove) ? @$remove : null;
 $Treeid         = isset($Treeid) ? @$Treeid : null;
 $print          = isset($print) ? @$print : null;
 $protalid       = isset($protalid) ? @$protalid : 0;
+$requestId       = isset($requestId) ? @$requestId : 0;
 
 // Get variables for pagination in category
 $category_template = isset($category_template) ? @$category_template : null;
@@ -718,7 +719,7 @@ switch ($view)
 
 		if (!$mid)
 		{
-			$mid = $myparams->get('manufacturer');
+			$mid = $myparams->get('manufacturer') ?? $myparams->get('manufacturerid');
 		}
 
 		if ($mid)
@@ -789,6 +790,7 @@ switch ($view)
 			shRemoveFromGETVarsList('view');
 			shRemoveFromGETVarsList('mid');
 		}
+		break;
 
 	case 'newsletter':
 
@@ -840,7 +842,14 @@ switch ($view)
 		}
 
 		break;
+	default:
+		
+		break;
 }
+
+JPluginHelper::importPlugin('sh404sefextplugins');
+$dispatcher = JDispatcher::getInstance();
+$dispatcher->trigger('onBeforeParseLinkSh404sef', array(&$title, $view, $layout, $task, $msg, $requestId));
 
 if ($limitstart)
 {
@@ -855,7 +864,7 @@ if ($limitstart)
 // ------------------  standard plugin finalize function - don't change ---------------------------
 if ($dosef)
 {
-	$string = shFinalizePlugin(
+	$string = /** @scrutinizer ignore-call */ shFinalizePlugin(
 		$string, $title, $shAppendString, $shItemidString, (isset($limit) ? $limit : null),
 		(isset($limitstart) ? $limitstart : null), (isset($shLangName) ? $shLangName : null),
 		(isset($showall) ? $showall : null), $suppressPagination = true

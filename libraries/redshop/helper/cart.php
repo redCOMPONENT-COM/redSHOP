@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -184,7 +184,7 @@ abstract class RedshopHelperCart
 			for ($i = 0; $i < $idx; $i++)
 			{
 				/** @var RedshopTableUsercart_Item $userCartItem */
-				$userCartItem = RedshopTable::getAdminInstance('Usercart_Item', array(), 'RedshopTable');
+				$userCartItem = RedshopTable::getInstance('Usercart_Item', 'RedshopTable');
 
 				$userCartItem->cart_idx   = $i;
 				$userCartItem->cart_id    = $cartId;
@@ -233,7 +233,7 @@ abstract class RedshopHelperCart
 				foreach ($cartAccessories as $cartAccessory)
 				{
 					/** @var RedshopTableUsercart_Accessory_Item $userCartItemAccessory */
-					$userCartItemAccessory               = RedshopTable::getAdminInstance('Usercart_Accessory_Item', array(), 'RedshopTable');
+					$userCartItemAccessory               = RedshopTable::getInstance('Usercart_Accessory_Item', 'RedshopTable');
 					$userCartItemAccessory->accessory_id = $cartAccessory['accessory_id'];
 
 					// Store product quantity as accessory quantity.
@@ -291,7 +291,7 @@ abstract class RedshopHelperCart
 			foreach ($attributes as $attribute)
 			{
 				/** @var RedshopTableUsercart_Attribute_Item $table */
-				$table = RedshopTable::getAdminInstance('Usercart_Attribute_Item', array(), 'RedshopTable');
+				$table = RedshopTable::getInstance('Usercart_Attribute_Item', 'RedshopTable');
 
 				$table->cart_item_id      = $cartItemId;
 				$table->section_id        = $attribute['attribute_id'];
@@ -309,7 +309,7 @@ abstract class RedshopHelperCart
 				foreach ($attributeChildren as $attributeChild)
 				{
 					/** @var RedshopTableUsercart_Attribute_Item $itemTable */
-					$itemTable = RedshopTable::getAdminInstance('Usercart_Attribute_Item', array(), 'RedshopTable');
+					$itemTable = RedshopTable::getInstance('Usercart_Attribute_Item', 'RedshopTable');
 
 					$itemTable->cart_item_id      = $cartItemId;
 					$itemTable->section_id        = $attributeChild['property_id'];
@@ -330,7 +330,7 @@ abstract class RedshopHelperCart
 					foreach ($attributeChild['property_childs'] as $property)
 					{
 						/** @var RedshopTableUsercart_Attribute_Item $propertyTable */
-						$propertyTable = RedshopTable::getAdminInstance('usercart_attribute_item', array(), 'RedshopTable');
+						$propertyTable = RedshopTable::getInstance('usercart_attribute_item', 'RedshopTable');
 
 						$propertyTable->section_id        = $property['subproperty_id'];
 						$propertyTable->section           = 'subproperty';

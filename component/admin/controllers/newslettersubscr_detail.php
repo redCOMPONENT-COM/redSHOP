@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -115,100 +115,5 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 	{
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
-	}
-
-	public function export_data()
-	{
-		$model = $this->getModel('newslettersubscr_detail');
-
-		try
-		{
-			ob_end_clean();
-		}
-		catch (Exception $exception)
-		{
-			JFactory::getApplication()->enqueueMessage($exception->getMessage(), 'error');
-		}
-
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-type: text/x-csv");
-		header("Content-type: t1ext/csv");
-		header("Content-type: application/csv");
-		header('Content-Disposition: attachment; filename=NewsletterSbsc.csv');
-
-		echo "subscription_id,subscriber_full_name,newsletter,email_id\n";
-		$data = $model->getnewslettersbsc();
-
-		for ($i = 0, $in = count($data); $i < $in; $i++)
-		{
-			$subname = $model->getuserfullname($data[$i]->user_id);
-
-			echo $data[$i]->subscription_id . ",";
-
-			if ($data[$i]->user_id != 0)
-			{
-				echo utf8_decode($subname->firstname) . " " . utf8_decode($subname->lastname);
-			}
-			else
-			{
-				echo utf8_decode($data[$i]->subscribername);
-			}
-
-			echo ",";
-			echo $data[$i]->name . ",";
-
-			if ($data[$i]->user_id != 0)
-			{
-				echo $subname->email . ",";
-			}
-			else
-			{
-				echo $data[$i]->email . ",";
-			}
-
-			echo "\n";
-		}
-
-		JFactory::getApplication()->close();
-	}
-
-	public function export_acy_data()
-	{
-		ob_clean();
-
-		/** @var RedshopModelNewslettersubscr_detail $model */
-		$model = $this->getModel('newslettersubscr_detail');
-		$cid   = $this->input->post->get('cid', array(), 'array');
-		$data  = $model->getnewslettersbsc($cid);
-
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-type: text/x-csv");
-		header("Content-type: text/csv");
-		header("Content-type: application/csv");
-		header('Content-Disposition: attachment; filename=import_to_acyba.csv');
-
-		echo '"email","name","enabled"';
-		echo "\n";
-
-		for ($i = 0, $in = count($data); $i < $in; $i++)
-		{
-			echo '"' . $data[$i]->email . '","';
-
-			if ($data[$i]->user_id != 0)
-			{
-				$subname = RedshopHelperOrder::getUserFullName($data[$i]->user_id);
-				echo $subname;
-			}
-			else
-			{
-				echo $data[$i]->subscribername;
-			}
-
-			echo '","';
-			echo $data[$i]->published . '"';
-			echo "\n";
-		}
-
-		JFactory::getApplication()->close();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -24,7 +24,7 @@ $url = $uri->root();
 			return;
 		}
 
-		if (form.sample_name.value == 1) {
+		if (form.sample_name.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_ENTER_SAMPLE_NAME', true ); ?>");
 			return false;
 		}

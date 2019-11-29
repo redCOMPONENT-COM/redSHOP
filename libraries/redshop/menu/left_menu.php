@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -225,7 +225,7 @@ class RedshopMenuLeft_Menu
 				return array('CUSTOMIZATION', 'state');
 
 			case "zipcode":
-			case "zipcode_detail":
+			case "zipcodes":
 				return array('CUSTOMIZATION', 'zipcode');
 
 			case "importexport":
@@ -713,7 +713,7 @@ class RedshopMenuLeft_Menu
 				self::$view === 'states'
 			)
 			->addItem(
-				'index.php?option=com_redshop&view=zipcode',
+				'index.php?option=com_redshop&view=zipcodes',
 				'COM_REDSHOP_ZIPCODE_LISTING',
 				self::$view === 'zipcode'
 			)

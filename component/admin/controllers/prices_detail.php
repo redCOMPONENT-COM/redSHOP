@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 class RedshopControllerPrices_detail extends RedshopController
 {
+	use \Redshop\Model\Traits\HasDateTimeRange;
+
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
@@ -45,24 +47,19 @@ class RedshopControllerPrices_detail extends RedshopController
 	 */
 	public function save($apply = 0)
 	{
-		$post = $this->input->post->getArray();
-
-		$productId          = $this->input->getInt('product_id');
-		$priceQuantityStart = $this->input->getInt('price_quantity_start');
-		$priceQuantityEnd   = $this->input->getInt('price_quantity_end');
-
+		$post                     = $this->input->post->getArray();
+		$type                     = 'error';
+		$productId                = $this->input->getInt('product_id');
 		$post['product_currency'] = Redshop::getConfig()->get('CURRENCY_CODE');
 		$post['cdate']            = time();
+		$cid                      = $this->input->post->get('cid', array(0), 'array');
+		$post ['price_id']        = $cid [0];
 
-		$cid               = $this->input->post->get('cid', array(0), 'array');
-		$post ['price_id'] = $cid [0];
+		$this->handleDateTimeRange($post['discount_start_date'], $post['discount_end_date']);
 
-		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
-
-		if ($post['discount_end_date'])
-		{
-			$post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
-		}
+		// Store current post to user state
+		$context = "com_redshop.edit.product_price";
+		JFactory::getApplication()->setUserState($context . '.data', json_encode($post));
 
 		/** @var RedshopModelPrices_detail $model */
 		$model = $this->getModel('prices_detail');
@@ -71,23 +68,26 @@ class RedshopControllerPrices_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_QUNTITY_DETAIL');
 
-		if ($priceQuantityStart == 0 && $priceQuantityEnd == 0 && $row)
+		if ($row)
 		{
-			$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
+			$type = '';
+			$msg  = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
+			JFactory::getApplication()->setUserState($context . '.data', array());
+			$post ['price_id'] = $row->price_id;
 		}
-		elseif (($priceQuantityStart < $priceQuantityEnd) && $row)
+		elseif ($post['discount_start_date'] > $post['discount_end_date'])
 		{
-			$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
+			$msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE');
 		}
 
 		if ($apply == 0)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg, $type);
 
 			return;
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $productId . '&cid[]=' . $row->price_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $productId . '&cid[]=' . $post ['price_id'], $msg, $type);
 	}
 
 	public function remove()
@@ -105,7 +105,7 @@ class RedshopControllerPrices_detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */  $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY');
@@ -116,7 +116,9 @@ class RedshopControllerPrices_detail extends RedshopController
 	{
 		$productId = $this->input->get('product_id');
 
-		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
+		$msg     = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
+		$context = "com_redshop.edit.product_price";
+		JFactory::getApplication()->setUserState($context . '.data', null);
 		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $productId, $msg);
 	}
 }

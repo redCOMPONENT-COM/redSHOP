@@ -101,7 +101,7 @@ gulp.task('release:plugin', function (cb) {
     }
     else {
         try {
-            fs.statSync('../extensions/plugins/' + plgGroup + '/' + plgName);
+            fs.statSync('./plugins/' + plgGroup + '/' + plgName);
         }
         catch (e) {
             console.error("Folder not exist: " + basePath + '/' + plgGroup + '/' + plgName);

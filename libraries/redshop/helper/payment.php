@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -508,7 +508,10 @@ class RedshopHelperPayment
 			return array($finalAmount, 0);
 		}
 
-		$discount    = $total < $discount ? $total : $discount;
+        if ($payment->payment_oprand == '-')
+        {
+            $discount = $total < $discount ? $total : $discount;
+        }
 		$finalAmount = $payment->payment_oprand == '+' ? $finalAmount + $discount : $finalAmount - $discount;
 
 		return array($finalAmount, $discount);

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -173,7 +173,7 @@ class RedshopControllerCategory extends RedshopControllerForm
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($validData))
+		if (!$model->/** @scrutinizer ignore-call */ saveCategory($validData))
 		{
 			// Save the data in the session.
 			$app->setUserState($context . '.data', $validData);

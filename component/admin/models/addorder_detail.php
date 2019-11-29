@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -239,11 +239,12 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		$postdata['barcode'] = $barcode_code;
 
+		/** @var Tableorder_detail $row */
 		$row = $this->getTable('order_detail');
 
 		if (!$row->bind($postdata))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -255,7 +256,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -341,7 +342,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if (!$rowitem->bind($postdata))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -389,7 +390,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if (!$rowitem->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -433,7 +434,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -472,7 +473,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -508,7 +509,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 								{
 									if (!$rowattitem->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 										return false;
 									}
@@ -542,7 +543,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					{
 						if (!$rowaccitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 							return false;
 						}
@@ -572,7 +573,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 					{
 						if (!$rowattitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 							return false;
 						}
@@ -609,7 +610,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -646,7 +647,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -673,7 +674,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$rowpayment->bind($postdata))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -686,7 +687,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$rowpayment->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -698,7 +699,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$orderuserrow->bind($userrow))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -708,7 +709,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$orderuserrow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -725,7 +726,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$orderuserrow->bind($userrow))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -735,7 +736,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 		if (!$orderuserrow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -840,21 +841,21 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$lists['state_code_ST'] = $states['state_dropdown'];
 
 		$html = '<table class="adminlist" border="0" width="100%">';
-		$html .= '<tr><td width="100" align="right">' . JText::_('FIRSTNAME') . ':</td>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_FIRSTNAME') . ':</td>';
 		$html .= '<td><input class="inputbox" type="text" name="firstname_ST" maxlength="250" value="' . $shipping->firstname . '" /></td></tr>';
-		$html .= '<tr><td width="100" align="right">' . JText::_('LASTNAME') . ':</td>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_LASTNAME') . ':</td>';
 		$html .= '<td><input class="inputbox" type="text" name="lastname_ST" maxlength="250" value="' . $shipping->lastname . '" /></td></tr>';
-		$html .= '<tr><td width="100" align="right">' . JText::_('ADDRESS') . ':</td>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_ADDRESS') . ':</td>';
 		$html .= '<td><input class="inputbox" type="text" name="address_ST" maxlength="250" value="' . $shipping->address . '" /></td></tr>';
-		$html .= '<tr><td width="100" align="right">' . JText::_('ZIP') . ':</td>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_ZIP') . ':</td>';
 		$html .= '<td><input class="inputbox" type="text" name="zipcode_ST" maxlength="250" value="' . $shipping->zipcode . '" /></td></tr>';
-		$html .= '<tr><td width="100" align="right">' . JText::_('CITY') . ':</td>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_CITY') . ':</td>';
 		$html .= '<td><input class="inputbox" type="text" name="city_ST" maxlength="250" value="' . $shipping->city . '" /></td></tr>';
-		$html .= '<tr><td width="100" align="right">' . JText::_('COUNTRY') . ':</td>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_COUNTRY') . ':</td>';
 		$html .= '<td>' . $lists['country_code_ST'] . '</td></tr>';
-		$html .= '<tr><td width="100" align="right">' . JText::_('STATE') . ':</td>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_STATE') . ':</td>';
 		$html .= '<td>' . $lists['state_code_ST'] . '</td></tr>';
-		$html .= '<tr><td width="100" align="right">' . JText::_('PHONE') . ':</td>';
+		$html .= '<tr><td width="100" align="right">' . JText::_('COM_REDSHOP_PHONE') . ':</td>';
 		$html .= '<td><input class="inputbox" type="text" name="phone_ST" maxlength="250" value="' . $shipping->phone . '" /></td></tr>';
 		$html .= '<tr><td colspan="2"><div id="exCustomerFieldST" ' . $allowCustomer . '>' . $lists['shipping_customer_field'] . '</div>';
 		$html .= '<div id="exCompanyFieldST" ' . $allowCompany . '>' . $lists['shipping_company_field'] . '</div></td></tr>';

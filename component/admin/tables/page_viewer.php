@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,4 +24,11 @@ class RedshopTablePage_Viewer extends RedshopTable
 	 * @var  string
 	 */
 	protected $_tableName = 'redshop_pageviewer';
+
+	/**
+	 * Format for audit date fields (created_date, modified_date)
+	 *
+	 * @var  string
+	 */
+	protected $_auditDateFormat = 'U';
 }

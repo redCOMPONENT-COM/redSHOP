@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -194,8 +194,9 @@ class RedshopHelperProductPrice
 			$productPrice    = RedshopHelperCurrency::convert($productPrice);
 			$productCurrency = $session->get('product_currency');
 			$currencySymbol  = (int) $productCurrency;
-			$currencySymbol  = !$currencySymbol ?
-				$productCurrency : RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
+			$currencySymbol  = !$currencySymbol
+				? $productCurrency
+				: RedshopEntityCurrency::getInstance((int) $productCurrency)->get('code');
 		}
 
 		if (!is_numeric($productPrice))
@@ -206,15 +207,6 @@ class RedshopHelperProductPrice
 		// Prepare currency symbol
 		$position = Redshop::getConfig()->getString('CURRENCY_SYMBOL_POSITION', 'front');
 
-		if ($position === 'behind')
-		{
-			$currencySymbol = ' <span class="product-currency-symbol">' . (string) $currencySymbol . '</span>';
-		}
-		else
-		{
-			$currencySymbol = '<span class="product-currency-symbol">' . (string) $currencySymbol . '</span> ';
-		}
-
 		$priceDecimal      = (int) Redshop::getConfig()->get('PRICE_DECIMAL');
 		$priceSeparator    = Redshop::getConfig()->get('PRICE_SEPERATOR');
 		$thousandSeparator = Redshop::getConfig()->get('THOUSAND_SEPERATOR', '');
@@ -224,14 +216,14 @@ class RedshopHelperProductPrice
 		switch ($position)
 		{
 			case 'behind':
-				return $productPrice . $currencySymbol;
+				return $productPrice . ' <span class="product-currency-symbol">' . $currencySymbol . '</span>';
 
 			case 'none':
 				return $productPrice;
 
 			case 'front':
 			default:
-				return $currencySymbol . $productPrice;
+				return '<span class="product-currency-symbol">' . $currencySymbol . '</span> ' . $productPrice;
 		}
 	}
 
@@ -347,6 +339,10 @@ class RedshopHelperProductPrice
 		if (Redshop::getConfig()->getBool('SHOW_PRICE'))
 		{
 			$priceExcludingVat        = $priceText;
+			if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
+			{
+				$row->product_on_sale = 0;
+			}
 			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);
 			$oldPriceExcludeVat       = $productPriceExcludingVat;
 

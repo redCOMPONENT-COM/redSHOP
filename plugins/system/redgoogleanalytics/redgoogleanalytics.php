@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -110,7 +110,8 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 			'order_total'    => $orderDetail->order_total,
 			'order_tax'      => $orderDetail->order_tax,
 			'order_shipping' => $orderDetail->order_shipping,
-			'city'           => $billingAddress->city
+			'city'           => $billingAddress->city,
+			'currency'       => \Redshop::getConfig()->get('CURRENCY_CODE')
 		);
 
 		if (isset($billingAddress->country_code))
@@ -153,7 +154,8 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 				'product_name'     => $orderItem->order_item_name,
 				'product_category' => $categoryName,
 				'product_price'    => $orderItem->product_item_price,
-				'product_quantity' => $orderItem->product_quantity
+				'product_quantity' => $orderItem->product_quantity,
+				'currency'         => \Redshop::getConfig()->get('CURRENCY_CODE')
 			);
 		}
 

@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,7 +72,7 @@ class Helper
 	{
 		$userId          = !$userId ? \JFactory::getUser()->id : $userId;
 		$userInformation = $userId ? \RedshopHelperUser::getUserInformation($userId) : new \stdClass;
-		$userInformation = ($userInformation === new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
+		$userInformation = ($userInformation == new \stdClass) ? \Redshop\Helper\ShopperGroup::getDefault() : $userInformation;
 
 		if (!empty($userInformation)
 			&& isset($userInformation->show_price_without_vat)
@@ -270,7 +270,7 @@ class Helper
 				$ajaxDetailData = $defaultAjaxDetailData;
 			}
 
-			if (!empty($ajaxDetailData) && !empty($ajaxDetailData->template_desc))
+			if (!empty($ajaxDetailData) && empty($ajaxDetailData->template_desc))
 			{
 				$ajaxDetailData->template_desc = '<div id="ajax-cart"><div id="ajax-cart-attr">'
 					. '{attribute_template:attributes}</div><div id="ajax-cart-access">{accessory_template:accessory}'

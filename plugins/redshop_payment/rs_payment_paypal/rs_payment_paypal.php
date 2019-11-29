@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,8 +52,10 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		$status         = $request['payment_status'];
 		$tid            = $request['txn_id'];
 		$pending_reason = $request['pending_reason'];
+		$paymentCurrency = $this->params->get("currency", Redshop::getConfig()->get('CURRENCY_CODE'));
+		$orderTotal      = RedshopHelperCurrency::convert($request['mc_gross'], '', $paymentCurrency);
 		$values         = new stdClass;
-		$key = array($order_id, (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
+		$key = array($order_id, $orderTotal, (int) $this->params->get("sandbox"), $this->params->get("merchant_email"));
 		$key = md5(implode('|', $key));
 
 		if (($status == 'Completed' || $pending_reason == 'authorization') && $request['key'] == $key)
@@ -67,8 +69,9 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
-			$values->msg = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+			$values->log  = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+			$values->msg  = JText::_('PLG_RS_PAYMENT_PAYPAL_NOT_PLACED');
+			$values->type = 'error';
 		}
 
 		$values->transaction_id = $tid;

@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -932,7 +932,7 @@ class Render
 			$cartForm = str_replace(
 				$cartTag,
 				'<span class="stockaddtocart" id="stockaddtocart' . $stockId . '" ' . $stockStyle
-				. ' class="stock_addtocart">' . $displayText . '</span>' . $cartIconPreorder . $cartIcon,
+				. '>' . $displayText . '</span>' . $cartIconPreorder . $cartIcon,
 				$cartForm
 			);
 

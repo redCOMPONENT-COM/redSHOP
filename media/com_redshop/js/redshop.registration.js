@@ -75,7 +75,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 ean_number: {
                     required: function () {
-                        return rs("#toggler2").is(":checked") && rs("#ean_number") && rs("#ean_number").val() != '';
+                        return rs("#toggler2").is(":checked") && rs("#ean_number").length > 0;
                     },
                     minlength: 13,
                     maxlength: 13,
@@ -88,7 +88,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 email2: {
                     required: true,
-                    equalTo: "#email1"
+                    equalTo: "[name=email1]:visible"
                 },
                 password1: {
                     required: function () {

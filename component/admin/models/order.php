@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -214,6 +214,13 @@ class RedshopModelOrder extends RedshopModel
 		$filterOrderDir = $this->getState('list.direction');
 		$filterOrder    = $this->getState('list.ordering');
 		$query->order($db->escape($filterOrder . ' ' . $filterOrderDir));
+
+		// Get the dispatcher and load the users plugins.
+		$dispatcher = JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop');
+
+		// Trigger the data preparation event.
+		$dispatcher->trigger('onBuildQueryGetOrderList', array(&$query));
 
 		return $query;
 	}

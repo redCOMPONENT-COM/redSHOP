@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,6 +27,8 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 
 	public function display($tpl = null)
 	{
+		$lang = JFactory::getLanguage();
+		$lang->load('com_content', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 		$db = JFactory::getDbo();
 
 		$document = JFactory::getDocument();
@@ -474,8 +476,9 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 							jQuery(\"#" . $state_list_name . "\").trigger(\"liszt:updated\");
 		  				}
 				 	}
+				 	var element = document.querySelector('#default-vat-state-wrapper > .col-md-8');
 				 	writeDynaList( 'class=\"form-control\" name=\"default_vat_state\" size=\"1\" id=\"default_vat_state\"',
-				 	states, originalPos, originalPos, $selected_state_code );
+				 	states, originalPos, originalPos, $selected_state_code, element);
 					//-->
 					//]]></script>";
 		$lists['default_vat_state'] = $script;

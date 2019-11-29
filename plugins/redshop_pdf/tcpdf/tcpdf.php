@@ -3,7 +3,7 @@
  * @package     Redshopb.Plugin
  * @subpackage  redshop_pdf
  *
- * @copyright   Copyright (C) 2012 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -163,6 +163,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
 		$this->tcpdf->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_INVOICE_TITLE', $orderId));
 		$this->settingTCPDF();
+		$this->convertImagesPath($pdfHtml);
 		$this->tcpdf->writeHTML($pdfHtml);
 
 		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/';
@@ -229,6 +230,12 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 			$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 			$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 			$message = Template::replaceTemplate($ordersDetail, $message, true);
+			$this->convertImagesPath($message);
+
+			if (end($orderIds) != $orderId)
+			{
+				$message = $message . '<br pagebreak="true"/>';
+			}
 
 			$this->tcpdf->WriteHTML($message, true, false, true, false, '');
 		}
@@ -328,7 +335,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	 * @param   object $orderData Order detail
 	 * @param   string $pdfHtml   Html template of PDF
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.0.0
 	 */
@@ -378,5 +385,21 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$this->settingTCPDF(10, 12);
 		$this->tcpdf->WriteHTML($pdfHtml);
 		$this->tcpdf->Output('Order_' . $orderData->order_id . ".pdf", "D");
+	}
+
+	public function convertImagesPath(&$template)
+	{
+		preg_match_all('/(src)=\s*[\'"]?(\S*\.(?:jpe?g|png|svg))[\'"]*?/i', $template, $images);
+
+		if (empty($images[2]))
+		{
+			return false;
+		}
+
+		foreach ($images[2] as $image)
+		{
+			$imageReplace = str_replace(JUri::root(), JPATH_ROOT . '/', $image);
+			$template     = str_replace($image, $imageReplace, $template);
+		}
 	}
 }

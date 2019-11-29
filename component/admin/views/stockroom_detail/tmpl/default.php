@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,6 +21,11 @@ $date   = JFactory::getDate();
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
 			return;
+		} else if (pressbutton == 'apply' || pressbutton == 'save') {
+			if (parseInt(form.min_del_time.value) > parseInt(form.max_del_time.value)) {
+				alert("<?php echo JText::_('COM_REDSHOP_STOCKROOM_MIN_MAX_DELIVERY_TIME_COMPARISON_ALERT', true ); ?>");
+				return false;
+			}
 		}
 
 		if (form.stockroom_name.value == "") {
@@ -32,7 +37,7 @@ $date   = JFactory::getDate();
 
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm"
-      id="adminForm">
+	  id="adminForm">
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
@@ -47,7 +52,7 @@ $date   = JFactory::getDate();
 					</td>
 					<td>
 						<input class="text_area" type="text" name="stockroom_name" id="stockroom_name" size="32"
-						       maxlength="250" value="<?php echo $this->detail->stockroom_name; ?>"/>
+							   maxlength="250" value="<?php echo $this->detail->stockroom_name; ?>"/>
 					</td>
 				</tr>
 
@@ -58,8 +63,8 @@ $date   = JFactory::getDate();
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="min_stock_amount" id="min_stock_amount" size="32"
-						       maxlength="250" value="<?php echo $this->detail->min_stock_amount; ?>"/>
+						<input class="text_area" type="number" name="min_stock_amount" id="min_stock_amount" size="32" min="0"
+							   maxlength="250" oninput="validity.valid || (value='');" value="<?php echo $this->detail->min_stock_amount; ?>"/>
 					</td>
 				</tr>
 				<tr>
@@ -89,8 +94,9 @@ $date   = JFactory::getDate();
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="min_del_time" id="min_del_time"
-						       value="<?php echo $this->detail->min_del_time; ?>" size="32" maxlength="250"/>
+						<input class="text_area" type="number" name="min_del_time" id="min_del_time" min="0"
+							   value="<?php echo $this->detail->min_del_time; ?>" size="32" maxlength="250"
+							   oninput="validity.valid || (value='');"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_DELIVERY_TIME'), JText::_('COM_REDSHOP_MINIMUM_DELIVERY_TIME'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
@@ -101,8 +107,9 @@ $date   = JFactory::getDate();
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="max_del_time" id="max_del_time"
-						       value="<?php echo $this->detail->max_del_time; ?>" size="32" maxlength="250"/>
+						<input class="text_area" type="number" name="max_del_time" id="max_del_time" min="0"
+							   value="<?php echo $this->detail->max_del_time; ?>" size="32" maxlength="250"
+							   oninput="validity.valid || (value='');"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_DELIVERY_TIME'), JText::_('COM_REDSHOP_MAXIMUM_DELIVERY_TIME'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>

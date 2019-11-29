@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_cart
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,18 +79,30 @@ JFactory::getDocument()->addStyleDeclaration(
 </div>
 
 <script type="text/javascript">
-	function deleteCartItem(idx)
-	{
-		jQuery.ajax({
-			type: "POST",
-			data: {
-				idx: idx,
-				"<?php echo $token ?>": "1"
-			},
-			url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>",
-			success: function(data) {
-				jQuery('#mod_cart_total').html(data);
-			}
-		});
-	}
+    function deleteCartItem(idx)
+    {
+        jQuery.ajax({
+            type: "POST",
+            data: {
+                "idx": idx,
+                "<?php echo $token ?>": "1"
+            },
+            url: "<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>",
+            success: function(data) {
+                responce = data.split("`");
+
+                if (jQuery('#mod_cart_total') && responce[1]) {
+                    jQuery('#mod_cart_total').html(responce[1]);
+                }
+		    
+                if (jQuery('#rs_promote_free_shipping_div') && responce[2]) {
+                    jQuery('#rs_promote_free_shipping_div').html(responce[2]);
+                }
+		    
+                if (jQuery('#mod_cart_checkout_ajax')) {
+                    jQuery('#mod_cart_checkout_ajax').css("display", "inline-block");
+                }
+            }
+        });
+    }
 </script>

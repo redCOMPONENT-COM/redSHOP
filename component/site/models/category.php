@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -394,6 +394,8 @@ class RedshopModelCategory extends RedshopModel
 			$query->where($finderCondition);
 		}
 
+		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query, $categories));
+
 		// First steep get product ids
 		if ($minmax != 0 || $isSlider)
 		{
@@ -403,8 +405,6 @@ class RedshopModelCategory extends RedshopModel
 		{
 			$db->setQuery($query, $limitstart, $endlimit);
 		}
-
-		RedshopHelperUtility::getDispatcher()->trigger('onQueryCategoryProduct', array(&$query));
 
 		$productFilters = $this->getState('filterform');
 
@@ -416,7 +416,7 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		$queryCount = clone $query;
-		$queryCount->clear('select')->clear('group')
+		$queryCount->clear('select')->clear('group')->clear('limit')
 			->select('COUNT(DISTINCT(p.product_id))');
 
 		$this->_product = array();
@@ -854,7 +854,7 @@ class RedshopModelCategory extends RedshopModel
 				$this->_is_filter_enable = true;
 			}
 
-			$tag = '';
+			$tag = array();
 
 			for ($f = 0, $fn = count($rs_filters); $f < $fn; $f++)
 			{
@@ -874,54 +874,51 @@ class RedshopModelCategory extends RedshopModel
 
 			if ($tag)
 			{
-				if (is_array($tag))
+				if (count($tag) > 1 || $tag[0] != 0)
 				{
-					if (count($tag) > 1 || $tag[0] != 0)
+					$finder_query = "SELECT product_id FROM #__redproductfinder_associations AS a,#__redproductfinder_association_tag AS at ";
+					$finder_where = array();
+
+					if (count($tag) > 1)
 					{
-						$finder_query = "SELECT product_id FROM #__redproductfinder_associations AS a,#__redproductfinder_association_tag AS at ";
-						$finder_where = array();
+						$i = 1;
 
-						if (count($tag) > 1)
+						for ($t = 1, $tn = count($tag); $t < $tn; $t++)
 						{
-							$i = 1;
-
-							for ($t = 1, $tn = count($tag); $t < $tn; $t++)
-							{
-								$finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
-								$finder_where[] = " at" . $t . ".tag_id = " . (int) $tag[$t] . " ";
-								$i++;
-							}
+							$finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
+							$finder_where[] = " at" . $t . ".tag_id = " . (int) $tag[$t] . " ";
+							$i++;
 						}
-
-						$finder_query .= " WHERE a.id = at.association_id AND at.tag_id = " . (int) $tag[0] . " ";
-						$finder_where_str = "";
-
-						if (!empty($finder_where))
-						{
-							$finder_where_str = " AND " . implode(" AND ", $finder_where);
-						}
-
-						$finder_query .= $finder_where_str;
-						$this->_db->setQuery($finder_query);
-						$rs              = $this->_db->loadColumn();
-						$finder_products = "";
-
-						if (!empty($rs))
-						{
-							// Sanitise ids
-							$rs = Joomla\Utilities\ArrayHelper::toInteger($rs);
-
-							$finder_products = implode("','", $rs);
-						}
-
-						$finder_condition        = " AND p.product_id IN('" . $finder_products . "')";
-						$this->_is_filter_enable = true;
 					}
 
-					if (count($tag) == 1 && $tag[0] == 0)
+					$finder_query .= " WHERE a.id = at.association_id AND at.tag_id = " . (int) $tag[0] . " ";
+					$finder_where_str = "";
+
+					if (!empty($finder_where))
 					{
-						$finder_condition = "";
+						$finder_where_str = " AND " . implode(" AND ", $finder_where);
 					}
+
+					$finder_query .= $finder_where_str;
+					$this->_db->setQuery($finder_query);
+					$rs              = $this->_db->loadColumn();
+					$finder_products = "";
+
+					if (!empty($rs))
+					{
+						// Sanitise ids
+						$rs = Joomla\Utilities\ArrayHelper::toInteger($rs);
+
+						$finder_products = implode("','", $rs);
+					}
+
+					$finder_condition        = " AND p.product_id IN('" . $finder_products . "')";
+					$this->_is_filter_enable = true;
+				}
+
+				if (count($tag) == 1 && $tag[0] == 0)
+				{
+					$finder_condition = "";
 				}
 			}
 		}
