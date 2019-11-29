@@ -36,7 +36,7 @@ $totalPercent = ($avg * 100) / 5;
 		<tr>
 			<td width="35%">
 				<div class="total-rating"><?php echo $avg ?>/5</div>
-				<div class="total-rating-image"><img src="media/com_redshop/images/star_rating/<?php echo round($avg) ?>.gif"></div>
+				<div class="total-rating-image"><img src="media/com_redshop/images/star_rating/<?php echo round(/** @scrutinizer ignore-type */ $avg) ?>.gif"></div>
 				<div class="total-comments"><?php echo $totalRating ?> nhận xét</div>
 			</td>
 			<td>

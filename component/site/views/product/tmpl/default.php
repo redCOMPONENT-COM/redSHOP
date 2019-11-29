@@ -1489,7 +1489,7 @@ if (($user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) || 
 			array(
 				'context' => 'com_redshop.edit.product_rating.' . $this->data->product_id
 			)
-		)->getForm();
+		)->/** @scrutinizer ignore-call */ getForm();
 
 		$ratingForm = RedshopLayoutHelper::render(
 			'product.product_rating',

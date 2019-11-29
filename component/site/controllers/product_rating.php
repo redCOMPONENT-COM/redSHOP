@@ -67,7 +67,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 
 		if (!$form)
 		{
-			JError::raiseError(500, $model->getError());
+			/** @scrutinizer ignore-deprecated */ JError::raiseError(500, $model->getError());
 			$this->setRedirect(JRoute::_($link, false));
 
 			return false;
@@ -229,7 +229,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 				}
 			}
 
-			if ($extOk == false)
+			if ($extOk === false)
 			{
 				continue;
 			}

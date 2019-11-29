@@ -21,8 +21,8 @@ class Utility
 	/**
 	 * This function is for check captcha code
 	 *
-	 * @param   string   $data            The answer
-	 * @param   boolean  $displayWarning  Display warning or not.
+	 * @param   array|string   $data            The answer
+	 * @param   boolean        $displayWarning  Display warning or not.
 	 *
 	 * @return  boolean
 	 * @throws  \Exception
