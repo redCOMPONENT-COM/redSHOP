@@ -89,6 +89,7 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="perpageproduct" value="<?php echo $productPerpage; ?>"/>
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $itemId; ?>"/>
 	<input type="hidden" name="excludeCategories" id="excludeCategories" value="<?php echo $excludeCategories; ?>"/>
+	<input type="hidden" name="searchProductByCategoryName" id="searchProductByCategoryName" value="<?php echo $searchProductByCategoryName; ?>"/>
 </form>
 
 <script type="text/javascript">
@@ -162,3 +163,4 @@ if ($enableAjaxsearch)
 		});"
 	);
 }
+?>
