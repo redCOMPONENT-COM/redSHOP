@@ -60,10 +60,12 @@ class Item
 			$dispatcher->trigger('onOrderItemDisplay', array(&$cartHtmlContent, &$items, $i));
 
 			$productId = $items[$i]->product_id;
+			$productData = \RedshopHelperProduct::getProductById($productId);
 			$quantity  = $items[$i]->product_quantity;
 			$itemData  = \productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productId);
-			$itemId    = !empty($itemData) ? $itemData->id : \RedshopHelperRouter::getItemId($productId);
-			$link      = \JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $itemId, false);
+			$itemId    = !empty($itemData) ? $itemData->id : \RedshopHelperRouter::getItemId($productId, $productData->cat_in_sefurl);
+			$link      = \JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId .
+				($productData->cat_in_sefurl ? ('&cid=' . $productData->cat_in_sefurl) : '') . '&Itemid=' . $itemId, false);
 
 			if ($items[$i]->is_giftcard)
 			{
