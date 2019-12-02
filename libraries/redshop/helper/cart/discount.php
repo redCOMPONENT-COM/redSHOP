@@ -205,18 +205,6 @@ class RedshopHelperCartDiscount
 				return;
 			}
 
-			if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
-			{
-				$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
-			}
-			else
-			{
-				if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
-				{
-					$couponValue = RedshopHelperDiscount::calculateAlreadyDiscount($couponValue, $cart);
-				}
-			}
-
 			$couponRemaining = 0;
 
 			if ($couponValue > $subTotal && $couponIndex === 1)
@@ -418,18 +406,6 @@ class RedshopHelperCartDiscount
 		{
 			$oldVouchers  = $cart['voucher'];
 			$voucherIndex = count($oldVouchers) + 1;
-		}
-
-		if (!Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'))
-		{
-			$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
-		}
-		else
-		{
-			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
-			{
-				$voucherValue = RedshopHelperDiscount::calculateAlreadyDiscount($voucherValue, $cart);
-			}
 		}
 
 		$remainingVoucherDiscount = 0;
