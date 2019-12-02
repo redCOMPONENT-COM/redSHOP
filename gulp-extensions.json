@@ -34,7 +34,8 @@
       "shipping_address",
       "shopper_group_attribute_price",
       "shopper_group_product_price",
-      "user"
+      "user",
+      "order"
     ],
     "redshop_import": [
       "attribute",
