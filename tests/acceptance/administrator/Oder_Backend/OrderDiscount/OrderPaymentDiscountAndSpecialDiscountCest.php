@@ -20,7 +20,7 @@ use Administrator\plugins\PluginPaymentManagerJoomla;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.1.3
+ * @since    2.1.4
  */
 
 class OrderPaymentDiscountAndSpecialDiscountCest
@@ -28,145 +28,145 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 
 	/**
 	 * @var \Faker\Generator
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $faker;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $productName;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $categoryName;
 
 	/**
 	 * @var int
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $randomProductNumber;
 
 	/**
 	 * @var int
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $randomProductPrice;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $userName;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $password;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $email;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $shopperGroup;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $group;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $firstName;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $lastName;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $address;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $zipcode;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $city;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $phone;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $specialUpdate;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $extensionURL;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $pluginName;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $pluginURL;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $priceDiscount;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $type1;
 
 	/**
 	 * @var string
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public $type2;
 
 	/**
 	 * OrderPaymentDiscountAndSpecialDiscountCest constructor.
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public function __construct()
 	{
@@ -212,23 +212,23 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 	}
 
 
-	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
-	{
-		$I->wantTo("install plugin payment RedSHOP - Bank Transfer Payment");
-		$I->pauseExecution();
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin RedSHOP - Bank Transfer Payment in Administrator');
-		$I->enablePlugin($this->pluginName);
-		$I = new PluginPaymentManagerJoomla($scenario);
-		$I->configCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
-	}
+//	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
+//	{
+//		$I->wantTo("install plugin payment RedSHOP - Bank Transfer Payment");
+//		$I->pauseExecution();
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+//		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->wantTo('Enable Plugin RedSHOP - Bank Transfer Payment in Administrator');
+//		$I->enablePlugin($this->pluginName);
+//		$I = new PluginPaymentManagerJoomla($scenario);
+//		$I->configCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
+//	}
 
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public function orderPaymentDiscountAndSpecialDiscount (AcceptanceTester $I, $scenario)
 	{

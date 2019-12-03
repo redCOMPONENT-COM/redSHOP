@@ -17,7 +17,7 @@ use OrderManagerPage;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since    2.1.3
+ * @since    2.1.4
  */
 
 class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
@@ -34,7 +34,7 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 	 * @param $specialUpdate
 	 * @param $randomProductPrice
 	 * @throws \Exception
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 
 	public function updatePaymentDiscountAndSpecialDiscount($userName, $productName, $firstName, $address, $zipcode, $city, $phone, $priceDiscount, $specialUpdate, $randomProductPrice)
