@@ -178,6 +178,18 @@ class Helper
 			$cart['free_shipping'] = 0;
 		}
 
+        $checkDiscountedProduct = 0;
+
+        for ($i = 0; $i < $cart['idx']; $i++)
+        {
+            if ($cart[$i]['product_old_price'] > $cart[$i]['product_price'])
+            {
+                $checkDiscountedProduct++;
+            }
+        }
+
+        if (isset($cart['free_shipping']) && $cart['free_shipping'] > 0 && $checkDiscountedProduct < $cart['idx'])
+
 		if (isset($cart['free_shipping']) && $cart['free_shipping'] > 0)
 		{
 			$shipping = 0.0;
