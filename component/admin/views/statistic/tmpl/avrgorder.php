@@ -9,8 +9,6 @@
 defined('_JEXEC') or die;
 $producthelper = productHelper::getInstance();
 
-$user = JFactory::getUser();
-
 $start = $this->pagination->limitstart;
 $end = $this->pagination->limit;
 ?>
@@ -25,6 +23,8 @@ $end = $this->pagination->limit;
 			<thead>
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_HASH'); ?></th>
+				<th width="40%" align="center"><?php echo JText::_('COM_REDSHOP_AVG_ORDER_CUSTOMER_NAME'); ?></th>
+				<th width="40%" align="center"><?php echo JText::_('COM_REDSHOP_AVG_ORDER_CUSTOMER_EMAIL'); ?></th>
 				<?php if ($this->filteroption)
 				{ ?>
 					<th width="60%" align="center"><?php echo JText::_('COM_REDSHOP_DATE'); ?></th>
@@ -37,6 +37,8 @@ $end = $this->pagination->limit;
 				$row = $this->avgorderamount[$i]; ?>
 				<tr>
 					<td align="center"><?php echo $i + 1;?></td>
+					<td align="center"><?php echo $row->firstname . ' ' . $row->lastname;?></td>
+					<td align="center"><?php echo $row->user_email;?></td>
 					<?php if ($this->filteroption)
 					{ ?>
 						<td align="center"><?php echo $row->viewdate;?></td>

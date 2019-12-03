@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Table.Catalog
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.3
  */
 class RedshopTableZipcode extends RedshopTable
 {
