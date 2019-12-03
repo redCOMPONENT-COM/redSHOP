@@ -29,10 +29,10 @@ echo RedshopLayoutHelper::render(
 echo RedshopLayoutHelper::render(
 	'config.config',
 	array(
-		'title' => JText::_('COM_REDSHOP_RATING_THUMB_IMAGE_WITH_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_RATING_THUMB_IMAGE_WITH_DESC'),
-		'field' => '<input type="number" name="rating_thumb_image_with" id="rating_thumb_image_with"'
-			. ' class="form-control" value="' . $this->config->get('RATING_THUMB_IMAGE_WITH') . '" />'
+		'title' => JText::_('COM_REDSHOP_RATING_THUMB_IMAGE_WIDTH_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_RATING_THUMB_IMAGE_WIDTH_DESC'),
+		'field' => '<input type="number" name="rating_thumb_image_width" id="rating_thumb_image_width"'
+			. ' class="form-control" value="' . $this->config->get('RATING_THUMB_IMAGE_WIDTH') . '" />'
 	)
 );
 echo RedshopLayoutHelper::render(

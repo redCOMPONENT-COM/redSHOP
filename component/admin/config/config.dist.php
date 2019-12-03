@@ -311,7 +311,7 @@ class RedshopConfig
 
 	public $FAVOURED_REVIEWS = '2';
 
-	public $RATING_THUMB_IMAGE_WITH = '200';
+	public $RATING_THUMB_IMAGE_WIDTH = '200';
 
 	public $RATING_THUMB_IMAGE_HEIGHT = '200';
 

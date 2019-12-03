@@ -79,7 +79,7 @@ if ($product_template != "" && $reviews_template != "" && count($reviews) > 0)
 					'',
 					'thumb',
 					'product_rating',
-					Redshop::getConfig()->get('RATING_THUMB_IMAGE_WITH'),
+					Redshop::getConfig()->get('RATING_THUMB_IMAGE_WIDTH'),
 					Redshop::getConfig()->get('RATING_THUMB_IMAGE_HEIGHT'),
 					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 				);
