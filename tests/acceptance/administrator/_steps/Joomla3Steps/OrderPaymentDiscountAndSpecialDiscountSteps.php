@@ -36,7 +36,6 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 	 * @throws \Exception
 	 * @since 2.1.4
 	 */
-
 	public function updatePaymentDiscountAndSpecialDiscount($userName, $productName, $firstName, $address, $zipcode, $city, $phone, $priceDiscount, $specialUpdate, $randomProductPrice)
 	{
 		$I = $this;

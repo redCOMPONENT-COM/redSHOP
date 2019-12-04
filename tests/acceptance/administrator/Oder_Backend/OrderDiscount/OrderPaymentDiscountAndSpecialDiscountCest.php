@@ -203,7 +203,6 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 	 * @param AcceptanceTester $I
 	 * @throws Exception
 	 */
-
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
