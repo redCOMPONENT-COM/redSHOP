@@ -194,8 +194,6 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 		//Plugin BankTransfer
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'redSHOP - Bank Transfer Payment';
-//		$this->pluginURL      = 'redSHOP/tests/releases/plugins/';
-//		$this->package        = 'plg_redshop_payment_rs_payment_banktransfer.zip';
 		$this->priceDiscount ='20';
 		$this->type1 = 'Total';
 		$this->type2 = 'Discount';
@@ -211,19 +209,6 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 		$I->doAdministratorLogin();
 	}
 
-
-//	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
-//	{
-//		$I->wantTo("install plugin payment RedSHOP - Bank Transfer Payment");
-//		$I->pauseExecution();
-//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-//		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-//		$I->wantTo('Enable Plugin RedSHOP - Bank Transfer Payment in Administrator');
-//		$I->enablePlugin($this->pluginName);
-//		$I = new PluginPaymentManagerJoomla($scenario);
-//		$I->configCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
-//	}
-
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -232,7 +217,7 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 	 */
 	public function orderPaymentDiscountAndSpecialDiscount (AcceptanceTester $I, $scenario)
 	{
-        $I = new PluginPaymentManagerJoomla($scenario);
+		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
@@ -247,7 +232,7 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 		$I = new OrderPaymentDiscountAndSpecialDiscountSteps($scenario);
 		$I->updatePaymentDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->address, $this->zipcode, $this->city, $this->phone, $this->priceDiscount, $this->specialUpdate, $this->randomProductPrice);
 
-		//Detele data
+		//Delete data
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);

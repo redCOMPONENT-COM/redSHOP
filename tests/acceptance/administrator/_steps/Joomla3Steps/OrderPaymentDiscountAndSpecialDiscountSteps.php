@@ -88,6 +88,7 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 		$I->click($userOrderPage->returnButtonSpecialDiscount($id));
 		$I->scrollTo(OrderManagerPage::$specialUpdate);
 		$adminFinalPriceEnd = ($randomProductPrice - ($specialUpdate/100)*$randomProductPrice) - (($priceDiscount/100)*($randomProductPrice-($specialUpdate/100)*$randomProductPrice));
+		$I->wait(0.5);
 		$I->see($adminFinalPriceEnd);
 		$I->executeJS('window.scrollTo(0,0);');
 		$I->waitForElement(OrderManagerPage::$close, 30);
