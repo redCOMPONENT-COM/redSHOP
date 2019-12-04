@@ -193,9 +193,9 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 
 		//Plugin BankTransfer
 		$this->extensionURL   = 'extension url';
-		$this->pluginName     = 'RedSHOP - Bank Transfer Payment';
-		$this->pluginURL      = 'redSHOP/tests/releases/plugins/';
-		$this->package        = 'plg_redshop_payment_rs_payment_banktransfer.zip';
+		$this->pluginName     = 'redSHOP - Bank Transfer Payment';
+//		$this->pluginURL      = 'redSHOP/tests/releases/plugins/';
+//		$this->package        = 'plg_redshop_payment_rs_payment_banktransfer.zip';
 		$this->priceDiscount ='20';
 		$this->type1 = 'Total';
 		$this->type2 = 'Discount';
@@ -232,6 +232,8 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 	 */
 	public function orderPaymentDiscountAndSpecialDiscount (AcceptanceTester $I, $scenario)
 	{
+        $I = new PluginPaymentManagerJoomla($scenario);
+		$I->configCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
