@@ -278,17 +278,17 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	public function configCheckoutBankTransferPlugin($pluginName, $priceDiscount)
 	{
 		$I = $this;
-		$I->amOnPage(PluginManagerJoomla3Page:: $URL);
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
 		$I->searchForItem($pluginName);
-		$I->waitForElementVisible(PluginManagerJoomla3Page:: $firstCheck, 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$firstCheck, 30);
 		$I->see($pluginName);
 		$I->waitForElementVisible(['link' => $pluginName], 30);
 		$I->click(['link' => $pluginName]);
 
-		$I->waitForElementVisible( PluginManagerJoomla3Page:: $fieldPaymentPrice ,30);
-		$I->fillField( PluginManagerJoomla3Page:: $fieldPaymentPrice , $priceDiscount);
-		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
-		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+		$I->waitForElementVisible( PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
+		$I->fillField( PluginManagerJoomla3Page::$fieldPaymentPrice, $priceDiscount);
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
 	}
 
 	/**
@@ -300,16 +300,16 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 	public function returnConfigCheckoutBankTransferPlugin($pluginName, $priceDiscount)
 	{
 		$I = $this;
-		$I->amOnPage(PluginManagerJoomla3Page:: $URL);
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
 		$I->searchForItem($pluginName);
-		$I->waitForElementVisible(PluginManagerJoomla3Page:: $firstCheck, 30);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$firstCheck, 30);
 		$I->see($pluginName);
 		$I->waitForElementVisible(['link' => $pluginName], 30);
 		$I->click(['link' => $pluginName]);
 
-		$I->waitForElementVisible( PluginManagerJoomla3Page:: $fieldPaymentPrice ,30);
-		$I->fillField(PluginManagerJoomla3Page:: $fieldPaymentPrice ,  '');
-		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
-		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
+		$I->waitForElementVisible( PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
+		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentPrice, '');
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
 	}
 }

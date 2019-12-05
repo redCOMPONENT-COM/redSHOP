@@ -22,7 +22,6 @@ use Administrator\plugins\PluginPaymentManagerJoomla;
  *
  * @since    2.1.4
  */
-
 class OrderPaymentDiscountAndSpecialDiscountCest
 {
 
@@ -171,56 +170,59 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 	public function __construct()
 	{
 		//Product & Category
-		$this->faker = Faker\Factory::create();
-		$this->productName = $this->faker->bothify('Product Name ?##?');;
-		$this->categoryName = $this->faker->bothify('Category Name ?##?');
-		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = 1000;
+		$this->faker                = Faker\Factory::create();
+		$this->productName          = $this->faker->bothify('Product Name ?##?');;
+		$this->categoryName         = $this->faker->bothify('Category Name ?##?');
+		$this->randomProductNumber  = $this->faker->numberBetween(999, 9999);
+		$this->randomProductPrice   = 1000;
+
 		//User
-		$this->userName = $this->faker->bothify('ManagerUser ?##?');
-		$this->password = $this->faker->bothify('123456');
-		$this->email = $this->faker->email;
+		$this->userName     = $this->faker->bothify('ManagerUser ?##?');
+		$this->password     = $this->faker->bothify('123456');
+		$this->email        = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
-		$this->group = 'Super User';
-		$this->firstName = $this->faker->bothify('FirstName FN ?##?');
-		$this->lastName = "LastName";
+		$this->group        = 'Super User';
+		$this->firstName    = $this->faker->bothify('FirstName FN ?##?');
+		$this->lastName     = "LastName";
+
 		//Orders
-		$this->address = '449 Tran Hung Dao';
-		$this->zipcode = '5000';
-		$this->city = 'Ho Chi Minh';
-		$this->phone = '0126541687';
-		$this->specialUpdate = '20';
+		$this->address          = '449 Tran Hung Dao';
+		$this->zipcode          = '5000';
+		$this->city             = 'Ho Chi Minh';
+		$this->phone            = '0126541687';
+		$this->specialUpdate    = '20';
 
 		//Plugin BankTransfer
-		$this->extensionURL   = 'extension url';
-		$this->pluginName     = 'redSHOP - Bank Transfer Payment';
-		$this->priceDiscount ='20';
-		$this->type1 = 'Total';
-		$this->type2 = 'Discount';
+		$this->extensionURL     = 'extension url';
+		$this->pluginName       = 'redSHOP - Bank Transfer Payment';
+		$this->priceDiscount    ='20';
+		$this->type1            = 'Total';
+		$this->type2            = 'Discount';
 	}
 
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
+     * @since 2.1.2
 	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
 
-	/**
-	 * @param AcceptanceTester $I
-	 * @param $scenario
-	 * @throws Exception
-	 * @since 2.1.4
-	 */
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @throws Exception
+     * @since 2.1.4
+     */
 	public function orderPaymentDiscountAndSpecialDiscount (AcceptanceTester $I, $scenario)
 	{
-		//config discount for redSHOP - Bank Transfer Payment
+        $I->comment('Config discount for redSHOP - Bank Transfer Payment');
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
 
-		//create order in backend
+		$I->comment('Create order in backend');
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
@@ -234,7 +236,7 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 		$I = new OrderPaymentDiscountAndSpecialDiscountSteps($scenario);
 		$I->updatePaymentDiscountAndSpecialDiscount($this->userName, $this->productName, $this->firstName, $this->address, $this->zipcode, $this->city, $this->phone, $this->priceDiscount, $this->specialUpdate, $this->randomProductPrice);
 
-		//Delete data
+		$I->comment('Delete data');
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
@@ -248,7 +250,7 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, false);
 
-		//Return price discount for Bankstranfer
+		$I->comment('Return price discount for Bankstranfer');
 		$I->wantto("Return the price discount of redSHOP Banks transfer Payment");
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->returnConfigCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);

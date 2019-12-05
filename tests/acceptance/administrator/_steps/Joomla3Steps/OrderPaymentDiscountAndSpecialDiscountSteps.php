@@ -19,7 +19,6 @@ use OrderManagerPage;
  *
  * @since    2.1.4
  */
-
 class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 {
 	/**
