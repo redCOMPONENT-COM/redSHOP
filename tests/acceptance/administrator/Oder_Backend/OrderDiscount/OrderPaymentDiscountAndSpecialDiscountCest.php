@@ -24,7 +24,6 @@ use Administrator\plugins\PluginPaymentManagerJoomla;
  */
 class OrderPaymentDiscountAndSpecialDiscountCest
 {
-
 	/**
 	 * @var \Faker\Generator
 	 * @since 2.1.4
@@ -203,22 +202,22 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-     * @since 2.1.2
+	 * @since 2.1.4
 	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     * @param $scenario
-     * @throws Exception
-     * @since 2.1.4
-     */
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function orderPaymentDiscountAndSpecialDiscount (AcceptanceTester $I, $scenario)
 	{
-        $I->comment('Config discount for redSHOP - Bank Transfer Payment');
+		$I->comment('Config discount for redSHOP - Bank Transfer Payment');
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
 
