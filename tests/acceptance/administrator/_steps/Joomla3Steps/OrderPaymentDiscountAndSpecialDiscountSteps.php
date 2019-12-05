@@ -68,7 +68,7 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 		$I->fillField(OrderManagerPage::$productsSearch, $productName);
 		$I->waitForElementVisible($userOrderPage->returnSearch($productName), 30);
 		$I->click($userOrderPage->returnSearch($productName));
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->scrollto(OrderManagerPage::$bankTranferPayment);
 		$I->executeJS('window.scrollTo(0,100);');
 		$I->click(OrderManagerPage::$bankTranferPayment);
@@ -87,7 +87,7 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 		$I->click($userOrderPage->returnButtonSpecialDiscount($id));
 		$I->scrollTo(OrderManagerPage::$specialUpdate);
 		$adminFinalPriceEnd = ($randomProductPrice - ($specialUpdate/100)*$randomProductPrice) - (($priceDiscount/100)*($randomProductPrice-($specialUpdate/100)*$randomProductPrice));
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->see($adminFinalPriceEnd);
 		$I->executeJS('window.scrollTo(0,0);');
 		$I->waitForElement(OrderManagerPage::$close, 30);

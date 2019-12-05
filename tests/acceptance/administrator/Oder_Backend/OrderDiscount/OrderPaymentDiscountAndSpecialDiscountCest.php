@@ -216,8 +216,11 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 	 */
 	public function orderPaymentDiscountAndSpecialDiscount (AcceptanceTester $I, $scenario)
 	{
+		//config discount for redSHOP - Bank Transfer Payment
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->configCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
+
+		//create order in backend
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
@@ -244,5 +247,10 @@ class OrderPaymentDiscountAndSpecialDiscountCest
 		$I->wantTo('Delete account in redSHOP and Joomla');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName, false);
+
+		//Return price discount for Bankstranfer
+		$I->wantto("Return the price discount of redSHOP Banks transfer Payment");
+		$I = new PluginPaymentManagerJoomla($scenario);
+		$I->returnConfigCheckoutBankTransferPlugin($this->pluginName, $this->priceDiscount);
 	}
 }
