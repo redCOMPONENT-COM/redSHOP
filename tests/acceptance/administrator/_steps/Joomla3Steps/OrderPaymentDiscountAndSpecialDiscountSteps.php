@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     redShop
+ * @package     redSHOP
  * @subpackage  Step Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -41,6 +41,7 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 		$I->amOnPage(OrderManagerPage::$URL);
 		$I->click(OrderManagerPage::$buttonNew);
 		$I->waitForText(OrderManagerPage::$titlePage, 30);
+		$I->waitForElementVisible(OrderManagerPage::$userId, 30);
 		$I->click(OrderManagerPage::$userId);
 		$I->waitForElementVisible(OrderManagerPage::$userSearch, 30);
 		$userOrderPage = new OrderManagerPage();
@@ -70,8 +71,11 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 		$I->wait(1);
 		$I->scrollto(OrderManagerPage::$bankTranferPayment);
 		$I->executeJS('window.scrollTo(0,100);');
+		$I->waitForElementVisible(OrderManagerPage::$bankTranferPayment, 30);
 		$I->click(OrderManagerPage::$bankTranferPayment);
+		$I->waitForText(OrderManagerPage::$buttonSavePay);
 		$I->click(OrderManagerPage::$buttonSavePay);
+		$I->waitForText(OrderManagerPage::$buttonClose);
 		$I->click(OrderManagerPage::$buttonClose);
 		$I->searchOrder($firstName);
 		$id = $I->grabTextFrom(OrderManagerPage::$orderID);
@@ -89,7 +93,7 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 		$I->wait(1);
 		$I->see($adminFinalPriceEnd);
 		$I->executeJS('window.scrollTo(0,0);');
-		$I->waitForElement(OrderManagerPage::$close, 30);
 		$I->waitForText(OrderManagerPage::$buttonClose, 10, OrderManagerPage::$close);
+		$I->click(OrderManagerPage::$buttonClose);
 	}
 }
