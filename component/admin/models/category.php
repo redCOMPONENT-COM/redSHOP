@@ -538,4 +538,37 @@ class RedshopModelCategory extends RedshopModelForm
 			$table->store();
 		}
 	}
+
+	/**
+	 * Method to delete one or more records.
+	 *
+	 * @param   array  &$pks  An array of record primary keys.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since   1.6
+	 */
+	public function delete(&$pks)
+	{
+		$pks = (array) $pks;
+		$table = $this->getTable();
+
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				if ($this->canDelete($table))
+				{
+					$db = $this->getDbo();
+
+					$query = $db->getQuery(true)
+						->delete($db->qn('#__redshop_fields_data'))
+						->where($db->qn('itemid') . ' = ' . $db->q($pk));
+
+					$db->setQuery($query)->execute();
+				}
+			}
+		}
+		parent::delete($pks);
+	}
 }
