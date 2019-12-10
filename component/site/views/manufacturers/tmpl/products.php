@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.modal');
+
 $producthelper    = productHelper::getInstance();
 $extra_field      = extra_field::getInstance();
 $redTemplate      = Redtemplate::getInstance();
@@ -52,7 +54,7 @@ $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS');
 <?php
 // Page title end
 
-$manufacturertemplate = RedshopHelperTemplate::getTemplate("manufacturer_products", $manufacturer->id);
+$manufacturertemplate = RedshopHelperTemplate::getTemplate("manufacturer_products", $manufacturer->template_id);
 
 if (count($manufacturertemplate) > 0 && $manufacturertemplate[0]->template_desc)
 {
@@ -105,6 +107,7 @@ if ($template_middle != "")
 
 	for ($i = 0, $in = count($manufacturer_products); $i < $in; $i++)
 	{
+		$productData = RedshopHelperProduct::getProductById($manufacturer_products[$i]->product_id);
 		$cart_mdata .= $template_middle;
 
 		if (strstr($cart_mdata, "{category_heading_start}") && strstr($cart_mdata, "{category_heading_end}"))
@@ -129,7 +132,8 @@ if ($template_middle != "")
 			$cart_mdata = str_replace("{category_heading_end}", "", $cart_mdata);
 		}
 
-		$link         = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $manufacturer_products[$i]->product_id);
+		$link         = JRoute::_('index.php?option=com_redshop&view=product&pid='
+			. $manufacturer_products[$i]->product_id . '&cid=' . $productData->cat_in_sefurl);
 		$product_name = "<a href='" . $link . "'>" . $manufacturer_products[$i]->product_name . "</a>";
 		$cart_mdata   = str_replace("{product_name}", $product_name, $cart_mdata);
 
@@ -294,7 +298,7 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 		$altText = $media->get('media_alternate_text', $manufacturer->name);
 
-		$thumbImage = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get('media_name') . "'   rel=\"{handler: 'image', size: {}}\">
+		$thumbImage = "<a title='" . $altText . "' href='" . REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get('media_name') . "'   rel=\"{handler: 'image', size: {}}\">
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $imagePath . "'></a>";
 	}
 

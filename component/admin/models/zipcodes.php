@@ -26,7 +26,7 @@ class RedshopModelZipcodes extends RedshopModelList
 	/**
 	 * Construct class
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.3
 	 */
 	public function __construct($config = array())
 	{
@@ -59,7 +59,7 @@ class RedshopModelZipcodes extends RedshopModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	protected function populateState($ordering = 'z.id', $direction = 'asc')
 	{
@@ -84,7 +84,7 @@ class RedshopModelZipcodes extends RedshopModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	protected function getStoreId($id = '')
 	{

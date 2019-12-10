@@ -75,7 +75,7 @@ if ($print)
 }
 else
 {
-	$print_url = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $oid . "&print=1&tmpl=component&Itemid=" . $Itemid . "&encr=" . $app->input->getCmd('encr', '');
+	$print_url = $url . "index.php?option=com_redshop&task=order_detail.printPDF&oid=" . $oid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 

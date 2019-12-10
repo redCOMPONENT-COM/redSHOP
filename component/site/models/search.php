@@ -394,6 +394,15 @@ class RedshopModelSearch extends RedshopModel
 		$db           = JFactory::getDbo();
 		$conditions   = explode(' ', trim($condition));
 
+		if (!is_array($fields))
+		{
+			$fields = array($fields, 'fds.data_txt');
+		}
+		else
+		{
+			$fields[] = 'fds.data_txt';
+		}
+
 		foreach ((array) $fields as $field)
 		{
 			$glueOneField = array();
@@ -422,6 +431,21 @@ class RedshopModelSearch extends RedshopModel
 		{
 			return '1 = 1';
 		}
+	}
+
+	public function getSearchableProductCustomfields()
+	{
+		$db = JFactory::getDbo();
+
+		$subQuery = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('section') . ' = 1') // product section
+			->where($db->qn('type') . ' IN(1,2)') // text input or text area
+			->where($db->qn('is_searchable') . ' = 1');
+
+		return $db->setQuery($subQuery)->loadColumn();
 	}
 
 	/**
@@ -634,6 +658,13 @@ class RedshopModelSearch extends RedshopModel
 		else
 		{
 			$keyword           = $this->getState('keyword');
+
+			$fieldSearchable = $this->getSearchableProductCustomfields();
+			$joinSearchable = !$fieldSearchable ? '' : (' AND ' . $db->qn('fds.fieldid') . ' IN ('
+				. implode(",", $fieldSearchable) . ')');
+			$query->leftJoin($db->qn('#__redshop_fields_data', 'fds') . ' ON p.product_id = fds.itemid'
+				. $joinSearchable);
+
 			$defaultSearchType = $app->input->getCmd('search_type', 'product_name');
 
 			if (!empty($manudata['search_type']))
@@ -735,9 +766,6 @@ class RedshopModelSearch extends RedshopModel
 
 		// Initialise variables
 		$lstproduct_id = array();
-		$lasttypeid    = 0;
-		$lasttagid     = 0;
-		$productid     = 0;
 		$products      = "";
 
 		if (!empty($getredfilter))
@@ -898,11 +926,11 @@ class RedshopModelSearch extends RedshopModel
 				}
 
 				$q = "SELECT DISTINCT j.tag_id as tagid ,ra.product_id,count(ra.product_id) as ptotal ,CONCAT(j.tag_id,'.',j.type_id) AS tag_id, t.tag_name
-			FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
-			LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
-			LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
-			WHERE j.tag_id = t.id
-			AND j.type_id = " . (int) $id . "  ";
+					FROM ((#__redproductfinder_tag_type j, #__redproductfinder_tags t )
+					LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
+					LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
+					WHERE j.tag_id = t.id
+					AND j.type_id = " . (int) $id . "  ";
 
 				if ($productids != "")
 				{
@@ -1186,8 +1214,8 @@ class RedshopModelSearch extends RedshopModel
 	public function getajaxData()
 	{
 		JLoader::import('joomla.application.module.helper');
-		$module         = JModuleHelper::getModule('redshop_search');
-		$params         = new JRegistry($module->params);
+		$module                          = JModuleHelper::getModule('redshop_search');
+		$params                          = new JRegistry($module->params);
 		$limit                           = $params->get('noofsearchresults');
 		$app                             = JFactory::getApplication();
 		$keyword                         = $app->input->getString('keyword', '');
@@ -1198,7 +1226,7 @@ class RedshopModelSearch extends RedshopModel
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('p.product_id AS id, p.product_name AS value')
+			->select('p.product_id AS id, p.product_name AS value, p.cat_in_sefurl')
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'x') . ' ON x.product_id = p.product_id')
 			->leftJoin($db->qn('#__redshop_category', 'c') . ' ON x.category_id = c.id')
@@ -1233,6 +1261,12 @@ class RedshopModelSearch extends RedshopModel
 					'pap.property_number', 'ps.subattribute_color_number');
 				break;
 		}
+
+		$fieldSearchable = $this->getSearchableProductCustomfields();
+		$joinSearchable  = !$fieldSearchable ? '' : (' AND ' . $db->qn('fds.fieldid') . ' IN ('
+			. implode(",", $fieldSearchable) . ')');
+		$query->leftJoin($db->qn('#__redshop_fields_data', 'fds') . ' ON p.product_id = fds.itemid'
+			. $joinSearchable);
 
 		if ($search_product_by_category_name == 'yes')
 		{
@@ -1269,11 +1303,11 @@ class RedshopModelSearch extends RedshopModel
 		}
 
 		$pk = array(
-			'keyword' => $keyword,
+			'keyword' => $keyword
 		);
 
 		JPluginHelper::importPlugin('redshop_product');
-		JDispatcher::getInstance()->trigger('onSofaSearchProduct', array(&$query, $pk));
+		JDispatcher::getInstance()->trigger('onFilterProduct', array(&$query, $pk));
 
 		$data = $db->setQuery($query, 0, $limit)->loadObjectList();
 
@@ -1281,23 +1315,27 @@ class RedshopModelSearch extends RedshopModel
 		{
 			foreach ($data as &$row)
 			{
-				$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $row->id);
+				if (empty($category_id))
+				{
+					$category_id = (int) $row->cat_in_sefurl;
+				}
 
-				if (count($itemData) > 0)
-				{
-					$pItemid = $itemData->id;
-				}
-				else
-				{
 					$pItemid = RedshopHelperRouter::getItemId($row->id, $category_id);
-				}
 
 				$row->link = JRoute::_(
 					'index.php?option=com_redshop' .
 					'&view=product&pid=' . $row->id .
-					'&cid=' . $category_id .
-					'&Itemid=' . $pItemid
+					'&cid=' . $row->cat_in_sefurl .
+					'&Itemid=' . $pItemid, false
 				);
+
+				//get product image
+				$row->product_image = Redshop\Product\Image\Image::getImage($row->id, $row->link,
+					Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 80), Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 40));
+
+				//get product price
+				$row->product_price = RedshopHelperProductPrice::formattedPrice(Redshop\Product\Price::getPrice($row->id, false, 0));
+
 			}
 		}
 
