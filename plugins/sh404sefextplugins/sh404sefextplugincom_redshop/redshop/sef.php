@@ -137,8 +137,7 @@ switch ($view)
 			{
 				if (Redshop::getConfig()->get('CATEGORY_TREE_IN_SEF_URL'))
 				{
-					$GLOBALS['catlist_reverse'] = array();
-					$cats                       = RedshopHelperCategory::getCategoryListReverseArray($cid);
+					$cats = RedshopHelperCategory::getCategoryListReverseArray($cid);
 
 					if (count($cats) > 0)
 					{
@@ -219,12 +218,9 @@ switch ($view)
 			{
 				if (Redshop::getConfig()->get('CATEGORY_IN_SEF_URL'))
 				{
-					$GLOBALS['catlist_reverse'] = array();
-					$where                      = '';
+					$where = '';
 
-					$cids = explode("%2C", $cid);
-
-					if (count($cids) == 1)
+					if (isset($cid))
 					{
 						$category_id = $cid;
 					}
