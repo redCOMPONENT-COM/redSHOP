@@ -17,6 +17,13 @@ use FrontEndProductManagerJoomla3Page;
  */
 class CheckoutWithEANTransferPayment extends CheckoutMissingData
 {
+	/**
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $customerInformation
+	 * @throws \Exception
+	 * @since 2.1.3
+	 */
 	public function checkoutProductWithEANTransferPayment($productName, $categoryName, $customerInformation)
 	{
 		$I = $this;
