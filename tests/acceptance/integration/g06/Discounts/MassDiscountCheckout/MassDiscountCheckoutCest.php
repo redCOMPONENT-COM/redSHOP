@@ -11,7 +11,6 @@ class MassDiscountCheckoutCest
 {
 	public function __construct()
 	{
-
 		$this->faker                  = Faker\Factory::create();
 		$this->ProductName            = 'ProductName' . rand(100, 999);
 		$this->MassDiscountName       = 'MassDiscount' . rand(10, 100);
@@ -43,7 +42,11 @@ class MassDiscountCheckoutCest
 		$this->lastName = 'Last';
 	}
 
-
+	/**
+	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -64,7 +67,7 @@ class MassDiscountCheckoutCest
 	{
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->addCategorySaveClose($this->CategoryName);
+		$I->addCategorySave($this->CategoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
