@@ -170,8 +170,6 @@ class ProductCheckoutWithEANPaymentCest
 		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I = new PluginPaymentManagerJoomla($scenario);
 		$I->enablePlugin($this->pluginName);
-		$I->wantTo('Enable Plugin Authorize Payments in Administrator');
-		$I->configEANTranferPayment($this->pluginName);
 	}
 
 	/**
