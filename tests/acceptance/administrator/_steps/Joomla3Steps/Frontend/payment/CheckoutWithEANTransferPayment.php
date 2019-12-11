@@ -7,7 +7,6 @@
  */
 
 namespace Frontend\payment;
-use EANTransferPaymentPage;
 use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
 
@@ -21,32 +20,32 @@ class CheckoutWithEANTransferPayment extends CheckoutMissingData
 	public function checkoutProductWithEANTransferPayment($productName, $categoryName, $customerInformation)
 	{
 		$I = $this;
-		$I->amOnPage(EANTransferPaymentPage::$URL);
-		$I->waitForElement(EANTransferPaymentPage::$categoryDiv, 60);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 60);
 		$I->click($categoryName);
-		$productFrontEndManagerPage = new EANTransferPaymentPage;
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->addToCart($categoryName, $productName);
-		$I->amOnPage(EANTransferPaymentPage::$cartPageUrL);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->click(EANTransferPaymentPage::$checkoutButton);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
 		$I->wait(1);
-		$I->waitForElementVisible(EANTransferPaymentPage::$labelPayment, 30);
-		$I->scrollTo(EANTransferPaymentPage::$labelPayment);
-		$I->waitForElementVisible(EANTransferPaymentPage::$eanPayment, 30);
-		$I->click(EANTransferPaymentPage::$eanPayment);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$eanPayment, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$eanPayment);
 
 		$I->wantTo("checkout with card");
-		$I->waitForElementVisible(EANTransferPaymentPage::$acceptTerms, 30);
-		$I->scrollTo(EANTransferPaymentPage::$acceptTerms);
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(EANTransferPaymentPage::$termAndConditionsId));
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
+		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
+		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->wait(0.5);
-		$I->waitForElementVisible(EANTransferPaymentPage::$checkoutFinalStep, 30);
-		$I->click(EANTransferPaymentPage::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 
 		try
 		{
-			$I->waitForElementNotVisible(EANTransferPaymentPage::$checkoutFinalStep, 10);
+			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
 		}
 		catch (\Exception $e)
 		{
@@ -56,16 +55,16 @@ class CheckoutWithEANTransferPayment extends CheckoutMissingData
 			}
 			catch (\Exception $e)
 			{
-				$I->waitForElementVisible(EANTransferPaymentPage::$termAndConditions, 5);
-				$I->click(EANTransferPaymentPage::$termAndConditions);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 5);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			}
 
-			$I->waitForElementVisible(EANTransferPaymentPage::$checkoutFinalStep, 30);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 			$I->wait(0.5);
-			$I->click(EANTransferPaymentPage::$checkoutFinalStep);
+			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
 
-		$I->wait(2);
-		$I->dontSeeInCurrentUrl(EANTransferPaymentPage::$checkoutURL);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
+		$I->see(FrontEndProductManagerJoomla3Page::$orderReceipt);
 	}
 }
