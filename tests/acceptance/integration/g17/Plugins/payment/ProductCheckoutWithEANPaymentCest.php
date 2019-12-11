@@ -12,6 +12,7 @@ use Configuration\ConfigurationSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use Frontend\payment\CheckoutWithEANTransferPayment;
+use AcceptanceTester\AdminManagerJoomla3Steps;
 
 /**
  * Class ProductsCheckoutWithEANPaymentCest
