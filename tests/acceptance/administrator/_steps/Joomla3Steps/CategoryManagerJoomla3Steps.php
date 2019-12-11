@@ -49,20 +49,22 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function  to Create a New Category Save and close
-	 *
-	 * @param   string $categoryName Name of the Category
-	 *
-	 * @return void
+	 * @param $categoryName
+	 * @throws \Exception
+	 * @since 2.1.4
 	 */
 	public function addCategorySaveClose($categoryName)
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
 		$I->click(\CategoryManagerJ3Page::$newButton);
+		$I->waitForElementVisible(CategoryManagerJ3Page::$categoryName, 30);
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
+		$I->waitForElementVisible(CategoryManagerJ3Page::$template, 30);
 		$I->click(\CategoryManagerJ3Page::$template);
+		$I->waitForElementVisible(CategoryManagerJ3Page::$choiceTemplate, 30);
 		$I->click(\CategoryManagerJ3Page::$choiceTemplate);
+		$I->waitForElementVisible(CategoryManagerJ3Page::$saveCloseButton, 30);
 		$I->click(\CategoryManagerJ3Page::$saveCloseButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
 		$I->see(\CategoryManagerJ3Page::$messageSaveSuccess, \CategoryManagerJ3Page::$selectorSuccess);

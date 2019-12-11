@@ -257,7 +257,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			$I->addValueForField(ProductManagerPage::$discountEnd, $product['discountStart'], 10);
 		}
-		
+
 		$I->click(ProductManagerPage::$buttonSave);
 		$I->acceptPopup();
 
@@ -521,6 +521,216 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}
 
+	/**
+	 * @param $productName
+	 * @param $configAttribute
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function saveAsCopyProductAttribute($productName,$configAttribute)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+		$this->searchProduct($productName);
+		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->click(['link' => $productName]);
+
+		$I->waitForElementVisible(ProductManagerPage::$buttonProductAttribute, 30);
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+
+		switch ($configAttribute['attributeRequire'])
+		{
+			case "yes":
+
+				try
+				{
+					$I->seeCheckboxIsChecked(ProductManagerPage::$labelAttributeRequired);
+				}
+				catch (\Exception $e)
+				{
+					$I->waitForElementVisible(ProductManagerPage::$labelAttributeRequired, 30);
+					$I->click(ProductManagerPage::$labelAttributeRequired);
+				}
+
+				break;
+
+			case "no":
+				try
+				{
+					$I->cantSeeCheckboxIsChecked(ProductManagerPage::$labelAttributeRequired);
+				}
+				catch (\Exception $e)
+				{
+					$I->waitForElementVisible(ProductManagerPage::$labelAttributeRequired, 30);
+					$I->click(ProductManagerPage::$labelAttributeRequired);
+				}
+				break;
+		}
+
+		switch ($configAttribute['multipleSelection'])
+		{
+			case "yes":
+
+				try
+				{
+					$I->seeCheckboxIsChecked(ProductManagerPage::$labelMultipleSelection);
+				}
+				catch (\Exception $e)
+				{
+					$I->waitForElementVisible(ProductManagerPage::$labelMultipleSelection, 30);
+					$I->click(ProductManagerPage::$labelMultipleSelection);
+				}
+
+				break;
+
+			case "no":
+				try
+				{
+					$I->cantSeeCheckboxIsChecked(ProductManagerPage::$labelMultipleSelection);
+				}
+				catch (\Exception $e)
+				{
+					$I->waitForElementVisible(ProductManagerPage::$labelMultipleSelection, 30);
+					$I->click(ProductManagerPage::$labelMultipleSelection);
+				}
+				break;
+		}
+
+		switch ($configAttribute['hideAttributePrice'])
+		{
+			case "yes":
+
+				try
+				{
+					$I->seeCheckboxIsChecked(ProductManagerPage::$labelHideAttributePrice);
+				}
+				catch (\Exception $e)
+				{
+					$I->waitForElementVisible(ProductManagerPage::$labelHideAttributePrice, 30);
+					$I->click(ProductManagerPage::$labelHideAttributePrice);
+				}
+
+				break;
+
+			case "no":
+				try
+				{
+					$I->cantSeeCheckboxIsChecked(ProductManagerPage::$labelHideAttributePrice);
+				}
+				catch (\Exception $e)
+				{
+					$I->waitForElementVisible(ProductManagerPage::$labelHideAttributePrice, 30);
+					$I->click(ProductManagerPage::$labelHideAttributePrice);
+				}
+				break;
+		}
+
+		switch ($configAttribute['published'])
+		{
+			case "yes":
+
+				try
+				{
+					$I->seeCheckboxIsChecked(ProductManagerPage::$labelPublished);
+				}
+				catch (\Exception $e)
+				{
+					$I->waitForElementVisible(ProductManagerPage::$labelPublished, 30);
+					$I->click(ProductManagerPage::$labelPublished);
+				}
+
+				break;
+
+			case "no":
+				try
+				{
+					$I->seeCheckboxIsChecked(ProductManagerPage::$labelPublished);
+					$I->waitForElementVisible(ProductManagerPage::$labelPublished, 30);
+					$I->click(ProductManagerPage::$labelPublished);
+				}
+				catch (\Exception $e)
+				{
+					$I->cantSeeCheckboxIsChecked(ProductManagerPage::$labelPublished);
+				}
+				break;
+		}
+
+		$I->waitForElementVisible(ProductManagerPage::$buttonSaveAsCopy, 30);
+		$I->click(ProductManagerPage::$buttonSaveAsCopy);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param $productName
+	 * @param $configAttribute
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function CheckProductAttributeAfterSaveAsCopy($productName, $configAttribute)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText('Product Management', 30, ['xpath' => "//h1"]);
+		$this->searchProduct($productName);
+		$I->waitForElementVisible(['link' => $productName], 30);
+		$I->click(['link' => $productName]);
+
+		$I->waitForElementVisible(ProductManagerPage::$buttonProductAttribute, 30);
+		$I->click(ProductManagerPage::$buttonProductAttribute);
+		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
+
+		switch ($configAttribute['attributeRequire'])
+		{
+			case "yes":
+				 $I->seeCheckboxIsChecked(ProductManagerPage::$labelAttributeRequired);
+				break;
+
+			case "no":
+				$I->cantSeeCheckboxIsChecked(ProductManagerPage::$labelAttributeRequired);
+				break;
+		}
+
+		switch ($configAttribute['multipleSelection'])
+		{
+			case "yes":
+				$I->seeCheckboxIsChecked(ProductManagerPage::$labelMultipleSelection);
+				break;
+
+			case "no":
+				$I->cantSeeCheckboxIsChecked(ProductManagerPage::$labelMultipleSelection);
+				break;
+		}
+
+		switch ($configAttribute['hideAttributePrice'])
+		{
+			case "yes":
+					$I->seeCheckboxIsChecked(ProductManagerPage::$labelHideAttributePrice);
+
+				break;
+
+			case "no":
+				$I->cantSeeCheckboxIsChecked(ProductManagerPage::$labelHideAttributePrice);
+				break;
+		}
+
+		switch ($configAttribute['published'])
+		{
+			case "yes":
+				$I->seeCheckboxIsChecked(ProductManagerPage::$labelPublished);
+				break;
+
+			case "no":
+				$I->cantSeeCheckboxIsChecked(ProductManagerPage::$labelPublished);
+				break;
+		}
+
+		$I->click(ProductManagerPage::$xpathSaveClose);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
 
 	/**
 	 * @param       $productName
