@@ -12,12 +12,12 @@ class MassDiscountCheckoutCest
 	public function __construct()
 	{
 		$this->faker                  = Faker\Factory::create();
-		$this->ProductName            = 'ProductName' . rand(100, 999);
-		$this->MassDiscountName       = 'MassDiscount' . rand(10, 100);
-		$this->MassDiscountNameSave   = 'MassDiscountSave' . rand(10, 1000);
+		$this->ProductName            = $this->faker->bothify('ProductName ?##?');
+		$this->MassDiscountName       = $this->faker->bothify('MassDiscount ?##?');
+		$this->MassDiscountNameSave   = $this->faker->bothify('MassDiscountSave ?##?');
 		$this->MassDiscountNameEdit   = 'Edit' . $this->MassDiscountName;
-		$this->CategoryName           = "CategoryName" . rand(1, 100);
-		$this->ManufactureName        = "ManufactureName" . rand(1, 10);
+		$this->CategoryName           = $this->faker->bothify('CategoryName ?##?');
+		$this->ManufactureName        = $this->faker->bothify('ManufactureName ?##?');
 		$this->MassDiscountAmoutTotal = 90;
 		$this->MassDiscountPercent    = 0.3;
 		$this->minimumPerProduct      = 1;
@@ -33,12 +33,12 @@ class MassDiscountCheckoutCest
 		$this->Total    = "DKK 10,00";
 
 		//Create User
-		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->userName = $this->faker->bothify('User name ?##?');
 		$this->password = $this->faker->bothify('Password ?##?');
 		$this->email = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
 		$this->group = 'Super Users';
-		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->firstName = $this->faker->bothify('first name ?##?');
 		$this->lastName = 'Last';
 	}
 
