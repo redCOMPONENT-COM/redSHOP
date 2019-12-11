@@ -32,8 +32,8 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(PluginManagerJoomla3Page:: $searchResultRow, 30);
 		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page:: $searchResultRow);
 		$I->click($pluginName);
-		$I->waitForElementVisible(PluginManagerJoomla3Page:: $vendorID, 30);
-		$I->fillField(PluginManagerJoomla3Page:: $vendorID, $vendorID);
+		$I->waitForElementVisible( PluginManagerJoomla3Page:: $vendorID , 30);
+		$I->fillField( PluginManagerJoomla3Page:: $vendorID , $vendorID);
 		$I->fillField(PluginManagerJoomla3Page::$secretWords, $secretWord);
 		$I->clickToolbarButton(PluginManagerJoomla3Page:: $buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
@@ -64,7 +64,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->fillField(PluginManagerJoomla3Page::$fieldTransactionID, $transactionKey);
 		$I->fillField(PluginManagerJoomla3Page::$fieldMd5Key, $md5Key);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldTestMode, 60);
-		$I->click(PluginManagerJoomla3Page::$fieldTestMode);
+		$I->click( PluginManagerJoomla3Page::$fieldTestMode);
 
 		// Choosing Test Mode to Yes
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$optionTestModeYes, 60);
@@ -100,7 +100,8 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPaymentPrice, 60);
 		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentPrice, $paymentPrice);
 
-		switch ($discountType) {
+		switch ($discountType)
+		{
 			case 'Percentage':
 				$I->waitForElementVisible(PluginManagerJoomla3Page::$optionPercentage, 30);
 				$I->click(PluginManagerJoomla3Page::$optionPercentage);
@@ -193,7 +194,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->fillField(PluginManagerJoomla3Page::$fieldAccessId, $accessId);
 		$I->fillField(PluginManagerJoomla3Page::$fieldTransactionID, $transactionKey);
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldTestMode, 60);
-		$I->click(PluginManagerJoomla3Page::$fieldTestMode);
+		$I->click( PluginManagerJoomla3Page::$fieldTestMode);
 
 		// Choosing Test Mode to Yes
 		$I->waitForElementVisible(PluginManagerJoomla3Page::$optionTestModeYes, 60);
@@ -284,8 +285,8 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(['link' => $pluginName], 30);
 		$I->click(['link' => $pluginName]);
 
-		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
-		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentPrice, $priceDiscount);
+		$I->waitForElementVisible( PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
+		$I->fillField( PluginManagerJoomla3Page::$fieldPaymentPrice, $priceDiscount);
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
 	}
@@ -306,7 +307,7 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(['link' => $pluginName], 30);
 		$I->click(['link' => $pluginName]);
 
-		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
+		$I->waitForElementVisible( PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
 		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentPrice, '');
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
