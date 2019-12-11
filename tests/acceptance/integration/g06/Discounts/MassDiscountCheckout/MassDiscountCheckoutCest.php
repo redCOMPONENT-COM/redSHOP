@@ -67,7 +67,7 @@ class MassDiscountCheckoutCest
 	{
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->addCategorySave($this->CategoryName);
+		$I->addCategorySaveClose($this->CategoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
