@@ -204,7 +204,7 @@ class ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $buttonProductAttribute = 'Product Attributes';
+	public static $buttonProductAttribute = ["link" => 'Product Attributes'];
 	/**
 	 * @var string
 	 */

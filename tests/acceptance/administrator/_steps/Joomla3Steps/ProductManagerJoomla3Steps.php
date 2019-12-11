@@ -537,6 +537,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(['link' => $productName]);
 
+		$I->waitForElementVisible(ProductManagerPage::$buttonProductAttribute, 30);
 		$I->click(ProductManagerPage::$buttonProductAttribute);
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
 
@@ -678,6 +679,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(['link' => $productName]);
 
+		$I->waitForElementVisible(ProductManagerPage::$buttonProductAttribute, 30);
 		$I->click(ProductManagerPage::$buttonProductAttribute);
 		$I->waitForElement(ProductManagerPage::$attributeTab, 60);
 
