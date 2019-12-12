@@ -25,7 +25,7 @@ class ProductManagerPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $URL = 'administrator/index.php?option=com_redshop&view=product';
-	
+
 	/**
 	 * @var string
 	 */
@@ -204,7 +204,7 @@ class ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $buttonProductAttribute = 'Product Attributes';
+	public static $buttonProductAttribute = ["link" => 'Product Attributes'];
 	/**
 	 * @var string
 	 */
@@ -444,6 +444,36 @@ class ProductManagerPage extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $xpathSaveClose = '//button[@onclick="Joomla.submitbutton(\'save\');"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $buttonSaveAsCopy = "//button[@onclick=\"Joomla.submitbutton('save2copy');\"]";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $labelAttributeRequired = "//input[@name='attribute[0][required]']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $labelMultipleSelection = "//input[@name='attribute[0][allow_multiple_selection]']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $labelHideAttributePrice = "//input[@name='attribute[0][hide_attribute_price]']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $labelPublished = "//input[@name='attribute[0][published]']";
 
 	/**
 	 * @param $position
