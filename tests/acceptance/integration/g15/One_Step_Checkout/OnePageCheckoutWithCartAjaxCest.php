@@ -143,8 +143,11 @@ class OnePageCheckoutWithCartAjaxCest
 	 */
 	public function deleteData(AcceptanceTester $I, $scenario)
 	{
-		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->deleteOrder($this->customerInformation['firstName']);
+		$I->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
+		$this->cartSetting["enabledAjax"] = 'no';
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I want to delete product');
