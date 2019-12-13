@@ -831,28 +831,4 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForText($priceTotal, 30);
 		$I->see($priceTotal);
 	}
-
-	public function configWithoutOnePageCheckout ($cartSetting)
-    {
-        $I = $this;
-        $I->amOnPage(\ConfigurationPage::$URL);
-        $I->click(\ConfigurationPage::$cartCheckout);
-
-        switch ($cartSetting['onePage'])
-        {
-            case 'no':
-                $I->waitForElementVisible(\ConfigurationPage::$onePageNo, 30);
-                $I->click(\ConfigurationPage::$onePageNo);
-                break;
-            case 'yes':
-                $I->waitForElementVisible(\ConfigurationPage::$onePageYes, 30);
-                $I->click(\ConfigurationPage::$onePageYes);
-                break;
-        }
-
-        $I->click(\ConfigurationPage::$buttonSave);
-        $I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-        $I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
-        $I->pauseExecution();
-    }
 }

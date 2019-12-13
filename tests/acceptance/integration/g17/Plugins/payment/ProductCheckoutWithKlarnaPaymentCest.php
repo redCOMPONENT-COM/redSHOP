@@ -110,9 +110,9 @@ class ProductCheckoutWithKlarnaPaymentCest
 	 */
 	public $pno;
 
-    /**
-     * @var array
-     */
+	/**
+	 * @var array
+	 */
 	public $cartSetting;
 
 	/**
@@ -142,22 +142,22 @@ class ProductCheckoutWithKlarnaPaymentCest
 			"phone"      => "8787878787"
 		);
 
-        //configuration enable one page checkout
-        $this->cartSetting = array(
-            "addCart"            => 'product',
-            "allowPreOrder"      => 'yes',
-            "cartTimeOut"        => $this->faker->numberBetween(100, 10000),
-            "enabledAjax"        => 'no',
-            "defaultCart"        => null,
-            "buttonCartLead"     => 'Back to current view',
-            "onePage"            => 'no',
-            "showShippingCart"   => 'no',
-            "attributeImage"     => 'no',
-            "quantityChange"     => 'no',
-            "quantityInCart"     => 0,
-            "minimumOrder"       => 0,
-            "enableQuotation"    => 'no'
-        );
+		//configuration enable one page checkout
+		$this->cartSetting = array(
+			"addCart"            => 'product',
+			"allowPreOrder"      => 'yes',
+			"cartTimeOut"        => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"        => 'no',
+			"defaultCart"        => null,
+			"buttonCartLead"     => 'Back to current view',
+			"onePage"            => 'no',
+			"showShippingCart"   => 'no',
+			"attributeImage"     => 'no',
+			"quantityChange"     => 'no',
+			"quantityInCart"     => 0,
+			"minimumOrder"       => 0,
+			"enableQuotation"    => 'no'
+		);
 
 		$this->extensionURL   = 'extension url';
 		$this->pluginName     = 'redSHOP Payment - Integrate Klarna Invoice, Part payment and our Order handling system';
@@ -186,16 +186,16 @@ class ProductCheckoutWithKlarnaPaymentCest
 	 * @throws Exception
 	 * @since 2.1.4
 	 */
-//	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
-//	{
-//		$I->wantTo("install Klarna Payment Plugin");
-//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-//		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-//		$I = new PluginPaymentManagerJoomla($scenario);
-//		$I->enablePlugin($this->pluginName);
-//		$I->wantTo('Enable Plugin Klarna Payments in Administrator');
-//		$I->configKlarnaPayment($this->pluginName, $this->merchantID, $this->sharedSecretKey);
-//	}
+	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
+	{
+		$I->wantTo("install Klarna Payment Plugin");
+		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+		$I = new PluginPaymentManagerJoomla($scenario);
+		$I->enablePlugin($this->pluginName);
+		$I->wantTo('Enable Plugin Klarna Payments in Administrator');
+		$I->configKlarnaPayment($this->pluginName, $this->merchantID, $this->sharedSecretKey);
+	}
 
 	/**
 	 * @param AcceptanceTester $I
@@ -206,8 +206,8 @@ class ProductCheckoutWithKlarnaPaymentCest
 	public function testCheckoutWithKlarnaPayment(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('setup up checkout at admin');
-        $I = new ConfigurationSteps($scenario);
-        $I->configWithoutOnePageCheckout($this->cartSetting);
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);
@@ -233,7 +233,7 @@ class ProductCheckoutWithKlarnaPaymentCest
 		$I->wantTo('Delete Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->deleteCategory($this->categoryName);
-//		$I->wantTo('Disable Plugin');
-//		$I->disablePlugin($this->pluginName);
+		$I->wantTo('Disable Plugin');
+		$I->disablePlugin($this->pluginName);
 	}
 }
