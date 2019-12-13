@@ -112,6 +112,7 @@ class ProductCheckoutWithKlarnaPaymentCest
 
 	/**
 	 * @var array
+	 * @since 2.1.4
 	 */
 	public $cartSetting;
 
