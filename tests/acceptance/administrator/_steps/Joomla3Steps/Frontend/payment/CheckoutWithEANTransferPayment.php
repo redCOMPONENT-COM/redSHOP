@@ -42,6 +42,17 @@ class CheckoutWithEANTransferPayment extends CheckoutMissingData
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$eanPayment, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$eanPayment);
 
+		try
+		{
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$eanPayment);
+		}
+		catch (\Exception $e)
+		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$eanPayment, 30);
+			$I->click(FrontEndProductManagerJoomla3Page::$eanPayment);
+			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$eanPayment);
+		}
+
 		$I->wantTo("checkout with card");
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
