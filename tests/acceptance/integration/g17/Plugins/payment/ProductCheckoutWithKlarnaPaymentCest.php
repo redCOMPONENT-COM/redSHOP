@@ -68,6 +68,12 @@ class ProductCheckoutWithKlarnaPaymentCest
 	 */
 	protected $customerInformation;
 
+    /**
+     * @var array
+     * @since 2.1.4
+     */
+	public $otherShipping;
+
 	/**
 	 * @var string
 	 * @since 2.1.4
@@ -141,6 +147,17 @@ class ProductCheckoutWithKlarnaPaymentCest
 			"country"    => "Denmark",
 			"state"      => "Karnataka",
 			"phone"      => "8787878787"
+		);
+
+		$this-> otherShipping = array (
+			"firstName1"  => $this->faker->bothify('firstNameCustomer ?####?'),
+			"lastName1"   => $this->faker->bothify('lastNameCustomer ?####?'),
+			"address1"    => "Some Place in the World",
+			"postalCode1" => "5000",
+			"city1"       => "HCM",
+			"country1"    => "Denmark",
+			"state1"      => "Karnataka",
+			"phone1"      => "8787878787"
 		);
 
 		//configuration enable one page checkout
@@ -218,7 +235,7 @@ class ProductCheckoutWithKlarnaPaymentCest
 
 		$I->wantTo('Checkout with Klarna payment');
 		$I = new CheckoutwithKlarnaPayment($scenario);
-		$I->checkoutProductWithKlarnaPayment($this->productName, $this->categoryName, $this->customerInformation, $this->pno);
+		$I->checkoutProductWithKlarnaPayment($this->productName, $this->categoryName, $this->customerInformation, $this->otherShipping, $this->pno);
 
 		$I->wantTo('Check Order');
 		$I = new ConfigurationSteps($scenario);

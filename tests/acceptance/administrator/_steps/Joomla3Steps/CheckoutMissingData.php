@@ -64,6 +64,19 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
 	}
 
+	public function fillShippingAddress($shippingAddress)
+	{
+		$I = $this;
+		$I->comment('Add Shipping Address');
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingAddress['firstName1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingAddress['lastName1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingAddress['address1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingAddress['postalCode1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingCity, $shippingAddress['city1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingAddress['phone1']);
+	}
+
 	/**
 	 * @param $productName
 	 * @param $customerInformation

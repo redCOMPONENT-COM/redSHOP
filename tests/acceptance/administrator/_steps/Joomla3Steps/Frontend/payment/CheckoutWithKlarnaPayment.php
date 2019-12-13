@@ -13,7 +13,7 @@ use FrontEndProductManagerJoomla3Page;
 class CheckoutwithKlarnaPayment extends CheckoutMissingData
 {
 
-	public function checkoutProductWithKlarnaPayment($productName, $categoryName, $customerInformation, $pno)
+	public function checkoutProductWithKlarnaPayment($productName, $categoryName, $customerInformation, $otherShipping, $pno)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -28,7 +28,9 @@ class CheckoutwithKlarnaPayment extends CheckoutMissingData
 		$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
 		$I->wait(1);
 		$I->fillInformationPrivate($customerInformation);
-		$I->wait(1);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$otherAddressCheckotbox, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$otherAddressCheckotbox);
+		$I->fillShippingAddress($otherShipping);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
