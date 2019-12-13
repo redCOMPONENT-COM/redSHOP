@@ -12,7 +12,15 @@ use FrontEndProductManagerJoomla3Page;
 
 class CheckoutwithKlarnaPayment extends CheckoutMissingData
 {
-
+	/**
+	 * @param $productName
+	 * @param $categoryName
+	 * @param $customerInformation
+	 * @param $otherShipping
+	 * @param $pno
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
 	public function checkoutProductWithKlarnaPayment($productName, $categoryName, $customerInformation, $otherShipping, $pno)
 	{
 		$I = $this;
