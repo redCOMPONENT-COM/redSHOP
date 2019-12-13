@@ -191,7 +191,7 @@ class ProductCheckoutWithKlarnaPaymentCest
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->productNumber, $this->productPrice);
 
-		$I->wantTo('Checkout with Authorize payment');
+		$I->wantTo('Checkout with Klarna payment');
 		$I = new CheckoutwithKlarnaPayment($scenario);
 		$I->checkoutProductWithKlarnaPayment($this->productName, $this->categoryName, $this->customerInformation, $this->pno);
 

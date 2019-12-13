@@ -28,7 +28,7 @@ class CheckoutwithKlarnaPayment extends CheckoutMissingData
 		$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
 		$I->wait(1);
 		$I->fillInformationPrivate($customerInformation);
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
@@ -39,7 +39,7 @@ class CheckoutwithKlarnaPayment extends CheckoutMissingData
 		$I->fillField(FrontEndProductManagerJoomla3Page::$fieldPNO, $pno);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
