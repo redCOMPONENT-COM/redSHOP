@@ -103,12 +103,6 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 */
 	public static $checkoutButton = "//input[@class='greenbutton btn btn-primary']";
 
-    /**
-     * @var string
-     * @since 2.1.4
-     */
-	public static $otherAddressCheckotbox = "#billisship";
-
 	/**
 	 * @var string
 	 * @since 2.1.3
