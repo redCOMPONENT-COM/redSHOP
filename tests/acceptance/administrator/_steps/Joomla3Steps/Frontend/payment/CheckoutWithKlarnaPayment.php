@@ -10,6 +10,11 @@ namespace Frontend\payment;
 use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
 
+/**
+ * Class CheckoutwithKlarnaPayment
+ * @package Frontend\payment
+ * @since 2.1.4
+ */
 class CheckoutwithKlarnaPayment extends CheckoutMissingData
 {
 	/**
@@ -47,13 +52,13 @@ class CheckoutwithKlarnaPayment extends CheckoutMissingData
 		$I->fillField(FrontEndProductManagerJoomla3Page::$fieldPNO, $pno);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+
 		try
 		{
 			$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 10);
@@ -69,10 +74,12 @@ class CheckoutwithKlarnaPayment extends CheckoutMissingData
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 5);
 				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			}
+
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 			$I->wait(0.5);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
+
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 		$I->see(FrontEndProductManagerJoomla3Page::$orderReceipt);
 	}
