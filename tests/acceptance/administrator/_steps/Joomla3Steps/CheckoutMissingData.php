@@ -64,6 +64,11 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
 	}
 
+	/**
+	 * @param $shippingAddress
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function fillShippingAddress($shippingAddress)
 	{
 		$I = $this;
