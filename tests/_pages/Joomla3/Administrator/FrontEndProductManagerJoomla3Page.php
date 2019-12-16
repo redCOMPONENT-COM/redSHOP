@@ -825,4 +825,16 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.4
 	 */
 	public static $eanPayment = "#rs_payment_eantransfer2";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $klarnaPayment = "#klarna2";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $fieldPNO = "#rs_pno";
 }
