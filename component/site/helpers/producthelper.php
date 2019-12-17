@@ -3496,7 +3496,7 @@ class productHelper
 		}
 		else
 		{
-			$and .= " AND " . $db->qn('q.product_id') . " = " . $db->q($productId) . " AND " . $db->q('q.parent_id') . " = 0 ";
+			$and .= " AND " . $db->qn('q.product_id') . " = " . $db->q($productId) . " AND " . $db->qn('q.parent_id') . " = 0 ";
 		}
 
 		if ($front != 0)
