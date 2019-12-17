@@ -590,6 +590,17 @@ $newShippingTags = array(
 									);
 
 									break;
+                                case 'quotation_cart':
+                                    echo RedshopHelperTemplate::renderFieldTagHints(
+                                        RedshopHelperExtrafields::SECTION_QUOTATION, JText::_("COM_REDSHOP_FIELDS")
+                                    );
+
+                                    echo RedshopLayoutHelper::render(
+                                        'templates.tags_hint',
+                                        array('tags' => RedshopHelperTemplate::getTemplateTags($this->item->section))
+                                    );
+
+                                    break;
 
 								default:
 									echo RedshopLayoutHelper::render(
