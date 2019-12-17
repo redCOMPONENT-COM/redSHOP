@@ -340,8 +340,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		}
 
 		//Choice add to cart button lead
+		$I->waitForElementVisible(\ConfigurationPage::$buttonCartLead, 30);
+		$I->wait(0.5);
 		$I->click(\ConfigurationPage::$buttonCartLead);
-		$I->waitForElement(\ConfigurationPage::$buttonCartSearch);
+		$I->waitForElementVisible(\ConfigurationPage::$buttonCartSearch, 30);
 		$I->fillField(\ConfigurationPage::$buttonCartSearch, $cartSetting['buttonCartLead']);
 		$I->waitForElement($userConfiguration->returnChoice($cartSetting['buttonCartLead']),30);
 		$I->click(\ConfigurationPage::$firstCartSearch);
@@ -686,7 +688,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->waitForElementVisible(ConfigurationPage::$resetOderId, 30);
 			$I->click(ConfigurationPage::$resetOderId);
 			$I->acceptPopup();
-			$I->wait(2); 
+			$I->wait(2);
 			$I->canSeeInPopup(ConfigurationPage::$messagePopup);
 			$I->seeInPopup(ConfigurationPage::$messagePopup);
 			$I->acceptPopup();

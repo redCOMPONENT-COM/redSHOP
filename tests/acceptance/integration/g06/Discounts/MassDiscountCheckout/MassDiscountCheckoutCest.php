@@ -1,56 +1,198 @@
 <?php
 /**
- * Checkout with mass discount
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\MassDiscountManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 
+/**
+ * Class MassDiscountCheckoutCest
+ * @since 2.1.4
+ */
 class MassDiscountCheckoutCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.4
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $productName;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $massDiscountName;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $massDiscountNameSave;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $massDiscountNameEdit;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $manufactureName;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $massDiscountAmountTotal;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $discountStart;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $discountEnd;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $subtotal;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $discount;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $total;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $userName;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $lastName;
+
+	/**
+	 * MassDiscountCheckoutCest constructor.
+	 * @since 2.1.4
+	 */
 	public function __construct()
 	{
-
 		$this->faker                  = Faker\Factory::create();
-		$this->ProductName            = 'ProductName' . rand(100, 999);
-		$this->MassDiscountName       = 'MassDiscount' . rand(10, 100);
-		$this->MassDiscountNameSave   = 'MassDiscountSave' . rand(10, 1000);
-		$this->MassDiscountNameEdit   = 'Edit' . $this->MassDiscountName;
-		$this->CategoryName           = "CategoryName" . rand(1, 100);
-		$this->ManufactureName        = "ManufactureName" . rand(1, 10);
-		$this->MassDiscountAmoutTotal = 90;
-		$this->MassDiscountPercent    = 0.3;
-		$this->minimumPerProduct      = 1;
-		$this->minimumQuantity        = 1;
-		$this->maximumQuantity        = $this->faker->numberBetween(100, 1000);
+		$this->productName            = $this->faker->bothify('ProductName ?##?');
+		$this->massDiscountName       = $this->faker->bothify('MassDiscount ?##?');
+		$this->massDiscountNameSave   = $this->faker->bothify('MassDiscountSave ?##?');
+		$this->massDiscountNameEdit   = 'Edit' . $this->massDiscountNameSave;
+		$this->categoryName           = $this->faker->bothify('CategoryName ?##?');
+		$this->manufactureName        = $this->faker->bothify('ManufactureName ?##?');
+		$this->massDiscountAmountTotal = 90;
 		$this->discountStart          = '';
 		$this->discountEnd            = '';
 		$this->randomProductNumber    = $this->faker->numberBetween(999, 9999);
 		$this->randomProductPrice     = 100;
 
 		$this->subtotal = "DKK 10,00";
-		$this->Discount = "";
-		$this->Total    = "DKK 10,00";
+		$this->discount = "";
+		$this->total    = "DKK 10,00";
 
 		//Create User
-		$this->userName = $this->faker->bothify('ManageUserAdministratorCest ?##?');
+		$this->userName = $this->faker->bothify('User name ?##?');
 		$this->password = $this->faker->bothify('Password ?##?');
 		$this->email = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
 		$this->group = 'Super Users';
-		$this->firstName = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->firstName = $this->faker->bothify('first name ?##?');
 		$this->lastName = 'Last';
 	}
 
-
+	/**
+	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
 	}
 
 	/**
-	 * (Checkout with product discount and don't show shipping cart at cart checkout )
+	 *(Checkout with product discount and don't show shipping cart at cart checkout )
 	 * Step1 : create category
 	 * Step2 : create product
 	 * Step3 : Create Mass Discount
@@ -58,21 +200,23 @@ class MassDiscountCheckoutCest
 	 * Step5 : Delete all data
 	 *
 	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
 	 */
 	public function checkoutWithMassDiscount(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->addCategorySaveClose($this->CategoryName);
+		$I->addCategorySaveClose($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
+		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 		$I = new MassDiscountManagerJoomla3Steps($scenario);
 		$I->wantTo('Test check add Mass discount ');
-		$I->addMassDiscount($this->MassDiscountName, $this->MassDiscountAmoutTotal, $this->discountStart, $this->discountEnd, $this->CategoryName, $this->ProductName);
+		$I->addMassDiscount($this->massDiscountName, $this->massDiscountAmountTotal, $this->discountStart, $this->discountEnd, $this->categoryName, $this->productName);
 
 		$I = new \AcceptanceTester\UserManagerJoomla3Steps($scenario);
 		$I->wantTo("I want to create user");
@@ -82,22 +226,27 @@ class MassDiscountCheckoutCest
 		$I->doFrontEndLogin($this->userName, $this->password);
 
 		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutWithDiscount($this->ProductName, $this->CategoryName, $this->subtotal, $this->Discount, $this->Total);
+		$I->checkoutWithDiscount($this->productName, $this->categoryName, $this->subtotal, $this->discount, $this->total);
 	}
 
-
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 		$I = new MassDiscountManagerJoomla3Steps($scenario);
 		$I->wantTo('Test check add Mass discount ');
-		$I->deleteMassDiscountOK($this->MassDiscountName);
+		$I->deleteMassDiscountOK($this->massDiscountName);
 
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
-		$I->deleteProduct($this->ProductName);
+		$I->deleteProduct($this->productName);
 
 		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
-		$I->deleteCategory($this->CategoryName);
+		$I->deleteCategory($this->categoryName);
 	}
 }
