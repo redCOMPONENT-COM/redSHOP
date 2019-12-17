@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.3
  */
 class RedshopControllerZipcode extends RedshopControllerForm
 {
@@ -22,7 +22,7 @@ class RedshopControllerZipcode extends RedshopControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	public function ajaxGetState2Code()
 	{

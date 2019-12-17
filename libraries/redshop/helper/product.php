@@ -1297,7 +1297,7 @@ class RedshopHelperProduct
 	 * @param   string   $media_type
 	 *
 	 * @return  mixed
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	public static function getVideosProduct($product_id, $attributes, $attribute_template, $media_type = 'youtube')
 	{

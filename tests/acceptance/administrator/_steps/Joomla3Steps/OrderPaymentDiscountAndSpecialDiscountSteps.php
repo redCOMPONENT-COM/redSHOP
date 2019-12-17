@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     redShop
+ * @package     redSHOP
  * @subpackage  Step Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,31 +11,31 @@ namespace AcceptanceTester;
 use OrderManagerPage;
 
 /**
- * Class ProductManagerJoomla3Steps
+ * Class OrderPaymentDiscountAndSpecialDiscountSteps
  *
  * @package  AcceptanceTester
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since    2.1.3
+ * @since    2.1.4
  */
-class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
+class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Steps
 {
 	/**
 	 * @param $userName
 	 * @param $productName
 	 * @param $firstName
 	 * @param $address
-	 * @param $zipCode
+	 * @param $zipcode
 	 * @param $city
 	 * @param $phone
-	 * @param $discountUpdate
+	 * @param $priceDiscount
 	 * @param $specialUpdate
 	 * @param $randomProductPrice
 	 * @throws \Exception
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
-	public function updateDiscountAndSpecialDiscount($userName, $productName, $firstName, $address, $zipCode, $city, $phone, $discountUpdate, $specialUpdate, $randomProductPrice)
+	public function updatePaymentDiscountAndSpecialDiscount($userName, $productName, $firstName, $address, $zipcode, $city, $phone, $priceDiscount, $specialUpdate, $randomProductPrice)
 	{
 		$I = $this;
 		$I->amOnPage(OrderManagerPage::$URL);
@@ -54,7 +54,7 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->waitForElement(OrderManagerPage::$address, 30);
 		$I->waitForElementVisible(OrderManagerPage::$address, 30);
 		$I->fillField(OrderManagerPage::$address, $address);
-		$I->fillField(OrderManagerPage::$zipcode, $zipCode);
+		$I->fillField(OrderManagerPage::$zipcode, $zipcode);
 		$I->fillField(OrderManagerPage::$city, $city);
 		$I->fillField(OrderManagerPage::$phone, $phone);
 		$I->waitForElement(OrderManagerPage::$applyUser, 30);
@@ -68,31 +68,32 @@ class OrderUpdateDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Step
 		$I->fillField(OrderManagerPage::$productsSearch, $productName);
 		$I->waitForElementVisible($userOrderPage->returnSearch($productName), 30);
 		$I->click($userOrderPage->returnSearch($productName));
-		$I->wait(0.5);
+		$I->wait(1);
+		$I->scrollto(OrderManagerPage::$bankTranferPayment);
+		$I->executeJS('window.scrollTo(0,100);');
+		$I->waitForElementVisible(OrderManagerPage::$bankTranferPayment, 30);
+		$I->click(OrderManagerPage::$bankTranferPayment);
+		$I->waitForText(OrderManagerPage::$buttonSavePay);
 		$I->click(OrderManagerPage::$buttonSavePay);
+		$I->waitForText(OrderManagerPage::$buttonClose);
 		$I->click(OrderManagerPage::$buttonClose);
 		$I->searchOrder($firstName);
 		$id = $I->grabTextFrom(OrderManagerPage::$orderID);
 		$I->fillField(OrderManagerPage::$filter, $firstName);
 		$I->click(OrderManagerPage::$orderID);
-		$I->waitForElementVisible(OrderManagerPage::$discountUpdate, 30);
-		$I->scrollTo(OrderManagerPage::$discountUpdate);
-		$I->waitForElementVisible(OrderManagerPage::$discountUpdate, 30);
-		$I->fillField(OrderManagerPage::$discountUpdate, $discountUpdate);
-		$I->waitForElementVisible($userOrderPage->returnButtonUpdateDiscount($id), 30);
-		$I->click($userOrderPage->returnButtonUpdateDiscount($id));
-		$I->waitForElementVisible(OrderManagerPage::$specialUpdate, 30);
 		$I->scrollTo(OrderManagerPage::$specialUpdate);
 		$I->waitForElementVisible(OrderManagerPage::$specialUpdate, 30);
 		$I->fillField(OrderManagerPage::$specialUpdate, $specialUpdate);
 		$I->waitForElementVisible($userOrderPage->returnButtonSpecialDiscount($id), 30);
-		$I->click($userOrderPage->returnButtonSpecialDiscount($id));
+		$I->executeJS('window.scrollTo(65,80);');
 		$I->waitForElementVisible(OrderManagerPage::$specialUpdate, 30);
+		$I->click($userOrderPage->returnButtonSpecialDiscount($id));
 		$I->scrollTo(OrderManagerPage::$specialUpdate);
-		$adminFinalPriceEnd = $randomProductPrice - ($discountUpdate + (($specialUpdate/100)*$randomProductPrice));
+		$adminFinalPriceEnd = ($randomProductPrice - ($specialUpdate/100)*$randomProductPrice) - (($priceDiscount/100)*($randomProductPrice-($specialUpdate/100)*$randomProductPrice));
+		$I->wait(1);
 		$I->see($adminFinalPriceEnd);
 		$I->executeJS('window.scrollTo(0,0);');
-		$I->waitForElement(OrderManagerPage::$close, 30);
 		$I->waitForText(OrderManagerPage::$buttonClose, 10, OrderManagerPage::$close);
+		$I->click(OrderManagerPage::$buttonClose);
 	}
 }
