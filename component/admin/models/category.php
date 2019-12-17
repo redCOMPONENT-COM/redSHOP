@@ -3,11 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Redshop Category Model
@@ -47,6 +49,7 @@ class RedshopModelCategory extends RedshopModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
+		/** @scrutinizer ignore-call */
 		$form = $this->loadForm(
 			'com_redshop.category',
 			'category',
@@ -80,6 +83,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (empty($data))
 		{
+			/** @scrutinizer ignore-call */
 			$data = $this->getItem();
 		}
 
@@ -99,6 +103,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 */
 	public function getItem($pk = null)
 	{
+		/** @scrutinizer ignore-call */
 		$item = parent::getItem($pk);
 
 		if (!empty($item->id))
@@ -155,7 +160,7 @@ class RedshopModelCategory extends RedshopModelForm
 	 *
 	 * @since   2.0.6
 	 */
-	public function save($data)
+	public function saveCategory(&$data)
 	{
 		JPluginHelper::importPlugin('redshop_category');
 
@@ -175,9 +180,18 @@ class RedshopModelCategory extends RedshopModelForm
 			$row->setLocation($data['parent_id'], 'last-child');
 		}
 
+		$data['product_filter_params'] = "";
+
+		if ($data['product_filter']['enable'] == 1)
+		{
+			$registry = new Registry($data['product_filter']);
+			$data['product_filter_params'] = (string) $registry;
+		}
+
 		if (!$row->bind($data))
 		{
-			$this->setError($row->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
 			return false;
 		}
@@ -185,7 +199,8 @@ class RedshopModelCategory extends RedshopModelForm
 		// Check the data.
 		if (!$row->check())
 		{
-			$this->setError($row->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $row->getError());
 
 			return false;
 		}
@@ -202,6 +217,8 @@ class RedshopModelCategory extends RedshopModelForm
 		{
 			return false;
 		}
+
+		$data['id'] = $row->id;
 
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterCategorySave', array(&$row, $data['id']));
 
@@ -253,53 +270,92 @@ class RedshopModelCategory extends RedshopModelForm
 
 		for ($i = 0, $in = count($copyData); $i < $in; $i++)
 		{
-			$post                         = array();
-			$post['id']                   = 0;
-			$post['name']                 = $this->renameToUniqueValue('name', $copyData[$i]->name, '', 'Category');
-			$post['short_description']    = $copyData[$i]->short_description;
-			$post['description']          = $copyData[$i]->description;
-			$post['template']             = $copyData[$i]->template;
-			$post['more_template']        = $copyData[$i]->more_template;
-			$post['products_per_page']    = $copyData[$i]->products_per_page;
-			$post['metakey']              = $copyData[$i]->metakey;
-			$post['metadesc']             = $copyData[$i]->metadesc;
-			$post['metalanguage_setting'] = $copyData[$i]->metalanguage_setting;
-			$post['metarobot_info']       = $copyData[$i]->metarobot_info;
-			$post['pagetitle']            = $copyData[$i]->pagetitle;
-			$post['pageheading']          = $copyData[$i]->pageheading;
-			$post['sef_url']              = $copyData[$i]->sef_url;
-			$post['published']            = $copyData[$i]->published;
-			$post['category_pdate']       = date("Y-m-d h:i:s");
-			$post['ordering']             = count($copyData) + $i + 1;
-			$post['parent_id']            = $copyData[$i]->parent_id;
-			$post['level']                = $copyData[$i]->level;
+			$post                          = array();
+			$post['id']                    = 0;
+			$post['name']                  = $this->renameToUniqueValue('name', $copyData[$i]->name, '', 'Category');
+			$post['short_description']     = $copyData[$i]->short_description;
+			$post['description']           = $copyData[$i]->description;
+			$post['template']              = $copyData[$i]->template;
+			$post['more_template']         = $copyData[$i]->more_template;
+			$post['products_per_page']     = $copyData[$i]->products_per_page;
+			$post['metakey']               = $copyData[$i]->metakey;
+			$post['metadesc']              = $copyData[$i]->metadesc;
+			$post['metalanguage_setting']  = $copyData[$i]->metalanguage_setting;
+			$post['metarobot_info']        = $copyData[$i]->metarobot_info;
+			$post['pagetitle']             = $copyData[$i]->pagetitle;
+			$post['pageheading']           = $copyData[$i]->pageheading;
+			$post['sef_url']               = $copyData[$i]->sef_url;
+			$post['published']             = $copyData[$i]->published;
+			$post['category_pdate']        = date("Y-m-d h:i:s");
+			$post['ordering']              = count($copyData) + $i + 1;
+			$post['parent_id']             = $copyData[$i]->parent_id;
+			$post['level']                 = $copyData[$i]->level;
+			$post['product_filter_params'] = $copyData[$i]->product_filter_params;
 
-			if (!empty($copyData[$i]->category_thumb_image))
+			$this->/** @scrutinizer ignore-call */ saveCategory($post);
+
+			/** @var RedshopEntityCategory $medias */
+			$medias = RedshopEntityCategory::getInstance($copyData[$i]->id)->getMedia();
+
+			foreach ($medias->/** @scrutinizer ignore-call */ getAll() as $media)
 			{
-				$post['category_thumb_image'] = $this->renameToUniqueValue(
-					'category_thumb_image', $copyData[$i]->category_thumb_image, 'dash', 'Category'
-				);
-			}
-
-			if (!empty($copyData[$i]->category_full_image))
-			{
-				$post['category_full_image'] = $this->renameToUniqueValue(
-					'category_full_image', $copyData[$i]->category_full_image, 'dash', 'Category'
-				);
-
-				$src  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copyData[$i]->category_full_image;
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
-
-				if (JFile::exists($src))
+				/** @var RedshopEntityMedia $media */
+				if ($media->get('scope') == 'full')
 				{
-					JFile::copy($src, $dest);
+					$this->/** @scrutinizer ignore-call */ storeMediaCopy($copyData[$i]->id, $post['id'], $media, 'full');
+				}
+				elseif ($media->get('scope') == 'back')
+				{
+					$this->/** @scrutinizer ignore-call */ storeMediaCopy($copyData[$i]->id, $post['id'], $media, 'back');
 				}
 			}
 
-			$this->save($post);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method for store media copy
+	 *
+	 * @param   integer  $copyCatId
+	 * @param   integer  $catId
+	 * @param   object   $media
+	 * @param   string   $scope
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	public function storeMediaCopy($copyCatId, $catId, $media, $scope)
+	{
+		/** @var RedshopEntityMediaImage $fullImage */
+		$fullImage     = RedshopEntityMediaImage::getInstance($media->getId());
+		$fullImageName = $fullImage->get('media_name');
+		$newFullImage  = time() . '_' . $fullImageName;
+
+		$src  = REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $copyCatId . '/' . $fullImageName;
+
+		$dest = REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $catId . '/' . $newFullImage;
+
+		if (JFile::exists($src))
+		{
+			JFile::copy($src, $dest);
+		}
+
+		if (JFile::exists($dest))
+		{
+			$mediaFullImage                       = new stdClass;
+			$mediaFullImage->media_name           = $newFullImage;
+			$mediaFullImage->media_alternate_text = '';
+			$mediaFullImage->media_section        = 'category';
+			$mediaFullImage->section_id           = $catId;
+			$mediaFullImage->media_type           = 'images';
+			$mediaFullImage->published            = 1;
+			$mediaFullImage->scope                = $scope;
+
+			$this->_db->insertObject('#__redshop_media', $mediaFullImage);
+		}
 	}
 
 	/**
@@ -323,6 +379,7 @@ class RedshopModelCategory extends RedshopModelForm
 
 		$productAccessories = array_merge(array(), $productAccessories);
 		$productList        = RedshopEntityCategory::getInstance($categoryId)->getProducts();
+		$productIds         = array_column($productList, 'id');
 
 		if (empty($productList))
 		{
@@ -335,13 +392,12 @@ class RedshopModelCategory extends RedshopModelForm
 
 			foreach ($productAccessories as $productAccessory)
 			{
-				$accessoryId = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
-
-				if ($productId == $productAccessory['child_product_id'])
+				if (in_array($productAccessory['child_product_id'], $productIds))
 				{
 					continue;
 				}
 
+				$accessoryId    = RedshopHelperAccessory::checkAccessoryExists($productId, $productAccessory['child_product_id']);
 				$accessoryTable = JTable::getInstance('Accessory_detail', 'Table');
 
 				$accessoryTable->accessory_id        = $accessoryId;
@@ -360,7 +416,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 				if (!$accessoryTable->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */
+					$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -385,7 +442,8 @@ class RedshopModelCategory extends RedshopModelForm
 
 		if (!$table->saveorder($pks, $order))
 		{
-			$this->setError($table->getError());
+			/** @scrutinizer ignore-deprecated */
+			$this->setError(/** @scrutinizer ignore-deprecated */ $table->getError());
 
 			return false;
 		}
@@ -468,6 +526,11 @@ class RedshopModelCategory extends RedshopModelForm
 			))
 			{
 				continue;
+			}
+
+			if (JFolder::exists(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/thumb'))
+			{
+				JFolder::delete(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $category->id . '/thumb');
 			}
 
 			// Update media data with new file name.

@@ -12,7 +12,7 @@ use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\DiscountSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps;
+use Configuration\ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 class CheckoutWithTotalDiscoutBeforeTodayCest
 {
@@ -60,21 +60,21 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 		$this->paymentMethod             = 'RedSHOP - Bank Transfer Payment';
 
 		//configuration enable one page checkout
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->fake->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'yes';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuation    = 'no';
-		$this->onePageNo        = 'no';
-		$this->onePageYes       = 'yes';
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->fake->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'yes',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'no'
+		);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	{
 		$I->doAdministratorLogin();
 	}
-	
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
@@ -99,21 +99,21 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
-		
+
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category');
 		$I->addCategorySave($this->randomCategoryName);
-		
+
 		$I->wantTo('I want to add product inside the category');
 		$I = new ProductManagerSteps($scenario);
 		$I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->productStart, $this->productEnd);
-		
+
 		$I->wantTo('Create Total Discount in Administrator');
 		$I = new DiscountSteps($scenario);
 		$I->addTotalDiscountSaveClose($this->randomDiscountName,  $this->totalAmount, 'Higher', 'Total', $this->discountAmount, $this->discountStart, $this->discountEnd, $this->shopperGroup);
 	}
-	
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -123,14 +123,10 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	{
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageYes, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 		$I = new OrderManagerJoomla3Steps($scenario);
 		$I->wantTo('Add products in cart');
 		$I->addProductToCart($this->randomProductName, $this->randomProductPrice, $this->userName, $this->password );
-		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuation, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead,
-			$this->onePageNo, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
 	}
 
 	/**
@@ -142,7 +138,7 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 		$I->wantTo('Check Order');
 		$I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName,  $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
 	}
-	
+
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
@@ -150,6 +146,10 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
+		$I->wantTo('Disable one page checkout');
+		$this->cartSetting["onePage"] = 'no';
+		$I = new ConfigurationSteps($scenario);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Deletion Product in Administrator');
 		$I = new ProductManagerSteps($scenario);

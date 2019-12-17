@@ -269,4 +269,71 @@
                 default=""
         />
     </fieldset>
+    <fields name="product_filter" label="COM_REDSHOP_PRODUCT_FILTERS">
+        <fieldset name="filters">
+            <field
+                    name="enable"
+                    type="redshop.radio"
+                    default="0"
+                    label="COM_REDSHOP_FILTER_ENABLE">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
+                    name="product_attributes"
+                    showon="enable:1"
+                    type="productattributes"
+                    product_ids=""
+                    label="COM_REDSHOP_PRODUCT_ATTRIBUTES"
+                    multiple="true"
+            />
+            <field
+                    name="category_enable"
+                    showon="enable:1"
+                    type="redshop.radio"
+                    default="0"
+                    label="COM_REDSHOP_FILTER_ENABLE_CATEGORY"
+                    description="COM_REDSHOP_FILTER_ENABLE_CATEGORY_NOTICE">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
+                    name="manufacturer_enable"
+                    showon="enable:1"
+                    type="redshop.radio"
+                    default="0"
+                    label="COM_REDSHOP_FILTER_ENABLE_MANUFACTURER">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
+                    name="price_enable"
+                    showon="enable:1"
+                    type="redshop.radio"
+                    default="0"
+                    label="COM_REDSHOP_FILTER_ENABLE_PRICE">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
+                    name="customfield_enable"
+                    showon="enable:1"
+                    type="redshop.radio"
+                    default="0"
+                    label="COM_REDSHOP_FILTER_ENABLE_CUSTOM_FIELDS">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
+                    name="customfields"
+                    type="extrafields"
+                    showon="enable:1[AND]customfield_enable:1"
+                    section="1"
+                    field_type="3,4,5,6"
+                    multiple="true"
+                    label="COM_REDSHOP_PRODUCT_CUSTOM_FIELDS"
+                    description="COM_REDSHOP_PRODUCT_CUSTOM_FIELDS_FILTER_NOTICE">
+            </field>
+        </fieldset>
+    </fields>
 </form>

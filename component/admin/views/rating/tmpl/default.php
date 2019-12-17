@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,9 +21,11 @@ $order_functions = order_functions::getInstance();
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add')
-			|| (pressbutton == 'edit')
-			|| (pressbutton == 'remove')) {
+		if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'remove') {
+			if (pressbutton == 'remove' && !confirm('<?php echo JText::_("COM_REDSHOP_RATING_DELETE_CONFIRM")?>')) {
+				return;
+			}
+			
 			form.view.value = "rating_detail";
 		}
 		try {

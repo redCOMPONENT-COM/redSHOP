@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,35 +18,6 @@ defined('_JEXEC') or die;
  */
 class RedshopModelDiscount extends RedshopModelForm
 {
-	/**
-	 * Method to save the form data.
-	 *
-	 * @param   array $data The form data.
-	 *
-	 * @return  boolean  True on success, False on error.
-	 *
-	 * @since   1.6
-	 */
-	public function save($data)
-	{
-		$tz  = JFactory::getConfig()->get('offset');
-		$UTC = new DateTimeZone('UTC');
-
-		if (!empty($data['start_date']) && !is_numeric($data['start_date']))
-		{
-			$data['start_date'] = JFactory::getDate($data['start_date'], $tz)->setTimezone($UTC)->toUnix();
-		}
-
-		if (!empty($data['end_date']) && !is_numeric($data['end_date']))
-		{
-			$data['end_date'] = JFactory::getDate($data['end_date'], $tz)->setTimezone($UTC)->toUnix();
-
-			$data['end_date'] = RedshopHelperDatetime::generateTimestamp($data['end_date']);
-		}
-
-		return parent::save($data);
-	}
-
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
@@ -90,8 +61,6 @@ class RedshopModelDiscount extends RedshopModelForm
 			return false;
 		}
 
-		$dateFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
-
 		$item->shopper_group = RedshopEntityDiscount::getInstance($item->discount_id)->getShopperGroups()->ids();
 
 		$spgrpdisFilter = JFactory::getApplication()->input->getInt('spgrpdis_filter', 0);
@@ -100,9 +69,6 @@ class RedshopModelDiscount extends RedshopModelForm
 		{
 			$item->shopper_group = $spgrpdisFilter;
 		}
-
-		$item->start_date    = !empty($item->start_date) ? JFactory::getDate($item->start_date)->format($dateFormat) : null;
-		$item->end_date      = !empty($item->end_date) ? JFactory::getDate($item->end_date)->format($dateFormat) : null;
 
 		return $item;
 	}

@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2018 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,13 +39,14 @@ class CategorySteps extends AbstractStep
 		$tester->fillField(CategoryPage::$idFieldName, $categoryName);
 		$tester->fillField(CategoryPage::$categoryNoPage, $noPage);
 		$tester->click(CategoryPage::$parentCategory);
+		$tester->waitForElement(CategoryPage::$parentCategoryInput, 30);
+		$tester->wait(0.5);
 		$tester->fillField(CategoryPage::$parentCategoryInput, $categoryParent);
 		$tester->pressKey(CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$tester->click(CategoryPage::$template1);
-		$tester->click(CategoryPage::$choiceTemplate);
 		$tester->click(CategoryPage::$buttonSave);
 		$categoryParent = '- ' . $categoryParent;
-		$tester->see($categoryParent);
+		$tester->waitForText($categoryParent,10);
+		$tester->click(CategoryPage::$buttonClose);
 	}
 
 	/**
@@ -88,5 +89,34 @@ class CategorySteps extends AbstractStep
 		$userCategoryPage = new CategoryPage;
 		$tester->waitForElement($userCategoryPage->xPathAccessory($accessoryName), 60);
 		$tester->click($userCategoryPage->xPathAccessory($accessoryName));
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $noPage
+	 * @param $fileImage
+	 * @param $titleSEO
+	 * @param $keySEO
+	 * @param $descriptionSEO
+	 * @throws Exception
+	 * @since 2.1.2
+	 */
+	public function createCategoryImageAndSEO($categoryName, $noPage, $fileImage, $titleSEO, $keySEO, $descriptionSEO)
+	{
+		$I = $this;
+		$I->amOnPage(CategoryPage::$url);
+		$I->click(CategoryPage::$buttonNew);
+		$I->fillField(CategoryPage::$idFieldName, $categoryName);
+		$I->fillField(CategoryPage::$categoryNoPage, $noPage);
+		$I->waitForElement(CategoryPage::$fieldUploadImage, 30);
+//		$I->attachFile(CategoryPage::$fieldUploadImage, $fileImage);
+		$I->click(CategoryPage::$tabSEO);
+		$I->waitForElementVisible(CategoryPage::$titlePage, 30);
+		$I->fillField(CategoryPage::$titlePage, $titleSEO);
+		$I->waitForElementVisible(CategoryPage::$metaKey, 30);
+		$I->fillField(CategoryPage::$metaKey, $keySEO);
+		$I->waitForElementVisible(CategoryPage::$descriptionSEO, 30);
+		$I->fillField(CategoryPage::$descriptionSEO, $descriptionSEO);
+		$I->click(CategoryPage::$buttonSaveClose);
 	}
 }

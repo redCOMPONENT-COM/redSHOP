@@ -2,7 +2,7 @@
 /**
  * @package    RedSHOP.Installer
  *
- * @copyright  Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright  Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -276,17 +276,77 @@ class Com_RedshopInstallerScript
 				// Force to enable redSHOP PDF - TcPDF plugin by anyways
 				$this->enablePlugin('tcpdf', 'redshop_pdf');
 
+				// Force to enable redSHOP Export - Attribute plugin by anyways
+				$this->enablePlugin('attribute', 'redshop_export');
+
 				// Force to enable redSHOP Export - Category plugin by anyways
 				$this->enablePlugin('category', 'redshop_export');
+
+				// Force to enable redSHOP Export - Field plugin by anyways
+				$this->enablePlugin('field', 'redshop_export');
+
+				// Force to enable redSHOP Export - Manufacturer plugin by anyways
+				$this->enablePlugin('manufacturer', 'redshop_export');
+
+				// Force to enable redSHOP Export - Newsletter Subscriber plugin by anyways
+				$this->enablePlugin('newsletter_subscriber', 'redshop_export');
 
 				// Force to enable redSHOP Export - Product plugin by anyways
 				$this->enablePlugin('product', 'redshop_export');
 
+				// Force to enable redSHOP Export - Product Stockroom Data plugin by anyways
+				$this->enablePlugin('product_stockroom_data', 'redshop_export');
+
+				// Force to enable redSHOP Export - Related Product plugin by anyways
+				$this->enablePlugin('related_product', 'redshop_export');
+
+				// Force to enable redSHOP Export - Shipping Address plugin by anyways
+				$this->enablePlugin('shipping_address', 'redshop_export');
+
+				// Force to enable redSHOP Export - Shopper Group Attribute Price plugin by anyways
+				$this->enablePlugin('shopper_group_attribute_price', 'redshop_export');
+
+				// Force to enable redSHOP Export - Shopper Group Product Price plugin by anyways
+				$this->enablePlugin('shopper_group_product_price', 'redshop_export');
+
+				// Force to enable redSHOP Export - User plugin by anyways
+				$this->enablePlugin('user', 'redshop_export');
+
+				// Force to enable redSHOP Import - Attribute plugin by anyways
+				$this->enablePlugin('attribute', 'redshop_import');
+
 				// Force to enable redSHOP Import - Category plugin by anyways
 				$this->enablePlugin('category', 'redshop_import');
 
+				// Force to enable redSHOP Import - Field plugin by anyways
+				$this->enablePlugin('field', 'redshop_import');
+
+				// Force to enable redSHOP Import - Manufacturer plugin by anyways
+				$this->enablePlugin('manufacturer', 'redshop_import');
+
+				// Force to enable redSHOP Import - Newsletter Subscriber plugin by anyways
+				$this->enablePlugin('newsletter_subscriber', 'redshop_import');
+
 				// Force to enable redSHOP Import - Product plugin by anyways
 				$this->enablePlugin('product', 'redshop_import');
+
+				// Force to enable redSHOP Import - Product Stockroom Data plugin by anyways
+				$this->enablePlugin('product_stockroom_data', 'redshop_import');
+
+				// Force to enable redSHOP Import - Related Product plugin by anyways
+				$this->enablePlugin('related_product', 'redshop_import');
+
+				// Force to enable redSHOP Import - Shipping Address plugin by anyways
+				$this->enablePlugin('shipping_address', 'redshop_import');
+
+				// Force to enable redSHOP Import - Shopper Group Attribute Price plugin by anyways
+				$this->enablePlugin('shopper_group_attribute_price', 'redshop_import');
+
+				// Force to enable redSHOP Import - Shopper Group Product Price plugin by anyways
+				$this->enablePlugin('shopper_group_product_price', 'redshop_import');
+
+				// Force to enable redSHOP Import - User plugin by anyways
+				$this->enablePlugin('user', 'redshop_import');
 			}
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,7 +61,7 @@ class RedshopModelStatistic extends RedshopModelList
 		$minDate = $db->setQuery($query)->loadResult();
 
 		$query = $db->getQuery(true)
-			->select('FROM_UNIXTIME(' . $db->qn('pv.created_date') . ', "' . $formate . '") AS viewdate')
+			->select('FROM_UNIXTIME(' . $db->qn('pv.created_date') . ', "' . /** @scrutinizer ignore-type */ $formate . '") AS viewdate')
 			->select($db->qn('p.product_id'))
 			->select($db->qn('p.product_name'))
 			->select($db->qn('p.product_price'))
@@ -140,7 +140,7 @@ class RedshopModelStatistic extends RedshopModelList
 				->select('SUM(oi.product_quantity) AS totalproduct');
 		}
 
-		$query->select('FROM_UNIXTIME(' . $db->qn('oi.cdate') . ', "' . $formate . '") AS viewdate')
+		$query->select('FROM_UNIXTIME(' . $db->qn('oi.cdate') . ', "' . /** @scrutinizer ignore-type */ $formate . '") AS viewdate')
 			->select($db->qn('p.product_id'))
 			->select($db->qn('p.product_name'))
 			->select($db->qn('p.product_price'))
@@ -208,7 +208,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->select($db->qn('product_id'))
 			->select($db->qn('product_name'))
 			->select($db->qn('product_price'))
-			->select('FROM_UNIXTIME(' . $db->qn('publish_date') . ', "' . $formate . '") AS viewdate')
+			->select('FROM_UNIXTIME(' . $db->qn('publish_date') . ', "' . /** @scrutinizer ignore-type */ $formate . '") AS viewdate')
 			->from($db->qn('#__redshop_product'))
 			->order($db->qn('publish_date') . ' DESC');
 
@@ -271,7 +271,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->select($db->qn('uf.lastname'))
 			->select($db->qn('o.order_id'))
 			->select($db->qn('o.order_total'))
-			->select('FROM_UNIXTIME(' . $db->qn('o.cdate') . ', "' . $formate . '") AS viewdate')
+			->select('FROM_UNIXTIME(' . $db->qn('o.cdate') . ', "' . /** @scrutinizer ignore-type */ $formate . '") AS viewdate')
 			->from($db->qn('#__redshop_orders', 'o'))
 			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id'))
 			->where($db->qn('uf.address_type') . ' LIKE ' . $db->q('BT'))
@@ -360,7 +360,7 @@ class RedshopModelStatistic extends RedshopModelList
 		}
 		elseif ($this->_filteroption == 4)
 		{
-			$query->select('CONCAT("' . JText::_('COM_REDSHOP_YEAR') . ' - ", FROM_UNIXTIME(o.cdate,"' . $formate . '")) AS viewdate');
+			$query->select('CONCAT("' . JText::_('COM_REDSHOP_YEAR') . ' - ", FROM_UNIXTIME(o.cdate,"' . /** @scrutinizer ignore-type */ $formate . '")) AS viewdate');
 		}
 		else
 		{
@@ -452,7 +452,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 		$query = $db->getQuery(true)
 			->clear()
-			->select('FROM_UNIXTIME(o.cdate,"' . $formate . '") AS viewdate')
+			->select('FROM_UNIXTIME(o.cdate,"' . /** @scrutinizer ignore-type */ $formate . '") AS viewdate')
 			->select('SUM(o.order_total) AS turnover')
 			->from($db->qn('#__redshop_orders', 'o'))
 			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id'))
@@ -520,12 +520,18 @@ class RedshopModelStatistic extends RedshopModelList
 		$query = $db->getQuery(true)
 			->clear()
 			->select('FROM_UNIXTIME(' . $db->qn('o.cdate') . ',' . $db->q($formate) . ') AS viewdate')
+			->select($db->qn('uf.firstname'))
+			->select($db->qn('uf.lastname'))
+			->select($db->qn('uf.user_email'))
 			->select('(SUM(o.order_total)/COUNT(DISTINCT o.user_id)) AS avg_order')
 			->from($db->qn('#__redshop_orders', 'o'))
+			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id'))
+			->where($db->qn('uf.address_type') . ' = ' . $db->q('BT'))
 			->where($db->qn('o.order_status') . ' IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
+			->group($db->qn('o.user_id'))
 			->order($db->qn('viewdate') . ' DESC');
 
-		if ($this->_filteroption && $minDate != '' && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -565,7 +571,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount price
 	 *
-	 * @return  object.
+	 * @return  object[]  An array of results.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -596,7 +602,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->order($db->qn('order_total') . 'DESC');
 		$amountPrice = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -631,7 +637,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount spent in total
 	 *
-	 * @return  object.
+	 * @return  object[]  An array of results.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -662,7 +668,7 @@ class RedshopModelStatistic extends RedshopModelList
 			->order($db->qn('order_total') . 'DESC');
 		$amountPrice = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -697,7 +703,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get amount order
 	 *
-	 * @return  object.
+	 * @return  object[]  An array of results.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -730,7 +736,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 		$amountOrder = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -765,7 +771,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get page viewer
 	 *
-	 * @return  object.
+	 * @return  object[]  An array of results.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -795,7 +801,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 		$pageViewer = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			while ($minDate < strtotime($today))
 			{
@@ -830,7 +836,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get redSHOP viewer
 	 *
-	 * @return  object.
+	 * @return  object[]  An array of results.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -854,7 +860,7 @@ class RedshopModelStatistic extends RedshopModelList
 
 		$siteViewer = $this->_getList($query);
 
-		if ($this->_filteroption && $minDate != "" && $minDate != 0)
+		if ($this->_filteroption && !empty($minDate))
 		{
 			$query = $db->getQuery(true)
 				->clear()
@@ -898,7 +904,7 @@ class RedshopModelStatistic extends RedshopModelList
 	 *
 	 * @param   string  $today  today text
 	 *
-	 * @return  object.
+	 * @return  object[]  An array of results.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -935,7 +941,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get start date
 	 *
-	 * @return  object.
+	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -975,7 +981,7 @@ class RedshopModelStatistic extends RedshopModelList
 	/**
 	 * get date Format
 	 *
-	 * @return  object.
+	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -1011,7 +1017,7 @@ class RedshopModelStatistic extends RedshopModelList
 	 * @param   string  $section    section
 	 * @param   int     $sectionId  section id
 	 *
-	 * @return  object.
+	 * @return  object[]  An array of results.
 	 *
 	 * @since   2.0.0.3
 	 */

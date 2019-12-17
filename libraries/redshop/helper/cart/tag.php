@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.3
@@ -163,6 +163,58 @@ class RedshopHelperCartTag
 
 			$template = str_replace("{discount_lbl}", JText::_('COM_REDSHOP_CHECKOUT_DISCOUNT_LBL'), $template);
 			$template = str_replace("{discount end if}", '', $template);
+		}
+
+		return $template;
+	}
+
+	/**
+	 * @param   string $template      Template
+	 * @param   object $order         Order data
+	 * @param   int    $quotationMode Quotation mode
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function replaceSpecialDiscount($template, $order, $quotationMode = 0)
+	{
+		if (strstr($template, '{if special_discount}') && strstr($template, '{special_discount end if}'))
+		{
+			$percentage = '';
+
+			if ($order->special_discount_amount <= 0)
+			{
+				$template_discount_sdata = explode('{if special_discount}', $template);
+				$template_discount_edata = explode('{special_discount end if}', $template_discount_sdata[1]);
+				$template                    = $template_discount_sdata[0] . $template_discount_edata[1];
+			}
+			else
+			{
+				$template = str_replace("{if special_discount}", '', $template);
+
+				if ($quotationMode && !Redshop::getConfig()->getBool('SHOW_QUOTATION_PRICE'))
+				{
+					$template = str_replace("{special_discount}", "", $template);
+					$template = str_replace("{special_discount_amount}", $order->special_discount, $template);
+
+				}
+				else
+				{
+					$discount = $order->special_discount_amount;
+
+					$template = str_replace(
+						"{special_discount_amount}",
+						RedshopHelperProductPrice::formattedPrice($discount, true),
+						$template
+					);
+
+					$template = str_replace("{special_discount}", $order->special_discount . '%', $template);
+				}
+
+				$template = str_replace("{special_discount_lbl}", JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'), $template);
+				$template = str_replace("{special_discount end if}", '', $template);
+			}
 		}
 
 		return $template;
@@ -344,6 +396,7 @@ class RedshopHelperCartTag
 			{
 				$productId     = $cart[$i]['product_id'];
 				$product       = RedshopHelperProduct::getProductById($productId);
+				$catId         = $product->cat_in_sefurl;
 				$attributeCart = productHelper::getInstance()->makeAttributeCart(
 					$cart[$i]['cart_attribute'], $productId, 0, 0, $quantity, $cartHtml
 				);
@@ -359,10 +412,10 @@ class RedshopHelperCartTag
 				}
 				else
 				{
-					$itemId = RedshopHelperRouter::getItemId($productId);
+					$itemId = RedshopHelperUtility::getCategoryItemid($catId);
 				}
 
-				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $itemId);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&cid='. $catId .'&pid=' . $productId . '&Itemid=' . $itemId);
 
 				// Trigger to change product link.
 				$dispatcher->trigger('onSetCartOrderItemProductLink', array(&$cart, &$link, $product, $i));
@@ -798,7 +851,7 @@ class RedshopHelperCartTag
 
 				if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
 				{
-					if (strstr($cartHtml, "{quantity_increase_decrease}") && $view == 'cart')
+					if (strstr($cartHtml, "{quantity_increase_decrease}") && $view != 'checkout')
 					{
 						$cartHtml = str_replace("{quantity_increase_decrease}", $updateCartMinusPlus, $cartHtml);
 						$cartHtml = str_replace("{update_cart}", '', $cartHtml);

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.0" method="upgrade" group="redshop_product">
+    <name>PLG_REDSHOP_PRODUCT_SH404URLS</name>
+    <creationDate>July 2018</creationDate>
+    <copyright>(c) Redweb.dk</copyright>
+    <license>GNU/GPL</license>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.vn</authorEmail>
+    <authorUrl>http://www.redweb.vn</authorUrl>
+    <version>1.0.0</version>
+    <description>PLG_REDSHOP_PRODUCT_SH404URLS_DESC</description>
+    <files>
+        <filename plugin="sh404urls">sh404urls.php</filename>
+        <filename>sh404urls.xml</filename>
+    </files>
+
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_product_sh404urls.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_redshop_product_sh404urls.sys.ini</language>
+    </languages>
+</extension>

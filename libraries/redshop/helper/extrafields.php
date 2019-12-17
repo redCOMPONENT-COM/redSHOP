@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -117,6 +117,13 @@ class RedshopHelperExtrafields
 	 * @var  int
 	 */
 	const TYPE_SELECTION_BASED_ON_SELECTED_CONDITIONS = 15;
+
+	/**
+	 * Extra Field Type joomla articles related
+	 *
+	 * @var  int
+	 */
+	const TYPE_JOOMLA_RELATED_ARTICLES = 16;
 
 	/**
 	 * Extra Field Type for product finder date picker.
@@ -654,6 +661,40 @@ class RedshopHelperExtrafields
 							->from($db->qn('#__redshop_country'));
 						$db->setQuery($query);
 						$fieldChk = $db->loadObjectList();
+						$chkData  = array();
+
+						if (!empty($dataValue->data_txt))
+						{
+							$chkData  = explode(",", $dataValue->data_txt);
+						}
+
+						$exField  .= RedshopLayoutHelper::render(
+							'extrafields.field.multiple',
+							array(
+								'rowData'         => $customField,
+								'extraFieldLabel' => $extraFieldLabel,
+								'required'        => $required,
+								'requiredLabel'   => $reqlbl,
+								'errorMsg'        => $errormsg,
+								'fieldCheck'      => $fieldChk,
+								'checkData'       => $chkData
+							),
+							'',
+							array(
+								'component' => 'com_redshop',
+								'client'    => 0
+							)
+						);
+						break;
+
+					case self::TYPE_JOOMLA_RELATED_ARTICLES:
+						$query = $db->getQuery(true)
+							->select('*')
+							->from($db->qn('#__content'))
+							->where($db->qn('state') . ' = 1');
+						$db->setQuery($query);
+
+						$fieldChk = $db->loadObjectList();
 						$chkData  = explode(",", $dataValue->data_txt);
 						$exField  .= RedshopLayoutHelper::render(
 							'extrafields.field.multiple',
@@ -675,7 +716,7 @@ class RedshopHelperExtrafields
 						break;
 
 					case self::TYPE_WYSIWYG:
-						$editor        = JFactory::getEditor();
+						$editor        = JEditor::getInstance(JFactory::getConfig()->get('editor'));
 						$textareaValue = ($dataValue && $dataValue->data_txt) ? $dataValue->data_txt : '';
 
 						$exField .= RedshopLayoutHelper::render(
@@ -991,9 +1032,14 @@ class RedshopHelperExtrafields
 
 			if (isset($data[$row->name]))
 			{
-				if ($row->type == self::TYPE_WYSIWYG || $row->type == self::TYPE_TEXT || $row->type == self::TYPE_TEXT_AREA)
+				if ($row->type == self::TYPE_TEXT || $row->type == self::TYPE_TEXT_AREA)
 				{
-					$dataTxt = JFactory::getApplication()->input->get($row->name, '', 'RAW');
+					$dataTxt = \JFilterInput::getInstance()->clean($data[$row->name]);
+				}
+				elseif ($row->type == self::TYPE_WYSIWYG)
+				{
+					$inputField = JFactory::getApplication()->input->post->get($row->name, '', 'raw');
+					$dataTxt    = \JFilterInput::getInstance(null, null, 1, 1)->clean($inputField, 'html');
 				}
 				else
 				{
@@ -1913,5 +1959,68 @@ class RedshopHelperExtrafields
 	public static function extraFieldDisplay($fieldSection = 0, $sectionId = 0, $fieldName = "", $templateContent = "", $categoryPage = 0)
 	{
 		return ExtraFields::displayExtraFields($fieldSection, $sectionId, $fieldName, $templateContent, (boolean) $categoryPage);
+	}
+
+	/**
+	 * Method for get article joomla by id.
+	 *
+	 * @param   string  $ids   Is required?
+	 *
+	 * @return  mixed
+	 */
+	public static function getArticleJoomlaById($ids)
+	{
+		$db = \JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__content'))
+			->where($db->qn('id') . ' IN (' . $ids . ')');
+
+		return $db->setQuery($query)->loadObjectList();
+	}
+
+	/**
+	 * Method get display field data
+	 *
+	 * @param   mixed    $data   Is required?
+	 * @param   string   $layout   Is required?
+	 * @param   integer  $fieldId
+	 * @param   string   $dataTxt
+	 *
+	 * @return  string
+	 */
+	public static function getDisplayFieldData($data, $layout, $fieldId = 0, $dataTxt = '')
+	{
+		if (empty($data))
+		{
+			$fieldValues = \RedshopEntityField::getInstance($fieldId)->getFieldValues();
+			$checkData   = explode(',', $dataTxt);
+			$data        = $layout == 'select' ? array() : '';
+
+			foreach ($fieldValues as $value)
+			{
+				if (!in_array(urlencode($value->field_value), $checkData) && !in_array($value->field_value, $checkData))
+				{
+					continue;
+				}
+
+				if ($layout == 'select')
+				{
+					$data[] = urldecode($value->field_name);
+				}
+				else
+				{
+					$data = urldecode($value->field_name);
+				}
+			}
+		}
+
+		return \RedshopLayoutHelper::render(
+			'extrafields.display.' . $layout,
+			array(
+				'data' => $data
+			)
+		);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Discount
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -124,11 +124,18 @@ class RedshopHelperDiscount
 		// Convert discount_enddate to middle night
 		$productData->discount_enddate = RedshopHelperDatetime::generateTimestamp($productData->discount_enddate);
 
-		if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
-			|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
-			|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
+		if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 0)
 		{
-			return (float) $productData->discount_price;
+			$productData->discount_price = 0;
+		}
+		else
+		{
+			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
+				|| ((int)$productData->discount_enddate >= $today && (int)$productData->discount_stratdate <= $today)
+				|| ($productData->discount_enddate == '0' && (int)$productData->discount_stratdate <= $today))
+			{
+				return (float)$productData->discount_price;
+			}
 		}
 
 		return 0.0;
@@ -211,7 +218,7 @@ class RedshopHelperDiscount
 			$productPriceArray = RedshopHelperProductPrice::getNetPrice($cart[$i]['product_id']);
 
 			// If the product is already discount
-			if ($productPriceArray['product_price_saving_percentage'] > 0)
+			if ($productPriceArray['product_price_saving_percentage'] > 0 && empty($cart[$i]['cart_attribute']))
 			{
 				$amount = $percent * $productPriceArray['product_price'] / 100;
 				$value -= $amount * $cart[$i]['quantity'];

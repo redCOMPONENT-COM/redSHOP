@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,9 +68,10 @@ class RedSHOPGoogle_AnalyticsHelper
 			ga('ecommerce:addTransaction', {
 				'id': '" . $data['order_id'] . "',             // Transaction ID. Required.
 				'affiliation': '" . $data['shopname'] . "',    // Affiliation or store name.
-				'revenue': '" . $data['order_total'] . "',     // Grand Total.
+				'revenue': '" . number_format($data['order_total'],2, '.', '') . "',     // Grand Total.
 				'shipping': '" . $data['order_shipping'] . "', // Shipping.
-				'tax': '" . $data['order_tax'] . "'            // Tax.
+				'tax': '" . $data['order_tax'] . "',            // Tax.
+				'currency': '" . $data['currency'] . "'            // local currency code.
 			});
 
 		";
@@ -96,8 +97,9 @@ class RedSHOPGoogle_AnalyticsHelper
 				'name': '" . $itemData['product_name'] . "',            // Product name. Required.
 				'sku': '" . $itemData['product_number'] . "',           // SKU/code.
 				'category': '" . $itemData['product_category'] . "',    // Category or variation.
-				'price': '" . $itemData['product_price'] . "',          // Unit price.
-				'quantity': '" . $itemData['product_quantity'] . "'     // Quantity.
+				'price': '" . number_format($itemData['product_price'],2, '.', '') . "',          // Unit price.
+				'quantity': '" . $itemData['product_quantity'] . "',     // Quantity.
+				'currency': '" . $itemData['currency'] . "'     // local currency code.
 			});
 		";
 

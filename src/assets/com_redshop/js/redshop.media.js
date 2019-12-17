@@ -239,6 +239,10 @@
                 self.$cropperButton.addClass('disabled').prop('disabled', true);
                 self.$removeButton.addClass('disabled').prop('disabled', true);
 
+                if (self.$container.find(".ui-corner-all").length <= 0) {
+                    jQuery(".ui-corner-all").remove();
+                }
+
                 var $hidden = null;
 
                 // Add input hidden for rs-media-img-delete.
@@ -246,7 +250,7 @@
                     $hidden = $('<input/>');
                     $hidden.attr('id', 'rs-media-img-delete')
                         .attr('name', self.$container.data("id") + "_delete")
-                        .attr('type', 'text');
+                        .attr('type', 'hidden');
 
                     $("#adminForm").append($hidden);
                 }

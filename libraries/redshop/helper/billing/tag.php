@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -119,6 +119,8 @@ class RedshopHelperBillingTag
 		$firstNameLabel        = '';
 		$lastName              = '';
 		$lastNameLabel         = '';
+		$fullName              = '';
+		$fullNameLabel         = '';
 		$address               = '';
 		$addressLabel          = '';
 		$zip                   = '';
@@ -154,6 +156,12 @@ class RedshopHelperBillingTag
 			{
 				$lastName      = $billingAddress->lastname;
 				$lastNameLabel = JText::_('COM_REDSHOP_LASTNAME');
+			}
+
+			if (!empty($billingAddress->lastname) || !empty($billingAddress->firstname))
+			{
+				$fullName      = $billingAddress->lastname . ' ' . $billingAddress->firstname;
+				$fullNameLabel = JText::_('COM_REDSHOP_FULLNAME');
 			}
 
 			if (!empty($billingAddress->address))
@@ -246,14 +254,16 @@ class RedshopHelperBillingTag
 			$extraFields = RedshopHelperExtrafields::listAllFieldDisplay($fieldSection, $billingAddress->users_info_id, 1);
 		}
 
-		$tags = array('{companyname}', '{companyname_lbl}', '{firstname}', '{firstname_lbl}', '{lastname}', '{lastname_lbl}', '{address}',
-			'{address_lbl}', '{zip}', '{zip_lbl}', '{city}', '{city_lbl}', '{country}', '{country_lbl}', '{state}', '{state_lbl}', '{email}',
-			'{email_lbl}', '{phone}', '{phone_lbl}', '{vatnumber}', '{vatnumber_lbl}', '{ean_number}', '{ean_number_lbl}', '{taxexempt}',
+		$tags = array('{companyname}', '{companyname_lbl}', '{firstname}', '{firstname_lbl}', '{lastname}',
+			'{lastname_lbl}', '{fullname}', '{fullname_lbl}','{address}', '{address_lbl}', '{zip}', '{zip_lbl}',
+			'{city}', '{city_lbl}', '{country}', '{country_lbl}', '{state}', '{state_lbl}', '{email}', '{email_lbl}', '{phone}',
+			'{phone_lbl}', '{vatnumber}', '{vatnumber_lbl}', '{ean_number}', '{ean_number_lbl}', '{taxexempt}',
 			'{taxexempt_lbl}', '{user_taxexempt_request}', '{user_taxexempt_request_lbl}', '{billing_extrafield}');
 
-		$replace = array($companyName, $companyNameLabel, $firstName, $firstNameLabel, $lastName, $lastNameLabel, $address, $addressLabel,
-			$zip, $zipLabel, $city, $cityLabel, $country, $countryLabel, $state, $stateLabel, $email, $emailLabel, $phone, $phoneLabel,
-			$vatNumber, $vatNumberLabel, $eanNumber, $eanNumberLabel, $taxExempt, $taxExemptLabel, $taxExemptRequest, $taxExemptRequestLabel,
+		$replace = array($companyName, $companyNameLabel, $firstName, $firstNameLabel, $lastName, $lastNameLabel,
+			$fullName, $fullNameLabel, $address, $addressLabel, $zip, $zipLabel, $city, $cityLabel, $country,
+			$countryLabel, $state, $stateLabel, $email, $emailLabel, $phone, $phoneLabel, $vatNumber, $vatNumberLabel,
+			$eanNumber, $eanNumberLabel, $taxExempt, $taxExemptLabel, $taxExemptRequest, $taxExemptRequestLabel,
 			$extraFields);
 
 		// Merge content

@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -129,11 +129,16 @@ class PlgRedshop_ImportShipping_Address extends AbstractImportPlugin
 
 		$data['address_type'] = 'ST';
 
-		if (!$table->bind($data))
+		if (array_key_exists($this->primaryKey, $data) && $data[$this->primaryKey])
+		{
+			$table->load($data[$this->primaryKey]);
+		}
+
+		if (!$table->bind($data) || !$table->check() || !$table->store())
 		{
 			return false;
 		}
 
-		return $db->insertObject('#__redshop_users_info', $table, $this->primaryKey);
+		return true;
 	}
 }

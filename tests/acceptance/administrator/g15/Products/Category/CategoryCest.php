@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ class CategoryCest extends AbstractCest
 		$nameCategoryChild = $this->faker->bothify('CategiryChild ?##? ');
 		$productName       = $this->faker->bothify('ProductCategory ?##?');
 		$productNameSecond = $this->faker->bothify('Product ?##?');
-		$productNumber     = $this->faker->numberBetween(1, 10000);
+		$productNumber     = $this->faker->numberBetween(100, 10000);
 		$price             = $this->faker->numberBetween(1, 100);
 
 		$tester->addCategoryChild('New' . $this->dataNew['name'], $nameCategoryChild, 3);

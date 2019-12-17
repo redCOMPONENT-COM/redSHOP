@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -115,9 +115,14 @@ class RedshopViewCategory extends RedshopView
 				$this->setLayout('notfound');
 			}
 
+			$registry = new JRegistry;
+			$filterParams = $registry->loadString($maincat->product_filter_params);
+
 			$isSlider = false;
 
-			if (!empty($loadCategorytemplate) && strpos($loadCategorytemplate[0]->template_desc, "{include_product_in_sub_cat}") !== false)
+			if ((!empty($loadCategorytemplate) && strpos($loadCategorytemplate[0]->template_desc, "{include_product_in_sub_cat}") !== false)
+				|| ($filterParams->get('enable') == 1 && $filterParams->get('category_enable') == 1)
+			)
 			{
 				$model->setState('include_sub_categories_products', true);
 				$loadCategorytemplate[0]->template_desc = str_replace("{include_product_in_sub_cat}", '', $loadCategorytemplate[0]->template_desc);

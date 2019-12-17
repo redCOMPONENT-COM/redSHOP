@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -337,5 +337,38 @@ class RedshopControllerProduct extends RedshopController
 
 			return true;
 		}
+	}
+
+	/**
+	 * Save order ajax.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.3
+	 */
+	public function saveOrderAjax()
+	{
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
+
+		$order = $this->input->post->get('order', array(), 'array');
+
+		// Sanitize the input
+		$pks   = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
+
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('product_detail');
+
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+
+		if ($return)
+		{
+			echo '1';
+		}
+
+		// Close the application
+		\JFactory::getApplication()->close();
 	}
 }

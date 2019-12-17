@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,6 +30,7 @@ class RedshopControllerAccess extends RedshopControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
+		JFactory::getApplication()->setUserState('com_redshop.access.selectedTabPosition', $this->input->get('selectedTabPosition'));
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 

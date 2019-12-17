@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,6 +59,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
+
+		// Store current post to user state
+		$context = "com_redshop.edit.media";
+		JFactory::getApplication()->setUserState($context . '.data', json_encode($post));
 
 		$cid = $this->input->get->get('cid', array(0), 'array');
 
@@ -276,13 +280,34 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=com_redshop&view=media');
+					if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+					{
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+							. $post['section_id'] . '&showbuttons=1&section_name='
+							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+						);
+					}
+					else
+					{
+						$this->setRedirect('index.php?option=com_redshop&view=media');
+					}
 				}
 			}
 			else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
-				$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg, 'error');
+
+				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+				{
+					$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+						. $post['section_id'] . '&showbuttons=1&section_name='
+						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg, 'error'
+					);
+				}
+				else
+				{
+					$this->setRedirect('index.php?option=com_redshop&view=media', $msg, 'error');
+				}
 			}
 		}
 		else
@@ -401,7 +426,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
 				copy($src, $dest);
 
-				if (isset($post['set']) && $post['media_section'] != 'manufacturer' && $post['oldmedia'] == "")
+				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 				{
 					if ($apply == 1)
 					{
@@ -974,11 +999,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 				if ($apply == 1)
 				{
-					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg);
+					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg, 'message');
 				}
 				else
 				{
-					$this->setRedirect($link, $msg);
+					$this->setRedirect($link, $msg, 'message');
 				}
 			}
 			else
@@ -1012,7 +1037,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_DELETED_SUCCESSFULLY');
@@ -1083,7 +1108,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$cid           = ArrayHelper::toInteger($cid);
 		$order         = ArrayHelper::toInteger($order);
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (empty($cid))
 		{
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
@@ -1093,7 +1118,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->saveorder($cid, $order))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -1140,7 +1165,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->orderup())
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -1187,7 +1212,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->orderdown())
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');

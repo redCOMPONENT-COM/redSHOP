@@ -16,6 +16,7 @@ function getIncludedExtensions() {
         "./plugins/system/redgoogleanalytics/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",
         "./plugins/redshop_payment/rs_payment_paypal/**",
+        "./plugins/redshop_product/sh404urls/**",
         "./plugins/finder/redshop/**",
         "./plugins/redshop_alert/alert/**",
         "./plugins/redshop_shipping/default_shipping/**",
@@ -25,6 +26,7 @@ function getIncludedExtensions() {
         "./plugins/redshop_export/category/**",
         "./plugins/redshop_export/field/**",
         "./plugins/redshop_export/manufacturer/**",
+        "./plugins/redshop_export/newsletter_subscriber/**",
         "./plugins/redshop_export/product/**",
         "./plugins/redshop_export/product_stockroom_data/**",
         "./plugins/redshop_export/related_product/**",
@@ -32,10 +34,12 @@ function getIncludedExtensions() {
         "./plugins/redshop_export/shopper_group_attribute_price/**",
         "./plugins/redshop_export/shopper_group_product_price/**",
         "./plugins/redshop_export/user/**",
+        "./plugins/redshop_export/order/**",
         "./plugins/redshop_import/attribute/**",
         "./plugins/redshop_import/category/**",
         "./plugins/redshop_import/field/**",
         "./plugins/redshop_import/manufacturer/**",
+        "./plugins/redshop_import/newsletter_subscriber/**",
         "./plugins/redshop_import/product/**",
         "./plugins/redshop_import/product_stockroom_data/**",
         "./plugins/redshop_import/shipping_address/**",
@@ -53,8 +57,7 @@ function getIncludedExtensions() {
     ];
     var includedModules = [
         "./modules/site/mod_redshop_cart/**",
-        "./modules/site/mod_redshop_search/**",
-        "./modules/site/mod_redshop_filter/**"
+        "./modules/site/mod_redshop_search/**"
     ];
 
     return included.concat(includedPlugins, includedModules, excluded);

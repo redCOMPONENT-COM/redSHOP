@@ -742,7 +742,7 @@ function calculateOfflineTotal() {
 
 	for (i = 1; i <= rowCount; i++) {
 		if (document.getElementById("subpriceproduct" + i)) {
-			subtotal = parseFloat(subtotal) + parseFloat(document.getElementById("subpriceproduct" + i).value);
+			subtotal = parseFloat(subtotal) + parseFloat(document.getElementById("prdexclpriceproduct" + i).value);
 		}
 		if (document.getElementById("taxpriceproduct" + i)) {
 			totalTax = parseFloat(totalTax) + parseFloat(document.getElementById("taxpriceproduct" + i).value);
@@ -773,7 +773,7 @@ function calculateOfflineTotal() {
 		document.getElementById("divFinalTotal").innerHTML = number_format(displaytotal, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
 	}
 	if (document.getElementById("order_total")) {
-		document.getElementById("order_total").value = subtotal;
+		document.getElementById("order_total").value = subtotal + totalTax;
 	}
 }
 

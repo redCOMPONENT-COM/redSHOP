@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -2221,7 +2221,8 @@ class productHelper
 					$subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
 				}
 
-				$subprop_Arry = array();
+				$subprop_Arry    = array();
+				$preselectSubPro = true;
 
 				for ($i = 0, $in = count($subproperty); $i < $in; $i++)
 				{
@@ -2240,7 +2241,7 @@ class productHelper
 						}
 					}
 
-					if ($subproperty[$i]->subattribute_color_image)
+					if (!empty($subproperty[$i]->subattribute_color_image))
 					{
 						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
 						{
@@ -2255,9 +2256,16 @@ class productHelper
 								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 							);
 							$subprop_Arry[] = $thumbUrl;
+							$style          = null;
+
+							if ($subproperty[$i]->setdefault_selected && $preselectSubPro)
+							{
+								$style       = ' style="border: 1px solid;"';
+								$preselectSubPro = false;
+							}
 
 							$subproperty_woscrollerdiv .= "<div id='" . $subpropertyid . "_subpropimg_"
-								. $subproperty[$i]->value . "' class='subproperty_image_inner'><a onclick='setSubpropImage(\""
+								. $subproperty[$i]->value . "' class='subproperty_image_inner' ". $style ."><a onclick='setSubpropImage(\""
 								. $product_id . "\",\"" . $subpropertyid . "\",\"" . $subproperty[$i]->value
 								. "\");calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
@@ -2323,6 +2331,9 @@ class productHelper
 					$subproperty_woscrollerdiv .= "</div>";
 				}
 
+				// Run event when prepare sub-properties data.
+				RedshopHelperUtility::getDispatcher()->trigger('onPrepareProductSubProperties', array($product, &$subproperty));
+
 				if (Redshop::getConfig()->get('USE_ENCODING'))
 				{
 					$displayPropertyName = mb_convert_encoding(urldecode($subproperty[0]->property_name), "ISO-8859-1", "UTF-8");
@@ -2348,9 +2359,6 @@ class productHelper
 						$displayPropertyName = urldecode($subproperty[0]->subattribute_color_title);
 					}
 				}
-
-				// Run event when prepare sub-properties data.
-				RedshopHelperUtility::getDispatcher()->trigger('onPrepareProductSubProperties', array($product, &$subproperty));
 
 				$subproperties  = array_merge(
 					array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
@@ -2436,7 +2444,7 @@ class productHelper
 					)
 				);
 
-				if ($imgAdded == 0 || $isAjax == 1)
+				if ($imgAdded === 0 || $isAjax == 1)
 				{
 					$subPropertyScroller = "";
 				}
@@ -3539,7 +3547,7 @@ class productHelper
 	 *
 	 * @param   int $productId Product id
 	 *
-	 * @return object
+	 * @return mixed
 	 */
 	public function getProductReviewList($productId)
 	{
@@ -3860,7 +3868,7 @@ class productHelper
 		$this->_db->setQuery($query);
 		$product_parent_id = $this->_db->loadResult();
 
-		if ($product_parent_id != 0)
+		if ($product_parent_id !== 0)
 		{
 			$parent_id = $this->getMainParentProduct($product_parent_id);
 		}
@@ -4223,7 +4231,7 @@ class productHelper
 
 				$ItemData = $this->getMenuInformation(0, 0, '', 'product&pid=' . $relatedProduct[$r]->product_id);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$pItemid = $ItemData->id;
 				}
@@ -4289,6 +4297,20 @@ class productHelper
 				else
 				{
 					$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
+				}
+
+				if (strstr($related_template_data, "{relproduct_rating_summary}"))
+				{
+					$final_avgreview_data = Redshop\Product\Rating::getRating($relatedProduct [$r]->product_id);
+
+					if ($final_avgreview_data != "")
+					{
+						$related_template_data = str_replace("{relproduct_rating_summary}", $final_avgreview_data, $related_template_data);
+					}
+					else
+					{
+						$related_template_data = str_replace("{relproduct_rating_summary}", '', $related_template_data);
+					}
 				}
 
 				$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);

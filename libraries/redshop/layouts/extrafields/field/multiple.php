@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,9 +37,21 @@ extract($displayData);
 		<?php echo $requiredLabel; ?>
 		<?php echo $errorMsg; ?>
 	>
-		<?php foreach ($fieldCheck as $key => $field) : ?>
-			<?php $selected = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' selected="selected" ' : ''; ?>
-			<option <?php echo $selected; ?> value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
-		<?php endforeach; ?>
+		<?php if($rowData->type == 7) : ?>
+			<?php foreach ($fieldCheck as $key => $field) : ?>
+				<?php $selected = (!empty($checkData) && in_array(urlencode($field->country_3_code), $checkData)) ? ' selected="selected" ' : ''; ?>
+				<option <?php echo $selected; ?> value="<?php echo urlencode($field->country_3_code); ?>"><?php echo $field->country_name; ?></option>
+			<?php endforeach; ?>
+		<?php elseif ($rowData->type == 16) : ?>
+			<?php foreach ($fieldCheck as $key => $field) : ?>
+				<?php $selected = (!empty($checkData) && in_array(($field->id), $checkData)) ? ' selected="selected" ' : ''; ?>
+				<option <?php echo $selected; ?> value="<?php echo ($field->id); ?>"><?php echo $field->title; ?></option>
+			<?php endforeach; ?>
+		<?php else : ?>
+			<?php foreach ($fieldCheck as $key => $field) : ?>
+				<?php $selected = (!empty($checkData) && in_array(urlencode($field->field_value), $checkData)) ? ' selected="selected" ' : ''; ?>
+				<option <?php echo $selected; ?> value="<?php echo urlencode($field->field_value); ?>"><?php echo $field->field_name; ?></option>
+			<?php endforeach; ?>
+		<?php endif; ?>
 	</select>
 </td>

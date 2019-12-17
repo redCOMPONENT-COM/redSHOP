@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class StockRoomCest
      */
     public function createUpdateStockRoom(AcceptanceTester $I, $scenario)
     {
-        $I = new AcceptanceTester\ConfigurationSteps($scenario);
+        $I = new Configuration\ConfigurationSteps($scenario);
         $I->wantTo('Test use Stockroom in Administrator');
         $I->featureUsedStockRoom();
 
@@ -85,7 +85,7 @@ class StockRoomCest
         $I = new AcceptanceTester\StockRoomManagerJoomla3Steps($scenario);
 	    $I->deleteAllStockRoom();
 
-        $I = new AcceptanceTester\ConfigurationSteps($scenario);
+        $I = new Configuration\ConfigurationSteps($scenario);
         $I->wantTo('Test off Stockroom in Administrator');
         $I->featureOffStockRoom();
     }

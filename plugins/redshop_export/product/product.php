@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -145,8 +145,23 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			$this->writeData($headers, 'w+');
 		}
 
-		return (int) $this->getTotal();
+		return (int) $this->getTotalProduct_Export();
 	}
+
+    /**
+     *
+     * @return  int
+     *
+     * @since  2.1.1
+     */
+    protected function getTotalProduct_Export()
+    {
+        $query = $this->getQuery();
+        $query->clear('select')
+            ->clear('group')
+            ->select('COUNT(DISTINCT p.product_id)');
+        return (int) $this->db->setQuery($query)->loadResult();
+    }
 
 	/**
 	 * Event run on export process
@@ -197,6 +212,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		$db    = $this->db;
 		$query = $db->getQuery(true)
 			->select('m.name AS manufacturer_name')
+			->select('s.name AS supplier_name')
 			->select('p.*')
 			->select($db->quote(JUri::root()) . ' AS ' . $db->qn('sitepath'))
 			->select(
@@ -228,6 +244,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			->from($db->qn('#__redshop_product', 'p'))
 			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
 			->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON ' . $db->qn('p.manufacturer_id') . ' = ' . $db->qn('m.id'))
+			->leftJoin($db->qn('#__redshop_supplier', 's') . ' ON ' . $db->qn('p.supplier_id') . ' = ' . $db->qn('s.id'))
 			->group($db->qn('p.product_id'))
 			->order($db->qn('p.product_id') . ' asc');
 
@@ -302,7 +319,9 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			$query  = $db->getQuery(true)
 				->select($db->qn('name'))
 				->from($db->qn('#__redshop_fields'))
-				->where($db->qn('section') . ' = 1');
+				->where($db->qn('section') . ' = 1')
+				->where($db->qn('published') . ' = 1');
+
 			$result = $db->setQuery($query)->loadColumn();
 
 			if (!empty($result))
@@ -390,6 +409,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 				->leftJoin($db->qn('#__redshop_fields_data', 'd') . ' ON ' . $db->qn('f.id') . ' = ' . $db->qn('d.fieldid'))
 				->where($db->qn('f.section') . ' = ' . RedshopHelperExtrafields::SECTION_PRODUCT)
 				->where($db->qn('d.itemid') . ' IN (' . implode(',', $productIds) . ')')
+				->where($db->qn('published') . ' = 1')
 				->order($db->qn('f.id') . ' ASC');
 
 			$fieldResults = $db->setQuery($query)->loadObjectList();
@@ -415,7 +435,8 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 		{
 			$item          = (array) $item;
 			$attributeRows = array();
-
+			$item['product_s_desc'] = htmlentities($item['product_s_desc']);
+			$item['product_desc'] = htmlentities($item['product_desc']);
 			// Stockroom process
 			if (!empty($stockrooms))
 			{
@@ -480,7 +501,7 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 			}
 
 			// Media process
-			$this->processMedia($item);
+			$this->/** @scrutinizer ignore-call */ processMedia($item);
 
 			if ($isAttributes)
 			{
@@ -510,13 +531,11 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 	/**
 	 * Method for process medias of product.
 	 *
-	 * @param   array  $product  Product data.
-	 *
 	 * @return  void
 	 *
 	 * @since  1.0.0
 	 */
-	protected function processMedia(&$product)
+	protected function processMedia()
 	{
 		// @TODO: Would implement media check files exist.
 
@@ -716,37 +735,34 @@ class PlgRedshop_ExportProduct extends AbstractExportPlugin
 
 			$newItem = array_merge($newItem, $result);
 
-			foreach ($newItem as $key => $value)
+			// Property image
+			if (!empty($newItem['property_image']))
 			{
-				// Property image
-				if (!empty($newItem['property_image']))
-				{
-					$newItem['property_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $newItem['property_image'];
-				}
+				$newItem['property_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $newItem['property_image'];
+			}
 
-				// Property main image
-				if (!empty($newItem['property_main_image']))
-				{
-					$newItem['property_main_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['property_main_image'];
-				}
+			// Property main image
+			if (!empty($newItem['property_main_image']))
+			{
+				$newItem['property_main_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['property_main_image'];
+			}
 
-				// Property Media Image
-				if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'property'))
-				{
-					$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['media_name'];
-				}
+			// Property Media Image
+			if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'property'))
+			{
+				$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $newItem['media_name'];
+			}
 
-				// Sub-attribute image
-				if (!empty($newItem['subattribute_color_image']))
-				{
-					$newItem['subattribute_color_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $newItem['subattribute_color_image'];
-				}
+			// Sub-attribute image
+			if (!empty($newItem['subattribute_color_image']))
+			{
+				$newItem['subattribute_color_image'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $newItem['subattribute_color_image'];
+			}
 
-				// Property Media Image
-				if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'subproperty'))
-				{
-					$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subproperty/' . $newItem['media_name'];
-				}
+			// Property Media Image
+			if (!empty($newItem['media_name']) && ($newItem['media_section'] == 'subproperty'))
+			{
+				$newItem['media_name'] = REDSHOP_FRONT_IMAGES_ABSPATH . 'subproperty/' . $newItem['media_name'];
 			}
 
 			$attributes[] = $newItem;

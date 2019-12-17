@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,15 +45,15 @@ class TaxRatePage extends AdminJ3Page
 	 */
 	public static $fieldState = "#s2id_jform_tax_state";
 
-    /**
-     * @var string
-     */
-    public static $fieldStateSearch = "#s2id_autogen1_search";
+	/**
+	 * @var string
+	 */
+	public static $fieldStateSearch = "#s2id_autogen1_search";
 
-    /**
-     * @var string
-     */
-    public static $fieldStateID = ".select2-result-label";
+	/**
+	 * @var string
+	 */
+	public static $fieldStateID = ".select2-result-label";
 
 	/**
 	 * @var array
@@ -65,9 +65,9 @@ class TaxRatePage extends AdminJ3Page
 	 */
 	public static $fieldCountry = "#s2id_jform_tax_country";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $fieldCountryID = "#jform_tax_country";
 
 	/**
@@ -75,9 +75,66 @@ class TaxRatePage extends AdminJ3Page
 	 */
 	public static $fieldGroup = "#s2id_jform_tax_group_id";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	public static $fieldGroupID = "#jform_tax_group_id";
-	
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $editTitle = 'Tax Rate [ Edit ]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $tableTaxRate = '#table-tax_rates';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $searchTools = '.js-stools-btn-filter';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectorSearchTools = ".js-stools-container-filters";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $eUCountry = '#select2-chosen-4';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $selectorEUCountry = '#select2-results-4';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $messageInvalid = 'Save failed with the following error: Invalid input of tax rate, it must be numeric & not less than zero';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelEU = "EU country";
+
+	/**
+	 * @param $nameField
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function messageMissing($nameField)
+	{
+		return $message = 'Field required: '.$nameField;
+	}
 }

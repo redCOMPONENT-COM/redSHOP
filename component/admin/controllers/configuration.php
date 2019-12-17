@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,6 +92,7 @@ class RedshopControllerConfiguration extends RedshopController
 		// Only check if this email is filled
 		if (!empty($post['administrator_email']))
 		{
+			$post['administrator_email'] = trim($post['administrator_email']);
 			$emails = explode(',', $post['administrator_email']);
 
 			if (!empty($emails))

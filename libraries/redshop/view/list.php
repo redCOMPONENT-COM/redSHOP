@@ -3,7 +3,7 @@
  * @package     Redshop
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2016 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -222,7 +222,7 @@ class RedshopViewList extends AbstractView
 		{
 			if ($this->enableDuplicate)
 			{
-				JToolbarHelper::checkin($this->getInstancesName() . '.copy', 'COM_REDSHOP_TOOLBAR_COPY', true);
+				JToolbarHelper::save2copy($this->getInstancesName() . '.copy', 'COM_REDSHOP_TOOLBAR_COPY');
 			}
 
 			if (!empty($this->stateColumns))
@@ -339,7 +339,11 @@ class RedshopViewList extends AbstractView
 		$primaryKey       = $this->getPrimaryKey();
 		$itemId           = $row->{$primaryKey};
 
-		if (in_array($config['dataCol'], $this->stateColumns))
+		if ($config['dataCol'] === 'description')
+		{
+			return JHtml::_('redshopgrid.slidetext', $value);
+		}
+		elseif (in_array($config['dataCol'], $this->stateColumns))
 		{
 			if ($this->canEdit)
 			{

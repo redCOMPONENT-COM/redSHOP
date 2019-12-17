@@ -3,107 +3,60 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
-class RedshopModelZipcode extends RedshopModel
+/**
+ * Model Zipcode Detail
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * @since       2.1.3
+ */
+class RedshopModelZipcode extends RedshopModelForm
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public $_context = null;
-
-	public function __construct()
+	/**
+	 * Method to save a record.
+	 *
+	 * @param   array  $data data
+	 * @return  boolean
+	 *
+	 * @since   2.1.3
+	 * @throws  Exception
+	 */
+	public function save($data)
 	{
-		parent::__construct();
+		/** @var RedshopTableZipcode $table */
+		$table = $this->getTable('Zipcode');
 
-		$app = JFactory::getApplication();
-
-		$this->_context = 'zipcode_id';
-
-		$this->_table_prefix = '#__redshop_';
-		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-	}
-
-	public function getData()
-	{
-		if (empty($this->_data))
+		if ($data['zipcodeto'] && ($data['zipcode'] > $data['zipcodeto']))
 		{
-			$query       = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			return false;
 		}
 
-		return $this->_data;
-	}
-
-	public function getTotal()
-	{
-		if (empty($this->_total))
+		if (!$data['zipcodeto'])
 		{
-			$query        = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$data['zipcodeto'] = $data['zipcode'];
 		}
 
-		return $this->_total;
-	}
-
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
+		for ($i = $data['zipcode']; $i <= $data['zipcodeto']; $i++)
 		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+			$data['zipcode'] = is_numeric($data['zipcode']) ? $i : $data['zipcode'];
+
+			if (!$table->bind($data) || !$table->docheck())
+			{
+				/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $data['zipcode']);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', /** @scrutinizer ignore-deprecated */ $this->getError());
+
+				continue;
+			}
+
+			parent::save($data);
 		}
 
-		return $this->_pagination;
-	}
-
-	public function _buildQuery()
-	{
-		$orderby = $this->_buildContentOrderBy();
-
-		$query = 'SELECT z . * , c.country_name, s.state_name '
-			. ' FROM `' . $this->_table_prefix . 'zipcode` AS z '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'country AS c ON z.country_code = c.country_3_code '
-			. ' LEFT JOIN ' . $this->_table_prefix . 'state AS s ON z.state_code = s.state_2_code '
-			. ' AND c.id = s.country_id '
-			. ' WHERE 1 =1 '
-			. $orderby;
-
-		return $query;
-	}
-
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
-		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'zipcode_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
-	}
-
-	public function getCountryName($country_id)
-	{
-		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.id=" . $country_id;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend.
  * @subpackage  Model.Catalogs
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.2
  */
 class RedshopModelCatalogs extends RedshopModelList
 {
@@ -26,7 +26,7 @@ class RedshopModelCatalogs extends RedshopModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	protected function populateState($ordering = 'c.catalog_id', $direction = 'asc')
 	{
@@ -43,7 +43,7 @@ class RedshopModelCatalogs extends RedshopModelList
 	 *
 	 * @return  string  A store id
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -95,7 +95,7 @@ class RedshopModelCatalogs extends RedshopModelList
 	 * @return  mixed
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.2
 	 */
 	public function mediaDetail($pid)
 	{

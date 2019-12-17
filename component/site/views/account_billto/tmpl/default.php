@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,9 @@ if ($post["user_id"] < 0)
 ?>
 <script type="text/javascript">
 	<?php if ($isEdit == 1) : ?>
+		window.parent.SqueezeBox.options.closeBtn = false;
+		window.parent.SqueezeBox.options.closable = false;
+
 		setTimeout(function(){
 			window.parent.location.href = '<?php echo JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $itemId, false); ?>';
 		}, 2000);
@@ -62,8 +65,10 @@ if ($this->params->get('show_page_heading', 1))
 			<tr>
 				<td align="right"><input type="button" class="button btn" name="back"
 				                         value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
+				                         <?php if($isEdit == 1) echo ' disabled '; ?>
 				                         onclick="javascript:cancelForm(this.form);"></td>
 				<td align="left"><input type="submit" class="button btn btn-primary" name="submitbtn"
+				                        <?php if($isEdit == 1) echo ' disabled '; ?>
 				                        value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>"></td>
 			</tr>
 		</table>

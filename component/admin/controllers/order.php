@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -264,8 +264,8 @@ class RedshopControllerOrder extends RedshopController
 		$no_products = max($product_count);
 
 		ob_clean();
-
-		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
+		
+		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address, Customer Note , Requisition number , ";
 		echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
 		echo "Billing postalcode, Billing city, Billing country,Billing User ,";
 
@@ -294,13 +294,15 @@ class RedshopControllerOrder extends RedshopController
 			}
 			else
 			{
-				echo '';
+				echo ''.",";
 			}
 
 			$shipping_info = RedshopHelperOrder::getOrderShippingUserInfo($data[$i]->order_id);
 
 			echo str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname) . " ,";
 			echo str_replace(",", " ", utf8_decode($shipping_info->address)) . " ,";
+			echo str_replace(",", " ", utf8_decode('"' . $data[$i]->customer_note .'"')) . " ,";
+			echo str_replace(",", " ", utf8_decode('"' . $data[$i]->requisition_number .'"')) . " ,";
 			echo $shipping_info->zipcode . " ,";
 			echo str_replace(",", " ", utf8_decode($shipping_info->city)) . " ,";
 			echo $shipping_info->country_code . " ,";

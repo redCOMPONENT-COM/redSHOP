@@ -2,7 +2,7 @@
 /**
  * @package     RedShop
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -141,6 +141,7 @@ class GiftCardCheckoutProductCest
 		$I->waitForElement(\GiftCardCheckoutPage::$reciverName);
 		$I->fillField(\GiftCardCheckoutPage::$reciverName, $this->firstName);
 		$I->fillField(\GiftCardCheckoutPage::$reciverEmail, $this->email);
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$addToCart, 30);
 		$I->click(\GiftCardCheckoutPage::$addToCart);
 		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->see(GiftCardCheckoutPage::$alertSuccessMessage, \GiftCardCheckoutPage::$selectorSuccess);
@@ -163,11 +164,15 @@ class GiftCardCheckoutProductCest
 		$I->click(GiftCardCheckoutPage::$buttonSave);
 
 		$I->waitForElement(\GiftCardCheckoutPage::$addressLink, 30);
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$paymentPayPad, 30);
 		$I->click(\GiftCardCheckoutPage::$paymentPayPad);
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$checkoutButton, 30);
 		$I->click(\GiftCardCheckoutPage::$checkoutButton);
 
 		//accept
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$acceptTerms, 30);
 		$I->click(\GiftCardCheckoutPage::$acceptTerms);
+		$I->waitForElementVisible(\GiftCardCheckoutPage::$checkoutFinalStep, 30);
 		$I->click(\GiftCardCheckoutPage::$checkoutFinalStep);
 	}
 

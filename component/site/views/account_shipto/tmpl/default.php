@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,6 +20,9 @@ $pageTitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 
 <script type="text/javascript">
 	<?php if ($isEdit == 1) : ?>
+		window.parent.SqueezeBox.options.closeBtn = false;
+		window.parent.SqueezeBox.options.closable = false;
+
 		setTimeout(function(){
 			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid=" . $itemId, false); ?>';
 		}, 2000);

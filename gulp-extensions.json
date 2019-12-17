@@ -9,7 +9,6 @@
   "modules": {
     "frontend": [
       "redshop_cart",
-      "redshop_filter",
       "redshop_search"
     ]
   },
@@ -28,19 +27,22 @@
       "category",
       "field",
       "manufacturer",
+      "newsletter_subscriber",
       "product",
       "product_stockroom_data",
       "related_product",
       "shipping_address",
       "shopper_group_attribute_price",
       "shopper_group_product_price",
-      "user"
+      "user",
+      "order"
     ],
     "redshop_import": [
       "attribute",
       "category",
       "field",
       "manufacturer",
+      "newsletter_subscriber",
       "product",
       "product_stockroom_data",
       "shipping_address",
@@ -69,6 +71,9 @@
     "system": [
       "redgoogleanalytics",
       "redshop"
+    ],
+    "redshop_product": [
+      "sh404urls"
     ]
   }
 }

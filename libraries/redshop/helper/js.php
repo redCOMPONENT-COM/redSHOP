@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,9 +25,12 @@ class RedshopHelperJs
 	 */
 	public static function init()
 	{
-		$doc     = JFactory::getDocument();
-		$input   = JFactory::getApplication()->input;
-		$session = JFactory::getSession();
+		$doc       = JFactory::getDocument();
+		$input     = JFactory::getApplication()->input;
+		$session   = JFactory::getSession();
+		$langCode  = JFactory::getLanguage()->getTag();
+		$languages = JLanguageHelper::getLanguages('lang_code');
+		$langSef   = $languages[$langCode]->sef;
 
 		$view   = $input->getCmd('view');
 		$layout = $input->getCmd('layout');
@@ -54,7 +57,7 @@ class RedshopHelperJs
 		$dynamicVars = array(
 			'SITE_URL'                          => JUri::root(),
 			'AJAX_TOKEN'                        => $token,
-			'AJAX_BASE_URL'                     => "index.php?tmpl=component&option=com_redshop&" . $token . "=1",
+			'AJAX_BASE_URL'                     => JUri::root() . "index.php?tmpl=component&option=com_redshop&" . $token . "=1&lang=" . $langSef,
 			'AJAX_CART_BOX'                     => $config->get('AJAX_CART_BOX'),
 			'REDSHOP_VIEW'                      => $view,
 			'REDSHOP_LAYOUT'                    => $layout,
@@ -141,7 +144,8 @@ class RedshopHelperJs
 			'COM_REDSHOP_SELECT_SUBSCRIPTION_PLAN',
 			'COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT',
 			'COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT',
-			'COM_REDSHOP_AVAILABLE_STOCK'
+			'COM_REDSHOP_AVAILABLE_STOCK',
+			'COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'
 		);
 
 		$backwardJS = array();

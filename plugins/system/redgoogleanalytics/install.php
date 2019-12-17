@@ -3,7 +3,7 @@
  * @package     Redshop.Modules
  * @subpackage  plg_system_redgoogleanalytics
  *
- * @copyright   Copyright (C) 2012 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 defined('_JEXEC') or die();
@@ -79,7 +79,7 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 		$extensionTable->load($pluginId);
 		$pluginParams = $extensionTable->get('params');
 
-		jimport('redshop.library');
+		JLoader::import('redshop.library');
 
 		// Set the reset_status parameter to 0 and save the updated parameters
 		$pluginParams              = json_decode($pluginParams);

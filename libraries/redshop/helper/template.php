@@ -3,7 +3,7 @@
  * @package     RedSHOP.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -577,7 +577,8 @@ class RedshopHelperTemplate
 			'11' => JText::_('COM_REDSHOP_IMAGE'),
 			'12' => JText::_('COM_REDSHOP_DATE_PICKER'),
 			'13' => JText::_('COM_REDSHOP_IMAGE_WITH_LINK'),
-			'15' => JText::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS')
+			'15' => JText::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS'),
+			'16' => JText::_('COM_REDSHOP_JOOMLA_RELATED_ARTICLES')
 		);
 
 		JPluginHelper::importPlugin('system');

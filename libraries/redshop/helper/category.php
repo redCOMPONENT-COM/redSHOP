@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -428,17 +428,16 @@ class RedshopHelperCategory
 	/**
 	 * Get category product list
 	 *
-	 * @param   string  $cid  Category ID
+	 * @param   integer  $cid  Category ID
 	 *
 	 * @return  array
 	 *
 	 * @since   2.0.0.3
 	 *
-	 * @deprecated  2.0.6  Use RedshopEntityCategory::getProducts() instead.
 	 */
-	public static function getCategoryProductList($cid)
+	public static function getCategoryProductList($cid, $includeProductsFromSubCat = false)
 	{
-		return RedshopEntityCategory::getInstance($cid)->getProducts();
+		return RedshopEntityCategory::getInstance($cid)->getProducts($includeProductsFromSubCat);
 	}
 
 	/**
@@ -459,5 +458,121 @@ class RedshopHelperCategory
 			->where($db->qn('level') . ' = 0');
 
 		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * buildQueryFilterProduct
+	 *
+	 * @param   integer $categoryId    id of main category
+	 * @param   array   $allCategories array of all categories id (main category or main category & its subcategories)
+	 * @param   array   $filter        Filter data
+	 *
+	 * @return  bool|JDatabaseQuery  $query   The result query
+	 *
+	 * @since   2.1.2
+	 */
+	public static function buildQueryFilterProduct($categoryId, $allCategories = array(), $filters)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(p.product_id)')
+			->from($db->qn('#__redshop_product', 'p'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
+			->where($db->qn('p.published') . ' = 1')
+			->where($db->qn('p.expired') . ' = 0')
+			->where($db->qn('p.product_parent_id') . ' = 0')
+			->group($db->qn('p.product_id'));
+
+		/* query builder for category filters */
+		if (empty($allCategories))
+		{
+			$allCategories = array($categoryId);
+		}
+
+		$query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $allCategories) . ')');
+		$filterCategory = $filters['category'];
+
+		if (!empty($filterCategory))
+		{
+			$filterCategory = array_merge(array($categoryId), $filterCategory);
+			$query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $filterCategory) . ')');
+		}
+
+		/* query builder for manufacturer filters */
+		$manufacturer = $filters['manufacturer'];
+
+		if ((int) $filters['mid'] > 0)
+		{
+			$query->where($db->qn('p.manufacturer_id') . ' = ' . (int) $filters['mid']);
+		}
+		elseif (!empty($manufacturer))
+		{
+			$query->where($db->qn('p.manufacturer_id') . ' IN (' . implode(',', $manufacturer) . ')');
+		}
+
+		/* query builder for price range filters */
+		$priceRange = $filters['filterprice'];
+
+		if (!empty($priceRange))
+		{
+			$min                  = $priceRange['min'];
+			$max                  = $priceRange['max'];
+			$comparePrice         = $db->qn('p.product_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.product_price') . ' <= ' . $db->q(($max));
+			$compareDiscountPrice = $db->qn('p.discount_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.discount_price') . ' <= ' . $db->q(($max));
+			$saleTime             = $db->qn('p.discount_stratdate') . ' AND ' . $db->qn('p.discount_enddate');
+			$query->where('( CASE WHEN( ' . $db->qn('p.product_on_sale') . ' = 1 AND UNIX_TIMESTAMP() BETWEEN '
+				. $saleTime . ') THEN ('
+				. $compareDiscountPrice . ') ELSE ('
+				. $comparePrice . ') END )'
+			);
+		}
+
+		/* query builder for attributes */
+		$attribute = $filters['attribute_name'];
+
+		foreach ($attribute as $key => $value)
+		{
+			$query->leftJoin($db->qn('#__redshop_product_attribute', 'a' . $key)
+				. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('a' . $key . '.product_id'))
+				->where($db->qn('a' . $key . '.attribute_name') . ' = ' . $db->q($key));
+
+			if (empty($value['property']))
+			{
+				continue;
+			}
+
+			$query->leftJoin($db->qn('#__redshop_product_attribute_property', 'ap' . $key)
+				. ' ON ' . $db->qn('a' . $key . '.attribute_id') . ' = ' . $db->qn('ap' . $key . '.attribute_id'))
+				->where($db->qn('ap' . $key . '.property_name') . ' IN ("' . implode('","', $value['property']) . '")');
+		}
+
+		/* query builder for product's custom fields */
+		$customField = $filters['custom_field'];
+		$key         = 0;
+		$subQuery    = array();
+
+		foreach ($customField as $fieldId => $fieldValues)
+		{
+			if (empty($fieldValues))
+			{
+				continue;
+			}
+
+			foreach ($fieldValues as $value)
+			{
+				$subQuery[] = 'FIND_IN_SET("' . $value . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
+			}
+
+			$query->leftJoin($db->qn('#__redshop_fields_data', 'fd' . $key) . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid'))
+				->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
+			$key++;
+		}
+
+		if (!empty($subQuery))
+		{
+			$query->where('(' . implode(' OR ', $subQuery) . ')');
+		}
+
+		return $query;
 	}
 }

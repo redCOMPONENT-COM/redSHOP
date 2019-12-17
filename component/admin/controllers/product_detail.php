@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,29 +141,16 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$this->app->setUserState('com_redshop.product_detail.selectedTabPosition', $selectedTabPosition);
 
 		if (is_array($post['product_category'])
-			&& (isset($post['cat_in_sefurl']) && !in_array($post['cat_in_sefurl'], $post['product_category'])))
+			&& !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
 
+		$this->checkTask($post);
+
 		if (!$post ['product_id'])
 		{
 			$post ['publish_date'] = date("Y-m-d H:i:s");
-		}
-
-		$post['discount_stratdate'] = ($post['discount_stratdate'] === '0000-00-00 00:00:00') ? '' : $post['discount_stratdate'];
-		$post['discount_enddate']   = ($post['discount_enddate'] === '0000-00-00 00:00:00') ? '' : $post['discount_enddate'];
-
-		if ($post['discount_stratdate'])
-		{
-			$startDate                  = new JDate($post['discount_stratdate']);
-			$post['discount_stratdate'] = $startDate->toUnix();
-		}
-
-		if ($post['discount_enddate'])
-		{
-			$endDate                  = new JDate($post['discount_enddate']);
-			$post['discount_enddate'] = RedshopHelperDatetime::generateTimestamp($endDate->toUnix());
 		}
 
 		// Setting default value
@@ -354,25 +341,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function save2copy()
 	{
-		$cid = $this->input->post->get('cid', array(), 'array');
-
-		/** @var RedshopModelProduct_Detail $model */
-		$model = $this->getModel('product_detail');
-
-		if ($row = $model->copy($cid, true))
-		{
-			$this->setRedirect(
-				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id,
-				JText::_('COM_REDSHOP_PRODUCT_COPIED')
-			);
-		}
-		else
-		{
-			$this->setRedirect(
-				'index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0],
-				JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED')
-			);
-		}
+		$this->apply();
 	}
 
 	/**
@@ -797,6 +766,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$model = $this->getModel('product_detail');
 
+		/**
+		 * @var RedshopModelProduct_Detail $model
+		 */
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -812,6 +784,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 	{
 		$model = $this->getModel('product_detail');
 
+		/**
+		 * @var RedshopModelProduct_Detail $model
+		 */
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
@@ -913,11 +888,16 @@ class RedshopControllerProduct_Detail extends RedshopController
 		if (count($result) > 0 && count($result) == count($strArr))
 		{
 			$model    = $this->getModel('product_detail');
+
+			/**
+			 * @var RedshopModelProduct_Detail $model
+			 */
 			$isExists = $model->checkVirtualNumber($product_id, $result);
 		}
 
 		echo (int) $isExists;
-		die();
+
+		\JFactory::getApplication()->close();
 	}
 
 	/**
@@ -1066,5 +1046,75 @@ class RedshopControllerProduct_Detail extends RedshopController
 		echo json_encode(RedshopHelperProduct::getAllAvailableProductNumber($app->input->getInt('product_id', 0)));
 
 		$app->close();
+	}
+
+	/**
+	 * Method display product attribute
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.3
+	 */
+	public function ajaxDisplayAttributeSet()
+	{
+		$post = $this->input->post->getArray();
+
+		if ($post['attribute_set'])
+		{
+			$attributes = \RedshopHelperProduct_Attribute::getProductAttribute(0, $post['attribute_set'], 0, 1, 0);
+			foreach ($attributes as $attribute)
+			{
+				$attribute->propeties = \RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id, 0);
+
+				foreach ($attribute->propeties as $propety)
+				{
+					$propety->subProperties = \RedshopHelperProduct_Attribute::getAttributeSubProperties(0,$propety->property_id);
+				}
+			}
+
+			$result = json_encode($attributes);
+
+			echo $result;
+		}
+
+		JFactory::getApplication()->close();
+	}
+
+	/**
+	 * Method check task is save2copy
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.3
+	 */
+	public function checkTask(&$post)
+	{
+		if ($post['task'] == 'save2copy')
+		{
+			$post['product_id'] = 0;
+
+			if (!empty($post['attribute']))
+			{
+				foreach ($post['attribute'] as $keyAttr => $attributes)
+				{
+					$post['attribute'][$keyAttr]['id'] = 0;
+
+					foreach ($attributes['property'] as $keyProp => $propetys)
+					{
+						$post['attribute'][$keyAttr]['property'][$keyProp]['property_id'] = 0;
+
+						foreach ($propetys['subproperty'] as $keySub => $subPros)
+						{
+							if ($keySub == 'title')
+							{
+								continue;
+							}
+
+							$post['attribute'][$keyAttr]['property'][$keyProp]['subproperty'][$keySub]['subproperty_id'] = 0;
+						}
+					}
+				}
+			}
+		}
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Form.Field
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,14 @@ class RedshopFormFieldTemplate extends JFormFieldList
 
 		if (null !== $section)
 		{
-			$query->where($db->qn('section') . ' = ' . $db->q($section));
+			$arrSection = explode(',', $section);
+
+			foreach ($arrSection as $value)
+			{
+				$sections[] = "'". $value ."'";
+			}
+
+			$query->where($db->qn('section') . ' IN (' . implode(',', $sections) . ')');
 		}
 
 		$items   = $db->setQuery($query)->loadObjectList();

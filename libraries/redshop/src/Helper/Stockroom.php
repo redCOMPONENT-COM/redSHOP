@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -113,6 +113,13 @@ class Stockroom
 		if (strpos($html, '{stock_status') !== false)
 		{
 			$product = \RedshopProduct::getInstance($productId);
+			$db    = \JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('SUM(quantity)')
+				->from($db->qn('#__redshop_product_stockroom_xref'))
+				->where($db->qn('product_id') . ' = ' . $db->quote($productId));
+
+			$stockValues = $db->setQuery($query)->loadResult();
 
 			$stockTag     = strstr($html, "{stock_status");
 			$newStockTag  = explode("}", $stockTag);
@@ -146,7 +153,7 @@ class Stockroom
 			{
 				$stockStatus = '';
 			}
-			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'])
+			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stockValues < 1)
 			{
 				if (($stockStatuses['preorder'] && !$stockStatuses['preorder_stock']) || !$stockStatuses['preorder'])
 				{

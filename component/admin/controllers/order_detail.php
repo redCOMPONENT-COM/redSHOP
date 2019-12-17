@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller.OrderDetail
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -303,9 +303,9 @@ class RedshopControllerOrder_detail extends RedshopController
 		?>
         <script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>'
+            window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>";
 
-            window.close()
+            window.close();
         </script>
 		<?php
 		JFactory::getApplication()->close();
@@ -332,9 +332,9 @@ class RedshopControllerOrder_detail extends RedshopController
 		?>
         <script type="text/javascript">
 
-            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>'
+            window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>";
 
-            window.close()
+            window.close();
         </script>
 		<?php
 		JFactory::getApplication()->close();
@@ -395,7 +395,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg, 'error');
 		}
 	}
 
@@ -553,7 +553,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		if (Redshop\Mail\Order::sendMail($orderId))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_SEND_ORDER_MAIL'), 'success');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_SEND_ORDER_MAIL'));
 		}
 		else
 		{

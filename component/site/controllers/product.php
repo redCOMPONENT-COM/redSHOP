@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -153,13 +153,13 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$propid        = $subpropid = array();
 		$get           = $this->input->get->getArray();
-		$producthelper = productHelper::getInstance();
-
 		$product_id    = $get['product_id'];
+		$producthelper = productHelper::getInstance();
 		$accessory_id  = $get['accessory_id'];
 		$relatedprd_id = $get['relatedprd_id'];
 		$attribute_id  = $get['attribute_id'];
 		$isAjaxBox     = $get['isAjaxBox'];
+		$product       = RedshopHelperProduct::getProductById($product_id);
 
 		if (isset($get['property_id']) && $get['property_id'])
 		{
@@ -174,6 +174,10 @@ class RedshopControllerProduct extends RedshopController
 		$subatthtml = htmlspecialchars_decode(base64_decode($this->input->get->get('subatthtml', '', 'raw')));
 
 		$response = "";
+		$producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
+		$checkApplyVAT   = \Redshop\Template\Helper::isApplyVat($producttemplate[0]->template_desc);
+
+		$response .= ($checkApplyVAT != 1) ? '<input type="hidden" value="{without_vat}">' : '';
 
 		for ($i = 0, $in = count($propid); $i < $in; $i++)
 		{
@@ -219,8 +223,8 @@ class RedshopControllerProduct extends RedshopController
 				$product_id,
 				$accessory_id,
 				$relatedprd_id,
-				$property_id,
-				$subproperty_id
+				(int) $property_id,
+				(int) $subproperty_id
 			);
 
 			if (isset($pluginResults['attrbimg']))
@@ -234,8 +238,8 @@ class RedshopControllerProduct extends RedshopController
 				$product_id,
 				$accessory_id,
 				$relatedprd_id,
-				$property_id,
-				$subproperty_id,
+				(int) $property_id,
+				(int) $subproperty_id,
 				$main_imgwidth,
 				$main_imgheight,
 				$redview,
@@ -1074,13 +1078,14 @@ class RedshopControllerProduct extends RedshopController
 		$productId     = $post['product_id'];
 		$propertyId    = $post['property_id'];
 		$subPropertyId = $post['subproperty_id'];
+		$emailNotLogin = $post['email_not_login'];
 
 		/**
 		 * @var RedshopModelProduct $model
 		 */
 		$model = $this->getModel('product');
 
-		if ($model->addNotifystock($productId, $propertyId, $subPropertyId))
+		if ($model->addNotifystock($productId, $propertyId, $subPropertyId, $emailNotLogin))
 		{
 			echo $message = JText::_("COM_REDSHOP_STOCK_NOTIFICATION_ADDED_SUCCESSFULLY");
 		}

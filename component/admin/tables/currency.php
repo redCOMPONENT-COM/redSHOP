@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,12 +83,12 @@ class RedshopTableCurrency extends RedshopTable
 			return false;
 		}
 
-		if (empty($this->name))
+		if (empty(trim($this->name)))
 		{
 			return false;
 		}
 
-		if (empty($this->code))
+		if (empty(trim($this->code)))
 		{
 			return false;
 		}
@@ -110,15 +110,34 @@ class RedshopTableCurrency extends RedshopTable
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('(' . $codeQuery . ') AS ' . $db->qn('data'))
-			->where($db->qn('data.code') . ' = ' . $db->quote($code));
+			->where($db->qn('data.code') . ' = ' . $db->q($code));
 
 		if ($db->setQuery($query)->loadResult())
 		{
-			$this->setError(JText::_('COM_REDSHOP_CURRENCY_CODE_ALREADY_EXISTS'));
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_CURRENCY_CODE_ALREADY_EXISTS'));
 
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   mixed  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfully?
+	 */
+	protected function doDelete($pk = null)
+	{
+		if (Redshop::getConfig()->get('CURRENCY_CODE') == $this->code)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('COM_REDSHOP_CURRENCY_ERROR_DELETE_CURRENCY_SET_IN_CONFIG'));
+
+			return false;
+		}
+
+		return parent::doDelete();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -17,6 +17,29 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 ?>
+<script>
+	Joomla.submitbutton = function (pressbutton) {
+		var form = document.adminForm;
+
+		if (pressbutton) {
+			form.task.value = pressbutton;
+		}
+
+		if (pressbutton === "giftcards.delete") {
+			if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM') ?>")) {
+				form.submit();
+			}
+			else {
+				form.view.value = "giftcards";
+				form.task.value = '';
+				return false;
+			}
+		}
+		;
+
+		form.submit();
+	};
+</script>
 <form
 	action="<?php echo JRoute::_('index.php?option=com_redshop&view=giftcards'); ?>"
 	method="post"

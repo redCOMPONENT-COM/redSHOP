@@ -3,7 +3,7 @@
  * @package     Redshop.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,6 +76,7 @@ if (Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'))
 						isFlowers<?php echo $commonId; ?>.setThumbsShown(<?php echo Redshop::getConfig()->get('NOOF_SUBATTRIB_THUMB_FOR_SCROLLER'); ?>);
 						isFlowers<?php echo $commonId; ?>.setNumOfImageToScroll(1);
 						isFlowers<?php echo $commonId; ?>.renderScroller();
+						window["isFlowers<?php echo $commonId; ?>"] = isFlowers<?php echo $commonId; ?>;
 					</script>
 					<div id="divsubimgscroll<?php echo $commonId; ?>" style="display: none"><?php echo implode('#_#', $subPropertyArray) ?></div>
 				</div>

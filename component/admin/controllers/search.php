@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ class RedshopControllerSearch extends RedshopController
 	public function getStatesAjax()
 	{
 		// Only verify token
-		\Redshop\Helper\Ajax::validateAjaxRequest('get');
+		\Redshop\Helper\Ajax::validateAjaxRequest('post');
 
 		$app = JFactory::getApplication();
 

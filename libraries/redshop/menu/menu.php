@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Product
  *
- * @copyright   Copyright (C) 2014 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  *
  * @since       2.0.3
@@ -180,11 +180,11 @@ class RedshopMenu
 	/**
 	 * Add new menu item
 	 *
-	 * @param   string   $link    Link of item
-	 * @param   string   $title   Title of item
-	 * @param   boolean  $active  Active or not
-	 * @param   array    $param   Other options
-	 * @param   string   $icon    Icon class
+	 * @param   string  $link   Link of item
+	 * @param   string  $title  Title of item
+	 * @param   boolean $active Active or not
+	 * @param   string  $param  Other options
+	 * @param   string  $icon   Icon class
 	 *
 	 * @return  self
 	 */

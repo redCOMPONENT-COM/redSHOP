@@ -2,11 +2,14 @@
 /**
  * @package     RedShop
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace AcceptanceTester;
+
+use DiscountProductPage;
+use AdminJ3Page;
 
 /**
  * Class DiscountProductSteps
@@ -40,14 +43,16 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->amOnPage(\DiscountProductPage::$url);
 		$client->checkForPhpNoticesOrWarnings();
 		$client->click(\DiscountProductPage::$buttonNew);
-		$client->waitForElement(\DiscountProductPage::$fieldAmount, 30);
+		$client->waitForElementVisible(\DiscountProductPage::$fieldAmount, 30);
 		$client->fillField(\DiscountProductPage::$fieldAmount, $productPrice);
 		$client->selectOption(\DiscountProductPage::$fieldCondition, $condition);
-		$client->selectOption(\DiscountProductPage::$fieldDiscountType, $type);
+		$client->waitForElementVisible(\DiscountProductPage::$fieldDiscountType, 30);
+		$client->checkOption(\DiscountProductPage::$fieldDiscountType, $type);
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSave);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemSaveSuccess);
@@ -80,7 +85,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $toDay);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $toDay);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageItemSaveSuccess);
@@ -126,7 +132,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->selectOption(\DiscountProductPage::$fieldDiscountType, $type);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorAmountZero);
@@ -159,7 +166,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
 		$client->fillField(\DiscountProductPage::$fieldStartDate, $startDate);
 		$client->fillField(\DiscountProductPage::$fieldEndDate, $endDate);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->click(\DiscountProductPage::$buttonSaveClose);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorFieldRequired);
 	}
@@ -193,7 +201,8 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		
 		$client->addValueForField(\DiscountProductPage::$fieldStartDate, $endDate, 10);
 		$client->addValueForField(\DiscountProductPage::$fieldEndDate, $startDate, 10);
-		$client->chooseOnSelect2(\DiscountProductPage::$fieldCategory, $category);
+		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
+		$client->pressKey(\DiscountProductPage::$inputCategoryID, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->chooseOnSelect2(\DiscountProductPage::$fieldShopperGroup, $groupName);
 		$client->click(\DiscountProductPage::$buttonSave);
 		$client->assertSystemMessageContains(\DiscountProductPage::$messageErrorStartDateHigherEndDate);
@@ -279,5 +288,19 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->click(\DiscountProductPage::$buttonDelete);
 		$client->acceptpopup();
 //		$client->assertSystemMessageContains(\DiscountProductPage::$messageDeleteSuccess);
+	}
+
+	/**
+	 * @throws \Exception
+	 * @since 2.1.2
+	 */
+	public function deleteAllDiscountProducts()
+	{
+		$I = $this;
+		$I->amOnPage(DiscountProductPage::$url);
+		$I->checkAllResults();
+		$I->click(AdminJ3Page::$buttonDelete);
+		$I->acceptPopup();
+		$I->waitForText(DiscountProductPage::$deleteSuccess, 5, AdminJ3Page::$selectorSuccess);
 	}
 }

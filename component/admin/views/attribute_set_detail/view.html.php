@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,6 +69,15 @@ class RedshopViewAttribute_set_detail extends RedshopViewAdmin
 
 		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['attributes'] = $attributes;
+
+		$propOprand   = array();
+		$propOprand[] = JHtml::_('select.option', '+', '+');
+		$propOprand[] = JHtml::_('select.option', '-', '-');
+		$propOprand[] = JHtml::_('select.option', '=', '=');
+		$propOprand[] = JHtml::_('select.option', '*', '*');
+		$propOprand[] = JHtml::_('select.option', '/', '/');
+
+		$lists['prop_oprand'] = $propOprand;
 
 		$this->model       = $model;
 		$this->lists       = $lists;

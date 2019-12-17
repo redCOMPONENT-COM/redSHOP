@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,28 +84,5 @@ class RedshopModelNewslettersubscr extends RedshopModel
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
-	}
-
-	public function importdata($nid, $name, $email)
-	{
-		if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))
-		{
-			$query = "INSERT INTO #__redshop_newsletter_subscription (subscription_id,user_id,newsletter_id,name,email)
-			VALUES ('','0','" . $nid . "','" . $name . "','" . $email . "' )";
-
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-
-			else
-			{
-				return true;
-			}
-		}
 	}
 }
