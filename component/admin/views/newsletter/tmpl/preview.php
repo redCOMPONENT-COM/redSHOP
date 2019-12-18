@@ -130,12 +130,15 @@ else
 			</fieldset>
 			<fieldset>
 				<legend><?php echo JText::_('COM_REDSHOP_USER_FILTER');?></legend>
-				<table class="adminList" cellpadding="3" cellspacing="0" border="0">
+				<table class="adminList newsletter-filter" cellpadding="3" cellspacing="0" border="0">
 					<tr>
 						<td><strong><?php echo JText::_('COM_REDSHOP_NUMBER_ODERS'); ?>:</strong></td>
-						<td colspan="2"><?php echo $this->lists['oprand'];?>&nbsp;<input type="text" name="number_order"
+						<td colspan="2">
+                            <div class="newsletter-number-order">
+                                <?php echo $this->lists['oprand'];?>&nbsp;<input type="text" name="number_order"
 																						 id="number_order" size="5"
 																						 value="<?php echo $number_order; ?>">
+                            </div>
 						</td>
 					</tr>
 					<tr>
@@ -225,3 +228,13 @@ else
 		<div>&nbsp;</div>
 	</div>
 </form>
+
+<style type="text/css">
+    .newsletter-filter td {
+        padding-bottom: 10px;
+        padding-right: 50px;
+    }
+    .newsletter-number-order {
+        display: flex;
+    }
+</style>
