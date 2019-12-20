@@ -868,4 +868,64 @@ class Cart
 
 		return true;
 	}
+
+	/**
+	 * Method check different country and state
+	 *
+	 * @param   object    $rate
+	 * @param   integer   $user_id
+	 * @param   integer   $users_info_id
+	 * @param   array     $post
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isDiffCountryState($rate, $user_id = 0, $users_info_id = 0, $post = array())
+	{
+		$stateCode = '';
+		$countryCode = '';
+
+		if ($user_id)
+		{
+			$shippingAddresses = \RedshopHelperOrder::getShippingAddress($user_id);
+			$stateCode         = $shippingAddresses->state_code;
+			$countryCode       = $shippingAddresses->country_code;
+		}
+		elseif ($users_info_id)
+		{
+			$shippingAddresses = \RedshopHelperOrder::getShippingAddress(-$users_info_id);
+
+			if (empty($shippingAddresses))
+			{
+				$shippingAddresses = \RedshopHelperOrder::getBillingAddress(-$users_info_id);
+			}
+
+			$stateCode   = $shippingAddresses->state_code;
+			$countryCode = $shippingAddresses->country_code;
+		}
+		else
+		{
+			$anonymous = $post['anonymous'];
+
+			if ($anonymous['bill_is_ship'])
+			{
+				$stateCode = $anonymous['BT']['state_code'];
+				$countryCode = $anonymous['BT']['country_code'];
+			}
+			else
+			{
+				$stateCode = $anonymous['ST']['state_code'];
+				$countryCode = $anonymous['ST']['country_code'];
+			}
+		}
+
+		if ((!empty($rate->shipping_rate_country) && $rate->shipping_rate_country != $countryCode) ||
+			(!empty($rate->shipping_rate_state) && $rate->shipping_rate_state != $stateCode))
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
