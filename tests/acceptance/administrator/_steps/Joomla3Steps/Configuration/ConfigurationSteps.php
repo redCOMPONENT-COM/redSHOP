@@ -623,6 +623,37 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $showAddToCart
+	 * @throws \Exception
+	 */
+	public function configProductPurchaseParent($showAddToCart)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$relatedProductTab, 30);
+		$I->click(ConfigurationPage::$relatedProductTab);
+
+		switch ($showAddToCart)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(ConfigurationPage::$purchaseParentYes, 30);
+				$I->click(ConfigurationPage::$purchaseParentYes);
+				break;
+
+			case 'No':
+				$I->waitForElementVisible(ConfigurationPage::$purchaseParentNo, 30);
+				$I->click(ConfigurationPage::$purchaseParentNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
 	 * @param $price
 	 * @param $order
 	 * @param $firstName

@@ -121,4 +121,42 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productParent
+	 * @param $function
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function checkProductConfigPurchaseParent($categoryName, $productParent, $function)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($productParent));
+
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 30, FrontEndProductManagerJoomla3Page::$selectorMessage);
+				$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$tableCart, 30);
+				$I->waitForText($productParent, 30, FrontEndProductManagerJoomla3Page::$columnProduct);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+
+				break;
+
+			case 'No':
+				$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+
+				break;
+		}
+	}
 }
