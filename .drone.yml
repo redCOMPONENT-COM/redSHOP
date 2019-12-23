@@ -249,7 +249,7 @@ pipeline:
             # Performs test
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05 0 0'
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07 1 1'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07 0 0'
 
     03-Group3-73:
         group: 01-tests
@@ -271,7 +271,7 @@ pipeline:
             # Performs test
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05 0 0'
 #            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07 1 1'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07 0 0'
 #
 #    04-Group4-56:
 #        group: 01-tests
