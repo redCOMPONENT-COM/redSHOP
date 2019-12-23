@@ -322,8 +322,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(ProductManagerPage::$URL);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$h1);
-		$I->waitForElementVisible(ProductManagerPage::$resetButton, 30);
-		$I->click(ProductManagerPage::$resetButton);
+		$I->click(ProductManagerPage::$buttonReset);
 		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$h1);
 		$I->waitForElementVisible(ProductManagerPage::$productSecond, 30);
 		$I->click(ProductManagerPage::$productSecond);
