@@ -140,12 +140,11 @@ class ConfigurationParentProductCest
 		$I = new ProductsConfigurationSteps($scenario);
 		$I->checkProductConfigPurchaseParent($this->randomCategoryName, $this->productNameParent, $this->optionNo);
 
-		$I->wantTo('I Want To Delete Product');
+		$I->wantTo('I Want To Delete Product Child');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProductChild($this->productName);
 
 		$I->wantTo('I Want To Delete Product');
-		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productNameParent);
 
 		$I->wantTo('I Want To Delete Category');

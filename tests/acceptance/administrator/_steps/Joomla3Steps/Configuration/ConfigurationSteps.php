@@ -625,6 +625,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	/**
 	 * @param $showAddToCart
 	 * @throws \Exception
+	 * @since 2.1.4
 	 */
 	public function configProductPurchaseParent($showAddToCart)
 	{

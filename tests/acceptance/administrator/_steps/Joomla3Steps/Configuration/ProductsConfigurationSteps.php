@@ -150,12 +150,10 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->waitForText($productParent, 30, FrontEndProductManagerJoomla3Page::$columnProduct);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
-
 				break;
 
 			case 'No':
 				$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
-
 				break;
 		}
 	}
