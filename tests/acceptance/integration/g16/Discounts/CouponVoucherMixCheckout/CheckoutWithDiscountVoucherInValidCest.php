@@ -215,17 +215,18 @@ class CheckoutWithDiscountVoucherInValidCest
 	public function createData(AcceptanceTester $I, $scenario)
 	{
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Create a Category Save button');
+		$I->wantTo('Create a category save button');
 		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('I Want to add product inside the category');
+		$I->wantTo('I want to add product inside the category');
 		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
-		$I->wantTo('I Want to add product inside the category');
+		$I->wantTo('I want to add product discount inside the category');
 		$I->createProductSaveHaveDiscount($this->productNameDiscount, $this->categoryName, $this->randomProductNumberDiscount, $this->randomProductPrice, $this->randomDiscountPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 		$I = new VoucherManagerJoomla3Steps($scenario);
+		$I->wantTo("I want to create voucher for product");
 		$I->addVoucher($this->randomVoucherCode, $this->voucherAmount, $this->startDate, $this->endDate, $this->voucherCount, $this->productName, 'save');
 		$I->addVoucher($this->randomVoucherCodeSecond, $this->voucherAmountSecond, $this->startDateSecond, $this->endDateSecond, $this->voucherCountSecond, $this->productNameDiscount, 'save');
 	}
@@ -237,7 +238,7 @@ class CheckoutWithDiscountVoucherInValidCest
 	 */
 	public function checkoutWithVoucherInvalid(CheckoutMissingData $I)
 	{
-		$I->wantToTest("checkout with product have voucher Expires");
+		$I->wantToTest("Checkout with product have voucher Expires");
 		$I->checkoutWithVoucherInvalid($this->categoryName, $this->productName, $this->randomVoucherCode);
 
 		$I->wantToTest("Checkout with Voucher does not exist");
@@ -256,16 +257,17 @@ class CheckoutWithDiscountVoucherInValidCest
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
 		$I = new VoucherManagerJoomla3Steps($scenario);
+		$I->wantTo('Delete voucher in administrator');
 		$I->deleteVoucher($this->randomVoucherCode);
 		$I->deleteVoucher($this->randomVoucherCodeSecond);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete Product  in Administrator');
+		$I->wantTo('Delete product in administrator');
 		$I->deleteProduct($this->productName);
 		$I->deleteProduct($this->productNameDiscount);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->wantTo('Delete Category in Administrator');
+		$I->wantTo('Delete category in administrator');
 		$I->deleteCategory($this->categoryName);
 	}
 }
