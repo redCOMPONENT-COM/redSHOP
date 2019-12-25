@@ -199,7 +199,7 @@ class CheckoutWithDiscountVoucherInValidCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @throws Exception
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -210,6 +210,7 @@ class CheckoutWithDiscountVoucherInValidCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.1.4
 	 */
 	public function createData(AcceptanceTester $I, $scenario)
 	{
@@ -230,25 +231,9 @@ class CheckoutWithDiscountVoucherInValidCest
 	}
 
 	/**
-	 * @param AcceptanceTester $I
-	 * @param $scenario
-	 * @throws Exception
-	 */
-	public function checkoutWithVoucherExpires(AcceptanceTester $I, $scenario)
-	{
-		$I = new CheckoutMissingData($scenario);
-		$I->addToCart($this->categoryName, $this->productName);
-		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
-		$I->fillField(GiftCardCheckoutPage::$couponInput, $this->randomVoucherCode);
-		$I->click(GiftCardCheckoutPage::$couponButton);
-		$I->waitForText(GiftCardCheckoutPage::$messageInvalid, 10, GiftCardCheckoutPage::$selectorError);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
-	}
-
-	/**
 	 * @param CheckoutMissingData $I
 	 * @throws Exception
+	 * @since 2.1.4
 	 */
 	public function checkoutWithVoucherInvalid(CheckoutMissingData $I)
 	{
@@ -266,6 +251,7 @@ class CheckoutWithDiscountVoucherInValidCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 2.1.4
 	 */
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
