@@ -889,6 +889,12 @@ class Cart
 		if ($user_id)
 		{
 			$shippingAddresses = \RedshopHelperOrder::getShippingAddress($user_id);
+
+			if (empty($shippingAddresses))
+			{
+				$shippingAddresses = \RedshopHelperOrder::getBillingAddress($user_id);
+			}
+
 			$stateCode         = $shippingAddresses->state_code;
 			$countryCode       = $shippingAddresses->country_code;
 		}
