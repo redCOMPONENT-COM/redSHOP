@@ -369,4 +369,23 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				break;
 		}
 	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $voucherCode
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
+	public function checkoutWithVoucherInvalid($categoryName, $productName, $voucherCode)
+	{
+		$I = $this;
+		$I->addToCart($categoryName, $productName);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->fillField(GiftCardCheckoutPage::$couponInput, $voucherCode);
+		$I->click(GiftCardCheckoutPage::$couponButton);
+		$I->waitForText(GiftCardCheckoutPage::$messageInvalid, 10, GiftCardCheckoutPage::$selectorError);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
+	}
 }
