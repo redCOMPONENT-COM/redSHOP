@@ -339,7 +339,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		try
 		{
-			$I->waitForElement(OrderManagerPage::$productId, 30);
+			$I->waitForElement(OrderManagerPage::$productId, 60);
 		}catch (\Exception $e)
 		{
 			$I->acceptPopup();
