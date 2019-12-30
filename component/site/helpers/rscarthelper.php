@@ -700,7 +700,7 @@ class rsCarthelper
 							{
 								if (isset($rate[$i]->shipping_rate_state) && !empty($rate[$i]->shipping_rate_state))
 								{
-									if (Redshop\Cart\Cart::isDiffCountryState($rate[$i], $user_id, $users_info_id, $_POST))
+									if (Redshop\Cart\Cart::isDiffCountryState($rate[$i], $users_info_id, $_POST))
 									{
 										continue;
 									}

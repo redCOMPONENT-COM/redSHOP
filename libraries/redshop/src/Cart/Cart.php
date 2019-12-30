@@ -881,34 +881,14 @@ class Cart
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function isDiffCountryState($rate, $user_id = 0, $users_info_id = 0, $post = array())
+	public static function isDiffCountryState($rate, $users_info_id = 0, $post = array())
 	{
-		$stateCode = '';
-		$countryCode = '';
-
-		if ($user_id)
+		if ($users_info_id)
 		{
-			$shippingAddresses = \RedshopHelperOrder::getShippingAddress($user_id);
-
-			if (empty($shippingAddresses))
-			{
-				$shippingAddresses = \RedshopHelperOrder::getBillingAddress($user_id);
-			}
+			$shippingAddresses = \RedshopHelperShipping::getShippingAddress($users_info_id);
 
 			$stateCode         = $shippingAddresses->state_code;
 			$countryCode       = $shippingAddresses->country_code;
-		}
-		elseif ($users_info_id)
-		{
-			$shippingAddresses = \RedshopHelperOrder::getShippingAddress(-$users_info_id);
-
-			if (empty($shippingAddresses))
-			{
-				$shippingAddresses = \RedshopHelperOrder::getBillingAddress(-$users_info_id);
-			}
-
-			$stateCode   = $shippingAddresses->state_code;
-			$countryCode = $shippingAddresses->country_code;
 		}
 		else
 		{
