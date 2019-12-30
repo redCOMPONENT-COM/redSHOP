@@ -11,20 +11,22 @@ use CheckoutMissingData;
 use FrontEndProductManagerJoomla3Page;
 
 /**
- * Class CheckoutWithEANTransferPayment
+ * Class CheckoutwithKlarnaPayment
  * @package Frontend\payment
  * @since 2.1.4
  */
-class CheckoutWithEANTransferPayment extends CheckoutMissingData
+class CheckoutwithKlarnaPayment extends CheckoutMissingData
 {
 	/**
 	 * @param $productName
 	 * @param $categoryName
 	 * @param $customerInformation
+	 * @param $otherShipping
+	 * @param $pno
 	 * @throws \Exception
-	 * @since 2.1.3
+	 * @since 2.1.4
 	 */
-	public function checkoutProductWithEANTransferPayment($productName, $categoryName, $customerInformation)
+	public function checkoutProductWithKlarnaPayment($productName, $categoryName, $customerInformation, $otherShipping, $pno)
 	{
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
@@ -35,25 +37,21 @@ class CheckoutWithEANTransferPayment extends CheckoutMissingData
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		$I->fillInformationPrivate($customerInformation);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
 		$I->wait(1);
+		$I->fillInformationPrivate($customerInformation);
+		$I->fillShippingAddress($otherShipping);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$eanPayment, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$eanPayment);
-
-		try
-		{
-			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$eanPayment);
-		}
-		catch (\Exception $e)
-		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$eanPayment, 30);
-			$I->click(FrontEndProductManagerJoomla3Page::$eanPayment);
-			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$eanPayment);
-		}
-
-		$I->wantTo("checkout with card");
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$klarnaPayment, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$klarnaPayment);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$fieldPNO, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$fieldPNO, $pno);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
