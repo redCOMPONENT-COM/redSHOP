@@ -24,6 +24,9 @@ extract($displayData);
 
 $checkedClass = $checked ? 'paymentgtwchecked' : '';
 
+$params = new JRegistry($oneMethod->params);
+$logo   = $params->get('logo', '');
+
 $lang = JFactory::getLanguage();
 $lang->load('plg_redshop_payment_rs_payment_banktransfer', JPATH_ADMINISTRATOR, 'en-GB', true);
 $lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB', true);
@@ -36,9 +39,17 @@ $lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB
                 name="payment_method_id"
                 id="<?php echo $oneMethod->name . $index ?>"
                 value="<?php echo $oneMethod->name ?>"
-			<?php echo $checked ? 'checked="checked"' : '' ?>
+            <?php echo $checked ? 'checked="checked"' : '' ?>
                 onclick="javascript:onestepCheckoutProcess(this.name, '');"
         />
-		<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>
+
+        <?php if (!empty($logo) && file_exists(JPATH_ROOT . '/' . $logo)): ?>
+        <img 
+            alt="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>" 
+            title="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>" 
+            src="<?php echo $logo ?>" />
+        <?php endif; ?>
+
+        <span><?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?></span>
     </label>
 </div>
