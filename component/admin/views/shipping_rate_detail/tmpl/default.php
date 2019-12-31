@@ -77,7 +77,27 @@ if ($this->shipper_location)
 					<?php echo $editor->display("shipping_location_info", $this->detail->shipping_location_info, '$widthPx', '$heightPx', '100', '20', '1'); ?>
 				</td>
 				</tr>
-			</table>
+				<tr>
+					<td width="100" align="right" class="key">
+						<label for="name">
+							<?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $this->lists['shipping_rate_country']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td width="100" align="right" class="key">
+						<label for="name">
+							<?php echo JText::_('COM_REDSHOP_STATE'); ?>:
+						</label>
+					</td>
+					<td>
+						<?php echo $this->lists['shipping_rate_state']; ?>
+					</td>
+				</tr>
+            </table>
 		</fieldset>
 	</div>
 <?php
