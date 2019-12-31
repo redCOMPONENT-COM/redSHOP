@@ -30,15 +30,21 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 
 		$app   = JFactory::getApplication();
 		$data  = $app->input->post->get('jform', array(), 'array');
+		$files = $app->input->post->files->get('jform', array(), 'array');
 		$model = $this->getModel('product_rating');
 
 		$productId   = $app->input->getInt('product_id', 0);
 		$Itemid      = $app->input->getInt('Itemid', 0);
 		$modal       = $app->input->getInt('modal', 0);
 		$category_id = $app->input->getInt('category_id', 0);
+		$returnUrl   = $app->input->getString('returnurl', '');
 		$user        = JFactory::getUser();
 
-		if ($modal)
+		if (!empty($returnUrl))
+		{
+			$link = base64_decode($returnUrl);
+		}
+		elseif ($modal)
 		{
 			$link = 'index.php?option=com_redshop&view=product_rating&product_id=' . $productId . '&tmpl=component&Itemid=' . $Itemid;
 		}
@@ -61,7 +67,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 
 		if (!$form)
 		{
-			JError::raiseError(500, $model->getError());
+			/** @scrutinizer ignore-deprecated */ JError::raiseError(500, $model->getError());
 			$this->setRedirect(JRoute::_($link, false));
 
 			return false;
@@ -73,7 +79,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		// Check captcha only for guests
 		if (JFactory::getUser()->guest)
 		{
-			if (!Redshop\Helper\Utility::checkCaptcha($data, false))
+			if (!Redshop\Helper\Utility::checkCaptcha(/** @scrutinizer ignore-type */ $data, false))
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
 				$this->setRedirect($link);
@@ -105,6 +111,14 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 				$data['username'] = $user->name;
 				$data['email']    = $user->email;
 			}
+		}
+
+		$images = array();
+		$this->uploadImage($files, $images);
+
+		if (!empty($images))
+		{
+			$data['images'] = json_encode($images);
 		}
 
 		$validate = $model->validate($form, $data);
@@ -179,5 +193,67 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 		}
 
 		$this->setRedirect($link);
+	}
+
+	/**
+	 * Method upload images
+	 *
+	 * @param   array  $files
+	 * @param   array  $images
+	 *
+	 * @return void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function uploadImage($files, &$images)
+	{
+
+		foreach ($files['images'] as $file)
+		{
+			if ($file['error'] > 0 || $file['size'] > 2000000)
+			{
+				continue;
+			}
+
+			$fileName = $file['name'];
+			$uploadedFileNameParts = explode('.',$fileName);
+			$uploadedFileExtension = array_pop($uploadedFileNameParts);
+
+			$validFileExts = explode(',', 'jpeg,jpg,png,gif');
+			$extOk = false;
+
+			foreach($validFileExts as $key => $value)
+			{
+				if( preg_match("/$value/i", $uploadedFileExtension ) )
+				{
+					$extOk = true;
+				}
+			}
+
+			if ($extOk === false)
+			{
+				continue;
+			}
+
+			$fileTemp  = $file['tmp_name'];
+			$imageinfo = getimagesize($fileTemp);
+
+			$okMIMETypes = 'image/jpeg,image/pjpeg,image/png,image/x-png,image/gif';
+			$validFileTypes = explode(",", $okMIMETypes);
+
+			if( !is_int($imageinfo[0]) || !is_int($imageinfo[1]) ||  !in_array($imageinfo['mime'], $validFileTypes) )
+			{
+				continue;
+			}
+
+			$fileName = RedshopHelperMedia::cleanFileName($fileName);
+			$uploadPath = REDSHOP_FRONT_IMAGES_RELPATH . 'product_rating/' . $fileName;
+
+			if(!JFile::upload($fileTemp, $uploadPath))
+			{
+				continue;
+			}
+
+			$images[] = $fileName;
+		}
 	}
 }
