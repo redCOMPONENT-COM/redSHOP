@@ -689,7 +689,6 @@ class rsCarthelper
 						$rs        = $shippingmethod[$s];
 						$classname = $rs->element;
 						$rate_data .= $template_middle;
-						$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
 
 						if ($template_rate_middle != "")
 						{
@@ -767,6 +766,20 @@ class rsCarthelper
 
 								$data = str_replace("{gls_shipping_location}", "", $data);
 							}
+
+							$isDisplayRate = '';
+
+							if ((count($rate) <= 1))
+							{
+								$isDisplayRate = 'hidden';
+								$rate_data = str_replace("{shipping_method_title}", '', $rate_data);
+							}
+							else
+							{
+								$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
+							}
+
+							$data = '<div class="'. $isDisplayRate .'">' . $data . '</div>';
 
 							$rate_data = str_replace("{shipping_rate_loop_start}", "", $rate_data);
 							$rate_data = str_replace("{shipping_rate_loop_end}", "", $rate_data);
