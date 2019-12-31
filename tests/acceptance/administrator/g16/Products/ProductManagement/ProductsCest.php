@@ -1,31 +1,168 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * Class ManageProductsAdministratorCest
- *
- * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
- * @since    1.4
- */
-
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductManagerSteps;
 
+/**
+ * Class ProductsCest
+ * @since 2.1.4
+ */
 class ProductsCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.4
+	 */
+	protected $fake;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $randomCategoryName;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $randomProductName;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $minimumPerProduct;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $discountStart;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $discountEnd;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $randomProductNumberNew;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $randomProductAttributeNumber;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $randomProductNameAttribute;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $randomProductPrice;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $discountPriceThanPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $statusProducts;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $searchCategory;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $newProductName;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $nameAttribute;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $valueAttribute;
+
+	/**
+	 * @var int
+	 * @since 2.1.4
+	 */
+	protected $priceAttribute;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $nameProductAccessories;
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	protected $nameRelatedProduct;
+
+	/**
+	 * @var array
+	 * @since 2.1.4
+	 */
+	protected $product;
+
+	/**
+	 * @var array
+	 * @since 2.1.4
+	 */
+	protected $configAttribute;
+
 	public function __construct()
 	{
 		$this->fake                         = Faker\Factory::create();
-		$this->randomCategoryName           = 'TestingCategory' . rand(99, 999);
-		$this->ramdoCategoryNameAssign      = 'CategoryAssign' . rand(99, 999);
-		$this->randomProductName            = 'Testing ProductManagement' . rand(99, 999);
+		$this->randomCategoryName           = $this->fake->bothify('TestingCategory ?##?');
+		$this->randomProductName            = $this->fake->bothify('Testing ProductManagement ?##?');
 		$this->minimumPerProduct            = 2;
 		$this->minimumQuantity              = 3;
 		$this->maximumQuantity              = 5;
@@ -34,20 +171,17 @@ class ProductsCest
 		$this->randomProductNumber          = rand(999, 9999);
 		$this->randomProductNumberNew       = rand(999, 9999);
 		$this->randomProductAttributeNumber = rand(999, 9999);
-		$this->randomProductNameAttribute   = 'Testing Attribute' . rand(99, 999);
+		$this->randomProductNameAttribute   = $this->fake->bothify('Testing Attribute ?##?');
 		$this->randomProductPrice           = rand(9, 19);
 		$this->discountPriceThanPrice       = 100;
 		$this->statusProducts               = 'Product on sale';
 		$this->searchCategory               = 'Category';
-		$this->newProductName               = 'New-Test Product' . rand(99, 999);
+		$this->newProductName               = $this->fake->bothify('New-Test Product ?##?');
 		$this->nameAttribute                = 'Size';
 		$this->valueAttribute               = "Z";
 		$this->priceAttribute               = 12;
-		$this->nameProductAccessories       = "redFORM";
-		$this->nameRelatedProduct           = "redITEM";
-		$this->quantityStock                = 4;
-		$this->PreorderStock                = 2;
-		$this->priceProductForThan          = 10;
+		$this->nameProductAccessories       = $this->fake->bothify('Product Accessories ?##?');
+		$this->nameRelatedProduct           = $this->fake->bothify('Product Related ?##?');
 
 		$this->product                    = array();
 		$this->product['name']            = $this->newProductName;
@@ -59,6 +193,14 @@ class ProductsCest
 		$this->product['discountPrice']   = $this->fake->numberBetween(100, 1000);
 		$this->product['maximumQuantity'] = $this->maximumQuantity;
 		$this->product['minimumQuantity'] = $this->minimumQuantity;
+
+		$this->configAttribute =
+			[
+				'attributeRequire' => 'yes',
+				'multipleSelection' => 'yes',
+				'hideAttributePrice' => 'yes',
+				'published' => 'yes'
+			];
 	}
 
 	/**
@@ -74,6 +216,10 @@ class ProductsCest
 		$I->doAdministratorLogin();
 	}
 
+	/**
+	 * @param ProductManagerSteps $I
+	 * @since 2.1.4
+	 */
 	public function checkButton(ProductManagerSteps $I)
 	{
 		$I->checkButton('edit');
@@ -85,6 +231,12 @@ class ProductsCest
 		$I->checkButton('removeCategory');
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function addCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create Category in Administrator');
@@ -93,6 +245,12 @@ class ProductsCest
 		$I->addCategorySave($this->randomCategoryName);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function createProductQuantityStartThanEnd(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Product QuantityStart More Than End Product Number Manager in Administrator');
@@ -103,9 +261,9 @@ class ProductsCest
 	}
 
 	/**
-	 * @param AcceptanceTester $I
-	 * @param                  $scenario
-	 *
+	 * @param ProductManagerSteps $I
+	 * @throws Exception
+	 * @since 2.1.4
 	 */
 	public function createProductSave(ProductManagerSteps $I)
 	{
@@ -120,6 +278,11 @@ class ProductsCest
 		$I->createProductSaveClose($this->nameRelatedProduct, $this->randomCategoryName, $this->fake->numberBetween(1,10000), $this->randomProductPrice);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @since 2.1.4
+	 */
 	public function copyProduct(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Copy Product Save Manager in Administrator');
@@ -128,6 +291,12 @@ class ProductsCest
 		$I->copyProduct($this->randomProductName);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function checkSelectCategory(AcceptanceTester $I, $scenario)
 	{
 
@@ -137,6 +306,12 @@ class ProductsCest
 		$I->checkSelectCategory($this->randomCategoryName);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function checkStatusSearch(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Select Status Category Product in Administrator');
@@ -145,6 +320,11 @@ class ProductsCest
 		$I->checkSelectStatus($this->statusProducts);
 	}
 
+	/**
+	 * @param ProductManagerSteps $I
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function deleteProduct(ProductManagerSteps $I)
 	{
 		$I->wantTo('Delete Product Manager in Administrator');
@@ -153,9 +333,10 @@ class ProductsCest
 
 	/**
 	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
 	 */
-
 	public function createProductSaveClose(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Save Close Manager in Administrator');
@@ -164,6 +345,12 @@ class ProductsCest
 		$I->createProductSaveClose($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function updateNameProduct(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test update Name of Product Save Manager in Administrator');
@@ -172,6 +359,12 @@ class ProductsCest
 		$I->checkEditSave($this->randomProductName, $this->newProductName);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function createProductSaveNew(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Save New Manager in Administrator');
@@ -180,6 +373,12 @@ class ProductsCest
 		$I->createProductSaveNew($this->randomProductName, $this->randomCategoryName, $this->randomProductNumberNew, $this->randomProductPrice);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function createProductCancel(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Cancel  Manager in Administrator');
@@ -188,6 +387,12 @@ class ProductsCest
 		$I->createProductCancel();
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function deleteProductUpdate(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete Product Manager in Administrator');
@@ -197,6 +402,11 @@ class ProductsCest
 		$I->deleteProduct($this->newProductName);
 	}
 
+	/**
+	 * @param ProductManagerSteps $I
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function createProductMissingName(ProductManagerSteps $I)
 	{
 		$I->wantTo('I Want to add Product Missing name product inside the category');
@@ -205,14 +415,28 @@ class ProductsCest
 		$I->createMissingCases($this->randomCategoryName, $this->randomProductNumber, $this->randomProductName, $this->randomProductPrice, 'number');
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function createProductWithAttribute(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test create Product with attribute Save Manager in Administrator');
 		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductWithAttribute($this->randomProductNameAttribute, $this->randomCategoryName, $this->randomProductAttributeNumber, $this->randomProductPrice, $this->nameAttribute, $this->valueAttribute, $this->priceAttribute);
+		$I->saveAsCopyProductAttribute($this->randomProductNameAttribute, $this->configAttribute);
+		$I->CheckProductAttributeAfterSaveAsCopy($this->randomProductNameAttribute . ' (2)', $this->configAttribute);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function deleteAttributeValue(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test delete attribute value DeProduct Save Manager in Administrator');
@@ -221,6 +445,12 @@ class ProductsCest
 		$I->deleteAttributeValue($this->randomProductNameAttribute, $this->valueAttribute);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function deleteAttribute(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Delete Attribute Product Save Manager in Administrator');
@@ -229,6 +459,12 @@ class ProductsCest
 		$I->deleteAttribute($this->randomProductNameAttribute);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function createProductWithAccessories(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test Product Accessories Save Manager in Administrator');
@@ -237,6 +473,12 @@ class ProductsCest
 		$I->createProductWithAccessories($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->nameProductAccessories);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
 	public function unPublishAllProducts(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test ProductManagement Unpublish all products in Administrator');
@@ -245,5 +487,22 @@ class ProductsCest
 		$I->unPublishAllProducts();
 		$I->wantTo('Publish all products');
 		$I->publishAllProducts();
+	}
+
+	/**
+	 * @param ProductManagerSteps $I
+	 * @param $scenario
+	 * @throws Exception
+	 */
+	public function deleteAllProduct(ProductManagerSteps $I, $scenario)
+	{
+		$I->wantTo('Delete product');
+		$I->deleteProduct($this->randomProductName);
+		$I->deleteProduct($this->randomProductNameAttribute);
+		$I->deleteProduct($this->nameRelatedProduct);
+		$I->deleteProduct($this->nameProductAccessories);
+
+		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I->deleteCategory($this->randomCategoryName);
 	}
 }
