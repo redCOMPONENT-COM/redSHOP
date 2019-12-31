@@ -39,22 +39,6 @@ class CheckoutWithShippingRateSteps extends CheckoutOnFrontEnd
 		$I->seeElement(['link' => $productName]);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 
-		try
-		{
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
-			$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-		} catch (\Exception $e)
-		{
-			$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
-			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-			$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
-		}
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
