@@ -110,18 +110,18 @@ class Stockroom
 	 */
 	public static function replaceProductStockData($productId, $propertyId, $subPropertyId, $html, $stockStatuses)
 	{
-        $product = \RedshopProduct::getInstance($productId);
-        $db    = \JFactory::getDbo();
-        $query = $db->getQuery(true)
-            ->select('SUM(quantity)')
-            ->from($db->qn('#__redshop_product_stockroom_xref'))
-            ->where($db->qn('product_id') . ' = ' . $db->quote($productId));
+		$product = \RedshopProduct::getInstance($productId);
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+		    ->select('SUM(quantity)')
+		    ->from($db->qn('#__redshop_product_stockroom_xref'))
+		    ->where($db->qn('product_id') . ' = ' . $db->quote($productId));
 
-        $stockValues = $db->setQuery($query)->loadResult();
+		$stockValues = $db->setQuery($query)->loadResult();
 
-        $stockTag     = strstr($html, "{stock_status");
-        $newStockTag  = explode("}", $stockTag);
-        $realStockTag = $newStockTag[0] . "}";
+		$stockTag     = strstr($html, "{stock_status");
+		$newStockTag  = explode("}", $stockTag);
+		$realStockTag = $newStockTag[0] . "}";
 
 		if (strpos($html, '{stock_status') !== false && \Redshop::getConfig()->getBool('USE_STOCKROOM'))
 		{
