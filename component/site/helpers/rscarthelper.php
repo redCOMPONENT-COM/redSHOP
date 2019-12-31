@@ -767,11 +767,11 @@ class rsCarthelper
 								$data = str_replace("{gls_shipping_location}", "", $data);
 							}
 
-							$isDisplayRate = '';
+							$hidden = '';
 
 							if ((count($rate) <= 1))
 							{
-								$isDisplayRate = 'style="display:none"';
+								$hidden = 'style="display:none;"';
 								$rate_data = str_replace("{shipping_method_title}", '', $rate_data);
 							}
 							else
@@ -779,7 +779,7 @@ class rsCarthelper
 								$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
 							}
 
-							$data = '<div '. $isDisplayRate .'>' . $data . '</div>';
+							$data = '<div '. $hidden .'>' . $data . '</div>';
 
 							$rate_data = str_replace("{shipping_rate_loop_start}", "", $rate_data);
 							$rate_data = str_replace("{shipping_rate_loop_end}", "", $rate_data);
