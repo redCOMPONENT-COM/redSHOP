@@ -837,4 +837,22 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.4
 	 */
 	public static $fieldPNO = "#rs_pno";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $tableCart = "//table[@class='table table-striped']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $columnProduct = "//table[@class='table table-striped']//tbody/tr/td[1]";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $buttonEmptyCart = '//input[@onclick = "document.empty_cart.submit();"]';
 }
