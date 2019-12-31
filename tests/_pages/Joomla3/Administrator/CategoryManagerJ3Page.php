@@ -206,7 +206,7 @@ class CategoryManagerJ3Page extends AdminJ3Page
     /**
      * @var string
      */
-    public static $saveCloseButton = "Save & Close";
+    public static $saveCloseButton = "//button[@onclick=\"Joomla.submitbutton('category.save');\"]";
 
     /**
      * @var string
