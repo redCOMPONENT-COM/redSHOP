@@ -123,53 +123,58 @@ class Stockroom
 		$newStockTag  = explode("}", $stockTag);
 		$realStockTag = $newStockTag[0] . "}";
 
-		if (strpos($html, '{stock_status') !== false && \Redshop::getConfig()->getBool('USE_STOCKROOM'))
+		if (strpos($html, '{stock_status') !== false)
 		{
-			$tagConfig = substr($newStockTag[0], 1);
-			$tagConfig = explode(":", $tagConfig);
+			$stockStatus = '';
 
-			$availableClass = "available_stock_cls";
-
-			if (isset($tagConfig[1]) && $tagConfig[1] != "")
+			if (\Redshop::getConfig()->getBool('USE_STOCKROOM'))
 			{
-				$availableClass = $tagConfig[1];
-			}
+				$tagConfig = substr($newStockTag[0], 1);
+				$tagConfig = explode(":", $tagConfig);
 
-			$outStockClass = "out_stock_cls";
+				$availableClass = "available_stock_cls";
 
-			if (isset($tagConfig[2]) && $tagConfig[2] != "")
-			{
-				$outStockClass = $tagConfig[2];
-			}
-
-			$preOrderClass = "pre_order_cls";
-
-			if (isset($tagConfig[3]) && $tagConfig[3] != "")
-			{
-				$preOrderClass = $tagConfig[3];
-			}
-
-			if ($product->not_for_sale == 1)
-			{
-				$stockStatus = '';
-			}
-			elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stockValues < 1)
-			{
-				if (($stockStatuses['preorder'] && !$stockStatuses['preorder_stock']) || !$stockStatuses['preorder'])
+				if (isset($tagConfig[1]) && $tagConfig[1] != "")
 				{
-					$stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $outStockClass
-						. "' class='" . $outStockClass . "'>" . \JText::_('COM_REDSHOP_OUT_OF_STOCK') . "</div></span>";
+					$availableClass = $tagConfig[1];
+				}
+
+				$outStockClass = "out_stock_cls";
+
+				if (isset($tagConfig[2]) && $tagConfig[2] != "")
+				{
+					$outStockClass = $tagConfig[2];
+				}
+
+				$preOrderClass = "pre_order_cls";
+
+				if (isset($tagConfig[3]) && $tagConfig[3] != "")
+				{
+					$preOrderClass = $tagConfig[3];
+				}
+
+				if ($product->not_for_sale == 1)
+				{
+					$stockStatus = '';
+				}
+				elseif (!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock'] || $stockValues < 1)
+				{
+					if (($stockStatuses['preorder'] && !$stockStatuses['preorder_stock']) || !$stockStatuses['preorder'])
+					{
+						$stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $outStockClass
+							. "' class='" . $outStockClass . "'>" . \JText::_('COM_REDSHOP_OUT_OF_STOCK') . "</div></span>";
+					}
+					else
+					{
+						$stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $preOrderClass
+							. "' class='" . $preOrderClass . "'>" . \JText::_('COM_REDSHOP_PRE_ORDER') . "</div></span>";
+					}
 				}
 				else
 				{
-					$stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $preOrderClass
-						. "' class='" . $preOrderClass . "'>" . \JText::_('COM_REDSHOP_PRE_ORDER') . "</div></span>";
+					$stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $availableClass . "' class='"
+						. $availableClass . "'>" . \JText::_('COM_REDSHOP_AVAILABLE_STOCK') . "</div></span>";
 				}
-			}
-			else
-			{
-				$stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $availableClass . "' class='"
-					. $availableClass . "'>" . \JText::_('COM_REDSHOP_AVAILABLE_STOCK') . "</div></span>";
 			}
 
 			$html = str_replace($realStockTag, $stockStatus, $html);
@@ -235,10 +240,6 @@ class Stockroom
 					$html
 				);
 			}
-		}
-		else
-		{
-			$html = str_replace($realStockTag, '', $html);
 		}
 
 		return $html;
