@@ -69,6 +69,8 @@ class RedshopViewSample_detail extends RedshopViewAdmin
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_catalogmanagement48');
 
+        	JToolBarHelper::apply();
+        	JToolBarHelper::save2new();
 		JToolBarHelper::save();
 
 		if ($isNew)

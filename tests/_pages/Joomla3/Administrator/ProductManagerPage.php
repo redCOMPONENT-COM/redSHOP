@@ -19,13 +19,13 @@ class ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $namePage="Product Management";
+	public static $namePage = "Product Management";
 
 	/**
 	 * @var string
 	 */
 	public static $URL = 'administrator/index.php?option=com_redshop&view=product';
-	
+
 	/**
 	 * @var string
 	 */
@@ -204,7 +204,7 @@ class ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $buttonProductAttribute = 'Product Attributes';
+	public static $buttonProductAttribute = ["link" => 'Product Attributes'];
 	/**
 	 * @var string
 	 */
@@ -446,6 +446,54 @@ class ProductManagerPage extends AdminJ3Page
 	public static $xpathSaveClose = '//button[@onclick="Joomla.submitbutton(\'save\');"]';
 
 	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $buttonSaveAsCopy = "//button[@onclick=\"Joomla.submitbutton('save2copy');\"]";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $labelAttributeRequired = "//input[@name='attribute[0][required]']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $labelMultipleSelection = "//input[@name='attribute[0][allow_multiple_selection]']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $labelHideAttributePrice = "//input[@name='attribute[0][hide_attribute_price]']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $labelPublished = "//input[@name='attribute[0][published]']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $productSecond = "//input[@id='cb1']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $additionalInformation = "//h3[contains(text(),'Additional Information')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $productParentID = "#s2id_product_parent_id";
+
+	/**
 	 * @param $position
 	 * @param $x
 	 * @param $y
@@ -494,6 +542,18 @@ class ProductManagerPage extends AdminJ3Page
 	public function buttonAddSubProperty($x)
 	{
 		$xpath = "(//a[@class ='btn btn-success add_subproperty btn-small'])[$x]";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $productParent
+	 * @return string
+	 * @since 2.1.4
+	 */
+	public function returnProductParent($productParent)
+	{
+		$xpath = "//div/span[contains(text(), '$productParent')]";
 
 		return $xpath;
 	}
