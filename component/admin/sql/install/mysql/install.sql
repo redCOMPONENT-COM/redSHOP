@@ -1505,6 +1505,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
   `email` VARCHAR(200) NOT NULL,
   `username` VARCHAR(255) NOT NULL,
   `company_name` VARCHAR(255) NOT NULL,
+  `images` TEXT NULL,
   PRIMARY KEY (`rating_id`),
   UNIQUE INDEX `product_id` (`product_id` ASC, `userid` ASC, `email` ASC),
   INDEX `idx_published` (`published` ASC),
