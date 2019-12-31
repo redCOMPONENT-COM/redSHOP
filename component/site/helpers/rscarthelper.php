@@ -771,7 +771,7 @@ class rsCarthelper
 
 							if ((count($rate) <= 1))
 							{
-								$isDisplayRate = 'hidden';
+								$isDisplayRate = 'style="display:none"';
 								$rate_data = str_replace("{shipping_method_title}", '', $rate_data);
 							}
 							else
@@ -779,7 +779,7 @@ class rsCarthelper
 								$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
 							}
 
-							$data = '<div class="'. $isDisplayRate .'">' . $data . '</div>';
+							$data = '<div '. $isDisplayRate .'>' . $data . '</div>';
 
 							$rate_data = str_replace("{shipping_rate_loop_start}", "", $rate_data);
 							$rate_data = str_replace("{shipping_rate_loop_end}", "", $rate_data);
