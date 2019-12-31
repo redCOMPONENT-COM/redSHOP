@@ -59,8 +59,6 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
 	 */
 	public function display($tpl = null)
 	{
-		RedshopHelperJs::init();
-
 		JPluginHelper::importPlugin('redshop_product');
 		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
