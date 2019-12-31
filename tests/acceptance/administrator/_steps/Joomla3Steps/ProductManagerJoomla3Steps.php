@@ -313,6 +313,27 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $productName
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function deleteProductChild($productName)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$h1);
+		$I->click(ProductManagerPage::$buttonReset);
+		$I->waitForText(ProductManagerPage::$namePage, 30, ProductManagerPage::$h1);
+		$I->waitForElementVisible(ProductManagerPage::$productSecond, 30);
+		$I->click(ProductManagerPage::$productSecond);
+		$I->click(ProductManagerPage::$buttonDelete);
+		$I->acceptPopup();
+		$I->waitForText(ProductManagerPage::$messageDeleteProductSuccess, 60, ProductManagerPage::$selectorSuccess);
+		$I->dontSee($productName);
+	}
+
+	/**
+	 * @param $productName
 	 */
 	public function searchProduct($productName)
 	{
@@ -1313,6 +1334,41 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		$I->waitForElementVisible(ProductManagerPage::$xpathSaveClose, 30);
+		$I->click(ProductManagerPage::$buttonSaveClose);
+		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
+	}
+
+	/**
+	 * @param $productName
+	 * @param $category
+	 * @param $productNumber
+	 * @param $price
+	 * @param $productParent
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function createProductChild($productName, $category, $productNumber, $price, $productParent)
+	{
+		$I = $this;
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForElementVisible(ProductManagerPage::$productName, 30);
+		$I->fillField(ProductManagerPage::$productName, $productName);
+		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
+		$I->fillField(ProductManagerPage::$productPrice, $price);
+		$I->click(ProductManagerPage::$categoryId);
+		$I->fillField(ProductManagerPage::$categoryFile, $category);
+		$usePage = new ProductManagerPage();
+		$I->waitForElementVisible($usePage->returnChoice($category), 30);
+		$I->click($usePage->returnChoice($category));
+
+		$I->scrollTo(ProductManagerPage::$additionalInformation);
+		$I->waitForElementVisible(ProductManagerPage::$productParentID, 30);
+		$I->click(ProductManagerPage::$productParentID);
+		$I->waitForElementVisible(ProductManagerPage::$categorySearchField, 30);
+		$I->fillField(ProductManagerPage::$categorySearchField, $productParent);
+		$I->waitForElementVisible($usePage->returnProductParent($productParent), 30);
+		$I->click($usePage->returnProductParent($productParent));
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
 	}

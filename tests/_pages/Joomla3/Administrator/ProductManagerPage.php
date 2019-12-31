@@ -19,7 +19,7 @@ class ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $namePage="Product Management";
+	public static $namePage = "Product Management";
 
 	/**
 	 * @var string
@@ -476,6 +476,24 @@ class ProductManagerPage extends AdminJ3Page
 	public static $labelPublished = "//input[@name='attribute[0][published]']";
 
 	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $productSecond = "//input[@id='cb1']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $additionalInformation = "//h3[contains(text(),'Additional Information')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $productParentID = "#s2id_product_parent_id";
+
+	/**
 	 * @param $position
 	 * @param $x
 	 * @param $y
@@ -524,6 +542,18 @@ class ProductManagerPage extends AdminJ3Page
 	public function buttonAddSubProperty($x)
 	{
 		$xpath = "(//a[@class ='btn btn-success add_subproperty btn-small'])[$x]";
+
+		return $xpath;
+	}
+
+	/**
+	 * @param $productParent
+	 * @return string
+	 * @since 2.1.4
+	 */
+	public function returnProductParent($productParent)
+	{
+		$xpath = "//div/span[contains(text(), '$productParent')]";
 
 		return $xpath;
 	}
