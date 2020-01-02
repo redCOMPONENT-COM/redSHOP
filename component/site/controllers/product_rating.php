@@ -202,7 +202,7 @@ class RedshopControllerProduct_Rating extends RedshopControllerForm
 	 * @param   array  $images
 	 *
 	 * @return void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.4
 	 */
 	public function uploadImage($files, &$images)
 	{
