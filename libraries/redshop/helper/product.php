@@ -1297,7 +1297,7 @@ class RedshopHelperProduct
 	 * @param   string   $media_type
 	 *
 	 * @return  mixed
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	public static function getVideosProduct($product_id, $attributes, $attribute_template, $media_type = 'youtube')
 	{
@@ -1357,5 +1357,33 @@ class RedshopHelperProduct
 		}
 
 		return $media_videos;
+	}
+
+	/**
+	 * Method statistics rating product
+	 *
+	 * @param   integer  $product_id
+	 *
+	 * @return  mixed
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function statisticsRatingProduct($productId)
+	{
+		$db = JFactory::getDbo();
+
+		$totalRating = $db->getQuery(true)
+			->select('count(rating_id)')
+			->from($db->qn('#__redshop_product_rating'))
+			->where("product_id = $productId");
+
+		$query = $db->getQuery(true)
+			->select(array('user_rating', 'count(user_rating) as count'))
+			->select('FORMAT(count(user_rating) / (' . $totalRating . ') * 100, 0) AS percent')
+			->from('#__redshop_product_rating')
+			->where($db->qn('product_id') . ' = ' . $db->q($productId))
+			->where($db->qn('published') . ' = 1')
+			->group($db->qn(array('product_id', 'user_rating')));
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }

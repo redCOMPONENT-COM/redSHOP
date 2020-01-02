@@ -17,6 +17,11 @@ $jinput = JFactory::getApplication()->input;
 $product_data = $jinput->get('product');
 $model = $this->getModel('rating_detail');
 $productHelper = productHelper::getInstance();
+
+if (!empty($this->detail->images))
+{
+	$images = json_decode($this->detail->images);
+}
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -196,6 +201,24 @@ $productHelper = productHelper::getInstance();
 						<?php echo $this->lists['published']; ?>
 					</td>
 				</tr>
+				<?php if (!empty($images)) : ?>
+					<tr>
+						<td valign="top" align="right" class="key">
+							<?php echo JText::_('COM_REDSHOP_RATING_IMAGES'); ?>:
+						</td>
+						<td>
+							<ul class="images-rating">
+								<?php foreach ($images as $image) : ?>
+									<li class="item-image-rating">
+										<a target="_blank" href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product_rating/' . $image ?>">
+											<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product_rating/' . $image ?>" alt="" class="img-polaroid"/>
+										</a>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						</td>
+					</tr>
+				<?php endif; ?>
 			</table>
 		</fieldset>
 	</div>

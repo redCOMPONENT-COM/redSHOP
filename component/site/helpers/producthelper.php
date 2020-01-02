@@ -3496,7 +3496,7 @@ class productHelper
 		}
 		else
 		{
-			$and .= " AND " . $db->qn('q.product_id') . " = " . $db->q($productId) . " AND " . $db->q('q.parent_id') . " = 0 ";
+			$and .= " AND " . $db->qn('q.product_id') . " = " . $db->q($productId) . " AND " . $db->qn('q.parent_id') . " = 0 ";
 		}
 
 		if ($front != 0)
@@ -3868,7 +3868,7 @@ class productHelper
 		$this->_db->setQuery($query);
 		$product_parent_id = $this->_db->loadResult();
 
-		if ($product_parent_id !== 0)
+		if ((int) $product_parent_id !== 0)
 		{
 			$parent_id = $this->getMainParentProduct($product_parent_id);
 		}

@@ -50,7 +50,7 @@ class RedshopModelShopper_group extends RedshopModel
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	protected function getStoreId($id = '')
 	{

@@ -1053,7 +1053,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	public function ajaxDisplayAttributeSet()
 	{
@@ -1085,7 +1085,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	public function checkTask(&$post)
 	{
