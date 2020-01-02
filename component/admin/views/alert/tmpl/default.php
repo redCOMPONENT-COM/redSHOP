@@ -45,16 +45,16 @@ defined('_JEXEC') or die;
 					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ALERT_MESSAGE', 'message', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ALERT_MESSAGE', 'a.message', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ALERT_DATE', 'sent_date', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ALERT_DATE', 'a.sent_date', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ALERT_READ', 'read', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ALERT_READ', 'a.read', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'id', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'a.id', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 
 			</tr>
