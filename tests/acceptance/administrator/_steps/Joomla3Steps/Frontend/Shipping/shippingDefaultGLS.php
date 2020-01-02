@@ -44,10 +44,10 @@ class shippingDefaultGLS extends CheckoutWithEWAYPayment
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioShippingRate, $shipping['shippingName']);
+
 		try
 		{
 			$I->canSeeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$iconShippingGLS);
