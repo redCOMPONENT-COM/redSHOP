@@ -1365,7 +1365,7 @@ class RedshopHelperProduct
 	 * @param   integer  $product_id
 	 *
 	 * @return  mixed
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.4
 	 */
 	public static function statisticsRatingProduct($productId)
 	{
