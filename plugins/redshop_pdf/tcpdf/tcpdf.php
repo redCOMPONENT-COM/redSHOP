@@ -399,6 +399,12 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		foreach ($images[2] as $image)
 		{
 			$imageReplace = str_replace(JUri::root(), JPATH_ROOT . '/', $image);
+
+			if (strpos($imageReplace, JPATH_ROOT) === false)
+			{
+				$imageReplace = JPATH_ROOT . $imageReplace;
+			}
+
 			$template     = str_replace($image, $imageReplace, $template);
 		}
 	}
