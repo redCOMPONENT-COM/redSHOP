@@ -769,7 +769,7 @@ class rsCarthelper
 
 							$hidden = '';
 
-							if ((count($rate) <= 1))
+							if (count($rate) <= 1 && count($shippingmethod) <= 1)
 							{
 								$hidden = 'style="display:none;"';
 								$rate_data = str_replace("{shipping_method_title}", '', $rate_data);
