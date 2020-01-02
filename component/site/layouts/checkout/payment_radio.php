@@ -30,6 +30,7 @@ $logo   = $params->get('logo', '');
 $lang = JFactory::getLanguage();
 $lang->load('plg_redshop_payment_rs_payment_banktransfer', JPATH_ADMINISTRATOR, 'en-GB', true);
 $lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB', true);
+
 ?>
 
 <div id="<?php echo $oneMethod->name ?>" class="<?php echo $checkedClass ?>">
@@ -43,11 +44,11 @@ $lang->load('plg_redshop_payment_rs_payment_paypal', JPATH_ADMINISTRATOR, 'en-GB
                 onclick="javascript:onestepCheckoutProcess(this.name, '');"
         />
 
-        <?php if (!empty($logo) && file_exists(JPATH_ROOT . '/' . $logo)): ?>
+        <?php if (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)): ?>
         <img 
             alt="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>" 
             title="<?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?>" 
-            src="<?php echo $logo ?>" />
+            src="<?php echo JUri::root() . $logo ?>" />
         <?php endif; ?>
 
         <span><?php echo JText::_('PLG_' . strtoupper($oneMethod->name)) ?></span>
