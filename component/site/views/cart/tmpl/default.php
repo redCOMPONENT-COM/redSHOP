@@ -283,9 +283,17 @@ echo eval ("?>" . $cart_data . "<?php ");
 	}
 
     jQuery(document).ready(function (){
-        jQuery('input[name=\'quantity\']').on("keypress", function(e) {
+        jQuery('input[name="quantity"], input[name="discount_code"]').on("keypress", function(e) {
+
             if (e.keyCode == 13){
-                jQuery('.update_cart').trigger('click');
+                var selector = jQuery(this).attr('name');
+
+                if (selector == 'quantity') {
+                    jQuery('.update_cart').trigger('click');
+                }
+                else {
+                    jQuery('#coupon_button').trigger('click');
+                }
             }
         })
     })
