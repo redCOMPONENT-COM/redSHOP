@@ -20,6 +20,13 @@ defined('_JEXEC') or die;
 class RedshopModelQuestion extends RedshopModelForm
 {
 	/**
+	 * Question id
+	 *
+	 * @var  integer
+	 */
+	public $questionId;
+
+	/**
 	 * Method for get all answers of specific question
 	 *
 	 * @param   int  $id  Question ID
@@ -76,6 +83,8 @@ class RedshopModelQuestion extends RedshopModelForm
 
 		if ($data['parent_id'])
 		{
+			$this->questionId = $data['parent_id'];
+
 			return true;
 		}
 

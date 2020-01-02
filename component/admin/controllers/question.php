@@ -84,7 +84,8 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		if ($task == 'question.apply')
 		{
-			$questionId = $model->getState('question.id');
+			$questionId = empty($data['id']) ? $model->questionId : $data['id'];
+
 			$this->setRedirect('index.php?option=com_redshop&view=question&layout=edit&id=' . $questionId, $msg);
 		}
 		else
