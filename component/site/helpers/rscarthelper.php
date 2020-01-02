@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -237,7 +237,7 @@ class rsCarthelper
 	 * @deprecated 2.1.0 Use Redshop\Order\Item::replaceItems
 	 * @see Redshop\Order\Item::replaceItems
 	 */
-	public function repalceOrderItems($data, $rowitem = array(), $sendMail = false)
+	public function replaceOrderItems($data, $rowitem = array(), $sendMail = false)
 	{
 		return Redshop\Order\Item::replaceItems($data, $rowitem, $sendMail);
 	}
@@ -296,6 +296,11 @@ class rsCarthelper
 
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
+		JPluginHelper::importPlugin('redshop_checkout');
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher   = RedshopHelperUtility::getDispatcher();
+		$dispatcher->trigger('onBeforeReplaceTemplateCart', array(&$cart, &$cart_data, $checkout));
+		
 		if (strpos($cart_data, "{product_loop_start}") !== false && strpos($cart_data, "{product_loop_end}") !== false)
 		{
 			$template_sdata  = explode('{product_loop_start}', $cart_data);
@@ -308,7 +313,6 @@ class rsCarthelper
 		}
 
 		$cart_data = Redshop\Cart\Render\Label::replace($cart_data);
-
 		$total                     = $cart ['total'];
 		$subtotal_excl_vat         = $cart ['subtotal_excl_vat'];
 		$product_subtotal          = $cart ['product_subtotal'];
@@ -498,6 +502,8 @@ class rsCarthelper
 			0,
 			Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
 		);
+		
+		$dispatcher->trigger('onAfterReplaceTemplateCart', array(&$cart_data, $checkout));
 
 		return $cart_data;
 	}
@@ -692,6 +698,14 @@ class rsCarthelper
 
 							for ($i = 0, $in = count($rate); $i < $in; $i++)
 							{
+								if (isset($rate[$i]->shipping_rate_state) && !empty($rate[$i]->shipping_rate_state))
+								{
+									if (Redshop\Cart\Cart::isDiffCountryState($rate[$i], $users_info_id, $_POST))
+									{
+										continue;
+									}
+								}
+
 								$checked      = '';
 								$data        .= $template_rate_middle;
 
@@ -1591,18 +1605,35 @@ class rsCarthelper
 
 		if (array_key_exists('voucher', $cart))
 		{
-			for ($v = 0; $v < $voucherIndex; $v++)
+			if (count($cart['voucher']) > 1)
 			{
-				$voucherCode = $cart['voucher'][$v]['voucher_code'];
-
-				unset($cart['voucher'][$v]);
-
-				$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
+				foreach ($cart['voucher'] as $cartVoucher)
+				{
+					$voucherDiscount += $cartVoucher['voucher_value'];
+				}
 			}
+			else
+			{
+				if (!empty($cart['voucher'][0]['voucher_value']))
+				{
+					$voucherDiscount = $cart['voucher'][0]['voucher_value'];
+				}
+				else
+				{
+					for ($v = 0; $v < $voucherIndex; $v++)
+					{
+						$voucherCode = $cart['voucher'][$v]['voucher_code'];
 
-			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+						unset($cart['voucher'][$v]);
 
-			empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
+						$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
+					}
+
+					$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+
+					empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
+				}
+			}
 		}
 
 		$cart['voucher_discount'] = $voucherDiscount;
@@ -1612,18 +1643,35 @@ class rsCarthelper
 
 		if (array_key_exists('coupon', $cart))
 		{
-			for ($c = 0; $c < $couponIndex; $c++)
+			if (count($cart['coupon']) > 1)
 			{
-				$couponCode = $cart['coupon'][$c]['coupon_code'];
-
-				unset($cart['coupon'][$c]);
-
-				$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
+				foreach ($cart['coupon'] as $cartCoupon)
+				{
+					$couponDiscount += $cartCoupon['coupon_value'];
+				}
 			}
+			else
+			{
+				if (!empty($cart['coupon'][0]['coupon_value']) && (int)Redshop::getConfig()->get('DISCOUNT_TYPE') !== 2)
+				{
+					$couponDiscount = $cart['coupon'][0]['coupon_value'];
+				}
+				else
+				{
+					for ($c = 0; $c < $couponIndex; $c++)
+					{
+						$couponCode = $cart['coupon'][$c]['coupon_code'];
 
-			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+						unset($cart['coupon'][$c]);
 
-			empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
+						$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
+					}
+
+					$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+
+					empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
+				}
+			}
 		}
 
 		$cart['coupon_discount'] = $couponDiscount;
@@ -1717,6 +1765,7 @@ class rsCarthelper
 		{
 			$msg = $productData->product_name . " " . JText::_('COM_REDSHOP_WARNING_MSG_MINIMUM_QUANTITY');
 			$msg = sprintf($msg, $productData->min_order_product_quantity);
+			/** @scrutinizer ignore-deprecated */
 			JError::raiseWarning('', $msg);
 			$newquantity = $productData->min_order_product_quantity;
 		}
@@ -1765,6 +1814,7 @@ class rsCarthelper
 			{
 				$msg = $productData->product_name . " " . JText::_('COM_REDSHOP_WARNING_MSG_MAXIMUM_QUANTITY');
 				$msg = sprintf($msg, $productData->max_order_product_quantity);
+				/** @scrutinizer ignore-deprecated */
 				JError::raiseWarning('', $msg);
 				$newquantity = $productData->max_order_product_quantity;
 			}
@@ -2525,7 +2575,6 @@ class rsCarthelper
 		$use_discount_calculator = $product_data->use_discount_calc;
 		$discount_calc_method    = $product_data->discount_calc_method;
 		$use_range               = $product_data->use_range;
-		$calc_output             = "";
 		$calc_output_array       = array();
 
 		if ($use_discount_calculator)
@@ -2535,6 +2584,7 @@ class rsCarthelper
 			$calculator_price  = $discount_cal['product_price'];
 			$product_price_tax = $discount_cal['product_price_tax'];
 
+			$discountArr = array();
 			if ($calculator_price)
 			{
 				$calc_output               = "Type : " . $discount_calc_method . "<br />";
@@ -2908,7 +2958,7 @@ class rsCarthelper
 	 * @param   number  $pid          default value can be null
 	 * @param   number  $areabetween  default value is 0
 	 *
-	 * @return object
+	 * @return object|mixed
 	 */
 	public function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
 	{
@@ -3016,12 +3066,12 @@ class rsCarthelper
 			}
 
 			$requiredProperty = RedshopHelperProduct_Attribute::getAttributeProperties(
-								$selectedPropertyId,
-								$selectedAttributId,
+								/** @scrutinizer ignore-type */ $selectedPropertyId,
+								/** @scrutinizer ignore-type */ $selectedAttributId,
 								$data['product_id'],
 								0,
 								1,
-								$notselectedSubpropertyId
+								/** @scrutinizer ignore-type */ $notselectedSubpropertyId
 							);
 
 			if (!empty($requiredProperty))
