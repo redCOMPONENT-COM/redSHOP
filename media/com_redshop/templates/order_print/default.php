@@ -8,7 +8,7 @@
 			<td style="vertical-align: top; width: 30%;">
 				<p style="color: #332b24;">{order_date_lbl}: <strong>{order_date}</strong> <br />{order_status_lbl}: <strong>{order_status}</strong></p>
 			</td>
-			<td style="vertical-align: top; width: 33%;"><img style="float: right;" alt="logo" src="/media/com_redshop/images/redcomponent-logo.jpg" /></td>
+			<td style="vertical-align: top; width: 33%;"><img style="float: right;" alt="logo" src="media/com_redshop/images/redcomponent-logo.jpg" /></td>
 		</tr>
 		<tr>
 			<td style="height: 10px;"> </td>
