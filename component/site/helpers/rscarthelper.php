@@ -670,6 +670,11 @@ class rsCarthelper
 				$dispatcher   = RedshopHelperUtility::getDispatcher();
 				$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
+				if (count($shippingrate) <= 1 && count($shippingrate[0]) <= 1)
+				{
+					$template_desc = str_replace('{show_when_one_rate}', 'none', $template_desc);
+				}
+
 				for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
 				{
 					if (isset($shippingrate[$s]) === false)
@@ -689,6 +694,7 @@ class rsCarthelper
 						$rs        = $shippingmethod[$s];
 						$classname = $rs->element;
 						$rate_data .= $template_middle;
+						$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
 
 						if ($template_rate_middle != "")
 						{
@@ -767,20 +773,6 @@ class rsCarthelper
 								$data = str_replace("{gls_shipping_location}", "", $data);
 							}
 
-							$hidden = '';
-
-							if (count($rate) <= 1 && count($shippingmethod) <= 1)
-							{
-								$hidden = 'style="display:none;"';
-								$rate_data = str_replace("{shipping_method_title}", '', $rate_data);
-							}
-							else
-							{
-								$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
-							}
-
-							$data = '<div '. $hidden .'>' . $data . '</div>';
-
 							$rate_data = str_replace("{shipping_rate_loop_start}", "", $rate_data);
 							$rate_data = str_replace("{shipping_rate_loop_end}", "", $rate_data);
 							$rate_data = str_replace($template_rate_middle, $data, $rate_data);
@@ -817,6 +809,7 @@ class rsCarthelper
 
 			$template_desc = str_replace("{shipping_method_loop_start}", "", $template_desc);
 			$template_desc = str_replace("{shipping_method_loop_end}", "", $template_desc);
+			$template_desc = str_replace('{show_when_one_rate}', 'block', $template_desc);
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
