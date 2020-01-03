@@ -163,7 +163,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 
 		$this->tcpdf->SetTitle(JText::sprintf('PLG_REDSHOP_PDF_TCPDF_INVOICE_TITLE', $orderId));
 		$this->settingTCPDF();
-		$this->convertImagesPath($pdfHtml);
+		Redshop\Mail\Helper::imgInMail($pdfHtml);
 		$this->tcpdf->writeHTML($pdfHtml);
 
 		$invoiceFolder = JPATH_SITE . '/components/com_redshop/assets/document/invoice/';
@@ -230,8 +230,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 			$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 			$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 			$message = Template::replaceTemplate($ordersDetail, $message, true);
-			$this->convertImagesPath($message);
-
+			Redshop\Mail\Helper::imgInMail($message);
 			if (end($orderIds) != $orderId)
 			{
 				$message = $message . '<br pagebreak="true"/>';
@@ -385,21 +384,5 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 		$this->settingTCPDF(10, 12);
 		$this->tcpdf->WriteHTML($pdfHtml);
 		$this->tcpdf->Output('Order_' . $orderData->order_id . ".pdf", "D");
-	}
-
-	public function convertImagesPath(&$template)
-	{
-		preg_match_all('/(src)=\s*[\'"]?(\S*\.(?:jpe?g|png|svg))[\'"]*?/i', $template, $images);
-
-		if (empty($images[2]))
-		{
-			return false;
-		}
-
-		foreach ($images[2] as $image)
-		{
-			$imageReplace = str_replace(JUri::root(), JPATH_ROOT . '/', $image);
-			$template     = str_replace($image, $imageReplace, $template);
-		}
 	}
 }
