@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 
-class RedshopViewNewsletter extends RedshopView
+class RedshopViewNewsletter extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
@@ -64,7 +64,8 @@ class RedshopViewNewsletter extends RedshopView
 			'class="inputbox" multiple="multiple" size="4" ', 'value', 'text', $country_value
 		);
 
-		$categories          = RedshopHelperCategory::listAll("product_category[]", 0, '', 10, true, true);
+		$selectedCategory    = $app->input->get('product_category', array());
+		$categories          = RedshopHelperCategory::listAll("product_category[]", 0, $selectedCategory, 10, true, true);
 		$lists['categories'] = $categories;
 
 		$product_data = $model->getProduct();

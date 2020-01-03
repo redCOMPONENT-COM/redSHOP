@@ -11657,8 +11657,28 @@ jQuery(document).ready(function($) {
             $(this).addClass("active");
             e.preventDefault();
         });
-
     });
+
+    $('.redSHOPAdminViewField #jform_type').change(function () {
+        var type = $(this).val();
+        var  allowSection = ['1', '2']; // section product & category
+        var options = $('.redSHOPAdminViewField #jform_section option');
+
+        if (type == 16) {
+            options.each(function(i, el) {
+                if (allowSection.indexOf($(el).val()) == -1)
+                {
+                    $(options[i]).attr('disabled', true);
+                }
+            });
+
+            $('.redSHOPAdminViewField #jform_section').val(1).trigger('change');
+        } else {
+            options.each(function(i, el) {
+                $(options[i]).attr('disabled', false);
+            });
+        }
+    })
 });
 
 /*!

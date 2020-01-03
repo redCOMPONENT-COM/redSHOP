@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.Backend
  * @subpackage  View
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.3
  */
 class RedshopViewZipcodes extends RedshopViewList
 {
@@ -39,7 +39,7 @@ class RedshopViewZipcodes extends RedshopViewList
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.3
 	 */
 	public function onRenderColumn($config, $index, $row)
 	{

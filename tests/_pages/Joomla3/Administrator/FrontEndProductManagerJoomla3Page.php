@@ -545,13 +545,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.2
 	 */
 	public static $totalFinalCheckout = '(//div[@class="form-group total"])/div';
-	
+
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
 	public static $errorAddToCart = 'Product was not added to cart';
-	
+
 	/**
 	 * @var string
 	 * @since 2.1.3
@@ -653,6 +653,12 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $iconShippingGLS = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'default_shipping_gls');\"]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $iconShippingGLSBusiness = "//input[@onclick=\"javascript:onestepCheckoutProcess(this.name,'default_shipping_glsbusiness');\"]";
 
 	/**
 	 * @var string
@@ -790,4 +796,63 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $selectorPageHeader = "//h3[contains(text(),'redSHOP - ShopperGroup Product')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $priceWhoBought = '.priceWhoBought';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $btnAddToCartWhoBought = '.addToCartWhoBought';
+
+	/**
+	 * @param $name
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function nameModule($name)
+	{
+		$xpath = "//h3[contains(text(),'$name')]";
+		return $xpath;
+	}
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $eanPayment = "#rs_payment_eantransfer2";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $klarnaPayment = "#klarna2";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $fieldPNO = "#rs_pno";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $tableCart = "//table[@class='table table-striped']";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $columnProduct = "//table[@class='table table-striped']//tbody/tr/td[1]";
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $buttonEmptyCart = '//input[@onclick = "document.empty_cart.submit();"]';
 }
