@@ -137,7 +137,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	public function removeAnswer()
 	{
 		$cid = $this->input->post->get('aid', array(0), 'array');
-		$qid = $this->input->post->getInt('id', 0);
+		$qid = $this->input->post->get('jform', array(), 'array')['id'];
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -163,7 +163,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	public function sendAnswer()
 	{
 		$cid = $this->input->post->get('aid', array(0), 'array');
-		$qid = $this->input->post->getInt('id', 0);
+		$qid = $this->input->post->get('jform', array(), 'array')['id'];
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
