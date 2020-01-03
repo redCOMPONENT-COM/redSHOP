@@ -648,4 +648,16 @@ class ConfigurationPage extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $messagePopup = 'Successfully reset order id';
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $purchaseParentYes = '#purchase_parent_with_child_1-lbl';
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $purchaseParentNo = '#purchase_parent_with_child_0-lbl';
 }

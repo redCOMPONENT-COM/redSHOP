@@ -268,4 +268,76 @@ class PluginPaymentManagerJoomla extends AdminManagerJoomla3Steps
 		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page:: $idInstallSuccess);
 	}
+
+	/**
+	 * @param $pluginName
+	 * @param $priceDiscount
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function configCheckoutBankTransferPlugin($pluginName, $priceDiscount)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->searchForItem($pluginName);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$firstCheck, 30);
+		$I->see($pluginName);
+		$I->waitForElementVisible(['link' => $pluginName], 30);
+		$I->click(['link' => $pluginName]);
+
+		$I->waitForElementVisible( PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
+		$I->fillField( PluginManagerJoomla3Page::$fieldPaymentPrice, $priceDiscount);
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
+	}
+
+	/**
+	 * @param $pluginName
+	 * @param $priceDiscount
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function returnConfigCheckoutBankTransferPlugin($pluginName, $priceDiscount)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->searchForItem($pluginName);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$firstCheck, 30);
+		$I->see($pluginName);
+		$I->waitForElementVisible(['link' => $pluginName], 30);
+		$I->click(['link' => $pluginName]);
+
+		$I->waitForElementVisible( PluginManagerJoomla3Page::$fieldPaymentPrice, 30);
+		$I->fillField(PluginManagerJoomla3Page::$fieldPaymentPrice, '');
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
+	}
+
+	/**
+	 * @param $pluginName
+	 * @param $merchantID
+	 * @param $sharedSecretKey
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function configKlarnaPayment($pluginName, $merchantID, $sharedSecretKey)
+	{
+		$I = $this;
+		$I->amOnPage(PluginManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->searchForItem($pluginName);
+		$pluginManagerPage = new PluginManagerJoomla3Page;
+		$I->waitForElement($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->checkExistenceOf($pluginName);
+		$I->waitForText($pluginName, 30, PluginManagerJoomla3Page::$searchResultRow);
+		$I->waitForElementVisible($pluginManagerPage->searchResultPluginName($pluginName), 30);
+		$I->click($pluginName);
+
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldMerchantID, 30);
+		$I->fillField(PluginManagerJoomla3Page::$fieldMerchantID, $merchantID);
+		$I->waitForElementVisible(PluginManagerJoomla3Page::$fieldSharedSecretKey, 30);
+		$I->fillField(PluginManagerJoomla3Page::$fieldSharedSecretKey, $sharedSecretKey);
+		$I->clickToolbarButton(PluginManagerJoomla3Page::$buttonSaveClose);
+		$I->waitForText(PluginManagerJoomla3Page::$pluginSaveSuccessMessage, 30, PluginManagerJoomla3Page::$idInstallSuccess);
+	}
 }

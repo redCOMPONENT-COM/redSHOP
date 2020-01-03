@@ -237,7 +237,7 @@ class rsCarthelper
 	 * @deprecated 2.1.0 Use Redshop\Order\Item::replaceItems
 	 * @see Redshop\Order\Item::replaceItems
 	 */
-	public function repalceOrderItems($data, $rowitem = array(), $sendMail = false)
+	public function replaceOrderItems($data, $rowitem = array(), $sendMail = false)
 	{
 		return Redshop\Order\Item::replaceItems($data, $rowitem, $sendMail);
 	}
@@ -698,6 +698,14 @@ class rsCarthelper
 
 							for ($i = 0, $in = count($rate); $i < $in; $i++)
 							{
+								if (isset($rate[$i]->shipping_rate_state) && !empty($rate[$i]->shipping_rate_state))
+								{
+									if (Redshop\Cart\Cart::isDiffCountryState($rate[$i], $users_info_id, $_POST))
+									{
+										continue;
+									}
+								}
+
 								$checked      = '';
 								$data        .= $template_rate_middle;
 
