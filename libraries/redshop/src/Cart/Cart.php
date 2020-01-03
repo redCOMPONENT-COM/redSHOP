@@ -879,7 +879,7 @@ class Cart
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.4
 	 */
 	public static function isDiffCountryState($rate, $users_info_id = 0, $post = array())
 	{
