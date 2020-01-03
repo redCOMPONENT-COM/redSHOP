@@ -411,7 +411,7 @@ switch ($name)
 	case 'review':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_REVIEW_HINT'); ?></b><br /><br />
-		{product_loop_start} {product_title} <br />
+		{show_all_images_rating} {rating_statistics} {product_loop_start} {product_title} {images} <br />
 		{review_loop_start} {fullname} {title} {comment} {stars} {reviewdate} {review_loop_end} {product_loop_end}
 		<?php
 		break;

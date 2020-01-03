@@ -2141,7 +2141,7 @@ class RedshopHelperOrder
 		foreach ($rows as $row)
 		{
 			$dataMessage      = $productMiddle;
-			$downloadFilename = substr(basename($row->file_name), 11);
+			$downloadFilename = basename($row->file_name);
 
 			$mailToken = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
 				. $row->download_id . "'>" . $downloadFilename . "</a>";
