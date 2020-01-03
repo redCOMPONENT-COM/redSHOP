@@ -23,10 +23,12 @@ redSHOP.compareAction = function(ele, command){
 	jQuery.ajax({
 		url: redSHOP.RSConfig._('SITE_URL') + 'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare',
 		type: 'POST',
-		dataType: 'json', data: {cmd: command, pid: productId, cid: categoryId},
+		data: {cmd: command, pid: productId, cid: categoryId},
 		complete: function(xhr, textStatus) { },
 		success: function(data, textStatus, xhr)
 		{
+			data = JSON.parse(data);
+
 			if (data.success === true)
 			{
 				jQuery('#divCompareProduct').html(data.html);
