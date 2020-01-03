@@ -84,7 +84,8 @@ class RedshopControllerQuestion extends RedshopControllerForm
 
 		if ($task == 'question.apply')
 		{
-			$questionId = $model->getState('question.id');
+			$questionId = empty($data['id']) ? $model->questionId : $data['id'];
+
 			$this->setRedirect('index.php?option=com_redshop&view=question&layout=edit&id=' . $questionId, $msg);
 		}
 		else
@@ -136,7 +137,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	public function removeAnswer()
 	{
 		$cid = $this->input->post->get('aid', array(0), 'array');
-		$qid = $this->input->post->getInt('id', 0);
+		$qid = $this->input->post->get('jform', array(), 'array')['id'];
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -162,7 +163,7 @@ class RedshopControllerQuestion extends RedshopControllerForm
 	public function sendAnswer()
 	{
 		$cid = $this->input->post->get('aid', array(0), 'array');
-		$qid = $this->input->post->getInt('id', 0);
+		$qid = $this->input->post->get('jform', array(), 'array')['id'];
 
 		for ($i = 0, $in = count($cid); $i < $in; $i++)
 		{
