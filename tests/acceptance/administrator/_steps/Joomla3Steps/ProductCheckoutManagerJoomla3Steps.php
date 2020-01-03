@@ -60,6 +60,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			case 'no':
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
 					$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
+					$I->wait(1);
 					$I->addressInformation($addressDetail);
 					$I->shippingInformation($shipmentDetail);
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
@@ -101,10 +102,13 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail, 60);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressFirstName, 60);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressLastName, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
@@ -586,15 +590,16 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
 		$I->wait(1);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 
 		if (isset($orderInfoSecond))
 		{
-
 			$I->wantToTest('Goes on second order');
+			$I->waitForElement(\GiftCardCheckoutPage::$priceTotal, 30);
 			$I->see($orderInfoSecond['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
 			$I->see($orderInfoSecond['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
 			$I->see($orderInfoSecond['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
@@ -602,6 +607,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		else
 		{
 			$I->wantToTest('Goes on first order');
+			$I->waitForElement(\GiftCardCheckoutPage::$priceTotal, 30);
 			$I->see($orderInfo['priceTotal'], \GiftCardCheckoutPage::$priceTotal);
 			$I->see($orderInfo['priceDiscount'], \GiftCardCheckoutPage::$priceDiscount);
 			$I->see($orderInfo['priceEnd'], \GiftCardCheckoutPage::$priceEnd);
@@ -1089,7 +1095,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$acceptTerms);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
-		$I->waitfortext(\FrontEndProductManagerJoomla3Page::$orderReceipt, 30); 
+		$I->waitfortext(\FrontEndProductManagerJoomla3Page::$orderReceipt, 30);
 		$I->seeElement(['link' => $productName]);
 	}
 

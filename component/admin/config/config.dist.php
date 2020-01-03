@@ -311,6 +311,11 @@ class RedshopConfig
 
 	public $FAVOURED_REVIEWS = '2';
 
+	public $RATING_THUMB_IMAGE_WIDTH = '200';
+
+	public $RATING_THUMB_IMAGE_HEIGHT = '200';
+
+
 	public $COLOUR_SAMPLE_REMAINDER_1 = '1';
 
 	public $COLOUR_SAMPLE_REMAINDER_2 = '2';

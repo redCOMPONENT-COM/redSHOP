@@ -11582,7 +11582,7 @@ $.AdminLTE.options = {
  * functions and plugins as specified by the
  * options above.
  */
-$(function() {
+jQuery(document).ready(function($) {
     //Extend options if external options exist
     if (typeof AdminLTEOptions !== "undefined") {
         $.extend(true,
@@ -11594,7 +11594,7 @@ $(function() {
     var o = $.AdminLTE.options;
 
     //Set up the object
-    _init();
+    _init($);
 
     //Activate the layout maker
     $.AdminLTE.layout.activate();
@@ -11657,8 +11657,28 @@ $(function() {
             $(this).addClass("active");
             e.preventDefault();
         });
-
     });
+
+    $('.redSHOPAdminViewField #jform_type').change(function () {
+        var type = $(this).val();
+        var  allowSection = ['1', '2']; // section product & category
+        var options = $('.redSHOPAdminViewField #jform_section option');
+
+        if (type == 16) {
+            options.each(function(i, el) {
+                if (allowSection.indexOf($(el).val()) == -1)
+                {
+                    $(options[i]).attr('disabled', true);
+                }
+            });
+
+            $('.redSHOPAdminViewField #jform_section').val(1).trigger('change');
+        } else {
+            options.each(function(i, el) {
+                $(options[i]).attr('disabled', false);
+            });
+        }
+    })
 });
 
 /*!
@@ -11820,8 +11840,7 @@ $(function() {
  * ----------------------------------
  * All AdminLTE functions are implemented below.
  */
-function _init() {
-
+function _init($) {
 	/* Layout
 	 * ======
 	 * Fixes the layout height in case min-height fails.

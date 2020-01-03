@@ -23,7 +23,7 @@ class Template
 	/**
 	 * Method for replace template order
 	 *
-	 * @param   object  $row      Order data.
+	 * @param   object  $order      Order data.
 	 * @param   string  $template Template content.
 	 * @param   boolean $sendMail In send mail
 	 *
@@ -33,9 +33,9 @@ class Template
 	 *
 	 * @since   2.1.0
 	 */
-	public static function replaceTemplate($row, $template, $sendMail = false)
+	public static function replaceTemplate($order, $template, $sendMail = false)
 	{
-		$orderEntity = \RedshopEntityOrder::getInstance($row->order_id)->bind($row);
+		$orderEntity = \RedshopEntityOrder::getInstance($order->order_id)->bind($order);
 
 		if (!$orderEntity->isValid())
 		{
@@ -57,14 +57,14 @@ class Template
 		// Replace shipping
 		self::replaceShipping($template, $orderEntity);
 
-		$totalExcludeVAT = $subTotalExcludeVAT + ($row->order_shipping - $row->order_shipping_tax)
-			- ($row->order_discount - $row->order_discount_vat);
-		$subTotalVAT     = $row->order_tax + $row->order_shipping_tax;
+		$totalExcludeVAT = $subTotalExcludeVAT + ($order->order_shipping - $order->order_shipping_tax)
+			- ($order->order_discount - $order->order_discount_vat);
+		$subTotalVAT     = $order->order_tax + $order->order_shipping_tax;
 
-		$row->voucher_discount = (!isset($row->voucher_discount)) ? 0 : $row->voucher_discount;
+		$order->voucher_discount = (!isset($order->voucher_discount)) ? 0 : $order->voucher_discount;
 
-		$totalDiscount    = $row->coupon_discount + $row->order_discount + $row->special_discount + $row->tax_after_discount + $row->voucher_discount;
-		$totalForDiscount = !\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') ? $subTotalExcludeVAT : $row->order_subtotal;
+		$totalDiscount    = $order->coupon_discount + $order->order_discount + $order->special_discount + $order->tax_after_discount + $order->voucher_discount;
+		$totalForDiscount = !\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') ? $subTotalExcludeVAT : $order->order_subtotal;
 
 		$template   = \Redshop\Cart\Render\Label::replace($template);
 		$isApplyVAT = \Redshop\Template\Helper::isApplyVat($template);
@@ -74,7 +74,7 @@ class Template
 
 		if (!empty($isApplyVAT))
 		{
-			$replace[] = \RedshopHelperProductPrice::formattedPrice($row->order_total);
+			$replace[] = \RedshopHelperProductPrice::formattedPrice($order->order_total);
 		}
 		else
 		{
@@ -88,7 +88,7 @@ class Template
 
 		if (!empty($isApplyVAT))
 		{
-			$replace[] = \RedshopHelperProductPrice::formattedPrice($row->order_subtotal);
+			$replace[] = \RedshopHelperProductPrice::formattedPrice($order->order_subtotal);
 		}
 		else
 		{
@@ -99,13 +99,13 @@ class Template
 		$search[]      = "{tracking_number_lbl}";
 		$replace[]     = \JText::_('COM_REDSHOP_ORDER_TRACKING_NUMBER');
 		$search[]      = "{tracking_number}";
-		$replace[]     = $row->track_no;
+		$replace[]     = $order->track_no;
 		$orderTrackURL = '';
 
 		\JPluginHelper::importPlugin('redshop_shipping');
-		\RedshopHelperUtility::getDispatcher()->trigger('onReplaceTrackingUrl', array($row->order_id, &$orderTrackURL));
+		\RedshopHelperUtility::getDispatcher()->trigger('onReplaceTrackingUrl', array($order->order_id, &$orderTrackURL));
 
-		if ($row->track_no)
+		if ($order->track_no)
 		{
 			$search[]  = "{tracking_url}";
 			$replace[] = "<a href='" . $orderTrackURL . "'>" . \JText::_("COM_REDSHOP_TRACK_LINK_LBL") . "</a>";
@@ -123,15 +123,9 @@ class Template
 		$search[]  = "{order_number_lbl}";
 		$replace[] = \JText::_('COM_REDSHOP_ORDER_NUMBER_LBL');
 		$search[]  = "{order_number}";
-		$replace[] = $row->order_number;
-		$search[]  = "{special_discount}";
-		$replace[] = $row->special_discount . '%';
-		$search[]  = "{special_discount_amount}";
-		$replace[] = \RedshopHelperProductPrice::formattedPrice($row->special_discount_amount);
-		$search[]  = "{special_discount_lbl}";
-		$replace[] = \JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
+		$replace[] = $order->order_number;
 
-		$orderDetailUrl = \JUri::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $row->encr_key;
+		$orderDetailUrl = \JUri::root() . 'index.php?option=com_redshop&view=order_detail&oid=' . $orderId . '&encr=' . $order->encr_key;
 		$search[]       = "{order_detail_link}";
 		$replace[]      = "<a href='" . $orderDetailUrl . "'>" . \JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
@@ -139,7 +133,7 @@ class Template
 		self::replaceDownloadProducts($template, $orderId);
 
 		if ((strpos($template, "{discount_denotation}") !== false || strpos($template, "{shipping_denotation}") !== false)
-			&& ($totalDiscount != 0 || $row->order_shipping != 0))
+			&& ($totalDiscount != 0 || $order->order_shipping != 0))
 		{
 			$search[]  = "{denotation_label}";
 			$replace[] = \JText::_('COM_REDSHOP_DENOTATION_TXT');
@@ -173,7 +167,7 @@ class Template
 		}
 
 		$search[]  = "{order_total}";
-		$replace[] = \RedshopHelperProductPrice::formattedPrice($row->order_total);
+		$replace[] = \RedshopHelperProductPrice::formattedPrice($order->order_total);
 		$search[]  = "{total_excl_vat}";
 		$replace[] = \RedshopHelperProductPrice::formattedPrice($totalExcludeVAT);
 		$search[]  = "{sub_total_vat}";
@@ -181,7 +175,7 @@ class Template
 		$search[]  = "{order_id}";
 		$replace[] = $orderId;
 
-		$discounts    = explode('@', $row->discount_type);
+		$discounts    = explode('@', $order->discount_type);
 		$discountType = '';
 
 		foreach ($discounts as $discount)
@@ -208,19 +202,19 @@ class Template
 		$replace[] = $discountType;
 
 		$search[]  = "{discount_excl_vat}";
-		$replace[] = \RedshopHelperProductPrice::formattedPrice($row->order_discount - $row->order_discount_vat);
+		$replace[] = \RedshopHelperProductPrice::formattedPrice($order->order_discount - $order->order_discount_vat);
 		$search[]  = "{order_status}";
 		$replace[] = \RedshopHelperOrder::getOrderStatusTitle($orderEntity->get('order_status'));
 		$search[]  = "{order_id_lbl}";
 		$replace[] = \JText::_('COM_REDSHOP_ORDER_ID_LBL');
 		$search[]  = "{order_date}";
-		$replace[] = \RedshopHelperDatetime::convertDateFormat($row->cdate);
+		$replace[] = \RedshopHelperDatetime::convertDateFormat($order->cdate);
 		$search[]  = "{customer_note}";
-		$replace[] = $row->customer_note;
+		$replace[] = $order->customer_note;
 		$search[]  = "{customer_message}";
-		$replace[] = $row->customer_message;
+		$replace[] = $order->customer_message;
 		$search[]  = "{referral_code}";
-		$replace[] = $row->referral_code;
+		$replace[] = $order->referral_code;
 
 		// Replace
 		self::replaceOrderLabel($template, $search, $replace);
@@ -229,17 +223,18 @@ class Template
 		$shippingAddresses = $orderEntity->getShipping()->getItem();
 
 		$search [] = "{requisition_number}";
-		$replace[] = !empty($row->requisition_number) ? $row->requisition_number : "N/A";
+		$replace[] = !empty($order->requisition_number) ? $order->requisition_number : "N/A";
 
 		$template = \RedshopHelperBillingTag::replaceBillingAddress($template, $billingAddresses, $sendMail);
 		$template = \Redshop\Shipping\Tag::replaceShippingAddress($template, $shippingAddresses, $sendMail);
 
-		$template = self::replaceOrderStatusLog($template, $row->order_id);
+		$template = self::replaceOrderStatusLog($template, $order->order_id);
 
 		$message = str_replace($search, $replace, $template);
-		$message = \RedshopHelperPayment::replaceConditionTag($message, $row->payment_discount, 0, $row->payment_oprand);
-		$message = \RedshopHelperCartTag::replaceDiscount($message, $row->order_discount, $totalForDiscount);
-		$message = \RedshopHelperCartTag::replaceTax($message, $row->order_tax + $row->order_shipping_tax, $row->tax_after_discount, 1);
+		$message = \RedshopHelperPayment::replaceConditionTag($message, $order->payment_discount, 0, $order->payment_oprand);
+		$message = \RedshopHelperCartTag::replaceDiscount($message, $order->order_discount, $totalForDiscount);
+		$message = \RedshopHelperCartTag::replaceSpecialDiscount($message, $order);
+		$message = \RedshopHelperCartTag::replaceTax($message, $order->order_tax + $order->order_shipping_tax, $order->tax_after_discount, 1);
 
 		return $message;
 	}
