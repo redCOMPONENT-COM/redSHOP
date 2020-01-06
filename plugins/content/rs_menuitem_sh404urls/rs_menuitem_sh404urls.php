@@ -43,6 +43,7 @@ class PlgContentRs_Menuitem_Sh404urls extends JPlugin
 
 		$cid = '';
 		$categoryIds  = [];
+
 		$conds = [];
 		$explodeLink = explode("&cid=", $link);
 
@@ -56,25 +57,27 @@ class PlgContentRs_Menuitem_Sh404urls extends JPlugin
 			return true;
 		}
 
-		$categoryIds[] = $cid;
+		$selfCategory = new stdClass();
+		$selfCategory->id = $cid;
+		$categoryIds[] = $selfCategory;
+		$parentCategory = new stdClass();
 
 		$query->clear()
 			->select($db->qn('parent_id'))
 			->from($db->qn('#__redshop_category'))
 			->where($db->qn('id') . '=' . (int) $cid);
-		$parentId = $db->setQuery($query)->loadResult();
+		$parentCategory->id = $db->setQuery($query)->loadResult();
 
-		$categoryIds[] = $parentId;
+		$categoryIds[] = $parentCategory;
 		$categoryChildren = RedshopHelperCategory::getCategoryTree($cid);
 
-		foreach ($categoryChildren as $categoryChild)
-		{
-			$categoryIds[] = $categoryChild->id;
+		if(is_array($categoryChildren) && count($categoryChildren) > 0) {
+			$categoryIds = array_merge($categoryIds, $categoryChildren);
 		}
 
 		foreach ($categoryIds as $categoryId)
 		{
-			$conds[] = $db->qn('newurl') . ' LIKE ' . $db->q('%cid=' . (int) $categoryId . '&%');
+			$conds[] = $db->qn('newurl') . ' LIKE ' . $db->q('%cid=' . (int) $categoryId->id . '&%');
 		}
 
 		$query->clear()
