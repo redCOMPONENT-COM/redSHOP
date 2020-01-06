@@ -1,4 +1,4 @@
-Testing redSHOP
+Run automation with redSHOP
 ==========
 
 ## using composer to get Codeception
@@ -6,46 +6,43 @@ Testing redSHOP
 Execute
 ```
 # You need to have Composer in your system, if not download it from here: https://getcomposer.org/
-composer update
-```
-
-After that you will be able to run Codeception doing:
-
-```
-php vendor/codeception/codeception/codecept build
+composer install
 ```
 
 ## Preparation for running the test
-To prepare the system tests (Selenium) to be run in your local machine you are asked to:
+###Step 1:
 
-- rename the file `tests/acceptance.suite.dist.yml` to `tests/acceptance.suite.yml`
-- edit  the file `tests/acceptance.suite.yml` according to your system needs.
-- rename the file `tests/RoboFile.ini.dist` to `tests/RoboFile.ini`
-- edit  the file `tests/RoboFile.ini` according to your system needs.
+Clone the repository using 
+```git clone```  
+###Step 2:
 
-## Running the tests
-To run the tests please execute the following commands (for the moment only working in Linux and MacOS):
+Download ChromeDriver https://chromedriver.chromium.org/downloads
 
-```bash
-$ composer install
-$ vendor/bin/robo
-$ vendor/bin/robo run:tests
-```
+Download https://selenium.dev/downloads/.
 
-## Running individual test
-You are able to run only one test. To do so type in your command line:
+Put them in a single folder and run
+```java -Xmx256m -jar selenium-server-standalone-3.141.59.jar```
 
-```bash
-$ vendor/bin/robo run:test
-```
+change 3.141.59.jar to version selenium has been download
 
-And follow the instructions.
+###Step 3:
 
-note: There are a few dependencies between the tests. You will not be able to run an individual tests before executing the main installation tests: installRedShopCest
+Setup new site Joomla with the latest version of redSHOP  created previously.
 
+Copy file "acceptance.suite.yml.dist" to "acceptance.suite.yml" and change config: "url" to "http://localhost/address-your-local-file-exist/".
 
-## Firefox Addons
-To generate tests really fast you can use these firefox addons:
+Command lines 28 to 32 of "acceptance.suite.yml". 
 
-- Selenium IDE (records your screen)
-- Selenium IDE Codeception Formatter (Export your Selenium IDE test to Codeception language)
+NOTE: Make sure username/password are correct. and site http://localhost/address-your-local-file-exist/ already exist.
+
+###Step 4: 
+After change config, you need to run ```composer install``` or ```composer update``` 
+and run ```vendor/bin/codecept build```.
+
+###Step 5. 
+
+Command for run automation:
+
+```vendor\bin\codecept run acceptance --debug tests\acceptance\administrator\g16\Products\ProductManagement\ProductsCest.php```
+
+Change ‘tests\acceptance\administrator\g16\Products\ProductManagement\ProductsCest.php’ to folder or Cest you want run automation.
