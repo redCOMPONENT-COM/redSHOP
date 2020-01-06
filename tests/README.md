@@ -10,12 +10,12 @@ composer install
 ```
 
 ## Preparation for running the test
-###Step 1:
+### Step 1:
 
 Clone the repository using 
 ```git clone```  
 
-###Step 2:
+### Step 2:
 
 Download ChromeDriver https://chromedriver.chromium.org/downloads
 
@@ -26,7 +26,7 @@ Put them in a single folder, unzip folder ChromeDriver and run
 
 change 3.141.59.jar to version selenium has been download
 
-###Step 3:
+### Step 3:
 
 Setup new site Joomla with the latest version of redSHOP  created previously.
 
@@ -36,11 +36,11 @@ Command lines 28 to 32 of "acceptance.suite.yml".
 
 NOTE: Make sure username/password are correct. and site http://localhost/address-your-local-file-exist/ already exist.
 
-###Step 4: 
+### Step 4: 
 After change config, you need to run ```composer install``` or ```composer update``` 
 and run ```vendor/bin/codecept build```.
 
-###Step 5. 
+### Step 5. 
 
 Command for run automation:
 
