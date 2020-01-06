@@ -72,7 +72,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 				&& Redshop\Helper\Utility::checkCaptcha($data, false))
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
-				$this->setRedirect(JRoute::_($link, false));
+				$this->setRedirect($link);
 
 				return false;
 			}
@@ -115,7 +115,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 
 				if (!$ask)
 				{
-					$link .= '&questionSend=1';
+					$link = JUri::root() . $link . '&questionSend=1';
 				}
 			}
 			else
