@@ -615,6 +615,8 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		echo json_encode($response);
+
+		JFactory::getApplication()->close();
 	}
 
 	/**
