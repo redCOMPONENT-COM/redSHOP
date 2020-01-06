@@ -23,7 +23,7 @@
                 type="redshop.template"
                 label="COM_REDSHOP_MANUFACTURER_TEMPLATE"
                 description="COM_REDSHOP_MANUFACTURER_TEMPLATE_DESC"
-                section="manufacturer_products"
+                section="manufacturer_products,manufacturer_detail"
                 class="form-control"
                 default=""
                 required="true"

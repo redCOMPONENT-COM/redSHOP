@@ -3496,7 +3496,7 @@ class productHelper
 		}
 		else
 		{
-			$and .= " AND " . $db->qn('q.product_id') . " = " . $db->q($productId) . " AND " . $db->q('q.parent_id') . " = 0 ";
+			$and .= " AND " . $db->qn('q.product_id') . " = " . $db->q($productId) . " AND " . $db->qn('q.parent_id') . " = 0 ";
 		}
 
 		if ($front != 0)
@@ -3868,7 +3868,7 @@ class productHelper
 		$this->_db->setQuery($query);
 		$product_parent_id = $this->_db->loadResult();
 
-		if ($product_parent_id !== 0)
+		if ((int) $product_parent_id !== 0)
 		{
 			$parent_id = $this->getMainParentProduct($product_parent_id);
 		}
@@ -4231,7 +4231,7 @@ class productHelper
 
 				$ItemData = $this->getMenuInformation(0, 0, '', 'product&pid=' . $relatedProduct[$r]->product_id);
 
-				if (count($ItemData) > 0)
+				if (!empty($ItemData))
 				{
 					$pItemid = $ItemData->id;
 				}
@@ -4297,6 +4297,20 @@ class productHelper
 				else
 				{
 					$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
+				}
+
+				if (strstr($related_template_data, "{relproduct_rating_summary}"))
+				{
+					$final_avgreview_data = Redshop\Product\Rating::getRating($relatedProduct [$r]->product_id);
+
+					if ($final_avgreview_data != "")
+					{
+						$related_template_data = str_replace("{relproduct_rating_summary}", $final_avgreview_data, $related_template_data);
+					}
+					else
+					{
+						$related_template_data = str_replace("{relproduct_rating_summary}", '', $related_template_data);
+					}
 				}
 
 				$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);

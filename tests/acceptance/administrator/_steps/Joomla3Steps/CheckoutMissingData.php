@@ -18,7 +18,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	 * @since 2.1.2
 	 * @throws \Exception
 	 */
-	private function fillInformationBusiness($customerInformation)
+	public function fillInformationBusiness($customerInformation)
 	{
 		$I = $this;
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
@@ -65,6 +65,24 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	}
 
 	/**
+	 * @param $shippingAddress
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
+	public function fillShippingAddress($shippingAddress)
+	{
+		$I = $this;
+		$I->comment('Add Shipping Address');
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingAddress['firstName1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingAddress['lastName1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingAddress['address1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingAddress['postalCode1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingCity, $shippingAddress['city1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingAddress['phone1']);
+	}
+
+	/**
 	 * @param $productName
 	 * @param $customerInformation
 	 * @param $missing
@@ -97,7 +115,6 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				try
 				{
@@ -241,9 +258,6 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
-				$I->scrollTo(FrontEndProductManagerJoomla3Page::$shippingMethod);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 
 				try
@@ -349,5 +363,24 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("phone"));
 				break;
 		}
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $voucherCode
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
+	public function checkoutWithVoucherInvalid($categoryName, $productName, $voucherCode)
+	{
+		$I = $this;
+		$I->addToCart($categoryName, $productName);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->fillField(GiftCardCheckoutPage::$couponInput, $voucherCode);
+		$I->click(GiftCardCheckoutPage::$couponButton);
+		$I->waitForText(GiftCardCheckoutPage::$messageInvalid, 10, GiftCardCheckoutPage::$selectorError);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
 	}
 }

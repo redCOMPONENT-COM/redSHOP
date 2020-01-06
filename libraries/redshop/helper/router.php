@@ -43,7 +43,7 @@ class RedshopHelperRouter
 	{
 		if (is_null(self::$menuItems))
 		{
-			self::$menuItems = JFactory::getApplication()->getMenu()->getItems('component', 'com_redshop');
+			self::$menuItems = JFactory::getApplication()->getMenu('site')->getItems('component', 'com_redshop');
 		}
 
 		return self::$menuItems;

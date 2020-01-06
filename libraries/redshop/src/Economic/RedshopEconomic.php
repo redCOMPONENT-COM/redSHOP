@@ -1726,9 +1726,12 @@ class RedshopEconomic
 
 		$eco['invoiceHandle'] = $orderDetail->invoice_no;
 
-		if ($bookInvoiceDate != 0)
+		if (!empty($bookInvoiceDate))
 		{
-			$date               = new \DateTime($bookInvoiceDate);
+			$tz     = new \DateTimeZone(\JFactory::getConfig()->get('offset'));
+			$UTC    = new \DateTimeZone('UTC');
+			$format = \Redshop::getConfig()->get('DEFAULT_DATEFORMAT');
+			$date = \DateTime::createFromFormat($format, $bookInvoiceDate, $tz)->setTimezone($UTC);
 			$eco['invoiceDate'] = $date->format('Y-m-d') . "T" . date("h:i:s");
 		}
 		else

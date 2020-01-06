@@ -224,4 +224,16 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 
 		return $path;
 	}
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $fieldMerchantID = '#jform_params_merchantId';
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $fieldSharedSecretKey = '#jform_params_sharedSecret';
 }

@@ -169,6 +169,58 @@ class RedshopHelperCartTag
 	}
 
 	/**
+	 * @param   string $template      Template
+	 * @param   object $order         Order data
+	 * @param   int    $quotationMode Quotation mode
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function replaceSpecialDiscount($template, $order, $quotationMode = 0)
+	{
+		if (strstr($template, '{if special_discount}') && strstr($template, '{special_discount end if}'))
+		{
+			$percentage = '';
+
+			if ($order->special_discount_amount <= 0)
+			{
+				$template_discount_sdata = explode('{if special_discount}', $template);
+				$template_discount_edata = explode('{special_discount end if}', $template_discount_sdata[1]);
+				$template                    = $template_discount_sdata[0] . $template_discount_edata[1];
+			}
+			else
+			{
+				$template = str_replace("{if special_discount}", '', $template);
+
+				if ($quotationMode && !Redshop::getConfig()->getBool('SHOW_QUOTATION_PRICE'))
+				{
+					$template = str_replace("{special_discount}", "", $template);
+					$template = str_replace("{special_discount_amount}", $order->special_discount, $template);
+
+				}
+				else
+				{
+					$discount = $order->special_discount_amount;
+
+					$template = str_replace(
+						"{special_discount_amount}",
+						RedshopHelperProductPrice::formattedPrice($discount, true),
+						$template
+					);
+
+					$template = str_replace("{special_discount}", $order->special_discount . '%', $template);
+				}
+
+				$template = str_replace("{special_discount_lbl}", JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'), $template);
+				$template = str_replace("{special_discount end if}", '', $template);
+			}
+		}
+
+		return $template;
+	}
+
+	/**
 	 * Method for replace cart item
 	 *
 	 * @param   string  $data            Template Html
