@@ -61,16 +61,16 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$acceptTerms, 30);
 		$I->wait(0.5);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		try
 		{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		}catch (\Exception $e)
 		{
-			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
+			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		}
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
-		$I->executeJS("jQuery('#checkout_final').click()");
+		$I->executeJS(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
