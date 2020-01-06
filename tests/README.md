@@ -21,7 +21,7 @@ Download ChromeDriver https://chromedriver.chromium.org/downloads
 
 Download https://selenium.dev/downloads/.
 
-Put them in a single folder and run
+Put them in a single folder, unzip folder ChromeDriver and run
 ```java -Xmx256m -jar selenium-server-standalone-3.141.59.jar```
 
 change 3.141.59.jar to version selenium has been download
