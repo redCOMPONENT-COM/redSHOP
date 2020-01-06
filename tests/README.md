@@ -14,6 +14,7 @@ composer install
 
 Clone the repository using 
 ```git clone```  
+
 ###Step 2:
 
 Download ChromeDriver https://chromedriver.chromium.org/downloads
