@@ -241,6 +241,7 @@ class RedshopHelperCartTag
 		$input  = JFactory::getApplication()->input;
 		$itemId = RedshopHelperRouter::getCheckoutItemId();
 		$view   = $input->getCmd('view');
+		$token = JSession::getFormToken();
 
 		if ($itemId == 0)
 		{
@@ -793,6 +794,7 @@ class RedshopHelperCartTag
 						. '<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '" />'
 						. '<input type="hidden" name="cart_index" value="' . $i . '" />'
 						. '<input type="hidden" name="Itemid" value="' . $itemId . '" />'
+						. '<input type="hidden" name="'. $token .'" value="1" />'
 						. '<input type="hidden" name="task" value="" />';
 
 					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
@@ -823,6 +825,7 @@ class RedshopHelperCartTag
 						onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
 						<input type="hidden" name="cart_index" value="' . $i . '">
 						<input type="hidden" name="Itemid" value="' . $itemId . '">
+						<input type="hidden" name="'. $token .'" value="1">
 						<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $updateImage . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">
 						</form>';
 
