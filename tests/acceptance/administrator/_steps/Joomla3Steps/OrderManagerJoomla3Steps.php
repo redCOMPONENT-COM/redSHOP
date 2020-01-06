@@ -335,7 +335,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($nameUser);
 
 		$I->waitForElementVisible(OrderManagerPage::$applyUser, 30);
-		$I->executeJS("jQuery('.button-apply').click()");
+		$I->click(OrderManagerPage::$applyUser);
 
 		try
 		{
@@ -351,7 +351,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->see($nameUser);
 
 			$I->waitForElementVisible(OrderManagerPage::$applyUser, 30);
-			$I->executeJS("jQuery('.button-apply').click()");
+			$I->click(OrderManagerPage::$applyUser);
 		}
 
 		$I->waitForElement(OrderManagerPage::$productId, 30);
