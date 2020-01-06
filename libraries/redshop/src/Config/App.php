@@ -515,6 +515,8 @@ class App
 			"CATALOG_REMINDER_1"                           => $data["catalog_reminder_1"],
 			"CATALOG_REMINDER_2"                           => $data["catalog_reminder_2"],
 			"FAVOURED_REVIEWS"                             => $data["favoured_reviews"],
+			"RATING_THUMB_IMAGE_WIDTH"                     => $data["rating_thumb_image_width"],
+			"RATING_THUMB_IMAGE_HEIGHT"                    => $data["rating_thumb_image_height"],
 			"COLOUR_SAMPLE_REMAINDER_1"                    => $data["colour_sample_remainder_1"],
 			"COLOUR_SAMPLE_REMAINDER_2"                    => $data["colour_sample_remainder_2"],
 			"COLOUR_SAMPLE_REMAINDER_3"                    => $data["colour_sample_remainder_3"],
