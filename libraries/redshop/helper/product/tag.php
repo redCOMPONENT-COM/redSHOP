@@ -1000,12 +1000,13 @@ class RedshopHelperProductTag
 	 * @param   array    $attributes   Attribute list
 	 * @param   integer  $userId       User id
 	 * @param   string   $uniqueId     Unique id
+	 * @param   boolean  $isTripTags   Trip tags html price
 	 *
 	 * @return  mixed
 	 *
 	 * @since   2.1.0
 	 */
-	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
+	public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "", $isTripTags = false)
 	{
 		$attributeList = "";
 
@@ -1041,10 +1042,15 @@ class RedshopHelperProductTag
 
 					$propertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($property->property_price);
 
-					$property->text = urldecode($property->property_name) . ' (' . $propertyOprand . ' '
-						. strip_tags($propertyPrice)
+					if ($isTripTags)
+					{
+						$propertyPriceWithVat = strip_tags($propertyPriceWithVat);
+						$propertyPrice        = strip_tags($propertyPrice);
+					}
+
+					$property->text = urldecode($property->property_name) . ' (' . $propertyOprand . ' ' . $propertyPrice
 						. "excl. vat / "
-						. strip_tags($propertyPriceWithVat) . ")";
+						. $propertyPriceWithVat . ")";
 				}
 				else
 				{

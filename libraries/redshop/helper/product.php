@@ -620,7 +620,7 @@ class RedshopHelperProduct
 
 				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($productId);
 				$attributes = array_merge($attributes, $attributesSet);
-				$attributeList = RedshopHelperProductTag::replaceAttributeData($productId, 0, $attributes, $userId, $uniqueId);
+				$attributeList = RedshopHelperProductTag::replaceAttributeData($productId, 0, $attributes, $userId, $uniqueId, true);
 
 				// Accessory start
 				$accessory     = RedshopHelperAccessory::getProductAccessories(0, $productId);
