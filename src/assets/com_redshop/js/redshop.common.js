@@ -881,6 +881,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 			if(propName[p].checked)
 			{
 				users_info_id = propName[p].value;
+				break;
 			}
 			else if (propName[p].type == 'hidden')
 			{

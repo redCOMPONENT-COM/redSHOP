@@ -1163,66 +1163,25 @@ if (strstr($template_desc, $mpimg_tag))
 // More videos (youtube)
 if (strstr($template_desc, "{more_videos}"))
 {
-	$media_product_videos = RedshopHelperMedia::getAdditionMediaImage($this->data->product_id, "product", "youtube");
-
-	if (count($attributes) > 0 && count($attribute_template) > 0)
-	{
-		for ($a = 0, $an = count($attributes); $a < $an; $a++)
-		{
-			$selectedId = array();
-			$property   = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributes[$a]->attribute_id);
-
-			if ($attributes[$a]->text != "" && count($property) > 0)
-			{
-				for ($i = 0, $in = count($property); $i < $in; $i++)
-				{
-					if ($property[$i]->setdefault_selected)
-					{
-						$media_property_videos = RedshopHelperMedia::getAdditionMediaImage($property[$i]->property_id, "property", "youtube");
-						$selectedId[]          = $property[$i]->property_id;
-					}
-				}
-
-				if (count($selectedId) > 0)
-				{
-					$selectedpropertyId = $selectedId[count($selectedId) - 1];
-					$subproperty        = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $selectedpropertyId);
-					$selectedId         = array();
-
-					for ($sp = 0; $sp < count($subproperty); $sp++)
-					{
-						if ($subproperty[$sp]->setdefault_selected)
-						{
-							$media_subproperty_videos = RedshopHelperMedia::getAdditionMediaImage($subproperty[$sp]->subattribute_color_id, "subproperty", "youtube");
-							$selectedId[]             = $subproperty[$sp]->subattribute_color_id;
-						}
-					}
-				}
-			}
-		}
-
-	}
-
-	if (!empty($media_subproperty_videos))
-	{
-		$media_videos = $media_subproperty_videos;
-	}
-    elseif (!empty($media_property_videos))
-	{
-		$media_videos = $media_property_videos;
-	}
-    elseif (!empty($media_product_videos))
-	{
-		$media_videos = $media_product_videos;
-	}
+	$media_youtube = RedshopHelperProduct::getVideosProduct($this->data->product_id, $attributes, $attribute_template, 'youtube');
+	$media_videos = RedshopHelperProduct::getVideosProduct($this->data->product_id, $attributes, $attribute_template, 'video');
 
 	$insertStr = '';
+
+	if (count($media_youtube) > 0)
+	{
+		for ($m = 0, $mn = count($media_youtube); $m < $mn; $m++)
+		{
+			$insertStr .= "<div id='additional_vids_" . $media_youtube[$m]->media_id . "'><a class='modal' title='" . $media_youtube[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_youtube[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_youtube[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+		}
+	}
 
 	if (count($media_videos) > 0)
 	{
 		for ($m = 0, $mn = count($media_videos); $m < $mn; $m++)
 		{
-			$insertStr .= "<div id='additional_vids_" . $media_videos[$m]->media_id . "'><a class='modal' title='" . $media_videos[$m]->media_alternate_text . "' href='http://www.youtube.com/embed/" . $media_videos[$m]->media_name . "' rel='{handler: \"iframe\", size: {x: 800, y: 500}}'><img src='https://img.youtube.com/vi/" . $media_videos[$m]->media_name . "/default.jpg' height='80px' width='80px'/></a></div>";
+			$videoPath = REDSHOP_FRONT_VIDEO_ABSPATH . $media_videos[$m]->media_section . '/' . $media_videos[$m]->media_name;
+			$insertStr .= '<video width="400" controls autoplay><source src="'. $videoPath .'" type="'. $media_videos[$m]->media_mimetype .'"></video>';
 		}
 	}
 
@@ -1522,13 +1481,27 @@ $reviewform = "";
 if (($user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) || !Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED'))
 {
 	// Write Review link with the products
-	if (strstr($template_desc, "{form_rating_without_lightbox}"))
+	if (strstr($template_desc, "{form_rating_without_lightbox}") && !JFactory::getApplication()->input->getInt('rate', 0))
 	{
-		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&rate=1&product_id=' . $this->data->product_id .
-			'&category_id=' . $this->data->category_id .
-			'&Itemid=' . $this->itemId;
-		$reviewform    = '<a href="' . $reviewlink . '">' . JText::_('WRITE_REVIEW') . '</a>';
-		$template_desc = str_replace("{form_rating_without_lightbox}", $reviewform, $template_desc);
+		$form = RedshopModelForm::getInstance(
+			'Product_Rating',
+			'RedshopModel',
+			array(
+				'context' => 'com_redshop.edit.product_rating.' . $this->data->product_id
+			)
+		)->/** @scrutinizer ignore-call */ getForm();
+
+		$ratingForm = RedshopLayoutHelper::render(
+			'product.product_rating',
+			array(
+				'form'       => $form,
+				'modal'      => 0,
+				'product_id' => $this->data->product_id,
+				'returnUrl'  => base64_encode(Juri::getInstance()->toString())
+			)
+		);
+
+		$template_desc = str_replace("{form_rating_without_lightbox}", $ratingForm, $template_desc);
 	}
 
 	if (strstr($template_desc, "{form_rating}"))
@@ -1601,92 +1574,14 @@ if (strstr($template_desc, "{product_rating}"))
 		$main_template .= "</div></div>{review_loop_end}<div>{product_loop_end}</div></div></div>	";
 	}
 
-	// Fetching reviews
-	$reviews          = $producthelper->getProductReviewList($this->data->product_id);
-	$reviews_template = "";
-	$product_template = "";
-
-	if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{product_loop_end}"))
-	{
-		$product_start    = explode("{product_loop_start}", $main_template);
-		$product_end      = explode("{product_loop_end}", $product_start [1]);
-		$product_template = $product_end [0];
-
-		if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{product_loop_end}"))
-		{
-			$review_start     = explode("{review_loop_start}", $product_template);
-			$review_end       = explode("{review_loop_end}", $review_start [1]);
-			$reviews_template = $review_end [0];
-		}
-	}
-
-	$product_data = '';
-	$reviews_all  = '';
-
-	if ($product_template != "" && $reviews_template != "" && count($reviews) > 0)
-	{
-		$product_data .= str_replace("{product_title}", '', $product_template);
-
-		$reviews_data1 = "";
-		$reviews_data2 = "";
-		$reviews_data  = "";
-
-		for ($j = 0; $j < $mainblock && $j < count($reviews); $j++)
-		{
-			$fullname  = $reviews[$j]->firstname . " " . $reviews[$j]->lastname;
-			$starimage = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
-
-			if ($fullname != " ")
-			{
-				$displayname = $fullname;
-			}
-			else
-			{
-				$displayname = $reviews[$j]->username;
-			}
-
-			$reviews_data1 = str_replace("{fullname}", $displayname, $reviews_template);
-			$reviews_data1 = str_replace("{email}", $reviews[$j]->email, $reviews_data1);
-			$reviews_data1 = str_replace("{company_name}", $reviews[$j]->company_name, $reviews_data1);
-			$reviews_data1 = str_replace("{title}", $reviews [$j]->title, $reviews_data1);
-			$reviews_data1 = str_replace("{comment}", nl2br($reviews [$j]->comment), $reviews_data1);
-			$reviews_data1 = str_replace("{stars}", $starimage, $reviews_data1);
-			$reviews_data1 = str_replace("{reviewdate}", $redshopconfig->convertDateFormat($reviews [$j]->time), $reviews_data1);
-			$reviews_data  .= $reviews_data1;
-		}
-
-		if ($mainblock < count($reviews))
-		{
-			$reviews_data .= '<div style="clear:both;" class="show_reviews">';
-			$reviews_data .= '<a href="javascript:showallreviews();">';
-			$reviews_data .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'reviewarrow.gif"> ';
-			$reviews_data .= JText::_('COM_REDSHOP_SHOW_ALL_REVIEWS') . '</a></div>';
-		}
-
-		$reviews_data .= '<div style="display:none;" id="showreviews" name="showreviews">';
-
-		for ($k = $mainblock; $k < count($reviews); $k++)
-		{
-			$fullname2  = $reviews [$k]->firstname . " " . $reviews [$k]->lastname;
-			$starimage2 = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$k]->user_rating . '.gif">';
-
-			$fullname2     = $reviews[$k]->username;
-			$reviews_data2 = str_replace("{fullname}", '', $reviews_template);
-			$reviews_data2 = str_replace("{email}", $reviews[$k]->email, $reviews_data2);
-			$reviews_data2 = str_replace("{company_name}", $reviews[$k]->company_name, $reviews_data2);
-			$reviews_data2 = str_replace("{title}", $reviews [$k]->title, $reviews_data2);
-			$reviews_data2 = str_replace("{comment}", nl2br($reviews [$k]->comment), $reviews_data2);
-			$reviews_data2 = str_replace("{stars}", $starimage2, $reviews_data2);
-			$reviews_data2 = str_replace("{reviewdate}", $redshopconfig->convertDateFormat($reviews [$k]->time), $reviews_data2);
-			$reviews_data  .= $reviews_data2;
-		}
-
-		$reviews_data .= '</div>';
-		$reviews_all  .= $reviews_data;
-	}
-
-	$product_data  = str_replace("{review_loop_start}" . $reviews_template . "{review_loop_end}", $reviews_all, $product_data);
-	$main_template = str_replace("{product_loop_start}" . $product_template . "{product_loop_end}", $product_data, $main_template);
+	$main_template = RedshopLayoutHelper::render(
+		'product.rating_comments',
+		array(
+			'productId' => $this->data->product_id,
+			'main_template' => $main_template,
+			'mainblock'    => $mainblock
+		)
+	);
 
 	$template_desc = str_replace("{product_rating}", $main_template, $template_desc);
 }

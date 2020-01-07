@@ -28,7 +28,7 @@ class RedshopControllerForm extends JControllerForm
 	 * The name of the controller
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.3
 	 */
 	protected $name;
 

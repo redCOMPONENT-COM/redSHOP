@@ -340,8 +340,10 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		}
 
 		//Choice add to cart button lead
+		$I->waitForElementVisible(\ConfigurationPage::$buttonCartLead, 30);
+		$I->wait(0.5);
 		$I->click(\ConfigurationPage::$buttonCartLead);
-		$I->waitForElement(\ConfigurationPage::$buttonCartSearch);
+		$I->waitForElementVisible(\ConfigurationPage::$buttonCartSearch, 30);
 		$I->fillField(\ConfigurationPage::$buttonCartSearch, $cartSetting['buttonCartLead']);
 		$I->waitForElement($userConfiguration->returnChoice($cartSetting['buttonCartLead']),30);
 		$I->click(\ConfigurationPage::$firstCartSearch);
@@ -621,6 +623,38 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $showAddToCart
+	 * @throws \Exception
+	 * @since 2.1.4
+	 */
+	public function configProductPurchaseParent($showAddToCart)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$I->waitForElementVisible(ConfigurationPage::$relatedProductTab, 30);
+		$I->click(ConfigurationPage::$relatedProductTab);
+
+		switch ($showAddToCart)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(ConfigurationPage::$purchaseParentYes, 30);
+				$I->click(ConfigurationPage::$purchaseParentYes);
+				break;
+
+			case 'No':
+				$I->waitForElementVisible(ConfigurationPage::$purchaseParentNo, 30);
+				$I->click(ConfigurationPage::$purchaseParentNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
 	 * @param $price
 	 * @param $order
 	 * @param $firstName
@@ -686,7 +720,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			$I->waitForElementVisible(ConfigurationPage::$resetOderId, 30);
 			$I->click(ConfigurationPage::$resetOderId);
 			$I->acceptPopup();
-			$I->wait(2); 
+			$I->wait(2);
 			$I->canSeeInPopup(ConfigurationPage::$messagePopup);
 			$I->seeInPopup(ConfigurationPage::$messagePopup);
 			$I->acceptPopup();
@@ -804,9 +838,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
 		$total = $product['price']*$quantity + $shipping['shippingRate'];
-		$priceProduct = $currencyUnit['currencySymbol'].' '.$product['price']*$quantity.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
-		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
-		$priceRate = 'Shipping: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceProduct = $currencyUnit['currencySymbol'].$product['price']*$quantity.$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceTotal = 'Total: '.$currencyUnit['currencySymbol'].($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceShippingRate = 'Shipping: '.$currencyUnit['currencySymbol'].($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 		$firstName = 'First Name: '.$customerInformation["firstName"];
 		$lastName = 'Last Name: '.$customerInformation["lastName"];
 
@@ -822,8 +856,11 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->see($categoryName);
 		$I->waitForText($product['name'], 30);
 		$I->see($product['name']);
+		$I->waitForText($priceProduct, 30);
 		$I->see($priceProduct);
-		$I->see($priceRate);
+		$I->waitForText($priceShippingRate, 30);
+		$I->see($priceShippingRate);
+		$I->waitForText($priceTotal, 30);
 		$I->see($priceTotal);
 	}
 }
