@@ -6,25 +6,29 @@ Run automation with redSHOP
 Execute
 ```
 # You need to have Composer in your system, if not download it from here: https://getcomposer.org/
-composer install
 ```
 
-## Preparation for running the test
-### Step 1:
+## using Selenium call ChromeDriver
 
-Clone the repository using 
-```git clone```  
+Download ChromeDriver: https://chromedriver.chromium.org/downloads
 
-### Step 2:
-
-Download ChromeDriver https://chromedriver.chromium.org/downloads
-
-Download https://selenium.dev/downloads/.
+Download Selenium: https://selenium.dev/downloads/.
 
 Put them in a single folder, unzip folder ChromeDriver and run
 ```java -Xmx256m -jar selenium-server-standalone-3.141.59.jar```
 
 change 3.141.59.jar to version selenium has been download
+
+## Preparation for running the test
+
+### Step 1:
+
+Clone the repository using
+```git clone  git@github.com:redCOMPONENT-COM/redSHOP.git```  
+
+### Step 2:
+
+```cd redSHOP```
 
 ### Step 3:
 
@@ -36,9 +40,10 @@ Command lines 28 to 32 of "acceptance.suite.yml".
 
 NOTE: Make sure username/password are correct. and site http://localhost/address-your-local-file-exist/ already exist.
 
-### Step 4: 
-After change config, you need to run ```composer install``` or ```composer update``` 
-and run ```vendor/bin/codecept build```.
+### Step 4:
+
+After change config, you need to run ```composer install```
+After that run ```vendor/bin/codecept build```
 
 ### Step 5. 
 
