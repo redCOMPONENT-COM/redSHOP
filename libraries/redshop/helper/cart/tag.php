@@ -787,7 +787,8 @@ class RedshopHelperCartTag
 				}
 				else
 				{
-					$updateCart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >'
+					$updateCart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" '
+						. 'action="index.php?option=com_redshop&view=cart&'. $token .'=1"> '
 						. '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" '
 						. 'id="quantitybox' . $i . '" size="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '"'
 						. ' maxlength="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" onchange="validateInputNumber(this.id);">'
@@ -825,7 +826,6 @@ class RedshopHelperCartTag
 						onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
 						<input type="hidden" name="cart_index" value="' . $i . '">
 						<input type="hidden" name="Itemid" value="' . $itemId . '">
-						<input type="hidden" name="'. $token .'" value="1">
 						<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $updateImage . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">
 						</form>';
 

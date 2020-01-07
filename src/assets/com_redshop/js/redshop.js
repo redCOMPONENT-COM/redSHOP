@@ -170,7 +170,7 @@ function updateCartAjax($, form)
     var Itemid     = form.children('[name=Itemid]').val();
     var token      = redSHOP.RSConfig._('AJAX_TOKEN');
 
-    var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=cart&task=update';
+    var url = redSHOP.RSConfig._('SITE_URL') + 'index.php?option=com_redshop&view=cart&task=update&' + token + '=1';
     $.ajax({
         type: 'POST',
         url: url,
@@ -178,8 +178,7 @@ function updateCartAjax($, form)
             'quantity'  : quantity,
             'productId' : productId,
             'cart_index': cart_index,
-            'Itemid'    : Itemid,
-            [token]     : 1
+            'Itemid'    : Itemid
         },
         beforeSend: function() {
             var style = 'background: rgba(0,0,0,0.5); position: fixed; width: 100%; height: 100%; z-index: 999; display: flex; align-items: center; justify-content: center; left: 0; top: 0;';
