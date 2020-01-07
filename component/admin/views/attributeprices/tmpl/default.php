@@ -8,6 +8,8 @@
  */
 
 $producthelper = productHelper::getInstance();
+JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+$message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -31,10 +33,10 @@ $producthelper = productHelper::getInstance();
 		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('add');">
 			<?php echo JText::_('COM_REDSHOP_ADD'); ?>
 		</button>
-		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('edit');">
+		<button type="button" class="btn btn-small" onclick="if (document.adminForm.boxchecked.value==0) {<?php echo $message; ?>} else {Joomla.submitbutton('edit');}">
 			<?php echo JText::_('COM_REDSHOP_EDIT'); ?>
 		</button>
-		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('remove');">
+		<button type="button" class="btn btn-small" onclick="if (document.adminForm.boxchecked.value==0) {<?php echo $message; ?>} else {Joomla.submitbutton('remove');}">
 			<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
 		</button>
 		<button type="button" class="btn btn-small" onclick="window.parent.location.reload();">

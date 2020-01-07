@@ -670,6 +670,11 @@ class rsCarthelper
 				$dispatcher   = RedshopHelperUtility::getDispatcher();
 				$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
+				if (count($shippingrate) <= 1 && count($shippingrate[0]) <= 1)
+				{
+					$template_desc = str_replace('{show_when_one_rate}', 'none', $template_desc);
+				}
+
 				for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
 				{
 					if (isset($shippingrate[$s]) === false)
@@ -698,6 +703,14 @@ class rsCarthelper
 
 							for ($i = 0, $in = count($rate); $i < $in; $i++)
 							{
+								if (isset($rate[$i]->shipping_rate_state) && !empty($rate[$i]->shipping_rate_state))
+								{
+									if (Redshop\Cart\Cart::isDiffCountryState($rate[$i], $users_info_id, $_POST))
+									{
+										continue;
+									}
+								}
+
 								$checked      = '';
 								$data        .= $template_rate_middle;
 
@@ -796,6 +809,7 @@ class rsCarthelper
 
 			$template_desc = str_replace("{shipping_method_loop_start}", "", $template_desc);
 			$template_desc = str_replace("{shipping_method_loop_end}", "", $template_desc);
+			$template_desc = str_replace('{show_when_one_rate}', 'block', $template_desc);
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
