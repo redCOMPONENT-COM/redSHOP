@@ -73,14 +73,14 @@ class RedshopModelNewsletter extends RedshopModel
 		// Filter: Country
 		if (!empty($filterCountry))
 		{
-			$query->where($db->qn('uf.country_code') . ' IN (' . implode(',', $filterCountry) . ')');
+			$query->where($db->qn('uf.country_code') . ' IN (' . implode(',', /** @scrutinizer ignore-type */ $db->q($filterCountry)) . ')');
 		}
 
 		// Filter: Start date and end date
 		if (!empty($startDate) && !empty($endDate))
 		{
 			$query->where(
-				'CAST(' . $db->qn('u.registerDate') . ' AS ' . $db->qn('date') . ') '
+				'CAST(' . $db->qn('u.registerDate') . ' AS datetime) '
 				. 'BETWEEN ' . $db->quote($startDate) . ' AND ' . $db->quote($endDate)
 			);
 		}
@@ -104,16 +104,20 @@ class RedshopModelNewsletter extends RedshopModel
 		if (!empty($filterCity))
 		{
 			$cityQuery    = $db->getQuery(true)
-				->select($db->qn('field_id'))
+				->select($db->qn('id'))
 				->from($db->qn('#__redshop_fields'))
-				->where($db->qn('field_name') . ' = ' . $db->quote('field_city'));
+				->where($db->qn('name') . ' = ' . $db->quote('field_city'));
 			$cityFieldIds = $db->setQuery($cityQuery)->loadRow();
 
-			$query->leftJoin($db->qn('#__redshop_fields_data', 'f') . ' ON ' . $db->qn('f.itemid') . ' = ' . $db->qn('ns.users_info_id'))
+			$query->leftJoin($db->qn('#__redshop_fields_data', 'f') . ' ON ' . $db->qn('f.itemid') . ' = ' . $db->qn('uf.users_info_id'))
 				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
-				->where($db->qn('f.fieldid') . ' IN (' . implode(',', $cityFieldIds) . ')')
 				->where($db->qn('f.section') . ' = 7')
 				->where($db->qn('f.data_txt') . ' LIKE ' . $db->quote($filterCity . '%'));
+
+			if ($cityFieldIds)
+			{
+				$query->where($db->qn('f.fieldid') . ' IN (' . implode(',', $cityFieldIds) . ')');
+			}
 		}
 		else
 		{
@@ -374,7 +378,7 @@ class RedshopModelNewsletter extends RedshopModel
 		$subscribers = array();
 		$db          = JFactory::getDbo();
 		$query       = $db->getQuery(true);
-		$columns     = $db->qn(array('tracker_id', 'newsletter_id', 'subscription_id', 'subscriber_name', 'user_id', 'read', 'date'));
+		$columns     = $db->qn(array('newsletter_id', 'subscription_id', 'subscriber_name', 'user_id', 'read', 'date'));
 		$today       = time();
 
 		foreach ($subscriberIds as $index => $subscriberId)
@@ -396,7 +400,7 @@ class RedshopModelNewsletter extends RedshopModel
 			}
 
 			$unSubscribeLink = $url . 'index.php?option=com_redshop&view=newsletter&task=unsubscribe&email1=' . $subscribeEmail;
-			$values          = array('', $newsletterId, $subscriberId, $username[$index], $userid[$index], 0, $today);
+			$values          = array($newsletterId, $subscriberId, $username[$index], $userid[$index], 0, $today);
 
 			$query->clear()
 				->insert($db->qn('#__redshop_newsletter_tracker'))

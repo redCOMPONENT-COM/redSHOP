@@ -27268,7 +27268,7 @@ body.modal-open {
     background-color: #fff;
     margin: 0 15px;
     border: 1px solid #ccc;
-    display: flex;
+    display: block;
     align-items: center;
 }
 
@@ -27298,4 +27298,22 @@ body.modal-open {
 .priceInput .form-control
 {
     width: 50%;
+}
+
+#redSHOPAdminContainer .select2-container {
+    width: 100%;
+    display: block;
+}
+
+.select2-disabled {
+    color: #999;
+}
+
+.images-rating {
+    list-style: none;
+}
+
+.images-rating .item-image-rating {
+    width: 150px;
+    padding-bottom: 10px;
 }
