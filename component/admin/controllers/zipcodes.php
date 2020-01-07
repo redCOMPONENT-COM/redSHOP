@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  *
  * @package     RedSHOP.backend
  * @subpackage  Controller
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.3
  */
 
 class RedshopControllerZipcodes extends RedshopControllerAdmin

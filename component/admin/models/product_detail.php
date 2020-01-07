@@ -248,6 +248,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$row->load($data['product_id']);
 		}
 
+		if ($data['task'] == 'save2copy')
+		{
+			$data['product_name']     = $this->renameToUniqueValue('product_name', $data['product_name']);
+			$data['product_number']   = $this->renameToUniqueValue('product_number', $data['product_number'], 'dash');
+		}
+
 		$this->handleDateTimeRange($data['discount_stratdate'], $data['discount_enddate']);
 
 		if (!$row->bind($data))
@@ -4299,7 +4305,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($sp)
 		{
-			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($sp);
+			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($sp, $subattribute_id, true);
 		}
 		else
 		{
@@ -4345,7 +4351,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($property_id)
 		{
-			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id);
+			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id, $attribute_id, 0, '', 0, 0, true);
 		}
 		else
 		{

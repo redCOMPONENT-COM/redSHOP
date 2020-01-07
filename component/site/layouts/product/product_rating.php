@@ -56,19 +56,18 @@ if ($user->id)
 	};
 </script>
 <form name="productRatingForm" action="" method="post"
-	  id="productRatingForm" class="form-validate form-vertical">
-
-	<p><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_HEADER_TEXT'); ?></p>
+	  id="productRatingForm" class="form-validate form-vertical" enctype="multipart/form-data">
 	<div class="redshop-productrating">
 		<div class="row">
 			<label class="col-xs-3"><?php echo $form->getLabel('user_rating'); ?></label>
 			<div class="col-xs-9">
-				<div class="row">
-					<div class="col-xs-4"><?php echo JText::_('COM_REDSHOP_GOOD'); ?></div>
-					<div class="col-xs-4"><?php echo $form->getInput('user_rating'); ?></div>
-					<div class="col-xs-4"><?php echo JText::_('COM_REDSHOP_EXCELLENT'); ?></div>
+				<div class="row"><?php echo $form->getInput('user_rating'); ?></div>
 				</div>
 			</div>
+
+		<div class="row">
+			<label class="col-xs-3"><?php echo $form->getLabel('images'); ?></label>
+			<div class="col-xs-9"><?php echo $form->getInput('images'); ?></div>
 		</div>
 
 		<div class="row">
@@ -101,8 +100,6 @@ if ($user->id)
 	<div class="product_rating">
 		<input type="submit" class="btn btn-primary" value="<?php echo JText::_('COM_REDSHOP_SEND_REVIEW'); ?>" onclick="ratingSubmitButton('product_rating.submit')">
 	</div>
-
-	<p><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_FOOTER_TEXT'); ?></p>
 
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="view" value="product_rating"/>

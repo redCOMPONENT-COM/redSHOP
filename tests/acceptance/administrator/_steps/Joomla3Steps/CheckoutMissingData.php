@@ -18,12 +18,22 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	 * @since 2.1.2
 	 * @throws \Exception
 	 */
-	private function fillInformationBusiness($customerInformation)
+	public function fillInformationBusiness($customerInformation)
 	{
 		$I = $this;
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+
+		try
+		{
+			$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+		}catch (\Exception $e)
+		{
+			$I->click(FrontEndProductManagerJoomla3Page::$radioIDCompany);
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+			$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+		}
+
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
@@ -40,7 +50,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 	 * @since 2.1.2
 	 * @throws \Exception
 	 */
-	private function fillInformationPrivate($customerInformation)
+	public function fillInformationPrivate($customerInformation)
 	{
 		$I = $this;
 		$I->comment('checkout with private');
@@ -52,6 +62,24 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
+	}
+
+	/**
+	 * @param $shippingAddress
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
+	public function fillShippingAddress($shippingAddress)
+	{
+		$I = $this;
+		$I->comment('Add Shipping Address');
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingFirstName, $shippingAddress['firstName1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingLastName, $shippingAddress['lastName1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingAddress, $shippingAddress['address1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPostalCode, $shippingAddress['postalCode1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingCity, $shippingAddress['city1']);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$shippingPhone, $shippingAddress['phone1']);
 	}
 
 	/**
@@ -71,7 +99,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->comment('Business');
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$radioCompany, 30);
 		$I->wait(1);
 		$I->click(FrontEndProductManagerJoomla3Page::$radioCompany);
 		try
@@ -87,11 +115,11 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				try
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
 				}
 				catch (Exception $e)
 				{
@@ -137,7 +165,17 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				try
+				{
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 10, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				}
+				catch (Exception $e)
+				{
+					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+					$I->wait(0.5);
+					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				}
 				break;
 
 			case 'wrongEmail':
@@ -220,12 +258,12 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
-				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$shippingMethod, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+
 				try
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				}
 				catch (Exception $e)
 				{
@@ -233,6 +271,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 					$I->wait(1);
 					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				}
+
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("firstname"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("lastname"));
@@ -269,7 +308,18 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 60, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+
+				try
+				{
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 10, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				}
+				catch (Exception $e)
+				{
+					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+					$I->wait(0.5);
+					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+				}
 				break;
 
 			case 'wrongEmail':
@@ -313,5 +363,24 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterPhone, 30, FrontEndProductManagerJoomla3Page:: locatorMessagePrivate("phone"));
 				break;
 		}
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $voucherCode
+	 * @throws Exception
+	 * @since 2.1.4
+	 */
+	public function checkoutWithVoucherInvalid($categoryName, $productName, $voucherCode)
+	{
+		$I = $this;
+		$I->addToCart($categoryName, $productName);
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->fillField(GiftCardCheckoutPage::$couponInput, $voucherCode);
+		$I->click(GiftCardCheckoutPage::$couponButton);
+		$I->waitForText(GiftCardCheckoutPage::$messageInvalid, 10, GiftCardCheckoutPage::$selectorError);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonEmptyCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonEmptyCart);
 	}
 }

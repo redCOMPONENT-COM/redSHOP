@@ -16,6 +16,13 @@
             <option value="5">5</option>
         </field>
         <field
+                name="images"
+                type="file"
+                class="inputbox image-comment"
+                label="COM_REDSHOP_COMMENT_IMAGE"
+                multiple="true"
+        />
+        <field
                 name="username"
                 type="text"
                 class="inputbox"

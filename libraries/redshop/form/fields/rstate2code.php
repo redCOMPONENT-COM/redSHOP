@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
  * @package     RedSHOP.Backend
  * @subpackage  Field
  *
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.3
  */
 class JFormFieldRState2Code extends JFormFieldList
 {

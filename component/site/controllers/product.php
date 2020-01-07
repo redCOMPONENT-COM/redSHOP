@@ -615,6 +615,8 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		echo json_encode($response);
+
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -759,11 +761,11 @@ class RedshopControllerProduct extends RedshopController
 			if ($model->setDownloadLimit($tid))
 			{
 				$baseURL  = JURI::root();
-				$tmp_name = JPATH_SITE . '/components/com_redshop/assets/download/product/' . $name;
+				$tmp_name = Redshop::getConfig()->get('PRODUCT_DOWNLOAD_ROOT') . '/' . $name;
 
 				$tmp_type = strtolower(JFile::getExt($name));
 
-				$downloadname = substr(basename($name), 11);
+				$downloadname = basename($name);
 
 				switch ($tmp_type)
 				{

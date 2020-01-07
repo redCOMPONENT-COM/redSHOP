@@ -49,26 +49,29 @@ $formToken = JSession::getFormToken();
                 });
 
                 $("#export_btn_start").click(function (event) {
-                    $("#export_plugins").addClass("disabled muted");
-                    $("#export_config").addClass("disabled muted");
+                    if ($("#export_plugins input[type='radio']:checked").length)
+                    {
+                        $("#export_plugins").addClass("disabled muted");
+                        $("#export_config").addClass("disabled muted");
 
-                    $("#export_process_msg").removeClass("alert-success").removeClass("alert-danger");
-                    $("#export_process_msg_body").html("");
+                        $("#export_process_msg").removeClass("alert-success").removeClass("alert-danger");
+                        $("#export_process_msg_body").html("");
 
-                    $("#export_process_bar").html('0%').css("width", "0%");
+                        $("#export_process_bar").html('0%').css("width", "0%");
 
-                    $.post(
-                        "index.php?option=com_ajax&plugin=" + plugin + "_start&group=redshop_export&format=raw",
-                        $("#adminForm").serialize(),
-                        function (response) {
-                            total = parseInt(response);
-                            $("#export_process_title span").empty().html('(' + total + ')');
+                        $.post(
+                            "index.php?option=com_ajax&plugin=" + plugin + "_start&group=redshop_export&format=raw",
+                            $("#adminForm").serialize(),
+                            function (response) {
+                                total = parseInt(response);
+                                $("#export_process_title span").empty().html('(' + total + ')');
 
-                            run_export(0);
-                        }
-                    );
+                                run_export(0);
+                            }
+                        );
 
-                    event.preventDefault();
+                        event.preventDefault();
+                    }
                 });
             });
         })(jQuery);

@@ -1,5 +1,4 @@
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-@import url(//fonts.googleapis.com/css?family=Roboto:300,400,600,700,300italic,400italic,600italic);
 html {
     font-family: sans-serif;
     -ms-text-size-adjust: 100%;
@@ -160,10 +159,6 @@ input[type="search"]::-webkit-search-decoration {
     -webkit-appearance: none;
 }
 
-input, button, select, textarea {
-    font-family: 'Roboto', sans-serif !important;
-}
-
 fieldset {
     border: 1px solid #c0c0c0;
     margin: 0 2px;
@@ -275,8 +270,7 @@ html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-    font-family: 'Roboto', sans-serif !important;
-    font-size: 14px !important;
+    font-size: 14px;
     line-height: 1.42857143;
     color: #293235;
     background-color: #fff;
@@ -2150,8 +2144,9 @@ select[multiple].input-lg {
     }
     .form-inline .form-control {
         display: inline-block;
-        width: auto;
+        max-width: 50%;
         vertical-align: middle;
+        width: 100% !important;
     }
     .form-inline .form-control-static {
         display: inline-block;
@@ -2990,6 +2985,7 @@ tbody.collapse.in {
     background-color: #ebebeb;
     background-image: none;
     text-shadow: none;
+    line-height: 18px;
 }
 
 .btn-toolbar .btn span
@@ -7495,8 +7491,6 @@ body {
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 400;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -7637,21 +7631,6 @@ body.hold-transition .main-header .logo {
     min-height: 0;
 }
 
-/* H1 - H6 font */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-    font-family: 'Roboto', sans-serif !important;
-}
 /* General Links */
 a {
     color: #337ab7;
@@ -16257,27 +16236,11 @@ i.tools {
     border-bottom: 1px solid #e6e5e5;
 }
 
-#adminForm .filterTool:last-child {
-    margin-right: 0;
-}
-
 #adminForm .filterTool .filterItem {
     display: inline-block;
     margin-right: 10px;
     margin-top: 4px;
     margin-bottom: 4px;
-}
-
-#adminForm .filterTool .filterItem:last-child {
-    margin-right: 0;
-}
-
-#adminForm .filterTool .filterItem.dateRange {
-    padding-top: 8px;
-}
-
-#adminForm .filterTool .filterItem #filter_date_range_wrapper {
-    width: 240px;
 }
 
 #adminForm .filterTool .filterItem .btn-wrapper {
@@ -16506,51 +16469,11 @@ td .controls .checkbox {
     margin: 0 10px 0 0;
 }
 
-.attr_tbody {
-    border-top: 1px solid #080808;
-    padding: 5px 0 0 0;
-}
 
-.showhidearrow {
-    display: block;
-}
 
-.attribute_table {
-    margin: 0 0 15px 0 !important;
-}
-
-.oneAttribute {
-    padding: 10px 5px;
-    background: #E7EEF4;
-    border: 1px solid #ccc;
-    margin-left: 0 !important;
-}
-
-.attribute_table_pro {
-    padding: 5px;
-    margin-left: 0 !important;
-    background: #eee;
-    border: 1px solid #ccc;
-}
-
-.attribute_parameter_tr {
-    border: 1px solid #ccc;
-    background: #a9dba9;
-    padding: 5px;
-    margin-left: 0 !important;
-}
-
-.showsubproperty {
-    padding: 5px 0;
-}
-
-.sub_attribute_table {
-    padding: 10px 0;
-    border-top: 1px solid #3a87ad;
-}
-
-.subAttrMedia {
-    margin: 5px 0 0 0 !important;
+.joom-box img
+{
+    margin-bottom: 5px;
 }
 
 .attrSecondRow {
@@ -17187,6 +17110,9 @@ svg {
 .icon-32-print_f2 {
     background-image: url(../images/print_f2.png);
 }
+.icon-checkin {
+    background-image: url(../images/check.png);
+}
 
 .popup .btn.btn-small {
     font-size: 14px;
@@ -17657,7 +17583,6 @@ textarea {
 body {
     margin: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 13px;
     line-height: 18px;
     color: #333;
     background-color: #fff;
@@ -18331,6 +18256,7 @@ hr {
     border: 0;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #fff;
+    clear: both;
 }
 
 abbr[title],
@@ -18527,7 +18453,7 @@ input[type="color"],
     height: 18px;
     padding: 4px 6px;
     font-size: 13px;
-    line-height: 18px;
+    line-height: 26px;
     color: #555;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -18563,13 +18489,7 @@ input[type="color"],
 .uneditable-input {
     background-color: #fff;
     border: 1px solid #ccc;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -webkit-transition: border linear .2s, box-shadow linear .2s;
-    -moz-transition: border linear .2s, box-shadow linear .2s;
-    -o-transition: border linear .2s, box-shadow linear .2s;
-    transition: border linear .2s, box-shadow linear .2s;
+
 }
 
 textarea:focus,
@@ -18677,7 +18597,7 @@ textarea::-webkit-input-placeholder {
 
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
-    float: left;
+    /*float: left;*/
 }
 
 .controls > .radio:first-child,
@@ -20011,26 +19931,18 @@ button.close {
     padding: 4px 12px;
     margin-bottom: 0;
     font-size: 14px;
-    line-height: 18px;
+    line-height: 24px;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
     color: #333;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     background-color: #f5f5f5;
     background-repeat: repeat-x;
-    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
     *background-color: #e6e6e6;
-    border: 1px solid #bbb;
-    *border: 0;
-    border-bottom-color: #a2a2a2;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
     *margin-left: .3em;
-    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
-    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
 }
 
 .btn:hover,
@@ -20206,9 +20118,8 @@ input[type="button"].btn-block {
 
 .btn-danger {
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     background-color: #ad312b;
-    border-color: #942a25 #942a25 #571916;
+
 }
 
 .btn-danger:hover,
@@ -20229,9 +20140,7 @@ input[type="button"].btn-block {
 
 .btn-success {
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     background-color: #409740;
-    border-color: #378137 #378137 #204b20;
 }
 
 .btn-success:hover,
@@ -22867,9 +22776,6 @@ a.badge:focus {
 
     .hidden-phone {
         display: none !important;
-    }
-    #adminForm .filterTool .filterItem #filter_date_range_wrapper {
-        width: 202px;
     }
 
 }
@@ -27186,3 +27092,228 @@ body.modal-open {
 .rs-full { display: none; }
 .rs-more { cursor: pointer; }
 .rs-teaser { display: inline-block; }
+
+
+
+/*
+* Attributes
+*/
+
+#product_attribute
+{
+    font-size: 15px;
+}
+
+#product_attribute label
+{
+    font-size: 15px;
+}
+
+#product_attribute .form-control
+{
+    font-size: 15px;
+}
+
+.mainTableAttributes .showhidearrow
+{
+    color: black;
+    margin: 10px 0;
+    display: block;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    clear: both;
+}
+
+.add_property
+{
+    float: right;
+    display: block;
+    margin: 10px 0 !important;
+}
+
+.attr_tbody {
+    background-color: #eee;
+    padding: 10px;
+    margin: 10px 0;
+    clear: both;
+}
+
+.attr_tbody .form-group
+{
+    display: block;
+    margin-bottom: 10px;
+}
+
+.attr_tbody .form-group label
+{
+    width: 35%;
+}
+
+.attr_tbody .form-group > .form-control,
+.attr_tbody .form-group .priceInput
+{
+    width: 63% !important;
+    max-width: none;
+    display: inline-block;
+}
+
+.attr_tbody .form-group .priceInput .form-control
+{
+    width: 77% !important;
+    max-width: none;
+}
+
+.attr_tbody .form-group .priceInput .select2-container
+{
+    width: 20% !important;
+}
+
+.delete_attribute, .add_subproperty, .delete_property
+{
+    float: right;
+    margin-left: 10px;
+}
+
+.attribute_table {
+    margin: 0 0 15px 0 !important;
+    width: 100%;
+    overflow: hidden;
+}
+
+.property_table
+{
+    clear: both;
+    margin-top: 20px;
+    float: left;
+    width: 100%;;
+    padding: 0 10px;
+}
+
+.oneAttribute {
+    padding: 10px 5px;
+    background: #E7EEF4;
+    border: 1px solid #ccc;
+    margin-left: 0 !important;
+}
+
+.oneAttribute .rowAttribute
+{
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.oneAttribute .rowAttribute .attributeoptions
+{
+
+}
+
+.oneAttribute .rowAttribute .form-group
+{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.oneAttribute .rowAttribute .form-group label
+{
+   width: 45%;
+}
+
+.attribute_table_pro {
+    padding: 5px;
+    margin-left: 0 !important;
+    background: #eee;
+    border: 1px solid #ccc;
+}
+
+.attribute_parameter_tr {
+    background: #a9dba9;
+    margin-left: 0 !important;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.showsubproperty {
+    padding: 5px 0;
+}
+
+.sub_attribute_table {
+
+}
+
+.sub_property_table
+{
+    padding: 10px 0;
+    margin-top: 10px;
+    border-top: 1px solid #3a87ad;
+    overflow: hidden;
+}
+
+.sub_attribute_table label
+{
+    display: block !important;
+    white-space: nowrap;
+}
+
+.sub_attribute_table.row > div
+{
+    padding: 0 5px 0 15px;
+}
+
+
+.imageBlock
+{
+    padding: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    margin: 0 15px;
+    border: 1px solid #ccc;
+    display: block;
+    align-items: center;
+}
+
+.imageBlock .col-sm-8
+{
+    display: flex;
+    align-items: center;
+}
+
+.joom-box
+{
+    float: left;
+    display: block;
+    margin-right: 15px;
+}
+
+.deletePropertyMainImage
+{
+    margin-right: 15px;
+}
+
+.subAttrMedia
+{
+    margin-top: 10px;
+}
+
+.priceInput .form-control
+{
+    width: 50%;
+}
+
+#redSHOPAdminContainer .select2-container {
+    width: 100%;
+    display: block;
+}
+
+.select2-disabled {
+    color: #999;
+}
+
+.images-rating {
+    list-style: none;
+}
+
+.images-rating .item-image-rating {
+    width: 150px;
+    padding-bottom: 10px;
+}

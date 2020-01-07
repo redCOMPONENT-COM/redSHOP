@@ -31,6 +31,7 @@ class RedshopControllerLogin extends RedshopController
 		$Itemid       = $this->input->get('Itemid');
 		$returnitemid = $this->input->get('returnitemid');
 		$mywishlist   = $this->input->get('mywishlist');
+		$productId   = $this->input->get('product_id');
 		$menu         = JFactory::getApplication()->getMenu();
 		$item         = $menu->getItem($returnitemid);
 
@@ -70,7 +71,7 @@ class RedshopControllerLogin extends RedshopController
 
 			if ($error == true)
 			{
-				$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
+				$wishreturn = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId, false);
 			}
 			else
 			{
@@ -83,6 +84,11 @@ class RedshopControllerLogin extends RedshopController
 			if ($item)
 			{
 				$link = $item->link . '&Itemid=' . $returnitemid;
+
+				if ($item->params->get('aliasoptions'))
+				{
+					$link = '/?Itemid=' . $returnitemid;
+				}
 			}
 			else
 			{

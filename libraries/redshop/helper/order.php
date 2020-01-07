@@ -549,18 +549,14 @@ class RedshopHelperOrder
 	{
 		$db = JFactory::getDbo();
 
-		$query = 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_orders') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_item') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_users_info') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_status_log') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_acc_item');
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_attribute_item') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_order_payment') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_product_download') . ';';
-		$query .= 'TRUNCATE TABLE ' . $db->quoteName('#__redshop_product_download_log') . ';';
-
-		$db->setQuery($query);
-		$db->execute();
+		$db->truncateTable('#__redshop_orders');
+		$db->truncateTable('#__redshop_order_item');
+		$db->truncateTable('#__redshop_order_users_info');
+		$db->truncateTable('#__redshop_order_status_log');
+		$db->truncateTable('#__redshop_order_attribute_item');
+		$db->truncateTable('#__redshop_order_payment');
+		$db->truncateTable('#__redshop_product_download');
+		$db->truncateTable('#__redshop_product_download_log');
 	}
 
 	/**
@@ -1744,8 +1740,17 @@ class RedshopHelperOrder
 				->select('*')
 				->select('CONCAT(' . $db->qn('firstname') . '," ",' . $db->qn('lastname') . ') AS text')
 				->from($db->qn('#__redshop_users_info'))
-				->where($db->qn('address_type') . ' = ' . $db->quote('BT'))
-				->where($db->qn('user_id') . ' = ' . (int) $userId);
+				->where($db->qn('address_type') . ' = ' . $db->quote('BT'));
+
+			if ((int) $userId < 0)
+			{
+				$query->where($db->qn('users_info_id') . ' = ' . abs((int) $userId));
+			}
+			else
+			{
+				$query->where($db->qn('user_id') . ' = ' . (int) $userId);
+			}
+
 
 			static::$billingAddresses[$userId] = $db->setQuery($query)->loadObject();
 		}
@@ -1904,7 +1909,7 @@ class RedshopHelperOrder
 	 * @param   integer  $orderItemId  Order Item ID
 	 * @param   integer  $section      Section ID
 	 *
-	 * @return  object
+	 * @return  object|mixed
 	 *
 	 * @since   2.0.3
 	 */
@@ -2136,7 +2141,7 @@ class RedshopHelperOrder
 		foreach ($rows as $row)
 		{
 			$dataMessage      = $productMiddle;
-			$downloadFilename = substr(basename($row->file_name), 11);
+			$downloadFilename = basename($row->file_name);
 
 			$mailToken = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
 				. $row->download_id . "'>" . $downloadFilename . "</a>";
@@ -2329,7 +2334,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   string  $shippingName  Shipping name
 	 *
-	 * @return  object
+	 * @return  object|mixed
 	 *
 	 * @since   2.0.3
 	 */
@@ -2809,7 +2814,7 @@ class RedshopHelperOrder
 	 * @param   integer  $orderId  Order ID
 	 * @param   array    $post     Post array
 	 *
-	 * @return  boolean/mixed
+	 * @return  boolean|mixed
 	 *
 	 * @since   2.0.3
 	 */

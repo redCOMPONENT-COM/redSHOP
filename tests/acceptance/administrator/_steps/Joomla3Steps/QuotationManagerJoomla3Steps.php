@@ -29,23 +29,32 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(QuotationManagerPage::$URL);
-		$I->click(QuotationManagerPage::$buttonNew);
-		$I->click(QuotationManagerPage::$userId);
-		$I->waitForElement(QuotationManagerPage::$userSearch, 30);
 		$userQuotationPage = new QuotationManagerPage();
-		$I->fillField(QuotationManagerPage::$userSearch, $nameUser);
 		$I->amOnPage(\QuotationManagerPage::$URL);
 		$I->click(\QuotationManagerPage::$buttonNew);
+		$I->waitForElementVisible(QuotationManagerPage::$userId, 30);
 		$I->click(\QuotationManagerPage::$userId);
-		$I->waitForElement(\QuotationManagerPage::$userSearch, 30);
+		$I->waitForElementVisible(\QuotationManagerPage::$userSearch, 30);
 		$I->fillField(\QuotationManagerPage::$userSearch, $nameUser);
-		$I->waitForElement($userQuotationPage->xPathSearch($nameUser), 30);
+		$I->waitForElementVisible($userQuotationPage->xPathSearch($nameUser), 30);
 		$I->click($userQuotationPage->xPathSearch($nameUser));
 		$I->scrollTo(QuotationManagerPage::$newProductLink);
+		$I->waitForElementVisible(QuotationManagerPage::$productId, 30);
 		$I->click(QuotationManagerPage::$productId);
-		$I->waitForElement(QuotationManagerPage::$productsSearch, 30);
+		$I->wait(0.5);
+
+		try
+		{
+			$I->waitForElementVisible(QuotationManagerPage::$productsSearch, 30);
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(QuotationManagerPage::$productId, 30);
+			$I->click(QuotationManagerPage::$productId);
+			$I->waitForElementVisible(QuotationManagerPage::$productsSearch, 30);
+		}
+
 		$I->fillField(QuotationManagerPage::$productsSearch, $nameProduct);
-		$I->waitForElement($userQuotationPage->xPathSearch($nameProduct), 60);
+		$I->waitForElementVisible($userQuotationPage->xPathSearch($nameProduct), 60);
 		$I->click($userQuotationPage->xPathSearch($nameProduct));
 		$I->fillField(QuotationManagerPage::$quanlityFirst, $quantity);
 		$I->click(QuotationManagerPage::$buttonSave);
