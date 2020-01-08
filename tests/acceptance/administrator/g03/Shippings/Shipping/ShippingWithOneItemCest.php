@@ -1,0 +1,155 @@
+<?php
+/**
+ * @package     RedShop
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+use AcceptanceTester\AdminManagerJoomla3Steps;
+use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\OrderManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\ShippingSteps;
+use AcceptanceTester\UserManagerJoomla3Steps;
+use Configuration\ConfigurationSteps;
+/**
+ * Class ShippingWithOneItemCest
+ * @since 2.1.5
+ */
+class ShippingWithOneItemCest
+{
+
+    /**
+     * ShippingWithOneItemCest constructor.
+     * @since 2.1.5
+     */
+    public function __construct()
+    {
+        $this->faker        = Faker\Factory::create();
+        $this->categoryName = $this->faker->bothify("Category Demo ?##?");
+
+        $this->product = array(
+            "name"          => $this->faker->bothify("Product Demo ?##?"),
+            "number"        => $this->faker->numberBetween(999,9999),
+            "price"         => $this->faker->numberBetween(1,990)
+        );
+
+        $this->customerInformation = array(
+            "userName"     => $this->faker->userName,
+            "email"        => $this->faker->email,
+            "firstName"    => $this->faker->firstName,
+            "lastName"     => $this->faker->lastName,
+            "address"      => $this->faker->address,
+            "postalCode"   => "700000",
+            "city"         => "HCM",
+            "country"      => "Denmark",
+            "state"        => "Karnataka",
+            "phone"        => "0909909999",
+            "shopperGroup" => 'Default Private',
+            'group'        => 'Registered'
+        );
+
+        $this->cartSetting = array(
+            "addCart"          => 'product',
+            "allowPreOrder"    => 'yes',
+            "cartTimeOut"      => $this->faker->numberBetween(100, 10000),
+            "enabledAjax"      => 'no',
+            "defaultCart"      => null,
+            "buttonCartLead"   => 'Back to current view',
+            "onePage"          => 'yes',
+            "showShippingCart" => 'no',
+            "attributeImage"   => 'no',
+            "quantityChange"   => 'no',
+            "quantityInCart"   => 0,
+            "minimumOrder"     => 0,
+            "enableQuotation"  => 'no'
+        );
+
+        $this->shippingMethod = 'redSHOP - Standard Shipping';
+
+        // Shipping info
+        $this->shipping = array(
+            'shippingName' => 'Shipping Default for Viet Nam',
+            'shippingRate' => 10,
+            'country' => 'Canada'
+        );
+
+        $this->paymentMethod = 'RedSHOP - Bank Transfer Payment';
+        $this->function      = 'saveclose';
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @throws Exception
+     * @since 2.1.5
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
+
+    /**
+     * @param AcceptanceTester $I
+     * @param $scenario
+     * @throws Exception
+     * @since 2.1.5
+     */
+    public function checkoutWithShipping(AcceptanceTester $I, $scenario)
+    {
+//        $I->comment('Setting one page checkout');
+//        $I = new ConfigurationSteps($scenario);
+//        $I->cartSetting($this->cartSetting);
+
+        $I->comment('Create Category');
+        $I = new CategoryManagerJoomla3Steps($scenario);
+        $I->addCategorySave($this->categoryName);
+
+        $I->comment("Create Product");
+        $I = new ProductManagerJoomla3Steps($scenario);
+        $I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
+
+        $I = new ShippingSteps($scenario);
+        $I->comment('Check create new Shipping rate');
+        $I->createShippingRateStandard($this->shippingMethod, $this->shipping, $this->function);
+
+        $I->comment("Checkout Shipping when has 1 item shipping in checkout final page");
+        $I = new ShippingWithOneItemSteps($scenario);
+        $I->ChekoutWithOneItemShippingSteps($this->categoryName, $this->product, $this->customerInformation, $this->shipping, $this->shippingMethod);
+
+        $I->comment('Check Order when has exist 1 Shipping item');
+        $I = new ConfigurationSteps($scenario);
+        $I->checkShippingTotal($this->shipping["shippingName"], $this->product["name"], $this->customerInformation, $this->categoryName, $this->paymentMethod, $this->shippingMethod);
+
+//        $I->comment('Checkout with the has exist 1 Shipping item on Shipping method');
+//        $I = new
+    }
+
+    /**
+     * @param ProductManagerJoomla3Steps $I
+     * @param $scenario
+     * @throws Exception
+     * @since 2.1.5
+     */
+    public function clearAll(ProductManagerJoomla3Steps $I, $scenario)
+    {
+        $I->wantToTest('Delete Product');
+        $I->deleteProduct($this->product['name']);
+
+        $I->wantToTest('Delete Category');
+        $I = new CategoryManagerJoomla3Steps($scenario);
+        $I->deleteCategory($this->categoryName);
+
+        $I->wantToTest('Delete User');
+        $I = new UserManagerJoomla3Steps($scenario);
+        $I->deleteUser($this->customerInformation['firstName']);
+
+        $I->wantToTest('Delete Shipping Rate');
+        $I = new ShippingSteps($scenario);
+        $I->deleteShippingRate($this->shipping["shippingName"], $this->shipping['shippingRate']);
+
+        $I->wantToTest('Delete Order');
+        $I = new OrderManagerJoomla3Steps($scenario);
+        $I->deleteOrder($this->customerInformation['firstName']);
+    }
+}
