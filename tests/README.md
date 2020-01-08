@@ -27,12 +27,12 @@ Clone the repository using
 ```git clone  git@github.com:redCOMPONENT-COM/redSHOP.git```  
 
 ### Step 2:
-
+Moving to the main working directory by running this command
 ```cd redSHOP```
 
 ### Step 3:
 
-Setup new site Joomla with the latest version of redSHOP  created previously.
+Setup new site Joomla with the latest version of redSHOP created previously.
 
 Copy file "acceptance.suite.yml.dist" to "acceptance.suite.yml" and change config: "url" to " http://localhost/path/to/your/project/".
 
