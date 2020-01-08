@@ -386,6 +386,8 @@ class RedshopViewCategory extends RedshopView
 			);
 		}
 
+		$categories = new RedshopEntitiesCollection;
+
 		if ($model->getState('include_sub_categories_products', false))
 		{
 			$categories = RedshopEntityCategory::getInstance($this->catid)->getChildCategories();
