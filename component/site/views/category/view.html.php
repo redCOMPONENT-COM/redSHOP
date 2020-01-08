@@ -399,23 +399,26 @@ class RedshopViewCategory extends RedshopView
 				)
 			);
 
-			foreach ($categories as $category)
+			if (!empty($categories))
 			{
-				array_push($categoryList, $category->getItem());
+				foreach ($categories as $category)
+				{
+					array_push($categoryList, $category->getItem());
+				}
 			}
 
 			if (count($categoryList) > 1)
 			{
-			$lists['categories'] = JHtml::_(
-				'select.genericlist',
-				$categoryList,
-				'category_id',
-				'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
-				'id',
-				'name',
-					$this->category_id
-			);
-		}
+				$lists['categories'] = JHtml::_(
+					'select.genericlist',
+					$categoryList,
+					'category_id',
+					'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
+					'id',
+					'name',
+						$this->category_id
+				);
+			}
 		}
 
 		if (count($allCategoryTemplate) > 1)
@@ -475,6 +478,18 @@ class RedshopViewCategory extends RedshopView
 					$loadCategorytemplate[0]->template_desc = str_replace("{product_price_slider}", "", $loadCategorytemplate[0]->template_desc);
 					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", "", $loadCategorytemplate[0]->template_desc);
 				}
+			}
+		}
+
+		if ((!count($product) && !$model->getState('include_sub_categories_products', false)) ||
+			($model->getState('include_sub_categories_products', false) && !$categories->count()))
+		{
+			$loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
+			$loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
+			if (!$manufacturerId)
+			{
+				$loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
+				$loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
 			}
 		}
 
