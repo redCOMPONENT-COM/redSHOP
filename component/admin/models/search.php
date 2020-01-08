@@ -257,16 +257,17 @@ class RedshopModelSearch extends RedshopModel
 				array(
 					$db->qn('u.id'),
 					'CONCAT (' . $db->qn('uf.firstname') . ', ' . $db->quote(' ') . ', ' . $db->qn('uf.lastname') . ', ' . $db->quote(' (')
-					. ', ' . $db->qn('u.username') . ', ' . $db->quote(')') . ') AS text',
-					$db->qn('u.email', $emailLabel)
+					. ', ' . $db->qn('u.username') . ', ' . $db->quote(')') . ',' . $db->quote(' - ') . ',' . $db->qn('uf.phone') . ') AS text',
+					$db->qn('u.email', $emailLabel),
+					$db->qn('uf.phone', 'phone')
 				)
 			)
 				->from($db->qn('#__users', 'u'))
 				->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON uf.user_id = u.id')
 				->where('(' . $db->qn('u.username') . $search
 					. ' OR ' . $db->qn('uf.firstname') . $search
-					. ' OR ' . $db->qn('uf.lastname') . $search . ')'
-				)
+					. ' OR ' . $db->qn('uf.lastname') . $search
+					. ' OR ' . $db->qn('uf.phone') . $search . ')')
 				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'));
 		}
 		elseif ($jInput->getInt('plgcustomview', 0) == 1)
