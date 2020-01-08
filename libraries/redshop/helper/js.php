@@ -89,6 +89,7 @@ class RedshopHelperJs
 			'ZERO_PRICE_REPLACE_URL'            => $config->get('ZERO_PRICE_REPLACE_URL'),
 			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE'),
 			'REQUIRED_POSTAL_CODE'              => $config->get('REQUIRED_POSTAL_CODE'),
+			'REQUIRED_ADDRESS'                  => $config->get('REQUIRED_ADDRESS'),
 			'REQUIRED_EAN_NUMBER'               => $config->get('REQUIRED_EAN_NUMBER'),
 			'REQUIRED_COUNTRY_CODE'             => $config->get('REQUIRED_COUNTRY_CODE'),
 			'REQUIRED_PHONE'                    => $config->get('REQUIRED_PHONE')
