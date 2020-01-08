@@ -34,11 +34,11 @@ Clone the repository using
 
 Setup new site Joomla with the latest version of redSHOP  created previously.
 
-Copy file "acceptance.suite.yml.dist" to "acceptance.suite.yml" and change config: "url" to "http://localhost/address-your-local-file-exist/".
+Copy file "acceptance.suite.yml.dist" to "acceptance.suite.yml" and change config: "url" to " http://localhost/path/to/your/project/".
 
 Command lines 28 to 32 of "acceptance.suite.yml". 
 
-NOTE: Make sure username/password are correct. and site http://localhost/address-your-local-file-exist/ already exist.
+NOTE: Make sure username/password are correct. and site  http://localhost/path/to/your/project/ already exist.
 
 ### Step 4:
 
