@@ -27,6 +27,7 @@ Clone the repository using
 ```git clone  git@github.com:redCOMPONENT-COM/redSHOP.git```  
 
 ### Step 2:
+
 Moving to the main working directory by running this command
 ```cd redSHOP```
 
