@@ -42,11 +42,16 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->pressKey(\CheckoutChangeQuantityProductPage::$quantityField, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
 		$quantities = 10;
 		$quantity = str_split($quantities);
-		foreach ($quantity as $char) {
+
+		foreach ($quantity as $char)
+		{
 			$I->pressKey(\CheckoutChangeQuantityProductPage::$quantityField, $char);
 		}
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$updateCartButton, 30);
+
+		$I->waitForElementVisible(\CheckoutChangeQuantityProductPage::$updateCartButton, 30);
 		$I->click(\CheckoutChangeQuantityProductPage::$updateCartButton);
+		$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceTotal);
+		$I->waitForElementVisible(\CheckoutChangeQuantityProductPage::$checkoutButton, 30);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutButton);
 		$I->waitForElement(\CheckoutChangeQuantityProductPage::$bankTransfer, 30);
 		$I->executeJS("jQuery('#rs_payment_banktransfer0').click()");
@@ -80,6 +85,7 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		$I->click(\FrontEndProductManagerJoomla3Page::$buttonSave);
 		$I->waitForText(\FrontEndProductManagerJoomla3Page::$headBilling, 30, null);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
+		$I->waitForText($total, 30, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->see($total, \FrontEndProductManagerJoomla3Page::$priceTotal);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 60);

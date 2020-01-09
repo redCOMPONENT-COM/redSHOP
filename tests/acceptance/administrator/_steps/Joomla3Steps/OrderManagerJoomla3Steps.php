@@ -335,6 +335,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see($nameUser);
 
 		$I->waitForElementVisible(OrderManagerPage::$applyUser, 30);
+		$I->wait(0.5);
 		$I->click(OrderManagerPage::$applyUser);
 
 		try
