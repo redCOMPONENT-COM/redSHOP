@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -33,10 +33,6 @@ class ShippingWithOneItemSteps extends CheckoutWithEWAYPayment
 		$I->addToCart($categoryName, $product['name']);
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
-//        $I->waitForElementVisible(['link' => $product['name']], 30);
-//        $I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantity1, 30);
-//        $quantity = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
-
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->fillInformationPrivate($customerInformation);
