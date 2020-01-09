@@ -42,6 +42,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		try
 		{
 			$I->click(StripePaymentPage::$paymentStripe);
+			$I->wait(0.5);
 			$I->seeCheckboxIsChecked(StripePaymentPage::$paymentStripe);
 		}catch (\Exception $e)
 		{
