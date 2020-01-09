@@ -14,8 +14,9 @@ Download ChromeDriver: https://chromedriver.chromium.org/downloads
 
 Download Selenium: https://selenium.dev/downloads/.
 
-Put them in a single folder, unzip folder ChromeDriver and run
-```java -Xmx256m -jar selenium-server-standalone-3.141.59.jar```
+Put them in a single folder, unzip folder ChromeDriver and run:  
+```java -Xmx256m -jar selenium-server-standalone-3.141.59.jar```  
+(java must be pre-installed in your OS to run above command)
 
 change 3.141.59.jar to version selenium has been download
 
@@ -28,7 +29,7 @@ Clone the repository using
 
 ### Step 2:
 
-Moving to the main working directory by running this command
+Moving to the main working directory
 ```cd redSHOP```
 
 ### Step 3:
@@ -37,19 +38,17 @@ Setup new site Joomla with the latest version of redSHOP created previously.
 
 Copy file "acceptance.suite.yml.dist" to "acceptance.suite.yml" and change config: "url" to " http://localhost/path/to/your/project/".
 
-Command lines 28 to 32 of "acceptance.suite.yml". 
-
-NOTE: Make sure username/password are correct. and site  http://localhost/path/to/your/project/ already exist.
+NOTE: Make sure admin & database user information & local site path are correctly changed to your own ones.
 
 ### Step 4:
 
-After change config, you need to run ```composer install```
-After that run ```vendor/bin/codecept build```
+After changing config, you need to run ```composer install```
+Later on run ```vendor/bin/codecept build```
 
 ### Step 5. 
 
-Command for run automation:
+Command for running automation:
 
-```vendor\bin\codecept run acceptance --debug tests\acceptance\administrator\g16\Products\ProductManagement\ProductsCest.php```
+```vendor/bin/codecept run acceptance --debug tests/acceptance/administrator/g16/Products/ProductManagement/ProductsCest.php```
 
-Change ‘tests\acceptance\administrator\g16\Products\ProductManagement\ProductsCest.php’ to folder or Cest you want run automation.
+Change "tests/acceptance/administrator/g16/Products/ProductManagement/ProductsCest.php" to folder or a Cest you want run automation.
