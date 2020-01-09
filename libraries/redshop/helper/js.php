@@ -87,7 +87,12 @@ class RedshopHelperJs
 			'AJAX_BOX_HEIGHT'                   => $config->get('AJAX_BOX_HEIGHT'),
 			'PRICE_REPLACE_URL'                 => $config->get('PRICE_REPLACE_URL'),
 			'ZERO_PRICE_REPLACE_URL'            => $config->get('ZERO_PRICE_REPLACE_URL'),
-			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE')
+			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE'),
+			'REQUIRED_POSTAL_CODE'              => $config->get('REQUIRED_POSTAL_CODE'),
+			'REQUIRED_ADDRESS'                  => $config->get('REQUIRED_ADDRESS'),
+			'REQUIRED_EAN_NUMBER'               => $config->get('REQUIRED_EAN_NUMBER'),
+			'REQUIRED_COUNTRY_CODE'             => $config->get('REQUIRED_COUNTRY_CODE'),
+			'REQUIRED_PHONE'                    => $config->get('REQUIRED_PHONE')
 		);
 
 		// Current Shopper Group - Show price with VAT config
