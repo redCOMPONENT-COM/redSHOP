@@ -1275,8 +1275,20 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 		}
 
-		// Remove fields_data relation
-		$query = 'DELETE FROM ' . $this->table_prefix . 'fields_data  WHERE itemid IN ( ' . $productIds . ' ) ';
+        $fieldModel = RedshopModel::getInstance('fields', 'RedshopModel');
+
+        $section = explode(',', '1,12,17');
+        $fields  = $fieldModel->getFieldsBySection($section);
+
+        $productFields = array();
+
+        foreach ($fields as $field)
+        {
+            $productFields[] = $field->id;
+        }
+
+        // Remove fields_data relation
+        $query = 'DELETE FROM ' . $this->table_prefix . 'fields_data  WHERE itemid IN ( ' . $productIds . ' ) AND fieldid IN ( ' . implode(',', $productFields) . ' )';
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->execute())
