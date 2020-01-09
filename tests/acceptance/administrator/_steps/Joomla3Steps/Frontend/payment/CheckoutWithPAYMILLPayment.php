@@ -41,7 +41,9 @@ class CheckoutWithPAYMILLPayment extends CheckoutWithAuthorizeDPMPayment
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
 		$I->waitForText($payment, 30);
-		$I->selectOption(FrontEndProductManagerJoomla3Page::$radioPayment, $payment);
+		$I->waitForElementVisible(PAYMILLPaymentPage::$paymentPaymill, 30);
+		$I->wait(0.5);
+		$I->click(PAYMILLPaymentPage::$paymentPaymill);
 
 		try
 		{
