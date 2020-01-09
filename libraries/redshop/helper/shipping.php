@@ -1597,10 +1597,8 @@ class RedshopHelperShipping
 		$allowCompany  = $isCompany != 1 ? 'style="display:none;"' : '';
 
 		$requiredPostalCode  =  Redshop::getConfig()->get('REQUIRED_POSTAL_CODE') == 1 ? 'billingRequired' : '';
-		$requiredEanNumber   =  Redshop::getConfig()->get('REQUIRED_EAN_NUMBER') == 1 ? 'billingRequired' : '';
 		$requiredAddress     =  Redshop::getConfig()->get('REQUIRED_ADDRESS') == 1 ? 'billingRequired' : '';
 		$requiredPhone       =  Redshop::getConfig()->get('REQUIRED_PHONE') == 1 ? 'billingRequired' : '';
-		$requiredCountryCode =  Redshop::getConfig()->get('REQUIRED_COUNTRY_CODE') == 1 ? 'billingRequired' : '';
 
 		$readOnly  = "";
 		$countries = RedshopHelperWorld::getCountryList($post, 'country_code_ST', 'ST', 'inputbox form-control billingRequired valid', 'state_code_ST');
