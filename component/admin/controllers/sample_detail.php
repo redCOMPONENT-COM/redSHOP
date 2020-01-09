@@ -21,23 +21,29 @@ class RedshopControllerSample_detail extends RedshopController
 	public function edit()
 	{
 		$this->input->set('view', 'sample_detail');
-		$this->input->set('hidemainmenu', 1);
 		parent::display();
 	}
 
-	public function save()
+	public function apply()
+	{
+		$this->save(1);
+	}
+
+	public function save2new()
+	{
+		$this->save(2);
+	}
+
+	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		$post ['sample_id'] = $cid [0];
-		$link               = 'index.php?option=com_redshop&view=sample';
-
 		/** @var RedshopModelSample_detail $model */
 		$model = $this->getModel('sample_detail');
+		
+		$row = $model->store($post);
 
-		if ($model->store($post))
+		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_SAVED');
 		}
@@ -46,7 +52,18 @@ class RedshopControllerSample_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SAMPLE_DETAIL');
 		}
 
-		$this->setRedirect($link, $msg);
+		if ($apply == 1)
+		{
+		    $this->setRedirect('index.php?option=com_redshop&view=sample_detail&task=edit&cid[]=' . $row->sample_id, $msg);
+		}
+		elseif ($apply == 2)
+		{
+		    $this->setRedirect('index.php?option=com_redshop&view=sample_detail&task=add', $msg);
+		}
+		else
+		{
+		    $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
+		}
 	}
 
 	public function remove()

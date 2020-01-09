@@ -32,9 +32,12 @@ $post['state_code_ST']   = $post['state_code'];
 ?>
 <script type="text/javascript">
 	<?php if ($isEdit == 1) : ?>
+		window.parent.SqueezeBox.options.closeBtn = false;
+		window.parent.SqueezeBox.options.closable = false;
+
 		setTimeout(function(){
 			window.parent.location.href = '<?php echo JRoute::_("index.php?option=com_redshop&view=" . $return . "&Itemid" . $itemId); ?>';
-		}, 3000);
+		}, 2000);
 
 	<?php endif; ?>
 	function cancelForm(frm) {
@@ -96,9 +99,11 @@ $post['state_code_ST']   = $post['state_code'];
 				<tr>
 					<td align="right"><input type="button" class="button btn" name="back"
 					                         value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
+					                         <?php if($isEdit == 1) echo ' disabled '; ?>
 					                         onclick="javascript:cancelForm(this.form);"></td>
 					<td align="left"><input type="submit" class="button btn btn-primary" name="submitbtn"
 					                        onclick="javascript:validateInfo(this.form);"
+					                        <?php if($isEdit == 1) echo ' disabled '; ?>
 					                        value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>"></td>
 				</tr>
 			</table>

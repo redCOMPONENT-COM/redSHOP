@@ -56,7 +56,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		{
 			if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0)
 			{
-				$link = JRoute::_('index.php?option=com_redshop&view=login&wishlist=1');
+				$link = JRoute::_('index.php?option=com_redshop&view=login&wishlist=1&product_id=' . $productId);
 			}
 		}
 
