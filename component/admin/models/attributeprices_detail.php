@@ -143,7 +143,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 		if (!$row->check())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError($row->getError());
 
 			return false;
 		}
