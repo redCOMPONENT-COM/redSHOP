@@ -241,6 +241,7 @@ class RedshopHelperCartTag
 		$input  = JFactory::getApplication()->input;
 		$itemId = RedshopHelperRouter::getCheckoutItemId();
 		$view   = $input->getCmd('view');
+		$token = JSession::getFormToken();
 
 		if ($itemId == 0)
 		{
@@ -786,13 +787,15 @@ class RedshopHelperCartTag
 				}
 				else
 				{
-					$updateCart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >'
+					$updateCart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" '
+						. 'action="index.php?option=com_redshop&view=cart&'. $token .'=1"> '
 						. '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" '
 						. 'id="quantitybox' . $i . '" size="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '"'
 						. ' maxlength="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" onchange="validateInputNumber(this.id);">'
 						. '<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '" />'
 						. '<input type="hidden" name="cart_index" value="' . $i . '" />'
 						. '<input type="hidden" name="Itemid" value="' . $itemId . '" />'
+						. '<input type="hidden" name="'. $token .'" value="1" />'
 						. '<input type="hidden" name="task" value="" />';
 
 					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
@@ -819,7 +822,7 @@ class RedshopHelperCartTag
 					. ' value="' . $quantity . '" /><input type="button" id="minus" value="-"'
 					. ' onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">';
 
-				$updateCartMinusPlus .= '<input type="button" value="+"
+				$updateCartMinusPlus .= '<input type="button" id="plus" value="+"
 						onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
 						<input type="hidden" name="cart_index" value="' . $i . '">
 						<input type="hidden" name="Itemid" value="' . $itemId . '">
