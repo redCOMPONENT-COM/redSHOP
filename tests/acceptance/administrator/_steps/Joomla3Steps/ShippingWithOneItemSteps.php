@@ -60,12 +60,14 @@ class ShippingWithOneItemSteps extends CheckoutWithEWAYPayment
 		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 
 		$total = $product['price'] + $shipping['shippingRate'];
-		$priceTotal = $currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
-		$priceRate = $currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceTotal = $currencyUnit['currencySymbol'].($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
+		$priceRate = $currencyUnit['currencySymbol'].($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
 
 		$I->waitForText($shippingMethod, 30);
 		$I->see($shippingMethod);
+		$I->waitForText($priceRate, 30);
 		$I->see($priceRate);
+		$I->waitForText($priceTotal, 30);
 		$I->see($priceTotal);
 	}
 
@@ -83,9 +85,11 @@ class ShippingWithOneItemSteps extends CheckoutWithEWAYPayment
 		$I->filterListBySearchOrder($customerInformation['firstName']);
 		$I->click(OrderManagerPage::$orderID);
 		$I->scrollTo(OrderManagerPage::$shippingInfor);
+		$I->waitForText($shippingMethod, 30);
 		$I->see($shippingMethod);
 		$I->see($shipping['shippingRate']);
 		$I->waitForElement(OrderManagerPage::$close, 30);
 		$I->waitForText(OrderManagerPage::$buttonClose, 10, OrderManagerPage::$close);
+		$I->click(OrderManagerPage::$close);
 	}
 }

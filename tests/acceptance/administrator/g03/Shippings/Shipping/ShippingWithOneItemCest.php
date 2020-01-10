@@ -19,7 +19,6 @@ use Configuration\ConfigurationSteps;
  */
 class ShippingWithOneItemCest
 {
-
 	/**
 	 * @var \Faker\Generator
 	 * @since 2.1.5
