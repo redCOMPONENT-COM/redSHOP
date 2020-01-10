@@ -27,6 +27,8 @@ class RedshopViewCategory extends RedshopView
 
 	public $productPriceSliderEnable = false;
 
+	public $category_id;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -52,6 +54,7 @@ class RedshopViewCategory extends RedshopView
 		$layout       = $this->input->getString('layout', '');
 		$this->print  = $this->input->getBool('print', false);
 
+		/** @scrutinizer ignore-call */
 		$params = $this->app->getParams('com_redshop');
 		/** @var RedshopModelCategory $model */
 		$model       = $this->getModel('category');
@@ -383,6 +386,43 @@ class RedshopViewCategory extends RedshopView
 			);
 		}
 
+		$categories = new RedshopEntitiesCollection;
+
+		if ($model->getState('include_sub_categories_products', false))
+		{
+			$categories = RedshopEntityCategory::getInstance($this->catid)->getChildCategories();
+			$lists['categories'] = '';
+			$this->category_id   = $model->getState('category_id');
+
+			$categoryList = array(
+				(object) array(
+					'id'   => 0,
+					'name' => JText::_('COM_REDSHOP_SELECT_CATEGORY')
+				)
+			);
+
+			if (!empty($categories))
+			{
+				foreach ($categories as $category)
+				{
+					array_push($categoryList, $category->getItem());
+				}
+			}
+
+			if (count($categoryList) > 1)
+			{
+				$lists['categories'] = JHtml::_(
+					'select.genericlist',
+					$categoryList,
+					'category_id',
+					'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
+					'id',
+					'name',
+						$this->category_id
+				);
+			}
+		}
+
 		if (count($allCategoryTemplate) > 1)
 		{
 			$lists['category_template'] = JHtml::_(
@@ -441,17 +481,17 @@ class RedshopViewCategory extends RedshopView
 					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", "", $loadCategorytemplate[0]->template_desc);
 				}
 			}
+		}
 
-			if (!count($product))
+		if ((!count($product) && !$model->getState('include_sub_categories_products', false)) ||
+			($model->getState('include_sub_categories_products', false) && !$categories->count()))
+		{
+			$loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
+			$loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
+			if (!$manufacturerId)
 			{
-				$loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
-				$loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
-
-				if (!$manufacturerId)
-				{
-					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
-					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
-				}
+				$loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
+				$loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
 			}
 		}
 
