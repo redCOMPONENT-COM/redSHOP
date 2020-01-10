@@ -168,8 +168,8 @@ class ShippingWithOneItemCest
 		$I->ChekoutWithOneItemShippingSteps($this->categoryName, $this->product, $this->customerInformation, $this->shipping, $this->shippingMethod);
 
 		$I->comment('Check Order detail in backend');
-		$I = new ShippingWithOneItemSteps($scenario);
-		$I->checkOrderShipping($this->customerInformation, $this->shippingMethod, $this->shipping);
+		$I = new ConfigurationSteps($scenario);
+		$I->checkShippingTotal($this->shipping, $this->product, $this->customerInformation, $this->categoryName, $this->paymentMethod, $this->shippingMethod);
 	}
 
 	/**

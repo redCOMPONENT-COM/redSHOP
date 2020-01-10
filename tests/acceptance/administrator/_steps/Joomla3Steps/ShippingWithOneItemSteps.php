@@ -70,26 +70,4 @@ class ShippingWithOneItemSteps extends CheckoutWithEWAYPayment
 		$I->waitForText($priceTotal, 30);
 		$I->see($priceTotal);
 	}
-
-	/**
-	 * @param $customerInformation
-	 * @param $shippingMethod
-	 * @param $shipping
-	 * @throws Exception
-	 * @since 2.1.5
-	 */
-	public function checkOrderShipping($customerInformation, $shippingMethod, $shipping)
-	{
-		$I = $this;
-		$I->amOnPage(OrderManagerPage::$URL);
-		$I->filterListBySearchOrder($customerInformation['firstName']);
-		$I->click(OrderManagerPage::$orderID);
-		$I->scrollTo(OrderManagerPage::$shippingInfor);
-		$I->waitForText($shippingMethod, 30);
-		$I->see($shippingMethod);
-		$I->see($shipping['shippingRate']);
-		$I->waitForElement(OrderManagerPage::$close, 30);
-		$I->waitForText(OrderManagerPage::$buttonClose, 10, OrderManagerPage::$close);
-		$I->click(OrderManagerPage::$close);
-	}
 }
