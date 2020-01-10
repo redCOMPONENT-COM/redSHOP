@@ -39,17 +39,18 @@ class CheckoutWithEANTransferPayment extends CheckoutMissingData
 		$I->wait(1);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$labelPayment, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$labelPayment);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$eanPayment, 30);
-		$I->wait(0.5);
-		$I->click(FrontEndProductManagerJoomla3Page::$eanPayment);
 
 		try
 		{
+			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$eanPayment, 30);
+			$I->wait(0.5);
+			$I->click(FrontEndProductManagerJoomla3Page::$eanPayment);
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$eanPayment);
 		}
 		catch (\Exception $e)
 		{
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$eanPayment, 30);
+			$I->wait(1);
 			$I->click(FrontEndProductManagerJoomla3Page::$eanPayment);
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$eanPayment);
 		}
