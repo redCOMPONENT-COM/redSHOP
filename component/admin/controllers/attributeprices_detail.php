@@ -82,7 +82,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(null, true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" ./** @scrutinizer ignore-deprecated */ $model->/** @scrutinizer ignore-call */ getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
