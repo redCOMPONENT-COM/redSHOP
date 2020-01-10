@@ -13,13 +13,18 @@ $redhelper     = redhelper::getInstance();
 $userhelper    = rsUserHelper::getInstance();
 $filter        = JFactory::getApplication()->input->get('filter');
 $model         = $this->getModel('user');
+
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
+	Joomla.submitbutton = function (pressbutton)
+    {
 		var form = document.adminForm;
-		if (pressbutton) {
+
+		if (pressbutton)
+		{
 			form.task.value = pressbutton;
 		}
+
 		if (pressbutton == 'add')
 		{
 			<?php
@@ -27,33 +32,71 @@ $model         = $this->getModel('user');
 			?>
 
 			window.location = '<?php echo $link;?>';
+
 			return;
 		}
-		else if (
-			pressbutton == 'edit' || pressbutton == 'publish' || pressbutton == 'unpublish' || pressbutton == 'remove' || pressbutton == 'copy'
-		) {
-			if (pressbutton == 'remove' && confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'); ?>"))
-			{
-				form.delete_joomla_users.value = true;
-			}
+		else if (pressbutton == 'edit' || pressbutton == 'publish' || pressbutton == 'unpublish' || pressbutton == 'remove' || pressbutton == 'copy')
+		{
+            if (pressbutton == 'remove')
+            {
+                form.view.value = "user_detail";
 
-			form.view.value = "user_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-		form.submit();
-	}
+                var deleteUserPopup = $("#deleteUserPopup");
 
-	resetfilter = function()
-	{
-		document.getElementById('filter').value = '';
-		document.getElementById('tax_exempt_request_filter').value = 'select';
-		document.getElementById('spgrp_filter').value = '0';
-		document.adminForm.submit();
-	}
+                deleteUserPopup.find(".redshop,.joomla,.cancel").unbind().click(function ()
+                {
+                    deleteUserPopup.hide();
+                });
+
+                deleteUserPopup.find(".redshop").click(function()
+                {
+                    submitForm(form);
+                });
+
+                deleteUserPopup.find(".joomla").click(function()
+                {
+                    form.delete_joomla_users.value = true;
+
+                    submitForm(form);
+                });
+
+                deleteUserPopup.find(".cancel").click(function()
+                {
+                    return;
+                });
+
+                deleteUserPopup.modal();
+                deleteUserPopup.show();
+            }
+
+            return;
+        }
+
+        submitForm(form);
+    }
+
+    submitForm = function(form)
+    {
+        try
+        {
+            form.onsubmit();
+        }
+        catch (e)
+        {
+
+        }
+
+        form.submit();
+    }
+
+    resetfilter = function()
+    {
+        document.getElementById('filter').value = '';
+        document.getElementById('tax_exempt_request_filter').value = 'select';
+        document.getElementById('spgrp_filter').value = '0';
+        document.adminForm.submit();
+    }
+
 </script>
 
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
@@ -169,3 +212,18 @@ $model         = $this->getModel('user');
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists ['order_Dir']; ?>"/>
 	<input type="hidden" name="delete_joomla_users"/>
 </form>
+
+<div id="deleteUserPopup" class="modal fade" role="dialog" hidden>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <?php echo JText::_('COM_REDSHOP_CONFIRM_DELETE_RESPECTIVE_JOOMLA_USERS'); ?>
+            </div>
+            <div class="modal-body">
+                <button class="redshop"><?php echo JText::_('COM_REDSHOP_DELETE_REDSHOP_USERS_ONLY'); ?></button>
+                <button class="joomla"><?php echo JText::_('COM_REDSHOP_DELETE_REDSHOP_AND_JOOMLA_USERS'); ?></button>
+                <button class="cancel" data-dismiss="modal"><?php echo JText::_('COM_REDSHOP_CANCEL_DELETE_USERS'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>

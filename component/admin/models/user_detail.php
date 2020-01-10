@@ -257,62 +257,67 @@ class RedshopModelUser_detail extends RedshopModel
 	{
 		if (count($cid))
 		{
-			$db   = JFactory::getDbo();
-			$cids = implode(',', $cid);
-
-			$queryDefault = $db->getQuery(true)
-				->delete($db->qn('#__redshop_users_info'))
-				->where($db->qn('users_info_id') . ' IN (' . $cids . ' )');
+			$db = JFactory::getDbo();
 
 			if ($deleteJoomlaUsers)
 			{
-				$queryAllUserIds = $db->getQuery(true)
-					->select($db->qn('id'))
-					->from($db->qn('#__users'));
-				$allUserIds      = $db->setQuery($queryAllUserIds)->loadColumn();
-
-				$queryCustom = $db->getQuery(true)
-					->select($db->qn('user_id'))
-					->from($db->qn('#__redshop_users_info'))
-					->where($db->qn('users_info_id') . ' IN (' . $cids . ' )')
-					->where($db->qn('user_id') . ' IN (' . implode(',', $allUserIds) . ' )')
-					->group($db->qn('user_id'));
-
-				$joomlaUserIds = $db->setQuery($queryCustom)->loadColumn();
-
-				foreach ($joomlaUserIds as $joomlaUserId)
+				foreach ($cid as $redShopUserId)
 				{
-					$joomlaUser = JFactory::getUser($joomlaUserId);
+					$queryGetJoomlaUserId = $db->getQuery(true)
+						->select($db->qn('user_id'))
+						->from($db->qn('#__redshop_users_info'))
+						->where($db->qn('users_info_id') . ' = ' . $db->q($redShopUserId));
 
-					// Skip this user whom in Super Administrator group.
-					if ($joomlaUser->authorise('core.admin'))
+					$joomlaUserId = $db->setQuery($queryGetJoomlaUserId)->loadResult();
+					$joomlaUser   = JFactory::getUser($joomlaUserId);
+
+					// If this Joomla user is not a superuser.
+					if (!$joomlaUser->authorise('core.admin'))
 					{
-						continue;
+						if (!$joomlaUser->delete())
+						{
+							/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $joomlaUser->getError());
+
+							return false;
+						}
+						else
+						{
+							$queryDeleteRSUser = $db->getQuery(true)
+								->delete($db->qn('#__redshop_users_info'))
+								->where($db->qn('users_info_id') . ' = ' . $db->q($redShopUserId));
+
+							$db->setQuery($queryDeleteRSUser);
+
+							if (!$db->execute())
+							{
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
+
+								return false;
+							}
+						}
 					}
-
-					$user = JFactory::getUser($joomlaUserId);
-
-					if ($user->guest)
+					else
 					{
-						continue;
-					}
-
-					if (!$user->delete())
-					{
-						/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $user->getError());
+						/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ JText::_('COM_REDSHOP_USER_DETAIL_CANNOT_DELETE_SUPERUSER'));
 
 						return false;
 					}
 				}
 			}
-
-			$db->setQuery($queryDefault);
-
-			if (!$db->execute())
+			else
 			{
-				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
+				$queryDeleteOnlyRSUsers = $db->getQuery(true)
+					->delete($db->qn('#__redshop_users_info'))
+					->where($db->qn('users_info_id') . ' IN (' . implode(',', $cid) . ' )');
 
-				return false;
+				$db->setQuery($queryDeleteOnlyRSUsers);
+
+				if (!$db->execute())
+				{
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
+
+					return false;
+				}
 			}
 		}
 

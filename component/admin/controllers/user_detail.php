@@ -95,6 +95,7 @@ class RedshopControllerUser_detail extends RedshopController
 		$shipping            = $this->input->getString('shipping', '');
 		$cid                 = $this->input->get('cid', array(0), 'array');
 		$delete_joomla_users = $this->input->getBool('delete_joomla_users', false);
+		$messageType         = 'success';
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -106,19 +107,22 @@ class RedshopControllerUser_detail extends RedshopController
 
 		if (!$model->delete($cid, $delete_joomla_users))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			$msg         = $model->getError();
+			$messageType = 'error';
 		}
-
-		$msg = JText::_('COM_REDSHOP_USER_DETAIL_DELETED_SUCCESSFULLY');
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_USER_DETAIL_DELETED_SUCCESSFULLY');
+		}
 
 		if ($shipping)
 		{
 			$info_id = $this->input->getInt('info_id');
-			$this->setRedirect('index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=user_detail&task=edit&cancel=1&cid[]=' . $info_id, $msg, $messageType);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=user', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=user', $msg, $messageType);
 		}
 	}
 
