@@ -1059,7 +1059,27 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING'); ?>:</strong>
 												</td>
 												<td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($this->detail->order_shipping); ?>
+													<form action="index.php?option=com_redshop" method="post"
+														name="update_shipping<?php echo $orderId; ?>" id="update_shipping<?php echo $orderId; ?>">
+														<div class="input-group">
+															<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
+															<input type="number" min="0" name="update_shipping"
+																id="update_shipping" class="form-control"
+																value="<?php echo $productHelper->redpriceDecimal($this->detail->order_shipping); ?>"
+																size="10">
+															<span class="input-group-addon">
+																<a href="#"
+																onclick="javascript:validateShipping('#update_shipping<?php echo $orderId; ?>');">
+																<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>
+																</a>
+															</span>
+														</div>
+														<br/>
+														<?php echo $productHelper->getProductFormattedPrice($this->detail->order_shipping); ?>
+														<input type="hidden" name="task" value="update_shipping">
+														<input type="hidden" name="view" value="order_detail">
+														<input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
+													</form>
 												</td>
 											</tr>
 											<tr align="left">
@@ -1313,6 +1333,17 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
         jQuery(form).submit();
     }
 
+    function validateShipping(form) {
+        var shipping = parseFloat(jQuery('#update_shipping').val());
+
+        if (shipping < 0) {
+            alert('<?php echo JText::_("COM_REDSHOP_ORDER_SHIPPING_NOT_LESS_THAN_ZERO") ?>');
+            return false;
+        }
+
+        jQuery(form).submit();
+    }
+
     function validateInputFloat(e) {
         if ((e.keyCode == 189) || (e.keyCode == 109)) {
             e.preventDefault();
@@ -1337,6 +1368,10 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
         });
 
         jQuery("#special_discount").keydown(function (e) {
+            validateInputFloat(e);
+        });
+
+        jQuery("#update_shipping").keydown(function (e) {
             validateInputFloat(e);
         });
 

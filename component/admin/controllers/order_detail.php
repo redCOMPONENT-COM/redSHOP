@@ -240,6 +240,27 @@ class RedshopControllerOrder_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
+	public function update_shipping()
+	{
+		$post = $this->input->post->getArray();
+
+		$cid = $this->input->post->get('cid', array(0), 'array');
+
+		/** @var RedshopModelOrder_detail $model */
+		$model = $this->getModel('order_detail');
+
+		if ($model->/** @scrutinizer ignore-call */update_shipping($post))
+		{
+			$msg = JText::_('COM_REDSHOP_SHIPPING_UPDATED');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_SHIPPING');
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+	}
+
 	public function special_discount()
 	{
 		$post = $this->input->post->getArray();
