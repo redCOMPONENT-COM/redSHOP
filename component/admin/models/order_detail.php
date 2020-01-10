@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Redshop\Economic\RedshopEconomic;
-
+use Joomla\Registry\Registry;
 
 class RedshopModelOrder_detail extends RedshopModel
 {
@@ -22,6 +22,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public $_copydata = null;
 
+	private $_dispatcher = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,6 +33,10 @@ class RedshopModelOrder_detail extends RedshopModel
 		$array = JFactory::getApplication()->input->get('cid', 0, 'array');
 
 		$this->setId((int) $array[0]);
+
+		JPluginHelper::importPlugin('redshop');
+
+		$this->_dispatcher = RedshopHelperUtility::getDispatcher();
 	}
 
 	public function setId($id)
@@ -663,6 +669,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			return false;
 		}
 
+		$this->_dispatcher->trigger('onAfterAddNewOrderItem', array($orderdata));
+
 		return true;
 	}
 
@@ -702,7 +710,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (!$db->execute())
 		{
-			$this->setError($db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return false;
 		}
@@ -721,7 +729,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			->where($db->qn('order_item_id') . ' = ' . $orderItemId);
 		$db->setQuery($query)->execute();
 
-		$this->special_discount(
+		$this->/** @scrutinizer ignore-call */
+		special_discount(
 			array('order_item_id' => $orderItemId, 'special_discount' => $order->get('special_discount')),
 			true
 		);
@@ -835,6 +844,8 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if ($orderitemdata->store())
 		{
+			$this->_dispatcher->trigger('onAfterUpdateOrderItem', array($orderitemdata));
+
 			if (!$orderdata->store())
 			{
 				return false;
@@ -846,7 +857,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			$tmpArr['special_discount'] = $orderdata->special_discount;
-			$this->special_discount($tmpArr, true);
+			$tmpArr['payment_method_class'] = $data['payment_method_class'];
+			$this->/** @scrutinizer ignore-call */ special_discount($tmpArr, true);
 		}
 		else
 		{
@@ -920,9 +932,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		$subtotal = 0;
 
-		for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+		if ($orderItems)
 		{
-			$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+			for ($i = 0, $in = count($orderItems); $i < $in; $i++)
+			{
+				$subtotal = $subtotal + ($orderItems[$i]->product_item_price * $orderItems[$i]->product_quantity);
+			}
 		}
 
 		$temporder_total = $subtotal + $orderData->order_discount + $orderData->special_discount_amount;
@@ -948,6 +963,24 @@ class RedshopModelOrder_detail extends RedshopModel
 		}
 
 		$orderData->order_total        = $order_total;
+		$post                          = array();
+
+		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($data['payment_method_class']);
+		$paymentmethod                            = $paymentmethod[0];
+		$paymentparams                            = new Registry($paymentmethod->params);
+		$paymentinfo                              = new stdclass;
+		$paymentinfo->payment_price               = $paymentparams->get('payment_price', '');
+		$paymentinfo->is_creditcard               = $post['economic_is_creditcard'] = $paymentparams->get('is_creditcard', '');
+		$paymentinfo->payment_oprand              = $paymentparams->get('payment_oprand', '');
+		$paymentinfo->accepted_credict_card       = $paymentparams->get("accepted_credict_card");
+		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
+
+		$paymentMethod = RedshopHelperPayment::calculate($orderData->order_total, $paymentinfo, $orderData->order_subtotal);
+
+		$orderData->payment_discount = $paymentMethod[1];
+
+		$orderData->order_total = $orderData->order_total - $orderData->payment_discount;
+
 		$orderData->order_tax          = $orderData->order_tax + $orderData->order_discount_vat - $Discountvat;
 		$orderData->order_discount_vat = $Discountvat;
 		$orderData->order_discount     = $update_discount;
@@ -957,6 +990,8 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			return false;
 		}
+
+		$this->_dispatcher->trigger('onAfterUpdateDiscount', array($orderData));
 
 		// Economic Integration start for invoice generate
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
@@ -1067,6 +1102,25 @@ class RedshopModelOrder_detail extends RedshopModel
 		$orderData->special_discount_amount = $discountPrice;
 
 		$orderData->order_total    = $orderSubTotal + $orderData->order_shipping - $discountPrice - $orderData->order_discount;
+		$post                      = array();
+
+		$paymentmethod                            = RedshopHelperOrder::getPaymentMethodInfo($data['payment_method_class']);
+		$paymentmethod                            = $paymentmethod[0];
+		$paymentparams                            = new Registry($paymentmethod->params);
+		$paymentinfo                              = new stdclass;
+		$paymentinfo->payment_price               = $paymentparams->get('payment_price', '');
+		$paymentinfo->is_creditcard               = $post['economic_is_creditcard'] = $paymentparams->get('is_creditcard', '');
+		$paymentinfo->payment_oprand              = $paymentparams->get('payment_oprand', '');
+		$paymentinfo->accepted_credict_card       = $paymentparams->get("accepted_credict_card");
+		$paymentinfo->payment_discount_is_percent = $paymentparams->get('payment_discount_is_percent', '');
+
+
+		$paymentMethod = RedshopHelperPayment::calculate($orderData->order_total, $paymentinfo, $orderData->order_subtotal);
+
+		$orderData->payment_discount = $paymentMethod[1];
+
+		$orderData->order_total = $orderData->order_total - $orderData->payment_discount;
+
 		$orderData->order_subtotal = $orderSubTotal;
 		$orderData->order_tax      = $orderTax;
 		$orderData->mdate          = time();
@@ -1075,6 +1129,8 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			return false;
 		}
+
+		$this->_dispatcher->trigger('onAfterUpdateSpecialDiscount', array($orderData));
 
 		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
 		{
@@ -1124,6 +1180,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 		}
 
+		$this->_dispatcher->trigger('onAfterUpdateShippingRates', array($orderdata));
+
 		return true;
 	}
 
@@ -1146,6 +1204,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
+
+			$this->_dispatcher->trigger('onAfterUpdateShippingAddress', array($data));
 
 			return true;
 		}
@@ -1174,6 +1234,8 @@ class RedshopModelOrder_detail extends RedshopModel
 			}
 
 			RedshopHelperExtrafields::extraFieldSave($data, $fieldSection, $row->users_info_id);
+
+			$this->_dispatcher->trigger('onAfterUpdateBillingAddress', array($data));
 
 			return true;
 		}
@@ -1284,5 +1346,19 @@ class RedshopModelOrder_detail extends RedshopModel
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * @return  void
+	 */
+	public function resetcart()
+	{
+		RedshopHelperCartSession::reset();
+		$session = JFactory::getSession();
+		$session->set('ccdata', null);
+		$session->set('issplit', null);
+		$session->set('userfield', null);
+
+		unset($_SESSION ['ccdata']);
 	}
 }

@@ -109,6 +109,7 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 }
 
 RedshopHelperConfig::script('SITE_URL', JURI::root());
+RedshopHelperConfig::script('AJAX_TOKEN', JSession::getFormToken());
 RedshopHelperConfig::script('REDCURRENCY_SYMBOL', Redshop::getConfig()->get('REDCURRENCY_SYMBOL'));
 RedshopHelperConfig::script('PRICE_SEPERATOR', Redshop::getConfig()->get('PRICE_SEPERATOR'));
 RedshopHelperConfig::script('CURRENCY_SYMBOL_POSITION', Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION'));

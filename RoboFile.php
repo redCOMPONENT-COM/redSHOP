@@ -64,7 +64,7 @@ class RoboFile extends \Robo\Tasks
 			* When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
 			* Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
 			*/
-			$version = '3.9.3';
+			$version = '3.9.14';
 
 			$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 			$this->say("Joomla CMS ($version) site created at tests/joomla-cms");
@@ -75,6 +75,35 @@ class RoboFile extends \Robo\Tasks
 			$this->_copy('tests/joomla-cms/htaccess.txt', 'tests/joomla-cms/.htaccess');
 			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms/,g" --in-place tests/joomla-cms/.htaccess');
 		}
+	}
+
+	/**
+	 * Downloads Paid Extensions for Integration Testing testing
+	 *
+	 * @param   integer  $cleanUp  Clean up the directory when present (or skip the cloning process)
+	 *
+	 * @return  void
+	 * @since   2.1.2
+	 */
+	public function testsPaidExtensionsForIntegrationTests($cleanUp = 1)
+	{
+		// Delete any previous core
+		if (is_dir('tests/extension/paid-extensions'))
+		{
+			if (!$cleanUp)
+			{
+				$this->say('Using cached version of Aesir Core and skipping clone process');
+
+				return;
+			}
+
+			$this->taskDeleteDir('tests/extension/paid-extensions')->run();
+		}
+
+		$version = 'master';
+		$this->_exec("git clone --recursive -b $version --single-branch https://REDWEB_QA_TOKEN:aXpne9NyZmDVt2R5cxjY@gitlab.redweb.dk/redshop-extensions/redshop-paid-extensions tests/extension/paid-extensions");
+
+		$this->say("paid-extensions ($version) cloned at tests/extension/");
 	}
 
 	/**
@@ -123,7 +152,7 @@ class RoboFile extends \Robo\Tasks
 		// Executes the initial set up
 		$this->taskCodecept()
 			->args($args)
-			->arg('tests/acceptance/install')
+			->arg('tests/acceptance/install/core')
 			->run()
 			->stopOnFail();
 	}

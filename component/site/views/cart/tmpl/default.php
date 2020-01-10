@@ -230,22 +230,16 @@ $coupon_lable = '';
 $confirmMsg = '';
 $radiobttn = '';
 
-if (Redshop::getConfig()->get('COUPONS_ENABLE') == 1 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 1)
+if (Redshop::getConfig()->get('COUPONS_ENABLE') == 1)
 {
 	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
+	$discount_form .= '<input type="button" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
-elseif (Redshop::getConfig()->get('COUPONS_ENABLE') == 1 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 0)
-{
-	$discount_form .= '<input class="inputbox" type="text" value="" name="discount_code" id="coupon_input" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button"  class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'coupon\';document.discount_form.submit();" />';
-	$coupon_lableFLG = 1;
-}
-elseif (Redshop::getConfig()->get('COUPONS_ENABLE') == 0 && Redshop::getConfig()->get('VOUCHERS_ENABLE') == 1)
+elseif (Redshop::getConfig()->get('VOUCHERS_ENABLE') == 1)
 {
 	$discount_form .= '<input class="inputbox" id="coupon_input" type="text" value="" name="discount_code" size="5">';
-	$discount_form .= '<input type="submit" id="coupon_button" class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
+	$discount_form .= '<input type="button" id="coupon_button" class="blackbutton btn btn-primary" value="' . JText::_('COM_REDSHOP_SUBMIT_CODE') . '" onclick="document.discount_form.task.value=\'voucher\';document.discount_form.submit();" />';
 	$coupon_lableFLG = 1;
 }
 
@@ -289,9 +283,17 @@ echo eval ("?>" . $cart_data . "<?php ");
 	}
 
     jQuery(document).ready(function (){
-        jQuery('input[name=\'quantity\']').on("keypress", function(e) {
+        jQuery('input[name="quantity"], input[name="discount_code"]').on("keypress", function(e) {
+
             if (e.keyCode == 13){
-                jQuery('.update_cart').trigger('click');
+                var selector = jQuery(this).attr('name');
+
+                if (selector == 'quantity') {
+                    jQuery('.update_cart').trigger('click');
+                }
+                else {
+                    jQuery('#coupon_button').trigger('click');
+                }
             }
         })
     })

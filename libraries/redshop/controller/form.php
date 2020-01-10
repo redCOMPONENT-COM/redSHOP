@@ -22,6 +22,16 @@ jimport('joomla.application.component.controllerform');
  */
 class RedshopControllerForm extends JControllerForm
 {
+	use \Redshop\Model\Traits\HasDateTimeRange;
+
+	/**
+	 * The name of the controller
+	 *
+	 * @var    string
+	 * @since  2.1.3
+	 */
+	protected $name;
+
 	/**
 	 * Constructor.
 	 *
@@ -233,7 +243,7 @@ class RedshopControllerForm extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('INVALID_TOKEN'));
 
 		$app     = JFactory::getApplication();
 		$model   = $this->getModel();
@@ -255,8 +265,8 @@ class RedshopControllerForm extends JControllerForm
 			if (!$this->checkEditId($context, $recordId))
 			{
 				// Somehow the person just went to the form - we don't allow that.
-				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-				$this->setMessage($this->getError(), 'error');
+				/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
+				$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 				// Redirect to the list screen
 				$this->setRedirect(
@@ -271,8 +281,8 @@ class RedshopControllerForm extends JControllerForm
 				if ($model->checkin($recordId) === false)
 				{
 					// Check-in failed, go back to the record and display a notice.
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-					$this->setMessage($this->getError(), 'error');
+					/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+					$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 					// Redirect back to the edit screen.
 					$this->setRedirect(
@@ -332,8 +342,8 @@ class RedshopControllerForm extends JControllerForm
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect to the list screen
 			$this->setRedirect(
@@ -347,8 +357,8 @@ class RedshopControllerForm extends JControllerForm
 		if ($checkin && !$model->checkout($recordId))
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
@@ -386,8 +396,8 @@ class RedshopControllerForm extends JControllerForm
 		if (!$this->allowAdd())
 		{
 			// Set the internal error and also the redirect error.
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect to the list screen
 			$this->setRedirect(
@@ -420,7 +430,7 @@ class RedshopControllerForm extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app     = JFactory::getApplication();
 		$lang    = JFactory::getLanguage();
@@ -443,13 +453,18 @@ class RedshopControllerForm extends JControllerForm
 			$urlVar = $key;
 		}
 
+		if (isset($data['start_date']) && isset($data['end_date']))
+		{
+			$this->handleDateTimeRange($data['start_date'], $data['end_date']);
+		}
+
 		$recordId = $this->input->getInt($urlVar);
 
 		if (!$this->checkEditId($context, $recordId))
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect to the list screen
 			$this->setRedirect(
@@ -469,8 +484,8 @@ class RedshopControllerForm extends JControllerForm
 			if ($checkin && $model->checkin($data[$key]) === false)
 			{
 				// Check-in failed. Go back to the item and display a notice.
-				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-				$this->setMessage($this->getError(), 'error');
+				/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+				$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(
@@ -489,8 +504,8 @@ class RedshopControllerForm extends JControllerForm
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect to the list screen
 			$this->setRedirect(
@@ -556,8 +571,8 @@ class RedshopControllerForm extends JControllerForm
 			$app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
@@ -574,8 +589,8 @@ class RedshopControllerForm extends JControllerForm
 			$app->setUserState($context . '.data', $validData);
 
 			// Check-in failed, so go back to the record and display a notice.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			/** @scrutinizer ignore-deprecated */ $this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+			$this->setMessage(/** @scrutinizer ignore-deprecated */ $this->getError(), 'error');
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(
@@ -587,9 +602,9 @@ class RedshopControllerForm extends JControllerForm
 
 		$this->setMessage(
 			JText::_(
-				($lang->hasKey($this->text_prefix . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
+				($lang->hasKey($this->text_prefix . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS')
 					? $this->text_prefix
-					: 'JLIB_APPLICATION') . ($recordId == 0 && $app->isSite() ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
+					: 'JLIB_APPLICATION') . ($recordId == 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'
 			)
 		);
 

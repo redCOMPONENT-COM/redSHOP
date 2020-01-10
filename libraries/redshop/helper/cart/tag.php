@@ -169,6 +169,58 @@ class RedshopHelperCartTag
 	}
 
 	/**
+	 * @param   string $template      Template
+	 * @param   object $order         Order data
+	 * @param   int    $quotationMode Quotation mode
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 */
+	public static function replaceSpecialDiscount($template, $order, $quotationMode = 0)
+	{
+		if (strstr($template, '{if special_discount}') && strstr($template, '{special_discount end if}'))
+		{
+			$percentage = '';
+
+			if ($order->special_discount_amount <= 0)
+			{
+				$template_discount_sdata = explode('{if special_discount}', $template);
+				$template_discount_edata = explode('{special_discount end if}', $template_discount_sdata[1]);
+				$template                    = $template_discount_sdata[0] . $template_discount_edata[1];
+			}
+			else
+			{
+				$template = str_replace("{if special_discount}", '', $template);
+
+				if ($quotationMode && !Redshop::getConfig()->getBool('SHOW_QUOTATION_PRICE'))
+				{
+					$template = str_replace("{special_discount}", "", $template);
+					$template = str_replace("{special_discount_amount}", $order->special_discount, $template);
+
+				}
+				else
+				{
+					$discount = $order->special_discount_amount;
+
+					$template = str_replace(
+						"{special_discount_amount}",
+						RedshopHelperProductPrice::formattedPrice($discount, true),
+						$template
+					);
+
+					$template = str_replace("{special_discount}", $order->special_discount . '%', $template);
+				}
+
+				$template = str_replace("{special_discount_lbl}", JText::_('COM_REDSHOP_SPECIAL_DISCOUNT'), $template);
+				$template = str_replace("{special_discount end if}", '', $template);
+			}
+		}
+
+		return $template;
+	}
+
+	/**
 	 * Method for replace cart item
 	 *
 	 * @param   string  $data            Template Html
@@ -189,6 +241,7 @@ class RedshopHelperCartTag
 		$input  = JFactory::getApplication()->input;
 		$itemId = RedshopHelperRouter::getCheckoutItemId();
 		$view   = $input->getCmd('view');
+		$token = JSession::getFormToken();
 
 		if ($itemId == 0)
 		{
@@ -344,6 +397,7 @@ class RedshopHelperCartTag
 			{
 				$productId     = $cart[$i]['product_id'];
 				$product       = RedshopHelperProduct::getProductById($productId);
+				$catId         = $product->cat_in_sefurl;
 				$attributeCart = productHelper::getInstance()->makeAttributeCart(
 					$cart[$i]['cart_attribute'], $productId, 0, 0, $quantity, $cartHtml
 				);
@@ -359,10 +413,10 @@ class RedshopHelperCartTag
 				}
 				else
 				{
-					$itemId = RedshopHelperRouter::getItemId($productId);
+					$itemId = RedshopHelperUtility::getCategoryItemid($catId);
 				}
 
-				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId . '&Itemid=' . $itemId);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&cid='. $catId .'&pid=' . $productId . '&Itemid=' . $itemId);
 
 				// Trigger to change product link.
 				$dispatcher->trigger('onSetCartOrderItemProductLink', array(&$cart, &$link, $product, $i));
@@ -733,13 +787,15 @@ class RedshopHelperCartTag
 				}
 				else
 				{
-					$updateCart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >'
+					$updateCart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" '
+						. 'action="index.php?option=com_redshop&view=cart&'. $token .'=1"> '
 						. '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" '
 						. 'id="quantitybox' . $i . '" size="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '"'
 						. ' maxlength="' . Redshop::getConfig()->get('DEFAULT_QUANTITY') . '" onchange="validateInputNumber(this.id);">'
 						. '<input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '" />'
 						. '<input type="hidden" name="cart_index" value="' . $i . '" />'
 						. '<input type="hidden" name="Itemid" value="' . $itemId . '" />'
+						. '<input type="hidden" name="'. $token .'" value="1" />'
 						. '<input type="hidden" name="task" value="" />';
 
 					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . Redshop::getConfig()->get('ADDTOCART_UPDATE')))
@@ -766,7 +822,7 @@ class RedshopHelperCartTag
 					. ' value="' . $quantity . '" /><input type="button" id="minus" value="-"'
 					. ' onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">';
 
-				$updateCartMinusPlus .= '<input type="button" value="+"
+				$updateCartMinusPlus .= '<input type="button" id="plus" value="+"
 						onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="' . $cartItem . '" value="' . ${$cartItem} . '">
 						<input type="hidden" name="cart_index" value="' . $i . '">
 						<input type="hidden" name="Itemid" value="' . $itemId . '">
@@ -798,7 +854,7 @@ class RedshopHelperCartTag
 
 				if (Redshop::getConfig()->get('QUANTITY_TEXT_DISPLAY'))
 				{
-					if (strstr($cartHtml, "{quantity_increase_decrease}") && $view == 'cart')
+					if (strstr($cartHtml, "{quantity_increase_decrease}") && $view != 'checkout')
 					{
 						$cartHtml = str_replace("{quantity_increase_decrease}", $updateCartMinusPlus, $cartHtml);
 						$cartHtml = str_replace("{update_cart}", '', $cartHtml);

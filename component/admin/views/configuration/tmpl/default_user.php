@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 ?>
 
 <fieldset class="adminform">
-    <div class="row">
-        <div class="col-sm-6">
+	<div class="row">
+		<div class="col-sm-6">
 			<?php
 			echo RedshopLayoutHelper::render(
 				'config.group',
@@ -22,9 +22,9 @@ defined('_JEXEC') or die;
 				)
 			);
 			?>
-        </div>
+		</div>
 
-        <div class="col-sm-6">
+		<div class="col-sm-6">
 			<?php
 			echo RedshopLayoutHelper::render(
 				'config.group',
@@ -33,7 +33,15 @@ defined('_JEXEC') or die;
 					'content' => $this->loadTemplate('shopper_group')
 				)
 			);
+
+			echo RedshopLayoutHelper::render(
+				'config.group',
+				array(
+					'title'   => JText::_('COM_REDSHOP_CHECKOUT_REQUIRED_TAB'),
+					'content' => $this->loadTemplate('checkout_required')
+				)
+			);
 			?>
-        </div>
-    </div>
+		</div>
+	</div>
 </fieldset>

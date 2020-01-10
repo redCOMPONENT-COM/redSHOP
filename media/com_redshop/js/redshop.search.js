@@ -267,26 +267,34 @@ _b.AutoSuggest.prototype.setSuggestions = function(req, input) {
                     'id': jsondata.results[i].id,
                     'value': val,
                     'volume': jsondata.results[i].volume,
-                    'value_number': jsondata.results[i].value_number
+                    'value_number': jsondata.results[i].value_number,
+                    'product_image': jsondata.results[i].product_image,
+                    'product_price': jsondata.results[i].product_price
                 });
             } else if (jsondata.results[i].price) {
                 this.aSug.push({
                     'id': jsondata.results[i].id,
                     'value': val,
                     'price': jsondata.results[i].price,
-                    'value_number': jsondata.results[i].value_number
+                    'value_number': jsondata.results[i].value_number,
+                    'product_image': jsondata.results[i].product_image,
+                    'product_price': jsondata.results[i].product_price
                 });
             } else if (jsondata.results[i].value_number) {
                 this.aSug.push({
                     'id': jsondata.results[i].id,
                     'value': val,
-                    'value_number': jsondata.results[i].value_number
+                    'value_number': jsondata.results[i].value_number,
+                    'product_image': jsondata.results[i].product_image,
+                    'product_price': jsondata.results[i].product_price
                 });
             } else {
                 this.aSug.push({
                     'id': jsondata.results[i].id,
                     'value': val,
-                    'link': jsondata.results[i].link
+                    'link': jsondata.results[i].link,
+                    'product_image': jsondata.results[i].product_image,
+                    'product_price': jsondata.results[i].product_price
                 });
             }
         }
@@ -393,7 +401,18 @@ _b.AutoSuggest.prototype.createList = function(arr) {
         a.appendChild(tl);
         a.appendChild(tr);
 
+        var htmlObjectImage = document.createElement('div');
+        htmlObjectImage.className +="search-ajax-image";
+        htmlObjectImage.innerHTML = arr[i].product_image;
+
+        var htmlObjectPrice = document.createElement('div');
+        htmlObjectPrice.className +="search-ajax-price";
+        htmlObjectPrice.innerHTML = arr[i].product_price;
+
+        a.appendChild(htmlObjectImage);
         a.appendChild(span);
+        a.appendChild(htmlObjectPrice);
+
 
         a.name = i + 1;
         a.onclick = function() {

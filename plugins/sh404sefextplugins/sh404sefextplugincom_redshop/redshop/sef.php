@@ -78,6 +78,7 @@ $remove         = isset($remove) ? @$remove : null;
 $Treeid         = isset($Treeid) ? @$Treeid : null;
 $print          = isset($print) ? @$print : null;
 $protalid       = isset($protalid) ? @$protalid : 0;
+$requestId       = isset($requestId) ? @$requestId : 0;
 
 // Get variables for pagination in category
 $category_template = isset($category_template) ? @$category_template : null;
@@ -137,7 +138,7 @@ switch ($view)
 				if (Redshop::getConfig()->get('CATEGORY_TREE_IN_SEF_URL'))
 				{
 					$GLOBALS['catlist_reverse'] = array();
-					$cats                       = RedshopHelperCategory::getCategoryListReverseArray($cid);
+					$cats = RedshopHelperCategory::getCategoryListReverseArray($cid);
 
 					if (count($cats) > 0)
 					{
@@ -219,11 +220,9 @@ switch ($view)
 				if (Redshop::getConfig()->get('CATEGORY_IN_SEF_URL'))
 				{
 					$GLOBALS['catlist_reverse'] = array();
-					$where                      = '';
+					$where = '';
 
-					$cids = explode("%2C", $cid);
-
-					if (count($cids) == 1)
+					if (isset($cid))
 					{
 						$category_id = $cid;
 					}
@@ -718,7 +717,7 @@ switch ($view)
 
 		if (!$mid)
 		{
-			$mid = $myparams->get('manufacturer');
+			$mid = $myparams->get('manufacturer') ?? $myparams->get('manufacturerid');
 		}
 
 		if ($mid)
@@ -789,6 +788,7 @@ switch ($view)
 			shRemoveFromGETVarsList('view');
 			shRemoveFromGETVarsList('mid');
 		}
+		break;
 
 	case 'newsletter':
 
@@ -840,7 +840,14 @@ switch ($view)
 		}
 
 		break;
+	default:
+		
+		break;
 }
+
+JPluginHelper::importPlugin('sh404sefextplugins');
+$dispatcher = JDispatcher::getInstance();
+$dispatcher->trigger('onBeforeParseLinkSh404sef', array(&$title, $view, $layout, $task, $msg, $requestId));
 
 if ($limitstart)
 {
@@ -855,7 +862,7 @@ if ($limitstart)
 // ------------------  standard plugin finalize function - don't change ---------------------------
 if ($dosef)
 {
-	$string = shFinalizePlugin(
+	$string = /** @scrutinizer ignore-call */ shFinalizePlugin(
 		$string, $title, $shAppendString, $shItemidString, (isset($limit) ? $limit : null),
 		(isset($limitstart) ? $limitstart : null), (isset($shLangName) ? $shLangName : null),
 		(isset($showall) ? $showall : null), $suppressPagination = true

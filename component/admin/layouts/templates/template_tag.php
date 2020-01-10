@@ -25,7 +25,8 @@ switch ($name)
 	case 'account':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ACCOUNT_HINT'); ?></b><br /><br />
-		{welcome_introtext} {account_image} {account_title} {fullname_lbl} {fullname} {vatnumber_lbl} {vatnumber} {email_lbl} {email} {address_lbl} {address} {city_lbl} {city} <br />
+		{welcome_introtext} {account_image} {account_title}  {billing_address_start} {billing_address_end}
+        {fullname_lbl} {fullname} {vatnumber_lbl} {vatnumber} {email_lbl} {email} {address_lbl} {address} {city_lbl} {city} <br />
 		{zipcode_lbl} {zipcode} {state_lbl} {state} {country_lbl} {country} {phone_lbl} {phone}{phone_optional} {company_name_lbl} {company_name} {requesting_tax_exempt_lbl} {requesting_tax_exempt} {edit_account_link} {customer_custom_fields} <br />
 		{more_orders} {order_image} {order_title} {order_loop_start} {order_index} {order_id} {order_detail_link} {order_loop_end} <br />
 		{coupon_image} {coupon_title} {coupon_loop_start} {coupon_code_lbl} {coupon_code} {coupon_value_lbl} {coupon_value} {coupon_loop_end} <br />
@@ -402,7 +403,7 @@ switch ($name)
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_RELATED_PRODUCT_HINT'); ?></b><br /><br />
 		{relproduct_link} {relproduct_image} {relproduct_name} {relproduct_price} {relproduct_number} {relproduct_number_lbl} {read_more} {relproduct_old_price} {relproduct_price_table} {relproduct_price_saving} <br />
-		{related_product_start} {related_product_end} {relproduct_s_desc} {relproduct_price_novat} {relproduct_old_price_lbl} {relproduct_image_2} {relproduct_image_3} <br />
+		{related_product_start} {related_product_end} {relproduct_s_desc} {relproduct_rating_summary} {relproduct_price_novat} {relproduct_old_price_lbl} {relproduct_image_2} {relproduct_image_3} <br />
 		{attribute_template:templatename} {form_addtocart:templatename} {producttag:rs_field} <br />
 		{stock_status} {relproduct_attribute_pricelist} {manufacturer_name} {manufacturer_link} {read_more_link}
 		<?php
@@ -410,7 +411,7 @@ switch ($name)
 	case 'review':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_REVIEW_HINT'); ?></b><br /><br />
-		{product_loop_start} {product_title} <br />
+		{show_all_images_rating} {rating_statistics} {product_loop_start} {product_title} {images} <br />
 		{review_loop_start} {fullname} {title} {comment} {stars} {reviewdate} {review_loop_end} {product_loop_end}
 		<?php
 		break;

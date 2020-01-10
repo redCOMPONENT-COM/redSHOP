@@ -17,13 +17,7 @@ modules:
         - JoomlaBrowser
         - AcceptanceHelper
         - Asserts
-        - Db
-        - DbHelper
     config:
-        Db:
-            dsn: 'mysql:host=db;dbname=%tests_db%%php_version%'
-            user: 'root'
-            password: 'root'
         JoomlaBrowser:
             url: 'http://php%php_version%/tests/%tests_suite%%php_version%/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'chrome'
@@ -51,5 +45,6 @@ modules:
             packages url: 'http://php%php_version%/tests/releases/'                          # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
             packages previous: 'http://php%php_version%/tests/extension/previous/'           # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
             extension folder: '%build_path%/'                  # Path on the CI for Extension
+            extension url: 'http://php%php_version%/tests/extension/'                        # URL that points to the extension .zip package defined in your gulp-config.json file at the root of the repo
             install demo data: 'No'                            # If you wish to Install the Extension Demo Data then Keep this to Yes
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"

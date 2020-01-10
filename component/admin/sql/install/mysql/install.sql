@@ -570,6 +570,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
   `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `display_in_product` TINYINT(4) NOT NULL,
+  `is_searchable` tinyint(4) NOT NULL DEFAULT '0',
   `ordering` INT(11) NOT NULL,
   `display_in_checkout` TINYINT(4) NOT NULL,
   `checked_out` INT(11) NULL DEFAULT NULL,
@@ -882,6 +883,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_notifystock_users` (
   `subproperty_id` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
   `notification_status` INT(11) NOT NULL DEFAULT '0',
+  `email_not_login` VARCHAR(255)  NULL,
   PRIMARY KEY (`id`),
   INDEX `idx_common` (`product_id` ASC, `property_id` ASC, `subproperty_id` ASC, `notification_status` ASC, `user_id` ASC),
   INDEX `idx_user_id` (`user_id` ASC))
@@ -1503,6 +1505,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
   `email` VARCHAR(200) NOT NULL,
   `username` VARCHAR(255) NOT NULL,
   `company_name` VARCHAR(255) NOT NULL,
+  `images` TEXT NULL,
   PRIMARY KEY (`rating_id`),
   UNIQUE INDEX `product_id` (`product_id` ASC, `userid` ASC, `email` ASC),
   INDEX `idx_published` (`published` ASC),

@@ -197,6 +197,7 @@ class RedshopHelperAttribute
 					$imgAdded               = 0;
 					$selectedProperty       = 0;
 					$property_woscrollerdiv = "";
+					$preSelected            = true;
 
 					if (strpos($attribute_table, "{property_image_without_scroller}") !== false)
 					{
@@ -283,7 +284,15 @@ class RedshopHelperAttribute
 									Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 								);
 
-								$property_woscrollerdiv .= "<div class='property_image_inner' id='" . $propertyid
+								$style = null;
+
+								if ($property[$i]->setdefault_selected && $preSelected)
+								{
+									$style       = ' style="border: 1px solid;"';
+									$preSelected = false;
+								}
+
+								$property_woscrollerdiv .= "<div class='property_image_inner' . $style . id='" . $propertyid
 									. "_propimg_" . $property[$i]->value . "'><a onclick='setPropImage(\"" . $productId
 									. "\",\"" . $propertyid . "\",\"" . $property[$i]->value . "\");changePropertyDropdown(\""
 									. $productId . "\",\"" . $accessoryId . "\",\"" . $relatedProductId . "\",\""
@@ -304,7 +313,7 @@ class RedshopHelperAttribute
 
 							$pricelist = $productHelper->getPropertyPrice($property[$i]->value, 1, 'property');
 
-							if (count($pricelist) > 0)
+							if (!empty($pricelist))
 							{
 								$property[$i]->property_price = $pricelist->product_price;
 							}

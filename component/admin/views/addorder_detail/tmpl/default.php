@@ -116,7 +116,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 	}
 	Joomla.submitbutton = function (pressbutton) {
 		submitbutton(pressbutton);
-	}
+	};
 
 	submitbutton = function (pressbutton) {
 
@@ -130,7 +130,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 			return;
 
 		}
-		if ((pressbutton == 'save')) {
+		if (pressbutton == 'save' || pressbutton == 'save_without_sendmail') {
 			if (form.user_id.value == 0) {
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER');?>");
 				return;
@@ -138,6 +138,11 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 			if (form.product1.value == 0) {
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_PRODUCT');?>");
 				return;
+			}
+			if (form.order_status.value == 0 || form.order_status.value == '')
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_TABLE_ORDER_REDSHOP_INVALID_ORDER_STATUS');?>");
+				return false;
 			}
 			if (form.shipping_rate_id) {
 				if (form.shipping_rate_id.value == '' || form.shipping_rate_id.value == 0) {
@@ -164,6 +169,12 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 	function validateUserDetail() {
 	var form = document.adminForm;
 	var rad_val = 0;
+
+	var requiredPostCode    = "<?php echo Redshop::getConfig()->getBool('REQUIRED_POSTAL_CODE') ?>";
+	var requiredEanNumber   = "<?php echo Redshop::getConfig()->getBool('REQUIRED_EAN_NUMBER')?>";
+	var requiredAddress     = "<?php echo Redshop::getConfig()->getBool('REQUIRED_ADDRESS') ?>";
+	var requiredPhone       = "<?php echo Redshop::getConfig()->getBool('REQUIRED_PHONE') ?>";
+
 	for (var i = 0; i < form.guestuser.length; i++) {
 		if (form.guestuser[i].checked && document.getElementById('users_info_id').value != 0) {
 			rad_val = form.guestuser[i].value;
@@ -181,12 +192,12 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 		form.lastname.focus();
 		return false;
 	}
-	if (form.address.value == '') {
+	if (form.address.value == '' && requiredAddress) {
 		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS')?>");
 		form.address.focus();
 		return false;
 	}
-	if (form.zipcode.value == '') {
+	if (form.zipcode.value == '' && requiredPostCode) {
 		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE')?>");
 		form.zipcode.focus();
 		return false;
@@ -196,7 +207,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 		form.city.focus();
 		return false;
 	}
-	if (form.phone.value == '') {
+	if (form.phone.value == '' && requiredPhone) {
 		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE')?>");
 		form.phone.focus();
 		return false;

@@ -234,7 +234,7 @@ class RedshopHelperMedia
 			return REDSHOP_MEDIA_IMAGE_ABSPATH . $section . '/' . $sectionId . '/thumb/' . basename($physicalPath);
 		}
 
-		return REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . rawurlencode(basename($physicalPath));
+		return REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physicalPath);
 	}
 
 	/**
@@ -741,7 +741,7 @@ class RedshopHelperMedia
 		try
 		{
 			// If main image not exists - display noimage
-			if (!file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage))
+			if (!JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage))
 			{
 				$pathMainImage = 'noimage.jpg';
 

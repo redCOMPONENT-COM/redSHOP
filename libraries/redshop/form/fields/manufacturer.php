@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
+JFormHelper::loadFieldClass('list');
+
 /**
  * Renders a Productfinder Form
  *
@@ -16,7 +20,7 @@ defined('_JEXEC') or die;
  * @subpackage     Banners
  * @since          1.5
  */
-class JFormFieldmanufacturer extends JFormField
+class JFormFieldmanufacturer extends JFormFieldList
 {
 	/**
 	 * Element name
@@ -37,8 +41,10 @@ class JFormFieldmanufacturer extends JFormField
 			' FROM #__redshop_manufacturer WHERE published=1';
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -', 'id', 'name'));
+		array_unshift($options, JHTML::_('select.option', '', '- ' . JText::_('COM_REDSHOP_SELECT_MANUFACTURER') . ' -', 'id', 'name'));
 
-		return JHTML::_('select.genericlist', $options, $name, 'class="inputbox"', 'id', 'name', $this->value, $name);
+		$attr = $this->required ? ' required aria-required="true"' : '';
+
+		return JHTML::_('select.genericlist', $options, $name, trim($attr), 'id', 'name', $this->value, $this->id);
 	}
 }

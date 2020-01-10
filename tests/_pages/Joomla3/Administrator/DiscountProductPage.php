@@ -61,6 +61,11 @@ class DiscountProductPage extends AdminJ3Page
 	public static $fieldCategory = "#jform_category_ids";
 
 	/**
+	 * @var string
+	 */
+	public static $inputCategoryID = "#s2id_autogen1";
+
+	/**
 	 * @var array
 	 */
 	public static $fieldShopperGroup = "#jform_shopper_group";
@@ -74,4 +79,10 @@ class DiscountProductPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $messageErrorAmountZero = 'Oops! Discount amount must be greater than 0';
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public static $deleteSuccess = '1 item successfully deleted';
 }

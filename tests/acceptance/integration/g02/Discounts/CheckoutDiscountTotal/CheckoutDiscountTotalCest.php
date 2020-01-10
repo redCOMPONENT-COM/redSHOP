@@ -79,8 +79,6 @@ class CheckoutDiscountTotalCest
 	 *
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
-	 *
-	 * @depends deleteData
 	 */
 	public function checkoutWithDiscountTotal(AcceptanceTester $I, $scenario)
 	{
@@ -119,6 +117,10 @@ class CheckoutDiscountTotalCest
 		$I->wantTo('Checkout with discount at total');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->checkoutWithDiscount($this->ProductName, $this->CategoryName, $this->subtotal, $this->Discount, $this->Total);
+
+		$I = new DiscountSteps($scenario);
+		$I->wantTo('Delete discount');
+		$I->deleteDiscount($this->discountName);
 
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);

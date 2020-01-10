@@ -60,6 +60,10 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$post = $this->input->post->getArray();
 
+		// Store current post to user state
+		$context = "com_redshop.edit.media";
+		JFactory::getApplication()->setUserState($context . '.data', json_encode($post));
+
 		$cid = $this->input->get->get('cid', array(0), 'array');
 
 		/** @var RedshopModelMedia_detail $model */
@@ -995,11 +999,11 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 				if ($apply == 1)
 				{
-					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg);
+					$this->setRedirect('index.php?option=com_redshop&view=media_detail&task=edit&cid[]=' . $row->media_id, $msg, 'message');
 				}
 				else
 				{
-					$this->setRedirect($link, $msg);
+					$this->setRedirect($link, $msg, 'message');
 				}
 			}
 			else
@@ -1033,7 +1037,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->delete($cid))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_DELETED_SUCCESSFULLY');
@@ -1104,7 +1108,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 		$cid           = ArrayHelper::toInteger($cid);
 		$order         = ArrayHelper::toInteger($order);
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (empty($cid))
 		{
 			throw new Exception(JText::_('COM_REDSHOP_SELECT_ORDERING'));
 		}
@@ -1114,7 +1118,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->saveorder($cid, $order))
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -1161,7 +1165,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->orderup())
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
@@ -1208,7 +1212,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		if (!$model->orderdown())
 		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');

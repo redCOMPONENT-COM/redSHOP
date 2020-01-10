@@ -39,6 +39,45 @@ class RedshopModelShopper_group extends RedshopModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string $id A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   2.1.3
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter');
+
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'o.order_id', $direction = 'desc')
+	{
+		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
+		$this->setState('filter', $filter);
+
+		parent::populateState($ordering, $direction);
+	}
+
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -74,9 +113,21 @@ class RedshopModelShopper_group extends RedshopModel
 
 	public function _buildQuery()
 	{
+		$db  = JFactory::getDbo();
 		$orderby = $this->_buildContentOrderBy();
-		$query   = 'SELECT DISTINCT(s.shopper_group_id),s.* FROM ' . $this->_table_prefix . 'shopper_group AS s '
-			. $orderby;
+
+		$query = $db->getQuery(true)
+			->select(array('DISTINCT("s.shopper_group_id")', 's.*'))
+			->from($db->qn($this->_table_prefix . 'shopper_group', 's'))
+			->order($orderby);
+
+		// Filter
+		$filter = $this->getState('filter');
+
+		if ($filter)
+		{
+			$query->where($db->qn('shopper_group_name') . ' LIKE ' . $db->q('%' . $filter . '%'));
+		}
 
 		return $query;
 	}
@@ -89,7 +140,7 @@ class RedshopModelShopper_group extends RedshopModel
 		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'shopper_group_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
+		$orderby = $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}

@@ -53,12 +53,22 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->switchToIFrame(AdminJ3Page::$menuItemType);
 
 		$I->wantTo("Open the menu category: $menuCategory");
-		$I->waitForElement(AdminJ3Page::getMenuCategory($menuCategory), 5);
+		$I->waitForElementVisible(AdminJ3Page::getMenuCategory($menuCategory), 30);
 		$I->click(AdminJ3Page::getMenuCategory($menuCategory));
 
 		$I->wantTo("Choose the menu item type: $menuItem");
 		$I->wait(0.5);
-		$I->waitForElement(AdminJ3Page::returnMenuItem($menuItem),5);
+
+		try
+		{
+			$I->waitForElementVisible(AdminJ3Page::returnMenuItem($menuItem), 30);
+		}catch (\Exception $e)
+		{
+			$I->waitForElementVisible(AdminJ3Page::getMenuCategory($menuCategory), 30);
+			$I->click(AdminJ3Page::getMenuCategory($menuCategory));
+			$I->waitForElementVisible(AdminJ3Page::returnMenuItem($menuItem), 30);
+		}
+
 		$I->click(AdminJ3Page::returnMenuItem($menuItem));
 		$I->wantTo('I switch back to the main window');
 		$I->switchToIFrame();
@@ -85,8 +95,16 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 
 		for( $a= 0; $a <$quantity; $a++)
 		{
+			$I->waitForElementVisible(AdminJ3Page::$addToCart, 30);
 			$I->click(AdminJ3Page:: $addToCart);
-			$I->waitForText(AdminJ3Page::$alertSuccessMessage,60);
+			try
+			{
+				$I->waitForText(AdminJ3Page::$alertSuccessMessage, 120, \FrontEndProductManagerJoomla3Page::$selectorSuccess);
+			}
+			catch(\Exception $e)
+			{
+				$I->click(AdminJ3Page:: $addToCart);
+			}
 		}
 		$I->click($menuItem);
 		$I->see($nameProduct);
@@ -103,17 +121,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $customerInformation['postalCode']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $customerInformation['city']);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $customerInformation['phone']);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$bankTransferId));
-		$I->wait(1);
-		try
-		{
-			$I->seeCheckboxIsChecked(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		}catch (\Exception $e)
-		{
-			$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
-		}
-		$I->wait(1);
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 		$I->waitForText($priceProduct, 30, \FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
@@ -131,4 +139,3 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 	}
 }
-

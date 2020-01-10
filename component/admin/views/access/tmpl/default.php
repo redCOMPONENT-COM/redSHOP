@@ -17,7 +17,39 @@ defined('_JEXEC') or die;
 	  enctype="multipart/form-data">
 	<?php echo $this->form->getInput('rules') ?>
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="selectedTabPosition" value="" />
 	<?php echo $this->form->getInput('title') ?>
 	<?php echo $this->form->getInput('id') ?>
 	<?php echo JHtml::_('form.token') ?>
 </form>
+<script language="javascript" type="text/javascript">
+	Joomla.submitbutton = function (pressbutton) {
+		// Find the position of selected tab
+		var allTabsNames = document.querySelectorAll('#permissions-sliders a');
+		var selectedTabName  = document.querySelectorAll('#permissions-sliders li.active a');
+		for (var i=0; i < allTabsNames.length; i++) {
+			if (selectedTabName[0].innerHTML === allTabsNames[i].innerHTML) {
+				var selectedTabPosition =allTabsNames[i].getAttribute("aria-controls");
+				break;
+			}
+		}
+
+		var form = document.adminForm;
+
+		if (pressbutton) {
+			form.task.value = pressbutton;
+		}
+
+		if (pressbutton == 'access.save') {
+			form.selectedTabPosition.value = selectedTabPosition;
+		}
+
+		try {
+			form.onsubmit();
+		}
+		catch (e) {
+		}
+
+		form.submit();
+	}
+</script>

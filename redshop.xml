@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>2.1.2.1</version>
+    <version>2.1.4</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -117,6 +117,7 @@
         <plugin name="shopper_group_attribute_price" group="redshop_export" published="published"/>
         <plugin name="shopper_group_product_price" group="redshop_export" published="published"/>
         <plugin name="user" group="redshop_export" published="published"/>
+        <plugin name="order" group="redshop_export" published="published"/>
 
         <!-- Redshop Import plugins -->
         <plugin group="redshop_import" name="attribute" published="published"/>
@@ -152,5 +153,8 @@
         <!-- System plugins -->
         <plugin group="system" name="redshop" published="published"/>
         <plugin group="system" name="redgoogleanalytics"/>
+
+        <!-- redSHOP product plugin -->
+        <plugin group="redshop_product" name="sh404urls" published="published"/>
     </plugins>
 </extension>

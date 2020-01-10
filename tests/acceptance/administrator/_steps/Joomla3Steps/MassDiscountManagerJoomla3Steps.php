@@ -63,6 +63,38 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(\MassDiscountManagerPage::$MassDiscountFilter, 30);
 	}
 
+	/**
+	 * @param $massDiscountName
+	 * @param $amountValue
+	 * @param $nameCategory
+	 * @throws \Exception
+	 */
+	public function addMassDiscountBeforeToday($massDiscountName, $amountValue, $nameCategory)
+	{
+		$I = $this;
+		$I->amOnPage(\MassDiscountManagerPage::$URL);
+		$I->click(\MassDiscountManagerPage::$newButton);
+		$I->checkForPhpNoticesOrWarnings(\MassDiscountManagerPage::$URLNew);
+
+		$dateNow = date('Y-m-d');
+		$date = date('Y-m-d', strtotime('-2 day', strtotime($dateNow)));
+		$endDate = date('Y-m-d', strtotime('-1 day', strtotime($dateNow)));
+
+		$I->fillField(\MassDiscountManagerPage::$name, $massDiscountName);
+		$I->fillField(\MassDiscountManagerPage::$valueAmount, $amountValue);
+		$I->fillField(\MassDiscountManagerPage::$fieldStartDate, $date);
+		$I->fillField(\MassDiscountManagerPage::$fieldEndDate, $endDate);
+		$I->click(\MassDiscountManagerPage::$saveButton);
+
+		$I->click(\MassDiscountManagerPage::$categoryForm);
+		$I->fillField(\MassDiscountManagerPage::$categoryFormInput, $nameCategory);
+		$useMassDiscountPage = new \MassDiscountManagerPage();
+		$I->waitForElement($useMassDiscountPage->returnXpath($nameCategory));
+		$I->click($useMassDiscountPage->returnXpath($nameCategory));
+		$I->click(\MassDiscountManagerPage::$saveButton);
+		$I->see(\MassDiscountManagerPage::$saveOneSuccess, \MassDiscountManagerPage::$selectorSuccess);
+	}
+
 //    public function addMassDiscountStartThanEnd($massDiscountName, $amountValue, $discountStart, $discountEnd, $nameCategory, $nameProduct)
 //    {
 //        $I = $this;
@@ -248,7 +280,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(\MassDiscountManagerPage::$URL);
 		$I->searchMassDiscount($massDiscountName);
-		$I->click(\MassDiscountManagerPage::$checkFirstItems);
+		$I->checkAllResults();
 		$I->click(\MassDiscountManagerPage::$deleteButton);
 		$I->acceptPopup();
 //		$I->waitForText(\MassDiscountManagerPage::$messageSuccess, 30, \MassDiscountManagerPage::$selectorSuccess);

@@ -7,7 +7,7 @@
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ConfigurationSteps;
+use Configuration\ConfigurationSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\QuotationManagerJoomla3Steps;
@@ -16,7 +16,6 @@ class QuotationFrontendCest
 {
 	public function __construct()
 	{
-
 		$this->faker               = Faker\Factory::create();
 		$this->ProductName         = 'ProductName' . rand(100, 999);
 		$this->CategoryName        = "CategoryName" . rand(1, 100);
@@ -33,21 +32,21 @@ class QuotationFrontendCest
 		$this->Discount = "DKK 0,00";
 		$this->Total    = "DKK 10,00";
 
-		//setup Cart setting
-		$this->addcart          = 'product';
-		$this->allowPreOrder    = 'yes';
-		$this->cartTimeOut      = $this->faker->numberBetween(100, 10000);
-		$this->enabldAjax       = 'no';
-		$this->defaultCart      = null;
-		$this->buttonCartLead   = 'Back to current view';
-		$this->onePage          = 'no';
-		$this->showShippingCart = 'no';
-		$this->attributeImage   = 'no';
-		$this->quantityChange   = 'no';
-		$this->quantityInCart   = 0;
-		$this->minimunOrder     = 0;
-		$this->enableQuationYes    = 'yes';
-		$this->enableQuationNo    = 'no';
+		$this->cartSetting = array(
+			"addCart"           => 'product',
+			"allowPreOrder"     => 'yes',
+			"cartTimeOut"       => $this->faker->numberBetween(100, 10000),
+			"enabledAjax"       => 'no',
+			"defaultCart"       => null,
+			"buttonCartLead"    => 'Back to current view',
+			"onePage"           => 'no',
+			"showShippingCart"  => 'no',
+			"attributeImage"    => 'no',
+			"quantityChange"    => 'no',
+			"quantityInCart"    => 0,
+			"minimumOrder"      => 0,
+			"enableQuotation"   => 'yes'
+		);
 
 		//user
 		$this->userName     = $this->faker->bothify('UserNameCheckoutProductCest ?##?');
@@ -102,7 +101,7 @@ class QuotationFrontendCest
 
 		$I->wantTo(' Enable Quotation at configuration ');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuationYes, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$I->cartSetting($this->cartSetting);
 
 		$I->wantTo('Create Quotation at frontend ');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
@@ -129,6 +128,7 @@ class QuotationFrontendCest
 
 		$I->wantTo(' Disable Quotation at configuration ');
 		$I = new ConfigurationSteps($scenario);
-		$I->cartSetting($this->addcart, $this->allowPreOrder, $this->enableQuationNo, $this->cartTimeOut, $this->enabldAjax, $this->defaultCart, $this->buttonCartLead, $this->onePage, $this->showShippingCart, $this->attributeImage, $this->quantityChange, $this->quantityInCart, $this->minimunOrder);
+		$this->cartSetting["enableQuotation"] = 'no';
+		$I->cartSetting($this->cartSetting);
 	}
 }

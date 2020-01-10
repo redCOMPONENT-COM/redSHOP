@@ -93,7 +93,7 @@ class RedshopControllerCheckout extends RedshopController
 		{
 			if (count($post['extrafields0']) > 0 && count($post['extrafields']) > 0)
 			{
-				for ($r = 0, $countExtrafield = count($post['extrafieldstra']); $r < $countExtrafield; $r++)
+				for ($r = 0, $countExtrafield = count($post['extrafields']); $r < $countExtrafield; $r++)
 				{
 					$post['extrafields_values'][$post['extrafields'][$r]] = $post['extrafields0'][$r];
 				}
@@ -271,7 +271,9 @@ class RedshopControllerCheckout extends RedshopController
 
 				return $return;
 			}
-			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && trim($billingaddresses->ean_number) != '')
+			elseif (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1
+				&& Redshop::getConfig()->get('REQUIRED_EAN_NUMBER')
+				&& trim($billingaddresses->ean_number) != '')
 			{
 				RedshopEconomic::createUserInEconomic($billingaddresses);
 
@@ -287,7 +289,7 @@ class RedshopControllerCheckout extends RedshopController
 			}
 		}
 
-		if (!trim($billingaddresses->address))
+		if (!trim($billingaddresses->address) && Redshop::getConfig()->get('REQUIRED_ADDRESS'))
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS');
@@ -295,7 +297,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			return $return;
 		}
-		elseif (!$billingaddresses->country_code)
+		elseif (!$billingaddresses->country_code && Redshop::getConfig()->get('REQUIRED_COUNTRY_CODE'))
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_SELECT_COUNTRY');
@@ -303,7 +305,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			return $return;
 		}
-		elseif (!$billingaddresses->zipcode)
+		elseif (!$billingaddresses->zipcode && Redshop::getConfig()->get('REQUIRED_POSTAL_CODE'))
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE');
@@ -311,7 +313,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			return $return;
 		}
-		elseif (!$billingaddresses->phone)
+		elseif (!$billingaddresses->phone && Redshop::getConfig()->get('REQUIRED_PHONE'))
 		{
 			$return = 1;
 			$msg    = JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE');
@@ -560,13 +562,12 @@ class RedshopControllerCheckout extends RedshopController
 				if ($is_creditcard && !$is_redirected)
 				{
 					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid, false);
-					$msg  = JText::_('COM_REDSHOP_ORDER_PLACED');
-					$this->setRedirect($link, $msg);
+					$this->setRedirect($link, JText::_('COM_REDSHOP_ORDER_PLACED'));
 				}
 				else
 				{
-					$link = JUri::root() . 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
-					$link = JRoute::_($link, false);
+					$link = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id 
+							  . '&Itemid=' . $Itemid, false);
 					$this->setRedirect($link);
 				}
 			}
@@ -838,13 +839,37 @@ class RedshopControllerCheckout extends RedshopController
 		$app        = JFactory::getApplication();
 		$carthelper = rsCarthelper::getInstance();
 		$post       = $app->input->post->getArray();
+		$cart       = RedshopHelperCartSession::getCart();
 
 		$isCompany = $post['is_company'];
 		$eanNumber = $post['eanNumber'];
+		$paymentMethods          = RedshopHelperUtility::getPlugins('redshop_payment');
+		$selectedPaymentMethodId = 0;
+
+		if (count($paymentMethods) > 0)
+		{
+			$productId = $cart[0]['product_id'];
+
+			if (!empty(RedshopHelperPayment::getPaymentByIdProduct($productId)[0]))
+			{
+				$selectedPaymentMethodId = RedshopHelperPayment::getPaymentByIdProduct($productId)[0];
+			}
+			else
+			{
+				foreach ($paymentMethods as $paymentMethod)
+				{
+					if ($paymentMethod->enabled == 1)
+					{
+						$selectedPaymentMethodId = $paymentMethod->element;
+						break;
+					}
+				}
+			}
+		}
 
 		$templates    = RedshopHelperTemplate::getTemplate("redshop_payment");
 		$templateHtml = !empty($templates) ? $templates[0]->template_desc : '';
-		$templateHtml = $carthelper->replacePaymentTemplate($templateHtml, 0, $isCompany, $eanNumber);
+		$templateHtml = $carthelper->replacePaymentTemplate($templateHtml, $selectedPaymentMethodId, $isCompany, $eanNumber);
 
 		echo $templateHtml;
 
