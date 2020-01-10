@@ -64,7 +64,7 @@ class RedshopViewAccount extends RedshopView
 
 		$userData = $model->getUserAccountInfo($user->id);
 
-		if (!count($userData) && $layout != 'mywishlist')
+		if (!count(get_object_vars($userData)) && $layout != 'mywishlist')
 		{
 			$app->redirect(
 				JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId),

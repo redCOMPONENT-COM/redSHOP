@@ -1729,7 +1729,7 @@ class RedshopHelperOrder
 
 		if (!$userId)
 		{
-			return false;
+			return null;
 		}
 
 		if (!array_key_exists($userId, static::$billingAddresses))
