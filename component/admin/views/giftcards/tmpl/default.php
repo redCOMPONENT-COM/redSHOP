@@ -75,9 +75,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="1%" class="center">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th width="1%" style="min-width:55px" class="nowrap center">
-						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
-					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_GIFTCARD_NAME', 'giftcard_name', $listDirn, $listOrder); ?>
 					</th>
@@ -96,6 +93,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="10%" class="center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_GIFTCARD_VALIDITY', 'giftcard_validity', $listDirn, $listOrder); ?>
 					</th>
+                    <th width="1%" style="min-width:55px" class="nowrap center">
+						<?php echo JHtml::_('grid.sort', 'COM_REDSHOP_GIFTCARD_PUBLISHED', 'published', $listDirn, $listOrder); ?>
+                    </th>
 					<th width="1%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'giftcard_id', $listDirn, $listOrder); ?>
 					</th>
@@ -107,11 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->giftcard_id); ?>
 						</td>
-						<td class="center">
-							<div class="btn-group">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'giftcards.', true, 'cb'); ?>
-							</div>
-						</td>
+
 						<td class="has-context">
 							<div class="pull-left break-word">
 								<a
@@ -121,7 +117,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								>
 								<?php echo $this->escape($item->giftcard_name); ?>
 								</a>
-
 							</div>
 						</td>
 						<td class="small hidden-phone">
@@ -176,6 +171,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="center hidden-phone">
 							<?php echo $item->giftcard_validity;?>
 						</td>
+                        <td class="center">
+                            <div class="btn-group">
+								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'giftcards.', true, 'cb'); ?>
+                            </div>
+                        </td>
 						<td class="center hidden-phone">
 							<?php echo (int) $item->giftcard_id; ?>
 						</td>
