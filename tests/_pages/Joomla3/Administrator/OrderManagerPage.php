@@ -73,6 +73,12 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.5
+	 */
+	public static $shippingInfor = "#updateshippingrate";
+
+	/**
+	 * @var string
 	 */
 	public static $applyUser = "#toolbar-apply";
 
@@ -130,7 +136,7 @@ class OrderManagerPage extends AdminJ3Page
 	 * @var string
 	 */
 	public static $deleteFirst = "//input[@id='cb0']";
-	
+
 	/**
 	 * @var string
 	 */
