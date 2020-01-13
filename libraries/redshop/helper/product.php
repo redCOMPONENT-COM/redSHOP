@@ -1429,80 +1429,80 @@ class RedshopHelperProduct
 				// ToDo: This is wrong way to generate tmpl file. And model function to load $this->product is wrong way also. Fix it.
 				// ToDo: Echo a message when no records is returned by selection of empty category or wrong manufacturer in menu item params.
 
-				$count_no_user_field = 0;
+				$countNoUserField = 0;
 
 				$product  = $products[$i];
-				$data_add = $templateProduct;
+				$dataAdd = $templateProduct;
 
 				// ProductFinderDatepicker Extra Field Start
-				$data_add = $productHelper->getProductFinderDatepickerValue($data_add, $product->product_id, $listSectionFields);
+				$dataAdd = $productHelper->getProductFinderDatepickerValue($dataAdd, $product->product_id, $listSectionFields);
 				// ProductFinderDatepicker Extra Field End
 
 				//Replace Product price when config enable discount is "No"
 				if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') === 0)
 				{
-					$data_add = str_replace('{product_old_price}', '', $data_add);
+					$dataAdd = str_replace('{product_old_price}', '', $dataAdd);
 				}
 
 				/*
 				 * Process the prepare Product plugins
 				 */
 				$params  = array();
-				$results = $dispatcher->trigger('onPrepareProduct', array(& $data_add, &$params, $product));
+				$results = $dispatcher->trigger('onPrepareProduct', array(& $dataAdd, &$params, $product));
 
-				if (strpos($data_add, "{product_delivery_time}") !== false)
+				if (strpos($dataAdd, "{product_delivery_time}") !== false)
 				{
-					$product_delivery_time = $productHelper->getProductMinDeliveryTime($product->product_id);
+					$productDeliveryTime = $productHelper->getProductMinDeliveryTime($product->product_id);
 
-					if ($product_delivery_time != "")
+					if ($productDeliveryTime != "")
 					{
-						$data_add = str_replace("{delivery_time_lbl}", JText::_('COM_REDSHOP_DELIVERY_TIME'), $data_add);
-						$data_add = str_replace("{product_delivery_time}", $product_delivery_time, $data_add);
+						$dataAdd = str_replace("{delivery_time_lbl}", JText::_('COM_REDSHOP_DELIVERY_TIME'), $dataAdd);
+						$dataAdd = str_replace("{product_delivery_time}", $productDeliveryTime, $dataAdd);
 					}
 					else
 					{
-						$data_add = str_replace("{delivery_time_lbl}", "", $data_add);
-						$data_add = str_replace("{product_delivery_time}", "", $data_add);
+						$dataAdd = str_replace("{delivery_time_lbl}", "", $dataAdd);
+						$dataAdd = str_replace("{product_delivery_time}", "", $dataAdd);
 					}
 				}
 
 				// More documents
-				if (strpos($data_add, "{more_documents}") !== false)
+				if (strpos($dataAdd, "{more_documents}") !== false)
 				{
-					$media_documents = RedshopHelperMedia::getAdditionMediaImage($product->product_id, "product", "document");
-					$more_doc        = '';
+					$mediaDocuments = RedshopHelperMedia::getAdditionMediaImage($product->product_id, "product", "document");
+					$moreDoc        = '';
 
-					for ($m = 0, $nm = count($media_documents); $m < $nm; $m++)
+					for ($m = 0, $nm = count($mediaDocuments); $m < $nm; $m++)
 					{
 						$alttext = RedshopHelperMedia::getAlternativeText(
-							"product", $media_documents[$m]->section_id, "", $media_documents[$m]->media_id, "document"
+							"product", $mediaDocuments[$m]->section_id, "", $mediaDocuments[$m]->media_id, "document"
 						);
 
 						if (!$alttext)
 						{
-							$alttext = $media_documents[$m]->media_name;
+							$alttext = $mediaDocuments[$m]->media_name;
 						}
 
-						if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
+						if (JFile::exists(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $mediaDocuments[$m]->media_name))
 						{
 							$downlink = JURI::root() .
 								'index.php?tmpl=component&option=com_redshop' .
 								'&view=product&pid=' . $product->product_id .
-								'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
+								'&task=downloadDocument&fname=' . $mediaDocuments[$m]->media_name .
 								'&Itemid=' . $itemId;
-							$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
-							$more_doc .= $alttext;
-							$more_doc .= "</a></div>";
+							$moreDoc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
+							$moreDoc .= $alttext;
+							$moreDoc .= "</a></div>";
 						}
 					}
 
-					$data_add = str_replace("{more_documents}", "<span id='additional_docs" . $product->product_id . "'>" . $more_doc . "</span>", $data_add);
+					$dataAdd = str_replace("{more_documents}", "<span id='additional_docs" . $product->product_id . "'>" . $moreDoc . "</span>", $dataAdd);
 				}
 
 				// More documents end
 
 				// Product User Field Start
-				$hidden_userfield = "";
+				$hiddenUserField = "";
 
 				if ($templateUserfield != "")
 				{
@@ -1515,11 +1515,11 @@ class RedshopHelperProduct
 
 						if ($productUserFields[1] != "")
 						{
-							$count_no_user_field++;
+							$countNoUserField++;
 						}
 
-						$data_add = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $data_add);
-						$data_add = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $data_add);
+						$dataAdd = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $dataAdd);
+						$dataAdd = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $dataAdd);
 					}
 
 					$productUserFieldsForm = "<form method='post' action='' id='user_fields_form_" . $product->product_id .
@@ -1527,26 +1527,26 @@ class RedshopHelperProduct
 
 					if ($ufield != "")
 					{
-						$data_add = str_replace("{if product_userfield}", $productUserFieldsForm, $data_add);
-						$data_add = str_replace("{product_userfield end if}", "</form>", $data_add);
+						$dataAdd = str_replace("{if product_userfield}", $productUserFieldsForm, $dataAdd);
+						$dataAdd = str_replace("{product_userfield end if}", "</form>", $dataAdd);
 					}
 					else
 					{
-						$data_add = str_replace("{if product_userfield}", "", $data_add);
-						$data_add = str_replace("{product_userfield end if}", "", $data_add);
+						$dataAdd = str_replace("{if product_userfield}", "", $dataAdd);
+						$dataAdd = str_replace("{product_userfield end if}", "", $dataAdd);
 					}
 				}
 				elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 				{
-					$ajax_detail_template_desc = "";
-					$ajax_detail_template      = \Redshop\Template\Helper::getAjaxDetailBox($product);
+					$ajaxDetailTemplateDesc = "";
+					$ajaxDetailTemplate      = \Redshop\Template\Helper::getAjaxDetailBox($product);
 
-					if (null !== $ajax_detail_template)
+					if (null !== $ajaxDetailTemplate)
 					{
-						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
+						$ajaxDetailTemplateDesc = $ajaxDetailTemplate->template_desc;
 					}
 
-					$returnArr          = $productHelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
+					$returnArr          = $productHelper->getProductUserfieldFromTemplate($ajaxDetailTemplateDesc);
 					$templateUserfield = $returnArr[0];
 					$userfieldArr       = $returnArr[1];
 
@@ -1561,7 +1561,7 @@ class RedshopHelperProduct
 
 							if ($productUserFields[1] != "")
 							{
-								$count_no_user_field++;
+								$countNoUserField++;
 							}
 
 							$templateUserfield = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $templateUserfield);
@@ -1570,13 +1570,13 @@ class RedshopHelperProduct
 
 						if ($ufield != "")
 						{
-							$hidden_userfield = "<div style='display:none;'><form method='post' action='' id='user_fields_form_" . $product->product_id .
+							$hiddenUserField = "<div style='display:none;'><form method='post' action='' id='user_fields_form_" . $product->product_id .
 								"' name='user_fields_form_" . $product->product_id . "'>" . $templateUserfield . "</form></div>";
 						}
 					}
 				}
 
-				$data_add = $data_add . $hidden_userfield;
+				$dataAdd = $dataAdd . $hiddenUserField;
 				/************** end user fields ***************************/
 
 				$ItemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
@@ -1596,21 +1596,21 @@ class RedshopHelperProduct
 					$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
 				}
 				}
-				$data_add              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);
-				$data_add              = str_replace("{product_id}", $product->product_id, $data_add);
-				$data_add              = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $data_add);
-				$product_number_output = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
-				$data_add              = str_replace("{product_number}", $product_number_output, $data_add);
+				$dataAdd              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $dataAdd);
+				$dataAdd              = str_replace("{product_id}", $product->product_id, $dataAdd);
+				$dataAdd              = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $dataAdd);
+				$productNumberOutput  = '<span id="product_number_variable' . $product->product_id . '">' . $product->product_number . '</span>';
+				$dataAdd              = str_replace("{product_number}", $productNumberOutput, $dataAdd);
 
-				$product_volume_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
+				$productVolumeUnit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
 
-				$dataAddStr = $productHelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit;
-				$data_add   = str_replace("{product_size}", $dataAddStr, $data_add);
+				$dataAddStr = $productHelper->redunitDecimal($product->product_volume) . "&nbsp;" . $productVolumeUnit;
+				$dataAdd   = str_replace("{product_size}", $dataAddStr, $dataAdd);
 
-				$product_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
-				$data_add     = str_replace("{product_length}", $productHelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit, $data_add);
-				$data_add     = str_replace("{product_width}", $productHelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $data_add);
-				$data_add     = str_replace("{product_height}", $productHelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $data_add);
+				$productUnit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
+				$dataAdd     = str_replace("{product_length}", $productHelper->redunitDecimal($product->product_length) . "&nbsp;" . $productUnit, $dataAdd);
+				$dataAdd     = str_replace("{product_width}", $productHelper->redunitDecimal($product->product_width) . "&nbsp;" . $productUnit, $dataAdd);
+				$dataAdd     = str_replace("{product_height}", $productHelper->redunitDecimal($product->product_height) . "&nbsp;" . $productUnit, $dataAdd);
 
 				$specificLink = $dispatcher->trigger('createProductLink', array($product));
 
@@ -1631,43 +1631,43 @@ class RedshopHelperProduct
 				}
 
 				$pname      = RedshopHelperUtility::maxChars($product->product_name, Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_TITLE_END_SUFFIX'));
-				$product_nm = $pname;
+				$productNm = $pname;
 
-				if (strpos($data_add, '{product_name_nolink}') !== false)
+				if (strpos($dataAdd, '{product_name_nolink}') !== false)
 				{
-					$data_add = str_replace("{product_name_nolink}", $product_nm, $data_add);
+					$dataAdd = str_replace("{product_name_nolink}", $productNm, $dataAdd);
 				}
 
-				if (strpos($data_add, '{product_name}') !== false)
+				if (strpos($dataAdd, '{product_name}') !== false)
 				{
 					$pname    = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $pname . "</a>";
-					$data_add = str_replace("{product_name}", $pname, $data_add);
+					$dataAdd = str_replace("{product_name}", $pname, $dataAdd);
 				}
 
-				if (strpos($data_add, '{category_product_link}') !== false)
+				if (strpos($dataAdd, '{category_product_link}') !== false)
 				{
-					$data_add = str_replace("{category_product_link}", $link, $data_add);
+					$dataAdd = str_replace("{category_product_link}", $link, $dataAdd);
 				}
 
-				if (strpos($data_add, '{read_more}') !== false)
+				if (strpos($dataAdd, '{read_more}') !== false)
 				{
 					$rmore    = "<a href='" . $link . "' title='" . $product->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
-					$data_add = str_replace("{read_more}", $rmore, $data_add);
+					$dataAdd = str_replace("{read_more}", $rmore, $dataAdd);
 				}
 
-				if (strpos($data_add, '{read_more_link}') !== false)
+				if (strpos($dataAdd, '{read_more_link}') !== false)
 				{
-					$data_add = str_replace("{read_more_link}", $link, $data_add);
+					$dataAdd = str_replace("{read_more_link}", $link, $dataAdd);
 				}
 
 				/**
 				 * Related Product List in Lightbox
 				 * Tag Format = {related_product_lightbox:<related_product_name>[:width][:height]}
 				 */
-				if (strpos($data_add, '{related_product_lightbox:') !== false)
+				if (strpos($dataAdd, '{related_product_lightbox:') !== false)
 				{
-					$related_product = $productHelper->getRelatedProduct($product->product_id);
-					$rtlnone         = explode("{related_product_lightbox:", $data_add);
+					$relatedProduct  = $productHelper->getRelatedProduct($product->product_id);
+					$rtlnone         = explode("{related_product_lightbox:", $dataAdd);
 					$rtlntwo         = explode("}", $rtlnone[1]);
 					$rtlnthree       = explode(":", $rtlntwo[0]);
 					$rtln            = $rtlnthree[0];
@@ -1679,7 +1679,7 @@ class RedshopHelperProduct
 
 					$rtlntag = "{related_product_lightbox:$rtln$rtlnwidthtag$rtlnheighttag}";
 
-					if (!empty($related_product))
+					if (!empty($relatedProduct))
 					{
 						$linktortln = JURI::root() .
 							"index.php?option=com_redshop&view=product&pid=" . $product->product_id .
@@ -1691,46 +1691,46 @@ class RedshopHelperProduct
 						$rtlna = "";
 					}
 
-					$data_add = str_replace($rtlntag, $rtlna, $data_add);
+					$dataAdd = str_replace($rtlntag, $rtlna, $dataAdd);
 				}
 
-				if (strpos($data_add, '{product_s_desc}') !== false)
+				if (strpos($dataAdd, '{product_s_desc}') !== false)
 				{
-					$p_s_desc = RedshopHelperUtility::maxChars($product->product_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'));
-					$data_add = str_replace("{product_s_desc}", $p_s_desc, $data_add);
+					$PSDesc = RedshopHelperUtility::maxChars($product->product_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_SHORT_DESC_END_SUFFIX'));
+					$dataAdd = str_replace("{product_s_desc}", $PSDesc, $dataAdd);
 				}
 
-				if (strpos($data_add, '{product_desc}') !== false)
+				if (strpos($dataAdd, '{product_desc}') !== false)
 				{
-					$p_desc   = RedshopHelperUtility::maxChars($product->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
-					$data_add = str_replace("{product_desc}", $p_desc, $data_add);
+					$PDesc   = RedshopHelperUtility::maxChars($product->product_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
+					$dataAdd = str_replace("{product_desc}", $PDesc, $dataAdd);
 				}
 
-				if (strpos($data_add, '{product_rating_summary}') !== false)
+				if (strpos($dataAdd, '{product_rating_summary}') !== false)
 				{
 					// Product Review/Rating Fetching reviews
-					$final_avgreview_data = Redshop\Product\Rating::getRating($product->product_id);
-					$data_add             = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
+					$finalAvgReviewData = Redshop\Product\Rating::getRating($product->product_id);
+					$dataAdd             = str_replace("{product_rating_summary}", $finalAvgReviewData, $dataAdd);
 				}
 
-				if (strpos($data_add, '{manufacturer_link}') !== false)
+				if (strpos($dataAdd, '{manufacturer_link}') !== false)
 				{
-					$manufacturer_link_href = JRoute::_(
+					$manufacturerLinkHref = JRoute::_(
 						'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $product->manufacturer_id .
 						'&Itemid=' . $itemId
 					);
-					$manufacturer_link      = '<a class="btn btn-primary" href="' . $manufacturer_link_href . '" title="' . $product->manufacturer_name . '">' .
+					$manufacturerLink      = '<a class="btn btn-primary" href="' . $manufacturerLinkHref . '" title="' . $product->manufacturer_name . '">' .
 						$product->manufacturer_name .
 						'</a>';
-					$data_add               = str_replace("{manufacturer_link}", $manufacturer_link, $data_add);
+					$dataAdd               = str_replace("{manufacturer_link}", $manufacturerLink, $dataAdd);
 
-					if (strpos($data_add, "{manufacturer_link}") !== false)
+					if (strpos($dataAdd, "{manufacturer_link}") !== false)
 					{
-						$data_add = str_replace("{manufacturer_name}", "", $data_add);
+						$dataAdd = str_replace("{manufacturer_name}", "", $dataAdd);
 					}
 				}
 
-				if (strpos($data_add, '{manufacturer_product_link}') !== false)
+				if (strpos($dataAdd, '{manufacturer_product_link}') !== false)
 				{
 					$manuUrl           = JRoute::_(
 						'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id .
@@ -1739,52 +1739,52 @@ class RedshopHelperProduct
 					$manufacturerPLink = "<a class='btn btn-primary' href='" . $manuUrl . "'>" .
 						JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $product->manufacturer_name .
 						"</a>";
-					$data_add          = str_replace("{manufacturer_product_link}", $manufacturerPLink, $data_add);
+					$dataAdd          = str_replace("{manufacturer_product_link}", $manufacturerPLink, $dataAdd);
 				}
 
-				if (strpos($data_add, '{manufacturer_name}') !== false)
+				if (strpos($dataAdd, '{manufacturer_name}') !== false)
 				{
-					$data_add = str_replace("{manufacturer_name}", $product->manufacturer_name, $data_add);
+					$dataAdd = str_replace("{manufacturer_name}", $product->manufacturer_name, $dataAdd);
 				}
 
-				if (strpos($data_add, "{product_thumb_image_3}") !== false)
+				if (strpos($dataAdd, "{product_thumb_image_3}") !== false)
 				{
-					$pimg_tag = '{product_thumb_image_3}';
-					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
-					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
+					$pimgTag = '{product_thumb_image_3}';
+					$phThumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
+					$pwThumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
 				}
-				elseif (strpos($data_add, "{product_thumb_image_2}") !== false)
+				elseif (strpos($dataAdd, "{product_thumb_image_2}") !== false)
 				{
-					$pimg_tag = '{product_thumb_image_2}';
-					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
-					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
+					$pimgTag = '{product_thumb_image_2}';
+					$phThumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
+					$pwThumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
 				}
-				elseif (strpos($data_add, "{product_thumb_image_1}") !== false)
+				elseif (strpos($dataAdd, "{product_thumb_image_1}") !== false)
 				{
-					$pimg_tag = '{product_thumb_image_1}';
-					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
-					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
+					$pimgTag = '{product_thumb_image_1}';
+					$phThumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+					$pwThumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 				else
 				{
-					$pimg_tag = '{product_thumb_image}';
-					$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
-					$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
+					$pimgTag = '{product_thumb_image}';
+					$phThumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
+					$pwThumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH');
 				}
 
-				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth'  id='prd_main_imgwidth' value='" . $pw_thumb . "'>
-								<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
+				$hiddenThumbImage = "<input type='hidden' name='prd_main_imgwidth'  id='prd_main_imgwidth' value='" . $pwThumb . "'>
+								<input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $phThumb . "'>";
 
 				// Product image flying addwishlist time start
-				$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" .
-					Redshop\Product\Image\Image::getImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) .
+				$thumbImage = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" .
+					Redshop\Product\Image\Image::getImage($product->product_id, $link, $pwThumb, $phThumb, 2, 1) .
 					"</span>";
 
 				// Product image flying addwishlist time end
-				$data_add = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $data_add);
+				$dataAdd = str_replace($pimgTag, $thumbImage . $hiddenThumbImage, $dataAdd);
 
 				// Front-back image tag...
-				if (strpos($data_add, "{front_img_link}") !== false || strpos($data_add, "{back_img_link}") !== false)
+				if (strpos($dataAdd, "{front_img_link}") !== false || strpos($dataAdd, "{back_img_link}") !== false)
 				{
 					if ($product->product_thumb_image)
 					{
@@ -1797,8 +1797,8 @@ class RedshopHelperProduct
 							'',
 							'thumb',
 							'product',
-							$pw_thumb,
-							$ph_thumb,
+							$pwThumb,
+							$phThumb,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 					}
@@ -1814,8 +1814,8 @@ class RedshopHelperProduct
 							'',
 							'thumb',
 							'product',
-							$pw_thumb,
-							$ph_thumb,
+							$pwThumb,
+							$phThumb,
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 					}
@@ -1823,26 +1823,26 @@ class RedshopHelperProduct
 					$ahrefpath     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image;
 					$ahrefbackpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_back_full_image;
 
-					$product_front_image_link = "<a href='#' onClick='javascript:changeproductImage(" .
+					$productFrontImageLink = "<a href='#' onClick='javascript:changeproductImage(" .
 						$product->product_id . ",\"" . $mainsrcPath . "\",\"" . $ahrefpath . "\");'>" .
 						JText::_('COM_REDSHOP_FRONT_IMAGE') . "</a>";
-					$product_back_image_link  = "<a href='#' onClick='javascript:changeproductImage(" .
+					$productBackImageLink  = "<a href='#' onClick='javascript:changeproductImage(" .
 						$product->product_id . ",\"" . $backsrcPath . "\",\"" . $ahrefbackpath . "\");'>" .
 						JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
 
-					$data_add = str_replace("{front_img_link}", $product_front_image_link, $data_add);
-					$data_add = str_replace("{back_img_link}", $product_back_image_link, $data_add);
+					$dataAdd = str_replace("{front_img_link}", $productFrontImageLink, $dataAdd);
+					$dataAdd = str_replace("{back_img_link}", $productBackImageLink, $dataAdd);
 				}
 				else
 				{
-					$data_add = str_replace("{front_img_link}", "", $data_add);
-					$data_add = str_replace("{back_img_link}", "", $data_add);
+					$dataAdd = str_replace("{front_img_link}", "", $dataAdd);
+					$dataAdd = str_replace("{back_img_link}", "", $dataAdd);
 				}
 
 				// Front-back image tag end
 
 				// Product preview image.
-				if (strpos($data_add, '{product_preview_img}') !== false)
+				if (strpos($dataAdd, '{product_preview_img}') !== false)
 				{
 					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
 					{
@@ -1856,15 +1856,15 @@ class RedshopHelperProduct
 							Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
 						);
 						$previewImg     = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
-						$data_add       = str_replace("{product_preview_img}", $previewImg, $data_add);
+						$dataAdd       = str_replace("{product_preview_img}", $previewImg, $dataAdd);
 					}
 					else
 					{
-						$data_add = str_replace("{product_preview_img}", "", $data_add);
+						$dataAdd = str_replace("{product_preview_img}", "", $dataAdd);
 					}
 				}
 
-				$data_add = $productHelper->getJcommentEditor($product, $data_add);
+				$dataAdd = $productHelper->getJcommentEditor($product, $dataAdd);
 
 				/*
 				 * product loop template extra field
@@ -1874,7 +1874,7 @@ class RedshopHelperProduct
 				 */
 				if ($extraFieldsForCurrentTemplate && !empty($loadCategorytemplate))
 				{
-					$data_add = Redshop\Helper\ExtraFields::displayExtraFields(1, $product->product_id, $extraFieldsForCurrentTemplate, $data_add, true);
+					$dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(1, $product->product_id, $extraFieldsForCurrentTemplate, $dataAdd, true);
 				}
 
 				/************************************
@@ -1883,15 +1883,15 @@ class RedshopHelperProduct
 				 *  {if product_on_sale} This product is on sale {product_on_sale end if} // OUTPUT : This product is on sale
 				 *  NO : // OUTPUT : Display blank
 				 ************************************/
-				$data_add = $productHelper->getProductOnSaleComment($product, $data_add);
+				$dataAdd = $productHelper->getProductOnSaleComment($product, $dataAdd);
 
 				// Replace wishlistbutton
-				$data_add = RedshopHelperWishlist::replaceWishlistTag($product->product_id, $data_add);
+				$dataAdd = RedshopHelperWishlist::replaceWishlistTag($product->product_id, $dataAdd);
 
 				// Replace compare product button
-				$data_add = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $categoryId, $data_add);
+				$dataAdd = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $categoryId, $dataAdd);
 
-				$data_add = RedshopHelperStockroom::replaceStockroomAmountDetail($data_add, $product->product_id);
+				$dataAdd = RedshopHelperStockroom::replaceStockroomAmountDetail($dataAdd, $product->product_id);
 
 				// Checking for child products
 				if (isset($product->count_child_products) && $product->count_child_products > 0)
@@ -1901,15 +1901,15 @@ class RedshopHelperProduct
 						$isChilds = false;
 
 						// Get attributes
-						$attributes_set = array();
+						$attributeSet = array();
 
 						if ($product->attribute_set_id > 0)
 						{
-							$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+							$attributeSet = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 						}
 
 						$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
-						$attributes = array_merge($attributes, $attributes_set);
+						$attributes = array_merge($attributes, $attributeSet);
 					}
 					else
 					{
@@ -1922,15 +1922,15 @@ class RedshopHelperProduct
 					$isChilds = false;
 
 					// Get attributes
-					$attributes_set = array();
+					$attributeSet = array();
 
 					if ($product->attribute_set_id > 0)
 					{
-						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+						$attributeSet = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 					}
 
 					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
-					$attributes = array_merge($attributes, $attributes_set);
+					$attributes = array_merge($attributes, $attributeSet);
 				}
 
 				// Product attribute  Start
@@ -1938,33 +1938,33 @@ class RedshopHelperProduct
 
 				// Check product for not for sale
 
-				$data_add = $productHelper->getProductNotForSaleComment($product, $data_add, $attributes);
+				$dataAdd = $productHelper->getProductNotForSaleComment($product, $dataAdd, $attributes);
 
-				$data_add = Redshop\Product\Stock::replaceInStock($product->product_id, $data_add, $attributes, $attributeTemplate);
+				$dataAdd = Redshop\Product\Stock::replaceInStock($product->product_id, $dataAdd, $attributes, $attributeTemplate);
 
-				$data_add = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attributeTemplate, $isChilds);
+				$dataAdd = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, 0, $attributes, $dataAdd, $attributeTemplate, $isChilds);
 
 				// Get cart tempalte
-				$data_add = Redshop\Cart\Render::replace(
+				$dataAdd = Redshop\Cart\Render::replace(
 					$product->product_id,
 					$category->id,
 					0,
 					0,
-					$data_add,
+					$dataAdd,
 					$isChilds,
 					$userfieldArr,
 					$totalatt,
 					isset($product->total_accessories) ? $product->total_accessories : 0,
-					$count_no_user_field
+					$countNoUserField
 				);
 
 				//  Extra field display
 				$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(RedshopHelperExtrafields::SECTION_PRODUCT);
-				$data_add       = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product->product_id, "1", $data_add);
+				$dataAdd       = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product->product_id, "1", $dataAdd);
 
-				$productAvailabilityDate = strstr($data_add, "{product_availability_date}");
-				$stockNotifyFlag         = strstr($data_add, "{stock_notify_flag}");
-				$stockStatus             = strstr($data_add, "{stock_status");
+				$productAvailabilityDate = strstr($dataAdd, "{product_availability_date}");
+				$stockNotifyFlag         = strstr($dataAdd, "{stock_notify_flag}");
+				$stockStatus             = strstr($dataAdd, "{stock_status");
 
 				$attributeproductStockStatus = array();
 
@@ -1973,31 +1973,31 @@ class RedshopHelperProduct
 					$attributeproductStockStatus = $productHelper->getproductStockStatus($product->product_id, $totalatt);
 				}
 
-				$data_add = \Redshop\Helper\Stockroom::replaceProductStockData(
+				$dataAdd = \Redshop\Helper\Stockroom::replaceProductStockData(
 					$product->product_id,
 					0,
 					0,
-					$data_add,
+					$dataAdd,
 					$attributeproductStockStatus
 				);
 
-				$dispatcher->trigger('onAfterDisplayProduct', array(&$data_add, array(), $product));
+				$dispatcher->trigger('onAfterDisplayProduct', array(&$dataAdd, array(), $product));
 
-				$productData .= $data_add;
+				$productData .= $dataAdd;
 			}
 
 			if (!$slide)
 			{
-				$product_tmpl = "<div class='redcatproducts'>" . $productData . "</div>";
+				$productTmpl = "<div class='redcatproducts'>" . $productData . "</div>";
 			}
 			else
 			{
-				$product_tmpl = $productData;
+				$productTmpl = $productData;
 			}
 
 			$templateDesc = str_replace("{product_loop_start}", "", $templateDesc);
 			$templateDesc = str_replace("{product_loop_end}", "", $templateDesc);
-			$templateDesc = str_replace($templateProduct, "<div class='productlist'>" . $product_tmpl . "</div>", $templateDesc);
+			$templateDesc = str_replace($templateProduct, "<div class='productlist'>" . $productTmpl . "</div>", $templateDesc);
 		}
 	}
 }
