@@ -110,7 +110,7 @@ if (!$slide)
 	if ($this->params->get('show_page_heading', 0))
 	{
 		?>
-        <div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+		<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 			<?php
 			if ($this->maincat->pageheading != "")
 			{
@@ -121,7 +121,7 @@ if (!$slide)
 				echo $this->escape($this->pageheadingtag);
 			}
 			?>
-        </div>
+		</div>
 		<?php
 	}
 
@@ -217,13 +217,13 @@ if (!$slide)
 		$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_2');
 		$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH_2');
 	}
-    elseif (strpos($template_desc, '{category_main_thumb_image_3}') !== false)
+	elseif (strpos($template_desc, '{category_main_thumb_image_3}') !== false)
 	{
 		$ctag     = '{category_main_thumb_image_3}';
 		$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT_3');
 		$cw_thumb = Redshop::getConfig()->get('THUMB_WIDTH_3');
 	}
-    elseif (strpos($template_desc, '{category_main_thumb_image_1}') !== false)
+	elseif (strpos($template_desc, '{category_main_thumb_image_1}') !== false)
 	{
 		$ctag     = '{category_main_thumb_image_1}';
 		$ch_thumb = Redshop::getConfig()->get('THUMB_HEIGHT');
@@ -508,7 +508,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 				$data_add = str_replace("{product_userfield end if}", "", $data_add);
 			}
 		}
-        elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
+		elseif (Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
 			$ajax_detail_template_desc = "";
 			$ajax_detail_template      = \Redshop\Template\Helper::getAjaxDetailBox($product);
@@ -560,7 +560,12 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		}
 		else
 		{
-			$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
+			$pItemid = RedshopHelperRouter::getCategoryItemid($product->category_id);
+
+			if (empty($pItemid))
+			{
+				$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
+			}
 		}
 
 		$data_add              = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $data_add);
@@ -720,13 +725,13 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_3');
 			$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_3');
 		}
-        elseif (strpos($data_add, "{product_thumb_image_2}") !== false)
+		elseif (strpos($data_add, "{product_thumb_image_2}") !== false)
 		{
 			$pimg_tag = '{product_thumb_image_2}';
 			$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT_2');
 			$pw_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_WIDTH_2');
 		}
-        elseif (strpos($data_add, "{product_thumb_image_1}") !== false)
+		elseif (strpos($data_add, "{product_thumb_image_1}") !== false)
 		{
 			$pimg_tag = '{product_thumb_image_1}';
 			$ph_thumb = Redshop::getConfig()->get('CATEGORY_PRODUCT_THUMB_HEIGHT');
@@ -1026,6 +1031,12 @@ if (!$slide)
 	{
 		$filterby_form = "<form name='filterby_form' action='' method='post' >";
 		$filterby_form .= $this->lists['manufacturer'];
+
+		if (isset($this->lists['categories']))
+		{
+			$filterby_form .= $this->lists['categories'];
+		}
+
 		$filterby_form .= "<input type='hidden' name='texpricemin' id='manuf_texpricemin' value='" . $texpricemin . "' />";
 		$filterby_form .= "<input type='hidden' name='texpricemax' id='manuf_texpricemax' value='" . $texpricemax . "' />";
 		$filterby_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
@@ -1070,6 +1081,7 @@ if (!$slide)
 		$orderby_form .= "<input type='hidden' name='texpricemin' id='texpricemin' value='" . $texpricemin . "' />";
 		$orderby_form .= "<input type='hidden' name='texpricemax' id='texpricemax' value='" . $texpricemax . "' />";
 		$orderby_form .= "<input type='hidden' name='manufacturer_id' id='manufacturer_id' value='" . $this->manufacturer_id . "' />";
+		$orderby_form .= "<input type='hidden' name='category_id' id='category_id' value='" . $this->category_id . "' />";
 		$orderby_form .= "<input type='hidden' name='category_template' id='category_template' value='" . $this->category_template_id . "' />";
 		$orderby_form .= "</form>";
 

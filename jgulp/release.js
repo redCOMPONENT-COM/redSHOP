@@ -78,6 +78,7 @@ gulp.task("release:md5:generate", function () {
         "./plugins/redshop_export/shopper_group_attribute_price/**",
         "./plugins/redshop_export/shopper_group_product_price/**",
         "./plugins/redshop_export/user/**",
+        "./plugins/redshop_export/order/**",
         "./plugins/redshop_import/attribute/**",
         "./plugins/redshop_import/category/**",
         "./plugins/redshop_import/field/**",

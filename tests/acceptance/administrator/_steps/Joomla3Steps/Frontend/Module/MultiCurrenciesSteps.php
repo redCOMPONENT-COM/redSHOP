@@ -20,6 +20,7 @@ class MultiCurrenciesSteps extends CheckoutOnFrontEnd
 	/**
 	 * @param $current
 	 * @param $price
+	 * @throws \Exception
 	 * @since 2.1.3
 	 */
 	public function checkCurrencyUnit($current, $price)
@@ -37,6 +38,10 @@ class MultiCurrenciesSteps extends CheckoutOnFrontEnd
 	/**
 	 * @param $categoryName
 	 * @param $productName
+	 * @param $current1
+	 * @param $price1
+	 * @param $current2
+	 * @param $price2
 	 * @throws \Exception
 	 * @since 2.1.3
 	 */

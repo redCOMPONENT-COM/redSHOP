@@ -125,6 +125,12 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
+	public static $advancedTag = "//a[contains(text(),'Advanced')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
 	public static $visa = '#jform_params_accepted_credict_card0';
 
 	/**
@@ -170,6 +176,42 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 	public static $merchantPassword = "#jform_params_pay_to_password";
 
 	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $fieldPublicKey = "#jform_params_paymill_public_key";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $fieldPrivateKey = "#jform_params_paymill_private_key";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $labelEnvironment = "Environment";
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $discountTypeTotal= '//label[@for="jform_params_payment_discount_is_percent1"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $secretKey = '#jform_params_secretKey';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $publishableKey = '#jform_params_publishableKey';
+
+	/**
 	 * Function to return Path for the Plugin Name to be searched for
 	 *
 	 * @param   String  $pluginName  Name of the Plugin
@@ -182,4 +224,16 @@ class PluginManagerJoomla3Page extends AdminJ3Page
 
 		return $path;
 	}
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $fieldMerchantID = '#jform_params_merchantId';
+
+	/**
+	 * @var string
+	 * @since 2.1.4
+	 */
+	public static $fieldSharedSecretKey = '#jform_params_sharedSecret';
 }

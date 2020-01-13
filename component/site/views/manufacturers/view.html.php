@@ -101,6 +101,9 @@ class RedshopViewManufacturers extends RedshopView
 					}
 				}
 
+				$template = RedshopEntityTemplate::getInstance($detail[0]->template_id)->getItem();
+				$layout   = $template->section == 'manufacturer_products' ? 'products' : $layout;
+
 				if ($layout == 'products')
 				{
 					$pagetitletag = JText::_("COM_REDSHOP_MANUFACTURER_PRODUCT") . " " . $pagetitletag;

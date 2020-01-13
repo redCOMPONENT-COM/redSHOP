@@ -311,6 +311,11 @@ class RedshopConfig
 
 	public $FAVOURED_REVIEWS = '2';
 
+	public $RATING_THUMB_IMAGE_WIDTH = '200';
+
+	public $RATING_THUMB_IMAGE_HEIGHT = '200';
+
+
 	public $COLOUR_SAMPLE_REMAINDER_1 = '1';
 
 	public $COLOUR_SAMPLE_REMAINDER_2 = '2';
@@ -428,6 +433,16 @@ class RedshopConfig
 	public $NEW_SHOPPER_GROUP_GET_VALUE_FROM = '0';
 
 	public $SHOPPER_GROUP_DEFAULT_UNREGISTERED = '1';
+
+	public $REQUIRED_POSTAL_CODE = '1';
+
+	public $REQUIRED_EAN_NUMBER = '1';
+
+	public $REQUIRED_ADDRESS = '1';
+
+	public $REQUIRED_COUNTRY_CODE = '1';
+
+	public $REQUIRED_PHONE = '1';
 
 	public $PRODUCT_EXPIRE_TEXT = '';
 

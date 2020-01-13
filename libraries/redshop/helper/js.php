@@ -25,9 +25,12 @@ class RedshopHelperJs
 	 */
 	public static function init()
 	{
-		$doc     = JFactory::getDocument();
-		$input   = JFactory::getApplication()->input;
-		$session = JFactory::getSession();
+		$doc       = JFactory::getDocument();
+		$input     = JFactory::getApplication()->input;
+		$session   = JFactory::getSession();
+		$langCode  = JFactory::getLanguage()->getTag();
+		$languages = JLanguageHelper::getLanguages('lang_code');
+		$langSef   = $languages[$langCode]->sef;
 
 		$view   = $input->getCmd('view');
 		$layout = $input->getCmd('layout');
@@ -54,7 +57,7 @@ class RedshopHelperJs
 		$dynamicVars = array(
 			'SITE_URL'                          => JUri::root(),
 			'AJAX_TOKEN'                        => $token,
-			'AJAX_BASE_URL'                     => "index.php?tmpl=component&option=com_redshop&" . $token . "=1",
+			'AJAX_BASE_URL'                     => JUri::root() . "index.php?tmpl=component&option=com_redshop&" . $token . "=1&lang=" . $langSef,
 			'AJAX_CART_BOX'                     => $config->get('AJAX_CART_BOX'),
 			'REDSHOP_VIEW'                      => $view,
 			'REDSHOP_LAYOUT'                    => $layout,
@@ -84,7 +87,12 @@ class RedshopHelperJs
 			'AJAX_BOX_HEIGHT'                   => $config->get('AJAX_BOX_HEIGHT'),
 			'PRICE_REPLACE_URL'                 => $config->get('PRICE_REPLACE_URL'),
 			'ZERO_PRICE_REPLACE_URL'            => $config->get('ZERO_PRICE_REPLACE_URL'),
-			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE')
+			'ZERO_PRICE_REPLACE'                => $config->get('ZERO_PRICE_REPLACE'),
+			'REQUIRED_POSTAL_CODE'              => $config->get('REQUIRED_POSTAL_CODE'),
+			'REQUIRED_ADDRESS'                  => $config->get('REQUIRED_ADDRESS'),
+			'REQUIRED_EAN_NUMBER'               => $config->get('REQUIRED_EAN_NUMBER'),
+			'REQUIRED_COUNTRY_CODE'             => $config->get('REQUIRED_COUNTRY_CODE'),
+			'REQUIRED_PHONE'                    => $config->get('REQUIRED_PHONE')
 		);
 
 		// Current Shopper Group - Show price with VAT config
@@ -117,12 +125,14 @@ class RedshopHelperJs
 			'COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE',
 			'COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE',
 			'COM_REDSHOP_PASSWORD_MIN_CHARACTER_LIMIT',
+			'COM_REDSHOP_PLEASE_ENTER_PASSWORD',
 			'COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE',
 			'COM_REDSHOP_IS_REQUIRED',
 			'COM_REDSHOP_ENTER_NUMBER',
 			'COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME',
 			'COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME',
 			'COM_REDSHOP_YOUR_MUST_PROVIDE_A_ADDRESS',
+			'COM_REDSHOP_PLEASE_SELECT_COUNTRY',
 			'COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP',
 			'COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY',
 			'COM_REDSHOP_YOUR_MUST_PROVIDE_A_PHONE',

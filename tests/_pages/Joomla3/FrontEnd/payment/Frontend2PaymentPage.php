@@ -78,4 +78,10 @@ class Frontend2PaymentPage extends FrontEndProductManagerJoomla3Page
 	 * @since 2.1.2
 	 */
 	public static $oderReceipt = 'Order Receipt';
+
+	/**
+	 * @var string
+	 * @since 2.1.3
+	 */
+	public static $city = '#shipping-city';
 }

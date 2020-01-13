@@ -305,7 +305,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
             window.parent.document.location = "index.php?option=<?php echo $suboption;?>&view=<?php echo $view;?>&cid[]=<?php echo $cid[0];?>";
 
-            window.close()
+            window.close();
         </script>
 		<?php
 		JFactory::getApplication()->close();
@@ -334,7 +334,7 @@ class RedshopControllerOrder_detail extends RedshopController
 
             window.parent.document.location = "index.php?option=com_redshop&view=order_detail&cid[]=<?php echo $cid[0];?>";
 
-            window.close()
+            window.close();
         </script>
 		<?php
 		JFactory::getApplication()->close();
