@@ -862,5 +862,8 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->see($priceShippingRate);
 		$I->waitForText($priceTotal, 30);
 		$I->see($priceTotal);
+		$I->waitForElement(OrderManagerPage::$close, 30);
+		$I->waitForText(OrderManagerPage::$buttonClose, 10, OrderManagerPage::$close);
+		$I->click(OrderManagerPage::$close);
 	}
 }
