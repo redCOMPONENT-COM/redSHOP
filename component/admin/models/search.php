@@ -444,29 +444,48 @@ class RedshopModelSearch extends RedshopModel
 
 	public function _buildQuery()
 	{
+		$db    = $this->getDbo();
+		
 		if ($this->_media_section)
 		{
 			if ($this->_media_section == 'product')
 			{
-				$query = "SELECT product_id as id,product_name as value FROM " . $this->_table_prefix . "product  WHERE product_name like '%" .
-					$this->_search . "%'";
+				$query = $db->getQuery(true)
+					->select($db->qn('product_id','id'))
+					->select($db->qn('product_name','value'))
+					->from($db->qn('#__redshop_product', 'p'))
+					->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
 			elseif ($this->_media_section == 'category')
 			{
-				$query = "SELECT id as id,name as value FROM " . $this->_table_prefix . "category  WHERE name like '" .
-					$this->_search . "%'";
+				$query = $db->getQuery(true)
+					->select($db->qn('id','id'))
+					->select($db->qn('name','value'))
+					->from($db->qn('#__redshop_category', 'cat'))
+					->where($db->qn('cat.name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
 			else
 			{
-				$query = "SELECT catalog_id  as id,catalog_name	 as value FROM " . $this->_table_prefix . "catalog  WHERE catalog_name like '" .
-					$this->_search . "%' AND published = 1";
+				$query = $db->getQuery(true)
+					->select($db->qn('catalog_id','id'))
+					->select($db->qn('catalog_name','value'))
+					->from($db->qn('#__redshop_catalog', 'log'))
+					->where('published = 1')
+					->where($db->qn('log.catalog_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
 		}
 		elseif ($this->_alert == 'voucher')
 		{
-			$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , "
-				. $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $this->_voucher_id
-				. " and cp.product_id=p.product_id ";
+			$query = $db->getQuery(true)
+				->select($db->qn('cp.product_id','value'))
+				->select($db->qn('p.product_name','text'))
+				->from($db->qn('#__redshop_product', 'p'))
+				->leftjoin(
+					$db->qn('#__redshop_product_voucher_xref', 'cp')
+					. ' ON ' . $db->qn('cp.product_id') . ' = ' . $db->qn('p.product_id')
+				)
+				->where($db->qn('cp.voucher_id') . ' = ' . $db->quote($this->_voucher_id));
+
 			$this->_db->setQuery($query);
 			$this->_productdata = $this->_db->loadObjectList();
 
@@ -478,25 +497,36 @@ class RedshopModelSearch extends RedshopModel
 				}
 			}
 
+			$query = $db->getQuery(true)
+				->select('DISTINCT p.product_id AS id')
+				->select($db->qn('p.product_name', 'value'))
+				->from($db->qn('#__redshop_product','p'))
+				->leftjoin(
+					$db->qn('#__redshop_product_voucher_xref', 'cp')
+					. ' ON ' . $db->qn('cp.product_id') . ' = ' . $db->qn('p.product_id')
+				);
+
 			if ($this->_productdata)
 			{
-				$pid   = @implode(",", $pid);
-				$where = " and p.product_id not in (" . $pid . ") and p.product_name like '%" . $this->_search . "%'";
+				$query->where($db->qn('p.product_id') . ' NOT IN (' . implode("," , $pid ) . ')')
+						->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
 			else
 			{
-				$where = " and p.product_name like '%" . $this->_search . "%'";
+				$query->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
-
-			$query = "SELECT distinct p.product_id as id,p.product_name as value FROM " . $this->_table_prefix . "product as p left join   "
-				. $this->_table_prefix . "product_voucher_xref as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
 		}
 		elseif ($this->_alert == 'termsarticle')
 		{
-			$query = 'SELECT a.sectionid,a.catid, a.id AS value, a.title AS text '
-				. 'FROM #__content AS a '
-				. 'WHERE a.state = 1 '
-				. 'AND a.title LIKE "' . $this->_search . '%"';
+			$query = $db->getQuery(true)
+				->select($db->qn('a.sectionid'))
+				->select($db->qn('a.catid'))
+				->select($db->qn('a.id','value'))
+				->select($db->qn('a.title','text'))
+				->from($db->qn('#__content', 'a'))
+				->where('a.state = 1')
+				->where($db->qn('a.title') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+
 			$this->_db->setQuery($query);
 			$rows    = $this->_db->loadObjectList();
 			$article = array();
@@ -505,14 +535,28 @@ class RedshopModelSearch extends RedshopModel
 			{
 				if ($rows[$j]->sectionid != 0 && $rows[$j]->catid != 0)
 				{
-					$query = 'SELECT a.id AS value, a.title AS text '
-						. 'FROM #__content AS a '
-						. 'LEFT JOIN #__categories AS cc ON cc.id = a.catid '
-						. 'LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content" '
-						. 'LEFT JOIN #__groups AS g ON a.access = g.id '
-						. 'WHERE (cc.published = 1 AND s.published = 1) '
-						. 'AND a.state = 1 '
-						. 'AND a.title LIKE "' . $this->_search . '%"';
+					$query = $db->getQuery(true)
+						->select($db->qn('a.id','value'))
+						->select($db->qn('a.title','text'))
+						->from($db->qn('#__content', 'a'))
+						->leftjoin(
+							$db->qn('#__categories', 'cc')
+							. ' ON ' . $db->qn('cc.id') . ' = ' . $db->qn('a.catid')
+						)
+						->leftjoin(
+							$db->qn('#__sections', 's')
+							. ' ON ' . $db->qn('s.id') . ' = ' . $db->qn('cc.section')
+						)
+						->leftjoin(
+							$db->qn('#__groups', 'g')
+							. ' ON ' . $db->qn('a.access') . ' = ' . $db->qn('g.id')
+						)
+						->where('a.state = 1')
+						->where('cc.published = 1')
+						->where('s.published = 1')
+						->where($db->qn('s.scope' . ' = ' . $db->quote('content')))
+						->where($db->qn('a.title') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+
 					$this->_db->setQuery($query);
 					$r = $this->_db->loadObjectList();
 					$i = 0;
@@ -535,108 +579,196 @@ class RedshopModelSearch extends RedshopModel
 		}
 		elseif ($this->_user == 1)
 		{
-			$query  = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
-			$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
-			$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
-				$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
+			$query = $db->getQuery(true)
+						->select($db->qn('u.id', 'id'))
+						->select(
+							'CONCAT(' . $db->qn('uf.firstname') . ','
+							. $db->quote(' ') . ','
+							. $db->qn('uf.lastname') . ','
+							. $db->quote(' ( ') . ','
+							. $db->qn('u.username') . ','
+							. $db->quote(')') . ') AS ' . $db->qn('value')
+						)
+						->select($db->qn('u.email', 'volume'))
+						->from($db->qn('#__redshop_users_info', 'uf'))
+						->leftjoin(
+							$db->qn('#__users', 'u')
+							. ' ON ' . $db->qn('uf.user_id') . ' = ' . $db->qn('u.id')
+						)
+						->orwhere($db->qn('u.username') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+						->orwhere($db->qn('uf.firstname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+						->orwhere($db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+						->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'));
 		}
 		elseif ($this->_plgcustomview == 1)
 		{
 			if ($this->_iscompany == 0)
 			{
-				$query  = "SELECT u.id as id,concat(uf.firstname,' ', uf.lastname,' (', u.username,')') as value , u.email as volume ";
-				$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
-				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.firstname like '" .
-					$this->_search . "%' or  uf.lastname like '" . $this->_search . "%') and (uf.address_type like 'BT') ";
-				$query .= " AND uf.is_company = " . $this->_iscompany . "";
+				$query = $db->getQuery(true)
+					->select($db->qn('u.id', 'id'))
+					->select(
+						'CONCAT(' . $db->qn('uf.firstname') . ','
+						. $db->quote(' ') . ','
+						. $db->qn('uf.lastname') . ','
+						. $db->quote(' ( ') . ','
+						. $db->qn('u.username') . ','
+						. $db->quote(')') . ') AS ' . $db->qn('value')
+					)
+					->select($db->qn('u.email', 'volume'))
+					->from($db->qn('#__redshop_users_info', 'uf'))
+					->leftjoin(
+						$db->qn('#__users', 'u')
+						. ' ON ' . $db->qn('uf.user_id') . ' = ' . $db->qn('u.id')
+					)
+					->orwhere($db->qn('u.username') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+					->orwhere($db->qn('uf.firstname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+					->orwhere($db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+					->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'))
+					->where($db->qn('uf.is_company') . ' = ' . $db->quote($this->_iscompany));
 			}
 
 			if ($this->_iscompany == 1)
 			{
-				$query  = "SELECT u.id as id,concat(uf.company_name,' (', u.username,')') as value , u.email as volume ";
-				$query .= " FROM " . $this->_table_prefix . "users_info as uf , #__users as u ";
-				$query .= " WHERE (uf.user_id=u.id) and (u.username like '" . $this->_search . "%' or  uf.company_name like '" .
-					$this->_search . "%') and (uf.address_type like 'BT') ";
-				$query .= " AND uf.is_company = " . $this->_iscompany . "";
+				$query = $db->getQuery(true)
+					->select($db->qn('u.id', 'id'))
+					->select(
+						'CONCAT(' . $db->qn('uf.firstname') . ','
+						. $db->quote(' ') . ','
+						. $db->qn('uf.lastname') . ','
+						. $db->quote(' ( ') . ','
+						. $db->qn('u.username') . ','
+						. $db->quote(')') . ') AS ' . $db->qn('value')
+					)
+					->select($db->qn('u.email', 'volume'))
+					->from($db->qn('#__redshop_users_info', 'uf'))
+					->leftjoin(
+						$db->qn('#__users', 'u')
+						. ' ON ' . $db->qn('uf.user_id') . ' = ' . $db->qn('u.id')
+					)
+					->orwhere($db->qn('u.username') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+					->orwhere($db->qn('uf.company_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+					->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'))
+					->where($db->qn('uf.is_company') . ' = ' . $db->quote($this->_iscompany));
 			}
 		}
 		elseif ($this->_addreduser == 1)
 		{
-			$query = "SELECT uf.user_id AS id, CONCAT(uf.firstname,' ', uf.lastname, IF(u.username!='', CONCAT( ' (',u.username,')'), '' ))
-			AS value, uf.user_email AS value_number "
-				. "FROM " . $this->_table_prefix . "users_info AS uf "
-				. "LEFT JOIN #__users AS u ON uf.user_id=u.id "
-				. "WHERE (u.username LIKE '" . $this->_search . "%' "
-				. "OR uf.firstname LIKE '" . $this->_search . "%' "
-				. "OR uf.lastname LIKE '" . $this->_search . "%') "
-				. "AND (uf.address_type LIKE 'BT')";
+			$query = $db->getQuery(true)
+				->select($db->qn('uf.user_id', 'id'))
+				->select(
+					'CONCAT(' . $db->qn('uf.firstname') . ','
+					. $db->quote(' ') . ','
+					. $db->qn('uf.lastname') . ','
+					. $db->quote(' IF( ') . ','
+					. $db->qn('u.username')  . ' != ' . $db->q('') . ','
+					. 'CONCAT(' . $db->qn('u.username') . ' ) ,'
+					. $db->quote(')') . ') AS ' . $db->qn('value')
+				)
+				->select($db->qn('u.user_email', 'value_number'))
+				->from($db->qn('#__redshop_users_info', 'uf'))
+				->leftjoin(
+					$db->qn('#__users', 'u')
+					. ' ON ' . $db->qn('uf.user_id') . ' = ' . $db->qn('u.id')
+				)
+				->orwhere($db->qn('u.username') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+				->orwhere($db->qn('uf.firstname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+				->orwhere($db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+				->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'));
 		}
 		elseif ($this->_products == 1)
 		{
-			$query = "SELECT product_id as id,product_name as value, product_number as value_number FROM " .
-				$this->_table_prefix . "product  WHERE product_name like '%" . $this->_search . "%'";
+			$query = $db->getQuery(true)
+				->select($db->qn('p.product_id', 'id'))
+				->select($db->qn('p.product_name', 'value'))
+				->select($db->qn('p.product_number', 'value_number'))
+				->from($db->qn('#__redshop_product','p'))
+				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 		}
 		elseif ($this->_related == 1)
 		{
-			$and = "";
-
+			$query = $db->getQuery(true)
+				->select($db->qn('p.product_id', 'id'))
+				->select($db->qn('p.product_name', 'value'))
+				->select($db->qn('p.product_number', 'value_number'))
+				->from($db->qn('#__redshop_product','p'))
+				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+				->orwhere($db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+				
 			if ($this->_product_id != 0)
 			{
-				$query = "SELECT related_id "
-					. "FROM " . $this->_table_prefix . "product_related "
-					. "WHERE product_id='" . $this->_product_id . "' ";
+				$query = $db->getQuery(true)
+					->select($db->qn('related_id'))
+					->from($db->qn('#__redshop_product_related'))
+					->where($db->qn('product_id') . ' = ' . $db->q((int) $this->_product_id));
+
 				$this->_db->setQuery($query);
+
 				$related                  = $this->_db->loadColumn();
 				$related[count($related)] = $this->_product_id;
-				$relatedid                = implode(", ", $related);
-
-				$and = "AND p.product_id NOT IN (" . $relatedid . ") ";
+				
+				$query->where($db->qn('p.product_id') . ' NOT IN (' . implode("," , $related ) . ')');
+				
 			}
-
-			$query = "SELECT p.product_id AS id,p.product_name AS value,p.product_number as value_number "
-				. "FROM " . $this->_table_prefix . "product as p "
-				. "WHERE (p.product_name LIKE '" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%') "
-				. $and
-				. " LIMIT 0,50 ";
+			
+			$query->setLimit(50,0);
 		}
 		elseif ($this->_parent == 1)
 		{
-			$and = "";
+			$query = $db->getQuery(true)
+				->select($db->qn('p.product_id', 'id'))
+				->select($db->qn('p.product_name', 'value'))
+				->from($db->qn('#__redshop_product','p'))
+				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 
 			if ($this->_product_id != 0)
 			{
-				$and = "AND p.product_id NOT IN (" . $this->_product_id . ") ";
+				$query->where($db->qn('p.product_id') . ' NOT IN (' . $this->_product_id . ')');
 			}
 
-			$query = "SELECT p.product_id AS id,p.product_name AS value "
-				. "FROM " . $this->_table_prefix . "product as p "
-				. "WHERE p.product_name LIKE '" . $this->_search . "%' "
-				. $and
-				. " LIMIT 0,50 ";
+			$query->setLimit(50,0);
 		}
-
 		elseif ($this->_navigator == 1)
 		{
-			$where = " and (p.product_name like '%" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
-			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " .
-				$this->_table_prefix . "product as p WHERE 1=1 and p.published = 1 " . $where;
+			$query = $db->getQuery(true)
+				->select($db->qn('p.product_id', 'id'))
+				->select($db->qn('p.product_name', 'value'))
+				->select($db->qn('p.product_number', 'value_number'))
+				->select($db->qn('p.product_price', 'price'))
+				->from($db->qn('#__redshop_product','p'))
+				->where('p.published = 1')
+				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+				->orwhere($db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 		}
 		else
 		{
+			$query = $db->getQuery(true)
+				->select('DISTINCT p.product_id AS id')
+				->select($db->qn('p.product_name', 'value'))
+				->select($db->qn('p.product_number', 'value_number'))
+				->select($db->qn('p.product_price', 'price'))
+				->from($db->qn('#__redshop_product','p'))
+				->leftjoin(
+					$db->qn('#__redshop_product_accessory', 'cp')
+					. ' ON ' . $db->qn('cp.product_id') . ' = ' . $db->qn('p.product_id')
+				);
+
 			if ($this->_product_id != 0)
 			{
-				$where = " and p.product_id not in (select child_product_id from " . $this->_table_prefix . "product_accessory where product_id=" .
-					$this->_product_id . ") and p.product_id!=" . $this->_product_id . " and (p.product_name like '%" .
-					$this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
+				$subQuery = $db->getQuery(true)
+					->select($db->qn('child_product_id'))
+					->from($db->qn('#__redshop_product_accessory'))
+					->where($db->qn('product_id') . ' = ' . $db->q( $this->_product_id ));
+
+				$query->where($db->qn('p.product_id') . ' NOT IN (' . $subQuery . ')')
+					->where($db->qn('p.product_id') . ' != ' . $db->q( (int) $this->_product_id ))
+					->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+					->where($db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
 			else
 			{
-				$where = " and (p.product_name like '%" . $this->_search . "%' or p.product_number LIKE '" . $this->_search . "%')";
+				$query->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
+					->where($db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
-
-			$query = "SELECT distinct p.product_id as id,p.product_name as value ,p.product_number as value_number ,product_price as price FROM " .
-				$this->_table_prefix . "product as p left join   " . $this->_table_prefix . "product_accessory as cp on cp.product_id=p.product_id
-				WHERE 1=1 " . $where;
 		}
 
 		return $query;
