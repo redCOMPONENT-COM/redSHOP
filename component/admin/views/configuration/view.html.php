@@ -229,6 +229,13 @@ class RedshopViewConfiguration extends RedshopViewAdmin
 		);
 		$lists['portalshop']                    = JHtml::_('redshopselect.booleanlist', 'portal_shop', 'class="form-control" size="1"', $this->config->get('PORTAL_SHOP'));
 
+		// Default checkout required
+		$lists['required_postal_code']          = JHtml::_('redshopselect.booleanlist', 'required_postal_code', 'class="form-control" size="1"', $this->config->get('REQUIRED_POSTAL_CODE'));
+		$lists['required_ean_number']           = JHtml::_('redshopselect.booleanlist', 'required_ean_number', 'class="form-control" size="1"', $this->config->get('REQUIRED_EAN_NUMBER'));
+		$lists['required_address']              = JHtml::_('redshopselect.booleanlist', 'required_address', 'class="form-control" size="1"', $this->config->get('REQUIRED_ADDRESS'));
+		$lists['required_country_code']         = JHtml::_('redshopselect.booleanlist', 'required_country_code', 'class="form-control" size="1"', $this->config->get('REQUIRED_COUNTRY_CODE'));
+		$lists['required_phone']                = JHtml::_('redshopselect.booleanlist', 'required_phone', 'class="form-control" size="1"', $this->config->get('REQUIRED_PHONE'));
+
 		$imageSizeSwapping                = array();
 		$imageSizeSwapping[]              = JHtml::_('select.option', 0, JText::_('COM_REDSHOP_CONFIG_NO_PROPORTIONAL_RESIZED'));
 		$imageSizeSwapping[]              = JHtml::_('select.option', 1, JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED'));
