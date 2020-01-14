@@ -38,67 +38,37 @@ class RedshopModelSearch extends RedshopModel
 
 		$jinput = JFactory::getApplication()->input;
 
-		$id = $jinput->get('id', 0);
-
-		$product_id = $jinput->get('product_id', '');
-
-		$related = $jinput->get('related', '');
-
-		$navigator = $jinput->get('navigator', '');
-
-		$voucher_id = $jinput->get('voucher_id', '');
-
-		$stockroom_id = $jinput->get('stockroom_id', '');
-
-		$media_section = $jinput->get('media_section', '');
-
-		$user = $jinput->get('user', '');
-
-		$plgcustomview = $jinput->get('plgcustomview', '');
-
 		$this->_iscompany = $jinput->getInt('iscompany', -1);
 
-		$addreduser = $jinput->get('addreduser', '');
+		$this->_parent = $jinput->get('parent', '');
 
-		$products = $jinput->get('isproduct', '');
+		$this->_limit = $jinput->get('limit', '');
 
-		$search = $jinput->get('input', '');
+		$this->_search = $jinput->get('input', '');
 
-		$parent = $jinput->get('parent', '');
+		$this->_alert = $jinput->get('alert', '');
 
-		$alert = $jinput->get('alert', '');
+		$this->setId((int) $jinput->get('id', 0));
 
-		$limit = $jinput->get('limit', '');
+		$this->_stockroom_id = ((int) $jinput->get('stockroom_id', 0));
 
-		$this->_parent = $parent;
+		$this->_product_id = ((int) $jinput->get('product_id', 0));
 
-		$this->_limit = $limit;
+		$this->_related = ((int) $jinput->get('related',0));
 
-		$this->_search = $search;
+		$this->_navigator = ((int) $jinput->get('navigator', 0));
 
-		$this->_alert = $alert;
+		$this->_voucher_id = ((int) $jinput->get('voucher_id', 0));
 
-		$this->setId((int) $id);
+		$this->_media_section = $jinput->get('media_section', '');
 
-		$this->_stockroom_id = ((int) $stockroom_id);
+		$this->_user = $jinput->get('user', '');
 
-		$this->_product_id = ((int) $product_id);
+		$this->_plgcustomview = $jinput->get('plgcustomview', '');
 
-		$this->_related = ((int) $related);
+		$this->_addreduser = $jinput->get('addreduser', '');
 
-		$this->_navigator = ((int) $navigator);
-
-		$this->_voucher_id = ((int) $voucher_id);
-
-		$this->_media_section = $media_section;
-
-		$this->_user = $user;
-
-		$this->_plgcustomview = $plgcustomview;
-
-		$this->_addreduser = $addreduser;
-
-		$this->_products = $products;
+		$this->_products = $jinput->get('isproduct', '');
 	}
 
 	/**
@@ -424,22 +394,18 @@ class RedshopModelSearch extends RedshopModel
 	public function setId($id)
 	{
 		$this->_id   = $id;
-		$this->_data = null;
 	}
 
 	public function getData()
 	{
 		if ($this->_alert == 'termsarticle')
 		{
-			$this->_data = $this->_buildQuery();
-
-			return $this->_data;
+			return $this->_buildQuery();
 		}
 
 		$query       = $this->_buildQuery();
-		$this->_data = $this->_getList($query);
 
-		return $this->_data;
+		return $this->_getList($query);
 	}
 
 	public function _buildQuery()
@@ -484,18 +450,10 @@ class RedshopModelSearch extends RedshopModel
 					$db->qn('#__redshop_product_voucher_xref', 'cp')
 					. ' ON ' . $db->qn('cp.product_id') . ' = ' . $db->qn('p.product_id')
 				)
-				->where($db->qn('cp.voucher_id') . ' = ' . $db->quote($this->_voucher_id));
+				->where($db->qn('cp.voucher_id') . ' = ' . $db->q( (int) $this->_voucher_id) );
 
 			$this->_db->setQuery($query);
 			$this->_productdata = $this->_db->loadObjectList();
-
-			if (count($this->_productdata) > 0)
-			{
-				foreach ($this->_productdata as $rc)
-				{
-					$pid[] = $rc->value;
-				}
-			}
 
 			$query = $db->getQuery(true)
 				->select('DISTINCT p.product_id AS id')
@@ -506,10 +464,15 @@ class RedshopModelSearch extends RedshopModel
 					. ' ON ' . $db->qn('cp.product_id') . ' = ' . $db->qn('p.product_id')
 				);
 
-			if ($this->_productdata)
+			if (count($this->_productdata) > 0)
 			{
+				foreach ($this->_productdata as $rc)
+				{
+					$pid[] = $rc->value;
+				}
+
 				$query->where($db->qn('p.product_id') . ' NOT IN (' . implode("," , $pid ) . ')')
-						->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+					->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
 			else
 			{
@@ -623,8 +586,8 @@ class RedshopModelSearch extends RedshopModel
 					->orwhere($db->qn('u.username') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 					->orwhere($db->qn('uf.firstname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 					->orwhere($db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
-					->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'))
-					->where($db->qn('uf.is_company') . ' = ' . $db->quote($this->_iscompany));
+					->where($db->qn('uf.address_type') . ' LIKE ' . $db->q('BT'))
+					->where($db->qn('uf.is_company') . ' = ' . $db->q( (int) $this->_iscompany));
 			}
 
 			if ($this->_iscompany == 1)
