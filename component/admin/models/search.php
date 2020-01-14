@@ -48,7 +48,7 @@ class RedshopModelSearch extends RedshopModel
 
 		$this->_alert = $jinput->get('alert', '');
 
-		$this->setId((int) $jinput->get('id', 0));
+		$this->_id = ((int) $jinput->get('id', 0));
 
 		$this->_stockroom_id = ((int) $jinput->get('stockroom_id', 0));
 
@@ -62,7 +62,7 @@ class RedshopModelSearch extends RedshopModel
 
 		$this->_media_section = $jinput->get('media_section', '');
 
-		$this->_user = $jinput->get('user', '');
+		$this->_user = ( (int) $jinput->get('user', 0));
 
 		$this->_plgcustomview = $jinput->get('plgcustomview', '');
 
@@ -421,6 +421,8 @@ class RedshopModelSearch extends RedshopModel
 					->select($db->qn('product_name','value'))
 					->from($db->qn('#__redshop_product', 'p'))
 					->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+
+				return $query;
 			}
 			elseif ($this->_media_section == 'category')
 			{
@@ -429,6 +431,8 @@ class RedshopModelSearch extends RedshopModel
 					->select($db->qn('name','value'))
 					->from($db->qn('#__redshop_category', 'cat'))
 					->where($db->qn('cat.name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+
+				return $query;
 			}
 			else
 			{
@@ -438,6 +442,8 @@ class RedshopModelSearch extends RedshopModel
 					->from($db->qn('#__redshop_catalog', 'log'))
 					->where('published = 1')
 					->where($db->qn('log.catalog_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+
+				return $query;
 			}
 		}
 		elseif ($this->_alert == 'voucher')
@@ -478,6 +484,8 @@ class RedshopModelSearch extends RedshopModel
 			{
 				$query->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
+
+			return $query;
 		}
 		elseif ($this->_alert == 'termsarticle')
 		{
@@ -562,6 +570,8 @@ class RedshopModelSearch extends RedshopModel
 						->orwhere($db->qn('uf.firstname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 						->orwhere($db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 						->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'));
+
+			return $query;
 		}
 		elseif ($this->_plgcustomview == 1)
 		{
@@ -588,6 +598,8 @@ class RedshopModelSearch extends RedshopModel
 					->orwhere($db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 					->where($db->qn('uf.address_type') . ' LIKE ' . $db->q('BT'))
 					->where($db->qn('uf.is_company') . ' = ' . $db->q( (int) $this->_iscompany));
+
+				return $query;
 			}
 
 			if ($this->_iscompany == 1)
@@ -612,6 +624,8 @@ class RedshopModelSearch extends RedshopModel
 					->orwhere($db->qn('uf.company_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 					->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'))
 					->where($db->qn('uf.is_company') . ' = ' . $db->quote($this->_iscompany));
+
+				return $query;
 			}
 		}
 		elseif ($this->_addreduser == 1)
@@ -637,6 +651,8 @@ class RedshopModelSearch extends RedshopModel
 				->orwhere($db->qn('uf.firstname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 				->orwhere($db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 				->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'));
+
+			return $query;
 		}
 		elseif ($this->_products == 1)
 		{
@@ -646,6 +662,8 @@ class RedshopModelSearch extends RedshopModel
 				->select($db->qn('p.product_number', 'value_number'))
 				->from($db->qn('#__redshop_product','p'))
 				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+
+			return $query;
 		}
 		elseif ($this->_related == 1)
 		{
@@ -668,12 +686,16 @@ class RedshopModelSearch extends RedshopModel
 
 				$related                  = $this->_db->loadColumn();
 				$related[count($related)] = $this->_product_id;
-				
-				$query->where($db->qn('p.product_id') . ' NOT IN (' . implode("," , $related ) . ')');
-				
+
+				if ( is_array($related) && $related )
+				{
+					$query->where($db->qn('p.product_id') . ' NOT IN (' . implode("," , $related ) . ')');
+				}
 			}
-			
+
 			$query->setLimit(50,0);
+
+			return $query;
 		}
 		elseif ($this->_parent == 1)
 		{
@@ -689,6 +711,8 @@ class RedshopModelSearch extends RedshopModel
 			}
 
 			$query->setLimit(50,0);
+
+			return $query;
 		}
 		elseif ($this->_navigator == 1)
 		{
@@ -701,6 +725,8 @@ class RedshopModelSearch extends RedshopModel
 				->where('p.published = 1')
 				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 				->orwhere($db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+
+			return $query;
 		}
 		else
 		{
@@ -732,8 +758,8 @@ class RedshopModelSearch extends RedshopModel
 				$query->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 					->where($db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
 			}
-		}
 
-		return $query;
+			return $query;
+		}
 	}
 }
