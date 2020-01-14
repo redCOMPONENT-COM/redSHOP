@@ -477,8 +477,15 @@ class RedshopModelSearch extends RedshopModel
 					$pid[] = $rc->value;
 				}
 
-				$query->where($db->qn('p.product_id') . ' NOT IN (' . implode("," , $pid ) . ')')
-					->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+				if(is_array($pid) && $pid)
+				{
+					$query->where($db->qn('p.product_id') . ' NOT IN (' . implode("," , $pid ) . ')')
+						->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+				}
+				else
+				{
+					$query->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'));
+				}
 			}
 			else
 			{
