@@ -622,8 +622,8 @@ class RedshopModelSearch extends RedshopModel
 					)
 					->orwhere($db->qn('u.username') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
 					->orwhere($db->qn('uf.company_name') . ' LIKE ' . $db->q('%' . $this->_search . '%'))
-					->where($db->qn('uf.address_type') . ' LIKE ' . $db->quote('BT'))
-					->where($db->qn('uf.is_company') . ' = ' . $db->quote($this->_iscompany));
+					->where($db->qn('uf.address_type') . ' LIKE ' . $db->q('BT'))
+					->where($db->qn('uf.is_company') . ' = ' . $db->q( (int) $this->_iscompany));
 
 				return $query;
 			}
