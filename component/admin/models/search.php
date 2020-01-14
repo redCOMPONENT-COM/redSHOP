@@ -18,7 +18,7 @@ class RedshopModelSearch extends RedshopModel
 
 	public $_data = null;
 
-	protected $_search = null;
+	public $_search = null;
 
 	public $_product = null;
 
@@ -28,7 +28,27 @@ class RedshopModelSearch extends RedshopModel
 
 	public $_limit = null;
 
-	public $_iscompany = null;
+	public $_iscompany = -1;
+
+	public  $_alert = null;
+
+	public  $_media_section = null;
+
+	public  $_voucher_id  = 0;
+
+	public  $_user  = 0;
+
+	public  $_addreduser  = null;
+
+	public  $_products   = null;
+
+	public  $_related   = 0;
+
+	public  $_product_id   = 0;
+
+	public  $_parent   = 0;
+
+	public  $_navigator   = 0;
 
 	public function __construct()
 	{
@@ -40,7 +60,7 @@ class RedshopModelSearch extends RedshopModel
 
 		$this->_iscompany = $jinput->getInt('iscompany', -1);
 
-		$this->_parent = $jinput->get('parent', '');
+		$this->_parent = $jinput->get('parent', 0);
 
 		$this->_limit = $jinput->get('limit', '');
 
