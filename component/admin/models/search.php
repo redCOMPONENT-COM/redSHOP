@@ -18,7 +18,7 @@ class RedshopModelSearch extends RedshopModel
 
 	public $_data = null;
 
-	public $_search = null;
+	protected $_search = null;
 
 	public $_product = null;
 
@@ -44,7 +44,7 @@ class RedshopModelSearch extends RedshopModel
 
 		$this->_limit = $jinput->get('limit', '');
 
-		$this->_search = $jinput->get('input', '');
+		$this->_search = $jinput->get('input', null );
 
 		$this->_alert = $jinput->get('alert', '');
 
@@ -469,6 +469,8 @@ class RedshopModelSearch extends RedshopModel
 					$db->qn('#__redshop_product_voucher_xref', 'cp')
 					. ' ON ' . $db->qn('cp.product_id') . ' = ' . $db->qn('p.product_id')
 				);
+			
+			$pid =array();
 
 			if (count($this->_productdata) > 0)
 			{
