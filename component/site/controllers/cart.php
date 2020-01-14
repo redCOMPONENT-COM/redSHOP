@@ -525,6 +525,8 @@ class RedshopControllerCart extends RedshopController
 		$post  = $input->post->getArray();
 		$ajax  = $input->getInt('ajax', 0);
 
+		JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('cart');
 

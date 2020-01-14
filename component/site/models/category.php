@@ -132,6 +132,8 @@ class RedshopModelCategory extends RedshopModel
 			$app->setUserState($this->context . '.manufacturer_id', $manufacturerId);
 		}
 
+		$categoryId     = $app->input->post->getInt('category_id', 0);
+		$this->setState('category_id', $categoryId);
 		$this->setState('manufacturer_id', $manufacturerId);
 
 		// Get default ordering
@@ -384,7 +386,14 @@ class RedshopModelCategory extends RedshopModel
 			}
 		}
 
+		if ($this->getState('category_id') !== 0)
+		{
+			$query->where($db->qn('pc.category_id') . ' = ' . $db->q($this->getState('category_id')));
+		}
+		else
+		{
 		$query->where($db->qn('pc.category_id') . ' IN (' . implode(',', $categories) . ')');
+		}
 
 		$finderCondition = $this->getredproductfindertags();
 

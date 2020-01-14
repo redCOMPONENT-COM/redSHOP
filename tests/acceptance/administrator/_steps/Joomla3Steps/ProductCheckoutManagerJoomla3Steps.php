@@ -1236,8 +1236,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		$I->waitForElement(CheckoutChangeQuantityProductPage::$updateCartButton, 30);
 		$I->click(CheckoutChangeQuantityProductPage::$updateCartButton);
+		$I->waitForText($total, 30, FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$priceEnd);
-		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$priceEnd);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		try {
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
