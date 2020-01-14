@@ -18,7 +18,6 @@ JHtml::_('behavior.modal');
 $producthelper = productHelper::getInstance();
 $configobj     = Redconfiguration::getInstance();
 $redTemplate   = Redtemplate::getInstance();
-$extraField    = extraField::getInstance();
 
 $session       = JFactory::getSession();
 $Itemid        = $input->getInt('Itemid');
