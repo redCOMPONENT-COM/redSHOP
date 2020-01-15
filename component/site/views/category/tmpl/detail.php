@@ -1095,7 +1095,7 @@ $template_desc = str_replace("{redproductfinderfilter:rp_myfilter}", "", $templa
 $template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 
 $template_desc = RedshopHelperText::replaceTexts($template_desc);
-echo /** @scrutinizer ignore-deprecated */ eval("?>" . $template_desc . "<?php ");
+echo /** @scrutinizer ignore-type */ eval("?>" . $template_desc . "<?php ");
 
 if ($slide)
 {
