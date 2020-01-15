@@ -2173,7 +2173,7 @@ class RedshopModelCheckout extends RedshopModel
 	/**
 	 * Get Unique order number
 	 *
-	 * @return integer
+	 * @return integer|string
 	 *
 	 * @since  2.1.0
 	 */

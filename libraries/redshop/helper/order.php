@@ -56,7 +56,7 @@ class RedshopHelperOrder
 	 *
 	 * @since  2.0.3
 	 */
-	public static $orderStatusList = null;
+	public static $orderStatusList = array();
 
 	/**
 	 * Billing addresses
@@ -191,7 +191,7 @@ class RedshopHelperOrder
 
 			$number = $maxInvoiceNo + 1;
 
-			self::updateInvoiceNumber($number, $orderId);
+			/** @scrutinizer ignore-deprecated */ self::updateInvoiceNumber($number, $orderId);
 
 			$formattedNumber = self::formatInvoiceNumber($number);
 		}
@@ -291,7 +291,7 @@ class RedshopHelperOrder
 	/**
 	 * Get all the order status code information list
 	 *
-	 * @return  array  Order Status info
+	 * @return  array|null  Order Status info
 	 */
 	public static function getOrderStatusList()
 	{
@@ -317,9 +317,9 @@ class RedshopHelperOrder
 		self::$allStatus = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
+		if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return null;
 		}
@@ -474,9 +474,9 @@ class RedshopHelperOrder
 		$fields = $db->setQuery($query)->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
+		if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return null;
 		}
@@ -633,6 +633,7 @@ class RedshopHelperOrder
 		$paymentParams      = new Registry($paymentMethod->params);
 		$orderStatusCapture = $paymentParams->get('capture_status', '');
 		$orderStatusCode    = $orderStatusCapture;
+		$values = array();
 
 		if ($orderStatusCapture == $newStatus
 			&& ($authorizeStatus == "Authorized" || $authorizeStatus == ""))
@@ -641,8 +642,8 @@ class RedshopHelperOrder
 			$values["order_id"]            = $orderId;
 			$values["order_transactionid"] = $result->order_payment_trans_id;
 			$values["order_amount"]        = $orderDetail->order_total + $result->order_transfee;
-			$values['shippinginfo']        = self::getOrderShippingUserInfo($orderId);
-			$values['billinginfo']         = self::getOrderBillingUserInfo($orderId);
+			$values['shippinginfo']        = /** @scrutinizer ignore-deprecated */ self::getOrderShippingUserInfo($orderId);
+			$values['billinginfo']         = /** @scrutinizer ignore-deprecated */ self::getOrderBillingUserInfo($orderId);
 			$values["order_userid"]        = $values['billinginfo']->user_id;
 
 			JPluginHelper::importPlugin('redshop_payment');
@@ -702,10 +703,10 @@ class RedshopHelperOrder
 	public static function generateParcel($orderId)
 	{
 		$db                        = JFactory::getDbo();
-		$orderDetail               = self::getOrderDetails($orderId);
-		$orderProducts             = self::getOrderItemDetail($orderId);
-		$billingInfo               = self::getOrderBillingUserInfo($orderId);
-		$shippingInfo              = self::getOrderShippingUserInfo($orderId);
+		$orderDetail               = /** @scrutinizer ignore-deprecated */ self::getOrderDetails($orderId);
+		$orderProducts             = /** @scrutinizer ignore-deprecated */ self::getOrderItemDetail($orderId);
+		$billingInfo               = /** @scrutinizer ignore-deprecated */ self::getOrderBillingUserInfo($orderId);
+		$shippingInfo              = /** @scrutinizer ignore-deprecated */ self::getOrderShippingUserInfo($orderId);
 		$shippingRateDecryptDetail = Redshop\Shipping\Rate::decrypt($orderDetail->ship_method_id);
 
 		// Get Shipping Delivery Type
@@ -719,14 +720,14 @@ class RedshopHelperOrder
 		$query = $db->getQuery(true)
 					->select($db->qn('country_2_code'))
 					->from($db->qn('#__redshop_country'))
-					->where($db->qn('country_3_code') . ' = ' . $db->quote(Redshop::getConfig()->get('SHOP_COUNTRY')));
+					->where($db->qn('country_3_code') . ' = ' . /** @scrutinizer ignore-type */ $db->quote(Redshop::getConfig()->get('SHOP_COUNTRY')));
 		$db->setQuery($query);
 		$billingInfo->country_code = $db->loadResult();
 
 		$query = $db->getQuery(true)
 					->select($db->qn('country_2_code'))
 					->from($db->qn('#__redshop_country'))
-					->where($db->qn('country_3_code') . ' = ' . $db->quote($shippingInfo->country_code));
+					->where($db->qn('country_3_code') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($shippingInfo->country_code));
 		$db->setQuery($query);
 		$shippingInfo->country_code = $db->loadResult();
 
@@ -735,7 +736,7 @@ class RedshopHelperOrder
 		$contentProducts = array();
 		$qty             = 0;
 
-		for ($c = 0, $cn = count($orderProducts); $c < $cn; $c++)
+		for ($c = 0, $cn = count(/** @scrutinizer ignore-type */ $orderProducts); $c < $cn; $c++)
 		{
 			$qty += $orderProducts [$c]->product_quantity;
 			$contentProducts[] = $orderProducts[$c]->order_item_name;
@@ -904,19 +905,19 @@ class RedshopHelperOrder
 		try
 		{
 			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $postURL);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_VERBOSE, true);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
-			$response = curl_exec($ch);
-			curl_close($ch);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_URL, $postURL);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_POST, true);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_VERBOSE, true);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt(/** @scrutinizer ignore-type */ $ch, CURLOPT_POSTFIELDS, $xmlnew);
+			$response = curl_exec(/** @scrutinizer ignore-type */ $ch);
+			curl_close(/** @scrutinizer ignore-type */ $ch);
 
-			$xmlResponse = JFactory::getXML($response, false);
+			$xmlResponse = /** @scrutinizer ignore-deprecated */ JFactory::getXML($response, false);
 
-			if (empty($xmlResponse) || !empty($error))
+			if (empty($xmlResponse))
 			{
 				return JText::_('LIB_REDSHOP_PACSOFT_ERROR_NO_RESPONSE');
 			}
@@ -992,8 +993,8 @@ class RedshopHelperOrder
 
 			$query = $db->getQuery(true)
 						->update($db->qn('#__redshop_order_payment'))
-						->set($db->qn('order_transfee') . ' = ' . $db->quote($data->transfee))
-						->set($db->qn('order_payment_trans_id') . ' = ' . $db->quote($data->transaction_id))
+						->set($db->qn('order_transfee') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($data->transfee))
+						->set($db->qn('order_payment_trans_id') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($data->transaction_id))
 						->where($db->qn('order_id') . ' = ' . (int) $orderId);
 			$db->setQuery($query);
 			$db->execute();
@@ -1026,7 +1027,7 @@ class RedshopHelperOrder
 			{
 				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 				$checkoutModelCheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
-				$checkoutModelCheckout->sendGiftCard($orderId);
+				$checkoutModelCheckout->/** @scrutinizer ignore-call */ sendGiftCard($orderId);
 
 				// Send the Order mail
 
@@ -1048,7 +1049,7 @@ class RedshopHelperOrder
 			RedshopHelperUtility::getDispatcher()->trigger(
 				'onAfterOrderStatusUpdate',
 				array(
-					self::getOrderDetails($orderId),
+					/** @scrutinizer ignore-deprecated */ self::getOrderDetails($orderId),
 					$data->order_status_code
 				)
 			);
@@ -1183,7 +1184,7 @@ class RedshopHelperOrder
 
 		if (!$db->execute())
 		{
-			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+			JFactory::getApplication()->enqueueMessage(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg(), 'error');
 		}
 	}
 
@@ -1194,12 +1195,13 @@ class RedshopHelperOrder
 	 * @param   string  $selected    Selet status name
 	 * @param   string  $attributes  Attributes of html
 	 *
-	 * @return  string  HTML of status list
+	 * @return  string|mixed  HTML of status list
 	 *
 	 * @since   2.0.3
 	 */
 	public static function getStatusList($name = 'statuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
+		$types = array();
 		if (!self::$orderStatusList)
 		{
 			self::$orderStatusList = self::getOrderStatusList();
@@ -1225,6 +1227,7 @@ class RedshopHelperOrder
 	 */
 	public static function getFilterByList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
 	{
+		$types = array();
 		$filterByList = array(
 			'orderid'     => JText::_('COM_REDSHOP_ORDERID'),
 			'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
@@ -1252,6 +1255,7 @@ class RedshopHelperOrder
 	 */
 	public static function getPaymentStatusList($name = 'paymentstatuslist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
+		$types = array();
 		$types[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_PAYMENT_STATUS'));
 		$types[] = JHtml::_('select.option', 'Paid', JText::_('COM_REDSHOP_PAYMENT_STA_PAID'));
 		$types[] = JHtml::_('select.option', 'Unpaid', JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID'));
@@ -1282,7 +1286,7 @@ class RedshopHelperOrder
 		$customerNote    = $app->input->get('customer_note', array(), 'array');
 		$customerNote    = stripslashes($customerNote[0]);
 
-		$oid             = $app->input->get('order_id', array(), 'method', 'array');
+		$oid             = /** @scrutinizer ignore-call */ $app->input->get('order_id', array(), 'method', 'array');
 		$orderId         = (int) $oid[0];
 
 		$isProduct       = $app->input->getInt('isproduct', 0);
@@ -1294,11 +1298,12 @@ class RedshopHelperOrder
 
 		if (isset($paymentStatus))
 		{
-			self::updateOrderPaymentStatus($orderId, $paymentStatus);
+			/** @scrutinizer ignore-deprecated */ self::updateOrderPaymentStatus($orderId, $paymentStatus);
 		}
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 		$orderLog = JTable::getInstance('order_status_log', 'Table');
+		$data = array();
 
 		if (!$isProduct)
 		{
@@ -1310,17 +1315,17 @@ class RedshopHelperOrder
 
 			if (!$orderLog->bind($data))
 			{
-				JFactory::getApplication()->enqueueMessage($orderLog->getError(), 'error');
+				JFactory::getApplication()->enqueueMessage(/** @scrutinizer ignore-deprecated */ $orderLog->getError(), 'error');
 
 				return;
 			}
 
 			if (!$orderLog->store())
 			{
-				throw new Exception($orderLog->getError());
+				throw new Exception(/** @scrutinizer ignore-deprecated */ $orderLog->getError());
 			}
 
-			self::updateOrderComment($orderId, $customerNote);
+			/** @scrutinizer ignore-deprecated */ self::updateOrderComment($orderId, $customerNote);
 
 			$requisitionNumber = $app->input->getString('requisition_number', '');
 
@@ -1347,7 +1352,7 @@ class RedshopHelperOrder
 			{
 				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 				$checkoutModel = JModelLegacy::getInstance('Checkout', 'RedshopModel');
-				$checkoutModel->sendGiftCard($orderId);
+				$checkoutModel->/** @scrutinizer ignore-call */ sendGiftCard($orderId);
 
 				// Send the Order mail
 				if (Redshop::getConfig()->get('ORDER_MAIL_AFTER') && $newStatus == 'C')
@@ -1384,7 +1389,7 @@ class RedshopHelperOrder
 
 				$orderProducts = self::getOrderItemDetail($orderId);
 
-				for ($i = 0, $in = count($orderProducts); $i < $in; $i++)
+				for ($i = 0, $in = count(/** @scrutinizer ignore-type */ $orderProducts); $i < $in; $i++)
 				{
 					$prodid = $orderProducts[$i]->product_id;
 					$prodqty = $orderProducts[$i]->stockroom_quantity;
@@ -1506,7 +1511,7 @@ class RedshopHelperOrder
 	 */
 	public static function getOrderDetails($orderId)
 	{
-		return self::getOrderDetail($orderId);
+		return /** @scrutinizer ignore-deprecated */self::getOrderDetail($orderId);
 	}
 
 	/**
@@ -1529,7 +1534,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  object
+	 * @return  object|mixed
 	 *
 	 * @since   2.0.3
 	 */
@@ -1763,7 +1768,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User Id
 	 *
-	 * @return  array
+	 * @return  array|null
 	 *
 	 * @since   2.0.3
 	 */
@@ -1777,7 +1782,7 @@ class RedshopHelperOrder
 
 		if (!$userId)
 		{
-			return false;
+			return null;
 		}
 
 		if (!array_key_exists($userId, static::$shippingAddresses))
@@ -1904,6 +1909,43 @@ class RedshopHelperOrder
 	}
 
 	/**
+	 * Get order item attribute detail
+	 *
+	 * @param   integer  $orderItemId      Order Item ID
+	 * @param   integer  $isAccessory      Is accessory
+	 * @param   string   $section          Section text
+	 * @param   integer  $parentSectionId  Parent section ID
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.1
+	 */
+	public static function getExportOrderItemAttributeDetail($orderItemId = 0, $isAccessory = 0, $section = "attribute", $parentSectionId = 0)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('GROUP_CONCAT(' . $db->qn('section_name') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('section_name'))
+			->select('GROUP_CONCAT(' . $db->qn('section_id') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('section_id'))
+			->select('GROUP_CONCAT(' . $db->qn('parent_section_id') . ' SEPARATOR ' . $db->quote('###').')'  . ' AS ' . $db->qn('parent_section_id'))
+			->from($db->qn('#__redshop_order_attribute_item'))
+			->where($db->qn('is_accessory_att') . ' = ' . (int) $isAccessory)
+			->where($db->qn('section') . ' = ' . $db->quote($section));
+
+		if ($orderItemId != 0)
+		{
+			$query->where($db->qn('order_item_id') . ' = ' . (int) $orderItemId);
+		}
+
+		if ($parentSectionId != 0)
+		{
+			$query->where($db->qn('parent_section_id') . ' = ' . (int) $parentSectionId);
+		}
+
+		$db->setQuery($query);
+		return $db->loadObjectlist();
+	}
+
+	/**
 	 * Get Order User Field Data
 	 *
 	 * @param   integer  $orderItemId  Order Item ID
@@ -1931,7 +1973,7 @@ class RedshopHelperOrder
 	/**
 	 * Generate Order Number
 	 *
-	 * @return  integer
+	 * @return  integer|string
 	 *
 	 * @since   2.0.3
 	 */
@@ -2109,8 +2151,8 @@ class RedshopHelperOrder
 		}
 
 		// Getting the order details
-		$orderDetail = self::getOrderDetails($orderId);
-		$userDetail  = self::getOrderBillingUserInfo($orderId);
+		$orderDetail = /** @scrutinizer ignore-deprecated */ self::getOrderDetails($orderId);
+		$userDetail  = /** @scrutinizer ignore-deprecated */ self::getOrderBillingUserInfo($orderId);
 
 		$userFullname = $userDetail->firstname . " " . $userDetail->lastname;
 		$userEmail    = $userDetail->email;
@@ -2274,9 +2316,9 @@ class RedshopHelperOrder
 
 		$isCreditCard = $paymentParams->get('is_creditcard', '');
 
-		$order = self::getOrderDetails($row->order_id);
+		$order = /** @scrutinizer ignore-deprecated */ self::getOrderDetails($row->order_id);
 
-		if ($userBillingInfo = self::getOrderBillingUserInfo($row->order_id))
+		if ($userBillingInfo = /** @scrutinizer ignore-deprecated */ self::getOrderBillingUserInfo($row->order_id))
 		{
 			$userBillingInfo->country_2_code = RedshopHelperWorld::getCountryCode2($userBillingInfo->country_code);
 			$userBillingInfo->state_2_code   = RedshopHelperWorld::getStateCode2($userBillingInfo->state_code);
@@ -2284,7 +2326,7 @@ class RedshopHelperOrder
 
 		$task = $app->input->getCmd('task');
 
-		if ($shippingAddress = self::getOrderShippingUserInfo($row->order_id))
+		if ($shippingAddress = /** @scrutinizer ignore-deprecated */ self::getOrderShippingUserInfo($row->order_id))
 		{
 			$shippingAddress->country_2_code = RedshopHelperWorld::getCountryCode2($shippingAddress->country_code);
 			$shippingAddress->state_2_code   = RedshopHelperWorld::getStateCode2($shippingAddress->state_code);
@@ -2367,8 +2409,8 @@ class RedshopHelperOrder
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__redshop_orders'))
-			->where($db->qn('order_status') . ' = ' . $db->quote($data->order_status_code))
-			->where($db->qn('order_payment_status') . ' = ' . $db->quote($data->order_payment_status_code))
+			->where($db->qn('order_status') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($data->order_status_code))
+			->where($db->qn('order_payment_status') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($data->order_payment_status_code))
 			->where($db->qn('order_id') . ' = ' . (int) $data->order_id);
 		$db->setQuery($query);
 
@@ -2396,7 +2438,7 @@ class RedshopHelperOrder
 		$app = JFactory::getApplication();
 
 		// Changes to parse all tags same as order mail end
-		$userDetail = self::getOrderBillingUserInfo($orderId);
+		$userDetail = /** @scrutinizer ignore-deprecated */ self::getOrderBillingUserInfo($orderId);
 
 		$mailFrom     = $app->get('mailfrom');
 		$fromName     = $app->get('fromname');
@@ -2405,6 +2447,8 @@ class RedshopHelperOrder
 		$mailTemplate = Redshop\Mail\Helper::getTemplate(
 			0, '', '`mail_section` LIKE "' . $mailSection . '" AND `mail_order_status` LIKE "' . $newStatus . '"'
 		);
+		$search = array();
+		$replace = array();
 
 		if (count($mailTemplate) > 0)
 		{
@@ -2440,7 +2484,7 @@ class RedshopHelperOrder
 			}
 
 			// Changes to parse all tags same as order mail start
-			$orderDetail      = self::getOrderDetails($orderId);
+			$orderDetail      = /** @scrutinizer ignore-deprecated */ self::getOrderDetails($orderId);
 			$mailData = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $mailData);
 			$mailData = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $mailData);
 
@@ -2479,7 +2523,7 @@ class RedshopHelperOrder
 			$mailData = RedshopHelperBillingTag::replaceBillingAddress($mailData, $userDetail);
 
 			// Get ShippingAddress From order Users info
-			$shippingAddresses = self::getOrderShippingUserInfo($orderId);
+			$shippingAddresses = /** @scrutinizer ignore-deprecated */ self::getOrderShippingUserInfo($orderId);
 
 			if (count($shippingAddresses) <= 0)
 			{
@@ -2623,7 +2667,7 @@ class RedshopHelperOrder
 		{
 			if (Redshop::getConfig()->get('ECONOMIC_INVOICE_DRAFT') == 2 && $orderStatus == Redshop::getConfig()->get('BOOKING_ORDER_STATUS'))
 			{
-				$paymentInfo  = self::getPaymentInfo($orderId);
+				$paymentInfo  = /** @scrutinizer ignore-deprecated */ self::getPaymentInfo($orderId);
 				$economicData = array();
 
 				if (!empty($paymentInfo))
@@ -2671,7 +2715,7 @@ class RedshopHelperOrder
 	 */
 	public static function createMultiPrintInvoicePdf($orderIds)
 	{
-		return RedshopHelperMail::createMultiprintInvoicePdf($orderIds);
+		return /** @scrutinizer ignore-deprecated */ RedshopHelperMail::createMultiprintInvoicePdf($orderIds);
 	}
 
 	/**
@@ -2699,7 +2743,7 @@ class RedshopHelperOrder
 			return;
 		}
 
-		$orderDetail   = self::getOrderDetails($orderId);
+		$orderDetail   = /** @scrutinizer ignore-deprecated */ self::getOrderDetails($orderId);
 		$orderTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
 		if (count($orderTemplate) > 0 && $orderTemplate[0]->template_desc != "")
@@ -2779,7 +2823,7 @@ class RedshopHelperOrder
 		// Only Execute this function for selected status match
 		if ($orderStatus == Redshop::getConfig()->get('GENERATE_LABEL_ON_STATUS') && $paymentStatus == "Paid")
 		{
-			$orderDetails   = self::getOrderDetails($orderId);
+			$orderDetails   = /** @scrutinizer ignore-deprecated */ self::getOrderDetails($orderId);
 			$details        = Redshop\Shipping\Rate::decrypt($orderDetails->ship_method_id);
 
 			$shippingParams = new Registry(
@@ -2838,7 +2882,7 @@ class RedshopHelperOrder
 
 		if (!$orderLog->store())
 		{
-			return JError::raiseWarning('', $orderLog->getError());
+			return /** @scrutinizer ignore-deprecated */ JError::raiseWarning('', /** @scrutinizer ignore-deprecated */ $orderLog->getError());
 		}
 
 		// Changing the status of the order
@@ -2847,7 +2891,7 @@ class RedshopHelperOrder
 		// Changing the status of the order
 		if (isset($paymentStatus))
 		{
-			self::updateOrderPaymentStatus($orderId, $paymentStatus);
+			/** @scrutinizer ignore-deprecated */ self::updateOrderPaymentStatus($orderId, $paymentStatus);
 		}
 
 		if ($post['isPacsoft'])
@@ -2873,7 +2917,7 @@ class RedshopHelperOrder
 		{
 			$orderProducts = self::getOrderItemDetail($orderId);
 
-			for ($j = 0, $jn = count($orderProducts); $j < $jn; $j++)
+			for ($j = 0, $jn = count(/** @scrutinizer ignore-type */ $orderProducts); $j < $jn; $j++)
 			{
 				$prodid  = $orderProducts[$j]->product_id;
 				$prodqty = $orderProducts[$j]->stockroom_quantity;
