@@ -17,15 +17,25 @@ if (typeof(window['jQuery']) != "undefined") {
             return vars;
         }
 
-        rs.validator.addMethod("zipcode", function (zipcode, element) {
-            return this.optional(element) || /^\d{4} ?[a-z]{2}$/i.test(zipcode) || zipcode.match(/(^\d{6}?$)|(^\d{5}?$)|(^\d{7}?$)|(^\d{4}?$)|(^\d{3}?$)|(^\d{8}?$)|(^\d{9}?$)|[A-Z]{1,2}\d[\dA-Z]?\s?\d[A-Z]{2}$/i) || zipcode.match(/^[A-Z][0-9][A-Z].[0-9][A-Z][0-9]$/) || zipcode.match(/^[A-Z][0-9][A-Z][0-9][A-Z][0-9]$/i) || zipcode.match(/^[0-9]{5}$/) || zipcode.match(/^[0-9]{2,2}\s[0-9]{3,3}$/) || zipcode.match(/^[0-9]{3,3}\s[0-9]{2,2}$/) || zipcode.match(/^[0-9]{4,4}-[0-9]{3,3}$/) || zipcode.match(/^[0-9]{3,3}-[0-9]{2,2}$/) || zipcode.match(/^[0-9]{2,2}-[0-9]{3,3}$/) || zipcode.match(/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/);
-        }, Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'));
-
         rs.validator.addMethod("phone", function (phone, element) {
             phone = phone.replace(/\s+/g, "");
 
             return this.optional(element) || phone.match(/^[-+.() 0-9]+$/);
         }, Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE'));
+
+        rs.validator.addMethod("zipcodeValidation", function (value, element) {
+            return this.optional(element) || /^\d{4} ?[a-z]{2}$/i.test(value)
+                || value.match(/(^\d{6}?$)|(^\d{5}?$)|(^\d{7}?$)|(^\d{4}?$)|(^\d{3}?$)|(^\d{8}?$)|(^\d{9}?$)|[A-Z]{1,2}\d[\dA-Z]?\s?\d[A-Z]{2}$/i)
+                || value.match(/^[A-Z][0-9][A-Z].[0-9][A-Z][0-9]$/)
+                || value.match(/^[A-Z][0-9][A-Z][0-9][A-Z][0-9]$/i)
+                || value.match(/^[0-9]{5}$/)
+                || value.match(/^[0-9]{2,2}\s[0-9]{3,3}$/)
+                || value.match(/^[0-9]{3,3}\s[0-9]{2,2}$/)
+                || value.match(/^[0-9]{4,4}-[0-9]{3,3}$/)
+                || value.match(/^[0-9]{3,3}-[0-9]{2,2}$/)
+                || value.match(/^[0-9]{2,2}-[0-9]{3,3}$/)
+                || value.match(/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/);
+        }, Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'));
 
         rs.validator.messages.required = Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED');
 
@@ -57,6 +67,11 @@ if (typeof(window['jQuery']) != "undefined") {
                         return rs("#toggler2").is(":checked");
                     }
                 },
+                address: {
+                    required: function() {
+                        return redSHOP.RSConfig._('REQUIRED_ADDRESS') == 1
+                    }
+                },
                 vat_number: {
                     required: function () {
                         return rs("#toggler2").is(":checked") && redSHOP.RSConfig._('REQUIRED_VAT_NUMBER') == 1;
@@ -64,7 +79,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 country_code: {
                     required: function () {
-                        return rs("#div_country_txt") && rs("#div_country_txt").is(":visible");
+                        return rs("#div_country_txt") && rs("#div_country_txt").is(":visible") && redSHOP.RSConfig._('REQUIRED_COUNTRY_CODE') == 1;
                     }
                 },
                 state_code: {
@@ -75,7 +90,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 ean_number: {
                     required: function () {
-                        return rs("#toggler2").is(":checked") && rs("#ean_number").length > 0;
+                        return rs("#toggler2").is(":checked") && rs("#ean_number").length > 0  && redSHOP.RSConfig._('REQUIRED_EAN_NUMBER') == 1;
                     },
                     minlength: 13,
                     maxlength: 13,
@@ -109,11 +124,17 @@ if (typeof(window['jQuery']) != "undefined") {
                     minlength: 2
                 },
                 zipcode: {
-                    zipcode: true
+                    zipcodeValidation: true,
+                    required: redSHOP.RSConfig._('REQUIRED_POSTAL_CODE') == 1 ? true : false
                 },
                 phone: {
                     required: function () {
-                        return rs("input[name='phone']") && rs("input[name='phone']").is(":visible");
+                        return rs("input[name='phone']") && rs("input[name='phone']").is(":visible") && redSHOP.RSConfig._('REQUIRED_PHONE') == 1;
+                    }
+                },
+                country_code_ST: {
+                    required: function () {
+                        return rs("#div_country_st_txt") && rs("#div_country_st_txt").is(":visible");
                     }
                 },
                 phone_ST: {
@@ -134,9 +155,17 @@ if (typeof(window['jQuery']) != "undefined") {
                 firstname: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME'),
                 lastname: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME'),
                 address: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ADDRESS'),
+                country_code: Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_COUNTRY'),
                 zipcode: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'),
                 city: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'),
                 phone: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE'),
+                firstname_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_FIRSTNAME'),
+                lastname_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_LASTNAME'),
+                address_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ADDRESS'),
+                country_code_ST: Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_COUNTRY'),
+                zipcode_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP'),
+                city_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_CITY'),
+                phone_ST: Joomla.JText._('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE'),
                 username: {
                     required: Joomla.JText._('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME'),
                     minlength: Joomla.JText._('COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT'),
@@ -150,11 +179,11 @@ if (typeof(window['jQuery']) != "undefined") {
                     equalTo: Joomla.JText._('COM_REDSHOP_EMAIL_NOT_MATCH')
                 },
                 password1: {
-                    required: Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED'),
+                    required: Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_PASSWORD'),
                     minlength: Joomla.JText._('COM_REDSHOP_PASSWORD_MIN_CHARACTER_LIMIT')
                 },
                 password2: {
-                    required: Joomla.JText._('COM_REDSHOP_THIS_FIELD_IS_REQUIRED'),
+                    required: Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_PASSWORD'),
                     minlength: Joomla.JText._('COM_REDSHOP_PASSWORD_MIN_CHARACTER_LIMIT'),
                     equalTo: Joomla.JText._('COM_REDSHOP_PASSWORD_NOT_MATCH')
                 },

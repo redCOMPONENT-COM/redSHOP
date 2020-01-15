@@ -37,6 +37,8 @@ class RedshopControllerSample_detail extends RedshopController
 	public function save($apply = 0)
 	{
 		$post = $this->input->post->getArray();
+		$cid  = $this->input->post->get('cid', array(), 'array');
+		$post ['sample_id']  = $cid[0];
 
 		/** @var RedshopModelSample_detail $model */
 		$model = $this->getModel('sample_detail');

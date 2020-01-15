@@ -434,6 +434,16 @@ class RedshopConfig
 
 	public $SHOPPER_GROUP_DEFAULT_UNREGISTERED = '1';
 
+	public $REQUIRED_POSTAL_CODE = '1';
+
+	public $REQUIRED_EAN_NUMBER = '1';
+
+	public $REQUIRED_ADDRESS = '1';
+
+	public $REQUIRED_COUNTRY_CODE = '1';
+
+	public $REQUIRED_PHONE = '1';
+
 	public $PRODUCT_EXPIRE_TEXT = '';
 
 	public $TERMS_ARTICLE_ID = '20';
