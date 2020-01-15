@@ -13,7 +13,6 @@ JHTML::_('behavior.modal');
 
 $producthelper = productHelper::getInstance();
 $objhelper     = redhelper::getInstance();
-$extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 $app           = JFactory::getApplication();
 

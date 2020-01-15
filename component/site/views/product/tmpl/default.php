@@ -26,7 +26,6 @@ if (in_array($this->pid, $watched) == 0)
 $print = $this->input->getBool('print', false);
 $user  = JFactory::getUser();
 
-$extraField      = extraField::getInstance();
 $producthelper   = productHelper::getInstance();
 $redshopconfig   = Redconfiguration::getInstance();
 $stockroomhelper = rsstockroomhelper::getInstance();
@@ -1237,7 +1236,7 @@ $template_desc = $producthelper->getJcommentEditor($this->data, $template_desc);
 
 // ProductFinderDatepicker Extra Field Start
 
-$fieldArray    = $extraField->getSectionFieldList(17, 0, 0);
+$fieldArray    = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 $template_desc = $producthelper->getProductFinderDatepickerValue($template_desc, $this->data->product_id, $fieldArray);
 
 // ProductFinderDatepicker Extra Field End
