@@ -146,6 +146,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 			->leftjoin($db->qn('#__redshop_order_users_info', 'ouf') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('ouf.order_id'))
 			->where($db->qn('ouf.address_type') . ' = ' . $db->q('BT'))
 			->where($db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid'))
+			->group($db->qn('o.order_id'))
 			->order($db->qn('o.order_id') . ' DESC');
 
 		// Filter: Date Range
@@ -168,7 +169,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	/**
 	 * Count product by order
 	 *
-	 * @return  object.
+	 * @return  object|mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
@@ -187,7 +188,7 @@ class RedshopModelStatistic_Order extends RedshopModelList
 	/**
 	 * get date Format for new statistic
 	 *
-	 * @return  string.
+	 * @return  string|mixed.
 	 *
 	 * @since   2.0.0.3
 	 */
