@@ -2000,4 +2000,71 @@ class RedshopHelperProduct
 			$templateDesc = str_replace($templateProduct, "<div class='productlist'>" . $productTmpl . "</div>", $templateDesc);
 		}
 	}
+
+	public static function getWrapper($product_id, $wrapper_id = 0, $default = 1)
+	{
+		$db = JFactory::getDbo();
+
+		$usetoall = "";
+		$and      = "";
+
+		if ($wrapper_id != 0)
+		{
+			$and .= " AND wrapper_id='" . $wrapper_id . "' ";
+		}
+
+		$query = "SELECT * FROM " . $db->qn('#__product_category_xref')
+			. "WHERE product_id = '" . (int) $product_id . "' ";
+		$db->setQuery($query);
+		$cat = $db->loadObjectList();
+
+		for ($i = 0, $in = count($cat); $i < $in; $i++)
+		{
+			$usetoall .= " OR FIND_IN_SET(" . (int) $cat[$i]->category_id . ",category_id) ";
+		}
+
+		if ($default != 0)
+		{
+			$usetoall .= " OR wrapper_use_to_all = 1 ";
+		}
+
+		$query = "SELECT * FROM " .  $db->qn('#__wrapper')
+			. "WHERE published = 1 "
+			. "AND (FIND_IN_SET(" . (int) $product_id . ",product_id) "
+			. $usetoall . " )"
+			. $and;
+		$db->setQuery($query);
+		$list = $db->loadObjectList();
+
+		return $list;
+	}
+
+	public static function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldsArray = array(), $giftcard = 0)
+	{
+		if (empty($fieldsArray))
+		{
+			return $templatedata;
+		}
+
+		foreach ($fieldsArray as $fieldArray)
+		{
+			$fieldValueArray = RedshopHelperExtrafields::getData($fieldArray->id, 17, $productid);
+
+			if ($fieldValueArray->data_txt != ""
+				&& $fieldArray->show_in_front == 1
+				&& $fieldArray->published == 1
+				&& $giftcard == 0)
+			{
+				$templatedata = str_replace('{' . $fieldArray->name . '}', $fieldValueArray->data_txt, $templatedata);
+				$templatedata = str_replace('{' . $fieldArray->name . '_lbl}', $fieldArray->title, $templatedata);
+			}
+			else
+			{
+				$templatedata = str_replace('{' . $fieldArray->name . '}', "", $templatedata);
+				$templatedata = str_replace('{' . $fieldArray->name . '_lbl}', "", $templatedata);
+			}
+		}
+
+		return $templatedata;
+	}
 }
