@@ -674,6 +674,11 @@ class rsCarthelper
 				$dispatcher   = RedshopHelperUtility::getDispatcher();
 				$shippingrate = $dispatcher->trigger('onListRates', array(&$d));
 
+				if (count($shippingrate) <= 1 && count($shippingrate[0]) <= 1)
+				{
+					$template_desc = str_replace('{show_when_one_rate}', 'none', $template_desc);
+				}
+
 				for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
 				{
 					if (isset($shippingrate[$s]) === false)
@@ -808,6 +813,7 @@ class rsCarthelper
 
 			$template_desc = str_replace("{shipping_method_loop_start}", "", $template_desc);
 			$template_desc = str_replace("{shipping_method_loop_end}", "", $template_desc);
+			$template_desc = str_replace('{show_when_one_rate}', 'block', $template_desc);
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 

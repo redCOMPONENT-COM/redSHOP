@@ -94,15 +94,17 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 *
 	 * @since   2.0.0.6
 	 */
-	private function replaceCategory($category, $template)
+	private function replaceCategory($category, $template, $isSubCat = false)
 	{
 		$producthelper  = productHelper::getInstance();
 		$manufacturerId = (!empty($this->data['manufacturerId'])) ? $this->data['manufacturerId'] : '';
+        $catItemid = RedshopHelperRouter::getCategoryItemid($category->id);
+
 		$link = JRoute::_(
 			'index.php?option=com_redshop' .
 			'&view=category&cid=' . $category->id .
 			'&manufacturer_id=' . $manufacturerId .
-			'&layout=detail&Itemid=' . $this->data['itemId']
+			'&layout=detail&Itemid=' . $catItemid
 		);
 
 		$title = " title='" . $category->name . "' ";
@@ -155,6 +157,11 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		}
 
 		$this->replaceCategoryProperties($template, $category);
+
+		if ($isSubCat == true)
+		{
+			RedshopHelperProduct::replaceProductSubCategory($template, $category);;
+		}
 
 		$this->getDispatcher()->trigger('onReplaceCategory', array(&$template, &$category));
 
@@ -232,7 +239,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			{
 				$lastElement      = end($subCategories);
 				$categoryTemplate = $subTemplate['template'];
-				$categoryTemplate = $this->replaceCategory($category, $categoryTemplate);
+				$categoryTemplate = $this->replaceCategory($category, $categoryTemplate, true);
 				$categoryTemplate = $this->replaceSubCategoriesLevel2($category, $categoryTemplate);
 
 				if (!empty($this->data['excludedTags']))

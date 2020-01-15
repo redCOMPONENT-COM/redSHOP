@@ -68,12 +68,21 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 			// Check exists captcha tag in question template form
 			$template = RedshopHelperTemplate::getTemplate('ask_question_template');
 
-			if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}')
-				&& Redshop\Helper\Utility::checkCaptcha($data, false))
+			try
 			{
-				$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
-				$this->setRedirect(JRoute::_($link, false));
+				if (count($template) > 0 && strstr($template[0]->template_desc, '{captcha}')
+					&& !Redshop\Helper\Utility::checkCaptcha($data, false))
+				{
+					$app->enqueueMessage(JText::_('COM_REDSHOP_INVALID_SECURITY'), 'warning');
+					$this->setRedirect($link);
 
+					return false;
+				}
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'warning');
+				$this->setRedirect($link);
 				return false;
 			}
 		}
@@ -115,7 +124,7 @@ class RedshopControllerAsk_Question extends RedshopControllerForm
 
 				if (!$ask)
 				{
-					$link .= '&questionSend=1';
+					$link = JUri::root() . $link . '&questionSend=1';
 				}
 			}
 			else

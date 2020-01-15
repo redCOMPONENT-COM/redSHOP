@@ -164,9 +164,6 @@ class ShippingCest
 
 		$I->wantTo('Edit a shipping Rate with Save Close');
 		$I->editShippingRateStandard($this->shippingNameEdit, $this->shipping['shippingName'], $this->shipping['shippingRate'], 'saveclose');
-
-		$I->wantTo('Delete a shipping Rate');
-		$I->deleteShippingRate($this->shippingMethod, $this->shipping['shippingName']);
 	}
 
 	/**
@@ -183,10 +180,6 @@ class ShippingCest
 			$this->customerInformation['shopperGroup'], $this->customerInformation['firstName'], $this->customerInformation['lastName'], 'saveclose');
 		$I->editAddShipping($this->customerInformation['firstName'], $this->customerInformation['lastName'], $this->customerInformation['address'],
 			$this->customerInformation['city'], $this->customerInformation['phone'], $this->customerInformation['postalCode']);
-
-		$I->wantToTest('Create Shipping Rate');
-		$I = new ShippingSteps($scenario);
-		$I->createShippingRateStandard($this->shippingMethod, $this->shipping, 'saveclose');
 
 		$I->wantToTest('Create Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
