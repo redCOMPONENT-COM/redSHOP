@@ -263,4 +263,4 @@ if (strstr($template_desc, "{product_display_limit}"))
 }
 
 $template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
-echo eval("?>" . $template_desc . "<?php ");
+echo /** @scrutinizer ignore-deprecated */ eval("?>" . $template_desc . "<?php ");
