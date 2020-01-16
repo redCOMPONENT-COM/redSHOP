@@ -360,6 +360,8 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\TaxRatePage::$buttonDelete);
 		$client->acceptPopup();
+		$client->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$client->waitForText(TaxRatePage::$messageHead, 30, TaxRatePage::$selectorSuccess);
 		$client->see(\TaxRatePage::$messageHead, \TaxRatePage::$selectorSuccess);
 	}
 

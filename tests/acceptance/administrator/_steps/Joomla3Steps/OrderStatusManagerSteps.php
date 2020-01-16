@@ -167,6 +167,7 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 		$I->wantTo('Test with delete Order Status then accept');
 		$I->click(\OrderStatusManagerPage::$buttonDelete);
 		$I->acceptPopup();
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForText(\OrderStatusManagerPage::$messageDeleteSuccess, 60, \OrderStatusManagerPage::$selectorSuccess);
 		$I->dontSee($changeName);
 	}

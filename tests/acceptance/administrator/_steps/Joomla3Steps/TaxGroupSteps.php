@@ -154,6 +154,8 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->click(\TaxGroupPage::$buttonDelete);
 		$client->acceptPopup();
 		$client->waitForElement(\TaxGroupPage::$searchField, 30);
+		$client->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$client->waitForText(\TaxGroupPage::$messageDeleteSuccess, 30, \TaxGroupPage::$selectorSuccess);
 		$client->see(\TaxGroupPage::$messageDeleteSuccess, \TaxGroupPage::$selectorSuccess);
 		$client->fillField(\TaxGroupPage::$searchField, $VATGroupsName);
 		$client->pressKey(\TaxGroupPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
@@ -223,31 +225,31 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->filterListBySearching($VATGroupName);
 	}
 
-    public function checkButton($name)
-    {
-        $I = $this;
-        $I->amOnPage(\TaxGroupPage::$url);
-        switch ($name)
-        {
-            case 'copy':
-                $I->click(\TaxGroupPage::$buttonCopy);
-                $I->acceptPopup();
-                break;
-            case 'delete':
-                $I->click(\TaxGroupPage::$buttonDelete);
-                $I->acceptPopup();
-                break;
-            case 'publish':
-                $I->click(\TaxGroupPage::$buttonPublish);
-                $I->acceptPopup();
-                break;
-            case 'unpublish':
-                $I->click(\TaxGroupPage::$buttonUnpublish);
-                $I->acceptPopup();
-                break;
-            default:
-                break;
-        }
-        $I->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
-    }
+	public function checkButton($name)
+	{
+		$I = $this;
+		$I->amOnPage(\TaxGroupPage::$url);
+		switch ($name)
+		{
+			case 'copy':
+				$I->click(\TaxGroupPage::$buttonCopy);
+				$I->acceptPopup();
+				break;
+			case 'delete':
+				$I->click(\TaxGroupPage::$buttonDelete);
+				$I->acceptPopup();
+				break;
+			case 'publish':
+				$I->click(\TaxGroupPage::$buttonPublish);
+				$I->acceptPopup();
+				break;
+			case 'unpublish':
+				$I->click(\TaxGroupPage::$buttonUnpublish);
+				$I->acceptPopup();
+				break;
+			default:
+				break;
+		}
+		$I->see(\TaxGroupPage::$namePage, \TaxGroupPage::$headPage);
+	}
 }
