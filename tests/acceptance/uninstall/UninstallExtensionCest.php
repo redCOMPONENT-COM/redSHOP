@@ -30,7 +30,7 @@ class UninstallExtensionCest
 		$I->checkForPhpNoticesOrWarnings();
 		$I->waitForElementVisible(\ExtensionManagerJoomla3Page::$searchTools, 30);
 		$I->click(\ExtensionManagerJoomla3Page::$searchTools);
-		$I->waitForElement(ExtensionManagerJoomla3Page::$searchTools);
+		$I->waitForElement('#filter_type', 30);
 		$I->selectOptionInChosen('#filter_type', 'Component');
 		$I->fillField('#filter_search', 'redSHOP');
 		$I->click(\ExtensionManagerJoomla3Page::$searchButtonJ3);

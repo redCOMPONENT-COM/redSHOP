@@ -155,8 +155,17 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 		$client->acceptPopup();
 		$client->waitForElement(\TaxGroupPage::$searchField, 30);
 		$client->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-		$client->waitForText(\TaxGroupPage::$messageDeleteSuccess, 30, \TaxGroupPage::$selectorSuccess);
-		$client->see(\TaxGroupPage::$messageDeleteSuccess, \TaxGroupPage::$selectorSuccess);
+
+		try
+		{
+			$client->waitForText(\StatePage::$messageDeleteSuccess, 5, \StatePage::$selectorSuccess);
+			$client->see(\StatePage::$messageDeleteSuccess, \StatePage::$selectorSuccess);
+		}catch (\Exception $e)
+		{
+			$client->waitForText(\StatePage::$messageNoItemOnTable, 10, \StatePage::$selectorAlert);
+			$client->see(\StatePage::$messageNoItemOnTable, \StatePage::$selectorAlert);
+		}
+
 		$client->fillField(\TaxGroupPage::$searchField, $VATGroupsName);
 		$client->pressKey(\TaxGroupPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($VATGroupsName, \TaxGroupPage::$pathName);
