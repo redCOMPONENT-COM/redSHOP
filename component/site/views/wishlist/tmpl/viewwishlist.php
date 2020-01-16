@@ -25,7 +25,6 @@ $user       = JFactory::getUser();
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
 
 $redTemplate        = Redtemplate::getInstance();
-$extraField         = extraField::getInstance();
 $template           = RedshopHelperTemplate::getTemplate("wishlist_template");
 $wishlist_data1     = $template[0]->template_desc;
 $returnArr          = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
