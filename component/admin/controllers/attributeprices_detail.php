@@ -70,11 +70,17 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 	{
 		$section_id = $this->input->get('section_id');
 		$section    = $this->input->getString('section');
-		$cid        = $this->input->post->get('cid', array(0), 'array');
+		$cid        = $this->input->post->get('cid', array(), 'array');
+		$type = '';
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (empty($cid))
 		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			$type = 'warning';
+			$msg = JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
 		}
 
 		/** @var RedshopModelAttributeprices_detail $model */
@@ -85,8 +91,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 			echo "<script> alert('" ./** @scrutinizer ignore-deprecated */ $model->/** @scrutinizer ignore-call */ getError(null, true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
+		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg, $type);
 	}
 
 	public function cancel()
