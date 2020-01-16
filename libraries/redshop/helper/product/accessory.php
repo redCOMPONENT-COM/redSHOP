@@ -36,9 +36,6 @@ class RedshopHelperProductAccessory
 	{
 		$userId = 0;
 
-		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
 		$input   = JFactory::getApplication()->input;
 		$viewAcc = $input->get('viewacc', 1);
 		$layout  = $input->get('layout');
@@ -54,16 +51,16 @@ class RedshopHelperProductAccessory
 
 		$productId = $relProductId != 0 ? $relProductId : $productId;
 
-		$selectedAccessory    = array();
-		$selectedAccessoryQua = array();
-		$selectAtt            = array();
-
-		if (count($selectedAccessories) > 0)
-		{
-			$selectedAccessory    = $selectedAccessories[0];
-			$selectedAccessoryQua = $selectedAccessories[3];
-			$selectAtt            = array($selectedAccessories[1], $selectedAccessories[2]);
-		}
+//		$selectedAccessory    = array();
+//		$selectedAccessoryQua = array();
+//		$selectAtt            = array();
+//
+//		if (count($selectedAccessories) > 0)
+//		{
+//			$selectedAccessory    = $selectedAccessories[0];
+//			$selectedAccessoryQua = $selectedAccessories[3];
+//			$selectAtt            = array($selectedAccessories[1], $selectedAccessories[2]);
+//		}
 
 		$product           = RedshopHelperProduct::getProductById($productId);
 		$accessoryTemplate = \Redshop\Template\Helper::getAccessory($templateContent);
@@ -89,6 +86,24 @@ class RedshopHelperProductAccessory
 		self::replaceMainAccessory($accessoryTemplateData2, $templateContent, $product, $userId);
 
 		$accessoryWrapper = '';
+		$accessoryTemplateData2 = RedshopTagsReplacer::_(
+			'accessory',
+			$accessoryTemplateData2,
+			array(
+				'accessory' => $accessory,
+				'productId' => $productId,
+				'prefix' => $prefix,
+				'relProductId' => $relProductId,
+				'isChild' => $isChild,
+				'selectedAccessories' => $selectedAccessories,
+				'isAjax' => $isAjax
+			)
+		);
+
+		echo "<pre>";
+		print_r($accessoryTemplateData2);
+		echo "</pre>";
+//		die();
 
 		if (strpos($accessoryTemplateData2, "{accessory_product_start}") !== false
 			&& strpos($accessoryTemplateData2, "{accessory_product_end}") !== false)
@@ -117,129 +132,129 @@ class RedshopHelperProductAccessory
 				$accessoryWrapper = str_replace("{accessory_title}", $accessoryProductName, $accessoryWrapper);
 				$accessoryWrapper = str_replace("{product_number}", $accessory[$a]->product_number, $accessoryWrapper);
 
-				$accessoryImage = $accessory[$a]->product_full_image;
-				$accessoryImg   = '';
-
-				if (strpos($accessoryWrapper, "{accessory_image_3}") !== false)
-				{
-					$accessoryImgTag      = '{accessory_image_3}';
-					$accessoryHeightThumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_3');
-					$accessoryWidthThumb  = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_3');
-				}
-				elseif (strpos($accessoryWrapper, "{accessory_image_2}") !== false)
-				{
-					$accessoryImgTag      = '{accessory_image_2}';
-					$accessoryHeightThumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_2');
-					$accessoryWidthThumb  = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_2');
-				}
-				elseif (strpos($accessoryWrapper, "{accessory_image_1}") !== false)
-				{
-					$accessoryImgTag      = '{accessory_image_1}';
-					$accessoryHeightThumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
-					$accessoryWidthThumb  = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
-				}
-				else
-				{
-					$accessoryImgTag      = '{accessory_image}';
-					$accessoryHeightThumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
-					$accessoryWidthThumb  = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
-				}
-
-				$accessoryProductLink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $accessoryId . '&Itemid=' . $itemId, false);
-				$hiddenThumbImage     = "<input type='hidden' name='acc_main_imgwidth' id='acc_main_imgwidth' value='"
-					. $accessoryWidthThumb . "'><input type='hidden' name='acc_main_imgheight' id='acc_main_imgheight' value='"
-					. $accessoryHeightThumb . "'>";
-
-				// Trigger to change product image.
-				$dispatcher->trigger(
-					'changeProductImage',
-					array(
-						&$accessoryImg,
-						$accessory[$a],
-						$accessoryProductLink,
-						$accessoryWidthThumb,
-						$accessoryHeightThumb,
-						Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX'),
-						''
-					)
-				);
-
-				if (empty($accessoryImg))
-				{
-					if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
-					{
-						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage))
-						{
-							$thumbUrl = RedshopHelperMedia::getImagePath(
-								$accessoryImage,
-								'',
-								'thumb',
-								'product',
-								$accessoryWidthThumb,
-								$accessoryHeightThumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-
-							$accessoryImg = "<a id='a_main_image" . $accessory[$a]->accessory_id
-								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessoryImage
-								. "' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
-								. "<img id='main_image" . $accessory[$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' />"
-								. "</a>";
-						}
-						else
-						{
-							$thumbUrl = RedshopHelperMedia::getImagePath(
-								'noimage.jpg',
-								'',
-								'thumb',
-								'',
-								$accessoryWidthThumb,
-								$accessoryHeightThumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-
-							$accessoryImg = "<a id='a_main_image" . $accessory[$a]->accessory_id
-								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
-								. "noimage.jpg' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
-								. "<img id='main_image" . $accessory[$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
-						}
-					}
-					else
-					{
-						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage))
-						{
-							$thumbUrl = RedshopHelperMedia::getImagePath(
-								$accessoryImage,
-								'',
-								'thumb',
-								'product',
-								$accessoryWidthThumb,
-								$accessoryHeightThumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-
-							$accessoryImg = "<a href='$accessoryProductLink'><img id='main_image" . $accessory[$a]->accessory_id
-								. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
-						}
-						else
-						{
-							$thumbUrl = RedshopHelperMedia::getImagePath(
-								'noimage.jpg',
-								'',
-								'thumb',
-								'',
-								$accessoryWidthThumb,
-								$accessoryHeightThumb,
-								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-							);
-
-							$accessoryImg = "<a href='$accessoryProductLink'><img id='main_image" . $accessory[$a]->accessory_id
-								. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
-						}
-					}
-				}
-
-				$accessoryWrapper   = str_replace($accessoryImgTag, $accessoryImg . $hiddenThumbImage, $accessoryWrapper);
+//				$accessoryImage = $accessory[$a]->product_full_image;
+//				$accessoryImg   = '';
+//
+//				if (strpos($accessoryWrapper, "{accessory_image_3}") !== false)
+//				{
+//					$accessoryImgTag      = '{accessory_image_3}';
+//					$accessoryHeightThumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_3');
+//					$accessoryWidthThumb  = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_3');
+//				}
+//				elseif (strpos($accessoryWrapper, "{accessory_image_2}") !== false)
+//				{
+//					$accessoryImgTag      = '{accessory_image_2}';
+//					$accessoryHeightThumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT_2');
+//					$accessoryWidthThumb  = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH_2');
+//				}
+//				elseif (strpos($accessoryWrapper, "{accessory_image_1}") !== false)
+//				{
+//					$accessoryImgTag      = '{accessory_image_1}';
+//					$accessoryHeightThumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
+//					$accessoryWidthThumb  = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
+//				}
+//				else
+//				{
+//					$accessoryImgTag      = '{accessory_image}';
+//					$accessoryHeightThumb = Redshop::getConfig()->get('ACCESSORY_THUMB_HEIGHT');
+//					$accessoryWidthThumb  = Redshop::getConfig()->get('ACCESSORY_THUMB_WIDTH');
+//				}
+//
+//				$accessoryProductLink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $accessoryId . '&Itemid=' . $itemId, false);
+//				$hiddenThumbImage     = "<input type='hidden' name='acc_main_imgwidth' id='acc_main_imgwidth' value='"
+//					. $accessoryWidthThumb . "'><input type='hidden' name='acc_main_imgheight' id='acc_main_imgheight' value='"
+//					. $accessoryHeightThumb . "'>";
+//
+//				// Trigger to change product image.
+//				$dispatcher->trigger(
+//					'changeProductImage',
+//					array(
+//						&$accessoryImg,
+//						$accessory[$a],
+//						$accessoryProductLink,
+//						$accessoryWidthThumb,
+//						$accessoryHeightThumb,
+//						Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX'),
+//						''
+//					)
+//				);
+//
+//				if (empty($accessoryImg))
+//				{
+//					if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
+//					{
+//						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage))
+//						{
+//							$thumbUrl = RedshopHelperMedia::getImagePath(
+//								$accessoryImage,
+//								'',
+//								'thumb',
+//								'product',
+//								$accessoryWidthThumb,
+//								$accessoryHeightThumb,
+//								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+//							);
+//
+//							$accessoryImg = "<a id='a_main_image" . $accessory[$a]->accessory_id
+//								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessoryImage
+//								. "' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
+//								. "<img id='main_image" . $accessory[$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' />"
+//								. "</a>";
+//						}
+//						else
+//						{
+//							$thumbUrl = RedshopHelperMedia::getImagePath(
+//								'noimage.jpg',
+//								'',
+//								'thumb',
+//								'',
+//								$accessoryWidthThumb,
+//								$accessoryHeightThumb,
+//								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+//							);
+//
+//							$accessoryImg = "<a id='a_main_image" . $accessory[$a]->accessory_id
+//								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
+//								. "noimage.jpg' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
+//								. "<img id='main_image" . $accessory[$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
+//						}
+//					}
+//					else
+//					{
+//						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessoryImage))
+//						{
+//							$thumbUrl = RedshopHelperMedia::getImagePath(
+//								$accessoryImage,
+//								'',
+//								'thumb',
+//								'product',
+//								$accessoryWidthThumb,
+//								$accessoryHeightThumb,
+//								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+//							);
+//
+//							$accessoryImg = "<a href='$accessoryProductLink'><img id='main_image" . $accessory[$a]->accessory_id
+//								. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
+//						}
+//						else
+//						{
+//							$thumbUrl = RedshopHelperMedia::getImagePath(
+//								'noimage.jpg',
+//								'',
+//								'thumb',
+//								'',
+//								$accessoryWidthThumb,
+//								$accessoryHeightThumb,
+//								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+//							);
+//
+//							$accessoryImg = "<a href='$accessoryProductLink'><img id='main_image" . $accessory[$a]->accessory_id
+//								. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
+//						}
+//					}
+//				}
+//
+//				$accessoryWrapper   = str_replace($accessoryImgTag, $accessoryImg . $hiddenThumbImage, $accessoryWrapper);
 				$accessoryShortDesc = RedshopHelperUtility::maxChars(
 					$accessory[$a]->product_s_desc,
 					Redshop::getConfig()->get('ACCESSORY_PRODUCT_DESC_MAX_CHARS'),
@@ -271,37 +286,37 @@ class RedshopHelperProductAccessory
 					}
 				}
 
-				// Get accessory final price with VAT rules
-				$accessoryPriceWithoutVAT = \Redshop\Product\Accessory::getPrice(
-					$productId,
-					$accessory[$a]->newaccessory_price,
-					$accessory[$a]->accessory_main_price,
-					1
-				);
+//				// Get accessory final price with VAT rules
+//				$accessoryPriceWithoutVAT = \Redshop\Product\Accessory::getPrice(
+//					$productId,
+//					$accessory[$a]->newaccessory_price,
+//					$accessory[$a]->accessory_main_price,
+//					1
+//				);
+//
+//				if (strpos($accessoryWrapper, "{without_vat}") === false)
+//				{
+//					$accessoryPrices = \Redshop\Product\Accessory::getPrice(
+//						$productId,
+//						$accessory[$a]->newaccessory_price,
+//						$accessory[$a]->accessory_main_price
+//					);
+//				}
+//				else
+//				{
+//					$accessoryPrices = $accessoryPriceWithoutVAT;
+//				}
+//
+//				$accessoryPriceWithoutVAT = $accessoryPriceWithoutVAT[0];
 
-				if (strpos($accessoryWrapper, "{without_vat}") === false)
-				{
-					$accessoryPrices = \Redshop\Product\Accessory::getPrice(
-						$productId,
-						$accessory[$a]->newaccessory_price,
-						$accessory[$a]->accessory_main_price
-					);
-				}
-				else
-				{
-					$accessoryPrices = $accessoryPriceWithoutVAT;
-				}
-
-				$accessoryPriceWithoutVAT = $accessoryPriceWithoutVAT[0];
-
-				$accessoryPrice      = $accessoryPrices[0];
-				$accessoryMainPrice  = $accessoryPrices[1];
-				$accessorySavedPrice = $accessoryPrices[2];
-
-				// Get Formatted prices
-				$accessorySavedPrice = RedshopHelperProductPrice::formattedPrice($accessorySavedPrice);
-				$accessoryMainPrice  = RedshopHelperProductPrice::formattedPrice($accessoryMainPrice);
-				$accessoryShowPrice  = RedshopHelperProductPrice::formattedPrice($accessoryPrice);
+//				$accessoryPrice      = $accessoryPrices[0];
+//				$accessoryMainPrice  = $accessoryPrices[1];
+//				$accessorySavedPrice = $accessoryPrices[2];
+//
+//				// Get Formatted prices
+//				$accessorySavedPrice = RedshopHelperProductPrice::formattedPrice($accessorySavedPrice);
+//				$accessoryMainPrice  = RedshopHelperProductPrice::formattedPrice($accessoryMainPrice);
+//				$accessoryShowPrice  = RedshopHelperProductPrice::formattedPrice($accessoryPrice);
 
 				if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
 						|| (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))))
@@ -363,6 +378,9 @@ class RedshopHelperProductAccessory
 					. count($attributes) . "' accessoryprice='" . $accessoryPrice
 					. "' accessorywithoutvatprice='" . $accessoryPriceWithoutVAT . "' id='accessory_id_"
 					. $commonId . "' value='" . $accessory[$a]->accessory_id . "' " . $accessoryChecked . " />";
+
+
+
 				$accessoryWrapper   = str_replace("{accessory_add_chkbox}", $accessory_checkbox, $accessoryWrapper);
 				$accessoryWrapper   = str_replace(
 					"{accessory_add_chkbox_lbl}",
@@ -444,7 +462,7 @@ class RedshopHelperProductAccessory
 		$templateContent = str_replace("{selected_accessory_price}", $selectedAccessoriesHtml, $templateContent);
 
 		// New tags replacement for accessory template section
-		$templateContent = RedshopTagsReplacer::_('accessory', $templateContent, array('accessory' => $accessory));
+//		$templateContent = RedshopTagsReplacer::_('accessory', $templateContent, array('accessory' => $accessory));
 		$templateContent = str_replace("{accessory_product_start}", "", $templateContent);
 		$templateContent = str_replace("{accessory_product_end}", "", $templateContent);
 
