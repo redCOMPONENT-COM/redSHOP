@@ -204,8 +204,7 @@ class RedshopModelWishlist extends RedshopModel
 		if ($numberProduct)
 		{
 			ob_clean();
-			$extraField   = extraField::getInstance();
-			$rowData      = $extraField->getSectionFieldList(12);
+			$rowData      = RedshopHelperExtrafields::getSectionFieldList(12);
 			$totalRowData = count($rowData);
 
 			for ($si = 1; $si <= $numberProduct; $si++)

@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.modal');
 
 $producthelper = productHelper::getInstance();
-$extraField = extraField::getInstance();
 
 $url = JURI::base();
 
