@@ -27,7 +27,10 @@ class UninstallExtensionCest
 		$I->wantTo('Uninstall redSHOP Extensions');
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForElementVisible(\ExtensionManagerJoomla3Page::$searchTools, 30);
 		$I->click(\ExtensionManagerJoomla3Page::$searchTools);
+		$I->waitForElement(ExtensionManagerJoomla3Page::$searchTools);
 		$I->selectOptionInChosen('#filter_type', 'Component');
 		$I->fillField('#filter_search', 'redSHOP');
 		$I->click(\ExtensionManagerJoomla3Page::$searchButtonJ3);
