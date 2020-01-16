@@ -371,8 +371,6 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 			$client->waitForText(\TaxRatePage::$messageNoItemOnTable, 10, \TaxRatePage::$selectorAlert);
 			$client->see(\TaxRatePage::$messageNoItemOnTable, \TaxRatePage::$selectorAlert);
 		}
-
-		$client->see(\TaxRatePage::$messageHead, \TaxRatePage::$selectorSuccess);
 	}
 
 	public function deleteTAXRatesCancel($TAXRatesName)
