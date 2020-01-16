@@ -45,7 +45,7 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			default:
 				$I->executeJS('window.scrollTo(0,0);');
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
 				$I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
 				$I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
