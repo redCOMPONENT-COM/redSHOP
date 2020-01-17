@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-$producthelper = productHelper::getInstance();
 
 $quotationHelper = quotationHelper::getInstance();
 
@@ -85,7 +84,7 @@ $model = $this->getModel('quotation');
 				$display = $row->user_email;
 				if ($row->user_id)
 				{
-					$userarr = $producthelper->getUserInformation($row->user_id);
+					$userarr = RedshopHelperUser::getUserInformation($row->user_id);
 					if (count($userarr) > 0)
 					{
 						$display = $userarr->firstname . ' ' . $userarr->lastname;
@@ -109,7 +108,7 @@ $model = $this->getModel('quotation');
 					</td>
 					<td><?php echo $display; ?></td>
 					<td align="center"><?php echo $status;?></td>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->quotation_total); ?></td>
+					<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->quotation_total); ?></td>
 					<td align="center"><?php echo $config->convertDateFormat($row->quotation_cdate); ?></td>
 				</tr>
 				<?php    $k = 1 - $k;

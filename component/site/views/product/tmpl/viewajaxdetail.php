@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
 
-$producthelper = productHelper::getInstance();
 $extraField = extraField::getInstance();
 
 $url = JURI::base();
@@ -76,10 +75,10 @@ if (null !== $ajaxdetal_template)
 	$data['acc_property_data']    = $this->input->getString('acc_property_data', '');
 	$data['acc_subproperty_data'] = $this->input->getString('acc_subproperty_data', '');
 
-	$selectAcc = $producthelper->getSelectedAccessoryArray($data);
-	$selectAtt = $producthelper->getSelectedAttributeArray($data);
+	$selectAcc = RedshopHelperProduct::getSelectedAccessoryArray($data);
+	$selectAtt = RedshopHelperProduct::getSelectedAttributeArray($data);
 
-	$returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
+	$returnArr          = RedshopHelperProduct::getProductUserfieldFromTemplate($data_add);
 	$template_userfield = $returnArr[0];
 	$userfieldArr       = $returnArr[1];
 
@@ -184,19 +183,19 @@ if (null !== $ajaxdetal_template)
 
 	if ($this->data->attribute_set_id > 0)
 	{
-		$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
+		$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 	}
 
 	$attribute_template = \Redshop\Template\Helper::getAttribute($data_add);
-	$attributes         = $producthelper->getProductAttribute($this->data->product_id);
+	$attributes         = RedshopHelperProduct_Attribute::getProductAttribute($this->data->product_id);
 	$attributes         = array_merge($attributes, $attributes_set);
 	$totalatt           = count($attributes);
-	$data_add           = $producthelper->replaceAttributeData($this->data->product_id, 0, $relatedprd_id, $attributes, $data_add, $attribute_template, $isChilds, $selectAtt);
+	$data_add           = RedshopHelperAttribute::replaceAttributeData($this->data->product_id, 0, $relatedprd_id, $attributes, $data_add, $attribute_template, $isChilds, $selectAtt);
 
 	// Product attribute  End
 
 	// Product accessory Start /////////////////////////////////
-	$accessory      = $producthelper->getProductAccessory(0, $this->data->product_id);
+	$accessory      = RedshopHelperAccessory::getProductAccessories(0, $this->data->product_id);
 	$totalAccessory = count($accessory);
 
 	$data_add = RedshopHelperProductAccessory::replaceAccessoryData($this->data->product_id, $relatedprd_id, $accessory, $data_add, $isChilds, $selectAcc);

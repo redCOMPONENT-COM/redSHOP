@@ -80,7 +80,6 @@ class RedshopModelQuotation extends RedshopModel
 	public function store($data, $post)
 	{
 		$this->_loadData();
-		$producthelper   = productHelper::getInstance();
 		$user            = JFactory::getUser();
 		$user_id         = 0;
 		$user_info_id    = 0;
@@ -155,10 +154,10 @@ class RedshopModelQuotation extends RedshopModel
 			{
 				$product = RedshopHelperProduct::getProductById($data[$i]['product_id']);
 
-				$retAttArr      = $producthelper->makeAttributeCart($data[$i]['cart_attribute'], $data[$i]['product_id'], 0, 0, $data[$i]['quantity']);
+				$retAttArr      = RedshopHelperProduct::makeAttributeCart($data[$i]['cart_attribute'], $data[$i]['product_id'], 0, 0, $data[$i]['quantity']);
 				$cart_attribute = $retAttArr[0];
 
-				$retAccArr      = $producthelper->makeAccessoryCart($data[$i]['cart_accessory'], $data[$i]['product_id']);
+				$retAccArr      = RedshopHelperProduct::makeAccessoryCart($data[$i]['cart_accessory'], $data[$i]['product_id']);
 				$cart_accessory = $retAccArr[0];
 
 				$quotation_item[$i]->product_id          = $data[$i]['product_id'];
