@@ -77,10 +77,12 @@ class WishListSteps extends CheckoutMissingData
 		$I->checkOption(WishListPage::$checkNewWishList);
 		$I->waitForElementVisible(WishListPage::$wishListNameField, 30);
 		$I->fillField(WishListPage::$wishListNameField, $wishListName);
+		$I->wait(0.5);
 		$I->click(WishListPage::$buttonSave);
 
 		try
 		{
+			$I->waitForText(WishListPage::$messageAddWishListSuccessPopup);
 			$I->see(WishListPage::$messageAddWishListSuccessPopup);
 		} catch (\Exception $e)
 		{
