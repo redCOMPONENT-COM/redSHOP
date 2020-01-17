@@ -133,8 +133,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->searchProduct($name);
 		$I->click(['link' => $name]);
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
-		$I->click(\ProductManagerPage::$buttonReview);
 		$I->wait(0.5);
+		$I->click(\ProductManagerPage::$buttonReview);
 		$I->switchToNextTab();
 		$I->wait(0.5);
 		$I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
