@@ -72,6 +72,7 @@ class WishListSteps extends CheckoutMissingData
 
 		$I->executeJS($product->jqueryIFrame());
 		$I->waitForElementVisible(WishListPage::$iframeWishList, 30);
+		$I->wait(0.5);
 		$I->switchToIFrame(WishListPage::$iframeWishListName);
 		$I->waitForElementVisible(WishListPage::$checkNewWishList, 30);
 		$I->checkOption(WishListPage::$checkNewWishList);
