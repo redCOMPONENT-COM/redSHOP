@@ -66,6 +66,13 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		}
 	}
 
+	/**
+	 * Execute replace
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.0.5
+	 */
 	public function replace()
 	{
 		$accessories       = $this->data['accessory'];
@@ -90,11 +97,10 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 			$this->template = $subtemplate['begin'] . $accessoryTemplate . $subtemplate['end'];
 
 			$selectedAccessoriesHtml = '';
-			$productPrices          = array();
 
 			if ($this->isTagExists('{selected_accessory_price}') && $this->data['isAjax'] == 0)
 			{
-				$selectedAccessoryPrice  = RedshopHelperProductPrice::priceReplacement($productPrices);
+				$selectedAccessoryPrice  = RedshopHelperProductPrice::priceReplacement(0);
 				$selectedAccessoriesHtml = RedshopLayoutHelper::render(
 					'tags.accessory.selected_accessory_price',
 					array(
@@ -109,9 +115,19 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		return parent::replace();
 	}
 
+	/**
+	 * Replace accessory
+	 *
+	 * @param   object   $accessory
+	 * @param   string   $template
+	 * @param   string   $attributeTemplate
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function replaceAccessory($accessory, $template, $attributeTemplate)
 	{
-		$productHelper      = productHelper::getInstance();
 		$accessoryProduct   = RedshopHelperProduct::getProductById($accessory->child_product_id);
 		$commonId           = $this->data['prefix'] . $this->data['productId'] . '_' . $accessory->accessory_id;
 
@@ -194,7 +210,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 			$previewImage = RedshopLayoutHelper::render(
 				'tags.accessory.preview_image',
 				array(
-					'accessoryId' => $accessories[$a]->child_product_id,
+					'accessoryId' => $accessory->child_product_id,
 					'imageUrl'    => $imageUrl,
 					'productInfo' => $accessoryProduct
 				),
@@ -252,19 +268,19 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 			if ($this->isTagExists('{accessory_price}'))
 			{
 				$class    = 'accessory-price accessory_' . $accessory->accessory_id;
-				$template = $this->replaceTagPrice('{accessory_price}', $accessoryPrice, $accessory, $template, $class);
+				$template = $this->replaceTagPrice('{accessory_price}', $accessoryPrice, $template, $class);
 			}
 
 			if ($this->isTagExists('{accessory_main_price}'))
 			{
 				$class    = 'accessory-main-price accessory_' . $accessory->accessory_id;
-				$template = $this->replaceTagPrice('{accessory_main_price}', $accessoryMainPrice, $accessory, $template, $class);
+				$template = $this->replaceTagPrice('{accessory_main_price}', $accessoryMainPrice, $template, $class);
 			}
 
 			if ($this->isTagExists('{accessory_price_saving}'))
 			{
 				$class    = 'accessory-price-saving accessory_' . $accessory->accessory_id;
-				$template = $this->replaceTagPrice('{accessory_price_saving}', $accessorySavedPrice, $accessory, $template, $class);
+				$template = $this->replaceTagPrice('{accessory_price_saving}', $accessorySavedPrice, $template, $class);
 			}
 		}
 		else
@@ -379,6 +395,16 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		return $template;
 	}
 
+	/**
+	 * Replace customfield
+	 *
+	 * @param   object   $accessory
+	 * @param   string   $template
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function replaceCustomField($accessory, &$template)
 	{
 		$fields = RedshopHelperExtrafields::getSectionFieldList(
@@ -408,7 +434,20 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		}
 	}
 
-	public function replaceTagPrice($tag, $price, $accessory, $template, $class = '')
+	/**
+	 * Replace tag price
+	 *
+	 * @param   string   $tag
+	 * @param   integer  $price
+	 * @param   object   $accessory
+	 * @param   string   $template
+	 * @param   string   $class
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function replaceTagPrice($tag, $price, $template, $class = '')
 	{
 		$htmlPrice = RedshopHelperProductPrice::formattedPrice($price);
 		$tagPrice = RedshopLayoutHelper::render(
@@ -423,6 +462,16 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		return str_replace($tag, $tagPrice, $template);
 	}
 
+	/**
+	 * Replace image
+	 *
+	 * @param   object   $accessory
+	 * @param   string   $template
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function replaceImage($accessory, &$template)
 	{
 		$input        = JFactory::getApplication()->input;
@@ -434,10 +483,9 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		$accessoryProductLink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $accessory->child_product_id . '&Itemid=' . $itemId, false);
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
 
 		// Trigger to change product image.
-		$dispatcher->trigger(
+		RedshopHelperUtility::getDispatcher()->trigger(
 			'changeProductImage',
 			array(
 				&$accessoryImg,
@@ -549,6 +597,21 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		$template = str_replace($accessoryImgTag, $accessoryImg, $template);
 	}
 
+	/**
+	 * Replace add checkbox
+	 *
+	 * @param   object   $accessory
+	 * @param   string   $template
+	 * @param   string   $commonId
+	 * @param   array    $attributes
+	 * @param   string   $accessoryPrice
+	 * @param   string   $accessoryPriceWithoutVAT
+	 * @param   string   $accessoryChecked
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function replaceAddCheckbox($accessory, &$template, $commonId, $attributes, $accessoryPrice, $accessoryPriceWithoutVAT, $accessoryChecked)
 	{
 		$checkbox = RedshopLayoutHelper::render(
@@ -573,9 +636,19 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		$template = str_replace('{accessory_add_chkbox}', $checkbox, $template);
 	}
 
+	/**
+	 * Replace main accessory
+	 *
+	 * @param   string    $templateContent
+	 * @param   object    $product
+	 * @param   integer   $userId
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function replaceMainAccessory($templateContent, $product, $userId)
 	{
-		$accessoryTemplate = $this->template;
 		$subTemplate       = $this->getTemplateBetweenLoop('{if accessory_main}', '{accessory_main end if}');
 
 		if (!$subTemplate)
@@ -720,6 +793,19 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 		$this->template = $subTemplate['begin'] . $template . $subTemplate['end'];
 	}
 
+	/**
+	 * Get width height
+	 *
+	 * @param   string    $template
+	 * @param   string    $type
+	 * @param   string    $imageTag
+	 * @param   integer   $width
+	 * @param   integer   $height
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function getWidthHeight($template, $type, &$imageTag, &$width, &$height)
 	{
 		if (strpos($template, '{' . $type . '_3}') !== false)
