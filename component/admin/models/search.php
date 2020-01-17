@@ -54,182 +54,74 @@ class RedshopModelSearch extends RedshopModel
 	{
 		parent::__construct();
 
-		if (!empty($jinput = JFactory::getApplication()->input))
+		if (!empty($input = JFactory::getApplication()->input))
 		{
-			$this->isCompany = $jinput->getInt('iscompany', -1);
+			$this->isCompany = $input->getInt('iscompany', -1);
 
-			$this->parent = $jinput->get('parent', 0);
+			$this->parent = $input->get('parent', 0);
 
-			$this->limit = $jinput->get('limit', '');
+			$this->limit = $input->get('limit', '');
 
-			$this->search = $jinput->get('input', null);
+			$this->search = $input->get('input', null);
 
-			$this->alert = $jinput->get('alert', '');
+			$this->alert = $input->get('alert', '');
 
-			$this->id = ((int) $jinput->get('id', 0));
+			$this->id = ((int) $input->get('id', 0));
 
-			$this->stockRoomId = ((int) $jinput->get('stockroom_id', 0));
+			$this->stockRoomId = ((int) $input->get('stockroom_id', 0));
 
-			$this->productId = ((int) $jinput->get('product_id', 0));
+			$this->productId = ((int) $input->get('product_id', 0));
 
-			$this->related = ((int) $jinput->get('related', 0));
+			$this->related = ((int) $input->get('related', 0));
 
-			$this->navigator = ((int) $jinput->get('navigator', 0));
+			$this->navigator = ((int) $input->get('navigator', 0));
 
-			$this->voucherId = ((int) $jinput->get('voucher_id', 0));
+			$this->voucherId = ((int) $input->get('voucher_id', 0));
 
-			$this->mediaSection = $jinput->get('media_section', '');
+			$this->mediaSection = $input->get('media_section', '');
 
-			$this->user = ((int) $jinput->get('user', 0));
+			$this->user = ((int) $input->get('user', 0));
 
-			$this->plgCustomView = $jinput->get('plgcustomview', 0);
+			$this->plgCustomView = $input->get('plgcustomview', 0);
 
-			$this->addRedUser = $jinput->get('addreduser', '');
+			$this->addRedUser = $input->get('addreduser', '');
 
-			$this->products = $jinput->get('isproduct', '');
+			$this->products = $input->get('isproduct', '');
 		}
 	}
 
 	public function search()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-		$db     = JFactory::getDbo();
 
-		if($jInput = JFactory::getApplication()->input)
+		if ($input = JFactory::getApplication()->input)
 		{
-			$search = ' LIKE ' . $db->quote('%' . $jInput->getString('input', '') . '%');
-			$query  = $db->getQuery(true);
+			$db    = JFactory::getDbo();
+			$resultQuery = $db->getQuery(true);
 
-			if ($jInput->getCmd('media_section', '') != '')
+			if (!empty($input->getString('media_section', '')))
 			{
-				switch ($jInput->getCmd('media_section', ''))
-				{
-					case 'category':
-						$query->select(
-							array(
-								$db->qn('id'),
-								$db->qn('name', 'text')
-							)
-						)
-							->from($db->qn('#__redshop_category'))
-							->where($db->qn('name') . $search);
-						break;
-					case 'property':
-						$query->select(
-							array(
-								$db->qn('property_id', 'id'),
-								$db->qn('property_name', 'text')
-							)
-						)
-							->from($db->qn('#__redshop_product_attribute_property'))
-							->where($db->qn('property_name') . $search);
-						break;
-					case 'subproperty':
-						$query->select(
-							array(
-								$db->qn('subattribute_color_id', 'id'),
-								$db->qn('subattribute_color_name', 'text')
-							)
-						)
-							->from($db->qn('#__redshop_product_subattribute_color'))
-							->where($db->qn('subattribute_color_name') . $search);
-						break;
-					case 'manufacturer':
-						$query->select(
-							array(
-								$db->qn('id', 'id'),
-								$db->qn('name', 'text')
-							)
-						)
-							->from($db->qn('#__redshop_manufacturer'))
-							->where($db->qn('name') . $search);
-						break;
-					case 'catalog':
-						$query->select(
-							array(
-								$db->qn('catalog_id', 'id'),
-								$db->qn('catalog_name', 'text')
-							)
-						)
-							->from($db->qn('#__redshop_catalog'))
-							->where('catalog_name' . $search);
-						break;
-					case 'product':
-					default:
-						$query->select(
-							array(
-								$db->qn('product_id', 'id'),
-								'CONCAT(' . $db->qn('product_name') . ', " (", ' . $db->qn('product_number') . ', ")") as text'
-							)
-						)
-							->from($db->qn('#__redshop_product'))
-							->where($db->qn('product_name') . $search . ' OR ' . $db->qn('product_number') . $search);
-						break;
-				}
+				$resultQuery = RedshopHelperSearch::buildQuerySwichCaseMediaSection($input->getString('media_section', ''), $input->getString('input', ''));
 			}
-			elseif ($jInput->getCmd('alert', '') == 'container')
+			elseif ($input->getString('alert', '') == 'container')
 			{
-				$query->select(
-					array(
-						$db->qn('p.product_id', 'id'),
-						'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
-						$db->qn('p.supplier_id'),
-						$db->qn('p.product_volume', 'volume')
-					)
-				)
-					->from($db->qn('#__redshop_product', 'p'))
-					->leftJoin($db->qn('#__redshop_container_product_xref', 'cp') . ' ON cp.product_id = p.product_id')
-					->where($db->qn('p.product_name') . $search)
-					->where($db->qn('cp.container_id') . ' != ' . $jInput->getInt('container_id', 0));
+				$resultQuery = RedshopHelperSearch::buildQueryAlertContainer($input->getString('input', ''), $input->getInt('container_id', 0));
 			}
-			elseif ($jInput->getCmd('alert', '') == 'voucher')
+			elseif ($input->getString('alert', '') == 'voucher')
 			{
-				$subQuery = $db->getQuery(true)
-					->select('COUNT(cp.product_id)')
-					->from($db->qn("#__redshop_product_voucher_xref", 'cp'))
-					->where('cp.product_id = p.product_id')
-					->where('cp.voucher_id = ' . $jInput->getInt('voucher_id', 0));
-				$query->select(
-					array(
-						$db->qn('p.product_id', 'id'),
-						'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text'
-					)
-				)
-					->from($db->qn('#__redshop_product', 'p'))
-					->where($db->qn('p.product_name') . $search)
-					->where('(' . $subQuery . ') = 0');
+				$resultQuery = RedshopHelperSearch::buildQueryAlertVoucherSearch($input->getInt('voucher_id', 0), $input->getString('input', ''));
 			}
-			elseif ($jInput->getCmd('alert', '') == 'stoockroom')
+			elseif ($input->getString('alert', '') == 'stoockroom')
 			{
-				$query->select(
-					array(
-						$db->qn('p.container_id', 'id'),
-						$db->qn('p.container_name', 'text')
-					)
-				)
-					->from($db->qn('#__redshop_container', 'p'))
-					->leftJoin($db->qn('#__redshop_stockroom_container_xref', 'cp') . ' ON cp.container_id = p.container_id')
-					->where($db->qn('p.container_name') . $search)
-					->where($db->qn('cp.stockroom_id') . ' != ' . $jInput->getInt('stockroom_id', 0));
+				$resultQuery = RedshopHelperSearch::buildQueryAlertStoockroomSearch($input->getString('input', ''), $input->getInt('stockroom_id', 0));
 			}
-			elseif ($jInput->getCmd('alert', '') == 'termsarticle')
+			elseif ($input->getString('alert', '') == 'termsarticle')
 			{
-				$query->select(
-					array(
-						$db->qn('a.id'),
-						$db->qn('a.title', 'text')
-					)
-				)
-					->from($db->qn('#__content', 'a'))
-					->leftJoin($db->qn('#__categories', 'cc') . ' ON cc.id = a.catid')
-					->where($db->qn('a.title') . $search)
-					->where($db->qn('a.state') . ' = 1')
-					->where($db->qn('cc.extension' . ' = ' . $db->quote('com_content')))
-					->where($db->qn('cc.published') . ' = 1');
+				$resultQuery = RedshopHelperSearch::buildQueryAlertTermsArticleSearch($input->getString('input', ''));
 			}
-			elseif ($jInput->getInt('user', 0) == 1 || $jInput->getInt('addreduser', 0) == 1)
+			elseif ($input->getInt('user', 0) == 1 || $input->getInt('addreduser', 0) == 1)
 			{
-				if ($jInput->getInt('addreduser', 0) == 1)
+				if ($input->getInt('addreduser', 0) == 1)
 				{
 					$emailLabel = 'value_number';
 				}
@@ -238,142 +130,59 @@ class RedshopModelSearch extends RedshopModel
 					$emailLabel = 'volume';
 				}
 				
-				$query->select(
-					array(
-						$db->qn('u.id'),
-						'CONCAT (' . $db->qn('uf.firstname') . ', ' . $db->quote(' ') . ', ' . $db->qn('uf.lastname') . ', ' . $db->quote(' (')
-						. ', ' . $db->qn('u.username') . ', ' . $db->quote(')') . ',' . $db->quote(' - ') . ',' . $db->qn('uf.phone') . ') AS text',
-						$db->qn('u.email', $emailLabel),
-						$db->qn('uf.phone', 'phone')
-					)
-				)
-					->from($db->qn('#__users', 'u'))
-					->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON uf.user_id = u.id')
-					->where('(' . $db->qn('u.username') . $search
-						. ' OR ' . $db->qn('uf.firstname') . $search
-						. ' OR ' . $db->qn('uf.lastname') . $search
-						. ' OR ' . $db->qn('uf.phone') . $search . ')')
-					->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'));
+				$resultQuery = RedshopHelperSearch::buildQueryAddRedUserSearch($input->getString('input', ''), $emailLabel);
 			}
-			elseif ($jInput->getInt('plgcustomview', 0) == 1)
+			elseif ($input->getInt('plgcustomview', 0) == 1)
 			{
-				$iscompany = $jInput->getInt('iscompany', -1);
+				$iscompany = $input->getInt('iscompany', -1);
 				
 				if ($iscompany == 0)
 				{
-					$query->select(
-						array(
-							$db->qn('u.id'),
-							'CONCAT (' . $db->qn('uf.firstname') . ', ' . $db->quote(' ') . ', ' . $db->qn('uf.lastname') . ', ' . $db->quote(' (')
-							. ', ' . $db->qn('u.username') . ', ' . $db->quote(')') . ') AS text',
-							$db->qn('u.email', 'volume')
-						)
-					)
-						->from($db->qn('#__users', 'u'))
-						->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON uf.user_id = u.id')
-						->where('(' . $db->qn('u.username') . $search
-							. ' OR ' . $db->qn('uf.firstname') . $search
-							. ' OR ' . $db->qn('uf.lastname') . $search . ')'
-						)
-						->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
-						->where($db->qn('uf.is_company') . ' = 0');
+					$resultQuery = RedshopHelperSearch::buildQueryIsCompanyFalseSearch($input->getString('input', ''));
 				}
 				elseif ($iscompany == 1)
 				{
-					$query->select(
-						array(
-							$db->qn('u.id'),
-							'CONCAT (' . $db->qn('uf.company_name') . ', ' . $db->quote(' (') . ', '
-							. $db->qn('u.username') . ', ' . $db->quote(')') . ') AS text',
-							$db->qn('u.email', 'volume')
-						)
-					)
-						->from($db->qn('#__redshop_users_info', 'uf'))
-						->leftJoin($db->qn('#__users', 'u') . ' ON uf.user_id = u.id')
-						->where('(' . $db->qn('u.username') . $search
-							. ' OR ' . $db->qn('uf.company_name') . $search . ')'
-						)
-						->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
-						->where($db->qn('uf.is_company') . ' = 1');
+					$resultQuery = RedshopHelperSearch::buildQueryIsCompanyTrueSearch($input->getString('input', ''));
 				}
 			}
-			elseif ($jInput->getInt('isproduct', 0) == 1)
+			elseif ($input->getInt('isproduct', 0) == 1)
 			{
-				$query->select(
-					array(
-						$db->qn('product_id', 'id'),
-						'CONCAT(' . $db->qn('product_name') . ', " (", ' . $db->qn('product_number') . ', ")") as text',
-						$db->qn('product_number', 'value_number')
-					)
-				)
-					->from($db->qn('#__redshop_product'))
-					->where($db->qn('product_name') . $search . ' OR ' . $db->qn('product_number') . $search);
+				$resultQuery = RedshopHelperSearch::buildQueryIsProductTrueSearch($input->getString('input', ''));
 			}
-			elseif ($jInput->getInt('related', 0) == 1)
+			elseif ($input->getInt('related', 0) == 1)
 			{
-				$query->select(
-					array(
-						$db->qn('p.product_id', 'id'),
-						'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
-						$db->qn('p.product_number', 'value_number')
-					)
-				)
-					->from($db->qn('#__redshop_product', 'p'))
-					->where($db->qn('p.product_id') . ' != ' . $jInput->getInt('product_id', 0))
-					->where('(' . $db->qn('p.product_name') . $search
-						. ' OR ' . $db->qn('p.product_number') . $search . ')'
-					);
+				$resultQuery = RedshopHelperSearch::buildQueryIsRelatedTrueSearch($input->getString('input', ''), $input->getInt('product_id', 0));
 			}
-			elseif ($jInput->getInt('parent', 0) == 1)
+			elseif ($input->getInt('parent', 0) == 1)
 			{
-				if ($product_id = $jInput->getInt('product_id', 0))
+				if ($product_id = $input->getInt('product_id', 0))
 				{
-					$query->where($db->qn('p.product_id') . ' != ' . $product_id);
+					$resultQuery->where($db->qn('p.product_id') . ' != ' . $product_id);
 				}
-				
-				$query->select(
-					array(
-						$db->qn('p.product_id', 'id'),
-						'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
-					)
-				)
-					->from($db->qn('#__redshop_product', 'p'))
-					->where($db->qn('p.product_name') . $search)
-					->where($db->qn('p.product_parent_id') . ' = 0');
+
+				$resultQuery = RedshopHelperSearch::buildQueryIsParentTrueSearch($input->getString('input', ''));
 			}
-			elseif ($jInput->getInt('navigator', 0) == 1)
+			elseif ($input->getInt('navigator', 0) == 1)
 			{
-				$query->select(
-					array(
-						$db->qn('p.product_id', 'id'),
-						'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
-						$db->qn('p.product_number', 'value_number'),
-						$db->qn('p.product_price', 'price')
-					)
-				)
-					->from($db->qn('#__redshop_product', 'p'))
-					->where($db->qn('p.published') . ' = 1')
-					->where('(' . $db->qn('p.product_name') . $search
-						. ' OR ' . $db->qn('p.product_number') . $search . ')'
-					);
+				$resultQuery = RedshopHelperSearch::buildQueryIsParentTrueSearch($input->getString('input', ''));
 			}
 			else
 			{
-				if ($accessoryList = $jInput->getString('accessoryList', ''))
+				if ($accessoryList = $input->getString('accessoryList', ''))
 				{
 					$accessoryList = explode(',', $accessoryList);
 					$accessoryList = Joomla\Utilities\ArrayHelper::toInteger($accessoryList);
-					$query->where('p.product_id NOT IN (' . implode(',', $accessoryList) . ')');
+					$resultQuery->where('p.product_id NOT IN (' . implode(',', $accessoryList) . ')');
 				}
 
-				if ($product_id = $jInput->getInt('product_id', 0))
+				if ($product_id = $input->getInt('product_id', 0))
 				{
-					$query->leftJoin($db->qn('#__redshop_product_accessory', 'pa') . ' ON pa.child_product_id = p.product_id AND pa.product_id = ' . $product_id)
+					$resultQuery->leftJoin($db->qn('#__redshop_product_accessory', 'pa') . ' ON pa.child_product_id = p.product_id AND pa.product_id = ' . $product_id)
 						->where('pa.accessory_id IS NULL')
 						->where($db->qn('p.product_id') . ' != ' . $product_id);
 				}
 
-				$query->select(
+				$resultQuery->select(
 					array(
 						$db->qn('p.product_id', 'id'),
 						'CONCAT(' . $db->qn('p.product_name') . ', " (", ' . $db->qn('p.product_number') . ', ")") as text',
@@ -382,34 +191,35 @@ class RedshopModelSearch extends RedshopModel
 					)
 				)
 					->from($db->qn('#__redshop_product', 'p'))
-					->where('(' . $db->qn('p.product_name') . $search
-						. ' OR ' . $db->qn('p.product_number') . $search . ')'
-					);
+					->where('('
+						. $db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $input->getString('input', '') . '%') . ' OR '
+						. $db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $input->getString('input', '') . '%')
+						. ')');
+
+				$json = new stdClass;
+				$db->setQuery($resultQuery)->execute();
+				$json->total = $db->getNumRows();
+
+				if ($json->total != 0)
+				{
+					$limit      = $input->getInt('limit', 10);
+					$limitStart = ($input->getInt('page', 1) - 1) * $limit;
+					$db->setQuery($resultQuery, $limitStart, $limit);
+					$json->result = $db->loadObjectList();
+				}
+				else
+				{
+					$json->result = '';
+				}
+
+				return json_encode($json);
 			}
 
-			$json = new stdClass;
-			$db->setQuery($query)->execute();
-			$json->total = $db->getNumRows();
-
-			if ($json->total != 0)
-			{
-				$limit      = $jInput->getInt('limit', 10);
-				$limitStart = ($jInput->getInt('page', 1) - 1) * $limit;
-				$db->setQuery($query, $limitStart, $limit);
-				$json->result = $db->loadObjectList();
-			}
-			else
-			{
-				$json->result = '';
-			}
+			$json         = new stdClass;
+			$json->result = '';
 
 			return json_encode($json);
 		}
-
-		$json = new stdClass;
-		$json->result = '';
-
-		return json_encode($json);
 	}
 
 	public function setId($id)
@@ -424,9 +234,9 @@ class RedshopModelSearch extends RedshopModel
 			return $this->_buildQuery();
 		}
 
-		$query       = $this->_buildQuery();
+		$resultQueryuery       = $this->_buildQuery();
 
-		return $this->_getList($query);
+		return $this->_getList($resultQueryuery);
 	}
 
 	public function _buildQuery()
