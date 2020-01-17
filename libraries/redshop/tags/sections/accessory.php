@@ -500,7 +500,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
 		$accessoryImage = $accessory->product_full_image;
 
-		if (empty($accessoryImg))
+		if (/** @scrutinizer ignore-call */ empty($accessoryImg))
 		{
 			if (Redshop::getConfig()->get('ACCESSORY_PRODUCT_IN_LIGHTBOX') == 1)
 			{
