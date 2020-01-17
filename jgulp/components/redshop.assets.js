@@ -82,11 +82,11 @@ gulp.task('sass:' + baseTask, function () {
 
 /// Watcher for Assets only
 gulp.task('watch:' + baseTask + '.assets',
-    [
+    gulp.series(
         'watch:' + baseTask + ':asset:script',
         'watch:' + baseTask + ':asset:sass',
         'watch:' + baseTask + ':media'
-    ]
+    )
 );
 
 /// Watcher will watching for scss changes in Src/assets,

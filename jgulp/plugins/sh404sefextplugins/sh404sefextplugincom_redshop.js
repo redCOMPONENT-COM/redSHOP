@@ -21,7 +21,7 @@ gulp.task('clean:' + baseTask, function() {
 });
 
 // Copy: plugin
-gulp.task('copy:' + baseTask, ['clean:' + baseTask], function() {
+gulp.task('copy:' + baseTask, gulp.series('clean:' + baseTask), function() {
     return gulp.src([
         extPath + '/**'
     ])

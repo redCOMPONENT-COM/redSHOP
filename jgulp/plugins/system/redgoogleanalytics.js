@@ -17,10 +17,10 @@ var wwwExtPath = config.wwwDir + '/plugins/' + group + '/' + name;
 
 // Clean
 gulp.task('clean:' + baseTask,
-    [
+    gulp.series(
         'clean:' + baseTask + ':plugin',
         'clean:' + baseTask + ':language'
-    ],
+    ),
     function() {
     });
 
@@ -37,15 +37,15 @@ gulp.task('clean:' + baseTask + ':language', function() {
 
 // Copy
 gulp.task('copy:' + baseTask,
-    [
+    gulp.series(
         'copy:' + baseTask + ':plugin',
         'copy:' + baseTask + ':language'
-    ],
+    ),
     function() {
     });
 
 // Copy: plugin
-gulp.task('copy:' + baseTask + ':plugin', ['clean:' + baseTask + ':plugin'], function() {
+gulp.task('copy:' + baseTask + ':plugin',  gulp.series('clean:' + baseTask + ':plugin'), function() {
     return gulp.src([
             extPath + '/**',
             '!' + extPath + '/language',
@@ -55,17 +55,17 @@ gulp.task('copy:' + baseTask + ':plugin', ['clean:' + baseTask + ':plugin'], fun
 });
 
 // Copy: Language
-gulp.task('copy:' + baseTask + ':language', ['clean:' + baseTask + ':language'], function() {
+gulp.task('copy:' + baseTask + ':language',  gulp.series('clean:' + baseTask + ':language'), function() {
     return gulp.src(extPath + '/language/**')
         .pipe(gulp.dest(config.wwwDir + '/language'));
 });
 
 // Watch
 gulp.task('watch:' + baseTask,
-    [
+    gulp.series(
         'watch:' + baseTask + ':plugin',
         'watch:' + baseTask + ':language'
-    ],
+    ),
     function() {
     });
 

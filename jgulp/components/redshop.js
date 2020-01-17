@@ -47,11 +47,11 @@ var mediaPath = extPath + '/media/' + componentName;
 /// Main clean task
 /// gulp clean:components.redshop
 gulp.task('clean:' + baseTask,
-    [
+    gulp.series(
         'clean:' + baseTask + ':frontend',
         'clean:' + baseTask + ':backend',
         'clean:' + baseTask + ':media'
-    ],
+    ),
     function () {
         return true;
     }
@@ -76,28 +76,28 @@ gulp.task('clean:' + baseTask + ':media', function () {
 /// Main copy task
 /// gulp copy:components.redshop
 gulp.task('copy:' + baseTask,
-    [
+    gulp.series(
         'copy:' + baseTask + ':frontend',
         'copy:' + baseTask + ':backend',
         'copy:' + baseTask + ':media'
-    ],
+    ),
     function () {
     });
 
 // Copy: media
-gulp.task('copy:' + baseTask + ':media', ['clean:' + baseTask + ':media'], function () {
+gulp.task('copy:' + baseTask + ':media', gulp.series('clean:' + baseTask + ':media'), function () {
     return gulp.src(mediaPath + '/**')
         .pipe(gulp.dest(config.wwwDir + '/media/' + componentName));
 });
 
 /// Call another watcher
 gulp.task('watch:' + baseTask,
-    [
+    gulp.series(
         'watch:' + baseTask + ':frontend',
         'watch:' + baseTask + ':backend',
         'watch:' + baseTask + ':asset:script',
         'watch:' + baseTask + ':media'
-    ]
+    )
 );
 
 /**
@@ -106,7 +106,7 @@ gulp.task('watch:' + baseTask,
 /// Watcher will watching for changes in Media,
 /// then copy to destination Media
 gulp.task('watch:' + baseTask + ':media',
-    ['watch:' + baseTask + ':media:js', 'watch:' + baseTask + ':media:css']
+    gulp.series('watch:' + baseTask + ':media:js', 'watch:' + baseTask + ':media:css')
 );
 // Watch: Media JS
 gulp.task('watch:' + baseTask + ':media:js', function () {
@@ -146,15 +146,15 @@ gulp.task('watch:' + baseTask + ':media:css', function () {
 // Clean: frontend, will clean components from Sites
 // gulp clean:components.redshop:frontend
 gulp.task('clean:' + baseTask + ':frontend',
-    ['clean:' + baseTask + ':frontend:lang', 'clean:' + baseTask + ':frontend:files']
+    gulp.series('clean:' + baseTask + ':frontend:lang', 'clean:' + baseTask + ':frontend:files')
 );
 // Copy: frontend
 gulp.task('copy:' + baseTask + ':frontend',
-    ['copy:' + baseTask + ':frontend:lang', 'copy:' + baseTask + ':frontend:files']
+    gulp.series('copy:' + baseTask + ':frontend:lang', 'copy:' + baseTask + ':frontend:files')
 );
 // Watch: Front-end
 gulp.task('watch:' + baseTask + ':frontend',
-    ['watch:' + baseTask + ':frontend:lang', 'watch:' + baseTask + ':frontend:files']
+    gulp.series('watch:' + baseTask + ':frontend:lang', 'watch:' + baseTask + ':frontend:files')
 );
 
 // Copy: Front-end language
@@ -219,12 +219,12 @@ gulp.task('watch:' + baseTask + ':frontend:files', function (cb) {
  */
 // Admin: COPY
 gulp.task('copy:' + baseTask + ':backend',
-    [
+    gulp.series(
         'copy:' + baseTask + ':backend:redshop.xml',
         'copy:' + baseTask + ':backend:install.php',
         'copy:' + baseTask + ':backend:files',
         'copy:' + baseTask + ':backend:lang'
-    ]
+    )
 );
 // Admin: Clean backend, will clean components from Administrator
 gulp.task('clean:' + baseTask + ':backend', function () {
@@ -238,16 +238,16 @@ gulp.task('clean:' + baseTask + ':backend', function () {
 });
 // Admin: Watch
 gulp.task('watch:' + baseTask + ':backend',
-    [
+    gulp.series(
         'watch:' + baseTask + ':backend:redshop.xml',
         'watch:' + baseTask + ':backend:install.php',
         'watch:' + baseTask + ':backend:files',
         'watch:' + baseTask + ':backend:lang'
-    ]
+    )
 );
 
 // Copy: Admin language
-gulp.task('copy:' + baseTask + ':backend:lang', ['clean:' + baseTask + ':backend:lang'], function () {
+gulp.task('copy:' + baseTask + ':backend:lang', gulp.series('clean:' + baseTask + ':backend:lang'), function () {
     return gulp.src(extPath + '/component/admin/language/**')
         .pipe(gulp.dest(config.wwwDir + '/administrator/language'));
 });
@@ -257,17 +257,17 @@ gulp.task('clean:' + baseTask + ':backend:lang', function () {
 });
 // Watch: Admin language
 gulp.task('watch:' + baseTask + ':backend:lang', function () {
-    gulp.watch(extPath + '/component/admin/language/**', ['copy:' + baseTask + ':backend:lang']);
+    gulp.watch(extPath + '/component/admin/language/**', gulp.series('copy:' + baseTask + ':backend:lang'));
 });
 
 // Copy: redSHOP.xml file
-gulp.task('copy:' + baseTask + ':backend:redshop.xml', ['clean:' + baseTask + ':backend:redshop.xml'], function () {
+gulp.task('copy:' + baseTask + ':backend:redshop.xml', gulp.series('clean:' + baseTask + ':backend:redshop.xml'), function () {
     return gulp.src(extPath + '/redshop.xml')
         .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName));
 });
 // Watch: redSHOP.xml file
 gulp.task('watch:' + baseTask + ':backend:redshop.xml', function () {
-    gulp.watch(extPath + '/redshop.xml', ['copy:' + baseTask + ':backend:redshop.xml']);
+    gulp.watch(extPath + '/redshop.xml', gulp.series('copy:' + baseTask + ':backend:redshop.xml'));
 });
 // Clean: redSHOP.xml file
 gulp.task('clean:' + baseTask + ':backend:redshop.xml', function () {
@@ -276,13 +276,13 @@ gulp.task('clean:' + baseTask + ':backend:redshop.xml', function () {
 
 
 // Copy: install.php file
-gulp.task('copy:' + baseTask + ':backend:install.php', ['clean:' + baseTask + ':backend:install.php'], function () {
+gulp.task('copy:' + baseTask + ':backend:install.php', gulp.series('clean:' + baseTask + ':backend:install.php'), function () {
     return gulp.src(extPath + '/install.php')
         .pipe(gulp.dest(config.wwwDir + '/administrator/components/' + componentName));
 });
 // Watch: install.php file
 gulp.task('watch:' + baseTask + ':backend:install.php', function () {
-    gulp.watch(extPath + '/install.php', ['copy:' + baseTask + ':backend:install.php']);
+    gulp.watch(extPath + '/install.php', gulp.series('copy:' + baseTask + ':backend:install.php'));
 });
 // Clean: install.php file
 gulp.task('clean:' + baseTask + ':backend:install.php', function () {

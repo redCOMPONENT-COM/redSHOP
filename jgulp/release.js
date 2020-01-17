@@ -21,12 +21,11 @@ global.releaseExt = function releaseExt(arraySrc, fileName, dest) {
 
 // Overwrite "release" method
 gulp.task("release",
-    [
+    gulp.series(
         "release:plugin",
         "release:module",
         "release:redshop"
-    ]
-);
+    ));
 
 gulp.task("release:md5:generate", function () {
 
@@ -94,7 +93,7 @@ gulp.task("release:md5:generate", function () {
     ], {base: "./"}).pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
 });
 
-gulp.task("release:md5:json", ["release:md5:generate"], function (cb) {
+gulp.task("release:md5:json", gulp.series("release:md5:generate"), function (cb) {
     var fileContent = fs.readFileSync(path.join("./checksum.md5"), "utf8");
     var temp        = fileContent.split("\n");
     var result      = [];
@@ -119,14 +118,13 @@ gulp.task("release:md5:json", ["release:md5:generate"], function (cb) {
 });
 
 gulp.task("release:md5",
-    [
+    gulp.series(
         "release:md5:generate",
         "release:md5:json",
         "release:md5:clean"
-    ]
-);
+));
 
-gulp.task("release:md5:clean", ["release:md5:json"], function () {
+gulp.task("release:md5:clean", gulp.series("release:md5:json"), function () {
     return gulp.src("./checksum.md5").pipe(clean({force: true}));
 });
 

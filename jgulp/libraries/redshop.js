@@ -22,7 +22,7 @@ var wwwPath      = config.wwwDir + "/libraries/" + libraryName;
 var libraryFiles = [];
 
 // Clean
-gulp.task("clean:" + baseTask, ["clean:" + baseTask + ":library", "clean:" + baseTask + ":manifest"], function () {
+gulp.task("clean:" + baseTask, gulp.series("clean:" + baseTask + ":library", "clean:" + baseTask + ":manifest"), function () {
 });
 
 // Clean: library
@@ -37,16 +37,16 @@ gulp.task("clean:" + baseTask + ":manifest", function () {
 
 // Copy
 gulp.task("copy:" + baseTask,
-    [
+    gulp.series(
         "copy:" + baseTask + ":library",
         "copy:" + baseTask + ":manifest"
-    ],
+    ),
     function () {
     }
 );
 
 // Copy: manifest
-gulp.task("copy:" + baseTask + ":manifest", ["clean:" + baseTask + ":manifest"], function () {
+gulp.task("copy:" + baseTask + ":manifest", gulp.series("clean:" + baseTask + ":manifest"), function () {
     return gulp.src(extPath + "/" + manifestFile)
         .pipe(gulp.dest(config.wwwDir + "/administrator/manifests/libraries"));
 });
@@ -163,7 +163,7 @@ gulp.task("watch:" + baseTask + ":library", function () {
 
 // Watch: manifest
 gulp.task("watch:" + baseTask + ":manifest", function () {
-    gulp.watch(extPath + "/" + manifestFile, ["copy:" + baseTask + ":manifest", browserSync.reload]);
+    gulp.watch(extPath + "/" + manifestFile, gulp.series("copy:" + baseTask + ":manifest", browserSync.reload));
 });
 
 // Composer

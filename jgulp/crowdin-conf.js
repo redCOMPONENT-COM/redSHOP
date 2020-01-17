@@ -12,7 +12,7 @@ var stripPrefix = function (name) {
     return name.substr(6);
 };
 
-gulp.task("crowdin-conf", ["getAdminFiles", "getSiteFiles"], function () {
+gulp.task("crowdin-conf", gulp.series("getAdminFiles", "getSiteFiles"), function () {
     var content = "\"preserve_hierarchy\": true\n";
     content += "commit_message: \"New localization strings available [ci skip]\"\n";
     content += "\"files\": " + pd.json(JSON.stringify(iniJsons));
