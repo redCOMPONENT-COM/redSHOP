@@ -29,7 +29,6 @@ class RedshopControllerOrder_Detail extends RedshopController
 		$this->_producthelper   = productHelper::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 		$this->_order_functions = order_functions::getInstance();
-		$this->_extraField      = extraField::getInstance();
 		$this->_redhelper       = redhelper::getInstance();
 		$this->_userhelper      = rsUserHelper::getInstance();
 		$this->_carthelper      = rsCarthelper::getInstance();

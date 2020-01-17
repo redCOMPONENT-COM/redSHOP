@@ -13,7 +13,6 @@ JHTML::_('behavior.modal');
 $app           = JFactory::getApplication();
 $producthelper = productHelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
-$extraField    = extraField::getInstance();
 $config        = Redconfiguration::getInstance();
 $url           = JURI::base();
 $print         = $app->input->getInt('print');

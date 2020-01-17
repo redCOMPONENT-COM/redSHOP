@@ -128,7 +128,7 @@ switch ($name)
 	case 'category':
 		?>
 		<h3><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT'); ?></h3>
-		{if subcats} {category_main_description} {category_main_short_desc} {category_main_name} {category_main_thumb_image} {subcats end if} <br />
+		{if subcats} {category_main_description} {category_main_short_desc} {category_main_name} {category_main_thumb_image} {subproductlimit:X} {subcats end if} <br />
 		{category_loop_start} {category_loop_end} {category_name} {category_description} {category_short_desc} {category_thumb_image} <br />
 		{product_price_lbl} {product_price_slider} {include_product_in_sub_cat} {product_loop_start} {product_loop_end} {product_name} {product_price} {product_rating_summary} {product_s_desc} <br />
 		{pagination} {perpagelimit:X} {product_display_limit} {show_all_products_in_category} {order_by} {if product_on_sale} {product_on_sale end if} {price_excluding_vat} <br />

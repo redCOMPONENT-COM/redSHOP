@@ -20,7 +20,6 @@ $cart    = $session->get('cart');
 
 $detail     = $this->detail;
 $user       = JFactory::getUser();
-$extraField = extraField::getInstance();
 
 $quotation_template = RedshopHelperTemplate::getTemplate("quotation_request");
 
