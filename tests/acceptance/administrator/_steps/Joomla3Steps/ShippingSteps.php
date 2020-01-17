@@ -198,7 +198,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 			default:
 				break;
 		}
-		
+
 	}
 	/**
 	 * @param $shippingName
@@ -256,6 +256,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		$I->click($usePage->xPathATag($shippingMethod));
 		$I->waitForElement(ShippingPage::$shippingRate, 30);
 		$I->click(ShippingPage::$shippingRate);
+		$I->waitForText($shippingName, 30);
 		$I->seeLink($shippingName);
 		$I->checkAllResults();
 		$I->click(ShippingPage::$buttonDelete);

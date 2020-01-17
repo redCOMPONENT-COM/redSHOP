@@ -184,8 +184,11 @@ class CheckoutWithDiscountVoucherInValidCest
 		$this->voucherAmount     = 10;
 		$this->voucherCount      = $this->faker->numberBetween(99, 999);
 		$dateNow                 = date('Y-m-d');
-		$this->startDate         = date('Y-m-d', strtotime('-2 day', strtotime($dateNow)));
-		$this->endDate           = date('Y-m-d', strtotime('-1 day', strtotime($dateNow)));
+//		$this->startDate         = date('Y-m-d', strtotime('-2 day', strtotime($dateNow)));
+//		$this->endDate           = date('Y-m-d', strtotime('-1 day', strtotime($dateNow)));
+
+		$this->startDate         = "2019-01-25";
+		$this->endDate           = "2019-01-31";
 
 		$this->randomVoucherCodeSecond = $this->faker->bothify('VoucherCheckoutProductCestSecond ?##?');
 		$this->voucherAmountSecond     = 20;
