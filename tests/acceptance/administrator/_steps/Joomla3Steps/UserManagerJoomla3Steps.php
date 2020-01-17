@@ -38,12 +38,14 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\UserManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
 		$userManagerPage = new \UserManagerJoomla3Page;
 		$I->click(\UserManagerJoomla3Page::$newButton);
 		switch ($function) {
 			case 'save':
 			default:
 				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElementVisible(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
