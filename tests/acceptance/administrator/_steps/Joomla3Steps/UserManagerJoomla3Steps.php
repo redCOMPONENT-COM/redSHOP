@@ -515,8 +515,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->searchUser($nameUser);
 		$I->see($nameUser, \UserManagerJoomla3Page::$firstResultRow);
-		$I->click(\UserManagerJoomla3Page::$selectFirst);
-		$I->click(\UserManagerJoomla3Page::$editButton);
+		$I->waitForElementVisible(['link' => $nameUser], 30);
+		$I->click(['link' => $nameUser]);
+		$I->waitForElementVisible(\UserManagerJoomla3Page::$btnPlaceOder, 30);
 		$I->click(\UserManagerJoomla3Page::$btnPlaceOder);
 
 		$I->see($nameUser);
