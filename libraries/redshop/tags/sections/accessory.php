@@ -120,7 +120,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 	 *
 	 * @param   object   $accessory
 	 * @param   string   $template
-	 * @param   string   $attributeTemplate
+	 * @param   object   $attributeTemplate
 	 *
 	 * @return  string
 	 *
@@ -643,7 +643,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 	 * @param   object    $product
 	 * @param   integer   $userId
 	 *
-	 * @return  string
+	 * @return  string|boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
