@@ -124,10 +124,10 @@ gulp.task("copy:" + baseTask + ":library", function (cb) {
 
 // Watch
 gulp.task("watch:" + baseTask,
-    [
+    gulp.series(
         "watch:" + baseTask + ":library",
         "watch:" + baseTask + ":manifest"
-    ],
+    ),
     function () {
     });
 

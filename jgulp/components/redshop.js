@@ -81,7 +81,8 @@ gulp.task('copy:' + baseTask,
         'copy:' + baseTask + ':backend',
         'copy:' + baseTask + ':media'
     ),
-    function () {
+    function(cb){
+        cb();
     });
 
 // Copy: media
@@ -158,7 +159,7 @@ gulp.task('watch:' + baseTask + ':frontend',
 );
 
 // Copy: Front-end language
-gulp.task('copy:' + baseTask + ':frontend:lang', ['clean:' + baseTask + ':frontend:lang'], function () {
+gulp.task('copy:' + baseTask + ':frontend:lang', gulp.series('clean:' + baseTask + ':frontend:lang'), function () {
     return gulp.src(extPath + '/component/site/language/**')
         .pipe(gulp.dest(config.wwwDir + '/language'));
 });
@@ -168,11 +169,12 @@ gulp.task('clean:' + baseTask + ':frontend:lang', function () {
 });
 // Watch: Front-end language
 gulp.task('watch:' + baseTask + ':frontend:lang', function () {
-    gulp.watch(extPath + '/component/site/language/**', ['copy:' + baseTask + ':frontend:lang']);
+    gulp.watch(extPath + '/component/site/language/**',
+        gulp.series'copy:' + baseTask + ':frontend:lang');
 });
 
 // Copy: Front-end files
-gulp.task('copy:' + baseTask + ':frontend:files', ['clean:' + baseTask + ':frontend:files'], function () {
+gulp.task('copy:' + baseTask + ':frontend:files', gulp.series('clean:' + baseTask + ':frontend:files'), function () {
     return gulp.src([
             extPath + '/component/site/**',
             '!' + extPath + '/component/site/language',

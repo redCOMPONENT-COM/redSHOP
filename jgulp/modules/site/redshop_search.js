@@ -75,7 +75,7 @@ gulp.task('watch:' + baseTask + ':module', function() {
             '!' + extPath + 'language',
             '!' + extPath + 'language/**'
         ],
-        ['copy:' + baseTask + ':module', browserSync.reload]);
+        gulp.series('copy:' + baseTask + ':module', browserSync.reload));
 });
 
 // Watch: Language
@@ -83,5 +83,5 @@ gulp.task('watch:' + baseTask + ':language', function() {
     gulp.watch([
             extPath + '/language/**'
         ],
-        ['copy:' + baseTask + ':language', browserSync.reload]);
+        gulp.series('copy:' + baseTask + ':language', browserSync.reload));
 });

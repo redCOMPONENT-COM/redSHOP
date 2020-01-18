@@ -58,7 +58,7 @@ gulp.task("watch:" + baseTask + ":plugin", function () {
     gulp.watch([
             extPath + "/**/*"
         ],
-        ["copy:" + baseTask, browserSync.reload]
+        gulp.series('copy:' + baseTask, browserSync.reload)
     );
 });
 

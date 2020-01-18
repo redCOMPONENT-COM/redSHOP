@@ -92,13 +92,13 @@ gulp.task('watch:' + baseTask + '.assets',
 /// Watcher will watching for scss changes in Src/assets,
 /// then minify its and copy to Media
 gulp.task('watch:' + baseTask + ':asset:sass', function () {
-    gulp.watch([assetsPath + "/scss/*.scss", assetsPath + "/scss/**/*.scss"], ['sass:' + baseTask]);
+    gulp.watch([assetsPath + "/scss/*.scss", assetsPath + "/scss/**/*.scss"], gulp.series('sass:' + baseTask));
 });
 
 /// Watcher will watching for js changes in Src/assets,
 /// then minify its and copy to Media
 gulp.task('watch:' + baseTask + ':asset:script', function () {
-    gulp.watch([assetsPath + '/js/**/*.js', assetsPath + '/js/*.js'], ['scripts:' + baseTask]);
+    gulp.watch([assetsPath + '/js/**/*.js', assetsPath + '/js/*.js'], gulp.series('scripts:' + baseTask));
 });
 
 gulp.task('copy:' + baseTask + '.assets', function () {
