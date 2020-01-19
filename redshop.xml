@@ -156,5 +156,24 @@
 
         <!-- redSHOP product plugin -->
         <plugin group="redshop_product" name="sh404urls" published="published"/>
+
+        <!-- redSHOP Twig plugins -->
+        <plugin group="twig" name="cache" published="published"/>
+        <plugin group="twig" name="debug" published="published"/>
+        <plugin group="twig" name="japp" published="published"/>
+        <plugin group="twig" name="jarray" published="published"/>
+        <plugin group="twig" name="jdoc" published="published"/>
+        <plugin group="twig" name="jhtml" published="published"/>
+        <plugin group="twig" name="jlang" published="published"/>
+        <plugin group="twig" name="jlayout" published="published"/>
+        <plugin group="twig" name="jposition" published="published"/>
+        <plugin group="twig" name="jprofiler" published="published"/>
+        <plugin group="twig" name="jregistry" published="published"/>
+        <plugin group="twig" name="jroute" published="published"/>
+        <plugin group="twig" name="jsession" published="published"/>
+        <plugin group="twig" name="jtext" published="published"/>
+        <plugin group="twig" name="juri" published="published"/>
+        <plugin group="twig" name="juser" published="published"/>
+        <plugin group="twig" name="unserialize" published="published"/>
     </plugins>
 </extension>
