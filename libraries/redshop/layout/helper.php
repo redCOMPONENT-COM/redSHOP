@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Redshop\Twig;
+
 /**
  * Helper to render a JLayout object, storing a base path
  *
@@ -42,9 +44,20 @@ class RedshopLayoutHelper
 		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 
 		// Make sure we send null to JLayoutFile if no path set
-		$basePath       = empty($basePath) ? null : $basePath;
-		$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
-		$renderedLayout = $layout->render($displayData);
+		$basePath  = empty($basePath) ? null : $basePath;
+		$renderedLayout = '';
+
+		// Check for render Twig or PHP normally
+		if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig')
+		{
+			$renderPath     = $basePath . $layoutFile;
+			$renderedLayout = Twig::render($renderPath, $displayData);
+		}
+		else
+		{
+			$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
+			$renderedLayout = $layout->render($displayData);
+		}
 
 		return $renderedLayout;
 	}
