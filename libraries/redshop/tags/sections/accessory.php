@@ -62,7 +62,8 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 				),
 				'',
 				array(
-					'component' => 'com_redshop'
+					'component' => 'com_redshop',
+					'layoutType' => 'Twig'
 				)
 			);
 		}

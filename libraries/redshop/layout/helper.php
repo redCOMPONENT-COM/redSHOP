@@ -9,7 +9,10 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
 use Redshop\Twig;
+
+JLoader::import('redshop.library');
 
 /**
  * Helper to render a JLayout object, storing a base path
@@ -50,7 +53,8 @@ class RedshopLayoutHelper
 		// Check for render Twig or PHP normally
 		if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig')
 		{
-			$renderPath     = $basePath . $layoutFile;
+			$renderPath     = str_replace('.', '/', $basePath . $layoutFile);
+			$renderPath     = '@library/redshop/' . $renderPath . '.html.twig';
 			$renderedLayout = Twig::render($renderPath, $displayData);
 		}
 		else
@@ -58,6 +62,9 @@ class RedshopLayoutHelper
 			$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
 			$renderedLayout = $layout->render($displayData);
 		}
+
+		//$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
+		//$renderedLayout = $layout->render($displayData);
 
 		return $renderedLayout;
 	}

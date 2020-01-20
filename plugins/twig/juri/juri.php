@@ -9,7 +9,7 @@
 
 defined('_JEXEC') || die;
 
-JLoader::import('twig.library');
+JLoader::import('redshop.library');
 
 use Joomla\CMS\Uri\Uri;
 use Redshop\Extension\JUri;

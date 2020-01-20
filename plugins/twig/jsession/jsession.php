@@ -9,7 +9,7 @@
 
 defined('_JEXEC') || die;
 
-JLoader::import('twig.library');
+JLoader::import('redshop.library');
 
 use Joomla\CMS\Factory;
 use Redshop\Plugin\BaseTwigPlugin;
