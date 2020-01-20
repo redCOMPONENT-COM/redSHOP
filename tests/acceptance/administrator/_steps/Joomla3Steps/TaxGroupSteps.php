@@ -238,6 +238,7 @@ class TaxGroupSteps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\TaxGroupPage::$url);
+
 		switch ($name)
 		{
 			case 'copy':

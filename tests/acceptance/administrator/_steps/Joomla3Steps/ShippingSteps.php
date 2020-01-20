@@ -214,7 +214,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(ShippingPage:: $editShipping, 30);
 
 		try
-        {
+		{
 			$I->click(ShippingPage::$standShipping);
 		}catch (Exception $e)
 		{

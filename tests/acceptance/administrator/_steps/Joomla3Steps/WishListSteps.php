@@ -83,7 +83,7 @@ class WishListSteps extends CheckoutMissingData
 
 		try
 		{
-			$I->waitForText(WishListPage::$messageAddWishListSuccessPopup);
+			$I->waitForText(WishListPage::$messageAddWishListSuccessPopup, 10);
 			$I->see(WishListPage::$messageAddWishListSuccessPopup);
 		} catch (\Exception $e)
 		{

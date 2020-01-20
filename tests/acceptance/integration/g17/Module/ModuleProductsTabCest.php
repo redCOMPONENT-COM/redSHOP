@@ -253,7 +253,7 @@ class ModuleProductsTabCest
 
 		$I->comment('checkout one product');
 		$I = new OrderSteps($scenario);
-		$I->addProductToCartWithBankTransfer($this->productName,$this->categoryName, $this->productPrice, $this->userName , $this->password);
+		$I->addProductToCartWithBankTransfer($this->productName, $this->categoryName, $this->productPrice, $this->userName , $this->password);
 
 		$I->comment('check module Products Tab');
 		$I = new ProductTabsSteps($scenario);
