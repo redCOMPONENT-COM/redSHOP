@@ -77,7 +77,9 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		{
 			$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 		}
-		$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+
+		$I->waitForElementVisible(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
+		$I->wait(0.5);
 		$I->click(\CheckoutChangeQuantityProductPage::$checkoutFinalStep);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressAddress, 30);
