@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 JLoader::import('redshop.library');
 
 use Joomla\CMS\Factory;
-use Redshop\Extension\JLanguage;
+use Redshop\Extension\JLanguage as TwigJLang;
 use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
 
@@ -33,7 +33,7 @@ class PlgTwigJlang extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params)
 	{
-		$environment->addExtension(new JLanguage);
+		$environment->addExtension(new TwigJLang);
 		$environment->addGlobal('jlang', Factory::getLanguage());
 	}
 }

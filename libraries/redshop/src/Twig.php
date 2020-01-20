@@ -31,7 +31,7 @@ final class Twig
 	 *
 	 * @var  self
 	 */
-	private $environment;
+	private $twigEnvironment;
 
 	/**
 	 * Constructor
@@ -48,7 +48,7 @@ final class Twig
 			]
 		);
 
-		$this->environment = new TwigEnvironment($loader);
+		$this->twigEnvironment = new TwigEnvironment($loader);
 	}
 
 	/**
@@ -96,6 +96,6 @@ final class Twig
 	 */
 	public function environment() : TwigEnvironment
 	{
-		return $this->environment;
+		return $this->twigEnvironment;
 	}
 }

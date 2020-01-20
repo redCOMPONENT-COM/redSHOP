@@ -11,7 +11,7 @@ defined('_JEXEC') || die;
 
 JLoader::import('redshop.library');
 
-use Redshop\Extension\JHtml;
+use Redshop\Extension\JHtml as TwigJHtml;
 use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
 
@@ -32,6 +32,6 @@ class PlgTwigJhtml extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params = [])
 	{
-		$environment->addExtension(new JHtml);
+		$environment->addExtension(new TwigJHtml);
 	}
 }
