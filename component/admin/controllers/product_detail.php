@@ -213,7 +213,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
-            elseif ($apply == 1)
+			elseif ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
@@ -635,9 +635,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-            <script language="javascript" type="text/javascript">
-                window.parent.SqueezeBox.close();
-            </script>
+			<script language="javascript" type="text/javascript">
+				window.parent.SqueezeBox.close();
+			</script>
 			<?php
 		}
 	}
@@ -691,9 +691,9 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
+		<script language="javascript" type="text/javascript">
+			window.parent.SqueezeBox.close();
+		</script>
 		<?php
 	}
 
@@ -750,7 +750,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 		else
 		{
-		    $type = 'error';
+			$type = 'error';
 			$msg  = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
 		}
 
