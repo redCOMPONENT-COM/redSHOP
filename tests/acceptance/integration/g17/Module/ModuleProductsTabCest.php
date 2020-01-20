@@ -253,7 +253,7 @@ class ModuleProductsTabCest
 
 		$I->comment('checkout one product');
 		$I = new OrderSteps($scenario);
-		$I->addProductToCartWithBankTransfer($this->productName, $this->productPrice, $this->userName , $this->password);
+		$I->addProductToCartWithBankTransfer($this->productName,$this->categoryName, $this->productPrice, $this->userName , $this->password);
 
 		$I->comment('check module Products Tab');
 		$I = new ProductTabsSteps($scenario);
@@ -269,7 +269,7 @@ class ModuleProductsTabCest
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Delete Data');
-		$I = new ProductManagerJoomla3Steps($scenario); 
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
 		$I->deleteProduct($this->productNewest);
 
