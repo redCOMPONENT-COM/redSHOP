@@ -742,6 +742,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$post = $this->input->post->getArray();
 
 		$model = $this->getModel('product_detail');
+		$type  = '';
 
 		if ($model->SaveAttributeStockroom($post))
 		{
@@ -749,12 +750,13 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
+		    $type = 'error';
+			$msg  = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
 		}
 
 		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id'] . "&cid="
 			. $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
-		$this->setRedirect($link, $msg);
+		$this->setRedirect($link, $msg, $type);
 	}
 
 	/**
