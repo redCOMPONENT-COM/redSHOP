@@ -33,9 +33,9 @@ gulp.task("clean:" + baseTask + ":plugin", function () {
 gulp.task("copy:" + baseTask,
     gulp.series(
         "copy:" + baseTask + ":plugin"
-    ,
+    ),
     function () {
-    }));
+    });
 
 // Copy: plugin
 gulp.task("copy:" + baseTask + ":plugin", gulp.series("clean:" + baseTask + ":plugin"), function () {

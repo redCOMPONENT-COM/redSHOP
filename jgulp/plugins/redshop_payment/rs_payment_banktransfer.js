@@ -20,9 +20,9 @@ gulp.task('clean:' + baseTask,
     gulp.series(
         'clean:' + baseTask + ':plugin',
         'clean:' + baseTask + ':language'
-    ,
+    ),
     function() {
-    }));
+    });
 
 // Clean: plugin
 gulp.task('clean:' + baseTask + ':plugin', function() {
@@ -40,19 +40,19 @@ gulp.task('copy:' + baseTask,
     gulp.series(
         'copy:' + baseTask + ':plugin',
         'copy:' + baseTask + ':language'
-    ,
+    ),
     function() {
-    }));
+    });
 
 // Copy: plugin
-gulp.task('copy:' + baseTask + ':plugin', gulp.series('clean:' + baseTask + ':plugin', function() {
+gulp.task('copy:' + baseTask + ':plugin', gulp.series('clean:' + baseTask + ':plugin'), function() {
     return gulp.src([
             extPath + '/**',
             '!' + extPath + '/language',
             '!' + extPath + '/language/**'
         ])
         .pipe(gulp.dest(wwwExtPath));
-}));
+});
 
 // Copy: Language
 gulp.task('copy:' + baseTask + ':language', gulp.series('clean:' + baseTask + ':language'), function() {

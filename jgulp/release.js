@@ -25,7 +25,8 @@ gulp.task("release",
         "release:plugin",
         "release:module",
         "release:redshop"
-    ));
+    )
+);
 
 gulp.task("release:md5:generate", function () {
 
@@ -122,7 +123,8 @@ gulp.task("release:md5",
         "release:md5:generate",
         "release:md5:json",
         "release:md5:clean"
-));
+    )
+);
 
 gulp.task("release:md5:clean", gulp.series("release:md5:json"), function () {
     return gulp.src("./checksum.md5").pipe(clean({force: true}));

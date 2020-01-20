@@ -170,7 +170,7 @@ gulp.task('clean:' + baseTask + ':frontend:lang', function () {
 // Watch: Front-end language
 gulp.task('watch:' + baseTask + ':frontend:lang', function () {
     gulp.watch(extPath + '/component/site/language/**',
-        gulp.series'copy:' + baseTask + ':frontend:lang');
+        gulp.series('copy:' + baseTask + ':frontend:lang'));
 });
 
 // Copy: Front-end files

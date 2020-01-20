@@ -35,4 +35,4 @@ gulp.task('watch:' + baseTask, function() {
         ],
         gulp.series('copy:' + baseTask, browserSync.reload)
     );
-};
+});
