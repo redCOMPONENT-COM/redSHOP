@@ -232,15 +232,15 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(\OrderManagerPage::$buttonClose, \OrderManagerPage::$close);
 	}
 
-    /**
-     * @param $nameProduct
-     * @param $categoryName
-     * @param $price
-     * @param $username
-     * @param $password
-     * @throws \Exception
-     * @since 2.1.5
-     */
+	/**
+	 * @param $nameProduct
+	 * @param $categoryName
+	 * @param $price
+	 * @param $username
+	 * @param $password
+	 * @throws \Exception
+	 * @since 2.1.5
+	 */
 	public function addProductToCartWithBankTransfer($nameProduct, $categoryName, $price, $username, $password)
 	{
 		$I = $this;
@@ -255,12 +255,23 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$NumberZero = $NumberZero."0";
 		}
 
-        $I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-        $I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-        $productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-        $I->click($productFrontEndManagerPage->productCategory($categoryName));
-        $I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
-        $I->click($productFrontEndManagerPage->product($nameProduct));
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($nameProduct));
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+
+		try
+		{
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}catch (\Exception $e)
+		{
+			$I->click(\ProductManagerPage::$addToCart);
+			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
+		}
 
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
