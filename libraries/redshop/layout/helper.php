@@ -42,7 +42,10 @@ class RedshopLayoutHelper
 	 *
 	 * @return  string
 	 */
-	public static function render($layoutFile, $displayData = null, $basePath = '', $options = array('component' => 'com_redshop'))
+	public static function render($layoutFile,
+	                              $displayData = null,
+	                              $basePath = '',
+	                              $options = array('component' => 'com_redshop'))
 	{
 		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 
@@ -53,8 +56,24 @@ class RedshopLayoutHelper
 		// Check for render Twig or PHP normally
 		if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig')
 		{
+			if (empty($options['layoutOf']) )
+			{
+				return '';
+			}
+
+			$layoutOf = Joomla\String\StringHelper::strtolower($options['layoutOf']);
+			$prefix = 'redshop';
+
+			if (!empty($options['prefix']))
+			{
+				$prefix = $options['prefix'];
+			}
+
+			// Ensure not include strange thing
+			$layoutFile = str_replace('_:', '', $layoutFile);
+
 			$renderPath     = str_replace('.', '/', $basePath . $layoutFile);
-			$renderPath     = '@library/redshop/' . $renderPath . '.html.twig';
+			$renderPath     = '@' . $layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
 			$renderedLayout = Twig::render($renderPath, $displayData);
 		}
 		else
@@ -62,9 +81,6 @@ class RedshopLayoutHelper
 			$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
 			$renderedLayout = $layout->render($displayData);
 		}
-
-		//$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
-		//$renderedLayout = $layout->render($displayData);
 
 		return $renderedLayout;
 	}
