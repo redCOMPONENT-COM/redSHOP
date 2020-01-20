@@ -13,7 +13,6 @@ JHTML::_('behavior.modal');
 
 $objhelper     = redhelper::getInstance();
 $config        = Redconfiguration::getInstance();
-$producthelper = productHelper::getInstance();
 $extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
@@ -192,7 +191,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 		if (strstr($data_add, '{category_total_product}'))
 		{
-			$totalprd = $producthelper->getProductCategory($row->id);
+			$totalprd = RedshopHelperProduct::getProductCategory($row->id);
 			$data_add = str_replace("{category_total_product}", count($totalprd), $data_add);
 			$data_add = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $data_add);
 		}
@@ -201,7 +200,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		 * category template extra field
 		 * "2" argument is set for category
 		 */
-		$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->id, "2", $data_add);
+		$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $row->id, "2", $data_add);
 
 		$read_more = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$data_add  = str_replace("{read_more}", $read_more, $data_add);

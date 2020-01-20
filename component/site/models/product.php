@@ -231,7 +231,6 @@ class RedshopModelProduct extends RedshopModel
 			return false;
 		}
 
-		$producthelper = productHelper::getInstance();
 		$user          = JFactory::getUser();
 
 		$url        = JURI::base();
@@ -260,7 +259,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 		}
 
-		$product = $producthelper->getProductById($product_id);
+		$product = RedshopHelperProduct::getProductById($product_id);
 
 		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";

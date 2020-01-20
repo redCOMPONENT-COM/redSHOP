@@ -3780,4 +3780,514 @@ class RedshopHelperProduct
 
 		return $ret;
 	}
+
+	/**
+	 * replace related product attribute price list
+	 *
+	 * child product as related product concept is included
+	 *    New Tag : {relproduct_attribute_pricelist} = related product attribute price list
+	 *
+	 * @params: $id :  product id
+	 * @params: $templatedata : template data
+	 */
+	public static function replaceAttributePriceList($id, $templatedata)
+	{
+		$output     = "";
+		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($id, 0, 0, 1);
+
+		$k = 0;
+
+		for ($i = 0, $in = count($attributes); $i < $in; $i++)
+		{
+			$attribute      = $attributes[$i];
+			$attribute_name = $attribute->text;
+			$attribute_id   = $attribute->value;
+			$propertys      = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id);
+
+			for ($p = 0, $pn = count($propertys); $p < $pn; $p++)
+			{
+				$property = $propertys[$p];
+
+				$property_id             = $property->value;
+				$property_name           = $property->text;
+				$proprty_price           = $property->property_price;
+				$property_formated_price = RedshopHelperProductPrice::formattedPrice($proprty_price);
+				$proprty_oprand          = $property->oprand;
+
+				$output .= '<div class="related_plist_property_name' . $k . '">' . $property_formated_price . '</div>';
+
+				$subpropertys = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
+
+				for ($s = 0, $sn = count($subpropertys); $s < $sn; $s++)
+				{
+					$subproperty = $subpropertys[$s];
+
+					$subproperty_id    = $subproperty->value;
+					$subproperty_name  = $subproperty->text;
+					$subproprty_price  = $subproperty->subattribute_color_price;
+					$subproprty_oprand = $subproperty->oprand;
+				}
+
+				$k++;
+			}
+		}
+		#$output = ($output!="") ? "<div>".$output."</div>" : "";
+		$templatedata = str_replace("{relproduct_attribute_pricelist}", $output, $templatedata);
+
+		return $templatedata;
+	}
+
+	/**
+	 * Get formatted number
+	 *
+	 * @param   float   $price         Price amount
+	 * @param   boolean $convertSigned True for convert negative price to absolution price.
+	 *
+	 * @return  string                   Formatted price.
+	 */
+	public static function redpriceDecimal($price, $convertSigned = true)
+	{
+		$price = ($convertSigned == true) ? abs($price) : $price;
+
+		return number_format($price, Redshop::getConfig()->get('PRICE_DECIMAL'), '.', '');
+	}
+
+	/**
+	 * @param   object  $order     Order object
+	 * @param   integer $sectionId Section Id
+	 *
+	 * @return  string
+	 */
+	public static function getPaymentandShippingExtrafields($order, $sectionId)
+	{
+		$fieldsList = RedshopHelperExtrafields::getSectionFieldList($sectionId, 1);
+		$resultArr  = array();
+
+		foreach ($fieldsList as $field)
+		{
+			$result = RedshopHelperExtrafields::getData($field->id, $sectionId, $order->order_id);
+
+			if (!is_null($result) && $result->data_txt != "" && $field->show_in_front == 1)
+			{
+				$resultArr[] = $result->title . " : " . $result->data_txt;
+			}
+		}
+
+		$return = "";
+
+		if (!empty($resultArr))
+		{
+			$return = implode("<br/>", $resultArr);
+		}
+
+		return $return;
+	}
+
+	public static function getuserfield($orderitemid = 0, $section_id = 12)
+	{
+		$resultArr = array();
+
+		$userfield = RedshopHelperOrder::getOrderUserFieldData($orderitemid, $section_id);
+
+		if (!empty($userfield))
+		{
+			$orderItem  = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
+			$product_id = $orderItem[0]->product_id;
+
+			$productdetail   = RedshopHelperProduct::getProductById($product_id);
+			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productdetail->product_template);
+
+			$returnArr    = self::getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
+			$userFieldTag = $returnArr[1];
+
+			for ($i = 0, $in = count($userFieldTag); $i < $in; $i++)
+			{
+				for ($j = 0, $jn = count($userfield); $j < $jn; $j++)
+				{
+					if ($userfield[$j]->name == $userFieldTag[$i])
+					{
+						if ($userfield[$j]->type == 10)
+						{
+							$files    = explode(",", $userfield[$j]->data_txt);
+							$data_txt = "";
+
+							for ($f = 0, $fn = count($files); $f < $fn; $f++)
+							{
+								$u_link   = REDSHOP_FRONT_DOCUMENT_ABSPATH . "product/" . $files[$f];
+								$data_txt .= "<a href='" . $u_link . "' target='_blank'>" . $files[$f] . "</a> ";
+							}
+
+							if (trim($data_txt) != "")
+							{
+								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
+									. ':</span><span class="userfield-value">' . stripslashes($data_txt) . '</span>';
+							}
+						}
+						else
+						{
+							if (trim($userfield[$j]->data_txt) != "")
+							{
+								$resultArr[] = '<span class="userfield-label"">' . $userfield[$j]->title
+									. '</span> : <span class="userfield-value">' . stripslashes($userfield[$j]->data_txt);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		$resultstr = "";
+
+		if (empty($resultArr))
+		{
+			return $resultstr;
+		}
+
+		return "<div>" . JText::_("COM_REDSHOP_PRODUCT_USERFIELD") . "</div><div>" . implode("<br/>", $resultArr) . "</div>";
+	}
+
+	public static function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
+	{
+		$chktag            = \Redshop\Template\Helper::isApplyAttributeVat($data);
+		$product_attribute = "";
+		$quantity          = 0;
+		$stockroom_id      = "0";
+		$orderItemdata     = RedshopHelperOrder::getOrderItemDetail(0, 0, $order_item_id);
+		$cartAttributes    = array();
+
+		$products = RedshopHelperProduct::getProductById($orderItemdata[0]->product_id);
+
+		if (count($orderItemdata) > 0 && $is_accessory != 1)
+		{
+			$product_attribute = $orderItemdata[0]->product_attribute;
+			$quantity          = $orderItemdata[0]->product_quantity;
+		}
+
+		$orderItemAttdata = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, "attribute", $parent_section_id);
+
+		// Get Attribute middle template
+		$attribute_middle_template = \Redshop\Template\Helper::getAttributeTemplateLoop($data);
+		$attribute_final_template  = '';
+
+		if (count($orderItemAttdata) > 0)
+		{
+			for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++)
+			{
+				$attribute = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id);
+
+				// Assign Attribute middle template in tmp variable
+				$tmp_attribute_middle_template = $attribute_middle_template;
+				$tmp_attribute_middle_template = str_replace(
+					"{product_attribute_name}", urldecode($orderItemAttdata[$i]->section_name), $tmp_attribute_middle_template
+				);
+
+				$orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail(
+					$order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id
+				);
+
+				// Initialize attribute calculated price
+				$propertyCalculatedPriceSum = $orderItemdata[0]->product_item_old_price;
+
+				for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++)
+				{
+					$property_price                  = $orderPropdata[$p]->section_price;
+					$productAttributeCalculatedPrice = 0;
+
+					if ($stock == 1)
+					{
+						RedshopHelperStockroom::manageStockAmount($orderPropdata[$p]->section_id, $quantity, $orderPropdata[$p]->stockroom_id, "property");
+					}
+
+					$property = RedshopHelperProduct_Attribute::getAttributeProperties($orderPropdata[$p]->section_id);
+
+					if (!empty($chktag))
+					{
+						$property_price = $orderPropdata[$p]->section_price + $orderPropdata[$p]->section_vat;
+					}
+
+					// Show actual productive price
+					if ($export == 0 && $property_price > 0)
+					{
+						$propertyOperand                     = $orderPropdata[$p]->section_oprand;
+						$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+							$propertyCalculatedPriceSum, $propertyOperand, $property_price
+						);
+						$productAttributeCalculatedPrice     = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+						$propertyCalculatedPriceSum          = $productAttributeCalculatedPriceBase;
+					}
+
+					$disPrice           = '';
+					$hideAttributePrice = count($attribute) > 0 ? $attribute[0]->hide_attribute_price : 0;
+
+					if (strpos($data, '{product_attribute_price}') !== false)
+					{
+						if ($export == 1)
+						{
+							$disPrice = ' (' . $orderPropdata[$p]->section_oprand . Redshop::getConfig()->get('CURRENCY_SYMBOL') . $property_price . ')';
+						}
+						elseif (!$hideAttributePrice)
+						{
+							$disPrice = " (" . $orderPropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice($property_price) . ")";
+						}
+					}
+
+					// Replace attribute property price and value
+					$tmp_attribute_middle_template = str_replace("{product_attribute_value}", urldecode($orderPropdata[$p]->section_name), $tmp_attribute_middle_template);
+					$tmp_attribute_middle_template = str_replace("{product_attribute_value_price}", $disPrice, $tmp_attribute_middle_template);
+
+					// Assign tmp variable to looping variable to get copy of all texts
+					$attribute_final_template .= $tmp_attribute_middle_template;
+
+					// Initialize attribute child array
+					$attributeChilds = array(
+						'property_id'     => $orderPropdata[$p]->section_id,
+						'property_name'   => $orderPropdata[$p]->section_name,
+						'property_oprand' => $orderPropdata[$p]->section_oprand,
+						'property_price'  => $property_price,
+						'property_childs' => array()
+					);
+
+					$orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
+
+					for ($sp = 0, $countSubproperty = count($orderSubpropdata); $sp < $countSubproperty; $sp++)
+					{
+						$subproperty_price = $orderSubpropdata[$sp]->section_price;
+
+						if ($stock == 1)
+						{
+							RedshopHelperStockroom::manageStockAmount($orderSubpropdata[$sp]->section_id, $quantity, $orderSubpropdata[$sp]->stockroom_id, "subproperty");
+						}
+
+						$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($orderSubpropdata[$sp]->section_id);
+
+						if (!empty($chktag))
+						{
+							$subproperty_price = $orderSubpropdata[$sp]->section_price + $orderSubpropdata[$sp]->section_vat;
+						}
+
+						// Show actual productive price
+						if ($export == 0 && $subproperty_price > 0)
+						{
+							$subPropertyOperand                  = $orderSubpropdata[$sp]->section_oprand;
+							$productAttributeCalculatedPriceBase = RedshopHelperUtility::setOperandForValues(
+								$propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price
+							);
+							$productAttributeCalculatedPrice     = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+							$propertyCalculatedPriceSum          = $productAttributeCalculatedPriceBase;
+						}
+
+						$attributeChilds['property_childs'][] = array(
+							'subproperty_id'           => $orderSubpropdata[$sp]->section_id,
+							'subproperty_name'         => $orderSubpropdata[$sp]->section_name,
+							'subproperty_oprand'       => $orderSubpropdata[$sp]->section_oprand,
+							'subattribute_color_title' => urldecode($subproperty[0]->subattribute_color_title),
+							'subproperty_price'        => $subproperty_price
+						);
+					}
+
+					// Format Calculated price using Language variable
+					$productAttributeCalculatedPrice = RedshopHelperProductPrice::formattedPrice($productAttributeCalculatedPrice);
+					$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
+					$tmp_attribute_middle_template   = str_replace(
+						"{product_attribute_calculated_price}",
+						$productAttributeCalculatedPrice,
+						$tmp_attribute_middle_template
+					);
+
+					// Assign tmp variable to looping variable to get copy of all texts
+					$attribute_final_template = $tmp_attribute_middle_template;
+
+					// Initialize attribute child array
+					$attribute[0]->attribute_childs[] = $attributeChilds;
+				}
+
+				// Prepare cart type attribute array
+				$cartAttributes[] = get_object_vars($attribute[0]);
+			}
+
+			$displayattribute = RedshopLayoutHelper::render(
+				'product.order_attribute',
+				array(
+					'orderItemAttdata' => $orderItemAttdata,
+					'data'             => $data,
+					'orderItemId'      => $order_item_id,
+					'isAccessory'      => $is_accessory,
+					'chktag'           => $chktag,
+					'export'           => $export
+				),
+				'',
+				array(
+					'component' => 'com_redshop',
+					'client'    => 0
+				)
+			);
+		}
+		else
+		{
+			$displayattribute = $product_attribute;
+		}
+
+		if (isset($products->use_discount_calc) && $products->use_discount_calc == 1)
+		{
+			$displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
+		}
+
+		$data                                 = new stdClass;
+		$data->product_attribute              = $displayattribute;
+		$data->attribute_middle_template      = $attribute_final_template;
+		$data->attribute_middle_template_core = $attribute_middle_template;
+		$data->cart_attribute                 = $cartAttributes;
+
+		return $data;
+	}
+
+	/*
+	 * load Products Under categoriesd ACL Sopper Group
+	 *
+	 *  return : "," separated product string
+	 */
+	public static function loadAclProducts()
+	{
+		$db    = JFactory::getDbo();
+		$user    = JFactory::getUser();
+		$userArr = JFactory::getSession()->get('rs_user');
+
+		if (empty($userArr))
+		{
+			$userArr = RedshopHelperUser::createUserSession($user->id);
+		}
+
+		$shopperGroupId = $userArr['rs_user_shopperGroup'];
+		//$shopperGroupId = $this->_userhelper->getShopperGroup($user->id);
+
+		if ($user->id > 0)
+			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = '" . $user->id . "' AND sg.shopper_group_portal=1 ";
+		else
+			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = " . (int) $shopperGroupId . " AND sg.shopper_group_portal=1";
+
+		$db->setQuery($catquery);
+		$category_ids_obj = $db->loadObjectList();
+		if (empty($category_ids_obj))
+		{
+			return "";
+		}
+		else
+		{
+			$category_ids = $category_ids_obj[0]->shopper_group_categories;
+		}
+
+		// Sanitize ids
+		$catIds = explode(',', $category_ids);
+		$catIds = Joomla\Utilities\ArrayHelper::toInteger($catIds);
+
+		$query = "SELECT product_id
+						FROM `#__redshop_product_category_xref` WHERE category_id IN (" . implode(',', $catIds) . ")";
+
+		$db->setQuery($query);
+		$shopperprodata = $db->loadObjectList();
+		$aclProduct     = array();
+
+		for ($i = 0, $in = count($shopperprodata); $i < $in; $i++)
+		{
+			$aclProduct[] = $shopperprodata[$i]->product_id;
+		}
+
+		if (count($aclProduct) > 0)
+			$aclProduct = implode(",", $aclProduct);
+		else
+			$aclProduct = "";
+
+		return $aclProduct;
+	}
+
+	public static function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
+	{
+		$displayattribute  = "";
+		$product_attribute = "";
+		$quantity          = 0;
+		$stockroom_id      = "0";
+		$Itemdata          = RedshopHelperQuotation::getQuotationProduct(0, $quotation_item_id);
+
+		if (count($Itemdata) > 0 && $is_accessory != 1)
+		{
+			$product_attribute = $Itemdata[0]->product_attribute;
+			$quantity          = $Itemdata[0]->product_quantity;
+		}
+
+		$ItemAttdata = RedshopHelperQuotation::getQuotationItemAttributeDetail(
+			$quotation_item_id,
+			$is_accessory,
+			"attribute",
+			$parent_section_id
+		);
+
+		$displayattribute = RedshopLayoutHelper::render(
+			'product.quotation_attribute',
+			array(
+				'itemAttdata'     => $ItemAttdata,
+				'quotationItemId' => $quotation_item_id,
+				'isAccessory'     => $is_accessory,
+				'quotationStatus' => $quotation_status,
+				'parentSectionId' => $parent_section_id,
+				'stock'           => $stock
+			),
+			'',
+			array(
+				'client'    => 0,
+				'component' => 'com_redshop'
+			)
+		);
+
+		return $displayattribute;
+	}
+
+	public static function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)
+	{
+		$displayaccessory = "";
+		$Itemdata         = RedshopHelperQuotation::getQuotationItemAccessoryDetail($quotation_item_id);
+
+		if (count($Itemdata) > 0)
+		{
+			$displayaccessory .= "<div class='checkout_accessory_static'>" . JText::_("COM_REDSHOP_ACCESSORY") . ":</div>";
+
+			for ($i = 0, $in = count($Itemdata); $i < $in; $i++)
+			{
+				$displayaccessory .= "<div class='checkout_accessory_title'>" . urldecode($Itemdata[$i]->accessory_item_name) . " ";
+
+				if ($quotation_status != 1 || ($quotation_status == 1 && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') == 1))
+				{
+					$displayaccessory .= "(" . RedshopHelperProductPrice::formattedPrice($Itemdata[$i]->accessory_price + $Itemdata[$i]->accessory_vat) . ")";
+				}
+
+				$displayaccessory .= "</div>";
+				$displayaccessory .= self::makeAttributeQuotation(
+					$quotation_item_id,
+					1,
+					$Itemdata[$i]->accessory_id,
+					$quotation_status
+				);
+
+			}
+		}
+		else
+		{
+			$Itemdata         = RedshopHelperQuotation::getQuotationProduct(0, $quotation_item_id);
+			$displayaccessory = $Itemdata[0]->product_accessory;
+		}
+
+		return $displayaccessory;
+	}
+
+	public static function getValidityDate($period, $data)
+	{
+		$todate = mktime(0, 0, 0, (int) date('m'), (int) date('d') + $period, (int) date('Y'));
+
+		$todate   = RedshopHelperDatetime::convertDateFormat($todate);
+		$fromdate = RedshopHelperDatetime::convertDateFormat(strtotime(date('d M Y')));
+
+		$data = str_replace("{giftcard_validity_from}", JText::_('COM_REDSHOP_FROM') . " " . $fromdate, $data);
+		$data = str_replace("{giftcard_validity_to}", JText::_('COM_REDSHOP_TO') . " " . $todate, $data);
+
+		return $data;
+	}
 }

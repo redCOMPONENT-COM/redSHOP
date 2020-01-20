@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.modal');
 
 // Get product helper
-$productHelper   = productHelper::getInstance();
 $config          = Redconfiguration::getInstance();
 $stockroomHelper = rsstockroomhelper::getInstance();
 
@@ -103,7 +102,7 @@ if ($total > 0)
 		$expDiv = "<div name='exp_" . $product->product_id . "'>";
 		$divEnd = "</div>";
 
-		$ItemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+		$ItemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 
 		if (!empty($ItemData))
 		{
@@ -182,15 +181,15 @@ if ($total > 0)
 		$template            = str_replace('{product_number}', $expDiv . $product->product_number . $divEnd . $tdEnd . $tdStart . "{product_number}", $template);
 
 		$productWeightUnit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_WEIGHT_UNIT') . '</span>';
-		$template          = str_replace('{product_weight}', $expDiv . $productHelper->redunitDecimal($product->weight) . "&nbsp;" . $productWeightUnit . $divEnd . $tdEnd . $tdStart . "{product_weight}", $template);
+		$template          = str_replace('{product_weight}', $expDiv . RedshopHelperProduct::redunitDecimal($product->weight) . "&nbsp;" . $productWeightUnit . $divEnd . $tdEnd . $tdStart . "{product_weight}", $template);
 
 		$productUnit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
-		$template    = str_replace('{product_length}', $expDiv . $productHelper->redunitDecimal($product->product_length) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart . "{product_length}", $template);
-		$template    = str_replace('{product_height}', $expDiv . $productHelper->redunitDecimal($product->product_height) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart . "{product_height}", $template);
-		$template    = str_replace('{product_width}', $expDiv . $productHelper->redunitDecimal($product->product_width) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart . "{product_width}", $template);
+		$template    = str_replace('{product_length}', $expDiv . RedshopHelperProduct::redunitDecimal($product->product_length) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart . "{product_length}", $template);
+		$template    = str_replace('{product_height}', $expDiv . RedshopHelperProduct::redunitDecimal($product->product_height) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart . "{product_height}", $template);
+		$template    = str_replace('{product_width}', $expDiv . RedshopHelperProduct::redunitDecimal($product->product_width) . "&nbsp;" . $productUnit . $divEnd . $tdEnd . $tdStart . "{product_width}", $template);
 
 		$productVolumeUnit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
-		$template          = str_replace('{product_volume}', $expDiv . $productHelper->redunitDecimal($product->product_volume) . "&nbsp;" . $productVolumeUnit . $divEnd . $tdEnd . $tdStart . "{product_volume}", $template);
+		$template          = str_replace('{product_volume}', $expDiv . RedshopHelperProduct::redunitDecimal($product->product_volume) . "&nbsp;" . $productVolumeUnit . $divEnd . $tdEnd . $tdStart . "{product_volume}", $template);
 
 		if (strstr($template, "{product_price}"))
 		{
@@ -203,8 +202,8 @@ if ($total > 0)
 						&& Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')))
 			)
 			{
-				$productPrices = $productHelper->getProductNetPrice($product->product_id);
-				$price         = $productHelper->getProductFormattedPrice($productPrices['product_price']);
+				$productPrices = RedshopHelperProductPrice::getNetPrice($product->product_id);
+				$price         = RedshopHelperProductPrice::formattedPrice($productPrices['product_price']);
 			}
 
 			$template = str_replace('{product_price}', $expDiv . $price . $divEnd . $tdEnd . $tdStart . "{product_price}", $template);
@@ -237,7 +236,7 @@ if ($total > 0)
 
 		if (strstr($template, "{product_delivery_time}"))
 		{
-			$productDeliveryTime = $productHelper->getProductMinDeliveryTime($data['item']->productId);
+			$productDeliveryTime = RedshopHelperProduct::getProductMinDeliveryTime($data['item']->productId);
 			$template            = str_replace('{product_delivery_time}', $expDiv . $productDeliveryTime . $divEnd . $tdEnd . $tdStart . "{product_delivery_time}", $template);
 		}
 

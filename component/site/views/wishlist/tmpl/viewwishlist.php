@@ -13,7 +13,6 @@ JHTML::_('behavior.modal');
 
 $app           = JFactory::getApplication();
 $config        = Redconfiguration::getInstance();
-$producthelper = productHelper::getInstance();
 $redhelper     = redhelper::getInstance();
 
 $url        = JURI::base();
@@ -28,7 +27,7 @@ $redTemplate        = Redtemplate::getInstance();
 $extraField         = extraField::getInstance();
 $template           = RedshopHelperTemplate::getTemplate("wishlist_template");
 $wishlist_data1     = $template[0]->template_desc;
-$returnArr          = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
+$returnArr          = RedshopHelperProduct::getProductUserfieldFromTemplate($wishlist_data1);
 $template_userfield = $returnArr[0];
 $userfieldArr       = $returnArr[1];
 
@@ -169,7 +168,6 @@ else
 function display_products($rows)
 {
 	$session       = JFactory::getSession();
-	$producthelper = productHelper::getInstance();
 	$template      = RedshopHelperTemplate::getTemplate("wishlist_template");
 
 	if (count($template) <= 0)
@@ -180,7 +178,7 @@ function display_products($rows)
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
-			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
+			$product_price_discount = RedshopHelperProductPrice::getNetPrice($row->product_id);
 
 			echo "<div id='wishlist_box'>";
 
@@ -261,7 +259,7 @@ function display_products($rows)
 			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
-			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
+			$product_price_discount = RedshopHelperProductPrice::getNetPrice($row->product_id);
 
 			if ($row->product_full_image)
 			{
@@ -294,7 +292,7 @@ function display_products($rows)
 
 				if ($this->data->product_parent_id != 0)
 				{
-					$parentproductid = $producthelper->getMainParentProduct($row->product_id);
+					$parentproductid = RedshopHelperProduct::getMainParentProduct($row->product_id);
 				}
 
 				$frmChild = "";
@@ -413,7 +411,7 @@ function display_products($rows)
 			$attribute_template = \Redshop\Template\Helper::getAttribute($wishlist_data);
 
 			// Check product for not for sale
-			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
+			$wishlist_data = RedshopHelperProduct::getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
 			$wishlist_data = Redshop\Product\Stock::replaceInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
@@ -462,7 +460,7 @@ function display_products($rows)
 
 			// Product User Field Start
 			$count_no_user_field = 0;
-			$returnArr           = $producthelper->getProductUserfieldFromTemplate($wishlist_data);
+			$returnArr           = RedshopHelperProduct::getProductUserfieldFromTemplate($wishlist_data);
 			$template_userfield  = $returnArr[0];
 
 			$userfieldArr = $returnArr[1];

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$productHelper = productHelper::getInstance();
 ?>
 <script type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
@@ -51,7 +50,7 @@ $productHelper = productHelper::getInstance();
                         <input type="hidden" name="price_id[]" value="<?php echo $row->price_id ?>"/>
                         <input type="hidden" name="shopper_group_id[]" value="<?php echo $row->shopper_group_id; ?>"/>
                         <input type="number" name="price[]" class="form-control"
-                               value="<?php echo $productHelper->redpriceDecimal($row->product_price); ?>"/>
+                               value="<?php echo RedshopHelperProduct::redpriceDecimal($row->product_price); ?>"/>
                     </td>
                 </tr>
 			<?php endforeach; ?>

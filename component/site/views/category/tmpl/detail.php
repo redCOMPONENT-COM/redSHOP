@@ -15,7 +15,6 @@ $url = JURI::base();
 
 $objhelper        = redhelper::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
-$producthelper    = productHelper::getInstance();
 $extraField       = extraField::getInstance();
 $stockroomhelper  = rsstockroomhelper::getInstance();
 $redTemplate      = Redtemplate::getInstance();
@@ -90,7 +89,7 @@ if (strpos($template_desc, "{redproductfinderfilter:") !== false)
 
 		if ($this->catid)
 		{
-			$prodctofcat = $producthelper->getProductCategory($this->catid);
+			$prodctofcat = RedshopHelperProduct::getProductCategory($this->catid);
 
 			if (empty($prodctofcat))
 			{
@@ -154,7 +153,7 @@ if (!$slide)
 
 	if (strpos($template_desc, '{returntocategory_link}') !== false || strpos($template_desc, '{returntocategory_name}') !== false || strpos($template_desc, '{returntocategory}') !== false)
 	{
-		$parentid              = $producthelper->getParentCategory($this->catid);
+		$parentid              = RedshopHelperProduct::getParentCategory($this->catid);
 		$returncatlink         = '';
 		$returntocategory      = '';
 		$returntocategory_name = '';
@@ -392,10 +391,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 	$attribute_template = \Redshop\Template\Helper::getAttribute($template_product);
 
 	$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-	$extraFieldsForCurrentTemplate = $producthelper->getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
+	$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
 	$product_data                  = '';
-	list($template_userfield, $userfieldArr) = $producthelper->getProductUserfieldFromTemplate($template_product);
-	$template_product = $producthelper->replaceVatinfo($template_product);
+	list($template_userfield, $userfieldArr) = RedshopHelperProduct::getProductUserfieldFromTemplate($template_product);
+	$template_product = RedshopHelperTax::replaceVatInformation($template_product);
 
 	foreach ($this->product as $product)
 	{
@@ -407,7 +406,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$data_add = $template_product;
 
 		// ProductFinderDatepicker Extra Field Start
-		$data_add = $producthelper->getProductFinderDatepickerValue($data_add, $product->product_id, $fieldArray);
+		$data_add = RedshopHelperProduct::getProductFinderDatepickerValue($data_add, $product->product_id, $fieldArray);
 		// ProductFinderDatepicker Extra Field End
 
 		//Replace Product price when config enable discount is "No"
@@ -424,7 +423,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		if (strpos($data_add, "{product_delivery_time}") !== false)
 		{
-			$product_delivery_time = $producthelper->getProductMinDeliveryTime($product->product_id);
+			$product_delivery_time = RedshopHelperProduct::getProductMinDeliveryTime($product->product_id);
 
 			if ($product_delivery_time != "")
 			{
@@ -518,7 +517,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 				$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 			}
 
-			$returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
+			$returnArr          = RedshopHelperProduct::getProductUserfieldFromTemplate($ajax_detail_template_desc);
 			$template_userfield = $returnArr[0];
 			$userfieldArr       = $returnArr[1];
 
@@ -551,7 +550,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		$data_add = $data_add . $hidden_userfield;
 		/************** end user fields ***************************/
 
-		$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+		$ItemData  = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 		$catidmain = JFactory::getApplication()->input->get("cid");
 
 		if (!empty($ItemData))
@@ -576,13 +575,13 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		$product_volume_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . "3" . '</span>';
 
-		$dataAddStr = $producthelper->redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit;
+		$dataAddStr = RedshopHelperProduct::redunitDecimal($product->product_volume) . "&nbsp;" . $product_volume_unit;
 		$data_add   = str_replace("{product_size}", $dataAddStr, $data_add);
 
 		$product_unit = '<span class="product_unit_variable">' . Redshop::getConfig()->get('DEFAULT_VOLUME_UNIT') . '</span>';
-		$data_add     = str_replace("{product_length}", $producthelper->redunitDecimal($product->product_length) . "&nbsp;" . $product_unit, $data_add);
-		$data_add     = str_replace("{product_width}", $producthelper->redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $data_add);
-		$data_add     = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $data_add);
+		$data_add     = str_replace("{product_length}", RedshopHelperProduct::redunitDecimal($product->product_length) . "&nbsp;" . $product_unit, $data_add);
+		$data_add     = str_replace("{product_width}", RedshopHelperProduct::redunitDecimal($product->product_width) . "&nbsp;" . $product_unit, $data_add);
+		$data_add     = str_replace("{product_height}", RedshopHelperProduct::redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $data_add);
 
 		$specificLink = $this->dispatcher->trigger('createProductLink', array($product));
 
@@ -638,7 +637,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		 */
 		if (strpos($data_add, '{related_product_lightbox:') !== false)
 		{
-			$related_product = $producthelper->getRelatedProduct($product->product_id);
+			$related_product = RedshopHelperProduct::getRelatedProduct($product->product_id);
 			$rtlnone         = explode("{related_product_lightbox:", $data_add);
 			$rtlntwo         = explode("}", $rtlnone[1]);
 			$rtlnthree       = explode(":", $rtlntwo[0]);
@@ -836,7 +835,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 			}
 		}
 
-		$data_add = $producthelper->getJcommentEditor($product, $data_add);
+		$data_add = RedshopHelperProduct::getJcommentEditor($product, $data_add);
 
 		/*
 		 * product loop template extra field
@@ -855,10 +854,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 		 *  {if product_on_sale} This product is on sale {product_on_sale end if} // OUTPUT : This product is on sale
 		 *  NO : // OUTPUT : Display blank
 		 ************************************/
-		$data_add = $producthelper->getProductOnSaleComment($product, $data_add);
+		$data_add = RedshopHelperProduct::getProductOnSaleComment($product, $data_add);
 
 		// Replace wishlistbutton
-		$data_add = $producthelper->replaceWishlistButton($product->product_id, $data_add);
+		$data_add = RedshopHelperWishlist::replaceWishlistTag($product->product_id, $data_add);
 
 		// Replace compare product button
 		$data_add = Redshop\Product\Compare::replaceCompareProductsButton($product->product_id, $this->catid, $data_add);
@@ -877,10 +876,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 				if ($product->attribute_set_id > 0)
 				{
-					$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+					$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 				}
 
-				$attributes = $producthelper->getProductAttribute($product->product_id);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 			else
@@ -898,10 +897,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 			if ($product->attribute_set_id > 0)
 			{
-				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+				$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
 
-			$attributes = $producthelper->getProductAttribute($product->product_id);
+			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
 
@@ -910,11 +909,11 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		// Check product for not for sale
 
-		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
+		$data_add = RedshopHelperProduct::getProductNotForSaleComment($product, $data_add, $attributes);
 
 		$data_add = Redshop\Product\Stock::replaceInStock($product->product_id, $data_add, $attributes, $attribute_template);
 
-		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
+		$data_add = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 		// Get cart tempalte
 		$data_add = Redshop\Cart\Render::replace(
@@ -942,7 +941,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 		if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
 		{
-			$attributeproductStockStatus = $producthelper->getproductStockStatus($product->product_id, $totalatt);
+			$attributeproductStockStatus = RedshopHelperProduct::getproductStockStatus($product->product_id, $totalatt);
 		}
 
 		$data_add = \Redshop\Helper\Stockroom::replaceProductStockData(
