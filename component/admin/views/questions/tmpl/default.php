@@ -163,7 +163,9 @@ if ($allowOrder)
 				return false;
 			}
 		}
-
-		form.submit();
+		else
+		{
+			form.submit();
+		}
 	};
 </script>
