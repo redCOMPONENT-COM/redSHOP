@@ -154,9 +154,7 @@ if ($allowOrder)
 		}
 
 		if (pressbutton === "questions.delete") {
-			var result = confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM') ?>");
-
-			if (result == true) {
+			if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM') ?>")) {
 				form.submit();
 			}
 			else {
