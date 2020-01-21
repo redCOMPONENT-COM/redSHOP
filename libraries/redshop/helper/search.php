@@ -16,6 +16,14 @@
 	 */
 	class RedshopHelperSearch
 	{
+		/**
+		 * @param $mediaSection
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryMediaSection( $mediaSection , $search )
 		{
 			$db = JFactory::getDbo();
@@ -46,7 +54,15 @@
 					->where($db->qn('log.catalog_name') . ' LIKE ' . $db->q('%' . $search . '%'));
 			}
 		}
-		
+
+		/**
+		 * @param $voucherId
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryAlertVoucher( $voucherId, $search )
 		{
 			$db = JFactory::getDbo();
@@ -98,7 +114,14 @@
 			
 			return $query;
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return array
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryAlertTermsArticle( $search)
 		{
 			$db = JFactory::getDbo();
@@ -161,7 +184,14 @@
 
 			return $article;
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryIsUser( $search )
 		{
 			$db = JFactory::getDbo();
@@ -175,7 +205,15 @@
 
 			return $query;
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $isCompany
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryIsCompanyTrue( $search , $isCompany )
 		{
 			$db = JFactory::getDbo();
@@ -200,7 +238,15 @@
 				. $db->qn('uf.company_name') . ' LIKE ' . $db->q('%' . $search . '%')
 				. ')');
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $isCompany
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryIsCompanyFalse( $search , $isCompany )
 		{
 			$db = JFactory::getDbo();
@@ -215,7 +261,14 @@
 
 			return $query;
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryAddRedUser( $search )
 		{
 			$db = JFactory::getDbo();
@@ -243,7 +296,14 @@
 					. $db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $search . '%')
 					. ')');
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryProductTrue( $search )
 		{
 			$db = JFactory::getDbo();
@@ -254,7 +314,15 @@
 				->from($db->qn('#__redshop_product','p'))
 				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $search . '%'));
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $productId
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since version
+		 */
 		private function buildQueryRelatedTrue( $search , $productId )
 		{
 			$db = JFactory::getDbo();
@@ -290,7 +358,15 @@
 
 			return $query;
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $productId
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryParentTrue( $search , $productId )
 		{
 			$db = JFactory::getDbo();
@@ -309,7 +385,14 @@
 
 			return $query;
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryNavigatorTrue( $search )
 		{
 			$db = JFactory::getDbo();
@@ -325,7 +408,15 @@
 					. $db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $search . '%')
 					. ')');
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $productId
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryDefault( $search , $productId )
 		{
 			$db = JFactory::getDbo();
@@ -360,7 +451,13 @@
 
 			return $query;
 		}
-		
+
+		/**
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since version__DEPLOY_VERSION__
+		 */
 		private function getQuery()
 		{
 			$db = JFactory::getDbo();
@@ -381,7 +478,15 @@
 					. ' ON ' . $db->qn('uf.user_id') . ' = ' . $db->qn('u.id')
 				);
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $containerId
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryAlertContainerSearch($search, $containerId)
 		{
 			$db = JFactory::getDbo();
@@ -399,7 +504,15 @@
 						->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $search . '%'))
 						->where($db->qn('cp.container_id') . ' != ' . $containerId );
 		}
-		
+
+		/**
+		 * @param $mediaSection
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQuerySwichCaseMediaSection($mediaSection,$search)
 		{
 			$db = JFactory::getDbo();
@@ -472,8 +585,16 @@
 					
 			}
 		}
-		
-		private function buildQueryAlertVoucherSearch($voucherId,$search)
+
+		/**
+		 * @param $search
+		 * @param $voucherId
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since version
+		 */
+		private function buildQueryAlertVoucherSearch($search, $voucherId)
 		{
 			$db = JFactory::getDbo();
 			$subQuery = $db->getQuery(true)
@@ -493,7 +614,15 @@
 				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $search . '%'))
 				->where('(' . $subQuery . ') = 0');
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $stockroomId
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since version
+		 */
 		private function buildQueryAlertStoockroomSearch($search,$stockroomId)
 		{
 			$db = JFactory::getDbo();
@@ -509,7 +638,14 @@
 				->where($db->qn('p.container_name') . ' LIKE ' . $db->q('%' . $search . '%'))
 				->where($db->qn('cp.stockroom_id') . ' != ' . $stockroomId );
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryAlertTermsArticleSearch($search)
 		{
 			$db = JFactory::getDbo();
@@ -527,7 +663,15 @@
 				->where($db->qn('cc.extension' . ' = ' . $db->quote('com_content')))
 				->where($db->qn('cc.published') . ' = 1');
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $emailLabel
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryAddRedUserSearch($search,$emailLabel)
 		{
 			$db = JFactory::getDbo();
@@ -551,7 +695,14 @@
 					. ')')
 				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'));
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryIsCompanyTrueSearch($search)
 		{
 			$db = JFactory::getDbo();
@@ -572,7 +723,14 @@
 				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
 				->where($db->qn('uf.is_company') . ' = 1');
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryIsCompanyFalseSearch($search)
 		{
 			$db = JFactory::getDbo();
@@ -596,7 +754,14 @@
 				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
 				->where($db->qn('uf.is_company') . ' = 0');
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since version
+		 */
 		private function buildQueryIsProductTrueSearch($search)
 		{
 			$db = JFactory::getDbo();
@@ -614,7 +779,15 @@
 					. $db->qn('product_number') . ' LIKE ' . $db->q('%' . $search . '%')
 					. ')');
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $productId
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryIsRelatedTrueSearch($search,$productId)
 		{
 			$db = JFactory::getDbo();
@@ -633,7 +806,14 @@
 					. ')')
 				->where($db->qn('p.product_id') . ' != ' . $productId );
 		}
-		
+
+		/**
+		 * @param $search
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryIsNavigatorTrueSearch($search)
 		{
 			$db = JFactory::getDbo();
@@ -653,7 +833,15 @@
 					. $db->qn('p.product_number') . ' LIKE ' . $db->q('%' . $search . '%')
 					. ')');
 		}
-		
+
+		/**
+		 * @param $search
+		 * @param $productId
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
 		private function buildQueryIsParentTrueSearch($search,$productId)
 		{
 			$db = JFactory::getDbo();
@@ -681,6 +869,15 @@
 			return $query;
 		}
 
+		/**
+		 * @param $search
+		 * @param $productId
+		 * @param $accessoryList
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since version__DEPLOY_VERSION__
+		 */
 		private function buildQueryDefaultSearch($search,$productId,$accessoryList)
 		{
 			$db = JFactory::getDbo();
@@ -717,44 +914,87 @@
 			return $query;
 		}
 
-		public static  function getSearchQuery(
-			$mediaSection = null , $alert = null , $user =  0, $plgCustomView = 0, $isCompany = -1,
-			$addRedUser = null, $related = 0, $productId = 0, $parent = 0, $navigator =0,
-			$search = null , $voucherId = 0,$containerId , $stockroomId, $isProduct , $accessoryList
-											)
+		/**
+		 * @param   array  $params
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
+		public static  function getSearchQuery($params = array())
 		{
-			$result = self::buildQueryDefaultSearch($search,$productId,$accessoryList);
+			$result = JFactory::getDbo()->getQuery(true);
 
-			if(!empty($mediaSection))
+			if (empty($params['search']))
 			{
-				$result = self::buildQuerySwichCaseMediaSection($mediaSection,$search);
+				return $result;
 			}
 
-			if($alert == 'container')
+			if (!empty($params['productId']) && !empty($params['accessoryId']))
 			{
-				$result = self::buildQueryAlertContainerSearch($search,$containerId);
+				$result = self::buildQueryDefaultSearch(
+					$params['search'],
+					$params['productId'],
+					$params['accessoryList']);
 			}
 
-			if($alert == 'voucher')
+			if (!empty($params['mediaSection']))
 			{
-				$result = self::buildQueryAlertVoucherSearch($voucherId,$search);
+				$result = self::buildQuerySwichCaseMediaSection(
+					$params['mediaSection'],
+					$params['search']);
 			}
 
-			if($alert == 'stoockroom')
+			if (!empty($params['alert']))
 			{
-				$result = self::buildQueryAlertStoockroomSearch($search,$stockroomId);
+				switch ($params['alert'])
+				{
+					case 'container':
+
+						if (!empty($params['containerId']))
+						{
+							$result = self::buildQueryAlertContainerSearch(
+								$params['search'],
+								$params['containerId']
+							);
+						}
+
+						break;
+					case 'voucher':
+
+						if (!empty($params['voucherId']))
+						{
+							$result = self::buildQueryAlertVoucherSearch(
+								$params['search'],
+								$params['voucherId']
+							);
+						}
+
+						break;
+					case 'stoockroom':
+
+						if (!empty($params['stockroomId']))
+						{
+							$result = self::buildQueryAlertStoockroomSearch(
+								$params['search'],
+								$params['stockroomId']
+							);
+						}
+
+						break;
+					case 'termsarticle':
+					default:
+						$result = self::buildQueryAlertTermsArticleSearch($params['search']);
+						break;
+				}
 			}
 
-			if($alert == 'termsarticle')
-			{
-				$result = self::buildQueryAlertTermsArticleSearch($search);
-			}
-
-			if($user == 1 || $addRedUser == 1)
+			if (!empty($params['user']) && !empty($params['addUser'])
+				&& ($params['user'] == 1 || $params['addRedUser'] == 1))
 			{
 				$emailLabel = '';
 
-				if ($addRedUser == 1)
+				if ($params['addRedUser'] == 1)
 				{
 					$emailLabel = 'value_number';
 				}
@@ -763,111 +1003,59 @@
 					$emailLabel = 'volume';
 				}
 
-				$result = self::buildQueryAddRedUserSearch($search, $emailLabel);
+				$result = self::buildQueryAddRedUserSearch($params['search'], $emailLabel);
 			}
 
-			if($plgCustomView == 1)
+			if (!empty($params['plgCustomView']) &&  $params['plgCustomView'] == 1)
 			{
-				if($isCompany == 0)
+				if (empty($params['isCompany']))
 				{
-					$result = self::buildQueryIsCompanyFalseSearch($search);
-				}
-
-				if($isCompany == 1)
+					$result = self::buildQueryIsCompanyFalseSearch($params['search']);
+				}elseif ($params['isCompany'] == 1)
 				{
-					$result = self::buildQueryIsCompanyTrueSearch($search);
+					$result = self::buildQueryIsCompanyTrueSearch($params['search']);
 				}
 			}
 
-			if($isProduct == 1)
+			if(!empty($params['isProduct']) && $params['isProduct'] == 1)
 			{
-				$result = self::buildQueryIsProductTrueSearch($search);
+				$result = self::buildQueryIsProductTrueSearch($params['search']);
 			}
 
-			if($related == 1)
+			if(!empty($params['related'])
+				&& !empty($params['productId'])
+				&& $params['related'] == 1)
 			{
-				$result = self::buildQueryIsRelatedTrueSearch($search,$productId);
+				$result = self::buildQueryIsRelatedTrueSearch($params['search'], $params['productId']);
 			}
 
-			if($parent == 1)
+			if(!empty($params['parent'])
+				&& !empty($params['productId'])
+				&& $params['parent'] == 1)
 			{
-				$result = self::buildQueryIsParentTrueSearch($search,$productId);
+				$result = self::buildQueryIsParentTrueSearch($params['search'], $params['productId']);
 			}
 
-			if($navigator == 1)
+			if(!empty($params['navigator'])
+				&& $params['navigator'] == 1)
 			{
-				$result = self::buildQueryIsNavigatorTrueSearch($search);
+				$result = self::buildQueryIsNavigatorTrueSearch($params['search']);
 			}
 
 			return $result;
 		}
 
-		public static function getBuildQuery(
-			$mediaSection = null , $alert = null , $user =  0, $plgCustomView = 0, $isCompany = -1,
-			$addRedUser = null, $products = null, $related = 0, $productId = 0, $parent = 0,
-			$navigator =0, $search = null , $voucherId = 0
-											)
+		/**
+		 * Alias of getSearchQuery
+		 *
+		 * @param   array  $params
+		 *
+		 * @return JDatabaseQuery
+		 *
+		 * @since version
+		 */
+		public static function getBuildQuery($params = array())
 		{
-			$result = self::buildQueryDefault($search,$productId);
-			
-			if($mediaSection)
-			{
-				$result =self::buildQueryMediaSection( $mediaSection, $search );
-			}
-
-			if($alert && $alert == 'voucher')
-			{
-				$result = self::buildQueryAlertVoucher( $voucherId, $search );
-			}
-
-			if($alert && $alert == 'termsarticle')
-			{
-				$result = self::buildQueryAlertTermsArticle( $search );
-			}
-
-			if($user && $user == 1)
-			{
-				$result = self::buildQueryIsUser( $search );
-			}
-
-			if($plgCustomView && $plgCustomView== 1)
-			{
-				if($isCompany == 0)
-				{
-					$result = self::buildQueryIsCompanyFalse($search,$isCompany);
-				}
-
-				if($isCompany= 1)
-				{
-					$result = self::buildQueryIsCompanyTrue($search,$isCompany);
-				}
-			}
-
-			if($addRedUser && $addRedUser == 1 )
-			{
-				$result = self::buildQueryAddRedUser($search);
-			}
-
-			if($products && $products == 1)
-			{
-				$result = self::buildQueryProductTrue($search);
-			}
-
-			if($related && $related == 1)
-			{
-				$result = self::buildQueryRelatedTrue($search,$productId);
-			}
-
-			if($parent && $parent == 1)
-			{
-				$result = self::buildQueryParentTrue($search,$productId);
-			}
-
-			if($navigator && $navigator == 1)
-			{
-				$result = self::buildQueryNavigatorTrue($search);
-			}
-
-			return $result;
+			return self::getSearchQuery($params);
 		}
 	}

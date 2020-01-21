@@ -96,12 +96,27 @@ class RedshopModelSearch extends RedshopModel
 
 		if ($input = JFactory::getApplication()->input)
 		{
-			$db          = JFactory::getDbo();
-			$resultQuery = RedshopHelperSearch::getSearchQuery(
-				$input->getString('media_section', '') , $input->getString('alert', '') , $input->getInt('user', 0), $input->getInt('plgcustomview', 0), $input->getInt('iscompany', -1) ,
-				$input->getInt('addreduser', 0), $input->getInt('related', 0) , $input->getInt('product_id', 0),$input->getInt('parent', 0), $navigator =0, $input->getString('input', '') ,
-				$input->getInt('voucher_id', 0), $input->getInt('container_id', 0) , $input->getInt('stockroom_id', 0), $input->getInt('isproduct', 0) , $input->getString('accessoryList', '')
+			$db     = JFactory::getDbo();
+			$params = array(
+				'mediaSection'  => $input->getString('media_section', ''),
+				'alert'         => $input->getString('alert', ''),
+				'user'          => $input->getInt('user', 0),
+				'isCompany'     => $input->getInt('iscompany', -1),
+				'plgCustomView' => $input->getInt('plgcustomview', 0),
+				'addRedUser'    => $input->getInt('addreduser', 0),
+				'related'       => $input->getInt('related', 0),
+				'productId'     => $input->getInt('product_id', 0),
+				'parent'        => $input->getInt('parent', 0),
+				'navigator'     => 0,
+				'input'         => $input->getString('input', ''),
+				'voucherId'     => $input->getInt('voucher_id', 0),
+				'containerId'   => $input->getInt('container_id', 0),
+				'stockroomId'   => $input->getInt('stockroom_id', 0),
+				'isProduct'     => $input->getInt('isproduct', 0),
+				'accessoryList' => $input->getString('accessoryList', '')
 			);
+
+			$resultQuery = RedshopHelperSearch::getSearchQuery($params);
 
 			$json = new stdClass;
 			$db->setQuery($resultQuery)->execute();
