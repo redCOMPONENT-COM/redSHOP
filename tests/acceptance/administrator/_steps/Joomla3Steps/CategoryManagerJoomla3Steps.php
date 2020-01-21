@@ -41,6 +41,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\CategoryManagerJ3Page::$template);
 		$I->waitForElementVisible(\CategoryManagerJ3Page::$choiceTemplate, 30);
 		$I->click(\CategoryManagerJ3Page::$choiceTemplate);
+		$I->wait(0.5);
 
 		$I->click(\CategoryManagerJ3Page::$saveButton);
 		$I->waitForElement(\CategoryManagerJ3Page::$categoryName, 30);
