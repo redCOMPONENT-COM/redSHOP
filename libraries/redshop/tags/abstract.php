@@ -45,6 +45,13 @@ abstract class RedshopTagsAbstract
 	public $replace = array();
 
 	/**
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $replacements = array();
+
+	/**
 	 * @var    string
 	 *
 	 * @since  2.0.0.5
@@ -254,5 +261,23 @@ abstract class RedshopTagsAbstract
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method help to do str_replace.
+	 *
+	 * @param   array  $replacements array of list tags and html replacements
+	 * @param   string $template     template before replace tags.
+	 *
+	 * @return  string $template
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function strReplace($replacements, $template)
+	{
+		$search = array_keys($replacements);
+		$replace = array_values($replacements);
+		$template = str_replace($search, $replace, $template);
+
+		return $template;
 	}
 }
