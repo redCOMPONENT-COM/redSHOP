@@ -13,7 +13,7 @@ JLoader::import('redshop.library');
 
 use Twig\Environment;
 use Redshop\Plugin\BaseTwigPlugin;
-use Redshop\Extension\JRegistry;
+use Redshop\Extension\JRegistry as TwigJRegistry;
 
 /**
  * Plugin to use Joomla Registry class in twig.
@@ -32,6 +32,6 @@ class PlgTwigJregistry extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params = [])
 	{
-		$environment->addExtension(new JRegistry);
+		$environment->addExtension(new TwigJRegistry);
 	}
 }

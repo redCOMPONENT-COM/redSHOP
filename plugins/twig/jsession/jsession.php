@@ -13,7 +13,7 @@ JLoader::import('redshop.library');
 
 use Joomla\CMS\Factory;
 use Redshop\Plugin\BaseTwigPlugin;
-use Redshop\Extension\JSession;
+use Redshop\Extension\JSession as TwigJSession;
 use Twig\Environment;
 
 /**
@@ -33,7 +33,7 @@ class PlgTwigJsession extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params = [])
 	{
-		$environment->addExtension(new JSession);
+		$environment->addExtension(new TwigJSession);
 		$environment->addGlobal('jsession', Factory::getSession());
 	}
 }

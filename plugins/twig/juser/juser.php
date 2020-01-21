@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 JLoader::import('redshop.library');
 
 use Joomla\CMS\Factory;
-use Redshop\Extension\JUser;
+use Redshop\Extension\JUser as TwigJUser;
 use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
 
@@ -33,7 +33,7 @@ class PlgTwigJuser extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params)
 	{
-		$environment->addExtension(new JUser);
+		$environment->addExtension(new TwigJUser);
 		$environment->addGlobal('juser', Factory::getUser());
 	}
 }

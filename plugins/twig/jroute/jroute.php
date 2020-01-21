@@ -11,7 +11,7 @@ defined('_JEXEC') || die;
 
 JLoader::import('redshop.library');
 
-use Redshop\Extension\JRoute;
+use Redshop\Extension\JRoute as TwigJRoute;
 use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
 
@@ -32,6 +32,6 @@ class PlgTwigJroute extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params = [])
 	{
-		$environment->addExtension(new JRoute);
+		$environment->addExtension(new TwigJRoute);
 	}
 }

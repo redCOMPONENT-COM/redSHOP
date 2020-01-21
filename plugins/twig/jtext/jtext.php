@@ -11,7 +11,7 @@ defined('_JEXEC') || die;
 
 JLoader::import('redshop.library');
 
-use Redshop\Extension\JText;
+use Redshop\Extension\JText as TwigJText;
 use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
 
@@ -32,6 +32,6 @@ class PlgTwigJtext extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params = [])
 	{
-		$environment->addExtension(new JText);
+		$environment->addExtension(new TwigJText);
 	}
 }

@@ -21,12 +21,12 @@ use Joomla\Registry\Registry;
 class RedshopHelperTwig
 {
 	/**
-	 * @var $loader object twig loader object
+	 * @var object twig loader object
 	 */
 	public $loader;
 
 	/**
-	 * @var $twig  object instance of $twig
+	 * @var object instance of $twig
 	 */
 	public $twig;
 
@@ -37,7 +37,7 @@ class RedshopHelperTwig
 	}
 
 	/**
-	 * @param $pathToFolder
+	 * @param  string  $pathToFolder
 	 *
 	 * @return object|\Twig\Loader\FilesystemLoader
 	 */
@@ -53,7 +53,7 @@ class RedshopHelperTwig
 	}
 
 	/**
-	 * @param $loader
+	 * @param  object $loader
 	 *
 	 * @return object|\Twig\Environment
 	 */

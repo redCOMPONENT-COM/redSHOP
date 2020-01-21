@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 JLoader::import('redshop.library');
 
 use Joomla\CMS\Uri\Uri;
-use Redshop\Extension\JUri;
+use Redshop\Extension\JUri as TwigJUri;
 use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
 
@@ -33,7 +33,7 @@ class PlgTwigJuri extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params)
 	{
-		$environment->addExtension(new JUri);
+		$environment->addExtension(new TwigJUri);
 		$environment->addGlobal('juri', Uri::getInstance());
 	}
 }

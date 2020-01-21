@@ -11,7 +11,7 @@ defined('_JEXEC') || die;
 
 JLoader::import('redshop.library');
 
-use Redshop\Extension\Unserialize;
+use Redshop\Extension\Unserialize as TwigUnseriallize;
 use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
 
@@ -32,6 +32,6 @@ class PlgTwigUnserialize extends BaseTwigPlugin
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params)
 	{
-		$environment->addExtension(new Unserialize);
+		$environment->addExtension(new TwigUnseriallize);
 	}
 }
