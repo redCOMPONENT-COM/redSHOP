@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') || die;
 
 $cartTemplate = "";
 $ajaxTemplate = $this->redTemplate->getTemplate("ajax_cart_box");
@@ -18,7 +18,7 @@ if (count($ajaxTemplate) > 0 && $ajaxTemplate[0]->template_desc)
 }
 else
 {
-	$cartTemplate = "<div id=\"ajax_cart_wrapper\">\r\n<div id=\"ajax_cart_text\">{ajax_cart_box_title}<br />{show_cart_text}<br /></div>\r\n<div id=\"ajax_cart_button_wrapper\">\r\n<div id=\"ajax_cart_button_inside\">\r\n<div id=\"ajax_cart_continue_button\">{continue_shopping_button}</div>\r\n<div id=\"ajax_cart_show_button\">{show_cart_button}</div>\r\n</div>\r\n</div>\r\n</div>";
+	$cartTemplate = RedshopHelperTemplate::getDefaultTemplateContent('ajax_cart_box');
 }
 
 $cartTemplate = RedshopTagsReplacer::_(
