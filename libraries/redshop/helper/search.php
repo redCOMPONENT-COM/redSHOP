@@ -16,7 +16,7 @@
 	 */
 	class RedshopHelperSearch
 	{
-		private function buildQueryMediaSection( $mediaSection , $search )
+		private static function buildQueryMediaSection($mediaSection,$search)
 		{
 			$db = JFactory::getDbo();
 
@@ -47,7 +47,7 @@
 			}
 		}
 		
-		private function buildQueryAlertVoucher( $voucherId, $search )
+		private static function buildQueryAlertVoucher($voucherId,$search)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -99,7 +99,7 @@
 			return $query;
 		}
 		
-		private function buildQueryAlertTermsArticle( $search)
+		private static function buildQueryAlertTermsArticle($search)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -162,10 +162,10 @@
 			return $article;
 		}
 		
-		private function buildQueryIsUser( $search )
+		private static function buildQueryIsUser($search)
 		{
 			$db = JFactory::getDbo();
-			$query = self::getQuery();
+			$query = self::getQuerySelect();
 			$query->where('('
 					. $db->qn('u.username') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR '
 					. $db->qn('uf.firstname') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR '
@@ -176,7 +176,7 @@
 			return $query;
 		}
 		
-		private function buildQueryIsCompanyTrue( $search , $isCompany )
+		private static function buildQueryIsCompanyTrue($search,$isCompany)
 		{
 			$db = JFactory::getDbo();
 			return $db->getQuery(true)
@@ -201,10 +201,10 @@
 				. ')');
 		}
 		
-		private function buildQueryIsCompanyFalse( $search , $isCompany )
+		private static function buildQueryIsCompanyFalse($search,$isCompany)
 		{
 			$db = JFactory::getDbo();
-			$query = self::getQuery();
+			$query = self::getQuerySelect();
 			$query->where($db->qn('uf.address_type') . ' LIKE ' . $db->q('BT'))
 				->where($db->qn('uf.is_company') . ' = ' . $db->q( (int) $isCompany))
 				->where('('
@@ -216,7 +216,7 @@
 			return $query;
 		}
 		
-		private function buildQueryAddRedUser( $search )
+		private static function buildQueryAddRedUser($search)
 		{
 			$db = JFactory::getDbo();
 			return $db->getQuery(true)
@@ -244,7 +244,7 @@
 					. ')');
 		}
 		
-		private function buildQueryProductTrue( $search )
+		private static function buildQueryProductTrue($search)
 		{
 			$db = JFactory::getDbo();
 			return $db->getQuery(true)
@@ -255,7 +255,7 @@
 				->where($db->qn('p.product_name') . ' LIKE ' . $db->q('%' . $search . '%'));
 		}
 		
-		private function buildQueryRelatedTrue( $search , $productId )
+		private static function buildQueryRelatedTrue($search,$productId)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -291,7 +291,7 @@
 			return $query;
 		}
 		
-		private function buildQueryParentTrue( $search , $productId )
+		private static function buildQueryParentTrue($search,$productId)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -310,7 +310,7 @@
 			return $query;
 		}
 		
-		private function buildQueryNavigatorTrue( $search )
+		private static function buildQueryNavigatorTrue($search)
 		{
 			$db = JFactory::getDbo();
 			return $db->getQuery(true)
@@ -326,7 +326,7 @@
 					. ')');
 		}
 		
-		private function buildQueryDefault( $search , $productId )
+		private static function buildQueryDefault($search,$productId)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -361,7 +361,7 @@
 			return $query;
 		}
 		
-		private function getQuery()
+		private static function getQuerySelect()
 		{
 			$db = JFactory::getDbo();
 			return $db->getQuery(true)
@@ -382,7 +382,7 @@
 				);
 		}
 		
-		private function buildQueryAlertContainerSearch($search, $containerId)
+		private static function buildQueryAlertContainerSearch($search,$containerId)
 		{
 			$db = JFactory::getDbo();
 			return $db->getQuery(true)
@@ -400,7 +400,7 @@
 						->where($db->qn('cp.container_id') . ' != ' . $containerId );
 		}
 		
-		private function buildQuerySwichCaseMediaSection($mediaSection,$search)
+		private static function buildQuerySwichCaseMediaSection($mediaSection,$search)
 		{
 			$db = JFactory::getDbo();
 			switch ($mediaSection)
@@ -473,7 +473,7 @@
 			}
 		}
 		
-		private function buildQueryAlertVoucherSearch($voucherId,$search)
+		private static function buildQueryAlertVoucherSearch($voucherId,$search)
 		{
 			$db = JFactory::getDbo();
 			$subQuery = $db->getQuery(true)
@@ -494,7 +494,7 @@
 				->where('(' . $subQuery . ') = 0');
 		}
 		
-		private function buildQueryAlertStoockroomSearch($search,$stockroomId)
+		private static function buildQueryAlertStoockroomSearch($search,$stockroomId)
 		{
 			$db = JFactory::getDbo();
 			return  $db->getQuery(true)
@@ -510,7 +510,7 @@
 				->where($db->qn('cp.stockroom_id') . ' != ' . $stockroomId );
 		}
 		
-		private function buildQueryAlertTermsArticleSearch($search)
+		private static function buildQueryAlertTermsArticleSearch($search)
 		{
 			$db = JFactory::getDbo();
 			return  $db->getQuery(true)
@@ -528,7 +528,7 @@
 				->where($db->qn('cc.published') . ' = 1');
 		}
 		
-		private function buildQueryAddRedUserSearch($search,$emailLabel)
+		private static function buildQueryAddRedUserSearch($search,$emailLabel)
 		{
 			$db = JFactory::getDbo();
 			return  $db->getQuery(true)
@@ -552,7 +552,7 @@
 				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'));
 		}
 		
-		private function buildQueryIsCompanyTrueSearch($search)
+		private static function buildQueryIsCompanyTrueSearch($search)
 		{
 			$db = JFactory::getDbo();
 			return  $db->getQuery(true)
@@ -573,7 +573,7 @@
 				->where($db->qn('uf.is_company') . ' = 1');
 		}
 		
-		private function buildQueryIsCompanyFalseSearch($search)
+		private static function buildQueryIsCompanyFalseSearch($search)
 		{
 			$db = JFactory::getDbo();
 			return  $db->getQuery(true)
@@ -597,7 +597,7 @@
 				->where($db->qn('uf.is_company') . ' = 0');
 		}
 		
-		private function buildQueryIsProductTrueSearch($search)
+		private static function buildQueryIsProductTrueSearch($search)
 		{
 			$db = JFactory::getDbo();
 			return  $db->getQuery(true)
@@ -615,7 +615,7 @@
 					. ')');
 		}
 		
-		private function buildQueryIsRelatedTrueSearch($search,$productId)
+		private static function buildQueryIsRelatedTrueSearch($search,$productId)
 		{
 			$db = JFactory::getDbo();
 			return  $db->getQuery(true)
@@ -634,7 +634,7 @@
 				->where($db->qn('p.product_id') . ' != ' . $productId );
 		}
 		
-		private function buildQueryIsNavigatorTrueSearch($search)
+		private static function buildQueryIsNavigatorTrueSearch($search)
 		{
 			$db = JFactory::getDbo();
 			return  $db->getQuery(true)
@@ -654,7 +654,7 @@
 					. ')');
 		}
 		
-		private function buildQueryIsParentTrueSearch($search,$productId)
+		private static function buildQueryIsParentTrueSearch($search,$productId)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -681,7 +681,7 @@
 			return $query;
 		}
 
-		private function buildQueryDefaultSearch($search,$productId,$accessoryList)
+		private static function buildQueryDefaultSearch($search,$productId,$accessoryList)
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
