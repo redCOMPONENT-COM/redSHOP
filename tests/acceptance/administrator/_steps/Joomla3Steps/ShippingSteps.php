@@ -198,7 +198,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 			default:
 				break;
 		}
-		
+
 	}
 	/**
 	 * @param $shippingName
@@ -212,14 +212,18 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ShippingPage::$shippingManagementUrl);
 		$I->waitForElementVisible(ShippingPage:: $editShipping, 30);
-		try{
+
+		try
+		{
 			$I->click(ShippingPage::$standShipping);
 		}catch (Exception $e)
 		{
 			$I->click(ShippingPage:: $editShipping);
 		}
-		$I->waitForElement(ShippingPage::$shippingRate, 30);
+
+		$I->waitForElementVisible(ShippingPage::$shippingRate, 30);
 		$I->click(ShippingPage::$shippingRate);
+		$I->waitForText($shippingName, 30);
 		$I->seeLink($shippingName);
 		$I->click($shippingName);
 		$I->waitForElement(ShippingPage::$shippingName, 30);
@@ -252,10 +256,11 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(ShippingPage::$shippingManagementUrl);
 		$usePage = new ShippingPage();
-
+		$I->waitForElementVisible($usePage->xPathATag($shippingMethod), 30);
 		$I->click($usePage->xPathATag($shippingMethod));
-		$I->waitForElement(ShippingPage::$shippingRate, 30);
+		$I->waitForElementVisible(ShippingPage::$shippingRate, 30);
 		$I->click(ShippingPage::$shippingRate);
+		$I->waitForText($shippingName, 30);
 		$I->seeLink($shippingName);
 		$I->checkAllResults();
 		$I->click(ShippingPage::$buttonDelete);

@@ -82,6 +82,18 @@ abstract class AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.5
+	 */
+	public static $messageNoItemOnTable = "No Matching Results";
+
+	/**
+	 * @var string
+	 * @since 2.1.5
+	 */
+	public static $selectorAlert = ".alert-no-items";
+
+	/**
+	 * @var string
 	 */
 	public static $messageUnpublishSuccess = 'successfully unpublished';
 
