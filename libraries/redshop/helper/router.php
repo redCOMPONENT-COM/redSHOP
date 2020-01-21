@@ -277,4 +277,49 @@ class RedshopHelperRouter
 
 		return $itemId;
 	}
+
+	/**
+	 * Get the URL route for a product from a product ID, product category ID and product manufacturer ID
+	 *
+	 * @param   int      $id              The id of the product
+	 * @param   int      $catId           The id of the product's category
+	 * @param   string   $language        Language
+	 * @param   integer  $manufacturerId  The id of the product's manufacturer
+	 *
+	 * @return  string  The link to the product
+	 *
+	 * @throws  Exception
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getProductRoute($id, $catId, $language, $manufacturerId = 0)
+	{
+		// Create the link
+		$link = 'index.php?option=com_redshop&view=product&pid=' . $id;
+
+		if ((int) $catId > 0)
+		{
+			$link .= '&cid=' . $catId;
+		}
+
+		// Find the menu item for the search
+		$app   = JFactory::getApplication();
+		$menu  = $app->getMenu();
+		$items = $menu->getItems(
+			'link',
+			'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId .
+			'&manufacturer_id=' . $manufacturerId
+		);
+
+		if (isset($items[0]))
+		{
+			$link .= '&Itemid=' . (int) $items[0]->id;
+		}
+
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+		{
+			$link .= '&lang=' . $language;
+		}
+
+		return $link;
+	}
 }
