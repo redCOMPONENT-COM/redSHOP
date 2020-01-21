@@ -8,6 +8,7 @@
 
 namespace AcceptanceTester;
 
+use FrontEndProductManagerJoomla3Page;
 use OrderManagerPage;
 
 /**
@@ -133,9 +134,9 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->searchProduct($name);
 		$I->click(['link' => $name]);
 		$I->waitForElement(\ProductManagerPage::$productName, 30);
+		$I->wait(0.5);
 		$I->click(\ProductManagerPage::$buttonReview);
 		$I->switchToNextTab();
-		$I->waitForElement(\ProductManagerPage::$namePageXpath, 30);
 		$I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
 	}
 	/**
@@ -233,12 +234,14 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $nameProduct
+	 * @param $categoryName
 	 * @param $price
 	 * @param $username
 	 * @param $password
 	 * @throws \Exception
+	 * @since 2.1.5
 	 */
-	public function addProductToCartWithBankTransfer($nameProduct, $price, $username, $password)
+	public function addProductToCartWithBankTransfer($nameProduct, $categoryName, $price, $username, $password)
 	{
 		$I = $this;
 		$I->amOnPage(\ConfigurationPage::$URL);
@@ -251,9 +254,16 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			$NumberZero = $NumberZero."0";
 		}
-		$I->checkReview($nameProduct);
-		$I->see($nameProduct);
-		$I->click(\ProductManagerPage::$addToCart);
+
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($nameProduct));
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+
 		try
 		{
 			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
@@ -262,6 +272,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->click(\ProductManagerPage::$addToCart);
 			$I->waitForText(\ProductManagerPage::$alertSuccessMessage, 30, \ProductManagerPage::$selectorMessage);
 		}
+
 		$I->fillField(\ProductManagerPage::$username, $username);
 		$I->fillField(\ProductManagerPage::$password, $password);
 		$I->click(\ProductManagerPage::$buttonLogin);

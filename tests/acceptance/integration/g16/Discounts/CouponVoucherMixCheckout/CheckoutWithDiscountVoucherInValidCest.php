@@ -182,7 +182,7 @@ class CheckoutWithDiscountVoucherInValidCest
 
 		$this->randomVoucherCode = $this->faker->bothify('VoucherCheckoutProductCest ?##?');
 		$this->voucherAmount     = 10;
-		$this->voucherCount      = $this->faker->numberBetween(99, 999);
+		$this->voucherCount      = 0;
 		$dateNow                 = date('Y-m-d');
 		$this->startDate         = date('Y-m-d', strtotime('-2 day', strtotime($dateNow)));
 		$this->endDate           = date('Y-m-d', strtotime('-1 day', strtotime($dateNow)));
@@ -238,14 +238,14 @@ class CheckoutWithDiscountVoucherInValidCest
 	 */
 	public function checkoutWithVoucherInvalid(CheckoutMissingData $I)
 	{
-		$I->wantToTest("Checkout with product have voucher Expires");
-		$I->checkoutWithVoucherInvalid($this->categoryName, $this->productName, $this->randomVoucherCode);
-
 		$I->wantToTest("Checkout with Voucher does not exist");
 		$I->checkoutWithVoucherInvalid($this->categoryName, $this->productName, $this->randomVoucherInValid);
 
 		$I->wantToTest("Checkout with Vouchers of other products");
 		$I->checkoutWithVoucherInvalid($this->categoryName, $this->productName, $this->randomVoucherCodeSecond);
+
+		$I->wantToTest("Checkout with product have voucher Expires");
+		$I->checkoutWithVoucherInvalid($this->categoryName, $this->productName, $this->randomVoucherCode);
 	}
 
 	/**
