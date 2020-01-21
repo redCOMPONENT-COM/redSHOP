@@ -32,6 +32,10 @@ class rsCarthelper
 
 	public $_globalvoucher = 0;
 
+	public $_extraFieldFront = null;
+
+	public $_c_remain = 0;
+
 	protected static $instance = null;
 
 	protected $input;
@@ -263,7 +267,6 @@ class rsCarthelper
 	* be applied BEFORE or AFTER the VAT is applied to the product price.
 	*
 	* @param   array     $cart      Cart data
-	* @param   integer   $shipping  Cart data
 	* @param   integer   $userId    Current user ID
 	*
 	* @return  array
@@ -272,7 +275,7 @@ class rsCarthelper
 	* @deprecated    2.1.0
 	 * @see \Redshop\Cart\Helper::calculation()
 	 */
-	public function calculation($cart, $shipping = 0, $userId = 0)
+	public function calculation($cart, $userId = 0)
 	{
 		return \Redshop\Cart\Helper::calculation($cart, $userId);
 	}
@@ -499,7 +502,7 @@ class rsCarthelper
 			$tax + $shippingVat,
 			$discount_amount + $tmp_discount,
 			0,
-			Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
+			/** @scrutinizer ignore-type */ Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE')
 		);
 		
 		$dispatcher->trigger('onAfterReplaceTemplateCart', array(&$cart_data, $checkout));
@@ -586,6 +589,7 @@ class rsCarthelper
 		if (count($shippingBoxes) > 0)
 		{
 			$shipping_box_list = "";
+			$shipping_box_priority_pre = "";
 
 			for ($i = 0, $in = count($shippingBoxes); $i < $in; $i++)
 			{
@@ -812,7 +816,7 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
-		if ($rateExist == 0)
+		if ($rateExist < 1)
 		{
 			$template_desc = "<div></div>";
 		}
@@ -1015,7 +1019,7 @@ class rsCarthelper
 
 								$displayPayment .= '<table><tr><td>'
 									. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
-									. '</td><td>' . $this->getSubscriptionPlans()
+									. '</td><td>' . $this->/** @scrutinizer ignore-call */ getSubscriptionPlans()
 									. '<td></tr><table>';
 							}
 							else
@@ -1139,7 +1143,7 @@ class rsCarthelper
 			$finaltag       = ($terms_left_final != "") ? "{terms_and_conditions:$terms_left_final}" : "{terms_and_conditions}";
 			$termscondition = '';
 
-			if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1 && ((count($list) > 0 && $list->accept_terms_conditions == 0) || count($list) == 0)))
+			if (Redshop::getConfig()->getInt('SHOW_TERMS_AND_CONDITIONS') === 0 || (Redshop::getConfig()->getInt('SHOW_TERMS_AND_CONDITIONS') === 1 && ((count($list) > 0 && $list->accept_terms_conditions === 0) || count($list) == 0)))
 			{
 				$finalwidth  = "500";
 				$finalheight = "450";
@@ -1198,7 +1202,7 @@ class rsCarthelper
 			$newslettersignup_lbl = "";
 			$link                 = "";
 
-			if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != 0)
+			if (Redshop::getConfig()->getInt('DEFAULT_NEWSLETTER') !== 0)
 			{
 				$user  = JFactory::getUser();
 				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
@@ -1206,7 +1210,7 @@ class rsCarthelper
 				$this->_db->setQuery($query);
 				$subscribe = $this->_db->loadResult();
 
-				if ($subscribe == 0)
+				if ((int) $subscribe === 0)
 				{
 					if ($onchange)
 					{
@@ -1237,6 +1241,7 @@ class rsCarthelper
 		$quantity               = 0;
 		$product_idArr          = explode(',', $product_id);
 		$product_idArr          = Joomla\Utilities\ArrayHelper::toInteger($product_idArr);
+		$p_quantity = 0;
 
 		for ($v = 0; $v < $idx; $v++)
 		{
@@ -1394,7 +1399,7 @@ class rsCarthelper
 					)
 					->from($db->qn('#__redshop_voucher', 'v'))
 					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.id')
-					->where('vt.voucher_code = ' . $db->quote($voucher_code))
+					->where('vt.voucher_code = ' . /** @scrutinizer ignore-type */ $db->quote($voucher_code))
 					->where('vt.amount > 0')
 					->where('v.type = ' . $db->quote('Total'))
 					->where('v.published = 1')
@@ -1411,13 +1416,13 @@ class rsCarthelper
 
 				$voucher = $db->setQuery($query)->loadObject();
 
-				if (count($voucher) > 0)
+				if (count((array) $voucher) > 0)
 				{
 					return false;
 				}
 			}
 
-			if (count($voucher) <= 0)
+			if (count((array) $voucher) <= 0)
 			{
 				$subQuery = $db->getQuery(true)
 					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
@@ -1432,7 +1437,7 @@ class rsCarthelper
 					)
 					->from($db->qn('#__redshop_voucher', 'v'))
 					->where($db->qn('v.published') . ' = 1')
-					->where($db->qn('v.code') . ' = ' . $db->quote($voucher_code))
+					->where($db->qn('v.code') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($voucher_code))
 					->where('('
 						. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
 						. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($current_time) . ')'
@@ -1460,7 +1465,7 @@ class rsCarthelper
 			->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
 			->leftJoin($db->qn('#__redshop_voucher', 'v') . ' ON ' . $db->qn('v.id') . ' = ' . $db->qn('pv.voucher_id'))
 			->where($db->qn('v.published') . ' = 1')
-			->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
+			->where($db->qn('v.code') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($voucherCode))
 			->where('('
 				. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
 				. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
@@ -1483,7 +1488,7 @@ class rsCarthelper
 			->select($db->qn('v.amount', 'total'))
 			->from($db->qn('#__redshop_voucher', 'v'))
 			->where($db->qn('v.published') . ' = 1')
-			->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
+			->where($db->qn('v.code') . ' = ' . /** @scrutinizer ignore-type */ $db->quote($voucherCode))
 			->where('('
 				. '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
 				. ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
@@ -1545,13 +1550,13 @@ class rsCarthelper
 			$db->setQuery($userQuery, 0, 1);
 			$coupon = $db->loadObject();
 
-			if (count($coupon) > 0)
+			if (count((array) $coupon) > 0)
 			{
 				$this->_c_remain = 1;
 			}
 		}
 
-		if (count($coupon) <= 0)
+		if (count((array) $coupon) <= 0)
 		{
 			$query->where($db->qn('c.code') . ' = ' . $db->quote($couponCode))
 
@@ -1585,8 +1590,7 @@ class rsCarthelper
 		$cart['product_subtotal']          = $calArr[1];
 		$cart['product_subtotal_excl_vat'] = $calArr[2];
 
-		$couponIndex  = !empty($cart['coupon']) && is_array($cart['coupon']) ? count($cart['coupon']) : 0;
-		$voucherIndex = !empty($cart['voucher']) && is_array($cart['voucher']) ? count($cart['voucher']) : 0;
+		$cart = $this->modifyDiscountVoucherCoupon($cart);
 
 		$discountAmount = 0;
 
@@ -1605,83 +1609,11 @@ class rsCarthelper
 			$cart['cart_discount'] = $discountAmount;
 		}
 
-		// Calculate voucher discount
-		$voucherDiscount = 0;
+		$cart = $this->modifyDiscountCart($cart);
 
-		if (array_key_exists('voucher', $cart))
-		{
-			if (count($cart['voucher']) > 1)
-			{
-				foreach ($cart['voucher'] as $cartVoucher)
-				{
-					$voucherDiscount += $cartVoucher['voucher_value'];
-				}
-			}
-			else
-			{
-				if (!empty($cart['voucher'][0]['voucher_value']))
-				{
-					$voucherDiscount = $cart['voucher'][0]['voucher_value'];
-				}
-				else
-				{
-					for ($v = 0; $v < $voucherIndex; $v++)
-					{
-						$voucherCode = $cart['voucher'][$v]['voucher_code'];
-
-						unset($cart['voucher'][$v]);
-
-						$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
-					}
-
-					$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
-
-					empty($voucherDiscount) ? $voucherDiscount = $cart['voucher_discount'] : $voucherDiscount;
-				}
-			}
-		}
-
-		$cart['voucher_discount'] = $voucherDiscount;
-
-		// Calculate coupon discount
 		$couponDiscount = 0;
 
-		if (array_key_exists('coupon', $cart))
-		{
-			if (count($cart['coupon']) > 1)
-			{
-				foreach ($cart['coupon'] as $cartCoupon)
-				{
-					$couponDiscount += $cartCoupon['coupon_value'];
-				}
-			}
-			else
-			{
-				if (!empty($cart['coupon'][0]['coupon_value']) && (int)Redshop::getConfig()->get('DISCOUNT_TYPE') !== 2)
-				{
-					$couponDiscount = $cart['coupon'][0]['coupon_value'];
-				}
-				else
-				{
-					for ($c = 0; $c < $couponIndex; $c++)
-					{
-						$couponCode = $cart['coupon'][$c]['coupon_code'];
-
-						unset($cart['coupon'][$c]);
-
-						$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
-					}
-
-					$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
-
-					empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
-				}
-			}
-		}
-
-		$cart['coupon_discount'] = $couponDiscount;
-
-		$codeDiscount  = $voucherDiscount + $couponDiscount;
+		$codeDiscount  = $cart['voucher_discount'] + $cart['coupon_discount'];
 		$totalDiscount = $cart['cart_discount'] + $codeDiscount;
 
 		$calArr      = \Redshop\Cart\Helper::calculation((array) $cart);
@@ -1735,6 +1667,7 @@ class rsCarthelper
 	{
 		$wrapper     = $this->_producthelper->getWrapper($cartArr['product_id'], $cartArr['wrapper_id']);
 		$wrapper_vat = 0;
+		$wrapper_price = 0;
 		$wrapperArr  = array();
 
 		if (count($wrapper) > 0)
@@ -1977,7 +1910,7 @@ class rsCarthelper
 	 *
 	 * @param   array  $cart   Cart
 	 *
-	 * @return  null
+	 * @return  boolean
 	 * @throws  Exception
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperCart::addCartToDatabase() instead.
@@ -2104,7 +2037,7 @@ class rsCarthelper
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_attribute_item "
 			. "WHERE is_accessory_att=" . (int) $is_accessory . " "
-			. "AND section=" . $db->quote($section) . " "
+			. "AND section=" . /** @scrutinizer ignore-type */ $db->quote($section) . " "
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -2222,7 +2155,7 @@ class rsCarthelper
 						for ($ia = 0; $ia < $countAccessoryAttribute; $ia++)
 						{
 							$accPropertyCart                         = array();
-							$attribute                               = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $acc_attribute_data[$ia]);
+							$attribute                               = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, /** @scrutinizer ignore-type */ $acc_attribute_data[$ia]);
 							$accAttributeCart[$ia]['attribute_id']   = $acc_attribute_data[$ia];
 							$accAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
 
@@ -2245,8 +2178,8 @@ class rsCarthelper
 									{
 										$accSubpropertyCart = array();
 										$property_price     = 0;
-										$property           = RedshopHelperProduct_Attribute::getAttributeProperties($acc_property_data[$ip]);
-										$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($acc_property_data[$ip], $data['quantity'], 'property', $user_id);
+										$property           = RedshopHelperProduct_Attribute::getAttributeProperties(/** @scrutinizer ignore-type */ $acc_property_data[$ip]);
+										$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice(/** @scrutinizer ignore-type */ $acc_property_data[$ip], $data['quantity'], 'property', $user_id);
 
 										if (count($pricelist) > 0)
 										{
@@ -2276,8 +2209,8 @@ class rsCarthelper
 
 												for ($isp = 0; $isp < $countAccessorySubproperty; $isp++)
 												{
-													$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties($acc_subproperty_data[$isp]);
-													$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice($acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
+													$subproperty       = RedshopHelperProduct_Attribute::getAttributeSubProperties(/** @scrutinizer ignore-type */ $acc_subproperty_data[$isp]);
+													$pricelist         = RedshopHelperProduct_Attribute::getPropertyPrice(/** @scrutinizer ignore-type */ $acc_subproperty_data[$isp], $data['quantity'], 'subproperty', $user_id);
 
 													if (count($pricelist) > 0)
 													{
@@ -2344,7 +2277,7 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
-	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
+	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, /** @scrutinizer ignore-unused */ $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		$and          = "";
 		$astpublished = "";
@@ -2739,8 +2672,8 @@ class rsCarthelper
 		$calcHeight = str_replace(",", ".", $calcHeight);
 		$calcWidth  = str_replace(",", ".", $calcWidth);
 		$calcLength = str_replace(",", ".", $calcLength);
-		$calcRadius = $cart_mdata = str_replace(",", ".", $calcRadius);
-		$calcUnit   = $cart_mdata = str_replace(",", ".", $calcUnit);
+		$calcRadius = str_replace(",", ".", $calcRadius);
+		$calcUnit   = str_replace(",", ".", $calcUnit);
 
 		// Convert unit using helper function
 		$unit = \Redshop\Helper\Utility::getUnitConversation($globalUnit, $calcUnit);
@@ -2749,6 +2682,12 @@ class rsCarthelper
 		$calcWidth *= $unit;
 		$calcLength *= $unit;
 		$calcRadius *= $unit;
+		$product_height = 0;
+		$product_width = 0;
+		$product_length = 0;
+		$product_diameter = 0;
+		$product_area = 0;
+		$total_sheet = 0;
 
 		$product_unit = 1;
 
@@ -2797,7 +2736,7 @@ class rsCarthelper
 			$finalArea = number_format($finalArea, 8, '.', '');
 
 			// Calculation prices as per various area
-			$discount_calc_data = $this->getDiscountCalcData($finalArea, $productId);
+			$discount_calc_data = $this->getDiscountCalcData(/** @scrutinizer ignore-type */ $finalArea, $productId);
 
 		}
 		else
@@ -3099,5 +3038,330 @@ class rsCarthelper
 		}
 
 		return;
+	}
+
+    /**
+	 * Modify cart if coupon/voucher used
+	 *
+	 * @param   array   $cart   cart data
+	 *
+	 * @return  array  Cart data
+	 * @throws  Exception
+	 */
+	public function modifyDiscountVoucherCoupon($cart)
+	{
+		$position = $this->checkPositionCouponVoucherCart($cart);
+
+		if ($position['coupon'] < $position['voucher'])
+		{
+			$cart = $this->modifyCouponVoucherIfCartApplyCouponFirst($cart);
+		}
+		else
+		{
+			$cart = $this->modifyCouponVoucherIfCartApplyVoucherFirst($cart);
+		}
+
+		return $cart;
+	}
+
+	/**
+	 * Modify cart if used coupon before
+	 *
+	 * @param   array   $cart   cart data
+	 *
+	 * @return  array  Cart data
+	 * @throws  Exception
+	 */
+	public function modifyCouponVoucherIfCartApplyCouponFirst($cart)
+	{
+		if (isset($cart['coupon']))
+		{
+			$maxCartCoupon = count($cart['coupon']);
+
+			if ($maxCartCoupon > 1)
+			{
+				for ($i = 0; $i < $maxCartCoupon; $i++)
+				{
+					$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
+
+					if ($couponCart->type == 0)
+					{
+						$couponValue = $couponCart->value;
+					}
+					else
+					{
+						$couponValue = ($couponCart->value * $cart['product_subtotal']) / 100;
+					}
+					$cart['coupon'][$i]['coupon_value'] = $couponValue;
+				}
+			}
+			else
+			{
+				$cart['coupon'][0]['coupon_value'] = 0;
+			}
+
+			$cart['coupon_discount'] = 0;
+		}
+
+		if (isset($cart['voucher']))
+		{
+			$maxCartVoucher = count($cart['voucher']);
+
+			if ($maxCartVoucher > 1)
+			{
+				for ($i = 0; $i < $maxCartVoucher; $i++)
+				{
+					$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
+					$productArr = rsCarthelper::getInstance()->getCartProductPrice($voucherCart->nproduct, $cart);
+
+					if ($voucherCart->type == 'Total')
+					{
+						$voucherValue = $voucherCart->total;
+					}
+					else
+					{
+						$voucherValue = ($voucherCart->total * $productArr['product_price']) / 100;
+					}
+
+					$cart['voucher'][$i]['voucher_value'] = $voucherValue;
+				}
+			}
+			else
+			{
+				$cart['voucher'][0]['voucher_value'] = 0;
+			}
+			$cart['voucher_discount'] = 0;
+		}
+
+		return $cart;
+	}
+
+	/**
+	 * Modify cart if used voucher before
+	 *
+	 * @param   array   $cart   cart data
+	 *
+	 * @return  array  Cart data
+	 * @throws  Exception
+	 */
+	public function modifyCouponVoucherIfCartApplyVoucherFirst($cart)
+	{
+		$cartVoucher = 0;
+
+		if (isset($cart['voucher']))
+		{
+			$maxCartVoucher = count($cart['voucher']);
+
+			if ($maxCartVoucher > 1)
+			{
+				for ($i = 0; $i < $maxCartVoucher; $i++)
+				{
+					$voucherCart = rsCarthelper::getInstance()->getVoucherData($cart['voucher'][$i]['voucher_code']);
+					$productArr = rsCarthelper::getInstance()->getCartProductPrice($voucherCart->nproduct, $cart);
+
+					if ($voucherCart->type == 'Total')
+					{
+						$voucherValue = $voucherCart->total;
+					}
+					else
+					{
+						$voucherValue = ($voucherCart->total * $productArr['product_price']) / 100;
+					}
+
+					$cartVoucher += $voucherValue;
+					$cart['voucher'][$i]['voucher_value'] = $voucherValue;
+				}
+			}
+			else
+			{
+				$cart['voucher'][0]['voucher_value'] = 0;
+			}
+
+			$cart['voucher_discount'] = 0;
+		}
+
+		if (isset($cart['coupon']))
+		{
+			$maxCartCoupon = count($cart['coupon']);
+
+			if ($maxCartCoupon > 1)
+			{
+				for ($i = 0; $i < $maxCartCoupon; $i++)
+				{
+					$couponCart = rsCarthelper::getInstance()->getCouponData($cart['coupon'][$i]['coupon_code'], $cart['product_subtotal']);
+
+					if ($couponCart->type == 0)
+					{
+						$couponValue = $couponCart->value;
+					}
+					else
+					{
+						$couponValue = ($couponCart->value * ($cart['product_subtotal'] - $cartVoucher)) / 100;
+					}
+
+					$cart['coupon'][$i]['coupon_value'] = $couponValue;
+				}
+			}
+			else
+			{
+				$cart['coupon'][0]['coupon_value'] = 0;
+			}
+
+			$cart['coupon_discount'] = 0;
+		}
+
+		return $cart;
+	}
+
+	/**
+	 * Check coupon or voucher used first
+	 *
+	 * @param   array   $cart   cart data
+	 *
+	 * @return  string  coupon/voucher/''
+	 */
+	public function checkPositionCouponVoucherCart($cart)
+	{
+		$index = array();
+		$couponKey = 0;
+		$voucherKey = 0;
+		$indexCarts = array_keys($cart, true);
+
+		foreach ($indexCarts as $key => $value)
+		{
+			if ($value == 'coupon')
+			{
+				$couponKey = $key;
+				continue;
+			}
+			if ($value == 'voucher')
+			{
+				$voucherKey = $key;
+			}
+		}
+
+		$index['coupon']     = $couponKey;
+		$index['voucher']    = $voucherKey;
+		return $index;
+	}
+
+	/**
+	 * Modify Discount price in cart
+	 *
+	 * @param   array   $cart   cart data
+	 *
+	 * @return  array  Cart data
+	 * @throws  Exception
+	 */
+	public function modifyDiscountCart($cart)
+	{
+		$positionCouponVoucher = $this->checkPositionCouponVoucherCart($cart);
+
+		if ($positionCouponVoucher['coupon'] < $positionCouponVoucher['voucher'])
+		{
+			$cart = $this->calculateCouponDiscount($cart);
+			$cart = $this->calculateVoucherDiscount($cart);
+		}
+		else
+		{
+			$cart = $this->calculateVoucherDiscount($cart);
+			$cart = $this->calculateCouponDiscount($cart);
+		}
+
+		return $cart;
+	}
+
+	/**
+	 * Calculate Coupon Discount price
+	 *
+	 * @param   array   $cart   cart data
+	 *
+	 * @return  array  Cart data
+	 * @throws  Exception
+	 */
+	public function calculateCouponDiscount($cart)
+	{
+		$couponIndex  = !empty($cart['coupon']) && is_array($cart['coupon']) ? count($cart['coupon']) : 0;
+		// Calculate coupon discount
+		$couponDiscount = 0;
+
+		if (array_key_exists('coupon', $cart))
+		{
+			if (count($cart['coupon']) > 1)
+			{
+				foreach ($cart['coupon'] as $cartCoupon)
+				{
+					$couponDiscount += $cartCoupon['coupon_value'];
+				}
+			}
+			else
+			{
+				if (!empty($cart['coupon'][0]['coupon_value']))
+				{
+					$couponDiscount = $cart['coupon'][0]['coupon_value'];
+				}
+				else
+				{
+					for ($c = 0; $c < $couponIndex; $c++)
+					{
+						$couponCode = $cart['coupon'][$c]['coupon_code'];
+						unset($cart['coupon'][$c]);
+						$cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
+					}
+					$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+					empty($couponDiscount) ? $couponDiscount = $cart['coupon_discount'] : $couponDiscount;
+				}
+			}
+		}
+
+		$cart['coupon_discount'] = $couponDiscount;
+		return $cart;
+	}
+
+	/**
+	 * Calculate Voucher Discount price
+	 *
+	 * @param   array   $cart   cart data
+	 *
+	 * @return  array  Cart data
+	 * @throws  Exception
+	 */
+	public function calculateVoucherDiscount($cart)
+	{
+		$voucherIndex = !empty($cart['voucher']) && is_array($cart['voucher']) ? count($cart['voucher']) : 0;
+		$voucherDiscount = 0;
+
+		if (array_key_exists('voucher', $cart))
+		{
+			if (count($cart['voucher']) > 1)
+			{
+				foreach ($cart['voucher'] as $cartVoucher)
+				{
+					$voucherDiscount += $cartVoucher['voucher_value'];
+				}
+			}
+			else
+			{
+				if (!empty($cart['voucher'][0]['voucher_value']))
+				{
+					$voucherDiscount = $cart['voucher'][0]['voucher_value'];
+				}
+				else
+				{
+					for ($v = 0; $v < $voucherIndex; $v++)
+					{
+						$voucherCode = $cart['voucher'][$v]['voucher_code'];
+						unset($cart['voucher'][$v]);
+						$cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
+					}
+
+					$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+					$voucherDiscount = empty($voucherDiscount) ? $cart['voucher_discount'] : $voucherDiscount;
+				}
+			}
+		}
+
+		$cart['voucher_discount'] = $voucherDiscount;
+		return $cart;
 	}
 }
