@@ -76,14 +76,13 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 
 		try
 		{
-			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
-		}catch (\Exception $e)
-		{
 			$I->wait(2);
 			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
+			$I->acceptPopup();
+		}catch (\Exception $e)
+		{
 		}
 
-		$I->acceptPopup();
 		$I->switchToIFrame(StripePaymentPage::$nameIframeStripe);
 		$I->waitForElementVisible(StripePaymentPage::$cardNumberIframe, 30);
 		$I->fillField(StripePaymentPage::$cardNumberIframe, $informationVisa['cardNumber']);
