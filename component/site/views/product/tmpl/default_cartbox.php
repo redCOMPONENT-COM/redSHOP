@@ -22,7 +22,7 @@ else
 }
 
 $cartTemplate = RedshopTagsReplacer::_(
-					'ajaxcartbox',
+					'ajaxCartBox',
 					$cartTemplate,
 					array()
 				);

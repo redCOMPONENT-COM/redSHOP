@@ -29,6 +29,8 @@ class RedshopTagsReplacer
 	 */
 	public static function _($key, $template, $data = array())
 	{
+		$key = Joomla\String\StringHelper::strtolower($key);
+
 		if (strpos($key, '.') !== false)
 		{
 			$execute = explode('.', $key);
