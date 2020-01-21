@@ -253,7 +253,7 @@ class RedshopHelperSearch
 			->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON uf.user_id = u.id')
 			->where('('
 				. $db->qn('u.username') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR '
-				. $db->qn('uf.firstnamee') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR '
+				. $db->qn('uf.firstname') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR '
 				. $db->qn('uf.lastname') . ' LIKE ' . $db->q('%' . $search . '%') . ' OR '
 				. $db->qn('uf.phone') . ' LIKE ' . $db->q('%' . $search . '%')
 				. ')')
