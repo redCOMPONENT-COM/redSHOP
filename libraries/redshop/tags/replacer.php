@@ -31,9 +31,9 @@ class RedshopTagsReplacer
 	{
 		$key = Joomla\String\StringHelper::strtolower($key);
 
-		if (strpos($key, '.') !== false)
+		if (strpos(/** @scrutinizer ignore-type */ $key, '.') !== false)
 		{
-			$execute = explode('.', $key);
+			$execute = explode('.', /** @scrutinizer ignore-type */ $key);
 		}
 		else
 		{

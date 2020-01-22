@@ -34,7 +34,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 
 		if ($this->isTagExists('{ajax_cart_box_title}'))
 		{
-			$cartBoxTitle = $selectedAccessoriesHtml = RedshopLayoutHelper::render(
+			$cartBoxTitle = RedshopLayoutHelper::render(
 				'tags.common.title',
 				array(
 					'text' => JText::_('COM_REDSHOP_CART_SAVE'),
