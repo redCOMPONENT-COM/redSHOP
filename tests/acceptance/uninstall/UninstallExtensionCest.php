@@ -28,7 +28,11 @@ class UninstallExtensionCest
 		$I->doAdministratorLogin();
 		$I->amOnPage('/administrator/index.php?option=com_installer&view=manage');
 		$I->checkForPhpNoticesOrWarnings();
-		$I->waitForElementVisible(\ExtensionManagerJoomla3Page::$searchTools, 30);
+        $I->waitForElementVisible(\ExtensionManagerJoomla3Page::$buttonClear, 30);
+        $I->click(\ExtensionManagerJoomla3Page::$buttonClear);
+
+        $I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+        $I->waitForElementVisible(\ExtensionManagerJoomla3Page::$searchTools, 30);
 		$I->click(\ExtensionManagerJoomla3Page::$searchTools);
 		$I->waitForElement('#filter_type', 30);
 		$I->selectOptionInChosen('#filter_type', 'Component');
