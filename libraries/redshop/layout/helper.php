@@ -9,6 +9,11 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
+use Redshop\Twig;
+
+JLoader::import('redshop.library');
+
 /**
  * Helper to render a JLayout object, storing a base path
  *
@@ -37,14 +42,59 @@ class RedshopLayoutHelper
 	 *
 	 * @return  string
 	 */
-	public static function render($layoutFile, $displayData = null, $basePath = '', $options = array('component' => 'com_redshop'))
+	public static function render($layoutFile,
+	                              $displayData = null,
+	                              $basePath = '',
+	                              $options = array('component' => 'com_redshop'))
 	{
 		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 
 		// Make sure we send null to JLayoutFile if no path set
-		$basePath       = empty($basePath) ? null : $basePath;
-		$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
-		$renderedLayout = $layout->render($displayData);
+		$basePath  = empty($basePath) ? null : $basePath;
+		$renderedLayout = '';
+
+		if ($displayData === null)
+		{
+			$displayData = array();
+		}
+
+		// Check for render Twig or PHP normally
+		if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig')
+		{
+			if (empty($options['layoutOf']) )
+			{
+				return '';
+			}
+
+			$layoutOf = Joomla\String\StringHelper::strtolower($options['layoutOf']);
+			$layoutOf = Joomla\String\StringHelper::trim((string) $layoutOf);
+
+			if ($layoutOf === '')
+			{
+				return '';
+			}
+
+			$prefix = 'redshop';
+
+			if (!empty($options['prefix']))
+			{
+				$prefix = $options['prefix'];
+			}
+
+			// Ensure not include strange thing
+			$layoutFile = str_replace('_:', '', $layoutFile);
+
+			$renderPath     = str_replace('.', '/', $basePath . $layoutFile);
+			$renderPath     = '@' . /** @scrutinizer ignore-type */ $layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
+
+			// Call render of Twig
+			$renderedLayout = Twig::render($renderPath, $displayData);
+		}
+		else
+		{
+			$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
+			$renderedLayout = $layout->render($displayData);
+		}
 
 		return $renderedLayout;
 	}
