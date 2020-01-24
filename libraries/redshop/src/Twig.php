@@ -1,16 +1,16 @@
 <?php
 /**
- * @package     Redshop.Libraries
+ * @package     Redshop.Library
  *
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
 namespace Redshop;
 
 defined('_JEXEC') || die;
 
-use Redshop\Loader\ChainLoader;
+use Twig\Loader\ChainLoader;
 
 /**
  * Twig rendering class
@@ -31,7 +31,8 @@ final class Twig
 	 *
 	 * @var  self
 	 */
-	private $environment;
+
+	private $twigEnvironment;
 
 	/**
 	 * Constructor
@@ -48,7 +49,7 @@ final class Twig
 			]
 		);
 
-		$this->environment = new Environment($loader);
+		$this->twigEnvironment = new TwigEnvironment($loader);
 	}
 
 	/**
@@ -94,8 +95,9 @@ final class Twig
 	 *
 	 * @return  self
 	 */
-	public function environment() : Environment
+	public function environment() : TwigEnvironment
 	{
-		return $this->environment;
+		return $this->twigEnvironment;
+
 	}
 }

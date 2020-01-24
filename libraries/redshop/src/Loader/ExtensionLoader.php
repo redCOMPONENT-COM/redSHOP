@@ -1,24 +1,26 @@
 <?php
 /**
- * @package     Phproberto.Joomla-Twig
+ * @package     Redshop.Library
  * @subpackage  Loader
  *
- * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
- * @license    See COPYING.txt
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-namespace Redshop\Twig\Loader;
+namespace Redshop\Loader;
 
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Factory;
+use Twig\Loader\FilesystemLoader;
+use Twig\Error\LoaderError;
 
 /**
  * Joomla extension file system loader.
  *
  * @since  1.0.0
  */
-abstract class ExtensionLoader extends \Twig_Loader_Filesystem
+abstract class ExtensionLoader extends FilesystemLoader
 {
 	/**
 	 * Namespace applicable to this extension.
@@ -69,7 +71,7 @@ abstract class ExtensionLoader extends \Twig_Loader_Filesystem
 	 *
 	 * @return  mixed
 	 *
-	 * @throws  \Twig_Error_Loader
+	 * @throws  Twig\Error\LoaderError
 	 */
 	protected function findTemplate($name, $throw = true)
 	{
@@ -82,14 +84,14 @@ abstract class ExtensionLoader extends \Twig_Loader_Filesystem
 		{
 			$result = parent::findTemplate($name, true);
 		}
-		catch (\Twig_Error_Loader $e)
+		catch (LoaderError $e)
 		{
 			$result = $this->findParsedNameTemplate($name);
 		}
 
 		if (!$result && $throw)
 		{
-			throw new \Twig_Error_Loader($name);
+			throw new LoaderError($name);
 		}
 
 		return $result;

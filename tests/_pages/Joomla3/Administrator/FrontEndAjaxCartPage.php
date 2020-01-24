@@ -22,13 +22,13 @@ class FrontEndAjaxCartPage extends FrontEndProductManagerJoomla3Page
 	 * @var string
 	 * @since 2.1.4
 	 */
-	public static $btnContinueShopping = "//input[@name='continuecart']";
+	public static $btnContinueShopping = "//button[@name='continuecart']";
 
 	/**
 	 * @var string
 	 * @since 2.1.4
 	 */
-	public static $btnViewCart = "//input[@name='viewcart']";
+	public static $btnViewCart = "//button[@name='viewcart']";
 
 	/**
 	 * @var string

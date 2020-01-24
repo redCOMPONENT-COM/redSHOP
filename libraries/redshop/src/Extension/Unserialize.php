@@ -1,13 +1,14 @@
 <?php
 /**
- * @package     Phproberto.Joomla-Twig
- * @subpackage  Extension
+ * @package     RedShop
+ * @subpackage  Libraries
  *
- * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
- * @license    See COPYING.txt
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redshop\Joomla\Twig\Extension;
+
+namespace Redshop\Extension;
 
 defined('_JEXEC') || die;
 
