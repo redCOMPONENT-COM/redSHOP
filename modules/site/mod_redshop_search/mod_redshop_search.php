@@ -8,6 +8,7 @@
  */
 
 use Joomla\Registry\Registry;
+use Redshop\Twig;
 
 defined('_JEXEC') or die;
 
@@ -140,4 +141,36 @@ $lists['searchtypedata'] = JHtml::_(
 	$type
 );
 
-require JModuleHelper::getLayoutPath('mod_redshop_search', $params->get('layout', 'default'));
+$twigParams = array(
+	'itemid'                    => $itemId,
+	'formAction'                => JRoute::_('index.php?option=com_redshop&view=search&Itemid='. $itemId),
+	'goodGuy'                   => !defined('JEXEC'),
+	'showProductSearchTitle'    => $showProductSearchTitle,
+	'showSearchTypeField'       => $showSearchTypeField,
+	'type'                      => $type,
+	'showCategory'              => $showCategory,
+	'showManufacturer'          => $showManufacturer,
+	'showCustomfield'           => $showCustomfield,
+	'showKeywordTitle'          => $showKeywordTitle,
+	'showSearchField'           => $showSearchField,
+	'templateId'                => $templateId,
+	'productPerpage'            => $productPerpage,
+	'excludeCategories'         => $excludeCategories,
+	'searchProductByCatName'    => $searchProductByCategoryName,
+	'keyword'                   => $keyword,
+	'data'                      => $lists
+);
+
+$layout =$params->get('layout', 'default');
+$moduleName = 'mod_redshop_search';
+
+echo RedshopLayoutHelper::render(
+	$layout,
+	$twigParams,
+	'',
+	array(
+	'component'     => 'com_redshop',
+	'layoutType'    => 'Twig',
+	'layoutOf'      => 'module',
+	'prefix'        => $moduleName
+));
