@@ -245,6 +245,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 				'text' => JText::_('COM_REDSHOP_ACCESSORY_ADD_CHKBOX_LBL') . '&nbsp;' . $accessory->product_name,
 				'id' => 'accessory_checkbox_lbl' . $accessory->accessory_id,
 				'class' => 'accessory_checkbox_lbl'
+			),
+			'',
+			array(
+				'component'     => 'com_redshop',
+				'layoutType'    => 'Twig',
+				'layoutOf'      => 'library'
 			)
 		);
 
@@ -264,6 +270,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					'text' => $accessoryProductName,
 					'id' => 'accessory_' . $accessory->accessory_id,
 					'class' => 'accessory-title accessory_' . $accessory->accessory_id
+				),
+				'',
+				array(
+					'component'     => 'com_redshop',
+					'layoutType'    => 'Twig',
+					'layoutOf'      => 'library'
 				)
 			);
 
@@ -311,6 +323,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 				array(
 					'text' => $accessoryShortDesc,
 					'class' => 'accessory-short-desc accessory_' . $accessory->accessory_id
+				),
+				'',
+				array(
+					'component'     => 'com_redshop',
+					'layoutType'    => 'Twig',
+					'layoutOf'      => 'library'
 				)
 			);
 
@@ -332,6 +350,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 						'accqua' => $accqua,
 						'commonId' => $commonId,
 						'name' => "accquantity_". $this->data['prefix'] . $this->data['productId']
+					),
+					'',
+					array(
+						'component'     => 'com_redshop',
+						'layoutType'    => 'Twig',
+						'layoutOf'      => 'library'
 					)
 				);
 
