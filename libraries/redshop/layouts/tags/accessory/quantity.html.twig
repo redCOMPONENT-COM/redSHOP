@@ -1,6 +1,6 @@
 <input type='text' name='{{ name }}[]'
        id='accquantity_{{ commonId }}'
        value='{{ accqua }}'
-       maxlength='<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY') ?>'
-       size='<?php echo Redshop::getConfig()->get('DEFAULT_QUANTITY') ?>'
+       maxlength='{{ 'DEFAULT_CONFIG' | redconfig }}'
+       size='{{ 'DEFAULT_CONFIG' | redconfig }}'
        onchange='validateInputNumber(this.id)' />
