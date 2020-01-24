@@ -378,8 +378,17 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\DiscountPage::$buttonDelete);
 		$client->acceptPopup();
-		$client->waitForText(\DiscountPage::$messageDeleteSuccess, 60, \DiscountPage::$selectorSuccess);
-		$client->see(\DiscountPage::$messageDeleteSuccess, \DiscountPage::$selectorSuccess);
+
+		try
+		{
+			$client->waitForText(\DiscountPage::$messageDeleteSuccess, 5, \DiscountPage::$selectorSuccess);
+			$client->see(\DiscountPage::$messageDeleteSuccess, \DiscountPage::$selectorSuccess);
+		}catch (\Exception $e)
+		{
+			$client->waitForText(\DiscountPage::$messageNoItemOnTable, 10, \DiscountPage::$selectorAlert);
+			$client->see(\DiscountPage::$messageNoItemOnTable, \DiscountPage::$selectorAlert);
+		}
+
 		$client->fillField(\DiscountPage::$searchField, $name);
 		$client->pressKey(\DiscountPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($name, \DiscountPage::$resultRow);
@@ -391,33 +400,33 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$I->waitForElement(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"], 30);
 		$I->click(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"]);
 	}
-    /**
-     * @param $name
-     * @param $totalAmount
-     * @param $condition
-     * @param $discountType
-     * @param $discountAmount
-     * @param $startDate
-     * @param $endDate
-     * @param $shopperGroup
-     * @throws \Exception
-     */
-    public function addTotalDiscountSaveClose($name, $totalAmount, $condition, $discountType, $discountAmount, $startDate, $endDate, $shopperGroup)
-    {
-        $client = $this;
-        $client->amOnPage(\DiscountPage::$url);
-        $client->checkForPhpNoticesOrWarnings();
-        $client->click(\DiscountPage::$buttonNew);
-        $client->waitForElement(\DiscountPage::$fieldAmount, 30);
-        $client->fillField(\DiscountPage::$fieldName, $name);
-        $client->fillField(\DiscountPage::$fieldAmount, $totalAmount);
-        $client->selectOption(\DiscountPage::$fieldCondition, $condition);
-        $client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
-        $client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
-        $client->fillField(\DiscountPage::$fieldStartDate, $startDate);
-        $client->fillField(\DiscountPage::$fieldEndDate, $endDate);
-        $client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
-        $client->click(\DiscountPage::$buttonSaveClose);
-        $client->waitForText(\DiscountPage::$messageItemSaveSuccess, 30, \DiscountPage::$selectorSuccess);
-    }
+	/**
+	 * @param $name
+	 * @param $totalAmount
+	 * @param $condition
+	 * @param $discountType
+	 * @param $discountAmount
+	 * @param $startDate
+	 * @param $endDate
+	 * @param $shopperGroup
+	 * @throws \Exception
+	 */
+	public function addTotalDiscountSaveClose($name, $totalAmount, $condition, $discountType, $discountAmount, $startDate, $endDate, $shopperGroup)
+	{
+		$client = $this;
+		$client->amOnPage(\DiscountPage::$url);
+		$client->checkForPhpNoticesOrWarnings();
+		$client->click(\DiscountPage::$buttonNew);
+		$client->waitForElement(\DiscountPage::$fieldAmount, 30);
+		$client->fillField(\DiscountPage::$fieldName, $name);
+		$client->fillField(\DiscountPage::$fieldAmount, $totalAmount);
+		$client->selectOption(\DiscountPage::$fieldCondition, $condition);
+		$client->selectOption(\DiscountPage::$fieldDiscountType, $discountType);
+		$client->fillField(\DiscountPage::$fieldDiscountAmount, $discountAmount);
+		$client->fillField(\DiscountPage::$fieldStartDate, $startDate);
+		$client->fillField(\DiscountPage::$fieldEndDate, $endDate);
+		$client->chooseOnSelect2(\DiscountPage::$fieldShopperGroup, $shopperGroup);
+		$client->click(\DiscountPage::$buttonSaveClose);
+		$client->waitForText(\DiscountPage::$messageItemSaveSuccess, 30, \DiscountPage::$selectorSuccess);
+	}
 }
