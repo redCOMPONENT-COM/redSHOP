@@ -11,7 +11,7 @@ defined('_JEXEC') || die;
 
 JLoader::import('redshop.library');
 
-use Redshop\Extension\RedTwig as TwigRedshop;
+use Redshop\Extension\Redshop as TwigRedshop;
 use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
 
