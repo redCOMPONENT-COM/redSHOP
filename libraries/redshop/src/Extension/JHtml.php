@@ -18,14 +18,15 @@ use Twig\TwigFunction;
 /**
  * JHtml integration for Twig.
  *
- * @since  1.0.0
+ * @since  __DEPLOY_VERSION__
  */
 final class JHtml extends AbstractExtension
 {
 	/**
-	 * Inject functions.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getFunctions() : array
 	{
@@ -39,9 +40,10 @@ final class JHtml extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getName() : string
 	{

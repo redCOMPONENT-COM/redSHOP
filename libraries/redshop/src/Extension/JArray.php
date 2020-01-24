@@ -17,14 +17,15 @@ use Twig\TwigFilter;
 /**
  * Extension to improve array handling.
  *
- * @since  1.0.0
+ * @since  __DEPLOY_VERSION__
  */
 final class JArray extends AbstractExtension
 {
 	/**
-	 * Inject our filter.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getFilters() : array
 	{
@@ -35,11 +36,11 @@ final class JArray extends AbstractExtension
 	}
 
 	/**
-	 * Cast variable to array.
+	 * @param $var
 	 *
-	 * @param   mixed  $var  Var to cast
+	 * @return array
 	 *
-	 * @return  array
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function toArray($var) : array
 	{
@@ -47,9 +48,10 @@ final class JArray extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getName() : string
 	{

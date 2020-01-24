@@ -2,7 +2,7 @@
 /**
  * @package     Redshop.Library
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -15,27 +15,27 @@ use Twig\Loader\ChainLoader;
 /**
  * Twig rendering class
  *
- * @since  1.0.0
+ * @since  __DEPLOY_VERSION__
  */
 final class Twig
 {
 	/**
-	 * Renderer instance.
-	 *
-	 * @var  $this
+	 * @var
+	 * @since __DEPLOY_VERSION__
 	 */
 	private static $instance;
 
 	/**
-	 * Twig environment.
-	 *
-	 * @var  self
+	 * @var TwigEnvironment
+	 * @since __DEPLOY_VERSION__
 	 */
 
 	private $twigEnvironment;
 
 	/**
-	 * Constructor
+	 * Twig constructor.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function __construct()
 	{
@@ -53,9 +53,9 @@ final class Twig
 	}
 
 	/**
-	 * Clear the cached instance.
+	 * self destroy
 	 *
-	 * @return  void
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function clear()
 	{
@@ -63,9 +63,10 @@ final class Twig
 	}
 
 	/**
-	 * Get the cached instance
+	 * Create Twig instance
+	 * @return Twig
 	 *
-	 * @return  static
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function instance() : Twig
 	{
@@ -78,12 +79,17 @@ final class Twig
 	}
 
 	/**
-	 * Render a layout.
+	 * Render function as path and data provided
 	 *
-	 * @param   string  $layout  Template to render
-	 * @param   array   $data    Optional data for the layout
+	 * @param   string  $layout
+	 * @param   array   $data
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @throws \Twig\Error\LoaderError
+	 * @throws \Twig\Error\RuntimeError
+	 * @throws \Twig\Error\SyntaxError
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function render(string $layout, array $data = []) : string
 	{
@@ -91,9 +97,10 @@ final class Twig
 	}
 
 	/**
-	 * Retrieve the environment.
 	 *
-	 * @return  self
+	 * @return TwigEnvironment
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function environment() : TwigEnvironment
 	{
