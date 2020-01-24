@@ -105,6 +105,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					'tags.accessory.selected_accessory_price',
 					array(
 						'selectedAccessoryPrice' => $selectedAccessoryPrice
+					),
+					'',
+					array(
+						'component'     => 'com_redshop',
+						'layoutType'    => 'Twig',
+						'layoutOf'      => 'library'
 					)
 				);
 			}
@@ -137,6 +143,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 			array(
 				'template' => $template,
 				'commonId' => $commonId
+			),
+			'',
+			array(
+				'component'     => 'com_redshop',
+				'layoutType'    => 'Twig',
+				'layoutOf'      => 'library'
 			)
 		);
 
@@ -384,6 +396,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					'title' => $accessory->product_name,
 					'readMoreLink' => $readMoreLink,
 					'class' => "accessory-readmore accessory_readmore_" . $accessory->accessory_id
+				),
+				'',
+				array(
+					'component'     => 'com_redshop',
+					'layoutType'    => 'Twig',
+					'layoutOf'      => 'library'
 				)
 			);
 
@@ -409,6 +427,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 						'class' => 'accessory-manufacture-link',
 						'link' => $manufacturerUrl,
 						'content' => JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
+					),
+					'',
+					array(
+						'component'     => 'com_redshop',
+						'layoutType'    => 'Twig',
+						'layoutOf'      => 'library'
 					)
 				);
 
@@ -490,6 +514,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 				'price' => $price,
 				'htmlPrice' => $htmlPrice,
 				'class' => $class
+			),
+			'',
+			array(
+				'component'     => 'com_redshop',
+				'layoutType'    => 'Twig',
+				'layoutOf'      => 'library'
 			)
 		);
 
@@ -582,7 +612,9 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					),
 					'',
 					array(
-						'component' => 'com_redshop'
+						'component'     => 'com_redshop',
+						'layoutType'    => 'Twig',
+						'layoutOf'      => 'library'
 					)
 				);
 			}
@@ -624,7 +656,9 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					),
 					'',
 					array(
-						'component' => 'com_redshop'
+						'component'     => 'com_redshop',
+						'layoutType'    => 'Twig',
+						'layoutOf'      => 'library'
 					)
 				);
 			}
@@ -666,7 +700,9 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 			),
 			'',
 			array(
-				'component' => 'com_redshop'
+				'component'     => 'com_redshop',
+				'layoutType'    => 'Twig',
+				'layoutOf'      => 'library'
 			)
 		);
 
@@ -709,6 +745,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 				array(
 					'text' => $mainShortDesc,
 					'class' => 'accessory-main-short-desc'
+				),
+				'',
+				array(
+					'component'     => 'com_redshop',
+					'layoutType'    => 'Twig',
+					'layoutOf'      => 'library'
 				)
 			);
 ;
@@ -729,6 +771,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					'text' => $mainTitle,
 					'id' => '',
 					'class' => 'accessory-main-title'
+				),
+				'',
+				array(
+					'component'     => 'com_redshop',
+					'layoutType'    => 'Twig',
+					'layoutOf'      => 'library'
 				)
 			);
 
@@ -743,6 +791,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					'title' => $product->product_name,
 					'readMoreLink' => '#',
 					'class' => "accessory-main-readmore accessory_readmore_" . $product->product_id
+				),
+				'',
+				array(
+					'component'     => 'com_redshop',
+					'layoutType'    => 'Twig',
+					'layoutOf'      => 'library'
 				)
 			);
 
@@ -780,7 +834,9 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					),
 					'',
 					array(
-						'component' => 'com_redshop'
+						'component'     => 'com_redshop',
+						'layoutType'    => 'Twig',
+						'layoutOf'      => 'library'
 					)
 				);
 			}
@@ -797,7 +853,9 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 					),
 					'',
 					array(
-						'component' => 'com_redshop'
+						'component'     => 'com_redshop',
+						'layoutType'    => 'Twig',
+						'layoutOf'      => 'library'
 					)
 				);
 			}
