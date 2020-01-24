@@ -4,11 +4,12 @@
     "license"    : "GPL-2.0+",
     "minimum-stability": "stable",
     "require"    : {
-        "php": ">=5.6",
+        "php": ">=7.0",
         "phpmd/phpmd": "^2.6",
         "joomla/joomla-cms": "3.7.5"
     },
     "require-dev": {
+        "twig/twig": "2.12.3",
         "squizlabs/php_codesniffer": "~2",
         "codeception/codeception": "2.3.7",
         "joomla-projects/joomla-browser": "v3.9.0",
