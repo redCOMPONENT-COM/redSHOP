@@ -18,14 +18,15 @@ use Twig\TwigFilter;
 /**
  * Twig filter to unserialize data.
  *
- * @since  1.0.0
+ * @since  __DEPLOY_VERSION__
  */
 final class Unserialize extends AbstractExtension
 {
 	/**
-	 * Inject our filter.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getFilters() : array
 	{
@@ -35,9 +36,10 @@ final class Unserialize extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getName() : string
 	{

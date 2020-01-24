@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Twig
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 namespace Redshop;
@@ -19,33 +19,32 @@ use Twig\Environment as BaseTwigEnvironment;
 final class TwigEnvironment extends BaseTwigEnvironment
 {
 	/**
-	 * Application where enviroment is loaded.
-	 *
-	 * @var     CMSApplication
-	 * @since   1.0.2
+	 * @var CMSApplication
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $app;
 
 	/**
-	 * Plugins connected to the events triggered by this class.
-	 *
-	 * @var     array
-	 * @since   1.0.3
+	 * @var array
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $importablePluginTypes = ['twig'];
 
 	/**
-	 * Plugins that have been already imported.
-	 *
-	 * @var  array
+	 * @var array
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $importedPluginTypes = [];
+
 	/**
-	 * Constructor.
+	 * TwigEnvironment constructor.
 	 *
-	 * @param   LoaderInterface  $loader   Loader instance
-	 * @param   array            $options  An array of options
-	 * @param   CMSApplication   $app      CMSApplication | null active application
+	 * @param   LoaderInterface      $loader
+	 * @param   array                $options
+	 * @param   CMSApplication|null  $app
+	 *
+	 * @return  mixed
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(LoaderInterface $loader, array $options = [], CMSApplication $app = null)
 	{
@@ -58,11 +57,11 @@ final class TwigEnvironment extends BaseTwigEnvironment
 	}
 
 	/**
-	 * Get the active Joomla application.
 	 *
-	 * @return  CMSApplication
+	 * @return CMSApplication
 	 *
-	 * @since   1.0.2
+	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function activeApplication() : CMSApplication
 	{
@@ -70,9 +69,10 @@ final class TwigEnvironment extends BaseTwigEnvironment
 	}
 
 	/**
-	 * Import available plugins.
+	 * Import plugin of Twigs
 	 *
-	 * @return  void
+	 * @return void
+	 * @since  version
 	 */
 	private function importPlugins()
 	{
@@ -87,12 +87,12 @@ final class TwigEnvironment extends BaseTwigEnvironment
 	}
 
 	/**
-	 * Trigger an event on the attached twig instance.
-	 *
-	 * @param   string  $event   Event to trigger
-	 * @param   array   $params  Params for the event triggered
+	 * @param   string  $event
+	 * @param   array   $params
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function trigger(string $event, array $params = []) : array
 	{

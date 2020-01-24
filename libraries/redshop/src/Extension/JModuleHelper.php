@@ -19,14 +19,15 @@ use Twig\TwigFunction;
 /**
  * Module helper access for Twig.
  *
- * @since  1.3.0
+ * @since  __DEPLOY_VERSION__
  */
 final class JModuleHelper extends AbstractExtension
 {
 	/**
-	 * Inject functions.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getFunctions() : array
 	{
@@ -38,9 +39,10 @@ final class JModuleHelper extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getName() : string
 	{
