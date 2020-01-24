@@ -27,6 +27,7 @@ class PlgTwigDebug extends BaseTwigPlugin
 	 * Debug is enabled when Joomla debug is enabled.
 	 *
 	 * @const
+	 * @since 1.0.0
 	 */
 	const DEBUG_AUTO = 'auto';
 
@@ -34,6 +35,7 @@ class PlgTwigDebug extends BaseTwigPlugin
 	 * Debug is always enabled.
 	 *
 	 * @const
+	 * @since 1.0.0
 	 */
 	const DEBUG_ALWAYS = 'always';
 
@@ -41,6 +43,7 @@ class PlgTwigDebug extends BaseTwigPlugin
 	 * Debug is never enabled.
 	 *
 	 * @const
+	 * @since 1.0.0
 	 */
 	const DEBUG_NEVER = 'never';
 
@@ -48,17 +51,17 @@ class PlgTwigDebug extends BaseTwigPlugin
 	 * Is debug enabled?
 	 *
 	 * @var  boolean
+	 * @since 1.0.0
 	 */
 	private $isDebugEnabled;
 
 	/**
-	 * Triggered before environment has been loaded.
+	 * @param   Environment      $environment
+	 * @param   LoaderInterface  $loader
+	 * @param                    $options
 	 *
-	 * @param   Environment      $environment  Loaded environment
-	 * @param   LoaderInterface  $loader       Loader going to be sent to environment
-	 * @param   array            $options      Options to initialise environment
-	 *
-	 * @return  void
+	 * @return void
+	 * @since 1.0.0
 	 */
 	public function onTwigBeforeLoad(Environment $environment, LoaderInterface $loader, &$options)
 	{
@@ -66,12 +69,11 @@ class PlgTwigDebug extends BaseTwigPlugin
 	}
 
 	/**
-	 * Triggered after environment has been loaded.
+	 * @param   Environment  $environment
+	 * @param   array        $options
 	 *
-	 * @param   Environment  $environment  Loaded environment
-	 * @param   array        $options      Options to initialise environment
 	 *
-	 * @return  void
+	 * @since 1.0.0
 	 */
 	public function onTwigAfterLoad(Environment $environment, $options = [])
 	{
@@ -82,9 +84,10 @@ class PlgTwigDebug extends BaseTwigPlugin
 	}
 
 	/**
-	 * Check if debug is enabled.
 	 *
-	 * @return  boolean
+	 * @return bool
+	 *
+	 * @since 1.0.0
 	 */
 	private function isDebugEnabled()
 	{
@@ -97,9 +100,10 @@ class PlgTwigDebug extends BaseTwigPlugin
 	}
 
 	/**
-	 * Check the debug status.
 	 *
-	 * @return  boolean
+	 * @return bool
+	 *
+	 * @since 1.0.0
 	 */
 	private function checkDebugEnabled()
 	{

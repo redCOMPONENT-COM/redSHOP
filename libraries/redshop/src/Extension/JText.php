@@ -24,9 +24,10 @@ use Twig\TwigFunction;
 final class JText extends AbstractExtension
 {
 	/**
-	 * Inject functions.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getFunctions() : array
 	{
@@ -37,9 +38,10 @@ final class JText extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getName() : string
 	{

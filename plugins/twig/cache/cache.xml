@@ -2,7 +2,8 @@
 <extension version="3.8" client="site" type="plugin" group="twig" method="upgrade">
 	<name>PLG_TWIG_CACHE</name>
 	<version>1.1.0</version>
-	<creationDate>September 2018</creationDate>
+	<redshop>2.1.5</redshop>
+	<creationDate>January 2020</creationDate>
 	<author>redCOMPONENT.com</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>

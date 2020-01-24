@@ -20,14 +20,15 @@ use Twig\TwigFunction;
 /**
  * JLayout integration for Twig.
  *
- * @since  1.0.0
+ * @since  __DEPLOY_VERSION__
  */
 final class JLayout extends AbstractExtension
 {
 	/**
-	 * Inject functions.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getFunctions() : array
 	{
@@ -43,9 +44,11 @@ final class JLayout extends AbstractExtension
 	}
 
 	/**
-	 * Retrive a FileLayout instance.
 	 *
-	 * @return  FileLayout
+	 * @return FileLayout
+	 *
+	 * @throws \ReflectionException
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getFileLayout() : FileLayout
 	{
@@ -55,9 +58,10 @@ final class JLayout extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getName() : string
 	{

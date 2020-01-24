@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Twig
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -15,18 +15,20 @@ use Joomla\Registry\Registry;
  * Redshop Configuration
  *
  * @package     Redshop.Library
- * @subpackage  Config
- * @since       1.5
+ * @subpackage  Twig
+ * @since       __DEPLOY_VERSION__
  */
 class RedshopHelperTwig
 {
 	/**
-	 * @var object twig loader object
+	 * @var object|\Twig\Loader\FilesystemLoader
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $loader;
 
 	/**
-	 * @var object instance of $twig
+	 * @var object|\Twig\Environment
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $twig;
 
@@ -37,9 +39,11 @@ class RedshopHelperTwig
 	}
 
 	/**
-	 * @param  string  $pathToFolder
+	 * @param  $pathToFolder
 	 *
-	 * @return object|\Twig\Loader\FilesystemLoader
+	 * @return mixed|object|\Twig\Loader\FilesystemLoader
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getLoader($pathToFolder)
 	{
@@ -53,9 +57,11 @@ class RedshopHelperTwig
 	}
 
 	/**
-	 * @param  object $loader
+	 * @param  $loader
 	 *
-	 * @return object|\Twig\Environment
+	 * @return mixed|object|\Redshop\TwigEnvironment|\Twig\Environment
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getTwig($loader)
 	{
