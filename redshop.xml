@@ -175,5 +175,6 @@
         <plugin group="twig" name="juri" published="published"/>
         <plugin group="twig" name="juser" published="published"/>
         <plugin group="twig" name="unserialize" published="published"/>
+        <plugin group="twig" name="redshop" published="published"/>
     </plugins>
 </extension>
