@@ -1,0 +1,10 @@
+<input type='checkbox'
+       name='accessory_id_{{ prefix }}{{ productId }}[]'
+       onClick='calculateTotalPrice({{ productId }}{{ relProductId }})'
+       totalattributs='{{ attributes | length }}'
+       accessoryprice='{{ accessoryPrice }}'
+       accessorywithoutvatprice='{{ accessoryPriceWithoutVAT }}'
+       id='accessory_id_{{ commonId }}'
+       value='{{ accessoryId }}'
+       {{ accessoryChecked }}
+/>

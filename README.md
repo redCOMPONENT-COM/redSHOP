@@ -4,7 +4,15 @@ redSHOP 2.x
 [![Build Status](https://travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=exSzjzLhFrzHef99DDg1&branch=develop)](https://travis-ci.com/redCOMPONENT-COM/redSHOP) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/badges/quality-score.png?b=develop&s=f945d89ef335953761803d0e0f0e37d5fecf0b62)](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/?branch=develop)
 
 ## Requirement
-PHP Version: **>= 5.6**
+- For redSHOP version **<= 2.1.4**: PHP Version: **>= 5.6**
+- For redSHOP version **>= 2.1.5**: PHP Version: **>= 7.0**
+
+## Code Standard
+redSHOP **>= 2.1.5** follow **PSR-12** code standard for PHP development instead of **Joomla** standard which is
+outdated and not work with PHP_Codesniffer 3.x
+
+## IDE integration
+- PHPStorm: https://blog.jetbrains.com/phpstorm/2019/11/phpstorm-2019-3-release#psr
 
 ## Documentation
 
