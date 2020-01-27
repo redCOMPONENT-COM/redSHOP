@@ -195,7 +195,7 @@ class Helper
 		$totalDiscount += isset($cart['coupon_discount']) ? $cart['coupon_discount'] : 0.0;
 
 		$shippingData = array(
-			'order_subtotal' => \Redshop::getConfig()->getString('SHIPPING_AFTER') == 'total' ? $subTotal - $totalDiscount : $cart['product_subtotal_excl_vat'],
+			'order_subtotal' => \Redshop::getConfig()->getString('SHIPPING_AFTER') == 'total' ? $cart['product_subtotal_excl_vat'] - $totalDiscount : $cart['product_subtotal_excl_vat'],
 			'users_info_id'  => $usersInfoId
 		);
 
