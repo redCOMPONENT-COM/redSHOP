@@ -699,7 +699,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since version
+     * @since __DEPLOY_VERSION__
      */
     public function replaceMainAccessoryReadmore($product)
     {
@@ -726,7 +726,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since version
+     * @since __DEPLOY_VERSION__
      */
     public function replaceMainAccessoryTitle($product)
     {
@@ -759,7 +759,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since version
+     * @since __DEPLOY_VERSION__
      */
     public function replaceMainAccessoryShortDesc($product)
     {
@@ -791,9 +791,10 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @param $accessoryWidthThumb
      * @param $accessoryHeightThumb
      *
+     * @return string
      *
      * @throws Exception
-     * @since version
+     * @since __DEPLOY_VERSION__
      */
     public function replaceMainAccessoryImage($product, $accessoryWidthThumb, $accessoryHeightThumb)
     {
@@ -848,6 +849,8 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 );
             }
         }
+
+        return $accessoryMainImage2;
     }
 
     /**
