@@ -23,12 +23,12 @@ global.releasePlugin = function releasePlugin(group, name)
     var wwwExtPath = config.wwwDir + '/plugins/' + group + '/' + name;
 
 // Clean: plugin
-    gulp.task('clean:' + baseTask + ':plugin', function() {
+    gulp.task('clean:components.redshop:plugin', function() {
         return del(wwwExtPath, {force : true});
     });
 
 // Clean: lang
-    gulp.task('clean:' + baseTask + ':language', function() {
+    gulp.task('clean:components.redshop:language', function() {
         return del(config.wwwDir + '/language/**/*.plg_' + group + '_' + name + '.*', {force: true});
     });
 
@@ -36,14 +36,14 @@ global.releasePlugin = function releasePlugin(group, name)
 // Clean
     gulp.task('clean:' + baseTask,
         gulp.series(
-            'clean:' + baseTask + ':plugin',
-            'clean:' + baseTask + ':language'
+            'clean:components.redshop:plugin',
+            'clean:components.redshop:language'
         ),
         function() {
         });
 
 // Copy: plugin
-    gulp.task('copy:' + baseTask + ':plugin', gulp.series('clean:' + baseTask + ':plugin'), function() {
+    gulp.task('copy:components.redshop:plugin', gulp.series('clean:components.redshop:plugin'), function() {
         return gulp.src([
             extPath + '/**',
             '!' + extPath + '/language',
@@ -53,7 +53,7 @@ global.releasePlugin = function releasePlugin(group, name)
     });
 
 // Copy: Language
-    gulp.task('copy:' + baseTask + ':language', gulp.series('clean:' + baseTask + ':language'), function() {
+    gulp.task('copy:components.redshop:language', gulp.series('clean:components.redshop:language'), function() {
         return gulp.src(extPath + '/language/**')
             .pipe(gulp.dest(config.wwwDir + '/language'));
     });
@@ -62,14 +62,14 @@ global.releasePlugin = function releasePlugin(group, name)
 // Copy
     gulp.task('copy:' + baseTask,
         gulp.series(
-            'copy:' + baseTask + ':plugin',
-            'copy:' + baseTask + ':language'
+            'copy:components.redshop:plugin',
+            'copy:components.redshop:language'
         ),
         function() {
         });
 
 // Watch: plugin
-    gulp.task('watch:' + baseTask + ':plugin', function() {
+    gulp.task('watch:components.redshop:plugin', function() {
         gulp.watch([
                 extPath + '/**/*',
                 '!' + extPath + '/language',
@@ -80,19 +80,19 @@ global.releasePlugin = function releasePlugin(group, name)
     });
 
 // Watch: Language
-    gulp.task('watch:' + baseTask + ':language', function() {
+    gulp.task('watch:components.redshop:language', function() {
         gulp.watch([
                 extPath + '/language/**'
             ],
-            gulp.series('copy:' + baseTask + ':language', browserSync.reload));
+            gulp.series('copy:components.redshop:language', browserSync.reload));
     });
 
 
 // Watch
     gulp.task('watch:' + baseTask,
         gulp.series(
-            'watch:' + baseTask + ':plugin',
-            'watch:' + baseTask + ':language'
+            'watch:components.redshop:plugin',
+            'watch:components.redshop:language'
         ),
         function() {
         });
@@ -113,26 +113,26 @@ global.releaseModule = function releaseModule(modBase, modFolder, modName)
     var wwwPath  = config.wwwDir + '/modules/' + modFolder
 
 // Clean: Module
-    gulp.task('clean:' + baseTask + ':module', function() {
+    gulp.task('clean:components.redshop:module', function() {
         return del(wwwPath, {force: true});
     });
 
 // Clean: Language
-    gulp.task('clean:' + baseTask + ':language', function() {
+    gulp.task('clean:components.redshop:language', function() {
         return del(config.wwwDir + '/language/**/*.mod_' + modName + '.*', {force: true});
     });
 
 // Clean
     gulp.task('clean:' + baseTask,
         gulp.series(
-            'clean:' + baseTask + ':module',
-            'clean:' + baseTask + ':language'
+            'clean:components.redshop:module',
+            'clean:components.redshop:language'
         ),
         function() {
         });
 
 // Copy: Module
-    gulp.task('copy:' + baseTask + ':module', gulp.series('clean:' + baseTask + ':module'), function() {
+    gulp.task('copy:components.redshop:module', gulp.series('clean:components.redshop:module'), function() {
         return gulp.src([
             extPath + '/**',
             '!' + extPath + '/language',
@@ -142,7 +142,7 @@ global.releaseModule = function releaseModule(modBase, modFolder, modName)
     });
 
 // Copy: Language
-    gulp.task('copy:' + baseTask + ':language', gulp.series('clean:' + baseTask + ':language'), function() {
+    gulp.task('copy:components.redshop:language', gulp.series('clean:components.redshop:language'), function() {
         return gulp.src(extPath + '/language/**')
             .pipe(gulp.dest(config.wwwDir + '/language'));
     });
@@ -150,35 +150,35 @@ global.releaseModule = function releaseModule(modBase, modFolder, modName)
 // Copy: Module
     gulp.task('copy:' + baseTask,
         gulp.series(
-            'copy:' + baseTask + ':module',
-            'copy:' + baseTask + ':language'
+            'copy:components.redshop:module',
+            'copy:components.redshop:language'
         ),
         function() {
         });
 
 // Watch: Module
-    gulp.task('watch:' + baseTask + ':module', function() {
+    gulp.task('watch:components.redshop:module', function() {
         gulp.watch([
                 extPath + '/**/*',
                 '!' + extPath + 'language',
                 '!' + extPath + 'language/**'
             ],
-            gulp.series('copy:' + baseTask + ':module', browserSync.reload));
+            gulp.series('copy:components.redshop:module', browserSync.reload));
     });
 
 // Watch: Language
-    gulp.task('watch:' + baseTask + ':language', function() {
+    gulp.task('watch:components.redshop:language', function() {
         gulp.watch([
                 extPath + '/language/**'
             ],
-            gulp.series('copy:' + baseTask + ':language', browserSync.reload));
+            gulp.series('copy:components.redshop:language', browserSync.reload));
     });
 
 // Watch
     gulp.task('watch:' + baseTask,
         gulp.series(
-            'watch:' + baseTask + ':module',
-            'watch:' + baseTask + ':language'
+            'watch:components.redshop:module',
+            'watch:components.redshop:language'
         ),
         function() {
         });

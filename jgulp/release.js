@@ -4,6 +4,8 @@ const path   = require("path");
 const fs     = require("fs");
 const xml2js = require("xml2js");
 const merge  = require("merge-stream");
+const log    = require('fancy-log');
+const color  = require('ansi-colors');
 
 var parser = new xml2js.Parser();
 
@@ -30,7 +32,7 @@ gulp.task("release",
 
 gulp.task("release:md5:generate", function () {
 
-    gutil.log(gutil.colors.yellow("Create checksum.md5 file in: checksum.md5"));
+    log(colory.yellow("Create checksum.md5 file in: checksum.md5"));
 
     return gulp.src([
         "./component/**/*",
@@ -128,7 +130,7 @@ gulp.task("release:md5:json", gulp.series("release:md5:generate"), function (cb)
         }
     }
 
-    gutil.log(gutil.colors.yellow("checksum.md5.json file: "), "component/admin/assets/checksum.md5.json");
+    log(color.yellow("checksum.md5.json file: "), "component/admin/assets/checksum.md5.json");
 
     rs = JSON.stringify(result);
 

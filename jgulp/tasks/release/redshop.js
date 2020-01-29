@@ -1,6 +1,7 @@
 var gulp       = require("gulp");
 var path       = require("path");
-var gutil      = require('gulp-util');
+var fancyLog = require("fancy-log");
+var color = require("ansi-colors");
 var zip        = require("gulp-zip");
 var fs         = require("fs");
 // Get console args
@@ -82,16 +83,21 @@ function getIncludedExtensions() {
     return included.concat(includedPlugins, includedModules, excluded);
 }
 
-gulp.task("release:redshop", gulp.series("scripts:components.redshop", "sass:components.redshop", "composer:libraries.redshop", "composer:plugins.redshop_pdf.tcpdf"), function (cb) {
+gulp.task("release:redshop", gulp.series(
+        "scripts:components.redshop",
+        "sass:components.redshop",
+        "composer:libraries.redshop",
+        "composer:plugins.redshop_pdf.tcpdf"
+    ), function (cb) {
     fs.readFile("./redshop.xml", function (err, data) {
         parser.parseString(data, function (err, result) {
             var version = result.extension.version[0];
             var fileName = argv.skipVersion ? "redshop.zip" : "redshop-v" + version + ".zip";
             var dest = config.releaseDir;
 
-            gutil.log(gutil.colors.grey("===================================================================="));
-            gutil.log(gutil.colors.cyan.bold("redSHOP"), "  |  ", gutil.colors.yellow.bold(version), "  |  ", gutil.colors.white.bold(path.join(config.releaseDir + '/', fileName)));
-            gutil.log(gutil.colors.grey("===================================================================="));
+            fancyLog(color.grey("===================================================================="));
+            fancyLog(color.cyan.bold("redSHOP"), "  |  ", color.yellow.bold(version), "  |  ", color.white.bold(path.join(config.releaseDir + '/', fileName)));
+            fancyLog(color.grey("===================================================================="));
             var src = getIncludedExtensions();
             src = src.concat([
                 "./component/**/*",

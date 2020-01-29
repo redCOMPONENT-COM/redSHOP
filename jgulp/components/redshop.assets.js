@@ -31,45 +31,42 @@ var config = require('../../gulp-config.json');
 var del     = require('del');
 var sass    = require('gulp-sass');
 var rename  = require('gulp-rename');
-var concat  = require('gulp-concat');
 var uglify  = require('gulp-uglify');
-var path    = require("path");
-var fs      = require('fs');
-var changed = require('gulp-changed');
-var gutil   = require('gulp-util');
+var log     = require('fancy-log');
+var color   = require('ansi-colors');
+
+require('./redshop.js');
 
 /// Define component tasks
 var componentName = 'com_redshop';
-var baseTask      = 'components.redshop';
 
 /// Define paths of source and destination
 var extPath    = '.';
 var mediaPath  = extPath + '/media/' + componentName;
 var assetsPath = extPath + '/src/assets/' + componentName;
 
-var redshop = require('./redshop');
 
 /// Watcher will watching for scss changes in Src/assets,
 /// then minify its and copy to Media
-gulp.task('watch:' + baseTask + ':asset:sass', function () {
-    gulp.watch([assetsPath + "/scss/*.scss", assetsPath + "/scss/**/*.scss"], gulp.series('sass:' + baseTask));
+gulp.task('watch:components.redshop:asset:sass', function () {
+    gulp.watch([assetsPath + "/scss/*.scss", assetsPath + "/scss/**/*.scss"], gulp.series('sass:components.redshop'));
 });
 
 /// Watcher will watching for js changes in Src/assets,
 /// then minify its and copy to Media
-gulp.task('watch:' + baseTask + ':asset:script', function () {
-    gulp.watch([assetsPath + '/js/**/*.js', assetsPath + '/js/*.js'], gulp.series('scripts:' + baseTask));
+gulp.task('watch:components.redshop:asset:script', function () {
+    gulp.watch([assetsPath + '/js/**/*.js', assetsPath + '/js/*.js'], gulp.series('scripts:components.redshop'));
 });
 
 /// Minified and deploy from Src to Media.
-gulp.task('scripts:' + baseTask, function () {
+gulp.task('scripts:components.redshop', function () {
     return gulp.src([
             assetsPath + '/js/*.js',
             assetsPath + '/js/**/*.js'
         ])
         .pipe(gulp.dest(mediaPath + '/js'))
         .pipe(uglify())
-        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .on('error', function (err) { log(color.red('[Error]'), err.toString()); })
         .pipe(rename(function (path) {
             path.basename += '.min';
         }))
@@ -77,7 +74,7 @@ gulp.task('scripts:' + baseTask, function () {
 });
 
 /// Sass Compiler
-gulp.task('sass:' + baseTask, function () {
+gulp.task('sass:components.redshop', function () {
     return gulp.src([
             assetsPath + "/scss/*.scss",
             assetsPath + "/scss/**/*.scss"
@@ -94,15 +91,15 @@ gulp.task('sass:' + baseTask, function () {
         .pipe(gulp.dest(mediaPath + "/css"));
 });
 
-/// Watcher for Assets only
-gulp.task('watch:' + baseTask + '.assets',
-    gulp.series(
-        'watch:' + baseTask + ':asset:script',
-        'watch:' + baseTask + ':asset:sass',
-        'watch:' + baseTask + ':media'
-    )
-);
-
-gulp.task('copy:' + baseTask + '.assets', function () {
+gulp.task('copy:components.redshop.assets', function () {
     return true;
 });
+
+/// Watcher for Assets only
+gulp.task('watch:components.redshop.assets',
+    gulp.series(
+        'watch:components.redshop:asset:script',
+        'watch:components.redshop:asset:sass',
+        'watch:components.redshop:media'
+    )
+);

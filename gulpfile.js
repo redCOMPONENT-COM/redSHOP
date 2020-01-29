@@ -1,5 +1,6 @@
 var gulp       = require("gulp");
-var gutil      = require('gulp-util');
+var log        = require('fancy-log');
+var color      = require('ansi-colors');
 var sass       = require("gulp-sass");
 var composer   = require('gulp-composer');
 var zip        = require("gulp-zip");
@@ -12,26 +13,13 @@ var path       = require("path");
 var glob       = require('glob');
 // XML parser
 var xml2js     = require("xml2js");
-
 var extension  = require("./package.json");
-
-var libraies = requireDir('./jgulp/libraries' , {recurse: true});
-var plugins = requireDir('./jgulp/plugins' , {recurse: true});
-var modules = requireDir('./jgulp/modules' , {recurse: true});
-//var jclean = require('./jgulp/tasks/clean.js');
-//var jcopy = require('./jgulp/tasks/copy.js');
-//var jwatch = require('./jgulp/tasks/watch.js');
-
-var components = requireDir('./jgulp/components' , {recurse: true});
-var release = requireDir('./jgulp/tasks/release', {recurse: true});
-var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
-
-var jgulp      = require('./jgulp/release.js');
-
-
 var parser     = new xml2js.Parser();
-
 global.config = require("./gulp-config.json");
+
+requireDir("./jgulp", {recurse: true});
+requireDir("./node_modules/joomla-gulp", {recurse: true});
+
 /**
  * Function for read list folder
  *
@@ -58,16 +46,16 @@ global.getFolders = function getFolders(dir){
  */
 global.renderLog = function renderLog(extension, group, extName, version, releasePath){
     // We will output where release package is going so it is easier to find
-    gutil.log(
-        gutil.colors.green(extension),
+    log(
+        color.green(extension),
         "  |  ",
-        gutil.colors.white(group),
+        color.white(group),
         "  |  ",
-        gutil.colors.blue(extName),
+        color.blue(extName),
         "  |  ",
-        gutil.colors.yellow(version),
+        color.yellow(version),
         "|  ",
-        gutil.colors.grey(releasePath)
+        color.grey(releasePath)
     );
 }
 
@@ -126,7 +114,7 @@ global.getGlobExtensionPattern = function getGlobExtensionPattern(extensionType,
  */
 global.executeComposer = function executeComposer (composerPath)
 {
-    gutil.log("Composer found: ", gutil.colors.blue(composerPath));
+    log("Composer found: ", color.blue(composerPath));
     composer({cwd: composerPath, bin: 'php ./composer.phar'});
 }
 
@@ -137,7 +125,7 @@ gulp.task("composer", function(){
 
             // Make sure this is not composer.json inside vendor library
             if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
-                gutil.log("Composer found: ", gutil.colors.blue(composerPath));
+                log("Composer found: ", color.blue(composerPath));
                 composer({cwd: composerPath, bin: 'php ./composer.phar'});
             }
         }

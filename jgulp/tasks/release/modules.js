@@ -1,7 +1,5 @@
 var gulp       = require("gulp");
 var path       = require("path");
-var gutil      = require('gulp-util');
-var zip        = require("gulp-zip");
 var fs         = require("fs");
 // Get console args
 var argv       = require("yargs").argv;
