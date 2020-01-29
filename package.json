@@ -4,6 +4,7 @@
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
   "dependencies": {
+    "joomla-gulp": "github:anhredweb/joomla-gulp",
     "node-sass": "^4.13.1"
   },
   "devDependencies": {

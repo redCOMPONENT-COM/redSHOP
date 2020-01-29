@@ -14,8 +14,21 @@ var glob       = require('glob');
 var xml2js     = require("xml2js");
 
 var extension  = require("./package.json");
+
+var libraies = requireDir('./jgulp/libraries' , {recurse: true});
+var plugins = requireDir('./jgulp/plugins' , {recurse: true});
+var modules = requireDir('./jgulp/modules' , {recurse: true});
+//var jclean = require('./jgulp/tasks/clean.js');
+//var jcopy = require('./jgulp/tasks/copy.js');
+//var jwatch = require('./jgulp/tasks/watch.js');
+
+var components = requireDir('./jgulp/components' , {recurse: true});
+var release = requireDir('./jgulp/tasks/release', {recurse: true});
 var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
-var jgulp      = requireDir("./jgulp", {recurse: true});
+
+var jgulp      = require('./jgulp/release.js');
+
+
 var parser     = new xml2js.Parser();
 
 global.config = require("./gulp-config.json");

@@ -1,5 +1,7 @@
+var gulp       = require("gulp");
+
 // Clean test site
-/*gulp.task(
+gulp.task(
  'clean',
  gulp.series(
  'clean:components',
@@ -9,4 +11,4 @@
  'clean:plugins'
  ), function() {
  return true;
- });*/
+ });

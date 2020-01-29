@@ -36,6 +36,9 @@ var path    = require("path");
 var fs      = require('fs');
 var changed = require('gulp-changed');
 
+
+var jgulp = require('./../../node_modules/joomla-gulp/src/components.js');
+var jgulpMedia = require('./../../node_modules/joomla-gulp/src/main.js');
 /// Define component tasks
 var componentName = 'com_redshop';
 var baseTask      = 'components.redshop';
@@ -91,15 +94,7 @@ gulp.task('copy:' + baseTask + ':media', gulp.series('clean:' + baseTask + ':med
         .pipe(gulp.dest(config.wwwDir + '/media/' + componentName));
 });
 
-/// Call another watcher
-gulp.task('watch:' + baseTask,
-    gulp.series(
-        'watch:' + baseTask + ':frontend',
-        'watch:' + baseTask + ':backend',
-        'watch:' + baseTask + ':asset:script',
-        'watch:' + baseTask + ':media'
-    )
-);
+
 
 /**
  * Media Part
@@ -139,6 +134,7 @@ gulp.task('watch:' + baseTask + ':media:css', function () {
                 .pipe(gulp.dest(path.dirname(deployFile)));
         });
 });
+
 
 
 /**
@@ -320,3 +316,16 @@ gulp.task('watch:' + baseTask + ':backend:files', function (cb) {
         })
         .on("end", cb);
 });
+
+
+/// Call another watcher
+gulp.task('watch:' + baseTask,
+    gulp.series(
+        'watch:' + baseTask + ':frontend',
+        'watch:' + baseTask + ':backend',
+        'watch:' + baseTask + ':asset:script',
+        'watch:' + baseTask + ':media'
+    )
+);
+
+

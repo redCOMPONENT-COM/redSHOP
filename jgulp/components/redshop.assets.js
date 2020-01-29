@@ -47,6 +47,20 @@ var extPath    = '.';
 var mediaPath  = extPath + '/media/' + componentName;
 var assetsPath = extPath + '/src/assets/' + componentName;
 
+var redshop = require('./redshop');
+
+/// Watcher will watching for scss changes in Src/assets,
+/// then minify its and copy to Media
+gulp.task('watch:' + baseTask + ':asset:sass', function () {
+    gulp.watch([assetsPath + "/scss/*.scss", assetsPath + "/scss/**/*.scss"], gulp.series('sass:' + baseTask));
+});
+
+/// Watcher will watching for js changes in Src/assets,
+/// then minify its and copy to Media
+gulp.task('watch:' + baseTask + ':asset:script', function () {
+    gulp.watch([assetsPath + '/js/**/*.js', assetsPath + '/js/*.js'], gulp.series('scripts:' + baseTask));
+});
+
 /// Minified and deploy from Src to Media.
 gulp.task('scripts:' + baseTask, function () {
     return gulp.src([
@@ -88,18 +102,6 @@ gulp.task('watch:' + baseTask + '.assets',
         'watch:' + baseTask + ':media'
     )
 );
-
-/// Watcher will watching for scss changes in Src/assets,
-/// then minify its and copy to Media
-gulp.task('watch:' + baseTask + ':asset:sass', function () {
-    gulp.watch([assetsPath + "/scss/*.scss", assetsPath + "/scss/**/*.scss"], gulp.series('sass:' + baseTask));
-});
-
-/// Watcher will watching for js changes in Src/assets,
-/// then minify its and copy to Media
-gulp.task('watch:' + baseTask + ':asset:script', function () {
-    gulp.watch([assetsPath + '/js/**/*.js', assetsPath + '/js/*.js'], gulp.series('scripts:' + baseTask));
-});
 
 gulp.task('copy:' + baseTask + '.assets', function () {
     return true;

@@ -21,9 +21,6 @@ var manifestFile = libraryName + ".xml";
 var wwwPath      = config.wwwDir + "/libraries/" + libraryName;
 var libraryFiles = [];
 
-// Clean
-gulp.task("clean:" + baseTask, gulp.series("clean:" + baseTask + ":library", "clean:" + baseTask + ":manifest"), function () {
-});
 
 // Clean: library
 gulp.task("clean:" + baseTask + ":library", function () {
@@ -35,15 +32,7 @@ gulp.task("clean:" + baseTask + ":manifest", function () {
     return del(config.wwwDir + "/administrator/manifests/libraries/" + manifestFile, {force: true});
 });
 
-// Copy
-gulp.task("copy:" + baseTask,
-    gulp.series(
-        "copy:" + baseTask + ":library",
-        "copy:" + baseTask + ":manifest"
-    ),
-    function () {
-    }
-);
+
 
 // Copy: manifest
 gulp.task("copy:" + baseTask + ":manifest", gulp.series("clean:" + baseTask + ":manifest"), function () {
@@ -122,14 +111,6 @@ gulp.task("copy:" + baseTask + ":library", function (cb) {
     });
 });
 
-// Watch
-gulp.task("watch:" + baseTask,
-    gulp.series(
-        "watch:" + baseTask + ":library",
-        "watch:" + baseTask + ":manifest"
-    ),
-    function () {
-    });
 
 // Watch: library
 gulp.task("watch:" + baseTask + ":library", function () {
@@ -161,10 +142,34 @@ gulp.task("watch:" + baseTask + ":library", function () {
     );
 });
 
+// Clean
+gulp.task("clean:" + baseTask, gulp.series("clean:" + baseTask + ":library", "clean:" + baseTask + ":manifest"), function () {
+});
+
+// Copy
+gulp.task("copy:" + baseTask,
+    gulp.series(
+        "copy:" + baseTask + ":library",
+        "copy:" + baseTask + ":manifest"
+    ),
+    function () {
+    }
+);
+
 // Watch: manifest
 gulp.task("watch:" + baseTask + ":manifest", function () {
     gulp.watch(extPath + "/" + manifestFile, gulp.series("copy:" + baseTask + ":manifest", browserSync.reload));
 });
+
+
+// Watch
+gulp.task("watch:" + baseTask,
+    gulp.series(
+        "watch:" + baseTask + ":library",
+        "watch:" + baseTask + ":manifest"
+    ),
+    function () {
+    });
 
 // Composer
 gulp.task("composer:" + baseTask, function () {
