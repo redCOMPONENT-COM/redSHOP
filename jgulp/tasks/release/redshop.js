@@ -1,6 +1,6 @@
 var gulp       = require("gulp");
 var path       = require("path");
-var fancyLog = require("fancy-log");
+var log = require("fancy-log");
 var color = require("ansi-colors");
 var zip        = require("gulp-zip");
 var fs         = require("fs");
@@ -95,9 +95,9 @@ gulp.task("release:redshop", gulp.series(
             var fileName = argv.skipVersion ? "redshop.zip" : "redshop-v" + version + ".zip";
             var dest = config.releaseDir;
 
-            fancyLog(color.grey("===================================================================="));
-            fancyLog(color.cyan.bold("redSHOP"), "  |  ", color.yellow.bold(version), "  |  ", color.white.bold(path.join(config.releaseDir + '/', fileName)));
-            fancyLog(color.grey("===================================================================="));
+            log(color.grey("===================================================================="));
+            log(color.cyan.bold("redSHOP"), "  |  ", color.yellow.bold(version), "  |  ", color.white.bold(path.join(config.releaseDir + '/', fileName)));
+            log(color.grey("===================================================================="));
             var src = getIncludedExtensions();
             src = src.concat([
                 "./component/**/*",
@@ -143,5 +143,6 @@ gulp.task("release:redshop", gulp.series(
                 .pipe(gulp.dest(dest))
                 .on("end", cb);
         });
+        cb();
     });
 });

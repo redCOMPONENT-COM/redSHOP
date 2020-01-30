@@ -103,4 +103,6 @@ gulp.task('release:module', function(cb) {
 
         moduleRelease(modSource, modName);
     }
+
+    cb();
 });

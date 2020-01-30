@@ -1,5 +1,4 @@
 const gulp       = require("gulp");
-const requireDir = require("require-dir");
 const fs         = require("fs");
 const path       = require("path");
 const through    = require("through2");
@@ -12,14 +11,7 @@ var stripPrefix = function (name) {
     return name.substr(6);
 };
 
-gulp.task("crowdin-conf", gulp.series("getAdminFiles", "getSiteFiles"), function () {
-    var content = "\"preserve_hierarchy\": true\n";
-    content += "commit_message: \"New localization strings available [ci skip]\"\n";
-    content += "\"files\": " + pd.json(JSON.stringify(iniJsons));
-    fs.writeFileSync("./crowdin.yml", content);
-});
-
-gulp.task("getAdminFiles", function () {
+gulp.task("getAdminFiles", function (cb) {
     return gulp.src(
         [
             "component/admin/**/*.ini",
@@ -36,7 +28,7 @@ gulp.task("getAdminFiles", function () {
     }));
 });
 
-gulp.task("getSiteFiles", function () {
+gulp.task("getSiteFiles", function (cb) {
     return gulp.src(
         [
             "component/site/**/*.ini",
@@ -51,5 +43,13 @@ gulp.task("getSiteFiles", function () {
         });
         cb(null, file);
     }));
+});
+
+gulp.task("crowdin-conf", gulp.series("getAdminFiles", "getSiteFiles"), function (cb) {
+    var content = "\"preserve_hierarchy\": true\n";
+    content += "commit_message: \"New localization strings available [ci skip]\"\n";
+    content += "\"files\": " + pd.json(JSON.stringify(iniJsons));
+    fs.writeFileSync("./crowdin.yml", content);
+    cb();
 });
 

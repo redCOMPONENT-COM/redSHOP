@@ -9,6 +9,10 @@ const color  = require('ansi-colors');
 
 var parser = new xml2js.Parser();
 
+require('./tasks/release/plugins.js');
+require('./tasks/release/modules.js');
+require('./tasks/release/redshop.js');
+
 /**
  * Execute gulp to release an extension
  *
@@ -21,16 +25,7 @@ global.releaseExt = function releaseExt(arraySrc, fileName, dest) {
     return gulp.src(arraySrc).pipe(zip(fileName)).pipe(gulp.dest(dest));
 };
 
-// Overwrite "release" method
-gulp.task("release",
-    gulp.series(
-        "release:plugin",
-        "release:module",
-        "release:redshop"
-    )
-);
-
-gulp.task("release:md5:generate", function () {
+gulp.task("release:md5:generate", function (cb) {
 
     log(colory.yellow("Create checksum.md5 file in: checksum.md5"));
 
@@ -113,6 +108,7 @@ gulp.task("release:md5:generate", function () {
         "./plugins/twig/unseriallize/**",
         "./plugins/twig/redshop/**",
     ], {base: "./"}).pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
+    cb();
 });
 
 gulp.task("release:md5:json", gulp.series("release:md5:generate"), function (cb) {
@@ -136,25 +132,18 @@ gulp.task("release:md5:json", gulp.series("release:md5:generate"), function (cb)
 
     fs.writeFile("./component/admin/assets/checksum.md5.json", rs);
 
-    return cb();
+    cb();
 });
 
-gulp.task("release:md5",
-    gulp.series(
-        "release:md5:generate",
-        "release:md5:json",
-        "release:md5:clean"
-    )
-);
-
-gulp.task("release:md5:clean", gulp.series("release:md5:json"), function () {
+gulp.task("release:md5:clean", gulp.series("release:md5:json"), function (cb) {
     return gulp.src("./checksum.md5").pipe(clean({force: true}));
+    cb();
 });
 
 // Temporary remove release:md5 since it not ready for use yet.
 // // gulp.task("release:redshop", ["composer:libraries", "release:md5"], function (cb) {
 
-gulp.task("release:languages", function () {
+gulp.task("release:languages", function (cb) {
     const langPath   = "./src/lang";
     const releaseDir = path.join(config.releaseDir, "language");
 
@@ -198,4 +187,29 @@ gulp.task("release:languages", function () {
             return task;
         })
     );
+    cb();
 });
+
+gulp.task("release:md5",
+    gulp.series(
+        "release:md5:generate",
+        "release:md5:json",
+        "release:md5:clean"
+    ),
+    function(cb)
+    {
+        cb();
+    }
+);
+
+// Overwrite "release" method
+gulp.task("release",
+    gulp.series(
+        "release:plugin",
+        "release:module",
+        "release:redshop"
+    ),
+    function (cb) {
+        cb();
+    }
+);

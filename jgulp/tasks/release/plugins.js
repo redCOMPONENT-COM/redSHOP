@@ -108,4 +108,6 @@ gulp.task('release:plugin', function (cb) {
 
         pluginRelease(plgGroup, plgName);
     }
+
+    cb();
 });

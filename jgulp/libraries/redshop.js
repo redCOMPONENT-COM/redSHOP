@@ -168,10 +168,12 @@ gulp.task("watch:" + baseTask,
         "watch:" + baseTask + ":library",
         "watch:" + baseTask + ":manifest"
     ),
-    function () {
+    function (cb) {
+        cb();
     });
 
 // Composer
-gulp.task("composer:" + baseTask, function () {
+gulp.task("composer:" + baseTask, function (cb) {
     executeComposer(extPath);
+    cb();
 });

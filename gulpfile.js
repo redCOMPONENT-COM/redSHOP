@@ -15,10 +15,8 @@ var glob       = require('glob');
 var xml2js     = require("xml2js");
 var extension  = require("./package.json");
 var parser     = new xml2js.Parser();
+const { EventEmitter }    = require('events');
 global.config = require("./gulp-config.json");
-
-requireDir("./jgulp", {recurse: true});
-requireDir("./node_modules/joomla-gulp", {recurse: true});
 
 /**
  * Function for read list folder
@@ -115,19 +113,30 @@ global.getGlobExtensionPattern = function getGlobExtensionPattern(extensionType,
 global.executeComposer = function executeComposer (composerPath)
 {
     log("Composer found: ", color.blue(composerPath));
-    composer({cwd: composerPath, bin: 'php ./composer.phar'});
+    composer({cwd: composerPath, bin: 'php ./composer.phar', async: false});
 }
 
-gulp.task("composer", function(){
-    glob("**/composer.json", [], function  (er, files) {
-        for (var i = 0; i < files.length; i++) {
-            var composerPath = path.dirname(files[i]);
-
-            // Make sure this is not composer.json inside vendor library
-            if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
-                log("Composer found: ", color.blue(composerPath));
-                composer({cwd: composerPath, bin: 'php ./composer.phar'});
-            }
+/**
+ * Global composer for libraries ...
+ */
+gulp.task("composer", function(cb){
+    glob("**/composer.json", gulp.series.apply(gulp, []), function  (er, files, cb) {
+        if (files.length > 0)
+        {
+            files.forEach(function (item) {
+                const composerPath = path.dirname(item);
+                // Make sure this is not composer.json inside vendor library
+                if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
+                     executeComposer(composerPath);
+                }
+            });
         }
+
+        cb();
     });
+
+    cb();
 });
+
+requireDir("./jgulp", {recurse: true});
+requireDir("./node_modules/joomla-gulp", {recurse: true});
