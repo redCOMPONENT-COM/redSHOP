@@ -44,7 +44,7 @@ class Helper
 		$vat           = 0;
 		$subTotal      = 0;
 		$subTotalNoVAT = 0;
-		$totalDiscount = 0;
+		$totalDiscount = ($cart['cart_discount'] ?? 0) + ($cart['voucher_discount'] ?? 0) + ($cart['coupon_discount'] ?? 0);
 		$discountVAT   = 0;
 		$shippingVat   = 0;
 		$shipping      = 0;
@@ -83,26 +83,43 @@ class Helper
 
 		$taxExemptAddToCart = \RedshopHelperCart::taxExemptAddToCart();
 
-		if (\Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT') && !\Redshop::getConfig()->getBool('APPLY_VAT_ON_DISCOUNT')
+		if (\Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT')
 			&& !empty($taxExemptAddToCart))
 		{
-			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
+			if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 			{
-				$discountVAT = $cart['discount_tax'];
-				$subTotal    = $subTotal - $cart['discount_tax'];
+				if ($totalDiscount)
+				{
+					$taxAfterDiscount = \RedshopHelperCart::calculateTaxAfterDiscount(
+						$vat,
+						$totalDiscount
+					);
+
+					// The total minus discount tax difference
+					$subTotal -= $vat - $taxAfterDiscount;
+					$vat = $taxAfterDiscount;
+				}
 			}
 			else
 			{
-				$vatData = \RedshopHelperTax::getVatRates();
-
-				if (null !== $vatData && !empty($vatData->tax_rate))
+				if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 				{
-					$discountVAT = 0;
+					$discountVAT = $cart['discount_tax'];
+					$subTotal    = $subTotal - $cart['discount_tax'];
+				}
+				else
+				{
+					$vatData = \RedshopHelperTax::getVatRates();
 
-					if ((int) $subTotalNoVAT > 0)
+					if (null !== $vatData && !empty($vatData->tax_rate))
 					{
-						$avgVAT      = (($subTotalNoVAT + $vat) / $subTotalNoVAT) - 1;
-						$discountVAT = ($avgVAT * $totalDiscount) / (1 + $avgVAT);
+						$discountVAT = 0;
+
+						if ((int) $subTotalNoVAT > 0)
+						{
+							$avgVAT      = (($subTotalNoVAT + $vat) / $subTotalNoVAT) - 1;
+							$discountVAT = ($avgVAT * $totalDiscount) / (1 + $avgVAT);
+						}
 					}
 				}
 			}
