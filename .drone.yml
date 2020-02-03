@@ -342,6 +342,48 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Category 0 0'
 
+    12-Group12-73:
+        group: 02-tests
+        image: redwebaps/testbox-chromedriver:79.0
+        environment:
+            - tests_user=admin
+            - tests_suite=12-Group12
+            - tests_db=group12
+            - build_path=/drone/src/github.com/${DRONE_REPO}
+            - output_append=-12-Group12-73
+            - php_version=73
+        commands:
+            # Regular entry point
+            - /entrypoint.sh &
+            # Performs test after ensuring that the scenario has been fully set up
+            - while [ ! -f tests/.cache.setup.$tests_suite$php_version.tmp ]; do sleep 1; done
+            # Waits until Chromedriver is up and running
+            - while ! nc -z localhost 9515; do sleep 1; done
+            # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Module 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Wishlist 0 0'
+
+    slack:
+        image: plugins/slack
+        webhook: https://hooks.slack.com/services/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
+        channel: redshop-builds
+        when:
+            status: [ success, failure ]
+        template: >
+            {{#success build.status}}
+              {{repo.name}} PR #{{build.pull}} succeeded in {{since build.started}}. Good job {{build.author}}!  Here is the build log: {{build.link}}.  Link to the PR: https://github.com/{{repo.owner}}/{{repo.name}}/pull/{{build.pull}}
+            {{else}}
+              {{repo.name}} PR #{{build.pull}} failed in {{since build.started}}. Fix me please {{build.author}}!  Here is the build log: {{build.link}}.  Link to the PR: https://github.com/{{repo.owner}}/{{repo.name}}/pull/{{build.pull}}
+            {{/success}}
+
+    error-report:
+        image: redwebaps/testbox-chromedriver:79.0
+        commands:
+            - if [ -z "${CI_PULL_REQUEST}" ]; then export CI_PULL_REQUEST=1; fi
+            - vendor/bin/robo send:build-report-error-slack redcomponent 365447364384436 Q94UM5kjZkZIrau8MIL93m0dN6U "$CI_REPO" "$CI_PULL_REQUEST" "https://hooks.slack.com/services/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" "#redshop-builds" "$CI_BUILD_URL"
+        when:
+            status: [ failure ]
+
 services:
     db:
         image: mysql/mysql-server:5.7
