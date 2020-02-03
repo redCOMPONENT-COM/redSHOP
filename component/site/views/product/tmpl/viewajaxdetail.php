@@ -22,10 +22,10 @@ $ajaxdetalTemplate = \Redshop\Template\Helper::getAjaxDetailBox($this->data);
 if (null !== $ajaxdetalTemplate)
 {
 	$dataAdd = RedshopTagsReplacer::_(
-	        'ajaxcartdetailbox',
-	        $ajaxdetalTemplate->template_desc,
-            array('product' => $this->data)
-    );
+			'ajaxcartdetailbox',
+			$ajaxdetalTemplate->template_desc,
+			array('product' => $this->data)
+	);
 
 	echo eval("?>" . $dataAdd . "<?php ");
 }

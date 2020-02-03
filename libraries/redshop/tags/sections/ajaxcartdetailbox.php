@@ -52,6 +52,12 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 					'price' => $product->product_price,
 					'htmlPrice' => $htmlPrice,
 					'class' => 'product_price product_price' . $product->product_id
+				),
+				'',
+				array(
+					'component'  => 'com_redshop',
+					'layoutType' => 'Twig',
+					'layoutOf'   => 'library'
 				)
 			);
 		}
@@ -83,6 +89,12 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 						'title' => $product->product_name,
 						'attr' => "rel='lightbox[product7]'",
 						'thumbUrl' => $thumbUrl
+					),
+					'',
+					array(
+						'component'  => 'com_redshop',
+						'layoutType' => 'Twig',
+						'layoutOf'   => 'library'
 					)
 				);
 			}
@@ -145,6 +157,7 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		$this->template = Redshop\Cart\Render::replace($product->product_id, $product->category_id, 0, $relatedprdId, $this->template, $isChilds, $productUserField[1], $totalatt, $totalAccessory, $countNoUserField);
 
 		$this->template = $this->template . "<input type='hidden' name='isAjaxBoxOpen' id='isAjaxBoxOpen' value='" . $layout . "' />";
+
 		return parent::replace();
 	}
 
@@ -226,7 +239,13 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 			{
 				$template = RedshopLayoutHelper::render(
 					'tags.product.userfieldform',
-					array('content' => $template)
+					array('content' => $template),
+					'',
+					array(
+						'component'  => 'com_redshop',
+						'layoutType' => 'Twig',
+						'layoutOf'   => 'library'
+					)
 				);
 			}
 		}
