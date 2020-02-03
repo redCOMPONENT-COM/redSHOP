@@ -6,7 +6,7 @@ const xml2js = require("xml2js");
 const merge  = require("merge-stream");
 const log    = require('fancy-log');
 const color  = require('ansi-colors');
-
+var config = require('./../gulp-config');
 var parser = new xml2js.Parser();
 
 require('./tasks/release/plugins.js');
@@ -204,7 +204,7 @@ gulp.task("release:md5",
 
 // Overwrite "release" method
 gulp.task("release",
-    gulp.series(
+    gulp.parallel(
         "release:plugin",
         "release:module",
         "release:redshop"
@@ -213,3 +213,5 @@ gulp.task("release",
         cb();
     }
 );
+
+

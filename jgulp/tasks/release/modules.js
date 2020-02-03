@@ -6,6 +6,8 @@ var argv       = require("yargs").argv;
 // XML parser
 var xml2js     = require("xml2js");
 var parser     = new xml2js.Parser();
+var log = require('fancy-log');
+// var config = require('./../../../gulp-config');
 
 /**
  * Function for release module
