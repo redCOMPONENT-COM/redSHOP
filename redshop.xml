@@ -179,7 +179,7 @@
     </plugins>
     <updateservers>
         <server type="component" name="redSHOP Updates">
-            https://github.com/redCOMPONENT-COM/redSHOP/blob/develop/update.xml
+            https://github.com/anhredweb/redSHOP/blob/develop/redshop.xml
         </server>
     </updateservers>
 </extension>
