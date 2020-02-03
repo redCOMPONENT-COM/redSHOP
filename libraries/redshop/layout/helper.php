@@ -114,8 +114,9 @@ class RedshopLayoutHelper
 		$renderPath     = str_replace('.', '/', $basePath . $layoutFile);
 		$renderPath     = '@' . /** @scrutinizer ignore-type */ $layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
 
+		$template = html_entity_decode(Twig::render($renderPath, $displayData));
 		// Call render of Twig
-		return Twig::render($renderPath, $displayData);
+		return $template;
 	}
 
 	/**
