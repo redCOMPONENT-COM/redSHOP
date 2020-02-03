@@ -75,9 +75,6 @@ if ($total > 0)
 		. '</a>';
 	$template  = str_replace('{remove_all}', $removeAll, $template);
 
-	// Make extrafield object..
-	$field = extraField::getInstance();
-
 	$productTag = array();
 
 	if (!empty($compareTemplate))

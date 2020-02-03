@@ -26,8 +26,7 @@ if (count($relptemplate) > 0)
 	$tempdata_div_middle = $product_end [0];
 	$tempdata_div_end    = $product_end [1];
 
-	$extra_field = extraField::getInstance();
-	$fieldArray  = $extra_field->getSectionFieldList(17, 0, 0);
+	$fieldArray  = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
 	$attribute_template = \Redshop\Template\Helper::getAttribute($tempdata_div_middle);
 	/************************************************************ **********************************************/

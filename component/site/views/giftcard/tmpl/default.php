@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
 
 $objhelper     = redhelper::getInstance();
-$extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 $app           = JFactory::getApplication();
 

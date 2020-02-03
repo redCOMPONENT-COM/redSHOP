@@ -15,7 +15,6 @@ $url = JURI::base();
 
 $objhelper        = redhelper::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
-$extraField       = extraField::getInstance();
 $stockroomhelper  = rsstockroomhelper::getInstance();
 $redTemplate      = Redtemplate::getInstance();
 $texts            = new text_library;
@@ -33,7 +32,7 @@ $texpricemin = $minmax[0];
 $texpricemax = $minmax[1];
 
 $loadCategorytemplate = $this->loadCategorytemplate;
-$fieldArray           = $extraField->getSectionFieldList(17, 0, 0);
+$fieldArray           = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
 if (!empty($loadCategorytemplate) && $loadCategorytemplate[0]->template_desc != "")
 {

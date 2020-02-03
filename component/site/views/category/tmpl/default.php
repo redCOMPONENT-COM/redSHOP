@@ -13,7 +13,6 @@ JHTML::_('behavior.modal');
 
 $objhelper     = redhelper::getInstance();
 $config        = Redconfiguration::getInstance();
-$extraField    = extraField::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
 $url = JURI::base();
