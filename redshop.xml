@@ -180,7 +180,7 @@
 
     <updateservers>
         <server type="extension" priority="1" name="redSHOP update">
-            http://localhost/updateserver/update.xml
+            http://updates.redcomponent.com/redshop/update.xml
         </server>
     </updateservers>
 </extension>
