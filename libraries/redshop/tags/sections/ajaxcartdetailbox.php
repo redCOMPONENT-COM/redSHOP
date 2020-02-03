@@ -156,7 +156,22 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		// Cart
 		$this->template = Redshop\Cart\Render::replace($product->product_id, $product->category_id, 0, $relatedprdId, $this->template, $isChilds, $productUserField[1], $totalatt, $totalAccessory, $countNoUserField);
 
-		$this->template = $this->template . "<input type='hidden' name='isAjaxBoxOpen' id='isAjaxBoxOpen' value='" . $layout . "' />";
+		$hidden = RedshopLayoutHelper::render(
+			'tags.common.hidden',
+			array(
+				'name' => 'isAjaxBoxOpen',
+				'id' => 'isAjaxBoxOpen',
+				'value' => $layout,
+				'attr' => ''
+			),
+			'',
+			array(
+				'component'  => 'com_redshop',
+				'layoutType' => 'Twig',
+				'layoutOf'   => 'library'
+			)
+		);
+		$this->template = $this->template . $hidden;
 
 		return parent::replace();
 	}
