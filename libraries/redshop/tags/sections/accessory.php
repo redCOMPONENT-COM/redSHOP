@@ -132,6 +132,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      */
     public function replaceAccessory($accessory, $template, $attributeTemplate)
     {
+    	$this->replacements = array();
         $accessoryProduct = RedshopHelperProduct::getProductById($accessory->child_product_id);
         $commonId         = $this->data['prefix'] . $this->data['productId'] . '_' . $accessory->accessory_id;
 
@@ -268,7 +269,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
         if ($this->isTagExists('{accessory_title}')) {
             $accessoryProductName = RedshopHelperUtility::maxChars(
-                $accessory->product_name,
+	            $accessoryProduct->product_name,
                 Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
                 Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
             );
@@ -865,6 +866,8 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      */
     public function replaceMainAccessory($templateContent, $product, $userId)
     {
+        $this->replacements = array();
+
         $subTemplate = $this->getTemplateBetweenLoop('{if accessory_main}', '{accessory_main end if}');
 
         if (!$subTemplate) {
