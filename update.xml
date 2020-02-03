@@ -1,0 +1,22 @@
+<updates>
+    <update>
+        <name>redSHOP Update Site</name>
+        <description>redSHOP Update Component</description>
+        <element>com_redshop</element>
+        <type>component</type>
+        <client>administrator</client>
+        <version>2.1.5</version>
+        <infourl title="Joomla!">https://redcomponent.com/extensions/redshop</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">
+                https://redcomponent.com/downloads/download?Itemid=425&id=1
+            </downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <maintainer>redCOMPONENT.com</maintainer>
+        <maintainerurl>https://redcomponent.com/extensions/redshop</maintainerurl>
+        <targetplatform name="joomla" version="3.9"/>
+    </update>
+</updates>
