@@ -12,6 +12,7 @@ var xml2js      = require("xml2js");
 var parser      = new xml2js.Parser({explicitArray: false});
 var path        = require("path");
 var composer    = require("gulp-composer");
+var gutil = require("gulp-util");
 
 var libraryName = "redshop";
 
@@ -168,5 +169,7 @@ gulp.task("watch:" + baseTask + ":manifest", function () {
 
 // Composer
 gulp.task("composer:" + baseTask, function () {
+    gutil.log(extPath + '/composer.lock');
+    del(extPath + '/composer.lock', { force: true });
     executeComposer(extPath);
 });
