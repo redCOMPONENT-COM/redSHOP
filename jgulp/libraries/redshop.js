@@ -167,9 +167,13 @@ gulp.task("watch:" + baseTask + ":manifest", function () {
     gulp.watch(extPath + "/" + manifestFile, ["copy:" + baseTask + ":manifest", browserSync.reload]);
 });
 
-// Composer
-gulp.task("composer:" + baseTask, function () {
-    gutil.log(extPath + '/composer.lock');
+gulp.task('clean:libraries.redshop:composer.lock', function (cb) {
     del(extPath + '/composer.lock', { force: true });
+    cb();
+})
+
+// Composer
+gulp.task("composer:" + baseTask, ['clean:libraries.redshop:composer.lock'], function (cb) {
     executeComposer(extPath);
+    cb();
 });
