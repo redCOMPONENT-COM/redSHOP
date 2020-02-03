@@ -177,4 +177,9 @@
         <plugin group="twig" name="unserialize" published="published"/>
         <plugin group="twig" name="redshop" published="published"/>
     </plugins>
+    <updateservers>
+        <server type="component" name="redSHOP Updates">
+            https://github.com/redCOMPONENT-COM/redSHOP/blob/develop/update.xml
+        </server>
+    </updateservers>
 </extension>
