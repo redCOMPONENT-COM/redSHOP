@@ -179,8 +179,8 @@
     </plugins>
 
     <updateservers>
-        <server type="component" name="redSHOP Updates">
-            https://github.com/anhredweb/redSHOP/blob/REDSHOP-1962/update.xml
+        <server type="extension" priority="1" name="redSHOP update">
+            http://localhost/updateserver/update.xml
         </server>
     </updateservers>
 </extension>
