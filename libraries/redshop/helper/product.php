@@ -4290,4 +4290,575 @@ class RedshopHelperProduct
 
 		return $data;
 	}
+
+	/**
+	 * @param   array   $cart
+	 * @param   integer $orderId
+	 * @param   integer $sectionId
+	 *
+	 * @return  false|mixed|void
+	 */
+	public static function insertPaymentShippingField($cart = array(), $orderId = 0, $sectionId = 18)
+	{
+		$fieldsList = RedshopHelperExtrafields::getSectionFieldList($sectionId, 1);
+
+		if (empty($fieldsList))
+		{
+			return;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->insert($db->quoteName('#__redshop_fields_data'))
+			->columns($db->quoteName(array('fieldid', 'data_txt', 'itemid', 'section')));
+
+		foreach ($fieldsList as $fieldList)
+		{
+			$userFields = '';
+
+			if (isset($cart['extrafields_values']))
+			{
+				$userFields = $cart['extrafields_values'][$fieldList->name];
+			}
+
+			if (!empty(trim($userFields)))
+			{
+				$values = array(
+					(int) $fieldList->id,
+					$db->quote(addslashes($userFields)),
+					(int) $orderId,
+					$db->quote($sectionId)
+				);
+				$query->values(implode(',', $values));
+			}
+		}
+
+		return $db->setQuery($query)->execute();
+	}
+
+	public static function getProductMediaName($product_id)
+	{
+		$db    = JFactory::getDbo();
+		$query = 'SELECT media_name FROM ' . $db->qn('#__media')
+			. 'WHERE media_section = "product" '
+			. 'AND media_type="download" '
+			. 'AND published=1 AND section_id = ' . (int) $product_id;
+		$db->setQuery($query);
+		$res = $db->loadObjectList();
+
+		return $res;
+	}
+
+	public static function getProdcutSerialNumber($product_id, $is_used = 0)
+	{
+		$db    = JFactory::getDbo();
+		$query = "SELECT * FROM " . $db->qn('#__product_serial_number')
+			. "WHERE product_id = " . (int) $product_id . " "
+			. " AND is_used = " . (int) $is_used . " "
+			. " LIMIT 0,1";
+		$db->setQuery($query);
+		$rs = $db->loadObject();
+
+		if (count($rs) > 0)
+		{
+			// Update serial number...
+			self::updateProdcutSerialNumber($rs->serial_id);
+		}
+		else
+		{
+			$rs->serial_number = "";
+		}
+
+		return $rs;
+	}
+
+	/*
+	 *  Update used seraial number status
+	 */
+	public static function updateProdcutSerialNumber($serial_id)
+	{
+		$db    = JFactory::getDbo();
+		$update_query = "UPDATE " . $db->qn('#__product_serial_number')
+			. " SET is_used='1' WHERE serial_id = " . (int) $serial_id;
+		$db->setQuery($update_query);
+		$db->execute();
+	}
+
+	public static function insertProductDownload($product_id, $user_id, $order_id, $media_name, $serial_number)
+	{
+		$db = JFactory::getDbo();
+
+		// download data
+		$downloadable_product = RedshopHelperProductDownload::checkDownload($product_id, true); //die();
+
+		$product_download_limit = ($downloadable_product->product_download_limit > 0) ? $downloadable_product->product_download_limit : Redshop::getConfig()->get('PRODUCT_DOWNLOAD_LIMIT');
+
+		$product_download_days      = ($downloadable_product->product_download_days > 0) ? $downloadable_product->product_download_days : Redshop::getConfig()->get('PRODUCT_DOWNLOAD_DAYS');
+		$product_download_clock     = ($downloadable_product->product_download_clock > 0) ? $downloadable_product->product_download_clock : 0;
+		$product_download_clock_min = ($downloadable_product->product_download_clock_min > 0) ? $downloadable_product->product_download_clock_min : 0;
+
+		$product_download_days = (date("H") > $product_download_clock && $product_download_days == 0) ? 1 : $product_download_days;
+
+		$product_download_days_time = (time() + ($product_download_days * 24 * 60 * 60));
+
+		$endtime = mktime(
+			$product_download_clock,
+			$product_download_clock_min,
+			0,
+			(int) date("m", $product_download_days_time),
+			(int) date("d", $product_download_days_time),
+			(int) date("Y", $product_download_days_time)
+		);
+
+		// if download product is set to infinit
+		$endtime = ($downloadable_product->product_download_infinite == 1) ? 0 : $endtime;
+
+		// Generate Download Token
+		$token = md5(uniqid(mt_rand(), true));
+
+		$sql = "INSERT INTO " . $db->qn('#__product_download')
+			. "(product_id,user_id,order_id, end_date, download_max, download_id, file_name,product_serial_number) "
+			. "VALUES(" . (int) $product_id . ", " . (int) $user_id . ", " . (int) $order_id . ", "
+			. (int) $endtime . ", " . (int) $product_download_limit . ", "
+			. $db->quote($token) . ", " . $db->quote($media_name) . "," . $db->quote($serial_number) . ")";
+		$db->setQuery($sql);
+		$db->execute();
+
+		return true;
+	}
+
+	public static function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
+	{
+		$db = JFactory::getDbo();
+
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
+
+		for ($i = 0, $in = count($row_data); $i < $in; $i++)
+		{
+			if (array_key_exists($row_data[$i]->name, $cart[$id]) && $cart[$id][$row_data[$i]->name])
+			{
+				$user_fields = $cart[$id][$row_data[$i]->name];
+
+				if (trim($user_fields) != '')
+				{
+					$sql = "INSERT INTO " . $db->qn('#__fields_data')
+						. "(fieldid,data_txt,itemid,section) "
+						. "value (" . (int) $row_data[$i]->id . "," . $db->quote(addslashes($user_fields)) . ","
+						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
+					$db->setQuery($sql);
+					$db->execute();
+				}
+			}
+		}
+
+		return;
+	}
+
+	public static function makeTotalPriceByOprand($price = 0, $oprandArr = array(), $priceArr = array())
+	{
+		$setEqual = true;
+
+		for ($i = 0, $in = count($oprandArr); $i < $in; $i++)
+		{
+			$oprand   = $oprandArr[$i];
+			$subprice = $priceArr[$i];
+
+			if ($oprand == "-")
+			{
+				$price -= $subprice;
+			}
+			elseif ($oprand == "+")
+			{
+				$price += $subprice;
+			}
+			elseif ($oprand == "*")
+			{
+				$price *= $subprice;
+			}
+			elseif ($oprand == "/")
+			{
+				$price /= $subprice;
+			}
+			elseif ($oprand == "=")
+			{
+				$price    = $subprice;
+				$setEqual = false;
+				break;
+			}
+		}
+
+		$retArr    = array();
+		$retArr[0] = $setEqual;
+		$retArr[1] = $price;
+
+		return $retArr;
+	}
+
+	public static function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
+	{
+		$attribute_table = "";
+		$subproperty     = array();
+
+		/** @scrutinizer ignore-deprecated */
+		JHtml::script('com_redshop/redshop.thumbscroller.min.js', false, true);
+		$chkvatArr = JFactory::getSession()->get('chkvat');
+		$chktag    = $chkvatArr['chkvat'];
+
+		$preprefix = "";
+		$isAjax    = 0;
+
+		if ($layout == "viewajaxdetail")
+		{
+			$preprefix = "ajax_";
+			$isAjax    = 1;
+		}
+
+		if ($property_id != 0 && $attribute_id != 0)
+		{
+			$attributes      = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attribute_id);
+			$attributes      = $attributes[0];
+			$subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
+			// filter Out of stock data
+			if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get('USE_STOCKROOM'))
+			{
+				$subproperty = \Redshop\Helper\Stockroom::getAttributeSubPropertyWithStock($subproperty_all);
+			}
+			else
+			{
+				$subproperty = $subproperty_all;
+			}
+
+			// Get stockroom and pre-order stockroom data.
+			$subPropertyIds     = array_map(
+				function ($item) {
+					return $item->value;
+				},
+				$subproperty
+			);
+			$stockrooms         = RedshopHelperStockroom::getMultiSectionsStock($subPropertyIds, 'subproperty');
+			$preOrderStockrooms = RedshopHelperStockroom::getMultiSectionsPreOrderStock($subPropertyIds, 'subproperty');
+
+			foreach ($subproperty as $i => $item)
+			{
+				$subproperty[$i]->stock          = isset($stockrooms[$item->value]) ? (int) $stockrooms[$item->value] : 0;
+				$subproperty[$i]->preorder_stock = isset($preOrderStockrooms[$item->value]) ? (int) $preOrderStockrooms[$item->value] : 0;
+			}
+		}
+
+		if ($accessory_id != 0)
+		{
+			$prefix = $preprefix . "acc_";
+		}
+		elseif ($relatedprd_id != 0)
+		{
+			$prefix = $preprefix . "rel_";
+		}
+		else
+		{
+			$prefix = $preprefix . "prd_";
+		}
+
+		if ($relatedprd_id != 0)
+		{
+			$product_id = $relatedprd_id;
+		}
+
+		$product         = RedshopHelperProduct::getProductById($product_id);
+		$producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
+
+		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
+		{
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
+		}
+		elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false)
+		{
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
+		}
+		elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false)
+		{
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
+		}
+		else
+		{
+			$mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+			$mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
+		}
+
+		if ($subatthtml != "")
+		{
+			// Load plugin group
+			JPluginHelper::importPlugin('redshop_product');
+
+			if (count($subproperty) > 0)
+			{
+				$attribute_table     = $subatthtml;
+				$attribute_table     .= '<span id="subprop_lbl" style="display:none;">'
+					. JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . '</span>';
+				$commonid            = $prefix . $product_id . '_' . $accessory_id . '_' . $attribute_id . '_'
+					. $property_id;
+				$subpropertyid       = 'subproperty_id_' . $commonid;
+				$selectedsubproperty = 0;
+				$imgAdded            = 0;
+
+				$subproperty_woscrollerdiv = "";
+
+				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
+				{
+					$attribute_table           = str_replace("{subproperty_image_scroller}", "", $attribute_table);
+					$subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
+				}
+
+				$subprop_Arry    = array();
+				$preselectSubPro = true;
+
+				for ($i = 0, $in = count($subproperty); $i < $in; $i++)
+				{
+					if (count($selectSubproperty) > 0)
+					{
+						if (in_array($subproperty[$i]->value, $selectSubproperty))
+						{
+							$selectedsubproperty = $subproperty[$i]->value;
+						}
+					}
+					else
+					{
+						if ($subproperty[$i]->setdefault_selected)
+						{
+							$selectedsubproperty = $subproperty[$i]->value;
+						}
+					}
+
+					if (!empty($subproperty[$i]->subattribute_color_image))
+					{
+						if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
+						{
+							$borderstyle    = ($selectedsubproperty == $subproperty[$i]->value) ? " 1px solid " : "";
+							$thumbUrl       = RedshopHelperMedia::getImagePath(
+								$subproperty[$i]->subattribute_color_image,
+								'',
+								'thumb',
+								'subcolor',
+								Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_WIDTH'),
+								Redshop::getConfig()->get('ATTRIBUTE_SCROLLER_THUMB_HEIGHT'),
+								Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+							);
+							$subprop_Arry[] = $thumbUrl;
+							$style          = null;
+
+							if ($subproperty[$i]->setdefault_selected && $preselectSubPro)
+							{
+								$style       = ' style="border: 1px solid;"';
+								$preselectSubPro = false;
+							}
+
+							$subproperty_woscrollerdiv .= "<div id='" . $subpropertyid . "_subpropimg_"
+								. $subproperty[$i]->value . "' class='subproperty_image_inner' ". $style ."><a onclick='setSubpropImage(\""
+								. $product_id . "\",\"" . $subpropertyid . "\",\"" . $subproperty[$i]->value
+								. "\");calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
+								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
+								. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
+								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "' title='" . $subproperty[$i]->text . "'></a></div>";
+
+							$imgAdded++;
+						}
+					}
+
+					$attributes_subproperty_vat_show   = 0;
+					$attributes_subproperty_withoutvat = 0;
+					$attributes_subproperty_oldprice   = 0;
+
+					if ($subproperty [$i]->subattribute_color_price > 0)
+					{
+						$attributes_subproperty_oldprice = $subproperty [$i]->subattribute_color_price;
+
+						$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subproperty[$i]->value, 1, 'subproperty');
+
+						if (count($pricelist) > 0)
+						{
+							$subproperty[$i]->subattribute_color_price = $pricelist->product_price;
+						}
+
+						$attributes_subproperty_withoutvat = $subproperty [$i]->subattribute_color_price;
+
+						if ($chktag)
+						{
+							$attributes_subproperty_vat_show = RedshopHelperProduct::getProductTax($product_id, $subproperty [$i]->subattribute_color_price);
+
+							$attributes_subproperty_oldprice_vat = RedshopHelperProduct::getProductTax($product_id, $attributes_subproperty_oldprice);
+						}
+
+						$attributes_subproperty_vat_show += $subproperty [$i]->subattribute_color_price;
+						$attributes_subproperty_oldprice += $attributes_subproperty_oldprice_vat;
+
+						if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))) && (!$attributes->hide_attribute_price))
+						{
+							$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name) . " (" . $subproperty [$i]->oprand . strip_tags(RedshopHelperProductPrice::formattedPrice($attributes_subproperty_vat_show)) . ")";
+						}
+						else
+						{
+							$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name);
+						}
+					}
+					else
+					{
+						$subproperty [$i]->text = urldecode($subproperty [$i]->subattribute_color_name);
+					}
+
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_name' . $subproperty [$i]->value . '" value="' . $subproperty [$i]->subattribute_color_name . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_oprand' . $subproperty [$i]->value . '" value="' . $subproperty [$i]->oprand . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_vat_show . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice_withoutvat' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_withoutvat . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_prooldprice' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_oldprice . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->stock . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->preorder_stock . '" />';
+				}
+
+				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
+				{
+					$subproperty_woscrollerdiv .= "</div>";
+				}
+
+				// Run event when prepare sub-properties data.
+				RedshopHelperUtility::getDispatcher()->trigger('onPrepareProductSubProperties', array($product, &$subproperty));
+
+				if (Redshop::getConfig()->get('USE_ENCODING'))
+				{
+					$displayPropertyName = mb_convert_encoding(urldecode($subproperty[0]->property_name), "ISO-8859-1", "UTF-8");
+
+				}
+				else
+				{
+					$displayPropertyName = urldecode($subproperty[0]->property_name);
+				}
+
+				if ($subproperty[0]->subattribute_color_title != "")
+				{
+					if (Redshop::getConfig()->get('USE_ENCODING'))
+					{
+						$displayPropertyName = mb_convert_encoding(
+							urldecode($subproperty[0]->subattribute_color_title),
+							"ISO-8859-1",
+							"UTF-8"
+						);
+					}
+					else
+					{
+						$displayPropertyName = urldecode($subproperty[0]->subattribute_color_title);
+					}
+				}
+
+				$subproperties  = array_merge(
+					array(JHtml::_('select.option', 0, JText::_('COM_REDSHOP_SELECT') . ' ' . $displayPropertyName)),
+					$subproperty
+				);
+				$attDisplayType = (isset($subproperty[0]->setdisplay_type)) ? $subproperty[0]->setdisplay_type : 'radio';
+
+				// Init listing html-attributes
+				$chkListAttributes = array(
+					'id'          => $subpropertyid,
+					'subpropName' => $displayPropertyName
+				);
+
+				// Only add required html-attibute if needed.
+				if ($subproperty[0]->setrequire_selected)
+				{
+					$chkListAttributes['required'] = 'true';
+				}
+
+				$scrollerFunction = '';
+
+				if ($imgAdded > 0 && strstr($attribute_table, "{subproperty_image_scroller}"))
+				{
+					$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(this.selectedIndex-1);";
+
+					if ('radio' == $attDisplayType)
+					{
+						$scrollerFunction = "isFlowers" . $commonid . ".scrollImageCenter(\"" . $chk . "\");";
+					}
+				}
+
+				// Prepare Javascript OnChange or OnClick function
+				$onChangeJSFunction = $scrollerFunction
+					. "calculateTotalPrice('" . $product_id . "','" . $relatedprd_id . "');"
+					. "displayAdditionalImage('" . $product_id . "','" . $accessory_id . "','" . $relatedprd_id . "','" . $property_id . "',this.value);";
+
+				// Radio or Checkbox
+				if ('radio' == $attDisplayType)
+				{
+					unset($subproperties[0]);
+
+					$attributeListType = ($subproperty[0]->setmulti_selected) ? 'redshopselect.checklist' : 'redshopselect.radiolist';
+
+					$chkListAttributes['cssClassSuffix'] = ' no-group';
+					$chkListAttributes['onClick']        = "javascript:" . $onChangeJSFunction;
+				}
+				// Dropdown list
+				else
+				{
+					$attributeListType             = 'select.genericlist';
+					$chkListAttributes['onchange'] = "javascript:" . $onChangeJSFunction;
+				}
+
+				$lists['subproperty_id'] = JHTML::_(
+					$attributeListType,
+					$subproperties,
+					$subpropertyid . '[]',
+					$chkListAttributes,
+					'value',
+					'text',
+					$selectedsubproperty,
+					$subpropertyid
+				);
+
+				$subPropertyScroller = RedshopLayoutHelper::render(
+					'product.subproperty_scroller',
+					array(
+						'subProperties'     => $subproperty,
+						'commonId'          => $commonid,
+						'productId'         => $product_id,
+						'propertyId'        => $property_id,
+						'subPropertyId'     => $subpropertyid,
+						'accessoryId'       => $accessory_id,
+						'relatedProductId'  => $relatedprd_id,
+						'selectSubproperty' => $selectedsubproperty,
+						'subPropertyArray'  => $subprop_Arry,
+						'width'             => $mpw_thumb,
+						'height'            => $mph_thumb
+					),
+					'',
+					array(
+						'component' => 'com_redshop'
+					)
+				);
+
+				if ($imgAdded === 0 || $isAjax == 1)
+				{
+					$subPropertyScroller = "";
+				}
+
+				if ($subproperty[0]->setrequire_selected == 1)
+				{
+					$displayPropertyName = Redshop::getConfig()->get('ASTERISK_POSITION') > 0 ? $displayPropertyName . "<span id='asterisk_right'> * </span>" : "<span id='asterisk_left'>* </span>" . $displayPropertyName;
+				}
+				$attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
+				$attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
+
+				if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false)
+				{
+					$attribute_table = str_replace("{subproperty_image_scroller}", "", $attribute_table);
+					$attribute_table = str_replace("{subproperty_image_without_scroller}", $subproperty_woscrollerdiv, $attribute_table);
+				}
+				elseif (strpos($subatthtml, "{subproperty_image_scroller}") !== false)
+				{
+					$attribute_table = str_replace("{subproperty_image_scroller}", $subPropertyScroller, $attribute_table);
+					$attribute_table = str_replace("{subproperty_image_without_scroller}", "", $attribute_table);
+				}
+			}
+		}
+
+		return $attribute_table;
+	}
 }

@@ -125,8 +125,6 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function delete($cid = array())
 	{
-		$producthelper = productHelper::getInstance();
-
 		if (count($cid))
 		{
 			if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
@@ -155,7 +153,7 @@ class RedshopModelOrder_detail extends RedshopModel
 					RedshopHelperStockroom::manageStockAmount($order_item[$i]->product_id, $quntity, $order_item[$i]->stockroom_id);
 				}
 
-				$producthelper->makeAttributeOrder($order_item[$i]->order_item_id, 0, $order_item[$i]->product_id, 1);
+				RedshopHelperProduct::makeAttributeOrder($order_item[$i]->order_item_id, 0, $order_item[$i]->product_id, 1);
 				$query = "DELETE FROM `" . $this->_table_prefix . "order_attribute_item` "
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
 				$this->_db->setQuery($query);
@@ -266,7 +264,6 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function neworderitem($data, $quantity, $order_item_id)
 	{
-		$producthelper = productHelper::getInstance();
 		$rsCarthelper  = rsCarthelper::getInstance();
 
 		// Get Order Info
@@ -291,12 +288,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			// Attribute price added
 			$generateAttributeCart = Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
-			$retAttArr             = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
+			$retAttArr             = RedshopHelperProduct::makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute     = $retAttArr[0];
 
 			// Accessory price
 			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
-			$retAccArr             = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
+			$retAccArr             = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory     = $retAccArr[0];
 
 			$wrapper_price = 0;
@@ -304,13 +301,13 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			if ($item[$i]->wrapper_data != 0 && $item[$i]->wrapper_data != '')
 			{
-				$wrapper = $producthelper->getWrapper($product_id, $item[$i]->wrapper_data);
+				$wrapper = RedshopHelperProduct::getWrapper($product_id, $item[$i]->wrapper_data);
 
 				if (count($wrapper) > 0)
 				{
 					if ($wrapper[0]->wrapper_price > 0)
 					{
-						$wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[0]->wrapper_price, $user_id);
+						$wrapper_vat = RedshopHelperProduct::getProductTax($product_id, $wrapper[0]->wrapper_price, $user_id);
 					}
 
 					$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
@@ -347,7 +344,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
-				$medianame = $producthelper->getProductMediaName($product_id);
+				$medianame = RedshopHelperProduct::getProductMediaName($product_id);
 
 				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
@@ -384,7 +381,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 					if ($accessory_price > 0)
 					{
-						$accessory_vat_price = $producthelper->getProductTax($product_id, $accessory_price, $user_id);
+						$accessory_vat_price = RedshopHelperProduct::getProductTax($product_id, $accessory_price, $user_id);
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
@@ -421,12 +418,12 @@ class RedshopModelOrder_detail extends RedshopModel
 
 							if ($propArr[$k]['property_price'] > 0)
 							{
-								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
+								$section_vat = RedshopHelperProduct::getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
 
 							$property_id         = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand']
-								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+								. RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr          = $propArr[$k]['property_childs'];
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
@@ -457,13 +454,13 @@ class RedshopModelOrder_detail extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+									$section_vat = RedshopHelperProduct::getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
 
 								$subproperty_id      = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " ("
 									. $subpropArr[$l]['subproperty_oprand']
-									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat)
+									. RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat)
 									. ")<br/>";
 
 								$rowattitem                    = $this->getTable('order_attribute_item');
@@ -560,7 +557,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 						if ($propArr[$k]['property_price'] > 0)
 						{
-							$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price']);
+							$section_vat = RedshopHelperProduct::getProducttax($product_id, $propArr[$k]['property_price']);
 						}
 
 						$property_id = $propArr[$k]['property_id'];
@@ -597,7 +594,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 							if ($subpropArr[$l]['subproperty_price'] > 0)
 							{
-								$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+								$section_vat = RedshopHelperProduct::getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
 
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];

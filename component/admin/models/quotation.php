@@ -151,13 +151,11 @@ class RedshopModelQuotation extends RedshopModelList
 
 		if ($items)
 		{
-			$productHelper = productHelper::getInstance();
-
 			foreach ($items as $key => $item)
 			{
 				$items[$key]->quotation_status    = RedshopHelperQuotation::getQuotationStatusName($item->quotation_status);
 				$items[$key]->product_final_price = RedshopHelperProductPrice::formattedPrice($item->product_final_price);
-				$productAttribute                 = $productHelper->makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
+				$productAttribute                 = RedshopHelperProduct::makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
 				$productAttribute                 = preg_replace('#<[^>]+>#', ' ', $productAttribute);
 				$items[$key]->product_attribute   = $productAttribute;
 			}

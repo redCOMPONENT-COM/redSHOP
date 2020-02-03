@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$producthelper = productHelper::getInstance();
 $redhelper     = redhelper::getInstance();
 $userhelper    = rsUserHelper::getInstance();
 $filter        = JFactory::getApplication()->input->get('filter');
@@ -141,7 +140,7 @@ $model         = $this->getModel('user');
 					<td align="center" class="nowrap">
 						<?php
 							$totalsales = RedshopHelperUser::totalSales($row->users_info_id);
-							echo $producthelper->getProductFormattedPrice($totalsales);
+							echo RedshopHelperProductPrice::formattedPrice($totalsales);
 						?>
 					</td>
 					<td align="center" width="5%"><?php echo $row->users_info_id;?></td>

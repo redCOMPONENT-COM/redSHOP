@@ -55,7 +55,6 @@ class RedshopControllerCart extends RedshopController
 			$this->setRedirect(JRoute::_('index.php?option=com_redshop'));
 		}
 
-		$productHelper = productHelper::getInstance();
 		$itemId        = RedshopHelperRouter::getCartItemId();
 
 		// Call add method of modal to store product in cart session
@@ -82,7 +81,7 @@ class RedshopControllerCart extends RedshopController
 			}
 			else
 			{
-				$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
+				$itemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
 				if (count($itemData) > 0)
 				{
@@ -165,7 +164,7 @@ class RedshopControllerCart extends RedshopController
 								$app->close();
 							}
 
-							$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
+							$itemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
 							if (count($itemData) > 0)
 							{
