@@ -32,7 +32,8 @@ class UninstallExtensionCest
 		$I->click(\ExtensionManagerJoomla3Page::$buttonClear);
 
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-		$I->waitForElementVisible(\ExtensionManagerJoomla3Page::$searchTools, 30);
+		$I->waitForElement(\ExtensionManagerJoomla3Page::$searchTools, 30);
+		$I->wait(0.5);
 		$I->click(\ExtensionManagerJoomla3Page::$searchTools);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible('#filter_type', 30);
