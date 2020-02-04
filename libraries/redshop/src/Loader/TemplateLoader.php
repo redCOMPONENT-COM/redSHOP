@@ -16,13 +16,13 @@ use Joomla\CMS\Factory;
 /**
  * redSHOP template file system loader.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class TemplateLoader extends ExtensionLoader
 {
 	/**
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	protected $extensionNamespace = 'template';
 
@@ -31,7 +31,7 @@ final class TemplateLoader extends ExtensionLoader
 	 * @return array
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	protected function getTemplatePaths() : array
 	{
