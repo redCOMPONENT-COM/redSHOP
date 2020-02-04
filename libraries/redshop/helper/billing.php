@@ -86,7 +86,14 @@ class RedshopHelperBilling
 				$html = !empty($privateTemplate->template_desc) ?
 					$privateTemplate->template_desc : self::getDefaultPrivateTemplate();
 
-				$html = self::replacePrivateCustomer($html, $post, $lists);
+				$html = RedshopTagsReplacer::_(
+					'privatebillingtemplate',
+					$html,
+					array(
+						'data' => $post,
+						'lists' => $lists
+					)
+				);
 			}
 
 			$html = '<div id="tblprivate_customer">' . $html . '</div>'
@@ -238,164 +245,6 @@ class RedshopHelperBilling
 	}
 
 	/**
-	 * Method for replace billing common fields
-	 *
-	 * @param   string  $templateHtml  Html content
-	 * @param   array   $data          Data
-	 * @param   array   $lists         Array select
-	 * @param   string  $prefix        Prefix for DOM ID
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.7
-	 */
-	public static function replaceCommonFields($templateHtml, $data, $lists, $prefix = '')
-	{
-		$data = is_null($data) || !is_array($data) ? array() : $data;
-
-		$countries             = RedshopHelperWorld::getCountryList($data);
-		$data['country_code']  = $countries['country_code'];
-		$lists['country_code'] = $countries['country_dropdown'];
-		$states                = RedshopHelperWorld::getStateList($data);
-		$lists['state_code']   = $states['state_dropdown'];
-		$countryStyle          = count($countries['countrylist']) == 1 && count($states['statelist']) == 0 ? 'display:none;' : '';
-		$stateStyle            = ($states['is_states'] <= 0) ? 'display:none;' : '';
-
-		$readOnly = "";
-
-		$templateHtml = str_replace("{email_lbl}", JText::_('COM_REDSHOP_EMAIL'), $templateHtml);
-		$templateHtml = str_replace(
-			"{email}",
-			'<input class="inputbox required" type="text" title="' . JText::_('COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS') . '" name="email1" '
-			. 'id="' . $prefix . 'email1" size="32" maxlength="250" value="' . (isset($data["email1"]) ? $data["email1"] : '') . '" />',
-			$templateHtml
-		);
-
-		if (strstr($templateHtml, "{retype_email_start}") && strstr($templateHtml, "{retype_email_end}"))
-		{
-			$htmlStart   = explode('{retype_email_start}', $templateHtml);
-			$htmlEnd     = explode('{retype_email_end}', $htmlStart[1]);
-			$htmlContent = '';
-
-			if (Redshop::getConfig()->get('SHOW_EMAIL_VERIFICATION'))
-			{
-				$htmlContent = $htmlEnd[0];
-				$htmlContent = str_replace("{retype_email_lbl}", JText::_('COM_REDSHOP_RETYPE_CUSTOMER_EMAIL'), $htmlContent);
-				$htmlContent = str_replace(
-					'{retype_email}',
-					'<input type="text" id="' . $prefix . 'email2" name="email2" size="32" maxlength="250" value="" class="inputbox required" required />',
-					$htmlContent
-				);
-			}
-
-			$templateHtml = $htmlStart[0] . $htmlContent . $htmlEnd[1];
-		}
-
-		$templateHtml = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $templateHtml);
-
-		$templateHtml = str_replace(
-			"{company_name}",
-			'<input class="inputbox required" type="text" name="company_name" id="' . $prefix . 'company_name" size="32" maxlength="250" '
-			. 'value="' . (isset($data["company_name"]) ? $data["company_name"] : '') . '" />',
-			$templateHtml
-		);
-
-		$templateHtml = str_replace("{firstname_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $templateHtml);
-
-		$templateHtml = str_replace(
-			"{firstname}",
-			'<input class="inputbox required" type="text" name="firstname" id="' . $prefix . 'firstname" size="32" maxlength="250" '
-			. 'value="' . (isset($data["firstname"]) ? $data["firstname"] : '') . '" />',
-			$templateHtml
-		);
-
-		$templateHtml = str_replace("{lastname_lbl}", JText::_('COM_REDSHOP_LASTNAME'), $templateHtml);
-
-		$templateHtml = str_replace(
-			"{lastname}",
-			'<input class="inputbox required" type="text" name="lastname" id="' . $prefix . 'lastname" size="32" maxlength="250" '
-			. 'value="' . (isset($data["lastname"]) ? $data["lastname"] : '') . '" />',
-			$templateHtml
-		);
-
-		$templateHtml = str_replace("{address_lbl}", JText::_('COM_REDSHOP_ADDRESS'), $templateHtml);
-
-		$templateHtml = str_replace(
-			"{address}",
-			'<input class="inputbox required" type="text" name="address" id="' . $prefix . 'address" size="32" maxlength="250" '
-			. 'value="' . (isset($data["address"]) ? $data["address"] : '') . '" />',
-			$templateHtml
-		);
-
-		$templateHtml = str_replace("{zipcode_lbl}", JText::_('COM_REDSHOP_ZIP'), $templateHtml);
-
-		$templateHtml = str_replace(
-			"{zipcode}",
-			'<input class="inputbox required"  type="text" name="zipcode" id="' . $prefix . 'zipcode" size="32" maxlength="10" '
-			. 'value="' . (isset($data["zipcode"]) ? $data["zipcode"] : '') . '" onblur="return autoFillCity(this.value,\'BT\');" />',
-			$templateHtml
-		);
-
-		$templateHtml = str_replace("{city_lbl}", JText::_('COM_REDSHOP_CITY'), $templateHtml);
-
-		$templateHtml = str_replace(
-			"{city}",
-			'<input class="inputbox required" type="text" name="city" ' . $readOnly . ' id="' . $prefix . 'city" '
-			. 'value="' . (isset($data["city"]) ? $data["city"] : '') . '" size="32" maxlength="250" />',
-			$templateHtml
-		);
-
-		// Allow phone number to be optional using template tags.
-		$phoneIsRequired = strpos($templateHtml, '{phone_optional}') !== false ? '' : 'required';
-		$templateHtml    = str_replace("{phone_optional}", '', $templateHtml);
-		$templateHtml    = str_replace(
-			"{phone}",
-			'<input class="inputbox phone ' . $phoneIsRequired . '" type="text" name="phone" id="' . $prefix . 'phone" size="32" maxlength="250" '
-			. 'value="' . (isset($data["phone"]) ? $data["phone"] : '') . '" onblur="return searchByPhone(this.value,\'BT\');" />',
-			$templateHtml
-		);
-
-		$templateHtml = str_replace("{phone_lbl}", JText::_('COM_REDSHOP_PHONE'), $templateHtml);
-		$templateHtml = str_replace("{country_txtid}", "div_country_txt", $templateHtml);
-		$templateHtml = str_replace("{country_style}", $countryStyle, $templateHtml);
-		$templateHtml = str_replace("{state_txtid}", "div_state_txt", $templateHtml);
-		$templateHtml = str_replace("{state_style}", $stateStyle, $templateHtml);
-
-		$templateHtml = str_replace("{country_lbl}", JText::_('COM_REDSHOP_COUNTRY'), $templateHtml);
-		$templateHtml = str_replace("{country}", $lists['country_code'], $templateHtml);
-		$templateHtml = str_replace("{state_lbl}", JText::_('COM_REDSHOP_STATE'), $templateHtml);
-		$templateHtml = str_replace("{state}", $lists['state_code'], $templateHtml);
-
-		return $templateHtml;
-	}
-
-	/**
-	 * Method for replace private customer billing fields.
-	 *
-	 * @param   string  $templateHtml  Template content
-	 * @param   array   $post          Available data.
-	 * @param   array   $lists         Available list data.
-	 *
-	 * @return  string                 Html content after replace
-	 *
-	 * @since  2.0.7
-	 */
-	public static function replacePrivateCustomer($templateHtml = '', $post = array(), $lists = array())
-	{
-		$templateHtml = self::replaceCommonFields($templateHtml, $post, $lists, 'private-');
-
-		if (strpos($templateHtml, "{private_extrafield}") === false)
-		{
-			return $templateHtml;
-		}
-
-		$userExtraFields = Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 2 && $lists['extra_field_user'] != "" ?
-			$lists['extra_field_user'] : '';
-
-		return str_replace("{private_extrafield}", $userExtraFields, $templateHtml);
-	}
-
-	/**
 	 * Method for replace company billing fields.
 	 *
 	 * @param   string  $templateHtml  Template content
@@ -408,7 +257,16 @@ class RedshopHelperBilling
 	 */
 	public static function replaceCompanyCustomer($templateHtml = '', $post = array(), $lists = array())
 	{
-		$templateHtml = self::replaceCommonFields($templateHtml, $post, $lists, 'company-');
+		$templateHtml = RedshopTagsReplacer::_(
+			'commonfield',
+			$templateHtml,
+			array(
+				'data' => $post,
+				'lists' => $lists,
+				'prefix' => 'company-'
+			)
+		);
+
 		$templateHtml = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $templateHtml);
 		$templateHtml = str_replace(
 			"{company_name}",
