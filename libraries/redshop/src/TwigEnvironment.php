@@ -20,19 +20,19 @@ final class TwigEnvironment extends BaseTwigEnvironment
 {
 	/**
 	 * @var CMSApplication
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	private $app;
 
 	/**
 	 * @var array
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	private $importablePluginTypes = ['twig'];
 
 	/**
 	 * @var array
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	private $importedPluginTypes = [];
 
@@ -44,7 +44,7 @@ final class TwigEnvironment extends BaseTwigEnvironment
 	 * @param   CMSApplication|null  $app
 	 *
 	 * @return  mixed
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.5
 	 */
 	public function __construct(LoaderInterface $loader, array $options = [], CMSApplication $app = null)
 	{
@@ -61,7 +61,7 @@ final class TwigEnvironment extends BaseTwigEnvironment
 	 * @return CMSApplication
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	private function activeApplication() : CMSApplication
 	{
@@ -92,7 +92,7 @@ final class TwigEnvironment extends BaseTwigEnvironment
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.5
 	 */
 	public function trigger(string $event, array $params = []) : array
 	{

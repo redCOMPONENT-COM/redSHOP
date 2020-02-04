@@ -18,7 +18,7 @@ use Twig\TwigFunction;
 /**
  * JLanguage integration for Twig.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class JLanguage extends AbstractExtension
 {
@@ -26,7 +26,7 @@ final class JLanguage extends AbstractExtension
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -39,7 +39,7 @@ final class JLanguage extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	public function getName() : string
 	{
