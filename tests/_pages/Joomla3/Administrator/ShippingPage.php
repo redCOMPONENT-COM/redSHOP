@@ -102,7 +102,7 @@ class ShippingPage extends AdminJ3Page
     /**
      * @var string
      */
-    public static $zipCodeEnd = "#shipping_rate_zip_start";
+    public static $zipCodeEnd = "#shipping_rate_zip_end";
 
     /**
      * @var string

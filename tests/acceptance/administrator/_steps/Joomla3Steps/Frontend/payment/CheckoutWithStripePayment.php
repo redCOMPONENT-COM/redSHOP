@@ -42,6 +42,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		try
 		{
 			$I->click(StripePaymentPage::$paymentStripe);
+			$I->wait(0.5);
 			$I->seeCheckboxIsChecked(StripePaymentPage::$paymentStripe);
 		}catch (\Exception $e)
 		{
@@ -76,15 +77,14 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 		try
 		{
 			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
+			$I->acceptPopup();
 		}catch (\Exception $e)
 		{
-			$I->wait(2);
-			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
 		}
 
-		$I->acceptPopup();
 		$I->switchToIFrame(StripePaymentPage::$nameIframeStripe);
 		$I->waitForElementVisible(StripePaymentPage::$cardNumberIframe, 30);
+		$I->wait(0.5);
 		$I->fillField(StripePaymentPage::$cardNumberIframe, $informationVisa['cardNumber']);
 		$I->waitForElementVisible(StripePaymentPage::$dateIframe, 30);
 		$I->fillField(StripePaymentPage::$dateIframe, $informationVisa['date']);

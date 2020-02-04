@@ -16,8 +16,6 @@ $app       = JFactory::getApplication();
 $quotationHelper = quotationHelper::getInstance();
 $extra_field     = extra_field::getInstance();
 
-$extra_field_new = extraField::getInstance();
-
 $producthelper = productHelper::getInstance();
 
 $order_functions = order_functions::getInstance();
@@ -32,7 +30,7 @@ $quotationDetail = RedshopHelperQuotation::getQuotationDetail($quoid);
 
 $quotationProducts = RedshopHelperQuotation::getQuotationProduct($quoid);
 
-$fieldArray = $extra_field_new->getSectionFieldList(17, 0, 0);
+$fieldArray = RedshopHelperExtrafields::getSectionFieldList(17, 0, 0);
 
 $template = RedshopHelperTemplate::getTemplate("quotation_detail");
 
