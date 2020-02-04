@@ -1333,6 +1333,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			}
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->waitForElementVisible(ProductManagerPage::$xpathSaveClose, 30);
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);
