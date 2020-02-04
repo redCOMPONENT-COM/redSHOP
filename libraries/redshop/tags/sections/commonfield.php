@@ -29,6 +29,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 
 	}
 
+	/**
+	 * Execute replace
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.0.5
+	 */
 	public function replace()
 	{
 		$prefix = $this->data['prefix'];
@@ -42,7 +49,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 		$lists['state_code']   = $states['state_dropdown'];
 		$countryStyle          = count($countries['countrylist']) == 1 && count($states['statelist']) == 0 ? 'display:none;' : '';
 		$stateStyle            = ($states['is_states'] <= 0) ? 'display:none;' : '';
-		$this->template        = $this->replaceRetypeEmail($prefix, $data);
+		$this->template        = $this->replaceRetypeEmail($prefix);
 
 		if ($this->isTagExists('{email}'))
 		{
@@ -343,10 +350,6 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 			$this->addReplace('{phone}', $htmlPhone);
 		}
 
-
-
-
-
 		if ($this->isTagExists('{company_name_lbl}'))
 		{
 			$htmlCompanyNameLbl = RedshopLayoutHelper::render(
@@ -401,7 +404,16 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 		return parent::replace();
 	}
 
-	public function replaceRetypeEmail($prefix, $data)
+	/**
+	 * Replace Retype Email
+	 *
+	 * @param   string  $prefix
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function replaceRetypeEmail($prefix)
 	{
 		$subTemplate = $this->getTemplateBetweenLoop('{retype_email_start}', '{retype_email_end}');
 

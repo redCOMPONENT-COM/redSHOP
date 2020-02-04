@@ -25,6 +25,13 @@ class RedshopTagsSectionsPrivateBillingTemplate extends RedshopTagsAbstract
 
 	}
 
+	/**
+	 * Execute replace
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.0.5
+	 */
 	public function replace()
 	{
 		$template = RedshopTagsReplacer::_(
