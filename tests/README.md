@@ -1,4 +1,4 @@
-Testing redSHOP
+Run automation with redSHOP
 ==========
 
 ## using composer to get Codeception
@@ -6,46 +6,49 @@ Testing redSHOP
 Execute
 ```
 # You need to have Composer in your system, if not download it from here: https://getcomposer.org/
-composer update
 ```
 
-After that you will be able to run Codeception doing:
+## using Selenium call ChromeDriver
 
-```
-php vendor/codeception/codeception/codecept build
-```
+Download ChromeDriver: https://chromedriver.chromium.org/downloads
+
+Download Selenium: https://selenium.dev/downloads/.
+
+Put them in a single folder, unzip folder ChromeDriver and run:  
+```java -Xmx256m -jar selenium-server-standalone-3.141.59.jar```  
+(java must be pre-installed in your OS to run above command)
+
+change 3.141.59.jar to version selenium has been download
 
 ## Preparation for running the test
-To prepare the system tests (Selenium) to be run in your local machine you are asked to:
 
-- rename the file `tests/acceptance.suite.dist.yml` to `tests/acceptance.suite.yml`
-- edit  the file `tests/acceptance.suite.yml` according to your system needs.
-- rename the file `tests/RoboFile.ini.dist` to `tests/RoboFile.ini`
-- edit  the file `tests/RoboFile.ini` according to your system needs.
+### Step 1:
 
-## Running the tests
-To run the tests please execute the following commands (for the moment only working in Linux and MacOS):
+Clone the repository using
+```git clone  git@github.com:redCOMPONENT-COM/redSHOP.git```  
 
-```bash
-$ composer install
-$ vendor/bin/robo
-$ vendor/bin/robo run:tests
-```
+### Step 2:
 
-## Running individual test
-You are able to run only one test. To do so type in your command line:
+Moving to the main working directory
+```cd redSHOP```
 
-```bash
-$ vendor/bin/robo run:test
-```
+### Step 3:
 
-And follow the instructions.
+Setup new site Joomla with the latest version of redSHOP created previously.
 
-note: There are a few dependencies between the tests. You will not be able to run an individual tests before executing the main installation tests: installRedShopCest
+Copy file "acceptance.suite.yml.dist" to "acceptance.suite.yml" and change config: "url" to " http://localhost/path/to/your/project/".
 
+NOTE: Make sure admin & database user information & local site path are correctly changed to your own ones.
 
-## Firefox Addons
-To generate tests really fast you can use these firefox addons:
+### Step 4:
 
-- Selenium IDE (records your screen)
-- Selenium IDE Codeception Formatter (Export your Selenium IDE test to Codeception language)
+After changing config, you need to run ```composer install```
+Later on run ```vendor/bin/codecept build```
+
+### Step 5. 
+
+Command for running automation:
+
+```vendor/bin/codecept run acceptance --debug tests/acceptance/administrator/g16/Products/ProductManagement/ProductsCest.php```
+
+Change "tests/acceptance/administrator/g16/Products/ProductManagement/ProductsCest.php" to folder or a Cest you want run automation.

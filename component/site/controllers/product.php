@@ -292,13 +292,12 @@ class RedshopControllerProduct extends RedshopController
 	public function addtowishlist()
 	{
 		$app           = JFactory::getApplication();
-		$extraField    = extraField::getInstance();
 		$productHelper = productHelper::getInstance();
 		$user          = JFactory::getUser();
 
 		ob_clean();
 		$section  = 12;
-		$row_data = $extraField->getSectionFieldList($section);
+		$row_data = RedshopHelperExtrafields::getSectionFieldList($section);
 
 		// GetVariables
 		$cid             = $this->input->getInt('cid', 0);
@@ -615,6 +614,8 @@ class RedshopControllerProduct extends RedshopController
 		}
 
 		echo json_encode($response);
+
+		JFactory::getApplication()->close();
 	}
 
 	/**

@@ -3,7 +3,7 @@
   "description": "a Joomla Webshop Component",
   "license": "GPL-2.0+",
   "require": {
-    "php": ">=5.6",
+    "php": ">=7.0",
     "doctrine/annotations": "1.4.0",
     "doctrine/inflector": "1.1.0",
     "behat/transliterator": "1.2.0",
@@ -11,7 +11,8 @@
     "setasign/fpdi": "2.0.2",
     "whichbrowser/parser": "2.0.32",
     "imagine/imagine": "^0.7.1",
-    "ps/image-optimizer": "^1.1.2"
+    "ps/image-optimizer": "^1.1.2",
+    "twig/twig": "2.12.3"
   },
   "autoload": {
     "psr-4": {

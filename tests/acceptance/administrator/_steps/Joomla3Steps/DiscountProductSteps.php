@@ -198,7 +198,7 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$client->selectOption(\DiscountProductPage::$fieldCondition, $condition);
 		$client->selectOption(\DiscountProductPage::$fieldDiscountType, $type);
 		$client->fillField(\DiscountProductPage::$fieldDiscountAmount, $discountAmount);
-		
+
 		$client->addValueForField(\DiscountProductPage::$fieldStartDate, $endDate, 10);
 		$client->addValueForField(\DiscountProductPage::$fieldEndDate, $startDate, 10);
 		$client->fillField(\DiscountProductPage::$inputCategoryID, $category);
@@ -301,6 +301,15 @@ class DiscountProductSteps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(AdminJ3Page::$buttonDelete);
 		$I->acceptPopup();
-		$I->waitForText(DiscountProductPage::$deleteSuccess, 5, AdminJ3Page::$selectorSuccess);
+
+		try
+		{
+			$I->waitForText(DiscountProductPage::$deleteSuccess, 5, AdminJ3Page::$selectorSuccess);
+			$I->see(\DiscountProductPage::$messageDeleteSuccess, \DiscountProductPage::$selectorSuccess);
+		} catch (\Exception $e)
+		{
+			$I->waitForText(\DiscountProductPage::$messageNoItemOnTable, 10, \DiscountProductPage::$selectorAlert);
+			$I->see(\DiscountProductPage::$messageNoItemOnTable, \DiscountProductPage::$selectorAlert);
+		}
 	}
 }

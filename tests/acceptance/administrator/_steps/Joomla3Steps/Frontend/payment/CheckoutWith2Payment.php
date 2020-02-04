@@ -82,6 +82,7 @@ class CheckoutWith2Payment extends CheckoutOnFrontEnd
 		try
 		{
 			$I->waitForText(Frontend2PaymentPage::$secureCheckout, 30, Frontend2PaymentPage::$h1);
+			$I->waitForElementVisible(Frontend2PaymentPage::$reviewCart, 30);
 			$I->click(Frontend2PaymentPage::$reviewCart);
 			$I->waitForElementVisible(Frontend2PaymentPage::$shippingAddress1, 30);
 			$I->fillField(Frontend2PaymentPage::$shippingAddress1, $checkoutAccountInformation['shippingAddress']);
