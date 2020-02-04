@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>2.1.4</version>
+    <version>2.1.5</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -175,5 +175,12 @@
         <plugin group="twig" name="juri" published="published"/>
         <plugin group="twig" name="juser" published="published"/>
         <plugin group="twig" name="unserialize" published="published"/>
+        <plugin group="twig" name="redshop" published="published"/>
     </plugins>
+
+    <updateservers>
+        <server type="extension" priority="1" name="redSHOP update">
+            http://updates.redcomponent.com/redshop/update.xml
+        </server>
+    </updateservers>
 </extension>

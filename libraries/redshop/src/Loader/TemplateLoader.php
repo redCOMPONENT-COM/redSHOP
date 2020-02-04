@@ -14,23 +14,24 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 
 /**
- * Joomla template file system loader.
+ * redSHOP template file system loader.
  *
- * @since  1.0.0
+ * @since  2.1.5
  */
 final class TemplateLoader extends ExtensionLoader
 {
 	/**
-	 * Namespace applicable to this extension.
-	 *
-	 * @var  string
+	 * @var string
+	 * @since 2.1.5
 	 */
 	protected $extensionNamespace = 'template';
 
 	/**
-	 * Get the paths to search for templates.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @throws \Exception
+	 * @since  2.1.5
 	 */
 	protected function getTemplatePaths() : array
 	{

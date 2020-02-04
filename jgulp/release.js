@@ -109,6 +109,7 @@ gulp.task("release:md5:generate", function () {
         "./plugins/twig/juri/**",
         "./plugins/twig/juser/**",
         "./plugins/twig/unseriallize/**",
+        "./plugins/twig/redshop/**",
     ], {base: "./"}).pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
 });
 

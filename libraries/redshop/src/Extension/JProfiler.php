@@ -24,9 +24,10 @@ use Twig\TwigFunction;
 final class JProfiler extends AbstractExtension
 {
 	/**
-	 * Inject functions.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -36,9 +37,10 @@ final class JProfiler extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{

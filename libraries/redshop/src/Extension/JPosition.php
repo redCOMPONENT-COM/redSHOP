@@ -21,14 +21,15 @@ use Twig\TwigFunction;
 /**
  * Module position loader for Twig.
  *
- * @since  1.0.0
+ * @since  2.1.5
  */
 final class JPosition extends AbstractExtension
 {
 	/**
-	 * Inject functions.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -38,12 +39,12 @@ final class JPosition extends AbstractExtension
 	}
 
 	/**
-	 * Render the module position.
+	 * @param   string  $position
+	 * @param   array   $attribs
 	 *
-	 * @param   string  $position  Position to render
-	 * @param   array   $attribs   Associative array of values
+	 * @return string
 	 *
-	 * @return  string
+	 * @since 2.1.5
 	 */
 	public function render(string $position, array $attribs = []) : string
 	{
@@ -60,11 +61,10 @@ final class JPosition extends AbstractExtension
 	}
 
 	/**
-	 * Get an instance of the module renderer.
 	 *
-	 * @return  ModuleRenderer
+	 * @return ModuleRenderer
 	 *
-	 * @codeCoverageIgnore
+	 * @since 2.1.5
 	 */
 	protected function getModuleRenderer() : ModuleRenderer
 	{
@@ -72,9 +72,10 @@ final class JPosition extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{

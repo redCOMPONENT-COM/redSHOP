@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 namespace Redshop\Extension;
 
 defined('_JEXEC') || die;
@@ -18,14 +17,15 @@ use Twig\TwigFilter;
 /**
  * Extension to improve array handling.
  *
- * @since  1.0.0
+ * @since  2.1.5
  */
 final class JArray extends AbstractExtension
 {
 	/**
-	 * Inject our filter.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since  2.1.5
 	 */
 	public function getFilters() : array
 	{
@@ -36,11 +36,11 @@ final class JArray extends AbstractExtension
 	}
 
 	/**
-	 * Cast variable to array.
+	 * @param $var
 	 *
-	 * @param   mixed  $var  Var to cast
+	 * @return array
 	 *
-	 * @return  array
+	 * @since 2.1.5
 	 */
 	public function toArray($var) : array
 	{
@@ -48,9 +48,10 @@ final class JArray extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{

@@ -23,12 +23,12 @@ use Twig\Environment;
 class PlgTwigJapp extends BaseTwigPlugin
 {
 	/**
-	 * Triggered after environment has been loaded.
+	 * @param   Environment  $environment
+	 * @param   array        $params
 	 *
-	 * @param   Environment  $environment  Loaded environment
-	 * @param   array        $params       Optional parameters
 	 *
-	 * @return  void
+	 * @throws Exception
+	 * @since  1.0.0
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params = [])
 	{

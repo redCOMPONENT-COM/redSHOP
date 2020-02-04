@@ -61,34 +61,8 @@ class RedshopLayoutHelper
 		// Check for render Twig or PHP normally
 		if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig')
 		{
-			if (empty($options['layoutOf']) )
-			{
-				return '';
-			}
-
-			$layoutOf = Joomla\String\StringHelper::strtolower($options['layoutOf']);
-			$layoutOf = Joomla\String\StringHelper::trim((string) $layoutOf);
-
-			if ($layoutOf === '')
-			{
-				return '';
-			}
-
-			$prefix = 'redshop';
-
-			if (!empty($options['prefix']))
-			{
-				$prefix = $options['prefix'];
-			}
-
-			// Ensure not include strange thing
-			$layoutFile = str_replace('_:', '', $layoutFile);
-
-			$renderPath     = str_replace('.', '/', $basePath . $layoutFile);
-			$renderPath     = '@' . /** @scrutinizer ignore-type */ $layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
-
-			// Call render of Twig
-			$renderedLayout = Twig::render($renderPath, $displayData);
+			// Shorter code for Scrutinizer check
+			$renderedLayout = self::renderTwig($layoutFile, $displayData, $basePath, $options);
 		}
 		else
 		{
@@ -97,6 +71,50 @@ class RedshopLayoutHelper
 		}
 
 		return $renderedLayout;
+	}
+
+	/**
+	 * Method to render the layout of Twig
+	 *
+	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
+	 * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   string  $basePath     Base path to use when loading layout files
+	 * @param   mixed   $options      Optional custom options to load. JRegistry or array format
+	 *
+	 * @return  string
+	 */
+	public static function renderTwig($layoutFile,
+	                              $displayData = array(),
+	                              $basePath = '',
+	                              $options = array('component' => 'com_redshop'))
+	{
+		if (empty($options['layoutOf']) )
+		{
+			return '';
+		}
+
+		$layoutOf = Joomla\String\StringHelper::strtolower($options['layoutOf']);
+		$layoutOf = Joomla\String\StringHelper::trim((string) $layoutOf);
+
+		if ($layoutOf === '')
+		{
+			return '';
+		}
+
+		$prefix = 'redshop';
+
+		if (!empty($options['prefix']))
+		{
+			$prefix = $options['prefix'];
+		}
+
+		// Ensure not include strange thing
+		$layoutFile = str_replace('_:', '', $layoutFile);
+
+		$renderPath     = str_replace('.', '/', $basePath . $layoutFile);
+		$renderPath     = '@' . /** @scrutinizer ignore-type */ $layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
+
+		return html_entity_decode(Twig::render($renderPath, $displayData));
 	}
 
 	/**

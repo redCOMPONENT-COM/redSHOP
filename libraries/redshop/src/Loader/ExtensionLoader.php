@@ -16,23 +16,26 @@ use Twig\Loader\FilesystemLoader;
 use Twig\Error\LoaderError;
 
 /**
- * Joomla extension file system loader.
+ * redSHOP extension file system loader.
  *
- * @since  1.0.0
+ * @since  2.1.5
  */
 abstract class ExtensionLoader extends FilesystemLoader
 {
 	/**
-	 * Namespace applicable to this extension.
-	 *
-	 * @var  string
+	 * @var
+	 * @since 2.1.5
 	 */
 	protected $extensionNamespace;
 
 	/**
-	 * Constructor.
+	 * ExtensionLoader constructor.
 	 *
-	 * @param   string|array  $paths  A path or an array of paths where to look for templates
+	 * @param   array  $paths
+	 *
+	 * @return void
+	 *
+	 * @since 2.1.5
 	 */
 	public function __construct(array $paths = [])
 	{
@@ -42,9 +45,11 @@ abstract class ExtensionLoader extends FilesystemLoader
 	}
 
 	/**
-	 * Get the base path for the active application.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @throws \Exception
+	 * @since  2.1.5
 	 */
 	protected function getBaseAppPath() : string
 	{
@@ -57,21 +62,21 @@ abstract class ExtensionLoader extends FilesystemLoader
 	}
 
 	/**
-	 * Get the paths to search for templates.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since  2.1.5
 	 */
 	abstract protected function getTemplatePaths() : array;
 
 	/**
-	 * Find a template.
+	 * @param   string  $name
+	 * @param   bool    $throw
 	 *
-	 * @param   string  $name   Name of the template to search
-	 * @param   bool    $throw  Whether to throw an exception when an error occurs
+	 * @return bool|false|mixed|string|null
 	 *
-	 * @return  mixed
-	 *
-	 * @throws  Twig\Error\LoaderError
+	 * @throws LoaderError
+	 * @since  2.1.5
 	 */
 	protected function findTemplate($name, $throw = true)
 	{
@@ -98,11 +103,12 @@ abstract class ExtensionLoader extends FilesystemLoader
 	}
 
 	/**
-	 * Find a template with name parsed.
+	 * @param   string  $name
 	 *
-	 * @param   string  $name  Name of the template to search
+	 * @return bool|false|string|null
 	 *
-	 * @return  mixed
+	 * @throws LoaderError
+	 * @since  2.1.5
 	 */
 	protected function findParsedNameTemplate(string $name)
 	{
@@ -117,11 +123,11 @@ abstract class ExtensionLoader extends FilesystemLoader
 	}
 
 	/**
-	 * Check if a layout name is in current namespace.
+	 * @param   string  $name
 	 *
-	 * @param   string  $name  Name of the current layout
+	 * @return bool
 	 *
-	 * @return  boolean
+	 * @since 2.1.5
 	 */
 	protected function nameInExtensionNamespace(string $name) : bool
 	{
@@ -131,11 +137,11 @@ abstract class ExtensionLoader extends FilesystemLoader
 	}
 
 	/**
-	 * Parse a received extension name.
+	 * @param   string  $name
 	 *
-	 * @param   string  $name  Name of the template to search
+	 * @return string
 	 *
-	 * @return  string
+	 * @since 2.1.5
 	 */
 	protected function parseExtensionName(string $name) : string
 	{

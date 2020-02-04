@@ -23,12 +23,11 @@ use Redshop\Extension\JRegistry as TwigJRegistry;
 class PlgTwigJregistry extends BaseTwigPlugin
 {
 	/**
-	 * Triggered after environment has been loaded.
+	 * @param   Environment  $environment
+	 * @param   array        $params
 	 *
-	 * @param   Environment  $environment  Loaded environment
-	 * @param   array        $params       Optional parameters
 	 *
-	 * @return  void
+	 * @since 1.0.0
 	 */
 	public function onTwigAfterLoad(Environment $environment, $params = [])
 	{

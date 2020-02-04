@@ -14,23 +14,24 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Factory;
 
 /**
- * Joomla component file system loader.
+ * redSHOP Twig component file system loader.
  *
- * @since  1.0.0
+ * @since  2.1.5
  */
 final class ComponentLoader extends ExtensionLoader
 {
 	/**
-	 * Namespace applicable to this extension.
-	 *
-	 * @var  string
+	 * @var string
+	 * @since 2.1.5
 	 */
 	protected $extensionNamespace = 'component';
 
 	/**
-	 * Get the paths to search for templates.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @throws \Exception
+	 * @since 2.1.5
 	 */
 	protected function getTemplatePaths() : array
 	{
@@ -49,11 +50,11 @@ final class ComponentLoader extends ExtensionLoader
 	}
 
 	/**
-	 * Parse a received extension name.
+	 * @param   string  $name
 	 *
-	 * @param   string  $name  Name of the template to search
+	 * @return string
 	 *
-	 * @return  string
+	 * @since 2.1.5
 	 */
 	protected function parseExtensionName(string $name) : string
 	{

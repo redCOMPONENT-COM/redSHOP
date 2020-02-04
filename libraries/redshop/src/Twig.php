@@ -2,7 +2,7 @@
 /**
  * @package     Redshop.Library
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
@@ -15,26 +15,27 @@ use Twig\Loader\ChainLoader;
 /**
  * Twig rendering class
  *
- * @since  1.0.0
+ * @since  2.1.5
  */
 final class Twig
 {
 	/**
-	 * Renderer instance.
-	 *
-	 * @var  $this
+	 * @var
+	 * @since 2.1.5
 	 */
 	private static $instance;
 
 	/**
-	 * Twig environment.
-	 *
-	 * @var  self
+	 * @var TwigEnvironment
+	 * @since 2.1.5
 	 */
+
 	private $twigEnvironment;
 
 	/**
-	 * Constructor
+	 * Twig constructor.
+	 *
+	 * @since 2.1.5
 	 */
 	private function __construct()
 	{
@@ -52,9 +53,9 @@ final class Twig
 	}
 
 	/**
-	 * Clear the cached instance.
+	 * self destroy
 	 *
-	 * @return  void
+	 * @since 2.1.5
 	 */
 	public static function clear()
 	{
@@ -62,9 +63,10 @@ final class Twig
 	}
 
 	/**
-	 * Get the cached instance
+	 * Create Twig instance
+	 * @return Twig
 	 *
-	 * @return  static
+	 * @since 2.1.5
 	 */
 	public static function instance() : Twig
 	{
@@ -77,12 +79,17 @@ final class Twig
 	}
 
 	/**
-	 * Render a layout.
+	 * Render function as path and data provided
 	 *
-	 * @param   string  $layout  Template to render
-	 * @param   array   $data    Optional data for the layout
+	 * @param   string  $layout
+	 * @param   array   $data
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @throws \Twig\Error\LoaderError
+	 * @throws \Twig\Error\RuntimeError
+	 * @throws \Twig\Error\SyntaxError
+	 * @since 2.1.5
 	 */
 	public static function render(string $layout, array $data = []) : string
 	{
@@ -90,12 +97,14 @@ final class Twig
 	}
 
 	/**
-	 * Retrieve the environment.
 	 *
-	 * @return  self
+	 * @return TwigEnvironment
+	 *
+	 * @since 2.1.5
 	 */
 	public function environment() : TwigEnvironment
 	{
 		return $this->twigEnvironment;
+
 	}
 }

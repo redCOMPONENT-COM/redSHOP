@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 namespace Redshop\Extension;
 
 defined('_JEXEC') || die;
@@ -19,14 +18,15 @@ use Twig\TwigFunction;
 /**
  * JLanguage integration for Twig.
  *
- * @since  1.0.0
+ * @since  2.1.5
  */
 final class JLanguage extends AbstractExtension
 {
 	/**
-	 * Inject functions.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since  2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -36,9 +36,10 @@ final class JLanguage extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since  2.1.5
 	 */
 	public function getName() : string
 	{

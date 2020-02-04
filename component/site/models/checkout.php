@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Redshop\Economic\RedshopEconomic;
-use Redshop\Environment;
+use Redshop\Environment as RedshopEnvironment;
 
 /**
  * Class checkoutModelcheckout
@@ -438,7 +438,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 
 		// Get the IP Address
-		$ip = Environment::getUserIp();
+		$ip = RedshopEnvironment::getUserIp();
 
 		/** @var Tableorder_detail $row */
 		$row = $this->getTable('order_detail');

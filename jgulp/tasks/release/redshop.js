@@ -68,6 +68,7 @@ function getIncludedExtensions() {
         "./plugins/twig/juri/**",
         "./plugins/twig/juser/**",
         "./plugins/twig/unseriallize/**",
+        "./plugins/twig/redshop/**",
     ];
     var excluded = [
         '!./plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts/!(courier*.php|helvetica*.php|symbol*.php|times*.php|uni2cid_a*.php|zapfdingbats*.php)',

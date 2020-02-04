@@ -19,14 +19,15 @@ use Twig\Extension\AbstractExtension;
 /**
  * Registry integration for Twig.
  *
- * @since  4.0.0
+ * @since  2.1.5
  */
 final class JRegistry extends AbstractExtension
 {
 	/**
-	 * Inject functions.
 	 *
-	 * @return  array
+	 * @return array
+	 *
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -36,11 +37,11 @@ final class JRegistry extends AbstractExtension
 	}
 
 	/**
-	 * Get the registry instance.
+	 * @param   null  $data
 	 *
-	 * @param   mixed   $data  Data to initialise the registry
+	 * @return Registry
 	 *
-	 * @return  Registry
+	 * @since 2.1.5
 	 */
 	public function getRegistry($data = null)
 	{
@@ -48,9 +49,10 @@ final class JRegistry extends AbstractExtension
 	}
 
 	/**
-	 * Get the name of this extension.
 	 *
-	 * @return  string
+	 * @return string
+	 *
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{
