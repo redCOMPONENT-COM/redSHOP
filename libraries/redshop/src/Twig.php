@@ -29,6 +29,7 @@ final class Twig
 	 * @var TwigEnvironment
 	 * @since __DEPLOY_VERSION__
 	 */
+
 	private $twigEnvironment;
 
 	/**
@@ -104,5 +105,6 @@ final class Twig
 	public function environment() : TwigEnvironment
 	{
 		return $this->twigEnvironment;
+
 	}
 }
