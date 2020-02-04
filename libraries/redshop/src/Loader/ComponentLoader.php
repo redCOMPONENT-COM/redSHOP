@@ -16,13 +16,13 @@ use Joomla\CMS\Factory;
 /**
  * redSHOP Twig component file system loader.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class ComponentLoader extends ExtensionLoader
 {
 	/**
 	 * @var string
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	protected $extensionNamespace = 'component';
 
@@ -31,7 +31,7 @@ final class ComponentLoader extends ExtensionLoader
 	 * @return array
 	 *
 	 * @throws \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	protected function getTemplatePaths() : array
 	{
@@ -54,7 +54,7 @@ final class ComponentLoader extends ExtensionLoader
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	protected function parseExtensionName(string $name) : string
 	{
