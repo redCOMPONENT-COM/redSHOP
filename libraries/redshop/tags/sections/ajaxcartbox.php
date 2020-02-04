@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 {

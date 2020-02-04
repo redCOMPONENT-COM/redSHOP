@@ -15,19 +15,19 @@ use Twig\Loader\ChainLoader;
 /**
  * Twig rendering class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class Twig
 {
 	/**
 	 * @var
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	private static $instance;
 
 	/**
 	 * @var TwigEnvironment
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 
 	private $twigEnvironment;
@@ -35,7 +35,7 @@ final class Twig
 	/**
 	 * Twig constructor.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	private function __construct()
 	{
@@ -55,7 +55,7 @@ final class Twig
 	/**
 	 * self destroy
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public static function clear()
 	{
@@ -66,7 +66,7 @@ final class Twig
 	 * Create Twig instance
 	 * @return Twig
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public static function instance() : Twig
 	{
@@ -89,7 +89,7 @@ final class Twig
 	 * @throws \Twig\Error\LoaderError
 	 * @throws \Twig\Error\RuntimeError
 	 * @throws \Twig\Error\SyntaxError
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public static function render(string $layout, array $data = []) : string
 	{
@@ -100,7 +100,7 @@ final class Twig
 	 *
 	 * @return TwigEnvironment
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function environment() : TwigEnvironment
 	{

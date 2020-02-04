@@ -21,7 +21,7 @@ use Twig\TwigFunction;
 /**
  * Module position loader for Twig.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class JPosition extends AbstractExtension
 {
@@ -29,7 +29,7 @@ final class JPosition extends AbstractExtension
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -44,7 +44,7 @@ final class JPosition extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function render(string $position, array $attribs = []) : string
 	{
@@ -64,7 +64,7 @@ final class JPosition extends AbstractExtension
 	 *
 	 * @return ModuleRenderer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	protected function getModuleRenderer() : ModuleRenderer
 	{
@@ -75,7 +75,7 @@ final class JPosition extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{

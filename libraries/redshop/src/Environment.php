@@ -1,113 +1,60 @@
 <?php
 /**
- * @package     Phproberto.Joomla-Twig
+ * @package     Redshop
+ * @subpackage  Libraries
  *
- * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
- * @license    See COPYING.txt
+ * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
-namespace Phproberto\Joomla\Twig;
+namespace Redshop;
 
-defined('_JEXEC') || die;
-
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
-use Twig\Loader\LoaderInterface;
-use Twig\Environment as BaseEnvironment;
+defined('_JEXEC') or die;
 
 /**
- * Joomla Twig enviroment.
+ * @package     Redshop
  *
- * @since  1.0.0
+ * @since       2.1.0
  */
-final class Environment extends BaseEnvironment
+class Environment
 {
-	/**
-	 * Application where enviroment is loaded.
-	 *
-	 * @var     CMSApplication
-	 * @since   1.0.2
-	 */
-	private $app;
+    /**
+     *
+     * @return array|false|string
+     *
+     * @since  2.1.0
+     */
+    public static function getUserIp()
+    {
+        if (getenv('HTTP_CLIENT_IP'))
+        {
+            $ipAddress = getenv('HTTP_CLIENT_IP');
+        }
+        elseif (getenv('HTTP_X_FORWARDED_FOR'))
+        {
+            $ipAddress = getenv('HTTP_X_FORWARDED_FOR');
+        }
+        elseif (getenv('HTTP_X_FORWARDED'))
+        {
+            $ipAddress = getenv('HTTP_X_FORWARDED');
+        }
+        elseif (getenv('HTTP_FORWARDED_FOR'))
+        {
+            $ipAddress = getenv('HTTP_FORWARDED_FOR');
+        }
+        elseif (getenv('HTTP_FORWARDED'))
+        {
+            $ipAddress = getenv('HTTP_FORWARDED');
+        }
+        elseif (getenv('REMOTE_ADDR'))
+        {
+            $ipAddress = getenv('REMOTE_ADDR');
+        }
+        else
+        {
+            $ipAddress = 'UNKNOWN';
+        }
 
-	/**
-	 * Plugins connected to the events triggered by this class.
-	 *
-	 * @var     array
-	 * @since   1.0.3
-	 */
-	private $importablePluginTypes = ['twig'];
-
-	/**
-	 * Plugins that have been already imported.
-	 *
-	 * @var  array
-	 */
-	private $importedPluginTypes = [];
-
-	/**
-	 * Constructor.
-	 *
-	 * @param   LoaderInterface  $loader   Loader instance
-	 * @param   array            $options  An array of options
-	 * @param   CMSApplication   $app      CMSApplication | null active application
-	 */
-	public function __construct(LoaderInterface $loader, array $options = [], CMSApplication $app = null)
-	{
-		$this->app = $app ?: $this->activeApplication();
-
-		$this->trigger('onTwigBeforeLoad', [&$loader, &$options]);
-
-		parent::__construct($loader, $options);
-
-		$this->trigger('onTwigAfterLoad', [$options]);
-	}
-
-	/**
-	 * Get the active Joomla application.
-	 *
-	 * @return  CMSApplication
-	 *
-	 * @since   1.0.2
-	 */
-	private function activeApplication() : CMSApplication
-	{
-		return Factory::getApplication();
-	}
-
-	/**
-	 * Import available plugins.
-	 *
-	 * @return  void
-	 */
-	private function importPlugins()
-	{
-		$importablePluginTypes = array_diff($this->importablePluginTypes, $this->importedPluginTypes);
-
-		foreach ($importablePluginTypes as $pluginType)
-		{
-			PluginHelper::importPlugin($pluginType);
-
-			$this->importedPluginTypes[] = $pluginType;
-		}
-	}
-
-	/**
-	 * Trigger an event on the attached twig instance.
-	 *
-	 * @param   string  $event   Event to trigger
-	 * @param   array   $params  Params for the event triggered
-	 *
-	 * @return  array
-	 */
-	public function trigger(string $event, array $params = []) : array
-	{
-		$this->importPlugins();
-
-		// Always send environment as first param
-		array_unshift($params, $this);
-
-		return (array) $this->app->triggerEvent($event, $params);
-	}
+        return $ipAddress;
+    }
 }

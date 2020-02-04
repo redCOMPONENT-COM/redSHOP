@@ -19,28 +19,28 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
     /**
      * @var    array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.1.5
      */
     public $selectedAccessory = array();
 
     /**
      * @var    array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.1.5
      */
     public $selectedAccessoryQua = array();
 
     /**
      * @var    array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.1.5
      */
     public $selectAtt = array();
 
     /**
      * @var    integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.1.5
      */
     public $itemId;
 
@@ -70,7 +70,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @return string
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replace()
     {
@@ -128,7 +128,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @return string
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceAccessory($accessory, $template, $attributeTemplate)
     {
@@ -442,7 +442,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   2.1.5
      */
     public function replaceCustomField($accessory, &$template)
     {
@@ -484,7 +484,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceTagPrice($tag, $price, $template, $class = '')
     {
@@ -515,7 +515,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceImage($accessory, &$template)
     {
@@ -659,7 +659,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   2.1.5
      */
     public function replaceAddCheckbox(
         $accessory,
@@ -700,7 +700,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessoryReadmore($product)
     {
@@ -727,7 +727,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessoryTitle($product)
     {
@@ -760,7 +760,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessoryShortDesc($product)
     {
@@ -795,7 +795,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @return string
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessoryImage($product, $accessoryWidthThumb, $accessoryHeightThumb)
     {
@@ -862,7 +862,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @return bool
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessory($templateContent, $product, $userId)
     {
@@ -943,7 +943,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   2.1.5
      */
     public static function getWidthHeight($template, $type, &$imageTag, &$width, &$height)
     {
