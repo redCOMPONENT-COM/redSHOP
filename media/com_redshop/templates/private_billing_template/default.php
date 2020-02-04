@@ -1,63 +1,53 @@
 <div class="form-group">
-	<label>{email_lbl}:</label>
-	{email}
-	<span class="required">*</span>
+    {email_lbl}{email}
+    <span class="required">*</span>
 </div>
 
 <!-- {retype_email_start} -->
 <div class="form-group">
-	<label>{retype_email_lbl}:</label>
-	{retype_email}
-	<span class="required">*</span>
+    {retype_email_lbl}{retype_email}
+    <span class="required">*</span>
 </div>
 <!-- {retype_email_end} -->
 
 <div class="form-group">
-	<label>{firstname_lbl}:</label>
-	{firstname}
-	<span class="required">*</span>
+    {firstname_lbl}{firstname}
+    <span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{lastname_lbl}:</label>
-	{lastname}
-	<span class="required">*</span>
+    {lastname_lbl}{lastname}
+    <span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{address_lbl}:</label>
-	{address}
-	<span class="required">*</span>
+    {address_lbl}{address}
+    <span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{zipcode_lbl}:</label>
-	{zipcode}
-	<span class="required">*</span>
+    {zipcode_lbl}{zipcode}
+    <span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{city_lbl}:</label>
-	{city}
-	<span class="required">*</span>
+    {city_lbl}{city}
+    <span class="required">*</span>
 </div>
 
 <div id="{country_txtid}" class="form-group" style="{country_style}">
-	<label>{country_lbl}:</label>
-	{country}
-	<span class="required">*</span>
+    <label>{country_lbl}: </label> {country}
+    <span class="required">*</span>
 </div>
 
 <div id="{state_txtid}" class="form-group" style="{state_style}">
-	<label>{state_lbl}:</label>
-	{state}
-	<span class="required">*</span>
+    <label>{state_lbl} : </label>{state}
+    <span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{phone_lbl}:</label>
-	{phone}
-	<span class="required">*</span>
+    {phone_lbl}{phone}
+    <span class="required">*</span>
 </div>
 
 {private_extrafield}
