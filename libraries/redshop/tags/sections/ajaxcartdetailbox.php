@@ -31,11 +31,10 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 
 	public function replace()
 	{
-		$productHelper = productHelper::getInstance();
 		$product          = $this->data['product'];
 		$layout           = $this->input->getString('layout', '');
 		$relatedprdId     = $this->input->getInt('relatedprd_id', 0);
-		$productUserField = $productHelper->getProductUserfieldFromTemplate($this->template);
+		$productUserField = RedshopHelperProduct::getProductUserfieldFromTemplate($this->template);
 		$dataUserField    = $this->replaceUserField($product, $productUserField);
 		$this->template   = $dataUserField['template'];
 		$countNoUserField = $dataUserField['countNoUserField'];

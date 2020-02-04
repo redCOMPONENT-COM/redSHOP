@@ -135,7 +135,7 @@ class RedshopViewProduct extends RedshopView
 
 			if ($this->data->published == 0)
 			{
-				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $this->data->product_name, $this->data->product_number));
+				/** @scrutinizer ignore-deprecated */ JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $this->data->product_name, $this->data->product_number));
 			}
 
 			$productTemplate = $this->model->getProductTemplate();

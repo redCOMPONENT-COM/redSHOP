@@ -44,7 +44,7 @@ class Helper
 					. " ("
 					. \RedshopHelperProductPrice::formattedPrice($orderItemDatum->order_acc_price + $orderItemDatum->order_acc_vat)
 					. ")" . $accessoryQuantity . "</div>";
-				$makeAttributeOrder = \productHelper::getInstance()->makeAttributeOrder($orderItemId, 1, $orderItemDatum->product_id);
+				$makeAttributeOrder = \RedshopHelperProduct::makeAttributeOrder($orderItemId, 1, $orderItemDatum->product_id);
 				$accessoryHtml      .= $makeAttributeOrder->product_attribute;
 			}
 		}

@@ -42,7 +42,6 @@ class RedshopHelperAttribute
 	                                            $attributeTemplate = null, $isChild = false, $selectedAttributes = array(), $displayIndCart = 1, $onlySelected = false)
 	{
 		$userId        = 0;
-		$productHelper = productHelper::getInstance();
 		$session       = JFactory::getSession();
 
 		$isApplyAttributeVAT     = \Redshop\Template\Helper::isApplyAttributeVat($templateContent);
@@ -311,7 +310,7 @@ class RedshopHelperAttribute
 						{
 							$attributes_property_oldprice = $property [$i]->property_price;
 
-							$pricelist = $productHelper->getPropertyPrice($property[$i]->value, 1, 'property');
+							$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($property[$i]->value, 1, 'property');
 
 							if (!empty($pricelist))
 							{
@@ -331,8 +330,8 @@ class RedshopHelperAttribute
 							{
 								if ($property [$i]->oprand != '*' && $property [$i]->oprand != '/')
 								{
-									$attributes_property_vat_show     = $productHelper->getProducttax($productId, $property [$i]->property_price, $userId);
-									$attributes_property_oldprice_vat = $productHelper->getProducttax($productId, $attributes_property_oldprice, $userId);
+									$attributes_property_vat_show     = RedshopHelperProduct::getProductTax($productId, $property [$i]->property_price, $userId);
+									$attributes_property_oldprice_vat = RedshopHelperProduct::getProductTax($productId, $attributes_property_oldprice, $userId);
 								}
 							}
 
@@ -342,7 +341,7 @@ class RedshopHelperAttribute
 							/*
 							 * get product vat to include
 							 */
-							$attributes_property_vat       = $productHelper->getProducttax($productId, $property [$i]->property_price, $userId);
+							$attributes_property_vat       = RedshopHelperProduct::getProductTax($productId, $property [$i]->property_price, $userId);
 							$property [$i]->property_price += $attributes_property_vat;
 
 							if (Redshop::getConfig()->get('SHOW_PRICE')
@@ -351,7 +350,7 @@ class RedshopHelperAttribute
 								&& (!$attributes[$a]->hide_attribute_price))
 							{
 								$property[$i]->text = urldecode($property[$i]->property_name) . " (" . $property [$i]->oprand
-									. strip_tags($productHelper->getProductFormattedPrice($attributes_property_vat_show)) . ")";
+									. strip_tags(RedshopHelperProductPrice::formattedPrice($attributes_property_vat_show)) . ")";
 							}
 							else
 							{
@@ -629,7 +628,6 @@ class RedshopHelperAttribute
 	                                                    $templateContent = '', $attributeTemplate = null, $isChild = false, $onlySelected = false)
 	{
 		$user_id       = 0;
-		$productHelper = productHelper::getInstance();
 
 		if (empty($attributeTemplate))
 		{

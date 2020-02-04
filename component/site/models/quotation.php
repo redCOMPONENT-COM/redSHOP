@@ -122,14 +122,14 @@ class RedshopModelQuotation extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -179,14 +179,14 @@ class RedshopModelQuotation extends RedshopModel
 
 			if (!$rowitem->bind($quotation_item[$i]))
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
 
 			if (!$rowitem->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -230,7 +230,7 @@ class RedshopModelQuotation extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -265,7 +265,7 @@ class RedshopModelQuotation extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -295,7 +295,7 @@ class RedshopModelQuotation extends RedshopModel
 								{
 									if (!$rowattitem->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 										return false;
 									}
@@ -329,7 +329,7 @@ class RedshopModelQuotation extends RedshopModel
 					{
 						if (!$rowaccitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 							return false;
 						}
@@ -359,7 +359,7 @@ class RedshopModelQuotation extends RedshopModel
 					{
 						if (!$rowattitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 							return false;
 						}
@@ -388,7 +388,7 @@ class RedshopModelQuotation extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -417,7 +417,7 @@ class RedshopModelQuotation extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -449,7 +449,7 @@ class RedshopModelQuotation extends RedshopModel
 
 		if ($usersConfig->get('allowUserRegistration') == '0')
 		{
-			JError::raiseError(403, JText::_('COM_REDSHOP_ACCESS_FORBIDDEN'));
+			/** @scrutinizer ignore-deprecated */ JError::raiseError(403, JText::_('COM_REDSHOP_ACCESS_FORBIDDEN'));
 
 			return;
 		}
@@ -465,7 +465,7 @@ class RedshopModelQuotation extends RedshopModel
 		// Bind the post array to the user object
 		if (!$user->bind($app->input->post->getArray(), 'usertype'))
 		{
-			JError::raiseError(500, $user->getError());
+			/** @scrutinizer ignore-deprecated */ JError::raiseError(500, /** @scrutinizer ignore-deprecated */ $user->getError());
 		}
 
 		// Set some initial user values
@@ -510,7 +510,7 @@ class RedshopModelQuotation extends RedshopModel
 		// If there was an error with registration, set the message and display form
 		if (!$user->save())
 		{
-			JError::raiseWarning('', JText::_($user->getError()));
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning('', JText::_(/** @scrutinizer ignore-deprecated */ $user->getError()));
 
 			return false;
 		}
@@ -533,7 +533,7 @@ class RedshopModelQuotation extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -573,7 +573,7 @@ class RedshopModelQuotation extends RedshopModel
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}

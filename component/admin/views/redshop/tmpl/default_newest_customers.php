@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = productHelper::getInstance();
 $model = $this->getModel('redshop');
 ?>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
@@ -42,10 +41,10 @@ $model = $this->getModel('redshop');
 					<td align="center"><a href="<?php echo $link; ?>"
 					                      style="color:black;"><?php echo $order->tot_order ?></a></td>
 					<td align="center"><a href="<?php echo $link; ?>"
-					                      style="color:black;"><?php echo $producthelper->getProductFormattedPrice($avg_amount); ?></a>
+					                      style="color:black;"><?php echo RedshopHelperProductPrice::formattedPrice($avg_amount); ?></a>
 					</td>
 					<td align="center"><a href="<?php echo $link; ?>"
-					                      style="color:black;"><?php echo $producthelper->getProductFormattedPrice($order->order_total);?></a>
+					                      style="color:black;"><?php echo RedshopHelperProductPrice::formattedPrice($order->order_total);?></a>
 					</td>
 				</tr>
 				<?php    $k = 1 - $k;

@@ -429,7 +429,7 @@ class RedshopModelCheckout extends RedshopModel
 				if ($values['payment_plugin'] != 'rs_payment_localcreditcard')
 				{
 					$errorMsg = $paymentResponse->message;
-					$this->setError($errorMsg);
+					/** @scrutinizer ignore-deprecated */ $this->setError($errorMsg);
 
 					return false;
 				}
@@ -444,7 +444,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$row->bind($post))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -512,7 +512,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			// Start code to track duplicate order number checking
 			$this->deleteOrdernumberTrack();
@@ -711,7 +711,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!$rowitem->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -784,7 +784,7 @@ class RedshopModelCheckout extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -821,7 +821,7 @@ class RedshopModelCheckout extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -854,7 +854,7 @@ class RedshopModelCheckout extends RedshopModel
 								{
 									if (!$rowattitem->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 										return false;
 									}
@@ -916,7 +916,7 @@ class RedshopModelCheckout extends RedshopModel
 					{
 						if (!$rowaccitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 							return false;
 						}
@@ -950,7 +950,7 @@ class RedshopModelCheckout extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -990,7 +990,7 @@ class RedshopModelCheckout extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -1032,7 +1032,7 @@ class RedshopModelCheckout extends RedshopModel
 								{
 									if (!$rowattitem->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 										return false;
 									}
@@ -1062,7 +1062,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if (!$subscribe->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -1074,7 +1074,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$rowpayment->bind($post))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1119,7 +1119,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$rowpayment->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1136,7 +1136,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$orderuserrow->bind($userrow))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1149,7 +1149,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$orderuserrow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1174,7 +1174,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$orderuserrow->bind($userrow))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1186,7 +1186,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$orderuserrow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1825,7 +1825,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if (!$rowcoupon->bind($cart))
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 				}
 
 				if ($coupon['transaction_coupon_id'])
@@ -1843,7 +1843,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if (!$rowcoupon->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}

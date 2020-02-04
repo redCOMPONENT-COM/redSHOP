@@ -845,7 +845,6 @@ class RedshopHelperShipping
 	 */
 	public static function getShopperGroupDefaultShipping($userId = 0)
 	{
-		$productHelper = productHelper::getInstance();
 		$shippingArr   = array();
 		$user          = JFactory::getUser();
 
@@ -860,7 +859,7 @@ class RedshopHelperShipping
 			return array();
 		}
 
-		$result = $productHelper->getUserInformation($userId);
+		$result = RedshopHelperUser::getUserInformation($userId);
 
 		if (!empty($result) && $result->default_shipping == 1)
 		{

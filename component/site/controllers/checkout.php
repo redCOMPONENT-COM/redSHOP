@@ -573,7 +573,7 @@ class RedshopControllerCheckout extends RedshopController
 			else
 			{
 				$errorMsg = $model->getError();
-				JError::raiseWarning(21, $errorMsg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning(21, $errorMsg);
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false));
 			}
 		}

@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$productHelper = productHelper::getInstance();
 $config        = Redconfiguration::getInstance();
 
 $listOrder    = $this->escape($this->state->get('list.ordering'));
@@ -116,7 +115,7 @@ if ($allowOrder)
 					</td>
 					<td align="center">
 						<?php
-						$answer = $productHelper->getQuestionAnswer($row->id, 0, 1);
+						$answer = RedshopHelperProduct::getQuestionAnswer($row->id, 0, 1);
 						$answer = count($answer);
 						?>
 						<a class="badge label-info"

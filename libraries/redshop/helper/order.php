@@ -1273,7 +1273,6 @@ class RedshopHelperOrder
 	{
 		JPluginHelper::importPlugin('redshop_shipping');
 		$app             = JFactory::getApplication();
-		$productHelper   = productHelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
 		$paymentStatus   = $app->input->getString('order_paymentstatus');
@@ -1396,7 +1395,7 @@ class RedshopHelperOrder
 						RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
 					}
 
-					$productHelper->makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
+					RedshopHelperProduct::makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
 				}
 
 				break;
@@ -2820,7 +2819,6 @@ class RedshopHelperOrder
 	 */
 	public static function orderStatusUpdate($orderId, $post = array())
 	{
-		$productHelper = productHelper::getInstance();
 		$newStatus     = $post['mass_change_order_status'];
 		$customerNote  = $post['customer_note' . $orderId];
 		$isProduct     = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
@@ -2880,7 +2878,7 @@ class RedshopHelperOrder
 
 				// When the order is set to "cancelled",product will return to stock
 				RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$j]->stockroom_id);
-				$productHelper->makeAttributeOrder($orderProducts[$j]->order_item_id, 0, $prodid, 1);
+				RedshopHelperProduct::makeAttributeOrder($orderProducts[$j]->order_item_id, 0, $prodid, 1);
 			}
 		}
 		elseif ($newStatus == 'RT')

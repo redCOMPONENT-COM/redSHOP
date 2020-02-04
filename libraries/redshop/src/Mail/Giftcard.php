@@ -27,7 +27,6 @@ class Giftcard
 	public static function sendMail($orderId)
 	{
 		$giftCardTemplate = self::getTemplate();
-		$productHelper    = \productHelper::getInstance();
 		$giftCards        = \RedshopHelperOrder::giftCardItems((int) $orderId);
 		$giftcardData = '';
 		$giftCardPrice = '';
@@ -48,7 +47,7 @@ class Giftcard
 				$giftCardValue = \RedshopHelperProductPrice::formattedPrice($giftcardData->giftcard_value, true);
 				$giftCardPrice = $eachOrder->product_final_price;
 				$giftCode = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
-				$userFields = $productHelper->GetProdcutUserfield($eachOrder->order_item_id, 13);
+				$userFields = \RedshopHelperProduct::GetProdcutUserfield($eachOrder->order_item_id, 13);
 
 				/** @var \RedshopTableCoupon $couponItems */
 				$couponItem = \RedshopTable::getAdminInstance('Coupon');
@@ -97,7 +96,7 @@ class Giftcard
 			$mailBody = str_replace("{giftcard_reciver_email_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $mailBody);
 			$mailBody = str_replace("{giftcard_reciver_email}", $eachOrder->giftcard_user_email, $mailBody);
 			$mailBody = str_replace("{giftcard_reciver_name}", $eachOrder->giftcard_user_name, $mailBody);
-			$mailBody = $productHelper->getValidityDate($giftcardData->giftcard_validity, $mailBody);
+			$mailBody = \RedshopHelperProduct::getValidityDate($giftcardData->giftcard_validity, $mailBody);
 			$mailBody = str_replace("{giftcard_value}", $giftCardValue, $mailBody);
 			$mailBody = str_replace("{giftcard_value_lbl}", \JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $mailBody);
 			$mailBody = str_replace("{giftcard_desc}", $giftcardData->giftcard_desc, $mailBody);

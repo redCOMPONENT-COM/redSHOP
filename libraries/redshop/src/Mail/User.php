@@ -187,7 +187,6 @@ class User
 		}
 
 		$app           = \JFactory::getApplication();
-		$productHelper = \productHelper::getInstance();
 
 		$mailTemplate = $mailTemplate[0];
 		$data         = (object) $data;
@@ -215,7 +214,7 @@ class User
 		$lastName  = $userData->lastname;
 
 		$product             = \Redshop::product((int) $data->product_id);
-		$productSubscription = $productHelper->getProductSubscriptionDetail($data->product_id, $data->subscription_id);
+		$productSubscription = \RedshopHelperProduct::getProductSubscriptionDetail($data->product_id, $data->subscription_id);
 
 		$search   = array();
 		$replace  = array();

@@ -277,21 +277,21 @@ class RedshopHelperProductTag
 		{
 			if ($subPropertyId)
 			{
-				$productAttributeDelivery = productHelper::getInstance()->getProductMinDeliveryTime($productId, $subPropertyId, "subproperty", 0);
+				$productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime($productId, $subPropertyId, "subproperty", 0);
 
 				$attributeFlag = !empty($productAttributeDelivery) ? true : false;
 			}
 
 			if ($propertyId && !$attributeFlag)
 			{
-				$productAttributeDelivery = productHelper::getInstance()->getProductMinDeliveryTime($productId, $propertyId, "property", 0);
+				$productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime($productId, $propertyId, "property", 0);
 
 				$attributeFlag = !empty($productAttributeDelivery) ? true : false;
 			}
 
 			if ($productId && !$attributeFlag)
 			{
-				$productAttributeDelivery = productHelper::getInstance()->getProductMinDeliveryTime($productId);
+				$productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime($productId);
 			}
 		}
 
@@ -348,7 +348,7 @@ class RedshopHelperProductTag
 
 			$attributes         = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 			$attributes         = array_merge($attributes, $attributeSets);
-			$productStockStatus = productHelper::getInstance()->getproductStockStatus(
+			$productStockStatus = RedshopHelperProduct::getproductStockStatus(
 				$product->product_id, count($attributes), $propertyId, $subPropertyId
 			);
 
