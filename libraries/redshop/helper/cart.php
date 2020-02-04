@@ -301,7 +301,7 @@ abstract class RedshopHelperCart
 
 				if (!$table->store())
 				{
-					throw new Exception($table->getError());
+					throw new Exception(/** @scrutinizer ignore-deprecated */ $table->getError());
 				}
 
 				$attributeChildren = (array) $attribute['attribute_childs'];
@@ -319,7 +319,7 @@ abstract class RedshopHelperCart
 
 					if (!$itemTable->store())
 					{
-						throw new Exception($table->getError());
+						throw new Exception(/** @scrutinizer ignore-deprecated */ $table->getError());
 					}
 
 					if (empty($attributeChild['property_childs']))
@@ -339,7 +339,7 @@ abstract class RedshopHelperCart
 
 						if (!$propertyTable->store())
 						{
-							throw new Exception($table->getError());
+							throw new Exception(/** @scrutinizer ignore-deprecated */ $table->getError());
 						}
 					}
 				}

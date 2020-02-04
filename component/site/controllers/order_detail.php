@@ -332,7 +332,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 			if (/** @scrutinizer ignore-deprecated */ JError::isError(/** @scrutinizer ignore-deprecated */ JError::getError()))
 			{
-				$errorMessage = JError::getError()->getMessage();
+				$errorMessage = /** @scrutinizer ignore-deprecated */ JError::getError()->getMessage();
 			}
 
 			$app->redirect(

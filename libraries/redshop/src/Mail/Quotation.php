@@ -364,7 +364,7 @@ class Quotation
 
 			if (!Helper::sendEmail($from, $fromname, $email, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
 			{
-				\JError::raiseWarning(21, \JText::_('ERROR_SENDING_QUOTATION_MAIL'));
+                /** @scrutinizer ignore-deprecated */ \JError::raiseWarning(21, \JText::_('ERROR_SENDING_QUOTATION_MAIL'));
 			}
 		}
 

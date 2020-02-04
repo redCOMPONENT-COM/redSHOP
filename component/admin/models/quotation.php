@@ -142,9 +142,9 @@ class RedshopModelQuotation extends RedshopModelList
 		$items = $this->_getList($query);
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		if (/** @scrutinizer ignore-deprecated */ $this->_db->getErrorNum())
 		{
-			$this->setError($this->_db->getErrorMsg());
+            /** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
