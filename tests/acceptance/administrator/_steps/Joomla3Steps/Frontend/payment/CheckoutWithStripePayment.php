@@ -71,7 +71,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 			$I->wait(0.5);
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-			$I->wait(0.5);
+			$I->wait(2);
 		}
 
 		try
