@@ -266,6 +266,9 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
 		$client->chooseOnSelect2(TaxRatePage::$fieldCountry, $nameCountry);
 		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
+		$client->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$client->wait(0.5);
+
 		switch ($buttonName)
 		{
 			case 'Save':
@@ -280,7 +283,9 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 			default:
 				break;
 		}
-		$client->waitForElement(TaxRatePage::$selectorSuccess, 30);
+
+		$client->waitForElement(TaxRatePage::$selectorSuccess, 60);
+		$client->waitForText(TaxRatePage::$messageItemSaveSuccess, 30, TaxRatePage::$selectorSuccess);
 		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
 	}
 
