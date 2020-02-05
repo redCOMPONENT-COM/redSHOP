@@ -13,7 +13,7 @@ $url = $uri->root();
 
 $section_id = $this->input->getInt('section_id', null);
 $product_id = $this->input->getInt('cid', null);
-$images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
+$images = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $section_id)
 ?>
 
 <script language="javascript" type="text/javascript">

@@ -44,7 +44,19 @@ class RedshopHelperProduct
 	 */
 	protected static $productPrices = array();
 
+	/**
+	 * @var array  List of  product special id
+	 *
+	 * @since  2.1.5
+	 */
 	protected static $productSpecialIds = array();
+
+	/**
+	 * @var array  List of  product date range
+	 *
+	 * @since  2.1.5
+	 */
+	protected static $productDateRange = array();
 
 	/**
 	 * Get all product information
@@ -2294,6 +2306,11 @@ class RedshopHelperProduct
 		return $product_delivery_time;
 	}
 
+	/*
+	 * function to get products parent id
+	 *
+	 * @return: int
+	 */
 	public static function getMainParentProduct($parent_id)
 	{
 		$db    = JFactory::getDbo();
@@ -2472,7 +2489,7 @@ class RedshopHelperProduct
 
 	public static function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
-		$result     = RedshopHelperProduct::getProductById($product_id);
+		$result     = self::getProductById($product_id);
 		$thum_image = "";
 		$title      = " title='" . $result->product_name . "' ";
 		$alt        = " alt='" . $result->product_name . "' ";
@@ -2783,7 +2800,7 @@ class RedshopHelperProduct
 					$related_template_data = str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
 				}
 
-				$childproduct = RedshopHelperProduct::getChildProduct($relatedProduct[$r]->product_id);
+				$childproduct = self::getChildProduct($relatedProduct[$r]->product_id);
 
 				if (count($childproduct) > 0)
 				{
@@ -2985,7 +3002,7 @@ class RedshopHelperProduct
 	 */
 	public static function getCategoryProduct($productId = 0)
 	{
-		if ($result = RedshopHelperProduct::getProductById($productId))
+		if ($result = self::getProductById($productId))
 		{
 			if (!empty($result->categories))
 			{
@@ -3049,7 +3066,7 @@ class RedshopHelperProduct
 
 			if ($productPrice > 0)
 			{
-				$productVatPrice = RedshopHelperProduct::getProductTax($productId, $productPrice, $userId);
+				$productVatPrice = self::getProductTax($productId, $productPrice, $userId);
 			}
 		}
 		else
@@ -3103,7 +3120,7 @@ class RedshopHelperProduct
 
 					if ($propertyOperator != '*' && $propertyOperator != '/')
 					{
-						$propertyVat = RedshopHelperProduct::getProductTax($productId, $propertyPriceWithoutVat, $userId);
+						$propertyVat = self::getProductTax($productId, $propertyPriceWithoutVat, $userId);
 					}
 				}
 
@@ -3145,7 +3162,7 @@ class RedshopHelperProduct
 
 						if ($subPropertyOperator != '*' && $subPropertyOperator != '/')
 						{
-							$subPropertyVat = RedshopHelperProduct::getProductTax($productId, $subPropertyPriceWithoutVat, $userId);
+							$subPropertyVat = self::getProductTax($productId, $subPropertyPriceWithoutVat, $userId);
 						}
 					}
 
@@ -3206,13 +3223,13 @@ class RedshopHelperProduct
 
 		if ($productOldprice > 0)
 		{
-			$productVatOldPrice = RedshopHelperProduct::getProductTax($productId, $productOldprice, $userId);
+			$productVatOldPrice = self::getProductTax($productId, $productOldprice, $userId);
 		}
 
 		// Recalculate VAT if set to apply vat for attribute
 		if ($applyVat)
 		{
-			$productVatPrice = RedshopHelperProduct::getProductTax($productId, $productPrice, $userId);
+			$productVatPrice = self::getProductTax($productId, $productPrice, $userId);
 		}
 
 		// Todo: For QA to check all cases.
@@ -3264,7 +3281,7 @@ class RedshopHelperProduct
 
 				if ($attArr[$i]['accessory_price'] > 0)
 				{
-					$acc_vat = RedshopHelperProduct::getProductTax($product_id, $attArr[$i]['accessory_price'], $user_id);
+					$acc_vat = self::getProductTax($product_id, $attArr[$i]['accessory_price'], $user_id);
 				}
 
 				$accessory_price = $attArr[$i]['accessory_price'];
@@ -3298,7 +3315,7 @@ class RedshopHelperProduct
 
 						if ($propArr[$k]['property_price'] > 0)
 						{
-							$acc_propvat = RedshopHelperProduct::getProductTax($product_id, $propArr[$k]['property_price'], $user_id);
+							$acc_propvat = self::getProductTax($product_id, $propArr[$k]['property_price'], $user_id);
 						}
 
 						if (!empty($chktag))
@@ -3322,7 +3339,7 @@ class RedshopHelperProduct
 
 							if ($subpropArr[$l]['subproperty_price'] > 0)
 							{
-								$acc_subpropvat = RedshopHelperProduct::getProductTax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
+								$acc_subpropvat = self::getProductTax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
 
 							if (!empty($chktag))
@@ -3893,7 +3910,7 @@ class RedshopHelperProduct
 			$orderItem  = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
 			$product_id = $orderItem[0]->product_id;
 
-			$productdetail   = RedshopHelperProduct::getProductById($product_id);
+			$productdetail   = self::getProductById($product_id);
 			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productdetail->product_template);
 
 			$returnArr    = self::getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
@@ -3954,7 +3971,7 @@ class RedshopHelperProduct
 		$orderItemdata     = RedshopHelperOrder::getOrderItemDetail(0, 0, $order_item_id);
 		$cartAttributes    = array();
 
-		$products = RedshopHelperProduct::getProductById($orderItemdata[0]->product_id);
+		$products = self::getProductById($orderItemdata[0]->product_id);
 
 		if (count($orderItemdata) > 0 && $is_accessory != 1)
 		{
@@ -4157,7 +4174,6 @@ class RedshopHelperProduct
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
-		//$shopperGroupId = $this->_userhelper->getShopperGroup($user->id);
 
 		if ($user->id > 0)
 			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = '" . $user->id . "' AND sg.shopper_group_portal=1 ";
@@ -4562,7 +4578,7 @@ class RedshopHelperProduct
 			$product_id = $relatedprd_id;
 		}
 
-		$product         = RedshopHelperProduct::getProductById($product_id);
+		$product         = self::getProductById($product_id);
 		$producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
@@ -4684,9 +4700,9 @@ class RedshopHelperProduct
 
 						if ($chktag)
 						{
-							$attributes_subproperty_vat_show = RedshopHelperProduct::getProductTax($product_id, $subproperty [$i]->subattribute_color_price);
+							$attributes_subproperty_vat_show = self::getProductTax($product_id, $subproperty [$i]->subattribute_color_price);
 
-							$attributes_subproperty_oldprice_vat = RedshopHelperProduct::getProductTax($product_id, $attributes_subproperty_oldprice);
+							$attributes_subproperty_oldprice_vat = self::getProductTax($product_id, $attributes_subproperty_oldprice);
 						}
 
 						$attributes_subproperty_vat_show += $subproperty [$i]->subattribute_color_price;
@@ -5038,7 +5054,7 @@ class RedshopHelperProduct
 
 	public static function getProductparentImage($product_parent_id)
 	{
-		$result = RedshopHelperProduct::getProductById($product_parent_id);
+		$result = self::getProductById($product_parent_id);
 
 		if ($result->product_full_image == '' && $result->product_parent_id > 0)
 		{
@@ -5056,7 +5072,7 @@ class RedshopHelperProduct
 		if ($section_id == 12)
 		{
 			$product_id    = $cart[$id]['product_id'];
-			$productdetail = RedshopHelperProduct::getProductById($product_id);
+			$productdetail = self::getProductById($product_id);
 			$temp_name     = "product";
 			$temp_id       = $productdetail->product_template;
 			$giftcard      = 0;
@@ -5303,6 +5319,93 @@ class RedshopHelperProduct
 		}
 
 		return $reviews;
+	}
+
+	/**
+	 * Get section
+	 *
+	 * @param   string  $section Section name
+	 * @param   integer $id      Section id
+	 *
+	 * @return  mixed|null
+	 * @deprecated 2.1.0
+	 */
+	public static function getSection($section = '', $id = 0)
+	{
+		// To avoid killing queries do not allow queries that get all the items
+		if ($id != 0 && $section != '')
+		{
+			switch ($section)
+			{
+				case 'product':
+					return self::getProductById($id);
+				case 'category':
+					return RedshopEntityCategory::getInstance($id)->getItem();
+				default:
+					$db    = JFactory::getDbo();
+					$query = $db->getQuery(true)
+						->select('*')
+						->from($db->qn('#__redshop_' . $section))
+						->where($db->qn($section . '_id') . ' = ' . (int) $id);
+
+					return $db->setQuery($query)->loadObject();
+			}
+		}
+
+		return null;
+	}
+
+	public static function getCategoryNameByProductId($pid)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('c.name'))
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftjoin($db->qn('#__redshop_category', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('pcx.category_id'))
+			->where($db->qn('pcx.product_id') . ' = ' . $db->q((int) $pid))
+			->where($db->qn('c.name') . ' IS NOT NULL')
+			->order($db->qn('c.id') . ' ASC')
+			->setLimit(0, 1);
+
+		return $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Return checked if product is in session of compare product cart else blank
+	 *
+	 * @param   integer $productId Id of product
+	 *
+	 * @return  string
+	 *
+	 * @deprecated  2.0.7
+	 */
+	public static function checkCompareProduct($productId)
+	{
+		$productId = (int) $productId;
+
+		if (!$productId)
+		{
+			return '';
+		}
+
+		$compareProducts = JFactory::getSession()->get('compare_product');
+
+		if (!$compareProducts)
+		{
+			return '';
+		}
+
+		$idx = (int) ($compareProducts['idx']);
+
+		foreach ($compareProducts[$idx] as $compareProduct)
+		{
+			if ($compareProduct["product_id"] == $productId)
+			{
+				return 'checked';
+			}
+		}
+
+		return '';
 	}
 
 

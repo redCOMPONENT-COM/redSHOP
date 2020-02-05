@@ -577,7 +577,7 @@ class RedshopHelperAttribute
 
 					foreach ($defaultPropertyId as $aDefaultPropertyId)
 					{
-						$displaySubproperty .= $productHelper->replaceSubPropertyData(
+						$displaySubproperty .= RedshopHelperProduct::replaceSubPropertyData(
 							$productId, $accessoryId, $relatedProductId, $attributes[$a]->attribute_id, $aDefaultPropertyId, $subpropertydata,
 							$layout, $selectSubproperty
 						);
@@ -785,7 +785,7 @@ class RedshopHelperAttribute
 
 					if ($property->property_price > 0)
 					{
-						$prices = $productHelper->getPropertyPrice($property->value, 1, 'property');
+						$prices = RedshopHelperProduct_Attribute::getPropertyPrice($property->value, 1, 'property');
 
 						if (count($prices) > 0)
 						{
@@ -796,7 +796,7 @@ class RedshopHelperAttribute
 
 						if (\Redshop\Template\Helper::isApplyAttributeVat($propertyData))
 						{
-							$priceWithVat = $productHelper->getProducttax($productId, $property->property_price, $user_id);
+							$priceWithVat = RedshopHelperProduct::getProducttax($productId, $property->property_price, $user_id);
 						}
 
 						$priceWithVat += $property->property_price;
@@ -807,7 +807,7 @@ class RedshopHelperAttribute
 							&& !$attribute->hide_attribute_price)
 						{
 							$opRand = $property->oprand;
-							$price  = $productHelper->getProductFormattedPrice($priceWithVat);
+							$price  = RedshopHelperProductPrice::formattedPrice($priceWithVat);
 						}
 					}
 

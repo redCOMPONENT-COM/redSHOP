@@ -113,8 +113,8 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		$data['acc_property_data']    = $this->input->getString('acc_property_data', '');
 		$data['acc_subproperty_data'] = $this->input->getString('acc_subproperty_data', '');
 
-		$selectAcc = $productHelper->getSelectedAccessoryArray($data);
-		$selectAtt = $productHelper->getSelectedAttributeArray($data);
+		$selectAcc = RedshopHelperProduct::getSelectedAccessoryArray($data);
+		$selectAtt = RedshopHelperProduct::getSelectedAttributeArray($data);
 
 		$childProduct = RedshopHelperProduct::getChildProduct($product->product_id);
 

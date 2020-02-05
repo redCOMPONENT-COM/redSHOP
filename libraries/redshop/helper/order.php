@@ -317,9 +317,9 @@ class RedshopHelperOrder
 		self::$allStatus = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
+		if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return null;
 		}
@@ -474,9 +474,9 @@ class RedshopHelperOrder
 		$fields = $db->setQuery($query)->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
+		if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return null;
 		}
@@ -1183,7 +1183,7 @@ class RedshopHelperOrder
 
 		if (!$db->execute())
 		{
-			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+			JFactory::getApplication()->enqueueMessage(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg(), 'error');
 		}
 	}
 
@@ -1309,14 +1309,14 @@ class RedshopHelperOrder
 
 			if (!$orderLog->bind($data))
 			{
-				JFactory::getApplication()->enqueueMessage($orderLog->getError(), 'error');
+				JFactory::getApplication()->enqueueMessage(/** @scrutinizer ignore-deprecated */ $orderLog->getError(), 'error');
 
 				return;
 			}
 
 			if (!$orderLog->store())
 			{
-				throw new Exception($orderLog->getError());
+				throw new Exception(/** @scrutinizer ignore-deprecated */ $orderLog->getError());
 			}
 
 			self::updateOrderComment($orderId, $customerNote);
@@ -2836,7 +2836,7 @@ class RedshopHelperOrder
 
 		if (!$orderLog->store())
 		{
-			return JError::raiseWarning('', $orderLog->getError());
+			return /** @scrutinizer ignore-deprecated */ JError::raiseWarning('', /** @scrutinizer ignore-deprecated */ $orderLog->getError());
 		}
 
 		// Changing the status of the order
