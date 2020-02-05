@@ -314,22 +314,6 @@ class RsUserHelper
 	}
 
 	/**
-	 * Method for replace company billing fields.
-	 *
-	 * @param   string  $templateHtml  Template content
-	 * @param   array   $post          Available data.
-	 * @param   array   $lists         Available list data.
-	 *
-	 * @return  string                 Html content after replace
-	 *
-	 * @deprecated  2.0.7  Use RedshopHelperBilling::replaceCompanyCustomer instead.
-	 */
-	public function replaceCompanyCustomer($templateHtml = '', $post = array(), $lists = array())
-	{
-		return RedshopHelperBilling::replaceCompanyCustomer($templateHtml, $post, $lists);
-	}
-
-	/**
 	 * Method for get shipping table
 	 *
 	 * @param   array    $post       Available data.

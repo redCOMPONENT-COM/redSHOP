@@ -39,6 +39,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 				array(
 					'text' => JText::_('COM_REDSHOP_CART_SAVE'),
 					'tag' => 'div',
+					'id' => '',
 					'class' => 'ajax_cart_box_title'
 				)
 			);
@@ -53,6 +54,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 				array(
 					'text' => JText::_('COM_REDSHOP_SHOW_CART_TEXT'),
 					'tag' => 'div',
+					'id' => '',
 					'class' => 'show_cart_text'
 				)
 			);

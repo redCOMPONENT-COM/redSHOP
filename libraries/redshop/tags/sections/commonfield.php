@@ -49,7 +49,8 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 		$lists['state_code']   = $states['state_dropdown'];
 		$countryStyle          = count($countries['countrylist']) == 1 && count($states['statelist']) == 0 ? 'display:none;' : '';
 		$stateStyle            = ($states['is_states'] <= 0) ? 'display:none;' : '';
-		$this->template        = $this->replaceRetypeEmail($prefix);
+		$options               = RedshopLayoutHelper::$layoutOption;
+		$this->template        = $this->replaceRetypeEmail($prefix, $options);
 
 		if ($this->isTagExists('{email}'))
 		{
@@ -59,15 +60,12 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'id' => $prefix . 'email1',
 					'name' => 'email1',
 					'value' => (isset($data["email1"]) ? $data["email1"] : ''),
-					'class' => 'inputbox required"',
+					'type' => 'text',
+					'class' => 'inputbox required',
 					'attr' => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS') . '"'
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{email}', $htmlEmail);
@@ -83,11 +81,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_EMAIL')
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{email_lbl}', $htmlEmailLbl);
@@ -103,11 +97,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_FIRSTNAME')
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{firstname_lbl}', $htmlFirstNameLbl);
@@ -120,16 +110,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 				array(
 					'id' => $prefix . 'firstname',
 					'name' => 'firstname',
+					'type' => 'text',
 					'value' => (isset($data["firstname"]) ? $data["firstname"] : ''),
-					'class' => 'inputbox required"',
+					'class' => 'inputbox required',
 					'attr' => 'size="32" maxlength="250"'
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{firstname}', $htmlFirstName);
@@ -145,11 +132,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_LASTNAME')
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{lastname_lbl}', $htmlLastNameLbl);
@@ -162,16 +145,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 				array(
 					'id' => $prefix . 'lastname',
 					'name' => 'lastname',
+					'type' => 'text',
 					'value' => (isset($data["lastname"]) ? $data["lastname"] : ''),
-					'class' => 'inputbox required"',
+					'class' => 'inputbox required',
 					'attr' => 'size="32" maxlength="250"'
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{lastname}', $htmlLastName);
@@ -188,11 +168,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_ADDRESS')
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{address_lbl}', $htmlAddressLbl);
@@ -205,16 +181,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 				array(
 					'id' => $prefix . 'address',
 					'name' => 'address',
+					'type' => 'text',
 					'value' => (isset($data["address"]) ? $data["address"] : ''),
-					'class' => 'inputbox required"',
+					'class' => 'inputbox required',
 					'attr' => 'size="32" maxlength="250"'
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{address}', $htmlAddress);
@@ -230,11 +203,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_ZIP')
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{zipcode_lbl}', $htmlZipcodeLbl);
@@ -247,16 +216,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 				array(
 					'id' => $prefix . 'zipcode',
 					'name' => 'zipcode',
+					'type' => 'text',
 					'value' => (isset($data["zipcode"]) ? $data["zipcode"] : ''),
-					'class' => 'inputbox required"',
+					'class' => 'inputbox required',
 					'attr' => 'size="32" maxlength="250" onblur="return autoFillCity(this.value,\'BT\');"'
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{zipcode}', $htmlZipcode);
@@ -272,11 +238,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_CITY')
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{city_lbl}', $htmlCityLbl);
@@ -289,16 +251,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 				array(
 					'id' => $prefix . 'city',
 					'name' => 'city',
+					'type' => 'text',
 					'value' => (isset($data["city"]) ? $data["city"] : ''),
-					'class' => 'inputbox required"',
+					'class' => 'inputbox required',
 					'attr' => 'size="32" maxlength="250"'
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{city}', $htmlCity);
@@ -318,11 +277,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_PHONE')
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{phone_lbl}', $htmlPhoneLbl);
@@ -335,16 +290,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 				array(
 					'id' => $prefix . 'phone',
 					'name' => 'phone',
+					'type' => 'text',
 					'value' => (isset($data["phone"]) ? $data["phone"] : ''),
-					'class' => 'inputbox required"',
+					'class' => 'inputbox phone required',
 					'attr' => 'size="32" maxlength="250" onblur="return searchByPhone(this.value,\'BT\');" ' . $phoneIsRequired
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{phone}', $htmlPhone);
@@ -360,11 +312,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_COMPANY_NAME')
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{company_name_lbl}', $htmlCompanyNameLbl);
@@ -377,16 +325,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 				array(
 					'id' => $prefix . 'company_name',
 					'name' => 'company_name',
+					'type' => 'text',
 					'value' => (isset($data["company_name"]) ? $data["company_name"] : ''),
-					'class' => 'inputbox required"',
+					'class' => 'inputbox required',
 					'attr' => 'size="32" maxlength="250"'
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				$options
 			);
 
 			$this->addReplace('{company_name}', $htmlCompanyName);
@@ -413,7 +358,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function replaceRetypeEmail($prefix)
+	public function replaceRetypeEmail($prefix, $options)
 	{
 		$subTemplate = $this->getTemplateBetweenLoop('{retype_email_start}', '{retype_email_end}');
 
@@ -433,11 +378,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 						'text' => JText::_('COM_REDSHOP_RETYPE_CUSTOMER_EMAIL')
 					),
 					'',
-					array(
-						'component'  => 'com_redshop',
-						'layoutType' => 'Twig',
-						'layoutOf'   => 'library'
-					)
+					$options
 				);
 
 				$htmlEmail = RedshopLayoutHelper::render(
@@ -445,16 +386,13 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					array(
 						'id' => $prefix . 'email2',
 						'name' => 'email2',
+						'type' => 'text',
 						'value' => '',
-						'class' => 'inputbox required"',
+						'class' => 'inputbox required',
 						'attr' => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PROVIDE_CORRECT_EMAIL_ADDRESS') . '" required'
 					),
 					'',
-					array(
-						'component'  => 'com_redshop',
-						'layoutType' => 'Twig',
-						'layoutOf'   => 'library'
-					)
+					$options
 				);
 
 				$this->replacements['{retype_email_lbl}'] = $htmlEmailLbl;
