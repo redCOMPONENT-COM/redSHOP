@@ -38,7 +38,7 @@ class RedshopTagsSectionsPrivateBillingTemplate extends RedshopTagsAbstract
 				'commonfield',
 				$this->template,
 				array(
-					'data' => array(),
+					'data' => $this->data['data'],
 					'lists' => $this->data['lists'],
 					'prefix' => 'private-'
 				)

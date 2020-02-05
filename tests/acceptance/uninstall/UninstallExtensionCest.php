@@ -33,7 +33,9 @@ class UninstallExtensionCest
 
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(\ExtensionManagerJoomla3Page::$searchTools, 30);
+		$I->wait(0.5);
 		$I->click(\ExtensionManagerJoomla3Page::$searchTools);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElement('#filter_type', 30);
 		$I->selectOptionInChosen('#filter_type', 'Component');
 		$I->fillField('#filter_search', 'redSHOP');
