@@ -2032,7 +2032,7 @@ class RedshopHelperProduct
             ->where($db->qn('product_id') . ' = ' . $db->q((int) $product_id));
 
 		$db->setQuery($query);
-		$cat = $db->loadObjects();
+		$cat = $db->loadObjectList();
 
 		for ($i = 0, $in = count($cat); $i < $in; $i++)
 		{
