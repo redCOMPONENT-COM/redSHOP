@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::import('redshop.library');
 
 /**
  * Smart Search adapter for redSHOP Products.
@@ -162,7 +163,7 @@ class PlgFinderRedShop extends FinderIndexerAdapter
 
 		$alias       = JFilterOutput::stringURLSafe($item->slug);
 		$item->url   = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = RedshopHelperRoute::getProductRoute($alias, $item->catid, $item->language, $item->manu_id);
+		$item->route = RedshopHelperRouter::getProductRoute($alias, $item->catid, $item->language, $item->manu_id);
 		$item->path  = FinderIndexerHelper::getContentPath($item->route);
 
 		// Add the meta-author.

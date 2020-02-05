@@ -47,7 +47,7 @@ abstract class RedshopTagsAbstract
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	public $replacements = array();
 
@@ -270,7 +270,7 @@ abstract class RedshopTagsAbstract
 	 * @param   string $template     template before replace tags.
 	 *
 	 * @return  string $template
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	public function strReplace($replacements, $template)
 	{
