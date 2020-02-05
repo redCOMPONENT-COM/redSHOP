@@ -45,19 +45,17 @@ class RedshopTagsSectionsPrivateBillingTemplate extends RedshopTagsAbstract
 			);
 
 		$hidden = RedshopLayoutHelper::render(
-			'tags.common.hidden',
+			'tags.common.input',
 			array(
 				'name' => 'is_company',
 				'id' => '',
+				'type' => 'hidden',
 				'value' => 0,
-				'attr' => ''
+				'attr' => '',
+				'class' => ''
 			),
 			'',
-			array(
-				'component'  => 'com_redshop',
-				'layoutType' => 'Twig',
-				'layoutOf'   => 'library'
-			)
+			RedshopLayoutHelper::$layoutOption
 		);
 
 		$this->template = $template . $hidden;
