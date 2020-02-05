@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Class Redshop Helper Product
  *
@@ -2014,7 +2016,7 @@ class RedshopHelperProduct
 
 	public static function getWrapper($product_id, $wrapper_id = 0, $default = 1)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$usetoall = "";
 		$and      = "";
@@ -2024,10 +2026,13 @@ class RedshopHelperProduct
 			$and .= " AND wrapper_id='" . $wrapper_id . "' ";
 		}
 
-		$query = "SELECT * FROM " . $db->qn('#__product_category_xref')
-			. "WHERE product_id = '" . (int) $product_id . "' ";
+		$query = $db->getQuery(true);
+		$query->select('*')
+            ->from($db->qn('#__redshop_product_category_xref'))
+            ->where($db->qn('product_id') . ' = ' . $db->q((int) $product_id));
+
 		$db->setQuery($query);
-		$cat = $db->loadObjectList();
+		$cat = $db->loadObjects();
 
 		for ($i = 0, $in = count($cat); $i < $in; $i++)
 		{
@@ -2039,7 +2044,7 @@ class RedshopHelperProduct
 			$usetoall .= " OR wrapper_use_to_all = 1 ";
 		}
 
-		$query = "SELECT * FROM " .  $db->qn('#__wrapper')
+		$query = "SELECT * FROM " .  $db->qn('#__redshop_wrapper')
 			. "WHERE published = 1 "
 			. "AND (FIND_IN_SET(" . (int) $product_id . ",product_id) "
 			. $usetoall . " )"
@@ -2314,7 +2319,7 @@ class RedshopHelperProduct
 	public static function getMainParentProduct($parent_id)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT product_parent_id FROM " . $db->qn('#__product ')
+		$query = "SELECT product_parent_id FROM " . $db->qn('#__redshop_product ')
 			. "WHERE published=1 "
 			. "AND product_id = " . (int) $parent_id;
 		$db->setQuery($query);
@@ -2522,7 +2527,7 @@ class RedshopHelperProduct
 	public static function getSubscription($product_id = 0)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT * FROM " . $db->qn('#__product_subscription')
+		$query = "SELECT * FROM " . $db->qn('#__redshop_product_subscription')
 			. "WHERE product_id = " . (int) $product_id . " "
 			. "ORDER BY subscription_id ";
 		$db->setQuery($query);
@@ -3031,8 +3036,8 @@ class RedshopHelperProduct
 			$and .= " AND p.manufacturer_id IN (" . implode(',', $shopGroupsIds) . ") ";
 		}
 
-		$query = "SELECT p.product_id FROM " . $db->qn('#__product_category_xref') . " AS pc"
-			. " LEFT JOIN " . $db->qn('#__product') . " AS p ON pc.product_id=p.product_id "
+		$query = "SELECT p.product_id FROM " . $db->qn('#__redshop_product_category_xref') . " AS pc"
+			. " LEFT JOIN " . $db->qn('#__redshop_product') . " AS p ON pc.product_id=p.product_id "
 			. " WHERE category_id = " . (int) $id . " "
 			. $and;
 		$db->setQuery($query);
@@ -3265,7 +3270,7 @@ class RedshopHelperProduct
 			$user_id = $user->id;
 		}
 
-		$data                  = Cart::getCartTemplate();
+		$data                  = \Redshop\Template\Cart::getCartTemplate();
 		$chktag                = \Redshop\Template\Helper::isApplyAttributeVat($data[0]->template_desc, $user_id);
 		$setPropEqual          = true;
 		$setSubpropEqual       = true;
@@ -3416,7 +3421,7 @@ class RedshopHelperProduct
 	{
 		$db    = JFactory::getDbo();
 		$query = "SELECT * "
-			. " FROM " . $db->qn('#__product_subscription')
+			. " FROM " . $db->qn('#__redshop_product_subscription')
 			. " WHERE "
 			. " product_id = " . (int) $product_id . " AND subscription_id = " . (int) $subscription_id;
 		$db->setQuery($query);
@@ -3527,7 +3532,7 @@ class RedshopHelperProduct
 					$orderby_related = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
 				}
 
-				$query = "SELECT * FROM " . $db->qn('#__product_related') . " AS r "
+				$query = "SELECT * FROM " . $db->qn('#__redshop_product_related') . " AS r "
 					. "WHERE r.product_id IN (" . implode(',', $productIds) . ") OR r.related_id IN (" . implode(',', $productIds) . ")" . $orderby_related . "";
 				$db->setQuery($query);
 				$list = $db->loadObjectlist();
@@ -3556,7 +3561,7 @@ class RedshopHelperProduct
 				$relatedArr = array_unique($relatedArr);
 
 				$query = "SELECT " . $productId . " AS mainproduct_id,p.* "
-					. "FROM " . $db->qn('#__product') . " AS p "
+					. "FROM " . $db->qn('#__redshop_product') . " AS p "
 					. "WHERE p.published = 1 ";
 				$query .= ' AND p.product_id IN (' . implode(", ", $relatedArr) . ') ';
 				$query .= $orderby;
@@ -3584,8 +3589,8 @@ class RedshopHelperProduct
 		}
 
 		$query = "SELECT r.product_id AS mainproduct_id,p.* " . $add_e . " "
-			. "FROM " . $db->qn('#__product_related') . " AS r "
-			. "LEFT JOIN " . $db->qn('#__product') . " AS p ON p.product_id = r.related_id ";
+			. "FROM " . $db->qn('#__redshop_product_related') . " AS r "
+			. "LEFT JOIN " . $db->qn('#__redshop_product') . " AS p ON p.product_id = r.related_id ";
 
 		if (!empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
 			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
@@ -4367,7 +4372,7 @@ class RedshopHelperProduct
 	public static function getProdcutSerialNumber($product_id, $is_used = 0)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT * FROM " . $db->qn('#__product_serial_number')
+		$query = "SELECT * FROM " . $db->qn('#__redshop_product_serial_number')
 			. "WHERE product_id = " . (int) $product_id . " "
 			. " AND is_used = " . (int) $is_used . " "
 			. " LIMIT 0,1";
@@ -4393,7 +4398,7 @@ class RedshopHelperProduct
 	public static function updateProdcutSerialNumber($serial_id)
 	{
 		$db    = JFactory::getDbo();
-		$update_query = "UPDATE " . $db->qn('#__product_serial_number')
+		$update_query = "UPDATE " . $db->qn('#__redshop_product_serial_number')
 			. " SET is_used='1' WHERE serial_id = " . (int) $serial_id;
 		$db->setQuery($update_query);
 		$db->execute();
@@ -4431,7 +4436,7 @@ class RedshopHelperProduct
 		// Generate Download Token
 		$token = md5(uniqid(mt_rand(), true));
 
-		$sql = "INSERT INTO " . $db->qn('#__product_download')
+		$sql = "INSERT INTO " . $db->qn('#__redshop_product_download')
 			. "(product_id,user_id,order_id, end_date, download_max, download_id, file_name,product_serial_number) "
 			. "VALUES(" . (int) $product_id . ", " . (int) $user_id . ", " . (int) $order_id . ", "
 			. (int) $endtime . ", " . (int) $product_download_limit . ", "
@@ -4882,8 +4887,8 @@ class RedshopHelperProduct
 	{
 		$db = JFactory::getDbo();
 
-		$query = "SELECT * FROM " . $db->qn('#__product_subscribe_detail') . " AS p "
-			. "LEFT JOIN " . $db->qn('#__product_subscription') . " AS ps ON ps.subscription_id=p.subscription_id "
+		$query = "SELECT * FROM " . $db->qn('#__redshop_product_subscribe_detail') . " AS p "
+			. "LEFT JOIN " . $db->qn('#__redshop_product_subscription') . " AS ps ON ps.subscription_id=p.subscription_id "
 			. "WHERE order_item_id = " . (int) $order_item_id;
 		$db->setQuery($query);
 		$list = $db->loadObject();
