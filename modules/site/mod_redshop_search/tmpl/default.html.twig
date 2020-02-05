@@ -1,0 +1,98 @@
+{% if goodGuy %}
+<form
+        action="{{ formAction }}"
+        method="GET"
+        name="redSHOPSEARCH">
+    <div class="product_search">
+        {% if showProductSearchTitle == 'yes'  %}
+        <div class="product_search_title">
+            {{ jtext('MOD_REDSHOP_SEARCH_PRODUCT_SEARCH') }}
+        </div>
+        {% endif %}
+
+        {% if showSearchTypeField == 'yes' %}
+        <div class="product_search_type">{{ data['searchtypedata'] | raw }}</div>
+        {% else %}
+        <input type="hidden" name="search_type" id="search_type" value="{{ type }}"/>
+        {% endif %}
+
+        {% if showCategory == 'yes' %}
+        <div class="product_search_catdata">
+            {{ jtext('MOD_REDSHOP_SEARCH_SELECT_CATEGORIES') }}
+            <br>
+            <div class="product_search_catdata_category">
+                {{ data['catdata'] | raw }}
+            </div>
+            {% if showManufacturer == 'yes' %}
+            <div class="product_search_catdata_product" id="product_search_catdata_product"
+                 style="display: none;"></div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if showManuFacturer == 'yes' and showCategory == 'no' %}
+        <div class="product_search_manufacturedata">
+            {{ jtext('MOD_REDSHOP_SEARCH_SELECT_MANUFACTURE') }}<br>
+            <div class="product_search_manufacturedata_manufacture">
+                {{ data['manufacturedata'] | raw }}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if showCustomfield == 'yes' and fieldData is empty %}
+        <div class="mod_redshop_search_custom_field">
+            {% for key, field in fieldData  %}
+            <label>{{ field.get('title') }} }}</label>
+            <select name="custom_field[{{ key }}]">
+                <option value="">{{ jtext('MOD_REDSHOP_SEARCH_SELECT_FIELD') }}</option>:?>
+                {% for value, name in field.get('value') %}
+                <option value="{{ value | url_encode }}"
+                        {% if field.key == value | url_encode %}
+                        selected="selected"
+                        {% endif %}
+                >
+                    {{ name }}
+                </option>
+                {% endfor %}
+            </select>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if showSearchField == 'yes' %}
+        {% if showKeywordTitle == 'yes' %}
+        <div class="product_search_input">
+            {{ jtext('MOD_REDSHOP_SEARCH_KEYWORD') }}
+            {% endif %}
+            <br>
+            <input type="text"
+                   class="span12"
+                   name="keyword"
+                   id="keyword"
+                   value="{{ keyword }}"
+                   onclick="this.value=''"/>
+            {% if showKeywordTitle%}
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <div class="product_search_button">
+            <input type="submit"
+                   name="Search"
+                   value="{{ jtext('MOD_REDSHOP_SEARCH_SEARCH') }}"
+                   id="Search" />
+        </div>
+    </div>
+    <input type="hidden" name="option" value="com_redshop"/>
+    <input type="hidden" name="view" value="search"/>
+    <input type="hidden" name="layout" value="default"/>
+    <input type="hidden" name="templateid" value="{{ templateId }}"/>
+    <input type="hidden" name="perpageproduct" value="{{ productPerpage }}"/>
+    <input type="hidden" name="Itemid" id="Itemid" value="{{ itemid }}"/>
+    <input type="hidden" name="excludeCategories" id="excludeCategories"
+           value="{{ excludeCategories }}"/>
+    <input type="hidden" name="searchProductByCategoryName"
+           id="searchProductByCategoryName"
+           value="{{ searchProductByCatName }}"/>
+</form>
+{% endif %}

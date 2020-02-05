@@ -12,7 +12,10 @@ $items = RedshopMenuLeft_Menu::render(true);
 
 $menuhide = explode(",", $this->config->get('MENUHIDE'));
 
-$items = array_chunk($items, 3);
+if (is_array($items))
+{
+	$items = array_chunk($items, 3);
+}
 ?>
 
 <?php if (isset($items)): ?>

@@ -395,7 +395,7 @@ class ModuleRedSHOPProductCest
 
 		$I->comment('checkout one product');
 		$I = new OrderSteps($scenario);
-		$I->addProductToCartWithBankTransfer($this->productName3, $this->productPrice, $this->userName, $this->password);
+		$I->addProductToCartWithBankTransfer($this->productName3, $this->categoryName, $this->productPrice, $this->userName, $this->password);
 
 		$I->comment('check module redSHOP Products ');
 		$I = new redSHOPProductSteps($scenario);
