@@ -1,58 +1,49 @@
 <div class="form-group">
-	<label>{email_lbl}:</label>
-	{email}
+	{email_lbl}{email}
 	<span class="required">*</span>
 </div>
 
 <!-- {retype_email_start} -->
 <div class="form-group">
-	<label>{retype_email_lbl}:</label>
-	{retype_email}
+	{retype_email_lbl}{retype_email}
 	<span class="required">*</span>
 </div>
 <!-- {retype_email_end} -->
 
 <div class="form-group">
-	<label>{company_name_lbl}:</label>
-	{company_name}
+	{company_name_lbl}{company_name}
 	<span class="required">*</span>
 </div>
 
 <!-- {vat_number_start} -->
 <div class="form-group">
-	<label>{vat_number_lbl}:</label>
-	{vat_number}
+	{vat_number_lbl}{vat_number}
 	<span class="required">*</span>
 </div>
 <!-- {vat_number_end} -->
 
 <div class="form-group">
-	<label>{firstname_lbl}:</label>
-	{firstname}
+	{firstname_lbl}{firstname}
 	<span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{lastname_lbl}:</label>
-	{lastname}
+	{lastname_lbl}{lastname}
 	<span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{address_lbl}:</label>
-	{address}
+	{address_lbl}{address}
 	<span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{zipcode_lbl}:</label>
-	{zipcode}
+	{zipcode_lbl}{zipcode}
 	<span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{city_lbl}:</label>
-	{city}
+	{city_lbl}{city}
 	<span class="required">*</span>
 </div>
 
@@ -69,18 +60,16 @@
 </div>
 
 <div class="form-group">
-	<label>{phone_lbl}:</label>
-	{phone}
+	{phone_lbl}{phone}
 	<span class="required">*</span>
 </div>
 
 <div class="form-group">
-	<label>{ean_number_lbl}:</label>
-	{ean_number}
+	{ean_number_lbl}{ean_number}
 </div>
 
 <div class="form-group">
-	<label>{tax_exempt_lbl}</label>
+	{tax_exempt_lbl}</label>
 	{tax_exempt}
 </div>
 {company_extrafield}

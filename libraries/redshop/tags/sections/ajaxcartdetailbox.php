@@ -156,12 +156,14 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		$this->template = Redshop\Cart\Render::replace($product->product_id, $product->category_id, 0, $relatedprdId, $this->template, $isChilds, $productUserField[1], $totalatt, $totalAccessory, $countNoUserField);
 
 		$hidden = RedshopLayoutHelper::render(
-			'tags.common.hidden',
+			'tags.common.input',
 			array(
 				'name' => 'isAjaxBoxOpen',
 				'id' => 'isAjaxBoxOpen',
+				'type' => 'hidden',
 				'value' => $layout,
-				'attr' => ''
+				'attr' => '',
+				'class' => ''
 			),
 			'',
 			array(

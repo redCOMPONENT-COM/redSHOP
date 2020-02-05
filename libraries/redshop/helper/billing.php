@@ -136,7 +136,14 @@ class RedshopHelperBilling
 				$html = !empty($companyTemplate->template_desc) ?
 					$companyTemplate->template_desc : self::getDefaultCompanyTemplate();
 
-				$html = self::replaceCompanyCustomer($html, $post, $lists);
+				$html = RedshopTagsReplacer::_(
+					'companybillingtemplate',
+					$html,
+					array(
+						'data' => $post,
+						'lists' => $lists
+					)
+				);
 			}
 
 			$html = '<div id="tblcompany_customer">' . $html . '</div>'
@@ -240,112 +247,6 @@ class RedshopHelperBilling
 
 		JPluginHelper::importPlugin('redshop_checkout');
 		RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingCheckout', array(&$templateHtml));
-
-		return $templateHtml;
-	}
-
-	/**
-	 * Method for replace company billing fields.
-	 *
-	 * @param   string  $templateHtml  Template content
-	 * @param   array   $post          Available data.
-	 * @param   array   $lists         Available list data.
-	 *
-	 * @return  string                 Html content after replace
-	 *
-	 * @since   2.0.7
-	 */
-	public static function replaceCompanyCustomer($templateHtml = '', $post = array(), $lists = array())
-	{
-		$templateHtml = RedshopTagsReplacer::_(
-			'commonfield',
-			$templateHtml,
-			array(
-				'data' => $post,
-				'lists' => $lists,
-				'prefix' => 'company-'
-			)
-		);
-
-		$templateHtml = str_replace("{company_name_lbl}", JText::_('COM_REDSHOP_COMPANY_NAME'), $templateHtml);
-		$templateHtml = str_replace(
-			"{company_name}",
-			'<input class="inputbox form-control required" type="text" name="company_name" id="company_name"'
-			. ' size="32" maxlength="250"'
-			. ' value="' . (!empty($post["company_name"]) ? $post['company_name'] : '') . '" />',
-			$templateHtml
-		);
-		$templateHtml = str_replace("{ean_number_lbl}", JText::_('COM_REDSHOP_EAN_NUMBER'), $templateHtml);
-		$templateHtml = str_replace(
-			"{ean_number}",
-			'<input class="inputbox form-control" type="text" name="ean_number" id="ean_number"'
-			. ' size="32" maxlength="250"'
-			. ' value="' . (!empty($post["ean_number"]) ? $post['ean_number'] : '') . '" />',
-			$templateHtml
-		);
-
-		if (strpos($templateHtml, "{vat_number_start}") !== false && strpos($templateHtml, "{vat_number_end}") !== false)
-		{
-			$htmlStart  = explode('{vat_number_start}', $templateHtml);
-			$htmlEnd    = explode('{vat_number_end}', $htmlStart[1]);
-			$htmlMiddle = '';
-
-			if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
-			{
-				$htmlMiddle    = $htmlEnd[0];
-				$classRequired = Redshop::getConfig()->get('REQUIRED_VAT_NUMBER') == 1 ? "required" : "";
-				$htmlMiddle    = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_VAT_NUMBER'), $htmlMiddle);
-				$htmlMiddle    = str_replace(
-					"{vat_number}",
-					'<input type="text" class="inputbox form-control ' . $classRequired . '" name="vat_number"'
-					. ' id="vat_number" size="32" maxlength="250" '
-					. '" value="' . (!empty($post["vat_number"]) ? $post['vat_number'] : '') . '" />',
-					$htmlMiddle
-				);
-			}
-
-			$templateHtml = $htmlStart[0] . $htmlMiddle . $htmlEnd[1];
-		}
-
-		if (Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1 && Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT'))
-		{
-			$allowCompany = isset($post['is_company']) && 1 != (int) $post['is_company'] ? 'style="display:none;"' : '';
-			$taxExempt    = isset($post["tax_exempt"]) ? $post["tax_exempt"] : '';
-
-			$taxExemptHtml = JHtml::_(
-				'select.booleanlist',
-				'tax_exempt',
-				'class="inputbox form-control" ',
-				$taxExempt,
-				JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'),
-				JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED')
-			);
-
-			$templateHtml = str_replace(
-				"{tax_exempt_lbl}",
-				'<div id="lblTaxExempt" ' . $allowCompany . '>' . JText::_('COM_REDSHOP_TAX_EXEMPT') . '</div>',
-				$templateHtml
-			);
-
-			$templateHtml = str_replace(
-				"{tax_exempt}",
-				'<div id="trTaxExempt" ' . $allowCompany . '>' . $taxExemptHtml . '</div>',
-				$templateHtml
-			);
-		}
-		else
-		{
-			$templateHtml = str_replace("{tax_exempt_lbl}", '', $templateHtml);
-			$templateHtml = str_replace("{tax_exempt}", '', $templateHtml);
-		}
-
-		if (strpos($templateHtml, "{company_extrafield}") !== false)
-		{
-			$companyExtraFields = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1 && $lists['extra_field_company'] != "") ?
-				$lists['extra_field_company'] : "";
-
-			$templateHtml = str_replace("{company_extrafield}", $companyExtraFields, $templateHtml);
-		}
 
 		return $templateHtml;
 	}
