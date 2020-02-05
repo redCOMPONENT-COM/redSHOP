@@ -336,7 +336,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'id' => $prefix . 'phone',
 					'name' => 'phone',
 					'value' => (isset($data["phone"]) ? $data["phone"] : ''),
-					'class' => 'inputbox required"',
+					'class' => 'inputbox phone required"',
 					'attr' => 'size="32" maxlength="250" onblur="return searchByPhone(this.value,\'BT\');" ' . $phoneIsRequired
 				),
 				'',

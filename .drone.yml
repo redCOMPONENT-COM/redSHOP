@@ -22,8 +22,8 @@ pipeline:
             - mv /opt/cache/redSHOP/node_modules .
             - touch tests/.cache.npm.tmp
             # Joomla CMS
-            - mv /opt/cache/joomla-cms tests
-            - touch tests/.cache.joomla-cms.tmp
+            # - mv /opt/cache/joomla-cms tests
+            # - touch tests/.cache.joomla-cms.tmp
 
     00-setup:
         group: 00-setup
@@ -62,8 +62,8 @@ pipeline:
             # Codeception setup
             - cp tests/acceptance.suite.yml.dist.drone tests/acceptance.suite.yml
             # Test setup
-            - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
-            # - vendor/bin/robo tests:site-preparation 0 0
+            # - while [ ! -f tests/.cache.joomla-cms.tmp ]; do sleep 1; done                      # Comment if not using Joomla CMS cache
+            - vendor/bin/robo tests:site-preparation 0 0
             # Ownership for uid 82
             - chown -R www-data:www-data .
             # Touching temp file to start the setup of each installation (in each PHP version - via services)
@@ -122,6 +122,7 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g02 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g03 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g04 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/uninstall 0 0'
 
     02-Group2:
@@ -167,8 +168,8 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Product_Price 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g05 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g07 0 0'
 
     04-Group4:
@@ -192,7 +193,6 @@ pipeline:
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g08 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g10 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g11 0 0'
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g13 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/Oder_Backend 0 0'
 
     05-Group5:
@@ -213,7 +213,7 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g15/Product_Price 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/administrator/g06 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g09 0 0'
 
     06-Group6:
@@ -339,7 +339,8 @@ pipeline:
             # Waits until Chromedriver is up and running
             - while ! nc -z localhost 9515; do sleep 1; done
             # Performs test
-            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/payment 0 0'
+            - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Plugins/Shipping 0 0'
             - su www-data -c 'vendor/bin/robo tests:run acceptance/integration/g17/Category 0 0'
 
     12-Group12:
