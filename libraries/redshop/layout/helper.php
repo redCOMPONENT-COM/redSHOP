@@ -33,6 +33,15 @@ class RedshopLayoutHelper
 	public static $defaultBasePath = '';
 
 	/**
+	 * @var    array
+	 */
+	public static $layoutOption = array(
+		'component'  => 'com_redshop',
+		'layoutType' => 'Twig',
+		'layoutOf'   => 'library'
+	);
+
+	/**
 	 * Method to render the layout.
 	 *
 	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
