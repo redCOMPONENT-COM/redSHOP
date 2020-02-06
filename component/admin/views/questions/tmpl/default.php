@@ -144,3 +144,28 @@ if ($allowOrder)
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn ?>" />
 </form>
+
+<script type="text/javascript">
+	Joomla.submitbutton = function (pressbutton) {
+		var form = document.adminForm;
+
+		if (pressbutton) {
+			form.task.value = pressbutton;
+		}
+
+		if (pressbutton === "questions.delete") {
+			if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM') ?>")) {
+				form.submit();
+			}
+			else {
+				form.view.value = "questions";
+				form.task.value = '';
+				return false;
+			}
+		}
+		else
+		{
+			form.submit();
+		}
+	};
+</script>
