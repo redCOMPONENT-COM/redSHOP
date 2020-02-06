@@ -277,14 +277,24 @@ class RedshopHelperProductTag
 		{
 			if ($subPropertyId)
 			{
-				$productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime($productId, $subPropertyId, "subproperty", 0);
+				$productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime(
+					$productId,
+					$subPropertyId,
+					"subproperty",
+					0
+				);
 
 				$attributeFlag = !empty($productAttributeDelivery) ? true : false;
 			}
 
 			if ($propertyId && !$attributeFlag)
 			{
-				$productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime($productId, $propertyId, "property", 0);
+				$productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime(
+					$productId,
+					$propertyId,
+					"property",
+					0
+				);
 
 				$attributeFlag = !empty($productAttributeDelivery) ? true : false;
 			}
@@ -349,7 +359,10 @@ class RedshopHelperProductTag
 			$attributes         = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 			$attributes         = array_merge($attributes, $attributeSets);
 			$productStockStatus = RedshopHelperProduct::getproductStockStatus(
-				$product->product_id, count($attributes), $propertyId, $subPropertyId
+				$product->product_id,
+				count($attributes),
+				$propertyId,
+				$subPropertyId
 			);
 
 			if (strpos($templateHtml, "{stock_status") !== false)
@@ -387,7 +400,9 @@ class RedshopHelperProductTag
 						|| !$productStockStatus['preorder'])
 					{
 						$stockStatus = '<span id="stock_status_div' . $productId . '"><div id="' . $outStockClass
-							. '" class="' . $outStockClass . '">' . JText::_('COM_REDSHOP_OUT_OF_STOCK') . '</div></span>';
+							. '" class="' . $outStockClass . '">' . JText::_(
+								'COM_REDSHOP_OUT_OF_STOCK'
+							) . '</div></span>';
 					}
 					else
 					{
@@ -528,7 +543,13 @@ class RedshopHelperProductTag
 			{
 				$productImg     = RedshopHelperMedia::watermark('product', $thumb, $moreThumbWidth, $moreThumbHeight, "1");
 				$linkImage      = RedshopHelperMedia::watermark('product', $thumb, '', '', "0");
-				$imageHoverPath = RedshopHelperMedia::watermark('product', $thumb, $additionalHoverImgWidth, $additionalHoverImgHeight, '2');
+				$imageHoverPath = RedshopHelperMedia::watermark(
+					'product',
+					$thumb,
+					$additionalHoverImgWidth,
+					$additionalHoverImgHeight,
+					'2'
+				);
 			}
 			else
 			{
@@ -601,7 +622,13 @@ class RedshopHelperProductTag
 
 				if ($isWaterMarkProductThumbImage)
 				{
-					$imagePathOriginal = RedshopHelperMedia::watermark('product', $thumbOriginal, $thumbWidth, $thumbHeight, '0');
+					$imagePathOriginal = RedshopHelperMedia::watermark(
+						'product',
+						$thumbOriginal,
+						$thumbWidth,
+						$thumbHeight,
+						'0'
+					);
 				}
 				else
 				{
@@ -1013,6 +1040,7 @@ class RedshopHelperProductTag
 
 		JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
+        if (count($attributes) > 0) {
 		foreach ($attributes as $attribute)
 		{
 			$properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
@@ -1116,6 +1144,7 @@ class RedshopHelperProductTag
 			$attributeList .= "<tr><td>" . $attrTitle . " : " . $lists['property_id'] . "</td></tr>";
 			$attributeList .= "<tr><td><div id='property_responce" . $commonId . "' style='display:none;'></td></tr>";
 		}
+        }
 
 		return $attributeList;
 	}
