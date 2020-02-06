@@ -37,14 +37,6 @@ class RedshopHelperBilling
 	public static function render($post = array(), $isCompany = 0, $lists, $showShipping = 0, $showNewsletter = 0,
 		$createAccount = 1)
 	{
-		$billingIsShipping = "";
-
-		if ((isset($post['billisship']) && $post['billisship'] == 1)
-			|| Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
-		{
-			$billingIsShipping = "checked='checked'";
-		}
-
 		$billingTemplate = RedshopHelperTemplate::getTemplate("billing_template");
 
 		if (!empty($billingTemplate) && !empty($billingTemplate[0]->template_desc)
@@ -55,274 +47,25 @@ class RedshopHelperBilling
 		}
 		else
 		{
-			$templateHtml = self::getDefaultTemplate();
+			$templateHtml = RedshopHelperTemplate::getDefaultTemplateContent('billing_template');
 		}
 
-		/*
-		 * Billing template for private customer
-		 */
-		$privateTemplates = RedshopHelperTemplate::getTemplate("private_billing_template");
-
-		if (empty($privateTemplates))
-		{
-			$tmpTemplate       = new stdClass;
-			$tmpTemplate->name = 'private_billing_template';
-			$tmpTemplate->id   = 0;
-
-			$privateTemplates = array($tmpTemplate);
-		}
-
-		foreach ($privateTemplates as $privateTemplate)
-		{
-			if (strpos($templateHtml, "{private_billing_template:" . $privateTemplate->name . "}") === false)
-			{
-				continue;
-			}
-
-			$html = '';
-
-			if ($isCompany != 1)
-			{
-				$html = !empty($privateTemplate->template_desc) ?
-					$privateTemplate->template_desc : self::getDefaultPrivateTemplate();
-
-				$html = RedshopTagsReplacer::_(
-					'privatebillingtemplate',
-					$html,
-					array(
-						'data' => $post,
-						'lists' => $lists
-					)
-				);
-			}
-
-			$html = '<div id="tblprivate_customer">' . $html . '</div>'
-				. '<div id="divPrivateTemplateId" style="display:none;">' . $privateTemplate->id . '</div>';
-
-			$templateHtml = str_replace(
-				'{private_billing_template:' . $privateTemplate->name . '}',
-				$html,
-				$templateHtml
-			);
-
-			break;
-		}
-
-		/*
-		 * Billing template for company customer
-		 */
-		$companyTemplates = RedshopHelperTemplate::getTemplate("company_billing_template");
-
-		if (empty($companyTemplates))
-		{
-			$tmpTemplate       = new stdClass;
-			$tmpTemplate->name = 'company_billing_template';
-			$tmpTemplate->id   = 0;
-
-			$companyTemplates = array($tmpTemplate);
-		}
-
-		foreach ($companyTemplates as $companyTemplate)
-		{
-			if (strpos($templateHtml, "{company_billing_template:" . $companyTemplate->name . "}") === false)
-			{
-				continue;
-			}
-
-			$html = '';
-
-			if ($isCompany == 1)
-			{
-				$html = !empty($companyTemplate->template_desc) ?
-					$companyTemplate->template_desc : self::getDefaultCompanyTemplate();
-
-				$html = RedshopTagsReplacer::_(
-					'companybillingtemplate',
-					$html,
-					array(
-						'data' => $post,
-						'lists' => $lists
-					)
-				);
-			}
-
-			$html = '<div id="tblcompany_customer">' . $html . '</div>'
-				. '<div id="divCompanyTemplateId" style="display:none;">' . $companyTemplate->id . '</div>';
-
-			$templateHtml = str_replace(
-				'{company_billing_template:' . $companyTemplate->name . '}',
-				$html,
-				$templateHtml
-			);
-
-			break;
-		}
-
-		$templateHtml = str_replace("{required_lbl}", JText::_('COM_REDSHOP_REQUIRED'), $templateHtml);
-
-		if ($showShipping && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
-		{
-			$templateHtml = str_replace(
-				'{shipping_same_as_billing_lbl}',
-				JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING'),
-				$templateHtml
-			);
-
-			$html = '<input type="checkbox" id="billisship" name="billisship" value="1" '
-				. 'onclick="billingIsShipping(this);" ' . $billingIsShipping . ' />';
-
-			$templateHtml = str_replace('{shipping_same_as_billing}', $html, $templateHtml);
-		}
-		else
-		{
-			$templateHtml = str_replace("{shipping_same_as_billing_lbl}", '', $templateHtml);
-			$templateHtml = str_replace("{shipping_same_as_billing}", '', $templateHtml);
-		}
-
-		if (strpos($templateHtml, "{account_creation_start}") !== false && strpos($templateHtml, "{account_creation_end}") !== false)
-		{
-			$createAccountHtmlStart = explode('{account_creation_start}', $templateHtml);
-			$createAccountHtmlEnd   = explode('{account_creation_end}', $createAccountHtmlStart [1]);
-			$createAccountHtml      = '';
-			$checkboxStyle          = '';
-
-			if (Redshop::getConfig()->get('REGISTER_METHOD') != 1 && Redshop::getConfig()->get('REGISTER_METHOD') != 3)
-			{
-				$createAccountHtml = $createAccountHtmlEnd[0];
-
-				if (Redshop::getConfig()->get('REGISTER_METHOD') == 2)
-				{
-					$checkboxStyle = $createAccount == 1 ? 'style="display:block"' : 'style="display:none"';
-				}
-				else
-				{
-					$checkboxStyle = 'style="display:block"';
-				}
-
-				$createAccountHtml = str_replace("{username_lbl}", JText::_('COM_REDSHOP_USERNAME_REGISTER'), $createAccountHtml);
-
-				$html              = '<input class="inputbox required" type="text" name="username" id="username" size="32" maxlength="250" value="'
-					. (!empty($post["username"]) ? $post['username'] : '') . '" />';
-				$createAccountHtml = str_replace("{username}", $html, $createAccountHtml);
-
-				$createAccountHtml = str_replace("{password_lbl}", JText::_('COM_REDSHOP_PASSWORD_REGISTER'), $createAccountHtml);
-				$createAccountHtml = str_replace(
-					"{password}",
-					'<input class="inputbox required" type="password" name="password1" id="password1" size="32" maxlength="250" value="" />',
-					$createAccountHtml
-				);
-
-				$createAccountHtml = str_replace("{confirm_password_lbl}", JText::_('COM_REDSHOP_CONFIRM_PASSWORD'), $createAccountHtml);
-
-				$createAccountHtml = str_replace("{confirm_password}",
-					'<input class="inputbox required" type="password" name="password2" id="password2" size="32" maxlength="250" value="" />',
-					$createAccountHtml
-				);
-
-				$newsletterSignupLabel     = "";
-				$newsletterSignupCheckHtml = "";
-
-				if ($showNewsletter && Redshop::getConfig()->get('NEWSLETTER_ENABLE'))
-				{
-					$newsletterSignupLabel     = JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
-					$newsletterSignupCheckHtml = '<input type="checkbox" name="newsletter_signup" id="newsletter_signup" value="1">';
-				}
-
-				$createAccountHtml = str_replace("{newsletter_signup_lbl}", $newsletterSignupLabel, $createAccountHtml);
-				$createAccountHtml = str_replace("{newsletter_signup_chk}", $newsletterSignupCheckHtml, $createAccountHtml);
-			}
-
-			if (!empty(\JFactory::getUser()->id))
-			{
-				$templateHtml = $createAccountHtmlStart[0] . $createAccountHtmlEnd[1];
-			}
-			else
-			{
-				$templateHtml = $createAccountHtmlStart[0] . '<div id="tdUsernamePassword" ' . $checkboxStyle . '>' . $createAccountHtml . '</div>' .
-					$createAccountHtmlEnd[1];
-			}
-		}
-
-		$templateHtml .= '<div id="tmpRegistrationDiv" style="display: none;"></div>';
+		$templateHtml = RedshopTagsReplacer::_(
+			'billingtemplate',
+			$templateHtml,
+			array(
+				'isCompany' => $isCompany,
+				'data' => $post,
+				'lists' => $lists,
+				'showShipping' => $showShipping,
+				'createAccount' => $createAccount,
+				'showNewsletter' => $showNewsletter
+			)
+		);
 
 		JPluginHelper::importPlugin('redshop_checkout');
 		RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingCheckout', array(&$templateHtml));
 
 		return $templateHtml;
-	}
-
-	/**
-	 * Method for return default html content
-	 *
-	 * @return  string   HTML content of default template.
-	 *
-	 * @since  2.0.7
-	 */
-	public static function getDefaultTemplate()
-	{
-		return '<table class="admintable" border="0" cellspacing="0" cellpadding="0"><tbody><tr valign="top"><td>'
-			. '{private_billing_template:private_billing_template}{company_billing_template:company_billing_template}'
-			. '</td><td>{account_creation_start}<table class="admintable" border="0"><tbody><tr>'
-			. '<td width="100" align="right">{username_lbl}</td><td>{username}</td><td><span class="required">*</span>'
-			. '</td></tr><tr><td width="100" align="right">{password_lbl}</td><td>{password}</td><td>'
-			. '<span class="required">*</span></td></tr><tr><td width="100" align="right">{confirm_password_lbl}</td>'
-			. '<td>{confirm_password}</td><td><span class="required">*</span></td></tr><tr>'
-			. '<td width="100" align="right">{newsletter_signup_chk}</td><td colspan="2">{newsletter_signup_lbl}</td>'
-			. '</tr></tbody></table>{account_creation_end}</td></tr><tr><td colspan="2" align="right">'
-			. '<span class="required">*</span>{required_lbl}</td></tr><tr class="trshipping_add">'
-			. '<td class="tdshipping_add" colspan="2">{shipping_same_as_billing_lbl} {shipping_same_as_billing}</td>'
-			. '</tr></tbody></table>';
-	}
-
-	/**
-	 * Method for return default html content for private customer
-	 *
-	 * @return  string   HTML content of default template.
-	 *
-	 * @since  2.0.7
-	 */
-	public static function getDefaultPrivateTemplate()
-	{
-		return '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr>'
-			. '<td width="100" align="right">{email_lbl}:</td>' .
-			'<td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">' .
-			'{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr>' .
-			'<td width="100" align="right">{firstname_lbl}</td><td>{firstname}</td><td><span class="required">*</span></td></tr><tr>' .
-			'<td width="100" align="right">{lastname_lbl}</td><td>{lastname}</td><td><span class="required">*</span></td></tr><tr>' .
-			'<td width="100" align="right">{address_lbl}</td><td>{address}</td><td><span class="required">*</span></td></tr><tr>' .
-			'<td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td><td><span class="required">*</span></td></tr><tr>' .
-			'<td width="100" align="right">{city_lbl}</td><td>{city}</td><td><span class="required">*</span></td></tr>' .
-			'<tr id="{country_txtid}" style="{country_style}"><td width="100" align="right">{country_lbl}</td><td>{country}</td><td>' .
-			'<span class="required">*</span></td></tr><tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td>' .
-			'<td>{state}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td>' .
-			'<span class="required">*</span></td></tr><tr><td colspan="3">{private_extrafield}</td></tr></tbody></table>';
-	}
-
-	/**
-	 * Method for return default html content for company customer
-	 *
-	 * @return  string   HTML content of default template.
-	 *
-	 * @since  2.0.7
-	 */
-	public static function getDefaultCompanyTemplate()
-	{
-		return '<table class="admintable" style="height: 221px;" border="0" width="183"><tbody><tr><td width="100" align="right">{email_lbl}:</td>'
-			. '<td>{email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_start} --><tr><td width="100" align="right">'
-			. '{retype_email_lbl}</td><td>{retype_email}</td><td><span class="required">*</span></td></tr><!-- {retype_email_end} --><tr>'
-			. '<td width="100" align="right">{company_name_lbl}</td><td>{company_name}</td><td><span class="required">*</span></td></tr>'
-			. '<!--{vat_number_start} --><tr><td width="100" align="right">{vat_number_lbl}</td><td>{vat_number}</td><td>'
-			. '<span class="required">*</span></td></tr><!-- {vat_number_end} --><tr><td width="100" align="right">{firstname_lbl}</td>'
-			. '<td>{firstname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{lastname_lbl}</td>'
-			. '<td>{lastname}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{address_lbl}</td>'
-			. '<td>{address}</td><td><span class="required">*</span></td></tr><tr><td width="100" align="right">{zipcode_lbl}</td><td>{zipcode}</td>'
-			. '<td><span class="required">*</span></td></tr><tr><td width="100" align="right">{city_lbl}</td><td>{city}</td><td>'
-			. '<span class="required">*</span></td></tr><tr id="{country_txtid}" style="{country_style}">'
-			. '<td width="100" align="right">{country_lbl}</td><td>{country}</td><td><span class="required">*</span></td></tr>'
-			. '<tr id="{state_txtid}" style="{state_style}"><td width="100" align="right">{state_lbl}</td><td>{state}</td><td>'
-			. '<span class="required">*</span></td></tr><tr><td width="100" align="right">{phone_lbl}</td><td>{phone}</td><td>'
-			. '<span class="required">*</span></td></tr><tr><td width="100" align="right">{ean_number_lbl}</td><td>{ean_number}</td><td></td>'
-			. '</tr><tr><td width="100" align="right">{tax_exempt_lbl}</td><td>{tax_exempt}</td></tr><tr><td colspan="3">{company_extrafield}</td>'
-			. '</tr></tbody></table>';
 	}
 }
