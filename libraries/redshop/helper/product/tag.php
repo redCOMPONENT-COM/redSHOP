@@ -63,9 +63,9 @@ class RedshopHelperProductTag
 	 *
 	 * @return  array
 	 *
-	 * @since   2.0.7
-	 *
 	 * @throws  Exception
+     * @since   2.0.7
+     *
 	 */
 	public static function displayAdditionalImage(
 		$productId = 0, $accessoryId = 0, $relatedProductId = 0, $propertyId = 0, $subPropertyId = 0,
