@@ -383,9 +383,8 @@ class RedshopModelProduct extends RedshopModel
 		}
 
 		ob_clean();
-		$extraField      = extraField::getInstance();
 		$section         = 12;
-		$row_data        = $extraField->getSectionFieldList($section);
+		$row_data        = RedshopHelperExtrafields::getSectionFieldList($section);
 		$wishlistSession = $session->get('wishlist');
 
 		if (!empty($wishlistData) && !Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE'))

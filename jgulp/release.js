@@ -91,7 +91,26 @@ gulp.task("release:md5:generate", function () {
         "./plugins/redshop_import/shopper_group_product_price/**",
         "./plugins/redshop_import/shopper_group_attribute_price/**",
         "./plugins/redshop_import/user/**",
-        "./plugins/redshop_import/related_product/**"
+        "./plugins/redshop_import/related_product/**",
+        "./plugins/twig/cache/**",
+        "./plugins/twig/debug/**",
+        "./plugins/twig/japp/**",
+        "./plugins/twig/jarray/**",
+        "./plugins/twig/jdoc/**",
+        "./plugins/twig/jhtml/**",
+        "./plugins/twig/jlang/**",
+        "./plugins/twig/jlayout/**",
+        "./plugins/twig/jmodule/**",
+        "./plugins/twig/jposition/**",
+        "./plugins/twig/jprofiler/**",
+        "./plugins/twig/jregistry/**",
+        "./plugins/twig/jroute/**",
+        "./plugins/twig/jsession/**",
+        "./plugins/twig/jtext/**",
+        "./plugins/twig/juri/**",
+        "./plugins/twig/juser/**",
+        "./plugins/twig/unseriallize/**",
+        "./plugins/twig/redshop/**",
     ], {base: "./"}).pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
 });
 

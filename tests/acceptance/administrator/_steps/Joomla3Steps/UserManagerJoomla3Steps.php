@@ -38,14 +38,16 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\UserManagerJoomla3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
 		$userManagerPage = new \UserManagerJoomla3Page;
 		$I->click(\UserManagerJoomla3Page::$newButton);
 		switch ($function) {
 			case 'save':
 			default:
 				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
 				$I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
 				$I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
@@ -72,8 +74,10 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\UserManagerJoomla3Page::$linkUser);
 				break;
 			case 'saveclose':
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
-				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
 				$I->fillField(\UserManagerJoomla3Page::$newPassword, $password);
 				$I->fillField(\UserManagerJoomla3Page::$confirmNewPassword, $password);
@@ -82,6 +86,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\UserManagerJoomla3Page::$shopperGroupDropDown);
 				$I->waitForElement($userManagerPage->shopperGroup($shopperGroup), 30);
 				$I->click($userManagerPage->shopperGroup($shopperGroup));
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$billingInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$billingInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$firstName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$firstName, $firstName);
@@ -106,7 +112,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		switch ($function) {
 			case 'email':
-				//function missing email
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -125,7 +132,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				break;
 			case 'wrongemail':
-				//function wrong emai
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -146,7 +154,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				break;
 			case 'userName':
-				//function missing username
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, '');
@@ -165,7 +174,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->acceptPopup();
 				break;
 			case 'readyUser':
-				$I->waitForElement(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -186,6 +196,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				break;
 			case 'readyEmail':
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -204,7 +216,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->see(\UserManagerJoomla3Page::$saveErrorEmailAlready, \UserManagerJoomla3Page::$xPathError);
 				break;
 			case 'passwordNotMatching':
-				//function check passwork matching
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -223,7 +236,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->acceptPopup();
 				break;
 			case 'missingShopper':
-				//function check missing shopper groups
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -243,7 +257,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->acceptPopup();
 				break;
 			case 'missingJoomlaGroup':
-				//function check  missing Joomla groups
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -261,7 +276,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->acceptPopup();
 				break;
 			case 'firstName':
-				//function check missing first name
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -280,7 +296,8 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->acceptPopup();
 				break;
 			case 'lastName':
-				//function missing last name
+				$I->executeJS('window.scrollTo(0,0);');
+				$I->waitForElementVisible(\UserManagerJoomla3Page::$generalUserInformationTab, 30);
 				$I->click(\UserManagerJoomla3Page::$generalUserInformationTab);
 				$I->waitForElement(\UserManagerJoomla3Page::$userName, 30);
 				$I->fillField(\UserManagerJoomla3Page::$userName, $userName);
@@ -298,7 +315,6 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				$I->click(\UserManagerJoomla3Page::$saveButton);
 				$I->acceptPopup();
 				break;
-
 		}
 	}
 
@@ -394,8 +410,11 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->searchUser($firstName);
 		$I->see($firstName, UserManagerJoomla3Page::$firstResultRow);
 
+		$I->waitForElementVisible(UserManagerJoomla3Page::$selectFirst, 30);
 		$I->click(UserManagerJoomla3Page::$selectFirst);
+		$I->wait(0.5);
 		$I->click(UserManagerJoomla3Page::$editButton);
+		$I->waitForElementVisible(UserManagerJoomla3Page::$shippingInformation, 30);
 		$I->click(UserManagerJoomla3Page::$shippingInformation);
 		$I->see(UserManagerJoomla3Page::$pageDetail, UserManagerJoomla3Page::$pageDetailSelector);
 		$I->click(UserManagerJoomla3Page::$addButton);
@@ -509,8 +528,9 @@ class UserManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->searchUser($nameUser);
 		$I->see($nameUser, \UserManagerJoomla3Page::$firstResultRow);
-		$I->click(\UserManagerJoomla3Page::$selectFirst);
-		$I->click(\UserManagerJoomla3Page::$editButton);
+		$I->waitForElementVisible(['link' => $nameUser], 30);
+		$I->click(['link' => $nameUser]);
+		$I->waitForElementVisible(\UserManagerJoomla3Page::$btnPlaceOder, 30);
 		$I->click(\UserManagerJoomla3Page::$btnPlaceOder);
 
 		$I->see($nameUser);
