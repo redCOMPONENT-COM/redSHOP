@@ -321,7 +321,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 
 			if (!empty(\JFactory::getUser()->id))
 			{
-				$createAccountHtml = $subTemplate['begin'] . $subTemplate['end'];
+				return $subTemplate['begin'] . $subTemplate['end'];
 			}
 			else
 			{
