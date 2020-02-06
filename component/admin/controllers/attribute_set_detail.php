@@ -290,9 +290,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		{
 			$model->property_more_img($post, $main_img, $sub_img);
 			?>
-            <script language="javascript" type="text/javascript">
-                window.parent.SqueezeBox.close();
-            </script>
+			<script language="javascript" type="text/javascript">
+				window.parent.SqueezeBox.close();
+			</script>
 			<?php
 		}
 	}
@@ -337,9 +337,9 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		$model->subattribute_color($post, $sub_img);
 
 		?>
-        <script language="javascript" type="text/javascript">
-            window.parent.SqueezeBox.close();
-        </script>
+		<script language="javascript" type="text/javascript">
+			window.parent.SqueezeBox.close();
+		</script>
 		<?php
 	}
 
@@ -383,6 +383,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 
 		/** @var RedshopModelAttribute_set_detail $model */
 		$model = $this->getModel('attribute_set_detail');
+		$type  = '';
 
 		if ($model->SaveAttributeStockroom($post))
 		{
@@ -390,13 +391,14 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
+			$type = 'error';
+			$msg  = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
 		}
 
 		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
 			. $post['section_id'] . "&cid=" . $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
 
-		$this->setRedirect($link, $msg);
+		$this->setRedirect($link, $msg, $type);
 	}
 
 	public function copy()

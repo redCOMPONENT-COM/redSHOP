@@ -266,6 +266,9 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->fillField(TaxRatePage::$fieldValue, $TaxRatesValue);
 		$client->chooseOnSelect2(TaxRatePage::$fieldCountry, $nameCountry);
 		$client->chooseOnSelect2(TaxRatePage::$fieldGroup, $VATGroupName);
+		$client->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$client->wait(0.5);
+
 		switch ($buttonName)
 		{
 			case 'Save':
@@ -280,7 +283,9 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 			default:
 				break;
 		}
-		$client->waitForElement(TaxRatePage::$selectorSuccess, 30);
+
+		$client->waitForElement(TaxRatePage::$selectorSuccess, 60);
+		$client->waitForText(TaxRatePage::$messageItemSaveSuccess, 30, TaxRatePage::$selectorSuccess);
 		$client->see(TaxRatePage::$messageItemSaveSuccess, TaxRatePage::$selectorSuccess);
 	}
 
@@ -360,7 +365,17 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 		$client->checkAllResults();
 		$client->click(\TaxRatePage::$buttonDelete);
 		$client->acceptPopup();
-		$client->see(\TaxRatePage::$messageHead, \TaxRatePage::$selectorSuccess);
+		$client->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+
+		try
+		{
+			$client->waitForText(\TaxRatePage::$messageDeleteSuccess, 5, \TaxRatePage::$selectorSuccess);
+			$client->see(\TaxRatePage::$messageDeleteSuccess, \TaxRatePage::$selectorSuccess);
+		} catch (\Exception $e)
+		{
+			$client->waitForText(\TaxRatePage::$messageNoItemOnTable, 10, \TaxRatePage::$selectorAlert);
+			$client->see(\TaxRatePage::$messageNoItemOnTable, \TaxRatePage::$selectorAlert);
+		}
 	}
 
 	public function deleteTAXRatesCancel($TAXRatesName)
