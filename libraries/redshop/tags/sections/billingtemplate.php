@@ -216,7 +216,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 						'id' => 'username',
 						'name' => 'username',
 						'type' => 'text',
-						'value' => (!empty($post["username"]) ? $post['username'] : ''),
+						'value' => (!empty($this->data['data']["username"]) ? $this->data['data']['username'] : ''),
 						'class' => 'inputbox required',
 						'attr' => 'size="32" maxlength="250"'
 					),
@@ -245,7 +245,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 						'id' => 'password1',
 						'name' => 'password1',
 						'type' => 'text',
-						'value' => (!empty($post["username"]) ? $post['username'] : ''),
+						'value' => (!empty($this->data['data']["username"]) ? $this->data['data']['username'] : ''),
 						'class' => 'inputbox required',
 						'attr' => 'size="32" maxlength="250"'
 					),
