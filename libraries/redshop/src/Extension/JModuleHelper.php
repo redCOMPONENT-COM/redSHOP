@@ -19,7 +19,7 @@ use Twig\TwigFunction;
 /**
  * Module helper access for Twig.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class JModuleHelper extends AbstractExtension
 {
@@ -27,7 +27,7 @@ final class JModuleHelper extends AbstractExtension
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -42,7 +42,7 @@ final class JModuleHelper extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{

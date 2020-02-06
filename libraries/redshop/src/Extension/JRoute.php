@@ -19,7 +19,7 @@ use Twig\TwigFunction;
 /**
  * JRoute integration for Twig.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class JRoute extends AbstractExtension
 {
@@ -27,7 +27,7 @@ final class JRoute extends AbstractExtension
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -40,7 +40,7 @@ final class JRoute extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{

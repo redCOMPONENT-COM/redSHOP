@@ -19,7 +19,7 @@ use Twig\Extension\AbstractExtension;
 /**
  * Registry integration for Twig.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class JRegistry extends AbstractExtension
 {
@@ -27,7 +27,7 @@ final class JRegistry extends AbstractExtension
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -41,7 +41,7 @@ final class JRegistry extends AbstractExtension
 	 *
 	 * @return Registry
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getRegistry($data = null)
 	{
@@ -52,7 +52,7 @@ final class JRegistry extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{
