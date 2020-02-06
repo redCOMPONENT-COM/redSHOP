@@ -19,28 +19,28 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
     /**
      * @var    array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.1.5
      */
     public $selectedAccessory = array();
 
     /**
      * @var    array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.1.5
      */
     public $selectedAccessoryQua = array();
 
     /**
      * @var    array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.1.5
      */
     public $selectAtt = array();
 
     /**
      * @var    integer
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  2.1.5
      */
     public $itemId;
 
@@ -70,7 +70,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @return string
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replace()
     {
@@ -128,10 +128,11 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @return string
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceAccessory($accessory, $template, $attributeTemplate)
     {
+    	$this->replacements = array();
         $accessoryProduct = RedshopHelperProduct::getProductById($accessory->child_product_id);
         $commonId         = $this->data['prefix'] . $this->data['productId'] . '_' . $accessory->accessory_id;
 
@@ -268,7 +269,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
 
         if ($this->isTagExists('{accessory_title}')) {
             $accessoryProductName = RedshopHelperUtility::maxChars(
-                $accessory->product_name,
+	            $accessoryProduct->product_name,
                 Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_MAX_CHARS'),
                 Redshop::getConfig()->get('ACCESSORY_PRODUCT_TITLE_END_SUFFIX')
             );
@@ -441,7 +442,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   2.1.5
      */
     public function replaceCustomField($accessory, &$template)
     {
@@ -483,7 +484,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceTagPrice($tag, $price, $template, $class = '')
     {
@@ -514,7 +515,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceImage($accessory, &$template)
     {
@@ -658,7 +659,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   2.1.5
      */
     public function replaceAddCheckbox(
         $accessory,
@@ -699,7 +700,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessoryReadmore($product)
     {
@@ -726,7 +727,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessoryTitle($product)
     {
@@ -759,7 +760,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessoryShortDesc($product)
     {
@@ -794,7 +795,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @return string
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessoryImage($product, $accessoryWidthThumb, $accessoryHeightThumb)
     {
@@ -861,10 +862,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      * @return bool
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 2.1.5
      */
     public function replaceMainAccessory($templateContent, $product, $userId)
     {
+        $this->replacements = array();
+
         $subTemplate = $this->getTemplateBetweenLoop('{if accessory_main}', '{accessory_main end if}');
 
         if (!$subTemplate) {
@@ -940,7 +943,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   2.1.5
      */
     public static function getWidthHeight($template, $type, &$imageTag, &$width, &$height)
     {

@@ -19,7 +19,7 @@ use Twig\TwigFunction;
 /**
  * JUser integration for Twig.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class JUser extends AbstractExtension
 {
@@ -27,7 +27,7 @@ final class JUser extends AbstractExtension
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -40,7 +40,7 @@ final class JUser extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{
