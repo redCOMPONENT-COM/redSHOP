@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 namespace Redshop\Extension;
 
 defined('_JEXEC') || die;
@@ -20,7 +19,7 @@ use Twig\TwigFunction;
 /**
  * JLayout integration for Twig.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class JLayout extends AbstractExtension
 {
@@ -28,7 +27,7 @@ final class JLayout extends AbstractExtension
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getFunctions() : array
 	{
@@ -48,7 +47,7 @@ final class JLayout extends AbstractExtension
 	 * @return FileLayout
 	 *
 	 * @throws \ReflectionException
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getFileLayout() : FileLayout
 	{
@@ -61,7 +60,7 @@ final class JLayout extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{
