@@ -13,6 +13,9 @@
     ]
   },
   "plugins": {
+    "content" : [
+      "rs_menuitem_sh404urls"
+    ],
     "finder": [
       "redshop"
     ],
