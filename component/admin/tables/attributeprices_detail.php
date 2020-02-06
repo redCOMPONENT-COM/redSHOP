@@ -88,6 +88,20 @@ class Tableattributeprices_detail extends JTable
 			return false;
 		}
 
+		if ($this->price_quantity_start > $this->price_quantity_end)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START'), 'error');
+
+			return false;
+		}
+
+		if ($this->discount_start_date > $this->discount_end_date)
+		{
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE'), 'error');
+
+			return false;
+		}
+
 		return true;
 	}
 }
