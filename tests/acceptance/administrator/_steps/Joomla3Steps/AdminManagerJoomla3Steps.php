@@ -224,8 +224,8 @@ class AdminManagerJoomla3Steps extends Redshop
 		$I->click($xpath);
 		for ($i = 1; $i <= $lengh; $i++)
 		{
-		    $I->waitForElementVisible($xpath, 30);
-		    $I->click($xpath);
+			$I->waitForElementVisible($xpath, 30);
+			$I->click($xpath);
 			$I->pressKey($xpath, \Facebook\WebDriver\WebDriverKeys::BACKSPACE);
 		}
 
