@@ -355,7 +355,9 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->checkForPhpNoticesOrWarnings();
 		$I->click(ProductManagerPage::$buttonNew);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElement(ProductManagerPage::$productName, 30);
 		$I->fillField(ProductManagerPage::$productName, $productName);
 		$I->fillField(ProductManagerPage::$productNumber, $productNumber);
@@ -1333,6 +1335,7 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			}
 		}
 
+		$I->executeJS('window.scrollTo(0,0)');
 		$I->waitForElementVisible(ProductManagerPage::$xpathSaveClose, 30);
 		$I->click(ProductManagerPage::$buttonSaveClose);
 		$I->waitForText(ProductManagerPage::$messageSaveSuccess, 30, ProductManagerPage::$selectorSuccess);

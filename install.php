@@ -347,6 +347,63 @@ class Com_RedshopInstallerScript
 
 				// Force to enable redSHOP Import - User plugin by anyways
 				$this->enablePlugin('user', 'redshop_import');
+
+				// Force to enable cache - twig plugin by anyways
+				$this->enablePlugin('cache', 'twig');
+
+				// Force to enable debug - twig plugin by anyways
+				$this->enablePlugin('debug', 'twig');
+
+				// Force to enable japp - twig plugin by anyways
+				$this->enablePlugin('japp', 'twig');
+
+				// Force to enable jarray - twig plugin by anyways
+				$this->enablePlugin('jarray', 'twig');
+
+				// Force to enable jdoc - twig plugin by anyways
+				$this->enablePlugin('jdoc', 'twig');
+
+				// Force to enable jhtml - twig plugin by anyways
+				$this->enablePlugin('jhtml', 'twig');
+
+				// Force to enable jlang - twig plugin by anyways
+				$this->enablePlugin('jlang', 'twig');
+
+				// Force to enable jlayout - twig plugin by anyways
+				$this->enablePlugin('jlayout', 'twig');
+
+				// Force to enable jmodule - twig plugin by anyways
+				$this->enablePlugin('jmodule', 'twig');
+
+				// Force to enable jposition - twig plugin by anyways
+				$this->enablePlugin('jposition', 'twig');
+
+				// Force to enable jprofiler - twig plugin by anyways
+				$this->enablePlugin('jprofiler', 'twig');
+
+				// Force to enable jregistry - twig plugin by anyways
+				$this->enablePlugin('jregistry', 'twig');
+
+				// Force to enable jroute - twig plugin by anyways
+				$this->enablePlugin('jroute', 'twig');
+
+				// Force to enable jsession - twig plugin by anyways
+				$this->enablePlugin('jsession', 'twig');
+
+				// Force to enable jtext - twig plugin by anyways
+				$this->enablePlugin('jtext', 'twig');
+
+				// Force to enable juri - twig plugin by anyways
+				$this->enablePlugin('juri', 'twig');
+
+				// Force to enable juser - twig plugin by anyways
+				$this->enablePlugin('juser', 'twig');
+
+				// Force to enable redshop - twig plugin by anyways
+				$this->enablePlugin('redshop', 'twig');
+
+				// Force to enable unserialize - twig plugin by anyways
+				$this->enablePlugin('unserialize', 'twig');
 			}
 		}
 	}

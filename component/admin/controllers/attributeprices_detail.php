@@ -44,6 +44,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 
 		$cid               = $this->input->post->get('cid', array(0), 'array');
 		$post ['price_id'] = $cid [0];
+		$type = '';
 
 		/** @var RedshopModelAttributeprices_detail $model */
 		$model = $this->getModel('attributeprices_detail');
@@ -54,10 +55,15 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 		}
 		else
 		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
+			$type = 'error';
+			$msg = /** @scrutinizer ignore-deprecated */ $model->/** @scrutinizer ignore-call */ getError();
+
+			if (empty($msg)) {
+				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
+			}
 		}
 
-		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
+		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg, $type);
 	}
 
 	public function remove()
