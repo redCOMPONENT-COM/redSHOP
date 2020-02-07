@@ -1769,11 +1769,6 @@ $template_desc = $producthelper->getRelatedtemplateView($template_desc, $this->d
 // Replacing ask_question_about_product_without_lightbox must be after parseredSHOPplugin for not replace in cloak plugin form emails
 if (strstr($template_desc, '{ask_question_about_product_without_lightbox}'))
 {
-	$displayData   = array(
-		'form' => RedshopModelForm::getInstance('Ask_Question', 'RedshopModel')->getForm(),
-		'ask'  => 1
-	);
-
 	$questionForm = RedshopTagsReplacer::_(
 		'askquestion',
 		'',
