@@ -2018,14 +2018,6 @@ class RedshopHelperProduct
 	{
 		$db = Factory::getDbo();
 
-		$usetoall = "";
-		$and      = "";
-
-		if ($wrapper_id != 0)
-		{
-			$and .= " AND wrapper_id='" . $wrapper_id . "' ";
-		}
-
 		$query = $db->getQuery(true);
 		$query->select('*')
             ->from($db->qn('#__redshop_product_category_xref'))
@@ -2033,22 +2025,30 @@ class RedshopHelperProduct
 
 		$db->setQuery($query);
 		$cat = $db->loadObjectList();
+		$subQuery[] = " FIND_IN_SET(" . (int) $product_id . ", " . $db->qn('product_id') . ") ";
 
 		for ($i = 0, $in = count($cat); $i < $in; $i++)
 		{
-			$usetoall .= " OR FIND_IN_SET(" . (int) $cat[$i]->category_id . ",category_id) ";
+			$subQuery[] = " FIND_IN_SET(" . (int) $cat[$i]->category_id . ", " . $db->qn('category_id') . ") ";
 		}
 
 		if ($default != 0)
 		{
-			$usetoall .= " OR wrapper_use_to_all = 1 ";
+			$subQuery[] = $db->qn('wrapper_use_to_all') . ' = 1 ';
 		}
 
-		$query = "SELECT * FROM " .  $db->qn('#__redshop_wrapper')
-			. "WHERE published = 1 "
-			. "AND (FIND_IN_SET(" . (int) $product_id . ",product_id) "
-			. $usetoall . " )"
-			. $and;
+		$query = $db->getQuery(true);
+
+		if ($wrapper_id != 0)
+		{
+			$query->where($db->qn('wrapper_id') . ' = ' . (int) $wrapper_id);
+		}
+
+		$query->select('*')
+			->from($db->qn('#__redshop_wrapper'))
+			->where($db->qn('published') . ' = 1')
+			->where('(' . implode(' OR ', $subQuery) . ')');
+
 		$db->setQuery($query);
 		$list = $db->loadObjectList();
 
@@ -2097,7 +2097,14 @@ class RedshopHelperProduct
 	public static function getassociatetag($product_id = 0)
 	{
 		$db = JFactory::getDbo();
-		$query = " SELECT a.product_id,at.tag_id,rg.tag_name,ty.type_name FROM  #__redproductfinder_associations as a left outer join #__redproductfinder_association_tag as at on a.id=at.association_id left outer join #__redproductfinder_tags as rg on at.tag_id=rg.id left outer join #__redproductfinder_types as ty on at.type_id=ty.id where a.product_id='" . $product_id . "' ";
+
+		$query = $db->getQuery(true);
+		$query->select($db->qn(['a.product_id', 'at.tag_id', 'rg.tag_name', 'ty.type_name']))
+			->from($db->qn('#__redproductfinder_associations', 'a'))
+			->leftJoin($db->qn('#__redproductfinder_association_tag', 'at') . ' ON ' . $db->qn('a.id') . ' = ' . $db->qn('at.association_id'))
+			->leftJoin($db->qn('#__redproductfinder_tags', 'rg') . ' ON ' . $db->qn('at.tag_id') . ' = ' . $db->qn('rg.id'))
+			->leftJoin($db->qn('#__redproductfinder_types', 'ty') . ' ON ' . $db->qn('at.type_id') . ' = ' . $db->qn('ty.id'))
+			->where($db->qn('a.product_id') . ' = ' . (int) $product_id);
 		$db->setQuery($query);
 		$res = $db->loadObjectlist();
 
@@ -2319,9 +2326,12 @@ class RedshopHelperProduct
 	public static function getMainParentProduct($parent_id)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT product_parent_id FROM " . $db->qn('#__redshop_product ')
-			. "WHERE published=1 "
-			. "AND product_id = " . (int) $parent_id;
+
+		$query = $db->getQuery(true);
+		$query->select($db->qn('product_parent_id'))
+			->from($db->qn('#__redshop_product'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('product_id') . ' = ' . (int) $parent_id);
 		$db->setQuery($query);
 		$product_parent_id = $db->loadResult();
 
@@ -2527,9 +2537,12 @@ class RedshopHelperProduct
 	public static function getSubscription($product_id = 0)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT * FROM " . $db->qn('#__redshop_product_subscription')
-			. "WHERE product_id = " . (int) $product_id . " "
-			. "ORDER BY subscription_id ";
+
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->qn('#__redshop_product_subscription'))
+			->where($db->qn('product_id') . ' = ' . (int) $product_id)
+			->order($db->qn('subscription_id'));
 		$db->setQuery($query);
 		$list = $db->loadObjectlist();
 
@@ -3025,7 +3038,7 @@ class RedshopHelperProduct
 		$db    = JFactory::getDbo();
 		$rsUserhelper               = rsUserHelper::getInstance();
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
-		$and                        = '';
+		$query = $db->getQuery(true);
 
 		if ($shopper_group_manufactures != "")
 		{
@@ -3033,13 +3046,13 @@ class RedshopHelperProduct
 			$shopGroupsIds = explode(',', $shopper_group_manufactures);
 			$shopGroupsIds = Joomla\Utilities\ArrayHelper::toInteger($shopGroupsIds);
 
-			$and .= " AND p.manufacturer_id IN (" . implode(',', $shopGroupsIds) . ") ";
+			$query->where($db->qn('p.manufacturer_id') . ' IN (' . implode(',', $shopGroupsIds) . ') ');
 		}
 
-		$query = "SELECT p.product_id FROM " . $db->qn('#__redshop_product_category_xref') . " AS pc"
-			. " LEFT JOIN " . $db->qn('#__redshop_product') . " AS p ON pc.product_id=p.product_id "
-			. " WHERE category_id = " . (int) $id . " "
-			. $and;
+		$query->select($db->qn('p.product_id'))
+			->from($db->qn('#__redshop_product_category_xref', 'pc'))
+			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id'))
+			->where($db->qn('category_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
 		$res = $db->loadObjectlist();
 
@@ -3420,10 +3433,12 @@ class RedshopHelperProduct
 	public static function getProductSubscriptionDetail($product_id, $subscription_id)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT * "
-			. " FROM " . $db->qn('#__redshop_product_subscription')
-			. " WHERE "
-			. " product_id = " . (int) $product_id . " AND subscription_id = " . (int) $subscription_id;
+
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->qn('#__redshop_product_subscription'))
+			->where($db->qn('product_id') . ' = ' . (int) $product_id)
+			->where($db->qn('subscription_id') . ' = ' . (int) $subscription_id);
 		$db->setQuery($query);
 
 		return $db->loadObject();
@@ -3513,7 +3528,10 @@ class RedshopHelperProduct
 
 			if (RedshopHelperUtility::isRedProductFinder())
 			{
-				$q = "SELECT extrafield  FROM #__redproductfinder_types where type_select='Productfinder_datepicker'";
+				$q = $db->getQuery(true);
+				$q->select($db->qn('extrafield'))
+					->from($db->qn('#__redproductfinder_types'))
+					->where($db->qn('type_select') . ' = ' . $db->q('Productfinder_datepicker'));
 				$db->setQuery($q);
 				$finaltypetype_result = $db->loadObject();
 			}
@@ -3532,8 +3550,16 @@ class RedshopHelperProduct
 					$orderby_related = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
 				}
 
-				$query = "SELECT * FROM " . $db->qn('#__redshop_product_related') . " AS r "
-					. "WHERE r.product_id IN (" . implode(',', $productIds) . ") OR r.related_id IN (" . implode(',', $productIds) . ")" . $orderby_related . "";
+				$query = $db->getQuery(true);
+				$query->select('*')
+					->from($db->qn('#__redshop_product_related', 'r'))
+					->where($db->qn('r.product_id') . ' IN (' . implode(',', $productIds) . ') ')
+					->orWhere($db->qn('r.related_id') . ' IN (' . implode(',', $productIds) . ') ');
+
+				if (!empty($orderby_related)) {
+					$query->order($orderby_related);
+				}
+
 				$db->setQuery($query);
 				$list = $db->loadObjectlist();
 
