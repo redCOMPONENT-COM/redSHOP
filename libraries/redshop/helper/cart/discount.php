@@ -78,7 +78,8 @@ class RedshopHelperCartDiscount
 		$db     = JFactory::getDbo();
 		$return = false;
 
-		$coupon = rsCarthelper::getInstance()->getCouponData($couponCode, $cart['product_subtotal']);
+		$coupon = rsCarthelper::getInstance()
+			->getCouponData($couponCode, $cart['product_subtotal_excl_vat']);
 
 		foreach ($cart['coupon'] as $cartCoupon)
 		{
@@ -147,7 +148,7 @@ class RedshopHelperCartDiscount
 				$return = true;
 			}
 
-			$productSubtotal = $cart['product_subtotal'];
+			$productSubtotal = $cart['product_subtotal_excl_vat'];
 
 			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2 || Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{

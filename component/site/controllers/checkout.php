@@ -680,7 +680,7 @@ class RedshopControllerCheckout extends RedshopController
 		$payment_method_id = $post['payment_method_id'];
 		$order_total       = $cart['total'];
 		$total_discount    = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-		$order_subtotal    = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal_excl_vat'];
+		$order_subtotal    = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal_excl_vat'] - $total_discount : $cart['product_subtotal_excl_vat'];
 		$Itemid            = $post['Itemid'];
 		$objectName        = $post['objectname'];
 		$rate_template_id  = $post['rate_template_id'];
