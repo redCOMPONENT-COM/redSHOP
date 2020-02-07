@@ -14,7 +14,6 @@ JHtml::_('behavior.modal');
 JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('onRenderCustomField');
-$url  = JUri::base();
 $user = JFactory::getUser();
 $app  = JFactory::getApplication();
 $session = JFactory::getSession();
@@ -246,86 +245,17 @@ else
 
 $isCompany = isset($billingAddresses->is_company) ? $billingAddresses->is_company : 0;
 
-if (strpos($oneStepTemplateHtml, "{shipping_address}") !== false)
-{
-	if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
-	{
-		$shippingHtml = '';
+$oneStepTemplateHtml = RedshopTagsReplacer::_(
+        'shippingaddress',
+        $oneStepTemplateHtml,
+        array(
+            'usersInfoId' => $usersInfoId,
+            'shippingAddresses' => $model->shippingaddresses(),
+            'billingAddresses' => $billingAddresses,
+            'isCompany' => $isCompany
+        )
+);
 
-		if ($usersInfoId)
-		{
-			$shippingAddresses = $model->shippingaddresses();
-
-			if ($billingAddresses)
-			{
-				$shippingCheck = $usersInfoId == $billingAddresses->users_info_id ? 'checked="checked"' : '';
-				$shippingHtml  .= '<div class="radio"><label class="radio">'
-					. '<input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');"'
-					. ' name="users_info_id" value="' . $billingAddresses->users_info_id . '" ' . $shippingCheck . ' />'
-					. JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label></div>';
-			}
-
-			foreach ($shippingAddresses as $shippingAddress)
-			{
-				$addShippingLink = JRoute::_(
-					'index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping'
-					. '&return=checkout&Itemid=' . $itemId . '&infoid=' . $shippingAddress->users_info_id,
-					false
-				);
-				$removeShippingLink = JRoute::_($url .
-					'index.php?option=com_redshop&view=account_shipto&return=checkout'
-					. '&tmpl=component&task=remove&infoid=' . $shippingAddress->users_info_id . '&Itemid=' . $itemId,
-					false
-				);
-				$shippingCheck = $usersInfoId == $shippingAddress->users_info_id ? 'checked="checked"' : '';
-				$shippingHtml .= '<div class="radio"><label class="radio inline">'
-					. '<input type="radio" onclick="javascript:onestepCheckoutProcess(this.name,\'\');"'
-					. ' name="users_info_id" value="' . $shippingAddress->users_info_id . '" ' . $shippingCheck . ' />'
-					. $shippingAddress->firstname . " " . $shippingAddress->lastname . '</label>'
-					. '<a class="modal" href="' . $addShippingLink . '" '
-					. 'rel="{handler: \'iframe\', size: {x: 570, y: 470}}">'
-					. '(' . JText::_('COM_REDSHOP_EDIT_LBL') . ')</a> '
-					. '<a href="' . $removeShippingLink . '" title="">'
-					. '(' . JText::_('COM_REDSHOP_DELETE_LBL') . ')</a></div>';
-			}
-
-			$addLink = JRoute::_(
-				'index.php?option=com_redshop&view=account_shipto&tmpl=component&task=addshipping'
-				. '&return=checkout&Itemid=' . $itemId . '&infoid=0&is_company=' . $billingAddresses->is_company,
-				false
-			);
-
-			$shippingHtml .= '<a class="modal btn btn-primary" href="' . $addLink . '" '
-				. 'rel="{handler: \'iframe\', size: {x: 570, y: 470}}">'
-				. JText::_('COM_REDSHOP_ADD_ADDRESS') . '</a>';
-		}
-		else
-		{
-      			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
-			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS);
-      
-			$shippingHtml = '<div class="form-group"><label for="billisship">'
-				. '<input class="toggler" type="checkbox" id="billisship" name="billisship" value="1" '
-				. 'onclick="billingIsShipping(this);" checked="" />'
-				. JText::_('COM_REDSHOP_SHIPPING_SAME_AS_BILLING') . '</label></div>'
-				. '<div id="divShipping" style="display: none"><fieldset class="subTable">'
-				. RedshopHelperShipping::getShippingTable(array(), $isCompany, $lists)
-				. '</fieldset></div>';
-		}
-
-		$oneStepTemplateHtml = str_replace('{shipping_address}', $shippingHtml, $oneStepTemplateHtml);
-		$oneStepTemplateHtml = str_replace(
-			'{shipping_address_information_lbl}',
-			JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL'),
-			$oneStepTemplateHtml
-		);
-	}
-	else
-	{
-		$oneStepTemplateHtml = str_replace('{shipping_address}', '', $oneStepTemplateHtml);
-		$oneStepTemplateHtml = str_replace('{shipping_address_information_lbl}', '', $oneStepTemplateHtml);
-	}
-}
 JPluginHelper::importPlugin('redshop_checkout');
 $dispatcher->trigger('onRenderInvoiceOneStepCheckout', array(&$oneStepTemplateHtml));
 
