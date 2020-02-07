@@ -446,7 +446,7 @@ class RedshopHelperUser
 		else
 		{
 			$auth        = $session->get('auth');
-			$userInforId = $auth['users_info_id'];
+			$userInforId = $auth['users_info_id'] ?? null;
 
 			$userInformation               = new stdClass;
 			$userInformation->country_code = !empty($userData['vatCountry']) ? $userData['vatCountry'] : Redshop::getConfig()->getString('DEFAULT_VAT_COUNTRY');
