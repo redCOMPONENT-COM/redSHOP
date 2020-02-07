@@ -15,11 +15,12 @@ defined('_JEXEC') or die;
  * @param   string  $text
  * @param   string  $class
  * @param   string  $tag
+ * @param   string  $attr
  *
  */
 extract($displayData);
 ?>
 
-<<?php echo $tag ?> class="<?php echo $class ?>">
+<<?php echo $tag ?> class="<?php echo $class ?>" <?php echo $attr ?>>
 	<?php echo $text ?>
 </<?php echo $tag ?>>

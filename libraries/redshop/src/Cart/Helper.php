@@ -44,7 +44,7 @@ class Helper
 		$vat           = 0;
 		$subTotal      = 0;
 		$subTotalNoVAT = 0;
-		$totalDiscount = 0;
+		$totalDiscount = ($cart['cart_discount'] ?? 0) + ($cart['voucher_discount'] ?? 0) + ($cart['coupon_discount'] ?? 0);
 		$discountVAT   = 0;
 		$shippingVat   = 0;
 		$shipping      = 0;
@@ -83,26 +83,43 @@ class Helper
 
 		$taxExemptAddToCart = \RedshopHelperCart::taxExemptAddToCart();
 
-		if (\Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT') && !\Redshop::getConfig()->getBool('APPLY_VAT_ON_DISCOUNT')
+		if (\Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT')
 			&& !empty($taxExemptAddToCart))
 		{
-			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
+			if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 			{
-				$discountVAT = $cart['discount_tax'];
-				$subTotal    = $subTotal - $cart['discount_tax'];
+				if ($totalDiscount)
+				{
+					$taxAfterDiscount = \RedshopHelperCart::calculateTaxAfterDiscount(
+						$vat,
+						$totalDiscount
+					);
+
+					// The total minus discount tax difference
+					$subTotal -= $vat - $taxAfterDiscount;
+					$vat = $taxAfterDiscount;
+				}
 			}
 			else
 			{
-				$vatData = \RedshopHelperTax::getVatRates();
-
-				if (null !== $vatData && !empty($vatData->tax_rate))
+				if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 				{
-					$discountVAT = 0;
+					$discountVAT = $cart['discount_tax'];
+					$subTotal    = $subTotal - $cart['discount_tax'];
+				}
+				else
+				{
+					$vatData = \RedshopHelperTax::getVatRates();
 
-					if ((int) $subTotalNoVAT > 0)
+					if (null !== $vatData && !empty($vatData->tax_rate))
 					{
-						$avgVAT      = (($subTotalNoVAT + $vat) / $subTotalNoVAT) - 1;
-						$discountVAT = ($avgVAT * $totalDiscount) / (1 + $avgVAT);
+						$discountVAT = 0;
+
+						if ((int) $subTotalNoVAT > 0)
+						{
+							$avgVAT      = (($subTotalNoVAT + $vat) / $subTotalNoVAT) - 1;
+							$discountVAT = ($avgVAT * $totalDiscount) / (1 + $avgVAT);
+						}
 					}
 				}
 			}
@@ -136,10 +153,12 @@ class Helper
 	 *
 	 * @since   2.1.0
 	 */
-	public static function calculateShipping(&$shipping, &$shippingVat, &$cart, $subTotal = 0.0, $userId = 0)
+	public static function calculateShipping(&$shipping,
+        &$shippingVat, &$cart, /** @scrutinizer ignore-unused */ $subTotal = 0.0, $userId = 0)
 	{
 		// If SHOW_SHIPPING_IN_CART set to no, make shipping Zero
-		if (!\Redshop::getConfig()->getBool('SHOW_SHIPPING_IN_CART') || !\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
+		if (!\Redshop::getConfig()->getBool('SHOW_SHIPPING_IN_CART')
+            || !\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 		{
 			return;
 		}
@@ -195,7 +214,7 @@ class Helper
 		$totalDiscount += isset($cart['coupon_discount']) ? $cart['coupon_discount'] : 0.0;
 
 		$shippingData = array(
-			'order_subtotal' => \Redshop::getConfig()->getString('SHIPPING_AFTER') == 'total' ? $subTotal - $totalDiscount : $subTotal,
+			'order_subtotal' => \Redshop::getConfig()->getString('SHIPPING_AFTER') == 'total' ? $cart['product_subtotal_excl_vat'] - $totalDiscount : $cart['product_subtotal_excl_vat'],
 			'users_info_id'  => $usersInfoId
 		);
 

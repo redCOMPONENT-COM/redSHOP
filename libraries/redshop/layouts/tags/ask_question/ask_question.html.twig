@@ -1,0 +1,21 @@
+{{ jhtml('behavior.keepalive') }}
+{{ jhtml('behavior.formvalidation') }}
+<form name="askQuestionForm" action="{{ jroute('index.php?option=com_redshop') }}" method="post"
+      id="askQuestionForm" class="form-validate form-vertical">
+    {{ contentForm }}
+    <input type="hidden" name="pid" id="pid" value="{{ pid }}"/>
+    <input type="hidden" name="task" id="task" value=""/>
+    <input type="hidden" name="ask" value="{{ ask }}"/>
+    <input type="hidden" name="category_id" id="category_id" value="{{ categoryId }}"/>
+    <input type="hidden" name="Itemid" id="Itemid" value="{{ menuItemId }}"/>
+    {{ jhtml('form.token') }}
+</form>
+<script type="text/javascript" language="javascript">
+    questionSubmitButton = function (task) {
+        var askQuestionForm = document.getElementById('askQuestionForm');
+
+        if (document.formvalidator.isValid(askQuestionForm)) {
+            Joomla.submitform(task, askQuestionForm);
+        }
+    }
+</script>

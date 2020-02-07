@@ -101,7 +101,7 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
 
 		if ($this->isTagExists(('{company_extrafield}')))
 		{
-			$companyExtraFields = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1 && $this->data['lists']['extra_field_company'] != "") ?
+			$companyExtraFields = (Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 1 &&  !empty($this->data['lists']['extra_field_company'])) ?
 				$this->data['lists']['extra_field_company'] : "";
 
 			$this->addReplace('{company_extrafield}', $companyExtraFields);
@@ -139,12 +139,13 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
 			if ($this->isTagExists('{tax_exempt_lbl}'))
 			{
 				$htmlTaxExemptLbl = RedshopLayoutHelper::render(
-					'tags.common.title',
+					'tags.common.tag',
 					array(
 						'text' => JText::_('COM_REDSHOP_TAX_EXEMPT'),
 						'tag' => 'div',
 						'id' => 'lblTaxExempt' . $allowCompany,
-						'class' => ''
+						'class' => '',
+						'attr' => ''
 					),
 					'',
 					$options
@@ -156,12 +157,13 @@ class RedshopTagsSectionsCompanyBillingTemplate extends RedshopTagsAbstract
 			if ($this->isTagExists('{tax_exempt}'))
 			{
 				$htmlTaxExempt = RedshopLayoutHelper::render(
-					'tags.common.title',
+					'tags.common.tag',
 					array(
 						'text' => $taxExemptHtml,
 						'tag' => 'div',
 						'id' => 'trTaxExempt' . $allowCompany,
-						'class' => ''
+						'class' => '',
+						'attr' => ''
 					),
 					'',
 					$options
