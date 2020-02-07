@@ -153,10 +153,12 @@ class Helper
 	 *
 	 * @since   2.1.0
 	 */
-	public static function calculateShipping(&$shipping, &$shippingVat, &$cart, $subTotal = 0.0, $userId = 0)
+	public static function calculateShipping(&$shipping,
+        &$shippingVat, &$cart, /** @scrutinizer ignore-unused */ $subTotal = 0.0, $userId = 0)
 	{
 		// If SHOW_SHIPPING_IN_CART set to no, make shipping Zero
-		if (!\Redshop::getConfig()->getBool('SHOW_SHIPPING_IN_CART') || !\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
+		if (!\Redshop::getConfig()->getBool('SHOW_SHIPPING_IN_CART')
+            || !\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 		{
 			return;
 		}
