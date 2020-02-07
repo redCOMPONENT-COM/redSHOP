@@ -22,6 +22,11 @@ class RedshopTagsSectionsShippingAddress extends RedshopTagsAbstract
 
 	public function replace()
 	{
+        /**
+         * Init $lists to avoid Scrutinizer check.
+         */
+	    $lists = [];
+
 		if ($this->isTagExists('{shipping_address}'))
 		{
 			if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
