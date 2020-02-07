@@ -246,14 +246,14 @@ else
 $isCompany = isset($billingAddresses->is_company) ? $billingAddresses->is_company : 0;
 
 $oneStepTemplateHtml = RedshopTagsReplacer::_(
-        'shippingaddress',
-        $oneStepTemplateHtml,
-        array(
-            'usersInfoId' => $usersInfoId,
-            'shippingAddresses' => $model->shippingaddresses(),
-            'billingAddresses' => $billingAddresses,
-            'isCompany' => $isCompany
-        )
+		'shippingaddress',
+		$oneStepTemplateHtml,
+		array(
+			'usersInfoId' => $usersInfoId,
+			'shippingAddresses' => $model->shippingaddresses(),
+			'billingAddresses' => $billingAddresses,
+			'isCompany' => $isCompany
+		)
 );
 
 JPluginHelper::importPlugin('redshop_checkout');
