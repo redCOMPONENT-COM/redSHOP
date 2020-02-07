@@ -314,23 +314,6 @@ class RsUserHelper
 	}
 
 	/**
-	 * Method for get shipping table
-	 *
-	 * @param   array    $post       Available data.
-	 * @param   integer  $isCompany  Is company?
-	 * @param   array    $lists      List of data.
-	 *
-	 * @return  string
-	 * @throws  Exception
-	 *
-	 * @deprecated  2.0.7  Use RedshopHelperShipping::getShippingTable
-	 */
-	public static function getShippingTable($post = array(), $isCompany = 0, $lists = array())
-	{
-		return RedshopHelperShipping::getShippingTable($post, $isCompany, $lists);
-	}
-
-	/**
 	 * Get captcha html table
 	 *
 	 * @return  string  HTML output to render captch.

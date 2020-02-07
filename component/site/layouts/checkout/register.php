@@ -14,14 +14,14 @@ extract($displayData);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId); ?>" method="post"
-      name="adminForm" id="adminForm" enctype="multipart/form-data">
+	  name="adminForm" id="adminForm" enctype="multipart/form-data">
 	<?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :
 		$checked_style = (Redshop::getConfig()->get('CREATE_ACCOUNT_CHECKBOX') == 1) ? 'checked="checked"' : "''";
 		?>
 		<div class="checkbox">
 			<label>
 				<input type="checkbox" name="createaccount" <?php echo $checked_style; ?> id="createaccount"
-				       value="1" onclick="createUserAccount(this);"/>
+					   value="1" onclick="createUserAccount(this);"/>
 				<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>
 			</label>
 		</div>
@@ -55,7 +55,17 @@ extract($displayData);
 		<div id="divShipping" <?php echo $billingisshipping; ?>>
 			<fieldset class="adminform subTable">
 				<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
-				<?php echo $userhelper->getShippingTable($post, $isCompany, $this->lists); ?>
+				<?php
+					echo RedshopTagsReplacer::_(
+						'shippingtable',
+						'',
+						array(
+							'data' => $post,
+							'isCompany' => $isCompany,
+							'lists' => $this->lists
+						)
+					);
+				?>
 			</fieldset>
 		</div>
 
@@ -65,9 +75,9 @@ extract($displayData);
 
 	<div class="btn-group">
 		<input type="button" class="btn btn-default btn-lg" name="back"
-		       value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
+			   value="<?php echo JText::_('COM_REDSHOP_BACK'); ?>" onclick="javascript:window.history.go(-1);">
 		<input type="submit" class="btn btn-primary btn-lg" name="submitbtn" id="submitbtn"
-		       value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
+			   value="<?php echo JText::_('COM_REDSHOP_PROCEED'); ?>">
 	</div>
 
 	<div class="clr"></div>
