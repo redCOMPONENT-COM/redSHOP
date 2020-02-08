@@ -490,4 +490,10 @@ class Helper
 
 		return $result;
 	}
+
+	public static function checkProductSubscription()
+	{
+		// @Todo Check product subscrition
+		return false;
+	}
 }
