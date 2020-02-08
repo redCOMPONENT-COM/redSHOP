@@ -261,9 +261,16 @@ $dispatcher->trigger('onRenderInvoiceOneStepCheckout', array(&$oneStepTemplateHt
 
 if ($usersInfoId && !empty($billingAddresses))
 {
-	$paymentTemplateHtml = $carthelper->replacePaymentTemplate(
-		$paymentTemplateHtml, $paymentMethodId, $isCompany, $eanNumber
-	);
+    $paymentTemplateHtml = RedshopTagsReplacer::_(
+	    'paymentmethod',
+	    $paymentTemplateHtml,
+	    array(
+		    'paymentMethodId' => $paymentMethodId,
+		    'isCompany' => $isCompany,
+		    'eanNumber' => $eanNumber
+	    )
+    );
+
 	$oneStepTemplateHtml = str_replace($paymentTemplate, $paymentTemplateHtml, $oneStepTemplateHtml);
 }
 else

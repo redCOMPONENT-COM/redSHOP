@@ -837,7 +837,6 @@ class RedshopControllerCheckout extends RedshopController
 	public function ajaxDisplayPaymentAnonymous()
 	{
 		$app        = JFactory::getApplication();
-		$carthelper = rsCarthelper::getInstance();
 		$post       = $app->input->post->getArray();
 		$cart       = RedshopHelperCartSession::getCart();
 
@@ -869,9 +868,16 @@ class RedshopControllerCheckout extends RedshopController
 
 		$templates    = RedshopHelperTemplate::getTemplate("redshop_payment");
 		$templateHtml = !empty($templates) ? $templates[0]->template_desc : '';
-		$templateHtml = $carthelper->replacePaymentTemplate($templateHtml, $selectedPaymentMethodId, $isCompany, $eanNumber);
 
-		echo $templateHtml;
+		echo RedshopTagsReplacer::_(
+			'paymentmethod',
+			$templateHtml,
+			array(
+				'paymentMethodId' => $selectedPaymentMethodId,
+				'isCompany' => $isCompany,
+				'eanNumber' => $eanNumber
+			)
+		);
 
 		$app->close();
 	}
