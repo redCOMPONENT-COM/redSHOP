@@ -2018,8 +2018,8 @@ class RedshopHelperProduct
 	{
 		$db = Factory::getDbo();
 
-		$query = $db->getQuery(true);
-		$query->select('*')
+		$query = $db->getQuery(true)
+			->select('*')
             ->from($db->qn('#__redshop_product_category_xref'))
             ->where($db->qn('product_id') . ' = ' . $db->q((int) $product_id));
 
@@ -2098,8 +2098,8 @@ class RedshopHelperProduct
 	{
 		$db = JFactory::getDbo();
 
-		$query = $db->getQuery(true);
-		$query->select($db->qn(['a.product_id', 'at.tag_id', 'rg.tag_name', 'ty.type_name']))
+		$query = $db->getQuery(true)
+			->select($db->qn(['a.product_id', 'at.tag_id', 'rg.tag_name', 'ty.type_name']))
 			->from($db->qn('#__redproductfinder_associations', 'a'))
 			->leftJoin($db->qn('#__redproductfinder_association_tag', 'at') . ' ON ' . $db->qn('a.id') . ' = ' . $db->qn('at.association_id'))
 			->leftJoin($db->qn('#__redproductfinder_tags', 'rg') . ' ON ' . $db->qn('at.tag_id') . ' = ' . $db->qn('rg.id'))
@@ -2327,8 +2327,8 @@ class RedshopHelperProduct
 	{
 		$db    = JFactory::getDbo();
 
-		$query = $db->getQuery(true);
-		$query->select($db->qn('product_parent_id'))
+		$query = $db->getQuery(true)
+			->select($db->qn('product_parent_id'))
 			->from($db->qn('#__redshop_product'))
 			->where($db->qn('published') . ' = 1')
 			->where($db->qn('product_id') . ' = ' . (int) $parent_id);
@@ -2538,8 +2538,8 @@ class RedshopHelperProduct
 	{
 		$db    = JFactory::getDbo();
 
-		$query = $db->getQuery(true);
-		$query->select('*')
+		$query = $db->getQuery(true)
+			->select('*')
 			->from($db->qn('#__redshop_product_subscription'))
 			->where($db->qn('product_id') . ' = ' . (int) $product_id)
 			->order($db->qn('subscription_id'));
@@ -3510,14 +3510,14 @@ class RedshopHelperProduct
 	public static function getRelatedProduct($productId = 0, $relatedId = 0)
 	{
 		$db    = JFactory::getDbo();
-		$and             = "";
-		$orderby         = "ORDER BY p.product_id ASC ";
-		$orderby_related = "";
+		$where = '';
+		$orderby         = "p.product_id ASC";
+		$orderbyRelated = "";
 
 		if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD'))
 		{
-			$orderby         = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
-			$orderby_related = "";
+			$orderby         = Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
+			$orderbyRelated = "";
 		}
 
 		if ($productId != 0)
@@ -3540,24 +3540,24 @@ class RedshopHelperProduct
 				$finaltypetype_result = array();
 			}
 
-			$and .= "AND r.product_id IN (" . implode(',', $productIds) . ") ";
+			$where .= $db->qn('r.product_id') . ' IN (' . implode(',', $productIds) . ') ';
 
 			if (Redshop::getConfig()->get('TWOWAY_RELATED_PRODUCT'))
 			{
 				if (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering ASC" || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == "r.ordering DESC")
 				{
 					$orderby         = "";
-					$orderby_related = "ORDER BY " . Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
+					$orderbyRelated = Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD');
 				}
 
-				$query = $db->getQuery(true);
-				$query->select('*')
+				$query = $db->getQuery(true)
+					->select('*')
 					->from($db->qn('#__redshop_product_related', 'r'))
 					->where($db->qn('r.product_id') . ' IN (' . implode(',', $productIds) . ') ')
 					->orWhere($db->qn('r.related_id') . ' IN (' . implode(',', $productIds) . ') ');
 
-				if (!empty($orderby_related)) {
-					$query->order($orderby_related);
+				if (!empty($orderbyRelated)) {
+					$query->order($orderbyRelated);
 				}
 
 				$db->setQuery($query);
@@ -3586,11 +3586,16 @@ class RedshopHelperProduct
 				$relatedArr = Joomla\Utilities\ArrayHelper::toInteger($relatedArr);
 				$relatedArr = array_unique($relatedArr);
 
-				$query = "SELECT " . $productId . " AS mainproduct_id,p.* "
-					. "FROM " . $db->qn('#__redshop_product') . " AS p "
-					. "WHERE p.published = 1 ";
-				$query .= ' AND p.product_id IN (' . implode(", ", $relatedArr) . ') ';
-				$query .= $orderby;
+				$query = $db->getQuery(true)
+					->select((int) $productId . ' AS ' . $db->qn('mainproduct_id'))
+					->select('p.*')
+					->from($db->qn('#__redshop_product', 'p'))
+					->where($db->qn('published') . ' = 1')
+					->where($db->qn('p.product_id') . ' IN (' . implode(',', $relatedArr) . ') ');
+
+				if (!empty($orderby)) {
+					$query->order($orderby);
+				}
 
 				$db->setQuery($query);
 				$list = $db->loadObjectlist();
@@ -3599,41 +3604,44 @@ class RedshopHelperProduct
 			}
 		}
 
+		$query = $db->getQuery(true)
+			->select(array($db->qn('r.product_id', 'mainproduct_id'), 'p.*'));
+
 		if ($relatedId != 0)
 		{
-			$and .= "AND r.related_id = " . (int) $relatedId . " ";
+			$query->where($db->qn('r.related_id') . ' = ' . (int) $relatedId);
 		}
 
 		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
 			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
-			$add_e = ",e.*";
-		}
-		else
-		{
-			$add_e = " ";
+			$query->select('e.*');
 		}
 
-		$query = "SELECT r.product_id AS mainproduct_id,p.* " . $add_e . " "
-			. "FROM " . $db->qn('#__redshop_product_related') . " AS r "
-			. "LEFT JOIN " . $db->qn('#__redshop_product') . " AS p ON p.product_id = r.related_id ";
+		$query->from($db->qn('#__redshop_product_related', 'r'))
+			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('r.related_id'));
 
 		if (!empty($finaltypetype_result) && !empty($finaltypetype_result->extrafield)
 			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
 				|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
-			$query .= " LEFT JOIN " . $db->qn('#__fields_data') . " AS e ON p.product_id = e.itemid ";
+			$query->leftJoin($db->qn('#__redshop_fields_data', 'e') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('e.itemid'));
 		}
 
-		$query .= " WHERE p.published = 1 ";
+		$query->where($db->qn('p.published') . ' = 1');
 
 		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
 			&& (Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC' || Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
 		{
-			$query .= " AND e.fieldid = " . (int) $finaltypetype_result->extrafield . " AND e.section=17 ";
+			$query->where($db->qn('e.fieldid') . ' = ' . (int) $finaltypetype_result->extrafield)
+				->where($db->qn('e.section') . ' = 17');
 		}
 
-		$query .= " $and GROUP BY r.related_id ";
+		if(!empty($where)) {
+			$query->where($where);
+		}
+
+		$query->group($db->qn('r.related_id'));
 
 		if ((Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt ASC'
 			|| Redshop::getConfig()->get('DEFAULT_RELATED_ORDERING_METHOD') == 'e.data_txt DESC'))
@@ -3647,11 +3655,11 @@ class RedshopHelperProduct
 				$s = "STR_TO_DATE( e.data_txt, '%d-%m-%Y' ) DESC";
 			}
 
-			$query .= " ORDER BY " . $s;
+			$query->order($s);
 		}
 		else
 		{
-			$query .= " $orderby ";
+			$query->order($orderby);
 		}
 
 		$db->setQuery($query);
@@ -4205,11 +4213,19 @@ class RedshopHelperProduct
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
+		$catquery = $db->getQuery(true);
 
 		if ($user->id > 0)
-			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = '" . $user->id . "' AND sg.shopper_group_portal=1 ";
+			$catquery->select($db->qn('sg.shopper_group_categories'))
+				->from($db->qn('#__redshop_shopper_group', 'sg'))
+				->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON ' . $db->qn('sg.shopper_group_id') . ' = ' . $db->qn('uf.shopper_group_id'))
+				->where($db->qn('uf.user_id') . ' = ' . (int) $user->id)
+				->where($db->qn('sg.shopper_group_portal') . ' = 1');
 		else
-			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = " . (int) $shopperGroupId . " AND sg.shopper_group_portal=1";
+			$catquery->select($db->qn('sg.shopper_group_categories'))
+				->from($db->qn('#__redshop_shopper_group', 'sg'))
+				->where($db->qn('sg.shopper_group_id') . ' = ' . (int) $shopperGroupId)
+				->where($db->qn('sg.shopper_group_portal') . ' = 1');
 
 		$db->setQuery($catquery);
 		$category_ids_obj = $db->loadObjectList();
@@ -4226,8 +4242,10 @@ class RedshopHelperProduct
 		$catIds = explode(',', $category_ids);
 		$catIds = Joomla\Utilities\ArrayHelper::toInteger($catIds);
 
-		$query = "SELECT product_id
-						FROM `#__redshop_product_category_xref` WHERE category_id IN (" . implode(',', $catIds) . ")";
+		$query = $db->getQuery(true)
+			->select($db->qn('product_id'))
+			->from($db->qn('#__redshop_product_category_xref'))
+			->where($db->qn('category_id') . ' IN (' . implode(',', $catIds) . ') ');
 
 		$db->setQuery($query);
 		$shopperprodata = $db->loadObjectList();
@@ -4385,10 +4403,14 @@ class RedshopHelperProduct
 	public static function getProductMediaName($product_id)
 	{
 		$db    = JFactory::getDbo();
-		$query = 'SELECT media_name FROM ' . $db->qn('#__media')
-			. 'WHERE media_section = "product" '
-			. 'AND media_type="download" '
-			. 'AND published=1 AND section_id = ' . (int) $product_id;
+
+		$query = $db->getQuery(true)
+			->select($db->qn('media_name'))
+			->from($db->qn('#__redshop_media'))
+			->where($db->qn('media_section') . ' = ' . $db->q('product'))
+			->where($db->qn('media_type') . ' = ' . $db->q('download'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('section_id') . ' = ' . (int) $product_id);
 		$db->setQuery($query);
 		$res = $db->loadObjectList();
 
@@ -4398,10 +4420,13 @@ class RedshopHelperProduct
 	public static function getProdcutSerialNumber($product_id, $is_used = 0)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT * FROM " . $db->qn('#__redshop_product_serial_number')
-			. "WHERE product_id = " . (int) $product_id . " "
-			. " AND is_used = " . (int) $is_used . " "
-			. " LIMIT 0,1";
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_serial_number'))
+			->where($db->qn('product_id') . ' = ' . (int) $product_id)
+			->where($db->qn('is_used') . ' = ' . (int) $is_used)
+			->setLimit(0, 1);
 		$db->setQuery($query);
 		$rs = $db->loadObject();
 
@@ -4424,8 +4449,10 @@ class RedshopHelperProduct
 	public static function updateProdcutSerialNumber($serial_id)
 	{
 		$db    = JFactory::getDbo();
-		$update_query = "UPDATE " . $db->qn('#__redshop_product_serial_number')
-			. " SET is_used='1' WHERE serial_id = " . (int) $serial_id;
+		$update_query  = $db->getQuery(true)
+			->update($db->qn('#__redshop_product_serial_number'))
+			->set($db->qn('is_used') . ' = 1')
+			->where($db->qn('serial_id') . ' = ' . (int) $serial_id);
 		$db->setQuery($update_query);
 		$db->execute();
 	}
