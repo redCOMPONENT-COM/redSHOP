@@ -837,7 +837,6 @@ class RedshopControllerCheckout extends RedshopController
 	public function ajaxDisplayPaymentAnonymous()
 	{
 		$app        = JFactory::getApplication();
-		$carthelper = rsCarthelper::getInstance();
 		$post       = $app->input->post->getArray();
 		$cart       = RedshopHelperCartSession::getCart();
 

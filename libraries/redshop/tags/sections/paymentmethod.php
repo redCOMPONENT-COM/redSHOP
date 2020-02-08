@@ -25,7 +25,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   2.0.0.5
+	 * @since   __DEPLOY_VERSION
 	 */
 	public function replace()
 	{
@@ -88,7 +88,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 				{
 					foreach ($paymentMethods as $index => $oneMethod)
 					{
-						$paymentDisplay .= $this->replacePaymentMethod($templateMiddle, $oneMethod, $commonPaymentMethods, $totalPaymentMethod, $index);
+						$paymentDisplay .= $this->replacePaymentMethod($hasCreditCard, $templateMiddle, $oneMethod, $commonPaymentMethods, $totalPaymentMethod, $index);
 					}
 				}
 
@@ -96,7 +96,16 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 
 				if (count($paymentMethods) == 1 && !$hasCreditCard)
 				{
-					$templateDesc = "<div style='display:none;'>" . $templateDesc . "</div>";
+					$templateDesc = RedshopLayoutHelper::render(
+						'tags.common.tag',
+						array(
+							'tag' => 'div',
+							'text' => $templateDesc,
+							'attr' => 'style="display:none;"'
+						),
+						'',
+						RedshopLayoutHelper::$layoutOption
+					);
 				}
 
 				$this->template = $templateDesc;
@@ -117,7 +126,21 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 		return parent::replace();
 	}
 
-	public function replacePaymentMethod($templateMiddle, $oneMethod, $commonPaymentMethods, $totalPaymentMethod, $index)
+	/**
+	 * Replace payment method
+	 *
+	 * @param   boolean    $hasCreditCard
+	 * @param   string    $templateMiddle
+	 * @param   object    $oneMethod
+	 * @param   array     $commonPaymentMethods
+	 * @param   integer   $totalPaymentMethod
+	 * @param   integer   $index
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION
+	 */
+	public function replacePaymentMethod(&$hasCreditCard, $templateMiddle, $oneMethod, $commonPaymentMethods, $totalPaymentMethod, $index)
 	{
 		$paymentDisplay     = '';
 		$this->replacements = array();
@@ -228,6 +251,16 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 		return $paymentDisplay;
 	}
 
+	/**
+	 * Replace extra field
+	 *
+	 * @param   boolean   $checked
+	 * @param   object    $oneMethod
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION
+	 */
 	public function replaceExtraField($checked, $oneMethod)
 	{
 		if ($this->isTagExists('{payment_extrafields}'))
