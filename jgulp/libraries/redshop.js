@@ -178,7 +178,7 @@ gulp.task('clean:libraries.redshop:composer.lock', function (cb) {
 })
 
 // Composer
-gulp.task("composer:" + baseTask, ['clean:libraries.redshop:composer.lock'], function (cb) {
+gulp.task("composer:" + baseTask, gulp.series('clean:libraries.redshop:composer.lock'), function (cb) {
     executeComposer(extPath);
     cb();
 });
