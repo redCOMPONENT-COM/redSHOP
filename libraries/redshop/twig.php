@@ -16,19 +16,19 @@ use Joomla\Registry\Registry;
  *
  * @package     Redshop.Library
  * @subpackage  Twig
- * @since       __DEPLOY_VERSION__
+ * @since       2.1.5
  */
 class RedshopHelperTwig
 {
 	/**
 	 * @var object|\Twig\Loader\FilesystemLoader
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public $loader;
 
 	/**
 	 * @var object|\Twig\Environment
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public $twig;
 
@@ -43,7 +43,7 @@ class RedshopHelperTwig
 	 *
 	 * @return mixed|object|\Twig\Loader\FilesystemLoader
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	public function getLoader($pathToFolder)
 	{
@@ -61,7 +61,7 @@ class RedshopHelperTwig
 	 *
 	 * @return mixed|object|\Redshop\TwigEnvironment|\Twig\Environment
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	public function getTwig($loader)
 	{

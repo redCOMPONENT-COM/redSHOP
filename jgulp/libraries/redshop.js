@@ -12,6 +12,7 @@ var xml2js      = require("xml2js");
 var parser      = new xml2js.Parser({explicitArray: false});
 var path        = require("path");
 var composer    = require("gulp-composer");
+var gutil = require("gulp-util");
 
 var libraryName = "redshop";
 
@@ -161,7 +162,6 @@ gulp.task("watch:" + baseTask + ":manifest", function () {
     gulp.watch(extPath + "/" + manifestFile, gulp.series("copy:" + baseTask + ":manifest", browserSync.reload));
 });
 
-
 // Watch
 gulp.task("watch:" + baseTask,
     gulp.series(
@@ -172,8 +172,13 @@ gulp.task("watch:" + baseTask,
         cb();
     });
 
+gulp.task('clean:libraries.redshop:composer.lock', function (cb) {
+    del(extPath + '/composer.lock', { force: true });
+    cb();
+})
+
 // Composer
-gulp.task("composer:" + baseTask, function (cb) {
+gulp.task("composer:" + baseTask, ['clean:libraries.redshop:composer.lock'], function (cb) {
     executeComposer(extPath);
     cb();
 });

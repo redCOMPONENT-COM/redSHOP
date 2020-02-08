@@ -13,6 +13,7 @@ var parser     = new xml2js.Parser();
 function getIncludedExtensions() {
     var included = [];
     var includedPlugins = [
+        "./plugins/content/rs_menuitem_sh404urls/**",
         "./plugins/system/redshop/**",
         "./plugins/system/redgoogleanalytics/**",
         "./plugins/redshop_payment/rs_payment_banktransfer/**",

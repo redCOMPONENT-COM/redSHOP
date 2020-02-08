@@ -18,7 +18,7 @@ use Twig\TwigFilter;
 /**
  * Twig filter to unserialize data.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 final class Unserialize extends AbstractExtension
 {
@@ -26,7 +26,7 @@ final class Unserialize extends AbstractExtension
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getFilters() : array
 	{
@@ -39,7 +39,7 @@ final class Unserialize extends AbstractExtension
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function getName() : string
 	{
