@@ -116,7 +116,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 	$extraFieldName  = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 	$cat_detail      = "";
-	$countCategories = count($this->detail);
+	$countCategories = isset($this->detail) ? count($this->detail): 0;
 
 	if (!$countCategories)
 	{

@@ -31,7 +31,15 @@ $is_company       = $billingaddresses->is_company;
 
 $eanNumber 	  = (int) $billingaddresses->ean_number;
 
-$template_desc = $carthelper->replacePaymentTemplate($template_desc, $this->element, $is_company, $eanNumber);
+$template_desc = RedshopTagsReplacer::_(
+	'paymentmethod',
+	$template_desc,
+	array(
+		'paymentMethodId' => $this->element,
+		'isCompany' => $is_company,
+		'eanNumber' => $eanNumber
+	)
+);
 
 $template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

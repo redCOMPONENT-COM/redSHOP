@@ -490,4 +490,17 @@ class Helper
 
 		return $result;
 	}
+
+	/**
+	 * Method check product subscription
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function checkProductSubscription()
+	{
+		// @Todo Check product subscrition
+		return false;
+	}
 }

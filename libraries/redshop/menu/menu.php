@@ -200,6 +200,18 @@ class RedshopMenu
 			$item->icon    = $icon;
 			$item->disable = in_array($title, $this->menuHide);
 
+            /**
+             * Prepare declare to prevent warning / notice
+             */
+			if (empty($this->data)){
+			    $this->data = [];
+            }
+
+			if (empty($this->data[$this->section])){
+			    $this->data[$this->section] = new stdClass;
+			    $this->data[$this->section]->items = [];
+            }
+
 			if ($this->section)
 			{
 				$this->data[$this->section]->items[] = $item;
