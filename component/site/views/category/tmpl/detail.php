@@ -13,7 +13,6 @@ JHtml::_('behavior.modal');
 
 $url = JURI::base();
 
-$objhelper        = redhelper::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
 $producthelper    = productHelper::getInstance();
 $stockroomhelper  = rsstockroomhelper::getInstance();

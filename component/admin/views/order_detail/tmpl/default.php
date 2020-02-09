@@ -15,7 +15,6 @@ $dispatcher   = JDispatcher::getInstance();
 
 $productHelper    = productHelper::getInstance();
 $orderFunctions   = order_functions::getInstance();
-$redHelper        = redhelper::getInstance();
 $extraFieldHelper = extra_field::getInstance();
 $shippingHelper   = shipping::getInstance();
 $config           = Redconfiguration::getInstance();
@@ -658,7 +657,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								}
 								else
 								{
-									$objhelper = redhelper::getInstance();
 									$pItemid   = RedshopHelperRouter::getItemId($productdetail->product_id, $catIdMain);
 								}
 

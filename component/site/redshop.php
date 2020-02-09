@@ -19,9 +19,6 @@ JLoader::import('joomla.html.pagination');
 RedshopHelperCron::init();
 statistic::getInstance()->track();
 
-// Helper object
-$helper = redhelper::getInstance();
-
 // Set the default view name and format from the Request.
 $vName              = $app->input->getCmd('view', 'category');
 $task               = $app->input->getCmd('task', '');

@@ -14,7 +14,6 @@ $model = $this->getModel('checkout');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$redhelper = redhelper::getInstance();
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
 
 if ($Itemid == 0)

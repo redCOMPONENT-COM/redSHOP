@@ -14,7 +14,6 @@ JHTML::_('behavior.modal');
 $app           = JFactory::getApplication();
 $config        = Redconfiguration::getInstance();
 $producthelper = productHelper::getInstance();
-$redhelper     = redhelper::getInstance();
 
 $url        = JURI::base();
 $Itemid     = $app->input->getInt('Itemid');

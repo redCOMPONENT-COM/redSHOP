@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 $producthelper = productHelper::getInstance();
-$redhelper     = redhelper::getInstance();
 $userhelper    = rsUserHelper::getInstance();
 $filter        = JFactory::getApplication()->input->get('filter');
 $model         = $this->getModel('user');
