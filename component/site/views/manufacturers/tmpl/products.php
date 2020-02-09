@@ -14,7 +14,6 @@ JHtml::_('behavior.modal');
 $producthelper    = productHelper::getInstance();
 $extra_field      = extra_field::getInstance();
 $redTemplate      = Redtemplate::getInstance();
-$redhelper        = redhelper::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
 $app              = JFactory::getApplication();
 

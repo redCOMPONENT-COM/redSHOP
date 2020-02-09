@@ -326,7 +326,7 @@ $print_tag .= "</a>";
 // Associate_tag display update
 $ass_tag = '';
 
-if ($this->redHelper->isredProductfinder())
+if (RedshopHelperUtility::isRedProductFinder())
 {
 	$associate_tag = $producthelper->getassociatetag($this->data->product_id);
 
@@ -1020,10 +1020,10 @@ if (strstr($template_desc, $mpimg_tag))
 
 					if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 					{
-						$pimg      = $this->redHelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "1");
-						$linkimage = $this->redHelper->watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "0");
+						$pimg      = RedshopHelperMedia::watermark('product', $thumb, $mpw_thumb, $mph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "1");
+						$linkimage = RedshopHelperMedia::watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), "0");
 
-						$hoverimg_path = $this->redHelper->watermark(
+						$hoverimg_path = RedshopHelperMedia::watermark(
 							'product',
 							$thumb,
 							Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
@@ -1068,7 +1068,7 @@ if (strstr($template_desc, $mpimg_tag))
 					{
 						if (Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'))
 						{
-							$img_path = $this->redHelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '0');
+							$img_path = RedshopHelperMedia::watermark('product', $thumb, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '0');
 						}
 						else
 						{
@@ -1083,7 +1083,7 @@ if (strstr($template_desc, $mpimg_tag))
 							);
 						}
 
-						$hovermore_images = $this->redHelper->watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '0');
+						$hovermore_images = RedshopHelperMedia::watermark('product', $thumb, '', '', Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'), '0');
 
 						$filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->product_full_image;
 
@@ -1098,7 +1098,7 @@ if (strstr($template_desc, $mpimg_tag))
 
 						if (Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'))
 						{
-							$img_path_org = $this->redHelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
+							$img_path_org = RedshopHelperMedia::watermark('product', $thumb_original, $pw_thumb, $ph_thumb, Redshop::getConfig()->get('WATERMARK_PRODUCT_THUMB_IMAGE'), '0');
 						}
 						else
 						{

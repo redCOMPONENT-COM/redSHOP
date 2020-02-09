@@ -35,8 +35,6 @@ class RedshopControllerLogin extends RedshopController
 		$menu         = JFactory::getApplication()->getMenu();
 		$item         = $menu->getItem($returnitemid);
 
-		$redhelper = redhelper::getInstance();
-
 		$model = $this->getModel('login');
 
 		$shoppergroupid = $this->input->post->getInt('protalid', '');

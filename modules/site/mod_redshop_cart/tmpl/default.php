@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 $token     = JSession::getFormToken();
-$redhelper = redhelper::getInstance();
 $app       = JFactory::getApplication();
 $itemId    = (int) RedshopHelperRouter::getCartItemId();
 

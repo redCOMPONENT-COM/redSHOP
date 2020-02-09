@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.modal');
 
-$redHelper       = redhelper::getInstance();
 $config          = Redconfiguration::getInstance();
 $productHelper   = productHelper::getInstance();
 $redTemplate     = Redtemplate::getInstance();
