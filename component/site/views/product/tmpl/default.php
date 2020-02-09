@@ -326,7 +326,7 @@ $print_tag .= "</a>";
 // Associate_tag display update
 $ass_tag = '';
 
-if ($this->redHelper->isredProductfinder())
+if (RedshopHelperUtility::isRedProductFinder())
 {
 	$associate_tag = $producthelper->getassociatetag($this->data->product_id);
 
