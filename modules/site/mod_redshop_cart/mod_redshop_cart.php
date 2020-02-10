@@ -28,8 +28,6 @@ if ($params->get("checkout_empty") != 0)
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 $model = JModelLegacy::getInstance("Cart", "RedshopModel");
 
-// Helper object
-$helper = redhelper::getInstance();
 RedshopHelperUtility::databaseToCart();
 
 $output_view = $params->get('cart_output', 'simple');

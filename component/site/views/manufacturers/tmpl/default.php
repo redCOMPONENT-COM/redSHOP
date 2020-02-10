@@ -16,7 +16,6 @@ $config        = Redconfiguration::getInstance();
 $url           = JURI::base();
 $print         = $app->input->getInt('print');
 $Itemid        = $app->input->getInt('Itemid');
-$redhelper     = redhelper::getInstance();
 
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER');

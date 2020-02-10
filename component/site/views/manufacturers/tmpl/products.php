@@ -13,7 +13,6 @@ JHtml::_('behavior.modal');
 
 $extra_field      = extra_field::getInstance();
 $redTemplate      = Redtemplate::getInstance();
-$redhelper        = redhelper::getInstance();
 $Redconfiguration = Redconfiguration::getInstance();
 $app              = JFactory::getApplication();
 

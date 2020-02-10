@@ -25,7 +25,6 @@ $categoryData = $categoryModel->getData();
 $mainCategory = $categoryModel->_loadCategory();
 
 RedshopHelperUtility::defineDynamicVariables();
-$objHelper        = redhelper::getInstance();
 $stockroomHelper  = rsstockroomhelper::getInstance();
 $redTemplate      = Redtemplate::getInstance();
 $redconfiguration = Redconfiguration::getInstance();

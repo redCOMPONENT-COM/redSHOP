@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-$redHelper     = redhelper::getInstance();
 $compare       = $displayData['object'];
 $cmd           = JFactory::getApplication()->input->get('cmd');
 $total         = $compare->getItemsTotal();

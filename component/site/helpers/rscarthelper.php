@@ -24,8 +24,6 @@ class rsCarthelper
 
 	public $_extra_field = null;
 
-	public $_redhelper = null;
-
 	public $_producthelper = null;
 
 	public $_shippinghelper = null;
@@ -61,7 +59,6 @@ class rsCarthelper
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_extra_field     = extra_field::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 		$this->input            = JFactory::getApplication()->input;
 	}

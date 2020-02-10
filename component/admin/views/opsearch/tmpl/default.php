@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 $order_function = order_functions::getInstance();
 $config = Redconfiguration::getInstance();
-$redhelper = redhelper::getInstance();
 $showbuttons = JFactory::getApplication()->input->get('showbuttons', '');    ?>
 <form action="index.php?option=com_redshop" method="post"
       name="adminForm" id="adminForm">

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$redhelper     = redhelper::getInstance();
 $userhelper    = rsUserHelper::getInstance();
 $filter        = JFactory::getApplication()->input->get('filter');
 $model         = $this->getModel('user');

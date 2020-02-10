@@ -14,7 +14,6 @@ $app = JFactory::getApplication();
 
 $carthelper = rsCarthelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
 $userhelper = rsUserHelper::getInstance();
 $user = JFactory::getUser();
 $session = JFactory::getSession();

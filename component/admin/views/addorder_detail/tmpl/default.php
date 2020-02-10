@@ -14,7 +14,6 @@ $app = JFactory::getApplication();
 $redconfig = Redconfiguration::getInstance();
 
 $model = $this->getModel('addorder_detail');
-$redhelper = redhelper::getInstance();
 
 $billing = $this->billing;
 $shipping = $this->shipping;
