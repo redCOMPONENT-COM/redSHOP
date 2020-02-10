@@ -503,4 +503,45 @@ class Helper
 		// @Todo Check product subscrition
 		return false;
 	}
+
+    /**
+     * @param $productId
+     * @param $cart
+     *
+     * @return array
+     * @since __DEPLOY_VERSION__
+     */
+    public function getCartProductPrice($productId, $cart)
+    {
+        $productList             = array();
+        $affectedProductIds = array();
+        $idx                    = $cart['idx'];
+        $productPrice           = 0;
+        $productPriceExclVat    = 0;
+        $quantity               = 0;
+        $productIds          = explode(',', $productId);
+        $productIds          = Joomla\Utilities\ArrayHelper::toInteger($productIds);
+
+        for ($v = 0; $v < $idx; $v++)
+        {
+            if (in_array($cart[$v]['product_id'], $productIds) || $this->_globalvoucher)
+            {
+                // Set Quantity based on discount type - i.e Multiple or Single.
+                $productQuantity = (Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) ? $cart[$v]['quantity'] : 1;
+
+                $productPrice            += ($cart[$v]['product_price'] * $productQuantity);
+                $productPriceExclVat     += $cart[$v]['product_price_excl_vat'] * $productQuantity;
+                $affectedProductIds[]    = $cart[$v]['product_id'];
+
+                $quantity += $productQuantity;
+            }
+        }
+
+        $productList['product_ids']            = implode(',', $affectedProductIds);
+        $productList['product_price']          = $productPrice;
+        $productList['product_price_excl_vat'] = $productPriceExclVat;
+        $productList['product_quantity']       = $productQuantity;
+
+        return $productList;
+    }
 }

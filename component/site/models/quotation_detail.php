@@ -60,7 +60,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		// Set session for giftcard
 		if ($data->is_giftcard == 1)
 		{
-			if ($carthelper->rs_recursiveArraySearch($cart, $data->product_id))
+			if (\Redshop\Helper\Utility::rsRecursiveArraySearch($cart, $data->product_id))
 			{
 				$cart[$idx]['quantity'] += 1;
 				RedshopHelperCartSession::setCart($cart);

@@ -2048,8 +2048,8 @@ class RedshopModelCheckout extends RedshopModel
 			$templateDesc = str_replace("{tax_with_shipping_lbl}", '', $templateDesc);
 		}
 
-		$templateDesc = $this->_carthelper->replaceTermsConditions($templateDesc, $Itemid);
-		$templateDesc = $this->_carthelper->replaceNewsletterSubscription($templateDesc);
+		$templateDesc = \Redshop\Terms\Tag::replaceTermsConditions($templateDesc, $Itemid);
+		$templateDesc = \Redshop\Newsletter\Tag::replaceNewsletterSubscription($templateDesc);
 
 		$checkoutOnClick = 'if(validation()){checkout_disable(\'checkout_final\');}';
 
