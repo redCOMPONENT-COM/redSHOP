@@ -469,208 +469,32 @@ class Tag
     public static function replaceShippingTemplate(
         $templateDesc = "",
         $shippingRateId = 0,
-        $shippingBoxPostId = 0,
-        $userId = 0,
-        $usersInfoId = 0,
+        $shippingBoxPostId = 0, 
+        $userId = 0, 
+        $usersInfoId = 0, 
         $orderTotal = 0,
         $orderSubtotal = 0,
         $post = array()
-    ) {
-        $shippingMethod       = RedshopHelperOrder::getShippingMethodInfo();
-        $rateExist            = 0;
-        $d                    = array();
-        $d['user_id']         = $userId;
-        $d['users_info_id']   = $usersInfoId;
-        $d['shipping_box_id'] = $shippingBoxPostId;
-        $d['ordertotal']      = $orderTotal;
-        $d['order_subtotal']  = $orderSubtotal;
-        $d['post']            = $post;
-        $templateDesc        = str_replace(
-            "{shipping_heading}",
-            JText::_('COM_REDSHOP_SHIPPING_METHOD'),
-            $templateDesc
+    )
+    {
+        $templateDesc = RedshopTagsReplacer::_(
+            'shippingmethod',
+            $templateDesc,
+            array(
+                'user_id' => $userId,
+                'users_info_id' => $usersInfoId,
+                'shipping_box_id' => $shippingBoxPostId,
+                'ordertotal' => $orderTotal,
+                'order_subtotal' => $orderSubtotal,
+                'post' => $post,
+                'shipping_rate_id' => $shippingRateId
+            )
         );
-        
-        $extraFieldsTotal     = "";
 
-        if (strpos($templateDesc, "{shipping_method_loop_start}") !== false && strpos(
-                $templateDesc,
-                "{shipping_method_loop_end}"
-            ) !== false) {
-            $template1       = explode("{shipping_method_loop_start}", $templateDesc);
-            $template1       = explode("{shipping_method_loop_end}", $template1[1]);
-            $templateMiddle = $template1[0];
-
-            $templateRateMiddle = "";
-
-            if (strpos($templateMiddle, "{shipping_rate_loop_start}") !== false && strpos(
-                    $templateMiddle,
-                    "{shipping_rate_loop_end}"
-                ) !== false) {
-                $template1            = explode("{shipping_rate_loop_start}", $templateMiddle);
-                $template1            = explode("{shipping_rate_loop_end}", $template1[1]);
-                $templateRateMiddle = $template1[0];
-            }
-
-            $rateData = "";
-
-            if ($templateMiddle != "" && count($shippingMethod) > 0) {
-                JPluginHelper::importPlugin('redshop_shipping');
-                $dispatcher   = RedshopHelperUtility::getDispatcher();
-                $shippingRate = $dispatcher->trigger('onListRates', array(&$d));
-
-                if (count($shippingRate) <= 1 && count($shippingRate[0]) <= 1) {
-                    $templateDesc = str_replace('{show_when_one_rate}', 'none', $templateDesc);
-                }
-
-                for ($s = 0, $sn = count($shippingMethod); $s < $sn; $s++) {
-                    if (isset($shippingRate[$s]) === false) {
-                        continue;
-                    }
-
-                    $rate = $shippingRate[$s];
-
-                    if (!empty($rate)) {
-                        if (empty($shippingRateId)) {
-                            $shippingRateId = $rate[0]->value;
-                        }
-
-                        $rs        = $shippingMethod[$s];
-                        $className = $rs->element;
-                        $rateData .= $templateMiddle;
-                        $rateData = str_replace("{shipping_method_title}", JText::_($rs->name), $rateData);
-
-                        if ($templateRateMiddle != "") {
-                            $data         = "";
-                            $mainLocation = "";
-
-                            for ($i = 0, $in = count($rate); $i < $in; $i++) {
-                                if (isset($rate[$i]->shipping_rate_state) && !empty($rate[$i]->shipping_rate_state)) {
-                                    if (Redshop\Cart\Cart::isDiffCountryState($rate[$i], $usersInfoId, $_POST)) {
-                                        continue;
-                                    }
-                                }
-
-                                $checked = '';
-                                $data    .= $templateRateMiddle;
-
-                                $displayRate = (trim($rate[$i]->rate) > 0) ?
-                                    " (" . RedshopHelperProductPrice::formattedPrice((double)trim($rate[$i]->rate)) . " )"
-                                    : "";
-
-                                if ((isset($rate[$i]->checked) && $rate[$i]->checked) || $rateExist == 0) {
-                                    $checked = "checked";
-                                }
-
-                                if ($checked == "checked") {
-                                    $shippingRateId = $rate[$i]->value;
-                                }
-
-                                $shippingRateName = '<label class="radio inline" for="shipping_rate_id_'
-                                    . $shippingMethod[$s]->extension_id . '_' . $i
-                                    . '"><input type="radio" id="shipping_rate_id_'
-                                    . $shippingMethod[$s]->extension_id . '_' . $i
-                                    . '" name="shipping_rate_id" value="'
-                                    . $rate[$i]->value . '" '
-                                    . $checked
-                                    . ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $className
-                                    . '\');"><span>'
-                                    . '' . html_entity_decode($rate[$i]->text) . '</span></label>';
-
-                                $shippingRateShortDesc = '';
-
-                                if (isset($rate[$i]->shortdesc) === true) {
-                                    $shippingRateShortDesc = html_entity_decode($rate[$i]->shortdesc);
-                                }
-
-                                $shippingRateDesc = '';
-
-                                if (isset($rate[$i]->longdesc) === true) {
-                                    $shippingRateDesc = html_entity_decode($rate[$i]->longdesc);
-                                }
-
-                                $rateExist++;
-                                $data = str_replace("{shipping_rate_name}", $shippingRateName, $data);
-                                $data = str_replace("{shipping_rate_short_desc}", $shippingRateShortDesc, $data);
-                                $data = str_replace("{shipping_rate_desc}", $shippingRateDesc, $data);
-                                $data = str_replace("{shipping_rate}", $displayRate, $data);
-
-                                if (strpos($data, "{shipping_location}") !== false) {
-                                    $shippingLocation = RedshopHelperOrder::getShippingLocationInfo($rate[$i]->text);
-
-                                    for ($k = 0, $kn = count($shippingLocation); $k < $kn; $k++) {
-                                        if ($shippingLocation[$k] != '') {
-                                            $mainLocation = $shippingLocation[$k]->shipping_location_info;
-                                        }
-                                    }
-
-                                    $data = str_replace("{shipping_location}", $mainLocation, $data);
-                                }
-
-                                $dispatcher->trigger(
-                                    'onReplaceShippingTemplate',
-                                    array($d, &$data, $className, $checked)
-                                );
-
-                                $data = str_replace("{gls_shipping_location}", "", $data);
-                            }
-
-                            $rateData = str_replace("{shipping_rate_loop_start}", "", $rateData);
-                            $rateData = str_replace("{shipping_rate_loop_end}", "", $rateData);
-                            $rateData = str_replace($templateRateMiddle, $data, $rateData);
-                        }
-                    }
-
-                    if (strpos($rateData, "{shipping_extrafields}") !== false) {
-                        $paymentParamsNew  = new JRegistry($shippingMethod[$s]->params);
-                        $extraFieldPayment = $paymentParamsNew->get('extrafield_shipping');
-
-                        $extraFieldHidden = "";
-
-                        if (!empty($extraFieldPayment)) {
-                            $countExtraField = count($extraFieldPayment);
-
-                            for ($ui = 0; $ui < $countExtraField; $ui++) {
-                                $productUserFields = Redshop\Fields\SiteHelper::listAllUserFields(
-                                    $extraFieldPayment[$ui],
-                                    19,
-                                    '',
-                                    0,
-                                    0,
-                                    0
-                                );
-                                $extraFieldsTotal  .= $productUserFields[0] . " " . $productUserFields[1] . "<br>";
-                                $extraFieldHidden .= "<input type='hidden' name='extrafields[]' value='"
-                                    . $extraFieldPayment[$ui] . "'>";
-                            }
-
-                            $rateData = str_replace(
-                                "{shipping_extrafields}",
-                                "<div id='extrafield_shipping'>" . $extraFieldsTotal . "</div>",
-                                $rateData
-                            );
-                        } else {
-                            $rateData = str_replace("{shipping_extrafields}", "", $rateData);
-                        }
-                    }
-                }
-            }
-
-            $templateDesc = str_replace("{shipping_method_loop_start}", "", $templateDesc);
-            $templateDesc = str_replace("{shipping_method_loop_end}", "", $templateDesc);
-            $templateDesc = str_replace('{show_when_one_rate}', 'block', $templateDesc);
-            $templateDesc = str_replace($templateMiddle, $rateData, $templateDesc);
-        }
-
-        if ($rateExist == 0) {
-            $templateDesc = "<div></div>";
-        }
-
-        JPluginHelper::importPlugin('redshop_checkout');
+        $shippingRateId = RedshopTagsSectionsShippingMethod::$shippingRateId;
+        JPluginHelpers::importPlugin('redshop_checkout');
         JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$templateDesc));
 
-        $return = array("template_desc" => $templateDesc, "shipping_rate_id" => $shippingRateId);
-
-        return $return;
+        return array("template_desc" => $templateDesc, "shipping_rate_id" => $shippingRateId);
     }
 }

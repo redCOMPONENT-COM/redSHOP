@@ -63,8 +63,6 @@ class rsCarthelper
 		$this->input            = JFactory::getApplication()->input;
 	}
 
-
-
 	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		$and          = "";
