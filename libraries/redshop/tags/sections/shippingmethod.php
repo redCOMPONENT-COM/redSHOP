@@ -193,7 +193,8 @@ class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
 				'index' => $index,
 				'checked' => $checked,
 				'rateText' => html_entity_decode($rate->text),
-				'className' => $className
+				'className' => $className,
+				'rate' => $rate
 			),
 			'',
 			RedshopLayoutHelper::$layoutOption
