@@ -4489,11 +4489,36 @@ class RedshopHelperProduct
 		// Generate Download Token
 		$token = md5(uniqid(mt_rand(), true));
 
-		$sql = "INSERT INTO " . $db->qn('#__redshop_product_download')
-			. "(product_id,user_id,order_id, end_date, download_max, download_id, file_name,product_serial_number) "
-			. "VALUES(" . (int) $product_id . ", " . (int) $user_id . ", " . (int) $order_id . ", "
-			. (int) $endtime . ", " . (int) $product_download_limit . ", "
-			. $db->quote($token) . ", " . $db->quote($media_name) . "," . $db->quote($serial_number) . ")";
+        $sql  = $db->getQuery(true)
+            ->insert($db->qn('#__redshop_product_download'))
+            ->columns(
+                $db->qn(
+                    array(
+                        'product_id',
+                        'user_id',
+                        'order_id',
+                        'end_date',
+                        'download_max',
+                        'download_id',
+                        'file_name',
+                        'product_serial_number'
+                    )
+                )
+            )
+            ->values(
+                implode(',',
+                    array(
+                        (int) $product_id,
+                        (int) $user_id,
+                        (int) $order_id,
+                        (int) $endtime,
+                        (int) $product_download_limit,
+                        $db->quote($token),
+                        $db->quote($media_name),
+                        $db->quote($serial_number)
+                    )
+                )
+            );
 		$db->setQuery($sql);
 		$db->execute();
 
@@ -4514,10 +4539,28 @@ class RedshopHelperProduct
 
 				if (trim($user_fields) != '')
 				{
-					$sql = "INSERT INTO " . $db->qn('#__fields_data')
-						. "(fieldid,data_txt,itemid,section) "
-						. "value (" . (int) $row_data[$i]->id . "," . $db->quote(addslashes($user_fields)) . ","
-						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
+                    $sql  = $db->getQuery(true)
+                        ->insert($db->qn('#__redshop_fields_data'))
+                        ->columns(
+                            $db->qn(
+                                array(
+                                    'fieldid',
+                                    'data_txt',
+                                    'itemid',
+                                    'section'
+                                )
+                            )
+                        )
+                        ->values(
+                            implode(',',
+                                array(
+                                    (int) $row_data[$i]->id,
+                                    $db->quote($db->quote(addslashes($user_fields))),
+                                    (int) $order_item_id,
+                                    $db->quote($section_id)
+                                )
+                            )
+                        );
 					$db->setQuery($sql);
 					$db->execute();
 				}
@@ -4940,9 +4983,11 @@ class RedshopHelperProduct
 	{
 		$db = JFactory::getDbo();
 
-		$query = "SELECT * FROM " . $db->qn('#__redshop_product_subscribe_detail') . " AS p "
-			. "LEFT JOIN " . $db->qn('#__redshop_product_subscription') . " AS ps ON ps.subscription_id=p.subscription_id "
-			. "WHERE order_item_id = " . (int) $order_item_id;
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_product_subscribe_detail'))
+            ->leftJoin($db->qn('#__redshop_product_subscription', 'ps') . ' ON ' . $db->qn('ps.subscription_id') . ' = ' . $db->qn('p.subscription_id'))
+            ->where($db->qn('order_item_id') . ' = ' . (int) $order_item_id);
 		$db->setQuery($query);
 		$list = $db->loadObject();
 
@@ -5044,7 +5089,11 @@ class RedshopHelperProduct
 			if (in_array($field_name, $userfieldArr))
 			{
 				$field_id  = $fieldData->id;
-				$dateQuery = "select data_txt from " . $db->qn('#__fields_data') . " where fieldid = " . (int) $field_id . " AND itemid = " . (int) $product_id;
+                $dateQuery = $db->getQuery(true)
+                    ->select($db->qn('data_txt'))
+                    ->from($db->qn('#__redshop_fields_data'))
+                    ->where($db->qn('fieldid') . ' = ' . (int) $field_id)
+                    ->where($db->qn('itemid') . ' = ' . (int) $product_id);
 				$db->setQuery($dateQuery);
 				$datedata = $db->loadObject();
 
