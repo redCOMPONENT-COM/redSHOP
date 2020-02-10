@@ -205,16 +205,23 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @param   string  $beginTag  Begin tag
 	 * @param   string  $endTag    End tag
+	 * @param   string  $template  Template
 	 *
 	 * @return  mixed
 	 *
 	 * @since   2.0.0.6
 	 */
-	protected function getTemplateBetweenLoop($beginTag, $endTag)
+	protected function getTemplateBetweenLoop($beginTag, $endTag, $template = '')
 	{
 		if ($this->isTagExists($beginTag) && $this->isTagExists($endTag))
 		{
 			$templateStartData = explode($beginTag, $this->template);
+
+			if (!empty($template))
+			{
+				$templateStartData = explode($beginTag, $template);
+			}
+
 			$templateStart     = $templateStartData [0];
 
 			$templateEndData = explode($endTag, $templateStartData [1]);
@@ -238,9 +245,9 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @since  2.0.6
 	 */
-	protected function getDispatcher()
+	protected function getDispatcher($group = 'redshop')
 	{
-		JPluginHelper::importPlugin('redshop');
+		JPluginHelper::importPlugin($group);
 
 		return RedshopHelperUtility::getDispatcher();
 	}
