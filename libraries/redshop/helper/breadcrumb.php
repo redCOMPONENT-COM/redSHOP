@@ -62,7 +62,7 @@ class RedshopHelperBreadcrumb
 					$manufacturerId = $app->input->getInt('manufacturer_id', 0);
 
 					$link = "index.php?option=com_redshop&view=category&layout=detail&cid=" . $sectionId . "&manufacturer_id=" . $manufacturerId;
-					$menu = productHelper::getInstance()->getMenuDetail($link);
+					$menu = RedshopHelperProduct::getMenuDetail($link);
 
 					if ($menu)
 					{
@@ -80,7 +80,7 @@ class RedshopHelperBreadcrumb
 					$newLink = 'index.php?option=com_redshop&view=category&layout=' . $layout;
 				}
 
-				$menu = productHelper::getInstance()->getMenuDetail($newLink);
+				$menu = RedshopHelperProduct::getMenuDetail($newLink);
 
 				if (!empty($menu) && $menu->home !== 1)
 				{
@@ -92,26 +92,26 @@ class RedshopHelperBreadcrumb
 
 				if ($sectionId != 0)
 				{
-					$category_list  = array_reverse(productHelper::getInstance()->getCategoryNavigationlist($sectionId));
+					$category_list  = array_reverse(RedshopHelperProduct::getCategoryNavigationlist($sectionId));
 					$customPathways = array_merge($customPathways, self::getPathway($category_list));
 				}
 
 				break;
 
 			case "product":
-				$menu = productHelper::getInstance()->getMenuInformation($itemId);
+				$menu = RedshopHelperProduct::getMenuInformation($itemId);
 
 				if (!is_null($menu)
 					&& (strpos($menu->params, "manufacturer") !== false && strpos($menu->params, '"manufacturer_id":"0"') === false))
 				{
 					$customPathways = array();
-					$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
+					$menu           = RedshopHelperProduct::getMenuDetail("index.php?option=com_redshop&view=manufacturers");
 
 					if (count($menu) > 0 && $menu->home != 1)
 					{
 						if (isset($menu->parent))
 						{
-							$parentMenu = productHelper::getInstance()->getMenuInformation($menu->parent);
+							$parentMenu = RedshopHelperProduct::getMenuInformation($menu->parent);
 
 							if (count($parentMenu) > 0)
 							{
@@ -153,7 +153,7 @@ class RedshopHelperBreadcrumb
 				else
 				{
 					$customPathways = array();
-					$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=category");
+					$menu           = RedshopHelperProduct::getMenuDetail("index.php?option=com_redshop&view=category");
 
 					if (!empty($menu) && $menu->home != 1)
 					{
@@ -164,11 +164,11 @@ class RedshopHelperBreadcrumb
 					}
 					else
 					{
-						$menu = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=product&pid=" . $sectionId);
+						$menu = RedshopHelperProduct::getMenuDetail("index.php?option=com_redshop&view=product&pid=" . $sectionId);
 
 						if (!empty($menu) && $menu->home != 1 && property_exists($menu, 'parent'))
 						{
-							$parentMenu = productHelper::getInstance()->getMenuInformation($menu->parent);
+							$parentMenu = RedshopHelperProduct::getMenuInformation($menu->parent);
 
 							if (!empty($parentMenu))
 							{
@@ -186,12 +186,12 @@ class RedshopHelperBreadcrumb
 
 						if (!$categoryId)
 						{
-							$categoryId = productHelper::getInstance()->getCategoryProduct($sectionId);
+							$categoryId = RedshopHelperProduct::getCategoryProduct($sectionId);
 						}
 
 						if ($categoryId)
 						{
-							$category_list  = array_reverse(productHelper::getInstance()->getCategoryNavigationlist($categoryId));
+							$category_list  = array_reverse(RedshopHelperProduct::getCategoryNavigationlist($categoryId));
 							$customPathways = array_merge($customPathways, self::getPathway($category_list));
 						}
 
@@ -207,13 +207,13 @@ class RedshopHelperBreadcrumb
 			case "manufacturers":
 
 				$customPathways = array();
-				$menu           = productHelper::getInstance()->getMenuDetail("index.php?option=com_redshop&view=manufacturers");
+				$menu           = RedshopHelperProduct::getMenuDetail("index.php?option=com_redshop&view=manufacturers");
 
 				if (count($menu) > 0 && $menu->home != 1)
 				{
 					if (property_exists($menu, 'parent'))
 					{
-						$parentMenu = productHelper::getInstance()->getMenuInformation($menu->parent);
+						$parentMenu = RedshopHelperProduct::getMenuInformation($menu->parent);
 
 						if (count($parentMenu) > 0)
 						{
@@ -232,7 +232,7 @@ class RedshopHelperBreadcrumb
 
 				if ($sectionId != 0)
 				{
-					$menu = productHelper::getInstance()->getMenuInformation(0, $sectionId, "manufacturerid", "manufacturers");
+					$menu = RedshopHelperProduct::getMenuInformation(0, $sectionId, "manufacturerid", "manufacturers");
 
 					if (!empty((array) $menu))
 					{
@@ -259,7 +259,7 @@ class RedshopHelperBreadcrumb
 
 			case "account":
 				$customPathways = array();
-				$menu           = productHelper::getInstance()->getMenuInformation($itemId);
+				$menu           = RedshopHelperProduct::getMenuInformation($itemId);
 
 				if (count($menu) > 0)
 				{
@@ -280,7 +280,7 @@ class RedshopHelperBreadcrumb
 
 			case "order_detail":
 				$customPathways = array();
-				$menu           = productHelper::getInstance()->getMenuInformation(0, 0, "", "account");
+				$menu           = RedshopHelperProduct::getMenuInformation(0, 0, "", "account");
 
 				if (!empty($menu))
 				{
@@ -308,7 +308,7 @@ class RedshopHelperBreadcrumb
 			case "account_billto":
 			case "account_shipto":
 				$customPathways = array();
-				$menu           = productHelper::getInstance()->getMenuInformation(0, 0, "", "account");
+				$menu           = RedshopHelperProduct::getMenuInformation(0, 0, "", "account");
 
 				if (is_object($menu) && count(get_object_vars($menu)) > 0)
 				{

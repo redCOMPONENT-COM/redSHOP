@@ -111,7 +111,7 @@ class Compare
 		{
 			if ($categoryId == 0)
 			{
-				$categoryId = \productHelper::getInstance()->getCategoryProduct($productId);
+				$categoryId = \RedshopHelperProduct::getCategoryProduct($productId);
 			}
 
 			$compareButton        = new \stdClass;

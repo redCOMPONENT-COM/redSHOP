@@ -870,14 +870,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		if ($calc_error == 1)
 		{
-			$this->setError($err_msg);
+			/** @scrutinizer ignore-deprecated */ $this->setError($err_msg);
 
 			return false;
 		}
 
 		if ($calc_extra == 1)
 		{
-			$this->setError($extra_err_msg);
+			/** @scrutinizer ignore-deprecated */ $this->setError($extra_err_msg);
 
 			return false;
 		}
@@ -1534,7 +1534,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 							if (!$db->setQuery($query)->execute())
 							{
-								$this->setError($db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 								return false;
 							}
@@ -3123,12 +3123,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function attribute_empty()
 	{
-		$producthelper = /** @scrutinizer ignore-deprecated */ productHelper::getInstance();
 		$database      = JFactory::getDbo();
 
 		if ($this->id)
 		{
-			$attributes = /** @scrutinizer ignore-deprecated */ $producthelper->getProductAttribute($this->id);
+			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->id);
 
 			for ($i = 0, $in = count($attributes); $i < $in; $i++)
 			{
@@ -4400,7 +4399,6 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function delete_attibute($product_id, $attribute_id, $attribute_set_id)
 	{
-		$producthelper = productHelper::getInstance();
 
 		if (empty($attribute_set_id) && empty($product_id))
 		{
@@ -4417,11 +4415,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			if ($product_id)
 			{
-				$attributes = /** @scrutinizer ignore-deprecated */ $producthelper->getProductAttribute($product_id);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product_id);
 			}
 			else
 			{
-				$attributes = /** @scrutinizer ignore-deprecated */ $producthelper->getProductAttribute(0, $attribute_set_id);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute(0, $attribute_set_id);
 			}
 		}
 

@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = productHelper::getInstance();
 
 $user = JFactory::getUser();
 
@@ -53,7 +52,7 @@ $end = $this->pagination->limit;
 					{ ?>
 						<td align="center"><?php echo $row->viewdate;?></td>
 					<?php }    ?>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->turnover);?></td>
+					<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->turnover);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

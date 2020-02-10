@@ -13,7 +13,6 @@ JHtml::_('behavior.modal', 'a.joom-box');
 JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher   = JDispatcher::getInstance();
 
-$productHelper    = productHelper::getInstance();
 $orderFunctions   = order_functions::getInstance();
 $extraFieldHelper = extra_field::getInstance();
 $shippingHelper   = shipping::getInstance();
@@ -97,7 +96,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 			<div class="info-box-content">
 				<span class="info-box-text"><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?></span>
-				<span class="info-box-number"><?php echo $productHelper->getProductFormattedPrice($this->detail->order_total); ?></span>
+				<span class="info-box-number"><?php echo RedshopHelperProductPrice::formattedPrice($this->detail->order_total); ?></span>
 			</div>
 		</div>
 	</div>
@@ -168,7 +167,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							</tr>
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_EXTRA_FILEDS'); ?>:</td>
-								<td><?php echo $PaymentExtrafields = $productHelper->getPaymentandShippingExtrafields($this->detail, 18); ?>
+								<td><?php echo $PaymentExtrafields = RedshopHelperProduct::getPaymentandShippingExtrafields($this->detail, 18); ?>
 
 								</td>
 							</tr>
@@ -335,7 +334,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 										<?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING_EXTRA_FILEDS'); ?>:
 									</td>
 									<td>
-										<?php echo $ShippingExtrafields = $productHelper->getPaymentandShippingExtrafields($this->detail, 19); ?>
+										<?php echo $ShippingExtrafields = RedshopHelperProduct::getPaymentandShippingExtrafields($this->detail, 19); ?>
 									</td>
 								</tr>
 								<tr>
@@ -618,7 +617,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$quantity               = $products[$i]->product_quantity;
 							$product_id             = $products[$i]->product_id;
 
-							if ($productdetail = $productHelper->getProductById($product_id))
+							if ($productdetail = RedshopHelperProduct::getProductById($product_id))
 							{
 								$ordervolume = $ordervolume + $productdetail->product_volume;
 							}
@@ -628,9 +627,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$order_item_sku  = $products[$i]->order_item_sku;
 							$wrapper_id      = $products[$i]->wrapper_id;
 
-							$p_userfield      = $productHelper->getuserfield($order_item_id);
+							$p_userfield      = RedshopHelperProduct::getuserfield($order_item_id);
 							$subscribe_detail = $model->getUserProductSubscriptionDetail($order_item_id);
-							$catId            = $productHelper->getCategoryProduct($product_id);
+							$catId            = RedshopHelperProduct::getCategoryProduct($product_id);
 							$res              = RedshopEntityCategory::getInstance((int) $catId)->getItem();
 							$cname            = '';
 
@@ -648,7 +647,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							if (is_object($productdetail))
 							{
 								// Generate frontend link
-								$itemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
+								$itemData  = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $productdetail->product_id);
 								$catIdMain = $productdetail->cat_in_sefurl;
 
 								if (!empty($itemData))
@@ -671,7 +670,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 								$productFrontendLink = '#';
 							}
 
-							$makeAttributeOrder = $productHelper->makeAttributeOrder($order_item_id);
+							$makeAttributeOrder = RedshopHelperProduct::makeAttributeOrder($order_item_id);
 
 							$displayAttribute = $makeAttributeOrder->product_attribute;
 
@@ -717,7 +716,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 																if ($wrapper_id)
 																{
-																	$wrapper = $productHelper->getWrapper($product_id, $wrapper_id);
+																	$wrapper = RedshopHelperProduct::getWrapper($product_id, $wrapper_id);
 																	echo "<br>" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->wrapper_name . "(" . $products[$i]->wrapper_price . ")";
 																}
 
@@ -740,12 +739,12 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																	<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
 																	<input type="number" min="0" name="update_price" id="update_price"
 																	       class="form-control"
-																	       value="<?php echo $productHelper->redpriceDecimal($products[$i]->product_item_price_excl_vat); ?>"
+																	       value="<?php echo RedshopHelperProduct::redpriceDecimal($products[$i]->product_item_price_excl_vat); ?>"
 																	       size="10">
 																</div>
 															</td>
 															<td width="5%"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $vat; ?></td>
-															<td width="10%"><?php echo $productHelper->getProductFormattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
+															<td width="10%"><?php echo RedshopHelperProductPrice::formattedPrice($products[$i]->product_item_price) . " " . JText::_('COM_REDSHOP_INCL_VAT'); ?></td>
 															<td width="5%">
 																<input type="number" min="1" name="quantity" id="quantity" class="col-sm-12"
 																       value="<?php echo $quantity; ?>" size="3">
@@ -753,7 +752,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															<td align="right" width="10%">
 																<?php
 																echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . "&nbsp;";
-																echo $productHelper->redpriceDecimal($products[$i]->product_final_price);
+																echo RedshopHelperProduct::redpriceDecimal($products[$i]->product_final_price);
 																?>
 															</td>
 															<td width="20%">
@@ -934,7 +933,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SUBTOTAL'); ?>:</strong>
 												</td>
 												<td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($subtotal_excl_vat); ?>
+													<?php echo RedshopHelperProductPrice::formattedPrice($subtotal_excl_vat); ?>
 												</td>
 											</tr>
 											<tr align="left">
@@ -971,7 +970,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												}
 												?>
 												<td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($order_tax); ?>
+													<?php echo RedshopHelperProductPrice::formattedPrice($order_tax); ?>
 												</td>
 											</tr>
 											<tr align="left">
@@ -986,7 +985,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													</strong>
 												</td>
 												<td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($this->detail->payment_discount); ?>
+													<?php echo RedshopHelperProductPrice::formattedPrice($this->detail->payment_discount); ?>
 												</td>
 											</tr>
 											<tr align="left">
@@ -1002,7 +1001,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 															<span class="input-group-addon"><?php echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL'); ?></span>
 															<input type="number" min="0" name="update_discount"
 															       id="update_discount" class="form-control"
-															       value="<?php echo $productHelper->redpriceDecimal($this->detail->order_discount); ?>"
+															       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->order_discount); ?>"
 															       size="10">
 															<span class="input-group-addon">
                                                                     <a href="#"
@@ -1012,7 +1011,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
                                                                     </span>
 														</div>
 														<br/>
-														<?php echo $productHelper->getProductFormattedPrice($totaldiscount); ?>
+														<?php echo RedshopHelperProductPrice::formattedPrice($totaldiscount); ?>
 														<input type="hidden" name="task" value="update_discount">
 														<input type="hidden" name="view" value="order_detail">
 														<input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
@@ -1043,7 +1042,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 														</div>
 														<br/>
 														<?php
-														echo $productHelper->getProductFormattedPrice($special_discount_amount);
+														echo RedshopHelperProductPrice::formattedPrice($special_discount_amount);
 														?>
 														<input type="hidden" name="order_total" value="<?php echo $this->detail->order_total; ?>">
 														<input type="hidden" name="task" value="special_discount">
@@ -1057,14 +1056,14 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING'); ?>:</strong>
 												</td>
 												<td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($this->detail->order_shipping); ?>
+													<?php echo RedshopHelperProductPrice::formattedPrice($this->detail->order_shipping); ?>
 												</td>
 											</tr>
 											<tr align="left">
 												<td align="right" width="65%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?>:</strong>
 												</td>
 												<td align="right" width="35%">
-													<?php echo $productHelper->getProductFormattedPrice($this->detail->order_total); ?>
+													<?php echo RedshopHelperProductPrice::formattedPrice($this->detail->order_total); ?>
 												</td>
 											</tr>
 											</tbody>

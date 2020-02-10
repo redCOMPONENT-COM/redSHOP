@@ -15,7 +15,6 @@ $input = JFactory::getApplication()->input;
 JHtml::_('behavior.modal');
 
 // Get product helper
-$producthelper = productHelper::getInstance();
 $configobj     = Redconfiguration::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 
@@ -154,7 +153,7 @@ if ($mail == 0)
 
 		foreach ($MyWishlist as $row)
 		{
-			$wishlistuserfielddata  = $producthelper->getwishlistuserfieldata($row->wishlist_id, $row->product_id);
+			$wishlistuserfielddata  = RedshopHelperWishlist::getUserFieldData($row->wishlist_id, $row->product_id);
 			$link                   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 			$link_remove            = 'index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=' . $wishlist_id
 				. '&pid=' . $row->product_id . '&remove=1';
@@ -168,7 +167,7 @@ if ($mail == 0)
 
 			$thum_image             = Redshop\Product\Image\Image::getImage($row->product_id, $link, $w_thumb, $h_thumb);
 			$product_price          = Redshop\Product\Price::getPrice($row->product_id);
-			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
+			$product_price_discount = RedshopHelperProductPrice::getNetPrice($row->product_id);
 
 			$pname         = "<a href='" . $link . "' >" . $row->product_name . "</a>";
 			$wishlist_data = str_replace($tag, $thum_image, $wishlist_desc);
@@ -176,9 +175,9 @@ if ($mail == 0)
 			$wishlist_data = str_replace('{product_name}', $pname, $wishlist_data);
 			/*if($product_price > $product_price_discount)
 			{
-			$wishlist_data = str_replace('{product_price}', $producthelper->getProductFormattedPrice($product_price_discount) , $wishlist_data);
+			$wishlist_data = str_replace('{product_price}', RedshopHelperProductPrice::formattedPrice($product_price_discount) , $wishlist_data);
 			}else{
-			$wishlist_data = str_replace('{product_price}', $producthelper->getProductFormattedPrice($product_price) , $wishlist_data);
+			$wishlist_data = str_replace('{product_price}', RedshopHelperProductPrice::formattedPrice($product_price) , $wishlist_data);
 			}*/
 			$wishlist_data = str_replace('{product_s_desc}', $row->product_s_desc, $wishlist_data);
 
@@ -191,14 +190,14 @@ if ($mail == 0)
 
 				if ($this->data->product_parent_id != 0)
 				{
-					$parentproductid = $producthelper->getMainParentProduct($row->product_id);
+					$parentproductid = RedshopHelperProduct::getMainParentProduct($row->product_id);
 				}
 
 				$frmChild = "";
 
 				if ($parentproductid != 0)
 				{
-					$productInfo = $producthelper->getProductById($parentproductid);
+					$productInfo = RedshopHelperProduct::getProductById($parentproductid);
 
 					// Get child products
 					$childproducts = $productModel->getAllChildProductArrayList(0, $parentproductid);
@@ -255,10 +254,10 @@ if ($mail == 0)
 
 					if ($row->attribute_set_id > 0)
 					{
-						$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
+						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1);
 					}
 
-					$attributes = $producthelper->getProductAttribute($row->product_id);
+					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($row->product_id);
 
 					$attributes = array_merge($attributes, /** @scrutinizer ignore-type */ $wishlist_data);
 				}
@@ -275,10 +274,10 @@ if ($mail == 0)
 
 				if ($row->attribute_set_id > 0)
 				{
-					$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
+					$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $row->attribute_set_id, 0, 1);
 				}
 
-				$attributes = $producthelper->getProductAttribute($row->product_id);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($row->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 
@@ -346,7 +345,7 @@ if ($mail == 0)
 			}
 
 			// Check product for not for sale
-			$wishlist_data = $producthelper->getProductNotForSaleComment($row, $wishlist_data, $attributes);
+			$wishlist_data = RedshopHelperProduct::getProductNotForSaleComment($row, $wishlist_data, $attributes);
 
 			$wishlist_data = Redshop\Product\Stock::replaceInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
@@ -360,7 +359,7 @@ if ($mail == 0)
 			// Checking for child products end
 
 			// Product accessory Start
-			$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
+			$accessory      = RedshopHelperAccessory::getProductAccessories(0, $row->product_id);
 			$totalAccessory = count($accessory);
 
 			$wishlist_data = RedshopHelperProductAccessory::replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
@@ -369,7 +368,7 @@ if ($mail == 0)
 
 			// Product User Field Start
 			$count_no_user_field = 0;
-			$returnArr           = $producthelper->getProductUserfieldFromTemplate($wishlist_data);
+			$returnArr           = RedshopHelperProduct::getProductUserfieldFromTemplate($wishlist_data);
 			$template_userfield  = $returnArr[0];
 
 			$userfieldArr = $returnArr[1];
@@ -448,7 +447,7 @@ if ($mail == 0)
 			$wishlist_data = str_replace('{remove_product_link}', $remove, $wishlist_data);
 
 			// Extra field display
-			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
+			$wishlist_data = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
 
 			$wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
 			$wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);

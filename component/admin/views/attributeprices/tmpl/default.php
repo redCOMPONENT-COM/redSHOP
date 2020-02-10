@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = productHelper::getInstance();
 JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 $message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
 ?>
@@ -77,9 +76,9 @@ $message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIS
 					<td align="center"><?php echo $row->price_quantity_start;?></td>
 					<td align="center"><?php echo $row->price_quantity_end;?></td>
 					<td align="center"
-					    width="5%"><?php echo $producthelper->getProductFormattedPrice($row->product_price); ?></td>
+						width="5%"><?php echo RedshopHelperProductPrice::formattedPrice($row->product_price); ?></td>
 					<td align="center"
-					    width="5%"><?php echo $producthelper->getProductFormattedPrice($row->discount_price); ?></td>
+						width="5%"><?php echo RedshopHelperProductPrice::formattedPrice($row->discount_price); ?></td>
 				</tr>
 				<?php        $k = 1 - $k;
 			}    ?>

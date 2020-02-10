@@ -94,7 +94,7 @@ class Cart
 				}
 			}
 
-			$retAttArr = \productHelper::getInstance()->makeAttributeCart(
+			$retAttArr = \RedshopHelperProduct::makeAttributeCart(
 				isset($cart[$i]['cart_attribute']) ? $cart[$i]['cart_attribute'] : array(),
 				(int) $product->product_id,
 				$userId,
@@ -113,7 +113,7 @@ class Cart
 			$productOldPriceNoVat = ($accessoryAsProductZero) ? 0 : $retAttArr[5];
 
 			// Accessory calculation
-			$accessories = \productHelper::getInstance()->makeAccessoryCart(
+			$accessories = \RedshopHelperProduct::makeAccessoryCart(
 				isset($cart[$i]['cart_accessory']) ? $cart[$i]['cart_accessory'] : array(),
 				$product->product_id,
 				$userId
@@ -154,7 +154,7 @@ class Cart
 					return array();
 				}
 
-				$subscription      = \productHelper::getInstance()->getProductSubscriptionDetail($productId, $cart[$i]['subscription_id']);
+				$subscription      = \RedshopHelperProduct::getProductSubscriptionDetail($productId, $cart[$i]['subscription_id']);
 				$subscriptionVat   = 0;
 				$subscriptionPrice = $subscription->subscription_price;
 
@@ -419,11 +419,11 @@ class Cart
 			}
 		}
 
-		$retAttArr = \productHelper::getInstance()->makeAttributeCart(
+		$retAttArr = \RedshopHelperProduct::makeAttributeCart(
 			$generateAttributeCart, $product->product_id, 0, $data['product_price'], $quantity, $templateCart[0]->template_desc
 		);
 
-		$selectProp                           = \productHelper::getInstance()->getSelectedAttributeArray($data);
+		$selectProp = \RedshopHelperProduct::getSelectedAttributeArray($data);
 
 		if (\JFactory::getApplication()->input->getString('task') == 'reorder' && !empty($generateAttributeCart))
 		{
@@ -453,7 +453,7 @@ class Cart
 			$dataReOrder = array();
 			$dataReOrder['property_data'] = $propertyReOrderItemStr;
 			$dataReOrder['subproperty_data'] = $subPropertyReOrderItemStr;
-			$selectProp = \productHelper::getInstance()->getSelectedAttributeArray($dataReOrder);
+			$selectProp = \RedshopHelperProduct::getSelectedAttributeArray($dataReOrder);
 		}
 
 		$data['product_old_price']            = $retAttArr[5] + $retAttArr[6];
@@ -532,7 +532,7 @@ class Cart
 		{
 			if (isset($data['subscription_id']) && $data['subscription_id'] != "")
 			{
-				$subscription      = \productHelper::getInstance()->getProductSubscriptionDetail($data['product_id'], $data['subscription_id']);
+				$subscription      = \RedshopHelperProduct::getProductSubscriptionDetail($data['product_id'], $data['subscription_id']);
 				$subscriptionPrice = $subscription->subscription_price;
 				$subscriptionVat   = 0;
 
@@ -601,7 +601,7 @@ class Cart
 			}
 		}
 
-		$resultAccessories   = \productHelper::getInstance()->makeAccessoryCart($generateAccessoryCart, $product->product_id);
+		$resultAccessories   = \RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product->product_id);
 		$accessoryTotalPrice = $resultAccessories[1];
 		$accessoryVatPrice   = $resultAccessories[2];
 
@@ -633,8 +633,8 @@ class Cart
 		$cart[$idx]['product_price_excl_vat'] += $wrapperPrice;
 
 		// Checking For same Product and update Quantity
-		$selectAcc = \productHelper::getInstance()->getSelectedAccessoryArray($data);
-		$selectAtt = \productHelper::getInstance()->getSelectedAttributeArray($data);
+		$selectAcc = \RedshopHelperProduct::getSelectedAccessoryArray($data);
+		$selectAtt = \RedshopHelperProduct::getSelectedAttributeArray($data);
 
 		$sameProduct = false;
 

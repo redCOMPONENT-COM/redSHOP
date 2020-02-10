@@ -48,7 +48,7 @@ class AskQuestion
 			$mailBcc = explode(",", $mailInfo[0]->mail_bcc);
 		}
 
-		$answerData = \productHelper::getInstance()->getQuestionAnswer($answerId);
+		$answerData = \RedshopHelperProduct::getQuestionAnswer($answerId);
 
 		if (empty($answerData))
 		{
@@ -68,7 +68,7 @@ class AskQuestion
 		if ($answerData->parent_id)
 		{
 			$answer       = $answerData->question;
-			$questionData = \productHelper::getInstance()->getQuestionAnswer($answerData->parent_id);
+			$questionData = \RedshopHelperProduct::getQuestionAnswer($answerData->parent_id);
 
 			if (count($questionData) > 0)
 			{

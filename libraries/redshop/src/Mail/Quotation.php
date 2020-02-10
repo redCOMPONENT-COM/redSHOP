@@ -105,7 +105,7 @@ class Quotation
 
 			if ($quotationProduct->product_wrapperid)
 			{
-				$wrapper = \productHelper::getInstance()->getWrapper($productId, $quotationProduct->product_wrapperid);
+				$wrapper = \RedshopHelperProduct::getWrapper($productId, $quotationProduct->product_wrapperid);
 
 				if (count($wrapper) > 0)
 				{
@@ -170,7 +170,7 @@ class Quotation
 			$cartMdata = str_replace("{product_number}", $product->product_number, $cartMdata);
 			$cartMdata = str_replace(
 				"{product_attribute}",
-				\productHelper::getInstance()->makeAttributeQuotation(
+				\RedshopHelperProduct::makeAttributeQuotation(
 					$quotationProduct->quotation_item_id,
 					0,
 					$quotationProduct->product_id,
@@ -180,7 +180,7 @@ class Quotation
 			);
 			$cartMdata = str_replace(
 				"{product_accessory}",
-				\productHelper::getInstance()->makeAccessoryQuotation(
+				\RedshopHelperProduct::makeAccessoryQuotation(
 					$quotationProduct->quotation_item_id,
 					$quotation->quotation_status
 				),
@@ -188,7 +188,7 @@ class Quotation
 			);
 
 			// ProductFinderDatepicker Extra Field Start
-			$cartMdata = \productHelper::getInstance()->getProductFinderDatepickerValue($cartMdata, $productId, $fieldArray);
+			$cartMdata = \RedshopHelperProduct::getProductFinderDatepickerValue($cartMdata, $productId, $fieldArray);
 
 			// ProductFinderDatepicker Extra Field End
 			if ($quotation->quotation_status == 1 && !\Redshop::getConfig()->get('SHOW_QUOTATION_PRICE'))
@@ -364,7 +364,7 @@ class Quotation
 
 			if (!Helper::sendEmail($from, $fromname, $email, $subject, $body, true, null, $bcc, null, $mailSection, func_get_args()))
 			{
-				\JError::raiseWarning(21, \JText::_('ERROR_SENDING_QUOTATION_MAIL'));
+                /** @scrutinizer ignore-deprecated */ \JError::raiseWarning(21, \JText::_('ERROR_SENDING_QUOTATION_MAIL'));
 			}
 		}
 

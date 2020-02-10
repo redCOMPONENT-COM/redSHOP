@@ -54,7 +54,6 @@ class RedshopModelCart extends RedshopModel
 
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_producthelper = productHelper::getInstance();
 		$this->_carthelper    = rsCarthelper::getInstance();
 		$this->_userhelper    = rsUserHelper::getInstance();
 		$this->_objshipping   = shipping::getInstance();
@@ -261,14 +260,14 @@ class RedshopModelCart extends RedshopModel
 				}
 
 				// Attribute price
-				$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
+				$retAttArr                  = RedshopHelperProduct::makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
 				$product_price              = $retAttArr[1];
 				$product_vat_price          = $retAttArr[2];
 				$product_old_price          = $retAttArr[5] + $retAttArr[6];
 				$product_old_price_excl_vat = $retAttArr[5];
 
 				// Accessory price
-				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$cartElement]['cart_accessory'], $cart[$cartElement]['product_id']);
+				$retAccArr             = RedshopHelperProduct::makeAccessoryCart($cart[$cartElement]['cart_accessory'], $cart[$cartElement]['product_id']);
 				$accessory_total_price = $retAccArr[1];
 				$accessory_vat_price   = $retAccArr[2];
 
@@ -282,12 +281,12 @@ class RedshopModelCart extends RedshopModel
 				if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
 				{
 					$subscription_vat    = 0;
-					$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($cart[$cartElement]['product_id'], $cart[$cartElement]['subscription_id']);
+					$subscription_detail = RedshopHelperProduct::getProductSubscriptionDetail($cart[$cartElement]['product_id'], $cart[$cartElement]['subscription_id']);
 					$subscription_price  = $subscription_detail->subscription_price;
 
 					if ($subscription_price)
 					{
-						$subscription_vat = $this->_producthelper->getProductTax($cart[$cartElement]['product_id'], $subscription_price);
+						$subscription_vat = RedshopHelperProduct::getProductTax($cart[$cartElement]['product_id'], $subscription_price);
 					}
 
 					$product_vat_price += $subscription_vat;
@@ -314,7 +313,6 @@ class RedshopModelCart extends RedshopModel
 	{
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher    = RedshopHelperUtility::getDispatcher();
-		$productHelper = productHelper::getInstance();
 
 		$cart = RedshopHelperCartSession::getCart();
 		$user = JFactory::getUser();
@@ -364,9 +362,9 @@ class RedshopModelCart extends RedshopModel
 						$accessoryAsProdutWithoutVat = '{without_vat}';
 						$accessoryPrice              = (float) $accessoryAsProdut->accessory[$cart[$i]['product_id']]->newaccessory_price;
 
-						$productPriceInit                   = $productHelper->productPriceRound($accessoryPrice);
+						$productPriceInit                   = RedshopHelperProductPrice::priceRound($accessoryPrice);
 						$cart[$i]['product_vat']            = 0;
-						$cart[$i]['product_price_excl_vat'] = $productHelper->productPriceRound($accessoryPrice);
+						$cart[$i]['product_price_excl_vat'] = RedshopHelperProductPrice::priceRound($accessoryPrice);
 					}
 
 					$cart[$i]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
@@ -388,7 +386,7 @@ class RedshopModelCart extends RedshopModel
 					$dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculator_price));
 
 					// Attribute price
-					$retAttArr = $this->_producthelper->makeAttributeCart(
+					$retAttArr = RedshopHelperProduct::makeAttributeCart(
 						$cart[$i]['cart_attribute'],
 						$cart[$i]['product_id'],
 						$user->id,
@@ -404,7 +402,7 @@ class RedshopModelCart extends RedshopModel
 					$product_old_price_excl_vat = ($accessoryAsProductZero) ? 0 : $retAttArr[5];
 
 					// Accessory price
-					$retAccArr             = $this->_producthelper->makeAccessoryCart(
+					$retAccArr             = RedshopHelperProduct::makeAccessoryCart(
 						$cart[$i]['cart_accessory'],
 						$cart[$i]['product_id']
 					);
@@ -426,12 +424,12 @@ class RedshopModelCart extends RedshopModel
 					if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "")
 					{
 						$product_id          = $cart[$i]['product_id'];
-						$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
+						$subscription_detail = RedshopHelperProduct::getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
 						$subscription_price  = $subscription_detail->subscription_price;
 
 						if ($subscription_price)
 						{
-							$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+							$subscription_vat = RedshopHelperProduct::getProductTax($product_id, $subscription_price);
 						}
 
 						$product_vat_price += $subscription_vat;
@@ -687,7 +685,7 @@ class RedshopModelCart extends RedshopModel
 
 				for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 				{
-					$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
+					$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
 
 					if (count($pricelist) > 0)
 					{
@@ -695,7 +693,7 @@ class RedshopModelCart extends RedshopModel
 					}
 					else
 					{
-						$pricelist                     = $this->_producthelper->getProperty($propArr[$k]['property_id'], 'property');
+						$pricelist                     = RedshopHelperProduct::getProperty($propArr[$k]['property_id'], 'property');
 						$propArr[$k]['property_price'] = $pricelist->product_price;
 					}
 
@@ -703,7 +701,7 @@ class RedshopModelCart extends RedshopModel
 
 					for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 					{
-						$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
+						$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
 
 						if (count($pricelist) > 0)
 						{
@@ -711,7 +709,7 @@ class RedshopModelCart extends RedshopModel
 						}
 						else
 						{
-							$pricelist                           = $this->_producthelper->getProperty($subpropArr[$l]['subproperty_id'], 'subproperty');
+							$pricelist                           = RedshopHelperProduct::getProperty($subpropArr[$l]['subproperty_id'], 'subproperty');
 							$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
 						}
 					}
@@ -738,7 +736,7 @@ class RedshopModelCart extends RedshopModel
 
 			for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 			{
-				$pricelist = $this->_producthelper->getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
+				$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($propArr[$k]['property_id'], $newquantity, 'property');
 
 				if (count($pricelist) > 0)
 				{
@@ -746,7 +744,7 @@ class RedshopModelCart extends RedshopModel
 				}
 				else
 				{
-					$pricelist                     = $this->_producthelper->getProperty($propArr[$k]['property_id'], 'property');
+					$pricelist                     = RedshopHelperProduct::getProperty($propArr[$k]['property_id'], 'property');
 					$propArr[$k]['property_price'] = $pricelist->product_price;
 				}
 
@@ -754,7 +752,7 @@ class RedshopModelCart extends RedshopModel
 
 				for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 				{
-					$pricelist = $this->_producthelper->getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
+					$pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($subpropArr[$l]['subproperty_id'], $newquantity, 'subproperty');
 
 					if (count($pricelist) > 0)
 					{
@@ -762,7 +760,7 @@ class RedshopModelCart extends RedshopModel
 					}
 					else
 					{
-						$pricelist                           = $this->_producthelper->getProperty($subpropArr[$l]['subproperty_id'], 'subproperty');
+						$pricelist                           = RedshopHelperProduct::getProperty($subpropArr[$l]['subproperty_id'], 'subproperty');
 						$subpropArr[$k]['subproperty_price'] = $pricelist->product_price;
 					}
 				}

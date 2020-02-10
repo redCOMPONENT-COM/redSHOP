@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 
-$producthelper   = productHelper::getInstance();
 $quotationHelper = quotationHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $configobj       = Redconfiguration::getInstance();
@@ -121,7 +120,7 @@ $template_desc = str_replace('{customer_custom_fields}', $extrafields, $template
 if (strstr($template_desc, "{reserve_discount}"))
 {
 	$reserve_discount = Redshop\Account\Helper::getReserveDiscount();
-	$reserve_discount = $producthelper->getProductFormattedPrice($reserve_discount);
+	$reserve_discount = RedshopHelperProductPrice::formattedPrice($reserve_discount);
 
 	$template_desc = str_replace('{reserve_discount}', $reserve_discount, $template_desc);
 	$template_desc = str_replace('{reserve_discount_lbl}', JText::_('COM_REDSHOP_RESERVED_DISCOUNT_LBL'), $template_desc);
@@ -170,7 +169,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 			$order_data = str_replace('{order_id}', $orderslist[$j]->order_id, $order_data);
 			$order_data = str_replace('{order_number}', $orderslist[$j]->order_number, $order_data);
 			$order_data = str_replace('{order_detail_link}', $order_detail, $order_data);
-			$order_data = str_replace('{order_total}', $producthelper->getProductFormattedPrice($orderslist[$j]->order_total), $order_data);
+			$order_data = str_replace('{order_total}', RedshopHelperProductPrice::formattedPrice($orderslist[$j]->order_total), $order_data);
 		}
 	}
 	else

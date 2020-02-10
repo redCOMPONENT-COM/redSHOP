@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 $section = JFactory::getApplication()->input->get('section');
-$producthelper = productHelper::getInstance();
 ?>
 <fieldset>
 	<div style="float: right">
@@ -68,7 +67,7 @@ $producthelper = productHelper::getInstance();
 					</td>
 					<td><input class="text_area" type="text" name="product_price" id="product_price" size="10"
 					           maxlength="10"
-					           value="<?php echo $producthelper->redpriceDecimal($this->detail->product_price); ?>"/>
+					           value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->product_price); ?>"/>
 					</td>
 				</tr>
 				<tr>
@@ -90,7 +89,7 @@ $producthelper = productHelper::getInstance();
 					</td>
 					<td><input class="text_area" type="text" name="discount_price" id="discount_price" size="10"
 					           maxlength="10"
-					           value="<?php echo $producthelper->redpriceDecimal($this->detail->discount_price); ?>"/>
+					           value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->discount_price); ?>"/>
 					</td>
 				</tr>
 				<tr>

@@ -14,7 +14,7 @@ $optionPeriod = array();
 ?>
 
 <?php // Subscription
-$subscription = $this->producthelper->getSubscription($this->detail->product_id);
+$subscription = RedshopHelperProduct::getSubscription($this->detail->product_id);
 $renewal_detail = $this->model->getSubscriptionrenewal();
 $productSerialDetail = $this->productSerialDetail;
 $total_serial = count($productSerialDetail);

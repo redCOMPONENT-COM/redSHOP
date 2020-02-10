@@ -24,7 +24,7 @@ $idx = isset($compareProducts) ? (int) $compareProducts['idx'] : 0;
 ?>
     <ul id="compare_ul">
 		<?php for ($i = 0; $i < $idx; $i++): ?>
-			<?php $product = $this->getProductById($compareProducts[$i]["product_id"]); ?>
+			<?php $product = RedshopHelperProduct::getProductById($compareProducts[$i]["product_id"]); ?>
             <li>
 				<?php echo $product->product_name ?>
                 <a onClick='javascript:add_to_compare(<?php echo $compareProducts[$i]['product_id'] ?>, <?php echo $compareProducts[$i]['category_id'] ?>, "remove")'
@@ -39,7 +39,7 @@ $idx = isset($compareProducts) ? (int) $compareProducts['idx'] : 0;
     <table border="0" cellpadding="5" cellspacing="0" width="100%">
 		<?php for ($i = 0; $i < $idx; $i++): ?>
 			<?php
-			$product = $this->getProductById($compareProducts[$i]["product_id"]);
+			$product = RedshopHelperProduct::getProductById($compareProducts[$i]["product_id"]);
 			$link    = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $compareProducts[$i]["product_id"] . '&Itemid=' . $itemId, false);
 			?>
             <tr valign="top">

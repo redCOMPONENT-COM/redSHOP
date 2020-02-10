@@ -410,7 +410,6 @@ class RedshopControllerCheckout extends RedshopController
 		$session           = JFactory::getSession();
 		$cart              = $session->get('cart');
 		$user              = JFactory::getUser();
-		$producthelper     = productHelper::getInstance();
 		$payment_method_id = $input->post->getString('payment_method_id', '');
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
@@ -533,7 +532,7 @@ class RedshopControllerCheckout extends RedshopController
 					$labelClass = 'label-success';
 				}
 
-				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $order_id, $billingaddresses->firstname . ' ' . $billingaddresses->lastname, $producthelper->getProductFormattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
+				$message = JText::sprintf('COM_REDSHOP_ALERT_ORDER_SUCCESSFULLY', $order_id, $billingaddresses->firstname . ' ' . $billingaddresses->lastname, RedshopHelperProductPrice::formattedPrice($orderresult->order_total), $labelClass, $orderresult->order_payment_status);
 				$dispatcher->trigger('storeAlert', array($message));
 
 				$model->resetcart();
@@ -574,7 +573,7 @@ class RedshopControllerCheckout extends RedshopController
 			else
 			{
 				$errorMsg = $model->getError();
-				JError::raiseWarning(21, $errorMsg);
+				/** @scrutinizer ignore-deprecated */ JError::raiseWarning(21, $errorMsg);
 				$app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false));
 			}
 		}
