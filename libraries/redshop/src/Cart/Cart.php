@@ -368,7 +368,7 @@ class Cart
 		 */
 		if (!\Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
-			$fieldRequired = \rsCarthelper::getInstance()->userfieldValidation($data, $dataAdd, $section);
+			$fieldRequired = \Redshop\User\Helper::userFieldValidation($data, $dataAdd, $section);
 
 			if ($fieldRequired != "")
 			{
