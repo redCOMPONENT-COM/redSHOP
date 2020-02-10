@@ -78,8 +78,7 @@ class RedshopHelperCartDiscount
 		$db     = JFactory::getDbo();
 		$return = false;
 
-		$coupon = rsCarthelper::getInstance()
-			->getCouponData($couponCode, $cart['product_subtotal_excl_vat']);
+		$coupon = \Redshop\Promotion\Voucher::getCouponData($couponCode, $cart['product_subtotal_excl_vat']);
 
 		foreach ($cart['coupon'] as $cartCoupon)
 		{

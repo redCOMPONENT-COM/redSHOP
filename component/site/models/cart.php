@@ -93,7 +93,7 @@ class RedshopModelCart extends RedshopModel
 
 					if ($task != 'coupon' && $task != 'voucher')
 					{
-						$cart = $this->_carthelper->modifyDiscount($cart);
+						$cart = RedshopHelperDiscount::modifyDiscount($cart);
 					}
 				}
 			}

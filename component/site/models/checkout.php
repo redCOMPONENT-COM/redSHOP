@@ -287,7 +287,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
 		}
 
-		$cart = $this->_carthelper->modifyDiscount($cart);
+		$cart = RedshopHelperDiscount::modifyDiscount($cart);
 
 		// Get Payment information
 		$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
@@ -1900,7 +1900,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping_vat'] = (!isset($shipArr['shipping_vat'])) ? 0 : $shipArr['shipping_vat'];
 		}
 
-		$cart = $this->_carthelper->modifyDiscount($cart);
+		$cart = RedshopHelperDiscount::modifyDiscount($cart);
 
 		// Plugin support:  Process the shipping cart
 		JPluginHelper::importPlugin('redshop_product');

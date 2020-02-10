@@ -776,7 +776,7 @@ abstract class RedshopHelperCart
 
 		if ($isModify === true)
 		{
-			$cart = rsCarthelper::getInstance()->modifyDiscount($cart);
+			$cart = RedshopHelperDiscount::modifyDiscount($cart);
 		}
 
 		$cartOutput = array();
