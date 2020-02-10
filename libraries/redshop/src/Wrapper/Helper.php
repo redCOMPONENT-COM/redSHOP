@@ -24,25 +24,25 @@ class Helper
      * @return array
      * @since __DEPLOY_VERSION__
      */
-    public function getWrapperPriceList($cart = array())
+    public function getWrapperPrice($cart = array())
     {
-        $wrapper     = $this->_producthelper->getWrapper($cart['product_id'], $cart['wrapper_id']);
-        $wrapper_vat = 0;
-        $wrapperArr  = array();
+        $wrapper     = RedshopHelperProduct::getWrapper($cart['product_id'], $cart['wrapper_id']);
+        $wrapperVat = 0;
+        $wrappers  = array();
 
         if (count($wrapper) > 0)
         {
             if ($wrapper[0]->wrapper_price > 0)
             {
-                $wrapper_vat = RedshopHelperProduct::getProductTax($cart['product_id'], $wrapper[0]->wrapper_price);
+                $wrapperVat = RedshopHelperProduct::getProductTax($cart['product_id'], $wrapper[0]->wrapper_price);
             }
 
-            $wrapper_price = $wrapper[0]->wrapper_price;
+            $wrapperPrice = $wrapper[0]->wrapper_price;
+
+            $wrappers['wrapper_vat']   = $wrapperVat;
+            $wrappers['wrapper_price'] = $wrapperPrice;
         }
 
-        $wrapperArr['wrapper_vat']   = $wrapper_vat;
-        $wrapperArr['wrapper_price'] = $wrapper_price;
-
-        return $wrapperArr;
+        return $wrappers;
     }
 }
