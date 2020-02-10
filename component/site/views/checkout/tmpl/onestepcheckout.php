@@ -147,6 +147,7 @@ foreach ($templates as $template)
 	$shippingBoxTemplate     = "{shippingbox_template:" . $template->name . "}";
 	$shippingBoxTemplateHtml = $template->template_desc;
 }
+
 $templates = RedshopHelperTemplate::getTemplate("redshop_shipping");
 
 foreach ($templates as $template)
@@ -155,6 +156,7 @@ foreach ($templates as $template)
 	{
 		continue;
 	}
+
 	$shippingTemplate     = "{shipping_template:" . $template->name . "}";
 	$shippingTemplateHtml = $template->template_desc;
 	$oneStepTemplateHtml  = str_replace(
