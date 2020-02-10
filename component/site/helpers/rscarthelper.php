@@ -63,61 +63,6 @@ class rsCarthelper
 		$this->input            = JFactory::getApplication()->input;
 	}
 
-	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
-	{
-		$and          = "";
-		$astpublished = "";
-
-		if ($product_id != 0)
-		{
-			// Secure productsIds
-			if ($productsIds = explode(',', $product_id))
-			{
-				$productsIds = Joomla\Utilities\ArrayHelper::toInteger($productsIds);
-
-				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
-			}
-		}
-
-		if ($attribute_set_id != 0)
-		{
-			$and .= "AND a.attribute_set_id=" . (int) $attribute_set_id . " ";
-		}
-
-		if ($published != 0)
-		{
-			$astpublished = " AND ast.published=" . (int) $published . " ";
-		}
-
-		if ($attribute_required != 0)
-		{
-			$and .= "AND a.attribute_required=" . (int) $attribute_required . " ";
-		}
-
-		if ($notAttributeId != 0)
-		{
-			// Secure notAttributeId
-			if ($notAttributeIds = explode(',', $notAttributeId))
-			{
-				$notAttributeIds = Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
-
-				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
-			}
-		}
-
-		$query = "SELECT a.attribute_id AS value,a.attribute_name AS text,a.*,ast.attribute_set_name "
-			. "FROM " . $this->_table_prefix . "product_attribute AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "attribute_set AS ast ON ast.attribute_set_id=a.attribute_set_id "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.attribute_set_id=a.attribute_set_id " . $astpublished
-			. "WHERE a.attribute_name!='' "
-			. $and
-			. " and attribute_published=1 ORDER BY a.ordering ASC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
-	}
-
 	public function getAttributeSetId($pid)
 	{
 		return RedshopEntityProduct::getInstance($pid)->get('attribute_set_id');
