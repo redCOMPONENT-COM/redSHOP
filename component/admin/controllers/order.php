@@ -234,8 +234,6 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper = productHelper::getInstance();
-
 		/** @var RedshopModelOrder $model */
 		$model = $this->getModel('order');
 
@@ -322,7 +320,7 @@ class RedshopControllerOrder extends RedshopController
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $no_items [$it]->product_final_price . ",";
 
-				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
+				$product_attribute = RedshopHelperProduct::makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
 				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
 
 				echo trim(utf8_decode($product_attribute)) . " ,";
@@ -357,7 +355,6 @@ class RedshopControllerOrder extends RedshopController
 			JFactory::getApplication()->close();
 		}
 
-		$producthelper = productHelper::getInstance();
 		$model         = $this->getModel('order');
 
 		$product_count = array();
@@ -438,7 +435,7 @@ class RedshopControllerOrder extends RedshopController
 				echo $no_items [$it]->order_item_name . ",";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $no_items [$it]->product_final_price . ",";
 
-				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
+				$product_attribute = RedshopHelperProduct::makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
 				$product_attribute = strip_tags($product_attribute->product_attribute);
 
 				echo trim($product_attribute) . ",";

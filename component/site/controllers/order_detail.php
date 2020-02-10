@@ -26,7 +26,6 @@ class RedshopControllerOrder_Detail extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_producthelper   = productHelper::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_userhelper      = rsUserHelper::getInstance();
@@ -264,11 +263,11 @@ class RedshopControllerOrder_Detail extends RedshopController
 		}
 		else
 		{
-			$product_data = $this->_producthelper->getProductById($row['product_id']);
+			$product_data = RedshopHelperProduct::getProductById($row['product_id']);
 
 			if ($product_data->product_type == 'subscription')
 			{
-				$productSubscription = $this->_producthelper->getUserProductSubscriptionDetail($row['order_item_id']);
+				$productSubscription = RedshopHelperProduct::getUserProductSubscriptionDetail($row['order_item_id']);
 
 				if ($productSubscription->subscription_id != "")
 				{
@@ -317,7 +316,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 		}
 		else
 		{
-			$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
+			$ItemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
 
 			if (count($ItemData) > 0)
 			{
@@ -332,7 +331,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 			if (/** @scrutinizer ignore-deprecated */ JError::isError(/** @scrutinizer ignore-deprecated */ JError::getError()))
 			{
-				$errorMessage = JError::getError()->getMessage();
+				$errorMessage = /** @scrutinizer ignore-deprecated */ JError::getError()->getMessage();
 			}
 
 			$app->redirect(

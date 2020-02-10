@@ -19,11 +19,11 @@ $product_id = $this->input->getInt('cid', null);
 if ($fsec == 'subproperty')
 {
 	$images = $this->model->getSubpropertyImages($section_id);
-	$mainImage = $this->producthelper->getAttibuteSubProperty($section_id);
+	$mainImage = RedshopHelperProduct_Attribute::getAttributeSubProperties($section_id);
 }
 else
 {
-	$mainImage = $this->producthelper->getAttibuteProperty($section_id);
+	$mainImage = RedshopHelperProduct_Attribute::getAttributeProperties($section_id);
 	$images = $this->model->getpropertyImages($section_id);
 }
 

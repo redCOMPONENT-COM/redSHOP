@@ -57,7 +57,6 @@ class RedshopModelCheckout extends RedshopModel
 		$this->_carthelper      = rsCarthelper::getInstance();
 		$this->_userhelper      = rsUserHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
-		$this->_producthelper   = productHelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 
@@ -430,7 +429,7 @@ class RedshopModelCheckout extends RedshopModel
 				if ($values['payment_plugin'] != 'rs_payment_localcreditcard')
 				{
 					$errorMsg = $paymentResponse->message;
-					$this->setError($errorMsg);
+					/** @scrutinizer ignore-deprecated */ $this->setError($errorMsg);
 
 					return false;
 				}
@@ -445,7 +444,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$row->bind($post))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -513,7 +512,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			// Start code to track duplicate order number checking
 			$this->deleteOrdernumberTrack();
@@ -574,7 +573,7 @@ class RedshopModelCheckout extends RedshopModel
 			$order_shipping [5] = "";
 		}
 
-		$product_delivery_time = $this->_producthelper->getProductMinDeliveryTime($cart[0]['product_id']);
+		$product_delivery_time = RedshopHelperProduct::getProductMinDeliveryTime($cart[0]['product_id']);
 		$input->set('order_delivery', $product_delivery_time);
 
 		$idx = $cart ['idx'];
@@ -657,7 +656,7 @@ class RedshopModelCheckout extends RedshopModel
 			$rowitem->product_final_price         = ($cart [$i] ['product_price'] * $cart [$i] ['quantity']);
 			$rowitem->is_giftcard                 = $is_giftcard;
 
-			$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $cart [$i] ['quantity']);
+			$retAttArr      = RedshopHelperProduct::makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $cart [$i] ['quantity']);
 			$cart_attribute = $retAttArr[0];
 
 			// For discount calc data
@@ -668,7 +667,7 @@ class RedshopModelCheckout extends RedshopModel
 				$cart_calc_data = $cart[$i]['discount_calc_output'];
 			}
 
-			$retAccArr                    = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $product_id);
+			$retAccArr                    = RedshopHelperProduct::makeAccessoryCart($cart[$i]['cart_accessory'], $product_id);
 			$cart_accessory               = $retAccArr[0];
 			$rowitem->order_id            = $orderId;
 			$rowitem->user_info_id        = $users_info_id;
@@ -698,12 +697,12 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (RedshopHelperProductDownload::checkDownload($rowitem->product_id))
 			{
-				$medianame = $this->_producthelper->getProductMediaName($rowitem->product_id);
+				$medianame = RedshopHelperProduct::getProductMediaName($rowitem->product_id);
 
 				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
-					$product_serial_number = $this->_producthelper->getProdcutSerialNumber($rowitem->product_id);
-					$this->_producthelper->insertProductDownload($rowitem->product_id, $user->id, $rowitem->order_id, $medianame[$j]->media_name, $product_serial_number->serial_number);
+					$product_serial_number = RedshopHelperProduct::getProdcutSerialNumber($rowitem->product_id);
+					RedshopHelperProduct::insertProductDownload($rowitem->product_id, $user->id, $rowitem->order_id, $medianame[$j]->media_name, $product_serial_number->serial_number);
 				}
 			}
 
@@ -712,7 +711,7 @@ class RedshopModelCheckout extends RedshopModel
 
 			if (!$rowitem->store())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 				return false;
 			}
@@ -731,7 +730,7 @@ class RedshopModelCheckout extends RedshopModel
 				$section_id = 12;
 			}
 
-			$this->_producthelper->insertProdcutUserfield($i, $cart, $rowitem->order_item_id, $section_id);
+			RedshopHelperProduct::insertProdcutUserfield($i, $cart, $rowitem->order_item_id, $section_id);
 
 			// My accessory save in table start
 			if (count($cart [$i] ['cart_accessory']) > 0)
@@ -753,7 +752,7 @@ class RedshopModelCheckout extends RedshopModel
 
 					if ($accessory_price > 0)
 					{
-						$accessory_vat_price = $this->_producthelper->getProductTax($rowitem->product_id, $accessory_price);
+						$accessory_vat_price = RedshopHelperProduct::getProductTax($rowitem->product_id, $accessory_price);
 					}
 
 					$attchildArr = $attArr[$a]['accessory_childs'];
@@ -785,7 +784,7 @@ class RedshopModelCheckout extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -800,7 +799,7 @@ class RedshopModelCheckout extends RedshopModel
 
 							if ($propArr[$k]['property_price'] > 0)
 							{
-								$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
+								$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
 							}
 
 							$property_id                   = $propArr[$k]['property_id'];
@@ -822,7 +821,7 @@ class RedshopModelCheckout extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -855,7 +854,7 @@ class RedshopModelCheckout extends RedshopModel
 								{
 									if (!$rowattitem->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 										return false;
 									}
@@ -866,7 +865,7 @@ class RedshopModelCheckout extends RedshopModel
 						// FOR ACCESSORY PROPERTY AND SUBPROPERTY PRICE CALCULATION
 						if ($setPropEqual && $setSubpropEqual)
 						{
-							$accessory_priceArr = $this->_producthelper->makeTotalPriceByOprand($accessory_price, $prooprand, $proprice);
+							$accessory_priceArr = RedshopHelperProduct::makeTotalPriceByOprand($accessory_price, $prooprand, $proprice);
 							$setPropEqual       = $accessory_priceArr[0];
 							$accessory_price    = $accessory_priceArr[1];
 						}
@@ -885,7 +884,7 @@ class RedshopModelCheckout extends RedshopModel
 
 							if ($setPropEqual && $setSubpropEqual)
 							{
-								$accessory_priceArr = $this->_producthelper->makeTotalPriceByOprand($accessory_price, $subprooprand, $subproprice);
+								$accessory_priceArr = RedshopHelperProduct::makeTotalPriceByOprand($accessory_price, $subprooprand, $subproprice);
 								$setSubpropEqual    = $accessory_priceArr[0];
 								$accessory_price    = $accessory_priceArr[1];
 							}
@@ -899,7 +898,7 @@ class RedshopModelCheckout extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo                      = $this->_producthelper->getProductById($accdata->child_product_id);
+					$accProductinfo                      = RedshopHelperProduct::getProductById($accdata->child_product_id);
 					$rowaccitem                          = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id       = 0;
 					$rowaccitem->order_item_id           = $rowitem->order_item_id;
@@ -917,7 +916,7 @@ class RedshopModelCheckout extends RedshopModel
 					{
 						if (!$rowaccitem->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 							return false;
 						}
@@ -951,7 +950,7 @@ class RedshopModelCheckout extends RedshopModel
 						{
 							if (!$rowattitem->store())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 								return false;
 							}
@@ -963,7 +962,7 @@ class RedshopModelCheckout extends RedshopModel
 
 							if ($propArr[$k]['property_price'] > 0)
 							{
-								$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
+								$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
 							}
 
 							$property_id = $propArr[$k]['property_id'];
@@ -991,7 +990,7 @@ class RedshopModelCheckout extends RedshopModel
 							{
 								if (!$rowattitem->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 									return false;
 								}
@@ -1005,7 +1004,7 @@ class RedshopModelCheckout extends RedshopModel
 
 								if ($subpropArr[$l]['subproperty_price'] > 0)
 								{
-									$section_vat = $this->_producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
+									$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								}
 
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
@@ -1033,7 +1032,7 @@ class RedshopModelCheckout extends RedshopModel
 								{
 									if (!$rowattitem->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 										return false;
 									}
@@ -1048,7 +1047,7 @@ class RedshopModelCheckout extends RedshopModel
 			if ($product->product_type == 'subscription')
 			{
 				$subscribe           = $this->getTable('product_subscribe_detail');
-				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
+				$subscription_detail = RedshopHelperProduct::getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
 
 				$add_day                    = $subscription_detail->period_type == 'days' ? $subscription_detail->subscription_period : 0;
 				$add_month                  = $subscription_detail->period_type == 'month' ? $subscription_detail->subscription_period : 0;
@@ -1063,7 +1062,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if (!$subscribe->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}
@@ -1075,7 +1074,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$rowpayment->bind($post))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1120,7 +1119,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$rowpayment->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1137,7 +1136,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$orderuserrow->bind($userrow))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1150,7 +1149,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$orderuserrow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1175,7 +1174,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$orderuserrow->bind($userrow))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1187,7 +1186,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!$orderuserrow->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
@@ -1196,8 +1195,8 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			if (count($cart['extrafields_values']) > 0)
 			{
-				$this->_producthelper->insertPaymentShippingField($cart, $orderId, 18);
-				$this->_producthelper->insertPaymentShippingField($cart, $orderId, 19);
+				RedshopHelperProduct::insertPaymentShippingField($cart, $orderId, 18);
+				RedshopHelperProduct::insertPaymentShippingField($cart, $orderId, 19);
 			}
 		}
 
@@ -1826,7 +1825,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if (!$rowcoupon->bind($cart))
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 				}
 
 				if ($coupon['transaction_coupon_id'])
@@ -1844,7 +1843,7 @@ class RedshopModelCheckout extends RedshopModel
 
 				if (!$rowcoupon->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					/** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 					return false;
 				}

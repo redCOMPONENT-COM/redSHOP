@@ -65,7 +65,6 @@ class RedshopTableGiftcard extends RedshopTable
 	 */
 	protected function doStore($updateNulls = false)
 	{
-		$productHelper = productHelper::getInstance();
 
 		// Get input
 		$app   = JFactory::getApplication();
@@ -103,8 +102,8 @@ class RedshopTableGiftcard extends RedshopTable
 			JFile::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
 		}
 
-		$this->giftcard_price = $productHelper->redpriceDecimal($this->giftcard_price);
-		$this->giftcard_value = $productHelper->redpriceDecimal($this->giftcard_value);
+		$this->giftcard_price = RedshopHelperProduct::redpriceDecimal($this->giftcard_price);
+		$this->giftcard_value = RedshopHelperProduct::redpriceDecimal($this->giftcard_value);
 
 		if (!parent::doStore($updateNulls))
 		{

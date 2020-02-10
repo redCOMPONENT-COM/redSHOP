@@ -12,7 +12,6 @@ JHtml::_('behavior.modal', 'a.joom-box');
 
 $app              = JFactory::getApplication();
 $extraFieldHelper = extra_field::getInstance();
-$productHelper    = productHelper::getInstance();
 
 $model    = $this->getModel('product');
 $listOrder    = $this->escape($this->state->get('list.ordering'));
@@ -296,7 +295,7 @@ JHtml::_('redshopjquery.framework');
 						<?php echo $product->product_number; ?>
 					</td>
 					<td class="nowrap">
-						<?php echo $productHelper->getProductFormattedPrice($product->product_price); ?>
+						<?php echo RedshopHelperProductPrice::formattedPrice($product->product_price); ?>
 					</td>
 
 					<?php foreach ($this->list_in_products as $list_in_product) : ?>
@@ -319,7 +318,7 @@ JHtml::_('redshopjquery.framework');
 									alt="media"> (<?php echo count($model->MediaDetail($product->product_id)); ?>)</a>
 					</td>
 					<td align="center">
-						<?php $wrapper = $productHelper->getWrapper($product->product_id, 0, 1); ?>
+						<?php $wrapper = RedshopHelperProduct::getWrapper($product->product_id, 0, 1); ?>
 						<a class="joom-box"
 						   href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $product->product_id; ?>&tmpl=component"
 						   rel="{handler: 'iframe', size: {x: 700, y: 450}}">

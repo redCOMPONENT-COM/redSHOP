@@ -231,7 +231,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 	public function store($postdata)
 	{
 		$order_functions = order_functions::getInstance();
-		$producthelper   = productHelper::getInstance();
 		$rsCarthelper    = rsCarthelper::getInstance();
 
 		// For barcode generation
@@ -309,12 +308,12 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			// Attribute price added
 			$generateAttributeCart = Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
-			$retAttArr             = $producthelper->makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
+			$retAttArr             = RedshopHelperProduct::makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute     = $retAttArr[0];
 
 			// Accessory price
 			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
-			$retAccArr             = $producthelper->makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
+			$retAccArr             = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory     = $retAccArr[0];
 			$accessory_vat_price   = $retAccArr[2];
 
@@ -323,7 +322,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if ($item[$i]->wrapper_data != 0 && $item[$i]->wrapper_data != '')
 			{
-				$wrapper = $producthelper->getWrapper($product_id, $item[$i]->wrapper_data);
+				$wrapper = RedshopHelperProduct::getWrapper($product_id, $item[$i]->wrapper_data);
 
 				if (count($wrapper) > 0)
 				{
@@ -376,12 +375,12 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			if (RedshopHelperProductDownload::checkDownload($product_id))
 			{
-				$medianame = $producthelper->getProductMediaName($product_id);
+				$medianame = RedshopHelperProduct::getProductMediaName($product_id);
 
 				for ($j = 0, $jn = count($medianame); $j < $jn; $j++)
 				{
-					$product_serial_number = $producthelper->getProdcutSerialNumber($product_id);
-					$producthelper->insertProductDownload(
+					$product_serial_number = RedshopHelperProduct::getProdcutSerialNumber($product_id);
+					RedshopHelperProduct::insertProductDownload(
 						$product_id, $user_id, $rowitem->order_id,
 						$medianame[$j]->media_name, $product_serial_number->serial_number
 					);

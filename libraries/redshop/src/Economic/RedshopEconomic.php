@@ -514,7 +514,6 @@ class RedshopEconomic
 	{
 		// If using Dispatcher, must call plugin Economic first
 		self::importEconomic();
-		$productHelper = \productHelper::getInstance();
 		$eco           = array();
 
 		for ($i = 0, $in = count($orderItem); $i < $in; $i++)
@@ -527,7 +526,7 @@ class RedshopEconomic
 
 			if ($orderItem[$i]->wrapper_id)
 			{
-				$wrapper = $productHelper->getWrapper($orderItem[$i]->product_id, $orderItem[$i]->wrapper_id);
+				$wrapper = \RedshopHelperProduct::getWrapper($orderItem[$i]->product_id, $orderItem[$i]->wrapper_id);
 
 				if (count($wrapper) > 0)
 				{
@@ -555,7 +554,7 @@ class RedshopEconomic
 			}
 
 			// Product user field Information
-			$pUserfield     = $productHelper->getuserfield($orderItem[$i]->order_item_id);
+			$pUserfield     = \RedshopHelperProduct::getuserfield($orderItem[$i]->order_item_id);
 			$displayWrapper = $displayWrapper . "\n" . strip_tags($pUserfield);
 
 			$eco['product_name']     = $orderItem[$i]->order_item_name . $displayWrapper . $discountCalc . $displayAccessory;
@@ -1185,12 +1184,11 @@ class RedshopEconomic
 
 			$productId     = $orderItem[$i]->product_id;
 			$product       = \Redshop::product((int) $productId);
-			$productHelper = \productHelper::getInstance();
 			self::createProductInEconomic($product);
 
 			if ($orderItem[$i]->wrapper_id)
 			{
-				$wrapper = $productHelper->getWrapper($orderItem[$i]->product_id, $orderItem[$i]->wrapper_id);
+				$wrapper = \RedshopHelperProduct::getWrapper($orderItem[$i]->product_id, $orderItem[$i]->wrapper_id);
 
 				if (count($wrapper) > 0)
 				{
@@ -1215,7 +1213,7 @@ class RedshopEconomic
 			}
 
 			// Product user field Information
-			$pUserfield     = $productHelper->getuserfield($orderItem[$i]->order_item_id);
+			$pUserfield     = \RedshopHelperProduct::getuserfield($orderItem[$i]->order_item_id);
 			$displayWrapper = $displayWrapper . "\n" . strip_tags($pUserfield);
 
 			$eco['product_name']     = $orderItem[$i]->order_item_name . $displayWrapper . $displayAttribute . $discountCalc . $displayAccessory;
@@ -1682,7 +1680,7 @@ class RedshopEconomic
 
 						$bookInvoicePdf = \RedshopHelperUtility::getDispatcher()->trigger('bookInvoice', array($eco));
 
-						if (\JError::isError(\JError::getError()))
+						if (/** @scrutinizer ignore-deprecated */ \JError::isError(/** @scrutinizer ignore-deprecated */ \JError::getError()))
 						{
 							return $file;
 						}

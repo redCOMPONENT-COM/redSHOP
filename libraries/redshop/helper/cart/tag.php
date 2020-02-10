@@ -342,7 +342,7 @@ class RedshopHelperCartTag
 				}
 
 				$cartHtml          = str_replace("{product_thumb_image}", $giftCardImage, $cartHtml);
-				$productUserFields = productHelper::getInstance()->GetProdcutUserfield($i, 13);
+				$productUserFields = RedshopHelperProduct::GetProdcutUserfield($i, 13);
 				$cartHtml          = str_replace("{product_userfields}", $productUserFields, $cartHtml);
 				$cartHtml          = str_replace(
 					"{product_price_excl_vat}",
@@ -360,7 +360,7 @@ class RedshopHelperCartTag
 				$cartHtml          = str_replace("{product_tax}", "", $cartHtml);
 
 				// ProductFinderDatepicker Extra Field
-				$cartHtml = productHelper::getInstance()->getProductFinderDatepickerValue($cartHtml, $giftCardId, $fieldArray, 1);
+				$cartHtml = RedshopHelperProduct::getProductFinderDatepickerValue($cartHtml, $giftCardId, $fieldArray, 1);
 
 				$removeProduct = '<form style="" class="rs_hiddenupdatecart" name="delete_cart' . $i . '" method="POST" >
 				<input type="hidden" name="giftcard_id" value="' . $cart[$i]['giftcard_id'] . '">
@@ -398,14 +398,14 @@ class RedshopHelperCartTag
 				$productId     = $cart[$i]['product_id'];
 				$product       = RedshopHelperProduct::getProductById($productId);
 				$catId         = $product->cat_in_sefurl;
-				$attributeCart = productHelper::getInstance()->makeAttributeCart(
+				$attributeCart = RedshopHelperProduct::makeAttributeCart(
 					$cart[$i]['cart_attribute'], $productId, 0, 0, $quantity, $cartHtml
 				);
 				$cartAttribute = $attributeCart[0];
-				$retAccArr     = productHelper::getInstance()->makeAccessoryCart($cart [$i] ['cart_accessory'], $productId, $cartHtml);
+				$retAccArr     = RedshopHelperProduct::makeAccessoryCart($cart [$i] ['cart_accessory'], $productId, $cartHtml);
 				$cartAccessory = $retAccArr[0];
 
-				$itemData = productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productId);
+				$itemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $productId);
 
 				if (!empty($itemData))
 				{
@@ -553,7 +553,7 @@ class RedshopHelperCartTag
 
 				if ((array_key_exists('wrapper_id', $cart[$i])) && $cart[$i]['wrapper_id'])
 				{
-					$wrapper = productHelper::getInstance()->getWrapper($productId, $cart[$i]['wrapper_id']);
+					$wrapper = RedshopHelperProduct::getWrapper($productId, $cart[$i]['wrapper_id']);
 
 					if (count($wrapper) > 0)
 					{
@@ -675,9 +675,9 @@ class RedshopHelperCartTag
 
 				$cartHtml           = str_replace("{product_number}", $product->product_number, $cartHtml);
 				$cartHtml           = str_replace("{product_vat}", $cart[$i]['product_vat'] * $cart[$i]['quantity'], $cartHtml);
-				$productUserFields  = productHelper::getInstance()->GetProdcutUserfield($i);
+				$productUserFields  = RedshopHelperProduct::GetProdcutUserfield($i);
 				$cartHtml           = str_replace("{product_userfields}", $productUserFields, $cartHtml);
-				$productFields      = productHelper::getInstance()->GetProdcutfield($i);
+				$productFields      = RedshopHelperProduct::GetProdcutfield($i);
 				$cartHtml           = str_replace("{product_customfields}", $productFields, $cartHtml);
 				$cartHtml           = str_replace("{product_customfields_lbl}", JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cartHtml);
 				$discountCalcOutput = isset($cart[$i]['discount_calc_output']) && $cart[$i]['discount_calc_output']
@@ -694,7 +694,7 @@ class RedshopHelperCartTag
 				$cartHtml = str_replace("{product_accessory}", $cartAccessory, $cartHtml);
 				$cartHtml = str_replace("{product_attribute_price}", "", $cartHtml);
 				$cartHtml = str_replace("{product_attribute_number}", "", $cartHtml);
-				$cartHtml = productHelper::getInstance()->getProductOnSaleComment($product, $cartHtml);
+				$cartHtml = RedshopHelperProduct::getProductOnSaleComment($product, $cartHtml);
 				$cartHtml = str_replace("{product_old_price}", $productOldPrice, $cartHtml);
 				$cartHtml = str_replace("{product_wrapper}", $wrapperName, $cartHtml);
 				$cartHtml = str_replace("{product_thumb_image}", $productImage, $cartHtml);
@@ -702,7 +702,7 @@ class RedshopHelperCartTag
 				$cartHtml = str_replace("{attribute_price_with_vat}", '', $cartHtml);
 
 				// ProductFinderDatepicker Extra Field Start
-				$cartHtml = productHelper::getInstance()->getProductFinderDatepickerValue($cartHtml, $productId, $fieldArray);
+				$cartHtml = RedshopHelperProduct::getProductFinderDatepickerValue($cartHtml, $productId, $fieldArray);
 
 				$productPriceNoVAT = $cart[$i]['product_price_excl_vat'];
 
@@ -728,7 +728,7 @@ class RedshopHelperCartTag
 
 				if ($product->product_type == 'subscription')
 				{
-					$subscriptionDetail   = productHelper::getInstance()->getProductSubscriptionDetail(
+					$subscriptionDetail   = RedshopHelperProduct::getProductSubscriptionDetail(
 						$product->product_id, $cart[$i]['subscription_id']
 					);
 					$selectedSubscription = $subscriptionDetail->subscription_period . " " . $subscriptionDetail->period_type;

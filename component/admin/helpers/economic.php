@@ -62,7 +62,6 @@ class economic
 		$db                     = JFactory::getDbo();
 		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = $db;
-		$this->_producthelper   = productHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_stockroomhelper = rsstockroomhelper::getInstance();

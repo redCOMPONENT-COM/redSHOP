@@ -45,7 +45,6 @@ class RedshopControllerStatistic_Quotation extends RedshopControllerAdmin
 	 */
 	public function exportQuotation()
 	{
-		$productHelper = productHelper::getInstance();
 		$model         = $this->getModel();
 		$data          = $model->getQuotations();
 

@@ -11,12 +11,10 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.modal', 'a.joom-box');
 
-$producthelper = productHelper::getInstance();
-
 if ($this->item->giftcard_id)
 {
-	$this->form->setValue('giftcard_price', null, $producthelper->redpriceDecimal($this->item->giftcard_price));
-	$this->form->setValue('giftcard_value', null, $producthelper->redpriceDecimal($this->item->giftcard_value));
+	$this->form->setValue('giftcard_price', null, RedshopHelperProduct::redpriceDecimal($this->item->giftcard_price));
+	$this->form->setValue('giftcard_value', null, RedshopHelperProduct::redpriceDecimal($this->item->giftcard_value));
 }
 
 JFactory::getDocument()->addScriptDeclaration('

@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.modal');
 
-$producthelper = productHelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 $app           = JFactory::getApplication();
 
@@ -83,7 +82,7 @@ if ($gid != 0)
 		$template = str_replace("{giftcard_image}", $thum_image, $template);
 	}
 
-	$template = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail->giftcard_value), $template);
+	$template = str_replace("{giftcard_value}", RedshopHelperProductPrice::formattedPrice($detail->giftcard_value), $template);
 	$template = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
 
 	if ($detail->customer_amount != 1)
@@ -97,7 +96,7 @@ if ($gid != 0)
 
 	if ($detail->customer_amount != 1)
 	{
-		$template = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail->giftcard_price), $template);
+		$template = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail->giftcard_price), $template);
 	}
 	else
 	{
@@ -167,11 +166,11 @@ if ($gid != 0)
 		$template = str_replace("{giftcard_validity}", '', $template);
 	}
 
-	$template = $producthelper->getValidityDate($detail->giftcard_validity, $template);
+	$template = RedshopHelperProduct::getValidityDate($detail->giftcard_validity, $template);
 
 	// Product User Field Start
 	$count_no_user_field = 0;
-	$returnArr           = $producthelper->getProductUserfieldFromTemplate($template, 1);
+	$returnArr           = RedshopHelperProduct::getProductUserfieldFromTemplate($template, 1);
 
 	$template_userfield = $returnArr[0];
 	$userfieldArr       = $returnArr[1];
@@ -277,7 +276,7 @@ else
 			$data_add          = str_replace("{giftcard_readmore}", $giftcard_readmore, $data_add);
 			$data_add          = str_replace("{giftcard_desc}", $detail[$i]->giftcard_desc, $data_add);
 
-			$data_add = $producthelper->getValidityDate($detail[$i]->giftcard_validity, $data_add);
+			$data_add = RedshopHelperProduct::getValidityDate($detail[$i]->giftcard_validity, $data_add);
 
 			if ($detail[$i]->customer_amount != 1)
 			{
@@ -289,10 +288,10 @@ else
 			}
 
 			$data_add = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
-			$data_add = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_value), $data_add);
+			$data_add = str_replace("{giftcard_value}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_value), $data_add);
 
 			$data_add = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
-			$data_add = str_replace("{giftcard_price}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_price), $data_add);
+			$data_add = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_price), $data_add);
 		}
 
 		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);

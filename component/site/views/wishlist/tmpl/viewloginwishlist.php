@@ -13,7 +13,6 @@ JHTML::_('behavior.modal');
 
 $app           = JFactory::getApplication();
 $config        = Redconfiguration::getInstance();
-$producthelper = productHelper::getInstance();
 
 $uri        = JURI::getInstance();
 $url        = $uri->root();

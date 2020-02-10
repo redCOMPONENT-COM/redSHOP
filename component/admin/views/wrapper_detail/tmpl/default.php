@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 $showall = JFactory::getApplication()->input->get('showall', '0');
-$producthelper = productHelper::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -61,7 +60,7 @@ $producthelper = productHelper::getInstance();
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_WRAPPER_PRICE');?></td>
 					<td><input class="text_area" type="text" name="wrapper_price" id="wrapper_price" size="10"
 					           maxlength="10"
-					           value="<?php echo $producthelper->redpriceDecimal($this->detail->wrapper_price); ?>"/>
+					           value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->wrapper_price); ?>"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WRAPPER_PRICE'), JText::_('COM_REDSHOP_WRAPPER_PRICE'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>

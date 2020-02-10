@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 $editor = JFactory::getEditor();
-$productHelper = productHelper::getInstance();
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -132,7 +131,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_weight_start" id="shipping_rate_weight_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_weight_start); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_weight_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -144,7 +143,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_weight_end" id="shipping_rate_weight_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_weight_end); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_weight_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -156,7 +155,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_volume_start" id="shipping_rate_volume_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_volume_start); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_volume_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -168,7 +167,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_volume_end" id="shipping_rate_volume_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_volume_end); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_volume_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -180,7 +179,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_length_start" id="shipping_rate_length_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_length_start); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_length_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -192,7 +191,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_length_end" id="shipping_rate_length_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_length_end); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_length_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -204,7 +203,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_width_start" id="shipping_rate_width_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_width_start); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_width_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -216,7 +215,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_width_end" id="shipping_rate_width_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_width_end); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_width_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -228,7 +227,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_height_start" id="shipping_rate_height_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_height_start); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_height_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -240,7 +239,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_height_end" id="shipping_rate_height_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_height_end); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_height_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -252,7 +251,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_ordertotal_start"
 			       id="shipping_rate_ordertotal_start" size="32" maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_ordertotal_start); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_ordertotal_start); ?>"/>
 		</td>
 	</tr>
 
@@ -265,7 +264,7 @@ else
 		<td>
 			<input class="text_area" type="number" step="any" name="shipping_rate_ordertotal_end" id="shipping_rate_ordertotal_end"
 			       size="32" maxlength="250"
-			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_ordertotal_end); ?>"/>
+			       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_ordertotal_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -349,7 +348,7 @@ else
 			<td>
 				<input class="text_area" type="number" name="shipping_rate_value" id="shipping_rate_value" size="32"
 				       maxlength="250"
-				       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_value); ?>"/>
+				       value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->shipping_rate_value); ?>"/>
 			</td>
 		</tr>
 		<tr>

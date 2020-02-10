@@ -101,7 +101,6 @@ class RedshopControllerProduct extends RedshopController
 
 		$get = $this->input->get->getArray();
 
-		$producthelper   = productHelper::getInstance();
 		$carthelper      = rsCarthelper::getInstance();
 		$total_attribute = 0;
 
@@ -120,12 +119,12 @@ class RedshopControllerProduct extends RedshopController
 		$data['quantity']             = $quantity;
 
 		$cartdata  = Redshop\Cart\Helper::generateAttribute($data);
-		$retAttArr = $producthelper->makeAttributeCart($cartdata, $product_id, 0, '', $quantity);
+		$retAttArr = RedshopHelperProduct::makeAttributeCart($cartdata, $product_id, 0, '', $quantity);
 
-		$ProductPriceArr = $producthelper->getProductNetPrice($product_id, 0, $quantity);
+		$ProductPriceArr = RedshopHelperProductPrice::getNetPrice($product_id, 0, $quantity);
 
 		$acccartdata     = $carthelper->generateAccessoryArray($data);
-		$retAccArr       = $producthelper->makeAccessoryCart($acccartdata, $product_id);
+		$retAccArr       = RedshopHelperProduct::makeAccessoryCart($acccartdata, $product_id);
 		$accessory_price = $retAccArr[1];
 		$accessory_vat   = $retAccArr[2];
 
@@ -154,7 +153,6 @@ class RedshopControllerProduct extends RedshopController
 		$propid        = $subpropid = array();
 		$get           = $this->input->get->getArray();
 		$product_id    = $get['product_id'];
-		$producthelper = productHelper::getInstance();
 		$accessory_id  = $get['accessory_id'];
 		$relatedprd_id = $get['relatedprd_id'];
 		$attribute_id  = $get['attribute_id'];
@@ -182,7 +180,7 @@ class RedshopControllerProduct extends RedshopController
 		for ($i = 0, $in = count($propid); $i < $in; $i++)
 		{
 			$property_id = $propid[$i];
-			$response    .= $producthelper->replaceSubPropertyData($product_id, $accessory_id, $relatedprd_id, $attribute_id, $property_id, $subatthtml, $isAjaxBox, $subpropid);
+			$response    .= RedshopHelperProduct::replaceSubPropertyData($product_id, $accessory_id, $relatedprd_id, $attribute_id, $property_id, $subatthtml, $isAjaxBox, $subpropid);
 		}
 
 		echo $response;
@@ -198,7 +196,6 @@ class RedshopControllerProduct extends RedshopController
 	{
 		$url           = JURI::base();
 		$get           = $this->input->get->getArray();
-		$producthelper = productHelper::getInstance();
 
 		$property_id    = urldecode($get['property_id']);
 		$subproperty_id = urldecode($get['subproperty_id']);
@@ -292,7 +289,6 @@ class RedshopControllerProduct extends RedshopController
 	public function addtowishlist()
 	{
 		$app           = JFactory::getApplication();
-		$productHelper = productHelper::getInstance();
 		$user          = JFactory::getUser();
 
 		ob_clean();
@@ -452,7 +448,7 @@ class RedshopControllerProduct extends RedshopController
 		if ($ajaxOn == 1)
 		{
 			sleep(2);
-			$getproductimage     = $productHelper->getProductById($post['product_id']);
+			$getproductimage     = RedshopHelperProduct::getProductById($post['product_id']);
 			$finalproductimgname = $getproductimage->product_full_image;
 
 			if ($finalproductimgname != '')
@@ -1030,9 +1026,8 @@ class RedshopControllerProduct extends RedshopController
 	public function gotochild()
 	{
 		$pid           = $this->input->post->getInt('pid');
-		$productHelper = productHelper::getInstance();
-		$cid           = $productHelper->getCategoryProduct($pid);
-		$ItemData      = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $pid);
+		$cid           = RedshopHelperProduct::getCategoryProduct($pid);
+		$ItemData      = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $pid);
 		$pItemid       = RedshopHelperRouter::getItemId($pid, (int) $cid);
 
 		if (!empty($ItemData))
@@ -1053,9 +1048,8 @@ class RedshopControllerProduct extends RedshopController
 	public function gotonavproduct()
 	{
 		$pid           = $this->input->post->getInt('pid');
-		$productHelper = productHelper::getInstance();
-		$cid           = $productHelper->getCategoryProduct($pid);
-		$ItemData      = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $pid);
+		$cid           = RedshopHelperProduct::getCategoryProduct($pid);
+		$ItemData      = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $pid);
 		$pItemid       = RedshopHelperRouter::getItemId($pid, (int) $cid);
 
 		if (!empty($ItemData))

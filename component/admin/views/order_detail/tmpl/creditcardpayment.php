@@ -13,7 +13,6 @@ $user = JFactory::getUser();
 $app = JFactory::getApplication();
 
 $carthelper = rsCarthelper::getInstance();
-$producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $userhelper = rsUserHelper::getInstance();
 $user = JFactory::getUser();
@@ -299,7 +298,7 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 						?>
 						<?php
 						echo $order->order_total;
-						//echo $producthelper->getProductFormattedPrice($amt); ?>
+						//echo RedshopHelperProductPrice::formattedPrice($amt); ?>
 					</td>
 				</tr>
 			</table>

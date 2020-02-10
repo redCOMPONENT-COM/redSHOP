@@ -204,8 +204,7 @@ class RedshopModelProduct extends RedshopModel
 				$query_prd           = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM #__redshop_product AS p ";
 				$tot_products        = $this->_getList($query_prd);
 				$product_id_array    = '';
-				$producthelper       = productHelper::getInstance();
-				$products_stock      = $producthelper->removeOutofstockProduct($tot_products);
+				$products_stock      = RedshopHelperProduct::removeOutofstockProduct($tot_products);
 				$final_product_stock = $this->getFinalProductStock($products_stock);
 
 				if (count($final_product_stock) > 0)

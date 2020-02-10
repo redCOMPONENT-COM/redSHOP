@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = productHelper::getInstance();
 
 $user = JFactory::getUser();
 
@@ -49,7 +48,7 @@ $end = $this->pagination->limit;
 				<tr>
 					<td align="center"><?php echo $i + 1; ?></td>
 					<td align="center"><?php echo $row->firstname . ' ' . $row->lastname; ?></td>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->order_total);?></td>
+					<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->order_total);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

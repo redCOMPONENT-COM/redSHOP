@@ -358,7 +358,6 @@ class RedshopHelperQuotation
 		 * @TODO: ProductHelper will be deprecated,
 		 * replace them with approriated classes
 		 */
-		$productHelper = productHelper::getInstance();
 
 		$resultArr = array();
 		$db        = JFactory::getDbo();
@@ -382,7 +381,7 @@ class RedshopHelperQuotation
 			$productDetail   = Redshop::product((int) $productId);
 			$productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
-			$returnArr    = $productHelper->getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
+			$returnArr    = RedshopHelperProduct::getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
 			$userFieldTag = $returnArr[1];
 
 			for ($i = 0, $in = count($userFieldTag); $i < $in; $i++)

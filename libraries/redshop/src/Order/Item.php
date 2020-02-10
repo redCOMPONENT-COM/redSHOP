@@ -62,7 +62,7 @@ class Item
 			$productId = $items[$i]->product_id;
 			$productData = \RedshopHelperProduct::getProductById($productId);
 			$quantity  = $items[$i]->product_quantity;
-			$itemData  = \productHelper::getInstance()->getMenuInformation(0, 0, '', 'product&pid=' . $productId);
+			$itemData  = \RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $productId);
 			$itemId    = !empty($itemData) ? $itemData->id : \RedshopHelperRouter::getItemId($productId, $productData->cat_in_sefurl);
 			$link      = \JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId .
 				($productData->cat_in_sefurl ? ('&cid=' . $productData->cat_in_sefurl) : '') . '&Itemid=' . $itemId, false);
@@ -203,7 +203,7 @@ class Item
 
 			if ($items[$i]->wrapper_id)
 			{
-				$wrapper = \productHelper::getInstance()->getWrapper($productId, $items[$i]->wrapper_id);
+				$wrapper = \RedshopHelperProduct::getWrapper($productId, $items[$i]->wrapper_id);
 
 				if (count($wrapper) > 0)
 				{
@@ -216,7 +216,7 @@ class Item
 
 			$cartHtmlContent = str_replace("{product_name}", $productName, $cartHtmlContent);
 
-			$categoryId   = \productHelper::getInstance()->getCategoryProduct($productId);
+			$categoryId   = \RedshopHelperProduct::getCategoryProduct($productId);
 			$category     = \RedshopEntityCategory::getInstance((int) $categoryId)->getItem();
 			$categoryLink = '';
 
@@ -265,7 +265,7 @@ class Item
 			$cartHtmlContent = str_replace("{product_wrapper}", $productNote, $cartHtmlContent);
 
 			// Make attribute order template output
-			$attributeData = \productHelper::getInstance()->makeAttributeOrder($items[$i]->order_item_id, 0, $productId, 0, 0, $content);
+			$attributeData = \RedshopHelperProduct::makeAttributeOrder($items[$i]->order_item_id, 0, $productId, 0, 0, $content);
 
 			// Assign template output into {product_attribute} tag
 			$cartHtmlContent = \RedshopTagsReplacer::_(
@@ -299,9 +299,9 @@ class Item
 			$cartHtmlContent   = str_replace(
 				"{product_accessory}", \Redshop\Order\Helper::generateAccessories($items[$i]->order_item_id), $cartHtmlContent
 			);
-			$productUserFields = \productHelper::getInstance()->getuserfield($items[$i]->order_item_id, $userFieldSection);
+			$productUserFields = \RedshopHelperProduct::getuserfield($items[$i]->order_item_id, $userFieldSection);
 			$cartHtmlContent   = str_replace("{product_userfields}", $productUserFields, $cartHtmlContent);
-			$userCustomFields  = \productHelper::getInstance()->GetProdcutfield_order($items[$i]->order_item_id);
+			$userCustomFields  = \RedshopHelperProduct::GetProdcutfield_order($items[$i]->order_item_id);
 			$cartHtmlContent   = str_replace("{product_customfields}", $userCustomFields, $cartHtmlContent);
 			$cartHtmlContent   = str_replace("{product_customfields_lbl}", \JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cartHtmlContent);
 
@@ -321,8 +321,8 @@ class Item
 
 				if ($product->product_type == 'subscription')
 				{
-					$userSubscribeDetail  = \productHelper::getInstance()->getUserProductSubscriptionDetail($items[$i]->order_item_id);
-					$subscription         = \productHelper::getInstance()->getProductSubscriptionDetail(
+					$userSubscribeDetail  = \RedshopHelperProduct::getUserProductSubscriptionDetail($items[$i]->order_item_id);
+					$subscription         = \RedshopHelperProduct::getProductSubscriptionDetail(
 						$product->product_id, $userSubscribeDetail->subscription_id
 					);
 					$selectedSubscription = $subscription->subscription_period . " " . $subscription->period_type;
@@ -340,12 +340,12 @@ class Item
 			$cartHtmlContent = str_replace("{product_number_lbl}", \JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cartHtmlContent);
 			$productVat      = ($items[$i]->product_item_price - $items[$i]->product_item_price_excl_vat) * $items [$i]->product_quantity;
 			$cartHtmlContent = str_replace("{product_vat}", $productVat, $cartHtmlContent);
-			$cartHtmlContent = \productHelper::getInstance()->getProductOnSaleComment($product, $cartHtmlContent);
+			$cartHtmlContent = \RedshopHelperProduct::getProductOnSaleComment($product, $cartHtmlContent);
 			$cartHtmlContent = str_replace("{attribute_price_without_vat}", '', $cartHtmlContent);
 			$cartHtmlContent = str_replace("{attribute_price_with_vat}", '', $cartHtmlContent);
 
 			// ProductFinderDatepicker Extra Field Start
-			$cartHtmlContent = \productHelper::getInstance()->getProductFinderDatepickerValue($cartHtmlContent, $productId, $fieldArray);
+			$cartHtmlContent = \RedshopHelperProduct::getProductFinderDatepickerValue($cartHtmlContent, $productId, $fieldArray);
 
 			// Change order item image based on plugin
 			$prepareCartAttributes[$i]               = get_object_vars($attributeData);

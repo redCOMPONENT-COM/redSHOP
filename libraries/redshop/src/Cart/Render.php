@@ -147,7 +147,7 @@ class Render
 
 				return $content;
 			}
-			elseif (\productHelper::getInstance()->isProductDateRange($userFields, $productId))
+			elseif (\RedshopHelperProduct::isProductDateRange($userFields, $productId))
 			{
 				// New type custom field - Selection based on selected conditions
 				$content = str_replace("{form_addtocart:$cartTemplate->name}", \JText::_('COM_REDSHOP_PRODUCT_DATE_FIELD_EXPIRED'), $content);
@@ -386,7 +386,7 @@ class Render
 		{
 			if ($giftcardId == 0 && $categoryId == 0)
 			{
-				$categoryId = \productHelper::getInstance()->getCategoryProduct($productId);
+				$categoryId = \RedshopHelperProduct::getCategoryProduct($productId);
 			}
 
 			// $cartFromName = 'addtocart_' . $prefix . $productId . $categoryId;

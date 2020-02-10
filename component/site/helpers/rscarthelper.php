@@ -59,7 +59,6 @@ class rsCarthelper
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_extra_field     = extra_field::getInstance();
-		$this->_producthelper   = productHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 		$this->input            = JFactory::getApplication()->input;
 	}
@@ -1461,7 +1460,7 @@ class rsCarthelper
 
 	public function getWrapperPriceArr($cartArr = array())
 	{
-		$wrapper     = $this->_producthelper->getWrapper($cartArr['product_id'], $cartArr['wrapper_id']);
+		$wrapper     = RedshopHelperProduct::getWrapper($cartArr['product_id'], $cartArr['wrapper_id']);
 		$wrapper_vat = 0;
 		$wrapperArr  = array();
 
@@ -1875,7 +1874,7 @@ class rsCarthelper
 
 	public function userfieldValidation($data, $data_add, $section = 12)
 	{
-		$returnArr    = $this->_producthelper->getProductUserfieldFromTemplate($data_add);
+		$returnArr    = RedshopHelperProduct::getProductUserfieldFromTemplate($data_add);
 		$userfieldArr = $returnArr[1];
 
 		$msg = "";

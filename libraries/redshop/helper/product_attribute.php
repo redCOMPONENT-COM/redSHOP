@@ -332,7 +332,7 @@ abstract class RedshopHelperProduct_Attribute
 			}
 
 			// Add default selected Property price to product price
-			$defaultPrices = productHelper::getInstance()->makeTotalPriceByOprand($showPrice, $propOprand, $propPrice);
+			$defaultPrices = RedshopHelperProduct::makeTotalPriceByOprand($showPrice, $propOprand, $propPrice);
 			$showPrice     = $defaultPrices[1];
 
 			foreach ($selectedProperties as $selectedProperty)
@@ -375,7 +375,7 @@ abstract class RedshopHelperProduct_Attribute
 				}
 
 				// Add default selected Property price to product price
-				$defaultPrices = productHelper::getInstance()->makeTotalPriceByOprand($showPrice, $subPropertiesOprand, $subPropertiesPrice);
+				$defaultPrices = RedshopHelperProduct::makeTotalPriceByOprand($showPrice, $subPropertiesOprand, $subPropertiesPrice);
 				$showPrice     = $defaultPrices[1];
 			}
 		}
