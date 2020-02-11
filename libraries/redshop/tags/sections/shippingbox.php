@@ -43,7 +43,8 @@ class RedshopTagsSectionsShippingBox extends RedshopTagsAbstract
 
 			for ($i = 0, $in = count($shippingBoxes); $i < $in; $i++)
 			{
-				$shippingBoxId = $shippingBoxes[$i]->shipping_box_id;
+				$shippingBoxId          = $shippingBoxes[$i]->shipping_box_id;
+				$shippingBoxPriorityPre = 0;
 
 				// Previous priority
 				if ($i > 0)
@@ -52,10 +53,10 @@ class RedshopTagsSectionsShippingBox extends RedshopTagsAbstract
 				}
 
 				// Current priority
-				$shipping_box_priority = $shippingBoxes[$i]->shipping_box_priority;
+				$shippingBoxPriority = $shippingBoxes[$i]->shipping_box_priority;
 				$checked               = ($shippingBoxPostId == $shippingBoxId) ? "checked='checked'" : "";
 
-				if ($i == 0 || ($shipping_box_priority == $shippingBoxPriorityPre))
+				if ($i == 0 || ($shippingBoxPriority == $shippingBoxPriorityPre))
 				{
 					$shippingBoxList .= RedshopLayoutHelper::render(
 						'tags.shipping_box.shipping_box_list',
