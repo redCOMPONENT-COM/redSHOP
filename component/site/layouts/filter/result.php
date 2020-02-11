@@ -25,8 +25,6 @@ $categoryData = $categoryModel->getData();
 $mainCategory = $categoryModel->_loadCategory();
 
 RedshopHelperUtility::defineDynamicVariables();
-$productHelper    = productHelper::getInstance();
-$objHelper        = redhelper::getInstance();
 $stockroomHelper  = rsstockroomhelper::getInstance();
 $redTemplate      = Redtemplate::getInstance();
 $redconfiguration = Redconfiguration::getInstance();
@@ -92,7 +90,7 @@ if (strpos($templateDesc, "{template_selector_category}") !== false)
 	$templateDesc = str_replace("{template_selector_category}", "", $templateDesc);
 }
 
-$templateDesc = $productHelper->getExtraSectionTag($extraFieldCategory, $cid, "2", $templateDesc);
+$templateDesc = RedshopHelperProductTag::getExtraSectionTag($extraFieldCategory, $cid, "2", $templateDesc);
 
 if (strpos($templateDesc, "{load_more}") !== false)
 {
@@ -263,7 +261,7 @@ if (strpos($templateDesc, "{category_loop_start}") !== false && strpos($template
 
 		if (strpos($dataAdd, '{category_total_product}') !== false)
 		{
-			$totalprd = $productHelper->getProductCategory($row->id);
+			$totalprd = RedshopHelperProduct::getProductCategory($row->id);
 			$dataAdd  = str_replace("{category_total_product}", count($totalprd), $dataAdd);
 			$dataAdd  = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $dataAdd);
 		}
@@ -411,17 +409,17 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		// Count accessory
 		$accessorylist = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
 		$totacc        = count($accessorylist);
-		$netPrice      = $productHelper->getProductNetPrice($product->product_id);
+		$netPrice      = RedshopHelperProductPrice::getNetPrice($product->product_id);
 		$productPrice  = $netPrice['productPrice'];
 
 		$dataAdd = $templateProduct;
 
 		// ProductFinderDatepicker Extra Field Start
-		$dataAdd  = $productHelper->getProductFinderDatepickerValue($dataAdd, $product->product_id, $fieldArray);
-		$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+		$dataAdd  = RedshopHelperProduct::getProductFinderDatepickerValue($dataAdd, $product->product_id, $fieldArray);
+		$itemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 		$pItemid  = count($itemData) > 0 ? $itemData->id : RedshopHelperRouter::getItemId($product->product_id, $cid);
 
-		$dataAdd = str_replace("{product_price}", $productHelper->getProductFormattedPrice($productPrice), $dataAdd);
+		$dataAdd = str_replace("{product_price}", RedshopHelperProductPrice::formattedPrice($productPrice), $dataAdd);
 		$dataAdd = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $dataAdd);
 		$dataAdd = str_replace("{product_id}", $product->product_id, $dataAdd);
 		$dataAdd = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $dataAdd);
@@ -692,7 +690,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 		// Front-back preview image tag end
 
-		$dataAdd = $productHelper->getJcommentEditor($product, $dataAdd);
+		$dataAdd = RedshopHelperProduct::getJcommentEditor($product, $dataAdd);
 
 		/*
 		 *  Conditional tag
@@ -700,7 +698,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 		 *  {if product_on_sale} This product is on sale {product_on_sale end if} // OUTPUT : This product is on sale
 		 *  NO : // OUTPUT : Display blank
 		 */
-		$dataAdd = $productHelper->getProductOnSaleComment($product, $dataAdd);
+		$dataAdd = RedshopHelperProduct::getProductOnSaleComment($product, $dataAdd);
 
 		// Replace Wishlist Button
 		$dataAdd = RedshopHelperWishlist::replaceWishlistTag($product->product_id, $dataAdd);
@@ -765,14 +763,14 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$attributes = array_merge($attributes, $attributesSet);
 		}
 
-		$returnArr    = $productHelper->getProductUserfieldFromTemplate($dataAdd);
+		$returnArr    = RedshopHelperProduct::getProductUserfieldFromTemplate($dataAdd);
 		$userfieldArr = $returnArr[1];
 
 		// Product attribute  Start
 		$totalatt = count($attributes);
 
 		// Check product for not for sale
-		$dataAdd = $productHelper->getProductNotForSaleComment($product, $dataAdd, $attributes);
+		$dataAdd = RedshopHelperProduct::getProductNotForSaleComment($product, $dataAdd, $attributes);
 
 		$dataAdd = Redshop\Product\Stock::replaceInStock(
 			$product->product_id,
@@ -815,7 +813,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 			$totacc
 		);
 
-		$dataAdd = $productHelper->getExtraSectionTag($extraFieldProduct, $product->product_id, "1", $dataAdd);
+		$dataAdd = RedshopHelperProductTag::getExtraSectionTag($extraFieldProduct, $product->product_id, "1", $dataAdd);
 
 		$results = $dispatcher->trigger('onPrepareProduct', array(&$dataAdd, &$params, $product));
 

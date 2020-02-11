@@ -4079,7 +4079,6 @@ class productHelper
 
 			if ($displayLink)
 			{
-				$redhelper = redhelper::getInstance();
 				$catItem   = RedshopHelperRouter::getCategoryItemid($row->id);
 
 				if (!(boolean) $catItem)

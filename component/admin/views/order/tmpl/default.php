@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$productHelper = productHelper::getInstance();
 
 global $context;
 
@@ -365,7 +364,7 @@ JPluginHelper::importPlugin('redshop_product');
 			</span>
                 </td>
                 <td>
-					<?php echo $productHelper->getProductFormattedPrice($row->order_total); ?>
+					<?php echo RedshopHelperProductPrice::formattedPrice($row->order_total); ?>
                 </td>
                 <td>
 					<?php

@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  * @var   array  $displayData  Display data.
  */
 
-$productHelper = productHelper::getInstance();
 $cartHelper    = rsCarthelper::getInstance();
 $cart          = $displayData['cart'];
 $total         = 0;
@@ -64,7 +63,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 					}
 					?>
                     <div class="mod_cart_product_price">
-						<?php echo JText::_('MOD_REDSHOP_CART_PRICE') . " " . $productHelper->getProductFormattedPrice($price, true); ?>
+						<?php echo JText::_('MOD_REDSHOP_CART_PRICE') . " " . RedshopHelperProductPrice::formattedPrice($price, true); ?>
                     </div>
 				<?php endif; ?>
                 <div class="mod_cart_product_delete">
@@ -96,7 +95,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 				<?php echo JText::_('MOD_REDSHOP_CART_SHIPPING_LBL'); ?> :
             </div>
             <div class="mod_cart_shipping_value cartItemAlign" id="mod_cart_shipping_value_ajax">
-				<?php echo $productHelper->getProductFormattedPrice($shippingValue); ?>
+				<?php echo RedshopHelperProductPrice::formattedPrice($shippingValue); ?>
             </div>
             <div class="clr"></div>
 		<?php endif; ?>
@@ -115,7 +114,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 					<?php echo JText::_('MOD_REDSHOP_CART_DISCOUNT_LBL'); ?> :
                 </div>
                 <div class="mod_cart_discount_value cartItemAlign" id="mod_cart_discount_value_ajax">
-					<?php echo $productHelper->getProductFormattedPrice($discountValue); ?>
+					<?php echo RedshopHelperProductPrice::formattedPrice($discountValue); ?>
                 </div>
                 <div class="clr"></div>
 			<?php endif; ?>
@@ -125,7 +124,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 			<?php echo JText::_('MOD_REDSHOP_CART_TOTAL'); ?>
         </div>
         <div class="mod_cart_total_value cartItemAlign" id="mod_cart_total_value_ajax">
-			<?php echo $productHelper->getProductFormattedPrice($total); ?>
+			<?php echo RedshopHelperProductPrice::formattedPrice($total); ?>
         </div>
         <div class="clr"></div>
 

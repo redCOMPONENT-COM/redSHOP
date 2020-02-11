@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.modal', 'a.joom-box');
 JHtml::_('behavior.formvalidator');
 
-$productHelper = productHelper::getInstance();
 $model         = $this->getModel('product');
 
 ?>
@@ -136,7 +135,7 @@ $model         = $this->getModel('product');
 		                    <?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_ERROR_PRICE_MUST_NOT_NEGATIVE_NUMBER') ?>
                         </label>
                         <input type="number" name="price[]" size="4" id="product_price_<?php echo $row->product_id ?>" class="validate-positiveNumber"
-                               value="<?php echo $productHelper->redpriceDecimal($row->product_price, false); ?>"/>
+                               value="<?php echo RedshopHelperProduct::redpriceDecimal($row->product_price, false); ?>"/>
                         <a class='joom-box btn btn-primary btn-small' rel="{handler: 'iframe', size: {x: 750, y: 400}}"
                            href="index.php?tmpl=component&option=com_redshop&view=product_price&pid=<?php echo $row->product_id ?>">
                             <i class="fa fa-plus"></i>
@@ -149,7 +148,7 @@ $model         = $this->getModel('product');
                         </label>
                         <input type="number" id="discount_price_<?php echo $row->product_id ?>" name="discount_price[]" size="4"
                                class="form-control validate-discountPrice"
-                               value="<?php echo $productHelper->redpriceDecimal($row->discount_price) ?>"/>
+                               value="<?php echo RedshopHelperProduct::redpriceDecimal($row->discount_price) ?>"/>
                     </td>
                 </tr>
 			<?php endforeach; ?>

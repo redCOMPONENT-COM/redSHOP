@@ -205,7 +205,7 @@ class Image
 
 		if (empty($result->product_full_image) && $result->product_parent_id > 0)
 		{
-			$result = \productHelper::getInstance()->getProductparentImage($result->product_parent_id);
+			$result = \RedshopHelperProduct::getProductparentImage($result->product_parent_id);
 		}
 
 		$productImage = $result->product_full_image;

@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$producthelper = productHelper::getInstance();
 $config        = Redconfiguration::getInstance();
 
-$related_product  = $producthelper->getRelatedProduct($this->pid);
+$related_product  = RedshopHelperProduct::getRelatedProduct($this->pid);
 $template         = $this->input->getString('template', '');
 $relptemplate     = $this->redTemplate->getTemplate("related_product", 0, $template);
 $related_template = $relptemplate[0]->template_desc;
@@ -142,20 +141,20 @@ if (count($relptemplate) > 0)
 
 		if ($related_product [$r]->attribute_set_id > 0)
 		{
-			$attributes_set = $producthelper->getProductAttribute(0, $related_product [$r]->attribute_set_id);
+			$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $related_product [$r]->attribute_set_id);
 		}
 
-		$attributes = $producthelper->getProductAttribute($relid);
+		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relid);
 		$attributes = array_merge($attributes, $attributes_set);
 
-		$related_template_data = $producthelper->replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);
+		$related_template_data = RedshopHelperAttribute::replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);
 		$related_template_data = Redshop\Cart\Render::replace($related_product[$r]->mainproduct_id, $this->data->category_id, 0, $related_product[$r]->product_id, $related_template_data, false, array(), count($attributes));
 		$related_template_data = Redshop\Product\Compare::replaceCompareProductsButton($related_product[$r]->product_id, $this->data->category_id, $related_template_data, 1);
 		$related_template_data = Redshop\Product\Stock::replaceInStock($related_product[$r]->product_id, $related_template_data);
 
-		$related_template_data = $producthelper->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
+		$related_template_data = RedshopHelperProduct::replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
 
-		$related_template_data = $producthelper->getProductFinderDatepickerValue($related_template_data, $related_product[$r]->product_id, $fieldArray);
+		$related_template_data = RedshopHelperProduct::getProductFinderDatepickerValue($related_template_data, $related_product[$r]->product_id, $fieldArray);
 	}
 
 	$reltemplate = $tempdata_div_start . $related_template_data . $tempdata_div_end;

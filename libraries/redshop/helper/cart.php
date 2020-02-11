@@ -301,7 +301,7 @@ abstract class RedshopHelperCart
 
 				if (!$table->store())
 				{
-					throw new Exception($table->getError());
+					throw new Exception(/** @scrutinizer ignore-deprecated */ $table->getError());
 				}
 
 				$attributeChildren = (array) $attribute['attribute_childs'];
@@ -319,7 +319,7 @@ abstract class RedshopHelperCart
 
 					if (!$itemTable->store())
 					{
-						throw new Exception($table->getError());
+						throw new Exception(/** @scrutinizer ignore-deprecated */ $table->getError());
 					}
 
 					if (empty($attributeChild['property_childs']))
@@ -339,7 +339,7 @@ abstract class RedshopHelperCart
 
 						if (!$propertyTable->store())
 						{
-							throw new Exception($table->getError());
+							throw new Exception(/** @scrutinizer ignore-deprecated */ $table->getError());
 						}
 					}
 				}
@@ -377,7 +377,6 @@ abstract class RedshopHelperCart
 
 		JPluginHelper::importPlugin('redshop_product');
 
-		$productHelper = productHelper::getInstance();
 		$cartHelper    = rsCarthelper::getInstance();
 
 		if (!array_key_exists($userId, self::$cart))
@@ -472,7 +471,7 @@ abstract class RedshopHelperCart
 
 				// Attribute price added
 				$generateAttributeCart = self::generateAttributeFromCart($cartItemId, 0, $productId, $quantity);
-				$cartAttributes        = $productHelper->makeAttributeCart($generateAttributeCart, $productId, 0, $productPrice, $quantity);
+				$cartAttributes        = \RedshopHelperProduct::makeAttributeCart($generateAttributeCart, $productId, 0, $productPrice, $quantity);
 
 				$productPriceNoVat    = $cartAttributes[1];
 				$productVatPrice      = $cartAttributes[2];
@@ -490,7 +489,7 @@ abstract class RedshopHelperCart
 
 				if ($productData->product_type === 'subscription')
 				{
-					$productSubscription = $productHelper->getProductSubscriptionDetail($productId, $cartItem->product_subscription_id);
+					$productSubscription = \RedshopHelperProduct::getProductSubscriptionDetail($productId, $cartItem->product_subscription_id);
 
 					if (!empty($productSubscription->subscription_id))
 					{
@@ -500,7 +499,7 @@ abstract class RedshopHelperCart
 
 						if ($subscriptionPrice)
 						{
-							$subscriptionVAT = $productHelper->getProductTax($productId, $subscriptionPrice);
+							$subscriptionVAT = RedshopHelperProduct::getProductTax($productId, $subscriptionPrice);
 						}
 
 						$productVatPrice      += $subscriptionVAT;
@@ -518,7 +517,7 @@ abstract class RedshopHelperCart
 
 				// Accessory price
 				$generateAccessoryCart = $cartHelper->generateAccessoryFromCart($cartItemId, $productId, $quantity);
-				$accessoriesData       = $productHelper->makeAccessoryCart($generateAccessoryCart, $productId);
+				$accessoriesData       = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $productId);
 				$accessoryTotalPrice   = $accessoriesData[1];
 				$accessoryVATPrice     = $accessoriesData[2];
 

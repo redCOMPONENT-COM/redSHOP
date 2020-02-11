@@ -55,7 +55,6 @@ class RedshopControllerCart extends RedshopController
 			$this->setRedirect(JRoute::_('index.php?option=com_redshop'));
 		}
 
-		$productHelper = productHelper::getInstance();
 		$itemId        = RedshopHelperRouter::getCartItemId();
 
 		// Call add method of modal to store product in cart session
@@ -82,7 +81,7 @@ class RedshopControllerCart extends RedshopController
 			}
 			else
 			{
-				$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
+				$itemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
 				if (count($itemData) > 0)
 				{
@@ -165,7 +164,7 @@ class RedshopControllerCart extends RedshopController
 								$app->close();
 							}
 
-							$itemData = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
+							$itemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
 							if (count($itemData) > 0)
 							{
@@ -399,24 +398,31 @@ class RedshopControllerCart extends RedshopController
 		$discountVAT = 0;
 		$chktag      = RedshopHelperCart::taxExemptAddToCart();
 
-		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT') && !empty($chktag))
+		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag))
 		{
-			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
+			if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 			{
-				$discountVAT = $cart['discount_tax'];
-				$calArr[1]   = $calArr[1] - $cart['discount_tax'];
-				$tax         = $tax - $discountVAT;
+				$cart['tax_after_discount'] = $tax;
 			}
 			else
 			{
-				$vatData = RedshopHelperTax::getVatRates();
-
-				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+				if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 				{
-					$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
-					$productVAT          = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
-					$avgVAT              = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
-					$discountVAT         = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+					$discountVAT = $cart['discount_tax'];
+					$calArr[1]   = $calArr[1] - $cart['discount_tax'];
+					$tax         = $tax - $discountVAT;
+				}
+				else
+				{
+					$vatData = RedshopHelperTax::getVatRates();
+
+					if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+					{
+						$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
+						$productVAT          = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+						$avgVAT              = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+						$discountVAT         = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+					}
 				}
 			}
 		}

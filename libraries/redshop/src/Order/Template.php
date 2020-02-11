@@ -416,7 +416,7 @@ class Template
 		// For Payment and Extra Fields
 		if (strpos($template, '{payment_extrafields}') !== false)
 		{
-			$paymentExtraFields = \productHelper::getInstance()->getPaymentandShippingExtrafields(
+			$paymentExtraFields = \RedshopHelperProduct::getPaymentandShippingExtrafields(
 				$orderEntity->getItem(), \RedshopHelperExtrafields::SECTION_PAYMENT_GATEWAY
 			);
 
@@ -515,7 +515,7 @@ class Template
 		// Replace shipping extra fields.
 		if (strpos($template, '{shipping_extrafields}') !== false)
 		{
-			$shippingExtraFields = \productHelper::getInstance()->getPaymentandShippingExtrafields(
+			$shippingExtraFields = \RedshopHelperProduct::getPaymentandShippingExtrafields(
 				$orderEntity->getItem(), \RedshopHelperExtrafields::SECTION_SHIPPING_GATEWAY
 			);
 

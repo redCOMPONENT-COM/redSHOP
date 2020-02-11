@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 {
@@ -31,11 +31,10 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 
 	public function replace()
 	{
-		$productHelper = productHelper::getInstance();
 		$product          = $this->data['product'];
 		$layout           = $this->input->getString('layout', '');
 		$relatedprdId     = $this->input->getInt('relatedprd_id', 0);
-		$productUserField = $productHelper->getProductUserfieldFromTemplate($this->template);
+		$productUserField = RedshopHelperProduct::getProductUserfieldFromTemplate($this->template);
 		$dataUserField    = $this->replaceUserField($product, $productUserField);
 		$this->template   = $dataUserField['template'];
 		$countNoUserField = $dataUserField['countNoUserField'];
@@ -114,8 +113,8 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		$data['acc_property_data']    = $this->input->getString('acc_property_data', '');
 		$data['acc_subproperty_data'] = $this->input->getString('acc_subproperty_data', '');
 
-		$selectAcc = $productHelper->getSelectedAccessoryArray($data);
-		$selectAtt = $productHelper->getSelectedAttributeArray($data);
+		$selectAcc = RedshopHelperProduct::getSelectedAccessoryArray($data);
+		$selectAtt = RedshopHelperProduct::getSelectedAttributeArray($data);
 
 		$childProduct = RedshopHelperProduct::getChildProduct($product->product_id);
 
@@ -157,12 +156,14 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		$this->template = Redshop\Cart\Render::replace($product->product_id, $product->category_id, 0, $relatedprdId, $this->template, $isChilds, $productUserField[1], $totalatt, $totalAccessory, $countNoUserField);
 
 		$hidden = RedshopLayoutHelper::render(
-			'tags.common.hidden',
+			'tags.common.input',
 			array(
 				'name' => 'isAjaxBoxOpen',
 				'id' => 'isAjaxBoxOpen',
+				'type' => 'hidden',
 				'value' => $layout,
-				'attr' => ''
+				'attr' => '',
+				'class' => ''
 			),
 			'',
 			array(

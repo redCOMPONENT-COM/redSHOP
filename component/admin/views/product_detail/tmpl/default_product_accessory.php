@@ -86,7 +86,7 @@ JText::script('COM_REDSHOP_DELETE');
 
                                     if ($this->detail->product_id && $accessory_product[$f]->accessory_id)
                                     {
-                                        $accessory_main_price = $this->producthelper->getAccessoryPrice(
+                                        $accessory_main_price = \Redshop\Product\Accessory::getPrice(
                                                                                             $this->detail->product_id,
                                                                                             $accessory_product[$f]->newaccessory_price,
                                                                                             $accessory_product[$f]->accessory_main_price,

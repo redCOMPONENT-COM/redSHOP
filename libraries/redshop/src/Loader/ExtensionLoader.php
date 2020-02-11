@@ -18,13 +18,13 @@ use Twig\Error\LoaderError;
 /**
  * redSHOP extension file system loader.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 abstract class ExtensionLoader extends FilesystemLoader
 {
 	/**
 	 * @var
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	protected $extensionNamespace;
 
@@ -35,7 +35,7 @@ abstract class ExtensionLoader extends FilesystemLoader
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	public function __construct(array $paths = [])
 	{
@@ -49,7 +49,7 @@ abstract class ExtensionLoader extends FilesystemLoader
 	 * @return string
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	protected function getBaseAppPath() : string
 	{
@@ -65,7 +65,7 @@ abstract class ExtensionLoader extends FilesystemLoader
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	abstract protected function getTemplatePaths() : array;
 
@@ -76,7 +76,7 @@ abstract class ExtensionLoader extends FilesystemLoader
 	 * @return bool|false|mixed|string|null
 	 *
 	 * @throws LoaderError
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	protected function findTemplate($name, $throw = true)
 	{
@@ -108,7 +108,7 @@ abstract class ExtensionLoader extends FilesystemLoader
 	 * @return bool|false|string|null
 	 *
 	 * @throws LoaderError
-	 * @since  __DEPLOY_VERSION__
+	 * @since  2.1.5
 	 */
 	protected function findParsedNameTemplate(string $name)
 	{
@@ -127,7 +127,7 @@ abstract class ExtensionLoader extends FilesystemLoader
 	 *
 	 * @return bool
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	protected function nameInExtensionNamespace(string $name) : bool
 	{
@@ -141,7 +141,7 @@ abstract class ExtensionLoader extends FilesystemLoader
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 2.1.5
 	 */
 	protected function parseExtensionName(string $name) : string
 	{

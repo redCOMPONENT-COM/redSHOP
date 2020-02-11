@@ -312,6 +312,14 @@ class RedshopModelManufacturers extends RedshopModel
 			$query->where($db->qn('c.id') . ' IN ( ' . implode(',', $categoriesIds) . ' )');
 		}
 
+		/**
+		 * you modify query for get product
+		 *
+		 * @since __DEPLOY_VERSION__
+		 */
+		JPluginHelper::importPlugin('redshop_product');
+		RedshopHelperUtility::getDispatcher()->trigger('onAfterQueryManufacturerProduct', array(&$query));
+
 		return $query;
 	}
 

@@ -441,7 +441,7 @@ foreach ($media->getAll() as $mediaItem)
 						   id="product_volume"
 						   size="10"
 						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_volume); ?>"
+						   value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_volume); ?>"
 					/>
 				</div>
 
@@ -466,7 +466,7 @@ foreach ($media->getAll() as $mediaItem)
 						   id="product_length"
 						   size="10"
 						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_length); ?>"
+						   value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_length); ?>"
 					/>
 				</div>
 
@@ -491,7 +491,7 @@ foreach ($media->getAll() as $mediaItem)
 						   id="product_width"
 						   size="10"
 						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_width); ?>"
+						   value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_width); ?>"
 					/>
 				</div>
 
@@ -509,7 +509,7 @@ foreach ($media->getAll() as $mediaItem)
 						   id="product_height"
 						   size="10"
 						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_height); ?>"
+						   value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_height); ?>"
 					/>
 				</div>
 
@@ -527,7 +527,7 @@ foreach ($media->getAll() as $mediaItem)
 						   id="product_diameter"
 						   size="10"
 						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_diameter); ?>"
+						   value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->product_diameter); ?>"
 					/>
 				</div>
 
@@ -545,7 +545,7 @@ foreach ($media->getAll() as $mediaItem)
 						   id="weight"
 						   size="10"
 						   maxlength="10"
-						   value="<?php echo $this->producthelper->redunitDecimal($this->detail->weight); ?>"
+						   value="<?php echo RedshopHelperProduct::redunitDecimal($this->detail->weight); ?>"
 					/>
 				</div>
 			</div>
@@ -575,7 +575,7 @@ foreach ($media->getAll() as $mediaItem)
 					</label>
 					<?php
 					echo JHtml::_(
-						'redshopselect.search', $this->producthelper->getProductByID($this->detail->product_parent_id),
+						'redshopselect.search', RedshopHelperProduct::getProductById($this->detail->product_parent_id),
 						'product_parent_id',
 						array(
 							'select2.options'     => array('multiple' => 'false', 'placeholder' => JText::_('COM_REDSHOP_PARENT_PRODUCT')),

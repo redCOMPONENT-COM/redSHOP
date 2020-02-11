@@ -11,11 +11,9 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.calendar');
 
 $app = JFactory::getApplication();
-$producthelper = productHelper::getInstance();
 $redconfig = Redconfiguration::getInstance();
 
 $model = $this->getModel('addorder_detail');
-$redhelper = redhelper::getInstance();
 
 $billing = $this->billing;
 $shipping = $this->shipping;

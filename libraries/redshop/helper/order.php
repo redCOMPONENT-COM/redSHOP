@@ -317,9 +317,9 @@ class RedshopHelperOrder
 		self::$allStatus = $db->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
+		if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return null;
 		}
@@ -474,9 +474,9 @@ class RedshopHelperOrder
 		$fields = $db->setQuery($query)->loadObjectList();
 
 		// Check for a database error.
-		if ($db->getErrorNum())
+		if (/** @scrutinizer ignore-deprecated */ $db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ JError::raiseWarning(500, /** @scrutinizer ignore-deprecated */ $db->getErrorMsg());
 
 			return null;
 		}
@@ -1183,7 +1183,7 @@ class RedshopHelperOrder
 
 		if (!$db->execute())
 		{
-			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+			JFactory::getApplication()->enqueueMessage(/** @scrutinizer ignore-deprecated */ $db->getErrorMsg(), 'error');
 		}
 	}
 
@@ -1273,7 +1273,6 @@ class RedshopHelperOrder
 	{
 		JPluginHelper::importPlugin('redshop_shipping');
 		$app             = JFactory::getApplication();
-		$productHelper   = productHelper::getInstance();
 
 		$newStatus       = $app->input->getCmd('status');
 		$paymentStatus   = $app->input->getString('order_paymentstatus');
@@ -1310,14 +1309,14 @@ class RedshopHelperOrder
 
 			if (!$orderLog->bind($data))
 			{
-				JFactory::getApplication()->enqueueMessage($orderLog->getError(), 'error');
+				JFactory::getApplication()->enqueueMessage(/** @scrutinizer ignore-deprecated */ $orderLog->getError(), 'error');
 
 				return;
 			}
 
 			if (!$orderLog->store())
 			{
-				throw new Exception($orderLog->getError());
+				throw new Exception(/** @scrutinizer ignore-deprecated */ $orderLog->getError());
 			}
 
 			self::updateOrderComment($orderId, $customerNote);
@@ -1396,7 +1395,7 @@ class RedshopHelperOrder
 						RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$i]->stockroom_id);
 					}
 
-					$productHelper->makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
+					RedshopHelperProduct::makeAttributeOrder($orderProducts[$i]->order_item_id, 0, $prodid, 1);
 				}
 
 				break;
@@ -2820,7 +2819,6 @@ class RedshopHelperOrder
 	 */
 	public static function orderStatusUpdate($orderId, $post = array())
 	{
-		$productHelper = productHelper::getInstance();
 		$newStatus     = $post['mass_change_order_status'];
 		$customerNote  = $post['customer_note' . $orderId];
 		$isProduct     = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
@@ -2838,7 +2836,7 @@ class RedshopHelperOrder
 
 		if (!$orderLog->store())
 		{
-			return JError::raiseWarning('', $orderLog->getError());
+			return /** @scrutinizer ignore-deprecated */ JError::raiseWarning('', /** @scrutinizer ignore-deprecated */ $orderLog->getError());
 		}
 
 		// Changing the status of the order
@@ -2880,7 +2878,7 @@ class RedshopHelperOrder
 
 				// When the order is set to "cancelled",product will return to stock
 				RedshopHelperStockroom::manageStockAmount($prodid, $prodqty, $orderProducts[$j]->stockroom_id);
-				$productHelper->makeAttributeOrder($orderProducts[$j]->order_item_id, 0, $prodid, 1);
+				RedshopHelperProduct::makeAttributeOrder($orderProducts[$j]->order_item_id, 0, $prodid, 1);
 			}
 		}
 		elseif ($newStatus == 'RT')

@@ -1,0 +1,23 @@
+{% set checkedClass = checked ? 'paymentgtwchecked' : '' %}
+{% set checked = checked ? 'checked="checked"' : '' %}
+
+<div id="{{ oneMethod.name }}" class="{{ checkedClass }}">
+    <label class="radio" for="{{ oneMethod.name ~ index }}">
+        <input
+                type="radio"
+                name="payment_method_id"
+                id="{{ oneMethod.name ~ index }}"
+                value="{{ oneMethod.name }}"
+                {{ checked }}
+        onclick="javascript:onestepCheckoutProcess(this.name, '');"
+        />
+        {% if showImage %}
+            <img
+                    alt="{{ jtext('PLG_' ~ oneMethod.name|upper) }}"
+                    title="{{ jtext('PLG_' ~ oneMethod.name|upper) }}"
+                    src="{{ logo }}" />
+        {% endif %}
+
+        <span>{{ jtext('PLG_' ~ oneMethod.name|upper) }}</span>
+    </label>
+</div>

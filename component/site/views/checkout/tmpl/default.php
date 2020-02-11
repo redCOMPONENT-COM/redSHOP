@@ -20,7 +20,6 @@ $url     = JURI::base();
 $user    = JFactory::getUser();
 $session = JFactory::getSession();
 
-$redhelper       = redhelper::getInstance();
 $userhelper      = rsUserHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
@@ -222,12 +221,22 @@ else
 				}
 				?>
 
-                <div id="divShipping" <?php echo $billingisshipping; ?>>
-                    <fieldset class="adminform subTable">
-                        <legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
-						<?php echo $userhelper->getShippingTable($post, $is_company, $this->lists); ?>
-                    </fieldset>
-                </div>
+				<div id="divShipping" <?php echo $billingisshipping; ?>>
+					<fieldset class="adminform subTable">
+						<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES'); ?></legend>
+						<?php
+							echo RedshopTagsReplacer::_(
+								'shippingtable',
+								'',
+								array(
+									'data' => $post,
+									'isCompany' => $is_company,
+									'lists' => $this->lists
+								)
+							);
+						?>
+					</fieldset>
+				</div>
 
 			<?php endif; ?>
 

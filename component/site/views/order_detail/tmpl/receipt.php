@@ -15,7 +15,6 @@ $carthelper      = rsCarthelper::getInstance();
 $redconfig       = Redconfiguration::getInstance();
 $configobj       = Redconfiguration::getInstance();
 $redTemplate     = Redtemplate::getInstance();
-$producthelper   = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
 $document        = JFactory::getDocument();
 

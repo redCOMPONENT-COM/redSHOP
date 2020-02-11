@@ -14,7 +14,6 @@ JHtml::_('behavior.modal', 'a.joom-box');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-$producthelper = productHelper::getInstance();
 $uri           = JURI::getInstance();
 $url           = $uri->root();
 

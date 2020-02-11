@@ -72,7 +72,6 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		parent::__construct();
-		$this->producthelper = productHelper::getInstance();
 
 		$this->setId((int) $Id);
 	}
@@ -636,21 +635,23 @@ class RedshopModelCategory extends RedshopModel
 		}
 		else
 		{
-			if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false && strpos($this->_template[0]->template_desc, "{pagination}") !== false)
-			{
-				$this->_data = $this->_getList($query, $limitstart, $endlimit);
-			}
-			else
-			{
-				if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") !== false)
-				{
-					$this->_data = $this->_getList($query);
-				}
-				else
-				{
-					$this->_data = $this->_getList($query, 0, Redshop::getConfig()->get('MAXCATEGORY'));
-				}
-			}
+		    if (isset($this->_template[0]->template_desc)){
+                if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false && strpos($this->_template[0]->template_desc, "{pagination}") !== false)
+                {
+                    $this->_data = $this->_getList($query, $limitstart, $endlimit);
+                }
+                else
+                {
+                    if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") !== false)
+                    {
+                        $this->_data = $this->_getList($query);
+                    }
+                    else
+                    {
+                        $this->_data = $this->_getList($query, 0, Redshop::getConfig()->get('MAXCATEGORY'));
+                    }
+                }
+            }
 		}
 
 		return $this->_data;

@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  2.1.5
  */
 class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 {
@@ -35,11 +35,13 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 		if ($this->isTagExists('{ajax_cart_box_title}'))
 		{
 			$cartBoxTitle = RedshopLayoutHelper::render(
-				'tags.common.title',
+				'tags.common.tag',
 				array(
 					'text' => JText::_('COM_REDSHOP_CART_SAVE'),
 					'tag' => 'div',
-					'class' => 'ajax_cart_box_title'
+					'id' => '',
+					'class' => 'ajax_cart_box_title',
+					'attr' => ''
 				)
 			);
 
@@ -49,11 +51,13 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 		if ($this->isTagExists("{show_cart_text}"))
 		{
 			$showCartText = RedshopLayoutHelper::render(
-				'tags.common.title',
+				'tags.common.tag',
 				array(
 					'text' => JText::_('COM_REDSHOP_SHOW_CART_TEXT'),
 					'tag' => 'div',
-					'class' => 'show_cart_text'
+					'id' => '',
+					'class' => 'show_cart_text',
+					'attr' => ''
 				)
 			);
 

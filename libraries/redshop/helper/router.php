@@ -289,7 +289,7 @@ class RedshopHelperRouter
 	 * @return  string  The link to the product
 	 *
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.1.5
 	 */
 	public static function getProductRoute($id, $catId, $language, $manufacturerId = 0)
 	{

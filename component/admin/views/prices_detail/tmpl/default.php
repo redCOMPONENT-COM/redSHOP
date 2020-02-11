@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d');
-$producthelper  = productHelper::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
     Joomla.submitbutton = function (pressbutton) {
@@ -55,7 +54,7 @@ $producthelper  = productHelper::getInstance();
                     <td><input class="text_area" type="number" name="product_price" id="product_price" size="10"
                                maxlength="10" min="0"
                                oninput="validity.valid || (value='');"
-                               value="<?php echo $producthelper->redpriceDecimal($this->detail->product_price); ?>"/>
+                               value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->product_price); ?>"/>
                     </td>
                 </tr>
                 <tr>
@@ -79,7 +78,7 @@ $producthelper  = productHelper::getInstance();
                     </td>
                     <td><input class="text_area" type="number" name="discount_price" id="discount_price" size="10"
                                maxlength="10" min="0" oninput="validity.valid || (value='');"
-                               value="<?php echo $producthelper->redpriceDecimal($this->detail->discount_price); ?>"/>
+                               value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->discount_price); ?>"/>
                     </td>
                 </tr>
                 <tr>

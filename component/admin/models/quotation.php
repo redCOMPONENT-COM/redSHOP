@@ -142,22 +142,20 @@ class RedshopModelQuotation extends RedshopModelList
 		$items = $this->_getList($query);
 
 		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		if (/** @scrutinizer ignore-deprecated */ $this->_db->getErrorNum())
 		{
-			$this->setError($this->_db->getErrorMsg());
+            /** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
 			return false;
 		}
 
 		if ($items)
 		{
-			$productHelper = productHelper::getInstance();
-
 			foreach ($items as $key => $item)
 			{
 				$items[$key]->quotation_status    = RedshopHelperQuotation::getQuotationStatusName($item->quotation_status);
 				$items[$key]->product_final_price = RedshopHelperProductPrice::formattedPrice($item->product_final_price);
-				$productAttribute                 = $productHelper->makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
+				$productAttribute                 = RedshopHelperProduct::makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
 				$productAttribute                 = preg_replace('#<[^>]+>#', ' ', $productAttribute);
 				$items[$key]->product_attribute   = $productAttribute;
 			}

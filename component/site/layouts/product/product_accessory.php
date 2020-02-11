@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  * @param   boolean  $checkTag     Check Tag
  */
 extract($displayData);
-$productHelper = productHelper::getInstance();
 ?>
 <?php if (!empty($accessories)) : ?>
 	<div class="checkout_accessory_static">
@@ -28,12 +27,12 @@ $productHelper = productHelper::getInstance();
 		<?php $accessoryVat = 0; ?>
 		<?php $accessoryPrice = $accessory['accessory_price']; ?>
 		<?php if ($accessoryPrice > 0): ?>
-			<?php $accessoryVat = $productHelper->getProducttax($productId, $accessoryPrice, $userId); ?>
+			<?php $accessoryVat = RedshopHelperProduct::getProducttax($productId, $accessoryPrice, $userId); ?>
 		<?php endif; ?>
 		<?php if ($checkTag): ?>
 			<?php $accessoryPrice = $accessoryPrice + $accessoryVat; ?>
 		<?php endif; ?>
-		<?php $displayPrice = " (" . $productHelper->getProductFormattedPrice($accessoryPrice) . ")"; ?>
+		<?php $displayPrice = " (" . RedshopHelperProductPrice::formattedPrice($accessoryPrice) . ")"; ?>
 		<?php if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE')): ?>
 			<?php $displayPrice = ""; ?>
 		<?php endif; ?>
@@ -45,7 +44,7 @@ $productHelper = productHelper::getInstance();
 				<?php if (empty($attributes['attribute_childs'])) : ?>
 					<?php continue; ?>
 				<?php endif; ?>
-				<?php $attribute = $productHelper->getProductAttribute(0, 0, $attributes['attribute_id']); ?>
+				<?php $attribute = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attributes['attribute_id']); ?>
 				<?php $hideAttribute = 0; ?>
 				<?php if (count($attribute) > 0): ?>
 					<?php $hideAttribute = $attribute[0]->hide_attribute_price; ?>
@@ -57,12 +56,12 @@ $productHelper = productHelper::getInstance();
 					<?php $propertyVat = 0; ?>
 					<?php $propertyPrice = $properties['property_price']; ?>
 					<?php if ($propertyPrice > 0): ?>
-						<?php $propertyVat = $productHelper->getProducttax($productId, $propertyPrice, $userId); ?>
+						<?php $propertyVat = RedshopHelperProduct::getProducttax($productId, $propertyPrice, $userId); ?>
 					<?php endif; ?>
 					<?php if ($checkTag): ?>
 						<?php $propertyPrice = $propertyPrice + $propertyVat; ?>
 					<?php endif; ?>
-					<?php $displayPrice = " (" . $properties['property_oprand'] . ' ' . $productHelper->getProductFormattedPrice($propertyPrice) . ")"; ?>
+					<?php $displayPrice = " (" . $properties['property_oprand'] . ' ' . RedshopHelperProductPrice::formattedPrice($propertyPrice) . ")"; ?>
 					<?php if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') || $hideAttribute): ?>
 						<?php $displayPrice = ""; ?>
 					<?php endif; ?>
@@ -83,12 +82,12 @@ $productHelper = productHelper::getInstance();
 							<?php $subPropertyVat = 0; ?>
 							<?php $subPropertyPrice = $subProperties['subproperty_price']; ?>
 							<?php if ($subPropertyPrice > 0): ?>
-								<?php $subPropertyVat = $productHelper->getProducttax($productId, $subPropertyPrice, $userId); ?>
+								<?php $subPropertyVat = RedshopHelperProduct::getProducttax($productId, $subPropertyPrice, $userId); ?>
 							<?php endif; ?>
 							<?php if ($checkTag): ?>
 								<?php $subPropertyPrice = $subPropertyPrice + $subPropertyVat; ?>
 							<?php endif; ?>
-							<?php $displayPrice = " (" . $subProperties['subproperty_oprand'] . ' ' . $productHelper->getProductFormattedPrice($subPropertyPrice) . ")"; ?>
+							<?php $displayPrice = " (" . $subProperties['subproperty_oprand'] . ' ' . RedshopHelperProductPrice::formattedPrice($subPropertyPrice) . ")"; ?>
 							<?php if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && !Redshop::getConfig()->get('SHOW_QUOTATION_PRICE') || $hideAttribute): ?>
 								<?php $displayPrice = ""; ?>
 							<?php endif; ?>

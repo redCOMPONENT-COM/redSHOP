@@ -114,7 +114,6 @@ class RedshopViewSearch extends RedshopView
 			$input->set('order_by', $app->getUserState('order_by'));
 
 			$dispatcher       = RedshopHelperUtility::getDispatcher();
-			$producthelper    = productHelper::getInstance();
 
 			$Itemid         = $app->input->getInt('Itemid');
 			$search_type    = $app->input->getCmd('search_type');
@@ -257,7 +256,7 @@ class RedshopViewSearch extends RedshopView
 
 					if ($this->_id)
 					{
-						$prodctofcat = $producthelper->getProductCategory($this->_id);
+						$prodctofcat = RedshopHelperProduct::getProductCategory($this->_id);
 
 						if (empty($prodctofcat))
 							$hide_filter_flag = true;
@@ -337,7 +336,7 @@ class RedshopViewSearch extends RedshopView
 
 				$pro_s_desc = RedshopHelperUtility::maxChars($pro_s_desc, Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX'));
 
-				$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
+				$ItemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $this->search[$i]->product_id);
 
 				if (!empty($ItemData))
 				{
@@ -367,7 +366,7 @@ class RedshopViewSearch extends RedshopView
 
 				if (strstr($data_add, "{product_delivery_time}"))
 				{
-					$product_delivery_time = $producthelper->getProductMinDeliveryTime($this->search[$i]->product_id);
+					$product_delivery_time = RedshopHelperProduct::getProductMinDeliveryTime($this->search[$i]->product_id);
 
 					if ($product_delivery_time != "")
 					{
@@ -387,7 +386,7 @@ class RedshopViewSearch extends RedshopView
 
 				// Attribute ajax chage
 				$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
-				$data_add = $producthelper->getJcommentEditor($this->search[$i], $data_add);
+				$data_add = RedshopHelperProduct::getJcommentEditor($this->search[$i], $data_add);
 
 				if ($extraFieldsForCurrentTemplate)
 				{
@@ -406,7 +405,7 @@ class RedshopViewSearch extends RedshopView
 
 				if (strstr($data_add, "{returntoparent_category_name}"))
 				{
-					$parentCategoryId = $producthelper->getParentCategory($this->search[$i]->category_id);
+					$parentCategoryId = RedshopHelperProduct::getParentCategory($this->search[$i]->category_id);
 
 					if ($parentCategoryId != 0)
 					{
@@ -425,7 +424,7 @@ class RedshopViewSearch extends RedshopView
 				 */
 				if (strstr($data_add, '{related_product_lightbox:'))
 				{
-					$related_product = $producthelper->getRelatedProduct($this->search[$i]->product_id);
+					$related_product = RedshopHelperProduct::getRelatedProduct($this->search[$i]->product_id);
 					$rtlnone         = explode("{related_product_lightbox:", $data_add);
 					$rtlntwo         = explode("}", $rtlnone[1]);
 					$rtlnthree       = explode(":", $rtlntwo[0]);
@@ -459,7 +458,7 @@ class RedshopViewSearch extends RedshopView
 				 *  {if product_on_sale} This product is on sale {product_on_sale end if} // OUTPUT : This product is on sale
 				 *  NO : // OUTPUT : Display blank
 				 ************************************/
-				$data_add = $producthelper->getProductOnSaleComment($this->search[$i], $data_add);
+				$data_add = RedshopHelperProduct::getProductOnSaleComment($this->search[$i], $data_add);
 
 				$data_add = RedshopHelperStockroom::replaceStockroomAmountDetail($data_add, $this->search[$i]->product_id);
 
@@ -525,7 +524,7 @@ class RedshopViewSearch extends RedshopView
 
 				/************************************************ user fields*******************************************************/
 				$hidden_userfield    = "";
-				$returnArr           = $producthelper->getProductUserfieldFromTemplate($data_add);
+				$returnArr           = RedshopHelperProduct::getProductUserfieldFromTemplate($data_add);
 				$template_userfield  = $returnArr[0];
 				$userfieldArr        = $returnArr[1];
 				$count_no_user_field = 0;
@@ -571,7 +570,7 @@ class RedshopViewSearch extends RedshopView
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
 
-					$returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
+					$returnArr          = RedshopHelperProduct::getProductUserfieldFromTemplate($ajax_detail_template_desc);
 					$template_userfield = $returnArr[0];
 					$userfieldArr       = $returnArr[1];
 
@@ -606,7 +605,7 @@ class RedshopViewSearch extends RedshopView
 
 				// ProductFinderDatepicker Extra Field Start
 
-				$data_add = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
+				$data_add = RedshopHelperProduct::getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
 
 				// ProductFinderDatepicker Extra Field End
 
@@ -672,7 +671,7 @@ class RedshopViewSearch extends RedshopView
 				$totalatt = count($attributes);
 
 				// Check product for not for sale
-				$data_add = $producthelper->getProductNotForSaleComment($this->search[$i], $data_add, $attributes);
+				$data_add = RedshopHelperProduct::getProductNotForSaleComment($this->search[$i], $data_add, $attributes);
 
 				$data_add = Redshop\Product\Stock::replaceInStock($this->search[$i]->product_id, $data_add, $attributes, $attribute_template);
 
@@ -691,7 +690,7 @@ class RedshopViewSearch extends RedshopView
 
 				if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
 				{
-					$attributeproductStockStatus = $producthelper->getproductStockStatus($this->search[$i]->product_id, $totalatt);
+					$attributeproductStockStatus = RedshopHelperProduct::getproductStockStatus($this->search[$i]->product_id, $totalatt);
 				}
 
 				$data_add = \Redshop\Helper\Stockroom::replaceProductStockData(

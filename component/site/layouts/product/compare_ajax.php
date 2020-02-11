@@ -18,8 +18,6 @@ defined('_JEXEC') or die;
  */
 extract($displayData);
 
-$redHelper     = redhelper::getInstance();
-$productHelper = productHelper::getInstance();
 $compare       = $displayData['object'];
 $cmd           = JFactory::getApplication()->input->get('cmd');
 $total         = $compare->getItemsTotal();
@@ -32,7 +30,7 @@ $total         = $compare->getItemsTotal();
 			$categoryId = $data['item']->categoryId;
 			$product    = RedshopHelperProduct::getProductById($productId);
 
-			$ItemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+			$ItemData  = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 			$catidmain = $product->cat_in_sefurl;
 
 			if (count($ItemData) > 0)

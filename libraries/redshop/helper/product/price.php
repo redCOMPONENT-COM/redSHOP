@@ -36,7 +36,7 @@ class RedshopHelperProductPrice
 	 */
 	public static function getProductSpecialPrice($productPrice, $discountStringIds, $productId = 0)
 	{
-		$categoryProduct = $productId ? productHelper::getInstance()->getCategoryProduct($productId) : '';
+		$categoryProduct = $productId ? RedshopHelperProduct::getCategoryProduct($productId) : '';
 
 		// Get shopper group Id
 		$userArr = JFactory::getSession()->get('rs_user');
@@ -288,7 +288,7 @@ class RedshopHelperProductPrice
 		}
 
 		$isApplyTax   = \Redshop\Template\Helper::isApplyVat($templateHtml, $userId);
-		$specialPrice = self::getProductSpecialPrice($newPrice, productHelper::getInstance()->getProductSpecialId($userId), $productId);
+		$specialPrice = self::getProductSpecialPrice($newPrice, RedshopHelperProduct::getProductSpecialId($userId), $productId);
 
 		if (!is_null($specialPrice))
 		{
@@ -596,7 +596,7 @@ class RedshopHelperProductPrice
 		if (strpos($templateHtml, "{" . $relPrefix . "lowest_price}") !== false
 			|| strpos($templateHtml, "{" . $relPrefix . "highest_price}") !== false)
 		{
-			$productPriceMinMax = productHelper::getInstance()->getProductMinMaxPrice($productId);
+			$productPriceMinMax = RedshopHelperProduct::getProductMinMaxPrice($productId);
 
 			if (strpos($templateHtml, "{" . $relPrefix . "lowest_price}") !== false)
 			{
