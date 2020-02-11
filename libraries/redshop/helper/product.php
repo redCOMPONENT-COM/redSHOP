@@ -1664,8 +1664,8 @@ class RedshopHelperProduct
 
 				if (strpos($dataAdd, '{read_more}') !== false)
 				{
-					$rmore    = "<a href='" . $link . "' title='" . $product->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
-					$dataAdd = str_replace("{read_more}", $rmore, $dataAdd);
+					$readMore    = "<a href='" . $link . "' title='" . $product->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+					$dataAdd = str_replace("{read_more}", $readMore, $dataAdd);
 				}
 
 				if (strpos($dataAdd, '{read_more_link}') !== false)
@@ -1947,7 +1947,7 @@ class RedshopHelperProduct
 				}
 
 				// Product attribute  Start
-				$totalatt = count($attributes);
+				$totalAttributes = count($attributes);
 
 				// Check product for not for sale
 
@@ -1966,7 +1966,7 @@ class RedshopHelperProduct
 					$dataAdd,
 					$isChilds,
 					$userfieldArr,
-					$totalatt,
+					$totalAttributes,
 					isset($product->total_accessories) ? $product->total_accessories : 0,
 					$countNoUserField
 				);
@@ -1979,11 +1979,11 @@ class RedshopHelperProduct
 				$stockNotifyFlag         = strstr($dataAdd, "{stock_notify_flag}");
 				$stockStatus             = strstr($dataAdd, "{stock_status");
 
-				$attributeproductStockStatus = array();
+				$attributeProductStockStatus = array();
 
 				if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
 				{
-					$attributeproductStockStatus = self::getproductStockStatus($product->product_id, $totalatt);
+					$attributeProductStockStatus = self::getproductStockStatus($product->product_id, $totalAttributes);
 				}
 
 				$dataAdd = \Redshop\Helper\Stockroom::replaceProductStockData(
@@ -1991,7 +1991,7 @@ class RedshopHelperProduct
 					0,
 					0,
 					$dataAdd,
-					$attributeproductStockStatus
+					$attributeProductStockStatus
 				);
 
 				$dispatcher->trigger('onAfterDisplayProduct', array(&$dataAdd, array(), $product));
@@ -2622,7 +2622,7 @@ class RedshopHelperProduct
 	 *
 	 * @return  string   Parsed Template HTML
 	 */
-	public static function getRelatedtemplateView($templateDesc, $product_id)
+	public static function getRelatedTemplateView($templateDesc, $product_id)
 	{
 		$relatedProduct  = self::getRelatedProduct($product_id);
 		$relatedTemplate = \Redshop\Template\Helper::getRelatedProduct($templateDesc);
@@ -2642,7 +2642,7 @@ class RedshopHelperProduct
 			&& strpos($relatedTemplate->template_desc, "{related_product_start}") !== false
 			&& strpos($relatedTemplate->template_desc, "{related_product_end}") !== false)
 		{
-			$related_template_data = '';
+			$relatedTemplateData = '';
 			$product_start         = explode("{related_product_start}", $relatedTemplate->template_desc);
 			$product_end           = explode("{related_product_end}", $product_start [1]);
 
@@ -2657,9 +2657,9 @@ class RedshopHelperProduct
 
 			for ($r = 0, $rn = count($relatedProduct); $r < $rn; $r++)
 			{
-				$related_template_data .= $tempdata_div_middle;
+				$relatedTemplateData .= $tempdata_div_middle;
 
-				$dispatcher->trigger('onPrepareRelatedProduct', array(&$related_template_data, $relatedProduct[$r]));
+				$dispatcher->trigger('onPrepareRelatedProduct', array(&$relatedTemplateData, $relatedProduct[$r]));
 
 				$ItemData = self::getMenuInformation(0, 0, '', 'product&pid=' . $relatedProduct[$r]->product_id);
 
@@ -2673,115 +2673,115 @@ class RedshopHelperProduct
 					$pItemid   = RedshopHelperRouter::getItemId($relatedProduct[$r]->product_id, $catidmain);
 				}
 
-				$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $relatedProduct[$r]->product_id . '&cid=' . $relatedProduct[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);
+				$relatedUrl = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $relatedProduct[$r]->product_id . '&cid=' . $relatedProduct[$r]->cat_in_sefurl . '&Itemid=' . $pItemid);
 
-				if (strpos($related_template_data, "{relproduct_image_3}") !== false)
+				if (strpos($relatedTemplateData, "{relproduct_image_3}") !== false)
 				{
-					$rpimg_tag = '{relproduct_image_3}';
-					$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_3');
-					$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_3');
+					$rpImgTag = '{relproduct_image_3}';
+					$rpHeightThumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_3');
+					$rpWidthThumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_3');
 				}
-				elseif (strpos($related_template_data, "{relproduct_image_2}") !== false)
+				elseif (strpos($relatedTemplateData, "{relproduct_image_2}") !== false)
 				{
-					$rpimg_tag = '{relproduct_image_2}';
-					$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_2');
-					$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_2');
+					$rpImgTag = '{relproduct_image_2}';
+					$rpHeightThumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT_2');
+					$rpWidthThumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH_2');
 				}
-				elseif (strpos($related_template_data, "{relproduct_image_1}") !== false)
+				elseif (strpos($relatedTemplateData, "{relproduct_image_1}") !== false)
 				{
-					$rpimg_tag = '{relproduct_image_1}';
-					$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
-					$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
+					$rpImgTag = '{relproduct_image_1}';
+					$rpHeightThumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+					$rpWidthThumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
 				}
 				else
 				{
-					$rpimg_tag = '{relproduct_image}';
-					$rph_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
-					$rpw_thumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
+					$rpImgTag = '{relproduct_image}';
+					$rpHeightThumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_HEIGHT');
+					$rpWidthThumb = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
 				}
 
-				$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='"
-					. $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='"
-					. $rph_thumb . "'>";
-				$relimage              = Redshop\Product\Image\Image::getImage($relatedProduct [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
-				$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
+				$hiddenThumbImage    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='"
+					. $rpWidthThumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='"
+					. $rpHeightThumb . "'>";
+				$relatedImage              = Redshop\Product\Image\Image::getImage($relatedProduct [$r]->product_id, $relatedUrl, $rpWidthThumb, $rpHeightThumb);
+				$relatedTemplateData = str_replace($rpImgTag, $relatedImage . $hiddenThumbImage, $relatedTemplateData);
 
-				if (strpos($related_template_data, "{relproduct_link}") !== false)
+				if (strpos($relatedTemplateData, "{relproduct_link}") !== false)
 				{
-					$rpname = "<a href='" . $rlink . "' title='" . $relatedProduct [$r]->product_name . "'>"
+					$relatedProductName = "<a href='" . $relatedUrl . "' title='" . $relatedProduct [$r]->product_name . "'>"
 						. RedshopHelperUtility::maxChars($relatedProduct [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'))
 						. "</a>";
 				}
 				else
 				{
-					$rpname = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'));
+					$relatedProductName = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_name, Redshop::getConfig()->getInt('RELATED_PRODUCT_TITLE_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_TITLE_END_SUFFIX'));
 				}
 
-				$rpdesc       = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_DESC_END_SUFFIX'));
-				$rp_shortdesc = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_s_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
+				$relatedProductDesc       = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_DESC_END_SUFFIX'));
+				$relatedProductShortDesc = RedshopHelperUtility::maxChars($relatedProduct [$r]->product_s_desc, Redshop::getConfig()->getInt('RELATED_PRODUCT_SHORT_DESC_MAX_CHARS'), Redshop::getConfig()->getString('RELATED_PRODUCT_SHORT_DESC_END_SUFFIX'));
 
-				$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
+				$relatedTemplateData = str_replace("{relproduct_link}", '', $relatedTemplateData);
 
-				if (strpos($related_template_data, "{relproduct_link}") !== false)
+				if (strpos($relatedTemplateData, "{relproduct_link}") !== false)
 				{
-					$related_template_data = str_replace("{relproduct_name}", "", $related_template_data);
+					$relatedTemplateData = str_replace("{relproduct_name}", "", $relatedTemplateData);
 				}
 				else
 				{
-					$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
+					$relatedTemplateData = str_replace("{relproduct_name}", $relatedProductName, $relatedTemplateData);
 				}
 
-				if (strstr($related_template_data, "{relproduct_rating_summary}"))
+				if (strstr($relatedTemplateData, "{relproduct_rating_summary}"))
 				{
-					$final_avgreview_data = Redshop\Product\Rating::getRating($relatedProduct [$r]->product_id);
+					$finalAvgReviewData = Redshop\Product\Rating::getRating($relatedProduct [$r]->product_id);
 
-					if ($final_avgreview_data != "")
+					if ($finalAvgReviewData != "")
 					{
-						$related_template_data = str_replace("{relproduct_rating_summary}", $final_avgreview_data, $related_template_data);
+						$relatedTemplateData = str_replace("{relproduct_rating_summary}", $finalAvgReviewData, $relatedTemplateData);
 					}
 					else
 					{
-						$related_template_data = str_replace("{relproduct_rating_summary}", '', $related_template_data);
+						$relatedTemplateData = str_replace("{relproduct_rating_summary}", '', $relatedTemplateData);
 					}
 				}
 
-				$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);
-				$related_template_data = str_replace("{relproduct_number}", $relatedProduct [$r]->product_number, $related_template_data);
-				$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);
-				$related_template_data = str_replace("{relproduct_desc}", $rpdesc, $related_template_data);
+				$relatedTemplateData = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $relatedTemplateData);
+				$relatedTemplateData = str_replace("{relproduct_number}", $relatedProduct [$r]->product_number, $relatedTemplateData);
+				$relatedTemplateData = str_replace("{relproduct_s_desc}", $relatedProductShortDesc, $relatedTemplateData);
+				$relatedTemplateData = str_replace("{relproduct_desc}", $relatedProductDesc, $relatedTemplateData);
 
 				// ProductFinderDatepicker Extra Field Start
-				$related_template_data = self::getProductFinderDatepickerValue($related_template_data, $relatedProduct[$r]->product_id, $fieldArray);
+				$relatedTemplateData = self::getProductFinderDatepickerValue($relatedTemplateData, $relatedProduct[$r]->product_id, $fieldArray);
 
-				if (strpos($related_template_data, "{manufacturer_name}") !== false || strpos($related_template_data, "{manufacturer_link}") !== false)
+				if (strpos($relatedTemplateData, "{manufacturer_name}") !== false || strpos($relatedTemplateData, "{manufacturer_link}") !== false)
 				{
 					$manufacturer = RedshopEntityManufacturer::getInstance($relatedProduct[$r]->manufacturer_id)->getItem();
 
 					if (!empty($manufacturer))
 					{
-						$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $relatedProduct[$r]->manufacturer_id . '&Itemid=' . $pItemid);
-						$manufacturerLink      = "<a class='btn btn-primary' href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
-						$related_template_data = str_replace("{manufacturer_name}", $manufacturer->name, $related_template_data);
-						$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
+						$manufacturerUrl               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $relatedProduct[$r]->manufacturer_id . '&Itemid=' . $pItemid);
+						$manufacturerLink      = "<a class='btn btn-primary' href='" . $manufacturerUrl . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
+						$relatedTemplateData = str_replace("{manufacturer_name}", $manufacturer->name, $relatedTemplateData);
+						$relatedTemplateData = str_replace("{manufacturer_link}", $manufacturerLink, $relatedTemplateData);
 					}
 					else
 					{
-						$related_template_data = str_replace("{manufacturer_name}", '', $related_template_data);
-						$related_template_data = str_replace("{manufacturer_link}", '', $related_template_data);
+						$relatedTemplateData = str_replace("{manufacturer_name}", '', $relatedTemplateData);
+						$relatedTemplateData = str_replace("{manufacturer_link}", '', $relatedTemplateData);
 					}
 				}
 
-				$rmore                 = '<a href="' . $rlink . '" title="' . $relatedProduct [$r]->product_name . '">'
+				$readMore = '<a href="' . $relatedUrl . '" title="' . $relatedProduct [$r]->product_name . '">'
 					. JText::_('COM_REDSHOP_READ_MORE')
 					. '</a>';
-				$related_template_data = str_replace("{read_more}", $rmore, $related_template_data);
-				$related_template_data = str_replace("{read_more_link}", $rlink, $related_template_data);
+				$relatedTemplateData = str_replace("{read_more}", $readMore, $relatedTemplateData);
+				$relatedTemplateData = str_replace("{read_more_link}", $relatedUrl, $relatedTemplateData);
 
 				/*
 				 *  related product Required Attribute start
 				 * 	this will parse only Required Attributes
 				 */
-				$relid          = $relatedProduct [$r]->product_id;
+				$relatedId = $relatedProduct [$r]->product_id;
 				$attributes_set = array();
 
 				if ($relatedProduct [$r]->attribute_set_id > 0)
@@ -2789,38 +2789,38 @@ class RedshopHelperProduct
 					$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $relatedProduct [$r]->attribute_set_id);
 				}
 
-				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relid);
+				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relatedId);
 				$attributes = array_merge($attributes, $attributes_set);
 
-				$related_template_data = RedshopHelperProductTag::replaceAttributeData($relatedProduct[$r]->mainproduct_id, 0, $relatedProduct[$r]->product_id, $attributes, $related_template_data, $attribute_template);
+				$relatedTemplateData = RedshopHelperProductTag::replaceAttributeData($relatedProduct[$r]->mainproduct_id, 0, $relatedProduct[$r]->product_id, $attributes, $relatedTemplateData, $attribute_template);
 
 				// Check product for not for sale
-				$related_template_data = self::getProductNotForSaleComment($relatedProduct[$r], $related_template_data, $attributes, 1);
+				$relatedTemplateData = self::getProductNotForSaleComment($relatedProduct[$r], $relatedTemplateData, $attributes, 1);
 
-				$related_template_data = Redshop\Cart\Render::replace($relatedProduct[$r]->mainproduct_id, 0, 0, $relatedProduct[$r]->product_id, $related_template_data, false, array(), count($attributes), 0, 0);
-				$related_template_data = Redshop\Product\Compare::replaceCompareProductsButton($relatedProduct[$r]->product_id, 0, $related_template_data, 1);
-				$related_template_data = Redshop\Product\Stock::replaceInStock($relatedProduct[$r]->product_id, $related_template_data);
+				$relatedTemplateData = Redshop\Cart\Render::replace($relatedProduct[$r]->mainproduct_id, 0, 0, $relatedProduct[$r]->product_id, $relatedTemplateData, false, array(), count($attributes), 0, 0);
+				$relatedTemplateData = Redshop\Product\Compare::replaceCompareProductsButton($relatedProduct[$r]->product_id, 0, $relatedTemplateData, 1);
+				$relatedTemplateData = Redshop\Product\Stock::replaceInStock($relatedProduct[$r]->product_id, $relatedTemplateData);
 
-				$related_template_data = self::getProductOnSaleComment($relatedProduct[$r], $related_template_data);
-				$related_template_data = self::getSpecialProductComment($relatedProduct[$r], $related_template_data);
+				$relatedTemplateData = self::getProductOnSaleComment($relatedProduct[$r], $relatedTemplateData);
+				$relatedTemplateData = self::getSpecialProductComment($relatedProduct[$r], $relatedTemplateData);
 
-				$isCategorypage = (JFactory::getApplication()->input->getCmd('view') == "category") ? 1 : 0;
+				$isCategoryPage = (JFactory::getApplication()->input->getCmd('view') == "category") ? 1 : 0;
 
 				//  Extra field display
-				$related_template_data = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $relatedProduct[$r]->product_id, "1", $related_template_data, $isCategorypage);
+				$relatedTemplateData = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $relatedProduct[$r]->product_id, "1", $relatedTemplateData, $isCategoryPage);
 
 				// Related product attribute price list
-				$related_template_data = self::replaceAttributePriceList($relatedProduct[$r]->product_id, $related_template_data);
+				$relatedTemplateData = self::replaceAttributePriceList($relatedProduct[$r]->product_id, $relatedTemplateData);
 
-				if (strpos($related_template_data, "{wishlist_link}") !== false)
+				if (strpos($relatedTemplateData, "{wishlist_link}") !== false)
 				{
-					$wishlistLink          = "<div class=\"wishlist\">" . RedshopHelperWishlist::replaceWishlistTag($relatedProduct[$r]->product_id, '{wishlist_link}') . "</div>";
-					$related_template_data = str_replace("{wishlist_link}", $wishlistLink, $related_template_data);
+					$wishListUrl          = "<div class=\"wishlist\">" . RedshopHelperWishlist::replaceWishlistTag($relatedProduct[$r]->product_id, '{wishlist_link}') . "</div>";
+					$relatedTemplateData = str_replace("{wishlist_link}", $wishListUrl, $relatedTemplateData);
 				}
 
-				$childproduct = self::getChildProduct($relatedProduct[$r]->product_id);
+				$childProduct = self::getChildProduct($relatedProduct[$r]->product_id);
 
-				if (count($childproduct) > 0)
+				if (count($childProduct) > 0)
 				{
 					$attributes = array();
 				}
@@ -2838,33 +2838,33 @@ class RedshopHelperProduct
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 
-				$totalatt = count($attributes);
+				$totalAttributes = count($attributes);
 
-				$attributeproductStockStatus = array();
+				$attributeProductStockStatus = array();
 
-				$productAvailabilityDate = strstr($related_template_data, "{product_availability_date}");
-				$stockNotifyFlag         = strstr($related_template_data, "{stock_notify_flag}");
-				$stockStatus             = strstr($related_template_data, "{stock_status");
+				$productAvailabilityDate = strstr($relatedTemplateData, "{product_availability_date}");
+				$stockNotifyFlag         = strstr($relatedTemplateData, "{stock_notify_flag}");
+				$stockStatus             = strstr($relatedTemplateData, "{stock_status");
 
 				if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
 				{
-					$attributeproductStockStatus = self::getproductStockStatus($relatedProduct[$r]->product_id, $totalatt);
+					$attributeProductStockStatus = self::getproductStockStatus($relatedProduct[$r]->product_id, $totalAttributes);
 				}
 
-				$related_template_data = \Redshop\Helper\Stockroom::replaceProductStockData(
+				$relatedTemplateData = \Redshop\Helper\Stockroom::replaceProductStockData(
 					$relatedProduct[$r]->product_id,
 					0,
 					0,
-					$related_template_data,
-					$attributeproductStockStatus
+					$relatedTemplateData,
+					$attributeProductStockStatus
 				);
 
-				$dispatcher->trigger('onAfterDisplayRelatedProduct', array(&$related_template_data, $relatedProduct[$r]));
+				$dispatcher->trigger('onAfterDisplayRelatedProduct', array(&$relatedTemplateData, $relatedProduct[$r]));
 			}
 
-			$related_template_data = $tempdata_div_start . $related_template_data . $tempdata_div_end;
+			$relatedTemplateData = $tempdata_div_start . $relatedTemplateData . $tempdata_div_end;
 
-			$templateDesc = str_replace("{related_product:$relatedTemplate->name}", $related_template_data, $templateDesc);
+			$templateDesc = str_replace("{related_product:$relatedTemplate->name}", $relatedTemplateData, $templateDesc);
 			$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
 		}
 		else
@@ -5280,8 +5280,8 @@ class RedshopHelperProduct
 
 			$attributes   = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
 			$attributes   = array_merge($attributes, $attributes_set);
-			$totalatt     = count($attributes);
-			$stock_amount = RedshopHelperStockroom::getFinalStockofProduct($pid, $totalatt);
+			$totalAttributes     = count($attributes);
+			$stock_amount = RedshopHelperStockroom::getFinalStockofProduct($pid, $totalAttributes);
 
 			if ($stock_amount)
 			{
