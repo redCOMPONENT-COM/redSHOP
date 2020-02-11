@@ -101,7 +101,7 @@ else
 	$attributes                        = RedshopHelperProduct_Attribute::getProductAttribute($product_id);
 	$attributes                        = array_merge($attributes, $attributes_set);
 
-	$selectAtt = $carthelper->getSelectedCartAttributeArray($cart[$cart_index]['cart_attribute']);
+	$selectAtt = \Redshop\Cart\Helper::getSelectedCartAttributeArray($cart[$cart_index]['cart_attribute']);
 }
 
 $totalatt      = count($attributes);

@@ -19,10 +19,10 @@ defined('_JEXEC') or die;
 class Helper
 {
     /**
-     * @param   int     $cartItemId
-     * @param   int     $isAccessory
-     * @param   string  $section
-     * @param   int     $parentSectionId
+     * @param int $cartItemId
+     * @param int $isAccessory
+     * @param string $section
+     * @param int $parentSectionId
      *
      * @return mixed
      * @since __DEPLOY_VERSION__
@@ -31,24 +31,22 @@ class Helper
         $cartItemId = 0,
         $isAccessory = 0,
         $section = "attribute",
-        $parentSectionId = 0)
-    {
+        $parentSectionId = 0
+    ) {
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select('*')
             ->from($db->qn('#__redshop_usercart_attribute_item'))
-            ->where($db->qn('is_accessory_att') . '=' . $db->q((int) $isAccessory))
+            ->where($db->qn('is_accessory_att') . '=' . $db->q((int)$isAccessory))
             ->where($db->qn('section') . '=' . $db->q($section));
 
-        if ($cartItemId != 0)
-        {
-            $query->where($db->qn('cart_item_id') . '=' . $db->q((int) $cartItemId));
+        if ($cartItemId != 0) {
+            $query->where($db->qn('cart_item_id') . '=' . $db->q((int)$cartItemId));
         }
 
-        if ($parentSectionId != 0)
-        {
-            $query->where($db->qn('parent_section_id') . '=' . $db->q((int) $parentSectionId));
+        if ($parentSectionId != 0) {
+            $query->where($db->qn('parent_section_id') . '=' . $db->q((int)$parentSectionId));
         }
 
 
