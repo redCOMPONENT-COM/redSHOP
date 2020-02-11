@@ -1,0 +1,4 @@
+<input class="quantity" type="text"  id="quantity{{ productId }}" name="quantity" size="1"  value="{{ quantity }}" onkeypress="return event.keyCode!=13">
+<input type="button" class="myupbutton" value="+" onClick="quantity{{ productId }}.value = (+quantity{{ productId }}.value+1);">
+<input type="button" class="mydownbutton" value="-"
+       onClick="quantity{{ productId }}.value = (quantity{{ productId }}.value); var qty1 = quantity{{ productId }}.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity{{ productId }}.value--;return false;" />
