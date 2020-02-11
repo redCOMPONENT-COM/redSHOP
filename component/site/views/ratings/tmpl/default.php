@@ -68,6 +68,12 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 				{
 					$review_data .= $review_template;
 					$fullname  = $reviews[$j]->firstname . " " . $reviews[$j]->lastname;
+
+					if (empty(trim($fullname)))
+					{
+						$fullname = $reviews[$j]->username;
+					}
+
 					$starimage = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
 
 					$review_data = str_replace("{fullname}", $fullname, $review_data);
@@ -88,6 +94,12 @@ if (strstr($main_template, "{product_loop_start}") && strstr($main_template, "{p
 				{
 					$review_data .= $review_template;
 					$fullname2  = $reviews[$k]->firstname . " " . $reviews[$k]->lastname;
+
+					if (empty(trim($fullname2)))
+					{
+						$fullname2 = $reviews[$k]->username;
+					}
+
 					$starimage2 = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'star_rating/' . $reviews[$k]->user_rating . '.gif">';
 
 					$review_data = str_replace("{fullname}", $fullname2, $review_data);
