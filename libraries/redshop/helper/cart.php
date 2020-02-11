@@ -516,7 +516,7 @@ abstract class RedshopHelperCart
 				}
 
 				// Accessory price
-				$generateAccessoryCart = $cartHelper->generateAccessoryFromCart($cartItemId, $productId, $quantity);
+				$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryFromCart($cartItemId, $productId, $quantity);
 				$accessoriesData       = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $productId);
 				$accessoryTotalPrice   = $accessoriesData[1];
 				$accessoryVATPrice     = $accessoriesData[2];
@@ -558,7 +558,7 @@ abstract class RedshopHelperCart
 
 				if ($cartItem->product_wrapper_id)
 				{
-					$wrapperArr   = $cartHelper->getWrapperPriceArr(array('product_id' => $productId, 'wrapper_id' => $cartItem->product_wrapper_id));
+					$wrapperArr   = \Redshop\Wrapper\Helper::getWrapperPrice(array('product_id' => $productId, 'wrapper_id' => $cartItem->product_wrapper_id));
 					$wrapperVAT   = $wrapperArr['wrapper_vat'];
 					$wrapperPrice = $wrapperArr['wrapper_price'];
 				}
@@ -632,7 +632,7 @@ abstract class RedshopHelperCart
 					$cart[$idx]['category_id']                = 0;
 					$cart[$idx]['wrapper_id']                 = $cartItem->product_wrapper_id;
 					$cart[$idx]['wrapper_price']              = $wrapperPrice;
-					$cart[$idx]['quantity']                   = $cartHelper->checkQuantityInStock($cart[$idx], $quantity);
+					$cart[$idx]['quantity']                   = \Redshop\Stock\Helper::checkQuantityInStock($cart[$idx], $quantity);
 				}
 
 				if ($cart[$idx]['quantity'] <= 0)
@@ -684,7 +684,7 @@ abstract class RedshopHelperCart
 	 */
 	public static function generateAttributeFromCart($cartItemId = 0, $isAccessory = 0, $parentSectionId = 0, $quantity = 1)
 	{
-		$cartAttributes = (array) rsCarthelper::getInstance()->getCartItemAttributeDetail(
+		$cartAttributes = (array) \Redshop\Attribute\Helper::getCartItemAttributeDetail(
 			$cartItemId, $isAccessory, 'attribute', $parentSectionId
 		);
 
@@ -703,7 +703,7 @@ abstract class RedshopHelperCart
 			$generateAttributes[$i]['attribute_id']   = $cartAttribute->section_id;
 			$generateAttributes[$i]['attribute_name'] = $attribute[0]->text;
 
-			$cartProperties = (array) rsCarthelper::getInstance()->getCartItemAttributeDetail(
+			$cartProperties = (array) \Redshop\Attribute\Helper::getCartItemAttributeDetail(
 				$cartItemId, $isAccessory, 'property', $cartAttribute->section_id
 			);
 
@@ -727,7 +727,7 @@ abstract class RedshopHelperCart
 				$generateProperties[$p]['property_oprand'] = $property[0]->oprand;
 				$generateProperties[$p]['property_price']  = $propertyPrice;
 
-				$cartSubProperties = (array) rsCarthelper::getInstance()->getCartItemAttributeDetail(
+				$cartSubProperties = (array) \Redshop\Attribute\Helper::getCartItemAttributeDetail(
 					$cartItemId, $isAccessory, 'subproperty', $cartProperty->section_id
 				);
 
@@ -775,7 +775,7 @@ abstract class RedshopHelperCart
 
 		if ($isModify === true)
 		{
-			$cart = rsCarthelper::getInstance()->modifyDiscount($cart);
+			$cart = RedshopHelperDiscount::modifyDiscount($cart);
 		}
 
 		$cartOutput = array();

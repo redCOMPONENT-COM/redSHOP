@@ -92,7 +92,7 @@ class RedshopModelCart extends RedshopModel
 
 					if ($task != 'coupon' && $task != 'voucher')
 					{
-						$cart = $this->_carthelper->modifyDiscount($cart);
+						$cart = RedshopHelperDiscount::modifyDiscount($cart);
 					}
 				}
 			}
@@ -232,7 +232,7 @@ class RedshopModelCart extends RedshopModel
 				}
 				else
 				{
-					$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+					$cart[$cartElement]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock($cart[$cartElement], $newQuantity);
 				}
 
 				if ($newQuantity > $cart[$cartElement]['quantity'])
@@ -273,7 +273,7 @@ class RedshopModelCart extends RedshopModel
 
 				if ($cart[$cartElement]['wrapper_id'])
 				{
-					$wrapperArr    = $this->_carthelper->getWrapperPriceArr(array('product_id' => $cart[$cartElement]['product_id'], 'wrapper_id' => $cart[$cartElement]['wrapper_id']));
+					$wrapperArr    = \Redshop\Wrapper\Helper::getWrapperPrice(array('product_id' => $cart[$cartElement]['product_id'], 'wrapper_id' => $cart[$cartElement]['wrapper_id']));
 					$wrapper_vat   = $wrapperArr['wrapper_vat'];
 					$wrapper_price = $wrapperArr['wrapper_price'];
 				}
@@ -367,7 +367,7 @@ class RedshopModelCart extends RedshopModel
 						$cart[$i]['product_price_excl_vat'] = RedshopHelperProductPrice::priceRound($accessoryPrice);
 					}
 
-					$cart[$i]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$i], $quantity[$i]);
+					$cart[$i]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock($cart[$i], $quantity[$i]);
 
 					$cart[$i]['cart_accessory'] = $this->updateAccessoryPriceArray($cart[$i], $cart[$i]['quantity']);
 					$cart[$i]['cart_attribute'] = $this->updateAttributePriceArray($cart[$i], $cart[$i]['quantity']);
@@ -414,7 +414,7 @@ class RedshopModelCart extends RedshopModel
 
 					if ($cart[$i]['wrapper_id'])
 					{
-						$wrapperArr    = $this->_carthelper->getWrapperPriceArr(array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id']));
+						$wrapperArr    = \Redshop\Wrapper\Helper::getWrapperPrice(array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id']));
 						$wrapper_vat   = $wrapperArr['wrapper_vat'];
 						$wrapper_price = $wrapperArr['wrapper_price'];
 					}

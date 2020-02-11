@@ -191,7 +191,7 @@ if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 		$shippingList         = $model->calculateShipping($shippingRateId);
 		$cart['shipping']     = $shippingList['order_shipping_rate'];
 		$cart['shipping_vat'] = $shippingList['shipping_vat'];
-		$cart                 = $carthelper->modifyDiscount($cart);
+		$cart                 = RedshopHelperDiscount::modifyDiscount($cart);
 	}
 	$oneStepTemplateHtml = str_replace($shippingTemplate, $shippingTemplateHtml, $oneStepTemplateHtml);
 }

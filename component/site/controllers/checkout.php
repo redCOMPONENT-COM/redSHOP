@@ -707,7 +707,7 @@ class RedshopControllerCheckout extends RedshopController
 			$shipArr = $model->calculateShipping($shipping_rate_id);
 			$cart['shipping']     = $shipArr['order_shipping_rate'];
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
-			$cart = $cartHelper->modifyDiscount($cart);
+			$cart = RedshopHelperDiscount::modifyDiscount($cart);
 		}
 
 		if ($cart_template_id != 0)

@@ -286,7 +286,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
 		}
 
-		$cart = $this->_carthelper->modifyDiscount($cart);
+		$cart = RedshopHelperDiscount::modifyDiscount($cart);
 
 		// Get Payment information
 		$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
@@ -1900,7 +1900,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping_vat'] = (!isset($shipArr['shipping_vat'])) ? 0 : $shipArr['shipping_vat'];
 		}
 
-		$cart = $this->_carthelper->modifyDiscount($cart);
+		$cart = RedshopHelperDiscount::modifyDiscount($cart);
 
 		// Plugin support:  Process the shipping cart
 		JPluginHelper::importPlugin('redshop_product');
@@ -2048,8 +2048,8 @@ class RedshopModelCheckout extends RedshopModel
 			$templateDesc = str_replace("{tax_with_shipping_lbl}", '', $templateDesc);
 		}
 
-		$templateDesc = $this->_carthelper->replaceTermsConditions($templateDesc, $Itemid);
-		$templateDesc = $this->_carthelper->replaceNewsletterSubscription($templateDesc);
+		$templateDesc = \Redshop\Terms\Tag::replaceTermsConditions($templateDesc, $Itemid);
+		$templateDesc = \Redshop\Newsletter\Tag::replaceNewsletterSubscription($templateDesc);
 
 		$checkoutOnClick = 'if(validation()){checkout_disable(\'checkout_final\');}';
 

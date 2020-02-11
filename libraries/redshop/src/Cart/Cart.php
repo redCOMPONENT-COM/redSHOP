@@ -133,7 +133,7 @@ class Cart
 
 			if (array_key_exists('wrapper_id', $cart[$i]) && !empty($cart[$i]['wrapper_id']))
 			{
-				$wrappers = \rsCarthelper::getInstance()->getWrapperPriceArr(
+				$wrappers = \Redshop\Wrapper\Helper::getWrapperPrice(
 					array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id'])
 				);
 
@@ -368,7 +368,7 @@ class Cart
 		 */
 		if (!\Redshop::getConfig()->get('AJAX_CART_BOX'))
 		{
-			$fieldRequired = \rsCarthelper::getInstance()->userfieldValidation($data, $dataAdd, $section);
+			$fieldRequired = \Redshop\User\Helper::userFieldValidation($data, $dataAdd, $section);
 
 			if ($fieldRequired != "")
 			{
@@ -618,7 +618,7 @@ class Cart
 
 		if (isset($data['sel_wrapper_id']) && $data['sel_wrapper_id'])
 		{
-			$wrapperArr = \rsCarthelper::getInstance()->getWrapperPriceArr(
+			$wrapperArr = \Redshop\Wrapper\Helper::getWrapperPrice(
 				array('product_id' => $data['product_id'], 'wrapper_id' => $data['sel_wrapper_id'])
 			);
 
@@ -747,7 +747,7 @@ class Cart
 				if ($sameProduct)
 				{
 					$newQuantity     = $cart[$i]['quantity'] + $data['quantity'];
-					$newCartQuantity = \rsCarthelper::getInstance()->checkQuantityInStock($cart[$i], $newQuantity);
+					$newCartQuantity = \Redshop\Stock\Helper::checkQuantityInStock($cart[$i], $newQuantity);
 
 					if ($newQuantity > $newCartQuantity)
 					{
@@ -820,7 +820,7 @@ class Cart
 			$cart[$idx]['quantity'] = 0;
 
 			$newQuantity            = $data['quantity'];
-			$cart[$idx]['quantity'] = \rsCarthelper::getInstance()->checkQuantityInStock($cart[$idx], $newQuantity);
+			$cart[$idx]['quantity'] = \Redshop\Stock\Helper::checkQuantityInStock($cart[$idx], $newQuantity);
 
 			if ($newQuantity > $cart[$idx]['quantity'])
 			{

@@ -87,7 +87,7 @@ $template_desc     = str_replace('{edit_account_link}', $edit_account_link, $tem
 $deleteAccount = '<a onclick="return confirm(\''. JText::_('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') .'\');" class="btn btn-primary" href="' . $deleteAccountLink . '">' . JText::_('COM_REDSHOP_DELETE_ACCOUNT') . '</a>';
 $template_desc     = str_replace('{delete_account_link}', $deleteAccount, $template_desc);
 
-$template_desc = $carthelper->replaceNewsletterSubscription($template_desc, 1);
+$template_desc = \Redshop\Newsletter\Tag::replaceNewsletterSubscription($template_desc, 1);
 
 if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
