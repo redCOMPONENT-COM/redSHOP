@@ -2596,4 +2596,52 @@ class rsCarthelper
 
 		return;
 	}
+
+	/**
+	 * Display credit card form based on payment method
+	 *
+	 * @param   integer  $payment_method_id  Payment Method ID for which form needs to be prepare
+	 *
+	 * @return  string     Credit Card form display data in HTML
+	 */
+	public function replaceCreditCardInformation($payment_method_id = 0)
+	{
+		if (empty($payment_method_id))
+		{
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
+				'error'
+			);
+
+			return '';
+		}
+
+		$paymentmethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
+		$paymentmethod = $paymentmethod[0];
+
+		$cardinfo = "";
+
+		if (file_exists(JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.php'))
+		{
+			$paymentparams = new Registry($paymentmethod->params);
+			$acceptedCredictCard = $paymentparams->get("accepted_credict_card", array());
+
+			if ($paymentparams->get('is_creditcard', 0)
+				&& !empty($acceptedCredictCard))
+			{
+				$cardinfo = RedshopLayoutHelper::render(
+					'order.payment.creditcard',
+					array(
+						'pluginParams' => $paymentparams,
+					)
+				);
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PAYMENT_CREDIT_CARDS_NOT_FOUND'), 'error');
+			}
+		}
+
+		return $cardinfo;
+	}
 }
