@@ -82,11 +82,24 @@ class RedshopModelRatings extends RedshopModel
 
 	public function getProductreviews($pid)
 	{
-		$query = "SELECT pr.*,uf.firstname,uf.lastname FROM  " . $this->_table_prefix . "product_rating as pr"
-			. ", " . $this->_table_prefix . "users_info as uf "
-			. "WHERE published=1 AND product_id = " . (int) $pid . " "
-			. "AND uf.address_type LIKE 'BT' AND pr.userid=uf.user_id "
-			. "ORDER BY favoured DESC";
+		$db = $this->_db;
+
+		$query = $db->getQuery(true)
+			->select($db->qn(array(
+				'pr.*', 'uf.firstname', 'uf.lastname'
+			)))
+			->from($db->qn('#__redshop_product_rating', 'pr'))
+			->leftJoin($db->qn('#__redshop_users_info', 'uf') . 'ON pr.userid = uf.user_id')
+			->where(
+				$db->qn('published') . ' = 1' .' AND ' .
+				$db->qn('product_id') . ' = ' . $db->q($pid) . ' AND ' .
+				$db->qn('uf.address_type') . ' LIKE ' . $db->q('BT')
+			)
+			->orWhere(
+				$db->qn('product_id') . ' = ' . $db->q($pid) . ' AND ' .
+				$db->qn('userid') . ' = ' . $db->q(0)
+			);
+
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObjectlist();
 
