@@ -409,7 +409,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 $manufacturerLink = RedshopLayoutHelper::render(
                     'tags.common.link',
                     array(
-                        'class'   => 'accessory-manufacture-link',
+                        'class'   => 'btn btn-primary accessory-manufacture-link',
                         'link'    => $manufacturerUrl,
                         'content' => JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
                     ),
