@@ -20,7 +20,7 @@ $url        = JURI::base();
 $user       = JFactory::getUser();
 $session    = JFactory::getSession();
 $teleSearch = RedshopHelperOrder::getParameters('rs_telesearch');
-$Itemid     = RedshopHelperRouter::getCheckoutItemId();
+$itemId     = RedshopHelperRouter::getCheckoutItemId();
 $auth       = $session->get('auth');
 $jinput     = JFactory::getApplication()->input;
 $l          = $jinput->getInt('l', 1);
@@ -93,7 +93,7 @@ else
 				$loginTemplateDesc,
 				array(
 					'returnUrl' => $returnUrl,
-					'Itemid' => $Itemid
+					'Itemid' => $itemId
 				)
 		);
 
@@ -140,7 +140,7 @@ else
 <?php endif; ?>
 
     <div id="redshopRegistrationForm">
-        <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid); ?>"
+        <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId); ?>"
               method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 			<?php if (Redshop::getConfig()->get('REGISTER_METHOD') == 2) :
