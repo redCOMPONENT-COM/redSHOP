@@ -1763,7 +1763,7 @@ $template_desc = $this->redTemplate->parseredSHOPplugin($template_desc);
 
 $template_desc = $this->textHelper->replace_texts($template_desc);
 
-$template_desc = RedshopHelperProduct::getRelatedtemplateView($template_desc, $this->data->product_id);
+$template_desc = RedshopHelperProduct::getRelatedTemplateView($template_desc, $this->data->product_id);
 
 // Replacing ask_question_about_product_without_lightbox must be after parseredSHOPplugin for not replace in cloak plugin form emails
 if (strstr($template_desc, '{ask_question_about_product_without_lightbox}'))
