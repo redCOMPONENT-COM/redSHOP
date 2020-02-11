@@ -565,69 +565,6 @@ class rsCarthelper
 		return \Redshop\Cart\Cart::modify($cartArr, $user_id);
 	}
 
-	public function replaceShippingBoxTemplate($box_template_desc = "", $shipping_box_post_id = 0)
-	{
-		// Get shipping boxes HTML
-		$shippingBoxes = RedshopHelperShipping::getShippingBox();
-
-		$box_template_desc = str_replace("{shipping_box_heading}", JText::_('COM_REDSHOP_SHIPPING_BOXES'), $box_template_desc);
-
-		if (count($shippingBoxes) == 1 || (count($shippingBoxes) > 0 && $shipping_box_post_id == 0))
-		{
-			$shipping_box_post_id = $shippingBoxes[0]->shipping_box_id;
-		}
-
-		$shipping_box_list = JText::_('COM_REDSHOP_NO_SHIPPING_BOX');
-
-		if (count($shippingBoxes) > 0)
-		{
-			$shipping_box_list = "";
-
-			for ($i = 0, $in = count($shippingBoxes); $i < $in; $i++)
-			{
-				$shipping_box_id = $shippingBoxes[$i]->shipping_box_id;
-
-				// Previous priority
-				if ($i > 0)
-				{
-					$shipping_box_priority_pre = $shippingBoxes[$i - 1]->shipping_box_priority;
-				}
-
-				// Current priority
-				$shipping_box_priority = $shippingBoxes[$i]->shipping_box_priority;
-				$checked               = ($shipping_box_post_id == $shipping_box_id) ? "checked='checked'" : "";
-
-				if ($i == 0 || ($shipping_box_priority == $shipping_box_priority_pre))
-				{
-					$shipping_box_list .= "<div class='radio'><label class=\"radio\" for='shipping_box_id" . $shipping_box_id . "'><input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "' />";
-					$shipping_box_list .= "" . $shippingBoxes[$i]->shipping_box_name . "</label></div>";
-				}
-			}
-		}
-
-		$box_template_desc = str_replace("{shipping_box_list}", $shipping_box_list, $box_template_desc);
-		$style             = 'none';
-
-		$shippingmethod = RedshopHelperOrder::getShippingMethodInfo();
-
-		for ($s = 0, $sn = count($shippingmethod); $s < $sn; $s++)
-		{
-			if ($shippingmethod[$s]->element == 'bring' || $shippingmethod[$s]->element == 'ups' || $shippingmethod[$s]->element == 'uspsv4')
-			{
-				$style = 'block';
-			}
-		}
-
-		if (count($shippingBoxes) <= 1 || count($shippingmethod) <= 1)
-		{
-			$style = 'none';
-		}
-
-		$box_template_desc = "<div style='display:$style;'>" . $box_template_desc . "</div>";
-
-		return $box_template_desc;
-	}
-
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0, $post = array())
 	{
 		$template_desc = RedshopTagsReplacer::_(
