@@ -418,7 +418,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                           method="post"
                           name="adminForm" id="adminForm" enctype="multipart/form-data"
                           onsubmit="return CheckCardNumber(this);">
-						<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo->payment_method_class); ?>
+						<?php echo $cardinfo = \Redshop\Payment\Helper::replaceCreditCardInformation($paymentInfo->payment_method_class); ?>
                         <div>
                             <input type="hidden" name="option" value="com_redshop"/>
                             <input type="hidden" name="Itemid" value="<?php echo $itemId; ?>"/>

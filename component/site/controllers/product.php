@@ -101,7 +101,6 @@ class RedshopControllerProduct extends RedshopController
 
 		$get = $this->input->get->getArray();
 
-		$carthelper      = rsCarthelper::getInstance();
 		$total_attribute = 0;
 
 		$product_id = $get['product_id'];
@@ -123,7 +122,7 @@ class RedshopControllerProduct extends RedshopController
 
 		$ProductPriceArr = RedshopHelperProductPrice::getNetPrice($product_id, 0, $quantity);
 
-		$acccartdata     = $carthelper->generateAccessoryArray($data);
+		$acccartdata     = \Redshop\Accessory\Helper::generateAccessoryArray($data);
 		$retAccArr       = RedshopHelperProduct::makeAccessoryCart($acccartdata, $product_id);
 		$accessory_price = $retAccArr[1];
 		$accessory_vat   = $retAccArr[2];

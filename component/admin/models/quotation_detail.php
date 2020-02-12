@@ -368,7 +368,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 	// Add new Quotation Item
 	public function newQuotationItem($data)
 	{
-		$rsCarthelper    = rsCarthelper::getInstance();
 		$item            = $data['quotation_item'];
 
 		// Get Order Info

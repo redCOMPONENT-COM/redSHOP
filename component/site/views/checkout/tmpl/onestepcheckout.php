@@ -182,7 +182,7 @@ if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 	);
 
 	$oneStepTemplateHtml     = str_replace($shippingBoxTemplate, $shippingBoxTemplateHtml, $oneStepTemplateHtml);
-	$return = $carthelper->replaceShippingTemplate(
+	$return = \Redshop\Shipping\Tag::replaceShippingTemplate(
 		$shippingTemplateHtml,
 		$shippingRateId,
 		$shippingBoxPostId,

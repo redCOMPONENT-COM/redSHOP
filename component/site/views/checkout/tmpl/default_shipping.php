@@ -69,7 +69,7 @@ if ($this->users_info_id > 0)
 
 	echo eval("?>" . $boxTemplateDesc . "<?php ");
 
-	$returnArr              = $carthelper->replaceShippingTemplate($templateDesc, $this->shipping_rate_id, $shippingBoxPostId, $user->id, $this->users_info_id, $this->ordertotal, $this->order_subtotal);
+	$returnArr              = \Redshop\Shipping\Tag::replaceShippingTemplate($templateDesc, $this->shipping_rate_id, $shippingBoxPostId, $user->id, $this->users_info_id, $this->ordertotal, $this->order_subtotal);
 	$templateDesc          = $returnArr['template_desc'];
 	$this->shipping_rate_id = $returnArr['shipping_rate_id'];
 

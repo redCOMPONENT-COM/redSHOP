@@ -1946,7 +1946,7 @@ class RedshopModelCheckout extends RedshopModel
 		$cart['payment_oprand'] = $payment_oprand;
 		$cart['payment_amount'] = $payment_amount;
 
-		$templateDesc = $this->_carthelper->replaceTemplate($cart, $templateDesc, 1);
+		$templateDesc = RedshopHelperCartTag::replaceTemplate($cart, $templateDesc, 1);
 
 		$thirdparty_emailvalue = "";
 

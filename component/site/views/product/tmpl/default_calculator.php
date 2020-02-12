@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$rsCarthelper = rsCarthelper::getInstance();
-
 $url    = JURI::base();
 
 // Check that we need to use discount calculator

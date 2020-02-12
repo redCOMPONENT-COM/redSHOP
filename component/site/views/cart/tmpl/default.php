@@ -61,7 +61,7 @@ $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JT
 $print_tag .= "</a>";
 
 $cart_data = str_replace("{print}", $print_tag, $cart_data);
-$cart_data = $carthelper->replaceTemplate($cart, $cart_data, 0);
+$cart_data = RedshopHelperCartTag::replaceTemplate($cart, $cart_data, 0);
 RedshopHelperCartSession::setCart($cart);
 
 if (strstr($cart_data, '{shipping_calculator}') && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))

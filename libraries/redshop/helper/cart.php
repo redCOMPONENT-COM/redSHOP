@@ -377,8 +377,6 @@ abstract class RedshopHelperCart
 
 		JPluginHelper::importPlugin('redshop_product');
 
-		$cartHelper    = rsCarthelper::getInstance();
-
 		if (!array_key_exists($userId, self::$cart))
 		{
 			$db    = JFactory::getDbo();

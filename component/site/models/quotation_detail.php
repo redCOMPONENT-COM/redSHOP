@@ -46,8 +46,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 	{
 		$session = JFactory::getSession();
 
-		$carthelper      = rsCarthelper::getInstance();
-
 		$cart = $session->get('cart');
 
 		$idx = (int) ($cart['idx']);
@@ -207,7 +205,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 	public function modifyQuotation($user_id = 0)
 	{
 		$session    = JFactory::getSession();
-		$carthelper = rsCarthelper::getInstance();
 		$cart       = $session->get('cart');
 
 		$cart = \Redshop\Cart\Cart::modify($cart, $user_id);

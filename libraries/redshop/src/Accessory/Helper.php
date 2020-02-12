@@ -18,6 +18,14 @@ defined('_JEXEC') or die;
  */
 class Helper
 {
+    /**
+     * @param   int  $cartItemId
+     * @param   int  $productId
+     * @param   int  $quantity
+     *
+     * @return array
+     * @since __DEPLOY_VERSION__
+     */
     public static function generateAccessoryFromCart($cartItemId = 0, $productId = 0, $quantity = 1)
     {
         $accessoryCart = array();

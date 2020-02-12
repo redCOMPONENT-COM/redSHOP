@@ -264,8 +264,6 @@ class RedshopModelOrder_detail extends RedshopModel
 
 	public function neworderitem($data, $quantity, $order_item_id)
 	{
-		$rsCarthelper  = rsCarthelper::getInstance();
-
 		// Get Order Info
 		$orderdata = $this->getTable('order_detail');
 		$orderdata->load($this->_id);

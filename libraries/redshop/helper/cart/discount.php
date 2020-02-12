@@ -385,7 +385,7 @@ class RedshopHelperCartDiscount
 		$type       = $voucher->type;
 		$voucherId  = $voucher->id;
 		$productId  = isset($voucher->nproduct) ? $voucher->nproduct : 0;
-		$productArr = rsCarthelper::getInstance()->getCartProductPrice($productId, $cart);
+		$productArr = \Redshop\Cart\Helper::getCartProductPrice($productId, $cart);
 
 		if (empty($productArr['product_ids']))
 		{

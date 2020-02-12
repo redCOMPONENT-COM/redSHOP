@@ -70,7 +70,7 @@ echo JLayoutHelper::render('cart.wizard', array('step' => '2'));
 if ($is_creditcard == 1 && $ccinfo != '1' && $cart['total'] > 0)
 {
 	$cart_data = '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
-	$cart_data .= $carthelper->replaceCreditCardInformation($this->payment_method_id);
+	$cart_data .= \Redshop\Payment\Helper::replaceCreditCardInformation($this->payment_method_id);
 	$cart_data .= '<input type="hidden" name="option" value="com_redshop" />';
 	$cart_data .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 	$cart_data .= '<input type="hidden" name="task" value="checkoutnext" />';
@@ -108,10 +108,6 @@ elseif ($cart_data != "")
 	echo eval("?>" . $cart_data . "<?php ");
 }
 
-/*
-$mod_cart_total = $carthelper->GetCartModuleCalc($cart);
-$cart['mod_cart_total'] = $mod_cart_total;
-$session->set('cart',$cart);*/
 ?>
 
 <script type="text/javascript">

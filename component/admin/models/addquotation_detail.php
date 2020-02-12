@@ -102,8 +102,6 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$rsCarthelper  = rsCarthelper::getInstance();
-
 		/** @var Tableuser_detail $userRow */
 		$userRow = $this->getTable('user_detail');
 

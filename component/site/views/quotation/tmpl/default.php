@@ -72,7 +72,7 @@ $template_desc = Redshop\Cart\Render\Label::replace($template_desc);
 
 if ($user->id)
 {
-	$template_desc = $carthelper->replaceBillingAddress($template_desc, $detail);
+	$template_desc = RedshopHelperBillingTag::replaceBillingAddress($template_desc, $detail);
 	$template_desc .= '<input type="hidden" name="user_email" id="user_email" value="' . $detail->user_email . '"/>';
 }
 else

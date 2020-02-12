@@ -474,7 +474,7 @@ class Helper
      * @return array
      * @since __DEPLOY_VERSION__
      */
-    public function getCartProductPrice($productId, $cart)
+    public static function getCartProductPrice($productId, $cart)
     {
         $productList = array();
         $affectedProductIds = array();
@@ -486,7 +486,7 @@ class Helper
         $productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
 
         for ($v = 0; $v < $idx; $v++) {
-            if (in_array($cart[$v]['product_id'], $productIds) || $this->_globalvoucher) {
+            if (in_array($cart[$v]['product_id'], $productIds) || self::$globalvoucher) {
                 // Set Quantity based on discount type - i.e Multiple or Single.
                 $productQuantity = (Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) ? $cart[$v]['quantity'] : 1;
 
