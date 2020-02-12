@@ -362,7 +362,7 @@ class RedshopHelperProductPrice
 				if ($productPrice < $productDiscountPriceTemp)
 				{
 					$productPrice = RedshopHelperProduct_Attribute::defaultAttributePrice(
-						$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
+					/** @scrutinizer ignore-type */$productId, $productPrice, $templateHtml, $userId, intval($isApplyTax), $attributes
 					);
 
 					$mainPrice             = $productPrice;
