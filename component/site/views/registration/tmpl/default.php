@@ -15,7 +15,6 @@ $Itemid = $app->input->getInt('Itemid');
 $post   = $app->input->post->getArray();
 
 $userhelper = rsUserHelper::getInstance();
-$rsCarthelper = rsCarthelper::getInstance();
 
 $is_company = $this->lists['is_company'];
 

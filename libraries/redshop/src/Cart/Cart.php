@@ -588,7 +588,7 @@ class Cart
 		else
 		{
 			$generateAccessoryCart = isset($data['cart_accessory']) ?
-				$data['cart_accessory'] : \rsCarthelper::getInstance()->generateAccessoryArray($data);
+				$data['cart_accessory'] : \Redshop\Accessory\Helper::generateAccessoryArray($data);
 
 			if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 			{

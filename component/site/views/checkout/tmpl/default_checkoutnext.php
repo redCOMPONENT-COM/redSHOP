@@ -13,8 +13,7 @@ JHTML::_('behavior.modal');
 $url = JURI::base();
 $user = JFactory::getUser();
 
-$app             = JFactory::getApplication();
-$carthelper = rsCarthelper::getInstance();
+$app        = JFactory::getApplication();
 $dispatcher = RedshopHelperUtility::getDispatcher();
 
 $user = JFactory::getUser();

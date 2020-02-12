@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  * @var   array  $displayData  Display data.
  */
 
-$cartHelper    = rsCarthelper::getInstance();
 $cart          = $displayData['cart'];
 $total         = 0;
 

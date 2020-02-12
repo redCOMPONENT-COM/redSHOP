@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 $redTemplate = Redtemplate::getInstance();
-$carthelper  = rsCarthelper::getInstance();
 $app         = JFactory::getApplication();
 
 $Itemid  = $app->input->getInt('Itemid');

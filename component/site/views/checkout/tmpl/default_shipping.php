@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
 
 $redTemplate = Redtemplate::getInstance();
-$carthelper = rsCarthelper::getInstance();
 
 $user   = JFactory::getUser();
 $jinput = JFactory::getApplication()->input;

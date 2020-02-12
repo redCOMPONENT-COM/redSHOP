@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
  * Include required files
  */
 
-$carthelper    = rsCarthelper::getInstance();
 $redTemplate   = Redtemplate::getInstance();
 $app           = JFactory::getApplication();
 
