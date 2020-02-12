@@ -85,9 +85,7 @@ class RedshopModelRatings extends RedshopModel
 		$db = $this->_db;
 
 		$query = $db->getQuery(true)
-			->select($db->qn(array(
-				'pr.*', 'uf.firstname', 'uf.lastname'
-			)))
+			->select('pr.*', 'uf.firstname', 'uf.lastname')
 			->from($db->qn('#__redshop_product_rating', 'pr'))
 			->leftJoin($db->qn('#__redshop_users_info', 'uf') . 'ON pr.userid = uf.user_id')
 			->where(
