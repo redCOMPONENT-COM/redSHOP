@@ -39,11 +39,11 @@ class Voucher
      */
     public static function getVoucherData($voucherCode)
     {
-        $db = JFactory::getDbo();
+        $db = \JFactory::getDbo();
 
-        $user         = JFactory::getUser();
+        $user         = \JFactory::getUser();
         $voucher      = array();
-        $currentTime  = JFactory::getDate()->toSql();
+        $currentTime  = \JFactory::getDate()->toSql();
         $globalVouchers = self::getGlobalVoucher($voucherCode);
 
         if (self::$globalVoucher != 1)
@@ -123,9 +123,9 @@ class Voucher
      */
     public static function getGlobalVoucher($voucherCode)
     {
-        $db = JFactory::getDbo();
+        $db = \JFactory::getDbo();
 
-        $currentTime = JFactory::getDate()->toSql();
+        $currentTime = \JFactory::getDate()->toSql();
 
         $query = $db->getQuery(true)
             ->select($db->qn('pv.product_id'))
@@ -177,10 +177,10 @@ class Voucher
      */
     public static function getCouponData($couponCode, $subtotal = 0)
     {
-        $db = JFactory::getDbo();
+        $db = \JFactory::getDbo();
 
-        $today  = JFactory::getDate()->toSql();
-        $user   = JFactory::getUser();
+        $today  = \JFactory::getDate()->toSql();
+        $user   = \JFactory::getUser();
         $coupon = array();
 
         // Create the base select statement.

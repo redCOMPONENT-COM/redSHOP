@@ -97,7 +97,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $content = str_replace("{form_addtocart:$cartTemplate->name}", "", $content);
 
                 return $content;
-            } elseif (\productHelper::getInstance()->isProductDateRange($userFields, $productId)) {
+            } elseif (\RedshopHelperProduct::isProductDateRange($userFields, $productId)) {
                 // New type custom field - Selection based on selected conditions
                 $content = str_replace(
                     "{form_addtocart:$cartTemplate->name}",
@@ -324,7 +324,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
         if ($addCartFlag) {
             if ($giftcardId == 0 && $categoryId == 0) {
-                $categoryId = \productHelper::getInstance()->getCategoryProduct($productId);
+                $categoryId = \RedshopHelperProduct::getCategoryProduct($productId);
             }
 
 
@@ -365,7 +365,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             }
 
             // Start Hidden attribute image in cart
-            $attributes = \RedshopHelperProduct_Attribute::getProductAttribute($productId);
+            $attributes = \Redshop\Product\Attribute::getProductAttribute($productId);
 
             if (count($attributes) > 0) {
                 $selectedPropertyId    = 0;

@@ -105,7 +105,7 @@ class Attribute
 
                 static::$productAttributes[$key] = $selectedAttributes;
             } else {
-                $db    = JFactory::getDbo();
+                $db    = \JFactory::getDbo();
                 $query = $db->getQuery(true)
                     ->select(
                         array('a.attribute_id AS value', 'a.attribute_name AS text', 'a.*', 'ast.attribute_set_name')

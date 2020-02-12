@@ -393,11 +393,11 @@ class Tag
     public function replaceShippingBoxTemplate($boxTemplateDesc = "", $shippingBoxPostId = 0)
     {
         // Get shipping boxes HTML
-        $shippingBoxes = RedshopHelperShipping::getShippingBox();
+        $shippingBoxes = \RedshopHelperShipping::getShippingBox();
 
         $boxTemplateDesc = str_replace(
             "{shipping_box_heading}",
-            JText::_('COM_REDSHOP_SHIPPING_BOXES'),
+            \JText::_('COM_REDSHOP_SHIPPING_BOXES'),
             $boxTemplateDesc
         );
 
@@ -436,7 +436,7 @@ class Tag
         $boxTemplateDesc = str_replace("{shipping_box_list}", $shippingBoxList, $boxTemplateDesc);
         $style             = 'none';
 
-        $shippingMethod = RedshopHelperOrder::getShippingMethodInfo();
+        $shippingMethod = \RedshopHelperOrder::getShippingMethodInfo();
 
         for ($s = 0, $sn = count($shippingMethod); $s < $sn; $s++) {
             if (in_array($shippingMethod[$s]->element, ['bring', 'ups', 'uspsv4'])) {
@@ -477,7 +477,7 @@ class Tag
         $post = array()
     )
     {
-        $templateDesc = RedshopTagsReplacer::_(
+        $templateDesc = \RedshopTagsReplacer::_(
             'shippingmethod',
             $templateDesc,
             array(
@@ -491,9 +491,9 @@ class Tag
             )
         );
 
-        $shippingRateId = RedshopTagsSectionsShippingMethod::$shippingRateId;
-        JPluginHelpers::importPlugin('redshop_checkout');
-        JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$templateDesc));
+        $shippingRateId = \RedshopTagsSectionsShippingMethod::$shipping_rate_id;
+        \Joomla\CMS\Plugin\PluginHelper::importPlugin('redshop_checkout');
+        \JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$templateDesc));
 
         return array("template_desc" => $templateDesc, "shipping_rate_id" => $shippingRateId);
     }

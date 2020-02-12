@@ -5032,7 +5032,7 @@ class RedshopHelperProduct
 
         $productTemplate = RedshopHelperTemplate::getTemplate($temp_name, $temp_id);
 
-        $returnArr    = self::getProductUserfieldFromTemplate($productTemplate[0]->template_desc, $giftcard);
+        $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate($productTemplate[0]->template_desc, $giftcard);
         $userFieldTag = $returnArr[1];
 
         $resultArr = array();

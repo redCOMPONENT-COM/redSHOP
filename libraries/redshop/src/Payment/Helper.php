@@ -27,15 +27,15 @@ class Helper
     public static function replaceCreditCardInformation($paymentMethodId = 0)
     {
         if (empty($paymentMethodId)) {
-            JFactory::getApplication()->enqueueMessage(
-                JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
+            \JFactory::getApplication()->enqueueMessage(
+                \JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
                 'error'
             );
 
             return '';
         }
 
-        $paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($paymentMethodId);
+        $paymentMethod = \RedshopHelperOrder::getPaymentMethodInfo($paymentMethodId);
         $paymentMethod = $paymentMethod[0];
 
         $cardInfo = "";
@@ -43,20 +43,20 @@ class Helper
         if (file_exists(
             JPATH_SITE . '/plugins/redshop_payment/' . $paymentMethod->element . '/' . $paymentMethod->element . '.php'
         )) {
-            $paymentParams = new Registry($paymentMethod->params);
+            $paymentParams = new \Registry($paymentMethod->params);
             $acceptedCreditCard = $paymentParams->get("accepted_credict_card", array());
 
             if ($paymentParams->get('is_creditcard', 0)
                 && !empty($acceptedCreditCard)) {
-                $cardInfo = RedshopLayoutHelper::render(
+                $cardInfo = \RedshopLayoutHelper::render(
                     'order.payment.creditcard',
                     array(
                         'pluginParams' => $paymentParams,
                     )
                 );
             } else {
-                JFactory::getApplication()->enqueueMessage(
-                    JText::_('COM_REDSHOP_PAYMENT_CREDIT_CARDS_NOT_FOUND'),
+                \JFactory::getApplication()->enqueueMessage(
+                    \JText::_('COM_REDSHOP_PAYMENT_CREDIT_CARDS_NOT_FOUND'),
                     'error'
                 );
             }

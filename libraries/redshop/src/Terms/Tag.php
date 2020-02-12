@@ -25,11 +25,11 @@ class Tag
      * @return string|string[]
      * @since __DEPLOY_VERSION__
      */
-    public function replaceTermsConditions($templateDesc = "", $itemId = 1)
+    public static function replaceTermsConditions($templateDesc = "", $itemId = 1)
     {
         if (strpos($templateDesc, "{terms_and_conditions") !== false) {
-            $user    = JFactory::getUser();
-            $session = JFactory::getSession();
+            $user    = \JFactory::getUser();
+            $session = \JFactory::getSession();
             $auth    = $session->get('auth');
             $list    = array();
             $db      = \JFactory::getDbo();
@@ -37,7 +37,7 @@ class Tag
             $userId  = $user->id ?? null;
             $userId  = $auth['users_info_id'] ?? $userId;
 
-            $list = RedshopHelperUser::getUserInformation($userId);
+            $list = \RedshopHelperUser::getUserInformation($userId);
 
             $termsLeftFinal = "";
 
@@ -51,7 +51,7 @@ class Tag
             $finalTag       = ($termsLeftFinal != "") ? "{terms_and_conditions:$termsLeftFinal}" : "{terms_and_conditions}";
             $termsCondition = '';
 
-            if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (Redshop::getConfig()->get(
+            if (\Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 0 || (\Redshop::getConfig()->get(
                         'SHOW_TERMS_AND_CONDITIONS'
                     ) == 1 && ((count($list) > 0 && $list->accept_terms_conditions == 0) || count($list) == 0))) {
                 $finalWidth  = "500";
@@ -79,14 +79,14 @@ class Tag
                     }
                 }
 
-                $url            = JURI::base();
-                $articleUrl     = $url . "index.php?option=com_content&amp;view=article&amp;id=" . Redshop::getConfig(
+                $url            = \JURI::base();
+                $articleUrl     = $url . "index.php?option=com_content&amp;view=article&amp;id=" . \Redshop::getConfig(
                     )->get('TERMS_ARTICLE_ID') . "&Itemid=" . $itemId . "&tmpl=component";
                 $termsCondition = '<label class="checkbox"><input type="checkbox" id="termscondition" name="termscondition" value="1" /> ';
-                $termsCondition .= JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL');
+                $termsCondition .= \JText::_('COM_REDSHOP_TERMS_AND_CONDITIONS_LBL');
                 $termsCondition .= ' <a class="modal modal-termscondition" href="'
                     . $articleUrl . '" rel="{handler: \'iframe\', size: {x: '
-                    . $finalWidth . ', y: ' . $finalHeight . '}}">' . JText::_(
+                    . $finalWidth . ', y: ' . $finalHeight . '}}">' . \JText::_(
                         'COM_REDSHOP_TERMS_AND_CONDITIONS_FOR_LBL'
                     ) . '</a></label>';
             }

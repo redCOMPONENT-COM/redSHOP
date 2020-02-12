@@ -33,7 +33,7 @@ class Helper
         $section = "attribute",
         $parentSectionId = 0
     ) {
-        $db    = JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select('*')

@@ -25,21 +25,21 @@ class Tag
      * @return string|string[]
      * @since __DEPLOY_VERSION__
      */
-    public function replaceNewsletterSubscription($templateDesc = "", $onChange = 0)
+    public static function replaceNewsletterSubscription($templateDesc = "", $onChange = 0)
     {
-        $db = JFactory::getDbo();
+        $db = \JFactory::getDbo();
 
         if (strpos($templateDesc, "{newsletter_signup_chk}") !== false)
         {
-            $itemId               = $this->input->get('Itemid');
+            $itemId               = (int) \JFactory::getApplication()->input->get('Itemid');
             $newsletterSignUp     = "";
             $newsletterSignUpLabel = "";
             $link                 = "";
 
-            if (Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != 0)
+            if (\Redshop::getConfig()->get('DEFAULT_NEWSLETTER') != 0)
             {
                 //@TODO: move query code into function for common use
-                $user  = JFactory::getUser();
+                $user  = \JFactory::getUser();
                 $query = $db->getQuery(true);
                 $query->select($db->qn('subscription_id'))
                     ->from($db->qn('#__redshop_newsletter_subscription'))
@@ -62,7 +62,7 @@ class Tag
                     }
 
                     $newsletterSignUp     = "<input type='checkbox' name='newsletter_signup' value='1' '$link'>";
-                    $newsletterSignUpLabel = JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
+                    $newsletterSignUpLabel = \JText::_('COM_REDSHOP_SIGN_UP_FOR_NEWSLETTER');
                 }
             }
 
