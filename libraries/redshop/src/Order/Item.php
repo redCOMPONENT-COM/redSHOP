@@ -63,14 +63,14 @@ class Item
 			$productData = \RedshopHelperProduct::getProductById($productId);
 			$quantity  = $items[$i]->product_quantity;
 			$itemData  = \RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $productId);
-			$itemId    = !empty($itemData) ? $itemData->id : \RedshopHelperRouter::getItemId($productId, $productData->cat_in_sefurl);
+			$itemId    = !empty($itemData) ? $itemData->id : \RedshopHelperRouter::getItemId($productId, isset($productData->cat_in_sefurl) ? $productData->cat_in_sefurl : '');
 			$link      = \JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId .
-				($productData->cat_in_sefurl ? ('&cid=' . $productData->cat_in_sefurl) : '') . '&Itemid=' . $itemId, false);
+				(isset($productData->cat_in_sefurl) ? ('&cid=' . $productData->cat_in_sefurl) : '') . '&Itemid=' . $itemId, false);
 
 			if ($items[$i]->is_giftcard)
 			{
 				$giftcardData     = \RedshopEntityGiftcard::getInstance($productId)->getItem();
-				$productName      = $giftcardData->giftcard_name;
+				$productName      = isset($giftcardData->giftcard_name) ? $giftcardData->giftcard_name : '';
 				$userFieldSection = \RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD;
 				$product          = new \stdClass;
 			}
@@ -106,7 +106,7 @@ class Item
 				{
 					if ($items[$i]->is_giftcard)
 					{
-						$productFullImg = $giftcardData->giftcard_image;
+						$productFullImg = isset($giftcardData->giftcard_image) ? $giftcardData->giftcard_image : '';
 						$productType    = 'giftcard';
 					}
 					else

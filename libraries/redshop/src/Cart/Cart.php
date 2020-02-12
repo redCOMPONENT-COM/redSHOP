@@ -69,9 +69,9 @@ class Cart
 				$price = $cart[$i]['product_price_excl_vat'];
 			}
 
-			if ($product->use_discount_calc)
+			if (isset($product->use_discount_calc))
 			{
-				$price = $cart[$i]['discount_calc_price'];
+				$price = isset($cart[$i]['discount_calc_price']) ? $cart[$i]['discount_calc_price'] : 0;
 			}
 
 			// Only set price without vat for accessories as product
@@ -96,7 +96,7 @@ class Cart
 
 			$retAttArr = \RedshopHelperProduct::makeAttributeCart(
 				isset($cart[$i]['cart_attribute']) ? $cart[$i]['cart_attribute'] : array(),
-				(int) $product->product_id,
+				(int) isset($product->product_id) ? $product->product_id : '',
 				$userId,
 				$price,
 				$quantity,
@@ -115,7 +115,7 @@ class Cart
 			// Accessory calculation
 			$accessories = \RedshopHelperProduct::makeAccessoryCart(
 				isset($cart[$i]['cart_accessory']) ? $cart[$i]['cart_accessory'] : array(),
-				$product->product_id,
+				isset($product->product_id) ? $product->product_id : '',
 				$userId
 			);
 
@@ -147,7 +147,7 @@ class Cart
 			$productVat        = ($getProductTax + $accessoryTax + $wrapperVat);
 			$productPriceNoVat = ($getProductPrice + $accessoryPrice + $wrapperPrice);
 
-			if ($product->product_type == 'subscription')
+			if (isset($product->product_type) && $product->product_type == 'subscription')
 			{
 				if (!isset($cart[$i]['subscription_id']) || empty($cart[$i]['subscription_id']))
 				{
