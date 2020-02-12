@@ -289,20 +289,20 @@ class Helper
             'a.*',
             $db->qn('ast.attribute_set_name')
         )
-        ->from($db->qn('#__redshop_product_attribute', 'a'))
-        ->leftJoin(
-            $db->qn('#__redshop_attribute_set', 'ast')
-            . 'ON' . $db->qn('a.attribute_set_id')
-            . '=' . $db->qn('ast.attribute_set_id')
-        )
-        ->leftJoin(
-            $db->qn('#__redshop_product', 'p')
-            . 'ON' . $db->qn('p.attribute_set_id')
-            . '=' . $db->qn('a.attribute_set_id')
-        )
-        ->where($db->qn('a.attribute_name') . "!= ''")
-        ->where($db->qn('attribute_published') . '=' . $db->q('1'))
-        ->order($db->qn('a.ordering'));
+            ->from($db->qn('#__redshop_product_attribute', 'a'))
+            ->leftJoin(
+                $db->qn('#__redshop_attribute_set', 'ast')
+                . 'ON' . $db->qn('a.attribute_set_id')
+                . '=' . $db->qn('ast.attribute_set_id')
+            )
+            ->leftJoin(
+                $db->qn('#__redshop_product', 'p')
+                . 'ON' . $db->qn('p.attribute_set_id')
+                . '=' . $db->qn('a.attribute_set_id')
+            )
+            ->where($db->qn('a.attribute_name') . "!= ''")
+            ->where($db->qn('attribute_published') . '=' . $db->q('1'))
+            ->order($db->qn('a.ordering'));
 
         if ($productId != 0) {
             // Secure productsIds
@@ -337,5 +337,78 @@ class Helper
         $db->setQuery($query);
 
         return $db->loadObjectlist();
+    }
+
+    /**
+     * @param   array  $accessories
+     *
+     * @return array
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getSelectedCartAccessoryArray($accessories = array())
+    {
+        $selectedAccessory   = array();
+        $selectedProperty    = array();
+        $selectedSubProperty = array();
+
+        for ($i = 0, $in = count($accessories); $i < $in; $i++) {
+            $selectedAccessory[] = $accessories[$i]['accessory_id'];
+            $acessoryChilds      = $accessories[$i]['accessory_childs'];
+
+            for ($j = 0, $jn = count($acessoryChilds); $j < $jn; $j++) {
+                $properties = $acessoryChilds[$j]['attribute_childs'];
+
+                for ($k = 0, $kn = count($properties); $k < $kn; $k++) {
+                    $selectedProperty[] = $properties[$k]['property_id'];
+                    $subProperties      = $properties[$k]['property_childs'];
+
+                    for ($l = 0, $ln = count($subProperties); $l < $ln; $l++) {
+                        $selectedSubProperty[] = $subProperties[$l]['subproperty_id'];
+                    }
+                }
+            }
+        }
+
+        return array($selectedAccessory, $selectedProperty, $selectedSubProperty);
+    }
+
+    /**
+     * @param   int  $orderItemId
+     * @param   int  $productId
+     * @param   int  $quantity
+     *
+     * @return array
+     * @since __DEPLOY_VERSION__
+     */
+    public function generateAccessoryFromOrder($orderItemId = 0, $productId = 0, $quantity = 1)
+    {
+        $generateAccessoryCart = array();
+
+        $orderItemData = RedshopHelperOrder::getOrderItemAccessoryDetail($orderItemId);
+
+        foreach ($orderItemData as $index => $orderItem) {
+            $accessory       = RedshopHelperAccessory::getProductAccessories($orderItem->product_id);
+            $accessoryPrices = \Redshop\Product\Accessory::getPrice(
+                $productId,
+                $accessory[0]->newaccessory_price,
+                $accessory[0]->accessory_main_price,
+                1
+            );
+            $accessoryPrice    = $accessoryPrices[0];
+
+            $generateAccessoryCart[$index]['accessory_id']       = $orderItem->product_id;
+            $generateAccessoryCart[$index]['accessory_name']     = $accessory[0]->product_name;
+            $generateAccessoryCart[$index]['accessory_oprand']   = $accessory[0]->oprand;
+            $generateAccessoryCart[$index]['accessory_price']    = $accessoryPrice;
+            $generateAccessoryCart[$index]['accessory_quantity'] = $orderItem->product_quantity;
+            $generateAccessoryCart[$index]['accessory_childs']   = \Redshop\Attribute\Helper::generateAttributeFromOrder(
+                $orderItemId,
+                1,
+                $orderItem->product_id,
+                $quantity
+            );
+        }
+
+        return $generateAccessoryCart;
     }
 }

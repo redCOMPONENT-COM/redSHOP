@@ -253,7 +253,7 @@ class RedshopModelCart extends RedshopModel
 					$calcdata               = $cart[$cartElement]['discount_calc'];
 					$calcdata['product_id'] = $cart[$cartElement]['product_id'];
 
-					$discount_cal = $this->_carthelper->discountCalculator($calcdata);
+					$discount_cal = \Redshop\Promotion\Discount::discountCalculator($calcdata);
 
 					$calculator_price  = $discount_cal['product_price'];
 					$product_price_tax = $discount_cal['product_price_tax'];
@@ -378,7 +378,7 @@ class RedshopModelCart extends RedshopModel
 						$calcdata               = $cart[$i]['discount_calc'];
 						$calcdata['product_id'] = $cart[$i]['product_id'];
 
-						$discount_cal = $this->_carthelper->discountCalculator($calcdata);
+						$discount_cal = \Redshop\Promotion\Discount::discountCalculator($calcdata);
 
 						$calculator_price = $discount_cal['product_price'];
 					}

@@ -275,8 +275,8 @@ class RedshopControllerOrder_Detail extends RedshopController
 				}
 			}
 
-			$generateAttributeCart = $this->_carthelper->generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
-			$generateAccessoryCart = $this->_carthelper->generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
+			$generateAttributeCart = \Redshop\Attribute\Helper::generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
+			$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
 
 			$row['cart_attribute']  = $generateAttributeCart;
 			$row['cart_accessory']  = $generateAccessoryCart;

@@ -173,7 +173,15 @@ if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 	$totalDiscount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 	$orderSubTotal = Redshop::getConfig()->getString('SHIPPING_AFTER') == 'total' ?
 		$cart['product_subtotal_excl_vat'] - $totalDiscount : $cart['product_subtotal_excl_vat'];
-	$shippingBoxTemplateHtml = $carthelper->replaceShippingBoxTemplate($shippingBoxTemplateHtml, $shippingBoxPostId);
+
+	$shippingBoxTemplateHtml = RedshopTagsReplacer::_(
+		'shippingbox',
+		$shippingBoxTemplateHtml,
+		array(
+			'shippingBoxPostId' => $shippingBoxPostId
+		)
+	);
+
 	$oneStepTemplateHtml     = str_replace($shippingBoxTemplate, $shippingBoxTemplateHtml, $oneStepTemplateHtml);
 	$return = $carthelper->replaceShippingTemplate(
 		$shippingTemplateHtml,

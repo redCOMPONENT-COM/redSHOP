@@ -380,7 +380,7 @@ class Cart
 		$data['product_price'] = 0;
 
 		// Discount calculator procedure start
-		$discounts = \rsCarthelper::getInstance()->discountCalculatorData($product, $data);
+		$discounts = \Redshop\Promotion\Discount::discountCalculatorData($product, $data);
 
 		$calcOutput      = "";
 		$calcOutputs     = array();
@@ -507,7 +507,7 @@ class Cart
 		$productPreOrder      = $product->preorder;
 
 		// Check for the required attributes if selected
-		$handleMessage = \rsCarthelper::getInstance()->handleRequiredSelectedAttributeCartMessage(
+		$handleMessage = \Redshop\Attribute\Helper::handleRequiredSelectedAttributeCartMessage(
 			$data, $dataAdd, $selectedAttrId, $selectedPropId, $notSelectedSubPropId
 		);
 
@@ -656,7 +656,7 @@ class Cart
 					$sameProduct = false;
 				}
 
-				$prevSelectAtt = \rsCarthelper::getInstance()->getSelectedCartAttributeArray($cart[$i]['cart_attribute']);
+				$prevSelectAtt = \Redshop\Attribute\Helper::getSelectedCartAttributeArray($cart[$i]['cart_attribute']);
 
 				$diff1 = array_diff($prevSelectAtt[0], $selectAtt[0]);
 				$diff2 = array_diff($selectAtt[0], $prevSelectAtt[0]);
@@ -682,7 +682,7 @@ class Cart
 					$sameProduct = false;
 				}
 
-				$prevSelectAcc = \rsCarthelper::getInstance()->getSelectedCartAccessoryArray($cart[$i]['cart_accessory']);
+				$prevSelectAcc = \Redshop\Accessory\Helper::getSelectedCartAccessoryArray($cart[$i]['cart_accessory']);
 
 				$diff1 = array_diff($prevSelectAcc[0], $selectAcc[0]);
 				$diff2 = array_diff($selectAcc[0], $prevSelectAcc[0]);

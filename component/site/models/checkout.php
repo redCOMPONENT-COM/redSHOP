@@ -1567,10 +1567,11 @@ class RedshopModelCheckout extends RedshopModel
 			$j = 1;
 
 			// Process each digit one by one starting at the right
+            // @TODO: access string by curly brace is deprecated php 7.4
 			for ($i = strlen($cardNo) - 1; $i >= 0; $i--)
 			{
 				// Extract the next digit and multiply by 1 or 2 on alternative digits.
-				$calc = $cardNo{$i} * $j;
+				$calc = $cardNo[$i] * $j;
 
 				// If the result is in two digits add 1 to the checksum total
 				if ($calc > 9)

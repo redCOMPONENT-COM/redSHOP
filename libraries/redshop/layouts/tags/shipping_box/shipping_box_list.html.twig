@@ -1,0 +1,7 @@
+<div class="radio">
+    <label class="radio" for='shipping_box_id{{ shippingBoxId }}'>
+        <input {{ checked }} type='radio' id="shipping_box_id{{ shippingBoxId }}" name="shipping_box_id"
+             onclick="javascript:onestepCheckoutProcess(this.name,'');"
+             value="{{ shippingBoxId }}" />
+        {{ shippingBox.shipping_box_name }}
+</label></div>

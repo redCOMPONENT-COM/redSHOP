@@ -685,7 +685,7 @@ class RedshopControllerCart extends RedshopController
 	{
 		ob_clean();
 		$get = JFactory::getApplication()->input->get->getArray(/** @scrutinizer ignore-type */ 'GET');
-		rsCarthelper::getInstance()->discountCalculator($get);
+		\Redshop\Promotion\Discount::discountCalculator($get);
 
 		JFactory::getApplication()->close();
 	}

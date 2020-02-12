@@ -21,7 +21,7 @@ $calcMethod = $this->data->discount_calc_method;
 // Default calculation unit
 
 // Calculation prices as per various area
-$discount_calc_data = $rsCarthelper->getDiscountCalcData(0, $this->data->product_id);
+$discount_calc_data = \Redshop\Promotion\Discount::getDiscountCalcData(0, $this->data->product_id);
 
 // Calculation UNIT
 $calcoption         = array();
@@ -63,7 +63,7 @@ switch ($calcMethod)
 }
 
 $pdc_extra_output = "";
-$pdc_extra_datas  = $rsCarthelper->getDiscountCalcDataExtra("", $this->data->product_id);
+$pdc_extra_datas  = \Redshop\Promotion\Discount::getDiscountCalcDataExtra("", $this->data->product_id);
 
 for ($p = 0, $pn = count($pdc_extra_datas); $p < $pn; $p++)
 {
