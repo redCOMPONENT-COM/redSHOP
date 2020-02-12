@@ -392,7 +392,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$retAttArr             = RedshopHelperProduct::makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute     = $retAttArr[0];
 
-			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
+			$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array) $item[$i], $user_id);
 			$retAccArr             = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory     = $retAccArr[0];
 
