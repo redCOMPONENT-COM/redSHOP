@@ -258,8 +258,8 @@ class RedshopHelperProductPrice
 	public static function getNetPrice($productId, $userId = 0, $quantity = 1, $templateHtml = '', $attributes = array())
 	{
 		$row       = RedshopHelperProduct::getProductById($productId);
-		$productId = $row->product_id;
-		$newPrice  = $row->product_price;
+		$productId = isset($row->product_id) ? $row->product_id : '';
+		$newPrice  = isset($row->product_price) ? $row->product_price : 0;
 
 		$userId             = !$userId ? JFactory::getUser()->id : $userId;
 		$productPrices      = array();
@@ -348,7 +348,7 @@ class RedshopHelperProductPrice
 
 			$dispatcher->trigger('onSetProductDiscountPrice', array(&$productDiscountPriceTemp, $productId));
 
-			if ($row->product_on_sale && $productDiscountPriceTemp > 0)
+			if (isset($row->product_on_sale) && $productDiscountPriceTemp > 0)
 			{
 				$discountPriceExcludingVat = $productDiscountPriceTemp;
 
