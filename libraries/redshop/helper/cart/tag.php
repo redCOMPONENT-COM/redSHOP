@@ -279,7 +279,8 @@ class RedshopHelperCartTag
 				$link          = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftCardId . '&Itemid=' . $itemId);
 				$receiverInfor = '<div class="reciverInfo">' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL') . ': ' . $cart[$i]['reciver_name']
 					. '<br />' . JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL') . ': ' . $cart[$i]['reciver_email'] . '</div>';
-				$productName   = "<div  class='product_name'><a href='" . $link . "'>" . $giftcard->giftcard_name . "</a></div>" . $receiverInfor;
+				$productName   = "<div  class='product_name'><a href='" . $link . "'>" . (isset($giftcard->giftcard_name) ?
+						$giftcard->giftcard_name : '') . "</a></div>" . $receiverInfor;
 
 				if (strpos($cartHtml, "{product_name_nolink}") !== false)
 				{
@@ -325,7 +326,7 @@ class RedshopHelperCartTag
 				$cartHtml = str_replace("{product_on_sale end if}", '', $cartHtml);
 
 				$thumbUrl = RedshopHelperMedia::getImagePath(
-					$giftcard->giftcard_image,
+					isset($giftcard->giftcard_image) ? $giftcard->giftcard_image : '',
 					'',
 					'thumb',
 					'giftcard',

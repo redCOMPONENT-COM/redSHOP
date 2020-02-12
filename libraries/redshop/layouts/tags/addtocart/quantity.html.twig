@@ -1,0 +1,5 @@
+<span id="stockQuantity{{ stockId }}">
+	<input class="quantity inputbox input-mini" type="text" name="quantity" id="quantity{{ productId }}" value="{{ quantity }}"
+           maxlength="{{ 'DEFAULT_QUANTITY' | redconfig }}" size="{{ 'AJAX_CART_BOX' | redconfig }}"
+           onblur="validateInputNumber(this.id);" onkeypress="return event.keyCode!=13"/>
+</span>

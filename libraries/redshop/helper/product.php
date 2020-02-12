@@ -2475,11 +2475,14 @@ class RedshopHelperProduct
         if ($giftcard) {
             $template_start = explode("{if giftcard_userfield}", $templatedata);
 
-            if (!empty($template_start)) {
-                $template_end = explode("{giftcard_userfield end if}", $template_start[1]);
+            if (isset($template_start[1]))
+            {
+                if (!empty($template_start)) {
+                    $template_end = explode("{giftcard_userfield end if}", $template_start[1]);
 
-                if (!empty($template_end)) {
-                    $template_middle = $template_end[0];
+                    if (!empty($template_end)) {
+			            $template_middle = $template_end[0];
+                    }
                 }
             }
         } else {
