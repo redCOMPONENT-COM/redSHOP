@@ -96,7 +96,7 @@ class Cart
 
 			$retAttArr = \RedshopHelperProduct::makeAttributeCart(
 				isset($cart[$i]['cart_attribute']) ? $cart[$i]['cart_attribute'] : array(),
-				(int) isset($product->product_id),
+				(int) isset($product->product_id) ? $product->product_id : '',
 				$userId,
 				$price,
 				$quantity,
