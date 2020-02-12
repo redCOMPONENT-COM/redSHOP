@@ -101,7 +101,7 @@ class RedshopHelperDiscount
      */
     public static function getDiscountPriceBaseDiscountDate($productId)
     {
-        $productData = RedshopHelperProduct::getProductById($productId);
+        $productData = \Redshop\Product\Product::getProductById($productId);
 
         if (empty($productData)) {
             return 0.0;

@@ -833,7 +833,7 @@ class RedshopModelCart extends RedshopModel
 			for ($ia = 0, $countAttribute = count($attribute_data); $ia < $countAttribute; $ia++)
 			{
 				$accPropertyCart                              = array();
-				$attribute                                    = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attribute_data[$ia]);
+				$attribute                                    = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attribute_data[$ia]);
 				$generateAttributeCart[$ia]['attribute_id']   = $attribute_data[$ia];
 				$generateAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
 

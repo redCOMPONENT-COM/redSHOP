@@ -220,7 +220,7 @@ if (strstr($templateHtml, "{category_loop_start}") && strstr($templateHtml, "{ca
 
 				// Product User Field Start
 				$hidden_userfield   = "";
-				$returnArr          = RedshopHelperProduct::getProductUserfieldFromTemplate($prddata_add);
+				$returnArr          = \Redshop\Product\Product::getProductUserfieldFromTemplate($prddata_add);
 				$template_userfield = $returnArr[0];
 				$userfieldArr       = $returnArr[1];
 
@@ -267,7 +267,7 @@ if (strstr($templateHtml, "{category_loop_start}") && strstr($templateHtml, "{ca
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
 
-					$returnArr          = RedshopHelperProduct::getProductUserfieldFromTemplate($ajax_detail_template_desc);
+					$returnArr          = \Redshop\Product\Product::getProductUserfieldFromTemplate($ajax_detail_template_desc);
 					$template_userfield = $returnArr[0];
 					$userfieldArr       = $returnArr[1];
 
@@ -492,10 +492,10 @@ if (strstr($templateHtml, "{category_loop_start}") && strstr($templateHtml, "{ca
 
 					if ($product->attribute_set_id > 0)
 					{
-						$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+						$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 					}
 
-					$attributes = RedshopHelperProduct_Attribute::getProductAttribute($productId);
+					$attributes = \Redshop\Product\Attribute::getProductAttribute($productId);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 

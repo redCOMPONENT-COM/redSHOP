@@ -26,9 +26,9 @@ class Helper
      * @return string
      * @since __DEPLOY_VERSION__
      */
-    public function userFieldValidation($data, $dataAdd, $section = 12)
+    public static function userFieldValidation($data, $dataAdd, $section = 12)
     {
-        $userFields = RedshopHelperProduct::getProductUserfieldFromTemplate($dataAdd)[1];
+        $userFields = \Redshop\Product\Product::getProductUserFieldFromTemplate($dataAdd)[1];
 
         $msg = "";
 

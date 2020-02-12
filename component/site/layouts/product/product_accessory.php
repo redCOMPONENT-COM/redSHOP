@@ -44,7 +44,7 @@ extract($displayData);
 				<?php if (empty($attributes['attribute_childs'])) : ?>
 					<?php continue; ?>
 				<?php endif; ?>
-				<?php $attribute = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attributes['attribute_id']); ?>
+				<?php $attribute = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attributes['attribute_id']); ?>
 				<?php $hideAttribute = 0; ?>
 				<?php if (count($attribute) > 0): ?>
 					<?php $hideAttribute = $attribute[0]->hide_attribute_price; ?>

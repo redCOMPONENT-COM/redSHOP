@@ -60,7 +60,7 @@ class Item
 			$dispatcher->trigger('onOrderItemDisplay', array(&$cartHtmlContent, &$items, $i));
 
 			$productId = $items[$i]->product_id;
-			$productData = \RedshopHelperProduct::getProductById($productId);
+			$productData = \Redshop\Product\Product::getProductById($productId);
 			$quantity  = $items[$i]->product_quantity;
 			$itemData  = \RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $productId);
 			$itemId    = !empty($itemData) ? $itemData->id : \RedshopHelperRouter::getItemId($productId, $productData->cat_in_sefurl);
@@ -76,7 +76,7 @@ class Item
 			}
 			else
 			{
-				$product          = \RedshopHelperProduct::getProductById($productId);
+				$product          = \Redshop\Product\Product::getProductById($productId);
 				$productName      = $items[$i]->order_item_name;
 				$userFieldSection = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
 				$giftcardData     = new \stdClass;

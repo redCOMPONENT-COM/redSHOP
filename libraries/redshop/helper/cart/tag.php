@@ -397,7 +397,7 @@ class RedshopHelperCartTag
             else
             {
                 $productId     = $cart[$i]['product_id'];
-                $product       = RedshopHelperProduct::getProductById($productId);
+                $product       = \Redshop\Product\Product::getProductById($productId);
                 $catId         = $product->cat_in_sefurl;
                 $attributeCart = RedshopHelperProduct::makeAttributeCart(
                     $cart[$i]['cart_attribute'], $productId, 0, 0, $quantity, $cartHtml

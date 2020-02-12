@@ -132,7 +132,7 @@ class Helper
 
                         for ($ia = 0; $ia < $countAccessoryAttribute; $ia++) {
                             $accPropertyCart = array();
-                            $attribute = RedshopHelperProduct_Attribute::getProductAttribute(
+                            $attribute = \Redshop\Product\Attribute::getProductAttribute(
                                 0,
                                 0,
                                 $accAttributeData[$ia]
@@ -234,7 +234,7 @@ class Helper
                         );
                     }
 
-                    $requireAttribute = RedshopHelperProduct_Attribute::getProductAttribute(
+                    $requireAttribute = \Redshop\Product\Attribute::getProductAttribute(
                         $accessory[0]->child_product_id,
                         0,
                         0,

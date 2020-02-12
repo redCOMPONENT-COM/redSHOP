@@ -104,7 +104,7 @@ if ($template_middle != "")
 
 	for ($i = 0, $in = count($manufacturer_products); $i < $in; $i++)
 	{
-		$productData = RedshopHelperProduct::getProductById($manufacturer_products[$i]->product_id);
+		$productData = \Redshop\Product\Product::getProductById($manufacturer_products[$i]->product_id);
 		$cart_mdata .= $template_middle;
 
 		if (strstr($cart_mdata, "{category_heading_start}") && strstr($cart_mdata, "{category_heading_end}"))
@@ -154,10 +154,10 @@ if ($template_middle != "")
 
 			if ($manufacturer_products[$i]->attribute_set_id > 0)
 			{
-				$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $manufacturer_products[$i]->attribute_set_id, 0, 1);
+				$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $manufacturer_products[$i]->attribute_set_id, 0, 1);
 			}
 
-			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product_id);
+			$attributes = \Redshop\Product\Attribute::getProductAttribute($product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
 

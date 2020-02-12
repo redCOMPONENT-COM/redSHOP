@@ -198,7 +198,7 @@ class Helper
         $selectedPropId,
         $unSelectedSubPropId
     ) {
-        if (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE')) {
+        if (\Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE')) {
             return;
         }
 
@@ -212,7 +212,7 @@ class Helper
                 $selectedAttributeId = implode(",", $selectedAttrId);
             }
 
-            $requiredAttribute = RedshopHelperProduct_Attribute::getProductAttribute(
+            $requiredAttribute = \Redshop\Product\Attribute::getProductAttribute(
                 $data['product_id'],
                 0,
                 0,
@@ -242,11 +242,11 @@ class Helper
 
             $unSelectedSubPropId = 0;
 
-            if (count($unSelectedSubPropId) > 0) {
+            if (is_array($unSelectedSubPropId) && count($unSelectedSubPropId) > 0) {
                 $unSelectedSubPropId = implode(",", $unSelectedSubPropId);
             }
 
-            $requiredProperty = RedshopHelperProduct_Attribute::getAttributeProperties(
+            $requiredProperty = \RedshopHelperProduct_Attribute::getAttributeProperties(
             /** @scrutinizer ignore-type */ $selectedPropertyId,
                 /** @scrutinizer ignore-type */ $selectedAttributeId,
                                             $data['product_id'],

@@ -808,7 +808,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 					->where($db->qn('quotation_item_id') . ' = ' . $db->q((int) $item->quotation_item_id));
 				$quotationItem = $db->setQuery($query)->loadObject();
 
-				$product = RedshopHelperProduct::getProductById($quotationItem->product_id);
+				$product = \Redshop\Product\Product::getProductById($quotationItem->product_id);
 
 				$rowItem->order_id                    = $orderId;
 				$rowItem->user_info_id                = $data['user_info_id'];

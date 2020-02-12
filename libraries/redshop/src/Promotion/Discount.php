@@ -180,7 +180,7 @@ class Discount
 
         $productPriceNoVat = $productNetPrices['product_price_novat'];
 
-        $data = RedshopHelperProduct::getProductById($productId);
+        $data = \Redshop\Product\Product::getProductById($productId);
 
         // Default calculation method
         $calcMethod = $data->discount_calc_method;

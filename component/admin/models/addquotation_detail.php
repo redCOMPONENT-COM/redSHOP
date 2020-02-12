@@ -547,7 +547,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 		if ($property_id != 0 && $attribute_id != 0)
 		{
-			$attributes  = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attribute_id);
+			$attributes  = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attribute_id);
 			$attributes  = $attributes[0];
 			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
 		}

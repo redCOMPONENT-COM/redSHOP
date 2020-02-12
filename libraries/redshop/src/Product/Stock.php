@@ -111,7 +111,7 @@ class Stock
 
 		if ($productInStock == 0)
 		{
-			$product         = \RedshopHelperProduct::getProductById($productId);
+			$product         = \Redshop\Product\Product::getProductById($productId);
 			$productPreOrder = $product->preorder;
 
 			if (($productPreOrder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))

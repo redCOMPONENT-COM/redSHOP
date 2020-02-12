@@ -581,7 +581,7 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$is_giftcard = 0;
 			$product_id  = $cart [$i] ['product_id'];
-			$product     = RedshopHelperProduct::getProductById($product_id);
+			$product     = \Redshop\Product\Product::getProductById($product_id);
 
 			/** @var Tableorder_item_detail $rowitem */
 			$rowitem = $this->getTable('order_item_detail');
@@ -897,7 +897,7 @@ class RedshopModelCheckout extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo                      = RedshopHelperProduct::getProductById($accdata->child_product_id);
+					$accProductinfo                      = \Redshop\Product\Product::getProductById($accdata->child_product_id);
 					$rowaccitem                          = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id       = 0;
 					$rowaccitem->order_item_id           = $rowitem->order_item_id;

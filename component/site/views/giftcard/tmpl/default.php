@@ -170,7 +170,7 @@ if ($gid != 0)
 
 	// Product User Field Start
 	$count_no_user_field = 0;
-	$returnArr           = RedshopHelperProduct::getProductUserfieldFromTemplate($template, 1);
+	$returnArr           = \Redshop\Product\Product::getProductUserfieldFromTemplate($template, 1);
 
 	$template_userfield = $returnArr[0];
 	$userfieldArr       = $returnArr[1];

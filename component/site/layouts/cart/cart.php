@@ -43,7 +43,7 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 			}
 			else
 			{
-				$productDetail = RedshopHelperProduct::getProductById($cart[$i]['product_id']);
+				$productDetail = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);
 				$name          = $productDetail->product_name;
 			}
 			?>

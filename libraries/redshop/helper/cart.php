@@ -460,7 +460,7 @@ abstract class RedshopHelperCart
 				$section      = 12;
 				$cartItemId   = $cartItem->cart_item_id;
 				$productPrice = 0;
-				$productData  = RedshopHelperProduct::getProductById($productId);
+				$productData  = \Redshop\Product\Product::getProductById($productId);
 
 				if ($productData->published === 0)
 				{
@@ -531,7 +531,7 @@ abstract class RedshopHelperCart
 					$selectedAttributeId = implode(",", $selectedAttributeId);
 				}
 
-				$requiredAttributeData = RedshopHelperProduct_Attribute::getProductAttribute(
+				$requiredAttributeData = \Redshop\Product\Attribute::getProductAttribute(
 					$productId, 0, 0, 0, 1, $selectedAttributeId
 				);
 
@@ -695,7 +695,7 @@ abstract class RedshopHelperCart
 
 		foreach ($cartAttributes as $i => $cartAttribute)
 		{
-			$attribute          = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $cartAttribute->section_id);
+			$attribute          = \Redshop\Product\Attribute::getProductAttribute(0, 0, $cartAttribute->section_id);
 			$generateProperties = array();
 
 			$generateAttributes[$i]['attribute_id']   = $cartAttribute->section_id;

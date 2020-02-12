@@ -62,7 +62,7 @@ class RedshopProduct
 		{
 			if ($id)
 			{
-				$this->info = RedshopHelperProduct::getProductById($id);
+				$this->info = \Redshop\Product\Product::getProductById($id);
 			}
 			else
 			{

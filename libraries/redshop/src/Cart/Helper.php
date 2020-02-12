@@ -197,7 +197,7 @@ class Helper
         $shippingData = array(
             'order_subtotal' => \Redshop::getConfig()->getString(
                 'SHIPPING_AFTER'
-            ) == 'total' ? $cart['product_subtotal_excl_vat'] - $totalDiscount : $cart['product_subtotal_excl_vat'],
+            ) == 'total' ? @$cart['product_subtotal_excl_vat'] - $totalDiscount : @$cart['product_subtotal_excl_vat'],
             'users_info_id' => $usersInfoId
         );
 
@@ -227,7 +227,7 @@ class Helper
         }
 
         $quantitySelected = 1;
-        $product = \RedshopHelperProduct::getProductById($productId);
+        $product = \Redshop\Product\Product::getProductById($productId);
 
         if ((\Redshop::getConfig()->getString('DEFAULT_QUANTITY_SELECTBOX_VALUE') != ""
                 && $product->quantity_selectbox_value == '') || $product->quantity_selectbox_value != '') {
@@ -368,7 +368,7 @@ class Helper
             $propertiesOprand = array();
             $propertiesPrice = array();
             $accPropertyCart = array();
-            $attribute = \RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attributeId);
+            $attribute = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attributeId);
             $result[$attrIndex]['attribute_id'] = $attributeId;
             $result[$attrIndex]['attribute_name'] = $attribute[0]->text;
 

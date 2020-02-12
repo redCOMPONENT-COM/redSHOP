@@ -28,8 +28,8 @@ class Helper
      */
     public static function checkQuantityInStock($data = array(), $newQuantity = 1, $minQuantity = 0)
     {
-        JPluginHelper::importPlugin('redshop_product');
-        $result = RedshopHelperUtility::getDispatcher()->trigger(
+        \JPluginHelper::importPlugin('redshop_product');
+        $result = \RedshopHelperUtility::getDispatcher()->trigger(
             'onCheckQuantityInStock',
             array(&$data, &$newQuantity, &$minQuantity)
         );
@@ -38,7 +38,7 @@ class Helper
             return $newQuantity;
         }
 
-        $productData     = RedshopHelperProduct::getProductById($data['product_id']);
+        $productData     = \Redshop\Product\Product::getProductById($data['product_id']);
         $productPreOrder = $productData->preorder;
 
         if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $newQuantity) {
@@ -49,7 +49,7 @@ class Helper
             $newQuantity = $productData->min_order_product_quantity;
         }
 
-        if (!Redshop::getConfig()->getBool('USE_STOCKROOM')) {
+        if (!\Redshop::getConfig()->getBool('USE_STOCKROOM')) {
             return $newQuantity;
         }
 
