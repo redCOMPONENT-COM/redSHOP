@@ -288,7 +288,7 @@ class RedshopHelperProductPrice
 		}
 
 		$isApplyTax   = \Redshop\Template\Helper::isApplyVat($templateHtml, $userId);
-		$specialPrice = self::getProductSpecialPrice($newPrice, RedshopHelperProduct::getProductSpecialId($userId), $productId);
+		$specialPrice = self::getProductSpecialPrice($newPrice, RedshopHelperProduct::getProductSpecialId($userId), /** @scrutinizer ignore-type */$productId);
 
 		if (!is_null($specialPrice))
 		{
@@ -318,7 +318,7 @@ class RedshopHelperProductPrice
 
 		$dispatcher->trigger('onSetProductPrice', array(&$productPrice, $productId));
 
-		$excludeVat     = RedshopHelperProduct_Attribute::defaultAttributePrice($productId, $productPrice, $templateHtml, $userId, 0, $attributes);
+		$excludeVat     = RedshopHelperProduct_Attribute::defaultAttributePrice(/** @scrutinizer ignore-type */$productId, $productPrice, $templateHtml, $userId, 0, $attributes);
 		$formattedPrice = self::formattedPrice($excludeVat);
 		$priceText      = $priceText . '<span id="display_product_price_without_vat' . $productId . '">' . $formattedPrice . '</span>'
 			. '<input type="hidden" name="product_price_excluding_price" id="product_price_excluding_price' . $productId . '" '
@@ -343,7 +343,7 @@ class RedshopHelperProductPrice
 			{
 				$row->product_on_sale = 0;
 			}
-			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($productId);
+			$productDiscountPriceTemp = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate(/** @scrutinizer ignore-type */$productId);
 			$oldPriceExcludeVat       = $productPriceExcludingVat;
 
 			$dispatcher->trigger('onSetProductDiscountPrice', array(&$productDiscountPriceTemp, $productId));
