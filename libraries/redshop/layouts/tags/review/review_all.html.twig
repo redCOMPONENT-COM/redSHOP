@@ -1,0 +1,13 @@
+{{ templateReview1 }}
+
+{% if mainBlock < reviews|length %}
+<div style="clear:both;" class="show_reviews">
+    <a href="javascript:showallreviews();">
+        <img src=" REDSHOP_FRONT_IMAGES_ABSPATH . reviewarrow.gif">
+        {{ jtext('COM_REDSHOP_SHOW_ALL_REVIEWS') }}
+    </a>
+</div>
+{% endif %}
+<div style="display:none;" id="showreviews" name="showreviews">
+{{ templateReview2 }}
+</div>
