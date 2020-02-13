@@ -1,0 +1,33 @@
+<div class="rating-statistics">
+	<table>
+		<tr>
+			<td width="35%">
+				<div class="total-rating">{{ avg }}/5</div>
+				<div class="total-rating-image"><img src="media/com_redshop/images/star_rating/{{ avg|round }}.gif"></div>
+				<div class="total-comments">{{ jtext_sprintf('COM_REDSHOP_REVIEW_TOTAL_REVIEW', totalRating) }}</div>
+			</td>
+			<td>
+				<ul>
+                    {% for i in 5..0 %}
+                        {% if star[i] is defined %}
+                            {% set percentStart = star[i] %}
+                        {% else %}
+                            {% set percentStart = 0 %}
+                        {% endif %}
+                        <li>
+                            <div>
+                                <img src="media/com_redshop/images/star_rating/{{ i }}.gif">
+                            </div>
+                            <div>
+                                <div class="bar-wrap">
+                                    <div class="bar" style="width: {{ percentStart }}%"></div>
+                                </div>
+                            </div>
+                            <div>{{ percentStart }}%</div>
+                        </li>
+                    {% endfor %}
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>

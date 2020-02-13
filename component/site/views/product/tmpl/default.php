@@ -1566,19 +1566,16 @@ if (strstr($template_desc, "{product_rating}"))
 	}
 	else
 	{
-		$main_template = "<div>{product_loop_start}<p><strong>{product_title}</strong></p><div>{review_loop_start}<div id=\"reviews_wrapper\">";
-		$main_template .= "<div id=\"reviews_rightside\"><div id=\"reviews_fullname\">{fullname}</div><div id=\"reviews_title\">{title}</div>";
-		$main_template .= "<div id=\"reviews_comment\">{comment}</div></div><div id=\"reviews_leftside\"><div id=\"reviews_stars\">{stars}</div>";
-		$main_template .= "</div></div>{review_loop_end}<div>{product_loop_end}</div></div></div>	";
+		$main_template = RedshopHelperTemplate::getDefaultTemplateContent('review');
 	}
 
-	$main_template = RedshopLayoutHelper::render(
-		'product.rating_comments',
-		array(
-			'productId' => $this->data->product_id,
-			'main_template' => $main_template,
-			'mainblock'    => $mainblock
-		)
+	$main_template = RedshopTagsReplacer::_(
+			'review',
+			$main_template,
+			array(
+				'productId' => $this->data->product_id,
+				'mainBlock'    => $mainblock
+			)
 	);
 
 	$template_desc = str_replace("{product_rating}", $main_template, $template_desc);
