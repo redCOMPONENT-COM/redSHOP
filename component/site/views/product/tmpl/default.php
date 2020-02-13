@@ -605,139 +605,21 @@ if (strstr($template_desc, "{wrapper_template:"))
 {
 	for ($w = 0, $wn = count($wrappertemplate); $w < $wn; $w++)
 	{
-		if (strstr($template_desc, "{wrapper_template:" . $wrappertemplate [$w]->name . "}"))
+		if (strstr($template_desc, "{wrapper_template:" . $wrappertemplate[$w]->name . "}"))
 		{
-			$wrappertemplate_data = $wrappertemplate [$w]->template_desc;
-			$wrapper_start        = explode("{product_wrapper_start}", $wrappertemplate_data);
+			$wrapperHtml = RedshopTagsReplacer::_(
+				'wrapper',
+				$wrappertemplate[$w]->template_desc,
+				array(
+					'data' => $this->data,
+					'wrapper' => $wrapper
+				)
+			);
 
-			if (isset ($wrapper_start [1]))
-			{
-				$wrapper_start        = explode("{product_wrapper_end}", $wrapper_start [1]);
-				$wrappertemplate_data = $wrapper_start [0];
-			}
-
-			$wrappertemplate_data     .= "<input type='hidden' name='wrapper_price' id='wrapper_price' value='0' />";
-			$wrappertemplate_data     .= "<input type='hidden' name='wrapper_price_withoutvat' id='wrapper_price_withoutvat' value='0' />";
-			$warray                   = array();
-			$warray [0]->wrapper_id   = 0;
-			$warray [0]->wrapper_name = JText::_('COM_REDSHOP_SELECT_WRAPPER');
-			$wrapperimage_div         = "";
-
-			if (Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
-			{
-				$wrapperimage_div .= "<marquee behavior='scroll'
-				 								direction='left'
-				 								onmouseover='this.stop()'
-				 								onmouseout='this.start()'
-				 								scrolldelay='200' width='200'
-				 								>";
-			}
-
-			$wrapperimage_div .= "<table><tr>";
-
-			for ($i = 0, $in = count($wrapper); $i < $in; $i++)
-			{
-				$wrapper_vat = 0;
-
-				if ($wrapper[$i]->wrapper_price > 0 && !strstr($template_desc, "{without_vat}"))
-				{
-					$wrapper_vat = RedshopHelperProduct::getProductTax($this->data->product_id, $wrapper[$i]->wrapper_price);
-				}
-
-				$wp            = $wrapper[$i]->wrapper_price + $wrapper_vat;
-				$wp_withoutvat = $wrapper[$i]->wrapper_price;
-
-				$wid   = $wrapper[$i]->wrapper_id;
-				$title = " title='" . $wrapper[$i]->wrapper_name . "' ";
-				$alt   = " alt='" . $wrapper[$i]->wrapper_name . "' ";
-
-				if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
-				{
-					$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . RedshopHelperProductPrice::formattedPrice($wp) . ")";
-				}
-
-				$wrapperimage_div .= "<td id='wrappertd" . $wid . "'>";
-
-				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
-				{
-					$thumbUrl         = RedshopHelperMedia::getImagePath(
-						$wrapper[$i]->wrapper_image,
-						'',
-						'thumb',
-						'wrapper',
-						Redshop::getConfig()->get('DEFAULT_WRAPPER_THUMB_WIDTH'),
-						Redshop::getConfig()->get('DEFAULT_WRAPPER_THUMB_HEIGHT'),
-						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-					);
-					$wrapperimage_div .= "
-					<a onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");'>
-					<img src='" . $thumbUrl . "' " . $title . $alt . " /></a>";
-				}
-
-				if (strstr($wrappertemplate_data, "{wrapper_price}"))
-				{
-					$wrapperimage_div .= "<br/><div onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");' align='center'>";
-
-					if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
-					{
-						$wrapperimage_div .= RedshopHelperProductPrice::formattedPrice($wp);
-					}
-
-					$wrapperimage_div .= "</div>";
-				}
-
-				$wrapperimage_div     .= "</td>";
-				$wrappertemplate_data .= "<input type='hidden' name='w_price' id='w_price" . $wid . "' value='" . $wp . "' />";
-				$wrappertemplate_data .= "<input type='hidden' name='w_price_withoutvat' id='w_price_withoutvat" . $wid . "' value='" . $wp_withoutvat . "' />";
-
-				if (!Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
-				{
-					if (($i + 1) % 3 == 0)
-					{
-						$wrapperimage_div .= "</tr><tr>";
-					}
-				}
-			}
-
-			$wrapperimage_div .= "</tr></table>";
-
-			if (Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
-			{
-				$wrapperimage_div .= "</marquee>";
-			}
-
-			if (!empty($wrapper))
-			{
-				$wrapper = array_merge($warray, $wrapper);
-
-				$lists['wrapper_id'] = JHtml::_(
-					'select.genericlist',
-					$wrapper,
-					'wrapper_id',
-					'class="inputbox" onchange="calculateTotalPrice(\'' . $this->data->product_id . '\',0);" ',
-					'wrapper_id',
-					'wrapper_name',
-					0
-				);
-
-				$wrappertemplate_data = str_replace("{wrapper_dropdown}", $lists ['wrapper_id'], $wrappertemplate_data);
-				$wrappertemplate_data = str_replace("{wrapper_image}", $wrapperimage_div, $wrappertemplate_data);
-				$wrappertemplate_data = str_replace("{wrapper_price}", "", $wrappertemplate_data);
-				$wrapper_checkbox     = JText::_('COM_REDSHOP_Add_WRAPPER') .
-					": <input type='checkbox' name='wrapper_check' onclick='calculateTotalPrice(\"" .
-					$this->data->product_id .
-					"\",0);' id='wrapper_check' />";
-				$wrappertemplate_data = str_replace("{wrapper_add_checkbox}", $wrapper_checkbox, $wrappertemplate_data);
-				$template_desc        = str_replace("{wrapper_template:" . $wrappertemplate [$w]->name . "}", $wrappertemplate_data, $template_desc);
-			}
-			else
-			{
-				$template_desc = str_replace("{wrapper_template:" . $wrappertemplate [$w]->name . "}", "", $template_desc);
-			}
+			$template_desc = str_replace("{wrapper_template:" . $wrappertemplate[$w]->name . "}", $wrapperHtml, $template_desc);
 		}
 	}
 }
-
 // PRODUCT WRAPPER END
 
 if (strstr($template_desc, "{child_products}"))
