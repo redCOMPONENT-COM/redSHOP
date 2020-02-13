@@ -83,7 +83,7 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 
         // Set the reset_status parameter to 0 and save the updated parameters
         $pluginParams              = json_decode($pluginParams);
-        $pluginParams->tracker_key = Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY', '');
+        $pluginParams->tracker_key = \Redshop::getConfig()->get('GOOGLE_ANA_TRACKER_KEY', '');
         $pluginParams              = json_encode($pluginParams);
         $row['params']             = $pluginParams;
 

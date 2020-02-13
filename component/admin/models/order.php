@@ -522,6 +522,6 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function getProductWeight($productId)
 	{
-		return RedshopHelperProduct::getProductById($productId)->weight;
+		return \Redshop\Product\Product::getProductById($productId)->weight;
 	}
 }

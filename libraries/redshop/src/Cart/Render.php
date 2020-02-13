@@ -66,7 +66,7 @@ class Render
 		}
 		else
 		{
-			$product = \RedshopHelperProduct::getProductById($productId);
+			$product = \Redshop\Product\Product::getProductById($productId);
 
 			if (isset($product->preorder))
 			{

@@ -1063,7 +1063,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		if ($post['attribute_set'])
 		{
-			$attributes = \RedshopHelperProduct_Attribute::getProductAttribute(0, $post['attribute_set'], 0, 1, 0);
+			$attributes = \Redshop\Product\Attribute::getProductAttribute(0, $post['attribute_set'], 0, 1, 0);
 			foreach ($attributes as $attribute)
 			{
 				$attribute->propeties = \RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id, 0);

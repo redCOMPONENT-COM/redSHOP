@@ -24,7 +24,7 @@ $showbuttons = JFactory::getApplication()->input->get('showbuttons', '');    ?>
 				$filterObject = new stdClass;
 				$filterObject->text = '';
 
-				if ($this->state->get('filter_product') && ($productData = RedshopHelperProduct::getProductById($this->state->get('filter_product'))))
+				if ($this->state->get('filter_product') && ($productData = \Redshop\Product\Product::getProductById($this->state->get('filter_product'))))
 				{
 					$filterObject->text = $productData->product_name;
 				}

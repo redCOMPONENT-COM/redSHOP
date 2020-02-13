@@ -42,6 +42,7 @@ class RedshopViewCart extends RedshopView
 
 		// Request variables
 		$cart   = RedshopHelperCartSession::getCart();
+
 		$layout = $app->input->getCmd('layout');
 		$itemId = $app->input->getInt('Itemid');
 

@@ -344,7 +344,6 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			'extra_field.php'      => 'extrafield.php',
 			'google_analytics.php' => 'googleanalytics.php',
 			'product.php'          => 'producthelper.php',
-			'cart.php'             => 'rscarthelper.php',
 			'user.php'             => 'rsuserhelper.php'
 		);
 
@@ -417,7 +416,6 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			'extra_field.php'      => 'extrafield.php',
 			'google_analytics.php' => 'googleanalytics.php',
 			'product.php'          => 'producthelper.php',
-			'cart.php'             => 'rscarthelper.php',
 			'user.php'             => 'rsuserhelper.php'
 		);
 

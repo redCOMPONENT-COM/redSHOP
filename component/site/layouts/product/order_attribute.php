@@ -14,7 +14,7 @@ $orderFunctions   = order_functions::getInstance();
 ?>
 <?php for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++) : ?>
 
-    <?php $attribute = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id); ?>
+    <?php $attribute = \Redshop\Product\Attribute::getProductAttribute(0, 0, $orderItemAttdata[$i]->section_id); ?>
     <?php $hideAttributePrice = 0; ?>
     <?php if (count($attribute) > 0) : ?>
         <?php $hideAttributePrice = $attribute[0]->hide_attribute_price; ?>

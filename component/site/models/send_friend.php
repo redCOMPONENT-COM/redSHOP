@@ -106,7 +106,7 @@ class RedshopModelSend_Friend extends RedshopModel
 		$mailBody = str_replace("{friend_name}", $friendName, $mailBody);
 		$mailBody = str_replace("{your_name}", $yourName, $mailBody);
 
-		$product = RedshopHelperProduct::getProductById($productId);
+		$product = \Redshop\Product\Product::getProductById($productId);
 
 		$mailBody = str_replace("{product_name}", $product->product_name, $mailBody);
 		$mailBody = str_replace("{product_desc}", $product->product_desc, $mailBody);

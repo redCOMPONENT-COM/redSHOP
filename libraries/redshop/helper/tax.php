@@ -58,7 +58,7 @@ class RedshopHelperTax
 	public static function getVatRates($productId = 0, $userId = 0)
 	{
 		$userId      = !$userId ? JFactory::getUser()->id : $userId;
-		$productInfo = (object) RedshopHelperProduct::getProductById($productId);
+		$productInfo = (object) \Redshop\Product\Product::getProductById($productId);
 		$taxGroupId  = 0;
 		$session     = JFactory::getSession();
 		$userData    = RedshopHelperUser::getVatUserInformation($userId);

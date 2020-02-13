@@ -70,7 +70,6 @@ class redshopMail
 	{
 		$this->_db              = JFactory::getDbo();
 		$this->_table_prefix    = '#__redshop_';
-		$this->_carthelper      = rsCarthelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 	}
 

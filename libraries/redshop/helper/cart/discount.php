@@ -78,8 +78,7 @@ class RedshopHelperCartDiscount
 		$db     = JFactory::getDbo();
 		$return = false;
 
-		$coupon = rsCarthelper::getInstance()
-			->getCouponData($couponCode, $cart['product_subtotal_excl_vat']);
+		$coupon = \Redshop\Promotion\Voucher::getCouponData($couponCode, $cart['product_subtotal_excl_vat']);
 
 		foreach ($cart['coupon'] as $cartCoupon)
 		{
@@ -186,7 +185,7 @@ class RedshopHelperCartDiscount
 				$couponValue = ($subTotal * $coupon->value) / (100);
 			}
 
-			$key = rsCarthelper::getInstance()->rs_multi_array_key_exists('coupon', $cart);
+			$key = \Redshop\Helper\Utility::rsMultiArrayKeyExists('coupon', $cart);
 
 			$coupons = array();
 
@@ -231,7 +230,9 @@ class RedshopHelperCartDiscount
 				$couponValue = 0;
 			}
 
-			$valueExist = is_array($cart['coupon']) ? rsCarthelper::getInstance()->rs_recursiveArraySearch($cart['coupon'], $couponCode) : 0;
+			$valueExist = is_array($cart['coupon']) ?
+                \Redshop\Helper\Utility::rsRecursiveArraySearch($cart['coupon'], $couponCode)
+                : 0;
 
 			switch (Redshop::getConfig()->getInt('DISCOUNT_TYPE'))
 			{
@@ -278,7 +279,7 @@ class RedshopHelperCartDiscount
 			{
 				$transactionCouponId = 0;
 
-				if (rsCarthelper::getInstance()->rs_multi_array_key_exists('transaction_coupon_id', $coupon))
+				if (\Redshop\Helper\Utility::rsMultiArrayKeyExists('transaction_coupon_id', $coupon))
 				{
 					$transactionCouponId = $coupon->transaction_coupon_id;
 				}
@@ -350,7 +351,7 @@ class RedshopHelperCartDiscount
 			return !empty($cartData) ? $cart : false;
 		}
 
-		$voucher = rsCarthelper::getInstance()->getVoucherData($voucherCode);
+		$voucher = \Redshop\Promotion\Voucher::getVoucherData($voucherCode);
 
 		foreach ($cart['voucher'] as $cartVoucher)
 		{
@@ -384,7 +385,7 @@ class RedshopHelperCartDiscount
 		$type       = $voucher->type;
 		$voucherId  = $voucher->id;
 		$productId  = isset($voucher->nproduct) ? $voucher->nproduct : 0;
-		$productArr = rsCarthelper::getInstance()->getCartProductPrice($productId, $cart);
+		$productArr = \Redshop\Cart\Helper::getCartProductPrice($productId, $cart);
 
 		if (empty($productArr['product_ids']))
 		{
@@ -409,7 +410,7 @@ class RedshopHelperCartDiscount
 		$vouchers    = array();
 		$oldVouchers = array();
 
-		$multiArrayKeyExists = rsCarthelper::getInstance()->rs_multi_array_key_exists('voucher', $cart);
+		$multiArrayKeyExists = \Redshop\Helper\Utility::rsMultiArrayKeyExists('voucher', $cart);
 
 		if (!$multiArrayKeyExists)
 		{
@@ -446,7 +447,8 @@ class RedshopHelperCartDiscount
 			$voucherValue             = 0;
 		}
 
-		$valueExist = is_array($cart['voucher']) ? rsCarthelper::getInstance()->rs_recursiveArraySearch($cart['voucher'], $voucherCode) : 0;
+		$valueExist = is_array($cart['voucher']) ?
+            \Redshop\Helper\Utility::rsRecursiveArraySearch($cart['voucher'], $voucherCode) : 0;
 
 		switch (Redshop::getConfig()->get('DISCOUNT_TYPE'))
 		{
@@ -504,7 +506,7 @@ class RedshopHelperCartDiscount
 		{
 			$transactionVoucherId = 0;
 
-			if (rsCarthelper::getInstance()->rs_multi_array_key_exists('transaction_voucher_id', $voucher))
+			if (\Redshop\Helper\Utility::rsMultiArrayKeyExists('transaction_voucher_id', $voucher))
 			{
 				$transactionVoucherId = $voucher->transaction_voucher_id;
 			}

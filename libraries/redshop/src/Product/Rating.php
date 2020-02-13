@@ -28,7 +28,7 @@ class Rating
 	 */
 	public static function getRating($productId)
 	{
-		$productData = \RedshopHelperProduct::getProductById($productId);
+		$productData = \Redshop\Product\Product::getProductById($productId);
 
 		if (empty($productData))
 		{

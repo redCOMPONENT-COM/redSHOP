@@ -18,7 +18,6 @@ $user = JFactory::getUser();
 $app  = JFactory::getApplication();
 $session = JFactory::getSession();
 $auth    = $session->get('auth');
-$carthelper      = rsCarthelper::getInstance();
 $itemId = RedshopHelperRouter::getCheckoutItemId();
 
 /** @var RedshopModelCheckout $model */
@@ -183,7 +182,7 @@ if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 	);
 
 	$oneStepTemplateHtml     = str_replace($shippingBoxTemplate, $shippingBoxTemplateHtml, $oneStepTemplateHtml);
-	$return = $carthelper->replaceShippingTemplate(
+	$return = \Redshop\Shipping\Tag::replaceShippingTemplate(
 		$shippingTemplateHtml,
 		$shippingRateId,
 		$shippingBoxPostId,
@@ -199,7 +198,7 @@ if (Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 		$shippingList         = $model->calculateShipping($shippingRateId);
 		$cart['shipping']     = $shippingList['order_shipping_rate'];
 		$cart['shipping_vat'] = $shippingList['shipping_vat'];
-		$cart                 = $carthelper->modifyDiscount($cart);
+		$cart                 = RedshopHelperDiscount::modifyDiscount($cart);
 	}
 	$oneStepTemplateHtml = str_replace($shippingTemplate, $shippingTemplateHtml, $oneStepTemplateHtml);
 }

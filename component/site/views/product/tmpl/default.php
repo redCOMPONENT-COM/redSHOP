@@ -753,7 +753,7 @@ if (strstr($template_desc, "{child_products}"))
 
 	if ($parentproductid != 0)
 	{
-		$productInfo = RedshopHelperProduct::getProductById($parentproductid);
+		$productInfo = \Redshop\Product\Product::getProductById($parentproductid);
 
 		// Get child products
 		$childproducts = $this->model->getAllChildProductArrayList(0, $parentproductid);
@@ -802,10 +802,10 @@ if (!empty($childproduct))
 
 		if ($this->data->attribute_set_id > 0)
 		{
-			$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
+			$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 		}
 
-		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->data->product_id);
+		$attributes = \Redshop\Product\Attribute::getProductAttribute($this->data->product_id);
 		$attributes = array_merge($attributes, $attributes_set);
 	}
 	else
@@ -821,10 +821,10 @@ else
 
 	if ($this->data->attribute_set_id > 0)
 	{
-		$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
+		$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 	}
 
-	$attributes = RedshopHelperProduct_Attribute::getProductAttribute($this->data->product_id);
+	$attributes = \Redshop\Product\Attribute::getProductAttribute($this->data->product_id);
 	$attributes = array_merge($attributes, $attributes_set);
 }
 
@@ -1242,7 +1242,7 @@ $template_desc = RedshopHelperProduct::getProductFinderDatepickerValue($template
 
 // Product User Field Start
 $count_no_user_field = 0;
-$returnArr           = RedshopHelperProduct::getProductUserfieldFromTemplate($template_desc);
+$returnArr           = \Redshop\Product\Product::getProductUserfieldFromTemplate($template_desc);
 $template_userfield  = $returnArr[0];
 $userfieldArr        = $returnArr[1];
 

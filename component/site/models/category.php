@@ -438,7 +438,7 @@ class RedshopModelCategory extends RedshopModel
 				->where('p.product_id IN (' . implode(',', $productIds) . ')')
 				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
 
-			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+			$query = \Redshop\Product\Product::getMainProductQuery($query, $user->id)
 				->select(
 					array(
 						'pc.ordering', 'c.*', 'm.*',
