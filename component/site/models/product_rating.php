@@ -134,7 +134,7 @@ class RedshopModelProduct_Rating extends RedshopModelForm
 			}
 		}
 
-		$product  = RedshopHelperProduct::getProductById($data['product_id']);
+		$product  = \Redshop\Product\Product::getProductById($data['product_id']);
 		$link     = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=product&pid=" . $data['product_id'] . '&Itemid=' . $data['Itemid'], false);
 		$data_add = str_replace("{product_link}", "<a href=" . $link . ">" . $product->product_name . "</a>", $data_add);
 		$data_add = str_replace("{product_name}", $product->product_name, $data_add);

@@ -138,7 +138,7 @@ class AskQuestion
 			}
 		}
 
-		$product = \RedshopHelperProduct::getProductById($productId);
+		$product = \Redshop\Product\Product::getProductById($productId);
 		$content = str_replace('{product_name}', $product->product_name, $content);
 		$content = str_replace('{product_desc}', $product->product_desc, $content);
 

@@ -101,7 +101,6 @@ class RedshopControllerProduct extends RedshopController
 
 		$get = $this->input->get->getArray();
 
-		$carthelper      = rsCarthelper::getInstance();
 		$total_attribute = 0;
 
 		$product_id = $get['product_id'];
@@ -123,7 +122,7 @@ class RedshopControllerProduct extends RedshopController
 
 		$ProductPriceArr = RedshopHelperProductPrice::getNetPrice($product_id, 0, $quantity);
 
-		$acccartdata     = $carthelper->generateAccessoryArray($data);
+		$acccartdata     = \Redshop\Accessory\Helper::generateAccessoryArray($data);
 		$retAccArr       = RedshopHelperProduct::makeAccessoryCart($acccartdata, $product_id);
 		$accessory_price = $retAccArr[1];
 		$accessory_vat   = $retAccArr[2];
@@ -157,7 +156,7 @@ class RedshopControllerProduct extends RedshopController
 		$relatedprd_id = $get['relatedprd_id'];
 		$attribute_id  = $get['attribute_id'];
 		$isAjaxBox     = $get['isAjaxBox'];
-		$product       = RedshopHelperProduct::getProductById($product_id);
+		$product       = \Redshop\Product\Product::getProductById($product_id);
 
 		if (isset($get['property_id']) && $get['property_id'])
 		{
@@ -309,7 +308,7 @@ class RedshopControllerProduct extends RedshopController
 			$post = $this->input->post->getArray();
 
 			$post['product_id'] = $this->input->getInt('product_id', 0);
-			$proname            = RedshopHelperProduct::getProductById($post['product_id']);
+			$proname            = \Redshop\Product\Product::getProductById($post['product_id']);
 			$post['view']       = $this->input->getCmd('view', '');
 			$post['task']       = $this->input->getCmd('task', '');
 			$index              = 0;
@@ -350,7 +349,7 @@ class RedshopControllerProduct extends RedshopController
 		else
 		{
 			$post    = $this->input->post->getArray();
-			$proname = RedshopHelperProduct::getProductById($post['product_id']);
+			$proname = \Redshop\Product\Product::getProductById($post['product_id']);
 
 			for ($i = 0, $in = count($row_data); $i < $in; $i++)
 			{
@@ -448,7 +447,7 @@ class RedshopControllerProduct extends RedshopController
 		if ($ajaxOn == 1)
 		{
 			sleep(2);
-			$getproductimage     = RedshopHelperProduct::getProductById($post['product_id']);
+			$getproductimage     = \Redshop\Product\Product::getProductById($post['product_id']);
 			$finalproductimgname = $getproductimage->product_full_image;
 
 			if ($finalproductimgname != '')
@@ -571,7 +570,7 @@ class RedshopControllerProduct extends RedshopController
 
 		$item->productId = $this->input->getInt('pid', null);
 
-		$product = RedshopHelperProduct::getProductById($item->productId);
+		$product = \Redshop\Product\Product::getProductById($item->productId);
 
 		$item->categoryId = $this->input->getInt('cid', null);
 

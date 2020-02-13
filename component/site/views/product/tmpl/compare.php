@@ -86,7 +86,7 @@ if ($total > 0)
 
 	foreach ($list as $data)
 	{
-		$product = RedshopHelperProduct::getProductById($data['item']->productId);
+		$product = \Redshop\Product\Product::getProductById($data['item']->productId);
 		$tdStart = '';
 		$tdEnd   = '';
 

@@ -15,7 +15,6 @@ $Itemid = $app->input->getInt('Itemid');
 $post   = $app->input->post->getArray();
 
 $userhelper = rsUserHelper::getInstance();
-$rsCarthelper = rsCarthelper::getInstance();
 
 $is_company = $this->lists['is_company'];
 
@@ -63,7 +62,7 @@ if ($this->params->get('show_page_heading', 1))
 
 		if (Redshop::getConfig()->get('SHOW_TERMS_AND_CONDITIONS') == 1)
 		{
-			echo $rsCarthelper->replaceTermsConditions("{terms_and_conditions}");
+			echo \Redshop\Terms\Tag::replaceTermsConditions("{terms_and_conditions}");
 		}
 
 		?>

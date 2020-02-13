@@ -12,7 +12,6 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $app = JFactory::getApplication();
 
-$carthelper = rsCarthelper::getInstance();
 $order_functions = order_functions::getInstance();
 $userhelper = rsUserHelper::getInstance();
 $user = JFactory::getUser();

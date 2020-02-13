@@ -124,7 +124,7 @@ class RedshopHelperAttribute
 
 		$attribute_template_data = $attributeTemplate->template_desc;
 
-		$product         = RedshopHelperProduct::getProductById($productId);
+		$product         = \Redshop\Product\Product::getProductById($productId);
 		$producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
 		if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false)
@@ -667,7 +667,7 @@ class RedshopHelperAttribute
 			$productId = $relatedProductId;
 		}
 
-		$product         = RedshopHelperProduct::getProductById($productId);
+		$product         = \Redshop\Product\Product::getProductById($productId);
 		$productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 		$productTemplate = $productTemplate[0];
 

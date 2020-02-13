@@ -245,7 +245,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 	{
 		$db             = $this->_db;
 		$attribute_data = array();
-		$attr           = RedshopHelperProduct_Attribute::getProductAttribute(0, $data);
+		$attr           = \Redshop\Product\Attribute::getProductAttribute(0, $data);
 
 		for ($i = 0, $in = count($attr); $i < $in; $i++)
 		{
@@ -726,7 +726,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		if ($this->_id)
 		{
-			$attributes = RedshopHelperProduct_Attribute::getProductAttribute(0, $this->_id);
+			$attributes = \Redshop\Product\Attribute::getProductAttribute(0, $this->_id);
 
 			for ($i = 0, $in = count($attributes); $i < $in; $i++)
 			{

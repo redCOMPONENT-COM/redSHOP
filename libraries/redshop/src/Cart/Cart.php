@@ -69,10 +69,9 @@ class Cart
 				$price = $cart[$i]['product_price_excl_vat'];
 			}
 
-			if (isset($product->use_discount_calc))
-			{
-				$price = isset($cart[$i]['discount_calc_price']) ? $cart[$i]['discount_calc_price'] : 0;
-			}
+            if ($product->use_discount_calc) {
+                $price = $cart[$i]['discount_calc_price'];
+            }
 
 			// Only set price without vat for accessories as product
 			$accessoryHasProductWithoutVat = '';
@@ -94,14 +93,14 @@ class Cart
 				}
 			}
 
-			$retAttArr = \RedshopHelperProduct::makeAttributeCart(
-				isset($cart[$i]['cart_attribute']) ? $cart[$i]['cart_attribute'] : array(),
-				(int) isset($product->product_id) ? $product->product_id : '',
-				$userId,
-				$price,
-				$quantity,
-				$accessoryHasProductWithoutVat
-			);
+            $retAttArr = \RedshopHelperProduct::makeAttributeCart(
+                isset($cart[$i]['cart_attribute']) ? $cart[$i]['cart_attribute'] : array(),
+                (int)$product->product_id,
+                $userId,
+                $price,
+                $quantity,
+                $accessoryHasProductWithoutVat
+            );
 
 			$accessoryAsProductZero = !count($retAttArr[8]) && $price == 0 && !empty($accessoryHasProductWithoutVat);
 
@@ -112,12 +111,12 @@ class Cart
 			$getProductTax        = ($accessoryAsProductZero) ? 0 : $retAttArr[2];
 			$productOldPriceNoVat = ($accessoryAsProductZero) ? 0 : $retAttArr[5];
 
-			// Accessory calculation
-			$accessories = \RedshopHelperProduct::makeAccessoryCart(
-				isset($cart[$i]['cart_accessory']) ? $cart[$i]['cart_accessory'] : array(),
-				isset($product->product_id) ? $product->product_id : '',
-				$userId
-			);
+            // Accessory calculation
+            $accessories = \RedshopHelperProduct::makeAccessoryCart(
+                isset($cart[$i]['cart_accessory']) ? $cart[$i]['cart_accessory'] : array(),
+                $product->product_id,
+                $userId
+            );
 
 			// Accessory + attribute (price)
 			$accessoryPrice = $accessories[1];
@@ -147,6 +146,10 @@ class Cart
 			$productVat        = ($getProductTax + $accessoryTax + $wrapperVat);
 			$productPriceNoVat = ($getProductPrice + $accessoryPrice + $wrapperPrice);
 
+            if ($product->product_type == 'subscription') {
+                if (!isset($cart[$i]['subscription_id']) || empty($cart[$i]['subscription_id'])) {
+                    return array();
+                }
 			if (isset($product->product_type) && $product->product_type == 'subscription')
 			{
 				if (!isset($cart[$i]['subscription_id']) || empty($cart[$i]['subscription_id']))

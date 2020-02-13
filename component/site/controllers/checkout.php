@@ -662,8 +662,6 @@ class RedshopControllerCheckout extends RedshopController
 
 		$session->set('rs_user', $redShopUser);
 
-		$cartHelper = rsCarthelper::getInstance();
-
 		/** @var RedshopModelCheckout $model */
 		$model = $this->getModel('checkout');
 		$user  = JFactory::getUser();
@@ -697,7 +695,7 @@ class RedshopControllerCheckout extends RedshopController
 				$rateTemplateHtml = $shipping_template[0]->template_desc;
 			}
 
-			$return           = $cartHelper->replaceShippingTemplate($rateTemplateHtml, $shipping_rate_id, $shipping_box_id, $user->id, $usersInfoId, $order_total, $order_subtotal, $post);
+			$return           = \Redshop\Shipping\Tag::replaceShippingTemplate($rateTemplateHtml, $shipping_rate_id, $shipping_box_id, $user->id, $usersInfoId, $order_total, $order_subtotal, $post);
 			$rateTemplateHtml = $return['template_desc'];
 			$shipping_rate_id = $return['shipping_rate_id'];
 		}
@@ -707,7 +705,7 @@ class RedshopControllerCheckout extends RedshopController
 			$shipArr = $model->calculateShipping($shipping_rate_id);
 			$cart['shipping']     = $shipArr['order_shipping_rate'];
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
-			$cart = $cartHelper->modifyDiscount($cart);
+			$cart = RedshopHelperDiscount::modifyDiscount($cart);
 		}
 
 		if ($cart_template_id != 0)
@@ -749,7 +747,6 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app        = JFactory::getApplication();
 		$cart       = JFactory::getSession()->get('cart');
-		$carthelper = rsCarthelper::getInstance();
 
 		$creditcard = "";
 
@@ -759,7 +756,7 @@ class RedshopControllerCheckout extends RedshopController
 
 			if ($paymentMethodId != "")
 			{
-				$creditcard = $carthelper->replaceCreditCardInformation($paymentMethodId);
+				$creditcard = \Redshop\Payment\Helper::replaceCreditCardInformation($paymentMethodId);
 			}
 
 			$creditcard = '<div id="creditcardinfo">' . $creditcard . '</div>';

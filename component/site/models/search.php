@@ -308,7 +308,7 @@ class RedshopModelSearch extends RedshopModel
 				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
 
 			$user  = JFactory::getUser();
-			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+			$query = \Redshop\Product\Product::getMainProductQuery($query, $user->id)
 				->select(
 					array(
 						'pc.ordering', 'c.*', 'm.*',

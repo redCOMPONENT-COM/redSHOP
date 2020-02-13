@@ -152,7 +152,7 @@ class RedshopModelQuotation extends RedshopModel
 			}
 			else
 			{
-				$product = RedshopHelperProduct::getProductById($data[$i]['product_id']);
+				$product = \Redshop\Product\Product::getProductById($data[$i]['product_id']);
 
 				$retAttArr      = RedshopHelperProduct::makeAttributeCart($data[$i]['cart_attribute'], $data[$i]['product_id'], 0, 0, $data[$i]['quantity']);
 				$cart_attribute = $retAttArr[0];
@@ -311,7 +311,7 @@ class RedshopModelQuotation extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo                    = RedshopHelperProduct::getProductById($accdata->child_product_id);
+					$accProductinfo                    = \Redshop\Product\Product::getProductById($accdata->child_product_id);
 					$rowaccitem                        = $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
 					$rowaccitem->quotation_item_id     = $rowitem->quotation_item_id;
