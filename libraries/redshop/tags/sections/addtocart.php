@@ -100,7 +100,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
                 return $content;
 			}
-			elseif (\productHelper::getInstance()->isProductDateRange($userFields, $productId))
+			elseif (\RedshopHelperProduct::isProductDateRange($userFields, $productId))
 			{
                 // New type custom field - Selection based on selected conditions
                 $content = str_replace(
@@ -379,7 +379,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             }
 
             // Start Hidden attribute image in cart
-			$attributes = \RedshopHelperProduct_Attribute::getProductAttribute($productId);
+	        $attributes = \Redshop\Product\Attribute::getProductAttribute($productId);
 
             if (count($attributes) > 0) {
                 $selectedPropertyId    = 0;
