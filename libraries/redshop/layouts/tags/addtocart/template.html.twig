@@ -46,7 +46,7 @@
     <input type='hidden' name='hidden_attribute_cartimage' data-id="hidden_attribute_cartimage{{ productId }}" value="{{ preSelectedAttrImage }}" />
 
     {% if giftcardId != 0 %}
-        <input type='hidden' name='giftcard_id' data-id= 'giftcard_id' value='" . $giftcardId . "' />
+        <input type='hidden' name='giftcard_id' data-id= 'giftcard_id' value='{{ giftcardId }}' />
         <input type='hidden' name='reciver_email' data-id='reciver_email' value="{{ cart.reciver_email ? cart.reciver_email : '' }}"/>
         <input type='hidden' name='reciver_name' data-id='reciver_name' value="{{ cart.reciver_email ? cart.reciver_email : '' }}"/>
 

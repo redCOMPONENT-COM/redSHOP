@@ -2087,7 +2087,7 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 
 
     if (product_id == 0 || product_id == "") {
-        return false;
+        return false;submitAjaxwishlistCartdetail
     }
     var prop_id_cart = "";
 
