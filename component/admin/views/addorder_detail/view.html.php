@@ -124,7 +124,7 @@ class RedshopViewAddorder_Detail extends RedshopViewAdmin
 		$payment_detail = $this->get('payment');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small></small>', 'pencil-2 redshop_order48');
 
-		if ($err == "" && array_key_exists("users_info_id", $billing) && $billing->users_info_id)
+		if ($err == "" && property_exists($billing, "users_info_id") && $billing->users_info_id)
 		{
 			JToolBarHelper::custom('savepay', 'save.png', 'save_f2.png', 'Save + Pay', false);
 			JToolBarHelper::custom('save_without_sendmail', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_SAVE_WITHOUT_SEND_ORDERMAIL_LBL'), false);

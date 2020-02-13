@@ -26,9 +26,17 @@ class RedshopModelAddorder_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-		$this->setId((int) $array[0]);
-		$this->_db = JFactory::getDbo();
+		$array               = \JFactory::getApplication()->input->get('cid', 0, 'array');
+
+		if (isset($array[0]))
+        {
+            $this->setId((int) $array[0]);
+        }
+		else
+        {
+            $this->setId(0);
+        }
+		$this->_db = \JFactory::getDbo();
 	}
 
 	public function setId($id)

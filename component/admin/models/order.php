@@ -496,7 +496,7 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function getOrdersDetail($orderIds)
 	{
-		$orderIds = Joomla\Utilities\ArrayHelper::toInteger($orderIds);
+		$orderIds = \Joomla\Utilities\ArrayHelper::toInteger($orderIds);
 
 		// Init variables.
 		$db    = JFactory::getDbo();

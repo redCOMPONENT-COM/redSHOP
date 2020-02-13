@@ -917,7 +917,7 @@ class RedshopModelCategory extends RedshopModel
 					if (!empty($rs))
 					{
 						// Sanitise ids
-						$rs = Joomla\Utilities\ArrayHelper::toInteger($rs);
+						$rs = \Joomla\Utilities\ArrayHelper::toInteger($rs);
 
 						$finder_products = implode("','", $rs);
 					}
