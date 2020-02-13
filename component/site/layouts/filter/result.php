@@ -725,7 +725,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 				if ($product->attribute_set_id > 0)
 				{
-					$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(
+					$attributesSet = \Redshop\Product\Attribute::getProductAttribute(
 						0,
 						$product->attribute_set_id,
 						0,
@@ -733,7 +733,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 					);
 				}
 
-				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
+				$attributes = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
 				$attributes = array_merge($attributes, $attributesSet);
 			}
 			else
@@ -751,7 +751,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 
 			if ($product->attribute_set_id > 0)
 			{
-				$attributesSet = RedshopHelperProduct_Attribute::getProductAttribute(
+				$attributesSet = \Redshop\Product\Attribute::getProductAttribute(
 					0,
 					$product->attribute_set_id,
 					0,
@@ -759,11 +759,11 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 				);
 			}
 
-			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
+			$attributes = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
 			$attributes = array_merge($attributes, $attributesSet);
 		}
 
-		$returnArr    = RedshopHelperProduct::getProductUserfieldFromTemplate($dataAdd);
+		$returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate($dataAdd);
 		$userfieldArr = $returnArr[1];
 
 		// Product attribute  Start

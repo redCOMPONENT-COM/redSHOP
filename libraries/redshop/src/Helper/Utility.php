@@ -303,4 +303,58 @@ class Utility
 
 		return $m[1];
 	}
+
+    /**
+     * @param $needle
+     * @param $haystack
+     *
+     * @return bool
+     * @since __DEPLOY_VERSION__
+     */
+    public static function rsMultiArrayKeyExists($needle, $haystack)
+    {
+        foreach ($haystack as $key => $value)
+        {
+            if ($needle === $key)
+            {
+                return true;
+            }
+
+            if (is_array($value))
+            {
+                if (self::rsMultiArrayKeyExists($needle, $value))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param         $haystack
+     * @param         $needle
+     * @param   null  $index
+     *
+     * @return bool
+     * @since __DEPLOY_VERSION__
+     */
+    public static function rsRecursiveArraySearch($haystack, $needle, $index = null)
+    {
+        $aIt = new RecursiveArrayIterator($haystack);
+        $it  = new RecursiveIteratorIterator($aIt);
+
+        while ($it->valid())
+        {
+            if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle))
+            {
+                return true;
+            }
+
+            $it->next();
+        }
+
+        return false;
+    }
 }

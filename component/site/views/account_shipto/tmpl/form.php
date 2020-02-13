@@ -16,7 +16,6 @@ $itemId     = $input->getInt('Itemid', 0);
 $isEdit     = $input->getInt('is_edit', 0);
 $return     = $input->getString('return', "");
 $infoId     = $input->getInt('infoid', 0);
-$userHelper = rsUserHelper::getInstance();
 $dispatcher->trigger('onRenderCustomField', array($infoId));
 
 $post = (array) $this->shippingAddresses;

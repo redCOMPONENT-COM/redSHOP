@@ -28,8 +28,6 @@ class RedshopControllerOrder_Detail extends RedshopController
 		parent::__construct($default);
 		$this->_redshopMail     = redshopMail::getInstance();
 		$this->_order_functions = order_functions::getInstance();
-		$this->_userhelper      = rsUserHelper::getInstance();
-		$this->_carthelper      = rsCarthelper::getInstance();
 	}
 
 	/**
@@ -263,7 +261,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 		}
 		else
 		{
-			$product_data = RedshopHelperProduct::getProductById($row['product_id']);
+			$product_data = \Redshop\Product\Product::getProductById($row['product_id']);
 
 			if ($product_data->product_type == 'subscription')
 			{
@@ -275,8 +273,8 @@ class RedshopControllerOrder_Detail extends RedshopController
 				}
 			}
 
-			$generateAttributeCart = $this->_carthelper->generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
-			$generateAccessoryCart = $this->_carthelper->generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
+			$generateAttributeCart = \Redshop\Attribute\Helper::generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
+			$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
 
 			$row['cart_attribute']  = $generateAttributeCart;
 			$row['cart_accessory']  = $generateAccessoryCart;
@@ -419,7 +417,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                           method="post"
                           name="adminForm" id="adminForm" enctype="multipart/form-data"
                           onsubmit="return CheckCardNumber(this);">
-						<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo->payment_method_class); ?>
+						<?php echo $cardinfo = \Redshop\Payment\Helper::replaceCreditCardInformation($paymentInfo->payment_method_class); ?>
                         <div>
                             <input type="hidden" name="option" value="com_redshop"/>
                             <input type="hidden" name="Itemid" value="<?php echo $itemId; ?>"/>

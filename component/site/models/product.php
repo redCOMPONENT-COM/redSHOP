@@ -259,7 +259,7 @@ class RedshopModelProduct extends RedshopModel
 			}
 		}
 
-		$product = RedshopHelperProduct::getProductById($product_id);
+		$product = \Redshop\Product\Product::getProductById($product_id);
 
 		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";

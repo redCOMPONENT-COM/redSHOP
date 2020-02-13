@@ -28,7 +28,7 @@ $total         = $compare->getItemsTotal();
 			<?php
 			$productId  = $data['item']->productId;
 			$categoryId = $data['item']->categoryId;
-			$product    = RedshopHelperProduct::getProductById($productId);
+			$product    = \Redshop\Product\Product::getProductById($productId);
 
 			$ItemData  = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 			$catidmain = $product->cat_in_sefurl;

@@ -368,7 +368,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 	// Add new Quotation Item
 	public function newQuotationItem($data)
 	{
-		$rsCarthelper    = rsCarthelper::getInstance();
 		$item            = $data['quotation_item'];
 
 		// Get Order Info
@@ -393,7 +392,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$retAttArr             = RedshopHelperProduct::makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute     = $retAttArr[0];
 
-			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
+			$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array) $item[$i], $user_id);
 			$retAccArr             = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory     = $retAccArr[0];
 
@@ -809,7 +808,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 					->where($db->qn('quotation_item_id') . ' = ' . $db->q((int) $item->quotation_item_id));
 				$quotationItem = $db->setQuery($query)->loadObject();
 
-				$product = RedshopHelperProduct::getProductById($quotationItem->product_id);
+				$product = \Redshop\Product\Product::getProductById($quotationItem->product_id);
 
 				$rowItem->order_id                    = $orderId;
 				$rowItem->user_info_id                = $data['user_info_id'];

@@ -141,10 +141,10 @@ if (count($relptemplate) > 0)
 
 		if ($related_product [$r]->attribute_set_id > 0)
 		{
-			$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $related_product [$r]->attribute_set_id);
+			$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $related_product [$r]->attribute_set_id);
 		}
 
-		$attributes = RedshopHelperProduct_Attribute::getProductAttribute($relid);
+		$attributes = \Redshop\Product\Attribute::getProductAttribute($relid);
 		$attributes = array_merge($attributes, $attributes_set);
 
 		$related_template_data = RedshopHelperAttribute::replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);

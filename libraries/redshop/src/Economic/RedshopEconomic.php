@@ -657,7 +657,7 @@ class RedshopEconomic
 	public static function getTotalProperty($productId)
 	{
 		// Collect Attributes
-		$attribute   = \RedshopHelperProduct_Attribute::getProductAttribute($productId);
+		$attribute   = \Redshop\Product\Attribute::getProductAttribute($productId);
 		$attributeId = $attribute[0]->value;
 
 		// Collect Property
@@ -888,7 +888,7 @@ class RedshopEconomic
 
 			for ($i = 0, $in = count($orderItemAttData); $i < $in; $i++)
 			{
-				$attribute          = \RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $orderItemAttData[$i]->section_id);
+				$attribute          = \Redshop\Product\Attribute::getProductAttribute(0, 0, $orderItemAttData[$i]->section_id);
 				$hideAttributePrice = 0;
 
 				if (count($attribute) > 0)
