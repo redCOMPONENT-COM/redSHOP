@@ -580,6 +580,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
             $class    = '';
             $title    = '';
+            $checkTag = false;
 
             if ($productQuantity) {
                 $quantity = $productQuantity;
@@ -595,14 +596,17 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
             if ($this->isTagExists('{addtocart_quantity}'))
             {
+	            $checkTag = true;
 				$this->replaceQuantity($productId, $stockId, $quantity, $template);
             }
 			elseif ($this->isTagExists('{addtocart_quantity_increase_decrease}'))
 			{
+				$checkTag = true;
 				$this->replaceQuantityIncreaseDecrease($productId, $cartId, $itemId, $quantity, $template);
 			}
 			elseif ($this->isTagExists('{addtocart_quantity_selectbox}'))
 			{
+				$checkTag = true;
                 $selectBoxValue = ($product->quantity_selectbox_value) ?
                     $product->quantity_selectbox_value : \Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
                 $quantityBoxes  = explode(",", $selectBoxValue);
@@ -737,7 +741,8 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     'cartIcon'                => $cartIcon,
                     'fileExitPreOrderImage'   => \JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $preOrderImage),
                     'preOrderLabel'           => $preOrderLabel,
-                    'displayText'             => $displayText
+                    'displayText'             => $displayText,
+	                'checkTag'                => $checkTag
                 ),
                 '',
                 array(
