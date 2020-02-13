@@ -102,6 +102,16 @@ class RedshopTagsSectionsReviews extends RedshopTagsAbstract
 		return parent::replace();
 	}
 
+	/**
+	 * Replace review
+	 *
+	 * @param   string   $reviewTemplate
+	 * @param   object   $review
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION
+	 */
 	public function replaceReview($reviewTemplate, $review)
 	{
 		$this->replacements = array();
