@@ -114,7 +114,9 @@ class RedshopTagsSectionsReview extends RedshopTagsAbstract
 	public function replaceReview($reviewTemplate, $review)
 	{
 		$this->replacements = array();
-		$fullName           = $review->firstname . " " . $review->lastname;
+
+		$fullName = isset($review->firstname) ? $review->firstname : '';
+		$fullName .= ' ' . (isset($review->lastname) ? $review->lastname : '');
 
 		$starImage = RedshopLayoutHelper::render(
 			'tags.common.img',
@@ -126,57 +128,58 @@ class RedshopTagsSectionsReview extends RedshopTagsAbstract
 			RedshopLayoutHelper::$layoutOption
 		);
 
-		if ($fullName != " ")
+		if (empty(trim($fullName)))
 		{
-			$displayName = $fullName;
-		}
-		else
-		{
-			$displayName = $review->username;
+			$fullName = $review->username;
 		}
 
-		$images1  = json_decode($review->images);
-		$imgHtml1 = '';
+		$imgHtml  = '';
 		$allImage = array();
 
-		foreach ($images1 as $image1)
+		if (!empty($review->images))
 		{
-			if (!empty($image1))
+			$images  = json_decode($review->images);
+
+			foreach ($images as $image)
 			{
-				$linkImage  = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_rating/' . $image1;
+				if (!empty($image))
+				{
+					$linkImage  = REDSHOP_FRONT_IMAGES_ABSPATH . 'product_rating/' . $image;
 
-				$thumbImg1 = RedshopHelperMedia::getImagePath(
-					$image1,
-					'',
-					'thumb',
-					'product_rating',
-					Redshop::getConfig()->get('RATING_THUMB_IMAGE_WIDTH'),
-					Redshop::getConfig()->get('RATING_THUMB_IMAGE_HEIGHT'),
-					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-				);
+					$thumbImg = RedshopHelperMedia::getImagePath(
+						$image,
+						'',
+						'thumb',
+						'product_rating',
+						Redshop::getConfig()->get('RATING_THUMB_IMAGE_WIDTH'),
+						Redshop::getConfig()->get('RATING_THUMB_IMAGE_HEIGHT'),
+						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+					);
 
-				$allImage[] = $linkImage;
+					$allImage[] = $linkImage;
 
-				$imgHtml1 .= RedshopLayoutHelper::render(
-					'tags.review.images',
-					array(
-						'linkImage' => $linkImage,
-						'review' => $review,
-						'thumbImg' => $thumbImg1
-					),
-					'',
-					RedshopLayoutHelper::$layoutOption
-				);
+					$imgHtml .= RedshopLayoutHelper::render(
+						'tags.review.images',
+						array(
+							'linkImage' => $linkImage,
+							'review' => $review,
+							'thumbImg' => $thumbImg
+						),
+						'',
+						RedshopLayoutHelper::$layoutOption
+					);
+				}
 			}
 		}
 
-		$this->replacements['{fullname}'] = $displayName;
+
+		$this->replacements['{fullname}'] = $fullName;
 		$this->replacements['{email}'] = $review->email;
 		$this->replacements['{company_name}'] = $review->company_name;
 		$this->replacements['{title}'] = $review->title;
 		$this->replacements['{comment}'] = nl2br($review->comment);
 		$this->replacements['{stars}'] = $starImage;
-		$this->replacements['{images}'] = $imgHtml1;
+		$this->replacements['{images}'] = $imgHtml;
 		$this->replacements['{reviewdate}'] = RedshopHelperDatetime::convertDateFormat($review->time);
 
 		return array(
