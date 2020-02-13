@@ -34,7 +34,7 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		$product          = $this->data['product'];
 		$layout           = $this->input->getString('layout', '');
 		$relatedprdId     = $this->input->getInt('relatedprd_id', 0);
-		$productUserField = RedshopHelperProduct::getProductUserfieldFromTemplate($this->template);
+		$productUserField = \Redshop\Product\Product::getProductUserfieldFromTemplate($this->template);
 		$dataUserField    = $this->replaceUserField($product, $productUserField);
 		$this->template   = $dataUserField['template'];
 		$countNoUserField = $dataUserField['countNoUserField'];
@@ -133,11 +133,11 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 
 		if ($product->attribute_set_id > 0)
 		{
-			$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+			$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 		}
 
 		$attributeTemplate = \Redshop\Template\Helper::getAttribute($this->template);
-		$attributes        = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
+		$attributes        = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
 		$attributes        = array_merge($attributes, $attributes_set);
 		$totalatt          = count($attributes);
 		$this->template    = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, $relatedprdId, $attributes, $this->template, $attributeTemplate, $isChilds, $selectAtt);

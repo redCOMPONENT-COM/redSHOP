@@ -79,7 +79,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $attributeTemplate = (object)\Redshop\Template\Helper::getAttribute($this->template);
         $productId         = $this->data['relProductId'] != 0 ? $this->data['relProductId'] : $this->data['productId'];
         $userId            = 0;
-        $product           = RedshopHelperProduct::getProductById($productId);
+        $product           = \Redshop\Product\Product::getProductById($productId);
 
         $this->replaceMainAccessory($this->data['templateContent'], $product, $userId);
 
@@ -133,7 +133,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
     public function replaceAccessory($accessory, $template, $attributeTemplate)
     {
     	$this->replacements = array();
-        $accessoryProduct = RedshopHelperProduct::getProductById($accessory->child_product_id);
+        $accessoryProduct = \Redshop\Product\Product::getProductById($accessory->child_product_id);
         $commonId         = $this->data['prefix'] . $this->data['productId'] . '_' . $accessory->accessory_id;
 
         $template = RedshopLayoutHelper::render(
@@ -153,10 +153,10 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $attributeSet = array();
 
         if ($accessoryProduct->attribute_set_id > 0) {
-            $attributeSet = RedshopHelperProduct_Attribute::getProductAttribute(0, $accessoryProduct->attribute_set_id);
+            $attributeSet = \Redshop\Product\Attribute::getProductAttribute(0, $accessoryProduct->attribute_set_id);
         }
 
-        $attributes = RedshopHelperProduct_Attribute::getProductAttribute($accessoryProduct->product_id);
+        $attributes = \Redshop\Product\Attribute::getProductAttribute($accessoryProduct->product_id);
         $attributes = array_merge($attributes, $attributeSet);
 
         // Get accessory final price with VAT rules

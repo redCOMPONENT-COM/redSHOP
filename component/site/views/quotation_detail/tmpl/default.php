@@ -228,7 +228,7 @@ for ($i = 0, $in = count($quotationProducts); $i < $in; $i++)
 	{
 		$productUserFields = RedshopHelperQuotation::displayQuotationUserField($quotationProducts[$i]->quotation_item_id, 12);
 
-		$product = RedshopHelperProduct::getProductById($quotationProducts[$i]->product_id);
+		$product = \Redshop\Product\Product::getProductById($quotationProducts[$i]->product_id);
 
 		$product_number = $product->product_number;
 

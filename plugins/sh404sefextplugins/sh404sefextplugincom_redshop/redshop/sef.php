@@ -210,7 +210,7 @@ switch ($view)
 	case 'product':
 		if ($pid)
 		{
-			$product = RedshopHelperProduct::getProductById($pid);
+			$product = \Redshop\Product\Product::getProductById($pid);
 
 			$url = trim($product->sef_url);
 
@@ -454,7 +454,7 @@ switch ($view)
 
 		if ($pid)
 		{
-			$product = RedshopHelperProduct::getProductById($pid);
+			$product = \Redshop\Product\Product::getProductById($pid);
 			$title[] = $product->product_name;
 			shRemoveFromGETVarsList('pid');
 		}

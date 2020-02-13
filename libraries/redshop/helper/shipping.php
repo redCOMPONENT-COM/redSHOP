@@ -1098,7 +1098,7 @@ class RedshopHelperShipping
 						$accQty = $cartAccessory['accessory_quantity'];
 					}
 
-					if ($accData = RedshopHelperProduct::getProductById($accId))
+					if ($accData = \Redshop\Product\Product::getProductById($accId))
 					{
 						$accWeight += ($accData->weight * $accQty);
 					}

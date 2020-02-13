@@ -911,7 +911,7 @@ class RedshopHelperMedia
 	{
 		if ($mediaSection == 'product' && $mediaType == 'images')
 		{
-			$productData = RedshopHelperProduct::getProductById($sectionId);
+			$productData = \Redshop\Product\Product::getProductById($sectionId);
 
 			if ($mediaName == $productData->product_full_image || $mediaId == $productData->media_id)
 			{

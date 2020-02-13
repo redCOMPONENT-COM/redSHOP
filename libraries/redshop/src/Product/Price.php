@@ -34,7 +34,7 @@ class Price
 	{
 		$userId = !$userId ? \JFactory::getUser()->id : $userId;
 
-		$row    = \RedshopHelperProduct::getProductById($productId);
+		$row    = \Redshop\Product\Product::getProductById($productId);
 		$result = \RedshopHelperProduct::getProductPrices($productId, $userId);
 
 		if (!empty($result))

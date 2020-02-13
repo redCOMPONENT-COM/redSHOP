@@ -187,7 +187,7 @@ $stockrooms = $model->StockRoomList();
 									</tr>
 
 									<?php
-										$calc_data = $model->getDiscountCalcData();
+										$calc_data = \Redshop\Promotion\Discount::getDiscountCalcData();
 
 										// ToDo: This should be in view.html.php?
 										for ($i = 0, $in = count($calc_data); $i < $in; $i++)
@@ -268,7 +268,7 @@ $stockrooms = $model->StockRoomList();
 									</tr>
 
 									<?php
-										$calc_data = $model->getDiscountCalcDataExtra();
+										$calc_data = \Redshop\Promotion\Discount::getDiscountCalcDataExtra();
 
 										for ($i = 0, $in = count($calc_data); $i < $in; $i++)
 										{

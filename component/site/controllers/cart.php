@@ -21,11 +21,6 @@ defined('_JEXEC') or die;
 class RedshopControllerCart extends RedshopController
 {
 	/**
-	 * @var rsCarthelper
-	 */
-	public $cartHelper;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   array $default config array
@@ -33,7 +28,6 @@ class RedshopControllerCart extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->cartHelper = rsCarthelper::getInstance();
 	}
 
 	/**
@@ -685,7 +679,7 @@ class RedshopControllerCart extends RedshopController
 	{
 		ob_clean();
 		$get = JFactory::getApplication()->input->get->getArray(/** @scrutinizer ignore-type */ 'GET');
-		rsCarthelper::getInstance()->discountCalculator($get);
+		\Redshop\Promotion\Discount::discountCalculator($get);
 
 		JFactory::getApplication()->close();
 	}

@@ -15,7 +15,6 @@ $url            = JURI::base();
 $app            = JFactory::getApplication();
 $order_function = order_functions::getInstance();
 $redconfig      = Redconfiguration::getInstance();
-$carthelper     = rsCarthelper::getInstance();
 
 $Itemid      = $app->input->getInt('Itemid');
 $print       = $app->input->getInt('print');

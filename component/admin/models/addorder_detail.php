@@ -231,7 +231,6 @@ class RedshopModelAddorder_detail extends RedshopModel
 	public function store($postdata)
 	{
 		$order_functions = order_functions::getInstance();
-		$rsCarthelper    = rsCarthelper::getInstance();
 
 		// For barcode generation
 		$barcode_code = $order_functions->barcode_randon_number(12, 0);
@@ -312,7 +311,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 			$product_attribute     = $retAttArr[0];
 
 			// Accessory price
-			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
+			$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array) $item[$i], $user_id);
 			$retAccArr             = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory     = $retAccArr[0];
 			$accessory_vat_price   = $retAccArr[2];

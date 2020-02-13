@@ -17,7 +17,6 @@ $app             = JFactory::getApplication();
 $order_functions = order_functions::getInstance();
 $redTemplate     = Redtemplate::getInstance();
 $shippinghelper  = shipping::getInstance();
-$carthelper      = rsCarthelper::getInstance();
 
 $Itemid = $app->input->getInt('Itemid');
 $oid    = $app->input->getInt('oid');

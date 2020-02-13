@@ -575,7 +575,7 @@ foreach ($media->getAll() as $mediaItem)
 					</label>
 					<?php
 					echo JHtml::_(
-						'redshopselect.search', RedshopHelperProduct::getProductById($this->detail->product_parent_id),
+						'redshopselect.search', \Redshop\Product\Product::getProductById($this->detail->product_parent_id),
 						'product_parent_id',
 						array(
 							'select2.options'     => array('multiple' => 'false', 'placeholder' => JText::_('COM_REDSHOP_PARENT_PRODUCT')),

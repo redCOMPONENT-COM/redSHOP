@@ -227,7 +227,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 
 				if ($checked && Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE')  && $cart['total'] > 0)
 				{
-					$cardInformation .= rsCarthelper::getInstance()->replaceCreditCardInformation($oneMethod->name);
+					$cardInformation .= \Redshop\Payment\Helper::replaceCreditCardInformation($oneMethod->name);
 				}
 
 				$cardInformation .= '</div>';

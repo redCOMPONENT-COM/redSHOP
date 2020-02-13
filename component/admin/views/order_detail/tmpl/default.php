@@ -617,7 +617,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$quantity               = $products[$i]->product_quantity;
 							$product_id             = $products[$i]->product_id;
 
-							if ($productdetail = RedshopHelperProduct::getProductById($product_id))
+							if ($productdetail = \Redshop\Product\Product::getProductById($product_id))
 							{
 								$ordervolume = $ordervolume + $productdetail->product_volume;
 							}

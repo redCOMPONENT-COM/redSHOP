@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  * @var   array  $displayData  Display data.
  */
 
-$cartHelper    = rsCarthelper::getInstance();
 $cart          = $displayData['cart'];
 $total         = 0;
 
@@ -37,14 +36,14 @@ if ($displayData['cartOutput'] == 'simple'): ?>
 			?>
 			<?php for ($i = 0; $i < $cart['idx']; $i++):
 
-			if ($cartHelper->rs_multi_array_key_exists('giftcard_id', $cart[$i]) && $cart[$i]['giftcard_id'])
+			if (\Redshop\Helper\Utility::rsMultiArrayKeyExists('giftcard_id', $cart[$i]) && $cart[$i]['giftcard_id'])
 			{
 				$giftCardData = RedshopEntityGiftcard::getInstance($cart[$i]['giftcard_id'])->getItem();
 				$name         = $giftCardData->giftcard_name;
 			}
 			else
 			{
-				$productDetail = RedshopHelperProduct::getProductById($cart[$i]['product_id']);
+				$productDetail = \Redshop\Product\Product::getProductById($cart[$i]['product_id']);
 				$name          = $productDetail->product_name;
 			}
 			?>

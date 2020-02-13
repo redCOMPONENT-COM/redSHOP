@@ -65,239 +65,239 @@ if ($this->params->get('show_page_heading', 1))
 
 if ($gid != 0)
 {
-    if (isset($detail[0]))
-    {
-	    $countNoUserField = 0;
-        $detail              = $detail[0];
+	$count_no_user_field = 0;
+	$detail              = $detail[0];
 
-        $template = str_replace("{giftcard_name}", $detail->giftcard_name, $template);
-        $template = str_replace("{giftcard_desc}", $detail->giftcard_desc, $template);
+	$template = str_replace("{giftcard_name}", $detail->giftcard_name, $template);
+	$template = str_replace("{giftcard_desc}", $detail->giftcard_desc, $template);
 
-        if (strstr($template, "{giftcard_image}"))
-        {
-		    $productImg = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, Redshop::getConfig()->get('GIFTCARD_THUMB_WIDTH'), Redshop::getConfig()->get('GIFTCARD_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_GIFTCART_THUMB_IMAGE'), '0');
-            $linkimage   = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, '', '', Redshop::getConfig()->get('WATERMARK_GIFTCART_IMAGE'), '0');
-		    $thumImage = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
-		    $thumImage .= "<img src='" . $productImg . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
-		    $thumImage .= "</a>";
+	if (strstr($template, "{giftcard_image}"))
+	{
+		$product_img = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, Redshop::getConfig()->get('GIFTCARD_THUMB_WIDTH'), Redshop::getConfig()->get('GIFTCARD_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_GIFTCART_THUMB_IMAGE'), '0');
+		$linkimage   = RedshopHelperMedia::watermark('giftcard', $detail->giftcard_image, '', '', Redshop::getConfig()->get('WATERMARK_GIFTCART_IMAGE'), '0');
+		$thum_image = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
+		$thum_image .= "<img src='" . $product_img . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
+		$thum_image .= "</a>";
 
-		    $template = str_replace("{giftcard_image}", $thumImage, $template);
-        }
+		$template = str_replace("{giftcard_image}", $thum_image, $template);
+	}
 
-        $template = str_replace("{giftcard_value}", RedshopHelperProductPrice::formattedPrice($detail->giftcard_value), $template);
-        $template = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
+	$template = str_replace("{giftcard_value}", RedshopHelperProductPrice::formattedPrice($detail->giftcard_value), $template);
+	$template = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
 
-        if ($detail->customer_amount != 1)
-        {
-            $template = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
-        }
-        else
-        {
-            $template = str_replace("{giftcard_price_lbl}", '', $template);
-        }
+	if ($detail->customer_amount != 1)
+	{
+		$template = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
+	}
+	else
+	{
+		$template = str_replace("{giftcard_price_lbl}", '', $template);
+	}
 
-        if ($detail->customer_amount != 1)
-        {
-            $template = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail->giftcard_price), $template);
-        }
-        else
-        {
-            $template = str_replace("{giftcard_price}", '', $template);
-        }
+	if ($detail->customer_amount != 1)
+	{
+		$template = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail->giftcard_price), $template);
+	}
+	else
+	{
+		$template = str_replace("{giftcard_price}", '', $template);
+	}
 
-	    $reciverEmail = '<input type="text" name="reciver_email" id="reciver_email" value="' . @$cart['reciver_email'] . '" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.reciver_email.value = f_value;">';
-	    $reciverName  = '<input type="text" name="reciver_name" id="reciver_name" value="' . @$cart['reciver_name'] . '" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.reciver_name.value = f_value;">';
+	$reciver_email = '<input type="text" name="reciver_email" id="reciver_email" value="' . @$cart['reciver_email'] . '" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.reciver_email.value = f_value;">';
+	$reciver_name  = '<input type="text" name="reciver_name" id="reciver_name" value="' . @$cart['reciver_name'] . '" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.reciver_name.value = f_value;">';
 
-	    $customerAmount   = '';
-	    $customerQuantity = '';
+	$customer_amount   = '';
+	$customer_quantity = '';
 
-        if ($detail->customer_amount == 1 && $gid != '')
-        {
-		    $customerQuantity = '<input type="text" name="quantity" id="quantity" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.quantity.value = f_value;">';
-		    $customerAmount   = '<input type="text" name="customer_amount" id="customer_amount" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.customer_amount.value = f_value;">';
-        }
+	if ($detail->customer_amount == 1 && $gid != '')
+	{
+		$customer_quantity = '<input type="text" name="quantity" id="quantity" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.quantity.value = f_value;">';
+		$customer_amount   = '<input type="text" name="customer_amount" id="customer_amount" value="" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.customer_amount.value = f_value;">';
+	}
 
-        if ($detail->customer_amount != 1 || $detail->customer_amount == 1)
-        {
-            $template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
-            $template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
-        }
-        else
-        {
-            $template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
-            $template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
-        }
+	if ($detail->customer_amount != 1 || $detail->customer_amount == 1)
+	{
+		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
+	}
+	else
+	{
+		$template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
+		$template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
+	}
 
-	    $template = str_replace("{giftcard_reciver_email}", $reciverEmail, $template);
-	    $template = str_replace("{giftcard_reciver_name}", $reciverName, $template);
-	    $template = str_replace("{customer_quantity}", $customerQuantity, $template);
-	    $template = str_replace("{customer_amount}", $customerAmount, $template);
+	$template = str_replace("{giftcard_reciver_email}", $reciver_email, $template);
+	$template = str_replace("{giftcard_reciver_name}", $reciver_name, $template);
+	$template = str_replace("{customer_quantity}", $customer_quantity, $template);
+	$template = str_replace("{customer_amount}", $customer_amount, $template);
 
-        if ($detail->customer_amount == 1)
-        {
-            $template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
-            $template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
-            $template = str_replace("{customer_quantity_lbl}", JText::_('COM_REDSHOP_CUSTOMER_QUANTITY_LBL'), $template);
-            $template = str_replace("{customer_amount_lbl}", JText::_('COM_REDSHOP_CUSTOMER_AMOUNT_LBL'), $template);
-        }
-        else
-        {
-            $template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
-            $template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
-            $template = str_replace("{customer_quantity_lbl}", '', $template);
-            $template = str_replace("{customer_amount_lbl}", '', $template);
-        }
+	if ($detail->customer_amount == 1)
+	{
+		$template = str_replace("{giftcard_reciver_name_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_NAME_LBL'), $template);
+		$template = str_replace("{giftcard_reciver_email_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_RECIVER_EMAIL_LBL'), $template);
+		$template = str_replace("{customer_quantity_lbl}", JText::_('COM_REDSHOP_CUSTOMER_QUANTITY_LBL'), $template);
+		$template = str_replace("{customer_amount_lbl}", JText::_('COM_REDSHOP_CUSTOMER_AMOUNT_LBL'), $template);
+	}
+	else
+	{
+		$template = str_replace("{giftcard_reciver_name_lbl}", '', $template);
+		$template = str_replace("{giftcard_reciver_email_lbl}", '', $template);
+		$template = str_replace("{customer_quantity_lbl}", '', $template);
+		$template = str_replace("{customer_amount_lbl}", '', $template);
+	}
 
-        if ($detail->customer_amount != 1)
-        {
-		    $template = str_replace("{giftcard_reciver_email}", $reciverEmail, $template);
-		    $template = str_replace("{giftcard_reciver_name}", $reciverName, $template);
-        }
-        else
-        {
-            $template = str_replace("{giftcard_reciver_email}", '', $template);
-            $template = str_replace("{giftcard_reciver_name}", '', $template);
-        }
+	if ($detail->customer_amount != 1)
+	{
+		$template = str_replace("{giftcard_reciver_email}", $reciver_email, $template);
+		$template = str_replace("{giftcard_reciver_name}", $reciver_name, $template);
+	}
+	else
+	{
+		$template = str_replace("{giftcard_reciver_email}", '', $template);
+		$template = str_replace("{giftcard_reciver_name}", '', $template);
+	}
 
-        if ($detail->customer_amount != 1)
-        {
-            $template = str_replace("{giftcard_validity}", $detail->giftcard_validity, $template);
-        }
-        else
-        {
-            $template = str_replace("{giftcard_validity}", '', $template);
-        }
+	if ($detail->customer_amount != 1)
+	{
+		$template = str_replace("{giftcard_validity}", $detail->giftcard_validity, $template);
+	}
+	else
+	{
+		$template = str_replace("{giftcard_validity}", '', $template);
+	}
 
-        $template = RedshopHelperProduct::getValidityDate($detail->giftcard_validity, $template);
+	$template = RedshopHelperProduct::getValidityDate($detail->giftcard_validity, $template);
 
         // Product User Field Start
 	    $countNoUserField = 0;
-        $returnArr           = RedshopHelperProduct::getProductUserfieldFromTemplate($template, 1);
+        $returnArr           = \Redshop\Product\Product::getProductUserfieldFromTemplate($template, 1);
+	// Product User Field Start
+	$count_no_user_field = 0;
+	$returnArr           = \Redshop\Product\Product::getProductUserfieldFromTemplate($template, 1);
 
-	    $templateUserField = $returnArr[0];
-	    $userFieldArr       = $returnArr[1];
+	$template_userfield = $returnArr[0];
+	$userfieldArr       = $returnArr[1];
 
-	    if (strstr($template, "{if giftcard_userfield}") && strstr($template, "{giftcard_userfield end if}") && $templateUserField != "")
-        {
-            $ufield = "";
-            $cart   = $session->get('cart');
+	if (strstr($template, "{if giftcard_userfield}") && strstr($template, "{giftcard_userfield end if}") && $template_userfield != "")
+	{
+		$ufield = "";
+		$cart   = $session->get('cart');
 
-            if (isset($cart['idx']))
-            {
-                $idx = (int) ($cart['idx']);
-            }
+		if (isset($cart['idx']))
+		{
+			$idx = (int) ($cart['idx']);
+		}
 
-            $idx     = 0;
-		    $cartId = '';
+		$idx     = 0;
+		$cart_id = '';
 
-            for ($j = 0; $j < $idx; $j++)
-            {
-                if ($cart[$j]['giftcard_id'] == $gid)
-                {
-				    $cartId = $j;
-                }
-            }
+		for ($j = 0; $j < $idx; $j++)
+		{
+			if ($cart[$j]['giftcard_id'] == $gid)
+			{
+				$cart_id = $j;
+			}
+		}
 
-		    for ($ui = 0; $ui < count($userFieldArr); $ui++)
-            {
-                if (!$idx)
-                {
-				    $cartId = "";
-                }
+		for ($ui = 0; $ui < count($userfieldArr); $ui++)
+		{
+			if (!$idx)
+			{
+				$cart_id = "";
+			}
 
-			    $productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userFieldArr[$ui], 13, '', $cartId, 0, $gid);
+			$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 13, '', $cart_id, 0, $gid);
 
-                $ufield .= $productUserFields[1];
+			$ufield .= $productUserFields[1];
 
-                if ($productUserFields[1] != "")
-                {
-				    $countNoUserField++;
-                }
+			if ($productUserFields[1] != "")
+			{
+				$count_no_user_field++;
+			}
 
-			    $template = str_replace('{' . $userFieldArr[$ui] . '_lbl}', $productUserFields[0], $template);
-			    $template = str_replace('{' . $userFieldArr[$ui] . '}', $productUserFields[1], $template);
-            }
+			$template = str_replace('{' . $userfieldArr[$ui] . '_lbl}', $productUserFields[0], $template);
+			$template = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $template);
+		}
 
-            $productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
+		$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
-            if ($ufield != "")
-            {
-                $template = str_replace("{if giftcard_userfield}", $productUserFieldsForm, $template);
-                $template = str_replace("{giftcard_userfield end if}", "</form>", $template);
-            }
-            else
-            {
-                $template = str_replace("{if giftcard_userfield}", "", $template);
-                $template = str_replace("{giftcard_userfield end if}", "", $template);
-            }
-        }
+		if ($ufield != "")
+		{
+			$template = str_replace("{if giftcard_userfield}", $productUserFieldsForm, $template);
+			$template = str_replace("{giftcard_userfield end if}", "</form>", $template);
+		}
+		else
+		{
+			$template = str_replace("{if giftcard_userfield}", "", $template);
+			$template = str_replace("{giftcard_userfield end if}", "", $template);
+		}
+	}
 
-        // Product User Field End
+	// Product User Field End
 
-        // Cart
-	    $template = Redshop\Cart\Render::replace($gid, 0, 0, 0, $template, false, $userFieldArr, 0, 0, $countNoUserField, 0, $gid);
+	// Cart
+	$template = Redshop\Cart\Render::replace($gid, 0, 0, 0, $template, false, $userfieldArr, 0, 0, $count_no_user_field, 0, $gid);
 
-        $template = RedshopHelperTemplate::parseRedshopPlugin($template);
-        echo eval("?>" . $template . "<?php ");
-    }
+	$template = RedshopHelperTemplate::parseRedshopPlugin($template);
+	echo eval("?>" . $template . "<?php ");
 }
 else
 {
 	if (strstr($template, "{giftcard_loop_start}") && strstr($template, "{giftcard_loop_end}"))
 	{
-		$templateD1   = explode("{giftcard_loop_start}", $template);
-		$templateD2   = explode("{giftcard_loop_end}", $templateD1 [1]);
-		$template_desc = $templateD2 [0];
+		$template_d1   = explode("{giftcard_loop_start}", $template);
+		$template_d2   = explode("{giftcard_loop_end}", $template_d1 [1]);
+		$template_desc = $template_d2 [0];
 
-		$dataAdd = "";
+		$data_add = "";
 
 		for ($i = 0, $in = count($detail); $i < $in; $i++)
 		{
-			$dataAdd .= $template_desc;
+			$data_add .= $template_desc;
 			$gid  = $detail[$i]->giftcard_id;
 			$link = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
 
-			if (strstr($dataAdd, "{giftcard_image}"))
+			if (strstr($data_add, "{giftcard_image}"))
 			{
-				$productImg = RedshopHelperMedia::watermark('giftcard', $detail[$i]->giftcard_image, Redshop::getConfig()->get('GIFTCARD_LIST_THUMB_WIDTH'), Redshop::getConfig()->get('GIFTCARD_LIST_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_GIFTCART_THUMB_IMAGE'), '0');
+				$product_img = RedshopHelperMedia::watermark('giftcard', $detail[$i]->giftcard_image, Redshop::getConfig()->get('GIFTCARD_LIST_THUMB_WIDTH'), Redshop::getConfig()->get('GIFTCARD_LIST_THUMB_HEIGHT'), Redshop::getConfig()->get('WATERMARK_GIFTCART_THUMB_IMAGE'), '0');
 				$linkimage   = RedshopHelperMedia::watermark('giftcard', $detail[$i]->giftcard_image, '', '', Redshop::getConfig()->get('WATERMARK_GIFTCART_IMAGE'), '0');
 
 				if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image))
 				{
-					$thumImage = "<a href='" . $link . "'><img src='" . $productImg . "' title='" . $detail[$i]->giftcard_name . "' alt='" . $detail[$i]->giftcard_name . "'></a>";
-					$dataAdd   = str_replace("{giftcard_image}", $thumImage, $dataAdd);
+					$thum_image = "<a href='" . $link . "'><img src='" . $product_img . "' title='" . $detail[$i]->giftcard_name . "' alt='" . $detail[$i]->giftcard_name . "'></a>";
+					$data_add   = str_replace("{giftcard_image}", $thum_image, $data_add);
 				}
 				else
 				{
-					$dataAdd = str_replace("{giftcard_image}", "", $dataAdd);
+					$data_add = str_replace("{giftcard_image}", "", $data_add);
 				}
 			}
 
-			$giftcardName     = "<a href='" . $link . "'>" . $detail[$i]->giftcard_name . "</a>";
-			$giftcardReadmore = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
-			$dataAdd          = str_replace("{giftcard_name}", $giftcardName, $dataAdd);
-			$dataAdd          = str_replace("{giftcard_readmore}", $giftcardReadmore, $dataAdd);
-			$dataAdd          = str_replace("{giftcard_desc}", $detail[$i]->giftcard_desc, $dataAdd);
+			$giftcard_name     = "<a href='" . $link . "'>" . $detail[$i]->giftcard_name . "</a>";
+			$giftcard_readmore = "<a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+			$data_add          = str_replace("{giftcard_name}", $giftcard_name, $data_add);
+			$data_add          = str_replace("{giftcard_readmore}", $giftcard_readmore, $data_add);
+			$data_add          = str_replace("{giftcard_desc}", $detail[$i]->giftcard_desc, $data_add);
 
-			$dataAdd = RedshopHelperProduct::getValidityDate($detail[$i]->giftcard_validity, $dataAdd);
+			$data_add = RedshopHelperProduct::getValidityDate($detail[$i]->giftcard_validity, $data_add);
 
 			if ($detail[$i]->customer_amount != 1)
 			{
-				$dataAdd = str_replace("{giftcard_validity}", $detail[$i]->giftcard_validity, $dataAdd);
+				$data_add = str_replace("{giftcard_validity}", $detail[$i]->giftcard_validity, $data_add);
 			}
 			else
 			{
-				$dataAdd = str_replace("{giftcard_validity}", '', $dataAdd);
+				$data_add = str_replace("{giftcard_validity}", '', $data_add);
 			}
 
-			$dataAdd = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $dataAdd);
-			$dataAdd = str_replace("{giftcard_value}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_value), $dataAdd);
+			$data_add = str_replace("{giftcard_value_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
+			$data_add = str_replace("{giftcard_value}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_value), $data_add);
 
-			$dataAdd = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $dataAdd);
-			$dataAdd = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_price), $dataAdd);
+			$data_add = str_replace("{giftcard_price_lbl}", JText::_('LIB_REDSHOP_GIFTCARD_PRICE_LBL'), $data_add);
+			$data_add = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_price), $data_add);
 		}
 
-		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $dataAdd, $template);
+		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);
 	}
 
 	echo eval("?>" . $template . "<?php ");
