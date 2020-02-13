@@ -100,7 +100,7 @@ class Helper
     ) {
         $generateAttributeCart = array();
 
-        $orderItemAttData = RedshopHelperOrder::getOrderItemAttributeDetail(
+        $orderItemAttData = \RedshopHelperOrder::getOrderItemAttributeDetail(
             $orderItemId,
             $isAccessory,
             "attribute",
@@ -112,7 +112,7 @@ class Helper
             $generateAttributeCart[$i]['attribute_id']   = $orderItemAttData[$i]->section_id;
             $generateAttributeCart[$i]['attribute_name'] = $orderItemAttData[$i]->section_name;
 
-            $orderPropData = RedshopHelperOrder::getOrderItemAttributeDetail(
+            $orderPropData = \RedshopHelperOrder::getOrderItemAttributeDetail(
                 $orderItemId,
                 $isAccessory,
                 "property",
@@ -121,10 +121,10 @@ class Helper
 
             for ($p = 0, $pn = count($orderPropData); $p < $pn; $p++) {
                 $accSubPropertyCart = array();
-                $property           = RedshopHelperProduct_Attribute::getAttributeProperties(
+                $property           = \RedshopHelperProduct_Attribute::getAttributeProperties(
                     $orderPropData[$p]->section_id
                 );
-                $prices          = RedshopHelperProduct_Attribute::getPropertyPrice(
+                $prices          = \RedshopHelperProduct_Attribute::getPropertyPrice(
                     $orderPropData[$p]->section_id,
                     $quantity,
                     'property'
@@ -141,7 +141,7 @@ class Helper
                 $accPropertyCart[$p]['property_oprand'] = $property[0]->oprand;
                 $accPropertyCart[$p]['property_price']  = $propertyPrice;
 
-                $orderSubPropData = RedshopHelperOrder::getOrderItemAttributeDetail(
+                $orderSubPropData = \RedshopHelperOrder::getOrderItemAttributeDetail(
                     $orderItemId,
                     $isAccessory,
                     "subproperty",
@@ -149,10 +149,10 @@ class Helper
                 );
 
                 for ($sp = 0, $countSubproperty = count($orderSubPropData); $sp < $countSubproperty; $sp++) {
-                    $subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties(
+                    $subProperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                         $orderSubPropData[$sp]->section_id
                     );
-                    $prices   = RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $prices   = \RedshopHelperProduct_Attribute::getPropertyPrice(
                         $orderSubPropData[$sp]->section_id,
                         $quantity,
                         'subproperty'

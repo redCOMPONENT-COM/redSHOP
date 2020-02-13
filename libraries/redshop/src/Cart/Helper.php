@@ -19,6 +19,12 @@ defined('_JEXEC') or die;
 class Helper
 {
     /**
+     * @var array
+     * @since __DEPLOY_VERSION__
+     */
+    public static $globalVoucher = [];
+
+    /**
      * Method calculate cart price.
      * APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the
      * final price may vary, depending on if the discount affects "the price+VAT"
@@ -483,12 +489,12 @@ class Helper
         $productPriceExclVat = 0;
         $quantity = 0;
         $productIds = explode(',', $productId);
-        $productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
+        $productIds = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
 
         for ($v = 0; $v < $idx; $v++) {
-            if (in_array($cart[$v]['product_id'], $productIds) || self::$globalvoucher) {
+            if (in_array($cart[$v]['product_id'], $productIds) || self::$globalVoucher) {
                 // Set Quantity based on discount type - i.e Multiple or Single.
-                $productQuantity = (Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) ? $cart[$v]['quantity'] : 1;
+                $productQuantity = (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) ? $cart[$v]['quantity'] : 1;
 
                 $productPrice += ($cart[$v]['product_price'] * $productQuantity);
                 $productPriceExclVat += $cart[$v]['product_price_excl_vat'] * $productQuantity;
@@ -504,64 +510,5 @@ class Helper
         $productList['product_quantity'] = $productQuantity;
 
         return $productList;
-    }
-
-    /**
-     * @param array $attributes
-     * @return array
-     * @since __DEPLOY_VERSION__
-     */
-    public static function getSelectedCartAttributeArray($attributes = array())
-    {
-        $chosenProperty = array();
-        $chosenSubProperty = array();
-
-        //TODO: Tweat this are of code, 3 time loop is not got for performance
-        for ($i = 0, $in = count($attributes); $i < $in; $i++) {
-            $properties = $attributes[$i]['attribute_childs'];
-
-            for ($k = 0, $kn = count($properties); $k < $kn; $k++) {
-                $chosenProperty[] = $properties[$k]['property_id'];
-                $subProperties = $properties[$k]['property_childs'];
-
-                for ($l = 0, $ln = count($subProperties); $l < $ln; $l++) {
-                    $chosenSubProperty[] = $subProperties[$l]['subproperty_id'];
-                }
-            }
-        }
-
-        return array($chosenProperty, $chosenSubProperty);
-    }
-
-    /**
-     * @param array $accessories
-     * @return array
-     * @since __DEPLOY_VERSION__
-     */
-    public function getSelectedCartAccessoryArray($accessories = array())
-    {
-        $selectedAccessory = array();
-        $selectedProperty = array();
-        $selectedSubProperty = array();
-
-        for ($i = 0, $in = count($accessories); $i < $in; $i++) {
-            $selectedAccessory[] = $accessories[$i]['accessory_id'];
-            $accessory = $accessories[$i]['accessory_childs'];
-
-            for ($j = 0, $jn = count($accessory); $j < $jn; $j++) {
-                $properties = $accessory[$j]['attribute_childs'];
-
-                for ($k = 0, $kn = count($properties); $k < $kn; $k++) {
-                    $selectedProperty[] = $properties[$k]['property_id'];
-                    $subProperties = $properties[$k]['property_childs'];
-
-                    for ($l = 0, $ln = count($subProperties); $l < $ln; $l++) {
-                        $selectedSubProperty[] = $subProperties[$l]['subproperty_id'];
-                    }
-                }
-            }
-        }
-
-        return array($selectedAccessory, $selectedProperty, $selectedSubProperty);
     }
 }
