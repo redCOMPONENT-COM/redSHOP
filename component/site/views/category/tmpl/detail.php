@@ -391,7 +391,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 	$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 	$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $template_product, 1);
 	$product_data                  = '';
-	list($template_userfield, $userfieldArr) = RedshopHelperProduct::getProductUserfieldFromTemplate($template_product);
+	list($template_userfield, $userfieldArr) = \Redshop\Product\Product::getProductUserfieldFromTemplate($template_product);
 	$template_product = RedshopHelperTax::replaceVatInformation($template_product);
 
 	foreach ($this->product as $product)
@@ -515,7 +515,7 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 				$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 			}
 
-			$returnArr          = RedshopHelperProduct::getProductUserfieldFromTemplate($ajax_detail_template_desc);
+			$returnArr          = \Redshop\Product\Product::getProductUserfieldFromTemplate($ajax_detail_template_desc);
 			$template_userfield = $returnArr[0];
 			$userfieldArr       = $returnArr[1];
 
@@ -874,10 +874,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 				if ($product->attribute_set_id > 0)
 				{
-					$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+					$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 				}
 
-				$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
+				$attributes = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
 				$attributes = array_merge($attributes, $attributes_set);
 			}
 			else
@@ -895,10 +895,10 @@ if (strpos($template_desc, "{product_loop_start}") !== false && strpos($template
 
 			if ($product->attribute_set_id > 0)
 			{
-				$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+				$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 			}
 
-			$attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
+			$attributes = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
 

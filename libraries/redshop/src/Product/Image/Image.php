@@ -40,7 +40,7 @@ class Image
 		$aTitleImageResponse = '';
 		$mainImageResponse   = '';
 		$productMainImg      = '';
-		$product             = \RedshopHelperProduct::getProductById($id);
+		$product             = \Redshop\Product\Product::getProductById($id);
 		$type                = '';
 		$productSKU          = $product->product_number;
 		$attributeImage      = '';
@@ -199,7 +199,7 @@ class Image
 	public static function getImage($id = 0, $link = '', $width, $height, $isLight = 2, $enableHover = 0, $suffixId = 0, $preSelectedResult = array())
 	{
 		$thumbImage    = '';
-		$result        = \RedshopHelperProduct::getProductById($id);
+		$result        = \Redshop\Product\Product::getProductById($id);
 		$isStockExists = \RedshopHelperStockroom::isStockExists($id);
 		$middlePath    = REDSHOP_FRONT_IMAGES_RELPATH . 'product/';
 

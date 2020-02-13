@@ -46,8 +46,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 	{
 		$session = JFactory::getSession();
 
-		$carthelper      = rsCarthelper::getInstance();
-
 		$cart = $session->get('cart');
 
 		$idx = (int) ($cart['idx']);
@@ -59,7 +57,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		// Set session for giftcard
 		if ($data->is_giftcard == 1)
 		{
-			if ($carthelper->rs_recursiveArraySearch($cart, $data->product_id))
+			if (\Redshop\Helper\Utility::rsRecursiveArraySearch($cart, $data->product_id))
 			{
 				$cart[$idx]['quantity'] += 1;
 				RedshopHelperCartSession::setCart($cart);
@@ -207,13 +205,12 @@ class RedshopModelQuotation_detail extends RedshopModel
 	public function modifyQuotation($user_id = 0)
 	{
 		$session    = JFactory::getSession();
-		$carthelper = rsCarthelper::getInstance();
 		$cart       = $session->get('cart');
 
 		$cart = \Redshop\Cart\Cart::modify($cart, $user_id);
 
 		RedshopHelperCartSession::setCart($cart);
-		$carthelper->cartFinalCalculation(false);
+        RedshopHelperCart::cartFinalCalculation(false);
 	}
 
 	/**

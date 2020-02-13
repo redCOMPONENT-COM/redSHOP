@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
 
 $redTemplate      = Redtemplate::getInstance();
-$carthelper       = rsCarthelper::getInstance();
 $model            = $this->getModel('checkout');
 $payment_template = RedshopHelperTemplate::getTemplate("redshop_payment");
 

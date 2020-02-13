@@ -54,7 +54,6 @@ class RedshopModelCheckout extends RedshopModel
 		$this->_table_prefix = '#__redshop_';
 		$session             = JFactory::getSession();
 
-		$this->_carthelper      = rsCarthelper::getInstance();
 		$this->_userhelper      = rsUserHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 		$this->_order_functions = order_functions::getInstance();
@@ -286,7 +285,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
 		}
 
-		$cart = $this->_carthelper->modifyDiscount($cart);
+		$cart = RedshopHelperDiscount::modifyDiscount($cart);
 
 		// Get Payment information
 		$paymentMethod = RedshopHelperOrder::getPaymentMethodInfo($payment_method_id);
@@ -582,7 +581,7 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			$is_giftcard = 0;
 			$product_id  = $cart [$i] ['product_id'];
-			$product     = RedshopHelperProduct::getProductById($product_id);
+			$product     = \Redshop\Product\Product::getProductById($product_id);
 
 			/** @var Tableorder_item_detail $rowitem */
 			$rowitem = $this->getTable('order_item_detail');
@@ -898,7 +897,7 @@ class RedshopModelCheckout extends RedshopModel
 						$accdata->load($accessory_id);
 					}
 
-					$accProductinfo                      = RedshopHelperProduct::getProductById($accdata->child_product_id);
+					$accProductinfo                      = \Redshop\Product\Product::getProductById($accdata->child_product_id);
 					$rowaccitem                          = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id       = 0;
 					$rowaccitem->order_item_id           = $rowitem->order_item_id;
@@ -1900,7 +1899,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart['shipping_vat'] = (!isset($shipArr['shipping_vat'])) ? 0 : $shipArr['shipping_vat'];
 		}
 
-		$cart = $this->_carthelper->modifyDiscount($cart);
+		$cart = RedshopHelperDiscount::modifyDiscount($cart);
 
 		// Plugin support:  Process the shipping cart
 		JPluginHelper::importPlugin('redshop_product');
@@ -1947,7 +1946,7 @@ class RedshopModelCheckout extends RedshopModel
 		$cart['payment_oprand'] = $payment_oprand;
 		$cart['payment_amount'] = $payment_amount;
 
-		$templateDesc = $this->_carthelper->replaceTemplate($cart, $templateDesc, 1);
+		$templateDesc = RedshopHelperCartTag::replaceTemplate($cart, $templateDesc, 1);
 
 		$thirdparty_emailvalue = "";
 
@@ -2034,9 +2033,6 @@ class RedshopModelCheckout extends RedshopModel
 		// CalculatePayment
 		$templateDesc = RedshopHelperPayment::replaceConditionTag($templateDesc, $payment_amount, 0, $payment_oprand);
 
-		$shippinPrice        = '';
-		$shippinPriceWithVat = '';
-
 		if (!empty($shipping_rate_id) && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
 			$shippinPriceWithVat = RedshopHelperProductPrice::formattedPrice($cart ['shipping']);
@@ -2048,8 +2044,8 @@ class RedshopModelCheckout extends RedshopModel
 			$templateDesc = str_replace("{tax_with_shipping_lbl}", '', $templateDesc);
 		}
 
-		$templateDesc = $this->_carthelper->replaceTermsConditions($templateDesc, $Itemid);
-		$templateDesc = $this->_carthelper->replaceNewsletterSubscription($templateDesc);
+		$templateDesc = \Redshop\Terms\Tag::replaceTermsConditions($templateDesc, $Itemid);
+		$templateDesc = \Redshop\Newsletter\Tag::replaceNewsletterSubscription($templateDesc);
 
 		$checkoutOnClick = 'if(validation()){checkout_disable(\'checkout_final\');}';
 

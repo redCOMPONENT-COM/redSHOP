@@ -40,7 +40,7 @@ class Property
 		$input  = \JFactory::getApplication()->input;
 		$itemId = $input->getInt('Itemid');
 
-		$product = \RedshopHelperProduct::getProductById($productId);
+		$product = \Redshop\Product\Product::getProductById($productId);
 
 		// Process the product plugin for property
 		\JPluginHelper::importPlugin('redshop_product');

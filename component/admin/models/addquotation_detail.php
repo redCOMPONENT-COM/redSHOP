@@ -102,8 +102,6 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 	public function store($data)
 	{
-		$rsCarthelper  = rsCarthelper::getInstance();
-
 		/** @var Tableuser_detail $userRow */
 		$userRow = $this->getTable('user_detail');
 
@@ -176,7 +174,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 			$product_attribute     = $retAttArr[0];
 
 			// Accessory price
-			$generateAccessoryCart = $rsCarthelper->generateAccessoryArray((array) $item[$i], $user_id);
+			$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array) $item[$i], $user_id);
 			$retAccArr             = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory     = $retAccArr[0];
 
@@ -549,7 +547,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 		if ($property_id != 0 && $attribute_id != 0)
 		{
-			$attributes  = RedshopHelperProduct_Attribute::getProductAttribute(0, 0, $attribute_id);
+			$attributes  = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attribute_id);
 			$attributes  = $attributes[0];
 			$subproperty = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
 		}

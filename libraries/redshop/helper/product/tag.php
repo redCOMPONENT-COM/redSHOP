@@ -76,7 +76,7 @@ class RedshopHelperProductTag
             $productId = $accessory[0]->child_product_id;
         }
 
-        $product = RedshopHelperProduct::getProductById($productId);
+        $product = \Redshop\Product\Product::getProductById($productId);
 
         $productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
@@ -298,10 +298,10 @@ class RedshopHelperProductTag
             $attributeSets = array();
 
             if ($product->attribute_set_id > 0) {
-                $attributeSets = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+                $attributeSets = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
             }
 
-            $attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
+            $attributes = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
             $attributes = array_merge($attributes, $attributeSets);
             $productStockStatus = RedshopHelperProduct::getproductStockStatus(
                 $product->product_id,

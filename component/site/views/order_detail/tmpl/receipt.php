@@ -11,7 +11,6 @@ use Redshop\Order\Template;
 
 defined('_JEXEC') or die;
 
-$carthelper      = rsCarthelper::getInstance();
 $redconfig       = Redconfiguration::getInstance();
 $configobj       = Redconfiguration::getInstance();
 $redTemplate     = Redtemplate::getInstance();

@@ -257,7 +257,7 @@ class RedshopHelperProductPrice
 	 */
 	public static function getNetPrice($productId, $userId = 0, $quantity = 1, $templateHtml = '', $attributes = array())
 	{
-		$row       = RedshopHelperProduct::getProductById($productId);
+		$row       = \Redshop\Product\Product::getProductById($productId);
 		$productId = isset($row->product_id) ? $row->product_id : '';
 		$newPrice  = isset($row->product_price) ? $row->product_price : 0;
 
