@@ -287,7 +287,7 @@ JPluginHelper::importPlugin('redshop_product');
             <th width="1">&nbsp;</th>
             <th></th>
 			<?php if (Redshop::getConfig()->get('POSTDK_INTEGRATION')): ?>
-                <th></th>
+                <th width="35%"></th>
 			<?php endif; ?>
         </tr>
         </thead>
