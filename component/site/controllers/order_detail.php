@@ -28,7 +28,6 @@ class RedshopControllerOrder_Detail extends RedshopController
 		parent::__construct($default);
 		$this->_redshopMail     = redshopMail::getInstance();
 		$this->_order_functions = order_functions::getInstance();
-		$this->_userhelper      = rsUserHelper::getInstance();
 	}
 
 	/**
