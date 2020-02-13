@@ -33,7 +33,7 @@ class Helper
         $in = count($cartItemData);
 
         for ($i = 0; $i < $in; $i++) {
-            $accessory = RedshopHelperAccessory::getProductAccessories($cartItemData[$i]->product_id);
+            $accessory = \RedshopHelperAccessory::getProductAccessories($cartItemData[$i]->product_id);
             $accessoryPriceList = \Redshop\Product\Accessory::getPrice(
                 $productId,
                 $accessory[0]->newaccessory_price,
@@ -46,7 +46,7 @@ class Helper
             $accessoryCart[$i]['accessory_name'] = $accessory[0]->product_name;
             $accessoryCart[$i]['accessory_oprand'] = $accessory[0]->oprand;
             $accessoryCart[$i]['accessory_price'] = $accessoryPrice;
-            $accessoryCart[$i]['accessory_childs'] = RedshopHelperCart::generateAttributeFromCart(
+            $accessoryCart[$i]['accessory_childs'] = \RedshopHelperCart::generateAttributeFromCart(
                 $cartItemId,
                 1,
                 $cartItemData[$i]->product_id,
@@ -103,7 +103,7 @@ class Helper
             }
 
             for ($i = 0, $in = count($accessoryData); $i < $in; $i++) {
-                $accessory = RedshopHelperAccessory::getProductAccessories($accessoryData[$i]);
+                $accessory = \RedshopHelperAccessory::getProductAccessories($accessoryData[$i]);
                 $accessoryPriceList = \Redshop\Product\Accessory::getPrice(
                     $data['product_id'],
                     $accessory[0]->newaccessory_price,
@@ -155,10 +155,10 @@ class Helper
                                     for ($ip = 0; $ip < $countAccessoryProperty; $ip++) {
                                         $accSubPropertyCart = array();
                                         $propertyPrice = 0;
-                                        $property = RedshopHelperProduct_Attribute::getAttributeProperties(
+                                        $property = \RedshopHelperProduct_Attribute::getAttributeProperties(
                                             $accPropertyData[$ip]
                                         );
-                                        $priceList = RedshopHelperProduct_Attribute::getPropertyPrice(
+                                        $priceList = \RedshopHelperProduct_Attribute::getPropertyPrice(
                                             $accPropertyData[$ip],
                                             $data['quantity'],
                                             'property',
@@ -187,10 +187,10 @@ class Helper
                                                 $countAccessorySubProperty = count($accSubPropertyData);
 
                                                 for ($isp = 0; $isp < $countAccessorySubProperty; $isp++) {
-                                                    $subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties(
+                                                    $subProperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                                                         $accSubPropertyData[$isp]
                                                     );
-                                                    $priceList = RedshopHelperProduct_Attribute::getPropertyPrice(
+                                                    $priceList = \RedshopHelperProduct_Attribute::getPropertyPrice(
                                                         $accSubPropertyData[$isp],
                                                         $data['quantity'],
                                                         'subproperty',
@@ -220,7 +220,7 @@ class Helper
                         }
                     }
                 } else {
-                    $attributeSetId = RedshopEntityProduct::getInstance($accessory[0]->child_product_id)
+                    $attributeSetId = \RedshopEntityProduct::getInstance($accessory[0]->child_product_id)
                         ->get('attribute_set_id');
                     $attributesAccessorySet = array();
 
@@ -312,7 +312,7 @@ class Helper
         if ($productId != 0) {
             // Secure productsIds
             if ($productIds = explode(',', $productId)) {
-                $productIds = Joomla\Utilities\ArrayHelper::toInteger($productIds);
+                $productIds = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
 
                 $query->where($db->qn('p.product_id') . 'IN' . $db->q(implode(',', $productIds)));
             }
@@ -333,7 +333,7 @@ class Helper
         if ($notAttributeId != 0) {
             // Secure notAttributeId
             if ($notAttributeIds = explode(',', $notAttributeId)) {
-                $notAttributeIds = Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
+                $notAttributeIds = \Joomla\Utilities\ArrayHelper::toInteger($notAttributeIds);
 
                 $query->where($db->qn('a.attribute_id') . 'NOT IN' . $db->q(implode(',', $notAttributeIds)));
             }
@@ -389,10 +389,10 @@ class Helper
     {
         $generateAccessoryCart = array();
 
-        $orderItemData = RedshopHelperOrder::getOrderItemAccessoryDetail($orderItemId);
+        $orderItemData = \RedshopHelperOrder::getOrderItemAccessoryDetail($orderItemId);
 
         foreach ($orderItemData as $index => $orderItem) {
-            $accessory       = RedshopHelperAccessory::getProductAccessories($orderItem->product_id);
+            $accessory       = \RedshopHelperAccessory::getProductAccessories($orderItem->product_id);
             $accessoryPrices = \Redshop\Product\Accessory::getPrice(
                 $productId,
                 $accessory[0]->newaccessory_price,
