@@ -20,8 +20,6 @@ class RedshopViewUser extends RedshopViewAdmin
 
 		$document->setTitle(JText::_('COM_REDSHOP_USER'));
 
-		$userhelper = rsUserHelper::getInstance();
-
 		$this->state               = $this->get('State');
 		$sync                      = JFactory::getApplication()->input->get('sync');
 		$spgrp_filter              = $this->state->get('spgrp_filter');
