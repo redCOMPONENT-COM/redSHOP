@@ -343,8 +343,6 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			'currency.php'         => 'currencyhelper.php',
 			'extra_field.php'      => 'extrafield.php',
 			'google_analytics.php' => 'googleanalytics.php',
-			'product.php'          => 'producthelper.php',
-			'user.php'             => 'rsuserhelper.php'
 		);
 
 		foreach ($adminHelpers as $path => $files)
@@ -416,7 +414,6 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			'extra_field.php'      => 'extrafield.php',
 			'google_analytics.php' => 'googleanalytics.php',
 			'product.php'          => 'producthelper.php',
-			'user.php'             => 'rsuserhelper.php'
 		);
 
 		foreach ($adminTemplateHelpers as $path => $files)
