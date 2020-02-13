@@ -6,7 +6,7 @@
  * Or do: $ composer update, and afterwards you will be able to execute robo like $ php vendor/bin/robo
  *
  * @see  http://robo.li/
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 require_once 'vendor/autoload.php';

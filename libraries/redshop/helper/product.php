@@ -596,7 +596,7 @@ class RedshopHelperProduct
     public static function replaceUserField($productId = 0, $templateId = 0, $uniqueId = "")
     {
         $templateDesc = RedshopHelperTemplate::getTemplate("product", $templateId);
-        $returnArr    = self::getProductUserfieldFromTemplate($templateDesc[0]->template_desc);
+        $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate($templateDesc[0]->template_desc);
         $commonId     = $productId . $uniqueId;
 
         if (empty($returnArr[1])) {

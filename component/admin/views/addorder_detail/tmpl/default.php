@@ -561,12 +561,12 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 							</table>
 						<?php endif; ?>
 
-						<?php if (JFactory::getApplication()->input->getCmd('ajaxtask') == "getuser"): ?>
+						<?php if (\JFactory::getApplication()->input->getCmd('ajaxtask') == "getuser"): ?>
 							<?php die(); ?>
 						<?php endif; ?>
 					</td>
 				</tr>
-				<?php if ($err == "" && array_key_exists("users_info_id", $billing) && $billing->users_info_id): ?>
+				<?php if ($err == "" && property_exists($billing, "users_info_id") && $billing->users_info_id): ?>
 				<tr>
 					<td>
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">

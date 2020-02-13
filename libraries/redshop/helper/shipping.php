@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @since       2.0.0.3
@@ -432,7 +432,7 @@ class RedshopHelperShipping
 		$session        = JFactory::getSession();
 		$db             = JFactory::getDbo();
 		$cart           = $session->get('cart');
-		$idx            = (int) ($cart ['idx']);
+		$idx            = (int) ($cart ['idx'] ?? 0);
 
 		// Product volume based shipping
 		$volumeShipping      = self::getProductVolumeShipping();
@@ -951,16 +951,16 @@ class RedshopHelperShipping
 	 */
 	public static function getProductVolumeShipping()
 	{
-		$session = JFactory::getSession();
+		$session = \JFactory::getSession();
 		$cart    = $session->get('cart');
-		$idx     = (int) ($cart['idx']);
+		$idx     = (int) ($cart['idx'] ?? 0);
 
-		$length  = array();
-		$width   = array();
-		$height  = array();
-		$lengthQ = array();
-		$widthQ  = array();
-		$heightQ = array();
+		$length  = [];
+		$width   = [];
+		$height  = [];
+		$lengthQ = [];
+		$widthQ  = [];
+		$heightQ = [];
 		$lMax    = 0;
 		$lTotal  = 0;
 		$wMax    = 0;
@@ -976,7 +976,7 @@ class RedshopHelperShipping
 				continue;
 			}
 
-			$data       = Redshop::product((int) $cart[$i]['product_id']);
+			$data       = \Redshop::product((int) $cart[$i]['product_id']);
 			$length[$i] = $data->product_length;
 			$width[$i]  = $data->product_width;
 			$height[$i] = $data->product_height;
@@ -1067,7 +1067,8 @@ class RedshopHelperShipping
 	{
 		$session       = JFactory::getSession();
 		$cart          = $session->get('cart');
-		$idx           = (int) ($cart ['idx']);
+		$idx           = $cart['idx'] ?? 0;
+		$idx = (int) $idx;
 
 		$totalQnt    = 0;
 		$totalWeight = 0;
