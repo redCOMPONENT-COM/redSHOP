@@ -283,7 +283,7 @@ class RedshopHelperDiscount
 
                         unset($cart['voucher'][$v]);
 
-                        $cart = RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
+                        $cart = \RedshopHelperCartDiscount::applyVoucher($cart, $voucherCode);
                     }
 
                     $voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
@@ -314,7 +314,7 @@ class RedshopHelperDiscount
 
                         unset($cart['coupon'][$c]);
 
-                        $cart = RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
+                        $cart = \RedshopHelperCartDiscount::applyCoupon($cart, $couponCode);
                     }
 
                     $couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);

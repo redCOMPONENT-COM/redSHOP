@@ -100,7 +100,7 @@ class Currency
 		$timeNowLocal  = gmdate('Hi', $now);
 		$timeECBUpdate = '1415';
 
-		$storePath = JPATH_SITE . '/components/com_redshop/helpers';
+		$storePath = JPATH_SITE . '/libraries/redshop/src/Currency';
 		$storeFile = $storePath . '/currency.xml';
 
 		$ecbFile = $this->documentAddress;
