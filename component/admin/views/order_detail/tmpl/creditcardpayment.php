@@ -13,7 +13,6 @@ $user = JFactory::getUser();
 $app = JFactory::getApplication();
 
 $order_functions = order_functions::getInstance();
-$userhelper = rsUserHelper::getInstance();
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;

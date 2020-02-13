@@ -53,8 +53,6 @@ class RedshopModelCart extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-
-		$this->_userhelper    = rsUserHelper::getInstance();
 		$this->_objshipping   = shipping::getInstance();
 		$user                 = JFactory::getUser();
 

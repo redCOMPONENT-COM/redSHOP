@@ -2940,8 +2940,7 @@ class RedshopHelperProduct
     public static function getProductCategory($id = 0)
     {
         $db                         = JFactory::getDbo();
-        $rsUserhelper               = rsUserHelper::getInstance();
-        $shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+        $shopper_group_manufactures = \RedshopHelperShopper_Group::getShopperGroupManufacturers();
         $query                      = $db->getQuery(true);
 
         if ($shopper_group_manufactures != "") {

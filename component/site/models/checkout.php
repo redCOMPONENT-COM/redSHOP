@@ -53,8 +53,6 @@ class RedshopModelCheckout extends RedshopModel
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 		$session             = JFactory::getSession();
-
-		$this->_userhelper      = rsUserHelper::getInstance();
 		$this->_shippinghelper  = shipping::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();

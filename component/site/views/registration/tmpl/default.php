@@ -14,8 +14,6 @@ JHtml::_('behavior.calendar');
 $Itemid = $app->input->getInt('Itemid');
 $post   = $app->input->post->getArray();
 
-$userhelper = rsUserHelper::getInstance();
-
 $is_company = $this->lists['is_company'];
 
 if ($this->params->get('show_page_heading', 1))
