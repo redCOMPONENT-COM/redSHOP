@@ -534,12 +534,12 @@ class RedshopModelCart extends RedshopModel
 
 	public function coupon()
 	{
-		return RedshopHelperCartDiscount::applyCoupon();
+		return \RedshopHelperCartDiscount::applyCoupon();
 	}
 
 	public function voucher()
 	{
-		return RedshopHelperCartDiscount::applyVoucher();
+		return \RedshopHelperCartDiscount::applyVoucher();
 	}
 
 	public function redmasscart($post)

@@ -451,6 +451,6 @@ class Discount
      */
     public static function getDiscountCalcDataExtra($pdcExtraIds = "", $productId = 0)
     {
-        return RedshopHelperCartDiscount::getDiscountCalcDataExtra($pdcExtraIds, $productId);
+        return \RedshopHelperCartDiscount::getDiscountCalcDataExtra($pdcExtraIds, $productId);
     }
 }
