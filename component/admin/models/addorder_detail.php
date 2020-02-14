@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -26,9 +26,17 @@ class RedshopModelAddorder_detail extends RedshopModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-		$this->setId((int) $array[0]);
-		$this->_db = JFactory::getDbo();
+		$array               = \JFactory::getApplication()->input->get('cid', 0, 'array');
+
+		if (isset($array[0]))
+        {
+            $this->setId((int) $array[0]);
+        }
+		else
+        {
+            $this->setId(0);
+        }
+		$this->_db = \JFactory::getDbo();
 	}
 
 	public function setId($id)
