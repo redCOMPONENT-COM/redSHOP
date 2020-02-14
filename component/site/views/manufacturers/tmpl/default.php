@@ -17,7 +17,7 @@ if ($this->pageheadingtag != '')
 {
 	$pageTitle = $this->pageheadingtag;
 } ?>
-    <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 		<?php
 		if ($this->params->get('show_page_heading', 1))
 		{
@@ -30,7 +30,7 @@ if ($this->pageheadingtag != '')
 				echo $pageTitle;
 			}
 		} ?>
-    </h1>
+	</h1>
 <?php
 // Page title end
 $manufacturersTemplate = RedshopHelperTemplate::getTemplate("manufacturer");
@@ -41,18 +41,18 @@ if (count($manufacturersTemplate) > 0 && $manufacturersTemplate[0]->template_des
 }
 else
 {
-    $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('manufacturer');
+	$templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('manufacturer');
 }
 
 $templateDesc = RedshopTagsReplacer::_(
-        'manufacturer',
-        $templateDesc,
-        array(
-            'detail' => $this->detail,
-            'pagination' => $this->pagination,
-            'params' => $this->params,
-            'lists' => $this->lists
-        )
+		'manufacturer',
+		$templateDesc,
+		array(
+			'detail' => $this->detail,
+			'pagination' => $this->pagination,
+			'params' => $this->params,
+			'lists' => $this->lists
+		)
 );
 
 

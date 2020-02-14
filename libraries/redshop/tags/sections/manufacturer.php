@@ -25,12 +25,11 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 
 	public function replace()
 	{
-		$url = JURI::base();
-		$app           = JFactory::getApplication();
-		$print         = $app->input->getInt('print');
-		$itemId        = $app->input->getInt('Itemid');
-		$templateDesc = $this->template;
-		$detail        = $this->data['detail'];
+		$url    = JURI::base();
+		$app    = JFactory::getApplication();
+		$print  = $app->input->getInt('print');
+		$itemId = $app->input->getInt('Itemid');
+		$detail = $this->data['detail'];
 
 		if ($print)
 		{
@@ -39,7 +38,7 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 		else
 		{
 			$printUrl = $url . "index.php?option=com_redshop&view=manufacturers&print=1&tmpl=component&Itemid=" . $itemId;
-			$onClick   = "onclick='window.open(\"$printUrl\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
+			$onClick  = "onclick='window.open(\"$printUrl\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 		}
 
 		$printTag = RedshopLayoutHelper::render(
@@ -51,9 +50,8 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 			RedshopLayoutHelper::$layoutOption
 		);
 
-
 		$templateMiddle = "";
-		$templateData = $this->getTemplateBetweenLoop('{manufacturer_loop_start}', '{manufacturer_loop_end}');
+		$templateData   = $this->getTemplateBetweenLoop('{manufacturer_loop_start}', '{manufacturer_loop_end}');
 
 		if (!empty($templateData))
 		{
