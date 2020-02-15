@@ -335,7 +335,7 @@ class RedshopViewList extends AbstractView
 		$user             = JFactory::getUser();
 		$isCheckedOut     = !empty($row->checked_out) && $user->id !== $row->checked_out;
 		$inlineEditEnable = Redshop::getConfig()->getBool('INLINE_EDITING');
-		$value            = $row->{$config['dataCol']};
+		$value            = isset($row->{$config['dataCol']}) ? $row->{$config['dataCol']} : '';
 		$primaryKey       = $this->getPrimaryKey();
 		$itemId           = $row->{$primaryKey};
 
