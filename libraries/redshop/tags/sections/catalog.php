@@ -30,6 +30,13 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 	 */
 	public $itemId;
 
+	/**
+	 * Init function
+	 * @return mixed|void
+	 *
+	 * @throws Exception
+	 * @since 2.1.5
+	 */
 	public function init()
 	{
 		$this->model = $this->data['model'];
@@ -40,12 +47,19 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 		JText::script('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');
 	}
 
+	/**
+	 * Executing replace
+	 * @return string
+	 *
+	 * @throws Exception
+	 * @since 2.1.5
+	 */
 	public function replace()
 	{
 		if ($this->isTagExists('{catalog_select}'))
 		{
 			$catalog        = $this->model->getCatalogList();
-			$optionselect   = array();
+			$optionselect   = [];
 			$optionselect[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 			$catalog_select = array_merge($optionselect, $catalog);
 
