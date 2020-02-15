@@ -235,10 +235,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function store($data)
 	{
-		$dispatcher = RedshopHelperUtility::getDispatcher();
-
-		$catorder    = array();
-		$oldcategory = array();
+		$dispatcher = \RedshopHelperUtility::getDispatcher();
+		$db         = \JFactory::getDbo();
+		$catOrder    = [];
+		$oldCategory = [];
 
 		/** @var TableProduct_Detail $row */
 		$row = $this->getTable('product_detail');
@@ -532,8 +532,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			for ($g = 0, $gn = count($categories); $g < $gn; $g++)
 			{
-				$oldcategory[$g]                        = $categories[$g]->category_id;
-				$catorder[$categories[$g]->category_id] = $categories[$g]->ordering;
+				$oldCategory[$g]                        = $categories[$g]->category_id;
+				$catOrder[$categories[$g]->category_id] = $categories[$g]->ordering;
 			}
 
 			$query = 'DELETE FROM ' . $this->table_prefix . 'product_category_xref WHERE product_id="' . $prodid . '" ';
@@ -570,9 +570,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 		// Building product categories relationship
 		foreach ($categories as $index => $category)
 		{
-			if (array_key_exists($category, $catorder))
+			if (array_key_exists($category, $catOrder))
 			{
-				$ordering = $catorder [$category];
+				$ordering = $catOrder [$category];
 			}
 			else
 			{
@@ -604,11 +604,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		$category_array = array_diff($categories, $oldcategory);
+		$category_array = array_diff($categories, $oldCategory);
 
 		if (count($category_array) > 0)
 		{
-			$category_array = array_diff($oldcategory, $categories);
+			$category_array = array_diff($oldCategory, $categories);
 		}
 
 		$catDiscountQuery->order($this->_db->quoteName('id') . ' DESC LIMIT 0, 1');
