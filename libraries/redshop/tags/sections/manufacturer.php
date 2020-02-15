@@ -16,13 +16,32 @@ defined('_JEXEC') || die;
  */
 class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 {
+	/**
+	 * @var    array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public $tags = array('{print}', '{order_by}', '{pagination}');
 
+	/**
+	 * Init
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function init()
 	{
 
 	}
 
+	/**
+	 * Execute replace
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function replace()
 	{
 		$url    = JURI::base();
@@ -115,12 +134,12 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function replaceManufacturerItem($template, $data, $itemId)
 	{
 		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
-		$this->replacements = array();
+		$this->replacements = [];
 
 		if ($data != '')
 		{
