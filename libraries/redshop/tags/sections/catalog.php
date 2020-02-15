@@ -34,6 +34,10 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 	{
 		$this->model = $this->data['model'];
 		$this->itemId = $this->data['itemId'];
+		JText::script('COM_REDSHOP_SELECT_CATALOG');
+		JText::script('COM_REDSHOP_ENTER_NAME');
+		JText::script('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS');
+		JText::script('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID');
 	}
 
 	public function replace()
@@ -71,8 +75,11 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 		if ($this->isTagExists('{name}'))
 		{
 			$name = RedshopLayoutHelper::render(
-				'tags.catalog.name',
+				'tags.common.input',
 				array(
+					'name'  => 'name_2',
+					'id'    => 'name',
+					'type'  => 'text'
 				),
 				'',
 				RedshopLayoutHelper::$layoutOption
@@ -102,8 +109,11 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 		if ($this->isTagExists('{email_address}'))
 		{
 			$nameAddress = RedshopLayoutHelper::render(
-				'tags.catalog.email_address',
+				'tags.common.input',
 				array(
+					'name'  => 'email_address',
+					'id'    => 'email_address',
+					'type'  => 'text'
 				),
 				'',
 				RedshopLayoutHelper::$layoutOption
@@ -116,8 +126,13 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 		if ($this->isTagExists('{submit_button_catalog}'))
 		{
 			$submitButton = RedshopLayoutHelper::render(
-				'tags.catalog.submit_button',
+				'tags.common.input',
 				array(
+					'type'      => 'submit',
+					'id'        => 'catalogsend',
+					'name'      => 'catalogsend',
+					'attr'      => 'onclick="return getCatalogValidation()"',
+					'value'     => JText::_('COM_REDSHOP_CATALOG_SEND')
 				),
 				'',
 				RedshopLayoutHelper::$layoutOption
