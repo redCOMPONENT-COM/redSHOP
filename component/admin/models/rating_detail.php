@@ -28,12 +28,18 @@ class RedshopModelRating_detail extends RedshopModelForm
 		$this->setId((int) $array[0]);
 	}
 
+    /**
+     * @param $id
+     */
 	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
+    /**
+     * @return |null
+     */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -47,6 +53,9 @@ class RedshopModelRating_detail extends RedshopModelForm
 		return $this->_data;
 	}
 
+    /**
+     * @return bool
+     */
 	public function _loadData()
 	{
 		$query = $this->_db->getQuery(true);
@@ -191,14 +200,13 @@ class RedshopModelRating_detail extends RedshopModelForm
 		return null;
 	}
 
-    public function getuserfullname2($uid)
+    /**
+     * @param $uid
+     * @return string
+     * @since __DEPLOY_VERSION__
+     */
+    public function getUseFullName($uid)
     {
-        $query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id="
-            . $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
-        $this->_db->setQuery($query);
-        $this->_username = $this->_db->loadObject();
-        $fullname        = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
-
-        return $fullname;
+        return \Redshop\User\Helper::getUserFullName($uid);
     }
 }

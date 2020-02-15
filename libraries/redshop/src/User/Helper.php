@@ -90,4 +90,23 @@ class Helper
 
         return $db->loadObjectlist();
     }
+
+    /**
+     * @param $uid
+     * @return string
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getUserFullName($uid)
+    {
+        $uid = (int) $uid;
+
+        $user = \RedshopHelperUser::getUserInformation($uid);
+
+        if (isset($user))
+        {
+            return $user->firstname . " " . $user->lastname . " (" . $user->user_email . ")";
+        }
+
+        return '';
+    }
 }
