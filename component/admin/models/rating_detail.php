@@ -205,36 +205,33 @@ class RedshopModelRating_detail extends RedshopModelForm
 		return true;
 	}
 
-	public function getuserslist()
+    /**
+     * @return mixed
+     * @since __DEPLOY_VERSION__
+     */
+	public function getUsers()
 	{
-		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix .
-			'users_info ru WHERE u.id=ru.user_id AND ru.address_type like "BT"';
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectlist();
+	    return \Redshop\User\Helper::getUsers(
+	        [
+	            'u.id' => 'value',
+                'u.name' => 'text'
+            ]
+        );
 	}
 
-	public function getproducts()
+    /**
+     * @return mixed|null
+     * @throws Exception
+     */
+	public function getProducts()
 	{
-		$product_id = JFactory::getApplication()->input->get('pid');
+		$productId = \JFactory::getApplication()->input->get('pid');
 
-		if ($product_id)
+		if ($productId)
 		{
-			$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product WHERE product_id =' . $product_id;
-			$this->_db->setQuery($query);
-
-			return $this->_db->loadObject();
+            return \Redshop\Product\Product::getProductById((int) $productId);
 		}
-	}
 
-	public function getuserfullname2($uid)
-	{
-		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id="
-			. $uid . " AND address_type like 'BT' AND uf.user_id=u.id";
-		$this->_db->setQuery($query);
-		$this->_username = $this->_db->loadObject();
-		$fullname        = $this->_username->firstname . " " . $this->_username->lastname . " (" . $this->_username->username . ")";
-
-		return $fullname;
+		return null;
 	}
 }

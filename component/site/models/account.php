@@ -317,7 +317,7 @@ class RedshopModelAccount extends RedshopModel
 		$db  = JFactory::getDbo();
 
 		$itemId            = $app->input->getInt('Itemid', 0);
-		$wishlistId        = $app->input->getInt('wishlist_id', 0);
+		$wishListId        = $app->input->getInt('wishlist_id', 0);
 		$pid               = $app->input->getInt('pid', 0);
 		$wishlistProductId = $app->input->getInt('wishlist_product_id', 0);
 
@@ -328,7 +328,7 @@ class RedshopModelAccount extends RedshopModel
 			->select('wishlist_id')
 			->from($db->quoteName('#__redshop_wishlist'))
 			->where('user_id = ' . (int) $user->id)
-			->where('wishlist_id = ' . (int) $wishlistId);
+			->where('wishlist_id = ' . (int) $wishListId);
 
 		echo "<pre>";
 
@@ -339,7 +339,7 @@ class RedshopModelAccount extends RedshopModel
 			$query->clear()
 				->delete($db->quoteName('#__redshop_wishlist_product'))
 				->where('product_id = ' . (int) $pid)
-				->where('wishlist_id = ' . (int) $wishlistId);
+				->where('wishlist_id = ' . (int) $wishListId);
 
 			if ($wishlistProductId)
 			{
@@ -364,7 +364,7 @@ class RedshopModelAccount extends RedshopModel
 
 		$app->redirect(
 			JRoute::_(
-				'index.php?option=com_redshop&wishlist_id=' . $wishlistId . '&view=account&layout=mywishlist&Itemid=' . $itemId,
+				'index.php?option=com_redshop&wishlist_id=' . $wishListId . '&view=account&layout=mywishlist&Itemid=' . $itemId,
 				false
 			)
 		);
