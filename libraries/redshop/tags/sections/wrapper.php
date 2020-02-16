@@ -130,12 +130,11 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 					array(
                         'link'=>'javascript:void(0)',
                         'linkAttr' => '
-                            onclick="setWrapper(' . $wid . ',' . $wp . ',' . $wpWithoutvat .',' . $data->product_id . ')" 
-                            title="'. $title . '"                   
+                            onclick="setWrapper(' . $wid . ',' . $wp . ',' . $wpWithoutvat .',' . $data->product_id . ')" title="'. $title . '"                   
                         ',
-						'src' => $thumbUrl,
+                        'src' => $thumbUrl,
                         'alt' => $alt,
-						'imgAttr' => 'title="'. $title . '"'
+                        'imgAttr' => 'title="'. $title . '"'
 					),
 					'',
                     RedshopLayoutHelper::$layoutOption
@@ -226,7 +225,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 
 		if (Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
 		{
-		    $wrapperimageDiv = "<marquee behavior='scroll'
+            $wrapperimageDiv = "<marquee behavior='scroll'
                 direction='left'
                 onmouseover='this.stop()'
                 onmouseout='this.start()'
