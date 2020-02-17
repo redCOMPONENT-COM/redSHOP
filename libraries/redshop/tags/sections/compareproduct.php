@@ -460,7 +460,18 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
 				}
 
 				$linkRemove = JUri::root() . 'index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&cid=' . $categoriesId[0] . '&Itemid=' . $itemId . '&tmpl=component';
-				$remove   = "<a href='" . $linkRemove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
+
+				$remove = RedshopLayoutHelper::render(
+					'tags.common.link',
+					array(
+						'class' => '',
+						'link' => $linkRemove,
+						'content' =>  JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST')
+					),
+					'',
+					RedshopLayoutHelper::$layoutOption
+				);
+
 				$this->replacements['{remove}'] .= $expDiv . $remove . $divEnd . $tdEnd . $tdStart;
 
 				if ($this->isTagExists('{add_to_cart}'))
