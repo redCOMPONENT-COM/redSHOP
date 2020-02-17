@@ -1684,25 +1684,11 @@ class RedshopModelCheckout extends RedshopModel
 	 * Method for get coupon price
 	 *
 	 * @return  float
+	 * @deprecated
 	 */
 	public function getCouponPrice()
 	{
-		$cart  = RedshopHelperCartSession::getCart();
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn(array('value', 'type')))
-			->from($db->qn('#__redshop_coupons'))
-			->where($db->qn('id') . ' = ' . (int) $cart['coupon_id'])
-			->where($db->qn('code') . ' = ' . $db->quote($cart['coupon_code']));
-
-		$row = $db->setQuery($query)->loadObject();
-
-		if (!$row)
-		{
-			return 0;
-		}
-
-		return $row->type == 1 ? (float) (($cart['product_subtotal'] * $row->value) / 100) : (float) $row->value;
+		return Redshop\Promotion\Coupon::getCouponPrice();
 	}
 
 	public function getCategoryNameByProductId($pid)
@@ -1859,27 +1845,17 @@ class RedshopModelCheckout extends RedshopModel
 	 * @return  array
 	 *
 	 * @since   2.1.0
+	 *
+	 * @deprecated
 	 */
 	public function calculateShipping($shippingRateId)
 	{
-		$shipArr        = array();
-		$order_shipping = Redshop\Shipping\Rate::decrypt($shippingRateId);
-
-		if (!isset($order_shipping[3]))
-		{
-			return $shipArr;
-		}
-
-		$shipArr['order_shipping_rate'] = $order_shipping[3];
-
-		if (array_key_exists(6, $order_shipping))
-		{
-			$shipArr['shipping_vat'] = $order_shipping [6];
-		}
-
-		return $shipArr;
+		return Redshop\Helper\Shipping::calculateShipping($shippingRateId);
 	}
 
+	/**
+	 * @deprecated use RedshopTagsReplacer
+	 */
 	public function displayShoppingCart($templateDesc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customerNote = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "", $post = array())
 	{
 		$session                     = JFactory::getSession();
