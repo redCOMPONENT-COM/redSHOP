@@ -42,7 +42,9 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 					'id' => '',
 					'class' => 'ajax_cart_box_title',
 					'attr' => ''
-				)
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
 			);
 
 			$this->addReplace("{ajax_cart_box_title}", $cartBoxTitle);
@@ -58,7 +60,9 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 					'id' => '',
 					'class' => 'show_cart_text',
 					'attr' => ''
-				)
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
 			);
 
 			$this->addReplace("{show_cart_text}", $showCartText);
@@ -72,7 +76,9 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_VIEW_CART'),
 					'class' => 'view_cart_button btn btn-primary',
 					'attr' => 'name="viewcart" onclick="javascript:window.location.href=\'' . JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId) . '\'"'
-				)
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
 			);
 
 			$this->addReplace("{show_cart_button}", $viewButton);
@@ -96,7 +102,9 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 					'text' => JText::_('COM_REDSHOP_CONTINUE_SHOPPING'),
 					'class' => 'continue_cart_button btn',
 					'attr' => 'name="continuecart" onclick="document.location=\'' . $shopMoreLink . '\'"'
-				)
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
 			);
 
 			$this->addReplace('{continue_shopping_button}', $continueButton);
