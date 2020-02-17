@@ -38,7 +38,7 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function add()
 	{
-		$app                      = JFactory::getApplication();
+		$app                      = \JFactory::getApplication();
 		$post                     = $app->input->post->getArray();
 		$parentAccessoryProductId = $post['product_id'];
 
@@ -52,18 +52,18 @@ class RedshopControllerCart extends RedshopController
 		$itemId        = RedshopHelperRouter::getCartItemId();
 
 		// Call add method of modal to store product in cart session
-		$userfield = $app->input->get('userfield');
+		$userField = $app->input->get('userfield');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = RedshopHelperUtility::getDispatcher();
+		$dispatcher = \RedshopHelperUtility::getDispatcher();
 		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
-		$isAjaxCartBox = Redshop::getConfig()->getBool('AJAX_CART_BOX');
-		$result = Redshop\Cart\Cart::addProduct($post);
+		$isAjaxCartBox = \Redshop::getConfig()->getBool('AJAX_CART_BOX');
+		$result = \Redshop\Cart\Cart::addProduct($post);
 
 		if (!is_bool($result) || (is_bool($result) && !$result))
 		{
-			$errorMessage = $result ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+			$errorMessage = $result ?? JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
 			// Set Error Message
 			$app->enqueueMessage($errorMessage, 'error');
@@ -79,40 +79,41 @@ class RedshopControllerCart extends RedshopController
 
 				if (count($itemData) > 0)
 				{
-					$prdItemid = $itemData->id;
+					$productItemid = $itemData->id;
 				}
 				else
 				{
-					$prdItemid = RedshopHelperRouter::getItemId($post['product_id'], RedshopProduct::getInstance($post['product_id'])->cat_in_sefurl);
+					$productItemid = \RedshopHelperRouter::getItemId($post['product_id'],
+                        \RedshopProduct::getInstance($post['product_id'])->cat_in_sefurl);
 				}
 
 				// Directly redirect if error found
 				$app->redirect(
-					JRoute::_(
+					\JRoute::_(
 						'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid='
-						. $post['category_id'] . '&Itemid=' . $prdItemid,
+						. $post['category_id'] . '&Itemid=' . $productItemid,
 						false
 					)
 				);
 			}
 		}
 
-		$session              = JFactory::getSession();
-		$cart                 = RedshopHelperCartSession::getCart();
-		$isQuotationMode      = Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE');
-		$isShowQuotationPrice = Redshop::getConfig()->getBool('SHOW_QUOTATION_PRICE');
+		$session              = \JFactory::getSession();
+		$cart                 = \Redshop\Cart\Helper::getCart();
+		$isQuotationMode      = \Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE');
+		$isShowQuotationPrice = \Redshop::getConfig()->getBool('SHOW_QUOTATION_PRICE');
 
 		if (isset($cart['AccessoryAsProduct']) && !empty($post['accessory_data']))
 		{
-			$attArr = $cart['AccessoryAsProduct'];
+			$attributes = $cart['AccessoryAsProduct'];
 
 			if (Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE'))
 			{
-				$data['accessory_data']       = $attArr[0];
-				$data['acc_quantity_data']    = $attArr[1];
-				$data['acc_attribute_data']   = $attArr[2];
-				$data['acc_property_data']    = $attArr[3];
-				$data['acc_subproperty_data'] = $attArr[4];
+				$data['accessory_data']       = $attributes[0];
+				$data['acc_quantity_data']    = $attributes[1];
+				$data['acc_attribute_data']   = $attributes[2];
+				$data['acc_property_data']    = $attributes[3];
+				$data['acc_subproperty_data'] = $attributes[4];
 
 				if (isset($data['accessory_data']) && ($data['accessory_data'] != "" && $data['accessory_data'] != 0))
 				{
@@ -124,7 +125,7 @@ class RedshopControllerCart extends RedshopController
 
 					foreach ($accessories as $i => $accessoryId)
 					{
-						$accessory                               = RedshopHelperAccessory::getProductAccessories($accessoryId);
+						$accessory                               = \RedshopHelperAccessory::getProductAccessories($accessoryId);
 						$cartData                                = array();
 						$cartData['parent_accessory_product_id'] = $parentAccessoryProductId;
 						$cartData['product_id']                  = $accessory[0]->child_product_id;
@@ -136,8 +137,8 @@ class RedshopControllerCart extends RedshopController
 						$cartData['subproperty_data']            = $accessoriesSubProperty[$i];
 						$cartData['accessory_id']                = $accessories[$i];
 
-						$result = Redshop\Cart\Cart::addProduct($cartData);
-						$cart   = RedshopHelperCartSession::getCart();
+						$result = \Redshop\Cart\Cart::addProduct($cartData);
+						$cart   = \RedshopHelperCartSession::getCart();
 
 						if (!is_bool($result) || !$result)
 						{
@@ -158,20 +159,20 @@ class RedshopControllerCart extends RedshopController
 								$app->close();
 							}
 
-							$itemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
+							$itemData = \RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
 							if (count($itemData) > 0)
 							{
-								$prdItemid = $itemData->id;
+								$productItemid = $itemData->id;
 							}
 							else
 							{
-								$prdItemid = RedshopHelperRouter::getItemId($post['product_id']);
+								$productItemid = \RedshopHelperRouter::getItemId($post['product_id']);
 							}
 
 							$app->redirect(
 								JRoute::_(
-									'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $prdItemid,
+									'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $productItemid,
 									false
 								)
 							);
@@ -182,41 +183,41 @@ class RedshopControllerCart extends RedshopController
 
 			if (!$isQuotationMode || ($isQuotationMode && $isShowQuotationPrice))
 			{
-				RedshopHelperCart::addCartToDatabase();
+				\RedshopHelperCart::addCartToDatabase();
 			}
 
-			RedshopHelperCart::cartFinalCalculation();
+			\RedshopHelperCart::cartFinalCalculation();
 			unset($cart['AccessoryAsProduct']);
 		}
 		else
 		{
 			if (!$isQuotationMode || ($isQuotationMode && $isShowQuotationPrice))
 			{
-				RedshopHelperCart::addCartToDatabase();
+				\RedshopHelperCart::addCartToDatabase();
 			}
 
-			RedshopHelperCart::cartFinalCalculation();
+			\RedshopHelperCart::cartFinalCalculation();
 		}
 
-		$link = JRoute::_(
+		$link = \JRoute::_(
 			'index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&Itemid=' . $itemId,
 			false
 		);
 
-		if (!$userfield)
+		if (!$userField)
 		{
 			if ($isAjaxCartBox && isset($post['ajax_cart_box']))
 			{
-				$link = JRoute::_(
+				$link = \JRoute::_(
 					'index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $itemId,
 					false
 				);
 			}
 			else
 			{
-				if (Redshop::getConfig()->getInt('ADDTOCART_BEHAVIOUR') === 1)
+				if (\Redshop::getConfig()->getInt('ADDTOCART_BEHAVIOUR') === 1)
 				{
-					$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
+					$link = \JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false);
 				}
 				else
 				{
@@ -225,8 +226,8 @@ class RedshopControllerCart extends RedshopController
 						$this->setMessage($cart['notice_message'], 'warning');
 					}
 
-					$this->setMessage(JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'message');
-					$link = JRoute::_($_SERVER['HTTP_REFERER'], false);
+					$this->setMessage(\JText::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART'), 'message');
+					$link = \JRoute::_($_SERVER['HTTP_REFERER'], false);
 				}
 			}
 		}
@@ -250,10 +251,10 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function coupon()
 	{
-		$itemId   = RedshopHelperRouter::getCartItemId();
-		$app      = JFactory::getApplication();
+		$itemId   = \RedshopHelperRouter::getCartItemId();
+		$app      = \JFactory::getApplication();
 		$ajax     = $app->input->getInt('ajax', 0);
-		$language = JFactory::getLanguage()->getTag();
+		$language = \JFactory::getLanguage()->getTag();
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('Cart');
@@ -261,12 +262,12 @@ class RedshopControllerCart extends RedshopController
 		// Call coupon method of model to apply coupon
 		$valid = $model->coupon();
 
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$this->modifyCalculation($cart);
-		RedshopHelperCart::cartFinalCalculation(false);
+		\RedshopHelperCart::cartFinalCalculation(false);
 
 		// Store cart entry in db
-		RedshopHelperCart::addCartToDatabase();
+		\RedshopHelperCart::addCartToDatabase();
 
 		$message     = null;
 		$messageType = null;
@@ -274,9 +275,9 @@ class RedshopControllerCart extends RedshopController
 		// If coupon code is valid than apply to cart else raise error
 		if ($valid)
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId, false);
+			$link = \JRoute::_('index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId, false);
 
-			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
 				foreach ($cart as $index => $value)
 				{
@@ -285,7 +286,7 @@ class RedshopControllerCart extends RedshopController
 						continue;
 					}
 
-					$checkDiscountPro = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+					$checkDiscountPro = \RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
 				}
 
 				if ($checkDiscountPro != 0)
@@ -300,29 +301,29 @@ class RedshopControllerCart extends RedshopController
 				}
 			}
 
-			if (Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
+			if (\Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
-				$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+				$message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
 				$messageType = 'warning';
 			}
 			else
 			{
 				$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
 
-				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
+				$this->setRedirect($link, \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
 			}
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId, false);
+			$link = \JRoute::_('index.php?option=com_redshop&view=cart&lang=' . $language . '&Itemid=' . $itemId, false);
 
-			$message     = JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
+			$message     = \JText::_('COM_REDSHOP_COUPON_CODE_IS_NOT_VALID');
 			$messageType = 'error';
 		}
 
 		if ($ajax)
 		{
-			$carts = RedshopHelperCart::generateCartOutput(RedshopHelperCartSession::getCart());
+			$carts = \RedshopHelperCart::generateCartOutput(\Redshop\Cart\Helper::getCart());
 
 			echo json_encode(array($valid, $message, $carts[0]));
 
@@ -352,11 +353,11 @@ class RedshopControllerCart extends RedshopController
 
 		if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') == 1)
 		{
-			$discountAmount = Redshop\Cart\Helper::getDiscountAmount($cart);
+			$discountAmount = \Redshop\Cart\Helper::getDiscountAmount($cart);
 
 			if ($discountAmount > 0)
 			{
-				$cart = RedshopHelperCartSession::getCart();
+				$cart = \Redshop\Cart\Helper::getCart();
 			}
 		}
 
@@ -364,8 +365,8 @@ class RedshopControllerCart extends RedshopController
 
 		if (array_key_exists('voucher', $cart))
 		{
-			$voucherDiscount = RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
-			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
+			$voucherDiscount = \RedshopHelperDiscount::calculate('voucher', $cart['voucher']);
+			if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
 			{
 				$voucherDiscount = $voucherDiscount - $cart['voucher'][1]['voucher_value'];
 			}
@@ -375,7 +376,7 @@ class RedshopControllerCart extends RedshopController
 
 		if (array_key_exists('coupon', $cart))
 		{
-			$couponDiscount = RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
+			$couponDiscount = \RedshopHelperDiscount::calculate('coupon', $cart['coupon']);
 			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 2)
 			{
 				$couponDiscount = $couponDiscount - $cart['coupon'][1]['coupon_value'];
@@ -390,11 +391,11 @@ class RedshopControllerCart extends RedshopController
 
 		$tax         = $calArr[5];
 		$discountVAT = 0;
-		$chktag      = RedshopHelperCart::taxExemptAddToCart();
+		$chktag      = \RedshopHelperCart::taxExemptAddToCart();
 
-		if ((float) Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag))
+		if ((float) \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag))
 		{
-			if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
+			if (\Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT'))
 			{
 				$cart['tax_after_discount'] = $tax;
 			}
@@ -408,7 +409,7 @@ class RedshopControllerCart extends RedshopController
 				}
 				else
 				{
-					$vatData = RedshopHelperTax::getVatRates();
+					$vatData = \RedshopHelperTax::getVatRates();
 
 					if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 					{
@@ -438,9 +439,9 @@ class RedshopControllerCart extends RedshopController
 		$cart['discount_vat']              = $discountVAT;
 		$cart['shipping_tax']              = $calArr[6];
 		$cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
-		$cart['mod_cart_total']            = Redshop\Cart\Module::calculate($cart);
+		$cart['mod_cart_total']            = \Redshop\Cart\Module::calculate($cart);
 
-		RedshopHelperCartSession::setCart($cart);
+		\RedshopHelperCartSession::setCart($cart);
 
 		return $cart;
 	}
@@ -453,8 +454,8 @@ class RedshopControllerCart extends RedshopController
 	 */
 	public function voucher()
 	{
-		$itemId   = RedshopHelperRouter::getCartItemId();
-		$language = JFactory::getLanguage()->getTag();
+		$itemId   = \RedshopHelperRouter::getCartItemId();
+		$language = \JFactory::getLanguage()->getTag();
 
 		/** @var RedshopModelCart $model */
 		$model = $this->getModel('Cart');
@@ -462,15 +463,15 @@ class RedshopControllerCart extends RedshopController
 		// Call voucher method of model to apply voucher to cart if f voucher code is valid than apply to cart else raise error
 		if ($model->voucher())
 		{
-			$cart = RedshopHelperCartSession::getCart();
+			$cart = \RedshopHelperCartSession::getCart();
 			$this->modifyCalculation($cart);
-			RedshopHelperCart::cartFinalCalculation(false);
+			\RedshopHelperCart::cartFinalCalculation(false);
 
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&lang=' . $language . '&Itemid=' . $itemId, false);
+			$link = \JRoute::_('index.php?option=com_redshop&view=cart&seldiscount=voucher&lang=' . $language . '&Itemid=' . $itemId, false);
 			$message     = null;
 			$messageType = null;
 
-			if (Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
+			if (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 1)
 			{
 				foreach ($cart as $index => $value)
 				{
@@ -479,34 +480,34 @@ class RedshopControllerCart extends RedshopController
 						continue;
 					}
 
-					$checkDiscountPro = RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
+					$checkDiscountPro = \RedshopHelperDiscount::getDiscountPriceBaseDiscountDate($value['product_id']);
 				}
 
 				if ($checkDiscountPro != 0)
 				{
-					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
+					$message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE');
 					$messageType = 'error';
 				}
 				else
 				{
-					$message     = JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
+					$message     = \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID');
 					$messageType = 'success';
 				}
 			}
 
-			if (Redshop::getConfig()->getInt('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
+			if (\Redshop::getConfig()->getInt('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT') != 1)
 			{
-				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
+				$this->setRedirect($link, \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID_NOT_APPLY_PRODUCTS_ON_SALE'), 'warning');
 			}
 			else
 			{
-				$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
+				$this->setRedirect($link, \JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
 			}
 		}
 		else
 		{
-			$msg  = JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
-			$link = JRoute::_('index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&lang=' . $language 
+			$msg  = \JText::_('COM_REDSHOP_VOUCHER_CODE_IS_NOT_VALID');
+			$link = \JRoute::_('index.php?option=com_redshop&view=cart&msg=' . $msg . '&seldiscount=voucher&lang=' . $language
 				. '&Itemid=' . $itemId, false);
 			$this->setRedirect($link, $msg, 'error');
 		}

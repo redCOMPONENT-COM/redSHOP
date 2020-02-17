@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-$url = JURI::base();
+$url = \JURI::base();
 
 
 $quotationHelper = quotationHelper::getInstance();
