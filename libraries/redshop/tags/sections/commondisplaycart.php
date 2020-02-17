@@ -22,6 +22,11 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 	use Replace\Template, Replace\Discount, Replace\ConditionTag, Replace\Tax, Replace\TermsConditions,
 		Replace\NewsletterSubscription;
 
+	/**
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public $tags = array(
 		'{customer_note}', '{customer_note_lbl}', '{requisition_number}', '{shop_more}', '{checkout_button}',
 		'{thirdparty_email}', '{thirdparty_email_lbl}', '{customer_note}', '{customer_note_lbl}', '{customer_message_chk}',
@@ -30,11 +35,25 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 		'{tax_with_shipping_lbl}', '{checkout}', '{checkout_button}', '{quotation_request}', '{coupon_code_lbl}', '{print}'
 	);
 
+	/**
+	 * Init
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function init()
 	{
 
 	}
 
+	/**
+	 * Execute replace
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function replace()
 	{
 		$session         = JFactory::getSession();
@@ -352,7 +371,8 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 				'orderId' => \JFactory::getApplication()->input->get('order_id'),
 				'shopId' => $shopId,
 				'shippingRateId' => $shippingRateId,
-				'paymentMethodId' => $paymentMethodId
+				'paymentMethodId' => $paymentMethodId,
+				'cartTotal' => $cart['total']
 			),
 			'',
 			$layoutOptions

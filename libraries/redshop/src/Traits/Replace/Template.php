@@ -41,7 +41,7 @@ trait Template
 			$cartData       = $templateData['begin'] . $templateMiddle . $templateData['end'];
 		}
 
-		$cartData = Label::replace($cartData);
+		$cartData = \Redshop\Cart\Render\Label::replace($cartData);
 
 		$total                  = $cart['total'];
 		$subtotalExclVat        = $cart['subtotal_excl_vat'];

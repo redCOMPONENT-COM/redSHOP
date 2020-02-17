@@ -16,13 +16,25 @@ defined('_JEXEC') || die;
  */
 class RedshopTagsSectionsCheckout extends RedshopTagsAbstract
 {
-	public $tags = array();
-
+	/**
+	 * Init
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function init()
 	{
 
 	}
 
+	/**
+	 * Execute replace
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function replace()
 	{
 		$app  = JFactory::getApplication();

@@ -63,40 +63,5 @@ $cartData = RedshopTagsReplacer::_(
 );
 
 echo eval("?>" . $cartData . "<?php ");
-?>
 
-<script type="text/javascript">
-	function validation() {
-		<?php
-		if( Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') > 0 && $cart['total'] < Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL'))
-		{
-		?>
-		alert("<?php echo JText::_('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') . ' ' . Redshop::getConfig()->get('MINIMUM_ORDER_TOTAL') . '';?>");
-		return false;
-		<?php
-		}	?>
 
-		if (document.getElementById('termscondition')) {
-			var termscondition = document.getElementById('termscondition').checked;
-
-			if (!termscondition) {
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS')?>");
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	function checkout_disable(val) {
-		document.adminForm.submit();
-		document.getElementById(val).disabled = true;
-		var op = document.getElementById(val);
-		op.setAttribute("style", "opacity:0.3;");
-
-		if (op.style.setAttribute) //For IE
-		{
-			op.style.setAttribute("filter", "alpha(opacity=30);");
-		}
-	}
-</script>
