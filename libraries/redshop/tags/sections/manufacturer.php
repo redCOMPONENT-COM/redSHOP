@@ -61,7 +61,7 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 		}
 
 		$printTag = RedshopLayoutHelper::render(
-			'tags.manufacturer.print',
+			'tags.common.print',
 			array(
 				'onClick' => $onClick
 			),
