@@ -11,26 +11,26 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-$show_with_vat      = trim($params->get('show_with_vat', 0));
-$button_text        = trim($params->get('button_text', ''));
-$show_shipping_line = ($params->get('show_shipping_line', 0));
-$show_with_discount = ($params->get('show_with_discount', 0));
+$moduleName = 'mod_redshop_cart';
 
-$document = JFactory::getDocument()->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
-$show_empty_btn = 0;
+$showWithVat      = trim($params->get('show_with_vat', 0));
+$buttonText       = trim($params->get('button_text', ''));
+$showShippingLine = ($params->get('show_shipping_line', 0));
+$showWithDiscount = ($params->get('show_with_discount', 0));
+
+$document = \JFactory::getDocument();
+$document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
+
+$showEmptyBtn = 0;
 
 if ($params->get("checkout_empty") != 0)
 {
-	$show_empty_btn = 1;
+	$showEmptyBtn = 1;
 }
 
-// Load Model Cart to calculate Cart Total
-JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-$model = JModelLegacy::getInstance("Cart", "RedshopModel");
+\RedshopHelperUtility::databaseToCart();
 
-RedshopHelperUtility::databaseToCart();
-
-$output_view = $params->get('cart_output', 'simple');
+$outputView = $params->get('cart_output', 'simple');
 $session     = JFactory::getSession();
 $cart        = $session->get('cart');
 
@@ -58,4 +58,13 @@ for ($i = 0; $i < $idx; $i++)
 
 $session->set('cart', $cart);
 
-require JModuleHelper::getLayoutPath('mod_redshop_cart');
+echo RedshopLayoutHelper::render(
+    $layout,
+    $twigParams,
+    '',
+    array(
+        'component'     => 'com_redshop',
+        'layoutType'    => 'Twig',
+        'layoutOf'      => 'module',
+        'prefix'        => $moduleName
+    ));
