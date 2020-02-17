@@ -98,7 +98,7 @@ class RedshopControllerRating extends RedshopController
 
 		$model = $this->getModel('rating_detail');
 
-		if (!$model->favoured($cid, 1))
+		if (!\Redshop\Rating\Helper::setFavoured($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
@@ -125,7 +125,7 @@ class RedshopControllerRating extends RedshopController
 
 		$model = $this->getModel('rating_detail');
 
-		if (!$model->favoured($cid, 0))
+		if (!\Redshop\Rating\Helper::setFavoured($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
