@@ -1140,3 +1140,36 @@ function autoFillCity(str,isShipping)
 		xmlhttp.send(null);
 	}
 }
+
+function checkout_disable(val) {
+    document.adminForm.submit();
+    document.getElementById(val).disabled = true;
+    var op = document.getElementById(val);
+    op.setAttribute("style", "opacity:0.3;");
+
+    if (op.style.setAttribute) //For IE
+    {
+        op.style.setAttribute("filter", "alpha(opacity=30);");
+    }
+}
+
+function validation(cartTotal)
+{
+
+    if (redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL') > 0 && cartTotal < redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'))
+    {
+        alert(Joomla.JText._('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') + ' ' + redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'));
+        return false;
+    }
+
+    if (document.getElementById('termscondition')) {
+        var termscondition = document.getElementById('termscondition').checked;
+
+        if (!termscondition) {
+            alert(Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'));
+            return false;
+        }
+    }
+
+    return true;
+}

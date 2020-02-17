@@ -92,7 +92,8 @@ class RedshopHelperJs
 			'REQUIRED_ADDRESS'                  => $config->get('REQUIRED_ADDRESS'),
 			'REQUIRED_EAN_NUMBER'               => $config->get('REQUIRED_EAN_NUMBER'),
 			'REQUIRED_COUNTRY_CODE'             => $config->get('REQUIRED_COUNTRY_CODE'),
-			'REQUIRED_PHONE'                    => $config->get('REQUIRED_PHONE')
+			'REQUIRED_PHONE'                    => $config->get('REQUIRED_PHONE'),
+			'MINIMUM_ORDER_TOTAL'               => $config->get('MINIMUM_ORDER_TOTAL')
 		);
 
 		// Current Shopper Group - Show price with VAT config
@@ -152,7 +153,9 @@ class RedshopHelperJs
 			'COM_REDSHOP_USERNAME_MIN_CHARACTER_LIMIT',
 			'COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT',
 			'COM_REDSHOP_AVAILABLE_STOCK',
-			'COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'
+			'COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS',
+			'COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN',
+			'COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'
 		);
 
 		$backwardJS = array();
