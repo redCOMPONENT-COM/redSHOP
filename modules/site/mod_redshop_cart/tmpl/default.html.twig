@@ -7,11 +7,11 @@
         {{ cartHtml }}
     </div>
     <div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
-        <?php if ($count || $show_empty_btn): ?>
-            <a href="<?php echo JRoute::_("index.php?option=com_redshop&view=cart&Itemid=" . $itemId); ?>">
-                <?php echo $displayButton; ?>
+        {% if (count or showEmptBtn) %}
+            <a href="{{ jroute("index.php?option=com_redshop&view=cart&Itemid=#{ itemId }") }}">
+                {{ displayButton }}
             </a>
-        <?php endif; ?>
+        {% endif %}
     </div>
 </div>
 

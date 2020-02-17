@@ -20,6 +20,7 @@ $showWithDiscount = ($params->get('show_with_discount', 0));
 
 $document = \JFactory::getDocument();
 $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
+$document->addScript("modules/mod_redshop_cart/js/cart.js");
 
 $showEmptyBtn = 0;
 
@@ -31,34 +32,65 @@ if ($params->get("checkout_empty") != 0)
 \RedshopHelperUtility::databaseToCart();
 
 $outputView = $params->get('cart_output', 'simple');
-$session     = JFactory::getSession();
+$session     = \JFactory::getSession();
 $cart        = $session->get('cart');
 
-if (count($cart) <= 0 || $cart == "")
-{
-	$cart = array();
+$layout =$params->get('layout', 'default');
+$cart = \Redshop\Cart\Helper::getCart();
+$totalQuantity = \Redshop\Cart\Helper::getTotalQuantity();
+$twigParams = [];
+$twigParams['token'] = \JSession::getFormToken();
+$twigParams['app'] = \JFactory::getApplication();
+$itemId = (int)RedshopHelperRouter::getCartItemId();
+$getNewItemId = true;
+
+if ($itemId != 0) {
+    $menu = $app->getMenu();
+    $item = $menu->getItem($itemId);
+
+    $getNewItemId = false;
+
+    if (isset($item->id) === false) {
+        $getNewItemId = true;
+    }
 }
 
-$idx = 0;
-
-if (is_array($cart) && !array_key_exists("quotation_id", $cart))
-{
-	if (isset($cart['idx']))
-	{
-		$idx = $cart['idx'];
-	}
+if ($getNewItemId) {
+    $itemId = (int) \RedshopHelperRouter::getCategoryItemid();
 }
 
-$count = 0;
+$displayButton = \JText::_('MOD_REDSHOP_CART_CHECKOUT');
 
-for ($i = 0; $i < $idx; $i++)
-{
-	$count += $cart[$i]['quantity'];
+if ($buttonText != "") {
+    $displayButton = $buttonText;
 }
 
-$session->set('cart', $cart);
+JFactory::getDocument()->addStyleDeclaration(
+    '.mod_cart_checkout{background-color:' . Redshop::getConfig()->get('ADDTOCART_BACKGROUND') . ';}'
+);
 
-echo RedshopLayoutHelper::render(
+$twigParams['cartHtml'] = RedshopLayoutHelper::render(
+    'cart.cart',
+    array(
+        'cartOutput' => $outputView,
+        'totalQuantity' => $totalQuantity,
+        'cart' => $cart,
+        'showWithVat' => $showWithVat,
+        'showShippingLine' => $showShippingLine,
+        'showWithDiscount' => $showWithDiscount
+    ),
+    '',
+    array(
+        'component' => 'com_redshop'
+    )
+);
+
+$twigParams['itemId'] = $itemId;
+$twigParams['count'] = $totalQuantity;
+$twigParams['showEmptyBtn'] = $showEmptyBtn;
+$twigParams['displayButton'] = $displayButton;
+
+print RedshopLayoutHelper::render(
     $layout,
     $twigParams,
     '',
