@@ -469,7 +469,7 @@ abstract class AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $checkoutFinalStep = "//input[@id='checkout_final']";
+	public static $checkoutFinalStep = '#checkout_final';
 
 	/**
 	 * @var string
