@@ -662,10 +662,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		$session->set('rs_user', $redShopUser);
 
-		/** @var RedshopModelCheckout $model */
-		$model = $this->getModel('checkout');
-		$user  = JFactory::getUser();
-
+		$user             = JFactory::getUser();
 		$cart             = $session->get('cart');
 		$shipping_box_id  = $post['shipping_box_id'];
 		$shipping_rate_id = $post['shipping_rate_id'];
@@ -702,7 +699,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		if ($shipping_rate_id != "")
 		{
-			$shipArr = $model->calculateShipping($shipping_rate_id);
+			$shipArr = Redshop\Helper\Shipping::calculateShipping($shipping_rate_id);
 			$cart['shipping']     = $shipArr['order_shipping_rate'];
 			$cart['shipping_vat'] = $shipArr['shipping_vat'];
 			$cart = RedshopHelperDiscount::modifyDiscount($cart);
@@ -713,9 +710,22 @@ class RedshopControllerCheckout extends RedshopController
 			$templatelist          = RedshopHelperTemplate::getTemplate("checkout", $cart_template_id);
 			$oneStepTemplateHtml = $templatelist[0]->template_desc;
 
-			$oneStepTemplateHtml = $model->displayShoppingCart(
-				$oneStepTemplateHtml, $usersInfoId, $shipping_rate_id, $payment_method_id, $Itemid, $customer_note, $req_number, '',
-				$customer_message, $referral_code, '', $post
+			$oneStepTemplateHtml = \RedshopTagsReplacer::_(
+				'commondisplaycart',
+				$oneStepTemplateHtml,
+				array(
+					'usersInfoId' => $usersInfoId,
+					'shippingRateId' => $shipping_rate_id,
+					'paymentMethodId' => $payment_method_id,
+					'itemId' => $Itemid,
+					'customerNote' => $customer_note,
+					'regNumber' => $req_number,
+					'thirpartyEmail' => '',
+					'customerMessage' => $customer_message,
+					'referralCode' => $referral_code,
+					'shopId' => '',
+					'data' => $post
+				)
 			);
 		}
 
