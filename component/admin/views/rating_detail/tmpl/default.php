@@ -139,7 +139,7 @@ if (!empty($this->detail->images))
 							}
 							else
 							{
-								$uname->text = $model->getuserfullname2($this->detail->userid);
+								$uname->text = $model->getUseFullName($this->detail->userid);
 							}
 
 							$uname->value = $this->detail->userid;

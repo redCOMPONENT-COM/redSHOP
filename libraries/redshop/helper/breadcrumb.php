@@ -209,7 +209,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = RedshopHelperProduct::getMenuDetail("index.php?option=com_redshop&view=manufacturers");
 
-				if (count($menu) > 0 && $menu->home != 1)
+				if (isset($menu->id) && $menu->home != 1)
 				{
 					if (property_exists($menu, 'parent'))
 					{
@@ -261,7 +261,7 @@ class RedshopHelperBreadcrumb
 				$customPathways = array();
 				$menu           = RedshopHelperProduct::getMenuInformation($itemId);
 
-				if (count($menu) > 0)
+				if (isset($menu) && count($menu) > 0)
 				{
 					$main       = new stdClass;
 					$main->name = $menu->title;

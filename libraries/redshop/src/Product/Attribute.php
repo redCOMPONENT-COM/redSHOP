@@ -72,7 +72,8 @@ class Attribute
         $notAttributeId = ''
     ) {
         $key = md5(
-            $productId . '_' . $attributeSetId . '_' . $attributeId . '_' . $published . '_' . $attributeRequired . '_' . $notAttributeId
+            $productId . '_' . $attributeSetId . '_' . $attributeId . '_' . $published . '_' . $attributeRequired
+            . '_' . $notAttributeId
         );
 
         if (!array_key_exists($key, static::$productAttributes)) {

@@ -274,7 +274,7 @@ class Helper
         $discountAmountFinal = 0;
         $discountVAT = 0;
 
-        if (!empty($discount)) {
+        if (!empty($discount) && isset($cart)) {
             $productSubtotal = $cart['product_subtotal'] + $cart['shipping'];
 
             // Discount total type
@@ -510,5 +510,55 @@ class Helper
         $productList['product_quantity'] = $productQuantity;
 
         return $productList;
+    }
+
+    /**
+     * @return array|mixed
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getCart()
+    {
+        $cart  = \JFactory::getSession()->get('cart', null);
+
+        if (empty($cart)) {
+            $cart = [
+                'idx' => 0
+            ];
+        }
+
+        return $cart;
+    }
+
+    /**
+     * @param $cart
+     * @return mixed
+     * @since __DEPLOY_VERSION__
+     */
+    public static function setCart($cart)
+    {
+        return \JFactory::getSession()->set('cart', $cart);
+    }
+
+    /**
+     * @return int
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getTotalQuantity()
+    {
+        $cart = self::getCart();
+
+        if ($cart['idx'] === 0) {
+            return 0;
+        }
+
+        $cart['totalQuantity'] = 0;
+
+        for ($i = 0; $i < (int) $cart['idx']; $i++) {
+            $cart['totalQuantity'] += (int) $cart[$i]['quantity'] ?? 0;
+        }
+
+        self::setCart($cart);
+
+        return $cart['totalQuantity'];
     }
 }

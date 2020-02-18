@@ -53,11 +53,7 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 					'class' => 'product_price product_price' . $product->product_id
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				RedshopLayoutHelper::$layoutOption
 			);
 		}
 		else

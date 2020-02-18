@@ -15,6 +15,7 @@
         <folder>tmpl</folder>
         <folder module="mod_redshop_cart">images</folder>
         <folder module="mod_redshop_cart">css</folder>
+        <folder module="mod_redshop_cart">js</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>

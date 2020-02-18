@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 JPluginHelper::importPlugin('redshop_payment');
+$dispatcher = \RedshopHelperUtility::getDispatcher();
+$cards = $dispatcher->trigger('onListCreditCards', array());
 
-$cards = JEventDispatcher::getInstance()->trigger('onListCreditCards', array());
-
-if (empty($cards))
-{
-	JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'), 'warning');
+if (empty($cards)) {
+    JFactory::getApplication()->enqueueMessage(JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
+        'warning');
 }
