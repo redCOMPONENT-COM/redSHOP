@@ -1205,6 +1205,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForText($total, 10, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 	}
@@ -1265,6 +1266,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);

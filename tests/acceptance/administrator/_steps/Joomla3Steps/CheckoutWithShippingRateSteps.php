@@ -59,6 +59,8 @@ class CheckoutWithShippingRateSteps extends CheckoutOnFrontEnd
 		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$priceRate = 'Shipping with vat: '.$currencyUnit['currencySymbol'].' '.($shipping['shippingRate']).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
