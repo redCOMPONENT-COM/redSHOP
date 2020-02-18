@@ -29,7 +29,7 @@ echo RedshopTagsReplacer::_(
 	'onestepcheckout',
 	$oneStepTemplateHtml,
 	array(
-		'users_info_id' => $this->users_info_id,
+		'usersInfoId' => $this->users_info_id,
 		'shippingAddresses' => $model->shippingaddresses(),
 		'billingAddress' => $model->billingaddresses()
 	)

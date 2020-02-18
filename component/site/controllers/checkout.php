@@ -662,10 +662,7 @@ class RedshopControllerCheckout extends RedshopController
 
 		$session->set('rs_user', $redShopUser);
 
-		/** @var RedshopModelCheckout $model */
-		$model = $this->getModel('checkout');
-		$user  = JFactory::getUser();
-
+		$user             = JFactory::getUser();
 		$cart             = $session->get('cart');
 		$shipping_box_id  = $post['shipping_box_id'];
 		$shipping_rate_id = $post['shipping_rate_id'];

@@ -78,7 +78,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
 			$selectedShippingBoxId = $shippingBoxes[0]->shipping_box_id;
 		}
 
-		$usersInfoId       = $app->input->getInt('users_info_id', $this->data['users_info_id']);
+		$usersInfoId       = $app->input->getInt('users_info_id', $this->data['usersInfoId']);
 		$paymentMethodId   = $app->input->getCmd('payment_method_id', $selectedPaymentMethodId);
 		$shippingBoxPostId = $app->input->getInt('shipping_box_id', $selectedShippingBoxId);
 		$shippingRateId    = $app->input->getInt('shipping_rate_id', 0);
@@ -263,6 +263,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
 		}
 		else
 		{
+			$lists                            = [];
 			$lists['shipping_customer_field'] = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS);
 			$lists['shipping_company_field']  = Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS);
 
