@@ -150,5 +150,6 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(UserManagerJoomla3Page::$confirmNewPassword, $passWord);
 		$I->click(UserManagerJoomla3Page::$saveButton);
 		$I->seeInPopup(QuotationManagerPage::$enterPhoneNumber);
+		$I->acceptPopup();
 	}
 }

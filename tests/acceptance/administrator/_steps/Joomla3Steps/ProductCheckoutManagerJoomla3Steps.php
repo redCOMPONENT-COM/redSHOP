@@ -64,8 +64,19 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->addressInformation($addressDetail);
 					$I->shippingInformation($shipmentDetail);
 					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
-					$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
-					$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 30);
+					$I->wait(0.5);
+
+					try
+					{
+						$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
+						$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 5);
+					}catch (\Exception $e)
+					{
+						$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$proceedButtonId, 30);
+						$I->click(FrontEndProductManagerJoomla3Page::$proceedButtonId);
+						$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal, 5);
+					}
+
 					$I->waitForElement(FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 					$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$bankTransferId));
 					$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -116,7 +127,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		try
 		{
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$selectorEmailInvalid, 10);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 5, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
 			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
 			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
 			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
