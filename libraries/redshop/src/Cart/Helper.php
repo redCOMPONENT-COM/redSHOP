@@ -31,7 +31,6 @@ class Helper
      * or just "the price". This CONSTANT will define if the discounts needs to
      * be applied BEFORE or AFTER the VAT is applied to the product price.
      *
-     * @param array $cart Cart data
      * @param integer $userId Current user ID
      *
      * @return  array
@@ -39,13 +38,11 @@ class Helper
      *
      * @since   2.1.0
      */
-    public static function calculation($cart = array(), $userId = 0)
+    public static function calculation($userId = 0)
     {
-        if (empty($cart)) {
-            $cart = \RedshopHelperCartSession::getCart();
-        }
+        $cart = \Redshop\Cart\Helper::getCart();
 
-        $index = $cart['idx'];
+        $index = $cart['idx'] ?? 0;
         $vat = 0;
         $subTotal = 0;
         $subTotalNoVAT = 0;
@@ -267,7 +264,7 @@ class Helper
      */
     public static function getDiscountAmount($cart = array(), $userId = 0)
     {
-        $cart = empty($cart) ? \RedshopHelperCartSession::getCart() : $cart;
+        $cart = empty($cart) ? \Cart\Helper::getCart() : $cart;
         $userId = empty($userId) ? \JFactory::getUser()->id : $userId;
         $discount = \RedshopHelperDiscount::getDiscount($cart['product_subtotal'], $userId);
 
@@ -275,7 +272,7 @@ class Helper
         $discountVAT = 0;
 
         if (!empty($discount) && isset($cart)) {
-            $productSubtotal = $cart['product_subtotal'] + $cart['shipping'];
+            $productSubtotal = $cart['product_subtotal'] + ($cart['shipping'] ?? 0);
 
             // Discount total type
             if (isset($discount->discount_type) && $discount->discount_type == 0) {
@@ -342,7 +339,7 @@ class Helper
 
             $cart['discount_tax'] = $discountVAT;
 
-            \RedshopHelperCartSession::setCart($cart);
+            \Redshop\Cart\Helper::setCart($cart);
         }
 
         return $discountAmountFinal;
@@ -547,7 +544,7 @@ class Helper
     {
         $cart = self::getCart();
 
-        if ($cart['idx'] === 0) {
+        if (!isset($cart['idx']) || $cart['idx'] === 0) {
             return 0;
         }
 

@@ -50,7 +50,7 @@ class RedshopHelperCartTag
             return $template;
         }
 
-        $cart = RedshopHelperCartSession::getCart();
+        $cart = \Redshop\Cart\Helper::getCart();
 
         if ($amount <= 0)
         {

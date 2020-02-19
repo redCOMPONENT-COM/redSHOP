@@ -57,7 +57,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 	public function replace()
 	{
 		$session         = JFactory::getSession();
-		$cart            = RedshopHelperCartSession::getCart();
+		$cart            = \Redshop\Cart\Helper::getCart();
 		$usersess        = $session->get('rs_user');
 		$usersInfoId     = $this->data['usersInfoId'];
 		$shippingRateId  = $this->data['shippingRateId'];
@@ -419,7 +419,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 
 		$this->template = Redshop\Cart\Render\Label::replace($this->template);
 
-		RedshopHelperCartSession::setCart((array) $cart);
+		\Redshop\Cart\Helper::setCart((array) $cart);
 
 		return parent::replace();
 	}

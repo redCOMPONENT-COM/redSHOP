@@ -1566,7 +1566,7 @@ class RedshopHelperExtrafields
 		$rowData      = $db->setQuery($query)->loadObjectList();
 		$exField      = '';
 		$exFieldTitle = '';
-		$cart         = RedshopHelperCartSession::getCart();
+		$cart         = \Redshop\Cart\Helper::getCart();
 		$idx          = 0;
 
 		if (isset($cart['idx']))

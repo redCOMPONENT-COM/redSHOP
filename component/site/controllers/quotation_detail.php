@@ -64,7 +64,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$cart        = array();
 		$cart['idx'] = 0;
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 
 		$quotationProducts = RedshopHelperQuotation::getQuotationProduct($post['quotation_id']);
 
@@ -80,7 +80,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$cart['quotation_id']  = $quotationDetail->quotation_id;
 		$cart['cart_discount'] = $quotationDetail->quotation_discount;
 		$cart['quotation']     = 1;
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 
 		$model->modifyQuotation($quotationDetail->user_id);
 		$Itemid = RedshopHelperRouter::getCheckoutItemId();

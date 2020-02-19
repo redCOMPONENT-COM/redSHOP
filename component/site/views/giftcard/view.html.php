@@ -9,26 +9,29 @@
 
 defined('_JEXEC') or die;
 
-
-
+/**
+ * Class RedshopViewGiftcard
+ */
 class RedshopViewGiftcard extends RedshopView
 {
+    /**
+     * @param null $tpl
+     * @return mixed|void
+     * @throws Exception
+     */
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 
 		// Request variables
-		$params   = $app->getParams('com_redshop');
-
-		$pageheadingtag = JText::_('COM_REDSHOP_REDSHOP');
-
+		$params = $app->getParams('com_redshop');
+		$pageHeadingTag = JText::_('COM_REDSHOP_REDSHOP');
 		$model             = $this->getModel('giftcard');
-		$giftcard_template = $model->getGiftcardTemplate();
+		$giftCardTemplate = $model->getGiftcardTemplate();
 		$detail            = $this->get('data');
-
 		$this->detail = $detail;
-		$this->template = $giftcard_template;
-		$this->pageheadingtag = $pageheadingtag;
+		$this->template = $giftCardTemplate;
+		$this->pageheadingtag = $pageHeadingTag;
 		$this->params = $params;
 		parent::display($tpl);
 	}
