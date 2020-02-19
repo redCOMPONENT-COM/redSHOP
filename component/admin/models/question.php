@@ -85,7 +85,7 @@ class RedshopModelQuestion extends RedshopModelForm
 		{
 			$this->questionId = $data['parent_id'];
 
-			return true;
+			return $data;
 		}
 
 		$user = JFactory::getUser();
