@@ -453,7 +453,7 @@ class RedshopModelCategory extends RedshopModel
 
 			if (!empty($products))
 			{
-				RedshopHelperProduct::setProduct($products);
+				\Redshop\Product\Product::setProduct($products);
 				$this->_product = array_values($products);
 			}
 		}
