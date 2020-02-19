@@ -171,7 +171,7 @@ class Product
             }
 
             if ($setRelated === true && static::$products[$key]) {
-                \RedshopHelperProduct::setProductRelates(array($key => static::$products[$key]), $userId);
+                self::setProductRelates(array($key => static::$products[$key]), $userId);
             }
         }
 
@@ -188,7 +188,7 @@ class Product
     public static function getMainProductQuery($query = false, $userId = 0)
     {
         $shopperGroupId = \RedshopHelperUser::getShopperGroup($userId);
-        $db             = \JFactory::getDbo();
+        $db             = Factory::getDbo();
 
         if (!$query) {
             $query = $db->getQuery(true);
@@ -310,4 +310,302 @@ class Product
 
         return $query;
     }
+
+	/**
+	 * Set product relates
+	 *
+	 * @param   array  $products  Products
+	 * @param   int    $userId    User id
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function setProductRelates($products, $userId = 0)
+	{
+		if (empty($products) || !is_array($products)) {
+			return;
+		}
+
+		$userId = !$userId ? Factory::getUser()->id : $userId;
+
+		$getAttributeKeys  = array();
+		$getExtraFieldKeys = array();
+
+		foreach ($products as $product) {
+			if (!isset($product->product_id)) {
+				continue;
+			}
+
+			$key = $product->product_id . '.' . $userId;
+
+			if (!array_key_exists($key, static::$products)) {
+				continue;
+			}
+
+			static::$products[$product->product_id . '.' . $userId]->categories = explode(',', $product->categories);
+
+			// If this product not has attributes yet. Put this in array of product which need to get attributes.
+			if (!isset(static::$products[$key]->attributes)) {
+				static::$products[$key]->attributes = array();
+				$getAttributeKeys[]                 = $product->product_id;
+			}
+
+			// If this product not has extra fields yet. Put this in array of product which need to get extra fields.
+			if (!isset(static::$products[$key]->extraFields)) {
+				static::$products[$key]->extraFields = array();
+				$getExtraFieldKeys[]                 = $product->product_id;
+			}
+		}
+
+		self::setProductAttributes($getAttributeKeys, $userId);
+		self::setProductExtraFields($getExtraFieldKeys, $userId);
+	}
+
+	/**
+	 * Method for set product attributes
+	 *
+	 * @param   array    $getAttributeKeys  Attributes key
+	 * @param   integer  $userId            Current user ID
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function setProductAttributes($getAttributeKeys = array(), $userId = 0)
+	{
+		if (empty($getAttributeKeys)) {
+			return;
+		}
+
+		$db = Factory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('a.attribute_id', 'value'))
+			->select($db->qn('a.attribute_name', 'text'))
+			->select('a.*')
+			->select($db->qn('ast.attribute_set_name'))
+			->select($db->qn('ast.published', 'attribute_set_published'))
+			->from($db->qn('#__redshop_product_attribute', 'a'))
+			->leftJoin(
+				$db->qn('#__redshop_attribute_set', 'ast') . ' ON ' . $db->qn('ast.attribute_set_id') . ' = ' . $db->qn(
+					'a.attribute_set_id'
+				)
+			)
+			->where($db->qn('a.attribute_name') . ' != ' . $db->quote(''))
+			->where($db->qn('a.attribute_published') . ' = 1')
+			->where($db->qn('a.product_id') . ' IN (' . implode(',', $getAttributeKeys) . ')')
+			->order($db->qn('a.ordering') . ' ASC');
+
+		$attributes = $db->setQuery($query)->loadObjectList();
+
+		if (empty($attributes)) {
+			return;
+		}
+
+		foreach ($attributes as $attribute) {
+			$key = $attribute->product_id . '.' . $userId;
+
+			static::$products[$key]->attributes[$attribute->attribute_id]             = $attribute;
+			static::$products[$key]->attributes[$attribute->attribute_id]->properties = array();
+		}
+
+		$query->clear()
+			->select($db->qn('ap.property_id', 'value'))
+			->select($db->qn('ap.property_name', 'text'))
+			->select('ap.*')
+			->select('a.attribute_name')
+			->select('a.attribute_id')
+			->select('a.product_id')
+			->select('a.attribute_set_id')
+			->from($db->qn('#__redshop_product_attribute_property', 'ap'))
+			->leftJoin(
+				$db->qn('#__redshop_product_attribute', 'a') . ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn(
+					'ap.attribute_id'
+				)
+			)
+			->where($db->qn('a.product_id') . ' IN (' . implode(',', $getAttributeKeys) . ')')
+			->where($db->qn('ap.property_published') . ' = 1')
+			->where($db->qn('a.attribute_published') . ' = 1')
+			->where($db->qn('a.attribute_name') . ' != ' . $db->quote(''))
+			->order($db->qn('ap.ordering') . ' ASC');
+
+		$properties = $db->setQuery($query)->loadObjectList();
+
+		if (empty($properties)) {
+			return;
+		}
+
+		foreach ($properties as $property) {
+			$key = $property->product_id . '.' . $userId;
+
+			static::$products[$key]->attributes[$property->attribute_id]->properties[$property->property_id] = $property;
+		}
+	}
+
+	/**
+	 * Method for set product extra fields
+	 *
+	 * @param   array    $getExtraFieldKeys  Attributes key
+	 * @param   integer  $userId             Current user ID
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function setProductExtraFields($getExtraFieldKeys = array(), $userId = 0)
+	{
+		if (empty($getExtraFieldKeys)) {
+			return;
+		}
+
+		$db = Factory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('fd.*')
+			->select($db->qn('f.title'))
+			->from($db->qn('#__redshop_fields_data', 'fd') . ' FORCE INDEX(' . $db->qn('#__field_data_common') . ')')
+			->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON ' . $db->qn('fd.fieldid') . ' = ' . $db->qn('f.id'))
+			->where($db->qn('fd.itemid') . ' IN (' . implode(',', $getExtraFieldKeys) . ')')
+			->where($db->qn('fd.section') . ' = 1');
+
+		$extraFields = $db->setQuery($query)->loadObjectList();
+
+		if (empty($extraFields)) {
+			return;
+		}
+
+		foreach ($extraFields as $extraField) {
+			$key = $extraField->itemid . '.' . $userId;
+
+			static::$products[$key]->extraFields[$extraField->fieldid] = $extraField;
+		}
+	}
+
+	/**
+	 * Get product information base on list of Ids
+	 *
+	 * @param   array    $productIds  Product ids
+	 * @param   int      $userId      User id
+	 * @param   boolean  $setRelated  Is need to set related or not
+	 *
+	 * @return  array
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getProductsByIds($productIds = array(), $userId = 0, $setRelated = true)
+	{
+		if (!$userId) {
+			$user   = Factory::getUser();
+			$userId = $user->id;
+		}
+
+		$productIds = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
+
+		if (empty($productIds)) {
+			return array();
+		}
+
+		$results       = array();
+		$newProductIds = array();
+
+		foreach ($productIds as $productId) {
+			$key = $productId . '.' . $userId;
+
+			// Load from static cache if already exist.
+			if (array_key_exists($key, static::$products)) {
+				$results[] = static::$products[$key];
+
+				if ($setRelated) {
+					self::setProductRelates(array($key => static::$products[$key]), $userId);
+				}
+
+				continue;
+			}
+
+			// Check if data is already loaded while getting list
+			if (array_key_exists($productId, static::$allProducts)) {
+				static::$products[$key] = static::$allProducts[$productId];
+
+				if ($setRelated) {
+					self::setProductRelates(array($key => static::$products[$key]), $userId);
+				}
+
+				continue;
+			}
+
+			$newProductIds[] = $productId;
+		}
+
+		if (empty($newProductIds)) {
+			return $results;
+		}
+
+		// Otherwise load product info
+		$db    = JFactory::getDbo();
+		$query = self::getMainProductQuery(false, $userId);
+
+		// Select product
+		$query->where($db->qn('p.product_id') . ' IN (' . implode(',', $productIds) . ')');
+
+		$items = (array)$db->setQuery($query)->loadObjectList();
+
+		if (empty($items)) {
+			return $results;
+		}
+
+		foreach ($items as $item) {
+			$key                    = $item->product_id . '.' . $userId;
+			static::$products[$key] = $item;
+			$results[]              = $item;
+
+			if ($setRelated === true) {
+				self::setProductRelates(array($key => static::$products[$key]), $userId);
+			}
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Set product array
+	 *
+	 * @param   array  $products  Array product/s values
+	 *
+	 * @return void
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function setProduct($products)
+	{
+		static::$products = $products + static::$products;
+		self::setProductRelates($products);
+	}
+
+	/**
+	 * Get all product information
+	 * Warning: This method is loading all the products from DB. Which can resulting
+	 *            into memory issue. Use with caution.
+	 *            It is aimed to use in CLI version or for webservices.
+	 *
+	 * @return  array  Product Information array
+	 */
+	public static function getList()
+	{
+		if (empty(static::$allProducts)) {
+			$db    = Factory::getDbo();
+			$query = self::getMainProductQuery();
+			$query->select(
+				array(
+					'p.product_name as text',
+					'p.product_id as value'
+				)
+			);
+
+			$db->setQuery($query);
+
+			static::$allProducts = $db->loadObjectList('product_id');
+		}
+
+		return static::$allProducts;
+	}
 }

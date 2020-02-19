@@ -35,7 +35,8 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
 			array(
 				'id' => 'username',
 				'name' => 'username',
-				'class' => 'inputbox'
+				'class' => 'inputbox',
+				'type' => 'text'
 			),
 			'',
 			$layoutOption
@@ -48,7 +49,7 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
 			array(
 				'id' => 'username',
 				'name' => 'username',
-				'text' => JText::_('COM_REDSHOP_USERNAME')
+				'text' => JText::_('COM_REDSHOP_USERNAME'),
 			),
 			'',
 			$layoutOption
@@ -61,7 +62,8 @@ class RedshopTagsSectionsLogin extends RedshopTagsAbstract
 			array(
 				'id' => 'password',
 				'name' => 'password',
-				'class' => 'inputbox'
+				'class' => 'inputbox',
+				'type' => 'password'
 			),
 			'',
 			$layoutOption

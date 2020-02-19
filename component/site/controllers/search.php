@@ -218,7 +218,7 @@ class RedshopControllerSearch extends RedshopController
 
 		if (!empty($cid))
 		{
-			$productList = RedshopHelperProduct::getProductsByIds($pids);
+			$productList = \Redshop\Product\Product::getProductsByIds($pids);
 			$manuList    = array();
 			$catList     = array();
 
@@ -240,7 +240,7 @@ class RedshopControllerSearch extends RedshopController
 		}
 		elseif (!empty($mid))
 		{
-			$productList = RedshopHelperProduct::getProductsByIds($pids);
+			$productList = \Redshop\Product\Product::getProductsByIds($pids);
 			$manuList    = array();
 			$catList     = array();
 
@@ -262,7 +262,7 @@ class RedshopControllerSearch extends RedshopController
 		}
 		elseif ($formData['view'] == 'search')
 		{
-			$productList = RedshopHelperProduct::getProductsByIds($pids);
+			$productList = \Redshop\Product\Product::getProductsByIds($pids);
 			$manuList    = array();
 			$catList     = array();
 
