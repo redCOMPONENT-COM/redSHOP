@@ -14,7 +14,7 @@ $dispatcher = RedshopHelperUtility::getDispatcher();
 
 /** @var RedshopModelCheckout $model */
 $model    = $this->getModel('checkout');
-$cart     = RedshopHelperCartSession::getCart();
+$cart     = \Redshop\Cart\Helper::getCart();
 $cartData = "";
 
 if (Redshop::getConfig()->get('USE_AS_CATALOG'))
