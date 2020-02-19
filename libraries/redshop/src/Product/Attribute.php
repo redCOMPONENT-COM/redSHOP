@@ -13,7 +13,7 @@ namespace Redshop\Product;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-
+use Joomla\Utilities\ArrayHelper;
 /**
  * Class Product Helper
  *
