@@ -82,7 +82,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
 
 		$this->addReplace('{print}', $printTag);
 		$this->template = $this->replaceTemplate($cart, $this->template, 0);
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 
 		if ($this->isTagExists('{shipping_calculator}') && Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{

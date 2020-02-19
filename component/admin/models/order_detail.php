@@ -285,13 +285,13 @@ class RedshopModelOrder_detail extends RedshopModel
 			$product_price      = $item[$i]->productprice;
 
 			// Attribute price added
-			$generateAttributeCart = Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
-			$retAttArr             = RedshopHelperProduct::makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
+			$generateAttributeCart = \Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
+			$retAttArr             = \RedshopHelperProduct::makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute     = $retAttArr[0];
 
 			// Accessory price
 			$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryArray((array) $item[$i], $user_id);
-			$retAccArr             = RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
+			$retAccArr             = \RedshopHelperProduct::makeAccessoryCart($generateAccessoryCart, $product_id, $user_id);
 			$product_accessory     = $retAccArr[0];
 
 			$wrapper_price = 0;

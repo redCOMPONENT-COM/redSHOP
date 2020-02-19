@@ -204,7 +204,7 @@ class Rate
 	 */
 	public static function getFreeShippingRate($shippingRateId = 0)
 	{
-		$cart = \RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = 0;
 
 		if (isset($cart['idx']))
@@ -274,7 +274,7 @@ class Rate
 			$query->where('(' . $db->qn('company_only') . ' = 1 OR ' . $db->qn('company_only') . ' = 0)');
 		}
 
-		if (count($shopperGroup) > 0)
+		if (isset($shopperGroup->shopper_group_id))
 		{
 			$shopperGroupId = $shopperGroup->shopper_group_id;
 
@@ -382,7 +382,7 @@ class Rate
 		$country    = $input->getString('country_code');
 		$state      = $input->getString('state_code');
 		$zip        = $input->getString('zip_code');
-		$cart       = \RedshopHelperCartSession::getCart();
+		$cart       = \Redshop\Cart\Helper::getCart();
 		$idx        = (int) ($cart['idx']);
 		$orderTotal = 0;
 		$rate       = 0;

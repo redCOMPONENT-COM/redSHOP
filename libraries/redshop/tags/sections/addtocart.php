@@ -58,7 +58,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         $itemId               = $input->getInt('Itemid');
         $productQuantity      = $input->get('product_quantity');
         $layout               = $input->getCmd('layout');
-        $cart                 = \RedshopHelperCartSession::getCart();
+        $cart                 = \Redshop\Cart\Helper::getCart();
         $isAjax               = 0;
         $prePrefix            = "";
         $preSelectedAttrImage = "";
@@ -540,7 +540,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 }
             }
 
-            $cart         = \RedshopHelperCartSession::getCart();
+            $cart         = \Redshop\Cart\Helper::getCart();
             $cartFromName = 'addtocart_' . $prefix . $productId;
             $cartTitle    = ' title="" ';
             $cartIcon     = '';
