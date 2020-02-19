@@ -397,7 +397,7 @@ if (strpos($templateDesc, "{product_loop_start}") !== false && strpos($templateD
 	$templateProduct = $templateD2[0];
 
 	$attributeTemplate = \Redshop\Template\Helper::getAttribute($templateProduct);
-	$products          = RedshopHelperProduct::getProductsByIds($products);
+	$products          = \Redshop\Product\Product::getProductsByIds($products);
 	$productIds        = array();
 
 	// Loop product lists

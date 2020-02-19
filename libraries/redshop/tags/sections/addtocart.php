@@ -315,7 +315,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 );
             }
 
-            $requiredAttributes = \RedshopHelperProduct_Attribute::getProductAttribute($productId, 0, 0, 1, 1);
+            $requiredAttributes = \Redshop\Product\Attribute::getProductAttribute($productId, 0, 0, 1, 1);
             $requiredAttributes = array_merge($requiredAttributes, $attributeSets);
 
             foreach ($requiredAttributes as $requiredAttribute) {

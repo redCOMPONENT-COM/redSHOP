@@ -35,7 +35,7 @@ class PlgRedshop_ExportAttribute extends AbstractExportPlugin
 		\Redshop\Helper\Ajax::validateAjaxRequest();
 
 		// Prepare categories list.
-		$products = RedshopHelperProduct::getList();
+		$products = \Redshop\Product\Product::getList();
 		$options    = array();
 
 		foreach ($products as $product)
