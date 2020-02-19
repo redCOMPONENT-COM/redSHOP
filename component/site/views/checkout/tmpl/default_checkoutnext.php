@@ -9,15 +9,12 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
-
+/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
 $dispatcher = RedshopHelperUtility::getDispatcher();
 
-
 /** @var RedshopModelCheckout $model */
-$model   = $this->getModel('checkout');
-$cart = RedshopHelperCartSession::getCart();
-
-
+$model    = $this->getModel('checkout');
+$cart     = RedshopHelperCartSession::getCart();
 $cartData = "";
 
 if (Redshop::getConfig()->get('USE_AS_CATALOG'))
