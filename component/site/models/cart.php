@@ -632,40 +632,6 @@ class RedshopModelCart extends RedshopModel
 		return strpos($product_template_desc, "{attribute_template:") !== false;
 	}
 
-	/**
-	 * shipping rate calculator
-	 *
-	 * @return   string
-	 *
-	 * @since    2.0.6
-	 */
-	public function shippingrate_calc()
-	{
-		JHtml::_('redshopjquery.framework');
-		/** @scrutinizer ignore-deprecated */ JHtml::script('com_redshop/redshop.common.min.js', false, true);
-
-		$countryarray         = RedshopHelperWorld::getCountryList();
-		$post['country_code'] = $countryarray['country_code'];
-		$country              = $countryarray['country_dropdown'];
-
-		$statearray = RedshopHelperWorld::getStateList($post);
-		$state      = $statearray['state_dropdown'];
-
-		$shipping_calc = "<form name='adminForm' id='adminForm'>";
-		$shipping_calc .= "<label>" . JText::_('COM_REDSHOP_COUNTRY') . "</label><br />";
-		$shipping_calc .= $country;
-		$shipping_calc .= "<div id='div_state_lbl'><label>" . JText::_('COM_REDSHOP_STATE') . "</label></div>";
-		$shipping_calc .= "<div id='div_state_txt'>" . $state . "</div>";
-		$shipping_calc .= "<br />";
-		$shipping_calc .= "<label>" . JText::_('COM_REDSHOP_ZIPCODE') . "</label><br />";
-		$shipping_calc .= "<input type='text' name='zipcode' id='zip_code' />";
-		$shipping_calc .= "<br />";
-		$shipping_calc .= "<input class='blackbutton btn' type='button' name='shippingcalc' id='shippingcalc' value='" . JText::_('COM_REDSHOP_UPDATE') . "' onClick='javascript:getShippingrate();' />";
-		$shipping_calc .= "</form>";
-
-		return $shipping_calc;
-	}
-
 	public function updateAccessoryPriceArray($data = array(), $newquantity = 1)
 	{
 		$attArr = $data['cart_accessory'];

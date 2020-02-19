@@ -1142,69 +1142,80 @@ function autoFillCity(str,isShipping)
 }
 
 (function ($) {
-        $(document).ready(function () {
-            if ($(".view-checkout").length) {
-                $("input[name='togglerchecker']").each(function (idx, el) {
-                    if ($(el).is(':checked')) {
-                        getBillingTemplate($(el));
-                    }
-                });
+		$(document).ready(function () {
+			if ($(".view-checkout").length) {
+				$("input[name='togglerchecker']").each(function (idx, el) {
+					if ($(el).is(':checked')) {
+						getBillingTemplate($(el));
+					}
+				});
 
-                if ($('#createaccount') && $('#createaccount').is(':checked')) {
-                    $('#onestep-createaccount-wrapper').css('display', 'block');
-                }
+				if ($('#createaccount') && $('#createaccount').is(':checked')) {
+					$('#onestep-createaccount-wrapper').css('display', 'block');
+				}
 
-                var settings = $('#adminForm').validate().settings;
+				var settings = $('#adminForm').validate().settings;
 
-                // Modify validation settings
-                $.extend(true, settings, {
-                    rules: {
-                        payment_method_id: {
-                            required: function () {
-                                if ($("#adminForm [name='payment_method_id']") && !$("#adminForm [name='payment_method_id']").is(':checked')) {
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }
-                        }
-                    },
-                    messages: {
-                        payment_method_id: Joomla.JText._('COM_REDSHOP_SELECT_PAYMENT_METHOD')
-                    },
-                    errorPlacement: function(error, element) {
-                        if ((element.is(":radio") && element.attr('name') == "payment_method_id")) {
-                            error.appendTo( element.parents('#divPaymentMethod') );
-                        }
-                        else if(element.is(":checkbox") && element.attr('name') == "termscondition") {
-                            error.appendTo( element.closest('.checkbox') );
-                        } else { // This is the default behavior
-                            error.insertAfter( element );
-                        }
-                    }
-                });
-            }
-        });
+				// Modify validation settings
+				$.extend(true, settings, {
+					rules: {
+						payment_method_id: {
+							required: function () {
+								if ($("#adminForm [name='payment_method_id']") && !$("#adminForm [name='payment_method_id']").is(':checked')) {
+									return true;
+								} else {
+									return false;
+								}
+							}
+						}
+					},
+					messages: {
+						payment_method_id: Joomla.JText._('COM_REDSHOP_SELECT_PAYMENT_METHOD')
+					},
+					errorPlacement: function(error, element) {
+						if ((element.is(":radio") && element.attr('name') == "payment_method_id")) {
+							error.appendTo( element.parents('#divPaymentMethod') );
+						}
+						else if(element.is(":checkbox") && element.attr('name') == "termscondition") {
+							error.appendTo( element.closest('.checkbox') );
+						} else { // This is the default behavior
+							error.insertAfter( element );
+						}
+					}
+				});
+			}
+		});
 })(jQuery);
 
 function checkout_disable(val) {
-    if (jQuery('#adminForm').valid()) {
-        document.adminForm.submit();
-        document.getElementById(val).disabled = true;
-        var op = document.getElementById(val);
-        op.setAttribute("style", "opacity:0.3;");
+	if (jQuery('#adminForm').valid()) {
+		document.adminForm.submit();
+		document.getElementById(val).disabled = true;
+		var op = document.getElementById(val);
+		op.setAttribute("style", "opacity:0.3;");
 
-        if (op.style.setAttribute) //For IE
-            op.style.setAttribute("filter", "alpha(opacity=30);");
-    }
+		if (op.style.setAttribute) //For IE
+			op.style.setAttribute("filter", "alpha(opacity=30);");
+	}
 }
 
 function validation(cartTotal)
 {
-    if (redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL') > 0 && cartTotal < redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'))
-    {
-        alert(Joomla.JText._('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') + ' ' + redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'));
-        return false;
-    }
-    return true;
+	if (redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL') > 0 && cartTotal < redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'))
+	{
+		alert(Joomla.JText._('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') + ' ' + redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'));
+		return false;
+	}
+	return true;
+}
+
+function all_update(u) {
+	var q = [];
+	for (var i = 0; i < u; i++) {
+		q[q.length] = parseInt(document.getElementById("quantitybox" + i).value);
+	}
+	q = q.join();
+	document.update_cart.quantity_all.value = q;
+	document.update_cart.task.value = 'update_all';
+	document.update_cart.submit();
 }
