@@ -278,7 +278,9 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
 						'class' => 'coupon_label',
 						'id' => 'coupon_label',
 						'text' => JText::_('COM_REDSHOP_CART_COUPON_CODE_TBL')
-					)
+					),
+					'',
+					$optionLayout
 				);
 			}
 		}
