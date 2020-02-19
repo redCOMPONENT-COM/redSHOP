@@ -138,7 +138,7 @@ abstract class RedshopHelperCart
 			return false;
 		}
 
-		$cart = empty($cart) ? RedshopHelperCartSession::getCart() : $cart;
+		$cart = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
 
 		JPluginHelper::importPlugin('redshop_product');
 		RedshopHelperUtility::getDispatcher()->trigger('onAddCartToDatabase', array(&$cart));
@@ -769,7 +769,7 @@ abstract class RedshopHelperCart
 	public static function cartFinalCalculation($isModify = true)
 	{
 		$ajax = JFactory::getApplication()->input->getInt('ajax_cart_box');
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 
 		if ($isModify === true)
 		{
@@ -931,13 +931,13 @@ abstract class RedshopHelperCart
 	 */
 	public static function emptyCart()
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		unset($cart);
 
 		setcookie('redSHOPcart', '', time() - 3600, '/');
 
 		$cart['idx'] = 0;
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 
 		return RedshopHelperStockroom::deleteCartAfterEmpty();
 	}

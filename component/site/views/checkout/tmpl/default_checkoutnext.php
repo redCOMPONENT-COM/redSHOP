@@ -14,6 +14,7 @@ JHtml::_('script', 'com_redshop/jquery.validate.min.js', array('version' => 'aut
 $dispatcher = RedshopHelperUtility::getDispatcher();
 
 /** @var RedshopModelCheckout $model */
+
 $model    = $this->getModel('checkout');
 $cart     = \Redshop\Cart\Helper::getCart();
 $cartData = "";

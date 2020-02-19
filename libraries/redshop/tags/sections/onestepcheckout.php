@@ -54,7 +54,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
 		$itemId = RedshopHelperRouter::getCheckoutItemId();
 		$subReplacement = [];
 
-		$cart  = RedshopHelperCartSession::getCart();
+		$cart  = \Redshop\Cart\Helper::getCart();
 		$billingAddresses = $this->data['billingAddress'];
 
 		if ($billingAddresses == new stdClass)

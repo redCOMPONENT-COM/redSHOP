@@ -111,7 +111,7 @@ class RedshopModelCheckout extends RedshopModel
 			$cart = \Redshop\Cart\Cart::modify($cart, $user->id);
 		}
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 		RedshopHelperCart::addCartToDatabase();
 	}
 
@@ -306,7 +306,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		$paymentArray  = RedshopHelperPayment::calculate($paymentAmount, $paymentInfo, $cart['total']);
 		$cart['total'] = $paymentArray[0];
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 
 		$order_shipping = Redshop\Shipping\Rate::decrypt($shipping_rate_id);
 		$order_status   = 'P';
@@ -1672,7 +1672,7 @@ class RedshopModelCheckout extends RedshopModel
 	{
 		$session = JFactory::getSession();
 		setcookie("redSHOPcart", "", time() - 3600, "/");
-		RedshopHelperCartSession::setCart(null);
+		\Redshop\Cart\Helper::setCart(null);
 		$session->set('ccdata', null);
 		$session->set('issplit', null);
 		$session->set('userfield', null);
