@@ -57,32 +57,28 @@ class RedshopModelCart extends RedshopModel
 		$user                 = JFactory::getUser();
 
 		// Remove expired products from cart
-		$this->emptyExpiredCartProducts();
+        $this->emptyExpiredCartProducts();
 
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 
 		if (!empty($cart))
 		{
-			if (!$cart)
-			{
-				$cart        = array();
-				$cart['idx'] = 0;
-			}
+			$cart = \Redshop\Cart\Helper::getCart();
 
-			$user_id        = $user->id;
-			$usersess       = JFactory::getSession()->get('rs_user');
-			$shopperGroupId = RedshopHelperUser::getShopperGroup($user_id);
+			$userId         = $user->id;
+			$userSession    = \JFactory::getSession()->get('rs_user');
+			$shopperGroupId = \RedshopHelperUser::getShopperGroup($userId);
 
 			if (array_key_exists('user_shopper_group_id', $cart))
 			{
-				$userArr = RedshopHelperUser::getVatUserInformation($user_id);
+				$userArr = \RedshopHelperUser::getVatUserInformation($userId);
 
-				// Removed due to discount issue $usersess['vatCountry']
+				// Removed due to discount issue $userSession['vatCountry']
 				if ($cart['user_shopper_group_id'] != $shopperGroupId
-					|| (!isset($usersess['vatCountry']) || !isset($usersess['vatState']) || $usersess['vatCountry'] != $userArr->country_code || $usersess['vatState'] != $userArr->state_code)
+					|| (!isset($userSession['vatCountry']) || !isset($userSession['vatState']) || $userSession['vatCountry'] != $userArr->country_code || $userSession['vatState'] != $userArr->state_code)
 				)
 				{
-					$cart                          = \Redshop\Cart\Cart::modify($cart, $user_id);
+					$cart = \Redshop\Cart\Cart::modify($cart, $userId);
 					$cart['user_shopper_group_id'] = $shopperGroupId;
 
 					$task = JFactory::getApplication()->input->getCmd('task');
@@ -94,7 +90,7 @@ class RedshopModelCart extends RedshopModel
 				}
 			}
 
-			RedshopHelperCartSession::setCart((array) $cart);
+			\Redshop\Cart\Helper::setCart($cart);
 		}
 	}
 
@@ -199,7 +195,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function update($data)
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$user = JFactory::getUser();
 
 		$cartElement = $data['cart_index'];
@@ -303,7 +299,7 @@ class RedshopModelCart extends RedshopModel
 			}
 		}
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 	}
 
 	public function update_all($data)
@@ -311,15 +307,15 @@ class RedshopModelCart extends RedshopModel
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher    = RedshopHelperUtility::getDispatcher();
 
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$user = JFactory::getUser();
 
 		if (empty($cart))
 		{
 			$cart        = array();
 			$cart['idx'] = 0;
-			RedshopHelperCartSession::setCart($cart);
-			$cart        = RedshopHelperCartSession::getCart();
+			\Redshop\Cart\Helper::setCart($cart);
+			$cart        = \Redshop\Cart\Helper::getCart();
 		}
 
 		$idx           = (int) ($cart['idx']);
@@ -448,13 +444,13 @@ class RedshopModelCart extends RedshopModel
 
 		unset($cart[$idx]);
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 	}
 
 	public function delete($cartElement)
 	{
 		$stockroomhelper = rsstockroomhelper::getInstance();
-		$cart            = RedshopHelperCartSession::getCart();
+		$cart            = \Redshop\Cart\Helper::getCart();
 
 		if (array_key_exists($cartElement, $cart))
 		{
@@ -529,7 +525,7 @@ class RedshopModelCart extends RedshopModel
 			}
 		}
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 	}
 
 	public function coupon()
@@ -784,7 +780,7 @@ class RedshopModelCart extends RedshopModel
 	{
 		$imagename = '';
 		$type      = '';
-		$cart      = RedshopHelperCartSession::getCart();
+		$cart      = \Redshop\Cart\Helper::getCart();
 
 		$generateAttributeCart = array();
 		$product_id            = $data['product_id'];

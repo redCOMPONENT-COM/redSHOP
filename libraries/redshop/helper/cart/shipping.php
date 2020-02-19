@@ -152,7 +152,7 @@ class RedshopHelperCartShipping
 	public static function getShippingRateFirst($volume = 0, $weightTotal = 0.0, $orderSubtotal = 0, $whereCountry = '', $isWhere = '',
 	                                            $whereState = '', $whereShopper = '')
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = (int) $cart['idx'];
 
 		if (!$idx)
@@ -202,7 +202,7 @@ class RedshopHelperCartShipping
 	 */
 	public static function prepareProductWhere()
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = (int) $cart['idx'];
 
 		if (!$idx)
@@ -249,7 +249,7 @@ class RedshopHelperCartShipping
 	public static function getShippingRateSecond($volume = 0, $weightTotal = 0.0, $orderSubtotal = 0, $whereCountry = '', $isWhere = '',
 	                                             $whereState = '', $whereShopper = '')
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = (int) $cart['idx'];
 
 		if (!$idx)
@@ -296,7 +296,7 @@ class RedshopHelperCartShipping
 	 */
 	public static function prepareCategoryWhere()
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = (int) $cart['idx'];
 
 		if (!$idx)

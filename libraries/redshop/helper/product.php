@@ -4718,7 +4718,7 @@ class RedshopHelperProduct
 
     public static function GetProdcutUserfield($id = 'NULL', $section_id = 12)
     {
-        $cart     = RedshopHelperCartSession::getCart();
+        $cart     = \Redshop\Cart\Helper::getCart();
         $row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
 
         if ($section_id == 12) {

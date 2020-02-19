@@ -189,7 +189,7 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		if ($templateUserfield != "")
 		{
 			$ufield = "";
-			$cart   = RedshopHelperCartSession::getCart();
+			$cart   = \Redshop\Cart\Helper::getCart();
 
 			$idx    = 0;
 			$cartId = '';
