@@ -245,7 +245,7 @@ class RedshopHelperDiscount
      */
     public static function modifyDiscount($cart)
     {
-        $calculations                      = \Redshop\Cart\Helper::calculation($cart);
+        $calculations                      = \Redshop\Cart\Helper::calculation();
         $cart['product_subtotal']          = $calculations[1];
         $cart['product_subtotal_excl_vat'] = $calculations[2];
 
@@ -258,7 +258,7 @@ class RedshopHelperDiscount
             $discountAmount = Redshop\Cart\Helper::getDiscountAmount($cart);
 
             if ($discountAmount > 0) {
-                $cart = RedshopHelperCartSession::getCart();
+                $cart = \Redshop\Cart\Helper::getCart();
             }
         }
 
@@ -329,7 +329,8 @@ class RedshopHelperDiscount
         $codeDiscount  = $voucherDiscount + $couponDiscount;
         $totalDiscount = $cart['cart_discount'] + $codeDiscount;
 
-        $calculations      = \Redshop\Cart\Helper::calculation((array)$cart);
+        \JFactory::getSession()->set('cart', $cart);
+        $calculations      = \Redshop\Cart\Helper::calculation();
         $tax         = $calculations[5];
         $discountVAT = 0;
         $chktag      = RedshopHelperCart::taxExemptAddToCart();

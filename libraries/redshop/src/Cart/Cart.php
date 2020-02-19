@@ -30,11 +30,11 @@ class Cart
 	 */
     public static function modify($cart = array(), $userId = 0)
     {
-        $cart = empty($cart) ? \RedshopHelperCartSession::getCart() : $cart;
+        $cart = $cart ?? \Redshop\Cart\Helper::getCart();
         $userId = !$userId ? \JFactory::getUser()->id : $userId;
         $cart['user_id'] = $userId;
 
-        $idx = isset($cart['idx']) ? (int)$cart['idx'] : 0;
+        $idx = $cart['idx'] ??  0;
 
         if (!$idx) {
             return $cart;
@@ -87,8 +87,8 @@ class Cart
             }
 
             $retAttArr = \RedshopHelperProduct::makeAttributeCart(
-                isset($cart[$i]['cart_attribute']) ? $cart[$i]['cart_attribute'] : array(),
-                (int)$product->product_id,
+                $cart[$i]['cart_attribute'] ?? [],
+                (int) $product->product_id,
                 $userId,
                 $price,
                 $quantity,
@@ -125,7 +125,10 @@ class Cart
 
             if (array_key_exists('wrapper_id', $cart[$i]) && !empty($cart[$i]['wrapper_id'])) {
                 $wrappers = \rsCarthelper::getInstance()->getWrapperPriceArr(
-                    array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id'])
+                    [
+                        'product_id' => $cart[$i]['product_id'],
+                        'wrapper_id' => $cart[$i]['wrapper_id']
+                    ]
                 );
 
                 $wrapperVat = $wrappers['wrapper_vat'];
@@ -176,9 +179,9 @@ class Cart
             }
 
             unset($cart[$idx]);
-
-            return $cart;
         }
+
+        return $cart;
     }
 
 	/**
@@ -194,7 +197,7 @@ class Cart
 	public static function addProduct($data = array())
 	{
 		$user             = \JFactory::getUser();
-		$cart             = \RedshopHelperCartSession::getCart();
+		$cart             = \Redshop\Cart\Helper::getCart();
 		$data['quantity'] = round($data['quantity']);
 
 		if (empty($cart) || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
@@ -242,7 +245,7 @@ class Cart
 
 		$cart['free_shipping'] = 0;
 
-		\RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 
 		return true;
 	}
@@ -303,8 +306,9 @@ class Cart
 				'quantity' => $data['quantity']
 			);
 			\RedshopHelperDiscount::addGiftCardToCart($cart[$idx], $data);
-			$cart['idx'] = $idx + 1;
 		}
+
+        $cart['idx'] = $idx + 1;
 	}
 
 	/**
@@ -761,7 +765,7 @@ class Cart
 						 */
 						\RedshopHelperUtility::getDispatcher()->trigger('onSameCartProduct', array(&$cart, $data, $i));
 
-						\RedshopHelperCartSession::setCart($cart);
+						\Redshop\Cart\Helper::setCart($cart);
 						$data['cart_index']    = $i;
 						$data['quantity']      = $newCartQuantity;
 						$data['checkQuantity'] = $newCartQuantity;

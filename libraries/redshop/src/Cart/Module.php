@@ -37,7 +37,7 @@ class Module
 	 */
 	public static function calculate($cart = array())
 	{
-		$cart = empty($cart) ? \RedshopHelperCartSession::getCart() : $cart;
+		$cart = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
 
 		$cartParams       = self::getParams();
 		$showWithShipping = (boolean) $cartParams->get('show_with_shipping', true);
