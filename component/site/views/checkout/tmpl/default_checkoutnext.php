@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
-/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/jquery.validate.min.js', false, true);
+JHtml::_('script', 'com_redshop/jquery.validate.min.js', array('version' => 'auto', 'relative' => true));
+
 $dispatcher = RedshopHelperUtility::getDispatcher();
 
 /** @var RedshopModelCheckout $model */
