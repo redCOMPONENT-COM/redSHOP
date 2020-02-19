@@ -78,14 +78,14 @@ class RedshopModelQuestion extends RedshopModelForm
 
 		if (empty($data['answer']))
 		{
-			return true;
+			return array('parent_id' => $this->_db->insertid());
 		}
 
 		if ($data['parent_id'])
 		{
 			$this->questionId = $data['parent_id'];
 
-			return true;
+			return $data;
 		}
 
 		$user = JFactory::getUser();
