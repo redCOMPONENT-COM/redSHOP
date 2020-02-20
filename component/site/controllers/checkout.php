@@ -124,11 +124,12 @@ class RedshopControllerCheckout extends RedshopController
         $errorMsg = "";
 
         if ($creditCardInfo == 1) {
-            $errorMsg = $this->setcreditcardInfo();
+            $errorMsg = $this->setCreditCardInfo();
         }
 
         if ($errorMsg != "") {
-            $app->redirect(\JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false), $errorMsg);
+            $link = \JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId, false);
+            $app->redirect($link, $errorMsg);
         } else {
             $view = $this->getView('checkout', 'next');
             parent::display();
@@ -423,7 +424,7 @@ class RedshopControllerCheckout extends RedshopController
 
                 // Skip checks for free cart
                 if ($cart['total'] > 0) {
-                    $errorMsg = $this->setcreditcardInfo();
+                    $errorMsg = $this->setCreditCardInfo();
 
                     if ($errorMsg != "") {
                         $app->redirect(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $itemId), $errorMsg);
@@ -511,7 +512,7 @@ class RedshopControllerCheckout extends RedshopController
      *
      * @return string
      */
-    public function setcreditcardInfo()
+    public function setCreditCardInfo()
     {
         $input = JFactory::getApplication()->input;
         $model = $this->getModel('checkout');
@@ -535,7 +536,7 @@ class RedshopControllerCheckout extends RedshopController
         $data['selectedCardId'] = $input->post->getString('selectedCard', '');
         $session->set('ccdata', $data);
 
-        $validPayment = $model->validatepaymentccinfo();
+        $validPayment = $model->validatePaymentCreditCardInfo();
 
         if ($validPayment[0]) {
             return "";
