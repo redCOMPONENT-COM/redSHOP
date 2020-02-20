@@ -231,7 +231,7 @@ class Helper
                 $requiredAttributeName = implode(", ", $requiredAttributeArray);
 
                 // Error message if first attribute is required
-                return $requiredAttributeName . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
+                return $requiredAttributeName . " " . \JText::_('COM_REDSHOP_IS_REQUIRED');
             }
 
             $selectedPropertyId = 0;

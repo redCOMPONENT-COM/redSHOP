@@ -87,7 +87,7 @@ class RedshopControllerCheckout extends RedshopController
 		$input   = $app->input;
 		$session = JFactory::getSession();
 		$post    = $input->post->getArray();
-		$cart    = RedshopHelperCartSession::getCart();
+		$cart    = \Redshop\Cart\Helper::getCart();
 
 		if (isset($post['extrafields0']) && isset($post['extrafields']) && count($cart) > 0)
 		{
@@ -99,7 +99,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];
-				RedshopHelperCartSession::setCart($cart);
+				\Redshop\Cart\Helper::setCart($cart);
 			}
 		}
 
@@ -422,7 +422,7 @@ class RedshopControllerCheckout extends RedshopController
 				}
 
 				$cart['extrafields_values'] = $post['extrafields_values'];
-				RedshopHelperCartSession::setCart($cart);
+				\Redshop\Cart\Helper::setCart($cart);
 			}
 		}
 
@@ -844,7 +844,7 @@ class RedshopControllerCheckout extends RedshopController
 	{
 		$app        = JFactory::getApplication();
 		$post       = $app->input->post->getArray();
-		$cart       = RedshopHelperCartSession::getCart();
+		$cart       = \Redshop\Cart\Helper::getCart();
 
 		$isCompany = $post['is_company'];
 		$eanNumber = $post['eanNumber'];

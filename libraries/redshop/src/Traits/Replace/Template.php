@@ -102,7 +102,9 @@ trait Template
 					'class' => 'spnTotal',
 					'id' => 'spnTotal',
 					'htmlPrice' => \RedshopHelperProductPrice::formattedPrice($total, true)
-				)
+				),
+				'',
+				\RedshopLayoutHelper::$layoutOption
 			);
 
 			$replacement['{total_excl_vat}'] =
@@ -112,7 +114,9 @@ trait Template
 						'class' => 'spnTotal',
 						'id' => 'spnTotal',
 						'htmlPrice' => \RedshopHelperProductPrice::formattedPrice($subtotalExclVat)
-					)
+					),
+					'',
+					\RedshopLayoutHelper::$layoutOption
 				);
 
 			$checkVat = \Redshop\Template\Helper::isApplyVat($cartData);
@@ -186,7 +190,9 @@ trait Template
 							'class' => 'spnShippingrate',
 							'id' => 'spnShippingrate',
 							'htmlPrice' => \RedshopHelperProductPrice::formattedPrice($shipping - $cart['shipping_tax'], true)
-						)
+						),
+						'',
+						\RedshopLayoutHelper::$layoutOption
 					);
 
 				$replacement['{shipping}'] = \RedshopLayoutHelper::render(
@@ -195,7 +201,9 @@ trait Template
 						'class' => 'spnShippingrate',
 						'id' => 'spnShippingrate',
 						'htmlPrice' => \RedshopHelperProductPrice::formattedPrice($shipping, true)
-					)
+					),
+					'',
+					\RedshopLayoutHelper::$layoutOption
 				);
 
 				$replacement['{order_shipping}'] = \RedshopHelperProductPrice::formattedPrice($shipping, true);

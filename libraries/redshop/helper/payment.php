@@ -340,7 +340,7 @@ class RedshopHelperPayment
 			}
 		}
 
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 
 		$idx = 0;
 
@@ -424,7 +424,7 @@ class RedshopHelperPayment
 			}
 		}
 
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$db   = JFactory::getDbo();
 		$html = '';
 

@@ -66,7 +66,7 @@ class RedshopHelperCartDiscount
 	public static function applyCoupon($cartData = array(), $couponCode = '')
 	{
 		$couponCode = empty($couponCode) ? JFactory::getApplication()->input->getString('discount_code', '') : $couponCode;
-		$cart       = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
+		$cart       = empty($cartData) ? \Redshop\Cart\Helper::getCart() : $cartData;
 
 		if (empty($couponCode))
 		{
@@ -313,7 +313,7 @@ class RedshopHelperCartDiscount
 
 				$cart                  = array_merge($cart, $coupons);
 				$cart['free_shipping'] = $coupon->free_shipping;
-				RedshopHelperCartSession::setCart($cart);
+				\Redshop\Cart\Helper::setCart($cart);
 			}
 		}
 		elseif (Redshop::getConfig()->getBool('VOUCHERS_ENABLE') === true)
@@ -344,7 +344,7 @@ class RedshopHelperCartDiscount
 	public static function applyVoucher($cartData = array(), $voucherCode = '')
 	{
 		$voucherCode = empty($voucherCode) ? JFactory::getApplication()->input->getString('discount_code', '') : $voucherCode;
-		$cart        = empty($cartData) ? RedshopHelperCartSession::getCart() : $cartData;
+		$cart        = empty($cartData) ? \Redshop\Cart\Helper::getCart() : $cartData;
 
 		if (empty($voucherCode))
 		{
@@ -542,7 +542,7 @@ class RedshopHelperCartDiscount
 			$cart                  = array_merge($cart, $vouchers);
 			$cart['free_shipping'] = $voucher->free_ship;
 
-			RedshopHelperCartSession::setCart($cart);
+			\Redshop\Cart\Helper::setCart($cart);
 		}
 
 		if (!empty($cartData))

@@ -322,7 +322,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
 			{
-				RedshopHelperProduct::setProduct($products);
+				\Redshop\Product\Product::setProduct($products);
 				$items = array_values($products);
 			}
 		}

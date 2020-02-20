@@ -388,7 +388,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 			$product = Redshop::product((int) $product_id);
 
-			$generateAttributeCart = Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
+			$generateAttributeCart = \Redshop\Cart\Helper::generateAttribute((array) $item[$i], $user_id);
 			$retAttArr             = RedshopHelperProduct::makeAttributeCart($generateAttributeCart, $product_id, $user_id, 0, $quantity);
 			$product_attribute     = $retAttArr[0];
 

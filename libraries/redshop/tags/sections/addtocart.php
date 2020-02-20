@@ -58,7 +58,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         $itemId               = $input->getInt('Itemid');
         $productQuantity      = $input->get('product_quantity');
         $layout               = $input->getCmd('layout');
-        $cart                 = \RedshopHelperCartSession::getCart();
+        $cart                 = \Redshop\Cart\Helper::getCart();
         $isAjax               = 0;
         $prePrefix            = "";
         $preSelectedAttrImage = "";
@@ -315,7 +315,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 );
             }
 
-            $requiredAttributes = \RedshopHelperProduct_Attribute::getProductAttribute($productId, 0, 0, 1, 1);
+            $requiredAttributes = \Redshop\Product\Attribute::getProductAttribute($productId, 0, 0, 1, 1);
             $requiredAttributes = array_merge($requiredAttributes, $attributeSets);
 
             foreach ($requiredAttributes as $requiredAttribute) {
@@ -533,14 +533,19 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $cartStyle     = '';
                 $preOrderStyle = 'style="display:none"';
 
-                if (\Redshop::getConfig()->get('USE_AS_CATALOG') || \RedshopHelperUser::getShopperGroupData(
-                        $userId
-                    )->use_as_catalog == 'yes') {
+                if (
+                    \Redshop::getConfig()->get('USE_AS_CATALOG') ||
+                    (
+                        is_object(\RedshopHelperUser::getShopperGroupData($userId)) &&
+                        \RedshopHelperUser::getShopperGroupData($userId)->use_as_catalog == 'yes'
+                    )
+                )
+                {
                     $cartStyle = 'style="display:none"';
                 }
             }
 
-            $cart         = \RedshopHelperCartSession::getCart();
+            $cart         = \Redshop\Cart\Helper::getCart();
             $cartFromName = 'addtocart_' . $prefix . $productId;
             $cartTitle    = ' title="" ';
             $cartIcon     = '';
