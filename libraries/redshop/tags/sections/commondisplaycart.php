@@ -132,15 +132,15 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 
 		$this->template = $this->replaceTemplate($cart, $this->template, 1);
 
-		$thirdpartyEmailValue = "";
+		$thirdPartyEmailValue = "";
 
 		if ($thirdpartyEmail != "")
 		{
-			$thirdpartyEmailValue = $thirdpartyEmail;
+			$thirdPartyEmailValue = $thirdpartyEmail;
 		}
 		elseif (isset($cart['thirdparty_email']))
 		{
-			$thirdpartyEmailValue = $cart['thirdparty_email'];
+			$thirdPartyEmailValue = $cart['thirdparty_email'];
 		}
 
 		if (strstr($this->template, "{thirdparty_email}"))
@@ -151,7 +151,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 					'type' => 'text',
 					'name' => 'thirdparty_email',
 					'id' => 'thirdparty_email',
-					'value' => $thirdpartyEmailValue
+					'value' => $thirdPartyEmailValue
 				),
 				'',
 				$layoutOptions

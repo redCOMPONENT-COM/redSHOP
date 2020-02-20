@@ -490,7 +490,7 @@ class RedshopHelperCartTag
                             Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
                         );
 
-                        $productImage = "<div  class='product_image'><a href='" . $link . "'><img src='" . $thumbUrl . "'></a></div>";
+                        $productImage = "<div  class='product_image'><a href='" . $link . "'><img src=" . $thumbUrl . "></a></div>";
                     }
                 }
                 else
