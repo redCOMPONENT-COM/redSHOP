@@ -38,10 +38,8 @@ class RedshopViewCart extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
-		// Request variables
-		$cart   = RedshopHelperCartSession::getCart();
+		$app = \JFactory::getApplication();
+		$cart   = \Redshop\Cart\Helper::getCart();
 
 		$layout = $app->input->getCmd('layout');
 		$itemId = $app->input->getInt('Itemid');
@@ -56,7 +54,7 @@ class RedshopViewCart extends RedshopView
 
 		JHtml::_('redshopjquery.framework');
 		/** @scrutinizer ignore-deprecated */
-		JHtml::script('com_redshop/redshop.common.min.js', false, true);
+		\JHtml::script('com_redshop/redshop.common.min.js', false, true);
 
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{

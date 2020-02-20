@@ -13,7 +13,7 @@ namespace Redshop\Product;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-
+use Joomla\Utilities\ArrayHelper;
 /**
  * Class Product Helper
  *
@@ -21,139 +21,141 @@ use Joomla\CMS\Factory;
  */
 class Attribute
 {
-    /**
-     * @var   array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected static $attributeProperties = array();
+	/**
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $attributeProperties = array();
 
-    /**
-     * @var   array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected static $productAttributes = array();
+	/**
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $productAttributes = array();
 
-    /**
-     * @var   array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected static $subProperties = array();
+	/**
+	 * @var   array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $subProperties = array();
 
-    /**
-     * @var   array
-     *
-     * @since  2.0.4
-     */
-    protected static $propertyPrice = array();
-    
-    /**
-     * Get Product Attribute
-     *
-     * @param   integer  $productId          Product id
-     * @param   integer  $attributeSetId     Attribute set id
-     * @param   integer  $attributeId        Attribute id
-     * @param   integer  $published          Published attribute set
-     * @param   integer  $attributeRequired  Attribute required
-     * @param   string   $notAttributeId     Not attribute id
-     *
-     * @return  array
-     * @throws  Exception
-     * @since __DEPLOY_VERSION__
-     */
-    public static function getProductAttribute(
-        $productId = 0,
-        $attributeSetId = 0,
-        $attributeId = 0,
-        $published = 0,
-        $attributeRequired = 0,
-        $notAttributeId = ''
-    ) {
-        $key = md5(
-            $productId . '_' . $attributeSetId . '_' . $attributeId . '_' . $published . '_' . $attributeRequired
-            . '_' . $notAttributeId
-        );
+	/**
+	 * @var   array
+	 *
+	 * @since  2.0.4
+	 */
+	protected static $propertyPrice = array();
 
-        if (!array_key_exists($key, static::$productAttributes)) {
-            if ($productId) {
-                $selectedAttributes = array();
-                $productData        = \Redshop\Product\Product::getProductById($productId);
+	/**
+	 * Get Product Attribute
+	 *
+	 * @param   integer  $productId          Product id
+	 * @param   integer  $attributeSetId     Attribute set id
+	 * @param   integer  $attributeId        Attribute id
+	 * @param   integer  $published          Published attribute set
+	 * @param   integer  $attributeRequired  Attribute required
+	 * @param   string   $notAttributeId     Not attribute id
+	 *
+	 * @return  array
+	 * @throws  Exception
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0, $notAttributeId = '')
+	{
+		$key = md5(
+			$productId . '_' . $attributeSetId . '_' . $attributeId . '_' . $published . '_' . $attributeRequired
+			. '_' . $notAttributeId
+		);
 
-                if ($productData && isset($productData->attributes)) {
-                    foreach ($productData->attributes as $attribute) {
-                        if (($attributeSetId && $attributeSetId !== $attribute->attribute_set_id)
-                            || ($attributeId && $attributeId !== $attribute->attribute_id)
-                            || ($published && $published !== $attribute->attribute_published)
-                            || ($published && $attributeSetId && $published !== $attribute->attribute_set_published)
-                            || ($attributeRequired && $attributeRequired !== (int)$attribute->attribute_required)) {
-                            continue;
-                        }
+		if (!array_key_exists($key, static::$productAttributes))
+		{
+			if ($productId)
+			{
+				$selectedAttributes = array();
+				$productData        = \Redshop\Product\Product::getProductById($productId);
 
-                        if ($notAttributeId) {
-                            $notAttributeIds = explode(',', $notAttributeId);
-                            $notAttributeIds = ArrayHelper::toInteger($notAttributeIds);
+				if ($productData && isset($productData->attributes))
+				{
+					foreach ($productData->attributes as $attribute)
+					{
+						if (($attributeSetId && $attributeSetId !== $attribute->attribute_set_id)
+							|| ($attributeId && $attributeId !== $attribute->attribute_id)
+							|| ($published && $published !== $attribute->attribute_published)
+							|| ($published && $attributeSetId && $published !== $attribute->attribute_set_published)
+							|| ($attributeRequired && $attributeRequired !== (int)$attribute->attribute_required))
+						{
+							continue;
+						}
 
-                            if (in_array($attribute->attribute_id, $notAttributeIds, false)) {
-                                continue;
-                            }
-                        }
+						if ($notAttributeId)
+						{
+							$notAttributeIds = explode(',', $notAttributeId);
+							$notAttributeIds = ArrayHelper::toInteger($notAttributeIds);
 
-                        $selectedAttributes[] = $attribute;
-                    }
-                }
+							if (in_array($attribute->attribute_id, $notAttributeIds, false))
+							{
+								continue;
+							}
+						}
 
-                static::$productAttributes[$key] = $selectedAttributes;
-            } else {
-                $db    = \JFactory::getDbo();
-                $query = $db->getQuery(true)
-                    ->select(
-                        array('a.attribute_id AS value', 'a.attribute_name AS text', 'a.*', 'ast.attribute_set_name')
-                    )
-                    ->from($db->qn('#__redshop_product_attribute', 'a'))
-                    ->leftJoin(
-                        $db->qn('#__redshop_attribute_set', 'ast') . ' ON ast.attribute_set_id = a.attribute_set_id'
-                    )
-                    ->where('a.attribute_name != ' . $db->q(''))
-                    ->where('a.attribute_published = 1')
-                    ->order('a.ordering ASC')
-                    ->order('a.attribute_name ASC');
+						$selectedAttributes[] = $attribute;
+					}
+				}
 
-                if ($attributeSetId !== 0) {
-                    $query->where('a.attribute_set_id = ' . (int)$attributeSetId);
-                }
+				static::$productAttributes[$key] = $selectedAttributes;
+			}
+			else{
+				$db    = \JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select(
+						array('a.attribute_id AS value', 'a.attribute_name AS text', 'a.*', 'ast.attribute_set_name')
+					)
+					->from($db->qn('#__redshop_product_attribute', 'a'))
+					->leftJoin(
+						$db->qn('#__redshop_attribute_set', 'ast') . ' ON ast.attribute_set_id = a.attribute_set_id'
+					)
+					->where('a.attribute_name != ' . $db->q(''))
+					->where('a.attribute_published = 1')
+					->order('a.ordering ASC')
+					->order('a.attribute_name ASC');
 
-                if ($attributeId !== 0) {
-                    $query->where('a.attribute_id = ' . (int)$attributeId);
-                }
+				if ($attributeSetId !== 0) {
+					$query->where('a.attribute_set_id = ' . (int)$attributeSetId);
+				}
 
-                if ($published !== 0) {
-                    $query->where('ast.published = ' . (int)$published);
-                }
+				if ($attributeId !== 0) {
+					$query->where('a.attribute_id = ' . (int)$attributeId);
+				}
 
-                if ($attributeRequired !== 0) {
-                    $query->where('a.attribute_required = ' . (int)$attributeRequired);
-                }
+				if ($published !== 0) {
+					$query->where('ast.published = ' . (int)$published);
+				}
 
-                if (!empty($notAttributeId)) {
-                    // Sanitize ids
-                    $notAttributeIds = explode(',', $notAttributeId);
-                    $notAttributeIds = ArrayHelper::toInteger($notAttributeIds);
+				if ($attributeRequired !== 0) {
+					$query->where('a.attribute_required = ' . (int)$attributeRequired);
+				}
 
-                    $query->where('a.attribute_id NOT IN (' . implode(',', $notAttributeIds) . ')');
-                }
+				if (!empty($notAttributeId)) {
+					// Sanitize ids
+					$notAttributeIds = explode(',', $notAttributeId);
+					$notAttributeIds = ArrayHelper::toInteger($notAttributeIds);
 
-                static::$productAttributes[$key] = $db->setQuery($query)->loadObjectList();
-            }
+					$query->where('a.attribute_id NOT IN (' . implode(',', $notAttributeIds) . ')');
+				}
 
-            \JPluginHelper::importPlugin('redshop_product');
-            \RedshopHelperUtility::getDispatcher()->trigger(
-                'onGetProductAttribute',
-                array(&static::$productAttributes[$key])
-            );
-        }
+				static::$productAttributes[$key] = $db->setQuery($query)->loadObjectList();
+			}
 
-        return static::$productAttributes[$key];
-    }
+			\JPluginHelper::importPlugin('redshop_product');
+			\RedshopHelperUtility::getDispatcher()->trigger(
+				'onGetProductAttribute',
+				array(&static::$productAttributes[$key])
+			);
+		}
+
+		return static::$productAttributes[$key];
+	}
 }

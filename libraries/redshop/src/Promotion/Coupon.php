@@ -27,7 +27,7 @@ class Coupon
 	 */
 	public static function getCouponPrice()
 	{
-		$cart  = \RedshopHelperCartSession::getCart();
+		$cart  = \Redshop\Cart\Helper::getCart();
 		$db    = \JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn(array('value', 'type')))
