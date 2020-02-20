@@ -325,6 +325,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 */
 	public function replaceProduct($wishlist, $templateProduct)
 	{
+		// @Todo: Refactor template section product
 		$wishlist->wishlistData = RedshopHelperWishlist::getWishlist($wishlist->wishlist_id);
 		$session       = JFactory::getSession();
 		$isIndividualAddToCart = (boolean) Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE');
@@ -344,12 +345,26 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
 		if ($this->isTagExists($imageThumbProduct['imageTag']))
 		{
-			$templateProduct = str_replace($imageThumbProduct['imageTag'], $thumbImage, $templateProduct);
+			$this->replacements[$imageThumbProduct["imageTag"]] = $thumbImage;
+			$templateProduct = $this->strReplace($this->replacements, $templateProduct);
 		}
 
 		if ($this->isTagExists('{product_number}'))
 		{
-			$templateProduct = str_replace('{product_number}', $wishlist->product_number, $templateProduct);
+			$productNumber = RedshopLayoutHelper::render(
+				'tags.common.tag',
+				array(
+					'tag'      => 'dev',
+					'class'    => "product_$wishlist->product_number",
+					'id'       => "product_$wishlist->product_number",
+					'text'      => $wishlist->product_number
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
+			);
+
+			$this->replacements["{product_number}"] = $productNumber;
+			$templateProduct = $this->strReplace($this->replacements, $templateProduct);
 		}
 
 		if ($this->isTagExists('{product_name}'))
