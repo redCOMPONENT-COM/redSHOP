@@ -7,6 +7,7 @@
  */
 namespace AcceptanceTester;
 use AdminJ3Page;
+use FrontEndProductManagerJoomla3Page;
 
 /**
  * Class ProductUpdateOnQuantitySteps
@@ -82,16 +83,25 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $categoryName
 	 * @param $nameProduct
 	 * @param $quantity
 	 * @param $menuItem
+	 * @param $priceProduct
 	 * @param $total
 	 * @param $customerInformation
 	 * @throws \Exception
+	 * @since 2.1.5
 	 */
-	public function checkProductUpdateQuantity($nameProduct,$quantity,$menuItem,$priceProduct,$total,$customerInformation)
+	public function checkProductUpdateQuantity($categoryName, $nameProduct, $quantity, $menuItem, $priceProduct, $total, $customerInformation)
 	{
 		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($nameProduct));
 		$I ->see($nameProduct);
 
 		for( $a= 0; $a <$quantity; $a++)
@@ -107,9 +117,11 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 				$I->click(AdminJ3Page:: $addToCart);
 			}
 		}
-		$I->click($menuItem);
-		$I->see($nameProduct);
-		$I->see($total);
+
+		$I->waitForElementVisible(["link" => $menuItem], 30);
+		$I->click(["link" => $menuItem], 30);
+		$I->waitForText($nameProduct, 10);
+		$I->waitForText($total, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
