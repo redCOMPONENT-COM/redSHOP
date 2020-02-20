@@ -1079,36 +1079,36 @@ class RedshopModelCheckout extends RedshopModel
 		$rowpayment->order_id          = $orderId;
 		$rowpayment->payment_method_id = $payment_method_id;
 
-		$ccdata = $session->get('ccdata');
+		$creditCardData = $session->get('ccdata');
 
-		if (!isset($ccdata['creditcard_code']))
+		if (!isset($creditCardData['creditcard_code']))
 		{
-			$ccdata['creditcard_code'] = 0;
+			$creditCardData['creditcard_code'] = 0;
 		}
 
-		if (!isset($ccdata['order_payment_number']))
+		if (!isset($creditCardData['order_payment_number']))
 		{
-			$ccdata['order_payment_number'] = 0;
+			$creditCardData['order_payment_number'] = 0;
 		}
 
-		if (!isset($ccdata['order_payment_expire_month']))
+		if (!isset($creditCardData['order_payment_expire_month']))
 		{
-			$ccdata['order_payment_expire_month'] = 0;
+			$creditCardData['order_payment_expire_month'] = 0;
 		}
 
-		if (!isset($ccdata['order_payment_expire_year']))
+		if (!isset($creditCardData['order_payment_expire_year']))
 		{
-			$ccdata['order_payment_expire_year'] = 0;
+			$creditCardData['order_payment_expire_year'] = 0;
 		}
 
-		$rowpayment->order_payment_code     = $ccdata['creditcard_code'];
-		$rowpayment->order_payment_cardname = base64_encode($ccdata['order_payment_name']);
-		$rowpayment->order_payment_number   = base64_encode($ccdata['order_payment_number']);
+		$rowpayment->order_payment_code     = $creditCardData['creditcard_code'];
+		$rowpayment->order_payment_cardname = base64_encode($creditCardData['order_payment_name']);
+		$rowpayment->order_payment_number   = base64_encode($creditCardData['order_payment_number']);
 
 		// This is ccv code
-		$rowpayment->order_payment_ccv      = base64_encode($ccdata['credit_card_code']);
+		$rowpayment->order_payment_ccv      = base64_encode($creditCardData['credit_card_code']);
 		$rowpayment->order_payment_amount   = $order_total;
-		$rowpayment->order_payment_expire   = $ccdata['order_payment_expire_month'] . $ccdata['order_payment_expire_year'];
+		$rowpayment->order_payment_expire   = $creditCardData['order_payment_expire_month'] . $creditCardData['order_payment_expire_year'];
 		$rowpayment->order_payment_name     = $paymentMethod->name;
 		$rowpayment->payment_method_class   = $paymentMethod->element;
 		$rowpayment->order_payment_trans_id = $d ["order_payment_trans_id"];
@@ -1328,78 +1328,83 @@ class RedshopModelCheckout extends RedshopModel
 		return $this->_db->loadObjectlist();
 	}
 
-	public function validatepaymentccinfo()
+    /**
+     * @return mixed
+     */
+	public function validatePaymentCreditCardInfo()
 	{
 		$session = JFactory::getSession();
-		$ccdata  = $session->get('ccdata');
+		$creditCardData  = $session->get('ccdata');
 
-		$validpayment [0] = 1;
-		$validpayment [1] = '';
+		$validPayment [0] = 1;
+		$validPayment [1] = '';
 
-		if ($ccdata['selectedCardId'] != '')
+		if ($creditCardData['selectedCardId'] != '')
 		{
-			return $validpayment;
+			return $validPayment;
 		}
 
 		// The Data should be in the session.
-		if (!isset($ccdata))
+		if (!isset($creditCardData))
 		{
-			$validpayment [0] = 0;
-			$validpayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCDATA');
+			$validPayment [0] = 0;
+			$validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCDATA');
 
-			return $validpayment;
+			return $validPayment;
 		}
 
-		if (isset($ccdata['order_payment_name']))
+		if (isset($creditCardData['order_payment_name']))
 		{
-			if (preg_match("/[0-9]+/", $ccdata['order_payment_name']) == true)
+			if (preg_match("/[0-9]+/", $creditCardData['order_payment_name']) == true)
 			{
-				$validpayment [0] = 0;
-				$validpayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNM_FOUND');
+				$validPayment [0] = 0;
+				$validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNM_FOUND');
 
-				return $validpayment;
+				return $validPayment;
 			}
 		}
 
-		if (!$ccdata['order_payment_number'])
+		if (!$creditCardData['order_payment_number'])
 		{
-			$validpayment [0] = 0;
-			$validpayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNR_FOUND');
+			$validPayment [0] = 0;
+			$validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNR_FOUND');
 
-			return $validpayment;
+			return $validPayment;
 		}
 
-		if ($ccdata['order_payment_number'])
+		if ($creditCardData['order_payment_number'])
 		{
-			if (!is_numeric($ccdata['order_payment_number']))
+			if (!is_numeric($creditCardData['order_payment_number']))
 			{
-				$validpayment [0] = 0;
-				$validpayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNR_NUM_FOUND');
+				$validPayment [0] = 0;
+				$validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CCNR_NUM_FOUND');
 
-				return $validpayment;
+				return $validPayment;
 			}
 		}
 
-		if (!$ccdata['order_payment_expire_month'])
+		if (!$creditCardData['order_payment_expire_month'])
 		{
-			$validpayment [0] = 0;
-			$validpayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_MON_FOUND');
+			$validPayment [0] = 0;
+			$validPayment [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_MON_FOUND');
 
-			return $validpayment;
+			return $validPayment;
 		}
 
-		$ccerror     = '';
-		$ccerrortext = '';
+		$creditCardError     = '';
+		$creditCardErrorText = '';
 
-		if (!$this->checkCreditCard($ccdata['order_payment_number'], $ccdata['creditcard_code'], $ccerror, $ccerrortext))
+		if (!$this->checkCreditCard($creditCardData['order_payment_number'],
+            $creditCardData['creditcard_code'],
+            $creditCardError, $creditCardErrorText))
 		{
-			$validpayment [0] = 0;
-			$validpayment [1] = $ccerrortext;
+			$validPayment [0] = 0;
+			$validPayment [1] = $creditCardErrorText;
 
-			return $validpayment;
+			return $validPayment;
 		}
 
-		return $validpayment;
+		return $validPayment;
 	}
 
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
@@ -1502,11 +1507,11 @@ class RedshopModelCheckout extends RedshopModel
 			)
 		);
 
-		$ccErrors [0] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_UNKNOWN_CCTYPE');
-		$ccErrors [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_PROVIDED');
-		$ccErrors [2] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDFORMAT');
-		$ccErrors [3] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDNUMBER');
-		$ccErrors [4] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_WRONGLENGTH');
+		$creditCardErrors [0] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_UNKNOWN_CCTYPE');
+		$creditCardErrors [1] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_PROVIDED');
+		$creditCardErrors [2] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDFORMAT');
+		$creditCardErrors [3] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_INVALIDNUMBER');
+		$creditCardErrors [4] = JText::_('COM_REDSHOP_CHECKOUT_ERR_NO_CARD_WRONGLENGTH');
 
 		// Establish card type
 		$cardType = -1;
@@ -1525,7 +1530,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($cardType == -1)
 		{
 			$errornumber = 0;
-			$errortext   = $ccErrors [$errornumber];
+			$errortext   = $creditCardErrors [$errornumber];
 
 			return false;
 		}
@@ -1534,7 +1539,7 @@ class RedshopModelCheckout extends RedshopModel
 		if (strlen($cardnumber) == 0)
 		{
 			$errornumber = 1;
-			$errortext   = $ccErrors [$errornumber];
+			$errortext   = $creditCardErrors [$errornumber];
 
 			return false;
 		}
@@ -1546,7 +1551,7 @@ class RedshopModelCheckout extends RedshopModel
 		if (!preg_match("/^[0-9]{13,19}$/i", $cardNo))
 		{
 			$errornumber = 2;
-			$errortext   = $ccErrors [$errornumber];
+			$errortext   = $creditCardErrors [$errornumber];
 
 			return false;
 		}
@@ -1596,7 +1601,7 @@ class RedshopModelCheckout extends RedshopModel
 			if ($checksum % 10 != 0)
 			{
 				$errornumber = 3;
-				$errortext   = $ccErrors [$errornumber];
+				$errortext   = $creditCardErrors [$errornumber];
 
 				return false;
 			}
@@ -1626,7 +1631,7 @@ class RedshopModelCheckout extends RedshopModel
 		if (!$PrefixValid)
 		{
 			$errornumber = 3;
-			$errortext   = $ccErrors [$errornumber];
+			$errortext   = $creditCardErrors [$errornumber];
 
 			return false;
 		}
@@ -1648,7 +1653,7 @@ class RedshopModelCheckout extends RedshopModel
 		if (!$LengthValid)
 		{
 			$errornumber = 4;
-			$errortext   = $ccErrors [$errornumber];
+			$errortext   = $creditCardErrors [$errornumber];
 
 			return false;
 		}

@@ -39,7 +39,7 @@ class RedshopTagsSectionsCheckout extends RedshopTagsAbstract
 	{
 		$app  = JFactory::getApplication();
 		$itemId = RedshopHelperRouter::getCheckoutItemId();
-		$usersInfoId     = $this->data['usersInfoId'];
+		$usersInfoId     = $this->data['usersInfoId'] ?? \JFactory::getApplication()->input->getInt('users_info_id');
 		$shippingRateId  = $this->data['shippingRateId'];
 		$paymentMethodId = $this->data['paymentMethodId'];
 		$cart            = $this->data['cart'];
@@ -85,7 +85,18 @@ class RedshopTagsSectionsCheckout extends RedshopTagsAbstract
 			'tags.checkout.template',
 			array(
 				'isCreditcard' => $this->data['isCreditcard'] == 1 && $ccInfo != '1' && $cart['total'] > 0,
-				'content' => $this->template
+				'content' => $this->template,
+                'usersInfoId' => $usersInfoId,
+                'shippingRateId' => $shippingRateId,
+                'paymentMethodId' => $paymentMethodId,
+                'itemId' => $itemId,
+                'customerNote' => '',
+                'regNumber' => '',
+                'thirpartyEmail' => '',
+                'customerMessage' => '',
+                'referralCode' => '',
+                'shopId' => $shopId,
+                'data' => array()
 			),
 			'',
 			RedshopLayoutHelper::$layoutOption
