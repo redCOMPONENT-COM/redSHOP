@@ -72,6 +72,7 @@ class Label
 		self::checkTag($search, $replace, $content, 'quotation_subtotal_lbl', \JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'));
 		self::checkTag($search, $replace, $content, 'quotation_discount_lbl', \JText::_('COM_REDSHOP_QUOTATION_DISCOUNT_LBL'));
 		self::checkTag($search, $replace, $content, 'thirdparty_email_lbl', \JText::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL'));
+		self::checkTag($search, $replace, $content, 'customer_note_lbl', \JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'));
 
 		if (\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 		{

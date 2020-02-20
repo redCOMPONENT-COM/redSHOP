@@ -220,7 +220,7 @@ class SiteHelper
 	)
 	{
 		$db   = \JFactory::getDbo();
-		$cart = \RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 
 		$prePrefix = "";
 
