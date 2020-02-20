@@ -682,7 +682,7 @@ class RedshopControllerCart extends RedshopController
 	public function discountCalculator()
 	{
 		ob_clean();
-		$get = JFactory::getApplication()->input->get->getArray(/** @scrutinizer ignore-type */ 'GET');
+		$get = JFactory::getApplication()->input->get->getArray();
 		\Redshop\Promotion\Discount::discountCalculator($get);
 
 		JFactory::getApplication()->close();
@@ -800,7 +800,7 @@ class RedshopControllerCart extends RedshopController
 				$productId,
 				$productPrice,
 				$userId,
-				/** @scrutinizer ignore-type */ $taxExempt
+				$taxExempt
 			)
 		);
 

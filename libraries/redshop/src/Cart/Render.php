@@ -78,7 +78,7 @@ class Render
 
 		$cartTemplate = \Redshop\Template\Helper::getAddToCart($content);
 
-		$cartForm = $cartTemplate->template_desc;
+		$cartForm = $cartTemplate->template_desc ?? '';
 
 		$cartTemplateWapper = \RedshopTagsReplacer::_(
 			'addtocart',
@@ -106,7 +106,9 @@ class Render
 			)
 		);
 
-		$content = str_replace("{form_addtocart:$cartTemplate->name}", $cartTemplateWapper, $content);
+		if (isset($cartTemplate->name)) {
+            $content = str_replace("{form_addtocart:$cartTemplate->name}", $cartTemplateWapper, $content);
+        }
 
 		return $content;
 	}
