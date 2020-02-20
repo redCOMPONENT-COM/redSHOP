@@ -414,7 +414,7 @@ class RedshopControllerOrder_detail extends RedshopController
 		JFactory::getApplication()->close();
 	}
 
-	public function checkoutnext()
+	public function checkoutNext()
 	{
 		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
