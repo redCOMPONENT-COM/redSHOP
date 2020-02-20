@@ -201,7 +201,7 @@ class RedshopTagsSectionsCompareProduct extends RedshopTagsAbstract
 				);
 
 				$linkImg = RedshopLayoutHelper::render(
-					'tags.common.link_img',
+					'tags.common.img_link',
 					array(
 						'link' => $link,
 						'linkAttr' => 'title="' . $product->product_name . '"',
