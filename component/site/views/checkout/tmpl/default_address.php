@@ -137,9 +137,9 @@ $cart      = \Redshop\Cart\Helper::getCart();
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
 	<input type="hidden" name="order_id" value="<?php echo JFactory::getApplication()->input->getInt('order_id'); ?>"/>
-	<input type="hidden" name="task" value="checkoutnext"/>
+	<input type="hidden" name="task" value="checkoutNext"/>
 	<input type="hidden" name="view" value="checkout"/>
 
-	<div align="right"><input type="submit" class="greenbutton btn btn-primary" name="checkoutnext"
+	<div align="right"><input type="submit" class="greenbutton btn btn-primary" name="checkoutNext"
 	                          value="<?php echo JText::_("COM_REDSHOP_CHECKOUT") ?>"/></div>
 </form>

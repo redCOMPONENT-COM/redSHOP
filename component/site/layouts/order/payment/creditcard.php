@@ -70,7 +70,15 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 					$cardTypes[] = JHtml::_('select.option', $creditCard[$ic], $text);
 				}
 
-				echo JHtml::_('redshopselect.radiolist', $cardTypes, 'creditcard_code', array('cssClassSuffix' => ''), 'value', 'text', $creditCardData['creditcard_code']);
+				echo JHtml::_(
+				        'redshopselect.radiolist',
+                        $cardTypes,
+                        'creditcard_code',
+                        ['cssClassSuffix' => ''],
+                        'value',
+                        'text',
+                        $creditCardData['creditcard_code'] ?? ''
+                );
 				?>
             </div>
         </div>
@@ -121,7 +129,7 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 					'size="1" class="input-small" ',
 					'value',
 					'text',
-					$creditCardData['order_payment_expire_month']
+					$creditCardData['order_payment_expire_month'] ?? ''
 				);
 
 				$currentYear = date('Y');
@@ -139,7 +147,7 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 					'size="1" class="input-small" ',
 					'value',
 					'text',
-					$creditCardData['order_payment_expire_year']
+					$creditCardData['order_payment_expire_year'] ?? ''
 				);
 				?>
             </div>
