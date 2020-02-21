@@ -20,10 +20,10 @@ use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\VoucherManagerJoomla3Steps as VoucherManagerJoomla3Steps;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
-class CouponCheckoutMixCheckoutCest
+class CouponVoucherMixCheckoutCest
 {
 	/**
-	 * CouponCheckoutProductCest constructor.
+	 * CouponVoucherMixCheckoutCest constructor.
 	 */
 	public function __construct()
 	{
@@ -135,7 +135,7 @@ class CouponCheckoutMixCheckoutCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
-	 * 
+	 *
 	 * The method check for voucher/coupon/discount
 	 * @throws Exception
 	 */
@@ -203,72 +203,7 @@ class CouponCheckoutMixCheckoutCest
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
 	 *
-	 * The method check for Discount + voucher/coupon
-	 * @throws \Exception
-	 */
-	public function checkWithDiscountVoucherOrCoupon(AcceptanceTester $I, \Codeception\Scenario $scenario)
-	{
-		$I->doAdministratorLogin();
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstName);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-
-		$this->discount['allow'] = 'Discount + voucher/coupon';
-		$I->wantToTest('I want to setup checkout with apply single coupon and voucher');
-		$I = new ConfigurationSteps($scenario);
-		$I->priceDiscount($this->discount);
-
-		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
-		$this->orderInfoSecond['priceTotal'] = "DKK 150,00";
-		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
-		$this->orderInfoSecond['priceEnd'] =  "DKK 140,00";
-
-		$this->orderInfoSecond['priceTotal'] = "DKK 150,00";
-		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
-		$this->orderInfoSecond['priceEnd'] =  "DKK 140,00";
-
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, $this->orderInfoSecond,$this->haveDiscount['no']);
-		$I = new UserManagerJoomla3Steps($scenario);
-
-		$I->deleteUser($this->firstName);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-
-		$I->wantToTest('I want to setup checkout with apply single voucher and coupon');
-		$I->comment('Checkout with voucher even you input coupon but still get value of coupon ');
-		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, $this->orderInfoSecond,$this->haveDiscount['no']);
-
-		$I->comment('Checkout with coupon even you input voucher but still get value of voucher and discount');
-		$this->discount['voucherCode'] = $this->randomVoucherCodeDiscount;
-		$this->orderInfo['priceTotal'] = "DKK 100,00";
-		$this->orderInfo['priceDiscount'] =  "DKK 10,00";
-		$this->orderInfo['priceEnd'] =  "DKK 90,00";
-
-		$this->orderInfoSecond['priceTotal'] = "DKK 100,00";
-		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
-		$this->orderInfoSecond['priceEnd'] =  "DKK 90,00";
-
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstName);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productNameDiscount, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, $this->orderInfoSecond,$this->haveDiscount['yes']);
-
-		$I = new UserManagerJoomla3Steps($scenario);
-		$I->deleteUser($this->firstName);
-		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->wantToTest('I want to setup checkout with apply single voucher and coupon');
-		$I->comment('Checkout with voucher even you input coupon but still get value of coupon ');
-		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productNameDiscount, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, $this->orderInfoSecond,$this->haveDiscount['yes']);
-	}
-
-	/**
-	 * @param AcceptanceTester $I
-	 * @param \Codeception\Scenario $scenario
-	 * 
-	 * The method check for Discount + voucher (single) + coupon (single
+	 * The method check for Discount + voucher (single) + coupon (single)
 	 * @throws \Exception
 	 */
 	public function checkWithSignVoucherCoupon(AcceptanceTester $I, \Codeception\Scenario $scenario)
@@ -330,7 +265,7 @@ class CouponCheckoutMixCheckoutCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
-	 * 
+	 *
 	 * The method check for Discount + voucher (multiple) + coupon (multiple)
 	 * @throws Exception
 	 */
@@ -340,7 +275,7 @@ class CouponCheckoutMixCheckoutCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-		
+
 		$this->discount['allow'] = 'Discount + voucher (multiple) + coupon (multiple)';
 		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
@@ -399,6 +334,71 @@ class CouponCheckoutMixCheckoutCest
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->comment('Checkout with voucher (multiple) + coupon (multiple) ');
 		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productNameDiscount, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, $this->orderInfoSecond);
+	}
+
+	/**
+	 * @param AcceptanceTester $I
+	 * @param \Codeception\Scenario $scenario
+	 *
+	 * The method check for Discount + voucher/coupon
+	 * @throws \Exception
+	 */
+	public function checkWithDiscountVoucherOrCoupon(AcceptanceTester $I, \Codeception\Scenario $scenario)
+	{
+		$I->doAdministratorLogin();
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+
+		$this->discount['allow'] = 'Discount + voucher/coupon';
+		$I->wantToTest('I want to setup checkout with apply single coupon and voucher');
+		$I = new ConfigurationSteps($scenario);
+		$I->priceDiscount($this->discount);
+
+		$I->comment('Checkout with coupon even you input voucher but still get value of voucher ');
+		$this->orderInfoSecond['priceTotal'] = "DKK 150,00";
+		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
+		$this->orderInfoSecond['priceEnd'] =  "DKK 140,00";
+
+		$this->orderInfoSecond['priceTotal'] = "DKK 150,00";
+		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
+		$this->orderInfoSecond['priceEnd'] =  "DKK 140,00";
+
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, $this->orderInfoSecond,$this->haveDiscount['no']);
+		$I = new UserManagerJoomla3Steps($scenario);
+
+		$I->deleteUser($this->firstName);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+
+		$I->wantToTest('I want to setup checkout with apply single voucher and coupon');
+		$I->comment('Checkout with voucher even you input coupon but still get value of coupon ');
+		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productName, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, $this->orderInfoSecond,$this->haveDiscount['no']);
+
+		$I->comment('Checkout with coupon even you input voucher but still get value of voucher and discount');
+		$this->discount['voucherCode'] = $this->randomVoucherCodeDiscount;
+		$this->orderInfo['priceTotal'] = "DKK 100,00";
+		$this->orderInfo['priceDiscount'] =  "DKK 10,00";
+		$this->orderInfo['priceEnd'] =  "DKK 90,00";
+
+		$this->orderInfoSecond['priceTotal'] = "DKK 100,00";
+		$this->orderInfoSecond['priceDiscount'] =  "DKK 10,00";
+		$this->orderInfoSecond['priceEnd'] =  "DKK 90,00";
+
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productNameDiscount, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountCouponCode, $this->orderInfoSecond,$this->haveDiscount['yes']);
+
+		$I = new UserManagerJoomla3Steps($scenario);
+		$I->deleteUser($this->firstName);
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->wantToTest('I want to setup checkout with apply single voucher and coupon');
+		$I->comment('Checkout with voucher even you input coupon but still get value of coupon ');
+		$I->checkoutProductCouponOrVoucherOrDiscount($this->userName,$this->password,$this->productNameDiscount, $this->categoryName, $this->discount, $this->orderInfo, $this->applyDiscountVoucherCode, $this->orderInfoSecond,$this->haveDiscount['yes']);
 	}
 
 	/**
