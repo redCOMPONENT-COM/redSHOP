@@ -591,6 +591,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail,30);
@@ -601,8 +603,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->wait(1);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
