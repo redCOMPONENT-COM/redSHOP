@@ -12,21 +12,21 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since  2.0.3
+ * @since __DEPLOY_VERSION__ 2.1.5
  */
 class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
 {
 	/**
 	 * @var    int
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $itemId;
 
 	/**
 	 * @var    int
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $wishlistId;
 
@@ -35,7 +35,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public function init()
 	{
@@ -48,7 +48,7 @@ class RedshopTagsSectionsWishlistMail extends RedshopTagsAbstract
 	 * @return string
 	 *
 	 * @throws Exception
-	 * @since 2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public function replace()
 	{

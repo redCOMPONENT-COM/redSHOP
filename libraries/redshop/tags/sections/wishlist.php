@@ -19,47 +19,47 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	/**
 	 * @var    integer
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $wishlistId;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $itemId;
 
 	/**
 	 * @var    array
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $productModel = array();
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $mainId = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $totalId = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $totalCountNoUserField = null;
 
 	/**
-	 * @var    integer
+	 * @var    array
 	 *
 	 * @since  2.1.5
 	 */
@@ -68,7 +68,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	/**
 	 * @var    integer
 	 *
-	 * @since  2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public $view;
 
@@ -77,7 +77,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public function init()
 	{
@@ -92,7 +92,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 * @return string
 	 *
 	 * @throws Exception
-	 * @since 2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public function replace()
 	{
@@ -284,7 +284,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public function getTemplateBetweenLoop($beginTag, $endTag, $template = '')
 	{
@@ -321,7 +321,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 * @return bool
 	 *
 	 * @throws Exception
-	 * @since 2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public function replaceProduct($wishlist, $templateProduct)
 	{
@@ -722,7 +722,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  array
 	 *
-	 * @since   2.1.5
+	 * @since __DEPLOY_VERSION__ 2.1.5
 	 */
 	public function getWidthHeight($template, $type)
 	{
