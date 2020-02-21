@@ -150,8 +150,8 @@ class ProductUpdateOnQuantityCest
 			$NumberZero = $NumberZero."0";
 		}
 		$quantity = (int)$this->quantity;
-		$priceTotal = $currencySymbol.''.$this->randomProductPrice*$quantity.$decimalSeparator.$NumberZero;
-		$priceTotalWithName = 'Total: '.$currencySymbol.' '.$this->randomProductPrice *$quantity.$decimalSeparator.$NumberZero;
+		$priceTotal = $currencySymbol.$this->randomProductPrice*$quantity.$decimalSeparator.$NumberZero;
+		$priceTotalWithName = 'Total: '.$currencySymbol.$this->randomProductPrice *$quantity.$decimalSeparator.$NumberZero;
 
 		$I = new ProductUpdateOnQuantitySteps($scenario);
 		$I->checkProductUpdateQuantity($this->categoryName, $this->nameProduct,$this->quantity,$this->menuItem,$priceTotal,$priceTotalWithName,$this->customerInformation);
