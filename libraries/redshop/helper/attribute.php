@@ -477,7 +477,7 @@ class RedshopHelperAttribute
 						$propertyid
 					);
 
-					$attribute_table .= "<input type='hidden' name='" . $hiddenattid . "[]' value='" . $attributes [$a]->value . "' />";
+					$attribute_table .= '<input type="hidden" name="' . $hiddenattid . '[]" value="' . $attributes [$a]->value . '" />';
 
 					if ($attributes [$a]->attribute_required > 0)
 					{
@@ -589,8 +589,8 @@ class RedshopHelperAttribute
 						$attribute_table = str_replace($replaceMiddle, $displaySubproperty, $attribute_table);
 					}
 
-					$attribute_table .= "<input type='hidden' id='subattdata_" . $commonid . "' value='"
-						. base64_encode(htmlspecialchars($subpropertydata)) . "' />";
+					$attribute_table .= '<input type="hidden" id="subattdata_' . $commonid . '" value="'
+						. base64_encode(htmlspecialchars($subpropertydata)) . '" />';
 					$attribute_table = str_replace("{subproperty_start}", $subproperty_start, $attribute_table);
 					$attribute_table = str_replace("{subproperty_end}", "</div>", $attribute_table);
 				}

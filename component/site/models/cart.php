@@ -810,7 +810,7 @@ class RedshopModelCart extends RedshopModel
 							$property           = RedshopHelperProduct_Attribute::getAttributeProperties($acc_property_data[$ip]);
 							$pricelist          = RedshopHelperProduct_Attribute::getPropertyPrice($acc_property_data[$ip], $cart[$idx]['quantity'], 'property');
 
-							if (count($pricelist) > 0)
+							if (isset($pricelist->product_price))
 							{
 								$property_price = $pricelist->product_price;
 							}
