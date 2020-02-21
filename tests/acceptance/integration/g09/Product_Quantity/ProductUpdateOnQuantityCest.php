@@ -153,12 +153,8 @@ class ProductUpdateOnQuantityCest
 		$priceTotal = $currencySymbol.''.$this->randomProductPrice*$quantity.$decimalSeparator.$NumberZero;
 		$priceTotalWithName = 'Total: '.$currencySymbol.' '.$this->randomProductPrice *$quantity.$decimalSeparator.$NumberZero;
 
-		$I->wantToTest("Review product");
-		$I = new OrderManagerJoomla3Steps($scenario);
-		$I->checkReview($this->nameProduct);
-
 		$I = new ProductUpdateOnQuantitySteps($scenario);
-		$I->checkProductUpdateQuantity($this->nameProduct,$this->quantity,$this->menuItem,$priceTotal,$priceTotalWithName,$this->customerInformation);
+		$I->checkProductUpdateQuantity($this->categoryName, $this->nameProduct,$this->quantity,$this->menuItem,$priceTotal,$priceTotalWithName,$this->customerInformation);
 		$I->wantTo('Check Order');
 		$I = new ConfigurationSteps($scenario);
 		$I->checkPriceTotal($this->randomProductPrice, $this->customerInformation['firstName'], $this->customerInformation['firstName'],$this->customerInformation['lastName'], $this->nameProduct, $this->categoryName, $this->paymentMethod);

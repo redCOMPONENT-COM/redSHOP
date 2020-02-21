@@ -606,8 +606,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->wait(1);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 
 		if (isset($orderInfoSecond))
 		{
