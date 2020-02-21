@@ -755,7 +755,7 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
     {
         jQuery('#attribute_data').val(attributeIds.join("##"));
         jQuery('#property_data').val(allProperties.join("##"));
-        jQuery('#subproperty_data').val(totalSubProperties.join("##"));
+        jQuery('[data-id=subproperty_data]').val(totalSubProperties.join("##"));
         jQuery('#tmp_product_price').val(mainprice);
         jQuery('#productprice_notvat').val(price_without_vat);
         jQuery('#tmp_product_old_price').val(old_price);

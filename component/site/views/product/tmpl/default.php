@@ -720,7 +720,19 @@ $templateDesc = Redshop\Product\Stock::replaceInStock($this->data->product_id, $
 
 // Product attribute  Start
 $totalatt      = count($attributes);
-$templateDesc = RedshopHelperAttribute::replaceAttributeData($this->data->product_id, 0, 0, $attributes, $templateDesc, $attribute_template, $isChilds);
+
+$templateDesc = RedshopTagsReplacer::_(
+        'attributes',
+	    $templateDesc,
+        array(
+            'productId' => $this->data->product_id,
+            'accessoryId' => 0,
+            'relatedProductId' => 0,
+            'attributes' => $attributes,
+            'attributeTemplate' => $attribute_template,
+            'isChild' => $isChilds
+        )
+);
 
 // Product attribute  End
 

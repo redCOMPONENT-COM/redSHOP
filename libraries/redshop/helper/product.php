@@ -4488,17 +4488,17 @@ class RedshopHelperProduct
                 $subPropertyScroller = RedshopLayoutHelper::render(
                     'product.subproperty_scroller',
                     array(
-                        'subProperties'     => $subproperty,
-                        'commonId'          => $commonid,
-                        'productId'         => $productId,
-                        'propertyId'        => $property_id,
-                        'subPropertyId'     => $subpropertyid,
-                        'accessoryId'       => $accessory_id,
-                        'relatedProductId'  => $relatedprd_id,
-                        'selectSubproperty' => $selectedsubproperty,
-                        'subPropertyArray'  => $subprop_Arry,
-                        'width'             => $mpw_thumb,
-                        'height'            => $mph_thumb
+                        'subProperties'       => $subproperty,
+                        'commonId'            => $commonid,
+                        'productId'           => $productId,
+                        'propertyId'          => $property_id,
+                        'subPropertyId'       => $subpropertyid,
+                        'accessoryId'         => $accessory_id,
+                        'relatedProductId'    => $relatedprd_id,
+                        'selectedSubProperty' => $selectedsubproperty,
+                        'subPropertyArray'    => $subprop_Arry,
+                        'width'               => $mpw_thumb,
+                        'height'              => $mph_thumb
                     ),
                     '',
                     array(
