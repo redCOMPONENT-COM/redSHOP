@@ -18,98 +18,89 @@ defined('_JEXEC') or die;
  */
 class Render
 {
-	/**
-	 * Method for render cart, replace tag in template
-	 *
-	 * @param   integer $productId        Product Id
-	 * @param   integer $categoryId       Category Id
-	 * @param   integer $accessoryId      Accessory Id
-	 * @param   integer $relatedProductId Related product Id
-	 * @param   string  $content          Template content
-	 * @param   boolean $isChild          Is child product?
-	 * @param   array   $userFields       User fields
-	 * @param   integer $totalAttr        Total attributes
-	 * @param   integer $totalAccessory   Total accessories
-	 * @param   integer $countNoUserField Total user fields
-	 * @param   integer $moduleId         Module Id
-	 * @param   integer $giftcardId       Giftcard Id
-	 *
-	 * @return  mixed|string
-	 * @throws  \Exception
-	 *
-	 * @since   2.1.0
-	 */
-	public static function replace($productId = 0, $categoryId = 0, $accessoryId = 0, $relatedProductId = 0, $content = "", $isChild = false, $userFields = array(), $totalAttr = 0, $totalAccessory = 0, $countNoUserField = 0, $moduleId = 0, $giftcardId = 0)
-	{
-		\JPluginHelper::importPlugin('redshop_product');
+    /**
+     * Method for render cart, replace tag in template
+     *
+     * @param integer $productId Product Id
+     * @param integer $categoryId Category Id
+     * @param integer $accessoryId Accessory Id
+     * @param integer $relatedProductId Related product Id
+     * @param string $content Template content
+     * @param boolean $isChild Is child product?
+     * @param array $userFields User fields
+     * @param integer $totalAttr Total attributes
+     * @param integer $totalAccessory Total accessories
+     * @param integer $countNoUserField Total user fields
+     * @param integer $moduleId Module Id
+     * @param integer $giftCardId Giftcard Id
+     *
+     * @return  mixed|string
+     * @throws  \Exception
+     *
+     * @since   2.1.0
+     */
+    public static function replace($productId = 0, $categoryId = 0, $accessoryId = 0, $relatedProductId = 0,
+                                   $content = "", $isChild = false, $userFields = array(), $totalAttr = 0,
+                                   $totalAccessory = 0, $countNoUserField = 0, $moduleId = 0, $giftCardId = 0)
+    {
+        \JPluginHelper::importPlugin('redshop_product');
 
-		$input           = \JFactory::getApplication()->input;
-		$productQuantity = $input->get('product_quantity');
-		$itemId          = $input->getInt('Itemid');
-		$productPreOrder = '';
-		$userId          = \JFactory::getUser()->id;
-		$fieldSection    = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
+        $input = \JFactory::getApplication()->input;
+        $productPreOrder = '';
+        $userId = \JFactory::getUser()->id;
+        $fieldSection = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
 
-		if ($relatedProductId != 0)
-		{
-			$productId = $relatedProductId;
-		}
-		elseif ($giftcardId != 0)
-		{
-			$productId = $giftcardId;
-		}
+        if ($relatedProductId != 0) {
+            $productId = $relatedProductId;
+        } elseif ($giftCardId != 0) {
+            $productId = $giftCardId;
+        }
 
-		if ($giftcardId != 0)
-		{
-			$product      = \RedshopEntityGiftcard::getInstance($giftcardId)->getItem();
-			$fieldSection = \RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD;
-		}
-		else
-		{
-			$product = \Redshop\Product\Product::getProductById($productId);
+        if ($giftCardId != 0) {
+            $product = \RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
+            $fieldSection = \RedshopHelperExtrafields::SECTION_GIFT_CARD_USER_FIELD;
+        } else {
+            $product = \Redshop\Product\Product::getProductById($productId);
 
-			if (isset($product->preorder))
-			{
-				$productPreOrder = $product->preorder;
-			}
-		}
+            if (isset($product->preorder)) {
+                $productPreOrder = $product->preorder;
+            }
+        }
 
-		$taxExemptAddToCart = \RedshopHelperCart::taxExemptAddToCart($userId, true);
+        $taxExemptAddToCart = \RedshopHelperCart::taxExemptAddToCart($userId, true);
+        $cartTemplate = \Redshop\Template\Helper::getAddToCart($content);
+        $cartForm = $cartTemplate->template_desc ?? '';
 
-		$cartTemplate = \Redshop\Template\Helper::getAddToCart($content);
+        $cartTemplateWapper = \RedshopTagsReplacer::_(
+            'addtocart',
+            $cartForm,
+            array(
+                'productId' => $productId,
+                'product' => $product,
+                'totalAttr' => $totalAttr,
+                'accessoryId' => $accessoryId,
+                'relatedProductId' => $relatedProductId,
+                'productPreOrder' => $productPreOrder,
+                'product' => $product,
+                'userId' => $userId,
+                'giftcardId' => $giftCardId,
+                'totalAccessory' => $totalAccessory,
+                'countNoUserField' => $countNoUserField,
+                'cartTemplate' => $cartTemplate,
+                'categoryId' => $categoryId,
+                'content' => $content,
+                'isChild' => $isChild,
+                'taxExemptAddToCart' => $taxExemptAddToCart,
+                'userFields' => $userFields,
+                'fieldSection' => $fieldSection,
+                'cartForm' => $cartForm
+            )
+        );
 
-		$cartForm = $cartTemplate->template_desc ?? '';
-
-		$cartTemplateWapper = \RedshopTagsReplacer::_(
-			'addtocart',
-			$cartForm,
-			array(
-				'productId' => $productId,
-				'product' => $product,
-				'totalAttr' => $totalAttr,
-				'accessoryId' => $accessoryId,
-				'relatedProductId' => $relatedProductId,
-				'productPreOrder' => $productPreOrder,
-				'product' => $product,
-				'userId' => $userId,
-				'giftcardId' => $giftcardId,
-				'totalAccessory' => $totalAccessory,
-				'countNoUserField' => $countNoUserField,
-				'cartTemplate'  => $cartTemplate,
-				'categoryId' => $categoryId,
-				'content'   => $content,
-				'isChild' => $isChild,
-				'taxExemptAddToCart' => $taxExemptAddToCart,
-				'userFields' => $userFields,
-				'fieldSection' => $fieldSection,
-				'cartForm' => $cartForm
-			)
-		);
-
-		if (isset($cartTemplate->name)) {
+        if (isset($cartTemplate->name)) {
             $content = str_replace("{form_addtocart:$cartTemplate->name}", $cartTemplateWapper, $content);
         }
 
-		return $content;
-	}
+        return $content;
+    }
 }
