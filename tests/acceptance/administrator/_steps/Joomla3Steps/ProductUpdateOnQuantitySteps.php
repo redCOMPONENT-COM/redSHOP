@@ -119,7 +119,7 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 		}
 
 		$I->waitForElementVisible(["link" => $menuItem], 30);
-		$I->click(["link" => $menuItem], 30);
+		$I->click(["link" => $menuItem]);
 		$I->waitForText($nameProduct, 10);
 		$I->waitForText($total, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
