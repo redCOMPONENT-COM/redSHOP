@@ -339,10 +339,11 @@ class RedshopHelperCartTag
 
                 if ($thumbUrl)
                 {
-                    $giftCardImage = "<div  class='giftcard_image'><img src='" . $thumbUrl . "'></div>";
+                    $giftCardImage = "<div  class='giftcard_image'><img src=" . $thumbUrl . "></div>";
                 }
 
                 $cartHtml          = str_replace("{product_thumb_image}", $giftCardImage, $cartHtml);
+
                 $productUserFields = RedshopHelperProduct::GetProdcutUserfield($i, 13);
                 $cartHtml          = str_replace("{product_userfields}", $productUserFields, $cartHtml);
                 $cartHtml          = str_replace(
@@ -363,15 +364,17 @@ class RedshopHelperCartTag
                 // ProductFinderDatepicker Extra Field
                 $cartHtml = RedshopHelperProduct::getProductFinderDatepickerValue($cartHtml, $giftCardId, $fieldArray, 1);
 
-                $removeProduct = '<form style="" class="rs_hiddenupdatecart" name="delete_cart' . $i . '" method="POST" >
-				<input type="hidden" name="giftcard_id" value="' . $cart[$i]['giftcard_id'] . '">
-				<input type="hidden" name="cart_index" value="' . $i . '">
-				<input type="hidden" name="task" value="">
-				<input type="hidden" name="Itemid" value="' . $itemId . '">
-				<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $deleteImg
-                    . '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL')
-                    . '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '"'
-                    . "onclick='document.delete_cart.$i.task.value='delete';document.delete_cart" . $i . ".submit();'></form>";
+                $removeProduct = \RedshopLayoutHelper::render(
+                    'tags.giftcard.delete',
+                    [
+                        'i' => $i,
+                        'cartHtml' => $cart[$i]['giftcard_id'],
+                        'itemId' => $itemId,
+                        'sourceImage' => REDSHOP_FRONT_IMAGES_ABSPATH . $deleteImg
+                    ],
+                    '',
+                    \RedshopLayoutHelper::$layoutOption
+                );
 
                 if (Redshop::getConfig()->getBool('QUANTITY_TEXT_DISPLAY'))
                 {
