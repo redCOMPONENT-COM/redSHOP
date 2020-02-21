@@ -11,9 +11,9 @@
 defined('_JEXEC') || die;
 
 /**
- * Tags replacer abstract class
+ * Tags replacer for Change Ajax Cart Attribute
  *
- * @since  2.1.5
+ * @since  __DEPLOY_VERSION__
  */
 class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 {
@@ -58,15 +58,15 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 
 		if (count($childProduct) > 0)
 		{
-			$isChilds = true;
+			$isChildren = true;
 		}
 		else
 		{
-			$isChilds = false;
+			$isChildren = false;
 		}
 
 		// Product attribute  Start
-		if ($isChilds)
+		if ($isChildren)
 		{
 			$attributes = array();
 			$selectAtt  = array(array(), array());
@@ -91,7 +91,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 		}
 
 		$totalAtt       = count($attributes);
-		$this->template = RedshopHelperAttribute::replaceAttributeData($productId, 0, 0, $attributes, $this->template, $attributeTemplate, $isChilds, $selectAtt, 0);
+		$this->template = RedshopHelperAttribute::replaceAttributeData($productId, 0, 0, $attributes, $this->template, $attributeTemplate, $isChildren, $selectAtt, 0);
 
 		// Product attribute  End
 		$stockAddToCart = "stockaddtocartprd_" . $productId;
@@ -199,6 +199,10 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 			RedshopLayoutHelper::$layoutOption
 		);
 
+		/**
+         * @TODO: In case there are many hidden input, better way to enhance performance is use only one layout for
+         * replace - Will create task for enhancement later.
+         * **/
 		$span .= RedshopLayoutHelper::render(
 			'tags.common.tag',
 			array(
