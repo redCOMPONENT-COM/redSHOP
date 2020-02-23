@@ -45,8 +45,9 @@ trait ConditionTag
 
 		$replacement = [];
 
-		$replacement['{payment_order_discount}'] = RedshopHelperProductPrice::formattedPrice($amount);
-		$payText  = ($paymentOprand == '+') ? JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL') : JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
+		$replacement['{payment_order_discount}'] = \RedshopHelperProductPrice::formattedPrice($amount);
+		$payText  = ($paymentOprand == '+') ? \JText::_('COM_REDSHOP_PAYMENT_CHARGES_LBL')
+            : \JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
 
 		$replacement['{payment_discount_lbl}']    = $payText;
 		$replacement['{payment_discount end if}'] = '';
