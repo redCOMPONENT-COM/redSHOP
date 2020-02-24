@@ -228,7 +228,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<tr>
 								<td colspan="2"><h3><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE') ?></h3></td>
 							</tr>
-							<?php //if($is_company){?>
+							<?php //if($isCompany){?>
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER'); ?>:</td>
 								<td><input class="inputbox" name="requisition_number" id="requisition_number"

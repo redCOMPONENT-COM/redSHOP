@@ -22,14 +22,14 @@ $loadCategorytemplate = $this->loadCategorytemplate;
 
 if (!empty($loadCategorytemplate) && $loadCategorytemplate[0]->template_desc != "")
 {
-	$template_desc = $loadCategorytemplate[0]->template_desc;
+	$templateDesc = $loadCategorytemplate[0]->template_desc;
 }
 else
 {
-	$template_desc = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>";
-	$template_desc .= "\r\n{category_frontpage_loop_start}<div class=\"category_front\">\r\n";
-	$template_desc .= "<div class=\"category_front_image\">{category_thumb_image}</div>\r\n";
-	$template_desc .= "<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
+	$templateDesc = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>";
+	$templateDesc .= "\r\n{category_frontpage_loop_start}<div class=\"category_front\">\r\n";
+	$templateDesc .= "<div class=\"category_front_image\">{category_thumb_image}</div>\r\n";
+	$templateDesc .= "<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
 }
 
 if ($this->params->get('show_page_heading', 0))
@@ -77,12 +77,12 @@ $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" .
 	JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
-$template_desc = str_replace("{print}", $print_tag, $template_desc);
-$template_desc = str_replace("{category_frontpage_introtext}", Redshop::getConfig()->get('CATEGORY_FRONTPAGE_INTROTEXT'), $template_desc);
+$templateDesc = str_replace("{print}", $print_tag, $templateDesc);
+$templateDesc = str_replace("{category_frontpage_introtext}", Redshop::getConfig()->get('CATEGORY_FRONTPAGE_INTROTEXT'), $templateDesc);
 
-if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($template_desc, "{category_frontpage_loop_end}"))
+if (strstr($templateDesc, "{category_frontpage_loop_start}") && strstr($templateDesc, "{category_frontpage_loop_end}"))
 {
-	$cattemplate_desc = explode('{category_frontpage_loop_start}', $template_desc);
+	$cattemplate_desc = explode('{category_frontpage_loop_start}', $templateDesc);
 	$catheader        = $cattemplate_desc[0];
 
 	$cattemplate_desc    = explode('{category_frontpage_loop_end}', $cattemplate_desc [1]);
@@ -206,18 +206,18 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		$cat_detail .= $data_add;
 	}
 
-	$template_desc = str_replace("{category_frontpage_loop_start}", "", $template_desc);
-	$template_desc = str_replace("{category_frontpage_loop_end}", "", $template_desc);
-	$template_desc = str_replace($middletemplate_desc, $cat_detail, $template_desc);
+	$templateDesc = str_replace("{category_frontpage_loop_start}", "", $templateDesc);
+	$templateDesc = str_replace("{category_frontpage_loop_end}", "", $templateDesc);
+	$templateDesc = str_replace($middletemplate_desc, $cat_detail, $templateDesc);
 }
 
-if (strstr($template_desc, "{filter_by}"))
+if (strstr($templateDesc, "{filter_by}"))
 {
-	$template_desc = str_replace("{filter_by_lbl}", "", $template_desc);
-	$template_desc = str_replace("{filter_by}", "", $template_desc);
+	$templateDesc = str_replace("{filter_by_lbl}", "", $templateDesc);
+	$templateDesc = str_replace("{filter_by}", "", $templateDesc);
 }
 
-if (strstr($template_desc, "{template_selector_category}"))
+if (strstr($templateDesc, "{template_selector_category}"))
 {
 	$template_selecter_form = "<form name='template_selecter_form' action='' method='post' >";
 	$template_selecter_form .= $this->lists['category_template'];
@@ -225,39 +225,39 @@ if (strstr($template_desc, "{template_selector_category}"))
 	$template_selecter_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
 	$template_selecter_form .= "</form>";
 
-	$template_desc = str_replace("{template_selector_category_lbl}", JText::_('COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'), $template_desc);
-	$template_desc = str_replace("{template_selector_category}", $template_selecter_form, $template_desc);
+	$templateDesc = str_replace("{template_selector_category_lbl}", JText::_('COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'), $templateDesc);
+	$templateDesc = str_replace("{template_selector_category}", $template_selecter_form, $templateDesc);
 }
 
-if (strstr($template_desc, "{order_by}"))
+if (strstr($templateDesc, "{order_by}"))
 {
-	$template_desc = str_replace("{order_by_lbl}", "", $template_desc);
-	$template_desc = str_replace("{order_by}", "", $template_desc);
+	$templateDesc = str_replace("{order_by_lbl}", "", $templateDesc);
+	$templateDesc = str_replace("{order_by}", "", $templateDesc);
 }
 
-if (strstr($template_desc, "{show_all_products_in_category}"))
+if (strstr($templateDesc, "{show_all_products_in_category}"))
 {
-	$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
-	$template_desc = str_replace("{pagination}", "", $template_desc);
+	$templateDesc = str_replace("{show_all_products_in_category}", "", $templateDesc);
+	$templateDesc = str_replace("{pagination}", "", $templateDesc);
 }
 
-if (strpos($template_desc, "{pagination}") !== false)
+if (strpos($templateDesc, "{pagination}") !== false)
 {
 	$pagination    = $model->getCategoryPagination();
-	$template_desc = str_replace("{pagination}", $pagination->getPagesLinks(), $template_desc);
+	$templateDesc = str_replace("{pagination}", $pagination->getPagesLinks(), $templateDesc);
 }
 
-if (strstr($template_desc, "perpagelimit:"))
+if (strstr($templateDesc, "perpagelimit:"))
 {
-	$perpage       = explode('{perpagelimit:', $template_desc);
+	$perpage       = explode('{perpagelimit:', $templateDesc);
 	$perpage       = explode('}', $perpage[1]);
-	$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
+	$templateDesc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $templateDesc);
 }
 
-if (strstr($template_desc, "{product_display_limit}"))
+if (strstr($templateDesc, "{product_display_limit}"))
 {
-	$template_desc = str_replace("{product_display_limit}", '', $template_desc);
+	$templateDesc = str_replace("{product_display_limit}", '', $templateDesc);
 }
 
-$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
-echo eval("?>" . $template_desc . "<?php ");
+$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
+echo eval("?>" . $templateDesc . "<?php ");

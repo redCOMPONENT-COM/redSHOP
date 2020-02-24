@@ -17,7 +17,7 @@ $model = $this->getModel('addorder_detail');
 
 $billing = $this->billing;
 $shipping = $this->shipping;
-$is_company = $billing->is_company;
+$isCompany = $billing->is_company;
 
 if (!empty ($_SERVER['REMOTE_ADDR']))
 {
@@ -44,7 +44,7 @@ else
 }
 $allowCustomer = '';
 $allowCompany = '';
-if ($is_company == 1)
+if ($isCompany == 1)
 {
 	$allowCustomer = 'style="display:none;"';
 }
@@ -753,7 +753,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 								<td><?php echo JText::_('COM_REDSHOP_COMMENT');?></td>
 								<td><textarea cols="50" rows="5" name="customer_note"></textarea></td>
 							</tr>
-							<?php //if($is_company){?>
+							<?php //if($isCompany){?>
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER');?></td>
 								<td><input name="requisition_number" id="requisition_number" value=""/></td>
