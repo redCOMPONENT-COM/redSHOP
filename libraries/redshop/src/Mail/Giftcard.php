@@ -47,7 +47,7 @@ class Giftcard
 				$giftCardValue = \RedshopHelperProductPrice::formattedPrice($giftcardData->giftcard_value, true);
 				$giftCardPrice = $eachOrder->product_final_price;
 				$giftCode = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(12);
-				$userFields = \RedshopHelperProduct::GetProdcutUserfield($eachOrder->order_item_id, 13);
+				$userFields = \RedshopHelperProduct::getProductUserField($eachOrder->order_item_id, 13);
 
 				/** @var \RedshopTableCoupon $couponItems */
 				$couponItem = \RedshopTable::getAdminInstance('Coupon');
