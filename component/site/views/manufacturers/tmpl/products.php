@@ -55,12 +55,12 @@ $manufacturertemplate = RedshopHelperTemplate::getTemplate("manufacturer_product
 
 if (count($manufacturertemplate) > 0 && $manufacturertemplate[0]->template_desc)
 {
-	$template_desc = $manufacturertemplate[0]->template_desc;
+	$templateDesc = $manufacturertemplate[0]->template_desc;
 	$template_id   = $manufacturertemplate[0]->id;
 }
 else
 {
-	$template_desc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"manufacturer_name\">{manufacturer_name}</div>\r\n<div class=\"manufacturer_image\">{manufacturer_image}</div>\r\n<div class=\"manufacturer_description\">{manufacturer_description}</div>\r\n\r\n<div style=\"clear: both;\"></div>\r\n\r\n<div id=\"category_header\">\r\n	<div class=\"category_order_by\">\r\n		{order_by} \r\n	</div>\r\n</div>\r\n\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div>{category_heading_start}<div>*{category_name}<div>{category_heading_end}</div>\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image_1}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}</div>\r\n<div class=\"pagination\">{pagination} </div>";
+	$templateDesc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"manufacturer_name\">{manufacturer_name}</div>\r\n<div class=\"manufacturer_image\">{manufacturer_image}</div>\r\n<div class=\"manufacturer_description\">{manufacturer_description}</div>\r\n\r\n<div style=\"clear: both;\"></div>\r\n\r\n<div id=\"category_header\">\r\n	<div class=\"category_order_by\">\r\n		{order_by} \r\n	</div>\r\n</div>\r\n\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div>{category_heading_start}<div>*{category_name}<div>{category_heading_end}</div>\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image_1}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}</div>\r\n<div class=\"pagination\">{pagination} </div>";
 	$template_id   = 0;
 }
 
@@ -78,13 +78,13 @@ $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') .
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
-$template_start  = $template_desc;
+$template_start  = $templateDesc;
 $template_middle = "";
 $template_end    = "";
 
-if (strstr($template_desc, '{product_loop_start}') && strstr($template_desc, '{product_loop_end}'))
+if (strstr($templateDesc, '{product_loop_start}') && strstr($templateDesc, '{product_loop_end}'))
 {
-	$template_sdata  = explode('{product_loop_start}', $template_desc);
+	$template_sdata  = explode('{product_loop_start}', $templateDesc);
 	$template_start  = $template_sdata[0];
 	$template_edata  = explode('{product_loop_end}', $template_sdata[1]);
 	$template_end    = $template_edata[1];
@@ -94,7 +94,7 @@ if (strstr($template_desc, '{product_loop_start}') && strstr($template_desc, '{p
 $cart_mdata       = '';
 $prod_thumb_image = "";
 
-$manufacturer_products = $model->getManufacturerProducts($template_desc);
+$manufacturer_products = $model->getManufacturerProducts($templateDesc);
 
 $cname = '';
 
@@ -255,9 +255,9 @@ if ($template_middle != "")
 	}
 }
 
-$template_desc = $template_start . $cart_mdata . $template_end;
+$templateDesc = $template_start . $cart_mdata . $template_end;
 
-if (strstr($template_desc, "{manufacturer_image}"))
+if (strstr($templateDesc, "{manufacturer_image}"))
 {
 	$thumbImage = '';
 	$media      = RedshopEntityManufacturer::getInstance($manufacturer->id)->getMedia();
@@ -299,46 +299,46 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				<img alt='" . $altText . "' title='" . $altText . "' src='" . $imagePath . "'></a>";
 	}
 
-	$template_desc = str_replace("{manufacturer_image}", $thumbImage, $template_desc);
+	$templateDesc = str_replace("{manufacturer_image}", $thumbImage, $templateDesc);
 }
 
 $manlink = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->id . '&Itemid=' . $itemId);
 
 $manproducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->id . '&Itemid=' . $itemId);
 
-$template_desc = str_replace("{manufacturer_name}", $manufacturer->name, $template_desc);
+$templateDesc = str_replace("{manufacturer_name}", $manufacturer->name, $templateDesc);
 
 // Extra field display
 $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
-$template_desc  = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $manufacturer->id, "10", $template_desc);
-$template_desc  = str_replace("{manufacturer_description}", $manufacturer->description, $template_desc);
+$templateDesc  = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $manufacturer->id, "10", $templateDesc);
+$templateDesc  = str_replace("{manufacturer_description}", $manufacturer->description, $templateDesc);
 
 $manufacturer_extra_fields = RedshopHelperExtrafields::listAllFieldDisplay(10, $manufacturer->id);
-$template_desc             = str_replace("{manufacturer_extra_fields}", $manufacturer_extra_fields, $template_desc);
+$templateDesc             = str_replace("{manufacturer_extra_fields}", $manufacturer_extra_fields, $templateDesc);
 
-$template_desc = str_replace("{manufacturer_link}", $manlink, $template_desc);
+$templateDesc = str_replace("{manufacturer_link}", $manlink, $templateDesc);
 
-$template_desc = str_replace("{print}", $print_tag, $template_desc);
+$templateDesc = str_replace("{print}", $print_tag, $templateDesc);
 
-if (strstr($template_desc, '{filter_by}'))
+if (strstr($templateDesc, '{filter_by}'))
 {
 	$filterby_form = "<form name='filter_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_FILTER_BY') . $this->lists['filter_select'];
 	$filterby_form .= "<input type='hidden' name='order_by' value='" . $app->input->getString('order_by', '') . "' /></form>";
-	$template_desc = str_replace("{filter_by}", $filterby_form, $template_desc);
+	$templateDesc = str_replace("{filter_by}", $filterby_form, $templateDesc);
 }
 
-if (strstr($template_desc, '{order_by}'))
+if (strstr($templateDesc, '{order_by}'))
 {
 	$orderby_form  = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'];
 	$orderby_form  .= "<input type='hidden' name='filter_by' value='" . $app->input->getString('filter_by', 0) . "' /></form>";
-	$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
+	$templateDesc = str_replace("{order_by}", $orderby_form, $templateDesc);
 }
 
-if (strstr($template_desc, '{pagination}'))
+if (strstr($templateDesc, '{pagination}'))
 {
 	$productpagination = $model->getProductPagination();
-	$template_desc     = str_replace("{pagination}", $productpagination->getPagesLinks(), $template_desc);
+	$templateDesc     = str_replace("{pagination}", $productpagination->getPagesLinks(), $templateDesc);
 }
 
-$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
-echo eval("?>" . $template_desc . "<?php ");
+$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
+echo eval("?>" . $templateDesc . "<?php ");
