@@ -431,15 +431,15 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$propertiesSave['property_published']  = ($property['published'] == 'on' || $property['published'] == '1') ? '1' : '0';
 				$propertiesSave['extra_field']         = $property['extra_field'];
 				$property_array                        = $model->store_pro($propertiesSave);
-				$property_id                           = $property_array->property_id;
+				$propertyId                           = $property_array->property_id;
 				$property_image                        = $this->input->files->get('attribute_' . $tmpordering . '_property_' . $tmpproptyimagename[$pIndex] . '_image', array(), 'array');
 
 				if (empty($property['mainImage']))
 				{
 					if (!empty($property_image['name']))
 					{
-						$propertiesSave['property_image'] = $model->copy_image($property_image, 'product_attributes', $property_id);
-						$propertiesSave['property_id']    = $property_id;
+						$propertiesSave['property_image'] = $model->copy_image($property_image, 'product_attributes', $propertyId);
+						$propertiesSave['property_id']    = $propertyId;
 						$property_array                   = $model->store_pro($propertiesSave);
 						$this->DeleteMergeImages();
 					}
@@ -447,15 +447,15 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 				if (!empty($property['mainImage']))
 				{
-					$propertiesSave['property_image'] = $model->copy_image_from_path($property['mainImage'], 'product_attributes', $property_id);
-					$propertiesSave['property_id']    = $property_id;
+					$propertiesSave['property_image'] = $model->copy_image_from_path($property['mainImage'], 'product_attributes', $propertyId);
+					$propertiesSave['property_id']    = $propertyId;
 					$property_array                   = $model->store_pro($propertiesSave);
 					$this->DeleteMergeImages();
 				}
 
 				if (empty($property['property_id']))
 				{
-					$listImages = $model->getImageInfor($property_id, 'property');
+					$listImages = $model->getImageInfor($propertyId, 'property');
 
 					for ($li = 0, $countImage = count($listImages); $li < $countImage; $li++)
 					{
@@ -463,7 +463,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 						$mImages['media_name']           = $listImages[$li]->media_name;
 						$mImages['media_alternate_text'] = $listImages[$li]->media_alternate_text;
 						$mImages['media_section']        = 'property';
-						$mImages['section_id']           = $property_id;
+						$mImages['section_id']           = $propertyId;
 						$mImages['media_type']           = 'images';
 						$mImages['media_mimetype']       = $listImages[$li]->media_mimetype;
 						$mImages['published']            = $listImages[$li]->published;
@@ -477,7 +477,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				}
 
 				// Set trigger to save Attribute Property Plugin Data
-				if ((int) $property_id)
+				if ((int) $propertyId)
 				{
 					$dispatcher = RedshopHelperUtility::getDispatcher();
 					JPluginHelper::importPlugin('redshop_product_type');
@@ -500,7 +500,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 					$subPropertiesSave['subattribute_color_price']  = $subproperty[$sp]['price'];
 					$subPropertiesSave['oprand']                    = $subproperty[$sp]['oprand'];
 					$subPropertiesSave['subattribute_color_image']  = $subproperty[$sp]['image'];
-					$subPropertiesSave['subattribute_id']           = $property_id;
+					$subPropertiesSave['subattribute_id']           = $propertyId;
 					$subPropertiesSave['ordering']                  = $subproperty[$sp]['order'];
 					$subPropertiesSave['subattribute_color_number'] = $subproperty[$sp]['number'];
 					$subPropertiesSave['setdefault_selected']       = ($subproperty[$sp]['chk_propdselected'] == 'on'
@@ -513,14 +513,14 @@ class RedshopControllerProduct_Detail extends RedshopController
 						array(),
 						'array'
 					);
-					$subproperty_id                                 = $subproperty_array->subattribute_color_id;
+					$subPropertyId                                 = $subproperty_array->subattribute_color_id;
 
 					if (empty($subproperty[$sp]['mainImage']))
 					{
 						if (!empty($subproperty_image['name']))
 						{
-							$subPropertiesSave['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subproperty_id);
-							$subPropertiesSave['subattribute_color_id']    = $subproperty_id;
+							$subPropertiesSave['subattribute_color_image'] = $model->copy_image($subproperty_image, 'subcolor', $subPropertyId);
+							$subPropertiesSave['subattribute_color_id']    = $subPropertyId;
 							$subproperty_array                             = $model->store_sub($subPropertiesSave);
 							$this->DeleteMergeImages();
 						}
@@ -528,15 +528,15 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 					if (!empty($subproperty[$sp]['mainImage']))
 					{
-						$subPropertiesSave['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
-						$subPropertiesSave['subattribute_color_id']    = $subproperty_id;
+						$subPropertiesSave['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subPropertyId);
+						$subPropertiesSave['subattribute_color_id']    = $subPropertyId;
 						$subproperty_array                             = $model->store_sub($subPropertiesSave);
 						$this->DeleteMergeImages();
 					}
 
 					if (empty($subproperty[$sp]['subproperty_id']))
 					{
-						$listsubpropImages     = $model->getImageInfor($subproperty_id, 'subproperty');
+						$listsubpropImages     = $model->getImageInfor($subPropertyId, 'subproperty');
 						$countSubpropertyImage = count($listsubpropImages);
 
 						for ($lsi = 0; $lsi < $countSubpropertyImage; $lsi++)
@@ -545,7 +545,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 							$smImages['media_name']           = $listsubpropImages[$lsi]->media_name;
 							$smImages['media_alternate_text'] = $listsubpropImages[$lsi]->media_alternate_text;
 							$smImages['media_section']        = 'subproperty';
-							$smImages['section_id']           = $subproperty_id;
+							$smImages['section_id']           = $subPropertyId;
 							$smImages['media_type']           = 'images';
 							$smImages['media_mimetype']       = $listsubpropImages[$lsi]->media_mimetype;
 							$smImages['published']            = $listsubpropImages[$lsi]->published;
@@ -822,13 +822,13 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public function deleteProdcutSerialNumbers()
 	{
 		$serial_id  = $this->input->getInt('serial_id', null);
-		$product_id = $this->input->getInt('product_id', null);
+		$productId = $this->input->getInt('product_id', null);
 
 		$model = $this->getModel('product_detail');
 		$model->deleteProdcutSerialNumbers($serial_id);
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
-		$this->setRedirect('index.php?option=com_redshop&view=product_detail&cid=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product_detail&cid=' . $productId, $msg);
 	}
 
 	/**
@@ -852,11 +852,11 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function delete_prop()
 	{
-		$attribute_id = $this->input->get->getInt('attribute_id', null);
-		$property_id  = $this->input->get->getInt('property_id', null);
+		$attributeId = $this->input->get->getInt('attribute_id', null);
+		$propertyId  = $this->input->get->getInt('property_id', null);
 
 		$model = $this->getModel('product_detail');
-		$model->delete_prop($attribute_id, $property_id);
+		$model->delete_prop($attributeId, $propertyId);
 	}
 
 	/**
@@ -866,12 +866,12 @@ class RedshopControllerProduct_Detail extends RedshopController
 	 */
 	public function delete_attibute()
 	{
-		$product_id       = $this->input->get->getInt('product_id', null);
-		$attribute_id     = $this->input->get->getInt('attribute_id', null);
+		$productId       = $this->input->get->getInt('product_id', null);
+		$attributeId     = $this->input->get->getInt('attribute_id', null);
 		$attribute_set_id = $this->input->get->getInt('attribute_set_id', null);
 
 		$model = $this->getModel('product_detail');
-		$model->delete_attibute($product_id, $attribute_id, $attribute_set_id);
+		$model->delete_attibute($productId, $attributeId, $attribute_set_id);
 	}
 
 	/**
@@ -882,7 +882,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 	public function checkVirtualNumber()
 	{
 		$isExists   = true;
-		$product_id = $this->input->getInt('product_id', null);
+		$productId = $this->input->getInt('product_id', null);
 		$str        = $this->input->getString('str', '');
 		$strArr     = explode(",", $str);
 		$result     = array_unique($strArr);
@@ -894,7 +894,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			/**
 			 * @var RedshopModelProduct_Detail $model
 			 */
-			$isExists = $model->checkVirtualNumber($product_id, $result);
+			$isExists = $model->checkVirtualNumber($productId, $result);
 		}
 
 		echo (int) $isExists;
@@ -921,18 +921,18 @@ class RedshopControllerProduct_Detail extends RedshopController
 	}
 
 	/**
-	 * Function removeaccesory.
+	 * Function removeAccessory.
 	 *
 	 * @return void
 	 */
-	public function removeaccesory()
+	public function removeAccessory()
 	{
-		$accessory_id     = $this->input->getInt('accessory_id', null);
-		$category_id      = $this->input->getInt('category_id', null);
-		$child_product_id = $this->input->getInt('child_product_id', null);
+		$accessoryId     = $this->input->getInt('accessory_id', null);
+		$categoryId      = $this->input->getInt('category_id', null);
+		$childProductId = $this->input->getInt('child_product_id', null);
 		$model            = $this->getModel('product_detail');
-		$model->removeaccesory($accessory_id, $category_id, $child_product_id);
-		JFactory::getApplication()->close();
+		$model->removeAccessory($accessoryId, $categoryId, $childProductId);
+		\JFactory::getApplication()->close();
 	}
 
 	/**

@@ -1618,7 +1618,7 @@ class RedshopHelperProduct
         $templatedata = "",
         $productid = 0,
         $fieldsArray = array(),
-        $giftcard = 0
+        $giftCard = 0
     ) {
         if (empty($fieldsArray)) {
             return $templatedata;
@@ -1630,7 +1630,7 @@ class RedshopHelperProduct
             if ($fieldValueArray->data_txt != ""
                 && $fieldArray->show_in_front == 1
                 && $fieldArray->published == 1
-                && $giftcard == 0) {
+                && $giftCard == 0) {
                 $templatedata = str_replace('{' . $fieldArray->name . '}', $fieldValueArray->data_txt, $templatedata);
                 $templatedata = str_replace('{' . $fieldArray->name . '_lbl}', $fieldArray->title, $templatedata);
             } else {
@@ -1797,20 +1797,20 @@ class RedshopHelperProduct
         return $data_add;
     }
 
-    public static function getProductMinDeliveryTime($productId = 0, $section_id = 0, $section = '', $loadDiv = 1)
+    public static function getProductMinDeliveryTime($productId = 0, $sectionId = 0, $section = '', $loadDiv = 1)
     {
         // Initialiase variables.
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true);
 
-        if (!$section_id && !$section) {
+        if (!$sectionId && !$section) {
             $query
                 ->from($db->qn('#__redshop_product_stockroom_xref') . ' AS ps')
                 ->where($db->qn('ps.product_id') . ' = ' . (int)$productId);
         } else {
             $query
                 ->from($db->qn('#__redshop_product_attribute_stockroom_xref') . ' AS ps')
-                ->where($db->qn('ps.section_id') . ' = ' . (int)$section_id)
+                ->where($db->qn('ps.section_id') . ' = ' . (int)$sectionId)
                 ->where($db->qn('ps.section') . ' = ' . $db->q($section));
         }
 
@@ -2667,6 +2667,16 @@ class RedshopHelperProduct
         return $res;
     }
 
+    /**
+     * @param array $attributes
+     * @param int $productId
+     * @param int $userId
+     * @param int $newProductPrice
+     * @param int $quantity
+     * @param string $data
+     * @return array|string
+     * @throws Exception
+     */
     public static function makeAttributeCart(
         $attributes = array(),
         $productId = 0,
@@ -3407,13 +3417,13 @@ class RedshopHelperProduct
         for ($i = 0, $in = count($attributes); $i < $in; $i++) {
             $attribute      = $attributes[$i];
             $attribute_name = $attribute->text;
-            $attribute_id   = $attribute->value;
-            $propertys      = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id);
+            $attributeId   = $attribute->value;
+            $propertys      = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributeId);
 
             for ($p = 0, $pn = count($propertys); $p < $pn; $p++) {
                 $property = $propertys[$p];
 
-                $property_id             = $property->value;
+                $propertyId             = $property->value;
                 $property_name           = $property->text;
                 $proprty_price           = $property->property_price;
                 $property_formated_price = RedshopHelperProductPrice::formattedPrice($proprty_price);
@@ -3421,12 +3431,12 @@ class RedshopHelperProduct
 
                 $output .= '<div class="related_plist_property_name' . $k . '">' . $property_formated_price . '</div>';
 
-                $subpropertys = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
+                $subpropertys = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $propertyId);
 
                 for ($s = 0, $sn = count($subpropertys); $s < $sn; $s++) {
                     $subproperty = $subpropertys[$s];
 
-                    $subproperty_id    = $subproperty->value;
+                    $subPropertyId    = $subproperty->value;
                     $subproperty_name  = $subproperty->text;
                     $subproprty_price  = $subproperty->subattribute_color_price;
                     $subproprty_oprand = $subproperty->oprand;
@@ -3484,18 +3494,18 @@ class RedshopHelperProduct
         return $return;
     }
 
-    public static function getuserfield($orderitemid = 0, $section_id = 12)
+    public static function getuserfield($orderitemid = 0, $sectionId = 12)
     {
         $resultArr = array();
 
-        $userfield = RedshopHelperOrder::getOrderUserFieldData($orderitemid, $section_id);
+        $userfield = RedshopHelperOrder::getOrderUserFieldData($orderitemid, $sectionId);
 
         if (!empty($userfield)) {
             $orderItem  = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
             $productId = $orderItem[0]->product_id;
 
-            $productdetail   = \Redshop\Product\Product::getProductById($productId);
-            $productTemplate = RedshopHelperTemplate::getTemplate("product", $productdetail->product_template);
+            $productDetail   = \Redshop\Product\Product::getProductById($productId);
+            $productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
             $returnArr    = self::getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
             $userFieldTag = $returnArr[1];
@@ -4110,15 +4120,15 @@ class RedshopHelperProduct
         return true;
     }
 
-    public static function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
+    public static function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $sectionId = 12)
     {
         $db = JFactory::getDbo();
 
-        $row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1);
+        $rowData = RedshopHelperExtrafields::getSectionFieldList($sectionId, 1);
 
-        for ($i = 0, $in = count($row_data); $i < $in; $i++) {
-            if (array_key_exists($row_data[$i]->name, $cart[$id]) && $cart[$id][$row_data[$i]->name]) {
-                $user_fields = $cart[$id][$row_data[$i]->name];
+        for ($i = 0, $in = count($rowData); $i < $in; $i++) {
+            if (array_key_exists($rowData[$i]->name, $cart[$id]) && $cart[$id][$rowData[$i]->name]) {
+                $user_fields = $cart[$id][$rowData[$i]->name];
 
                 if (trim($user_fields) != '') {
                     $sql = $db->getQuery(true)
@@ -4137,10 +4147,10 @@ class RedshopHelperProduct
                             implode(
                                 ',',
                                 array(
-                                    (int)$row_data[$i]->id,
+                                    (int)$rowData[$i]->id,
                                     $db->quote($db->quote(addslashes($user_fields))),
                                     (int)$order_item_id,
-                                    $db->quote($section_id)
+                                    $db->quote($sectionId)
                                 )
                             )
                         );
@@ -4185,11 +4195,11 @@ class RedshopHelperProduct
 
     public static function replaceSubPropertyData(
         $productId = 0,
-        $accessory_id = 0,
-        $relatedprd_id = 0,
-        $attribute_id = 0,
-        $property_id = 0,
-        $subatthtml = "",
+        $accessoryId = 0,
+        $relatedProductId = 0,
+        $attributeId = 0,
+        $propertyId = 0,
+        $subAttributeHtml = "",
         $layout = "",
         $selectSubproperty = array()
     ) {
@@ -4209,10 +4219,10 @@ class RedshopHelperProduct
             $isAjax    = 1;
         }
 
-        if ($property_id != 0 && $attribute_id != 0) {
-            $attributes      = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attribute_id);
+        if ($propertyId != 0 && $attributeId != 0) {
+            $attributes      = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attributeId);
             $attributes      = $attributes[0];
-            $subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
+            $subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $propertyId);
             // filter Out of stock data
             if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get(
                     'USE_STOCKROOM'
@@ -4238,28 +4248,28 @@ class RedshopHelperProduct
             }
         }
 
-        if ($accessory_id != 0) {
+        if ($accessoryId != 0) {
             $prefix = $preprefix . "acc_";
-        } elseif ($relatedprd_id != 0) {
+        } elseif ($relatedProductId != 0) {
             $prefix = $preprefix . "rel_";
         } else {
             $prefix = $preprefix . "prd_";
         }
 
-        if ($relatedprd_id != 0) {
-            $productId = $relatedprd_id;
+        if ($relatedProductId != 0) {
+            $productId = $relatedProductId;
         }
 
         $product         = \Redshop\Product\Product::getProductById($productId);
-        $producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
+        $productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
-        if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false) {
+        if (strpos($productTemplate[0]->template_desc, "{more_images_3}") !== false) {
             $mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
             $mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
-        } elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false) {
+        } elseif (strpos($productTemplate[0]->template_desc, "{more_images_2}") !== false) {
             $mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
             $mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
-        } elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false) {
+        } elseif (strpos($productTemplate[0]->template_desc, "{more_images_1}") !== false) {
             $mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
             $mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
         } else {
@@ -4267,23 +4277,23 @@ class RedshopHelperProduct
             $mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
         }
 
-        if ($subatthtml != "") {
+        if ($subAttributeHtml != "") {
             // Load plugin group
             JPluginHelper::importPlugin('redshop_product');
 
             if (count($subproperty) > 0) {
-                $attribute_table     = $subatthtml;
+                $attribute_table     = $subAttributeHtml;
                 $attribute_table     .= '<span id="subprop_lbl" style="display:none;">'
                     . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . '</span>';
-                $commonid            = $prefix . $productId . '_' . $accessory_id . '_' . $attribute_id . '_'
-                    . $property_id;
+                $commonid            = $prefix . $productId . '_' . $accessoryId . '_' . $attributeId . '_'
+                    . $propertyId;
                 $subpropertyid       = 'subproperty_id_' . $commonid;
                 $selectedsubproperty = 0;
                 $imgAdded            = 0;
 
                 $subproperty_woscrollerdiv = "";
 
-                if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false) {
+                if (strpos($subAttributeHtml, "{subproperty_image_without_scroller}") !== false) {
                     $attribute_table           = str_replace("{subproperty_image_scroller}", "", $attribute_table);
                     $subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
                 }
@@ -4327,9 +4337,9 @@ class RedshopHelperProduct
                             $subproperty_woscrollerdiv .= "<div id='" . $subpropertyid . "_subpropimg_"
                                 . $subproperty[$i]->value . "' class='subproperty_image_inner' " . $style . "><a onclick='setSubpropImage(\""
                                 . $productId . "\",\"" . $subpropertyid . "\",\"" . $subproperty[$i]->value
-                                . "\");calculateTotalPrice(\"" . $productId . "\",\"" . $relatedprd_id
-                                . "\");displayAdditionalImage(\"" . $productId . "\",\"" . $accessory_id . "\",\""
-                                . $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
+                                . "\");calculateTotalPrice(\"" . $productId . "\",\"" . $relatedProductId
+                                . "\");displayAdditionalImage(\"" . $productId . "\",\"" . $accessoryId . "\",\""
+                                . $relatedProductId . "\",\"" . $propertyId . "\",\"" . $subproperty[$i]->value
                                 . "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "' title='" . $subproperty[$i]->text . "'></a></div>";
 
                             $imgAdded++;
@@ -4396,7 +4406,7 @@ class RedshopHelperProduct
                     $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->preorder_stock . '" />';
                 }
 
-                if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false) {
+                if (strpos($subAttributeHtml, "{subproperty_image_without_scroller}") !== false) {
                     $subproperty_woscrollerdiv .= "</div>";
                 }
 
@@ -4457,8 +4467,8 @@ class RedshopHelperProduct
 
                 // Prepare Javascript OnChange or OnClick function
                 $onChangeJSFunction = $scrollerFunction
-                    . "calculateTotalPrice('" . $productId . "','" . $relatedprd_id . "');"
-                    . "displayAdditionalImage('" . $productId . "','" . $accessory_id . "','" . $relatedprd_id . "','" . $property_id . "',this.value);";
+                    . "calculateTotalPrice('" . $productId . "','" . $relatedProductId . "');"
+                    . "displayAdditionalImage('" . $productId . "','" . $accessoryId . "','" . $relatedProductId . "','" . $propertyId . "',this.value);";
 
                 // Radio or Checkbox
                 if ('radio' == $attDisplayType) {
@@ -4488,17 +4498,17 @@ class RedshopHelperProduct
                 $subPropertyScroller = RedshopLayoutHelper::render(
                     'product.subproperty_scroller',
                     array(
-                        'subProperties'     => $subproperty,
-                        'commonId'          => $commonid,
-                        'productId'         => $productId,
-                        'propertyId'        => $property_id,
-                        'subPropertyId'     => $subpropertyid,
-                        'accessoryId'       => $accessory_id,
-                        'relatedProductId'  => $relatedprd_id,
-                        'selectSubproperty' => $selectedsubproperty,
-                        'subPropertyArray'  => $subprop_Arry,
-                        'width'             => $mpw_thumb,
-                        'height'            => $mph_thumb
+                        'subProperties'       => $subproperty,
+                        'commonId'            => $commonid,
+                        'productId'           => $productId,
+                        'propertyId'          => $propertyId,
+                        'subPropertyId'       => $subpropertyid,
+                        'accessoryId'         => $accessoryId,
+                        'relatedProductId'    => $relatedProductId,
+                        'selectedSubProperty' => $selectedsubproperty,
+                        'subPropertyArray'    => $subprop_Arry,
+                        'width'               => $mpw_thumb,
+                        'height'              => $mph_thumb
                     ),
                     '',
                     array(
@@ -4518,14 +4528,14 @@ class RedshopHelperProduct
                 $attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
                 $attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
 
-                if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false) {
+                if (strpos($subAttributeHtml, "{subproperty_image_without_scroller}") !== false) {
                     $attribute_table = str_replace("{subproperty_image_scroller}", "", $attribute_table);
                     $attribute_table = str_replace(
                         "{subproperty_image_without_scroller}",
                         $subproperty_woscrollerdiv,
                         $attribute_table
                     );
-                } elseif (strpos($subatthtml, "{subproperty_image_scroller}") !== false) {
+                } elseif (strpos($subAttributeHtml, "{subproperty_image_scroller}") !== false) {
                     $attribute_table = str_replace(
                         "{subproperty_image_scroller}",
                         $subPropertyScroller,
@@ -4716,38 +4726,44 @@ class RedshopHelperProduct
         return $result;
     }
 
-    public static function GetProdcutUserfield($id = 'NULL', $section_id = 12)
+    /**
+     * @param string $id
+     * @param int $sectionId
+     * @return string
+     * @throws Exception
+     */
+    public static function getProductUserField($id = 'NULL', $sectionId = 12)
     {
         $cart     = \Redshop\Cart\Helper::getCart();
-        $row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
+        $rowData = \RedshopHelperExtrafields::getSectionFieldList($sectionId, 1, 0);
 
-        if ($section_id == 12) {
-            $productId    = $cart[$id]['product_id'];
-            $productdetail = \Redshop\Product\Product::getProductById($productId);
-            $temp_name     = "product";
-            $temp_id       = $productdetail->product_template;
-            $giftcard      = 0;
+        if ($sectionId == 12) {
+            $productId    = $cart[$id]['product_id'] ?? 0;
+            $productDetail = \Redshop\Product\Product::getProductById($productId);
+            $tempName     = "product";
+            $tempId       = $productDetail->product_template ?? '';
+            $giftCard      = 0;
         } else {
-            $temp_name = "giftcard";
-            $temp_id   = 0;
-            $giftcard  = 1;
+            $tempName = "giftcard";
+            $tempId   = 0;
+            $giftCard  = 1;
         }
 
-        $productTemplate = RedshopHelperTemplate::getTemplate($temp_name, $temp_id);
+        $productTemplate = \RedshopHelperTemplate::getTemplate($tempName, $tempId);
 
-        $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate($productTemplate[0]->template_desc, $giftcard);
+        $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate($productTemplate[0]->template_desc, $giftCard);
         $userFieldTag = $returnArr[1];
 
         $resultArr = array();
 
         for ($i = 0, $in = count($userFieldTag); $i < $in; $i++) {
-            for ($j = 0, $jn = count($row_data); $j < $jn; $j++) {
+            for ($j = 0, $jn = count($rowData); $j < $jn; $j++) {
                 if (array_key_exists($userFieldTag[$i], $cart[$id]) && $cart[$id][$userFieldTag[$i]]) {
-                    if ($row_data[$j]->name == $userFieldTag[$i]) {
+                    if ($rowData[$j]->name == $userFieldTag[$i]) {
                         $strtitle = '';
 
-                        if ($row_data[$j]->title) {
-                            $strtitle = '<span class="product-userfield-title">' . $row_data[$j]->title . ':</span>';
+                        if ($rowData[$j]->title) {
+                            $strtitle = '<span class="product-userfield-title">' . $rowData[$j]->title . ':</span>';
                         }
 
                         $resultArr[] = $strtitle . ' <span class="product-userfield-value">' . $cart[$id][$userFieldTag[$i]] . '</span>';
@@ -4768,21 +4784,21 @@ class RedshopHelperProduct
             ) . "</div>";
     }
 
-    public static function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
+    public static function getProductField_order($orderitemid = 'NULL', $sectionId = 1)
     {
         $orderItem = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
 
         $productId = $orderItem[0]->product_id;
 
-        $row_data = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
+        $rowData = RedshopHelperExtrafields::getSectionFieldList($sectionId, 1, 0);
 
         $resultArr = array();
 
-        for ($j = 0, $jn = count($row_data); $j < $jn; $j++) {
-            $main_result = RedshopHelperExtrafields::getData($row_data[$j]->id, $section_id, $productId);
+        for ($j = 0, $jn = count($rowData); $j < $jn; $j++) {
+            $main_result = RedshopHelperExtrafields::getData($rowData[$j]->id, $sectionId, $productId);
 
-            if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout)) {
-                if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout) {
+            if (isset($main_result->data_txt) && isset($rowData[$j]->display_in_checkout)) {
+                if ($main_result->data_txt != "" && 1 == $rowData[$j]->display_in_checkout) {
                     $resultArr[] = '<span class="product-order-title">' . $main_result->title . ':</span><span class="product-order-value">' . $main_result->data_txt . '</span>';
                 }
             }
@@ -4829,19 +4845,24 @@ class RedshopHelperProduct
         return $filter_products;
     }
 
-    public static function GetProdcutfield($id = 'NULL', $section_id = 1)
+    /**
+     * @param string $id
+     * @param int $sectionId
+     * @return string
+     */
+    public static function getProductField($id = 'NULL', $sectionId = 1)
     {
-        $cart       = JFactory::getSession()->get('cart');
-        $productId = $cart[$id]['product_id'];
-        $row_data   = RedshopHelperExtrafields::getSectionFieldList($section_id, 1, 0);
+        $cart      = \Redshop\Cart\Helper::getCart();
+        $productId = $cart[$id]['product_id'] ?? 0;
+        $rowData   = RedshopHelperExtrafields::getSectionFieldList($sectionId, 1, 0);
 
-        $resultArr = array();
+        $resultArr = [];
 
-        for ($j = 0, $jn = count($row_data); $j < $jn; $j++) {
-            $main_result = RedshopHelperExtrafields::getData($row_data[$j]->id, $section_id, $productId);
+        for ($j = 0, $jn = count($rowData); $j < $jn; $j++) {
+            $main_result = RedshopHelperExtrafields::getData($rowData[$j]->id, $sectionId, $productId);
 
-            if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout)) {
-                if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout) {
+            if (isset($main_result->data_txt) && isset($rowData[$j]->display_in_checkout)) {
+                if ($main_result->data_txt != "" && 1 == $rowData[$j]->display_in_checkout) {
                     $resultArr[] = '<span class="product-field-title">' . $main_result->title . ': </span><span class="product-field-value">' . $main_result->data_txt . '</span>';
                 }
             }

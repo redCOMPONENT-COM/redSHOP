@@ -921,13 +921,13 @@ class RedshopHelperStockroom
 	{
 		if (strpos($templateDesc, '{stockroom_detail}') !== false)
 		{
-			$productinstock = "";
+			$productInStock = "";
 
 			if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 			{
 				$list = self::getStockroomAmountDetailList($sectionId, $section);
 
-				$productinstock = RedshopLayoutHelper::render(
+				$productInStock = RedshopLayoutHelper::render(
 					'product.stockroom_detail',
 					array(
 						'stockroomDetails' => $list
@@ -935,7 +935,7 @@ class RedshopHelperStockroom
 				);
 			}
 
-			$templateDesc = str_replace('{stockroom_detail}', $productinstock, $templateDesc);
+			$templateDesc = str_replace('{stockroom_detail}', $productInStock, $templateDesc);
 		}
 
 		return $templateDesc;

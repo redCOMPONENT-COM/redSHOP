@@ -45,7 +45,7 @@ class RedshopTableUsercart_Accessory_Item extends \Redshop\Table\AbstractTable
 	/**
 	 * @var integer
 	 */
-	public $accessory_id = 0;
+	public $accessoryId = 0;
 
 	/**
 	 * @var integer

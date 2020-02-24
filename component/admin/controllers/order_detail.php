@@ -106,13 +106,13 @@ class RedshopControllerOrder_detail extends RedshopController
 		$orderItem          = Redshop\Order\Helper::redesignProductItem($post);
 		$post['order_item'] = $orderItem;
 
-		$product_id    = $orderItem[0]->product_id;
+		$productId    = $orderItem[0]->product_id;
 		$finalquantity = $quantity = $orderItem[0]->quantity;
 
 		// Check product Quantity
 		if (Redshop::getConfig()->get('USE_STOCKROOM') == 1)
 		{
-			$currentStock = RedshopHelperStockroom::getStockroomTotalAmount($product_id);
+			$currentStock = RedshopHelperStockroom::getStockroomTotalAmount($productId);
 
 			if ($currentStock >= $quantity)
 			{
@@ -403,18 +403,18 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		$get = $this->input->get->getArray();
 
-		$product_id = $get['product'];
+		$productId = $get['product'];
 		$quantity   = $get['quantity'];
 		$unique_id  = $get['unique_id'];
 		$user_id    = $get['user_id'];
 		$newprice   = $get['newprice'];
 
-		$response = RedshopHelperProduct::getProductItemInfo($product_id, $quantity, $unique_id, $user_id, $newprice);
+		$response = RedshopHelperProduct::getProductItemInfo($productId, $quantity, $unique_id, $user_id, $newprice);
 		echo $response;
 		JFactory::getApplication()->close();
 	}
 
-	public function checkoutnext()
+	public function checkoutNext()
 	{
 		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();

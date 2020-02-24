@@ -26,72 +26,72 @@ $session = JFactory::getSession();
 $order_functions = order_functions::getInstance();
 $extra_field = extra_field::getInstance();
 
-$billingaddresses = $model->billingaddresses();
+$billingAddresses = $model->billingaddresses();
 
 ?>
 <table class="admintable">
 	<?php
-	if ($billingaddresses->is_company == 1)
+	if ($billingAddresses->is_company == 1)
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_COMPANY_NAME');?>:</label></td>
-			<td><?php echo $billingaddresses->company_name;?></td>
+			<td><?php echo $billingAddresses->company_name;?></td>
 		</tr>
 	<?php
 	}?>
 	<tr>
 		<td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_FIRSTNAME');?>:</label></td>
-		<td><?php echo $billingaddresses->firstname;?></td>
+		<td><?php echo $billingAddresses->firstname;?></td>
 	</tr>
 	<tr>
 		<td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_LASTNAME');?>:</label></td>
-		<td><?php echo $billingaddresses->lastname;?></td>
+		<td><?php echo $billingAddresses->lastname;?></td>
 	</tr>
 	<?php
-	if ($billingaddresses->address != "")
+	if ($billingAddresses->address != "")
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label for="address"><?php echo JText::_('COM_REDSHOP_ADDRESS');?>:</label>
 			</td>
-			<td><?php echo $billingaddresses->address;?></td>
+			<td><?php echo $billingAddresses->address;?></td>
 		</tr>
 	<?php
 	}
 
-	if ($billingaddresses->zipcode != "")
+	if ($billingAddresses->zipcode != "")
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label for="city"><?php echo JText::_('COM_REDSHOP_ZIP');?>:</label></td>
-			<td><?php echo $billingaddresses->zipcode;?></td>
+			<td><?php echo $billingAddresses->zipcode;?></td>
 		</tr>
 	<?php
 	}
 
-	if ($billingaddresses->city != "")
+	if ($billingAddresses->city != "")
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label for="city"><?php echo JText::_('COM_REDSHOP_CITY');?>:</label></td>
-			<td><?php echo $billingaddresses->city;?></td>
+			<td><?php echo $billingAddresses->city;?></td>
 		</tr>
 	<?php
 	}
 
-	if (trim($billingaddresses->country_code) != "" && trim($billingaddresses->country_code))
+	if (trim($billingAddresses->country_code) != "" && trim($billingAddresses->country_code))
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label for="contact_info"><?php echo JText::_('COM_REDSHOP_COUNTRY');?>
 					:</label></td>
-			<td><?php echo JText::_(RedshopHelperOrder::getCountryName($billingaddresses->country_code));?></td>
+			<td><?php echo JText::_(RedshopHelperOrder::getCountryName($billingAddresses->country_code));?></td>
 		</tr>
 	<?php
 	}
 
-	$state = RedshopHelperOrder::getStateName($billingaddresses->state_code, $billingaddresses->country_code);
+	$state = RedshopHelperOrder::getStateName($billingAddresses->state_code, $billingAddresses->country_code);
 
 	if ($state != "")
 	{
@@ -103,54 +103,54 @@ $billingaddresses = $model->billingaddresses();
 	<?php
 	}
 
-	if ($billingaddresses->phone != "")
+	if ($billingAddresses->phone != "")
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label for="city"><?php echo JText::_('COM_REDSHOP_PHONE');?>:</label></td>
-			<td><?php echo $billingaddresses->phone;?></td>
+			<td><?php echo $billingAddresses->phone;?></td>
 		</tr>
 	<?php
 	}
 
-	if ($billingaddresses->debitor_mobile_phone != 0)
+	if ($billingAddresses->debitor_mobile_phone != 0)
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label for="city"><?php echo JText::_('COM_REDSHOP_MOBILE_PHONE');?>:</label>
 			</td>
-			<td><?php echo $billingaddresses->debitor_mobile_phone;?></td>
+			<td><?php echo $billingAddresses->debitor_mobile_phone;?></td>
 		</tr>
 	<?php
 	}
 
-	if ($billingaddresses->user_email != "")
+	if ($billingAddresses->user_email != "")
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_EMAIL');?>:</label></td>
-			<td><?php echo $billingaddresses->user_email ? $billingaddresses->user_email : $user->email;?></td>
+			<td><?php echo $billingAddresses->user_email ? $billingAddresses->user_email : $user->email;?></td>
 		</tr>
 	<?php
 	}
 
-	if ($billingaddresses->is_company == 1)
+	if ($billingAddresses->is_company == 1)
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label><?php echo JText::_('COM_REDSHOP_EAN_NUMBER');?>:</label></td>
-			<td><?php echo $billingaddresses->ean_number;?></td>
+			<td><?php echo $billingAddresses->ean_number;?></td>
 		</tr>
 	<?php
 	}
 
-	if ($billingaddresses->is_company == 1 && Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
+	if ($billingAddresses->is_company == 1 && Redshop::getConfig()->get('USE_TAX_EXEMPT') == 1)
 	{
 		?>
 		<tr>
 			<td width="100" align="left"><label for="vat_number"><?php echo JText::_('COM_REDSHOP_VAT_NUMBER');?>
 					:</label></td>
-			<td><?php echo $billingaddresses->vat_number;?></td>
+			<td><?php echo $billingAddresses->vat_number;?></td>
 		</tr>
 		<?php
 		if (Redshop::getConfig()->get('SHOW_TAX_EXEMPT_INFRONT'))
@@ -160,7 +160,7 @@ $billingaddresses = $model->billingaddresses();
 				<td width="100" align="left"><label for="tax_exempt"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT');?>
 						:</label></td>
 				<td><?php
-					if ($billingaddresses->tax_exempt == 1)
+					if ($billingAddresses->tax_exempt == 1)
 					{
 						echo JText::_('COM_REDSHOP_YES');
 					}
@@ -177,7 +177,7 @@ $billingaddresses = $model->billingaddresses();
 	<?php
 	}
 
-	if ($billingaddresses->debitor_money_transfer_number > 0)
+	if ($billingAddresses->debitor_money_transfer_number > 0)
 	{
 		?>
 
@@ -185,19 +185,19 @@ $billingaddresses = $model->billingaddresses();
 			<td width="100" align="left"><label
 					for="debitor_money_transfer_number"><?php echo JText::_('COM_REDSHOP_DEBITOR_MONEY_TRANSFER_NUMBER');?>
 					:</label></td>
-			<td><?php echo $billingaddresses->debitor_money_transfer_number;?></td>
+			<td><?php echo $billingAddresses->debitor_money_transfer_number;?></td>
 		</tr>
 
 	<?php
 	}
 
-	if ($billingaddresses->is_company == 1)
+	if ($billingAddresses->is_company == 1)
 	{
-		echo $extrafields = RedshopHelperExtrafields::listAllFieldDisplay(8, $billingaddresses->users_info_id);
+		echo $extrafields = RedshopHelperExtrafields::listAllFieldDisplay(8, $billingAddresses->users_info_id);
 	}
 	else
 	{
-		echo $extrafields = RedshopHelperExtrafields::listAllFieldDisplay(7, $billingaddresses->users_info_id);
+		echo $extrafields = RedshopHelperExtrafields::listAllFieldDisplay(7, $billingAddresses->users_info_id);
 	}
 	?>
 </table>

@@ -68,7 +68,7 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 
 		$lists['published']  = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['use_to_all'] = JHTML::_('select.booleanlist', 'wrapper_use_to_all', 'class="inputbox"', $detail->wrapper_use_to_all);
-		$product_id          = 0;
+		$productId          = 0;
 
 		$jinput = JFactory::getApplication()->input;
 
@@ -76,7 +76,7 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 
 		if ($showall)
 		{
-			$product_id = $jinput->get('product_id');
+			$productId = $jinput->get('product_id');
 		}
 
 		$category = $model->getCategoryInfo();
@@ -88,7 +88,7 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 
 		$lists['category_name'] = $model->getMultiselectBox("categoryid[]", $category, $catid, "id", "name", true);
 
-		$product = $model->getProductInfo($product_id);
+		$product = $model->getProductInfo($productId);
 
 		$productData = $model->getProductInfowrapper($detail->product_id);
 
@@ -111,7 +111,7 @@ class RedshopViewWrapper_Detail extends RedshopViewAdmin
 		$this->lists       = $lists;
 		$this->detail      = $detail;
 		$this->product     = $product;
-		$this->product_id  = $product_id;
+		$this->product_id  = $productId;
 		$this->category    = $category;
 		$this->request_url = $uri->toString();
 

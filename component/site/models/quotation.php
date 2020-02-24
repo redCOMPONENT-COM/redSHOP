@@ -200,7 +200,7 @@ class RedshopModelQuotation extends RedshopModel
 				{
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
-					$accessory_id        = $attArr[$a]['accessory_id'];
+					$accessoryId        = $attArr[$a]['accessory_id'];
 					$accessory_name      = $attArr[$a]['accessory_name'];
 					$accessory_price     = $attArr[$a]['accessory_price'];
 					$accessory_org_price = $accessory_price;
@@ -214,19 +214,19 @@ class RedshopModelQuotation extends RedshopModel
 
 					for ($j = 0, $jn = count($attchildArr); $j < $jn; $j++)
 					{
-						$attribute_id = $attchildArr[$j]['attribute_id'];
+						$attributeId = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
 						$rowattitem                        = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
-						$rowattitem->section_id            = $attribute_id;
+						$rowattitem->section_id            = $attributeId;
 						$rowattitem->section               = "attribute";
-						$rowattitem->parent_section_id     = $accessory_id;
+						$rowattitem->parent_section_id     = $accessoryId;
 						$rowattitem->section_name          = $attchildArr[$j]['attribute_name'];
 						$rowattitem->is_accessory_att      = 1;
 
-						if ($attribute_id > 0)
+						if ($attributeId > 0)
 						{
 							if (!$rowattitem->store())
 							{
@@ -242,7 +242,7 @@ class RedshopModelQuotation extends RedshopModel
 						for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 						{
 							$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
-							$property_id = $propArr[$k]['property_id'];
+							$propertyId = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name'])
 								. " (" . $propArr[$k]['property_oprand']
 								. RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat)
@@ -252,16 +252,16 @@ class RedshopModelQuotation extends RedshopModel
 							$rowattitem                        = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
 							$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
-							$rowattitem->section_id            = $property_id;
+							$rowattitem->section_id            = $propertyId;
 							$rowattitem->section               = "property";
-							$rowattitem->parent_section_id     = $attribute_id;
+							$rowattitem->parent_section_id     = $attributeId;
 							$rowattitem->section_name          = $propArr[$k]['property_name'];
 							$rowattitem->section_price         = $propArr[$k]['property_price'];
 							$rowattitem->section_vat           = $section_vat;
 							$rowattitem->section_oprand        = $propArr[$k]['property_oprand'];
 							$rowattitem->is_accessory_att      = 1;
 
-							if ($property_id > 0)
+							if ($propertyId > 0)
 							{
 								if (!$rowattitem->store())
 								{
@@ -274,7 +274,7 @@ class RedshopModelQuotation extends RedshopModel
 							for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 							{
 								$section_vat    = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
-								$subproperty_id = $subpropArr[$l]['subproperty_id'];
+								$subPropertyId = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
@@ -282,16 +282,16 @@ class RedshopModelQuotation extends RedshopModel
 								$rowattitem                        = $this->getTable('quotation_attribute_item');
 								$rowattitem->quotation_att_item_id = 0;
 								$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
-								$rowattitem->section_id            = $subproperty_id;
+								$rowattitem->section_id            = $subPropertyId;
 								$rowattitem->section               = "subproperty";
-								$rowattitem->parent_section_id     = $property_id;
+								$rowattitem->parent_section_id     = $propertyId;
 								$rowattitem->section_name          = $subpropArr[$l]['subproperty_name'];
 								$rowattitem->section_price         = $subpropArr[$l]['subproperty_price'];
 								$rowattitem->section_vat           = $section_vat;
 								$rowattitem->section_oprand        = $subpropArr[$l]['subproperty_oprand'];
 								$rowattitem->is_accessory_att      = 1;
 
-								if ($subproperty_id > 0)
+								if ($subPropertyId > 0)
 								{
 									if (!$rowattitem->store())
 									{
@@ -306,16 +306,16 @@ class RedshopModelQuotation extends RedshopModel
 
 					$accdata = $this->getTable('accessory_detail');
 
-					if ($accessory_id > 0)
+					if ($accessoryId > 0)
 					{
-						$accdata->load($accessory_id);
+						$accdata->load($accessoryId);
 					}
 
 					$accProductinfo                    = \Redshop\Product\Product::getProductById($accdata->child_product_id);
 					$rowaccitem                        = $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
 					$rowaccitem->quotation_item_id     = $rowitem->quotation_item_id;
-					$rowaccitem->accessory_id          = $accessory_id;
+					$rowaccitem->accessory_id          = $accessoryId;
 					$rowaccitem->accessory_item_sku    = $accProductinfo->product_number;
 					$rowaccitem->accessory_item_name   = $accessory_name;
 					$rowaccitem->accessory_price       = $accessory_org_price;
@@ -325,7 +325,7 @@ class RedshopModelQuotation extends RedshopModel
 					$rowaccitem->accessory_final_price = ($accessory_price * $rowitem->product_quantity);
 					$rowaccitem->accessory_attribute   = $accessory_attribute;
 
-					if ($accessory_id > 0)
+					if ($accessoryId > 0)
 					{
 						if (!$rowaccitem->store())
 						{
@@ -344,18 +344,18 @@ class RedshopModelQuotation extends RedshopModel
 
 				for ($j = 0, $jn = count($attArr); $j < $jn; $j++)
 				{
-					$attribute_id = $attArr[$j]['attribute_id'];
+					$attributeId = $attArr[$j]['attribute_id'];
 
 					$rowattitem                        = $this->getTable('quotation_attribute_item');
 					$rowattitem->quotation_att_item_id = 0;
 					$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
-					$rowattitem->section_id            = $attribute_id;
+					$rowattitem->section_id            = $attributeId;
 					$rowattitem->section               = "attribute";
 					$rowattitem->parent_section_id     = $rowitem->product_id;
 					$rowattitem->section_name          = $attArr[$j]['attribute_name'];
 					$rowattitem->is_accessory_att      = 0;
 
-					if ($attribute_id > 0)
+					if ($attributeId > 0)
 					{
 						if (!$rowattitem->store())
 						{
@@ -370,21 +370,21 @@ class RedshopModelQuotation extends RedshopModel
 					for ($k = 0, $kn = count($propArr); $k < $kn; $k++)
 					{
 						$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
-						$property_id = $propArr[$k]['property_id'];
+						$propertyId = $propArr[$k]['property_id'];
 
 						$rowattitem                        = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
-						$rowattitem->section_id            = $property_id;
+						$rowattitem->section_id            = $propertyId;
 						$rowattitem->section               = "property";
-						$rowattitem->parent_section_id     = $attribute_id;
+						$rowattitem->parent_section_id     = $attributeId;
 						$rowattitem->section_name          = $propArr[$k]['property_name'];
 						$rowattitem->section_price         = $propArr[$k]['property_price'];
 						$rowattitem->section_vat           = $section_vat;
 						$rowattitem->section_oprand        = $propArr[$k]['property_oprand'];
 						$rowattitem->is_accessory_att      = 0;
 
-						if ($property_id > 0)
+						if ($propertyId > 0)
 						{
 							if (!$rowattitem->store())
 							{
@@ -399,21 +399,21 @@ class RedshopModelQuotation extends RedshopModel
 						for ($l = 0, $ln = count($subpropArr); $l < $ln; $l++)
 						{
 							$section_vat    = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
-							$subproperty_id = $subpropArr[$l]['subproperty_id'];
+							$subPropertyId = $subpropArr[$l]['subproperty_id'];
 
 							$rowattitem                        = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
 							$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
-							$rowattitem->section_id            = $subproperty_id;
+							$rowattitem->section_id            = $subPropertyId;
 							$rowattitem->section               = "subproperty";
-							$rowattitem->parent_section_id     = $property_id;
+							$rowattitem->parent_section_id     = $propertyId;
 							$rowattitem->section_name          = $subpropArr[$l]['subproperty_name'];
 							$rowattitem->section_price         = $subpropArr[$l]['subproperty_price'];
 							$rowattitem->section_vat           = $section_vat;
 							$rowattitem->section_oprand        = $subpropArr[$l]['subproperty_oprand'];
 							$rowattitem->is_accessory_att      = 0;
 
-							if ($subproperty_id > 0)
+							if ($subPropertyId > 0)
 							{
 								if (!$rowattitem->store())
 								{

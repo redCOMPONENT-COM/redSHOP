@@ -37,11 +37,11 @@ $template = RedshopHelperTemplate::getTemplate("account_template");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
-	$template_desc = $template[0]->template_desc;
+	$templateDesc = $template[0]->template_desc;
 }
 else
 {
-	$template_desc = "<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{welcome_introtext}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_billinginfo\">\r\n<table border=\"0\" cellspacing=\"10\" cellpadding=\"10\" width=\"100%\">\r\n<tbody>\r\n<tr valign=\"top\">\r\n<td width=\"40%\">{account_image}<strong>{account_title}</strong><br /><br /> \r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td class=\"account_label\">{fullname_lbl}</td>\r\n<td class=\"account_field\">{fullname}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{state_lbl}</td>\r\n<td class=\"account_field\">{state}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{country_lbl}</td>\r\n<td class=\"account_field\">{country}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{vatnumber_lbl}</td>\r\n<td class=\"account_field\">{vatnumber}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{email_lbl}</td>\r\n<td class=\"account_field\">{email}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{company_name_lbl}</td>\r\n<td class=\"account_field\">{company_name}</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">{edit_account_link}</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">{newsletter_signup_chk} {newsletter_signup_lbl}</td>\r\n</tr>\r\n<tr><td colspan=\"2\">{customer_custom_fields}</td></tr></tbody>\r\n</table>\r\n</td>\r\n<td>\r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{order_image}<strong>{order_title}</strong></td>\r\n</tr>\r\n{order_loop_start}          \r\n<tr>\r\n<td>{order_index} {order_id} {order_detail_link}</td>\r\n</tr>\r\n{order_loop_end}          \r\n<tr>\r\n<td>{more_orders}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_shippinginfo\">{shipping_image}<strong>{shipping_title}</strong> <br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{edit_shipping_link}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n<td>\r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{quotation_image}<strong>{quotation_title}</strong></td>\r\n</tr>\r\n{quotation_loop_start}          \r\n<tr>\r\n<td>{quotation_index} {quotation_id} {quotation_detail_link}</td>\r\n</tr>\r\n{quotation_loop_end}\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>{product_serial_image}<strong>{product_serial_title}</strong><br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n{product_serial_loop_start}            \r\n<tr>\r\n<td>{product_name} {product_serial_number}</td>\r\n</tr>\r\n{product_serial_loop_end}\r\n</tbody>\r\n</table>\r\n</td>\r\n<td>\r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{coupon_image}<strong>{coupon_title}</strong></td>\r\n</tr>\r\n{coupon_loop_start}         \r\n<tr>\r\n<td>{coupon_code_lbl} {coupon_code}</td>\r\n</tr>\r\n<tr>\r\n<td>{coupon_value_lbl} {coupon_value}</td>\r\n</tr>\r\n{coupon_loop_end}\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>{wishlist_image}<strong>{wishlist_title}</strong><br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{edit_wishlist_link}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n<td>{compare_image}<strong>{compare_title}</strong> <br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{edit_compare_link}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>{logout_link}</td>\r\n<td>{tag_image}<strong>{tag_title}</strong><br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{edit_tag_link}</td>\r\n</tr>\r\n</tbody>\r\n</table></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>";
+	$templateDesc = "<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{welcome_introtext}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_billinginfo\">\r\n<table border=\"0\" cellspacing=\"10\" cellpadding=\"10\" width=\"100%\">\r\n<tbody>\r\n<tr valign=\"top\">\r\n<td width=\"40%\">{account_image}<strong>{account_title}</strong><br /><br /> \r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td class=\"account_label\">{fullname_lbl}</td>\r\n<td class=\"account_field\">{fullname}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{state_lbl}</td>\r\n<td class=\"account_field\">{state}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{country_lbl}</td>\r\n<td class=\"account_field\">{country}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{vatnumber_lbl}</td>\r\n<td class=\"account_field\">{vatnumber}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{email_lbl}</td>\r\n<td class=\"account_field\">{email}</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_label\">{company_name_lbl}</td>\r\n<td class=\"account_field\">{company_name}</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">{edit_account_link}</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">{newsletter_signup_chk} {newsletter_signup_lbl}</td>\r\n</tr>\r\n<tr><td colspan=\"2\">{customer_custom_fields}</td></tr></tbody>\r\n</table>\r\n</td>\r\n<td>\r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{order_image}<strong>{order_title}</strong></td>\r\n</tr>\r\n{order_loop_start}          \r\n<tr>\r\n<td>{order_index} {order_id} {order_detail_link}</td>\r\n</tr>\r\n{order_loop_end}          \r\n<tr>\r\n<td>{more_orders}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td class=\"account_shippinginfo\">{shipping_image}<strong>{shipping_title}</strong> <br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{edit_shipping_link}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n<td>\r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{quotation_image}<strong>{quotation_title}</strong></td>\r\n</tr>\r\n{quotation_loop_start}          \r\n<tr>\r\n<td>{quotation_index} {quotation_id} {quotation_detail_link}</td>\r\n</tr>\r\n{quotation_loop_end}\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>{product_serial_image}<strong>{product_serial_title}</strong><br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n{product_serial_loop_start}            \r\n<tr>\r\n<td>{product_name} {product_serial_number}</td>\r\n</tr>\r\n{product_serial_loop_end}\r\n</tbody>\r\n</table>\r\n</td>\r\n<td>\r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{coupon_image}<strong>{coupon_title}</strong></td>\r\n</tr>\r\n{coupon_loop_start}         \r\n<tr>\r\n<td>{coupon_code_lbl} {coupon_code}</td>\r\n</tr>\r\n<tr>\r\n<td>{coupon_value_lbl} {coupon_value}</td>\r\n</tr>\r\n{coupon_loop_end}\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>{wishlist_image}<strong>{wishlist_title}</strong><br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{edit_wishlist_link}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n<td>{compare_image}<strong>{compare_title}</strong> <br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{edit_compare_link}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>{logout_link}</td>\r\n<td>{tag_image}<strong>{tag_title}</strong><br /><br /> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>{edit_tag_link}</td>\r\n</tr>\r\n</tbody>\r\n</table></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>";
 }
 
 $pagetitle = JText::_('COM_REDSHOP_ACCOUNT_MAINTAINANCE');
@@ -66,46 +66,46 @@ if ($this->params->get('show_page_heading', 1))
 JPluginHelper::importPlugin('redshop_account');
 JPluginHelper::importPlugin('user');
 $dispatcher = RedshopHelperUtility::getDispatcher();
-$dispatcher->trigger('onReplaceAccountTemplate', array(&$template_desc, $this->userdata));
+$dispatcher->trigger('onReplaceAccountTemplate', array(&$templateDesc, $this->userdata));
 
-$template_desc = str_replace('{welcome_introtext}', Redshop::getConfig()->get('WELCOMEPAGE_INTROTEXT'), $template_desc);
+$templateDesc = str_replace('{welcome_introtext}', Redshop::getConfig()->get('WELCOMEPAGE_INTROTEXT'), $templateDesc);
 
 $logoutimg     = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/logout.jpg" align="absmiddle" />';
 $logout        = '<a href="' . $logout_link . '">' . JText::_('COM_REDSHOP_LOGOUT') . '</a>';
-$template_desc = str_replace('{logout_link}', $logoutimg . $logout, $template_desc);
+$templateDesc = str_replace('{logout_link}', $logoutimg . $logout, $templateDesc);
 
 $account_img   = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/home.jpg" align="absmiddle">';
-$template_desc = str_replace('{account_image}', $account_img, $template_desc);
-$template_desc = str_replace('{account_title}', JText::_('COM_REDSHOP_ACCOUNT_INFORMATION'), $template_desc);
+$templateDesc = str_replace('{account_image}', $account_img, $templateDesc);
+$templateDesc = str_replace('{account_title}', JText::_('COM_REDSHOP_ACCOUNT_INFORMATION'), $templateDesc);
 
-$template_desc = RedshopHelperBillingTag::replaceBillingAddress($template_desc, $this->userdata);
+$templateDesc = RedshopHelperBillingTag::replaceBillingAddress($templateDesc, $this->userdata);
 
 $edit_account_link = '<a class="btn btn-primary" href="' . $accountbillto_link . '">' . JText::_('COM_REDSHOP_EDIT_ACCOUNT_INFORMATION') . '</a>';
-$template_desc     = str_replace('{edit_account_link}', $edit_account_link, $template_desc);
+$templateDesc     = str_replace('{edit_account_link}', $edit_account_link, $templateDesc);
 
 $deleteAccount = '<a onclick="return confirm(\''. JText::_('COM_REDSHOP_DO_YOU_WANT_TO_DELETE') .'\');" class="btn btn-primary" href="' . $deleteAccountLink . '">' . JText::_('COM_REDSHOP_DELETE_ACCOUNT') . '</a>';
-$template_desc     = str_replace('{delete_account_link}', $deleteAccount, $template_desc);
+$templateDesc     = str_replace('{delete_account_link}', $deleteAccount, $templateDesc);
 
-$template_desc = \Redshop\Newsletter\Tag::replaceNewsletterSubscription($template_desc, 1);
+$templateDesc = \Redshop\Newsletter\Tag::replaceNewsletterSubscription($templateDesc, 1);
 
 if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 {
 	$shipping_image = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/order.jpg" align="absmiddle">';
 	$update_link    = '<a href="' . $accountshipto_link . '">' . JText::_('COM_REDSHOP_UPDATE_SHIPPING_INFO') . '</a>';
-	$template_desc  = str_replace('{shipping_image}', $shipping_image, $template_desc);
-	$template_desc  = str_replace('{shipping_title}', JText::_('COM_REDSHOP_SHIPPING_INFO'), $template_desc);
-	$template_desc  = str_replace('{edit_shipping_link}', $update_link, $template_desc);
+	$templateDesc  = str_replace('{shipping_image}', $shipping_image, $templateDesc);
+	$templateDesc  = str_replace('{shipping_title}', JText::_('COM_REDSHOP_SHIPPING_INFO'), $templateDesc);
+	$templateDesc  = str_replace('{edit_shipping_link}', $update_link, $templateDesc);
 }
 else
 {
-	$template_desc = str_replace('{shipping_image}', '', $template_desc);
-	$template_desc = str_replace('{shipping_title}', '', $template_desc);
-	$template_desc = str_replace('{edit_shipping_link}', '', $template_desc);
+	$templateDesc = str_replace('{shipping_image}', '', $templateDesc);
+	$templateDesc = str_replace('{shipping_title}', '', $templateDesc);
+	$templateDesc = str_replace('{edit_shipping_link}', '', $templateDesc);
 }
 
-$is_company = $this->userdata->is_company;
+$isCompany = $this->userdata->is_company;
 
-if ($is_company == 1)
+if ($isCompany == 1)
 {
 	$extrafields = RedshopHelperExtrafields::listAllFieldDisplay(8, $this->userdata->users_info_id);
 }
@@ -114,22 +114,22 @@ else
 	$extrafields = RedshopHelperExtrafields::listAllFieldDisplay(7, $this->userdata->users_info_id);
 }
 
-$template_desc = str_replace('{customer_custom_fields}', $extrafields, $template_desc);
+$templateDesc = str_replace('{customer_custom_fields}', $extrafields, $templateDesc);
 
-if (strstr($template_desc, "{reserve_discount}"))
+if (strstr($templateDesc, "{reserve_discount}"))
 {
 	$reserve_discount = Redshop\Account\Helper::getReserveDiscount();
 	$reserve_discount = RedshopHelperProductPrice::formattedPrice($reserve_discount);
 
-	$template_desc = str_replace('{reserve_discount}', $reserve_discount, $template_desc);
-	$template_desc = str_replace('{reserve_discount_lbl}', JText::_('COM_REDSHOP_RESERVED_DISCOUNT_LBL'), $template_desc);
+	$templateDesc = str_replace('{reserve_discount}', $reserve_discount, $templateDesc);
+	$templateDesc = str_replace('{reserve_discount_lbl}', JText::_('COM_REDSHOP_RESERVED_DISCOUNT_LBL'), $templateDesc);
 }
 
-if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{order_loop_end}"))
+if (strstr($templateDesc, "{order_loop_start}") && strstr($templateDesc, "{order_loop_end}"))
 {
 	$oder_image    = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'order16.png" align="absmiddle">';
-	$template_desc = str_replace('{order_image}', $oder_image, $template_desc);
-	$template_desc = str_replace('{order_title}', JText::_('COM_REDSHOP_ORDER_INFORMATION'), $template_desc);
+	$templateDesc = str_replace('{order_image}', $oder_image, $templateDesc);
+	$templateDesc = str_replace('{order_title}', JText::_('COM_REDSHOP_ORDER_INFORMATION'), $templateDesc);
 
 	$orderslist = RedshopHelperOrder::getUserOrderDetails($user->id);
 
@@ -138,14 +138,14 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 	if (count($orderslist) > 0)
 	{
 		$ordermoreurl = JRoute::_('index.php?option=com_redshop&view=orders&Itemid=' . $Itemid);
-		$template_desc = str_replace('{more_orders}', "<a href='" . $ordermoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $template_desc);
+		$templateDesc = str_replace('{more_orders}', "<a href='" . $ordermoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $templateDesc);
 	}
 	else
 	{
-		$template_desc = str_replace('{more_orders}', "", $template_desc);
+		$templateDesc = str_replace('{more_orders}', "", $templateDesc);
 	}
 
-	$template_d1 = explode("{order_loop_start}", $template_desc);
+	$template_d1 = explode("{order_loop_start}", $templateDesc);
 	$template_d2 = explode("{order_loop_end}", $template_d1[1]);
 	$order_desc  = $template_d2[0];
 
@@ -181,14 +181,14 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 		$order_data = str_replace('{order_total}', '', $order_data);
 	}
 
-	$template_desc = str_replace('{order_loop_start}', "", $template_desc);
-	$template_desc = str_replace('{order_loop_end}', "", $template_desc);
-	$template_desc = str_replace($order_desc, $order_data, $template_desc);
+	$templateDesc = str_replace('{order_loop_start}', "", $templateDesc);
+	$templateDesc = str_replace('{order_loop_end}', "", $templateDesc);
+	$templateDesc = str_replace($order_desc, $order_data, $templateDesc);
 }
 
-if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{coupon_loop_end}"))
+if (strstr($templateDesc, "{coupon_loop_start}") && strstr($templateDesc, "{coupon_loop_end}"))
 {
-	$ctemplate_d1 = explode("{coupon_loop_start}", $template_desc);
+	$ctemplate_d1 = explode("{coupon_loop_start}", $templateDesc);
 	$ctemplate_d2 = explode("{coupon_loop_end}", $ctemplate_d1[1]);
 	$coupon_desc  = $ctemplate_d2[0];
 
@@ -230,27 +230,27 @@ if (strstr($template_desc, "{coupon_loop_start}") && strstr($template_desc, "{co
 		}
 	}
 
-	$template_desc = str_replace('{coupon_loop_start}', "", $template_desc);
-	$template_desc = str_replace('{coupon_loop_end}', "", $template_desc);
-	$template_desc = str_replace($coupon_desc, $coupon_data, $template_desc);
-	$template_desc = str_replace('{coupon_image}', $coupon_image, $template_desc);
-	$template_desc = str_replace('{coupon_title}', $coupon_imagelbl, $template_desc);
+	$templateDesc = str_replace('{coupon_loop_start}', "", $templateDesc);
+	$templateDesc = str_replace('{coupon_loop_end}', "", $templateDesc);
+	$templateDesc = str_replace($coupon_desc, $coupon_data, $templateDesc);
+	$templateDesc = str_replace('{coupon_image}', $coupon_image, $templateDesc);
+	$templateDesc = str_replace('{coupon_title}', $coupon_imagelbl, $templateDesc);
 }
 
 
-if (strpos($template_desc, "{if coupon}") !== false && strpos($template_desc, "{coupon end if}") !== false)
+if (strpos($templateDesc, "{if coupon}") !== false && strpos($templateDesc, "{coupon end if}") !== false)
 {
-	$template_d1 = explode("{if coupon}", $template_desc);
+	$template_d1 = explode("{if coupon}", $templateDesc);
 	$template_d2 = explode("{coupon end if}", $template_d1[1]);
 
 	if (Redshop::getConfig()->get('COUPONINFO') && count($usercoupons))
 	{
-		$template_desc = str_replace("{if coupon}", "", $template_desc);
-		$template_desc = str_replace("{coupon end if}", "", $template_desc);
+		$templateDesc = str_replace("{if coupon}", "", $templateDesc);
+		$templateDesc = str_replace("{coupon end if}", "", $templateDesc);
 	}
 	else
 	{
-		$template_desc = $template_d1[0] . $template_d2[1];
+		$templateDesc = $template_d1[0] . $template_d2[1];
 	}
 }
 
@@ -271,33 +271,33 @@ if (Redshop::getConfig()->get('MY_TAGS'))
 	}
 }
 
-$template_desc = str_replace('{tag_image}', $tag_image, $template_desc);
-$template_desc = str_replace('{tag_title}', $tag_imagelbl, $template_desc);
-$template_desc = str_replace('{edit_tag_link}', $tag_link, $template_desc);
+$templateDesc = str_replace('{tag_image}', $tag_image, $templateDesc);
+$templateDesc = str_replace('{tag_title}', $tag_imagelbl, $templateDesc);
+$templateDesc = str_replace('{edit_tag_link}', $tag_link, $templateDesc);
 
-if (strpos($template_desc, "{if tag}") !== false && strpos($template_desc, "{tag end if}") !== false)
+if (strpos($templateDesc, "{if tag}") !== false && strpos($templateDesc, "{tag end if}") !== false)
 {
-	$template_d1 = explode("{if tag}", $template_desc);
+	$template_d1 = explode("{if tag}", $templateDesc);
 	$template_d2 = explode("{tag end if}", $template_d1[1]);
 
 	if (Redshop::getConfig()->get('MY_TAGS') && $myTags > 0)
 	{
-		$template_desc = str_replace("{if tag}", "", $template_desc);
-		$template_desc = str_replace("{tag end if}", "", $template_desc);
+		$templateDesc = str_replace("{if tag}", "", $templateDesc);
+		$templateDesc = str_replace("{tag end if}", "", $templateDesc);
 	}
 	else
 	{
-		$template_desc = $template_d1[0] . $template_d2[1];
+		$templateDesc = $template_d1[0] . $template_d2[1];
 	}
 }
 
 $quotations = array();
 
-if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "{quotation_loop_end}"))
+if (strstr($templateDesc, "{quotation_loop_start}") && strstr($templateDesc, "{quotation_loop_end}"))
 {
 	$quotation_image = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'quotation_16.jpg" align="absmiddle">';
-	$template_desc   = str_replace('{quotation_image}', $quotation_image, $template_desc);
-	$template_desc   = str_replace('{quotation_title}', JText::_('COM_REDSHOP_QUOTATION_INFORMATION'), $template_desc);
+	$templateDesc   = str_replace('{quotation_image}', $quotation_image, $templateDesc);
+	$templateDesc   = str_replace('{quotation_title}', JText::_('COM_REDSHOP_QUOTATION_INFORMATION'), $templateDesc);
 
 	$quotations = RedshopHelperQuotation::getQuotationUserList();
 
@@ -305,10 +305,10 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 	if (!empty($quotations))
 	{
 		$quotationmoreurl = JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
-		$template_desc    = str_replace('{more_quotations}', "<a href='" . $quotationmoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $template_desc);
+		$templateDesc    = str_replace('{more_quotations}', "<a href='" . $quotationmoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $templateDesc);
 	}
 
-	$template_d1    = explode("{quotation_loop_start}", $template_desc);
+	$template_d1    = explode("{quotation_loop_start}", $templateDesc);
 	$template_d2    = explode("{quotation_loop_end}", $template_d1[1]);
 	$quotation_desc = $template_d2[0];
 
@@ -340,9 +340,9 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 		$quotation_data = str_replace('{quotation_detail_link}', JText::_('COM_REDSHOP_NO_QUOTATION_PLACED_YET'), $quotation_data);
 	}
 
-	$template_desc = str_replace('{quotation_loop_start}', "", $template_desc);
-	$template_desc = str_replace('{quotation_loop_end}', "", $template_desc);
-	$template_desc = str_replace($quotation_desc, $quotation_data, $template_desc);
+	$templateDesc = str_replace('{quotation_loop_start}', "", $templateDesc);
+	$templateDesc = str_replace('{quotation_loop_end}', "", $templateDesc);
+	$templateDesc = str_replace($quotation_desc, $quotation_data, $templateDesc);
 }
 
 $wishlist_imagelbl  = '';
@@ -350,19 +350,19 @@ $wishlist_image     = '';
 $edit_wishlist_link = '';
 $myWishlist = 0;
 
-if (strpos($template_desc, "{if quotation}") !== false && strpos($template_desc, "{quotation end if}") !== false)
+if (strpos($templateDesc, "{if quotation}") !== false && strpos($templateDesc, "{quotation end if}") !== false)
 {
-	$template_d1 = explode("{if quotation}", $template_desc);
+	$template_d1 = explode("{if quotation}", $templateDesc);
 	$template_d2 = explode("{quotation end if}", $template_d1[1]);
 
 	if (!empty($quotations))
 	{
-		$template_desc = str_replace("{if quotation}", "", $template_desc);
-		$template_desc = str_replace("{quotation end if}", "", $template_desc);
+		$templateDesc = str_replace("{if quotation}", "", $templateDesc);
+		$templateDesc = str_replace("{quotation end if}", "", $templateDesc);
 	}
 	else
 	{
-		$template_desc = $template_d1[0] . $template_d2[1];
+		$templateDesc = $template_d1[0] . $template_d2[1];
 	}
 }
 
@@ -379,36 +379,36 @@ if (Redshop::getConfig()->get('MY_WISHLIST'))
 	}
 }
 
-$template_desc = str_replace('{wishlist_image}', $wishlist_image, $template_desc);
-$template_desc = str_replace('{wishlist_title}', $wishlist_imagelbl, $template_desc);
-$template_desc = str_replace('{edit_wishlist_link}', $edit_wishlist_link, $template_desc);
+$templateDesc = str_replace('{wishlist_image}', $wishlist_image, $templateDesc);
+$templateDesc = str_replace('{wishlist_title}', $wishlist_imagelbl, $templateDesc);
+$templateDesc = str_replace('{edit_wishlist_link}', $edit_wishlist_link, $templateDesc);
 
-if (strpos($template_desc, "{if wishlist}") !== false && strpos($template_desc, "{wishlist end if}") !== false)
+if (strpos($templateDesc, "{if wishlist}") !== false && strpos($templateDesc, "{wishlist end if}") !== false)
 {
-	$template_d1 = explode("{if wishlist}", $template_desc);
+	$template_d1 = explode("{if wishlist}", $templateDesc);
 	$template_d2 = explode("{wishlist end if}", $template_d1[1]);
 
 
 	if ($myWishlist)
 	{
-		$template_desc = str_replace("{if wishlist}", "", $template_desc);
-		$template_desc = str_replace("{wishlist end if}", "", $template_desc);
+		$templateDesc = str_replace("{if wishlist}", "", $templateDesc);
+		$templateDesc = str_replace("{wishlist end if}", "", $templateDesc);
 	}
 	else
 	{
-		$template_desc = $template_d1[0] . $template_d2[1];
+		$templateDesc = $template_d1[0] . $template_d2[1];
 	}
 }
 
 $userDownloadProduct = array();
 
-if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_desc, "{product_serial_loop_end}"))
+if (strstr($templateDesc, "{product_serial_loop_start}") && strstr($templateDesc, "{product_serial_loop_end}"))
 {
 	$product_serial_image = '<img src="' . REDSHOP_MEDIA_IMAGES_ABSPATH . 'products16.png" align="absmiddle">';
-	$template_desc        = str_replace('{product_serial_image}', $product_serial_image, $template_desc);
-	$template_desc        = str_replace('{product_serial_title}', JText::_('COM_REDSHOP_MY_SERIALS'), $template_desc);
+	$templateDesc        = str_replace('{product_serial_image}', $product_serial_image, $templateDesc);
+	$templateDesc        = str_replace('{product_serial_title}', JText::_('COM_REDSHOP_MY_SERIALS'), $templateDesc);
 
-	$template_d1 = explode("{product_serial_loop_start}", $template_desc);
+	$template_d1 = explode("{product_serial_loop_start}", $templateDesc);
 	$template_d2 = explode("{product_serial_loop_end}", $template_d1[1]);
 	$serial_desc = $template_d2[0];
 
@@ -432,24 +432,24 @@ if (strstr($template_desc, "{product_serial_loop_start}") && strstr($template_de
 		$serial_data = str_replace('{product_serial_number}', "", $serial_data);
 	}
 
-	$template_desc = str_replace('{product_serial_loop_start}', "", $template_desc);
-	$template_desc = str_replace('{product_serial_loop_end}', "", $template_desc);
-	$template_desc = str_replace($serial_desc, $serial_data, $template_desc);
+	$templateDesc = str_replace('{product_serial_loop_start}', "", $templateDesc);
+	$templateDesc = str_replace('{product_serial_loop_end}', "", $templateDesc);
+	$templateDesc = str_replace($serial_desc, $serial_data, $templateDesc);
 }
 
-if (strpos($template_desc, "{if product_serial}") !== false && strpos($template_desc, "{product_serial end if}") !== false)
+if (strpos($templateDesc, "{if product_serial}") !== false && strpos($templateDesc, "{product_serial end if}") !== false)
 {
-	$template_d1 = explode("{if product_serial}", $template_desc);
+	$template_d1 = explode("{if product_serial}", $templateDesc);
 	$template_d2 = explode("{product_serial end if}", $template_d1[1]);
 
 	if (!empty($userDownloadProduct))
 	{
-		$template_desc = str_replace("{if product_serial}", "", $template_desc);
-		$template_desc = str_replace("{product_serial end if}", "", $template_desc);
+		$templateDesc = str_replace("{if product_serial}", "", $templateDesc);
+		$templateDesc = str_replace("{product_serial end if}", "", $templateDesc);
 	}
 	else
 	{
-		$template_desc = $template_d1[0] . $template_d2[1];
+		$templateDesc = $template_d1[0] . $template_d2[1];
 	}
 }
 
@@ -470,27 +470,27 @@ if (Redshop::getConfig()->get('COMPARE_PRODUCTS'))
 	}
 }
 
-if (strpos($template_desc, "{if compare}") !== false && strpos($template_desc, "{compare end if}") !== false)
+if (strpos($templateDesc, "{if compare}") !== false && strpos($templateDesc, "{compare end if}") !== false)
 {
-	$template_d1 = explode("{if compare}", $template_desc);
+	$template_d1 = explode("{if compare}", $templateDesc);
 	$template_d2 = explode("{compare end if}", $template_d1[1]);
 
 	if (Redshop::getConfig()->get('COMPARE_PRODUCTS') && !$compare->isEmpty())
 	{
-		$template_desc = str_replace("{if compare}", "", $template_desc);
-		$template_desc = str_replace("{compare end if}", "", $template_desc);
+		$templateDesc = str_replace("{if compare}", "", $templateDesc);
+		$templateDesc = str_replace("{compare end if}", "", $templateDesc);
 	}
 	else
 	{
-		$template_desc = $template_d1[0] . $template_d2[1];
+		$templateDesc = $template_d1[0] . $template_d2[1];
 	}
 }
 
-$template_desc = str_replace('{compare_image}', $cmp_image, $template_desc);
-$template_desc = str_replace('{compare_title}', $cmp_imagelbl, $template_desc);
-$template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
-$template_desc = str_replace('{if compare}', '', $template_desc);
-$template_desc = str_replace('{compare end if}', '', $template_desc);
+$templateDesc = str_replace('{compare_image}', $cmp_image, $templateDesc);
+$templateDesc = str_replace('{compare_title}', $cmp_imagelbl, $templateDesc);
+$templateDesc = str_replace('{edit_compare_link}', $cmp_link, $templateDesc);
+$templateDesc = str_replace('{if compare}', '', $templateDesc);
+$templateDesc = str_replace('{compare end if}', '', $templateDesc);
 
-$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
-echo eval("?>" . $template_desc . "<?php ");
+$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
+echo eval("?>" . $templateDesc . "<?php ");

@@ -44,7 +44,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 
 		$post               = $this->input->post->getArray();
 		$post['product_id'] = (isset($post['container_product'])) ? explode(',', $post['container_product']) : 0;
-		$product_id         = $this->input->getInt('product_id', 0);
+		$productId         = $this->input->getInt('product_id', 0);
 
 		$cid                 = $this->input->post->get('cid', array(0), 'array');
 		$post ['wrapper_id'] = $cid [0];
@@ -67,7 +67,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $productId, $msg);
 		}
 	}
 
@@ -81,9 +81,9 @@ class RedshopControllerWrapper_detail extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $productId, $msg);
 	}
 }

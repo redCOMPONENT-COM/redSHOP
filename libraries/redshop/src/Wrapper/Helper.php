@@ -24,9 +24,9 @@ class Helper
      * @return array
      * @since __DEPLOY_VERSION__
      */
-    public function getWrapperPrice($cart = array())
+    public static function getWrapperPrice($cart = array())
     {
-        $wrapper     = RedshopHelperProduct::getWrapper($cart['product_id'], $cart['wrapper_id']);
+        $wrapper     = \RedshopHelperProduct::getWrapper($cart['product_id'], $cart['wrapper_id']);
         $wrapperVat = 0;
         $wrappers  = array();
 
@@ -34,7 +34,7 @@ class Helper
         {
             if ($wrapper[0]->wrapper_price > 0)
             {
-                $wrapperVat = RedshopHelperProduct::getProductTax($cart['product_id'], $wrapper[0]->wrapper_price);
+                $wrapperVat = \RedshopHelperProduct::getProductTax($cart['product_id'], $wrapper[0]->wrapper_price);
             }
 
             $wrapperPrice = $wrapper[0]->wrapper_price;

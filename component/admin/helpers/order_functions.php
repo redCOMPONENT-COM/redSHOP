@@ -294,16 +294,16 @@ class order_functions
 	 * Get order item detail
 	 *
 	 * @param   integer  $order_id       Order ID
-	 * @param   integer  $product_id     Product ID
+	 * @param   integer  $productId     Product ID
 	 * @param   integer  $order_item_id  Order Item ID
 	 *
 	 * @return  boolean/object
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperOrder::getOrderItemDetail() instead
 	 */
-	public function getOrderItemDetail($order_id = 0, $product_id = 0, $order_item_id = 0)
+	public function getOrderItemDetail($order_id = 0, $productId = 0, $order_item_id = 0)
 	{
-		return RedshopHelperOrder::getOrderItemDetail($order_id, $product_id, $order_item_id);
+		return RedshopHelperOrder::getOrderItemDetail($order_id, $productId, $order_item_id);
 	}
 
 	/**

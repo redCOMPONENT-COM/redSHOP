@@ -720,11 +720,23 @@ $templateDesc = Redshop\Product\Stock::replaceInStock($this->data->product_id, $
 
 // Product attribute  Start
 $totalatt      = count($attributes);
-$templateDesc = RedshopHelperAttribute::replaceAttributeData($this->data->product_id, 0, 0, $attributes, $templateDesc, $attribute_template, $isChilds);
+
+$templateDesc = RedshopTagsReplacer::_(
+        'attributes',
+	    $templateDesc,
+        array(
+            'productId' => $this->data->product_id,
+            'accessoryId' => 0,
+            'relatedProductId' => 0,
+            'attributes' => $attributes,
+            'attributeTemplate' => $attribute_template,
+            'isChild' => $isChilds
+        )
+);
 
 // Product attribute  End
 
-$pr_number                   = $this->data->product_number;
+$prNumber                   = $this->data->product_number;
 $preselectedresult           = array();
 $moreimage_response          = '';
 $property_data               = '';
@@ -833,11 +845,11 @@ if (!empty($attributes) && !empty($attribute_template))
 
 	$mainImageResponse = $preselectedresult['product_mainimg'];
 
-	$attrbimg = $preselectedresult['attrbimg'];
+	$attributeImg = $preselectedresult['attrbimg'];
 
 	if (!is_null($preselectedresult['pr_number']) && !empty($preselectedresult['pr_number']))
 	{
-		$pr_number = $preselectedresult['pr_number'];
+		$prNumber = $preselectedresult['pr_number'];
 	}
 }
 else
@@ -860,7 +872,7 @@ $templateDesc = \Redshop\Helper\Stockroom::replaceProductStockData(
 	$attributeproductStockStatus
 );
 
-$product_number_output = '<span id="product_number_variable' . $this->data->product_id . '">' . $pr_number . '</span>';
+$product_number_output = '<span id="product_number_variable' . $this->data->product_id . '">' . $prNumber . '</span>';
 $templateDesc         = str_replace("{product_number}", $product_number_output, $templateDesc);
 
 // Product accessory Start

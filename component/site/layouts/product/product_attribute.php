@@ -76,7 +76,7 @@ extract($displayData);
 					<?php $displayPrice = ""; ?>
 				<?php endif; ?>
 				<?php $virtualNumber = ""; ?>
-				<?php if (count($subProperties) > 0 && $subProperties[0]->subattribute_color_number): ?>
+				<?php if (isset($subProperties[0]['subattribute_color_number'])): ?>
 					<?php $virtualNumber = "<div class='checkout_subattribute_number'>" . $subProperties[0]['subattribute_color_number'] . "</div>"; ?>
 				<?php endif; ?>
 				<?php if (strpos($data, '{product_attribute_number}') === false): ?>
@@ -86,7 +86,9 @@ extract($displayData);
                     <div class="checkout_subattribute_price">
 						<?php echo urldecode($subProperties[$l]['subproperty_name']) . $displayPrice; ?>
                     </div>
-					<?php echo $subProperties[0]['subattribute_color_number']; ?>
+                    <?php if (isset($subProperties[0]['subattribute_color_number'])): ?>
+					    <?php echo $subProperties[0]['subattribute_color_number']; ?>
+                    <?php endif; ?>
                 </div>
 			<?php endfor; ?>
 		<?php endfor; ?>

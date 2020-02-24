@@ -40,8 +40,8 @@ class RedshopModelWrapper extends RedshopModel
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
 
-		$product_id = JFactory::getApplication()->input->get('product_id');
-		$this->setProductId((int) $product_id);
+		$productId = JFactory::getApplication()->input->get('product_id');
+		$this->setProductId((int) $productId);
 	}
 
 	public function setProductId($id)
