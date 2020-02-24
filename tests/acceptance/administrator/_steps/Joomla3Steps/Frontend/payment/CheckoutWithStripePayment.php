@@ -72,15 +72,9 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 			$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		}
 
-		try
-		{
-			$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-			$I->wait(3);
-			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
-			$I->acceptPopup();
-		}catch (\Exception $e)
-		{
-		}
+		$I->wait(3);
+		$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
+		$I->acceptPopup();
 
 		$I->switchToIFrame(StripePaymentPage::$nameIframeStripe);
 		$I->waitForElementVisible(StripePaymentPage::$cardNumberIframe, 30);

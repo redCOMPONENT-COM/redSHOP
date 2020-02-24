@@ -191,9 +191,9 @@ class ProductsCheckoutStripePaymentCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install plugin payment Bank Transfer Discount");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
-		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->wantTo("install plugin payment Bank Transfer Discount");
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
+//		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->wantTo('Enable Plugin Bank Transfer Discount Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 
@@ -238,7 +238,7 @@ class ProductsCheckoutStripePaymentCest
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Disable one page checkout');
-		$this->cartSetting["onePage"] = 'no'; 
+		$this->cartSetting["onePage"] = 'no';
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->cartSetting);
 
