@@ -7,6 +7,7 @@
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategoryManagerJoomla3Steps;
+use AcceptanceTester\PayPalPluginManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\TaxGroupSteps;
 use AcceptanceTester\TaxRateSteps;
@@ -214,7 +215,7 @@ class CheckVATChangedDependingOnTheUserCest
 
 		//VAT for User in VN
 		$this->taxRateNameVN            = $this->faker->bothify('VAT VN ?###?');
-		$this->taxRateValueVN           = 0.2; 
+		$this->taxRateValueVN           = 0.2;
 		$this->countryVietNam           = 'Viet Nam';
 		$this->subtotalVN               = "DKK 100,00";
 		$this->vatPriceVN               = "DKK 20,00";
@@ -295,6 +296,10 @@ class CheckVATChangedDependingOnTheUserCest
 	 */
 	public function CheckVATChangedDependingOnTheUserCest(AcceptanceTester $I, $scenario)
 	{
+		$I = new PayPalPluginManagerJoomla3Steps($scenario);
+		$I->wantTo('Disable PayPal');
+		$I->disablePlugin('PayPal');
+
 		$I->wantTo('VAT Groups - Save creation in Administrator');
 		$I = new TaxGroupSteps($scenario);
 		$I->addVATGroupsSave($this->taxGroupName);

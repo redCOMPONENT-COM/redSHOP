@@ -1092,6 +1092,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
+
 		try
 		{
 			$I->waitForText($total, 10);
@@ -1099,6 +1100,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		}
+
 		$I->waitForText($subTotal, 30);
 		$I->waitForText($vatPrice, 30);
 		$I->waitForText($total, 30);
