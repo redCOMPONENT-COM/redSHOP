@@ -301,7 +301,7 @@ class Item
 			);
 			$productUserFields = \RedshopHelperProduct::getuserfield($items[$i]->order_item_id, $userFieldSection);
 			$cartHtmlContent   = str_replace("{product_userfields}", $productUserFields, $cartHtmlContent);
-			$userCustomFields  = \RedshopHelperProduct::GetProdcutfield_order($items[$i]->order_item_id);
+			$userCustomFields  = \RedshopHelperProduct::getProductField_order($items[$i]->order_item_id);
 			$cartHtmlContent   = str_replace("{product_customfields}", $userCustomFields, $cartHtmlContent);
 			$cartHtmlContent   = str_replace("{product_customfields_lbl}", \JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cartHtmlContent);
 

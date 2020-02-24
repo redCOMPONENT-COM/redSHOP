@@ -48,8 +48,8 @@ class Cart
                 continue;
             }
 
-            $productId = $cart[$i]['product_id'];
-            $quantity = $cart[$i]['quantity'];
+            $productId = $cart[$i]['product_id'] ?? 0;
+            $quantity = $cart[$i]['quantity'] ?? 0;
             $product = \Redshop\Product\Product::getProductById($productId);
             $hasAttribute = isset($cart[$i]['cart_attribute']) ? true : false;
 
@@ -64,8 +64,8 @@ class Cart
                 $price = $cart[$i]['product_price_excl_vat'];
             }
 
-            if ($product->use_discount_calc) {
-                $price = $cart[$i]['discount_calc_price'];
+            if (isset($product->use_discount_calc)) {
+                $price = $cart[$i]['discount_calc_price'] ?? 0;
             }
 
             // Only set price without vat for accessories as product
@@ -88,7 +88,7 @@ class Cart
 
             $retAttArr = \RedshopHelperProduct::makeAttributeCart(
                 $cart[$i]['cart_attribute'] ?? [],
-                (int) $product->product_id,
+                (int) ($product->product_id ?? 0),
                 $userId,
                 $price,
                 $quantity,
@@ -107,7 +107,7 @@ class Cart
             // Accessory calculation
             $accessories = \RedshopHelperProduct::makeAccessoryCart(
                 isset($cart[$i]['cart_accessory']) ? $cart[$i]['cart_accessory'] : array(),
-                $product->product_id,
+                $product->product_id ?? 0,
                 $userId
             );
 
@@ -123,11 +123,11 @@ class Cart
             $wrapperVat = 0;
             $wrapperPrice = 0;
 
-            if (array_key_exists('wrapper_id', $cart[$i]) && !empty($cart[$i]['wrapper_id'])) {
-                $wrappers = \rsCarthelper::getInstance()->getWrapperPriceArr(
+            if (isset($cart[$i]['wrapper_id'])) {
+                $wrappers = \Redshop\Wrapper\Helper::getWrapperPrice(
                     [
-                        'product_id' => $cart[$i]['product_id'],
-                        'wrapper_id' => $cart[$i]['wrapper_id']
+                        'product_id' => $cart[$i]['product_id'] ?? 0,
+                        'wrapper_id' => $cart[$i]['wrapper_id'] ?? 0
                     ]
                 );
 
@@ -141,7 +141,7 @@ class Cart
             $productVat = ($getProductTax + $accessoryTax + $wrapperVat);
             $productPriceNoVat = ($getProductPrice + $accessoryPrice + $wrapperPrice);
 
-            if ($product->product_type == 'subscription') {
+            if (isset($product->product_type) && ($product->product_type == 'subscription')) {
                 if (!isset($cart[$i]['subscription_id']) || empty($cart[$i]['subscription_id'])) {
                     return array();
                 }
@@ -614,7 +614,7 @@ class Cart
 
 		if (isset($data['sel_wrapper_id']) && $data['sel_wrapper_id'])
 		{
-			$wrapperArr = \rsCarthelper::getInstance()->getWrapperPriceArr(
+			$wrapperArr = \Redshop\Wrapper\Helper::getWrapperPrice(
 				array('product_id' => $data['product_id'], 'wrapper_id' => $data['sel_wrapper_id'])
 			);
 
