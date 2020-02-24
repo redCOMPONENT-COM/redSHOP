@@ -71,7 +71,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 	{
 		$post = JFactory::getApplication()->input->post->getArray();
 
-		$is_company                    = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
+		$isCompany                    = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
 		$detail                        = new stdClass;
 		$detail->users_info_id         = (isset($post['users_info_id'])) ? $post['users_info_id'] : 0;
 		$detail->address_type          = (isset($post['address_type'])) ? $post['address_type'] : "";
@@ -83,7 +83,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$detail->zipcode               = (isset($post['zipcode'])) ? $post['zipcode'] : null;
 		$detail->user_email            = (isset($post['user_email'])) ? $post['user_email'] : null;
 		$detail->address               = (isset($post['address'])) ? $post['address'] : null;
-		$detail->is_company            = (isset($post['is_company'])) ? $post['is_company'] : $is_company;
+		$detail->is_company            = (isset($post['is_company'])) ? $post['is_company'] : $isCompany;
 		$detail->city                  = (isset($post['city'])) ? $post['city'] : null;
 		$detail->phone                 = (isset($post['phone'])) ? $post['phone'] : null;
 		$detail->vat_number            = (isset($post['vat_number'])) ? $post['vat_number'] : null;
@@ -800,7 +800,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		Redshop\Mail\User::sendRegistrationMail($post);
 	}
 
-	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
+	public function changeshippingaddress($shippingadd_id, $user_id, $isCompany)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE address_type like "ST" '
@@ -817,7 +817,7 @@ class RedshopModelAddorder_detail extends RedshopModel
 		$allowCustomer = '';
 		$allowCompany  = '';
 
-		if ($is_company)
+		if ($isCompany)
 		{
 			$allowCustomer = 'style="display:none;"';
 		}

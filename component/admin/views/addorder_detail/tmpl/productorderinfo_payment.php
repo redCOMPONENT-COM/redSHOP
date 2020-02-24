@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 $isCreditCard   = 0;
 $paymentMethods = RedshopHelperOrder::getPaymentMethodInfo('', false);
-$is_company     = $this->billing->is_company;
+$isCompany     = $this->billing->is_company;
 
 $payment_method_id = 0;
 
@@ -39,7 +39,7 @@ if (count($paymentMethods) == 1)
 
 			if ($paymentMethods[$p]->element == 'rs_payment_eantransfer' || $isBankTransferPaymentType)
 			{
-				if ($is_company == 0 && $private_person == 1)
+				if ($isCompany == 0 && $private_person == 1)
 				{
 					?>
                     <label>
@@ -51,7 +51,7 @@ if (count($paymentMethods) == 1)
 				}
 				else
 				{
-					if ($is_company == 1 && $business == 1)
+					if ($isCompany == 1 && $business == 1)
 					{
 						?>
                         <label>
