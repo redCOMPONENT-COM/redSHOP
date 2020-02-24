@@ -569,7 +569,8 @@ class RedshopHelperExtrafields
 
 					case self::TYPE_CHECK_BOX:
 						$fieldChk = RedshopEntityField::getInstance($customField->id)->getFieldValues();
-						$chkData  = explode(",", $dataValue->data_txt);
+						$chkData  = isset($dataValue->data_txt) ? explode(",", $dataValue->data_txt)
+                                                                : [];
 						$exField  .= RedshopLayoutHelper::render(
 							'extrafields.field.checkbox',
 							array(
