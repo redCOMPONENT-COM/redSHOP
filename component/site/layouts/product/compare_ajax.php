@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * $displayData extract
  *
  * @param   object $form       A JForm object
- * @param   int    $product_id Id current product
+ * @param   int    $productId Id current product
  * @param   int    $modal      Flag use form in modal
  */
 extract($displayData);

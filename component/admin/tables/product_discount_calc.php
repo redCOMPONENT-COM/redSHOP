@@ -13,7 +13,7 @@ class Tableproduct_discount_calc extends JTable
 {
 	public $id = 0;
 
-	public $product_id = 0;
+	public $productId = 0;
 
 	public $area_start = 0;
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 class Tableproduct_attribute extends JTable
 {
-	public $attribute_id = null;
+	public $attributeId = null;
 
 	public $attribute_set_id = 0;
 
@@ -25,7 +25,7 @@ class Tableproduct_attribute extends JTable
 
 	public $hide_attribute_price = 0;
 
-	public $product_id = null;
+	public $productId = null;
 
 	public $ordering = null;
 

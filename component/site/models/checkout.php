@@ -578,8 +578,8 @@ class RedshopModelCheckout extends RedshopModel
 		for ($i = 0; $i < $idx; $i++)
 		{
 			$is_giftcard = 0;
-			$product_id  = $cart [$i] ['product_id'];
-			$product     = \Redshop\Product\Product::getProductById($product_id);
+			$productId  = $cart [$i] ['product_id'];
+			$product     = \Redshop\Product\Product::getProductById($productId);
 
 			/** @var Tableorder_item_detail $rowitem */
 			$rowitem = $this->getTable('order_item_detail');
@@ -601,7 +601,7 @@ class RedshopModelCheckout extends RedshopModel
 			// Product stockroom update
 			if (!$is_giftcard)
 			{
-				$updatestock                 = RedshopHelperStockroom::updateStockroomQuantity($product_id, $cart [$i] ['quantity']);
+				$updatestock                 = RedshopHelperStockroom::updateStockroomQuantity($productId, $cart [$i] ['quantity']);
 				$stockroom_id_list           = $updatestock['stockroom_list'];
 				$stockroom_quantity_list     = $updatestock['stockroom_quantity_list'];
 				$rowitem->stockroom_id       = $stockroom_id_list;
@@ -640,7 +640,7 @@ class RedshopModelCheckout extends RedshopModel
 			}
 			else
 			{
-				$rowitem->product_id             = $product_id;
+				$rowitem->product_id             = $productId;
 				$rowitem->product_item_old_price = $cart [$i] ['product_old_price'];
 				$rowitem->supplier_id            = $product->manufacturer_id;
 				$rowitem->order_item_sku         = $product->product_number;
@@ -653,7 +653,7 @@ class RedshopModelCheckout extends RedshopModel
 			$rowitem->product_final_price         = ($cart [$i] ['product_price'] * $cart [$i] ['quantity']);
 			$rowitem->is_giftcard                 = $is_giftcard;
 
-			$retAttArr      = RedshopHelperProduct::makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $cart [$i] ['quantity']);
+			$retAttArr      = RedshopHelperProduct::makeAttributeCart($cart [$i] ['cart_attribute'], $productId, 0, 0, $cart [$i] ['quantity']);
 			$cart_attribute = $retAttArr[0];
 
 			// For discount calc data
@@ -664,7 +664,7 @@ class RedshopModelCheckout extends RedshopModel
 				$cart_calc_data = $cart[$i]['discount_calc_output'];
 			}
 
-			$retAccArr                    = RedshopHelperProduct::makeAccessoryCart($cart[$i]['cart_accessory'], $product_id);
+			$retAccArr                    = RedshopHelperProduct::makeAccessoryCart($cart[$i]['cart_accessory'], $productId);
 			$cart_accessory               = $retAccArr[0];
 			$rowitem->order_id            = $orderId;
 			$rowitem->user_info_id        = $users_info_id;
@@ -741,7 +741,7 @@ class RedshopModelCheckout extends RedshopModel
 					$accessory_vat_price = 0;
 					$accessory_attribute = "";
 
-					$accessory_id        = $attArr[$a]['accessory_id'];
+					$accessoryId        = $attArr[$a]['accessory_id'];
 					$accessory_name      = $attArr[$a]['accessory_name'];
 					$accessory_price     = $attArr[$a]['accessory_price'];
 					$accessory_quantity  = $attArr[$a]['accessory_quantity'];
@@ -765,19 +765,19 @@ class RedshopModelCheckout extends RedshopModel
 						if ($totalProperty)
 						{
 
-							$attribute_id        = $attchildArr[$j]['attribute_id'];
+							$attributeId        = $attchildArr[$j]['attribute_id'];
 							$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
 							$rowattitem->order_item_id     = $rowitem->order_item_id;
-							$rowattitem->section_id        = $attribute_id;
+							$rowattitem->section_id        = $attributeId;
 							$rowattitem->section           = "attribute";
-							$rowattitem->parent_section_id = $accessory_id;
+							$rowattitem->parent_section_id = $accessoryId;
 							$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
 							$rowattitem->is_accessory_att  = 1;
 
-							if ($attribute_id > 0)
+							if ($attributeId > 0)
 							{
 								if (!$rowattitem->store())
 								{
@@ -799,22 +799,22 @@ class RedshopModelCheckout extends RedshopModel
 								$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
 							}
 
-							$property_id                   = $propArr[$k]['property_id'];
+							$propertyId                   = $propArr[$k]['property_id'];
 							$accessory_attribute           .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . RedshopHelperProductPrice::formattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr                    = $propArr[$k]['property_childs'];
 							$rowattitem                    = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
 							$rowattitem->order_item_id     = $rowitem->order_item_id;
-							$rowattitem->section_id        = $property_id;
+							$rowattitem->section_id        = $propertyId;
 							$rowattitem->section           = "property";
-							$rowattitem->parent_section_id = $attribute_id;
+							$rowattitem->parent_section_id = $attributeId;
 							$rowattitem->section_name      = $propArr[$k]['property_name'];
 							$rowattitem->section_price     = $propArr[$k]['property_price'];
 							$rowattitem->section_vat       = $section_vat;
 							$rowattitem->section_oprand    = $propArr[$k]['property_oprand'];
 							$rowattitem->is_accessory_att  = 1;
 
-							if ($property_id > 0)
+							if ($propertyId > 0)
 							{
 								if (!$rowattitem->store())
 								{
@@ -833,21 +833,21 @@ class RedshopModelCheckout extends RedshopModel
 									$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								}
 
-								$subproperty_id                = $subpropArr[$l]['subproperty_id'];
+								$subPropertyId                = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute           .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . RedshopHelperProductPrice::formattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 								$rowattitem                    = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
 								$rowattitem->order_item_id     = $rowitem->order_item_id;
-								$rowattitem->section_id        = $subproperty_id;
+								$rowattitem->section_id        = $subPropertyId;
 								$rowattitem->section           = "subproperty";
-								$rowattitem->parent_section_id = $property_id;
+								$rowattitem->parent_section_id = $propertyId;
 								$rowattitem->section_name      = $subpropArr[$l]['subproperty_name'];
 								$rowattitem->section_price     = $subpropArr[$l]['subproperty_price'];
 								$rowattitem->section_vat       = $section_vat;
 								$rowattitem->section_oprand    = $subpropArr[$l]['subproperty_oprand'];
 								$rowattitem->is_accessory_att  = 1;
 
-								if ($subproperty_id > 0)
+								if ($subPropertyId > 0)
 								{
 									if (!$rowattitem->store())
 									{
@@ -890,16 +890,16 @@ class RedshopModelCheckout extends RedshopModel
 
 					$accdata = $this->getTable('accessory_detail');
 
-					if ($accessory_id > 0)
+					if ($accessoryId > 0)
 					{
-						$accdata->load($accessory_id);
+						$accdata->load($accessoryId);
 					}
 
 					$accProductinfo                      = \Redshop\Product\Product::getProductById($accdata->child_product_id);
 					$rowaccitem                          = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id       = 0;
 					$rowaccitem->order_item_id           = $rowitem->order_item_id;
-					$rowaccitem->product_id              = $accessory_id;
+					$rowaccitem->product_id              = $accessoryId;
 					$rowaccitem->order_acc_item_sku      = $accProductinfo->product_number;
 					$rowaccitem->order_acc_item_name     = $accessory_name;
 					$rowaccitem->order_acc_price         = $accessory_org_price;
@@ -909,7 +909,7 @@ class RedshopModelCheckout extends RedshopModel
 					$rowaccitem->product_acc_final_price = ($accessory_price * $accessory_quantity);
 					$rowaccitem->product_attribute       = $accessory_attribute;
 
-					if ($accessory_id > 0)
+					if ($accessoryId > 0)
 					{
 						if (!$rowaccitem->store())
 						{
@@ -933,17 +933,17 @@ class RedshopModelCheckout extends RedshopModel
 
 					if ($totalProperty > 0)
 					{
-						$attribute_id                  = $attchildArr[$j]['attribute_id'];
+						$attributeId                  = $attchildArr[$j]['attribute_id'];
 						$rowattitem                    = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
 						$rowattitem->order_item_id     = $rowitem->order_item_id;
-						$rowattitem->section_id        = $attribute_id;
+						$rowattitem->section_id        = $attributeId;
 						$rowattitem->section           = "attribute";
 						$rowattitem->parent_section_id = $rowitem->product_id;
 						$rowattitem->section_name      = $attchildArr[$j]['attribute_name'];
 						$rowattitem->is_accessory_att  = 0;
 
-						if ($attribute_id > 0)
+						if ($attributeId > 0)
 						{
 							if (!$rowattitem->store())
 							{
@@ -962,19 +962,19 @@ class RedshopModelCheckout extends RedshopModel
 								$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $propArr[$k]['property_price']);
 							}
 
-							$property_id = $propArr[$k]['property_id'];
+							$propertyId = $propArr[$k]['property_id'];
 
 							//  Product property STOCKROOM update start
-							$updatestock_att             = RedshopHelperStockroom::updateStockroomQuantity($property_id, $cart [$i] ['quantity'], "property", $product_id);
+							$updatestock_att             = RedshopHelperStockroom::updateStockroomQuantity($propertyId, $cart [$i] ['quantity'], "property", $productId);
 							$stockroom_att_id_list       = $updatestock_att['stockroom_list'];
 							$stockroom_att_quantity_list = $updatestock_att['stockroom_quantity_list'];
 
 							$rowattitem                     = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id  = 0;
 							$rowattitem->order_item_id      = $rowitem->order_item_id;
-							$rowattitem->section_id         = $property_id;
+							$rowattitem->section_id         = $propertyId;
 							$rowattitem->section            = "property";
-							$rowattitem->parent_section_id  = $attribute_id;
+							$rowattitem->parent_section_id  = $attributeId;
 							$rowattitem->section_name       = $propArr[$k]['property_name'];
 							$rowattitem->section_price      = $propArr[$k]['property_price'];
 							$rowattitem->section_vat        = $section_vat;
@@ -983,7 +983,7 @@ class RedshopModelCheckout extends RedshopModel
 							$rowattitem->stockroom_id       = $stockroom_att_id_list;
 							$rowattitem->stockroom_quantity = $stockroom_att_quantity_list;
 
-							if ($property_id > 0)
+							if ($propertyId > 0)
 							{
 								if (!$rowattitem->store())
 								{
@@ -1004,19 +1004,19 @@ class RedshopModelCheckout extends RedshopModel
 									$section_vat = RedshopHelperProduct::getProductTax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								}
 
-								$subproperty_id = $subpropArr[$l]['subproperty_id'];
+								$subPropertyId = $subpropArr[$l]['subproperty_id'];
 
 								// Product subproperty STOCKROOM update start
-								$updatestock_subatt             = RedshopHelperStockroom::updateStockroomQuantity($subproperty_id, $cart [$i] ['quantity'], "subproperty", $product_id);
+								$updatestock_subatt             = RedshopHelperStockroom::updateStockroomQuantity($subPropertyId, $cart [$i] ['quantity'], "subproperty", $productId);
 								$stockroom_subatt_id_list       = $updatestock_subatt['stockroom_list'];
 								$stockroom_subatt_quantity_list = $updatestock_subatt['stockroom_quantity_list'];
 
 								$rowattitem                     = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id  = 0;
 								$rowattitem->order_item_id      = $rowitem->order_item_id;
-								$rowattitem->section_id         = $subproperty_id;
+								$rowattitem->section_id         = $subPropertyId;
 								$rowattitem->section            = "subproperty";
-								$rowattitem->parent_section_id  = $property_id;
+								$rowattitem->parent_section_id  = $propertyId;
 								$rowattitem->section_name       = $subpropArr[$l]['subproperty_name'];
 								$rowattitem->section_price      = $subpropArr[$l]['subproperty_price'];
 								$rowattitem->section_vat        = $section_vat;
@@ -1025,7 +1025,7 @@ class RedshopModelCheckout extends RedshopModel
 								$rowattitem->stockroom_id       = $stockroom_subatt_id_list;
 								$rowattitem->stockroom_quantity = $stockroom_subatt_quantity_list;
 
-								if ($subproperty_id > 0)
+								if ($subPropertyId > 0)
 								{
 									if (!$rowattitem->store())
 									{
@@ -1044,14 +1044,14 @@ class RedshopModelCheckout extends RedshopModel
 			if ($product->product_type == 'subscription')
 			{
 				$subscribe           = $this->getTable('product_subscribe_detail');
-				$subscription_detail = RedshopHelperProduct::getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
+				$subscription_detail = RedshopHelperProduct::getProductSubscriptionDetail($productId, $cart[$i]['subscription_id']);
 
 				$add_day                    = $subscription_detail->period_type == 'days' ? $subscription_detail->subscription_period : 0;
 				$add_month                  = $subscription_detail->period_type == 'month' ? $subscription_detail->subscription_period : 0;
 				$add_year                   = $subscription_detail->period_type == 'year' ? $subscription_detail->subscription_period : 0;
 				$subscribe->order_id        = $orderId;
 				$subscribe->order_item_id   = $rowitem->order_item_id;
-				$subscribe->product_id      = $product_id;
+				$subscribe->product_id      = $productId;
 				$subscribe->subscription_id = $cart[$i]['subscription_id'];
 				$subscribe->user_id         = $user->id;
 				$subscribe->start_date      = time();

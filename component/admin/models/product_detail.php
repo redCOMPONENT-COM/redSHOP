@@ -662,7 +662,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		// Save Stcok and Preorder stock for Product
 		if ((isset($data['quantity']) && $data['quantity']) || (isset($data['preorder_stock']) && $data['preorder_stock']))
 		{
-			$product_id = $row->product_id;
+			$productId = $row->product_id;
 
 			for ($i = 0, $countQuantity = count($data['quantity']); $i < $countQuantity; $i++)
 			{
@@ -674,7 +674,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				}
 
 				$query = "DELETE FROM " . $this->table_prefix . "product_stockroom_xref "
-					. "WHERE product_id = '" . $product_id . "' and  stockroom_id ='" . $data['stockroom_id'][$i] . "'";
+					. "WHERE product_id = '" . $productId . "' and  stockroom_id ='" . $data['stockroom_id'][$i] . "'";
 				$this->_db->setQuery($query);
 
 				if (!$this->_db->execute())
@@ -686,7 +686,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					if ($data['quantity'][$i] != "" || !Redshop::getConfig()->get('USE_BLANK_AS_INFINITE'))
 					{
 						$this->insertProductStock(
-							$product_id,
+							$productId,
 							$data['stockroom_id'][$i],
 							$data['quantity'][$i],
 							$data['preorder_stock'][$i],
@@ -748,9 +748,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 			{
 				$ordering_related++;
 				$related_id    = $related_data;
-				$product_id    = $row->product_id;
+				$productId    = $row->product_id;
 				$query_related = 'INSERT INTO ' . $this->table_prefix . 'product_related(related_id,product_id,ordering)
-								  VALUES ("' . $related_id . '","' . $product_id . '","' . $ordering_related . '")';
+								  VALUES ("' . $related_id . '","' . $productId . '","' . $ordering_related . '")';
 				$this->_db->setQuery($query_related);
 
 				if (!$this->_db->execute())
@@ -1652,11 +1652,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 * Function copyProductAttribute.
 	 *
 	 * @param   string|int  $cid         Array of IDs.
-	 * @param   int    $product_id  Product ID.
+	 * @param   int    $productId  Product ID.
 	 *
 	 * @return boolean
 	 */
-	public function copyProductAttribute($cid, $product_id)
+	public function copyProductAttribute($cid, $productId)
 	{
 		$db = $this->_db;
 
@@ -1681,7 +1681,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		for ($att = 0, $countAttribute = count($attribute); $att < $countAttribute; $att++)
 		{
-			$attribute[$att]->product_id   = $product_id;
+			$attribute[$att]->product_id   = $productId;
 			$oldAttributeId                = $attribute[$att]->attribute_id;
 			$attribute[$att]->attribute_id = 0;
 
@@ -1695,7 +1695,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				return false;
 			}
 
-			$attribute_id = $this->_db->insertid();
+			$attributeId = $this->_db->insertid();
 			$query        = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_property`
 					  WHERE `attribute_id` = "' . $oldAttributeId . '" order by ordering asc';
 			$this->_db->setQuery($query);
@@ -1705,7 +1705,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			for ($prop = 0, $countProperty = count($att_property); $prop < $countProperty; $prop++)
 			{
-				$property_save['attribute_id']        = $attribute_id;
+				$property_save['attribute_id']        = $attributeId;
 				$property_save['property_name']       = $att_property[$prop]->property_name;
 				$property_save['property_price']      = $att_property[$prop]->property_price;
 				$property_save['oprand']              = $att_property[$prop]->oprand;
@@ -1717,7 +1717,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$property_save['setdefault_selected'] = $att_property[$prop]->setdefault_selected;
 				$property_save['extra_field']         = $att_property[$prop]->extra_field;
 				$property_array                       = $this->store_pro($property_save);
-				$property_id                          = $property_array->property_id;
+				$propertyId                          = $property_array->property_id;
 				$listImages                           = $this->getImageInfor($att_property[$prop]->property_id, 'property');
 				$property_image                   = '';
 				$property_main_image              = '';
@@ -1733,7 +1733,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				{
 					$attribute_price_detail             = $this->getTable('attributeprices_detail');
 					$attr_price['price_id ']                  = 0;
-					$attr_price['section_id']                 = $property_id;
+					$attr_price['section_id']                 = $propertyId;
 					$attr_price['product_price']              = $price_prop[$i]->product_price;
 					$attr_price['section']                    = $price_prop[$i]->section;
 					$attr_price['product_currency']           = $price_prop[$i]->product_currency;
@@ -1771,7 +1771,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				for ($i = 0, $in = count($stock_prop); $i < $in; $i++)
 				{
-					$attr_stock['section_id']              = $property_id;
+					$attr_stock['section_id']              = $propertyId;
 					$attr_stock['section']                  = $stock_prop[$i]->section;
 					$attr_stock['stockroom_id'][$i]         = $stock_prop[$i]->stockroom_id;
 					$attr_stock['quantity'][$i]             = $stock_prop[$i]->quantity;
@@ -1796,7 +1796,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$property_main_image     = $new_property_main_image;
 				}
 
-				$this->update_attr_property_image($property_id, $property_image, $property_main_image);
+				$this->update_attr_property_image($propertyId, $property_image, $property_main_image);
 
 				$countImage = count($listImages);
 
@@ -1806,7 +1806,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$mImages['media_name']           = $listImages[$li]->media_name;
 					$mImages['media_alternate_text'] = $listImages[$li]->media_alternate_text;
 					$mImages['media_section']        = 'property';
-					$mImages['section_id']           = $property_id;
+					$mImages['section_id']           = $propertyId;
 					$mImages['media_type']           = 'images';
 					$mImages['media_mimetype']       = $listImages[$li]->media_mimetype;
 					$mImages['published']            = $listImages[$li]->published;
@@ -1834,7 +1834,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$subproperty_save['subattribute_color_title']      = $subatt_property[$subprop]->subattribute_color_title;
 					$subproperty_save['subattribute_color_price']      = $subatt_property[$subprop]->subattribute_color_price;
 					$subproperty_save['oprand']                        = $subatt_property[$subprop]->oprand;
-					$subproperty_save['subattribute_id']               = $property_id;
+					$subproperty_save['subattribute_id']               = $propertyId;
 					$subproperty_save['ordering']                      = $subatt_property[$subprop]->ordering;
 					$subproperty_save['subattribute_color_number']     = $subatt_property[$subprop]->subattribute_color_number;
 					$subproperty_save['subattribute_color_image']      = $subatt_property[$subprop]->subattribute_color_image;
@@ -1842,7 +1842,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$subproperty_save['setdefault_selected']           = $subatt_property[$subprop]->setdefault_selected;
 
 					$subproperty_array                 = $this->store_sub($subproperty_save);
-					$subproperty_id                    = $subproperty_array->subattribute_color_id;
+					$subPropertyId                    = $subproperty_array->subattribute_color_id;
 					$new_subattribute_color_image      = '';
 					$new_subattribute_color_main_image = '';
 
@@ -1859,7 +1859,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$new_subattribute_color_main_image = $this->copy_image_from_path($subattribute_color_main_image, 'subproperty');
 					}
 
-					$this->update_subattr_image($subproperty_id, $new_subattribute_color_image, $new_subattribute_color_main_image);
+					$this->update_subattr_image($subPropertyId, $new_subattribute_color_image, $new_subattribute_color_main_image);
 
 					$listsubpropImages     = $this->getImageInfor($subatt_property[$subprop]->subattribute_color_id, 'subproperty');
 					$countSubPropertyImage = count($listsubpropImages);
@@ -1870,7 +1870,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$smImages['media_name']           = $listsubpropImages[$lsi]->media_name;
 						$smImages['media_alternate_text'] = $listsubpropImages[$lsi]->media_alternate_text;
 						$smImages['media_section']        = 'subproperty';
-						$smImages['section_id']           = $subproperty_id;
+						$smImages['section_id']           = $subPropertyId;
 						$smImages['media_type']           = 'images';
 						$smImages['media_mimetype']       = $listsubpropImages[$lsi]->media_mimetype;
 						$smImages['published']            = $listsubpropImages[$lsi]->published;
@@ -1983,15 +1983,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function getPropertyImages.
 	 *
-	 * @param   int  $property_id  Property ID.
+	 * @param   int  $propertyId  Property ID.
 	 *
 	 * @return  array
 	 */
-	public function getPropertyImages($property_id)
+	public function getPropertyImages($propertyId)
 	{
 		$query = "SELECT * FROM " . $this->table_prefix . "product_attribute_property as p, " . $this->table_prefix . "media AS m
 				  WHERE m.section_id = p.property_id  and m.media_section='property' and media_type='images'
-				  AND p.property_id = '" . $property_id . "'  and m.published = 1 order by m.ordering,m.media_id asc";
+				  AND p.property_id = '" . $propertyId . "'  and m.published = 1 order by m.ordering,m.media_id asc";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -2000,15 +2000,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function getSubpropertyImages.
 	 *
-	 * @param   int  $subproperty_id  Subproperty ID.
+	 * @param   int  $subPropertyId  Subproperty ID.
 	 *
 	 * @return  array
 	 */
-	public function getSubpropertyImages($subproperty_id)
+	public function getSubpropertyImages($subPropertyId)
 	{
 		$query = "SELECT * FROM " . $this->table_prefix . "product_subattribute_color as p, " . $this->table_prefix . "media AS m
 				  WHERE m.section_id = p.subattribute_color_id  and m.media_section='subproperty' and media_type='images'
-				  AND p.subattribute_color_id = '" . $subproperty_id . "'  and m.published = 1 order by m.ordering,m.media_id asc";
+				  AND p.subattribute_color_id = '" . $subPropertyId . "'  and m.published = 1 order by m.ordering,m.media_id asc";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -2017,14 +2017,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function getPropertyMainImage.
 	 *
-	 * @param   int  $property_id  Property ID.
+	 * @param   int  $propertyId  Property ID.
 	 *
 	 * @return  array
 	 */
-	public function getPropertyMainImage($property_id)
+	public function getPropertyMainImage($propertyId)
 	{
 		$query = "SELECT * FROM " . $this->table_prefix . "product_attribute_property as p
-				  WHERE p.property_id = '" . $property_id . "' ORDER BY p.property_id ASC  ";
+				  WHERE p.property_id = '" . $propertyId . "' ORDER BY p.property_id ASC  ";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObject();
@@ -2033,15 +2033,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function getSubAttributeColor.
 	 *
-	 * @param   int  $property_id  Property ID.
+	 * @param   int  $propertyId  Property ID.
 	 *
 	 * @return  array
 	 */
-	public function getSubAttributeColor($property_id)
+	public function getSubAttributeColor($propertyId)
 	{
 		$query = "SELECT * FROM " . $this->table_prefix . "product_attribute_property AS p,
 				 " . $this->table_prefix . "product_subattribute_color AS m
-				  WHERE m.subattribute_id = p.property_id and p.property_id = '" . $property_id . "' ";
+				  WHERE m.subattribute_id = p.property_id and p.property_id = '" . $propertyId . "' ";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -2050,14 +2050,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function getParentProduct.
 	 *
-	 * @param   int  $product_id  Product ID.
+	 * @param   int  $productId  Product ID.
 	 *
 	 * @return  array
 	 */
-	public function getParentProduct($product_id)
+	public function getParentProduct($productId)
 	{
 		$query = "SELECT product_name FROM " . $this->table_prefix . "product
-				  WHERE product_id = '" . $product_id . "'   ";
+				  WHERE product_id = '" . $productId . "'   ";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -2085,7 +2085,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				$this->_db->setQuery($query);
 				$prop                     = $this->_db->loadObjectlist();
-				$attribute_id             = $attr[$i]->attribute_id;
+				$attributeId             = $attr[$i]->attribute_id;
 				$attribute_name           = $attr[$i]->attribute_name;
 				$attribute_description    = $attr[$i]->attribute_description;
 				$attribute_required       = $attr[$i]->attribute_required;
@@ -2104,7 +2104,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$prop[$j]->subvalue = $subprop;
 				}
 
-				$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
+				$attribute_data[] = array('attribute_id' => $attributeId, 'attribute_name' => $attribute_name,
 					'attribute_description' => $attribute_description,
 					'attribute_required' => $attribute_required, 'ordering' => $ordering, 'property' => $prop,
 					'allow_multiple_selection' => $allow_multiple_selection, 'hide_attribute_price' => $hide_attribute_price,
@@ -2314,11 +2314,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function accessory_product_data.
 	 *
-	 * @param   int  $product_id  Product ID.
+	 * @param   int  $productId  Product ID.
 	 *
 	 * @return  array
 	 */
-	public function accessory_product_data($product_id)
+	public function accessory_product_data($productId)
 	{
 		$query = "SELECT cp.child_product_id as product_id,
 						 p.product_name,
@@ -2326,7 +2326,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						 cp.oprand,
 						 p.product_price as normal_price
 				  FROM " . $this->table_prefix . "product as p , " . $this->table_prefix . "product_accessory as cp
-				  WHERE cp.product_id='" . $product_id . "' and cp.child_product_id=p.product_id ";
+				  WHERE cp.product_id='" . $productId . "' and cp.child_product_id=p.product_id ";
 		$this->_db->setQuery($query);
 		$productdata = $this->_db->loadObjectList();
 
@@ -2336,15 +2336,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function related_product_data.
 	 *
-	 * @param   int  $product_id  Product ID.
+	 * @param   int  $productId  Product ID.
 	 *
 	 * @return  array
 	 */
-	public function related_product_data($product_id)
+	public function related_product_data($productId)
 	{
 		$query = "SELECT cp.related_id as value,p.product_name as text
 				  FROM " . $this->table_prefix . "product as p , " . $this->table_prefix . "product_related as cp
-				  WHERE cp.product_id='" . $product_id . "' and cp.related_id=p.product_id order by cp.ordering asc";
+				  WHERE cp.product_id='" . $productId . "' and cp.related_id=p.product_id order by cp.ordering asc";
 		$this->_db->setQuery($query);
 		$productdata = $this->_db->loadObjectList();
 
@@ -2810,12 +2810,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Save an association.
 	 *
-	 * @param   int    $product_id  ID.
+	 * @param   int    $productId  ID.
 	 * @param   array  $post        $_POST.
 	 *
 	 * @return  boolean|array
 	 */
-	public function SaveAssociations($product_id, $post)
+	public function SaveAssociations($productId, $post)
 	{
 		if (!$this->CheckRedProductFinder())
 		{
@@ -2831,7 +2831,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$association['checked_out']      = 0;
 		$association['checked_out_time'] = '0000-00-00 00:00:00';
 		$association['ordering']         = 1;
-		$association['product_id']       = $product_id;
+		$association['product_id']       = $productId;
 
 		if (!$row->bind($association))
 		{
@@ -2964,15 +2964,15 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Get dependent tags.
 	 *
-	 * @param   int  $product_id  ID.
+	 * @param   int  $productId  ID.
 	 * @param   int  $type_id     ID.
 	 * @param   int  $tag_id      ID.
 	 *
 	 * @return array
 	 */
-	public function getDependenttag($product_id = 0, $type_id = 0, $tag_id = 0)
+	public function getDependenttag($productId = 0, $type_id = 0, $tag_id = 0)
 	{
-		$where  = " product_id='" . $product_id . "'";
+		$where  = " product_id='" . $productId . "'";
 		$where .= " AND type_id='" . $type_id . "'";
 		$where .= " AND tag_id='" . $tag_id . "'";
 		$query  = "SELECT dependent_tags FROM #__redproductfinder_dependent_tag WHERE " . $where;
@@ -3756,11 +3756,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *  Function copyAttributeSetAttribute.
 	 *
 	 * @param   int  $attribute_set_id  ID.
-	 * @param   int  $product_id        ID.
+	 * @param   int  $productId        ID.
 	 *
 	 * @return  array
 	 */
-	public function copyAttributeSetAttribute($attribute_set_id, $product_id)
+	public function copyAttributeSetAttribute($attribute_set_id, $productId)
 	{
 		$query = 'SELECT * FROM ' . $this->table_prefix . 'product_attribute WHERE attribute_set_id ="' . $attribute_set_id . '" ';
 		$this->_db->setQuery($query);
@@ -3772,14 +3772,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$attpost['attribute_id']             = 0;
 			$attpost['attribute_name']           = $attribute[$att]->attribute_name;
 			$attpost['attribute_required']       = $attribute[$att]->attribute_required;
-			$attpost['product_id']               = $product_id;
+			$attpost['product_id']               = $productId;
 			$attpost['ordering']                 = $attribute[$att]->ordering;
 			$attpost['allow_multiple_selection'] = $attribute[$att]->allow_multiple_selection;
 			$attpost['hide_attribute_price']     = $attribute[$att]->hide_attribute_price;
 			$attpost['display_type']             = $attribute[$att]->display_type;
 			$attpost['attribute_published']      = $attribute[$att]->attribute_published;
 			$attrow                              = $this->store_attr($attpost);
-			$attribute_id                        = $attrow->attribute_id;
+			$attributeId                        = $attrow->attribute_id;
 
 			$query = 'SELECT * FROM `' . $this->table_prefix . 'product_attribute_property`
 					  WHERE `attribute_id` = "' . $attribute[$att]->attribute_id . '" ';
@@ -3821,7 +3821,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 				$proppost                        = array();
 				$proppost['property_id']         = 0;
-				$proppost['attribute_id']        = $attribute_id;
+				$proppost['attribute_id']        = $attributeId;
 				$proppost['property_name']       = $att_property[$prop]->property_name;
 				$proppost['property_price']      = $att_property[$prop]->property_price;
 				$proppost['oprand']              = $att_property[$prop]->oprand;
@@ -3835,11 +3835,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$proppost['property_published']  = $att_property[$prop]->property_published;
 				$proppost['property_number']     = $att_property[$prop]->property_number;
 				$proprow                         = $this->store_pro($proppost);
-				$property_id                     = $proprow->property_id;
+				$propertyId                     = $proprow->property_id;
 
 				for ($ls = 0, $countStockroom = count($listStockroomData); $ls < $countStockroom; $ls++)
 				{
-					$this->InsertStockroom($property_id, 'property', $listStockroomData[$ls]->stockroom_id, $listStockroomData[$ls]->quantity, 0, 0);
+					$this->InsertStockroom($propertyId, 'property', $listStockroomData[$ls]->stockroom_id, $listStockroomData[$ls]->quantity, 0, 0);
 				}
 
 				$countAttributePrice = count($listAttributepriceData);
@@ -3847,7 +3847,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 				for ($lp = 0; $lp < $countAttributePrice; $lp++)
 				{
 					$this->InsertAttributeprice(
-						$property_id,
+						$propertyId,
 						'property',
 						$listAttributepriceData[$lp]->product_price,
 						$listAttributepriceData[$lp]->product_currency,
@@ -3866,7 +3866,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$mImages['media_name']           = $listImages[$li]->media_name;
 					$mImages['media_alternate_text'] = $listImages[$li]->media_alternate_text;
 					$mImages['media_section']        = 'property';
-					$mImages['section_id']           = $property_id;
+					$mImages['section_id']           = $propertyId;
 					$mImages['media_type']           = 'images';
 					$mImages['media_mimetype']       = $listImages[$li]->media_mimetype;
 					$mImages['published']            = $listImages[$li]->published;
@@ -3921,14 +3921,14 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$subpost['oprand']                        = $subatt_property[$subprop]->oprand;
 					$subpost['ordering']                      = $subatt_property[$subprop]->ordering;
 					$subpost['subattribute_color_image']      = $subatt_property[$subprop]->subattribute_color_image;
-					$subpost['subattribute_id']               = $property_id;
+					$subpost['subattribute_id']               = $propertyId;
 					$subpost['setdefault_selected']           = $subatt_property[$subprop]->setdefault_selected;
 					$subpost['subattribute_color_main_image'] = $subatt_property[$subprop]->subattribute_color_main_image;
 					$subpost['subattribute_color_number']     = $subatt_property[$subprop]->subattribute_color_number;
 					$subpost['extra_field']                   = $subatt_property[$subprop]->extra_field;
 					$subpost['subattribute_published']        = $subatt_property[$subprop]->subattribute_published;
 					$subrow                                   = $this->store_sub($subpost);
-					$subproperty_id                           = $subrow->subattribute_color_id;
+					$subPropertyId                           = $subrow->subattribute_color_id;
 					$countSubPropertyImage                    = count($listsubpropImages);
 
 					for ($lsi = 0; $lsi < $countSubPropertyImage; $lsi++)
@@ -3937,7 +3937,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 						$smImages['media_name']           = $listsubpropImages[$lsi]->media_name;
 						$smImages['media_alternate_text'] = $listsubpropImages[$lsi]->media_alternate_text;
 						$smImages['media_section']        = 'subproperty';
-						$smImages['section_id']           = $subproperty_id;
+						$smImages['section_id']           = $subPropertyId;
 						$smImages['media_type']           = 'images';
 						$smImages['media_mimetype']       = $listsubpropImages[$lsi]->media_mimetype;
 						$smImages['published']            = $listsubpropImages[$lsi]->published;
@@ -3949,7 +3949,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					for ($lss = 0; $lss < $countSubStockroom; $lss++)
 					{
 						$this->InsertStockroom(
-							$subproperty_id,
+							$subPropertyId,
 							'subproperty',
 							$listSubStockroomData[$lss]->stockroom_id,
 							$listSubStockroomData[$lss]->quantity,
@@ -3963,7 +3963,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					for ($lsp = 0; $lsp < $countSubAttributePrice; $lsp++)
 					{
 						$this->InsertAttributeprice(
-							$subproperty_id,
+							$subPropertyId,
 							'subproperty',
 							$listSubAttributepriceData[$lsp]->product_price,
 							$listSubAttributepriceData[$lsp]->product_currency,
@@ -4002,7 +4002,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function insertProductStock.
 	 *
-	 * @param   int  $product_id        product_id
+	 * @param   int  $productId        product_id
 	 * @param   int  $stockroom_id      stockroom_id
 	 * @param   int  $quantiy           quantiy
 	 * @param   int  $preorder_stock    preorder_stock
@@ -4010,10 +4010,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 *
 	 * @return  boolean
 	 */
-	public function insertProductStock($product_id, $stockroom_id, $quantiy = 0, $preorder_stock = 0, $ordered_preorder = 0)
+	public function insertProductStock($productId, $stockroom_id, $quantiy = 0, $preorder_stock = 0, $ordered_preorder = 0)
 	{
 		$query = 'INSERT INTO ' . $this->table_prefix . 'product_stockroom_xref (product_id,stockroom_id,quantity,preorder_stock,ordered_preorder)
-				  VALUE("' . $product_id . '","' . $stockroom_id . '","' . $quantiy . '","' . $preorder_stock . '","' . $ordered_preorder . '")';
+				  VALUE("' . $productId . '","' . $stockroom_id . '","' . $quantiy . '","' . $preorder_stock . '","' . $ordered_preorder . '")';
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->execute())
@@ -4027,7 +4027,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		// For stockroom Notify Email.
 		$stockroom_data                   = array();
 		$stockroom_data['section']        = "product";
-		$stockroom_data['section_id']     = $product_id;
+		$stockroom_data['section_id']     = $productId;
 		$stockroom_data['regular_stock']  = $quantiy;
 		$stockroom_data['preorder_stock'] = $preorder_stock;
 
@@ -4339,18 +4339,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function delete_prop.
 	 *
-	 * @param   int  $attribute_id  attribute_id
-	 * @param   int  $property_id   property_id
+	 * @param   int  $attributeId  attribute_id
+	 * @param   int  $propertyId   property_id
 	 *
 	 * @return  void
 	 */
-	public function delete_prop($attribute_id, $property_id)
+	public function delete_prop($attributeId, $propertyId)
 	{
-		$propertyList = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id, 0, '', 0, 0, true);
+		$propertyList = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributeId, 0, '', 0, 0, true);
 
-		if ($property_id)
+		if ($propertyId)
 		{
-			$property = RedshopHelperProduct_Attribute::getAttributeProperties($property_id, $attribute_id, 0, '', 0, 0, true);
+			$property = RedshopHelperProduct_Attribute::getAttributeProperties($propertyId, $attributeId, 0, '', 0, 0, true);
 		}
 		else
 		{
@@ -4359,9 +4359,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		for ($j = 0, $jn = count($property); $j < $jn; $j++)
 		{
-			$property_id = $property[$j]->property_id;
+			$propertyId = $property[$j]->property_id;
 			$query       = "DELETE FROM `" . $this->table_prefix . "product_attribute_property`
-					  WHERE `attribute_id`='" . $attribute_id . "'
+					  WHERE `attribute_id`='" . $attributeId . "'
 					  AND `property_id` = '" . $property[$j]->property_id . "' ";
 			$this->_db->setQuery($query);
 
@@ -4372,7 +4372,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 					$this->delete_image($property[$j]->property_image, 'product_attributes');
 				}
 
-				$this->delete_subprop(0, $property_id);
+				$this->delete_subprop(0, $propertyId);
 			}
 		}
 
@@ -4380,7 +4380,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		{
 			$query = "UPDATE `" . $this->table_prefix . "product_attribute`
 						SET `attribute_required` = '0'
-						WHERE `attribute_id` = " . (int) $attribute_id;
+						WHERE `attribute_id` = " . (int) $attributeId;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -4391,31 +4391,31 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function delete_attibute.
 	 *
-	 * @param   int  $product_id        attribute_id
-	 * @param   int  $attribute_id      property_id
+	 * @param   int  $productId        attribute_id
+	 * @param   int  $attributeId      property_id
 	 * @param   int  $attribute_set_id  attribute_set_id
 	 *
 	 * @return  void
 	 */
-	public function delete_attibute($product_id, $attribute_id, $attribute_set_id)
+	public function delete_attibute($productId, $attributeId, $attribute_set_id)
 	{
 
-		if (empty($attribute_set_id) && empty($product_id))
+		if (empty($attribute_set_id) && empty($productId))
 		{
 			return;
 		}
 
-		if ($attribute_id)
+		if ($attributeId)
 		{
 			$attributes                  = array();
 			$attributes[0]               = new stdClass;
-			$attributes[0]->attribute_id = $attribute_id;
+			$attributes[0]->attribute_id = $attributeId;
 		}
 		else
 		{
-			if ($product_id)
+			if ($productId)
 			{
-				$attributes = \Redshop\Product\Attribute::getProductAttribute($product_id);
+				$attributes = \Redshop\Product\Attribute::getProductAttribute($productId);
 			}
 			else
 			{
@@ -4423,9 +4423,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 			}
 		}
 
-		if ($product_id)
+		if ($productId)
 		{
-			$and = "`product_id`='" . $product_id . "'";
+			$and = "`product_id`='" . $productId . "'";
 		}
 		else
 		{
@@ -4511,12 +4511,12 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function checkVirtualNumber.
 	 *
-	 * @param   int    $product_id  product_id
+	 * @param   int    $productId  product_id
 	 * @param   array  $vpnArray    vpnArray
 	 *
 	 * @return  boolean
 	 */
-	public function checkVirtualNumber($product_id = 0, $vpnArray = array())
+	public function checkVirtualNumber($productId = 0, $vpnArray = array())
 	{
 		if (count($vpnArray) > 0)
 		{
@@ -4534,13 +4534,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$query = "SELECT ap.property_number AS number "
 				. "FROM " . $this->table_prefix . "product_attribute_property AS ap "
 				. "LEFT JOIN " . $this->table_prefix . "product_attribute AS a ON a.attribute_id=ap.attribute_id "
-				. "WHERE a.product_id!='" . $product_id . "' "
+				. "WHERE a.product_id!='" . $productId . "' "
 				. "AND ap.property_number IN (" . $strVPN . ") "
 				. "UNION "
 				. "SELECT sp.subattribute_color_number AS number FROM " . $this->table_prefix . "product_subattribute_color AS sp "
 				. "LEFT JOIN " . $this->table_prefix . "product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
 				. "LEFT JOIN " . $this->table_prefix . "product_attribute AS a ON a.attribute_id=ap.attribute_id "
-				. "WHERE a.product_id!='" . $product_id . "' "
+				. "WHERE a.product_id!='" . $productId . "' "
 				. "AND sp.subattribute_color_number IN (" . $strVPN . ") ";
 
 			$this->_db->setQuery($query);
@@ -4565,18 +4565,18 @@ class RedshopModelProduct_Detail extends RedshopModel
 	public function getChildProducts()
 	{
 		$products   = $this->getAllChildProductArrayList(0, $this->id);
-		$product_id = $product_name = array();
+		$productId = $product_name = array();
 
 		for ($i = 0, $in = count($products); $i < $in; $i++)
 		{
 			$product        = $products[$i];
-			$product_id[]   = $product->product_id;
+			$productId[]   = $product->product_id;
 			$product_name[] = $product->product_name;
 		}
 
 		$prod       = new stdClass;
 		$prod->name = $product_name;
-		$prod->id   = $product_id;
+		$prod->id   = $productId;
 
 		return $prod;
 	}
@@ -4611,13 +4611,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function removeaccesory.
 	 *
-	 * @param   int  $accessory_id      accessory_id
+	 * @param   int  $accessoryId      accessory_id
 	 * @param   int  $category_id       category_id
 	 * @param   int  $child_product_id  child_product_id
 	 *
 	 * @return boolean
 	 */
-	public function removeaccesory($accessory_id, $category_id = 0, $child_product_id = 0)
+	public function removeaccesory($accessoryId, $category_id = 0, $child_product_id = 0)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -4629,7 +4629,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 		}
 		else
 		{
-			$query->where('accessory_id = ' . (int) $accessory_id);
+			$query->where('accessory_id = ' . (int) $accessoryId);
 		}
 
 		if ($child_product_id != 0)
@@ -4686,17 +4686,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function update_attr_property_image.
 	 *
-	 * @param   int     $property_id          property_id
+	 * @param   int     $propertyId          property_id
 	 * @param   string  $property_image       property_image
 	 * @param   string  $property_main_image  property_main_image
 	 *
 	 * @return  void
 	 */
-	public function update_attr_property_image($property_id, $property_image, $property_main_image)
+	public function update_attr_property_image($propertyId, $property_image, $property_main_image)
 	{
 		$query = "UPDATE " . $this->table_prefix . "product_attribute_property
 				  SET property_image='" . $property_image . "' , property_main_image= '" . $property_main_image . "'
-				  WHERE property_id='" . $property_id . "'";
+				  WHERE property_id='" . $propertyId . "'";
 
 		$this->_db->setQuery($query)->execute();
 	}
@@ -4704,16 +4704,16 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function update_subattr_image.
 	 *
-	 * @param   int     $subproperty_id            subproperty_id
+	 * @param   int     $subPropertyId            subproperty_id
 	 * @param   string  $subattribute_color_image  subattribute_color_image
 	 *
 	 * @return  void
 	 */
-	public function update_subattr_image($subproperty_id, $subattribute_color_image, $subattribute_color_main_image)
+	public function update_subattr_image($subPropertyId, $subattribute_color_image, $subattribute_color_main_image)
 	{
 		$query = "UPDATE " . $this->table_prefix . "product_subattribute_color
 				  SET subattribute_color_image='" . $subattribute_color_image . "' , subattribute_color_main_image= '" . $subattribute_color_main_image . "'
-				  WHERE subattribute_color_id='" . $subproperty_id . "'";
+				  WHERE subattribute_color_id='" . $subPropertyId . "'";
 
 		$this->_db->setQuery($query)->execute();
 	}

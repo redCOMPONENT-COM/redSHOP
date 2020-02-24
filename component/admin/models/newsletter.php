@@ -167,11 +167,11 @@ class RedshopModelNewsletter extends RedshopModel
 
 		if (count($product) > 0)
 		{
-			$product_ids = implode("','", $product);
+			$productIds = implode("','", $product);
 			$query       = "SELECT o.* FROM #__redshop_orders AS o "
 				. "LEFT JOIN #__redshop_order_item AS oi ON o.order_id=oi.order_id "
 				. "WHERE o.user_id='" . $user_id . "' "
-				. "AND product_id IN ('" . $product_ids . "') ";
+				. "AND product_id IN ('" . $productIds . "') ";
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectlist();
 

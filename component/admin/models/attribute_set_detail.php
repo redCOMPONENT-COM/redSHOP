@@ -206,7 +206,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			$db->setQuery($query);
 			$prop = $db->loadObjectlist();
 
-			$attribute_id             = $attr[$i]->attribute_id;
+			$attributeId             = $attr[$i]->attribute_id;
 			$attribute_name           = $attr[$i]->attribute_name;
 			$attribute_description    = $attr[$i]->attribute_description;
 			$attribute_required       = $attr[$i]->attribute_required;
@@ -229,7 +229,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				$prop[$j]->subvalue = $subprop;
 			}
 
-			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
+			$attribute_data[] = array('attribute_id' => $attributeId, 'attribute_name' => $attribute_name,
 				'attribute_description' => $attribute_description,
 				'attribute_required' => $attribute_required, 'ordering' => $ordering,
 				'property' => $prop, 'allow_multiple_selection' => $allow_multiple_selection,
@@ -257,9 +257,9 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$db->setQuery($query);
 			$prop             = $db->loadObjectlist();
-			$attribute_id     = $attr[$i]->attribute_id;
+			$attributeId     = $attr[$i]->attribute_id;
 			$attribute_name   = $attr[$i]->attribute_name;
-			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name, 'property' => $prop);
+			$attribute_data[] = array('attribute_id' => $attributeId, 'attribute_name' => $attribute_name, 'property' => $prop);
 		}
 
 		return $attribute_data;
@@ -963,7 +963,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 						$this->_db->setQuery($query);
 						$att_property = $this->_db->loadObjectList();
 
-						$attribute_id = $product_attribute->attribute_id;
+						$attributeId = $product_attribute->attribute_id;
 
 						if (count($product_attributes_properties))
 						{

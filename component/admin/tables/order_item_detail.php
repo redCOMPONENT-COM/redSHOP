@@ -19,7 +19,7 @@ class Tableorder_item_detail extends JTable
 
 	public $supplier_id = null;
 
-	public $product_id = null;
+	public $productId = null;
 
 	public $order_item_sku = null;
 

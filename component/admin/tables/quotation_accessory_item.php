@@ -15,7 +15,7 @@ class Tablequotation_accessory_item extends JTable
 
 	public $quotation_item_id = null;
 
-	public $accessory_id = null;
+	public $accessoryId = null;
 
 	public $accessory_item_sku = null;
 

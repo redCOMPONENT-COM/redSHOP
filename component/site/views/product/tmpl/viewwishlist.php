@@ -15,7 +15,7 @@ $config        = Redconfiguration::getInstance();
 
 $url        = JURI::base();
 $wishlists  = $this->wishlists;
-$product_id = $this->input->getInt('product_id');
+$productId = $this->input->getInt('product_id');
 $user       = JFactory::getUser();
 
 if (!$user->id)

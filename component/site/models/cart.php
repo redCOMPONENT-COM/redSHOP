@@ -416,13 +416,13 @@ class RedshopModelCart extends RedshopModel
 
 					if (isset($cart[$i]['subscription_id']) && $cart[$i]['subscription_id'] != "")
 					{
-						$product_id          = $cart[$i]['product_id'];
-						$subscription_detail = RedshopHelperProduct::getProductSubscriptionDetail($product_id, $cart[$i]['subscription_id']);
+						$productId          = $cart[$i]['product_id'];
+						$subscription_detail = RedshopHelperProduct::getProductSubscriptionDetail($productId, $cart[$i]['subscription_id']);
 						$subscription_price  = $subscription_detail->subscription_price;
 
 						if ($subscription_price)
 						{
-							$subscription_vat = RedshopHelperProduct::getProductTax($product_id, $subscription_price);
+							$subscription_vat = RedshopHelperProduct::getProductTax($productId, $subscription_price);
 						}
 
 						$product_vat_price += $subscription_vat;
@@ -564,30 +564,30 @@ class RedshopModelCart extends RedshopModel
 				continue;
 			}
 
-			$product_id = $product->product_id;
+			$productId = $product->product_id;
 
 			if ($product->published == 0)
 			{
-				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $product_id);
+				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $product->product_name, $productId);
 				/** @scrutinizer ignore-deprecated */ JError::raiseWarning(20, $msg);
 				continue;
 			}
 
 			if ($product->not_for_sale > 0)
 			{
-				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $product_id);
+				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_FOR_SALE'), $product->product_name, $productId);
 				/** @scrutinizer ignore-deprecated */ JError::raiseWarning(20, $msg);
 				continue;
 			}
 
 			if ($product->expired == 1)
 			{
-				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $product_id);
+				$msg = sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_EXPIRED'), $product->product_name, $productId);
 				/** @scrutinizer ignore-deprecated */ JError::raiseWarning(20, $msg);
 				continue;
 			}
 
-			$data["product_id"] = $product_id;
+			$data["product_id"] = $productId;
 
 			if (isset($post["mod_quantity"]) && $post["mod_quantity"] !== "")
 			{
@@ -606,19 +606,19 @@ class RedshopModelCart extends RedshopModel
 	/**
 	 * check if attribute tag is present in product template.
 	 *
-	 * @param   int $product_id Product ID
+	 * @param   int $productId Product ID
 	 *
 	 * @return  boolean
 	 *
 	 * @since   2.0.6
 	 */
-	public function checkifTagAvailable($product_id)
+	public function checkifTagAvailable($productId)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('product_template'))
 			->from($db->quoteName('#__redshop_product'))
-			->where($db->quoteName('product_id') . ' = ' . (int) $product_id);
+			->where($db->quoteName('product_id') . ' = ' . (int) $productId);
 
 		$productTemplate = $db->setQuery($query)->loadResult();
 
@@ -733,7 +733,7 @@ class RedshopModelCart extends RedshopModel
 		return $attArr;
 	}
 
-	public function getCartProductPrice($product_id, $cart, $voucher_left)
+	public function getCartProductPrice($productId, $cart, $voucher_left)
 	{
 		$productArr             = array();
 		$affected_product_idArr = array();
@@ -742,7 +742,7 @@ class RedshopModelCart extends RedshopModel
 		$product_price_excl_vat = 0;
 		$p_quantity             = 0;
 
-		$product_idArr = explode(',', $product_id);
+		$productIdArr = explode(',', $productId);
 
 		for ($v = 0; ($v < $idx) && ($voucher_left > 0); $v++)
 		{
@@ -751,7 +751,7 @@ class RedshopModelCart extends RedshopModel
 				$cart[$v]['quantity'] = $voucher_left;
 			}
 
-			if (in_array($cart[$v]['product_id'], $product_idArr) || $this->_globalvoucher)
+			if (in_array($cart[$v]['product_id'], $productIdArr) || $this->_globalvoucher)
 			{
 				$product_price            += $cart[$v]['product_price'] * $cart[$v]['quantity'];
 				$p_quantity               += $cart[$v]['quantity'];
@@ -783,12 +783,12 @@ class RedshopModelCart extends RedshopModel
 		$cart      = \Redshop\Cart\Helper::getCart();
 
 		$generateAttributeCart = array();
-		$product_id            = $data['product_id'];
+		$productId            = $data['product_id'];
 		$idx                   = $data['cart_index'];
 
-		if (isset($data['attribute_id_prd_' . $product_id . '_0']))
+		if (isset($data['attribute_id_prd_' . $productId . '_0']))
 		{
-			$attribute_data = $data['attribute_id_prd_' . $product_id . '_0'];
+			$attribute_data = $data['attribute_id_prd_' . $productId . '_0'];
 
 			for ($ia = 0, $countAttribute = count($attribute_data); $ia < $countAttribute; $ia++)
 			{
@@ -797,9 +797,9 @@ class RedshopModelCart extends RedshopModel
 				$generateAttributeCart[$ia]['attribute_id']   = $attribute_data[$ia];
 				$generateAttributeCart[$ia]['attribute_name'] = $attribute[0]->text;
 
-				if ($attribute[0]->text != "" && isset($data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]]))
+				if ($attribute[0]->text != "" && isset($data['property_id_prd_' . $productId . '_0_' . $attribute_data[$ia]]))
 				{
-					$acc_property_data = $data['property_id_prd_' . $product_id . '_0_' . $attribute_data[$ia]];
+					$acc_property_data = $data['property_id_prd_' . $productId . '_0_' . $attribute_data[$ia]];
 
 					for ($ip = 0, $countProperty = count($acc_property_data); $ip < $countProperty; $ip++)
 					{
@@ -830,9 +830,9 @@ class RedshopModelCart extends RedshopModel
 							$accPropertyCart[$ip]['property_oprand'] = $property[0]->oprand;
 							$accPropertyCart[$ip]['property_price']  = $property_price;
 
-							if (isset($data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]]))
+							if (isset($data['subproperty_id_prd_' . $productId . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]]))
 							{
-								$acc_subproperty_data = $data['subproperty_id_prd_' . $product_id . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]];
+								$acc_subproperty_data = $data['subproperty_id_prd_' . $productId . '_0_' . $attribute_data[$ia] . '_' . $acc_property_data[$ip]];
 								$countSubProperty     = count($acc_subproperty_data);
 
 								for ($isp = 0; $isp < $countSubProperty; $isp++)
