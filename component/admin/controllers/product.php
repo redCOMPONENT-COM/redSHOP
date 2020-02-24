@@ -244,13 +244,13 @@ class RedshopControllerProduct extends RedshopController
 	public function template()
 	{
 		$template_id = $this->input->get('template_id', '');
-		$product_id  = $this->input->get('product_id', '');
+		$productId  = $this->input->get('product_id', '');
 		$section     = $this->input->get('section', '');
 
 		/** @var RedshopModelProduct $model */
 		$model = $this->getModel('product');
 
-		$data_product = $model->product_template($template_id, $product_id, $section);
+		$data_product = $model->product_template($template_id, $productId, $section);
 
 		if (is_array($data_product))
 		{

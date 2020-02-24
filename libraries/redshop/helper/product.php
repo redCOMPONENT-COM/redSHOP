@@ -3417,13 +3417,13 @@ class RedshopHelperProduct
         for ($i = 0, $in = count($attributes); $i < $in; $i++) {
             $attribute      = $attributes[$i];
             $attribute_name = $attribute->text;
-            $attribute_id   = $attribute->value;
-            $propertys      = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute_id);
+            $attributeId   = $attribute->value;
+            $propertys      = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributeId);
 
             for ($p = 0, $pn = count($propertys); $p < $pn; $p++) {
                 $property = $propertys[$p];
 
-                $property_id             = $property->value;
+                $propertyId             = $property->value;
                 $property_name           = $property->text;
                 $proprty_price           = $property->property_price;
                 $property_formated_price = RedshopHelperProductPrice::formattedPrice($proprty_price);
@@ -3431,12 +3431,12 @@ class RedshopHelperProduct
 
                 $output .= '<div class="related_plist_property_name' . $k . '">' . $property_formated_price . '</div>';
 
-                $subpropertys = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
+                $subpropertys = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $propertyId);
 
                 for ($s = 0, $sn = count($subpropertys); $s < $sn; $s++) {
                     $subproperty = $subpropertys[$s];
 
-                    $subproperty_id    = $subproperty->value;
+                    $subPropertyId    = $subproperty->value;
                     $subproperty_name  = $subproperty->text;
                     $subproprty_price  = $subproperty->subattribute_color_price;
                     $subproprty_oprand = $subproperty->oprand;
@@ -4195,11 +4195,11 @@ class RedshopHelperProduct
 
     public static function replaceSubPropertyData(
         $productId = 0,
-        $accessory_id = 0,
-        $relatedprd_id = 0,
-        $attribute_id = 0,
-        $property_id = 0,
-        $subatthtml = "",
+        $accessoryId = 0,
+        $relatedProductId = 0,
+        $attributeId = 0,
+        $propertyId = 0,
+        $subAttributeHtml = "",
         $layout = "",
         $selectSubproperty = array()
     ) {
@@ -4219,10 +4219,10 @@ class RedshopHelperProduct
             $isAjax    = 1;
         }
 
-        if ($property_id != 0 && $attribute_id != 0) {
-            $attributes      = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attribute_id);
+        if ($propertyId != 0 && $attributeId != 0) {
+            $attributes      = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attributeId);
             $attributes      = $attributes[0];
-            $subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property_id);
+            $subproperty_all = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $propertyId);
             // filter Out of stock data
             if (!Redshop::getConfig()->get('DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA') && Redshop::getConfig()->get(
                     'USE_STOCKROOM'
@@ -4248,28 +4248,28 @@ class RedshopHelperProduct
             }
         }
 
-        if ($accessory_id != 0) {
+        if ($accessoryId != 0) {
             $prefix = $preprefix . "acc_";
-        } elseif ($relatedprd_id != 0) {
+        } elseif ($relatedProductId != 0) {
             $prefix = $preprefix . "rel_";
         } else {
             $prefix = $preprefix . "prd_";
         }
 
-        if ($relatedprd_id != 0) {
-            $productId = $relatedprd_id;
+        if ($relatedProductId != 0) {
+            $productId = $relatedProductId;
         }
 
         $product         = \Redshop\Product\Product::getProductById($productId);
-        $producttemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
+        $productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
-        if (strpos($producttemplate[0]->template_desc, "{more_images_3}") !== false) {
+        if (strpos($productTemplate[0]->template_desc, "{more_images_3}") !== false) {
             $mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
             $mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
-        } elseif (strpos($producttemplate[0]->template_desc, "{more_images_2}") !== false) {
+        } elseif (strpos($productTemplate[0]->template_desc, "{more_images_2}") !== false) {
             $mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
             $mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
-        } elseif (strpos($producttemplate[0]->template_desc, "{more_images_1}") !== false) {
+        } elseif (strpos($productTemplate[0]->template_desc, "{more_images_1}") !== false) {
             $mph_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
             $mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
         } else {
@@ -4277,23 +4277,23 @@ class RedshopHelperProduct
             $mpw_thumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
         }
 
-        if ($subatthtml != "") {
+        if ($subAttributeHtml != "") {
             // Load plugin group
             JPluginHelper::importPlugin('redshop_product');
 
             if (count($subproperty) > 0) {
-                $attribute_table     = $subatthtml;
+                $attribute_table     = $subAttributeHtml;
                 $attribute_table     .= '<span id="subprop_lbl" style="display:none;">'
                     . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED') . '</span>';
-                $commonid            = $prefix . $productId . '_' . $accessory_id . '_' . $attribute_id . '_'
-                    . $property_id;
+                $commonid            = $prefix . $productId . '_' . $accessoryId . '_' . $attributeId . '_'
+                    . $propertyId;
                 $subpropertyid       = 'subproperty_id_' . $commonid;
                 $selectedsubproperty = 0;
                 $imgAdded            = 0;
 
                 $subproperty_woscrollerdiv = "";
 
-                if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false) {
+                if (strpos($subAttributeHtml, "{subproperty_image_without_scroller}") !== false) {
                     $attribute_table           = str_replace("{subproperty_image_scroller}", "", $attribute_table);
                     $subproperty_woscrollerdiv .= "<div class='subproperty_main_outer' id='subproperty_main_outer'>";
                 }
@@ -4337,9 +4337,9 @@ class RedshopHelperProduct
                             $subproperty_woscrollerdiv .= "<div id='" . $subpropertyid . "_subpropimg_"
                                 . $subproperty[$i]->value . "' class='subproperty_image_inner' " . $style . "><a onclick='setSubpropImage(\""
                                 . $productId . "\",\"" . $subpropertyid . "\",\"" . $subproperty[$i]->value
-                                . "\");calculateTotalPrice(\"" . $productId . "\",\"" . $relatedprd_id
-                                . "\");displayAdditionalImage(\"" . $productId . "\",\"" . $accessory_id . "\",\""
-                                . $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
+                                . "\");calculateTotalPrice(\"" . $productId . "\",\"" . $relatedProductId
+                                . "\");displayAdditionalImage(\"" . $productId . "\",\"" . $accessoryId . "\",\""
+                                . $relatedProductId . "\",\"" . $propertyId . "\",\"" . $subproperty[$i]->value
                                 . "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "' title='" . $subproperty[$i]->text . "'></a></div>";
 
                             $imgAdded++;
@@ -4406,7 +4406,7 @@ class RedshopHelperProduct
                     $attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty [$i]->value . '" value="' . $subproperty[$i]->preorder_stock . '" />';
                 }
 
-                if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false) {
+                if (strpos($subAttributeHtml, "{subproperty_image_without_scroller}") !== false) {
                     $subproperty_woscrollerdiv .= "</div>";
                 }
 
@@ -4467,8 +4467,8 @@ class RedshopHelperProduct
 
                 // Prepare Javascript OnChange or OnClick function
                 $onChangeJSFunction = $scrollerFunction
-                    . "calculateTotalPrice('" . $productId . "','" . $relatedprd_id . "');"
-                    . "displayAdditionalImage('" . $productId . "','" . $accessory_id . "','" . $relatedprd_id . "','" . $property_id . "',this.value);";
+                    . "calculateTotalPrice('" . $productId . "','" . $relatedProductId . "');"
+                    . "displayAdditionalImage('" . $productId . "','" . $accessoryId . "','" . $relatedProductId . "','" . $propertyId . "',this.value);";
 
                 // Radio or Checkbox
                 if ('radio' == $attDisplayType) {
@@ -4501,10 +4501,10 @@ class RedshopHelperProduct
                         'subProperties'       => $subproperty,
                         'commonId'            => $commonid,
                         'productId'           => $productId,
-                        'propertyId'          => $property_id,
+                        'propertyId'          => $propertyId,
                         'subPropertyId'       => $subpropertyid,
-                        'accessoryId'         => $accessory_id,
-                        'relatedProductId'    => $relatedprd_id,
+                        'accessoryId'         => $accessoryId,
+                        'relatedProductId'    => $relatedProductId,
                         'selectedSubProperty' => $selectedsubproperty,
                         'subPropertyArray'    => $subprop_Arry,
                         'width'               => $mpw_thumb,
@@ -4528,14 +4528,14 @@ class RedshopHelperProduct
                 $attribute_table = str_replace("{property_title}", $displayPropertyName, $attribute_table);
                 $attribute_table = str_replace("{subproperty_dropdown}", $lists ['subproperty_id'], $attribute_table);
 
-                if (strpos($subatthtml, "{subproperty_image_without_scroller}") !== false) {
+                if (strpos($subAttributeHtml, "{subproperty_image_without_scroller}") !== false) {
                     $attribute_table = str_replace("{subproperty_image_scroller}", "", $attribute_table);
                     $attribute_table = str_replace(
                         "{subproperty_image_without_scroller}",
                         $subproperty_woscrollerdiv,
                         $attribute_table
                     );
-                } elseif (strpos($subatthtml, "{subproperty_image_scroller}") !== false) {
+                } elseif (strpos($subAttributeHtml, "{subproperty_image_scroller}") !== false) {
                     $attribute_table = str_replace(
                         "{subproperty_image_scroller}",
                         $subPropertyScroller,

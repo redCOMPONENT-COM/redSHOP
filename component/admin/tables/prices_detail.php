@@ -13,7 +13,7 @@ class Tableprices_detail extends JTable
 {
 	public $price_id = 0;
 
-	public $product_id = null;
+	public $productId = null;
 
 	public $product_price = null;
 

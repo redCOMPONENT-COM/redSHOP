@@ -15,7 +15,7 @@ class Tablequotation_item_detail extends JTable
 
 	public $quotation_id = null;
 
-	public $product_id = null;
+	public $productId = null;
 
 	public $product_name = null;
 

@@ -13,7 +13,7 @@ class Tablerelated_product extends JTable
 {
 	public $related_id = null;
 
-	public $product_id = null;
+	public $productId = null;
 
 	public function __construct(&$db)
 	{

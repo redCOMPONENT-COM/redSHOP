@@ -1,7 +1,9 @@
 {% if 'AJAX_CART_BOX' | redconfig != 1 %}
-    <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" {{ onclick }} {{ cartTitle }} style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">
-        {{ requestLabel }}
-    </span>
+    <a href="#">
+        <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" {{ onclick }} {{ cartTitle }} style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">
+            {{ requestLabel }}
+        </span>
+    </a>
 {% else %}
     <a class="ajaxcartcolorbox{{ productId }}"  href="javascript:;" {{ onclick }}>
         <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" {{ cartTitle }} style="cursor: pointer;" class="pdaddtocart_link btn btn-primary">

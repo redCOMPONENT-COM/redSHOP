@@ -485,11 +485,11 @@ class xmlHelper
 
 		for ($i = 0, $in = count($datalist); $i < $in; $i++)
 		{
-			$product_id = 0;
+			$productId = 0;
 
 			if ($section == "product")
 			{
-				$product_id = $datalist[$i]['product_id'];
+				$productId = $datalist[$i]['product_id'];
 			}
 
 			$xml_billingdocument  = "";
@@ -561,7 +561,7 @@ class xmlHelper
 
 			if (!empty($xmlstock))
 			{
-				$stocklist = $this->getStockroomList($xmlstock, $product_id);
+				$stocklist = $this->getStockroomList($xmlstock, $productId);
 
 				if (!empty($stocklist))
 				{
@@ -586,7 +586,7 @@ class xmlHelper
 
 			if (!empty($xmlprdextrafield))
 			{
-				$prdextrafieldlist = $this->getExtraFieldList($xmlprdextrafield, $product_id, 1);
+				$prdextrafieldlist = $this->getExtraFieldList($xmlprdextrafield, $productId, 1);
 
 				if (!empty($prdextrafieldlist))
 				{
@@ -647,7 +647,7 @@ class xmlHelper
 
 						if ($prop == "link")
 						{
-							$val = JURI::root() . 'index.php?option=com_redshop&view=product&pid=' . $product_id;
+							$val = JURI::root() . 'index.php?option=com_redshop&view=product&pid=' . $productId;
 						}
 
 						elseif ($prop == "pickup")
@@ -657,7 +657,7 @@ class xmlHelper
 
 						elseif ($prop == "charge")
 						{
-							$d['product_id'] = $product_id;
+							$d['product_id'] = $productId;
 							$srate           = RedshopHelperShipping::getDefaultShippingXmlExport($d);
 							$val1            = $srate['shipping_rate'];
 							$val             = round($val1);
@@ -665,7 +665,7 @@ class xmlHelper
 
 						elseif ($prop == "freight")
 						{
-							$d['product_id'] = $product_id;
+							$d['product_id'] = $productId;
 							$srate           = RedshopHelperShipping::getDefaultShippingXmlExport($d);
 							$val1            = $srate['shipping_rate'];
 							$val             = round($val1);
@@ -675,7 +675,7 @@ class xmlHelper
 						{
 							$query = "SELECT * FROM " . "#__redshop_stockroom AS s "
 								. "LEFT JOIN " . "#__redshop_product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
-								. "WHERE product_id=" . (int) $product_id . " "
+								. "WHERE product_id=" . (int) $productId . " "
 								. "ORDER BY s.stockroom_id ASC ";
 
 							$db   = JFactory::getDbo();
@@ -1133,7 +1133,7 @@ class xmlHelper
 
 						$query      = "SELECT product_id FROM " . "#__redshop_product "
 							. "WHERE product_number=" . $db->quote($oldproduct_number);
-						$product_id = $db->setQuery($query)->loadResult();
+						$productId = $db->setQuery($query)->loadResult();
 
 						$prdarray = array();
 						$catarray = array();
@@ -1199,7 +1199,7 @@ class xmlHelper
 													}
 
 													$query = "INSERT IGNORE INTO " . "#__redshop_product_stockroom_xref "
-														. "(stockroom_id,product_id,quantity) VALUES (" . (int) $stockroom_id . "," . (int) $product_id . ",0)";
+														. "(stockroom_id,product_id,quantity) VALUES (" . (int) $stockroom_id . "," . (int) $productId . ",0)";
 
 													$db->setQuery($query)->execute();
 
@@ -1246,7 +1246,7 @@ class xmlHelper
 												if (!$affected_rows)
 												{
 													$query = "INSERT IGNORE INTO " . "#__redshop_fields_data "
-														. "(fieldid,itemid,section) VALUES (" . $db->quote($value[$j]['fieldid']) . "," . (int) $product_id . ",1)";
+														. "(fieldid,itemid,section) VALUES (" . $db->quote($value[$j]['fieldid']) . "," . (int) $productId . ",1)";
 
 													$db->setQuery($query)->execute();
 
@@ -1312,14 +1312,14 @@ class xmlHelper
 							if ($category_id != 0)
 							{
 								$query = 'DELETE FROM ' . '#__redshop_product_category_xref '
-									. "WHERE product_id=" . (int) $product_id . " "
+									. "WHERE product_id=" . (int) $productId . " "
 									. "AND category_id=" . (int) $category_id . " ";
 
 								$db->setQuery($query)->execute();
 
 								$query = "INSERT IGNORE INTO " . "#__redshop_product_category_xref "
 									. "(category_id,product_id) "
-									. "VALUES (" . (int) $category_id . ", " . (int) $product_id . ")";
+									. "VALUES (" . (int) $category_id . ", " . (int) $productId . ")";
 
 								$db->setQuery($query)->execute();
 							}
@@ -1358,7 +1358,7 @@ class xmlHelper
 									. "($fieldstring) VALUES ($valuestring)";
 
 								$db->setQuery($query)->execute();
-								$product_id = $db->insertid();
+								$productId = $db->insertid();
 
 								foreach ($datalist[$i] AS $key => $value)
 								{
@@ -1405,7 +1405,7 @@ class xmlHelper
 														if ($stockroom_id)
 														{
 															$fieldstring .= ",stockroom_id,product_id";
-															$valuestring .= "," . (int) $stockroom_id . ", " . (int) $product_id . "";
+															$valuestring .= "," . (int) $stockroom_id . ", " . (int) $productId . "";
 
 															$query = "INSERT IGNORE INTO " . "#__redshop_product_stockroom_xref "
 																. "($fieldstring) VALUES ($valuestring)";
@@ -1438,7 +1438,7 @@ class xmlHelper
 													if (trim($fieldstring) != "")
 													{
 														$fieldstring .= ",itemid,section";
-														$valuestring .= "," . (int) $product_id . ", '1' ";
+														$valuestring .= "," . (int) $productId . ", '1' ";
 														$query       = "INSERT IGNORE INTO " . "#__redshop_fields_data "
 															. "($fieldstring) VALUES ($valuestring)";
 
@@ -1485,13 +1485,13 @@ class xmlHelper
 									if ($category_id != 0)
 									{
 										\Redshop\Repositories\Products::delete(array(
-											'product_id'  => $product_id,
+											'product_id'  => $productId,
 											'category_id' => $category_id
 										));
 
 										$query = "INSERT IGNORE INTO #__redshop_product_category_xref "
 											. "(category_id,product_id) "
-											. "VALUES (" . (int) $category_id . ", " . (int) $product_id . ")";
+											. "VALUES (" . (int) $category_id . ", " . (int) $productId . ")";
 
 										$db->setQuery($query)->execute();
 									}
@@ -1911,7 +1911,7 @@ class xmlHelper
 		return $db->setQuery($query)->loadObjectList();
 	}
 
-	public function getStockroomList($xmls = array(), $product_id = 0)
+	public function getStockroomList($xmls = array(), $productId = 0)
 	{
 		$db = JFactory::getDbo();
 
@@ -1934,7 +1934,7 @@ class xmlHelper
 
 		$query = "SELECT " . implode(", ", $field) . " FROM " . "#__redshop_stockroom AS s "
 			. "LEFT JOIN " . "#__redshop_product_stockroom_xref AS sx ON s.stockroom_id=sx.stockroom_id "
-			. "WHERE product_id=" . (int) $product_id . " "
+			. "WHERE product_id=" . (int) $productId . " "
 			. "ORDER BY s.stockroom_id ASC ";
 		$db->setQuery($query);
 

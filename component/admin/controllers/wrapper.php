@@ -43,7 +43,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -59,7 +59,7 @@ class RedshopControllerWrapper extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $productId, $msg);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -94,7 +94,7 @@ class RedshopControllerWrapper extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $productId, $msg);
 	}
 
 	/**
@@ -113,7 +113,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -129,7 +129,7 @@ class RedshopControllerWrapper extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $productId, $msg);
 	}
 
 	public function enable_defaultpublish()
@@ -142,7 +142,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -158,7 +158,7 @@ class RedshopControllerWrapper extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_USE_TO_ALL_ENABLE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $productId, $msg);
 	}
 
 	public function enable_defaultunpublish()
@@ -171,7 +171,7 @@ class RedshopControllerWrapper extends RedshopController
 			$tmpl = '&tmpl=component';
 		}
 
-		$product_id = $this->input->get('product_id');
+		$productId = $this->input->get('product_id');
 		$cid        = $this->input->post->get('cid', array(0), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -187,6 +187,6 @@ class RedshopControllerWrapper extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_USE_TO_ALL_DISABLE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $productId, $msg);
 	}
 }

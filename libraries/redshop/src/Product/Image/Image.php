@@ -109,7 +109,7 @@ class Image
 				$imageName           = $subproperty[0]->subattribute_color_main_image;
 				$aTitleImageResponse = $subproperty[0]->text;
 
-				// $attrbimg = REDSHOP_FRONT_IMAGES_ABSPATH."subproperty/".$subproperty[0]->subattribute_color_image;
+				// $attributeImg = REDSHOP_FRONT_IMAGES_ABSPATH."subproperty/".$subproperty[0]->subattribute_color_image;
 			}
 
 			// Subproperty image in cart

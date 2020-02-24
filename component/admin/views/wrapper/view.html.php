@@ -34,7 +34,7 @@ class RedshopViewWrapper extends RedshopViewAdmin
 		$uri        = JFactory::getURI();
 		$app        = JFactory::getApplication();
 		$document   = JFactory::getDocument();
-		$product_id = $app->input->get('product_id');
+		$productId = $app->input->get('product_id');
 
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 
@@ -56,7 +56,7 @@ class RedshopViewWrapper extends RedshopViewAdmin
 
 		$this->user        = JFactory::getUser();
 		$this->data        = $data;
-		$this->product_id  = $product_id;
+		$this->product_id  = $productId;
 		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 

@@ -50,7 +50,7 @@ class RedshopTableUsercart_Item extends \Redshop\Table\AbstractTable
 	/**
 	 * @var integer
 	 */
-	public $product_id = 0;
+	public $productId = 0;
 
 	/**
 	 * @var integer

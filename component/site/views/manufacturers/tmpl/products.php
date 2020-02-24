@@ -137,8 +137,8 @@ if ($template_middle != "")
 		$cart_mdata   = RedshopHelperProduct::getProductOnSaleComment($manufacturer_products[$i], $cart_mdata);
 		$cart_mdata   = RedshopHelperProduct::getProductNotForSaleComment($manufacturer_products[$i], $cart_mdata);
 		$cart_mdata   = RedshopHelperProduct::getSpecialProductComment($manufacturer_products[$i], $cart_mdata);
-		$product_id   = $manufacturer_products[$i]->product_id;
-		$childproduct = RedshopHelperProduct::getChildProduct($product_id);
+		$productId   = $manufacturer_products[$i]->product_id;
+		$childproduct = RedshopHelperProduct::getChildProduct($productId);
 
 		if (count($childproduct) > 0)
 		{
@@ -157,7 +157,7 @@ if ($template_middle != "")
 				$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $manufacturer_products[$i]->attribute_set_id, 0, 1);
 			}
 
-			$attributes = \Redshop\Product\Attribute::getProductAttribute($product_id);
+			$attributes = \Redshop\Product\Attribute::getProductAttribute($productId);
 			$attributes = array_merge($attributes, $attributes_set);
 		}
 
@@ -165,15 +165,15 @@ if ($template_middle != "")
 		$totalatt = count($attributes);
 
 		// Check product for not for sale
-		$cart_mdata = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $product_id, "1", $cart_mdata, 1);
+		$cart_mdata = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $productId, "1", $cart_mdata, 1);
 
 		$attribute_template = \Redshop\Template\Helper::getAttribute($cart_mdata);
-		$cart_mdata         = Redshop\Product\Stock::replaceInStock($product_id, $cart_mdata, $attributes, $attribute_template);
+		$cart_mdata         = Redshop\Product\Stock::replaceInStock($productId, $cart_mdata, $attributes, $attribute_template);
 
-		$cart_mdata = RedshopHelperAttribute::replaceAttributeData($product_id, 0, 0, $attributes, $cart_mdata, $attribute_template, $isChilds, 0, $totalatt);
+		$cart_mdata = RedshopHelperAttribute::replaceAttributeData($productId, 0, 0, $attributes, $cart_mdata, $attribute_template, $isChilds, 0, $totalatt);
 
 		// Get cart tempalte
-		$cart_mdata = Redshop\Cart\Render::replace($product_id, 0, 0, 0, $cart_mdata, $isChilds);
+		$cart_mdata = Redshop\Cart\Render::replace($productId, 0, 0, 0, $cart_mdata, $isChilds);
 
 		$cart_mdata = str_replace("{product_id_lbl}", JText::_('COM_REDSHOP_PRODUCT_ID_LBL'), $cart_mdata);
 		$cart_mdata = str_replace("{product_id}", $manufacturer_products[$i]->product_id, $cart_mdata);
@@ -189,7 +189,7 @@ if ($template_middle != "")
 			$cart_mdata = str_replace("{product_desc}", $p_desc, $cart_mdata);
 		}
 
-		$cart_mdata = RedshopHelperWishlist::replaceWishlistTag($product_id, $cart_mdata);
+		$cart_mdata = RedshopHelperWishlist::replaceWishlistTag($productId, $cart_mdata);
 
 		if (strstr($cart_mdata, '{product_thumb_image_2}'))
 		{

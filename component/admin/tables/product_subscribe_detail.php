@@ -17,7 +17,7 @@ class Tableproduct_subscribe_detail extends JTable
 
 	public $order_item_id = 0;
 
-	public $product_id = 0;
+	public $productId = 0;
 
 	public $subscription_id = 0;
 

@@ -13,7 +13,7 @@ class Tableproduct_subscription_renewal extends JTable
 {
 	public $renewal_id = 0;
 
-	public $product_id = 0;
+	public $productId = 0;
 
 	public $before_no_days = 0;
 
