@@ -553,7 +553,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $shippingRate = "//span[@id='spnShippingrate']";
+	public static $shippingRate = "#spnShippingrate";
 
 	/**
 	 * @var string
