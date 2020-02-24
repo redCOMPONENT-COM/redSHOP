@@ -131,8 +131,8 @@ class Cart
                     ]
                 );
 
-                $wrapperVat = $wrappers['wrapper_vat'];
-                $wrapperPrice = $wrappers['wrapper_price'];
+                $wrapperVat = $wrappers['wrapper_vat'] ?? 0;
+                $wrapperPrice = $wrappers['wrapper_price'] ?? 0;
 
                 $productOldPriceNoVat += $wrapperPrice;
             }

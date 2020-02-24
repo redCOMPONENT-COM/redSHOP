@@ -230,7 +230,7 @@ class RedshopModelCheckout extends RedshopModel
 		$orderPaymentStatus = 'Unpaid';
 		$users_info_id      = $input->getInt('users_info_id');
 		$shippingaddresses  = $this->shipaddress($users_info_id);
-		$billingaddresses   = $this->billingaddresses();
+		$billingAddresses   = $this->billingaddresses();
 
 		if (isset($shippingaddresses))
 		{
@@ -242,20 +242,20 @@ class RedshopModelCheckout extends RedshopModel
 			$shippingaddresses->state_2_code   = $d ["shippingaddress"]->state_2_code;
 		}
 
-		if (isset($billingaddresses))
+		if (isset($billingAddresses))
 		{
-			$d["billingaddress"] = $billingaddresses;
+			$d["billingaddress"] = $billingAddresses;
 
-			if (isset($billingaddresses->country_code))
+			if (isset($billingAddresses->country_code))
 			{
-				$d["billingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
-				$billingaddresses->country_2_code    = $d["billingaddress"]->country_2_code;
+				$d["billingaddress"]->country_2_code = RedshopHelperWorld::getCountryCode2($billingAddresses->country_code);
+				$billingAddresses->country_2_code    = $d["billingaddress"]->country_2_code;
 			}
 
-			if (isset($billingaddresses->state_code))
+			if (isset($billingAddresses->state_code))
 			{
-				$d["billingaddress"]->state_2_code = RedshopHelperWorld::getStateCode2($billingaddresses->state_code);
-				$billingaddresses->state_2_code    = $d["billingaddress"]->state_2_code;
+				$d["billingaddress"]->state_2_code = RedshopHelperWorld::getStateCode2($billingAddresses->state_code);
+				$billingAddresses->state_2_code    = $d["billingaddress"]->state_2_code;
 			}
 		}
 
@@ -377,7 +377,7 @@ class RedshopModelCheckout extends RedshopModel
 		$input->set('payment_status', $orderPaymentStatus);
 
 		$d['order_shipping'] = $order_shipping [3];
-		Redshop\User\Billing\Billing::setGlobal($billingaddresses);
+		Redshop\User\Billing\Billing::setGlobal($billingAddresses);
 		$timestamp = time();
 
 		$order_status_log = '';
@@ -457,7 +457,7 @@ class RedshopModelCheckout extends RedshopModel
 		$order_number = RedshopHelperOrder::generateOrderNumber();
 
 		$random_gen_enc_key      = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
-		$users_info_id           = $billingaddresses->users_info_id;
+		$users_info_id           = $billingAddresses->users_info_id;
 		$row->user_id            = $userId;
 		$row->order_number       = $order_number;
 		$row->user_info_id       = $users_info_id;
@@ -1127,7 +1127,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		// Add billing Info
 		$userrow = $this->getTable('user_detail');
-		$userrow->load($billingaddresses->users_info_id);
+		$userrow->load($billingAddresses->users_info_id);
 		$userrow->thirdparty_email = $post['thirdparty_email'];
 		$orderuserrow              = $this->getTable('order_user_detail');
 
@@ -1164,7 +1164,7 @@ class RedshopModelCheckout extends RedshopModel
 		}
 		else
 		{
-			$userrow->load($billingaddresses->users_info_id);
+			$userrow->load($billingAddresses->users_info_id);
 		}
 
 		$orderuserrow = $this->getTable('order_user_detail');

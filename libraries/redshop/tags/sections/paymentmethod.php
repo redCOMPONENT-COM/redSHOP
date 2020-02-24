@@ -158,6 +158,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 			$business      = $oneMethod->params->get('business', '');
 			$isCreditCard  = (boolean) $oneMethod->params->get('is_creditcard', 0);
 			$checked       = $this->data['paymentMethodId'] === $oneMethod->name || $totalPaymentMethod <= 1;
+			$checked       = 'checked="' . $checked . '"';
 			$logo          = $oneMethod->params->get('logo', '');
 			$showImage     = (!empty($logo) && JFile::exists(JPATH_ROOT . '/' . $logo)) ? 1 : 0;
 
@@ -181,7 +182,11 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 			$isSubscription = \Redshop\Cart\Helper::checkProductSubscription();
 
 			// Check for bank transfer payment type plugin - `rs_payment_banktransfer` suffixed
-			$isBankTransferPaymentType = RedshopHelperPayment::isPaymentType($oneMethod->name);
+			$isBankTransferPaymentType = \RedshopHelperPayment::isPaymentType($oneMethod->name);
+
+			if ($isBankTransferPaymentType && !$checked) {
+			    $checked = $isBankTransferPaymentType;
+            }
 
 			if ($oneMethod->name == 'rs_payment_eantransfer' || $isBankTransferPaymentType)
 			{

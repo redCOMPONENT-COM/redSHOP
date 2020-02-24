@@ -411,19 +411,19 @@ class RedshopModelProduct extends RedshopModel
 	{
 		if ($section == RedshopHelperExtrafields::SECTION_PRODUCT || $section == RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD)
 		{
-			$template_desc = RedshopHelperTemplate::getTemplate("product", $template_id);
+			$templateDesc = RedshopHelperTemplate::getTemplate("product", $template_id);
 		}
 		else
 		{
-			$template_desc = RedshopHelperTemplate::getTemplate("category", $template_id);
+			$templateDesc = RedshopHelperTemplate::getTemplate("category", $template_id);
 		}
 
-		if (count($template_desc) == 0)
+		if (count($templateDesc) == 0)
 		{
 			return;
 		}
 
-		$template = $template_desc[0]->template_desc;
+		$template = $templateDesc[0]->template_desc;
 		$str      = array();
 		$sec      = explode(',', $section);
 

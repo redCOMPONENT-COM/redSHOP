@@ -33,7 +33,7 @@ class Tableuser_detail extends JTable
 
 	public $shopper_group_id = null;
 
-	public $is_company = null;
+	public $isCompany = null;
 
 	public $address = 0;
 
