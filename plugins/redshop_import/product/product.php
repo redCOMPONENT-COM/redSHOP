@@ -362,8 +362,15 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			return false;
 		}
 
-		$data['product_s_desc'] = html_entity_decode(str_replace(array("\r","\n",'\r','\n', "\\"),'',  $data['product_s_desc']));
-		$data['product_desc'] = html_entity_decode(str_replace(array("\r","\n",'\r','\n', "\\"),'', $data['product_desc']));
+        if (isset($data['product_s_desc']))
+        {
+            $data['product_s_desc'] = html_entity_decode(str_replace(array("\r","\n",'\r','\n', "\\"),'',  $data['product_s_desc']));
+        }
+
+        if (isset($data['product_desc']))
+        {
+            $data['product_desc'] = html_entity_decode(str_replace(array("\r","\n",'\r','\n', "\\"),'', $data['product_desc']));
+        }
 
 		// This is attribute data line.
 		if (!empty($data['attribute_name']))
