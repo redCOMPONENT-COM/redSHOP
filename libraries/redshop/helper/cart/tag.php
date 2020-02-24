@@ -321,7 +321,7 @@ class RedshopHelperCartTag
                     'tags.giftcard.delete',
                     [
                         'i' => $i,
-                        'cartHtml' => $cart[$i]['giftcard_id'],
+                        'giftCartId' => $cart[$i]['giftcard_id'],
                         'itemId' => $itemId,
                         'sourceImage' => REDSHOP_FRONT_IMAGES_ABSPATH . $deleteImg
                     ],
