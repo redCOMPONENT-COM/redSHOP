@@ -64,7 +64,7 @@ if ($this->params->get('show_page_heading', 0))
 
 $categoryTemplateWapper = \RedshopTagsReplacer::_(
 	'categoryfrontpage',
-	$template_desc,
+	$templateDesc,
 	array(
 		'category'  => $this->detail,
 		'print'     => $this->print,
