@@ -13,7 +13,7 @@ class Tableproduct_compare extends JTable
 {
 	public $compare_id = 0;
 
-	public $productId = null;
+	public $product_id = null;
 
 	public $user_id = 0;
 

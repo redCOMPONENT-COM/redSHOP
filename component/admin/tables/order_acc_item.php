@@ -15,7 +15,7 @@ class Tableorder_acc_item extends JTable
 
 	public $order_item_id = null;
 
-	public $productId = null;
+	public $product_id = null;
 
 	public $order_acc_item_sku = null;
 

@@ -25,7 +25,7 @@ class Tableproduct_attribute extends JTable
 
 	public $hide_attribute_price = 0;
 
-	public $productId = null;
+	public $product_id = null;
 
 	public $ordering = null;
 
