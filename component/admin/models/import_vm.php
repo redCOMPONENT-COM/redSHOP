@@ -650,9 +650,9 @@ class RedshopModelImport_Vm extends RedshopModel
 
 		$db->setQuery($query);
 
-		$product_id = $db->loadResult();
+		$productId = $db->loadResult();
 
-		return $product_id;
+		return $productId;
 	}
 
 	/**

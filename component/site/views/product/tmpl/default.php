@@ -736,7 +736,7 @@ $templateDesc = RedshopTagsReplacer::_(
 
 // Product attribute  End
 
-$pr_number                   = $this->data->product_number;
+$prNumber                   = $this->data->product_number;
 $preselectedresult           = array();
 $moreimage_response          = '';
 $property_data               = '';
@@ -845,11 +845,11 @@ if (!empty($attributes) && !empty($attribute_template))
 
 	$mainImageResponse = $preselectedresult['product_mainimg'];
 
-	$attrbimg = $preselectedresult['attrbimg'];
+	$attributeImg = $preselectedresult['attrbimg'];
 
 	if (!is_null($preselectedresult['pr_number']) && !empty($preselectedresult['pr_number']))
 	{
-		$pr_number = $preselectedresult['pr_number'];
+		$prNumber = $preselectedresult['pr_number'];
 	}
 }
 else
@@ -872,7 +872,7 @@ $templateDesc = \Redshop\Helper\Stockroom::replaceProductStockData(
 	$attributeproductStockStatus
 );
 
-$product_number_output = '<span id="product_number_variable' . $this->data->product_id . '">' . $pr_number . '</span>';
+$product_number_output = '<span id="product_number_variable' . $this->data->product_id . '">' . $prNumber . '</span>';
 $templateDesc         = str_replace("{product_number}", $product_number_output, $templateDesc);
 
 // Product accessory Start

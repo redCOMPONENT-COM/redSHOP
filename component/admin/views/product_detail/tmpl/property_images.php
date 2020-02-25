@@ -14,7 +14,7 @@ $url = $uri->root();
 $showbuttons = $this->input->getBool('showbuttons', false);
 $section_id = $this->input->getInt('section_id', null);
 $fsec = $this->input->getString('fsec', '');
-$product_id = $this->input->getInt('cid', null);
+$productId = $this->input->getInt('cid', null);
 
 if ($fsec == 'subproperty')
 {
@@ -119,7 +119,7 @@ $mainImage = $mainImage[0];
 
 	<div class="clr"></div>
 
-	<input type="hidden" name="cid" value="<?php echo $product_id; ?>"/>
+	<input type="hidden" name="cid" value="<?php echo $productId; ?>"/>
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="fsec" value="<?php echo $fsec ?>"/>
 	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>"/>
@@ -168,7 +168,7 @@ if (count($images))
 			$more_images .= '<div>';
 			$more_images .= "<img  height='50' width='50' src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "property/" . $thumb . "'/><br/>" .
 							"<a href='index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $section_id .
-							"&cid=" . $product_id . "&mediaid=" . $image->media_id . "&layout=property_images&showbuttons=1&task=deleteimage'>" .
+							"&cid=" . $productId . "&mediaid=" . $image->media_id . "&layout=property_images&showbuttons=1&task=deleteimage'>" .
 							JText::_('COM_REDSHOP_DELETE') .
 							"</a>";
 			$more_images .= "</div>";

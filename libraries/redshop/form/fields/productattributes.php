@@ -26,7 +26,7 @@ class JFormFieldProductattributes extends JFormFieldList
 	 */
 	public $type = 'productattributes';
 
-	public $product_ids = array();
+	public $productIds = array();
 
 	/**
 	 * Set select list options

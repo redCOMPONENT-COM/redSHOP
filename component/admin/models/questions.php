@@ -84,10 +84,10 @@ class RedshopModelQuestions extends RedshopModelList
 	protected function populateState($ordering = 'question_date', $direction = 'desc')
 	{
 		$filter     = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '');
-		$product_id = $this->getUserStateFromRequest($this->context . '.filter.product_id', 'filter_product_id', 0);
+		$productId = $this->getUserStateFromRequest($this->context . '.filter.product_id', 'filter_product_id', 0);
 
 		$this->setState('filter.search', $filter);
-		$this->setState('filter.product_id', $product_id);
+		$this->setState('filter.product_id', $productId);
 
 		parent::populateState($ordering, $direction);
 	}

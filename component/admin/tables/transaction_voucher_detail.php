@@ -25,7 +25,7 @@ class Tabletransaction_voucher_detail extends JTable
 
 	public $trancation_date = null;
 
-	public $product_id = null;
+	public $productId = null;
 
 	public $published = null;
 

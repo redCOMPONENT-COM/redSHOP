@@ -36,7 +36,7 @@
 			{
 				$row = $this->prices[$i];
 				$row->id = $row->price_id;
-				//$product_id = $row->product_id;
+				//$productId = $row->product_id;
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 

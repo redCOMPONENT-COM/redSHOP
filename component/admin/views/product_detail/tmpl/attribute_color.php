@@ -12,7 +12,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 $section_id = $this->input->getInt('section_id', null);
-$product_id = $this->input->getInt('cid', null);
+$productId = $this->input->getInt('cid', null);
 $images = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $section_id)
 ?>
 
@@ -137,7 +137,7 @@ $images = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $section_
 	</div>
 
 	<div class="clr"></div>
-	<input type="hidden" name="cid" value="<?php echo $product_id; ?>"/>
+	<input type="hidden" name="cid" value="<?php echo $productId; ?>"/>
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="section_id" value="<?php echo $section_id; ?>"/>
 	<input type="hidden" name="task" value=""/>

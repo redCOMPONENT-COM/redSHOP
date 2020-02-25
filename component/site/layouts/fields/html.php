@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @var   array   $displayData Layout data
  * @var   object  $form        A JForm object
- * @var   integer $product_id  Id current product
+ * @var   integer $productId  Id current product
  * @var   integer $modal       Flag use form in modal
  */
 extract($displayData);
