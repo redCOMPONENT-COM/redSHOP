@@ -63,7 +63,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 	public function replace()
 	{
 		$print = $this->data['print'];
-		$extraFieldName  = Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
+		$extraFieldName  = \Redshop\Helper\ExtraFields::getSectionFieldNames(2, 1, 1);
 
 		if (isset($print) && $print)
 		{
@@ -75,7 +75,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 			$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 		}
 
-		$cateogryFrontPageTemplate = $this->getTemplateBetweenLoop('{category_frontpage_loop_start}', '{category_frontpage_loop_end}');
+		$cateogoryFrontPageTemplate = $this->getTemplateBetweenLoop('{category_frontpage_loop_start}', '{category_frontpage_loop_end}');
 		$categoryTemplate = '';
 
 		if (isset($this->category) && is_array($this->category) && count($this->category) > 0)
@@ -84,7 +84,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 			{
 				$dataAdd = RedshopTagsReplacer::_(
 					'category',
-					$cateogryFrontPageTemplate['template'],
+					$cateogoryFrontPageTemplate['template'] ?? '',
 					array(
 						'category'  => $category,
 						'itemId'    => $this->itemId
@@ -96,7 +96,9 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 			}
 		}
 
-		$this->template = $cateogryFrontPageTemplate['begin'] . $categoryTemplate . $cateogryFrontPageTemplate['end'];
+		$this->template = $cateogoryFrontPageTemplate['begin'] ?? ''
+            . $categoryTemplate ?? ''
+            . $cateogoryFrontPageTemplate['end'] ?? '';
 
 		if ($this->isTagExists('{print}'))
 		{
