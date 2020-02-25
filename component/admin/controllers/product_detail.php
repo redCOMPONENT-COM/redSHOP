@@ -921,18 +921,18 @@ class RedshopControllerProduct_Detail extends RedshopController
 	}
 
 	/**
-	 * Function removeaccesory.
+	 * Function removeAccessory.
 	 *
 	 * @return void
 	 */
-	public function removeaccesory()
+	public function removeAccessory()
 	{
 		$accessoryId     = $this->input->getInt('accessory_id', null);
-		$category_id      = $this->input->getInt('category_id', null);
-		$child_product_id = $this->input->getInt('child_product_id', null);
+		$categoryId      = $this->input->getInt('category_id', null);
+		$childProductId = $this->input->getInt('child_product_id', null);
 		$model            = $this->getModel('product_detail');
-		$model->removeaccesory($accessoryId, $category_id, $child_product_id);
-		JFactory::getApplication()->close();
+		$model->removeAccessory($accessoryId, $categoryId, $childProductId);
+		\JFactory::getApplication()->close();
 	}
 
 	/**

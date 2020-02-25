@@ -76,7 +76,7 @@ class TableProduct_Detail extends JTable
 	/**
 	 * @var  integer
 	 */
-	public $productId;
+	public $product_id;
 
 	/**
 	 * @var  float

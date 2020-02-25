@@ -13,7 +13,7 @@ class Tableaccessory_detail extends JTable
 {
 	public $accessoryId = null;
 
-	public $productId = null;
+	public $product_id = null;
 
 	public $child_product_id = null;
 
