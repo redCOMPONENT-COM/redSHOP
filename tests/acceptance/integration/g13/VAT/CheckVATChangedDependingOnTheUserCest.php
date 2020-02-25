@@ -295,8 +295,8 @@ class CheckVATChangedDependingOnTheUserCest
 	 */
 	public function CheckVATChangedDependingOnTheUserCest(AcceptanceTester $I, $scenario)
 	{
-        $I->wantTo('Disable PayPal');
-        $I->disablePlugin('PayPal');
+		$I->wantTo('Disable PayPal');
+		$I->disablePlugin('PayPal');
 		$I->wantTo('VAT Groups - Save creation in Administrator');
 		$I = new TaxGroupSteps($scenario);
 		$I->addVATGroupsSave($this->taxGroupName);
