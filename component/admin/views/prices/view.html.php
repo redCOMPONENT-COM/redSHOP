@@ -33,13 +33,13 @@ class RedshopViewPrices extends RedshopViewAdmin
 
 		$total      = $this->get('Total');
 		$media      = $this->get('Data');
-		$product_id = $this->get('ProductId');
+		$productId = $this->get('ProductId');
 
 		$pagination = new JPagination($total, $limitstart, $limit);
 		$this->user = JFactory::getUser();
 
 		$this->media       = $media;
-		$this->product_id  = $product_id;
+		$this->product_id  = $productId;
 		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 

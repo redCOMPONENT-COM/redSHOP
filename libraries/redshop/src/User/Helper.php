@@ -33,14 +33,14 @@ class Helper
         $msg = "";
 
         if (count($userFields) > 0) {
-            $reqiredFields = RedshopHelperExtrafields::getSectionFieldList($section, 1, 1, 1);
+            $requiredFields = \RedshopHelperExtrafields::getSectionFieldList($section, 1, 1, 1);
 
-            for ($i = 0, $in = count($reqiredFields); $i < $in; $i++) {
-                if (in_array($reqiredFields[$i]->name, $userFields)) {
-                    if (!isset($data[$reqiredFields[$i]->name])
-                        || (isset($data[$reqiredFields[$i]->name])
-                            && $data[$reqiredFields[$i]->name] == "")) {
-                        $msg .= $reqiredFields[$i]->title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
+            for ($i = 0, $in = count($requiredFields); $i < $in; $i++) {
+                if (in_array($requiredFields[$i]->name, $userFields)) {
+                    if (!isset($data[$requiredFields[$i]->name])
+                        || (isset($data[$requiredFields[$i]->name])
+                            && $data[$requiredFields[$i]->name] == "")) {
+                        $msg .= $requiredFields[$i]->title . " " . JText::_('COM_REDSHOP_IS_REQUIRED') . "<br/>";
                     }
                 }
             }

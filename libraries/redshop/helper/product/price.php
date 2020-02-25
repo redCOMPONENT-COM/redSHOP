@@ -296,9 +296,9 @@ class RedshopHelperProductPrice
 				$specialPrice->discount_amount : ($newPrice * $specialPrice->discount_amount) / (100);
 
 			$newPrice = $newPrice < 0 ? 0 : $newPrice;
-			$regPrice = $row->product_price;
+			$regPrice = $row->product_price ?? 0;
 
-			if ($isApplyTax)
+			if ($isApplyTax && isset($row->product_id))
 			{
 				$priceTax = RedshopHelperProduct::getProductTax($row->product_id, $newPrice, $userId);
 				$regPrice = $row->product_price + $priceTax;

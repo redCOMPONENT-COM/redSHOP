@@ -78,19 +78,22 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 		$cateogryFrontPageTemplate = $this->getTemplateBetweenLoop('{category_frontpage_loop_start}', '{category_frontpage_loop_end}');
 		$categoryTemplate = '';
 
-		foreach ($this->category as $category)
+		if (isset($this->category) && is_array($this->category) && count($this->category) > 0)
 		{
-			$data_add = RedshopTagsReplacer::_(
-				'category',
-				$cateogryFrontPageTemplate['template'],
-				array(
-					'category'  => $category,
-					'itemId'    => $this->itemId
-				)
-			);
+			foreach ($this->category as $category)
+			{
+				$dataAdd = RedshopTagsReplacer::_(
+					'category',
+					$cateogryFrontPageTemplate['template'],
+					array(
+						'category'  => $category,
+						'itemId'    => $this->itemId
+					)
+				);
 
-			$data_add = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $category->id, "2", $data_add);
-			$categoryTemplate .= $data_add;
+				$dataAdd = RedshopHelperProductTag::getExtraSectionTag($extraFieldName, $category->id, "2", $dataAdd);
+				$categoryTemplate .= $dataAdd;
+			}
 		}
 
 		$this->template = $cateogryFrontPageTemplate['begin'] . $categoryTemplate . $cateogryFrontPageTemplate['end'];
@@ -148,42 +151,5 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 		}
 
 		return parent::replace();
-	}
-
-	/**
-	 * Get template content between loop tags
-	 *
-	 * @param   string  $beginTag  Begin tag
-	 * @param   string  $endTag    End tag
-	 * @param   string  $template  Template
-	 *
-	 * @return  mixed
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function getTemplateBetweenLoop($beginTag, $endTag, $template = '')
-	{
-		if ($this->isTagExists($beginTag) && $this->isTagExists($endTag))
-		{
-			$templateStartData = explode($beginTag, $this->template);
-
-			if (!empty($template))
-			{
-				$templateStartData = explode($beginTag, $template);
-			}
-
-			$templateStart     = $templateStartData [0];
-			$templateEndData = explode($endTag, $templateStartData [1]);
-			$templateEnd     = $templateEndData[1];
-			$templateMain = $templateEndData[0];
-
-			return array(
-				'begin'    => $templateStart,
-				'template' => $templateMain,
-				'end'      => $templateEnd
-			);
-		}
-
-		return false;
 	}
 }

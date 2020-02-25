@@ -15,9 +15,9 @@ class Tablenotifystock_user extends JTable
 
 	public $product_id = null;
 
-	public $property_id = null;
+	public $propertyId = null;
 
-	public $subproperty_id = null;
+	public $subPropertyId = null;
 
 	public $user_id = null;
 

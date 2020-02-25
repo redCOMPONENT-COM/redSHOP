@@ -18,7 +18,7 @@ $cart      = \Redshop\Cart\Helper::getCart();
       method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 	<input type="hidden" name='l' value='0'>
 	<?php
-        $billingaddresses = $model->billingaddresses();
+        $billingAddresses = $model->billingaddresses();
         $editbill = JRoute::_("index.php?option=com_redshop&view=account_billto&return=checkout&tmpl=component&setexit=1&Itemid=" . $Itemid, false);
 	?>
 
@@ -31,7 +31,7 @@ $cart      = \Redshop\Cart\Helper::getCart();
 
 				<div class="panel-body">
 					<?php
-					if ($billingaddresses)
+					if ($billingAddresses)
 					{
 						?>
 							<a class="modal btn btn-primary" href="<?php echo $editbill; ?>"
@@ -63,15 +63,15 @@ $cart      = \Redshop\Cart\Helper::getCart();
 
 				<div class="panel-body">
 					<?php
-					if ($billingaddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
+					if ($billingAddresses && Redshop::getConfig()->get('OPTIONAL_SHIPPING_ADDRESS'))
 					{
-						$checked = ((!isset($this->users_info_id) || $this->users_info_id == 0) || $this->users_info_id == $billingaddresses->users_info_id) ? 'checked' : '';    ?>
+						$checked = ((!isset($this->users_info_id) || $this->users_info_id == 0) || $this->users_info_id == $billingAddresses->users_info_id) ? 'checked' : '';    ?>
 
 						<div class="radio">
 							<label for="users_info_id_default">
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
 									       type="radio" name="users_info_id" id="users_info_id_default"
-									       value="<?php echo $billingaddresses->users_info_id; ?>"
+									       value="<?php echo $billingAddresses->users_info_id; ?>"
 									<?php echo $checked;?> />
 								<?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS');?>
 							</label>
@@ -80,7 +80,7 @@ $cart      = \Redshop\Cart\Helper::getCart();
 					}
 
 					$shippingaddresses = $model->shippingaddresses();
-					$add_addlink = JRoute::_("index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid, false);
+					$add_addlink = JRoute::_("index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&is_company=" . $billingAddresses->is_company . "&Itemid=" . $Itemid, false);
 
 					for ($i = 0, $in = count($shippingaddresses); $i < $in; $i++)
 					{

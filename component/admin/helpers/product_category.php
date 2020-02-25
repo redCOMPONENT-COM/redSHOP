@@ -172,15 +172,15 @@ class product_category
 	/**
 	 * Check if Accessory is existed
 	 *
-	 * @param   integer  $product_id    Product ID
-	 * @param   integer  $accessory_id  Accessory ID
+	 * @param   integer  $productId    Product ID
+	 * @param   integer  $accessoryId  Accessory ID
 	 *
 	 * @return integer
 	 *
 	 * @deprecated  2.0.0.3 Use RedshopHelperCategory::checkAccessoryExists() instead
 	 */
-	public function checkAccessoryExists($product_id, $accessory_id)
+	public function checkAccessoryExists($productId, $accessoryId)
 	{
-		return RedshopHelperAccessory::checkAccessoryExists($product_id, $accessory_id);
+		return RedshopHelperAccessory::checkAccessoryExists($productId, $accessoryId);
 	}
 }

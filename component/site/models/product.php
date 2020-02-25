@@ -145,15 +145,15 @@ class RedshopModelProduct extends RedshopModel
 	/**
 	 * get next or previous product using ordering.
 	 *
-	 * @param   int $product_id  current product id
+	 * @param   int $productId  current product id
 	 * @param   int $category_id current product category id
 	 * @param   int $dirn        to indicate next or previous product
 	 *
 	 * @return mixed
 	 */
-	public function getPrevNextproduct($product_id, $category_id, $dirn)
+	public function getPrevNextproduct($productId, $category_id, $dirn)
 	{
-		$query = "SELECT ordering FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int) $product_id . " AND category_id = " . (int) $category_id . " LIMIT 0,1";
+		$query = "SELECT ordering FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int) $productId . " AND category_id = " . (int) $category_id . " LIMIT 0,1";
 
 		$where = ' AND p.published="1" AND category_id = ' . (int) $category_id;
 
@@ -190,7 +190,7 @@ class RedshopModelProduct extends RedshopModel
 	public function checkReview($email)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT email from " . $this->_table_prefix . "product_rating WHERE email = " . $db->quote($email) . " AND email != '' AND product_id = " . (int) $product_id . " limit 0,1 ";
+		$query = "SELECT email from " . $this->_table_prefix . "product_rating WHERE email = " . $db->quote($email) . " AND email != '' AND product_id = " . (int) $productId . " limit 0,1 ";
 		$db->setQuery($query);
 		$chkemail = $db->loadResult();
 
@@ -242,7 +242,7 @@ class RedshopModelProduct extends RedshopModel
 		$message    = $data['title'];
 		$comment    = $data['comment'];
 		$username   = $data['username'];
-		$product_id = $data['product_id'];
+		$productId = $data['product_id'];
 
 		$mailbody = Redshop\Mail\Helper::getTemplate(0, "review_mail");
 
@@ -259,9 +259,9 @@ class RedshopModelProduct extends RedshopModel
 			}
 		}
 
-		$product = \Redshop\Product\Product::getProductById($product_id);
+		$product = \Redshop\Product\Product::getProductById($productId);
 
-		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
+		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $productId . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
 		$data_add    = str_replace("{product_link}", $product_url, $data_add);
 		$data_add    = str_replace("{product_name}", $product->product_name, $data_add);
@@ -301,11 +301,11 @@ class RedshopModelProduct extends RedshopModel
 		return $list;
 	}
 
-	public function updateVisited($product_id)
+	public function updateVisited($productId)
 	{
 		$query = "UPDATE " . $this->_table_prefix . "product "
 			. "SET visited=visited + 1 "
-			. "WHERE product_id = " . (int) $product_id;
+			. "WHERE product_id = " . (int) $productId;
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 	}
@@ -477,11 +477,11 @@ class RedshopModelProduct extends RedshopModel
 		return $list;
 	}
 
-	public function checkWishlist($product_id)
+	public function checkWishlist($productId)
 	{
 		$user  = JFactory::getUser();
 		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist "
-			. "WHERE product_id = " . (int) $product_id . " "
+			. "WHERE product_id = " . (int) $productId . " "
 			. "AND user_id = " . (int) $user->id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
@@ -571,15 +571,15 @@ class RedshopModelProduct extends RedshopModel
 		return $GLOBALS['childproductlist'];
 	}
 
-	public function addNotifystock($product_id, $property_id, $subproperty_id, $email_not_login = null)
+	public function addNotifystock($productId, $propertyId, $subPropertyId, $email_not_login = null)
 	{
 		ob_clean();
 		$user                    = JFactory::getUser();
 		$user_id                 = $user->id;
 		$data                    = array();
-		$data['product_id']      = $product_id;
-		$data['property_id']     = $property_id;
-		$data['subproperty_id']  = $subproperty_id;
+		$data['product_id']      = $productId;
+		$data['property_id']     = $propertyId;
+		$data['subproperty_id']  = $subPropertyId;
 		$data['user_id']         = $user_id;
 		$data['email_not_login'] = $email_not_login;
 		$row                     = $this->getTable('notifystock_user');

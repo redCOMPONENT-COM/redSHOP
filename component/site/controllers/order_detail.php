@@ -57,26 +57,26 @@ class RedshopControllerOrder_Detail extends RedshopController
 		$order = RedshopEntityOrder::getInstance((int) $request['order_id'])->getItem();
 
 		// Get Billing and Shipping Info
-		$billingaddresses       = RedshopHelperOrder::getBillingAddress($order->user_id);
-		$data['billingaddress'] = $billingaddresses;
+		$billingAddresses       = RedshopHelperOrder::getBillingAddress($order->user_id);
+		$data['billingaddress'] = $billingAddresses;
 
 		$shippingaddresses       = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
 		$data['shippingaddress'] = $shippingaddresses;
 
 		$Itemid               = $this->input->getInt('Itemid');
 
-		if (isset($billingaddresses))
+		if (isset($billingAddresses))
 		{
-			if (isset($billingaddresses->country_code))
+			if (isset($billingAddresses->country_code))
 			{
-				$billingaddresses->country_2_code        = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
-				$data ["billingaddress"]->country_2_code = $billingaddresses->country_2_code;
+				$billingAddresses->country_2_code        = RedshopHelperWorld::getCountryCode2($billingAddresses->country_code);
+				$data ["billingaddress"]->country_2_code = $billingAddresses->country_2_code;
 			}
 
-			if (isset($billingaddresses->state_code))
+			if (isset($billingAddresses->state_code))
 			{
-				$billingaddresses->state_2_code        = $billingaddresses->state_code;
-				$data ["billingaddress"]->state_2_code = $billingaddresses->state_2_code;
+				$billingAddresses->state_2_code        = $billingAddresses->state_code;
+				$data ["billingaddress"]->state_2_code = $billingAddresses->state_2_code;
 			}
 		}
 

@@ -54,10 +54,10 @@ class Helper
         $shipping = 0;
 
         for ($i = 0; $i < $index; $i++) {
-            $quantity = $cart[$i]['quantity'];
-            $subTotal += $quantity * $cart[$i]['product_price'];
-            $subTotalNoVAT += $quantity * $cart[$i]['product_price_excl_vat'];
-            $vat += $quantity * $cart[$i]['product_vat'];
+            $quantity = $cart[$i]['quantity'] ?? 0;
+            $subTotal += $quantity * ($cart[$i]['product_price'] ?? 0);
+            $subTotalNoVAT += $quantity * ($cart[$i]['product_price_excl_vat'] ?? 0);
+            $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
         }
 
         /* @TODO: Need to check why this variable still exist.
@@ -551,7 +551,7 @@ class Helper
         $cart['totalQuantity'] = 0;
 
         for ($i = 0; $i < (int) $cart['idx']; $i++) {
-            $cart['totalQuantity'] += (int) $cart[$i]['quantity'] ?? 0;
+            $cart['totalQuantity'] += (int) ($cart[$i]['quantity'] ?? 0);
         }
 
         self::setCart($cart);

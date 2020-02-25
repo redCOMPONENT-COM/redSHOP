@@ -22,14 +22,14 @@ $loadCategorytemplate = $this->loadCategorytemplate;
 
 if (!empty($loadCategorytemplate) && $loadCategorytemplate[0]->template_desc != "")
 {
-	$template_desc = $loadCategorytemplate[0]->template_desc;
+	$templateDesc = $loadCategorytemplate[0]->template_desc;
 }
 else
 {
-	$template_desc = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>";
-	$template_desc .= "\r\n{category_frontpage_loop_start}<div class=\"category_front\">\r\n";
-	$template_desc .= "<div class=\"category_front_image\">{category_thumb_image}</div>\r\n";
-	$template_desc .= "<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
+	$templateDesc = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>";
+	$templateDesc .= "\r\n{category_frontpage_loop_start}<div class=\"category_front\">\r\n";
+	$templateDesc .= "<div class=\"category_front_image\">{category_thumb_image}</div>\r\n";
+	$templateDesc .= "<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
 }
 
 if ($this->params->get('show_page_heading', 0))
