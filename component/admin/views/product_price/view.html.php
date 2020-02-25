@@ -14,7 +14,7 @@ class RedshopViewProduct_price extends RedshopViewAdmin
 {
 	public function display($tpl = null)
 	{
-		$product_id = JFactory::getApplication()->input->get('pid');
+		$productId = JFactory::getApplication()->input->get('pid');
 
 		$db       = JFactory::getDbo();
 		$uri      = JFactory::getURI();
@@ -24,11 +24,11 @@ class RedshopViewProduct_price extends RedshopViewAdmin
 		jimport('joomla.html.pagination');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
 
-		$sql = "SELECT * FROM #__redshop_product WHERE product_id = '$product_id'";
+		$sql = "SELECT * FROM #__redshop_product WHERE product_id = '$productId'";
 		$db->setQuery($sql);
 		$product = $db->loadObject();
 
-		$sql = "SELECT g.*,p.product_price,p.price_id,p.price_quantity_end,p.price_quantity_start FROM #__redshop_shopper_group g LEFT JOIN #__redshop_product_price p ON g.shopper_group_id = p.shopper_group_id   AND product_id = '$product_id'";
+		$sql = "SELECT g.*,p.product_price,p.price_id,p.price_quantity_end,p.price_quantity_start FROM #__redshop_shopper_group g LEFT JOIN #__redshop_product_price p ON g.shopper_group_id = p.shopper_group_id   AND product_id = '$productId'";
 		$db->setQuery($sql);
 		$prices = $db->loadObjectList();
 
@@ -36,7 +36,7 @@ class RedshopViewProduct_price extends RedshopViewAdmin
 
 		$this->prices = $prices;
 
-		$this->pid = $product_id;
+		$this->pid = $productId;
 
 		$this->request_url = $uri->toString();
 

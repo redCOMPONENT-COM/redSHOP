@@ -203,14 +203,14 @@ class RedshopControllerQuotation_detail extends RedshopController
 	public function getQuotationPriceTax()
 	{
 		$get           = $this->input->get->getArray();
-		$product_id    = $get['product_id'];
+		$productId    = $get['product_id'];
 		$user_id       = $get['user_id'];
 		$newprice      = $get['newprice'];
 		$vatprice      = 0;
 
 		if ($newprice > 0)
 		{
-			$vatprice = RedshopHelperProduct::getProductTax($product_id, $newprice, $user_id);
+			$vatprice = RedshopHelperProduct::getProductTax($productId, $newprice, $user_id);
 		}
 
 		echo '<div id="newtax">' . $vatprice . '</div>';

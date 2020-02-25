@@ -65,14 +65,14 @@ if (count($this->search) > 0)
 
 	if ($this->templatedata != "")
 	{
-		$template_desc = $this->templatedata;
+		$templateDesc = $this->templatedata;
 	}
 	else
 	{
-		$template_desc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"category_main_description\">{category_main_description}</div>\r\n<p>{if subcats} {category_loop_start}</p>\r\n<div id=\"categories\">\r\n<div style=\"float: left; width: 200px;\">\r\n<div class=\"category_image\">{category_thumb_image}</div>\r\n<div class=\"category_description\">\r\n<h2 class=\"category_title\">{category_name}</h2>\r\n{category_description}</div>\r\n</div>\r\n</div>\r\n<p>{category_loop_end} {subcats end if}</p>\r\n<div style=\"clear: both;\"></div>\r\n<div id=\"category_header\">\r\n<div class=\"category_order_by\">{order_by}</div>\r\n</div>\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n<div>{product_rating_summary}</div>\r\n<div class=\"category_product_addtocart\">{form_addtocart:add_to_cart1}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n</div>\r\n<div class=\"pagination\">{pagination}</div>";
+		$templateDesc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"category_main_description\">{category_main_description}</div>\r\n<p>{if subcats} {category_loop_start}</p>\r\n<div id=\"categories\">\r\n<div style=\"float: left; width: 200px;\">\r\n<div class=\"category_image\">{category_thumb_image}</div>\r\n<div class=\"category_description\">\r\n<h2 class=\"category_title\">{category_name}</h2>\r\n{category_description}</div>\r\n</div>\r\n</div>\r\n<p>{category_loop_end} {subcats end if}</p>\r\n<div style=\"clear: both;\"></div>\r\n<div id=\"category_header\">\r\n<div class=\"category_order_by\">{order_by}</div>\r\n</div>\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n<div>{product_rating_summary}</div>\r\n<div class=\"category_product_addtocart\">{form_addtocart:add_to_cart1}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n</div>\r\n<div class=\"pagination\">{pagination}</div>";
 	}
 
-	$template_org = $template_desc;
+	$template_org = $templateDesc;
 	$template_d1  = explode("{category_loop_start}", $template_org);
 
 	if (count($template_d1) > 1)
@@ -173,7 +173,7 @@ if (count($this->search) > 0)
 	$template_d1       = explode("{product_loop_start}", $template_org);
 	$template_d2       = explode("{product_loop_end}", $template_d1[1]);
 	$template_tmp_desc = $template_d2[0];
-	$template_desc     = $template_d2[0];
+	$templateDesc     = $template_d2[0];
 
 	// Order By
 	$order_by     = "";
@@ -186,14 +186,14 @@ if (count($this->search) > 0)
 		<input type='hidden' name='manufacture_id' value='$manufacture_id'>
 		<input type='hidden' name='templateid' value='$templateid'></form>";
 
-	if (strstr($template_desc, '{order_by}'))
+	if (strstr($templateDesc, '{order_by}'))
 	{
 		$order_by = $orderby_form;
 	}
 
 	$extraFieldName                = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
-	$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $template_desc, 1);
-	$attribute_template            = \Redshop\Template\Helper::getAttribute($template_desc);
+	$extraFieldsForCurrentTemplate = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($extraFieldName, $templateDesc, 1);
+	$attribute_template            = \Redshop\Template\Helper::getAttribute($templateDesc);
 
 	$total_product = $model->getTotal();
 	$endlimit      = $model->getState('list.limit');
@@ -210,7 +210,7 @@ if (count($this->search) > 0)
 		$this->search[$i]->product_related        = RedshopHelperProduct::getRelatedProduct($this->search[$i]->product_id);
 		$this->search[$i]->count_product_related  = count($this->search[$i]->product_related);
 
-		$data_add = $template_desc;
+		$data_add = $templateDesc;
 
 		// RedSHOP Product Plugin
 		$params = array();

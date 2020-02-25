@@ -247,13 +247,13 @@ else
 	{
 		$template_d1   = explode("{giftcard_loop_start}", $template);
 		$template_d2   = explode("{giftcard_loop_end}", $template_d1 [1]);
-		$template_desc = $template_d2 [0];
+		$templateDesc = $template_d2 [0];
 
 		$data_add = "";
 
 		for ($i = 0, $in = count($detail); $i < $in; $i++)
 		{
-			$data_add .= $template_desc;
+			$data_add .= $templateDesc;
 			$gid  = $detail[$i]->giftcard_id;
 			$link = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
 
@@ -297,7 +297,7 @@ else
 			$data_add = str_replace("{giftcard_price}", RedshopHelperProductPrice::formattedPrice($detail[$i]->giftcard_price), $data_add);
 		}
 
-		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);
+		$template = str_replace("{giftcard_loop_start}" . $templateDesc . "{giftcard_loop_end}", $data_add, $template);
 	}
 
 	echo eval("?>" . $template . "<?php ");

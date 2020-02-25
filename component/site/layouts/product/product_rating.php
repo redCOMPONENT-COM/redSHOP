@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * $displayData extract
  *
  * @param   object  $form        A JForm object
- * @param   int     $product_id  Id current product
+ * @param   int     $productId  Id current product
  * @param   int     $modal       Flag use form in modal
  */
 extract($displayData);
@@ -104,7 +104,7 @@ if ($user->id)
 	<input type="hidden" name="view" value="product_rating"/>
 	<input type="hidden" name="task" id="task" value=""/>
 	<input type="hidden" name="modal" value="<?php echo $displayData['modal']; ?>"/>
-	<input type="hidden" name="product_id" value="<?php echo $product_id ?>"/>
+	<input type="hidden" name="product_id" value="<?php echo $productId ?>"/>
 	<input type="hidden" name="category_id" value="<?php echo $category_id ?>"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid ?>"/>
 	<?php echo JHtml::_('form.token'); ?>

@@ -203,7 +203,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
          * @TODO: In case there are many hidden input, better way to enhance performance is use only one layout for
          * replace - Will create task for enhancement later.
          * **/
-		$span .= RedshopLayoutHelper::render(
+		$span .= \RedshopLayoutHelper::render(
 			'tags.common.tag',
 			array(
 				'tag' => 'span',
@@ -211,7 +211,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 				'text' => $applyButton . $hiddenInput
 			),
 			'',
-			RedshopLayoutHelper::$layoutOption
+			\RedshopLayoutHelper::$layoutOption
 		);
 
 		$this->addReplace('{apply_button}', $span);

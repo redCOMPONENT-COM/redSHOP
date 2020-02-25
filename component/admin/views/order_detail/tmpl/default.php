@@ -228,7 +228,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<tr>
 								<td colspan="2"><h3><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE') ?></h3></td>
 							</tr>
-							<?php //if($is_company){?>
+							<?php //if($isCompany){?>
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER'); ?>:</td>
 								<td><input class="inputbox" name="requisition_number" id="requisition_number"
@@ -615,9 +615,9 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 						for ($i = 0, $in = count($products); $i < $in; $i++)
 						{
 							$quantity               = $products[$i]->product_quantity;
-							$product_id             = $products[$i]->product_id;
+							$productId             = $products[$i]->product_id;
 
-							if ($productdetail = \Redshop\Product\Product::getProductById($product_id))
+							if ($productdetail = \Redshop\Product\Product::getProductById($productId))
 							{
 								$ordervolume = $ordervolume + $productdetail->product_volume;
 							}
@@ -629,7 +629,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 							$p_userfield      = RedshopHelperProduct::getuserfield($order_item_id);
 							$subscribe_detail = $model->getUserProductSubscriptionDetail($order_item_id);
-							$catId            = RedshopHelperProduct::getCategoryProduct($product_id);
+							$catId            = RedshopHelperProduct::getCategoryProduct($productId);
 							$res              = RedshopEntityCategory::getInstance((int) $catId)->getItem();
 							$cname            = '';
 
@@ -716,13 +716,13 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 
 																if ($wrapper_id)
 																{
-																	$wrapper = RedshopHelperProduct::getWrapper($product_id, $wrapper_id);
+																	$wrapper = RedshopHelperProduct::getWrapper($productId, $wrapper_id);
 																	echo "<br>" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->wrapper_name . "(" . $products[$i]->wrapper_price . ")";
 																}
 
 																if ($subscribe_detail)
 																{
-																	$subscription_detail   = $model->getProductSubscriptionDetail($product_id, $subscribe_detail->subscription_id);
+																	$subscription_detail   = $model->getProductSubscriptionDetail($productId, $subscribe_detail->subscription_id);
 																	$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
 																	echo JText::_('COM_REDSHOP_SUBSCRIPTION') . ': ' . $selected_subscription;
 																}
@@ -780,7 +780,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 													</table>
 													<input type="hidden" name="task" id="task" value="">
 													<input type="hidden" name="view" value="order_detail">
-													<input type="hidden" name="productid" value="<?php echo $product_id; ?>">
+													<input type="hidden" name="productid" value="<?php echo $productId; ?>">
 													<input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
 													<input type="hidden" name="order_id[]" value="<?php echo $orderId; ?>"/>
 													<input type="hidden" name="order_item_id" value="<?php echo $order_item_id; ?>">
@@ -795,7 +795,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 												</form>
 											</td>
 											<?php
-											$downloadarray = @$dproducts[$product_id];
+											$downloadarray = @$dproducts[$productId];
 											if ($totalDownloadProduct > 0)
 											{
 												?>
@@ -895,7 +895,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 																		<input type="hidden" name="view" value="order"/>
 																		<input type="hidden" name="task" value="download_token"/>
 																		<input type="hidden" name="product_id"
-																		       value="<?php echo $product_id; ?>"/>
+																		       value="<?php echo $productId; ?>"/>
 																		<input type="hidden" name="return" value="order_detail"/>
 																		<input type="hidden" name="cid[]" value="<?php echo $orderId; ?>"/>
 																		<?php if ($tmpl)

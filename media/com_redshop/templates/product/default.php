@@ -49,7 +49,9 @@
 				<span class="vat_info">{vat_info}</span>
 			</div>
 
-			{attribute_template:attributes}
+            <div class"attributes">
+			    {attribute_template:attributes}
+            </div>
 
 			<div class="product_desc_short">{product_s_desc}</div>
 

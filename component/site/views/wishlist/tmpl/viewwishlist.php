@@ -17,7 +17,7 @@ $config        = Redconfiguration::getInstance();
 $url        = JURI::base();
 $Itemid     = $app->input->getInt('Itemid');
 $wishlists  = $this->wishlists;
-$product_id = $app->input->getInt('product_id');
+$productId = $app->input->getInt('product_id');
 $user       = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');

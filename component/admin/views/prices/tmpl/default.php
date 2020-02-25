@@ -45,7 +45,7 @@
 			{
 				$row = $this->media[$i];
 				$row->id = $row->price_id;
-				//$product_id = $row->product_id;
+				//$productId = $row->product_id;
 				$link = JRoute::_('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $row->product_id . '&cid[]=' . $row->price_id);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>

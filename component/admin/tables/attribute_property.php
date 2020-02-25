@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 class Tableattribute_property extends JTable
 {
-	public $property_id = null;
+	public $propertyId = null;
 
-	public $attribute_id = null;
+	public $attributeId = null;
 
 	public $property_name = null;
 
