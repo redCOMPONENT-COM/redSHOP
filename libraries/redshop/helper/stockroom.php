@@ -1259,9 +1259,9 @@ class RedshopHelperStockroom
 				$isSubpropertyStock = false;
 				$subProperties      = RedshopHelperProduct_Attribute::getAttributeSubProperties(0, $property->property_id);
 
-				foreach ($subProperties as $property)
+				foreach ($subProperties as $subProperty)
 				{
-					$isSubpropertyStock = self::isStockExists($property->subattribute_color_id, 'subproperty');
+					$isSubpropertyStock = self::isStockExists($subProperty->subattribute_color_id, 'subproperty');
 
 					if ($isSubpropertyStock)
 					{
