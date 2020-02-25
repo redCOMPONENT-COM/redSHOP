@@ -13,7 +13,7 @@ class Tablewrapper_detail extends JTable
 {
 	public $wrapper_id = 0;
 
-	public $productId = null;
+	public $product_id = null;
 
 	public $category_id = null;
 

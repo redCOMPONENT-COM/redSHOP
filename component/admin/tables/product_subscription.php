@@ -13,7 +13,7 @@ class Tableproduct_subscription extends JTable
 {
 	public $subscription_id = 0;
 
-	public $productId = 0;
+	public $product_id = 0;
 
 	public $subscription_period = 0;
 

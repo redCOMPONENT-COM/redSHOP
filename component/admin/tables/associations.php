@@ -29,7 +29,7 @@ class TableAssociations extends JTable
 	public $ordering = 0;
 
 	/** @var integer The ID of the Redshop product */
-	public $productId = 0;
+	public $product_id = 0;
 
 	/**
 	 * @param database A database connector object
