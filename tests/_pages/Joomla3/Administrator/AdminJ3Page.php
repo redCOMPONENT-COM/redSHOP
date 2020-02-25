@@ -26,6 +26,36 @@ abstract class AdminJ3Page
 	public static $moduleURL = '/administrator/index.php?option=com_modules';
 
 	/**
+	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $configUrl = "administrator/index.php?option=com_config";
+
+	/**
+	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $siteTab = "//ul[@class='nav nav-tabs']//a[contains(text(),'Site')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $seoNO = "//fieldset[@id='jform_sef']//label[contains(text(),'No')]";
+
+	/**
+	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $saveCloseButton = "//button[@onclick=\"Joomla.submitbutton('config.save.application.save');\"]";
+
+	/**
+	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $messageSaveConfigSuccess = "Configuration saved.";
+
+	/**
 	 * @var array
 	 */
 	public static $link = ['link' => 'Install from URL'];
