@@ -233,7 +233,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $checkoutFinalStep = "//input[@id='checkout_final']";
+	public static $checkoutFinalStep = "#checkout_final";
 
 	/**
 	 * @var string

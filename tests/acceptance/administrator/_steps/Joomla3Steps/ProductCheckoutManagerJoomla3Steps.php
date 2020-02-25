@@ -581,6 +581,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 //		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(1);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail,30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
@@ -590,8 +593,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->wait(1);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -1194,8 +1197,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
+		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 	}
 
 	/**
