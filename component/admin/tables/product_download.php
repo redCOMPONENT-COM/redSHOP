@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 class Tableproduct_download extends JTable
 {
-	public $productId = 0;
+	public $product_id = 0;
 
 	public $user_id = 0;
 

@@ -13,7 +13,7 @@ class Tableproduct_serial_number extends JTable
 {
 	public $serial_id = null;
 
-	public $productId = null;
+	public $product_id = null;
 
 	public $serial_number = "";
 
