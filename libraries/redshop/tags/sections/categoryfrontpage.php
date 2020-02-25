@@ -96,9 +96,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 			}
 		}
 
-		$this->template = $cateogoryFrontPageTemplate['begin'] ?? ''
-            . $categoryTemplate ?? ''
-            . $cateogoryFrontPageTemplate['end'] ?? '';
+		$this->template = $cateogoryFrontPageTemplate['begin'] . $categoryTemplate . $cateogoryFrontPageTemplate['end'];
 
 		if ($this->isTagExists('{print}'))
 		{
