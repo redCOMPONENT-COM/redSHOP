@@ -632,7 +632,8 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             if ($this->isTagExists('{addtocart_tooltip}')) {
                 $class = 'class="editlinktip hasTip"';
                 $title = ' title="' . $tooltip . '" ';
-                $this->addReplace('{addtocart_tooltip}', '');
+                $this->replacements["{addtocart_tooltip}"] = '';
+	            $template = $this->strReplace($this->replacements, $template);
             }
 
             if ($this->isTagExists('{addtocart_button}')) {
@@ -702,7 +703,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 					'tags.common.label',
                     array(
 						'text' => JText::_('COM_REDSHOP_QUANTITY_LBL'),
-						'tag' => 'div',
+						'id' => 'quantity'.$productId,
 						'class' => 'ajax_cart_box_title'
                     ),
                     '',

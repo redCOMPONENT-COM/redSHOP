@@ -19,25 +19,24 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerProduct_mini extends RedshopController
 {
-	/**
-	 * cancel function
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
+    /**
+     * cancel function
+     *
+     * @access public
+     * @return void
+     */
+    public function cancel()
+    {
+        $this->setRedirect('index.php');
+    }
 
-	/**
-	 * logic for display
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function display()
-	{
-		parent::display();
-	}
+    /**
+     * @param bool $cachable
+     * @param array $urlparams
+     * @return JControllerLegacy|void
+     */
+    public function display($cachable = false, $urlparams = array())
+    {
+        parent::display($cachable, $urlparams);
+    }
 }
