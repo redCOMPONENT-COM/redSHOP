@@ -362,8 +362,15 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 			return false;
 		}
 
-		$data['product_s_desc'] = html_entity_decode(str_replace(array("\r","\n",'\r','\n', "\\"),'',  $data['product_s_desc']));
-		$data['product_desc'] = html_entity_decode(str_replace(array("\r","\n",'\r','\n', "\\"),'', $data['product_desc']));
+        if (isset($data['product_s_desc']))
+        {
+            $data['product_s_desc'] = html_entity_decode(str_replace(array("\r","\n",'\r','\n', "\\"),'',  $data['product_s_desc']));
+        }
+
+        if (isset($data['product_desc']))
+        {
+            $data['product_desc'] = html_entity_decode(str_replace(array("\r","\n",'\r','\n', "\\"),'', $data['product_desc']));
+        }
 
 		// This is attribute data line.
 		if (!empty($data['attribute_name']))
@@ -416,9 +423,9 @@ class PlgRedshop_ImportProduct extends AbstractImportPlugin
 				$query = $db->getQuery(true)
 					->select("COUNT(*)")
 					->from($db->qn('#__redshop_media'))
-					->where($db->qn('media_name') . ' LIKE ' . $db->quote($data['product_full_image']))
+					->where($db->qn('media_name') . ' LIKE ' . $db->quote((string) $data['product_full_image']))
 					->where($db->qn('media_section') . ' LIKE ' . $db->quote('product'))
-					->where($db->qn('section_id') . ' = ' . $db->quote($productId))
+					->where($db->qn('section_id') . ' = ' . $db->quote((string) $productId))
 					->where($db->qn('media_type') . ' = ' . $db->quote('images'))
 					->where($db->qn('published') . ' = ' . $db->quote('1'));
 

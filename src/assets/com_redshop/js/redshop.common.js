@@ -1206,6 +1206,12 @@ function validation(cartTotal)
 		alert(Joomla.JText._('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') + ' ' + redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'));
 		return false;
 	}
+
+	if (!document.getElementById('termscondition').checked) {
+		alert(Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'));
+		return false;
+	}
+
 	return true;
 }
 
