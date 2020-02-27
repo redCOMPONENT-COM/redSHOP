@@ -27,17 +27,17 @@ class RedshopControllerAccountgroup_Detail extends RedshopController
 		$this->registerTask('add', 'edit');
 	}
 
-	/**
-	 * Edit
-	 *
-	 * @return  void
-	 */
-	public function edit()
+    /**
+     * @param bool $cachable
+     * @param array $urlparams
+     */
+	public function edit($cachable = false, $urlparams = [])
 	{
 		$this->input->set('view', 'accountgroup_detail');
 		$this->input->set('layout', 'default');
 		$this->input->set('hidemainmenu', 1);
-		parent::display();
+
+		parent::display($cachable, $urlparams);
 	}
 
 	/**
@@ -79,7 +79,8 @@ class RedshopControllerAccountgroup_Detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]=' . $row->accountgroup_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]='
+                . $row->accountgroup_id, $msg);
 		}
 		else
 		{
@@ -94,7 +95,8 @@ class RedshopControllerAccountgroup_Detail extends RedshopController
 	 */
 	public function cancel()
 	{
-		$this->setRedirect('index.php?option=com_redshop&view=accountgroup', JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED'));
+		$this->setRedirect('index.php?option=com_redshop&view=accountgroup',
+            JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED'));
 	}
 
 	/**
