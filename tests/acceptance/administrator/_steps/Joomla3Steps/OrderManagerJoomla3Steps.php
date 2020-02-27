@@ -139,11 +139,14 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->switchToNextTab();
 		$I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
 	}
+
 	/**
 	 * @param $nameProduct
+	 * @param $price
 	 * @param $username
 	 * @param $password
 	 * @throws \Exception
+	 * @since 2.1.
 	 */
 	public function addProductToCart($nameProduct,$price, $username, $password)
 	{
