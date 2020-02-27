@@ -18,291 +18,272 @@ defined('_JEXEC') or die;
  */
 class Utility
 {
-	/**
-	 * This function is for check captcha code
-	 *
-	 * @param   string   $data            The answer
-	 * @param   boolean  $displayWarning  Display warning or not.
-	 *
-	 * @return  boolean
-	 * @throws  \Exception
-	 *
-	 * @since   2.0.7
-	 */
-	public static function checkCaptcha($data, $displayWarning = true)
-	{
-		$default = \JFactory::getConfig()->get('captcha');
+    /**
+     * This function is for check captcha code
+     *
+     * @param string $data The answer
+     * @param boolean $displayWarning Display warning or not.
+     *
+     * @return  boolean
+     * @throws  \Exception
+     *
+     * @since   2.0.7
+     */
+    public static function checkCaptcha($data, $displayWarning = true)
+    {
+        $default = \JFactory::getConfig()->get('captcha');
 
-		if (\JFactory::getApplication()->isSite())
-		{
-			$default = \JFactory::getApplication()->getParams()->get('captcha', \JFactory::getConfig()->get('captcha'));
-		}
+        if (\JFactory::getApplication()->isSite()) {
+            $default = \JFactory::getApplication()->getParams()->get('captcha', \JFactory::getConfig()->get('captcha'));
+        }
 
-		if (empty($default))
-		{
-			return true;
-		}
+        if (empty($default)) {
+            return true;
+        }
 
-		$captcha = \JCaptcha::getInstance($default, array('namespace' => 'redshop'));
+        $captcha = \JCaptcha::getInstance($default, array('namespace' => 'redshop'));
 
-		if ($captcha != null && !$captcha->checkAnswer($data))
-		{
-			if ($displayWarning)
-			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
-			}
+        if ($captcha != null && !$captcha->checkAnswer($data)) {
+            if ($displayWarning) {
+                \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_INVALID_SECURITY'), 'error');
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Function which will return product tag array form  given template
-	 *
-	 * @param   integer $section      Display warning or not.
-	 * @param   string  $templateHtml Display warning or not.
-	 *
-	 * @return  array
-	 *
-	 * @since   2.1.0
-	 */
-	public static function getProductTags($section = \RedshopHelperExtrafields::SECTION_PRODUCT, $templateHtml = '')
-	{
-		if (empty($templateHtml))
-		{
-			return array();
-		}
+    /**
+     * Function which will return product tag array form  given template
+     *
+     * @param integer $section Display warning or not.
+     * @param string $templateHtml Display warning or not.
+     *
+     * @return  array
+     *
+     * @since   2.1.0
+     */
+    public static function getProductTags($section = \RedshopHelperExtrafields::SECTION_PRODUCT, $templateHtml = '')
+    {
+        if (empty($templateHtml)) {
+            return array();
+        }
 
-		$db     = \JFactory::getDbo();
-		$query  = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__redshop_fields'))
-			->where($db->qn('section') . ' = ' . (int) $section);
-		$fields = $db->setQuery($query)->loadColumn();
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select($db->qn('name'))
+            ->from($db->qn('#__redshop_fields'))
+            ->where($db->qn('section') . ' = ' . (int)$section);
+        $fields = $db->setQuery($query)->loadColumn();
 
-		if (empty($fields))
-		{
-			return array();
-		}
+        if (empty($fields)) {
+            return array();
+        }
 
-		$templateHtml = explode("{", $templateHtml);
+        $templateHtml = explode("{", $templateHtml);
 
-		if (empty($templateHtml))
-		{
-			return array();
-		}
+        if (empty($templateHtml)) {
+            return array();
+        }
 
-		$results = array();
+        $results = array();
 
-		foreach ($templateHtml as $tmp)
-		{
-			$word = explode('}', $tmp);
+        foreach ($templateHtml as $tmp) {
+            $word = explode('}', $tmp);
 
-			if (in_array($word[0], $fields))
-			{
-				$results[] = $word[0];
-			}
-		}
+            if (in_array($word[0], $fields)) {
+                $results[] = $word[0];
+            }
+        }
 
-		return $results;
-	}
+        return $results;
+    }
 
-	/**
-	 * Method for convert Unit
-	 *
-	 * @param   string  $globalUnit  Base conversation unit
-	 * @param   string  $calcUnit    Unit ratio which to convert
-	 *
-	 * @return  float                Unit ratio
-	 *
-	 * @since   2.1.0
-	 */
-	public static function getUnitConversation($globalUnit, $calcUnit)
-	{
-		if (empty($globalUnit) || empty($calcUnit) || $globalUnit == $calcUnit)
-		{
-			return 1.0;
-		}
+    /**
+     * Method for convert Unit
+     *
+     * @param string $globalUnit Base conversation unit
+     * @param string $calcUnit Unit ratio which to convert
+     *
+     * @return  float                Unit ratio
+     *
+     * @since   2.1.0
+     */
+    public static function getUnitConversation($globalUnit, $calcUnit)
+    {
+        if (empty($globalUnit) || empty($calcUnit) || $globalUnit == $calcUnit) {
+            return 1.0;
+        }
 
-		switch ($calcUnit)
-		{
-			case "mm": // Millimeters
-				switch ($globalUnit)
-				{
-					case "cm":
-						return 0.1;
+        switch ($calcUnit) {
+            case "mm": // Millimeters
+                switch ($globalUnit) {
+                    case "cm":
+                        return 0.1;
 
-					case "m":
-						return 0.001;
+                    case "m":
+                        return 0.001;
 
-					case "inch":
-						return 0.0393700787;
+                    case "inch":
+                        return 0.0393700787;
 
-					case "feet":
-						return 0.0032808399;
+                    case "feet":
+                        return 0.0032808399;
 
-					default:
-						return 1.0;
-				}
+                    default:
+                        return 1.0;
+                }
 
-				break;
+                break;
 
-			case "cm": // Centimeters
-				switch ($globalUnit)
-				{
-					case "mm":
-						return 10;
+            case "cm": // Centimeters
+                switch ($globalUnit) {
+                    case "mm":
+                        return 10;
 
-					case "m":
-						return 0.01;
+                    case "m":
+                        return 0.01;
 
-					case "inch":
-						return 0.393700787;
+                    case "inch":
+                        return 0.393700787;
 
-					case "feet":
-						return 0.032808399;
+                    case "feet":
+                        return 0.032808399;
 
-					default:
-						return 1;
-				}
+                    default:
+                        return 1;
+                }
 
-				break;
+                break;
 
-			case "m": // Meters
-				switch ($globalUnit)
-				{
-					case "mm":
-						return 1000;
+            case "m": // Meters
+                switch ($globalUnit) {
+                    case "mm":
+                        return 1000;
 
-					case "cm":
-						return 100;
+                    case "cm":
+                        return 100;
 
-					case "inch":
-						return 39.3700787;
+                    case "inch":
+                        return 39.3700787;
 
-					case "feet":
-						return 3.2808399;
+                    case "feet":
+                        return 3.2808399;
 
-					default:
-						return 1;
-				}
+                    default:
+                        return 1;
+                }
 
-				break;
+                break;
 
-			case "inch": // Inches
-				switch ($globalUnit)
-				{
-					case "mm":
-						return 25.4;
+            case "inch": // Inches
+                switch ($globalUnit) {
+                    case "mm":
+                        return 25.4;
 
-					case "cm":
-						return 2.54;
+                    case "cm":
+                        return 2.54;
 
-					case "m":
-						return 0.0254;
+                    case "m":
+                        return 0.0254;
 
-					case "feet":
-						return 0.0833333333;
+                    case "feet":
+                        return 0.0833333333;
 
-					default:
-						return 1;
-				}
+                    default:
+                        return 1;
+                }
 
-				break;
+                break;
 
-			case "feet": // Feets
-				switch ($globalUnit)
-				{
-					case "mm":
-						return 304.8;
+            case "feet": // Feets
+                switch ($globalUnit) {
+                    case "mm":
+                        return 304.8;
 
-					case "cm":
-						return 30.48;
+                    case "cm":
+                        return 30.48;
 
-					case "m":
-						return 0.3048;
+                    case "m":
+                        return 0.3048;
 
-					case "inch":
-						return 12;
+                    case "inch":
+                        return 12;
 
-					default:
-						return 1;
-				}
+                    default:
+                        return 1;
+                }
 
-				break;
+                break;
 
-			case "kg": // Kilograms
-				switch ($globalUnit)
-				{
-					case "pounds":
-					case "lbs":
-						return 2.20462262;
+            case "kg": // Kilograms
+                switch ($globalUnit) {
+                    case "pounds":
+                    case "lbs":
+                        return 2.20462262;
 
-					case "gram":
-						return 1000;
+                    case "gram":
+                        return 1000;
 
-					default:
-						return 1;
-				}
+                    default:
+                        return 1;
+                }
 
-				break;
+                break;
 
-			case "pounds": // UK Pounds
-			case "lbs":
-				switch ($globalUnit)
-				{
-					case "gram":
-						return 453.59237;
+            case "pounds": // UK Pounds
+            case "lbs":
+                switch ($globalUnit) {
+                    case "gram":
+                        return 453.59237;
 
-					case "kg":
-						return 0.45359237;
+                    case "kg":
+                        return 0.45359237;
 
-					default:
-						return 1;
-				}
+                    default:
+                        return 1;
+                }
 
-				break;
+                break;
 
-			case "gram":
-				switch ($globalUnit)
-				{
-					case "pounds":
-					case "lbs":
-						return 0.00220462262;
+            case "gram":
+                switch ($globalUnit) {
+                    case "pounds":
+                    case "lbs":
+                        return 0.00220462262;
 
-					case "kg":
-						return 0.001;
+                    case "kg":
+                        return 0.001;
 
-					default:
-						return 1;
-				}
+                    default:
+                        return 1;
+                }
 
-				break;
+                break;
 
-			default:
-				return 1;
-		}
-	}
+            default:
+                return 1;
+        }
+    }
 
-	/**
-	 * Method to get string between inputs
-	 *
-	 * @param   string  $start   Starting string where you need to start search
-	 * @param   string  $end     Ending string where you need to end search
-	 * @param   string  $string  Target string from where need to search
-	 *
-	 * @return  array            Matched string array
-	 *
-	 * @since   2.1.0
-	 */
-	public static function findStringBetween($start, $end, $string)
-	{
-		preg_match_all('/' . preg_quote($start, '/') . '([^\.)]+)' . preg_quote($end, '/') . '/i', $string, $m);
+    /**
+     * Method to get string between inputs
+     *
+     * @param string $start Starting string where you need to start search
+     * @param string $end Ending string where you need to end search
+     * @param string $string Target string from where need to search
+     *
+     * @return  array            Matched string array
+     *
+     * @since   2.1.0
+     */
+    public static function findStringBetween($start, $end, $string)
+    {
+        preg_match_all('/' . preg_quote($start, '/') . '([^\.)]+)' . preg_quote($end, '/') . '/i', $string, $m);
 
-		return $m[1];
-	}
+        return $m[1];
+    }
 
     /**
      * @param $needle
@@ -313,17 +294,13 @@ class Utility
      */
     public static function rsMultiArrayKeyExists($needle, $haystack)
     {
-        foreach ($haystack as $key => $value)
-        {
-            if ($needle === $key)
-            {
+        foreach ($haystack as $key => $value) {
+            if ($needle === $key) {
                 return true;
             }
 
-            if (is_array($value))
-            {
-                if (self::rsMultiArrayKeyExists($needle, $value))
-                {
+            if (is_array($value)) {
+                if (self::rsMultiArrayKeyExists($needle, $value)) {
                     return true;
                 }
             }
@@ -335,7 +312,7 @@ class Utility
     /**
      * @param         $haystack
      * @param         $needle
-     * @param   null  $index
+     * @param null $index
      *
      * @return bool
      * @since __DEPLOY_VERSION__
@@ -343,12 +320,10 @@ class Utility
     public static function rsRecursiveArraySearch($haystack, $needle, $index = null)
     {
         $aIt = new \RecursiveArrayIterator($haystack);
-        $it  = new \RecursiveIteratorIterator($aIt);
+        $it = new \RecursiveIteratorIterator($aIt);
 
-        while ($it->valid())
-        {
-            if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle))
-            {
+        while ($it->valid()) {
+            if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
                 return true;
             }
 
