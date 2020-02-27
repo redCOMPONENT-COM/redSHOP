@@ -40,4 +40,25 @@ class Tool
 
         return true;
     }
+
+    /**
+     * @param $db
+     * @param $query
+     * @param bool $getList
+     * @param null $defaultReturn
+     * @return null
+     * @throws \Exception
+     */
+    public static function safeSelect($db, $query, $getList = false, $defaultReturn = null)
+    {
+        try {
+            if ($getList) {
+                return $db->setQuery($query)->loadObjectList();
+            }
+            return $db->setQuery($query)->loadObject();
+        } catch (\RuntimeException $e) {
+            \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            return $defaultReturn;
+        }
+    }
 }
