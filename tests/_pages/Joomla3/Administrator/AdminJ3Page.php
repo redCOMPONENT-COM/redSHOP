@@ -529,7 +529,7 @@ abstract class AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $bankTransfer = "//input[@id='rs_payment_banktransfer0']";
+	public static $bankTransfer = "//input[@value='rs_payment_banktransfer']";
 
 	/**
 	 * @var string
