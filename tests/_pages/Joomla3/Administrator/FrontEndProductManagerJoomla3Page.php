@@ -687,9 +687,9 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 *
 	 * @return string
 	 */
-	public function attributeDropdownSeach($position)
+	public function attributeDropdownSearch($position)
 	{
-		$xpath = "//input[@id='s2id_autogen'.$position.'_search']";
+		$xpath = "#s2id_autogen".$position."_search";
 
 		return $xpath;
 	}

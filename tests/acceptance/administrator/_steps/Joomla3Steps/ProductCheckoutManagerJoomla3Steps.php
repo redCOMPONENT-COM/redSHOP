@@ -1117,30 +1117,45 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function checkoutAttributeShopperUser($userName, $product,$attributes = array(), $category, $subTotal, $vatPrice, $total, $shipping)
 	{
 		$I = $this;
-		$I->doFrontEndLogin($userName, $userName);
+//		$I->doFrontEndLogin($userName, $userName);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($category));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($product));
-//		$length = count($attributes);
-//		$I->wantToTest($length);
-//		$usePage = new \FrontEndProductManagerJoomla3Page();
-//		$attribute  = $attributes[0];
-//		$I->waitForElement($usePage->attributeDropdown(1), 30);
-//		$I->click($usePage->attributeDropdown(1));
-//		$I->waitForElement($usePage-> attributeDropdownSeach(1), 30);
-//		$I->fillField($usePage->attributeDropdownSeach(1), $attribute['attributeName']);
-//		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$length = count($attributes);
+		$I->comment("show $length");
+
+		$usePage = new \FrontEndProductManagerJoomla3Page();
+
+		$attribute  = $attributes[0];
+		$I->waitForElement($usePage->attributeDropdown(1), 30);
+		$I->click($usePage->attributeDropdown(1));
+		$I->waitForElementVisible($usePage-> attributeDropdownSearch(1), 30);
+		$I->fillField($usePage->attributeDropdownSearch(1), $attribute['attributeName']);
+		$I->pressKey($usePage->attributeDropdownSearch(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
+
+		$attribute  = $attributes[1];
+
+		$I->waitForElementVisible("(//div[@class='select2-container'])[2]", 30);
+		$I->click("(//div[@class='select2-container'])[2]");
+		$I->waitForElementVisible("//div[@id='select2-drop']//input", 30);
+		$I->fillField("//div[@id='select2-drop']//input", $attribute['attributeName']);
+		$I->pressKey("//div[@id='select2-drop']//input", \Facebook\WebDriver\WebDriverKeys::ENTER);
+
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		try{
+
+		try
+		{
 			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
 		}catch (\Exception $e)
 		{
 			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
 		}
+
 		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $product]);
