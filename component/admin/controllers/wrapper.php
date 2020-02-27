@@ -132,7 +132,7 @@ class RedshopControllerWrapper extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $productId, $msg);
 	}
 
-	public function enable_defaultpublish()
+	public function enableWrapperUseToAll()
 	{
 		$showall = $this->input->get('showall', '0');
 		$tmpl    = '';
@@ -152,7 +152,7 @@ class RedshopControllerWrapper extends RedshopController
 
 		$model = $this->getModel('wrapper_detail');
 
-		if (!$model->enable_defaultpublish($cid, 1))
+		if (!$model->enableWrapperUseToAll($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
@@ -181,7 +181,7 @@ class RedshopControllerWrapper extends RedshopController
 
 		$model = $this->getModel('wrapper_detail');
 
-		if (!$model->enable_defaultpublish($cid, 0))
+		if (!$model->enableWrapperUseToAll($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}

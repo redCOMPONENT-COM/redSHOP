@@ -24,7 +24,7 @@ class Tool
      * @return bool
      * @throws \Exception
      */
-    public static function executeSafe($db, $query)
+    public static function safeExecute($db, $query)
     {
         try {
             $db->setQuery($query);
