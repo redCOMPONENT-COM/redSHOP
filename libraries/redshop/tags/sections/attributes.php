@@ -153,9 +153,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         $this->replacements["{attributewithcart_template:$attributeTemplate->name}"] = '';
 
         if ($isChild || count($attributes) <= 0) {
-            $this->replacements["{attribute_template:$attributeTemplate->name}"] = '';
-
-            return $this->template;
+            return str_replace("{attribute_template:$attributeTemplate->name}", '', $this->template);
         }
 
         JHtml::_('script', 'com_redshop/redshop.thumbscroller.min.js', array('version' => 'auto', 'relative' => true));
