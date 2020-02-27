@@ -34,7 +34,7 @@ class Group
             $query->delete($db->qn('#__redshop_economic_accountgroup'))
                 ->where($db->qn('accountgroup_id') . ' IN (' . $db->q($accountGroupIds) . ')');
 
-            return \Redshop\DB\Tool::executeSafe($db, $query);
+            return \Redshop\DB\Tool::safeExecute($db, $query);
         }
 
         return true;
@@ -60,7 +60,7 @@ class Group
                 ])
                 ->where($db->qn('accountgroup_id') . ' IN (' . $db->q($accountGroupIds) . ')');
 
-            return \Redshop\DB\Tool::executeSafe($db, $query);
+            return \Redshop\DB\Tool::safeExecute($db, $query);
         }
 
         return true;

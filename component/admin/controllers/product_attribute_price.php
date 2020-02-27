@@ -101,7 +101,7 @@ class RedshopControllerProduct_attribute_price extends RedshopController
                     ->values(implode(',', $values));
             }
 
-            \Redshop\DB\Tool::executeSafe($db, $query);
+            \Redshop\DB\Tool::safeExecute($db, $query);
         }
 
         $link = "index.php?tmpl=component&option=com_redshop&view=product_attribute_price&section_id=" . $sectionId

@@ -117,18 +117,20 @@ class RedshopModelCheckout extends RedshopModel
 
         $plugin = JPluginHelper::getPlugin('captcha','recaptcha');
 
+        $dataCaptcha = (string) $data;
+
         if ($plugin)
         {
             $params  = new JRegistry($plugin->params);
 
             if ($params->get('version', '') === '2.0')
             {
-                $data = null;
+                $dataCaptcha = null;
             }
         }
 
         // Disable check captcha if in One Step Checkout mode.
-        if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE') && !Redshop\Helper\Utility::checkCaptcha((string)$data)) {
+        if (!Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE') && !Redshop\Helper\Utility::checkCaptcha($dataCaptcha)) {
             return false;
         }
 
