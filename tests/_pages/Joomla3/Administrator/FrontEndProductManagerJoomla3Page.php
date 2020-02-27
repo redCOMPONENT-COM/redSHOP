@@ -712,6 +712,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $containerSelect = "(//div[@class='select2-container'])[2]";
+
+	/**
+	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $select2Input = "//div[@id='select2-drop']//input";
+
+	/**
+	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $quantityOrderReceipt = '//div[@class="update_cart"]';

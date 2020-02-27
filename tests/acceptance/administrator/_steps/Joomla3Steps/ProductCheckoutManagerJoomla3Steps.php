@@ -1137,11 +1137,11 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$attribute  = $attributes[1];
 
-		$I->waitForElementVisible("(//div[@class='select2-container'])[2]", 30);
-		$I->click("(//div[@class='select2-container'])[2]");
-		$I->waitForElementVisible("//div[@id='select2-drop']//input", 30);
-		$I->fillField("//div[@id='select2-drop']//input", $attribute['attributeName']);
-		$I->pressKey("//div[@id='select2-drop']//input", \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$containerSelect, 30);
+		$I->click(FrontEndProductManagerJoomla3Page::$containerSelect);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$select2Input, 30);
+		$I->fillField(FrontEndProductManagerJoomla3Page::$select2Input, $attribute['attributeName']);
+		$I->pressKey(FrontEndProductManagerJoomla3Page::$select2Input, \Facebook\WebDriver\WebDriverKeys::ENTER);
 
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
