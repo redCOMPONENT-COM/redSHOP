@@ -581,8 +581,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 //		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(1);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail,30);
@@ -1117,7 +1115,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function checkoutAttributeShopperUser($userName, $product,$attributes = array(), $category, $subTotal, $vatPrice, $total, $shipping)
 	{
 		$I = $this;
-//		$I->doFrontEndLogin($userName, $userName);
+		$I->doFrontEndLogin($userName, $userName);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
