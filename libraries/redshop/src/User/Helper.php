@@ -109,4 +109,22 @@ class Helper
 
         return '';
     }
+
+    /**
+     * @return null
+     * @throws \Exception
+     */
+    public static function getNewCustomers()
+    {
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+        $query->select('*')
+            ->from($db->qn('#__redshop_users_info'))
+            ->order($db->qn('users_info_id') . ' DESC');
+
+        $db->setQuery($query, 0, 10);
+
+        return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
+    }
 }
