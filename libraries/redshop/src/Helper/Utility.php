@@ -342,8 +342,8 @@ class Utility
      */
     public static function rsRecursiveArraySearch($haystack, $needle, $index = null)
     {
-        $aIt = new RecursiveArrayIterator($haystack);
-        $it  = new RecursiveIteratorIterator($aIt);
+        $aIt = new \RecursiveArrayIterator($haystack);
+        $it  = new \RecursiveIteratorIterator($aIt);
 
         while ($it->valid())
         {
