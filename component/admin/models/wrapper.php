@@ -114,27 +114,20 @@ class RedshopModelWrapper extends RedshopModel
             }
         }
 
+        $query->select('*')
+            ->from($db->qn('#__redshop_wrapper', 'w'));
+
         $filter = $this->getState('filter');
+        $filter = $db->escape(trim($filter));
 
         if ($filter) {
-            $and .= "w.wrapper_name LIKE '%" . $filter . "%' ";
-        }
-
-        $query->select('*')
-            ->from($db->qn('#__redshop_wrapper', 'w'))
-            ->where('1 = 1');
-
-        if (\Joomla\String\StringHelper::strlen($and) > 0) {
-            $query->where($and);
+           $query->where($db->qn('w.wrapper_name') . " LIKE '%" . $filter . "%' ");
         }
 
         $filterOrder = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'wrapper_id');
         $filterOrderDir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
         $query->order($db->escape($db->qn($filterOrder) . ' ' . $filterOrderDir));
-
-        echo $query;
-        exit;
 
         return $query;
     }
