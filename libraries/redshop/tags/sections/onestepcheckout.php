@@ -291,6 +291,7 @@ class RedshopTagsSectionsOneStepCheckout extends RedshopTagsAbstract
 			$this->replacements['{edit_billing_address}'] = RedshopLayoutHelper::render(
 				'tags.common.modal',
 				array(
+					'class' => 'modal btn btn-primary',
 					'link' => JRoute::_('index.php?option=com_redshop&view=account_billto&tmpl=component&return=checkout&setexit=1&Itemid=' . $itemId),
 					'text' => JText::_('COM_REDSHOP_EDIT'),
 					'x' => 800,
