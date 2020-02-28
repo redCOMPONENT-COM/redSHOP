@@ -37,7 +37,7 @@ trait Template
 		if ($this->isTagExists('{product_loop_start}') && $this->isTagExists('{product_loop_end}'))
 		{
 			$templateData = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}', $cartData);
-			$templateMiddle = \RedshopHelperCartTag::replaceCartItem($templateData['template'], $cart, 1, \Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
+			$templateMiddle = $this->replaceCartItem($templateData['template'], $cart, 1, \Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
 			$cartData       = $templateData['begin'] . $templateMiddle . $templateData['end'];
 		}
 
