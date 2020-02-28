@@ -87,8 +87,8 @@ trait CartItem
 		if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
 		{
 			$giftCardId = $cart[$i]['giftcard_id'];
-			$giftcard   = RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
-			$link       = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftCardId . '&Itemid=' . $itemId);
+			$giftcard   = \RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
+			$link       = Route::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftCardId . '&Itemid=' . $itemId);
 
 			$receiverInfor = \RedshopLayoutHelper::render(
 				'tags.common.tag',
