@@ -67,14 +67,14 @@ trait CartItem
 		for ($i = 0; $i < $idx; $i++)
 		{
 			$cartResponse .= $this->replaceLoopCart(
-				$data, $cart, $i, $dispatcher, $quotationMode, $fieldArray, $isReplaceButton, $view, $token
+				$data, $cart, $i, $dispatcher, $quotationMode, $fieldArray, $isReplaceButton, $view, $token, $itemId, $deleteImg
 			);
 		}
 
 		return $cartResponse;
 	}
 
-	public function replaceLoopCart($data, $cart, $i, $dispatcher, $quotationMode, $fieldArray, $isReplaceButton, $view, $token)
+	public function replaceLoopCart($data, $cart, $i, $dispatcher, $quotationMode, $fieldArray, $isReplaceButton, $view, $token, $itemId, $deleteImg)
 	{
 		$cartHtml = $data;
 		$replaceData = [];
@@ -87,7 +87,7 @@ trait CartItem
 		if (isset($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'])
 		{
 			$giftCardId = $cart[$i]['giftcard_id'];
-			$giftcard   = \RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
+			$giftCard   = \RedshopEntityGiftcard::getInstance($giftCardId)->getItem();
 			$link       = Route::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftCardId . '&Itemid=' . $itemId);
 
 			$receiverInfor = \RedshopLayoutHelper::render(
@@ -108,7 +108,7 @@ trait CartItem
 						[
 							'tag' => 'div',
 							'class' => 'product_name',
-							'text' => $giftcard->giftcard_name
+							'text' => $giftCard->giftcard_name
 						],
 						'',
 						$optionLayout
@@ -122,7 +122,7 @@ trait CartItem
 						'tags.product.name',
 						[
 							'link' => $link,
-							'text' => isset($giftcard->giftcard_name) ? $giftcard->giftcard_name : ''
+							'text' => isset($giftCard->giftcard_name) ? $giftCard->giftcard_name : ''
 						],
 						'',
 						$optionLayout
@@ -151,7 +151,7 @@ trait CartItem
 			$replaceData['{product_on_sale end if}'] = '';
 
 			$thumbUrl = \RedshopHelperMedia::getImagePath(
-				isset($giftcard->giftcard_image) ? $giftcard->giftcard_image : '',
+				isset($giftCard->giftcard_image) ? $giftCard->giftcard_image : '',
 				'',
 				'thumb',
 				'giftcard',
