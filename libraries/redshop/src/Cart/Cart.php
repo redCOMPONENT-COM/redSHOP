@@ -376,7 +376,7 @@ class Cart
 		$data['product_price'] = 0;
 
 		// Discount calculator procedure start
-		$discounts = \Redshop\User\Helper::userFieldValidation($product, $data);
+		$discounts = \Redshop\Promotion\Discount::discountCalculatorData($product, $data);
 
 		$calcOutput      = "";
 		$calcOutputs     = array();
