@@ -27,18 +27,19 @@ class Tool
     public static function safeExecute($db, $query)
     {
         try {
-            $db->setQuery($query);
-
             $db->transactionStart();
+            $db->setQuery($query);
             $db->execute();
             $db->transactionCommit();
+
+            return true;
         } catch (\Exception $e) {
             $db->transactionRollback();
             \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
             return false;
         }
 
-        return true;
+        return false;
     }
 
     /**
