@@ -92,7 +92,7 @@ class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 			}
 			else
 			{
-				$shopMoreLink = $_SERVER['HTTP_REFERER'];
+				$shopMoreLink = \JUri::base() . 'index.php?option=com_redshop';
 			}
 
 
