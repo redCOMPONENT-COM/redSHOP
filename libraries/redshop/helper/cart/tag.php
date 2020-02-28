@@ -199,6 +199,8 @@ class RedshopHelperCartTag
      * @throws  Exception
      *
      * @since   2.1.0
+     *
+     * @deprecated use traits
      */
     public static function replaceCartItem($data, $cart = array(), $isReplaceButton = false, $quotationMode = 0)
     {
