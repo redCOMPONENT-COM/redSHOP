@@ -20,7 +20,7 @@ defined('_JEXEC') || die;
 class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 {
 	use Replace\Template, Replace\Discount, Replace\ConditionTag, Replace\Tax, Replace\TermsConditions,
-		Replace\NewsletterSubscription;
+		Replace\NewsletterSubscription, Replace\CartItem;
 
 	/**
 	 * @var    array
