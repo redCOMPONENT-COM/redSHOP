@@ -742,7 +742,7 @@ function calculateOfflineTotal() {
 
 	for (i = 1; i <= rowCount; i++) {
 		if (document.getElementById("subpriceproduct" + i)) {
-			subtotal = parseFloat(subtotal) + parseFloat(document.getElementById("prdexclpriceproduct" + i).value);
+			subtotal = parseFloat(subtotal) + parseFloat(document.getElementById("subpriceproduct" + i).value);
 		}
 		if (document.getElementById("taxpriceproduct" + i)) {
 			totalTax = parseFloat(totalTax) + parseFloat(document.getElementById("taxpriceproduct" + i).value);

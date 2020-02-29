@@ -3507,7 +3507,7 @@ class RedshopHelperProduct
             $productDetail   = \Redshop\Product\Product::getProductById($productId);
             $productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
-            $returnArr    = self::getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
+            $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
             $userFieldTag = $returnArr[1];
 
             for ($i = 0, $in = count($userFieldTag); $i < $in; $i++) {
