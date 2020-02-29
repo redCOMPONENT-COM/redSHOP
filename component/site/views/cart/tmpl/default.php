@@ -15,23 +15,19 @@ JHTML::_('behavior.modal');
 // Define array to store product detail for ajax cart display
 $cartData = $this->data[0]->template_desc;
 
-if ($cartData == "")
-{
-	if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'))
-	{
-		$cartData = RedshopHelperTemplate::getDefaultTemplateContent('quotation_cart');
-	}
-	else
-	{
-		$cartData = RedshopHelperTemplate::getDefaultTemplateContent('cart');
-	}
+if ($cartData == "") {
+    if (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) {
+        $cartData = RedshopHelperTemplate::getDefaultTemplateContent('quotation_cart');
+    } else {
+        $cartData = RedshopHelperTemplate::getDefaultTemplateContent('cart');
+    }
 }
 
 echo RedshopTagsReplacer::_(
-	'cart',
-	$cartData,
-	array(
-		'cart' => $this->cart
-	)
+    'cart',
+    $cartData,
+    array(
+        'cart' => $this->cart
+    )
 );
 
