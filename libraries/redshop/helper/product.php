@@ -1970,7 +1970,7 @@ class RedshopHelperProduct
     {
         $app             = JFactory::getApplication();
         $product_reviews = "";
-        $productId      = $product->product_id;
+        $productId       = $product->product_id;
 
         if ($productId && strpos($data_add, "{jcomments off}") === false && strpos(
                 $data_add,
@@ -2179,8 +2179,13 @@ class RedshopHelperProduct
 
                 $dispatcher->trigger('onPrepareRelatedProduct', array(&$relatedTemplateData, $relatedProduct[$r]));
 
-                $itemData = self::getMenuInformation(0, 0, '', 'product&pid='
-                                                      . $relatedProduct[$r]->product_id);
+                $itemData = self::getMenuInformation(
+                    0,
+                    0,
+                    '',
+                    'product&pid='
+                    . $relatedProduct[$r]->product_id
+                );
 
                 if (!empty($itemData)) {
                     $productItemId = $itemData->id;
@@ -2213,10 +2218,10 @@ class RedshopHelperProduct
                     $rpWidthThumb  = Redshop::getConfig()->get('RELATED_PRODUCT_THUMB_WIDTH');
                 }
 
-                $hiddenThumbImage    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='"
+                $hiddenThumbImage = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='"
                     . $rpWidthThumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='"
                     . $rpHeightThumb . "'>";
-                $relatedImage        = Redshop\Product\Image\Image::getImage(
+                $relatedImage     = Redshop\Product\Image\Image::getImage(
                     $relatedProduct [$r]->product_id,
                     $relatedUrl,
                     $rpWidthThumb,
@@ -2641,39 +2646,44 @@ class RedshopHelperProduct
         return '';
     }
 
+    /**
+     * @param   int  $id
+     *
+     * @return null
+     * @throws Exception
+     */
     public static function getProductCategory($id = 0)
     {
-        $db                         = JFactory::getDbo();
-        $shopper_group_manufactures = \RedshopHelperShopper_Group::getShopperGroupManufacturers();
-        $query                      = $db->getQuery(true);
+        $db                       = JFactory::getDbo();
+        $shopperGroupManufactures = \RedshopHelperShopper_Group::getShopperGroupManufacturers();
+        $query                    = $db->getQuery(true);
 
-        if ($shopper_group_manufactures != "") {
+        if ($shopperGroupManufactures != "") {
             // Sanitize groups
-            $shopGroupsIds = explode(',', $shopper_group_manufactures);
+            $shopGroupsIds = explode(',', $shopperGroupManufactures);
             $shopGroupsIds = Joomla\Utilities\ArrayHelper::toInteger($shopGroupsIds);
 
             $query->where($db->qn('p.manufacturer_id') . ' IN (' . implode(',', $shopGroupsIds) . ') ');
         }
 
-        $query->select($db->qn('p.product_id'))
+        $query->select('p.*, pc.category_id')
             ->from($db->qn('#__redshop_product_category_xref', 'pc'))
             ->leftJoin(
                 $db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id')
             )
             ->where($db->qn('category_id') . ' = ' . (int)$id);
-        $db->setQuery($query);
-        $res = $db->loadObjectlist();
 
-        return $res;
+        return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
     }
 
     /**
-     * @param array $attributes
-     * @param int $productId
-     * @param int $userId
-     * @param int $newProductPrice
-     * @param int $quantity
-     * @param string $data
+     * @param   array   $attributes
+     * @param   int     $productId
+     * @param   int     $userId
+     * @param   int     $newProductPrice
+     * @param   int     $quantity
+     * @param   string  $data
+     *
      * @return array|string
      * @throws Exception
      */
@@ -3417,13 +3427,13 @@ class RedshopHelperProduct
         for ($i = 0, $in = count($attributes); $i < $in; $i++) {
             $attribute      = $attributes[$i];
             $attribute_name = $attribute->text;
-            $attributeId   = $attribute->value;
+            $attributeId    = $attribute->value;
             $propertys      = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attributeId);
 
             for ($p = 0, $pn = count($propertys); $p < $pn; $p++) {
                 $property = $propertys[$p];
 
-                $propertyId             = $property->value;
+                $propertyId              = $property->value;
                 $property_name           = $property->text;
                 $proprty_price           = $property->property_price;
                 $property_formated_price = RedshopHelperProductPrice::formattedPrice($proprty_price);
@@ -3436,7 +3446,7 @@ class RedshopHelperProduct
                 for ($s = 0, $sn = count($subpropertys); $s < $sn; $s++) {
                     $subproperty = $subpropertys[$s];
 
-                    $subPropertyId    = $subproperty->value;
+                    $subPropertyId     = $subproperty->value;
                     $subproperty_name  = $subproperty->text;
                     $subproprty_price  = $subproperty->subattribute_color_price;
                     $subproprty_oprand = $subproperty->oprand;
@@ -3501,13 +3511,15 @@ class RedshopHelperProduct
         $userfield = RedshopHelperOrder::getOrderUserFieldData($orderitemid, $sectionId);
 
         if (!empty($userfield)) {
-            $orderItem  = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
+            $orderItem = RedshopHelperOrder::getOrderItemDetail(0, 0, $orderitemid);
             $productId = $orderItem[0]->product_id;
 
             $productDetail   = \Redshop\Product\Product::getProductById($productId);
             $productTemplate = RedshopHelperTemplate::getTemplate("product", $productDetail->product_template);
 
-            $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate($productTemplate[0]->template_desc);
+            $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate(
+                $productTemplate[0]->template_desc
+            );
             $userFieldTag = $returnArr[1];
 
             for ($i = 0, $in = count($userFieldTag); $i < $in; $i++) {
@@ -4727,31 +4739,35 @@ class RedshopHelperProduct
     }
 
     /**
-     * @param string $id
-     * @param int $sectionId
+     * @param   string  $id
+     * @param   int     $sectionId
+     *
      * @return string
      * @throws Exception
      */
     public static function getProductUserField($id = 'NULL', $sectionId = 12)
     {
-        $cart     = \Redshop\Cart\Helper::getCart();
+        $cart    = \Redshop\Cart\Helper::getCart();
         $rowData = \RedshopHelperExtrafields::getSectionFieldList($sectionId, 1, 0);
 
         if ($sectionId == 12) {
-            $productId    = $cart[$id]['product_id'] ?? 0;
+            $productId     = $cart[$id]['product_id'] ?? 0;
             $productDetail = \Redshop\Product\Product::getProductById($productId);
-            $tempName     = "product";
-            $tempId       = $productDetail->product_template ?? '';
+            $tempName      = "product";
+            $tempId        = $productDetail->product_template ?? '';
             $giftCard      = 0;
         } else {
             $tempName = "giftcard";
             $tempId   = 0;
-            $giftCard  = 1;
+            $giftCard = 1;
         }
 
         $productTemplate = \RedshopHelperTemplate::getTemplate($tempName, $tempId);
 
-        $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate($productTemplate[0]->template_desc, $giftCard);
+        $returnArr    = \Redshop\Product\Product::getProductUserfieldFromTemplate(
+            $productTemplate[0]->template_desc,
+            $giftCard
+        );
         $userFieldTag = $returnArr[1];
 
         $resultArr = array();
@@ -4846,8 +4862,9 @@ class RedshopHelperProduct
     }
 
     /**
-     * @param string $id
-     * @param int $sectionId
+     * @param   string  $id
+     * @param   int     $sectionId
+     *
      * @return string
      */
     public static function getProductField($id = 'NULL', $sectionId = 1)
