@@ -38,8 +38,8 @@ class shippingDefaultGLS extends CheckoutWithEWAYPayment
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $product['name']], 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantity1, 30);
-		$quantity = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantityFieldCart, 30);
+		$quantity = $I->grabValueFrom(FrontEndProductManagerJoomla3Page::$quantityFieldCart);
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -75,7 +75,7 @@ class shippingDefaultGLS extends CheckoutWithEWAYPayment
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
-//		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30);
+		$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30);
 
 		$total = $product['price']*$quantity + $shipping['shippingRate'];
 		$priceTotal = $currencyUnit['currencySymbol'].' '.($total).$currencyUnit['decimalSeparator'].$currencyUnit['numberZero'];
