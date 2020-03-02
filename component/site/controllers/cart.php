@@ -61,7 +61,7 @@ class RedshopControllerCart extends RedshopController
         $result        = \Redshop\Cart\Cart::addProduct($post);
 
         if (!is_bool($result) || (is_bool($result) && !$result)) {
-            $errorMessage = $result ?? JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+            $errorMessage = $result ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
             // Set Error Message
             $app->enqueueMessage($errorMessage, 'error');
