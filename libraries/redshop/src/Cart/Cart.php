@@ -141,51 +141,46 @@ class Cart
             $productVat        = ($getProductTax + $accessoryTax + $wrapperVat);
             $productPriceNoVat = ($getProductPrice + $accessoryPrice + $wrapperPrice);
 
-            if (isset($product->product_type) && ($product->product_type == 'subscription')) {
-                if (!isset($cart[$i]['subscription_id']) || empty($cart[$i]['subscription_id'])) {
-                    return array();
-                }
-                if (isset($product->product_type) && $product->product_type == 'subscription') {
-                    if (!isset($cart[$i]['subscription_id']) || empty($cart[$i]['subscription_id'])) {
-                        return array();
-                    }
+	        if (isset($product->product_type) && $product->product_type == 'subscription') {
+		        if (!isset($cart[$i]['subscription_id']) || empty($cart[$i]['subscription_id'])) {
+			        return array();
+		        }
 
-                    $subscription      = \RedshopHelperProduct::getProductSubscriptionDetail(
-                        $productId,
-                        $cart[$i]['subscription_id']
-                    );
-                    $subscriptionVat   = 0;
-                    $subscriptionPrice = $subscription->subscription_price;
+		        $subscription      = \RedshopHelperProduct::getProductSubscriptionDetail(
+			        $productId,
+			        $cart[$i]['subscription_id']
+		        );
+		        $subscriptionVat   = 0;
+		        $subscriptionPrice = $subscription->subscription_price;
 
-                    if ($subscriptionPrice) {
-                        $subscriptionVat = \RedshopHelperProduct::getProductTax(
-                            $product->product_id,
-                            $subscriptionPrice
-                        );
-                    }
+		        if ($subscriptionPrice) {
+			        $subscriptionVat = \RedshopHelperProduct::getProductTax(
+				        $product->product_id,
+				        $subscriptionPrice
+			        );
+		        }
 
-                    $productPrice = $productPrice + $subscriptionPrice + $subscriptionVat;
+		        $productPrice = $productPrice + $subscriptionPrice + $subscriptionVat;
 
-                    $productVat           += $subscriptionVat;
-                    $productPriceNoVat    += $subscriptionPrice;
-                    $productOldPriceNoVat += $subscriptionPrice + $subscriptionVat;
-                }
+		        $productVat           += $subscriptionVat;
+		        $productPriceNoVat    += $subscriptionPrice;
+		        $productOldPriceNoVat += $subscriptionPrice + $subscriptionVat;
+	        }
 
-                // Set product price
-                if ($productPrice < 0) {
-                    $productPrice = 0;
-                }
+	        // Set product price
+	        if ($productPrice < 0) {
+		        $productPrice = 0;
+	        }
 
-                $cart[$i]['product_old_price_excl_vat'] = $productOldPriceNoVat;
-                $cart[$i]['product_price_excl_vat']     = $productPriceNoVat;
-                $cart[$i]['product_vat']                = $productVat;
-                $cart[$i]['product_price']              = $productPrice;
+	        $cart[$i]['product_old_price_excl_vat'] = $productOldPriceNoVat;
+	        $cart[$i]['product_price_excl_vat']     = $productPriceNoVat;
+	        $cart[$i]['product_vat']                = $productVat;
+	        $cart[$i]['product_price']              = $productPrice;
 
-                \RedshopHelperUtility::getDispatcher()->trigger('onBeforeLoginCartSession', array(&$cart, $i));
-            }
-
-            unset($cart[$idx]);
+	        \RedshopHelperUtility::getDispatcher()->trigger('onBeforeLoginCartSession', array(&$cart, $i));
         }
+
+        unset($cart[$idx]);
 
         return $cart;
     }
