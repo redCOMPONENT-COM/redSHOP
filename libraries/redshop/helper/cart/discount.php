@@ -441,7 +441,7 @@ class RedshopHelperCartDiscount
 			$remainingVoucherDiscount = $voucherValue - $productPrice;
 			$voucherValue             = $productPrice;
 		}
-		elseif ($cart['voucher_discount'] > 0 && ($productPrice - $cart['voucher_discount']) <= 0)
+		elseif ($cart['voucher_discount'] > 0 && ($productPrice - $cart['voucher_discount']) <= 0 && Redshop::getConfig()->get('DISCOUNT_TYPE') != 4)
 		{
 			$remainingVoucherDiscount = $voucherValue;
 			$voucherValue             = 0;
