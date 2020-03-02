@@ -667,9 +667,6 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 }
             }
 
-            $attributesPropertyVatShow  += $property->property_price;
-            $attributesPropertyOldPrice += $attributesPropertyOldPriceVat;
-
             /*
              * get product vat to include
              */
@@ -678,7 +675,11 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $property->property_price,
                 \JFactory::getUser()->id
             );
+
             $property->property_price += $attributesPropertyVat;
+
+            $attributesPropertyVatShow  += $property->property_price;
+            $attributesPropertyOldPrice += $attributesPropertyOldPriceVat;
 
             if (Redshop::getConfig()->get('SHOW_PRICE')
                 && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')
