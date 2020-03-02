@@ -57,8 +57,8 @@ class Render
 
 		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
-		$title = " title='" . $altText . "' ";
-		$alt   = " alt='" . $altText . "' ";
+		$title = ' title="' . $altText . '" ';
+		$alt   = ' alt="' . $altText . '" ';
 
 		$catProductHover = false;
 
@@ -101,7 +101,7 @@ class Render
 		if (!empty($preSelectedResult))
 		{
 			$productImageDefault = $preSelectedResult['product_mainimg'];
-			$title               = " title='" . $preSelectedResult['aTitleImageResponse'] . "' ";
+			$title               = ' title="' . $preSelectedResult['aTitleImageResponse'] . '" ';
 			$linkImage           = $preSelectedResult['aHrefImageResponse'];
 		}
 
@@ -109,30 +109,30 @@ class Render
 
 		if ($isLight !== 2 && $isLight !== 1)
 		{
-			$thumbImage = "<img id='main_image" . $commonId . "' src='" . $productImageDefault . "' " . $title . $alt . " />";
+			$thumbImage = '<img id="main_image' . $commonId . '" src="' . $productImageDefault . '" ' . $title . $alt . ' />';
 		}
 		else
 		{
 			if ($isLight === 1)
 			{
-				$thumbImage = "<a id='a_main_image" . $commonId . "' " . $title . " href='" . $linkImage . "' rel=\"myallimg\">";
+				$thumbImage = '<a id="a_main_image' . $commonId . '" ' . $title . ' href="' . $linkImage . '" rel="myallimg">';
 			}
 			elseif (\Redshop::getConfig()->getInt('PRODUCT_IS_LIGHTBOX') === 1)
 			{
-				$thumbImage = "<a id='a_main_image" . $commonId . "' " . $title . " href='" . $linkImage
-					. "' class=\"modal\" rel=\"{handler: 'image', size: {}}\">";
+				$thumbImage = '<a id="a_main_image' . $commonId . '" ' . $title . ' href="' . $linkImage
+					. '" class="modal" rel="{handler: \'image\', size: {}}">';
 			}
 			else
 			{
-				$thumbImage = "<a id='a_main_image" . $commonId . "' " . $title . " href='" . $link . "'>";
+				$thumbImage = '<a id="a_main_image' . $commonId . '" ' . $title . ' href="' . $link . '">';
 			}
 
-			$thumbImage .= "<img id='main_image" . $commonId . "' src='" . $productImageDefault . "' " . $title . $alt . " />";
+			$thumbImage .= '<img id="main_image' . $commonId . '" src="' . $productImageDefault . '" ' . $title . $alt . ' />';
 
 			if ($catProductHover)
 			{
-				$thumbImage .= "<img id='main_image" . $commonId . "' src='" . $productHoverImg . "' "
-					. $title . $alt . " class='redImagepreview' />";
+				$thumbImage .= '<img id="main_image' . $commonId . '" src="' . $productHoverImg . '" '
+					. $title . $alt . ' class="redImagepreview" />';
 			}
 
 			$thumbImage .= '</a>';
@@ -140,7 +140,7 @@ class Render
 
 		if ($catProductHover)
 		{
-			$thumbImage = "<div class='redhoverImagebox'>" . $thumbImage . "</div>";
+			$thumbImage = '<div class="redhoverImagebox">' . $thumbImage . '</div>';
 		}
 		else
 		{
