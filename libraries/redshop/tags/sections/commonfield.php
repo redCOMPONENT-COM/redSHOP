@@ -113,7 +113,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'type' => 'text',
 					'value' => (isset($data["firstname"]) ? $data["firstname"] : ''),
 					'class' => 'inputbox required',
-					'attr' => 'size="32" maxlength="250"'
+					'attr' => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME') . '"'
 				),
 				'',
 				$options
@@ -148,7 +148,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'type' => 'text',
 					'value' => (isset($data["lastname"]) ? $data["lastname"] : ''),
 					'class' => 'inputbox required',
-					'attr' => 'size="32" maxlength="250"'
+					'attr' => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME') . '"'
 				),
 				'',
 				$options
@@ -184,7 +184,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'type' => 'text',
 					'value' => (isset($data["address"]) ? $data["address"] : ''),
 					'class' => 'inputbox required',
-					'attr' => 'size="32" maxlength="250"'
+					'attr' => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
 				),
 				'',
 				$options
@@ -219,7 +219,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'type' => 'text',
 					'value' => (isset($data["zipcode"]) ? $data["zipcode"] : ''),
 					'class' => 'inputbox required',
-					'attr' => 'size="32" maxlength="250" onblur="return autoFillCity(this.value,\'BT\');"'
+					'attr' => 'size="32" maxlength="250" onblur="return autoFillCity(this.value,\'BT\');" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE') . '"'
 				),
 				'',
 				$options
@@ -254,7 +254,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'type' => 'text',
 					'value' => (isset($data["city"]) ? $data["city"] : ''),
 					'class' => 'inputbox required',
-					'attr' => 'size="32" maxlength="250"'
+					'attr' => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
 				),
 				'',
 				$options
@@ -293,7 +293,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'type' => 'text',
 					'value' => (isset($data["phone"]) ? $data["phone"] : ''),
 					'class' => 'inputbox phone required',
-					'attr' => 'size="32" maxlength="250" onblur="return searchByPhone(this.value,\'BT\');" ' . $phoneIsRequired
+					'attr' => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE') . '" onblur="return searchByPhone(this.value,\'BT\');" ' . $phoneIsRequired
 				),
 				'',
 				$options
@@ -328,7 +328,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 					'type' => 'text',
 					'value' => (isset($data["company_name"]) ? $data["company_name"] : ''),
 					'class' => 'inputbox required',
-					'attr' => 'size="32" maxlength="250"'
+					'attr' => 'size="32" maxlength="250" title="' . JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME') . '"'
 				),
 				'',
 				$options

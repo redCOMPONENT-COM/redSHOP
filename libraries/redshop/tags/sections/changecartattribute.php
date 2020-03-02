@@ -91,91 +91,16 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 		}
 
 		$totalAtt       = count($attributes);
-		$this->template = RedshopHelperAttribute::replaceAttributeData($productId, 0, 0, $attributes, $this->template, $attributeTemplate, $isChildren, $selectAtt, 0);
-
-		// Product attribute  End
-		$stockAddToCart = "stockaddtocartprd_" . $productId;
-		$pdAddToCart    = "pdaddtocartprd_" . $productId;
-
-		$applyButton = RedshopLayoutHelper::render(
-			'tags.common.button',
+		$this->template = RedshopTagsReplacer::_(
+			'attributes',
+			$this->template,
 			array(
-				'class' => 'btn btn-primary',
-				'attr' => 'name="apply" onclick="javascript:submitChangeAttribute();"',
-				'text' => JText::_('COM_REDSHOP_APPLY')
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
-		);
-
-		$hiddenInput = RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'name' => 'task',
-				'type' => 'hidden',
-				'value' => 'changeAttribute'
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
-		);
-
-		$hiddenInput .= RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'name' => 'cart_index',
-				'type' => 'hidden',
-				'value' => $cartIndex
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
-		);
-
-		$hiddenInput .= RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'name' => 'product_id',
-				'type' => 'hidden',
-				'value' => $productId
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
-		);
-
-		$hiddenInput .= RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'name' => 'view',
-				'type' => 'hidden',
-				'value' => 'cart'
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
-		);
-
-		$hiddenInput .= RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'name' => 'requiedAttribute',
-				'id' => 'requiedAttribute',
-				'type' => 'hidden',
-				'value' => '',
-				'attr' => 'reattribute=""'
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
-		);
-
-		$hiddenInput .= RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'name' => 'requiedProperty',
-				'id' => 'requiedProperty',
-				'type' => 'hidden',
-				'value' => '',
-				'attr' => 'reproperty=""'
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
+				'productId' => $productId,
+				'attributes' => $attributes,
+				'attributeTemplate' => $attributeTemplate,
+				'isChild' => $isChildren,
+				'selectedAttributes' => $selectAtt,
+			)
 		);
 
 		$cancelButton = RedshopLayoutHelper::render(
@@ -189,11 +114,11 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 			RedshopLayoutHelper::$layoutOption
 		);
 
-		$span = RedshopLayoutHelper::render(
-			'tags.common.tag',
+		$applyButton = RedshopLayoutHelper::render(
+			'tags.change_attribute.apply_button',
 			array(
-				'tag' => 'span',
-				'id' => $stockAddToCart
+				'cartIndex' => $cartIndex,
+				'productId' => $productId
 			),
 			'',
 			RedshopLayoutHelper::$layoutOption
@@ -203,18 +128,8 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
          * @TODO: In case there are many hidden input, better way to enhance performance is use only one layout for
          * replace - Will create task for enhancement later.
          * **/
-		$span .= \RedshopLayoutHelper::render(
-			'tags.common.tag',
-			array(
-				'tag' => 'span',
-				'id' => $pdAddToCart,
-				'text' => $applyButton . $hiddenInput
-			),
-			'',
-			\RedshopLayoutHelper::$layoutOption
-		);
 
-		$this->addReplace('{apply_button}', $span);
+		$this->addReplace('{apply_button}', $applyButton);
 		$this->addReplace('{cancel_button}', $cancelButton);
 		$this->addReplace('{change_attribute}', JText::_("COM_REDSHOP_CHANGE_ATTRIBUTE"));
 
