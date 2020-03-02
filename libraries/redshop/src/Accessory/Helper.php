@@ -253,7 +253,7 @@ class Helper
                         $requied_attribute_name = implode(", ", $requiredAttributes);
 
                         // Throw an error as first attribute is required
-                        $msg = urldecode($requied_attribute_name) . " " . JText::_('IS_REQUIRED');
+                        $msg = urldecode($requied_attribute_name) . " " . \JText::_('IS_REQUIRED');
                         \JFactory::getApplication()->enqueueMessage($msg);
 
                         return false;
