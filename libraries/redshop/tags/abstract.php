@@ -222,12 +222,12 @@ abstract class RedshopTagsAbstract
 				$templateStartData = explode($beginTag, $template);
 			}
 
-			$templateStart     = $templateStartData [0];
+			$templateStart     = $templateStartData [0] ?? '';
 
-			$templateEndData = explode($endTag, $templateStartData [1]);
-			$templateEnd     = $templateEndData[1];
+			$templateEndData = explode($endTag, $templateStartData [1] ?? '');
+			$templateEnd     = $templateEndData[1] ?? '';
 
-			$templateMain = $templateEndData[0];
+			$templateMain = $templateEndData[0] ?? '';
 
 			return array(
 				'begin'    => $templateStart,

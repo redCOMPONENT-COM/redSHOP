@@ -614,7 +614,7 @@ class RedshopHelperExtrafields
 
 					case self::TYPE_SELECT_BOX_SINGLE:
 						$fieldChk = RedshopEntityField::getInstance($customField->id)->getFieldValues();
-						$chkData  = explode(",", $dataValue->data_txt);
+						$chkData  = explode(",", ($dataValue->data_txt ?? ''));
 						$exField  .= RedshopLayoutHelper::render(
 							'extrafields.field.select',
 							array(

@@ -27,7 +27,7 @@ $model = $this->getModel('redshop');
 				$row = $this->newcustomers[$i];
 				$row->id = $row->users_info_id;
 
-				$order = $model->gettotalOrder($row->id);
+				$order = $model->getTotalOrder($row->id);
 
 				$order->order_total = ($order->order_total) ? $order->order_total : 0;
 				$avg_amount = ($order->tot_order > 0) ? $order->order_total / $order->tot_order : 0;

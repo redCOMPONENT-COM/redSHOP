@@ -29,7 +29,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         $productPreOrder    = $this->data['productPreOrder'];
         $product            = $this->data['product'];
         $userId             = $this->data['userId'];
-        $giftcardId         = $this->data['giftcardId'];
+        $giftCardId         = $this->data['giftcardId'];
         $totalAccessory     = $this->data['totalAccessory'];
         $countNoUserField   = $this->data['countNoUserField'];
         $cartTemplate       = $this->data['cartTemplate'];
@@ -82,9 +82,9 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
         $totalRequiredAttributes = "";
         $totalRequiredProperties = '';
-        $isPreorderStockExists   = '';
+        $isPreOrderStockExists   = '';
 
-        if ($giftcardId != 0) {
+        if ($giftCardId != 0) {
             $productPrice      = $product->giftcard_price;
             $productPriceNoVat = 0;
             $productOldPrice   = 0;
@@ -148,7 +148,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $propertyIds = array();
 
                 foreach ($properties as $attributeProperties) {
-                    $isSubpropertyStock = false;
+                    $isSubPropertyStock = false;
                     $subProperties      = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                         0,
                         $attributeProperties->property_id
@@ -161,19 +161,19 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                             $subPropertyIds[] = $subProperty->subattribute_color_id;
                         }
 
-                        $isSubpropertyStock = \RedshopHelperStockroom::isStockExists(
+                        $isSubPropertyStock = \RedshopHelperStockroom::isStockExists(
                             implode(',', $subPropertyIds),
                             'subproperty'
                         );
 
-                        if ($isSubpropertyStock) {
-                            $isStockExist = $isSubpropertyStock;
+                        if ($isSubPropertyStock) {
+                            $isStockExist = $isSubPropertyStock;
                             break;
                         }
                     }
 
-                    if ($isSubpropertyStock) {
-                        $isStockExist = $isSubpropertyStock;
+                    if ($isSubPropertyStock) {
+                        $isStockExist = $isSubPropertyStock;
 
                         break;
                     }
@@ -197,6 +197,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $defaultQuantity,
                 $content
             );
+
             $productPrice      = $productNetPrice['product_price'] * $defaultQuantity;
             $productPriceNoVat = $productNetPrice['product_price_novat'] * $defaultQuantity;
             $productOldPrice   = $productNetPrice['product_old_price'] * $defaultQuantity;
@@ -219,31 +220,31 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 || ($productPreOrder == "yes")
                 || ($productPreOrder == "" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))) {
                 // Get preorder stock for Product
-                $isPreorderStockExists = \RedshopHelperStockroom::isPreorderStockExists($productId);
+                $isPreOrderStockExists = \RedshopHelperStockroom::isPreorderStockExists($productId);
 
-                if ($totalAttr > 0 && !$isPreorderStockExists) {
+                if ($totalAttr > 0 && !$isPreOrderStockExists) {
                     $attributeProperties = \RedshopHelperProduct_Attribute::getAttributeProperties(0, 0, $productId);
 
                     foreach ($attributeProperties as $attributeProperty) {
-                        $isSubpropertyStock     = false;
+                        $isSubPropertyStock     = false;
                         $attributeSubProperties = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                             0,
                             $attributeProperty->property_id
                         );
 
                         foreach ($attributeSubProperties as $attributeSubProperty) {
-                            $isSubpropertyStock = \RedshopHelperStockroom::isPreorderStockExists(
+                            $isSubPropertyStock = \RedshopHelperStockroom::isPreorderStockExists(
                                 $attributeSubProperty->subattribute_color_id,
                                 'subproperty'
                             );
 
-                            if ($isSubpropertyStock) {
-                                $isPreorderStockExists = $isSubpropertyStock;
+                            if ($isSubPropertyStock) {
+                                $isPreOrderStockExists = $isSubPropertyStock;
                                 break;
                             }
                         }
 
-                        if ($isSubpropertyStock) {
+                        if ($isSubPropertyStock) {
                             break;
                         }
 
@@ -253,14 +254,14 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                         );
 
                         if ($isPropertyStockExist) {
-                            $isPreorderStockExists = $isPropertyStockExist;
+                            $isPreOrderStockExists = $isPropertyStockExist;
                             break;
                         }
                     }
                 }
 
                 // Check preorder stock
-                if (!$isPreorderStockExists) {
+                if (!$isPreOrderStockExists) {
                     $stockDisplay = true;
                     $addCartFlag  = true;
                     $displayText  = \JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE');
@@ -336,7 +337,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
         if ($addCartFlag)
         {
-            if ($giftcardId == 0 && $categoryId == 0)
+            if ($giftCardId == 0 && $categoryId == 0)
             {
                 $categoryId = \RedshopHelperProduct::getCategoryProduct($productId);
             }
@@ -351,7 +352,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 }
 
                 for ($j = 0; $j < $idx; $j++) {
-                    if ($giftcardId != 0) {
+                    if ($giftCardId != 0) {
                         if ($cart[$j]['giftcard_id'] == $productId) {
                             $cartId = $j;
                         }
@@ -433,9 +434,9 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     || ($productPreOrder == "yes")
                     || ($productPreOrder == "" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))) {
                     // Get preorder stock for Product
-                    $isPreorderStockExists = \RedshopHelperStockroom::isPreorderStockExists($productId);
+                    $isPreOrderStockExists = \RedshopHelperStockroom::isPreorderStockExists($productId);
 
-                    if ($totalAttr > 0 && !$isPreorderStockExists) {
+                    if ($totalAttr > 0 && !$isPreOrderStockExists) {
                         $attributeProperties = \RedshopHelperProduct_Attribute::getAttributeProperties(
                             0,
                             0,
@@ -443,25 +444,25 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                         );
 
                         foreach ($attributeProperties as $attributeProperty) {
-                            $isSubpropertyStock     = false;
+                            $isSubPropertyStock     = false;
                             $attributeSubProperties = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                                 0,
                                 $attributeProperty->property_id
                             );
 
                             foreach ($attributeSubProperties as $attributeSubProperty) {
-                                $isSubpropertyStock = \RedshopHelperStockroom::isPreorderStockExists(
+                                $isSubPropertyStock = \RedshopHelperStockroom::isPreorderStockExists(
                                     $attributeSubProperty->subattribute_color_id,
                                     'subproperty'
                                 );
 
-                                if ($isSubpropertyStock) {
-                                    $isPreorderStockExists = $isSubpropertyStock;
+                                if ($isSubPropertyStock) {
+                                    $isPreOrderStockExists = $isSubPropertyStock;
                                     break;
                                 }
                             }
 
-                            if ($isSubpropertyStock) {
+                            if ($isSubPropertyStock) {
                                 break;
                             }
 
@@ -471,14 +472,14 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                             );
 
                             if ($isPropertyStockExist) {
-                                $isPreorderStockExists = $isPropertyStockExist;
+                                $isPreOrderStockExists = $isPropertyStockExist;
                                 break;
                             }
                         }
                     }
 
                     // Check preorder stock$
-                    if (!$isPreorderStockExists) {
+                    if (!$isPreOrderStockExists) {
                         $stockDisplay = true;
                         $addCartFlag  = true;
                         $displayText  = \JText::_('COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE');
@@ -562,24 +563,24 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                 $addToCartClickJS = "";
             }
 
-            if ($giftcardId) {
+            if ($giftCardId) {
                 $onclick = ' onclick="' . $addToCartClickJS . 'if(validateEmail()){if(displayAddtocartForm(\'' .
                     $cartFromName . '\',\'' .
                     $productId . '\',\'' .
                     $relatedProductId . '\',\'' .
-                    $giftcardId . '\', \'user_fields_form\')){checkAddtocartValidation(\'' .
+                    $giftCardId . '\', \'user_fields_form\')){checkAddtocartValidation(\'' .
                     $cartFromName . '\',\'' .
                     $productId . '\',\'' .
                     $relatedProductId . '\',\'' .
-                    $giftcardId . '\', \'user_fields_form\',\'' .
+                    $giftCardId . '\', \'user_fields_form\',\'' .
                     $totalAttr . '\',\'' .
                     $totalAccessory . '\',\'' .
                     $countNoUserField . '\');}}" ';
             } else {
                 $onclick = ' onclick="' . $addToCartClickJS . 'if(displayAddtocartForm(\'' . $cartFromName . '\',\'' . $productId
-                    . '\',\'' . $relatedProductId . '\',\'' . $giftcardId
+                    . '\',\'' . $relatedProductId . '\',\'' . $giftCardId
                     . '\', \'user_fields_form\')){checkAddtocartValidation(\'' . $cartFromName . '\',\''
-                    . $productId . '\',\'' . $relatedProductId . '\',\'' . $giftcardId . '\', \'user_fields_form\',\''
+                    . $productId . '\',\'' . $relatedProductId . '\',\'' . $giftCardId . '\', \'user_fields_form\',\''
                     . $totalAttr . '\',\'' . $totalAccessory . '\',\'' . $countNoUserField . '\');}" ';
             }
 
@@ -590,7 +591,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             if ($productQuantity) {
                 $quantity = $productQuantity;
             } else {
-                if ($giftcardId != 0) {
+                if ($giftCardId != 0) {
                     $quantity = 1;
                 } elseif ($product->min_order_product_quantity > 0) {
                     $quantity = $product->min_order_product_quantity;
@@ -632,7 +633,8 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             if ($this->isTagExists('{addtocart_tooltip}')) {
                 $class = 'class="editlinktip hasTip"';
                 $title = ' title="' . $tooltip . '" ';
-                $this->addReplace('{addtocart_tooltip}', '');
+                $this->replacements["{addtocart_tooltip}"] = '';
+	            $template = $this->strReplace($this->replacements, $template);
             }
 
             if ($this->isTagExists('{addtocart_button}')) {
@@ -702,7 +704,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 					'tags.common.label',
                     array(
 						'text' => JText::_('COM_REDSHOP_QUANTITY_LBL'),
-						'tag' => 'div',
+						'id' => 'quantity'.$productId,
 						'class' => 'ajax_cart_box_title'
                     ),
                     '',
@@ -725,7 +727,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     'cartTitle'               => $cartTitle,
 					'content' 				  => $template,
                     'cartFromName'            => $cartFromName,
-                    'isPreorderStockExists'   => $isPreorderStockExists,
+                    'isPreorderStockExists'   => $isPreOrderStockExists,
                     'isStockExist'            => $isStockExist,
                     'productPreOrder'         => $productPreOrder,
                     'categoryId'              => $categoryId,
@@ -738,7 +740,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     'totalRequiredAttributes' => $totalRequiredAttributes,
                     'totalRequiredProperties' => $totalRequiredProperties,
                     'preSelectedAttrImage'    => $preSelectedAttrImage,
-                    'giftcardId'              => $giftcardId,
+                    'giftcardId'              => $giftCardId,
                     'stockStyle'              => $stockStyle,
                     'preOrderImage'           => $preOrderImage,
                     'preOrderStyle'           => $preOrderStyle,
