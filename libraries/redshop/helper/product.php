@@ -4371,7 +4371,7 @@ class RedshopHelperProduct
                             'subproperty'
                         );
 
-                        if (count($pricelist) > 0) {
+                        if (isset($pricelist->product_price)) {
                             $subproperty[$i]->subattribute_color_price = $pricelist->product_price;
                         }
 
@@ -4477,10 +4477,11 @@ class RedshopHelperProduct
                     }
                 }
 
+                $withoutVat = $chktag ? 'false' : 'true';
                 // Prepare Javascript OnChange or OnClick function
                 $onChangeJSFunction = $scrollerFunction
-                    . "calculateTotalPrice('" . $productId . "','" . $relatedProductId . "');"
-                    . "displayAdditionalImage('" . $productId . "','" . $accessoryId . "','" . $relatedProductId . "','" . $propertyId . "',this.value);";
+                    . "calculateTotalPrice('" . $productId . "','" . $relatedProductId . "', $withoutVat);"
+                    . "displayAdditionalImage('" . $productId . "','" . $accessoryId . "','" . $relatedProductId . "','" . $propertyId . "',this.value, $withoutVat);";
 
                 // Radio or Checkbox
                 if ('radio' == $attDisplayType) {
