@@ -115,6 +115,10 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCompanyName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("company_name"));
@@ -250,7 +254,10 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("firstname"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("lastname"));
