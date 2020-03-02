@@ -224,7 +224,7 @@ function productaddprice(product_id, relatedprd_id)
 
     if (jQuery('[data-id=property_data]'))
     {
-        var property_data = jQuery('[data-id=property_data]').val.replace("##", "::");
+        var property_data = jQuery('[data-id=property_data]').val().replace("##", "::");
     }
 
     if (jQuery('[data-id=subproperty_data]'))
@@ -1152,10 +1152,10 @@ function collectAccessory(product_id, relatedprd_id)
                 myaccqua[selid] = accQuan;
                 collectAttributes(product_id, accessory_id, relatedprd_id);
                 if (jQuery('[data-id=accessory_price]')) {
-                    my_acc_fprice = parseFloat(document.jQuery('[data-id=accessory_price]').val());
+                    my_acc_fprice = parseFloat(jQuery('[data-id=accessory_price]').val());
                 }
                 if (jQuery('[data-id=accessory_price_withoutvat]')) {
-                    my_acc_withoutvat_price = parseFloat(jQuery('[data-id=accessory_price_withoutvat]'.val()));
+                    my_acc_withoutvat_price = parseFloat(jQuery('[data-id=accessory_price_withoutvat]').val());
                 }
                 if (jQuery('[data-id=acc_attribute_data]')) {
                     myattall[selid] = jQuery('[data-id=acc_attribute_data]').val();
@@ -1183,27 +1183,26 @@ function collectAccessory(product_id, relatedprd_id)
         acc_subatt_price_final += parseFloat(acc_price_total);
         acc_sub_price_withoutvat += parseFloat(acc_price_withoutvat);
         if (jQuery('[data-id=accessory_data]')) {
-            jQuery('[data-id=accessory_data]').value = myaccall.join("@@");
+            jQuery('[data-id=accessory_data]').val(myaccall.join("@@"));
         }
         if (jQuery('[data-id=acc_quantity_data]')) {
-            jQuery('[data-id=acc_quantity_data]').value = myaccqua.join("@@");
+            jQuery('[data-id=acc_quantity_data]').val(myaccqua.join("@@"));
         }
         if (jQuery('[data-id=acc_attribute_data]')) {
-            jQuery('[data-id=acc_attribute_data]').value = myattall.join("@@");
+            jQuery('[data-id=acc_attribute_data]').val(myattall.join("@@"));
         }
         if (jQuery('[data-id=acc_property_data]')) {
-            jQuery('[data-id=acc_property_data]').value = mypropall.join("@@");
+            jQuery('[data-id=acc_property_data]').val(mypropall.join("@@"));
         }
         if (jQuery('[data-id=acc_subproperty_data]')) {
-            jQuery('[data-id=acc_subproperty_data]').value = mysubpropall.join("@@");
+            jQuery('[data-id=acc_subproperty_data]').val(mysubpropall.join("@@"));
         }
         if (jQuery('[data-id=accessory_price]')) {
-            jQuery('[data-id=accessory_price]').value = acc_subatt_price_final;
+            jQuery('[data-id=accessory_price]').val(acc_subatt_price_final);
         }
         if (jQuery('[data-id=accessory_price_withoutvat]')) {
-            jQuery('[data-id=accessory_price_withoutvat]').value = acc_sub_price_withoutvat;
+            jQuery('[data-id=accessory_price_withoutvat]').val(acc_sub_price_withoutvat);
         }
-
     }
     return acc_subatt_price_final;
 }
@@ -1298,7 +1297,7 @@ function setWrapper(id, price, price_withoutvat, product_id) {
         document.getElementById("wrapper_id").value = id;
     }
     if (jQuery('[data-id=sel_wrapper_id]')) {
-        jQuery('[data-id=sel_wrapper_id]').value = id;
+        jQuery('[data-id=sel_wrapper_id]').val(id);
     }
     document.getElementById("wrapper_price").value = price;
     document.getElementById("wrapper_price_withoutvat").value = price_withoutvat;

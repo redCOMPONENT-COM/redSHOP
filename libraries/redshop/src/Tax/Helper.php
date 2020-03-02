@@ -19,8 +19,10 @@ defined('_JEXEC') or die;
 class Helper
 {
     /**
-     * @param int $taxGroupId
-     * @return mixed
+     * @param   int  $taxGroupId
+     *
+     * @return \JDatabaseQuery
+     * @since __DEPLOY_VERSION__
      */
     public static function getTaxRatesQuery($taxGroupId = 1) {
         $db = \JFactory::getDbo();
@@ -38,5 +40,20 @@ class Helper
         $query->where($db->qn('tax_group_id') . '=' . $db->q($taxGroupId));
 
         return $query;
+    }
+
+    /**
+     * @param   int  $taxGroupId
+     *
+     * @return null
+     * @throws \Exception
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getTaxRatesById($taxGroupId = 1)
+    {
+        $db = \JFactory::getDbo();
+        $query = \Redshop\Tax\Helper::getTaxRatesQuery($taxGroupId);
+
+        return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
     }
 }
