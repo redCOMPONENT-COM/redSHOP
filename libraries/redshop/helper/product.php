@@ -4371,7 +4371,7 @@ class RedshopHelperProduct
                             'subproperty'
                         );
 
-                        if (count((array) $pricelist) > 0) {
+                        if (isset($pricelist->product_price)) {
                             $subproperty[$i]->subattribute_color_price = $pricelist->product_price;
                         }
 
