@@ -83,7 +83,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 				'type' => 'text',
 				'value' => !empty($data["firstname_ST"]) ? $data["firstname_ST"] : '',
 				'class' => 'inputbox form-control billingRequired valid',
-				'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"'
+				'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME') . '"'
 			),
 			'',
 			$options
@@ -112,7 +112,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 				'type' => 'text',
 				'value' => (!empty($data["lastname_ST"])) ? $data["lastname_ST"] : '',
 				'class' => 'inputbox form-control billingRequired valid',
-				'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"'
+				'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME') . '"'
 			),
 			'',
 			$options
@@ -141,7 +141,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 				'type' => 'text',
 				'value' => (!empty($data["address_ST"])) ? $data["address_ST"] : '',
 				'class' => 'inputbox form-control valid ' . $requiredAddress,
-				'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"'
+				'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS') . '"'
 			),
 			'',
 			$options
@@ -170,7 +170,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 				'type' => 'text',
 				'value' => (!empty($data["zipcode_ST"])) ? $data["zipcode_ST"] : '',
 				'class' => 'inputbox form-control valid zipcode ' . $requiredPostalCode,
-				'attr' => 'size="32" maxlength="10" onblur="return autoFillCity(this.value,\'ST\');" data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_ZIP') . '"'
+				'attr' => 'size="32" maxlength="10" onblur="return autoFillCity(this.value,\'ST\');" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE') . '"'
 			),
 			'',
 			$options
@@ -199,7 +199,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 				'type' => 'text',
 				'value' => (!empty($data["city_ST"])) ? $data["city_ST"] : '',
 				'class' => 'inputbox form-control billingRequired valid',
-				'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '"'
+				'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_CITY') . '"'
 			),
 			'',
 			$options
@@ -228,7 +228,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 				'type' => 'text',
 				'value' => (!empty($data["phone_ST"])) ? $data["phone_ST"] : '',
 				'class' => 'inputbox form-control valid phone ' . $requiredPhone,
-				'attr' => 'size="32" maxlength="250" onblur="return searchByPhone(this.value,\'ST\');" data-msg="' . JText::_('COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE') . '"'
+				'attr' => 'size="32" maxlength="250" onblur="return searchByPhone(this.value,\'ST\');" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE') . '"'
 			),
 			'',
 			$options
