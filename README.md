@@ -70,8 +70,7 @@ Before you can run any Gulp command you need to:
 
 ## Gulp 4 support
 
-- Currently this is on develop status and will be supported soon.
-
+- we will support gulp task rewritten in version 4 very soon. Currently, all gulp script are executed properly with version 3.9
 ### Following tasks and switches are available:
 #### Setup gulp config file. Copy and rename `gulp-config.sample.json` file into `gulp-config.json`
 
@@ -85,23 +84,11 @@ Before you can run any Gulp command you need to:
 
 #### To Release `modules` and create `.zip` file
 
-    gulp release:modules
+    gulp release:module
 
 #### To Release `plugins` and create `.zip` file
 
-    gulp release:plugins
-
-#### To Release `packages` and create `.zip` file
-
-    gulp release:packages
-
-_or_
-
-    gulp release:packages --folder ./individual_package_dir
-
-This command is to release the extensions.
-
-    gulp release:extensions
+    gulp release:plugin
 
 This command will read the base directory and create zip files for each of the folder.
 
