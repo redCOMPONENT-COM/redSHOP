@@ -631,7 +631,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         }
 
         $attributesPropertyVatShow    = 0;
-        $attributesPropertyWithoutvat = 0;
+	    $attributesPropertyWithoutVat = 0;
         $attributesPropertyOldPrice   = 0;
 
         if ($property->property_price > 0) {
@@ -643,7 +643,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $property->property_price = $pricelist->product_price;
             }
 
-            $attributesPropertyWithoutvat = $property->property_price;
+	        $attributesPropertyWithoutVat = $property->property_price;
 
             /*
              * changes for {without_vat} tag output parsing
@@ -706,10 +706,10 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             [
                 'propertyId'                   => $propertyId,
                 'property'                     => $property,
-                'attributesPropertyVatShow'    => !empty($attributesPropertyVatShow) ? $attributesPropertyVatShow : 0,
-                'attributesPropertyWithoutVat' => !empty($attributesPropertyWithoutVat) ? $attributesPropertyWithoutVat : 0,
-                'attributesPropertyOldPrice'   => !empty($attributesPropertyOldPrice) ? $attributesPropertyOldPrice : 0,
-                'propertyStock'                => !empty($propertyStock) ? $propertyStock : 0,
+                'attributesPropertyVatShow'    => $attributesPropertyVatShow,
+                'attributesPropertyWithoutVat' => $attributesPropertyWithoutVat,
+                'attributesPropertyOldPrice'   => $attributesPropertyOldPrice,
+                'propertyStock'                => $propertyStock,
                 'preorderPropertyStock'        => !empty(self::$preOrderPropertyStock) ? self::$preOrderPropertyStock : 0
             ],
             '',
