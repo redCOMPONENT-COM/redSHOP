@@ -52,7 +52,7 @@ class SiteHelper
 			$type      = $field->type;
 			$dataValue = \RedshopHelperExtrafields::getData($field->id, $fieldSection, $sectionId);
 
-			if (!empty($dataValue) && count($dataValue) <= 0)
+			if (!empty($dataValue) && count((array) $dataValue) <= 0)
 			{
 				$dataValue->data_txt = '';
 			}
@@ -91,7 +91,7 @@ class SiteHelper
 
 				case \RedshopHelperExtrafields::TYPE_CHECK_BOX:
 					$fieldValues = $fieldEntity->getFieldValues();
-					$chkData     = explode(",", $dataValue->data_txt);
+					$chkData     = !empty($dataValue->data_txt) ? explode(",", $dataValue->data_txt) : array();
 
 					foreach ($fieldValues as $value)
 					{
@@ -128,7 +128,7 @@ class SiteHelper
 
 				case \RedshopHelperExtrafields::TYPE_SELECT_BOX_SINGLE:
 					$fieldValues = $fieldEntity->getFieldValues();
-					$chkData     = explode(",", $dataValue->data_txt);
+					$chkData     = !empty($dataValue->data_txt) ? explode(",", $dataValue->data_txt) : array();
 					$inputField  = '<select class="' . $field->class . ' ' . $class . '"    name="' . $field->name . '"   id="' . $field->name . '">';
 
 					foreach ($fieldValues as $value)
@@ -140,7 +140,7 @@ class SiteHelper
 							$selected = ' selected="selected" ';
 						}
 
-						$inputField .= '<option value="' . $value->field_value . '" ' . $selected . ' >' . $value->field_value . '</option>';
+						$inputField .= '<option value="' . $value->field_value . '" ' . $selected . ' >' . $value->field_name . '</option>';
 					}
 
 					$inputField .= '</select>';
@@ -148,7 +148,7 @@ class SiteHelper
 
 				case \RedshopHelperExtrafields::TYPE_SELECT_BOX_MULTIPLE:
 					$fieldValues = $fieldEntity->getFieldValues();
-					$chkData     = explode(",", $dataValue->data_txt);
+					$chkData     = !empty($dataValue->data_txt) ? explode(",", $dataValue->data_txt) : array();
 
 					$inputField = '<select class="' . $field->class . ' ' . $class . '"   multiple size=10 name="' . $field->name . '[]">';
 
