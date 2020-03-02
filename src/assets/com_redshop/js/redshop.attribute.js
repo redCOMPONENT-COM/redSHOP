@@ -224,7 +224,7 @@ function productaddprice(product_id, relatedprd_id)
 
     if (jQuery('[data-id=property_data]'))
     {
-        var property_data = jQuery('[data-id=property_data]').val.replace("##", "::");
+        var property_data = jQuery('[data-id=property_data]').val().replace("##", "::");
     }
 
     if (jQuery('[data-id=subproperty_data]'))
@@ -1297,7 +1297,7 @@ function setWrapper(id, price, price_withoutvat, product_id) {
         document.getElementById("wrapper_id").value = id;
     }
     if (jQuery('[data-id=sel_wrapper_id]')) {
-        jQuery('[data-id=sel_wrapper_id]').value = id;
+        jQuery('[data-id=sel_wrapper_id]').val(id);
     }
     document.getElementById("wrapper_price").value = price;
     document.getElementById("wrapper_price_withoutvat").value = price_withoutvat;
