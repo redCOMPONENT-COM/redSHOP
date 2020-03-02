@@ -8,25 +8,22 @@
 	{account_creation_start}
 	<div class="col-sm-6">
 		<div class="form-group">
-			<label>{username_lbl}:</label>
-			{username}
+			{username_lbl}{username}
 			<span class="required">*</span>
 		</div>
 
 		<div class="form-group">
-			<label>{password_lbl}:</label>
-			{password}
+			{password_lbl}{password}
 			<span class="required">*</span>
 		</div>
 
 		<div class="form-group">
-			<label>{confirm_password_lbl}:</label>
-			{confirm_password}
+			{confirm_password_lbl}{confirm_password}
 			<span class="required">*</span>
 		</div>
 
 		<div class="form-group">
-			<label>{newsletter_signup_chk}</label>
+			{newsletter_signup_chk}
 			{newsletter_signup_lbl}
 		</div>
 	</div>
@@ -34,10 +31,10 @@
 </div>
 
 <div class="checkbox">
-	<label>
-		{shipping_same_as_billing}
-		{shipping_same_as_billing_lbl}
-	</label>
+
+	{shipping_same_as_billing}
+	{shipping_same_as_billing_lbl}
+
 </div>
 
 

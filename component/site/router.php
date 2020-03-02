@@ -411,7 +411,7 @@ class RedshopRouter extends JComponentRouterBase
 				}
 
 				$segments[] = $task;
-				$product    = RedshopHelperProduct::getProductById($pid);
+				$product    = \Redshop\Product\Product::getProductById($pid);
 
 				if ($pid && $product)
 				{

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * @deprecated  2.0.3  Use RedshopHelperExtrafields instead
@@ -64,15 +64,15 @@ class extra_field
 	 * @param   string   $field_section  Field Section
 	 * @param   integer  $section_id     Section ID
 	 * @param   string   $field_name     Field Name
-	 * @param   string   $template_desc  Template
+	 * @param   string   $templateDesc  Template
 	 *
 	 * @return  string   HTML <td></td>
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllField() instead
 	 */
-	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $template_desc = "")
+	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $templateDesc = "")
 	{
-		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $template_desc);
+		return RedshopHelperExtrafields::listAllField($field_section, $section_id, $field_name, $templateDesc);
 	}
 
 	/**
@@ -115,16 +115,16 @@ class extra_field
 	 * @param   integer  $section_id     Section ID
 	 * @param   integer  $flag           Flag
 	 * @param   string   $user_email     User email
-	 * @param   string   $template_desc  Template description
+	 * @param   string   $templateDesc  Template description
 	 * @param   boolean  $sendmail       True/ False
 	 *
 	 * @return string
 	 *
 	 * @deprecated  2.0.3  Use RedshopHelperExtrafields::listAllFieldDisplay() instead
 	 */
-	public function list_all_field_display($field_section = 0, $section_id = 0, $flag = 0, $user_email = "", $template_desc = "", $sendmail = false)
+	public function list_all_field_display($field_section = 0, $section_id = 0, $flag = 0, $user_email = "", $templateDesc = "", $sendmail = false)
 	{
-		return RedshopHelperExtrafields::listAllFieldDisplay($field_section, $section_id, $flag, $user_email, $template_desc, $sendmail);
+		return RedshopHelperExtrafields::listAllFieldDisplay($field_section, $section_id, $flag, $user_email, $templateDesc, $sendmail);
 	}
 
 	/**

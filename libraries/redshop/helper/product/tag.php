@@ -36,30 +36,15 @@ class RedshopHelperProductTag
      *
      * @since   2.0.7
      */
-    public static function getExtraSectionTag(
-        $fieldNames = array(),
-        $productId = 0,
-        $section = 0,
-        $templateContent = '',
-        $categoryPage = 0
-    ) {
-        $fieldName = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate(
-            $fieldNames,
-            $templateContent,
-            $categoryPage
-        );
+    public static function getExtraSectionTag($fieldNames = array(), $productId = 0, $section = 0, $templateContent = '', $categoryPage = 0)
+    {
+        $fieldName = RedshopHelperTemplate::getExtraFieldsForCurrentTemplate($fieldNames, $templateContent, $categoryPage);
 
         if (empty($fieldName)) {
             return $templateContent;
         }
 
-        return ExtraFields::displayExtraFields(
-            $section,
-            $productId,
-            $fieldName,
-            $templateContent,
-            (boolean)$categoryPage
-        );
+        return ExtraFields::displayExtraFields($section, $productId, $fieldName, $templateContent, (boolean)$categoryPage);
     }
 
     /**
@@ -82,22 +67,16 @@ class RedshopHelperProductTag
      *
      */
     public static function displayAdditionalImage(
-        $productId = 0,
-        $accessoryId = 0,
-        $relatedProductId = 0,
-        $propertyId = 0,
-        $subPropertyId = 0,
-        $mainImgWidth = 0,
-        $mainImgHeight = 0,
-        $redView = "",
-        $redLayout = ""
-    ) {
+        $productId = 0, $accessoryId = 0, $relatedProductId = 0, $propertyId = 0, $subPropertyId = 0,
+        $mainImgWidth = 0, $mainImgHeight = 0, $redView = "", $redLayout = ""
+    )
+    {
         if ($accessoryId != 0) {
             $accessory = RedshopHelperAccessory::getProductAccessories($accessoryId);
             $productId = $accessory[0]->child_product_id;
         }
 
-        $product = RedshopHelperProduct::getProductById($productId);
+        $product = \Redshop\Product\Product::getProductById($productId);
 
         $productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
 
@@ -172,12 +151,7 @@ class RedshopHelperProductTag
         }
 
         $imageAttributes = Redshop\Product\Image\Image::getDisplayMain(
-            $productId,
-            $propertyId,
-            $subPropertyId,
-            $productImgThumbWidth,
-            $productImgThumbHeight,
-            $redView
+            $productId, $propertyId, $subPropertyId, $productImgThumbWidth, $productImgThumbHeight, $redView
         );
 
         $aHrefImageResponse = $imageAttributes['aHrefImageResponse'];
@@ -201,13 +175,7 @@ class RedshopHelperProductTag
 
         // Prepare additional media images.
         $productAdditionalImages = self::prepareAdditionalImages(
-            $mediaImages,
-            $product,
-            $productImgThumbWidth,
-            $productImgThumbHeight,
-            $moreProductsImgThumbWidth,
-            $moreProductsImgThumbHeight,
-            true
+            $mediaImages, $product, $productImgThumbWidth, $productImgThumbHeight, $moreProductsImgThumbWidth, $moreProductsImgThumbHeight, true
         );
         $tmpProductImages = $productAdditionalImages;
 
@@ -221,17 +189,10 @@ class RedshopHelperProductTag
             $mediaVideos = RedshopHelperMedia::getAdditionMediaImage($propertyId, "property", "youtube");
 
             $propertyAdditionalImages = empty($mediaImages) ? $tmpProductImages : self::preparePropertyAdditionalImages(
-                $mediaImages,
-                $product,
-                $productImgThumbWidth,
-                $productImgThumbHeight,
-                $moreProductsImgThumbWidth,
-                $moreProductsImgThumbHeight
+                $mediaImages, $product, $productImgThumbWidth, $productImgThumbHeight, $moreProductsImgThumbWidth, $moreProductsImgThumbHeight
             );
 
-            $propertyAdditionalVideos = empty($mediaVideos) ? $tmpProductVideos : self::preparePropertyAdditionalVideos(
-                $mediaVideos
-            );
+            $propertyAdditionalVideos = empty($mediaVideos) ? $tmpProductVideos : self::preparePropertyAdditionalVideos($mediaVideos);
         }
 
         // Prepare for sub-property if necessary
@@ -240,12 +201,7 @@ class RedshopHelperProductTag
             $mediaVideos = RedshopHelperMedia::getAdditionMediaImage($subPropertyId, "subproperty", "youtube");
 
             $subPropertyAdditionalImages = self::prepareSubPropertyAdditionalImages(
-                $mediaImages,
-                $product,
-                $productImgThumbWidth,
-                $productImgThumbHeight,
-                $moreProductsImgThumbWidth,
-                $moreProductsImgThumbHeight
+                $mediaImages, $product, $productImgThumbWidth, $productImgThumbHeight, $moreProductsImgThumbWidth, $moreProductsImgThumbHeight
             );
 
             $subPropertyAdditionalVideos = self::prepareSubPropertyAdditionalVideos($mediaVideos);
@@ -275,7 +231,7 @@ class RedshopHelperProductTag
 
         if (empty($accessoryId)) {
             if ($subPropertyId) {
-                $productAttributeDelivery = productHelper::getInstance()->getProductMinDeliveryTime(
+                $productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime(
                     $productId,
                     $subPropertyId,
                     "subproperty",
@@ -286,7 +242,7 @@ class RedshopHelperProductTag
             }
 
             if ($propertyId && !$attributeFlag) {
-                $productAttributeDelivery = productHelper::getInstance()->getProductMinDeliveryTime(
+                $productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime(
                     $productId,
                     $propertyId,
                     "property",
@@ -297,7 +253,7 @@ class RedshopHelperProductTag
             }
 
             if ($productId && !$attributeFlag) {
-                $productAttributeDelivery = productHelper::getInstance()->getProductMinDeliveryTime($productId);
+                $productAttributeDelivery = RedshopHelperProduct::getProductMinDeliveryTime($productId);
             }
         }
 
@@ -313,11 +269,7 @@ class RedshopHelperProductTag
 
             if ($subPropertyId) {
                 $productInStock = RedshopHelperStockroom::getStockAmountWithReserve($subPropertyId, "subproperty");
-                $stockAmounts = RedshopHelperStockroom::getStockAmountImage(
-                    $subPropertyId,
-                    "subproperty",
-                    $productInStock
-                );
+                $stockAmounts = RedshopHelperStockroom::getStockAmountImage($subPropertyId, "subproperty", $productInStock);
                 $stockImgFlag = true;
             }
 
@@ -346,17 +298,12 @@ class RedshopHelperProductTag
             $attributeSets = array();
 
             if ($product->attribute_set_id > 0) {
-                $attributeSets = RedshopHelperProduct_Attribute::getProductAttribute(
-                    0,
-                    $product->attribute_set_id,
-                    0,
-                    1
-                );
+                $attributeSets = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
             }
 
-            $attributes = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
+            $attributes = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
             $attributes = array_merge($attributes, $attributeSets);
-            $productStockStatus = productHelper::getInstance()->getproductStockStatus(
+            $productStockStatus = RedshopHelperProduct::getproductStockStatus(
                 $product->product_id,
                 count($attributes),
                 $propertyId,
@@ -399,11 +346,10 @@ class RedshopHelperProductTag
                         $stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $preOrderClass
                             . "' class='" . $preOrderClass . "'>" . JText::_('COM_REDSHOP_PRE_ORDER') . "</div></span>";
                     }
+
                 } else {
                     $stockStatus = "<span id='stock_status_div" . $productId . "'><div id='" . $availableClass
-                        . "' class='" . $availableClass . "'>" . JText::_(
-                            'COM_REDSHOP_AVAILABLE_STOCK'
-                        ) . "</div></span>";
+                        . "' class='" . $availableClass . "'>" . JText::_('COM_REDSHOP_AVAILABLE_STOCK') . "</div></span>";
                 }
             }
 
@@ -427,9 +373,7 @@ class RedshopHelperProductTag
                 if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $productStockStatus['preorder']
                     && $product->product_availability_date != "") {
                     $productAvailabilityDateLabel = JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL') . ": ";
-                    $productAvailabilityDate = RedshopHelperDatetime::convertDateFormat(
-                        $product->product_availability_date
-                    );
+                    $productAvailabilityDate = RedshopHelperDatetime::convertDateFormat($product->product_availability_date);
                 }
             }
         }
@@ -470,15 +414,8 @@ class RedshopHelperProductTag
      *
      * @since   2.0.7
      */
-    public static function prepareAdditionalImages(
-        $images,
-        $product,
-        $thumbWidth,
-        $thumbHeight,
-        $moreThumbWidth,
-        $moreThumbHeight,
-        $includeProductFullImage = false
-    ) {
+    public static function prepareAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight, $includeProductFullImage = false)
+    {
         if (empty($images)) {
             return '';
         }
@@ -677,14 +614,8 @@ class RedshopHelperProductTag
      *
      * @since   2.0.7
      */
-    public static function preparePropertyAdditionalImages(
-        $images,
-        $product,
-        $thumbWidth,
-        $thumbHeight,
-        $moreThumbWidth,
-        $moreThumbHeight
-    ) {
+    public static function preparePropertyAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
+    {
         if (empty($images)) {
             return '';
         }
@@ -701,9 +632,7 @@ class RedshopHelperProductTag
         foreach ($images as $image) {
             $thumb = $image->media_name;
 
-            if (empty($thumb) || $thumb == $image->property_main_image || !JFile::exists(
-                    REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $thumb
-                )) {
+            if (empty($thumb) || $thumb == $image->property_main_image || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $thumb)) {
                 continue;
             }
 
@@ -847,14 +776,8 @@ class RedshopHelperProductTag
      *
      * @since   2.0.7
      */
-    public static function prepareSubPropertyAdditionalImages(
-        $images,
-        $product,
-        $thumbWidth,
-        $thumbHeight,
-        $moreThumbWidth,
-        $moreThumbHeight
-    ) {
+    public static function prepareSubPropertyAdditionalImages($images, $product, $thumbWidth, $thumbHeight, $moreThumbWidth, $moreThumbHeight)
+    {
         if (empty($images)) {
             return '';
         }
@@ -870,9 +793,7 @@ class RedshopHelperProductTag
 
         foreach ($images as $image) {
             $thumb = $image->media_name;
-            $folder = JFile::exists(
-                REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $thumb
-            ) ? 'subproperty' : 'property';
+            $folder = JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $thumb) ? 'subproperty' : 'property';
 
             if (empty($thumb) || $thumb == $image->subattribute_color_main_image
                 || !JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . $folder . "/" . $thumb)) {
@@ -887,30 +808,14 @@ class RedshopHelperProductTag
                     . 'title="' . $altText . '" rel="myallimg">';
                 $divEnd = "</a></div>";
 
-                $thumbUrl = RedshopHelperMedia::getImagePath(
-                    $thumb,
-                    '',
-                    'thumb',
-                    $folder,
-                    $moreThumbWidth,
-                    $moreThumbHeight,
-                    $useImgSizeSwapping
-                );
+                $thumbUrl = RedshopHelperMedia::getImagePath($thumb, '', 'thumb', $folder, $moreThumbWidth, $moreThumbHeight, $useImgSizeSwapping);
 
                 $result .= $divStart;
                 $result .= "<img src='" . $thumbUrl . "' alt='" . $altText . "' title='" . $altText . "'>";
 
                 $hrefEnd = "";
             } else {
-                $imagePath = RedshopHelperMedia::getImagePath(
-                    $thumb,
-                    '',
-                    'thumb',
-                    $folder,
-                    $thumbWidth,
-                    $thumbHeight,
-                    $useImgSizeSwapping
-                );
+                $imagePath = RedshopHelperMedia::getImagePath($thumb, '', 'thumb', $folder, $thumbWidth, $thumbHeight, $useImgSizeSwapping);
 
                 $subPropertyFileNameOriginal = REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $thumb;
 
@@ -1009,20 +914,15 @@ class RedshopHelperProductTag
      *
      * @since   2.1.0
      */
-    public static function replaceAttributeData(
-        $productId = 0,
-        $accessoryId = 0,
-        $attributes = array(),
-        $userId = 0,
-        $uniqueId = ""
-    ) {
+    public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
+    {
         $attributeList = "";
 
         $prefix = $accessoryId != 0 ? $uniqueId . "acc_" : $uniqueId . "prd_";
 
         JText::script('COM_REDSHOP_ATTRIBUTE_IS_REQUIRED');
 
-        if (count($attributes) > 0) {
+        if (is_array($attributes) && count($attributes) > 0) {
             foreach ($attributes as $attribute) {
                 $properties = RedshopHelperProduct_Attribute::getAttributeProperties(0, $attribute->attribute_id);
 
@@ -1042,18 +942,12 @@ class RedshopHelperProductTag
                         $propertyPrice = RedshopHelperProductPrice::formattedPrice($property->property_price);
 
                         // Get product vat to include.
-                        $attributesPropertyVat = RedshopHelperProduct::getProductTax(
-                            $productId,
-                            $property->property_price,
-                            $userId
-                        );
+                        $attributesPropertyVat = RedshopHelperProduct::getProductTax($productId, $property->property_price, $userId);
                         $property->property_price += $attributesPropertyVat;
 
                         $propertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($property->property_price);
 
-                        $property->text = urldecode(
-                                $property->property_name
-                            ) . ' (' . $propertyOprand . ' ' . $propertyPrice
+                        $property->text = urldecode($property->property_name) . ' (' . $propertyOprand . ' ' . $propertyPrice
                             . "excl. vat / "
                             . $propertyPriceWithVat . ")";
                     } else {
@@ -1092,17 +986,11 @@ class RedshopHelperProductTag
                     }
                 } else {
                     $checkList = JHtml::_(
-                        'select.genericlist',
-                        $newProperty,
-                        $propertyId . '[]',
-                        'id="' . $propertyId
+                        'select.genericlist', $newProperty, $propertyId . '[]', 'id="' . $propertyId
                         . '"  class="inputbox" size="1" attribute_name="' . $attribute->attribute_name . '" required="'
                         . $attribute->attribute_required . '" onchange="javascript:changeOfflinePropertyDropdown(\''
                         . $productId . '\',\'' . $accessoryId . '\',\'' . $attribute->attribute_id . '\',\'' . $uniqueId
-                        . '\');" ',
-                        'value',
-                        'text',
-                        ''
+                        . '\');" ', 'value', 'text', ''
                     );
                 }
 

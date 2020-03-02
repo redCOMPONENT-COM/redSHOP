@@ -26,12 +26,8 @@ class RedshopControllerOrder_Detail extends RedshopController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_producthelper   = productHelper::getInstance();
 		$this->_redshopMail     = redshopMail::getInstance();
 		$this->_order_functions = order_functions::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
-		$this->_userhelper      = rsUserHelper::getInstance();
-		$this->_carthelper      = rsCarthelper::getInstance();
 	}
 
 	/**
@@ -61,26 +57,26 @@ class RedshopControllerOrder_Detail extends RedshopController
 		$order = RedshopEntityOrder::getInstance((int) $request['order_id'])->getItem();
 
 		// Get Billing and Shipping Info
-		$billingaddresses       = RedshopHelperOrder::getBillingAddress($order->user_id);
-		$data['billingaddress'] = $billingaddresses;
+		$billingAddresses       = RedshopHelperOrder::getBillingAddress($order->user_id);
+		$data['billingaddress'] = $billingAddresses;
 
 		$shippingaddresses       = RedshopHelperOrder::getOrderShippingUserInfo($order->order_id);
 		$data['shippingaddress'] = $shippingaddresses;
 
 		$Itemid               = $this->input->getInt('Itemid');
 
-		if (isset($billingaddresses))
+		if (isset($billingAddresses))
 		{
-			if (isset($billingaddresses->country_code))
+			if (isset($billingAddresses->country_code))
 			{
-				$billingaddresses->country_2_code        = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
-				$data ["billingaddress"]->country_2_code = $billingaddresses->country_2_code;
+				$billingAddresses->country_2_code        = RedshopHelperWorld::getCountryCode2($billingAddresses->country_code);
+				$data ["billingaddress"]->country_2_code = $billingAddresses->country_2_code;
 			}
 
-			if (isset($billingaddresses->state_code))
+			if (isset($billingAddresses->state_code))
 			{
-				$billingaddresses->state_2_code        = $billingaddresses->state_code;
-				$data ["billingaddress"]->state_2_code = $billingaddresses->state_2_code;
+				$billingAddresses->state_2_code        = $billingAddresses->state_code;
+				$data ["billingaddress"]->state_2_code = $billingAddresses->state_2_code;
 			}
 		}
 
@@ -265,11 +261,11 @@ class RedshopControllerOrder_Detail extends RedshopController
 		}
 		else
 		{
-			$product_data = $this->_producthelper->getProductById($row['product_id']);
+			$product_data = \Redshop\Product\Product::getProductById($row['product_id']);
 
 			if ($product_data->product_type == 'subscription')
 			{
-				$productSubscription = $this->_producthelper->getUserProductSubscriptionDetail($row['order_item_id']);
+				$productSubscription = RedshopHelperProduct::getUserProductSubscriptionDetail($row['order_item_id']);
 
 				if ($productSubscription->subscription_id != "")
 				{
@@ -277,8 +273,8 @@ class RedshopControllerOrder_Detail extends RedshopController
 				}
 			}
 
-			$generateAttributeCart = $this->_carthelper->generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
-			$generateAccessoryCart = $this->_carthelper->generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
+			$generateAttributeCart = \Redshop\Attribute\Helper::generateAttributeFromOrder($row['order_item_id'], 0, $row['product_id'], $row['product_quantity']);
+			$generateAccessoryCart = \Redshop\Accessory\Helper::generateAccessoryFromOrder($row['order_item_id'], $row['product_id'], $row['product_quantity']);
 
 			$row['cart_attribute']  = $generateAttributeCart;
 			$row['cart_accessory']  = $generateAccessoryCart;
@@ -318,7 +314,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 		}
 		else
 		{
-			$ItemData = $this->_producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
+			$ItemData = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $row['product_id']);
 
 			if (count($ItemData) > 0)
 			{
@@ -333,7 +329,7 @@ class RedshopControllerOrder_Detail extends RedshopController
 
 			if (/** @scrutinizer ignore-deprecated */ JError::isError(/** @scrutinizer ignore-deprecated */ JError::getError()))
 			{
-				$errorMessage = JError::getError()->getMessage();
+				$errorMessage = /** @scrutinizer ignore-deprecated */ JError::getError()->getMessage();
 			}
 
 			$app->redirect(
@@ -421,7 +417,7 @@ class RedshopControllerOrder_Detail extends RedshopController
                           method="post"
                           name="adminForm" id="adminForm" enctype="multipart/form-data"
                           onsubmit="return CheckCardNumber(this);">
-						<?php echo $cardinfo = $this->_carthelper->replaceCreditCardInformation($paymentInfo->payment_method_class); ?>
+						<?php echo $cardinfo = \Redshop\Payment\Helper::replaceCreditCardInformation($paymentInfo->payment_method_class); ?>
                         <div>
                             <input type="hidden" name="option" value="com_redshop"/>
                             <input type="hidden" name="Itemid" value="<?php echo $itemId; ?>"/>

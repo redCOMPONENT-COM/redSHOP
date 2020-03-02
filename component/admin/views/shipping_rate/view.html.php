@@ -25,7 +25,7 @@ class RedshopViewShipping_rate extends RedshopViewAdmin
 
 		if ((int) $id == 0)
 		{
-			throw new Exception("Direct Access not allowed, go to <a href='index.php?option=com_redshop&view=shipping'>" . JText::_('COM_REDSHOP_SHIPPING') . "</a>");
+			throw new \Exception("Direct Access not allowed, go to <a href='index.php?option=com_redshop&view=shipping'>" . JText::_('COM_REDSHOP_SHIPPING') . "</a>");
 
 			return false;
 		}

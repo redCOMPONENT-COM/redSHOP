@@ -3,14 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$producthelper = productHelper::getInstance();
-$redhelper     = redhelper::getInstance();
-$userhelper    = rsUserHelper::getInstance();
 $filter        = JFactory::getApplication()->input->get('filter');
 $model         = $this->getModel('user');
 ?>
@@ -141,7 +138,7 @@ $model         = $this->getModel('user');
 					<td align="center" class="nowrap">
 						<?php
 							$totalsales = RedshopHelperUser::totalSales($row->users_info_id);
-							echo $producthelper->getProductFormattedPrice($totalsales);
+							echo RedshopHelperProductPrice::formattedPrice($totalsales);
 						?>
 					</td>
 					<td align="center" width="5%"><?php echo $row->users_info_id;?></td>

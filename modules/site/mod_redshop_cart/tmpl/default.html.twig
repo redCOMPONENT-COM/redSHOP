@@ -1,0 +1,18 @@
+<div class="mod_cart_main">
+    <div class="mod_cart_top">
+        <div class="mod_cart_image"></div>
+        <div class="mod_cart_title">{{ jtext('MOD_REDSHOP_CART_CART_TEXT') }}</div>
+    </div>
+    <div class="mod_cart_total" id="mod_cart_total">
+        {{ cartHtml }}
+    </div>
+    <div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
+        {% if (count or showEmptBtn) %}
+            <a href="{{ jroute("index.php?option=com_redshop&view=cart&Itemid=#{ itemId }") }}">
+                {{ displayButton }}
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ jsModUrl }}"></script>

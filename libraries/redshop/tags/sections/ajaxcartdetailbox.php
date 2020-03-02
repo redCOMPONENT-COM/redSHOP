@@ -31,11 +31,10 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 
 	public function replace()
 	{
-		$productHelper = productHelper::getInstance();
 		$product          = $this->data['product'];
 		$layout           = $this->input->getString('layout', '');
 		$relatedprdId     = $this->input->getInt('relatedprd_id', 0);
-		$productUserField = $productHelper->getProductUserfieldFromTemplate($this->template);
+		$productUserField = \Redshop\Product\Product::getProductUserfieldFromTemplate($this->template);
 		$dataUserField    = $this->replaceUserField($product, $productUserField);
 		$this->template   = $dataUserField['template'];
 		$countNoUserField = $dataUserField['countNoUserField'];
@@ -54,11 +53,7 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 					'class' => 'product_price product_price' . $product->product_id
 				),
 				'',
-				array(
-					'component'  => 'com_redshop',
-					'layoutType' => 'Twig',
-					'layoutOf'   => 'library'
-				)
+				RedshopLayoutHelper::$layoutOption
 			);
 		}
 		else
@@ -114,8 +109,8 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		$data['acc_property_data']    = $this->input->getString('acc_property_data', '');
 		$data['acc_subproperty_data'] = $this->input->getString('acc_subproperty_data', '');
 
-		$selectAcc = $productHelper->getSelectedAccessoryArray($data);
-		$selectAtt = $productHelper->getSelectedAttributeArray($data);
+		$selectAcc = RedshopHelperProduct::getSelectedAccessoryArray($data);
+		$selectAtt = RedshopHelperProduct::getSelectedAttributeArray($data);
 
 		$childProduct = RedshopHelperProduct::getChildProduct($product->product_id);
 
@@ -134,11 +129,11 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 
 		if ($product->attribute_set_id > 0)
 		{
-			$attributes_set = RedshopHelperProduct_Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+			$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
 		}
 
 		$attributeTemplate = \Redshop\Template\Helper::getAttribute($this->template);
-		$attributes        = RedshopHelperProduct_Attribute::getProductAttribute($product->product_id);
+		$attributes        = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
 		$attributes        = array_merge($attributes, $attributes_set);
 		$totalatt          = count($attributes);
 		$this->template    = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, $relatedprdId, $attributes, $this->template, $attributeTemplate, $isChilds, $selectAtt);
@@ -194,7 +189,7 @@ class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 		if ($templateUserfield != "")
 		{
 			$ufield = "";
-			$cart   = RedshopHelperCartSession::getCart();
+			$cart   = \Redshop\Cart\Helper::getCart();
 
 			$idx    = 0;
 			$cartId = '';

@@ -3,66 +3,38 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-
 require_once 'components/com_redshop/models/configuration.php';
 
 class RedshopModelWizard extends RedshopModelConfiguration
 {
-	public $_tax_rates = null;
-
-	/**
-	 *
-	 * @return mixed
-	 *
-	 */
-	public function getTaxRates()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select(
-			$db->quoteName(array(
-				'tax_group_id',
-				'id',
-				'tax_country',
-				'tax_rate'
-				)
-			)
-		);
-		$query->from($db->quoteName('#__redshop_tax_rate'));
-		$query->where($db->quoteName('tax_group_id') . '=' . 1);
-
-		return $this->_getList($query);
-	}
-
-	/*
-				 * Get Shop Currency Support
-     *
-     * @params: string $currency comma separated countries
-     * @return: array stdClass Array for Shop country
-     *
-     * currency_code as value
-     * currency_name as text
+    /**
+     * @var null
      */
-	public function getCurrency($currency = "")
-	{
-		$db = JFactory::getDbo();
+    public $_tax_rates = null;
 
-		$where = "";
+    /**
+     * @return object[]
+     * @deprecated
+     */
+    public function getTaxRates()
+    {
+        $query = \Redshop\Tax\Helper::getTaxRatesQuery(1);
+        return $this->_getList($query);
+    }
 
-		if ($currency)
-		{
-			$where = " WHERE code IN ('" . $currency . "')";
-		}
-
-		$query = 'SELECT code as value, name as text FROM #__redshop_currency' . $where . ' ORDER BY name ASC';
-		$db->setQuery($query);
-
-		return $db->loadObjectlist();
-	}
+    /**
+     * @param string $currencyCode
+     * @return mixed
+     * @deprecated Please consider using \Redshop\Currency\Helper::getCurrenciesListForSelectBox
+     */
+    public function getCurrency($currencyCode = "")
+    {
+        return \Redshop\Currency\Helper::getCurrenciesListForSelectBox($currencyCode);
+    }
 }

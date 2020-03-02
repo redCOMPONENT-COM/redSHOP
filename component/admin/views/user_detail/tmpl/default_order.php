@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
 					   title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id;?></a></td>
 				<td align="center"><?php echo $row->order_number; ?></td>
 				<td align="center"><?php echo $this->config->convertDateFormat($row->cdate); ?></td>
-				<td align="center"><?php echo $this->producthelper->getProductFormattedPrice($row->order_total);?></td>
+				<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->order_total);?></td>
 			</tr>
 			<?php   $k = 1 - $k;
 		}    ?>

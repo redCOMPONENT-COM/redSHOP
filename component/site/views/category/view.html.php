@@ -45,7 +45,6 @@ class RedshopViewCategory extends RedshopView
 	{
 		$this->app     = JFactory::getApplication();
 		$this->input   = $this->app->input;
-		$prodhelperobj = productHelper::getInstance();
 
 		// Request variables
 		$this->option = $this->input->getString('option', 'com_redshop');
@@ -152,13 +151,13 @@ class RedshopViewCategory extends RedshopView
 			// For page title
 			$pagetitletag = Redshop::getConfig()->get('SEO_PAGE_TITLE_CATEGORY');
 			$parentcat    = "";
-			$parentid     = $prodhelperobj->getParentCategory($maincat->id);
+			$parentid     = RedshopHelperProduct::getParentCategory($maincat->id);
 
 			while ($parentid != 0)
 			{
 				$parentdetail = RedshopEntityCategory::getInstance($parentid)->getItem();
 				$parentcat    = $parentdetail->name . "  " . $parentcat;
-				$parentid     = $prodhelperobj->getParentCategory($parentdetail->id);
+				$parentid     = RedshopHelperProduct::getParentCategory($parentdetail->id);
 			}
 
 			$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
@@ -486,13 +485,15 @@ class RedshopViewCategory extends RedshopView
 		if ((!count($product) && !$model->getState('include_sub_categories_products', false)) ||
 			($model->getState('include_sub_categories_products', false) && !$categories->count()))
 		{
-			$loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
-			$loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
-			if (!$manufacturerId)
-			{
-				$loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
-				$loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
-			}
+		    if (isset($loadCategorytemplate[0]->template_desc)) {
+                $loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
+                $loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
+
+                if (!$manufacturerId) {
+                    $loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
+                    $loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
+                }
+            }
 		}
 
 		$this->detail               = $detail;

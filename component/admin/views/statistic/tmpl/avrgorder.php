@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = productHelper::getInstance();
 
 $start = $this->pagination->limitstart;
 $end = $this->pagination->limit;
@@ -43,7 +42,7 @@ $end = $this->pagination->limit;
 					{ ?>
 						<td align="center"><?php echo $row->viewdate;?></td>
 					<?php }        ?>
-					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->avg_order);?></td>
+					<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->avg_order);?></td>
 				</tr>
 			<?php }    ?>
 			<tfoot>

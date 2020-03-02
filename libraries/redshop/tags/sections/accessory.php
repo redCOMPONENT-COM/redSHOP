@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Tags
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,7 +79,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
         $attributeTemplate = (object)\Redshop\Template\Helper::getAttribute($this->template);
         $productId         = $this->data['relProductId'] != 0 ? $this->data['relProductId'] : $this->data['productId'];
         $userId            = 0;
-        $product           = RedshopHelperProduct::getProductById($productId);
+        $product           = \Redshop\Product\Product::getProductById($productId);
 
         $this->replaceMainAccessory($this->data['templateContent'], $product, $userId);
 
@@ -103,11 +103,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                         'selectedAccessoryPrice' => $selectedAccessoryPrice
                     ),
                     '',
-                    array(
-                        'component'  => 'com_redshop',
-                        'layoutType' => 'Twig',
-                        'layoutOf'   => 'library'
-                    )
+                    RedshopLayoutHelper::$layoutOption
                 );
             }
 
@@ -133,7 +129,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
     public function replaceAccessory($accessory, $template, $attributeTemplate)
     {
     	$this->replacements = array();
-        $accessoryProduct = RedshopHelperProduct::getProductById($accessory->child_product_id);
+        $accessoryProduct = \Redshop\Product\Product::getProductById($accessory->child_product_id);
         $commonId         = $this->data['prefix'] . $this->data['productId'] . '_' . $accessory->accessory_id;
 
         $template = RedshopLayoutHelper::render(
@@ -143,20 +139,16 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 'commonId' => $commonId
             ),
             '',
-            array(
-                'component'  => 'com_redshop',
-                'layoutType' => 'Twig',
-                'layoutOf'   => 'library'
-            )
+            RedshopLayoutHelper::$layoutOption
         );
 
         $attributeSet = array();
 
         if ($accessoryProduct->attribute_set_id > 0) {
-            $attributeSet = RedshopHelperProduct_Attribute::getProductAttribute(0, $accessoryProduct->attribute_set_id);
+            $attributeSet = \Redshop\Product\Attribute::getProductAttribute(0, $accessoryProduct->attribute_set_id);
         }
 
-        $attributes = RedshopHelperProduct_Attribute::getProductAttribute($accessoryProduct->product_id);
+        $attributes = \Redshop\Product\Attribute::getProductAttribute($accessoryProduct->product_id);
         $attributes = array_merge($attributes, $attributeSet);
 
         // Get accessory final price with VAT rules
@@ -221,11 +213,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                     'productInfo' => $accessoryProduct
                 ),
                 '',
-                array(
-                    'component'  => 'com_redshop',
-                    'layoutType' => 'Twig',
-                    'layoutOf'   => 'library'
-                )
+                RedshopLayoutHelper::$layoutOption
             );
 
             $this->replacements['{accessory_preview_image}'] = $previewImage;
@@ -258,11 +246,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 'class' => 'accessory_checkbox_lbl'
             ),
             '',
-            array(
-                'component'  => 'com_redshop',
-                'layoutType' => 'Twig',
-                'layoutOf'   => 'library'
-            )
+            RedshopLayoutHelper::$layoutOption
         );
 
         $this->replacements["{accessory_add_chkbox_lbl}"] = $checkboxLbl;
@@ -282,11 +266,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                     'class' => 'accessory-title accessory_' . $accessory->accessory_id
                 ),
                 '',
-                array(
-                    'component'  => 'com_redshop',
-                    'layoutType' => 'Twig',
-                    'layoutOf'   => 'library'
-                )
+                RedshopLayoutHelper::$layoutOption
             );
 
             $this->replacements["{accessory_title}"] = $htmlTitle;
@@ -330,11 +310,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                     'class' => 'accessory-short-desc accessory_' . $accessory->accessory_id
                 ),
                 '',
-                array(
-                    'component'  => 'com_redshop',
-                    'layoutType' => 'Twig',
-                    'layoutOf'   => 'library'
-                )
+                RedshopLayoutHelper::$layoutOption
             );
 
             $this->replacements["{accessory_short_desc}"] = $htmlShortDesc;
@@ -354,11 +330,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                         'name'     => "accquantity_" . $this->data['prefix'] . $this->data['productId']
                     ),
                     '',
-                    array(
-                        'component'  => 'com_redshop',
-                        'layoutType' => 'Twig',
-                        'layoutOf'   => 'library'
-                    )
+                    RedshopLayoutHelper::$layoutOption
                 );
 
                 $this->replacements["{accessory_quantity}"]     = $accessoryQuantity;
@@ -385,11 +357,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                     'class'        => "accessory-readmore accessory_readmore_" . $accessory->accessory_id
                 ),
                 '',
-                array(
-                    'component'  => 'com_redshop',
-                    'layoutType' => 'Twig',
-                    'layoutOf'   => 'library'
-                )
+                RedshopLayoutHelper::$layoutOption
             );
 
             $this->replacements["{accessory_readmore}"] = $accessoryReadMore;
@@ -409,16 +377,12 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 $manufacturerLink = RedshopLayoutHelper::render(
                     'tags.common.link',
                     array(
-                        'class'   => 'accessory-manufacture-link',
+                        'class'   => 'btn btn-primary accessory-manufacture-link',
                         'link'    => $manufacturerUrl,
                         'content' => JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")
                     ),
                     '',
-                    array(
-                        'component'  => 'com_redshop',
-                        'layoutType' => 'Twig',
-                        'layoutOf'   => 'library'
-                    )
+                    RedshopLayoutHelper::$layoutOption
                 );
 
                 $this->replacements["{manufacturer_name}"] = $manufacturer->name;
@@ -497,11 +461,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 'class'     => $class
             ),
             '',
-            array(
-                'component'  => 'com_redshop',
-                'layoutType' => 'Twig',
-                'layoutOf'   => 'library'
-            )
+            RedshopLayoutHelper::$layoutOption
         );
 
         $this->replacements[$tag] = $tagPrice;
@@ -684,11 +644,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 'accessoryChecked'         => $accessoryChecked
             ),
             '',
-            array(
-                'component'  => 'com_redshop',
-                'layoutType' => 'Twig',
-                'layoutOf'   => 'library'
-            )
+            RedshopLayoutHelper::$layoutOption
         );
 
         $this->replacements['{accessory_add_chkbox}'] = $checkbox;
@@ -712,11 +668,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 'class'        => "accessory-main-readmore accessory_readmore_" . $product->product_id
             ),
             '',
-            array(
-                'component'  => 'com_redshop',
-                'layoutType' => 'Twig',
-                'layoutOf'   => 'library'
-            )
+            RedshopLayoutHelper::$layoutOption
         );
 
         return $accessoryMainReadMore;
@@ -745,11 +697,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 'class' => 'accessory-main-title'
             ),
             '',
-            array(
-                'component'  => 'com_redshop',
-                'layoutType' => 'Twig',
-                'layoutOf'   => 'library'
-            )
+            RedshopLayoutHelper::$layoutOption
         );
 
         return $htmlTitle;
@@ -777,11 +725,7 @@ class RedshopTagsSectionsAccessory extends RedshopTagsAbstract
                 'class' => 'accessory-main-short-desc'
             ),
             '',
-            array(
-                'component'  => 'com_redshop',
-                'layoutType' => 'Twig',
-                'layoutOf'   => 'library'
-            )
+            RedshopLayoutHelper::$layoutOption
         );
 
         return $htmlShortDesc;

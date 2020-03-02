@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = productHelper::getInstance();
 
 $bool = true;
 $shippname = JText::_('COM_REDSHOP_SHIPPING_RATE_NAME');
@@ -83,7 +82,7 @@ if ($this->shipper_location)
 					</td>
 					<?php if ($bool)
 					{ ?>
-						<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->shipping_rate_value); ?></td>
+						<td align="center"><?php echo RedshopHelperProductPrice::formattedPrice($row->shipping_rate_value); ?></td>
 						<td align="center"><?php echo $row->shipping_rate_priority; ?></td>
 					<?php }    ?>
 					<td align="center"><?php echo $row->shipping_rate_id; ?></td>

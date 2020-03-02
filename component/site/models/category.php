@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,7 +72,6 @@ class RedshopModelCategory extends RedshopModel
 		}
 
 		parent::__construct();
-		$this->producthelper = productHelper::getInstance();
 
 		$this->setId((int) $Id);
 	}
@@ -439,7 +438,7 @@ class RedshopModelCategory extends RedshopModel
 				->where('p.product_id IN (' . implode(',', $productIds) . ')')
 				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
 
-			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+			$query = \Redshop\Product\Product::getMainProductQuery($query, $user->id)
 				->select(
 					array(
 						'pc.ordering', 'c.*', 'm.*',
@@ -454,7 +453,7 @@ class RedshopModelCategory extends RedshopModel
 
 			if (!empty($products))
 			{
-				RedshopHelperProduct::setProduct($products);
+				\Redshop\Product\Product::setProduct($products);
 				$this->_product = array_values($products);
 			}
 		}
@@ -636,21 +635,23 @@ class RedshopModelCategory extends RedshopModel
 		}
 		else
 		{
-			if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false && strpos($this->_template[0]->template_desc, "{pagination}") !== false)
-			{
-				$this->_data = $this->_getList($query, $limitstart, $endlimit);
-			}
-			else
-			{
-				if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") !== false)
-				{
-					$this->_data = $this->_getList($query);
-				}
-				else
-				{
-					$this->_data = $this->_getList($query, 0, Redshop::getConfig()->get('MAXCATEGORY'));
-				}
-			}
+		    if (isset($this->_template[0]->template_desc)){
+                if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") === false && strpos($this->_template[0]->template_desc, "{pagination}") !== false)
+                {
+                    $this->_data = $this->_getList($query, $limitstart, $endlimit);
+                }
+                else
+                {
+                    if (strpos($this->_template[0]->template_desc, "{show_all_products_in_category}") !== false)
+                    {
+                        $this->_data = $this->_getList($query);
+                    }
+                    else
+                    {
+                        $this->_data = $this->_getList($query, 0, Redshop::getConfig()->get('MAXCATEGORY'));
+                    }
+                }
+            }
 		}
 
 		return $this->_data;
@@ -916,7 +917,7 @@ class RedshopModelCategory extends RedshopModel
 					if (!empty($rs))
 					{
 						// Sanitise ids
-						$rs = Joomla\Utilities\ArrayHelper::toInteger($rs);
+						$rs = \Joomla\Utilities\ArrayHelper::toInteger($rs);
 
 						$finder_products = implode("','", $rs);
 					}

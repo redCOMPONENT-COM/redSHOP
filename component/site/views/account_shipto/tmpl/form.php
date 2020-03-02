@@ -16,7 +16,6 @@ $itemId     = $input->getInt('Itemid', 0);
 $isEdit     = $input->getInt('is_edit', 0);
 $return     = $input->getString('return', "");
 $infoId     = $input->getInt('infoid', 0);
-$userHelper = rsUserHelper::getInstance();
 $dispatcher->trigger('onRenderCustomField', array($infoId));
 
 $post = (array) $this->shippingAddresses;
@@ -94,7 +93,17 @@ $post['state_code_ST']   = $post['state_code'];
 	<div id="divShipping">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_SHIPPING_ADDRESSES');?></legend>
-			<?php    echo $userHelper->getShippingTable($post, $this->billingAddresses->is_company, $this->lists);    ?>
+			<?php
+				echo RedshopTagsReplacer::_(
+					'shippingtable',
+					'',
+					array(
+						'data' => $post,
+						'isCompany' => $this->billingAddresses->is_company,
+						'lists' => $this->lists
+					)
+				);
+			?>
 			<table cellspacing="3" cellpadding="0" border="0" width="100%">
 				<tr>
 					<td align="right"><input type="button" class="button btn" name="back"

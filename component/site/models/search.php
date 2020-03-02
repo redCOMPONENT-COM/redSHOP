@@ -308,7 +308,7 @@ class RedshopModelSearch extends RedshopModel
 				->order('FIELD(p.product_id, ' . implode(',', $productIds) . ')');
 
 			$user  = JFactory::getUser();
-			$query = RedshopHelperProduct::getMainProductQuery($query, $user->id)
+			$query = \Redshop\Product\Product::getMainProductQuery($query, $user->id)
 				->select(
 					array(
 						'pc.ordering', 'c.*', 'm.*',
@@ -322,7 +322,7 @@ class RedshopModelSearch extends RedshopModel
 
 			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
 			{
-				RedshopHelperProduct::setProduct($products);
+				\Redshop\Product\Product::setProduct($products);
 				$items = array_values($products);
 			}
 		}
@@ -522,7 +522,7 @@ class RedshopModelSearch extends RedshopModel
 		$days        = isset($item->query['newproduct']) ? $item->query['newproduct'] : 0;
 		$today       = date('Y-m-d H:i:s', time());
 		$days_before = date('Y-m-d H:i:s', time() - ($days * 60 * 60 * 24));
-		$aclProducts = productHelper::getInstance()->loadAclProducts();
+		$aclProducts = RedshopHelperProduct::loadAclProducts();
 
 		// Shopper group - choose from manufactures Start
 		$shopper_group_manufactures = RedshopHelperShopper_Group::getShopperGroupManufacturers();

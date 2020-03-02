@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 $order_function = order_functions::getInstance();
 $config = Redconfiguration::getInstance();
-$productHelper = productHelper::getInstance();
-$redhelper = redhelper::getInstance();
 $showbuttons = JFactory::getApplication()->input->get('showbuttons', '');    ?>
 <form action="index.php?option=com_redshop" method="post"
       name="adminForm" id="adminForm">
@@ -26,7 +24,7 @@ $showbuttons = JFactory::getApplication()->input->get('showbuttons', '');    ?>
 				$filterObject = new stdClass;
 				$filterObject->text = '';
 
-				if ($this->state->get('filter_product') && ($productData = $productHelper->getProductById($this->state->get('filter_product'))))
+				if ($this->state->get('filter_product') && ($productData = \Redshop\Product\Product::getProductById($this->state->get('filter_product'))))
 				{
 					$filterObject->text = $productData->product_name;
 				}

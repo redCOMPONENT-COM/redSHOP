@@ -340,7 +340,7 @@ class RedshopHelperPayment
 			}
 		}
 
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 
 		$idx = 0;
 
@@ -424,7 +424,7 @@ class RedshopHelperPayment
 			}
 		}
 
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$db   = JFactory::getDbo();
 		$html = '';
 
@@ -461,7 +461,7 @@ class RedshopHelperPayment
 				$payments = $currentPaymentMethods;
 			}
 
-			$product = RedshopHelperProduct::getProductById($productId);
+			$product = \Redshop\Product\Product::getProductById($productId);
 			$html   .= '<div class="row"><label class="col-xs-5">' . $product->product_name . '</label><div class="col-xs-7">';
 			$tmp     = '';
 

@@ -187,29 +187,29 @@ function productaddprice(product_id, relatedprd_id)
         prefix = product_id;
     }
 
-    if (document.getElementById("accessory_data"))
+    if (jQuery('[data-id=accessory_data]'))
     {
-        var accessory_data = document.getElementById("accessory_data").value;
+        var accessory_data = jQuery('[data-id=accessory_data]').val();
     }
 
-    if (document.getElementById("acc_quantity_data"))
+    if (jQuery('[data-id=acc_quantity_data]'))
     {
-        var acc_quantity_data = document.getElementById("acc_quantity_data").value;
+        var acc_quantity_data = jQuery('[data-id=acc_quantity_data]').val();
     }
 
-    if (document.getElementById("acc_attribute_data"))
+    if (jQuery('[data-id=acc_attribute_data]'))
     {
-        var acc_attribute_data = document.getElementById("acc_attribute_data").value.replace("##", "::");
+        var acc_attribute_data = jQuery('[data-id=acc_attribute_data]').val().replace("##", "::");
     }
 
-    if (document.getElementById("acc_property_data"))
+    if (jQuery('[data-id=acc_property_data]'))
     {
-        var acc_property_data = document.getElementById("acc_property_data").value.replace("##", "::");
+        var acc_property_data = jQuery('[data-id=acc_property_data]').val().replace("##", "::");
     }
 
-    if (document.getElementById("acc_subproperty_data"))
+    if (jQuery('[data-id=acc_subproperty_data]'))
     {
-        var acc_subproperty_data = document.getElementById("acc_subproperty_data").value.replace("##", "::");
+        var acc_subproperty_data = jQuery('[data-id=acc_subproperty_data]').val().replace("##", "::");
     }
 
     if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix))
@@ -217,19 +217,19 @@ function productaddprice(product_id, relatedprd_id)
         qty = document.getElementById('quantity' + prefix).value;
     }
 
-    if (document.getElementById('attribute_data'))
+    if (jQuery('[data-id=attribute_data]'))
     {
-        var attribute_data = document.getElementById('attribute_data').value.replace("##", "::");
+        var attribute_data = jQuery('[data-id=attribute_data]').val().replace("##", "::");
     }
 
-    if (document.getElementById('property_data'))
+    if (jQuery('[data-id=property_data]'))
     {
-        var property_data = document.getElementById('property_data').value.replace("##", "::");
+        var property_data = jQuery('[data-id=property_data]').val.replace("##", "::");
     }
 
-    if (document.getElementById('subproperty_data'))
+    if (jQuery('[data-id=subproperty_data]'))
     {
-        var subproperty_data = document.getElementById('subproperty_data').value.replace("##", "::");
+        var subproperty_data = jQuery('[data-id=subproperty_data]').val().replace("##", "::");
     }
 
     var url = redSHOP.RSConfig._('AJAX_BASE_URL') + "&view=product&task=displayProductaddprice&qunatity=" + qty;
@@ -753,16 +753,16 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
     }
     else
     {
-        jQuery('#attribute_data').val(attributeIds.join("##"));
-        jQuery('#property_data').val(allProperties.join("##"));
-        jQuery('#subproperty_data').val(totalSubProperties.join("##"));
-        jQuery('#tmp_product_price').val(mainprice);
-        jQuery('#productprice_notvat').val(price_without_vat);
-        jQuery('#tmp_product_old_price').val(old_price);
+        jQuery('[data-id=attribute_data]').val(attributeIds.join("##"));
+        jQuery('[data-id=property_data]').val(allProperties.join("##"));
+        jQuery('[data-id=subproperty_data]').val(totalSubProperties.join("##"));
+        jQuery('[data-id=tmp_product_price]').val(mainprice);
+        jQuery('[data-id=productprice_notvat]').val(price_without_vat);
+        jQuery('[data-id=tmp_product_old_price]').val(old_price);
     }
 
-    jQuery('#requiedAttribute').val(requiredError);
-    jQuery('#requiedProperty').val(subPropRequiredError);
+    jQuery('[data-id=requiedAttribute]').val(requiredError);
+    jQuery('[data-id=requiedProperty]').val(subPropRequiredError);
 }
 
 /**
@@ -956,14 +956,14 @@ function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
 
     collectAttributes(productId, 0, relatedProductId, withoutVAT);
 
-    if (jQuery('#tmp_product_old_price').length)
+    if (jQuery('[data-id=tmp_product_old_price]'))
     {
-        product_old_price = parseFloat(jQuery('#tmp_product_old_price').val());
+        product_old_price = parseFloat(jQuery('[data-id=tmp_product_old_price]').val());
     }
 
-    if (jQuery('#accessory_price_withoutvat').length)
+    if (jQuery('[data-id=accessory_price_withoutvat]').length)
     {
-        accfinalprice_withoutvat = parseFloat(jQuery('#accessory_price_withoutvat').val());
+        accfinalprice_withoutvat = parseFloat(jQuery('[data-id=accessory_price_withoutvat]').val());
     }
 
     if (jQuery('#quantity' + prefix).length)
@@ -971,9 +971,9 @@ function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
         qty = jQuery('#quantity' + prefix).val();
     }
 
-    if (jQuery('#tmp_product_price').length)
+    if (jQuery('[data-id=tmp_product_price]').length)
     {
-        mainprice = parseFloat(jQuery('#tmp_product_price').val());
+        mainprice = parseFloat(jQuery('[data-id=tmp_product_price]').val());
     }
 
     if (jQuery('#hidden_subscription_prize').length)
@@ -981,14 +981,14 @@ function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
         mainprice += parseFloat(jQuery('#hidden_subscription_prize').val());
     }
 
-    if (jQuery('#productprice_notvat').length)
+    if (jQuery('[data-id=productprice_notvat]').length)
     {
-        price_without_vat = parseFloat(jQuery('#productprice_notvat').val());
+        price_without_vat = parseFloat(jQuery('[data-id=productprice_notvat]').val());
     }
 
-    if (jQuery('#tmp_product_old_price').length)
+    if (jQuery('[data-id=tmp_product_old_price]').length)
     {
-        old_price = parseFloat(jQuery('#tmp_product_old_price').val());
+        old_price = parseFloat(jQuery('[data-id=tmp_product_old_price]').val());
     }
 
     // setting wrapper price
@@ -1151,20 +1151,20 @@ function collectAccessory(product_id, relatedprd_id)
                 myaccall[selid] = accessory_id;
                 myaccqua[selid] = accQuan;
                 collectAttributes(product_id, accessory_id, relatedprd_id);
-                if (document.getElementById("accessory_price")) {
-                    my_acc_fprice = parseFloat(document.getElementById("accessory_price").value);
+                if (jQuery('[data-id=accessory_price]')) {
+                    my_acc_fprice = parseFloat(jQuery('[data-id=accessory_price]').val());
                 }
-                if (document.getElementById("accessory_price_withoutvat")) {
-                    my_acc_withoutvat_price = parseFloat(document.getElementById("accessory_price_withoutvat").value);
+                if (jQuery('[data-id=accessory_price_withoutvat]')) {
+                    my_acc_withoutvat_price = parseFloat(jQuery('[data-id=accessory_price_withoutvat]').val());
                 }
-                if (document.getElementById("acc_attribute_data")) {
-                    myattall[selid] = document.getElementById("acc_attribute_data").value;
+                if (jQuery('[data-id=acc_attribute_data]')) {
+                    myattall[selid] = jQuery('[data-id=acc_attribute_data]').val();
                 }
-                if (document.getElementById("acc_property_data")) {
-                    mypropall[selid] = document.getElementById("acc_property_data").value;
+                if (jQuery('[data-id=acc_property_data]')) {
+                    mypropall[selid] = jQuery('[data-id=acc_property_data]').val();
                 }
-                if (document.getElementById("acc_subproperty_data")) {
-                    mysubpropall[selid] = document.getElementById("acc_subproperty_data").value;
+                if (jQuery('[data-id=acc_subproperty_data]')) {
+                    mysubpropall[selid] = jQuery('[data-id=acc_subproperty_data]').val();
                 }
                 if (document.getElementById("divaccstatus" + commonid)) {
                     document.getElementById("divaccstatus" + commonid).className = 'accessorystatus added';
@@ -1182,28 +1182,27 @@ function collectAccessory(product_id, relatedprd_id)
         }
         acc_subatt_price_final += parseFloat(acc_price_total);
         acc_sub_price_withoutvat += parseFloat(acc_price_withoutvat);
-        if (document.getElementById("accessory_data")) {
-            document.getElementById("accessory_data").value = myaccall.join("@@");
+        if (jQuery('[data-id=accessory_data]')) {
+            jQuery('[data-id=accessory_data]').val(myaccall.join("@@"));
         }
-        if (document.getElementById("acc_quantity_data")) {
-            document.getElementById("acc_quantity_data").value = myaccqua.join("@@");
+        if (jQuery('[data-id=acc_quantity_data]')) {
+            jQuery('[data-id=acc_quantity_data]').val(myaccqua.join("@@"));
         }
-        if (document.getElementById("acc_attribute_data")) {
-            document.getElementById("acc_attribute_data").value = myattall.join("@@");
+        if (jQuery('[data-id=acc_attribute_data]')) {
+            jQuery('[data-id=acc_attribute_data]').val(myattall.join("@@"));
         }
-        if (document.getElementById("acc_property_data")) {
-            document.getElementById("acc_property_data").value = mypropall.join("@@");
+        if (jQuery('[data-id=acc_property_data]')) {
+            jQuery('[data-id=acc_property_data]').val(mypropall.join("@@"));
         }
-        if (document.getElementById("acc_subproperty_data")) {
-            document.getElementById("acc_subproperty_data").value = mysubpropall.join("@@");
+        if (jQuery('[data-id=acc_subproperty_data]')) {
+            jQuery('[data-id=acc_subproperty_data]').val(mysubpropall.join("@@"));
         }
-        if (document.getElementById("accessory_price")) {
-            document.getElementById("accessory_price").value = acc_subatt_price_final;
+        if (jQuery('[data-id=accessory_price]')) {
+            jQuery('[data-id=accessory_price]').val(acc_subatt_price_final);
         }
-        if (document.getElementById("accessory_price_withoutvat")) {
-            document.getElementById("accessory_price_withoutvat").value = acc_sub_price_withoutvat;
+        if (jQuery('[data-id=accessory_price_withoutvat]')) {
+            jQuery('[data-id=accessory_price_withoutvat]').val(acc_sub_price_withoutvat);
         }
-
     }
     return acc_subatt_price_final;
 }
@@ -1297,8 +1296,8 @@ function setWrapper(id, price, price_withoutvat, product_id) {
     if (document.getElementById("wrapper_id")) {
         document.getElementById("wrapper_id").value = id;
     }
-    if (document.getElementById("sel_wrapper_id")) {
-        document.getElementById("sel_wrapper_id").value = id;
+    if (jQuery('[data-id=sel_wrapper_id]')) {
+        jQuery('[data-id=sel_wrapper_id]').value = id;
     }
     document.getElementById("wrapper_price").value = price;
     document.getElementById("wrapper_price_withoutvat").value = price_withoutvat;
@@ -1473,12 +1472,12 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
     }
     collectAttributes(product_id, 0, relatedprd_id, withoutVAT);
 
-    if (document.getElementById('property_data')) {
-        var property_data = document.getElementById('property_data').value;
+    if (jQuery('[data-id=property_data]')) {
+        var property_data = jQuery('[data-id=property_data]').val();
         suburl = suburl + "&property_data=" + encodeURIComponent(property_data);
     }
-    if (document.getElementById('subproperty_data')) {
-        var subproperty_data = document.getElementById('subproperty_data').value;
+    if (jQuery('[data-id=subproperty_data]')) {
+        var subproperty_data = jQuery('[data-id=subproperty_data]').val();
         suburl = suburl + "&subproperty_data=" + encodeURIComponent(subproperty_data);
     }
     if (document.getElementById(prefix + "main_imgwidth")) {
@@ -1914,9 +1913,9 @@ function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_i
         '#' + frmCartName
     );
 
-    jQuery('#requiedAttribute').val(jQuery('#' + frmCartName + ' [name=requiedAttribute]').attr('reattribute'));
+    jQuery('[data-id=requiedAttribute]').val(jQuery('#' + frmCartName + ' [name=requiedAttribute]').attr('reattribute'));
 
-    jQuery('#requiedProperty').val(jQuery('#' + frmCartName + ' [name=requiedProperty]').attr('reproperty'));
+    jQuery('[data-id=requiedProperty]').val(jQuery('#' + frmCartName + ' [name=requiedProperty]').attr('reproperty'));
 
     if (giftcard_id == 0)
     {
@@ -1936,41 +1935,41 @@ function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_i
 function setAddtocartForm(frmCartName, product_id) {
     var frm = document.getElementById(frmCartName);
 
-    if (document.getElementById('Itemid')) {
-        frm.Itemid.value = document.getElementById('Itemid').value;
+    if (jQuery('[data-id=Itemid]')) {
+        frm.elements['Itemid'].value = jQuery('[data-id=Itemid]').val();
     }
-    if (document.getElementById('attribute_data')) {
-        frm.attribute_data.value = document.getElementById('attribute_data').value;
+    if (jQuery('[data-id=attribute_data]')) {
+        frm.elements['attribute_data'].value = jQuery('[data-id=attribute_data]').val();
     }
-    if (document.getElementById('property_data')) {
-        frm.property_data.value = document.getElementById('property_data').value;
+    if (jQuery('[data-id=property_data]')) {
+        frm.elements['property_data'].value = jQuery('[data-id=property_data]').val();
     }
-    if (document.getElementById('subproperty_data')) {
-        frm.subproperty_data.value = document.getElementById('subproperty_data').value;
+    if (jQuery('[data-id=subproperty_data]')) {
+        frm.elements['subproperty_data'].value = jQuery('[data-id=subproperty_data]').val();
     }
-    if (document.getElementById('accessory_data')) {
-        frm.accessory_data.value = document.getElementById('accessory_data').value;
+    if (jQuery('[data-id=accessory_data]')) {
+        frm.elements['accessory_data'].value = jQuery('[data-id=accessory_data]').val();
     }
-    if (document.getElementById('acc_quantity_data')) {
-        frm.acc_quantity_data.value = document.getElementById('acc_quantity_data').value;
+    if (jQuery('[data-id=acc_quantity_data]')) {
+        frm.elements['acc_quantity_data'].value = jQuery('[data-id=acc_quantity_data]').val();
     }
-    if (document.getElementById('acc_attribute_data')) {
-        frm.acc_attribute_data.value = document.getElementById('acc_attribute_data').value;
+    if (jQuery('[data-id=acc_attribute_data]')) {
+        frm.elements['acc_attribute_data'].value = jQuery('[data-id=acc_attribute_data]').val();
     }
-    if (document.getElementById('acc_property_data')) {
-        frm.acc_property_data.value = document.getElementById('acc_property_data').value;
+    if (jQuery('[data-id=acc_property_data]')) {
+        frm.elements['acc_property_data'].value = jQuery('[data-id=acc_property_data]').val();
     }
-    if (document.getElementById('acc_subproperty_data')) {
-        frm.acc_subproperty_data.value = document.getElementById('acc_subproperty_data').value;
+    if (jQuery('[data-id=acc_subproperty_data]')) {
+        frm.elements['acc_subproperty_data'].value = jQuery('[data-id=acc_subproperty_data]').val();
     }
-    if (document.getElementById('accessory_price')) {
-        frm.accessory_price.value = document.getElementById('accessory_price').value;
+    if (jQuery('[data-id=accessory_price]')) {
+        frm.elements['accessory_price'].value = jQuery('[data-id=accessory_price]').val();
     }
-    if (document.getElementById('requiedAttribute')) {
-        frm.requiedAttribute.value = document.getElementById('requiedAttribute').value;
+    if (jQuery('[data-id=requiedAttribute]')) {
+        frm.elements['requiedAttribute'].value = jQuery('[data-id=requiedAttribute]').val();
     }
-    if (document.getElementById('requiedProperty')) {
-        frm.requiedProperty.value = document.getElementById('requiedProperty').value;
+    if (jQuery('[data-id=requiedProperty]')) {
+        frm.elements['requiedProperty'].value = jQuery('[data-id=requiedProperty]').val();
     }
 
     var product_quantity = 1;
@@ -2087,7 +2086,7 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
 
 
     if (product_id == 0 || product_id == "") {
-        return false;
+        return false;submitAjaxwishlistCartdetail
     }
     var prop_id_cart = "";
 

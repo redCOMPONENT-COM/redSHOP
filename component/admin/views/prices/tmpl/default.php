@@ -6,7 +6,6 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-$producthelper = productHelper::getInstance();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -46,7 +45,7 @@ $producthelper = productHelper::getInstance();
 			{
 				$row = $this->media[$i];
 				$row->id = $row->price_id;
-				//$product_id = $row->product_id;
+				//$productId = $row->product_id;
 				$link = JRoute::_('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $row->product_id . '&cid[]=' . $row->price_id);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
@@ -58,9 +57,9 @@ $producthelper = productHelper::getInstance();
 					<td align="center"><?php echo $row->price_quantity_start;?></td>
 					<td align="center"><?php echo $row->price_quantity_end;?></td>
 					<td align="center"
-					    width="5%"><?php echo $producthelper->getProductFormattedPrice($row->product_price); ?></td>
+					    width="5%"><?php echo RedshopHelperProductPrice::formattedPrice($row->product_price); ?></td>
 					<td align="center"
-					    width="5%"><?php echo $producthelper->getProductFormattedPrice($row->discount_price); ?></td>
+					    width="5%"><?php echo RedshopHelperProductPrice::formattedPrice($row->discount_price); ?></td>
 				</tr>
 				<?php        $k = 1 - $k;
 			}    ?>

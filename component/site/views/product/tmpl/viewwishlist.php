@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,10 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
 
 $config        = Redconfiguration::getInstance();
-$producthelper = productHelper::getInstance();
 
 $url        = JURI::base();
 $wishlists  = $this->wishlists;
-$product_id = $this->input->getInt('product_id');
+$productId = $this->input->getInt('product_id');
 $user       = JFactory::getUser();
 
 if (!$user->id)
@@ -80,7 +79,6 @@ else // If user logged in than display this code.
 
 function display_products($rows)
 {
-	$producthelper = productHelper::getInstance();
 
 	for ($i = 0, $in = count($rows); $i < $in; $i++)
 	{
@@ -89,7 +87,7 @@ function display_products($rows)
 		$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 		$product_price = Redshop\Product\Price::getPrice($row->product_id);
 
-		$productArr             = $producthelper->getProductNetPrice($row->product_id);
+		$productArr             = RedshopHelperProductPrice::getNetPrice($row->product_id);
 		$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 
 		if ($row->product_full_image)
@@ -108,25 +106,25 @@ function display_products($rows)
 
 				if ($this->show_discountpricelayout)
 				{
-					echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
+					echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</span></div>";
 					$product_price = $product_price_discount;
-					echo "<div id='mod_redmainprice' class='mod_redmainprice'>" . $producthelper->getProductFormattedPrice($product_price_discount) . "</div>";
-					echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . $producthelper->getProductFormattedPrice($s_price) . "</div>";
+					echo "<div id='mod_redmainprice' class='mod_redmainprice'>" . RedshopHelperProductPrice::formattedPrice($product_price_discount) . "</div>";
+					echo "<div id='mod_redsavedprice' class='mod_redsavedprice'>" . JText::_('COM_REDSHOP_PRODCUT_PRICE_YOU_SAVED') . ' ' . RedshopHelperProductPrice::formattedPrice($s_price) . "</div>";
 				}
 				else
 				{
 					$product_price = $product_price_discount;
-					echo "<div class='mod_redproducts_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+					echo "<div class='mod_redproducts_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 				}
 			}
 			else
 			{
-				echo "<div class='mod_redproducts_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+				echo "<div class='mod_redproducts_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 			}
 		}
 		else
 		{
-			echo "<div class='mod_redproducts_price'>" . $producthelper->getProductFormattedPrice($product_price) . "</div>";
+			echo "<div class='mod_redproducts_price'>" . RedshopHelperProductPrice::formattedPrice($product_price) . "</div>";
 		}
 
 		echo "<br><a href='" . $link . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>&nbsp;";

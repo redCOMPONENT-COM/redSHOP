@@ -29,7 +29,6 @@ $shLangIso = shLoadPluginLanguage('com_redshop', $shLangIso, '_COM_SEF_SH_REDSHO
 
 JLoader::import('redshop.library');
 $product_category = new product_category;
-$productHelper = productHelper::getInstance();
 
 shRemoveFromGETVarsList('option');
 
@@ -93,7 +92,7 @@ $texpricemin = isset($texpricemin) ? @$texpricemin : null;
 $payment_method_id = isset($payment_method_id) ? @$payment_method_id : null;
 $shipping_rate_id  = isset($shipping_rate_id) ? @$shipping_rate_id : null;
 
-if ($menu = $productHelper->getMenuInformation($Itemid, 0, '', $view))
+if ($menu = RedshopHelperProduct::getMenuInformation($Itemid, 0, '', $view))
 {
 	$myparams = $menu->params;
 }
@@ -211,7 +210,7 @@ switch ($view)
 	case 'product':
 		if ($pid)
 		{
-			$product = RedshopHelperProduct::getProductById($pid);
+			$product = \Redshop\Product\Product::getProductById($pid);
 
 			$url = trim($product->sef_url);
 
@@ -455,7 +454,7 @@ switch ($view)
 
 		if ($pid)
 		{
-			$product = RedshopHelperProduct::getProductById($pid);
+			$product = \Redshop\Product\Product::getProductById($pid);
 			$title[] = $product->product_name;
 			shRemoveFromGETVarsList('pid');
 		}

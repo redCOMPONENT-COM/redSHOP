@@ -196,3 +196,33 @@ function updateCartAjax($, form)
         }
     });
 }
+
+function getCatalogValidation() {
+    var frm = document.frmcatalog;
+    var email = frm.email_address.value;
+    var patt1 = new RegExp("([a-z0-9_]+)@([a-z0-9_-]+)[.][a-z]");
+
+    if (frm.catalog_id.value == '0') {
+        alert(Joomla.JText._('COM_REDSHOP_SELECT_CATALOG'));
+        frm.catalog_id.focus();
+        return false;
+    }
+
+    if (frm.name_2.value == '') {
+        alert(Joomla.JText._('COM_REDSHOP_ENTER_NAME'));
+        frm.name_2.focus();
+        return false;
+    }
+
+    if (email == '') {
+        alert(Joomla.JText._('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS'));
+        frm.email_address.focus();
+        return false;
+    }
+    else if (patt1.test(email) == false) {
+        alert(Joomla.JText._('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID'));
+        frm.email_address.focus();
+        return false;
+    }
+    return true;
+}

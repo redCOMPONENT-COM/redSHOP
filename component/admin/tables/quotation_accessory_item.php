@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ class Tablequotation_accessory_item extends JTable
 
 	public $quotation_item_id = null;
 
-	public $accessory_id = null;
+	public $accessoryId = null;
 
 	public $accessory_item_sku = null;
 

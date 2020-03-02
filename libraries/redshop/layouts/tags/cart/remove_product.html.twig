@@ -1,0 +1,10 @@
+<form name="delete_cart{{ i }}" method="POST" >
+    <input type="hidden" name="{{ cartItem }}" value="{{ productId }}">
+    <input type="hidden" name="cart_index" value="{{ i }}">
+    <input type="hidden" name="task" value="">
+    <input type="hidden" name="Itemid" value="itemId">
+    <img class="delete_cart" src="{{ constant('REDSHOP_FRONT_IMAGES_ABSPATH') ~ deleteImg }}"
+         title="{{ jtext('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') }}"
+         alt="{{ jtext('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') }}"
+         onclick="document.delete_cart{{ i }}.task.value='delete';document.delete_cart{{ i }}.submit();">
+</form>

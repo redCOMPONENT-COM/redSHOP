@@ -40,7 +40,7 @@ class Image
 		$aTitleImageResponse = '';
 		$mainImageResponse   = '';
 		$productMainImg      = '';
-		$product             = \RedshopHelperProduct::getProductById($id);
+		$product             = \Redshop\Product\Product::getProductById($id);
 		$type                = '';
 		$productSKU          = $product->product_number;
 		$attributeImage      = '';
@@ -109,7 +109,7 @@ class Image
 				$imageName           = $subproperty[0]->subattribute_color_main_image;
 				$aTitleImageResponse = $subproperty[0]->text;
 
-				// $attrbimg = REDSHOP_FRONT_IMAGES_ABSPATH."subproperty/".$subproperty[0]->subattribute_color_image;
+				// $attributeImg = REDSHOP_FRONT_IMAGES_ABSPATH."subproperty/".$subproperty[0]->subattribute_color_image;
 			}
 
 			// Subproperty image in cart
@@ -199,13 +199,13 @@ class Image
 	public static function getImage($id = 0, $link = '', $width, $height, $isLight = 2, $enableHover = 0, $suffixId = 0, $preSelectedResult = array())
 	{
 		$thumbImage    = '';
-		$result        = \RedshopHelperProduct::getProductById($id);
+		$result        = \Redshop\Product\Product::getProductById($id);
 		$isStockExists = \RedshopHelperStockroom::isStockExists($id);
 		$middlePath    = REDSHOP_FRONT_IMAGES_RELPATH . 'product/';
 
 		if (empty($result->product_full_image) && $result->product_parent_id > 0)
 		{
-			$result = \productHelper::getInstance()->getProductparentImage($result->product_parent_id);
+			$result = \RedshopHelperProduct::getProductparentImage($result->product_parent_id);
 		}
 
 		$productImage = $result->product_full_image;

@@ -116,12 +116,12 @@ class RedshopViewCheckout extends RedshopView
 			}
 
 			$users_info_id     = $app->input->getInt('users_info_id');
-			$billingaddresses  = $model->billingaddresses();
+			$billingAddresses  = $model->billingaddresses();
 			$shippingaddresses = $model->shippingaddresses();
 
-			if ($billingaddresses == new stdClass)
+			if ($billingAddresses == new stdClass)
 			{
-				$billingaddresses = null;
+				$billingAddresses = null;
 			}
 
 			if (!$users_info_id)
@@ -130,9 +130,9 @@ class RedshopViewCheckout extends RedshopView
 				{
 					$users_info_id = $shippingaddresses[0]->users_info_id;
 				}
-				elseif ((!isset($users_info_id) || $users_info_id == 0) && !empty($billingaddresses))
+				elseif ((!isset($users_info_id) || $users_info_id == 0) && !empty($billingAddresses))
 				{
-					$users_info_id = $billingaddresses->users_info_id;
+					$users_info_id = $billingAddresses->users_info_id;
 				}
 				else
 				{
@@ -165,7 +165,7 @@ class RedshopViewCheckout extends RedshopView
 			}
 
 			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-			$subtotal       = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
+			$subtotal       = (Redshop::getConfig()->get('SHIPPING_AFTER') == 'total') ? $cart['product_subtotal_excl_vat'] - $total_discount : $cart['product_subtotal_excl_vat'];
 
 			$this->shipping_rate_id = $shipping_rate_id;
 			$this->element = $element;

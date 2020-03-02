@@ -1,0 +1,21 @@
+{% if isCreditcard %}
+    <form action="{{ jtext('index.php?option=com_redshop&view=checkout') }}" method="post" name="adminForm" id="adminForm"
+          enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">
+        {{ content }}
+        <input type="hidden" name="option" value="com_redshop" />
+        <input type="hidden" name="Itemid" value="{{ itemId }}" />
+        <input type="hidden" name="task" value="checkoutNext" />
+        <input type="hidden" name="view" value="checkout" />
+        <input type="submit" name="submit" class="greenbutton btn btn-primary" value="{{ jtext('COM_REDSHOP_BTN_CHECKOUTNEXT') }}" />
+        <input type="hidden" name="ccinfo" value="1" />
+        <input type="hidden" name="users_info_id" value="{{ usersInfoId }}" />
+        <input type="hidden" name="shipping_rate_id" value="{{ shippingRateId }}" />
+        <input type="hidden" name="payment_method_id" value="{{ paymentMethodId }}" />
+    </form>
+{% else %}
+    <form action="{{ jtext('index.php?option=com_redshop&view=checkout') }}" method="post"
+             name="adminForm" id="adminForm" enctype="multipart/form-data"
+             onsubmit="return chkvalidaion();">
+        {{ content }}
+    </form>
+{% endif %}

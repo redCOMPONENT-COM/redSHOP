@@ -45,7 +45,6 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 	 */
 	public function exportOrder()
 	{
-		$productHelper = productHelper::getInstance();
 		$model         = $this->getModel();
 		$data          = $model->exportOrder();
 		$noProducts    = $model->countProductByOrder();
@@ -120,7 +119,7 @@ class RedshopControllerStatistic_Order extends RedshopControllerAdmin
 				echo str_replace(",", " ", utf8_decode($noItems[$it]->order_item_name)) . " ,";
 				echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . " " . $noItems[$it]->product_final_price . ",";
 
-				$productAttribute = $productHelper->makeAttributeOrder($noItems[$it]->order_item_id, 0, $noItems[$it]->product_id, 0, 1);
+				$productAttribute = RedshopHelperProduct::makeAttributeOrder($noItems[$it]->order_item_id, 0, $noItems[$it]->product_id, 0, 1);
 				$productAttribute = strip_tags(str_replace(",", " ", $productAttribute->product_attribute));
 				echo trim(utf8_decode($productAttribute)) . " ,";
 			}
