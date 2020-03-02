@@ -3,9 +3,7 @@ redSHOP 3.x
 
 [![Build Status](https://travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=exSzjzLhFrzHef99DDg1&branch=develop)](https://travis-ci.com/redCOMPONENT-COM/redSHOP) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/badges/quality-score.png?b=develop&s=f945d89ef335953761803d0e0f0e37d5fecf0b62)](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/?branch=develop)
 
-redSHOP 3.x is very important release and is a breaking change version with a lot of enhancement codes in core and fix 
-a lot of bugs that make redSHOP steady and stable. It's also a version that open the gate for implement new features
-not so far.
+redSHOP 3.x is a major release and breaking change version, including a lot of enhancement in core and bugs fixes. The new version is opened for people to contribute new features, bugs fixes, improvements.
 
 ## Requirement
 - For redSHOP version **<= 2.1.4**: PHP Version: **>= 5.6**
