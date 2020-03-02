@@ -3,9 +3,7 @@ redSHOP 3.x
 
 [![Build Status](https://travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=exSzjzLhFrzHef99DDg1&branch=develop)](https://travis-ci.com/redCOMPONENT-COM/redSHOP) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/badges/quality-score.png?b=develop&s=f945d89ef335953761803d0e0f0e37d5fecf0b62)](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/?branch=develop)
 
-redSHOP 3.x is very important release and is a breaking change version with a lot of enhancement codes in core and fix 
-a lot of bugs that make redSHOP steady and stable. It's also a version that open the gate for implement new features
-not so far.
+redSHOP 3.x is a major release and breaking change version, including a lot of enhancement in core and bugs fixes. The new version is opened for people to contribute new features, bugs fixes, improvements.
 
 ## Requirement
 - For redSHOP version **<= 2.1.4**: PHP Version: **>= 5.6**
@@ -70,8 +68,7 @@ Before you can run any Gulp command you need to:
 
 ## Gulp 4 support
 
-- Currently this is on develop status and will be supported soon.
-
+- we will support gulp task rewritten in version 4 very soon. Currently, all gulp script are executed properly with version 3.9
 ### Following tasks and switches are available:
 #### Setup gulp config file. Copy and rename `gulp-config.sample.json` file into `gulp-config.json`
 
@@ -85,23 +82,11 @@ Before you can run any Gulp command you need to:
 
 #### To Release `modules` and create `.zip` file
 
-    gulp release:modules
+    gulp release:module
 
 #### To Release `plugins` and create `.zip` file
 
-    gulp release:plugins
-
-#### To Release `packages` and create `.zip` file
-
-    gulp release:packages
-
-_or_
-
-    gulp release:packages --folder ./individual_package_dir
-
-This command is to release the extensions.
-
-    gulp release:extensions
+    gulp release:plugin
 
 This command will read the base directory and create zip files for each of the folder.
 
