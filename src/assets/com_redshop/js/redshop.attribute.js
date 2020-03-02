@@ -1019,7 +1019,6 @@ function calculateTotalPrice(productId, relatedProductId, withoutVAT) {
         }
         else
         {
-            final_price_f = final_price_f + (final_price_f * redSHOP.baseTax);
             final_price = number_format(final_price_f, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
             final_price_novat = number_format(product_price_without_vat, redSHOP.RSConfig._('PRICE_DECIMAL'), redSHOP.RSConfig._('PRICE_SEPERATOR'), redSHOP.RSConfig._('THOUSAND_SEPERATOR'));
         }
