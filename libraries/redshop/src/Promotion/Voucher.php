@@ -14,19 +14,19 @@ defined('_JEXEC') or die;
 /**
  * Voucher helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Voucher
 {
     /**
      * @var $globalVoucher
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static $globalVoucher;
 
     /**
      * @var $couponRemain
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static $couponRemain;
 
@@ -119,7 +119,7 @@ class Voucher
      * @param $voucherCode
      *
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getGlobalVoucher($voucherCode)
     {
@@ -173,7 +173,7 @@ class Voucher
      * @param   integer  $subtotal    Subtotal
      *
      * @return   array|mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getCouponData($couponCode, $subtotal = 0)
     {

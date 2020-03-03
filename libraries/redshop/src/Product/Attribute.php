@@ -17,28 +17,28 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class Product Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Attribute
 {
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0
 	 */
 	protected static $attributeProperties = array();
 
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0
 	 */
 	protected static $productAttributes = array();
 
 	/**
 	 * @var   array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0
 	 */
 	protected static $subProperties = array();
 
@@ -61,7 +61,7 @@ class Attribute
 	 *
 	 * @return  array
 	 * @throws  Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public static function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0, $notAttributeId = '')
 	{

@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * For classes extends class RedshopTagsAbstract
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 trait NewsletterSubscription
 {
@@ -22,7 +22,7 @@ trait NewsletterSubscription
 	 * @param   int     $onChange
 	 *
 	 * @return string|string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function replaceNewsletterSubscription($templateDesc = "", $onChange = 0)
 	{

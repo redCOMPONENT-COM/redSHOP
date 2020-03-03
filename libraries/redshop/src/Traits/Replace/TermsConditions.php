@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * For classes extends class RedshopTagsAbstract
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 trait TermsConditions
 {
@@ -22,7 +22,7 @@ trait TermsConditions
 	 * @param   int     $itemId
 	 *
 	 * @return string|string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function replaceTermsConditions($templateDesc = "", $itemId = 1)
 	{

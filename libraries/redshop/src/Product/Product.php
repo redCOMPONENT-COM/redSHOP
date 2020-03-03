@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 /**
  * Class Product Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Product
 {
@@ -25,7 +25,7 @@ class Product
      * Product info
      *
      * @var  array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     protected static $products = array();
 
@@ -33,7 +33,7 @@ class Product
      * All product data
      *
      * @var  array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     protected static $allProducts = array();
 
@@ -70,7 +70,7 @@ class Product
      * @param   int     $giftCard
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getProductUserFieldFromTemplate($templateData = "", $giftCard = 0)
     {
@@ -143,7 +143,7 @@ class Product
      * @param   bool  $setRelated
      *
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getProductById($productId, $userId = 0, $setRelated = true)
     {
@@ -183,7 +183,7 @@ class Product
      * @param   int   $userId
      *
      * @return bool
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getMainProductQuery($query = false, $userId = 0)
     {
@@ -318,7 +318,7 @@ class Product
 	 * @param   int    $userId    User id
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public static function setProductRelates($products, $userId = 0)
 	{
@@ -369,7 +369,7 @@ class Product
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public static function setProductAttributes($getAttributeKeys = array(), $userId = 0)
 	{
@@ -450,7 +450,7 @@ class Product
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public static function setProductExtraFields($getExtraFieldKeys = array(), $userId = 0)
 	{
@@ -491,7 +491,7 @@ class Product
 	 * @return  array
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public static function getProductsByIds($productIds = array(), $userId = 0, $setRelated = true)
 	{
@@ -573,7 +573,7 @@ class Product
 	 * @param   array  $products  Array product/s values
 	 *
 	 * @return void
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0
 	 */
 	public static function setProduct($products)
 	{

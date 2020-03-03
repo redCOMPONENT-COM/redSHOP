@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 {
@@ -54,7 +54,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replacePrivateCompanyBilling($prefix)
 	{
@@ -118,7 +118,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceSameShipping()
 	{
@@ -173,7 +173,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceCreateAccount()
 	{

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Wrapper Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Helper
 {
@@ -22,7 +22,7 @@ class Helper
      * @param   array  $cart
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getWrapperPrice($cart = array())
     {

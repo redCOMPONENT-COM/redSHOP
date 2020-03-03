@@ -13,7 +13,7 @@ use Redshop\Cart\Render\Label;
 /**
  * For classes extends class RedshopTagsAbstract
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 trait Discount
 {
@@ -25,7 +25,7 @@ trait Discount
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceDiscount($template = '', $discount = 0, $subTotal = 0, $quotationMode = 0)
 	{

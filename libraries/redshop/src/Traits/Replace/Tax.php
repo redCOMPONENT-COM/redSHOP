@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * For classes extends class RedshopTagsAbstract
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 trait Tax
 {
@@ -27,7 +27,7 @@ trait Tax
 	 * @param   int    $quotationMode Quotation mode
 	 *
 	 * @return  string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceTax($template = '', $amount = 0, $discount = 0, $check = 0, $quotationMode = 0)
 	{

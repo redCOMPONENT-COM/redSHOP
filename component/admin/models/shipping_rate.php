@@ -25,7 +25,7 @@ class RedshopModelShipping_rate extends RedshopModel
     /**
      * RedshopModelShipping_rate constructor.
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function __construct()
 	{
@@ -83,7 +83,7 @@ class RedshopModelShipping_rate extends RedshopModel
     /**
      * @return JDatabaseQuery
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function _buildQuery()
 	{

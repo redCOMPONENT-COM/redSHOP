@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Currency class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class Helper
 {
@@ -22,7 +22,7 @@ class Helper
      * @param   int  $taxGroupId
      *
      * @return \JDatabaseQuery
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getTaxRatesQuery($taxGroupId = 1) {
         $db = \JFactory::getDbo();
@@ -47,7 +47,7 @@ class Helper
      *
      * @return null
      * @throws \Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getTaxRatesById($taxGroupId = 1)
     {
