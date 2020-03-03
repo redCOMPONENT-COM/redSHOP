@@ -586,15 +586,6 @@ trait CartItem
 		}
 
 		if ($isReplaceButton) {
-			$updateCartNone = \RedshopLayoutHelper::render(
-				'tags.common.label',
-				['text' => $quantity],
-				'',
-				$optionLayout
-			);
-
-			$updateImage = '';
-
 			if ($view == 'checkout') {
 				$updateCart = $quantity;
 			} else {
@@ -668,7 +659,7 @@ trait CartItem
 				$replaceData['{remove_product}'] = $removeProduct;
 			} else {
 				$replaceData['{quantity_increase_decrease}'] = $updateCartMinusPlus;
-				$replaceData['{update_cart}'] = $updateCartNone;
+				$replaceData['{update_cart}'] = $quantity;
 				$replaceData['{remove_product}'] = $removeProduct;
 			}
 		} else {
