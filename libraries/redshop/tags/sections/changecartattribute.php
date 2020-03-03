@@ -13,14 +13,14 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer for Change Ajax Cart Attribute
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 {
 	/**
 	 * @var    array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $tags = array(
 		'{apply_button}',
@@ -33,7 +33,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 	 * @return mixed|void
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function init()
 	{
@@ -44,7 +44,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 	 * @return string
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function replace()
 	{

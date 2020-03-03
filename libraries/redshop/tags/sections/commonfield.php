@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 {
@@ -356,7 +356,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceRetypeEmail($prefix, $options)
 	{

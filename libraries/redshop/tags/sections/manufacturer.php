@@ -12,14 +12,14 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 {
 	/**
 	 * @var    array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public $tags = array('{print}', '{order_by}', '{pagination}');
 
@@ -28,7 +28,7 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function init()
 	{
@@ -40,7 +40,7 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replace()
 	{
@@ -134,7 +134,7 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceManufacturerItem($template, $data, $itemId)
 	{

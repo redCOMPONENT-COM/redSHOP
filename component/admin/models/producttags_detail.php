@@ -50,7 +50,7 @@ class RedshopModelProducttags_detail extends RedshopModel
 
     /**
      * @return bool
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function _loadData()
 	{
@@ -114,7 +114,7 @@ class RedshopModelProducttags_detail extends RedshopModel
      * @param array $cid
      * @return bool
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function delete($cid = [])
 	{
@@ -158,7 +158,7 @@ class RedshopModelProducttags_detail extends RedshopModel
      * @param int $publish
      * @return bool
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function publish($cid = [], $publish = 1)
 	{

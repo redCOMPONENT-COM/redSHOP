@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Coupon Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Coupon
 {
@@ -23,7 +23,7 @@ class Coupon
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public static function getCouponPrice()
 	{
