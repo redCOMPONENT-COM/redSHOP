@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @var   array   $displayData Layout data
  * @var   object  $form        A JForm object
- * @var   integer $product_id  Id current product
+ * @var   integer $productId  Id current product
  * @var   integer $modal       Flag use form in modal
  */
 extract($displayData);

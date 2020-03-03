@@ -34,11 +34,6 @@ class redshopMail
 	/**
 	 * @deprecated  2.0.3
 	 */
-	public $_redhelper = null;
-
-	/**
-	 * @deprecated  2.0.3
-	 */
 	protected static $mailTemplates = array();
 
 	/**
@@ -75,8 +70,6 @@ class redshopMail
 	{
 		$this->_db              = JFactory::getDbo();
 		$this->_table_prefix    = '#__redshop_';
-		$this->_carthelper      = rsCarthelper::getInstance();
-		$this->_redhelper       = redhelper::getInstance();
 		$this->_order_functions = order_functions::getInstance();
 	}
 

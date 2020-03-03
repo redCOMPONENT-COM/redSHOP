@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,6 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 	{
 		$model         = $this->getModel();
 		$data          = $model->getItems();
-		$productHelper = productHelper::getInstance();
 
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Content-type: text/x-csv");
@@ -46,7 +45,7 @@ class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 			echo trim($value->customer_name) . ",";
 			echo trim($value->user_email) . ",";
 			echo $value->count . ",";
-			echo $productHelper->getProductFormattedPrice($value->total_sale) . "\n";
+			echo RedshopHelperProductPrice::formattedPrice($value->total_sale) . "\n";
 		}
 
 		JFactory::getApplication()->close();

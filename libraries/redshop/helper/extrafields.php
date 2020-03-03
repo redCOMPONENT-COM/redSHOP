@@ -569,7 +569,8 @@ class RedshopHelperExtrafields
 
 					case self::TYPE_CHECK_BOX:
 						$fieldChk = RedshopEntityField::getInstance($customField->id)->getFieldValues();
-						$chkData  = explode(",", $dataValue->data_txt);
+						$chkData  = isset($dataValue->data_txt) ? explode(",", $dataValue->data_txt)
+                                                                : [];
 						$exField  .= RedshopLayoutHelper::render(
 							'extrafields.field.checkbox',
 							array(
@@ -613,7 +614,7 @@ class RedshopHelperExtrafields
 
 					case self::TYPE_SELECT_BOX_SINGLE:
 						$fieldChk = RedshopEntityField::getInstance($customField->id)->getFieldValues();
-						$chkData  = explode(",", $dataValue->data_txt);
+						$chkData  = explode(",", ($dataValue->data_txt ?? ''));
 						$exField  .= RedshopLayoutHelper::render(
 							'extrafields.field.select',
 							array(
@@ -1344,7 +1345,7 @@ class RedshopHelperExtrafields
 				case self::TYPE_CHECK_BOX:
 					$fieldChk        = RedshopEntityField::getInstance($rowData[$i]->id)->getFieldValues();
 					$chkData         = !empty($dataValue->data_txt) ? explode(",", $dataValue->data_txt) : array();
-					$extraFieldValue = '';
+					$extraFieldValue = [];
 
 					foreach ($fieldChk as $key => $data)
 					{
@@ -1353,14 +1354,14 @@ class RedshopHelperExtrafields
 							continue;
 						}
 
-						$extraFieldValue .= $data->field_value;
+						$extraFieldValue[] = $data->field_name;
 					}
 
 					$exField .= RedshopLayoutHelper::render(
 						'field_display.checkbox',
 						array(
 							'extraFieldLabel' => $extraFieldLabel,
-							'extraFieldValue' => $extraFieldValue,
+							'extraFieldValue' => implode(',', $extraFieldValue),
 							'sendMail'        => $sendmail
 						),
 						'',
@@ -1382,7 +1383,7 @@ class RedshopHelperExtrafields
 							continue;
 						}
 
-						$extraFieldValue .= $data->field_value;
+						$extraFieldValue .= $data->field_name;
 					}
 
 					$exField .= RedshopLayoutHelper::render(
@@ -1411,7 +1412,7 @@ class RedshopHelperExtrafields
 							continue;
 						}
 
-						$extraFieldValue .= $data->field_value;
+						$extraFieldValue .= $data->field_name;
 					}
 
 					$exField .= RedshopLayoutHelper::render(
@@ -1440,7 +1441,7 @@ class RedshopHelperExtrafields
 							continue;
 						}
 
-						$extraFieldValue[] = $data->field_value;
+						$extraFieldValue[] = $data->field_name;
 					}
 
 					$exField .= RedshopLayoutHelper::render(
@@ -1566,7 +1567,7 @@ class RedshopHelperExtrafields
 		$rowData      = $db->setQuery($query)->loadObjectList();
 		$exField      = '';
 		$exFieldTitle = '';
-		$cart         = RedshopHelperCartSession::getCart();
+		$cart         = \Redshop\Cart\Helper::getCart();
 		$idx          = 0;
 
 		if (isset($cart['idx']))

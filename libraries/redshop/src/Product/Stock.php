@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -111,7 +111,7 @@ class Stock
 
 		if ($productInStock == 0)
 		{
-			$product         = \RedshopHelperProduct::getProductById($productId);
+			$product         = \Redshop\Product\Product::getProductById($productId);
 			$productPreOrder = $product->preorder;
 
 			if (($productPreOrder == "global" && \Redshop::getConfig()->get('ALLOW_PRE_ORDER'))

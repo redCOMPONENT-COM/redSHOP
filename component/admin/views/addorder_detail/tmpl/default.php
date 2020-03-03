@@ -11,15 +11,13 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.calendar');
 
 $app = JFactory::getApplication();
-$producthelper = productHelper::getInstance();
 $redconfig = Redconfiguration::getInstance();
 
 $model = $this->getModel('addorder_detail');
-$redhelper = redhelper::getInstance();
 
 $billing = $this->billing;
 $shipping = $this->shipping;
-$is_company = $billing->is_company;
+$isCompany = $billing->is_company;
 
 if (!empty ($_SERVER['REMOTE_ADDR']))
 {
@@ -46,7 +44,7 @@ else
 }
 $allowCustomer = '';
 $allowCompany = '';
-if ($is_company == 1)
+if ($isCompany == 1)
 {
 	$allowCustomer = 'style="display:none;"';
 }
@@ -563,12 +561,12 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 							</table>
 						<?php endif; ?>
 
-						<?php if (JFactory::getApplication()->input->getCmd('ajaxtask') == "getuser"): ?>
+						<?php if (\JFactory::getApplication()->input->getCmd('ajaxtask') == "getuser"): ?>
 							<?php die(); ?>
 						<?php endif; ?>
 					</td>
 				</tr>
-				<?php if ($err == "" && array_key_exists("users_info_id", $billing) && $billing->users_info_id): ?>
+				<?php if ($err == "" && property_exists($billing, "users_info_id") && $billing->users_info_id): ?>
 				<tr>
 					<td>
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
@@ -755,7 +753,7 @@ $app->setUserState('com_redshop.addorder_detail.guestuser.username', null);
 								<td><?php echo JText::_('COM_REDSHOP_COMMENT');?></td>
 								<td><textarea cols="50" rows="5" name="customer_note"></textarea></td>
 							</tr>
-							<?php //if($is_company){?>
+							<?php //if($isCompany){?>
 							<tr>
 								<td><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER');?></td>
 								<td><input name="requisition_number" id="requisition_number" value=""/></td>

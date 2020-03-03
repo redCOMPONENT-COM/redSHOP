@@ -10,8 +10,6 @@ defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
 
-$producthelper = productHelper::getInstance();
-
 $turnover = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalTurnOverCpanel();
 
 $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCpanel();
@@ -152,7 +150,7 @@ $sales = RedshopModel::getInstance('Statistic', 'RedshopModel')->getTotalSalesCp
 			<?php foreach($sales as $sale) : ?>
 				<tr>
 					<td><?php echo $sale[2]; ?></td>
-					<td><?php echo $producthelper->getProductFormattedPrice($sale[0]); ?></td>
+					<td><?php echo RedshopHelperProductPrice::formattedPrice($sale[0]); ?></td>
 					<td><?php echo $sale[1]; ?></td>
 				</tr>
 			<?php endforeach; ?>

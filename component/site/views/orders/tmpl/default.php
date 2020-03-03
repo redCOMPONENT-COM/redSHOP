@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,8 +15,6 @@ $url            = JURI::base();
 $app            = JFactory::getApplication();
 $order_function = order_functions::getInstance();
 $redconfig      = Redconfiguration::getInstance();
-$producthelper  = productHelper::getInstance();
-$carthelper     = rsCarthelper::getInstance();
 
 $Itemid      = $app->input->getInt('Itemid');
 $print       = $app->input->getInt('print');
@@ -28,11 +26,11 @@ $orderslist_template = RedshopHelperTemplate::getTemplate("order_list", $templat
 
 if (count($orderslist_template) > 0 && $orderslist_template[0]->template_desc != "")
 {
-	$template_desc = $orderslist_template[0]->template_desc;
+	$templateDesc = $orderslist_template[0]->template_desc;
 }
 else
 {
-	$template_desc = "<table border=\"0\" cellspacing=\"5\" cellpadding=\"5\" width=\"100%\">\r\n<tbody>\r\n<tr>\r\n<th>{order_id_lbl}</th> <th>{product_name_lbl}</th> <th>{total_price_lbl}</th> <th>{order_date_lbl}</th> <th>{order_date_lbl}</th> <th>{order_detail_lbl}</th>\r\n</tr>\r\n{product_loop_start}       \r\n<tr>\r\n<td>{order_id}</td>\r\n<td>{order_products}</td>\r\n<td>{order_total}</td>\r\n<td>{order_date}</td>\r\n<td>{order_status}</td>\r\n<td>{order_detail_link}</td>\r\n</tr>\r\n{product_loop_end}\r\n</tbody>\r\n</table>\r\n<div>{pagination}</div>";
+	$templateDesc = "<table border=\"0\" cellspacing=\"5\" cellpadding=\"5\" width=\"100%\">\r\n<tbody>\r\n<tr>\r\n<th>{order_id_lbl}</th> <th>{product_name_lbl}</th> <th>{total_price_lbl}</th> <th>{order_date_lbl}</th> <th>{order_date_lbl}</th> <th>{order_detail_lbl}</th>\r\n</tr>\r\n{product_loop_start}       \r\n<tr>\r\n<td>{order_id}</td>\r\n<td>{order_products}</td>\r\n<td>{order_total}</td>\r\n<td>{order_date}</td>\r\n<td>{order_status}</td>\r\n<td>{order_detail_link}</td>\r\n</tr>\r\n{product_loop_end}\r\n</tbody>\r\n</table>\r\n<div>{pagination}</div>";
 }
 
 if ($this->params->get('show_page_heading', 1))
@@ -58,11 +56,11 @@ $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') .
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
-$template_desc = str_replace("{print}", $print_tag, $template_desc);
+$templateDesc = str_replace("{print}", $print_tag, $templateDesc);
 
-if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{product_loop_end}"))
+if (strstr($templateDesc, "{product_loop_start}") && strstr($templateDesc, "{product_loop_end}"))
 {
-	$template_sdata  = explode('{product_loop_start}', $template_desc);
+	$template_sdata  = explode('{product_loop_start}', $templateDesc);
 	$template_start  = $template_sdata[0];
 	$template_edata  = explode('{product_loop_end}', $template_sdata[1]);
 	$template_end    = $template_edata[1];
@@ -89,12 +87,12 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		if ($paymentmethod->order_transfee > 0)
 		{
-			$orderTransFee = $producthelper->getProductFormattedPrice(
+			$orderTransFee = RedshopHelperProductPrice::formattedPrice(
 				$paymentmethod->order_transfee
 			);
 		}
 
-		$orderTotalInclTraferfee = $producthelper->getProductFormattedPrice(
+		$orderTotalInclTraferfee = RedshopHelperProductPrice::formattedPrice(
 				$paymentmethod->order_transfee + $this->detail[$i]->order_total
 			);
 
@@ -108,7 +106,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$order_products = "<div class='order_products'>" . implode(',<br/>', $order_item_name) . "</div>";
 
-		$order_total = "<div class='order_total'>" . $producthelper->getProductFormattedPrice($this->detail[$i]->order_total) . "</div>";
+		$order_total = "<div class='order_total'>" . RedshopHelperProductPrice::formattedPrice($this->detail[$i]->order_total) . "</div>";
 
 		$order_date = "<div class='order_date'>" . $redconfig->convertDateFormat($this->detail[$i]->cdate) . "</div>";
 
@@ -143,19 +141,19 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$cart_mdata = str_replace("{requisition_number}", $this->detail[$i]->requisition_number, $cart_mdata);
 	}
 
-	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
-	$template_desc = str_replace($template_middle, $cart_mdata, $template_desc);
-	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
+	$templateDesc = str_replace("{product_loop_start}", "", $templateDesc);
+	$templateDesc = str_replace($template_middle, $cart_mdata, $templateDesc);
+	$templateDesc = str_replace("{product_loop_end}", "", $templateDesc);
 }
 
-$template_desc = Redshop\Cart\Render\Label::replace($template_desc);
+$templateDesc = Redshop\Cart\Render\Label::replace($templateDesc);
 
-if (strstr($template_desc, "{pagination}"))
+if (strstr($templateDesc, "{pagination}"))
 {
-	$template_desc = str_replace("{pagination}", $this->pagination->getPagesLinks(), $template_desc);
+	$templateDesc = str_replace("{pagination}", $this->pagination->getPagesLinks(), $templateDesc);
 }
 
-if (strstr($template_desc, "{pagination_limit}"))
+if (strstr($templateDesc, "{pagination_limit}"))
 {
 	$limitBox = "<form name='adminForm' method='POST' >";
 	$limitBox .= $this->pagination->getLimitBox();
@@ -163,8 +161,8 @@ if (strstr($template_desc, "{pagination_limit}"))
 	$limitBox .= "<input type='hidden' name='view' value='orders' />";
 	$limitBox .= "<input type='hidden' name='Itemid' value='" . $Itemid . "' />";
 	$limitBox .= "</form>";
-	$template_desc = str_replace("{pagination_limit}", $limitBox, $template_desc);
+	$templateDesc = str_replace("{pagination_limit}", $limitBox, $templateDesc);
 }
 
-$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
-echo eval("?>" . $template_desc . "<?php ");
+$templateDesc = RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
+echo eval("?>" . $templateDesc . "<?php ");

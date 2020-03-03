@@ -12,11 +12,7 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $app = JFactory::getApplication();
 
-$carthelper = rsCarthelper::getInstance();
-$producthelper = productHelper::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper = redhelper::getInstance();
-$userhelper = rsUserHelper::getInstance();
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;
@@ -300,14 +296,14 @@ if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 						?>
 						<?php
 						echo $order->order_total;
-						//echo $producthelper->getProductFormattedPrice($amt); ?>
+						//echo RedshopHelperProductPrice::formattedPrice($amt); ?>
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 		<div style="text-align: right;">
 			<input type="hidden" name="option" value="com_redshop"/>
-			<input type="hidden" name="task" value="checkoutnext"/>
+			<input type="hidden" name="task" value="checkoutNext"/>
 			<input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>"/>
 			<input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
 			<input type="hidden" name="view" value="order_detail"/>
@@ -328,7 +324,7 @@ else
 	if ($isBankTransferPaymentType)
 	{
 		JFactory::getApplication()->redirect(
-			'index.php?option=com_redshop&view=order_detail&task=checkoutnext&payment_plugin=' . $plugin . '&order_id='
+			'index.php?option=com_redshop&view=order_detail&task=checkoutNext&payment_plugin=' . $plugin . '&order_id='
 			. $order_id . '&ccinfo=0&users_info_id=' . $order->user_info_id
 		);
 	}
@@ -341,7 +337,7 @@ else
 		?>
 		<form>
 			<input type="hidden" name="option" value="com_redshop"/>
-			<input type="hidden" name="task" value="checkoutnext"/>
+			<input type="hidden" name="task" value="checkoutNext"/>
 			<input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>"/>
 			<input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
 			<input type="hidden" name="view" value="order_detail"/>

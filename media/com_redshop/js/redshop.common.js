@@ -999,7 +999,7 @@ function onestepCheckoutProcess(objectname, classname, anonymous)
 
 			SqueezeBox.initialize({});
 
-			$$('a.modal:last-child').each(function(el) {
+			$$('a.modal.modal-termscondition').each(function(el) {
 				el.addEvent('click', function(e) {
 					e.preventDefault();
 					SqueezeBox.fromElement(el);
@@ -1139,4 +1139,43 @@ function autoFillCity(str,isShipping)
 		xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		xmlhttp.send(null);
 	}
+}
+
+function checkout_disable(val) {
+	if (jQuery('#adminForm').valid()) {
+		document.adminForm.submit();
+		document.getElementById(val).disabled = true;
+		var op = document.getElementById(val);
+		op.setAttribute("style", "opacity:0.3;");
+
+		if (op.style.setAttribute) //For IE
+			op.style.setAttribute("filter", "alpha(opacity=30);");
+	}
+}
+
+function validation(cartTotal)
+{
+	if (redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL') > 0 && cartTotal < redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'))
+	{
+		alert(Joomla.JText._('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') + ' ' + redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'));
+		return false;
+	}
+
+	if (!document.getElementById('termscondition').checked) {
+		alert(Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'));
+		return false;
+	}
+
+	return true;
+}
+
+function all_update(u) {
+	var q = [];
+	for (var i = 0; i < u; i++) {
+		q[q.length] = parseInt(document.getElementById("quantitybox" + i).value);
+	}
+	q = q.join();
+	document.update_cart.quantity_all.value = q;
+	document.update_cart.task.value = 'update_all';
+	document.update_cart.submit();
 }

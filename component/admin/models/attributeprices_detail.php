@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -136,21 +136,21 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(/** @scrutinizer ignore-deprecated */ $this->_db->/** @scrutinizer ignore-call */ getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->check())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(/** @scrutinizer ignore-deprecated */ $row->/** @scrutinizer ignore-call */ getError());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(/** @scrutinizer ignore-deprecated */ $this->_db->/** @scrutinizer ignore-call */ getErrorMsg());
 
 			return false;
 		}
@@ -169,7 +169,7 @@ class RedshopModelAttributeprices_detail extends RedshopModel
 
 			if (!$this->_db->execute())
 			{
-				$this->setError($this->_db->getErrorMsg());
+				/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(/** @scrutinizer ignore-deprecated */ $this->_db->/** @scrutinizer ignore-call */ getErrorMsg());
 
 				return false;
 			}

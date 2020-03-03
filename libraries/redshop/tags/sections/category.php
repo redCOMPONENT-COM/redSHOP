@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Tags
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,7 +96,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 */
 	private function replaceCategory($category, $template, $isSubCat = false)
 	{
-		$producthelper  = productHelper::getInstance();
 		$manufacturerId = (!empty($this->data['manufacturerId'])) ? $this->data['manufacturerId'] : '';
         $catItemid = RedshopHelperRouter::getCategoryItemid($category->id);
 
@@ -151,7 +150,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 		if ($this->isTagExists('{category_total_product}') && $this->excludeTags('{category_total_product}'))
 		{
-			$totalprd = $producthelper->getProductCategory($category->id);
+			$totalprd = \RedshopHelperProduct::getProductCategory($category->id);
 			$template = str_replace("{category_total_product}", count($totalprd), $template);
 			$template = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $template);
 		}

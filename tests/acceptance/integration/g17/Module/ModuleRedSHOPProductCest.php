@@ -229,7 +229,7 @@ class ModuleRedSHOPProductCest
 
 		//product1
 		$this->productName1      = $this->faker->bothify('Testing Product ??####?');
-		$this->productNumber1    = $this->faker->numberBetween(100, 500);
+		$this->productNumber1    = $this->faker->numberBetween(100, 200);
 		$this->productPrice      = 100;
 		$this->discountPrice     = 10;
 		$this->minimumPerProduct = '1';
@@ -239,11 +239,11 @@ class ModuleRedSHOPProductCest
 
 		//product2
 		$this->productName2   = $this->faker->bothify('Testing Product ??####?');
-		$this->productNumber2 = $this->faker->numberBetween(100, 500);
+		$this->productNumber2 = $this->faker->numberBetween(200, 400);
 
 		//product3
 		$this->productName3   = $this->faker->bothify('Testing Product ??####?');
-		$this->productNumber3 = $this->faker->numberBetween(100, 500);
+		$this->productNumber3 = $this->faker->numberBetween(400, 500);
 
 		//install module
 		$this->extensionURL = 'extension url';

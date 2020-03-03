@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Order
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,7 @@ class Helper
 					. " ("
 					. \RedshopHelperProductPrice::formattedPrice($orderItemDatum->order_acc_price + $orderItemDatum->order_acc_vat)
 					. ")" . $accessoryQuantity . "</div>";
-				$makeAttributeOrder = \productHelper::getInstance()->makeAttributeOrder($orderItemId, 1, $orderItemDatum->product_id);
+				$makeAttributeOrder = \RedshopHelperProduct::makeAttributeOrder($orderItemId, 1, $orderItemDatum->product_id);
 				$accessoryHtml      .= $makeAttributeOrder->product_attribute;
 			}
 		}
@@ -169,4 +169,91 @@ class Helper
 
 		return $orderItem;
 	}
+
+    /**
+     * @param $userId
+     * @return float|mixed
+     * @throws \Exception
+     */
+	public static function getOrderTotalAmountByUserId($userId)
+    {
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('SUM(' . $db->qn('o.order_total') . ') AS order_total')
+            ->from($db->qn('#__redshop_orders', 'o'))
+            ->leftJoin($db->qn('#__redshop_user_info', 'uf')
+                . ' ON ' . $db->qn('o.user_id') . ' = ' . $db->qn('uf.user_id'))
+            ->where($db->qn('address_type') . ' = ' . $db->q('BT'))
+            ->where($db->qn('o.user_id') . ' = ' . $db->q($userId))
+            ->where($db->qn('o.order_status') . ' IN ('
+                . $db->q(implode(',', ['C', 'PR', 'S']))  . ')');
+
+        return \Redshop\DB\Tool::safeSelect($db, $query, false, 0.0);
+    }
+
+    /**
+     * @param $userId
+     * @return float
+     * @throws \Exception
+     */
+    public static function getAvgAmountById($userId)
+    {
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('(SUM(' . $db->qn('o.order_total'). ')/COUNT(DISTINCT('
+            . $db->qn('o.user_id') . ')) AS avg_order')
+            ->from($db->qn('#__redshop_orders', 'o'))
+            ->where($db->qn('o.user_id') . ' = ' . $db->q($userId))
+            ->where($db->qn('o.order_status') . ' IN ('
+                . $db->q(implode(',', ['C', 'PR', 'S']))  . ')');
+
+        return \Redshop\DB\Tool::safeSelect($db, $query, false, 0.0);
+    }
+
+    /**
+     * @param int $id
+     * @return null
+     * @throws \Exception
+     */
+    public static function getTotalOrderById($id = 0)
+    {
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('SUM(' . $db->qn('order_total') . ') AS '. $db->qn('order_total')
+            . ', count(*) AS ' . $db->qn('tot_order'))
+            ->from($db->qn('#__redshop_orders'))
+            ->where($db->qn('user_info_id') . ' = ' . $db->q((int) $id));
+
+        return \Redshop\DB\Tool::safeSelect($db, $query, false, 0.0);
+    }
+
+    /**
+     * @return null
+     * @throws \Exception
+     */
+    public static function getNewOrders()
+    {
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+        $query->select(
+            array(
+                $db->qn('o.order_id'),
+                $db->qn('o.order_total'),
+                $db->qn('o.order_status'),
+                $db->qn('o.order_payment_status'),
+                $db->qn('os.order_status_name'),
+                'CONCAT(' . $db->qn('u.firstname') . '," ",' . $db->qn('u.lastname') . ') AS name'
+            )
+        )
+            ->from($db->qn('#__redshop_order_users_info', 'u'))
+            ->innerJoin($db->qn('#__redshop_orders', 'o') .
+                ' ON ' . $db->qn('u.order_id') . '=' . $db->qn('o.order_id')
+                . ' AND ' . $db->qn('u.address_type') . '="BT"')
+            ->innerJoin($db->qn('#__redshop_order_status', 'os')
+                . ' ON ' . $db->qn('os.order_status_code') . '=' . $db->qn('o.order_status'))
+            ->order($db->qn('o.order_id') . ' DESC');
+
+        return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
+    }
 }

@@ -62,11 +62,6 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
      */
     protected function getTrackerKeyFromOldRedshop()
     {
-        // Get and load the plugin from the extension table
-
-        /**
-    * @var JTableExtension $extensionTable 
-*/
         $extensionTable = JTable::getInstance('Extension');
 
         $pluginId = $extensionTable->find(

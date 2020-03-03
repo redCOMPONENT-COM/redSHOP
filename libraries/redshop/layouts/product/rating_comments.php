@@ -18,10 +18,9 @@ defined('JPATH_BASE') or die;
  * @var   integer  $mainblock            Main block
  */
 extract($displayData);
-$producthelper   = productHelper::getInstance();
 
 // Fetching reviews
-$reviews          = $producthelper->getProductReviewList($productId);
+$reviews          = RedshopHelperProduct::getProductReviewList($productId);
 $reviews_template = "";
 $product_template = "";
 

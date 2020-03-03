@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,11 +23,11 @@ class RedshopControllerRating_detail extends RedshopController
 		$this->input->set('layout', 'default');
 		$this->input->set('hidemainmenu', 1);
 
-		$model     = $this->getModel('rating_detail');
-		$userslist = $model->getuserslist();
-		$this->input->set('userslist', $userslist);
+		$model = $this->getModel('rating_detail');
+		$users = $model->getUsers();
+		$this->input->set('userslist', $users);
 
-		$product = $model->getproducts();
+		$product = $model->getProducts();
 		$this->input->set('product', $product);
 
 		parent::display();

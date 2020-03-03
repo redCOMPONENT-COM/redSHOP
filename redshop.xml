@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>2.1.5</version>
+    <version>3.0.0</version>
     <description>COM_REDSHOP_DESCRIPTION</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -30,7 +30,6 @@
     <files folder="component/site">
         <folder>assets</folder>
         <folder>controllers</folder>
-        <folder>helpers</folder>
         <folder>layouts</folder>
         <folder>models</folder>
         <folder>views</folder>

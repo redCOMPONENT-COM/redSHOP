@@ -34,7 +34,9 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible($usePage->xPathATag($shippingMethod), 30);
 		$I->click($usePage->xPathATag($shippingMethod));
 		$I->waitForElementVisible(ShippingPage::$shippingRate, 30);
+		$I->wait(0.5);
 		$I->click(ShippingPage::$shippingRate);
+		$I->waitForText(ShippingPage::$buttonNew, 30);
 		$I->click(ShippingPage::$buttonNew);
 		$I->waitForElement(ShippingPage::$shippingName, 30);
 

@@ -12,7 +12,6 @@ JPluginHelper::importPlugin('redshop_shipping');
 $dispatcher = RedshopHelperUtility::getDispatcher();
 $dispatcher->trigger('onRenderCustomField', array($this->billingaddresses->users_info_id));
 $input      = JFactory::getApplication()->input;
-$userHelper = rsUserHelper::getInstance();
 $user       = JFactory::getUser();
 $itemId     = $input->getInt('Itemid', 0);
 $isEdit     = $input->getInt('is_edit', 0);

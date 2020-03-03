@@ -6,7 +6,7 @@
  * Or do: $ composer update, and afterwards you will be able to execute robo like $ php vendor/bin/robo
  *
  * @see  http://robo.li/
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 require_once 'vendor/autoload.php';
@@ -64,7 +64,7 @@ class RoboFile extends \Robo\Tasks
 			* When joomla Staging branch has a bug you can uncomment the following line as a tmp fix for the tests layer.
 			* Use as $version value the latest tagged stable version at: https://github.com/joomla/joomla-cms/releases
 			*/
-			$version = '3.9.14';
+			$version = '3.9.15';
 
 			$this->_exec("git clone -b $version --single-branch --depth 1 https://github.com/joomla/joomla-cms.git tests/joomla-cms");
 			$this->say("Joomla CMS ($version) site created at tests/joomla-cms");

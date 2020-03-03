@@ -3,12 +3,11 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 JFactory::getDocument()->addScript('//www.gstatic.com/charts/loader.js');
-$producthelper = productHelper::getInstance();
 ?>
 <script type="text/javascript">
 	//Load the Visualization API and the piechart package.
@@ -25,7 +24,7 @@ $producthelper = productHelper::getInstance();
 			['<?php echo JText::_('COM_REDSHOP_STATISTIC_DURATION');?>', '<?php echo JText::_('COM_REDSHOP_SALES_AMOUNT');?>', {role: 'style'}, {role: 'annotation'}],
 			<?php if (count($this->quotations) > 0) :?>
 				<?php foreach ($this->quotations as $row) : ?>
-	         		['<?php echo $row->viewdate ?>', <?php echo $row->quotation_total; ?>, 'blue', '<?php echo $producthelper->getProductFormattedPrice($row->quotation_total); ?>'],
+	         		['<?php echo $row->viewdate ?>', <?php echo $row->quotation_total; ?>, 'blue', '<?php echo RedshopHelperProductPrice::formattedPrice($row->quotation_total); ?>'],
 	       	 	<?php endforeach; ?>
 	       	 <?php else: ?>
 	       	 	[0, 0, 'blue', 0],
@@ -152,7 +151,7 @@ $producthelper = productHelper::getInstance();
 				<tr>
 					<td align="center"><?php echo $row->viewdate; ?></td>
 					<td align="center"><?php echo $row->count; ?></td>
-					<td align="center"><?php  echo $producthelper->getProductFormattedPrice($row->quotation_total);?></td>
+					<td align="center"><?php  echo RedshopHelperProductPrice::formattedPrice($row->quotation_total);?></td>
 				</tr>
 			<?php endforeach; ?>
 		</table>

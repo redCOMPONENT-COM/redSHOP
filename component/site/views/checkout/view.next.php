@@ -30,12 +30,12 @@ class RedshopViewCheckout extends RedshopView
 		}
 
 		$payment_method_id = $app->input->getCmd('payment_method_id');
-		$users_info_id     = $app->input->getInt('users_info_id');
+		$usersInfoId     = $app->input->getInt('users_info_id');
 		$auth              = $session->get('auth');
 
-		if (empty($users_info_id))
+		if (empty($usersInfoId))
 		{
-			$users_info_id = $auth['users_info_id'];
+			$usersInfoId = $auth['users_info_id'];
 		}
 
 		$shipping_rate_id = $app->input->getString('shipping_rate_id');
@@ -56,11 +56,11 @@ class RedshopViewCheckout extends RedshopView
 
 		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE'))
 		{
-			if ($users_info_id < 1)
+			if ($usersInfoId < 1)
 			{
 				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_ADDRESS');
 				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
-					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+					. $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;
 				$app->redirect(JRoute::_($link), $msg);
 			}
@@ -69,7 +69,7 @@ class RedshopViewCheckout extends RedshopView
 			{
 				$msg  = JText::_('LIB_REDSHOP_SELECT_SHIP_METHOD');
 				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
-					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+					. $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;
 				$app->redirect(JRoute::_($link), $msg);
 			}
@@ -79,7 +79,7 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$msg  = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
 			$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
-				. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+				. $usersInfoId . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 				. $payment_method_id;
 			$app->redirect(JRoute::_($link), $msg, 'error');
 		}
@@ -102,7 +102,7 @@ class RedshopViewCheckout extends RedshopView
 		}
 
 		$this->cart = $cart;
-		$this->users_info_id = $users_info_id;
+		$this->users_info_id = $usersInfoId;
 		$this->shipping_rate_id = $shipping_rate_id;
 		$this->payment_method_id = $payment_method_id;
 		$this->is_creditcard = $is_creditcard;

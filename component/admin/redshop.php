@@ -16,27 +16,26 @@
  */
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
+$app = \JFactory::getApplication();
 
 // Load redSHOP Library
-JLoader::import('redshop.library');
+\JLoader::import('redshop.library');
 
-$config = Redshop::getConfig();
+$config = \Redshop::getConfig();
 
 // Don't redirect view if current view is "install"
 if (!$config->isExists() && $app->input->getCmd('view') != 'install')
 {
 	$controller = 'redshop';
-	JFactory::getApplication()->input->set('view', 'redshop');
-	JFactory::getApplication()->input->set('layout', 'noconfig');
+	\JFactory::getApplication()->input->set('view', 'redshop');
+	\JFactory::getApplication()->input->set('layout', 'noconfig');
 }
 
-$redHelper = redhelper::getInstance();
-Redshop\Shipping\Rate::removeShippingRate();
-$json = JFactory::getApplication()->input->get('json');
+\Redshop\Shipping\Rate::removeShippingRate();
+$json = \JFactory::getApplication()->input->get('json');
 
-$view           = JFactory::getApplication()->input->getCmd('view', '');
-$user           = JFactory::getUser();
+$view           = \JFactory::getApplication()->input->getCmd('view', '');
+$user           = \JFactory::getUser();
 $userType       = array_keys($user->groups);
 $user->usertype = $userType[0];
 $user->gid      = $user->groups[$user->usertype];
@@ -48,8 +47,8 @@ if (!$user->authorise('core.manage', 'com_redshop') && !$json)
 	return false;
 }
 
-$isWizard = JFactory::getApplication()->input->getInt('wizard', 0);
-$step     = JFactory::getApplication()->input->get('step', '');
+$isWizard = \JFactory::getApplication()->input->getInt('wizard', 0);
+$step     = \JFactory::getApplication()->input->get('step', '');
 
 // Initialize wizard
 if ($isWizard || $step != '')
@@ -59,10 +58,10 @@ if ($isWizard || $step != '')
 		throw new Exception('COM_REDSHOP_DONT_HAVE_PERMISSION');
 	}
 
-	JFactory::getApplication()->input->set('view', 'wizard');
+	\JFactory::getApplication()->input->set('view', 'wizard');
 
 	require_once JPATH_COMPONENT . '/helpers/wizard/wizard.php';
-	$redSHOPWizard = new redSHOPWizard;
+	$redSHOPWizard = new \redSHOPWizard;
 	$redSHOPWizard->initialize();
 
 	return true;
@@ -70,14 +69,14 @@ if ($isWizard || $step != '')
 
 $view = $app->input->get('view', 'redshop');
 
-$user        = JFactory::getUser();
-$task        = JFactory::getApplication()->input->getCmd('task', '');
-$layout      = JFactory::getApplication()->input->getCmd('layout', '');
-$showButtons = JFactory::getApplication()->input->getInt('showbuttons', 0);
-$showAll     = JFactory::getApplication()->input->getInt('showall', 0);
+$user        = \JFactory::getUser();
+$task        = \JFactory::getApplication()->input->getCmd('task', '');
+$layout      = \JFactory::getApplication()->input->getCmd('layout', '');
+$showButtons = \JFactory::getApplication()->input->getInt('showbuttons', 0);
+$showAll     = \JFactory::getApplication()->input->getInt('showall', 0);
 
 // Check for array format.
-$filter = JFilterInput::getInstance();
+$filter = \JFilterInput::getInstance();
 
 if (is_array($task))
 {
@@ -91,7 +90,7 @@ else
 // Check for a not controller.task command.
 if ($command != '' && strpos($command, '.') === false)
 {
-	JFactory::getApplication()->input->set('task', $view . '.' . $command);
+	\JFactory::getApplication()->input->set('task', $view . '.' . $command);
 	$task = $command;
 }
 elseif ($command != '' && strpos($command, '.') !== false)
@@ -105,23 +104,23 @@ elseif ($command != '' && strpos($command, '.') !== false)
 if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 {
 	$view = 'redshop';
-	JFactory::getApplication()->input->set('view', $view);
+	\JFactory::getApplication()->input->set('view', $view);
 }
 
-RedshopHelperConfig::script('SITE_URL', JURI::root());
-RedshopHelperConfig::script('AJAX_TOKEN', JSession::getFormToken());
-RedshopHelperConfig::script('REDCURRENCY_SYMBOL', Redshop::getConfig()->get('REDCURRENCY_SYMBOL'));
-RedshopHelperConfig::script('PRICE_SEPERATOR', Redshop::getConfig()->get('PRICE_SEPERATOR'));
-RedshopHelperConfig::script('CURRENCY_SYMBOL_POSITION', Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION'));
-RedshopHelperConfig::script('PRICE_DECIMAL', Redshop::getConfig()->get('PRICE_DECIMAL'));
-RedshopHelperConfig::script('THOUSAND_SEPERATOR', Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
-RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
-JText::script('COM_REDSHOP_IS_REQUIRED');
+\RedshopHelperConfig::script('SITE_URL', \JURI::root());
+\RedshopHelperConfig::script('AJAX_TOKEN', \JSession::getFormToken());
+\RedshopHelperConfig::script('REDCURRENCY_SYMBOL', \Redshop::getConfig()->get('REDCURRENCY_SYMBOL'));
+\RedshopHelperConfig::script('PRICE_SEPERATOR', \Redshop::getConfig()->get('PRICE_SEPERATOR'));
+\RedshopHelperConfig::script('CURRENCY_SYMBOL_POSITION', \Redshop::getConfig()->get('CURRENCY_SYMBOL_POSITION'));
+\RedshopHelperConfig::script('PRICE_DECIMAL', \Redshop::getConfig()->get('PRICE_DECIMAL'));
+\RedshopHelperConfig::script('THOUSAND_SEPERATOR', \Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
+\RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
+\JText::script('COM_REDSHOP_IS_REQUIRED');
 
 // Execute the task.
-$controller = JControllerLegacy::getInstance('Redshop');
+$controller = \JControllerLegacy::getInstance('Redshop');
 
-$task = JFactory::getApplication()->input->getCmd('task', '');
+$task = \JFactory::getApplication()->input->getCmd('task', '');
 
 $controller->execute($task);
 $controller->redirect();

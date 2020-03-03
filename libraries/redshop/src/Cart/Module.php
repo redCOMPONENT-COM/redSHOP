@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,7 @@ class Module
 	 */
 	public static function calculate($cart = array())
 	{
-		$cart = empty($cart) ? \RedshopHelperCartSession::getCart() : $cart;
+		$cart = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
 
 		$cartParams       = self::getParams();
 		$showWithShipping = (boolean) $cartParams->get('show_with_shipping', true);

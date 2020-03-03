@@ -45,7 +45,6 @@ class RedshopControllerStatistic_Variant extends RedshopControllerAdmin
 	 */
 	public function exportProductVariant()
 	{
-		$productHelper = productHelper::getInstance();
 		$model         = $this->getModel();
 		$data          = $model->getProductVariants();
 

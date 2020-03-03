@@ -14,7 +14,6 @@ $url             = JURI::base();
 $app             = JFactory::getApplication();
 $order_functions = order_functions::getInstance();
 $redconfig       = Redconfiguration::getInstance();
-$producthelper   = productHelper::getInstance();
 
 $Itemid   = $app->input->getInt('Itemid');
 $order_id = $app->input->getInt('order_id', 0);
@@ -85,7 +84,7 @@ if ($this->params->get('show_page_heading', 1))
 			<td><?php echo $order_id;?></td>
 			<td><?php echo $order_detail->order_number;?></td>
 			<td><?php echo $itemlist;?></td>
-			<td><?php echo $producthelper->getProductFormattedPrice($order_detail->order_total);?></td>
+			<td><?php echo RedshopHelperProductPrice::formattedPrice($order_detail->order_total);?></td>
 			<td><?php echo $redconfig->convertDateFormat($order_detail->cdate); ?></td>
 
 			<td><?php echo $statusname; ?></td>

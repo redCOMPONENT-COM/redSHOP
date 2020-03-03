@@ -1,12 +1,12 @@
 <div class="redshop-login form-horizontal">
 	<div class="form-group">
-		<label class="col-sm-3 control-label">{rs_username_lbl}</label>
-		<div class="col-sm-9">{rs_username}</div>
+		{rs_username_lbl}
+		{rs_username}
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label">{rs_password_lbl}</label>
-		<div class="col-sm-9">{rs_password}</div>
+		{rs_password_lbl}
+		{rs_password}
 	</div>
 
 	<div class="form-group">

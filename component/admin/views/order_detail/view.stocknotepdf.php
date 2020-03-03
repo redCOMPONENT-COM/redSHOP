@@ -39,7 +39,6 @@ class RedshopViewOrder_Detail extends RedshopView
 		$detail     = $this->get('data');
 		$products   = RedshopHelperOrder::getOrderItemDetail($detail->order_id);
 		$template   = RedshopHelperTemplate::getTemplate('stock_note');
-		$cartHelper = rsCarthelper::getInstance();
 
 		if (!empty($template) && !empty($template[0]->template_desc))
 		{

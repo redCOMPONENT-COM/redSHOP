@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 $redTemplate = Redtemplate::getInstance();
-$carthelper  = rsCarthelper::getInstance();
 $app         = JFactory::getApplication();
 
 $Itemid  = $app->input->getInt('Itemid');
@@ -25,11 +24,11 @@ $quotation_template = RedshopHelperTemplate::getTemplate("quotation_request");
 
 if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "")
 {
-	$template_desc = $quotation_template[0]->template_desc;
+	$templateDesc = $quotation_template[0]->template_desc;
 }
 else
 {
-	$template_desc = "<fieldset class=\"adminform\"><legend>{order_detail_lbl}</legend> \r\n<table class=\"admintable\">\r\n<tbody>\r\n<tr>\r\n<td>{product_name_lbl}</td>\r\n<td>{quantity_lbl}</td>\r\n</tr>\r\n{product_loop_start}\r\n<tr>\r\n<td>{product_name}<br />{product_attribute}<br />{product_accessory}<br />{product_userfields}</td>\r\n<td>{update_cart}</td>\r\n</tr>\r\n{product_loop_end}\r\n</tbody>\r\n</table>\r\n</fieldset>\r\n<p>{customer_note_lbl}:{customer_note}</p>\r\n<fieldset class=\"adminform\"><legend>{billing_address_information_lbl}</legend> {billing_address}{quotation_custom_field_list} </fieldset> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td align=\"center\">{cancel_btn}{request_quotation_btn}</td>\r\n</tr>\r\n</tbody>\r\n</table>";
+	$templateDesc = "<fieldset class=\"adminform\"><legend>{order_detail_lbl}</legend> \r\n<table class=\"admintable\">\r\n<tbody>\r\n<tr>\r\n<td>{product_name_lbl}</td>\r\n<td>{quantity_lbl}</td>\r\n</tr>\r\n{product_loop_start}\r\n<tr>\r\n<td>{product_name}<br />{product_attribute}<br />{product_accessory}<br />{product_userfields}</td>\r\n<td>{update_cart}</td>\r\n</tr>\r\n{product_loop_end}\r\n</tbody>\r\n</table>\r\n</fieldset>\r\n<p>{customer_note_lbl}:{customer_note}</p>\r\n<fieldset class=\"adminform\"><legend>{billing_address_information_lbl}</legend> {billing_address}{quotation_custom_field_list} </fieldset> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td align=\"center\">{cancel_btn}{request_quotation_btn}</td>\r\n</tr>\r\n</tbody>\r\n</table>";
 }?>
 <script type="text/javascript">
 	function validateInfo() {
@@ -57,24 +56,24 @@ else
 </script>
 <?php
 
-if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{product_loop_end}"))
+if (strstr($templateDesc, "{product_loop_start}") && strstr($templateDesc, "{product_loop_end}"))
 {
-	$template_sdata  = explode('{product_loop_start}', $template_desc);
+	$template_sdata  = explode('{product_loop_start}', $templateDesc);
 	$template_start  = $template_sdata[0];
 	$template_edata  = explode('{product_loop_end}', $template_sdata[1]);
 	$template_end    = $template_edata[1];
 	$template_middle = $template_edata[0];
 
 	$template_middle = RedshopHelperCartTag::replaceCartItem($template_middle, $cart, 0, Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE'));
-	$template_desc   = $template_start . $template_middle . $template_end;
+	$templateDesc   = $template_start . $template_middle . $template_end;
 }
 
-$template_desc = Redshop\Cart\Render\Label::replace($template_desc);
+$templateDesc = Redshop\Cart\Render\Label::replace($templateDesc);
 
 if ($user->id)
 {
-	$template_desc = $carthelper->replaceBillingAddress($template_desc, $detail);
-	$template_desc .= '<input type="hidden" name="user_email" id="user_email" value="' . $detail->user_email . '"/>';
+	$templateDesc = RedshopHelperBillingTag::replaceBillingAddress($templateDesc, $detail);
+	$templateDesc .= '<input type="hidden" name="user_email" id="user_email" value="' . $detail->user_email . '"/>';
 }
 else
 {
@@ -95,20 +94,20 @@ else
 					)
 				);
 
-	if (strstr($template_desc, "{quotation_custom_field_list}"))
+	if (strstr($templateDesc, "{quotation_custom_field_list}"))
 	{
 		$billing      .= Redshop\Fields\SiteHelper::renderFields(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "tbl");
-		$template_desc = str_replace("{quotation_custom_field_list}", "", $template_desc);
+		$templateDesc = str_replace("{quotation_custom_field_list}", "", $templateDesc);
 	}
 	else
 	{
-		$template_desc = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "", $template_desc);
+		$templateDesc = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_QUOTATION, $detail->user_info_id, "", $templateDesc);
 	}
 
 	$billing .= '</div>';
 
-	$template_desc = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $template_desc);
-	$template_desc = str_replace("{billing_address}", $billing, $template_desc);
+	$templateDesc = str_replace("{billing_address_information_lbl}", JText::_('COM_REDSHOP_BILLING_ADDRESS_INFORMATION_LBL'), $templateDesc);
+	$templateDesc = str_replace("{billing_address}", $billing, $templateDesc);
 }
 
 $cancel_btn = '<input type="submit" class="greenbutton btn btn-primary" name="cancel" value="' . JText::_("COM_REDSHOP_CANCEL") . '" onclick="javascript:document.adminForm.task.value=\'cancel\';"/>';
@@ -119,13 +118,13 @@ $quotation_btn .= '<input type="hidden" name="task" value="addquotation" />';
 $quotation_btn .= '<input type="hidden" name="view" value="quotation" />';
 $quotation_btn .= '<input type="hidden" name="return" value="' . $return . '" />';
 
-$template_desc = str_replace("{cancel_btn}", $cancel_btn, $template_desc);
-$template_desc = str_replace("{request_quotation_btn}", $quotation_btn, $template_desc);
+$templateDesc = str_replace("{cancel_btn}", $cancel_btn, $templateDesc);
+$templateDesc = str_replace("{request_quotation_btn}", $quotation_btn, $templateDesc);
 
-$template_desc = str_replace("{order_detail_lbl}", JText::_('COM_REDSHOP_ORDER_DETAIL_LBL'), $template_desc);
-$template_desc = str_replace("{customer_note_lbl}", JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'), $template_desc);
-$template_desc = str_replace("{customer_note}", '<textarea name="quotation_note" id="quotation_note"></textarea>', $template_desc);
+$templateDesc = str_replace("{order_detail_lbl}", JText::_('COM_REDSHOP_ORDER_DETAIL_LBL'), $templateDesc);
+$templateDesc = str_replace("{customer_note_lbl}", JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'), $templateDesc);
+$templateDesc = str_replace("{customer_note}", '<textarea name="quotation_note" id="quotation_note"></textarea>', $templateDesc);
 
-$template_desc = '<form action="' . JRoute::_($this->request_url) . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">' . $template_desc . '</form>';
+$templateDesc = '<form action="' . JRoute::_($this->request_url) . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">' . $templateDesc . '</form>';
 
-echo eval("?>" . $template_desc . "<?php ");?>
+echo eval("?>" . $templateDesc . "<?php ");?>

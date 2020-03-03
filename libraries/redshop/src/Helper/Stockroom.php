@@ -189,7 +189,7 @@ class Stockroom
 
 		if (strpos($html, "{product_availability_date}") !== false)
 		{
-			$product = \RedshopHelperProduct::getProductById($productId);
+			$product = \Redshop\Product\Product::getProductById($productId);
 
 			if ((!isset($stockStatuses['regular_stock']) || !$stockStatuses['regular_stock']) && $stockStatuses['preorder'])
 			{

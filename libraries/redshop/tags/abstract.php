@@ -3,7 +3,7 @@
  * @package     RedSHOP.Library
  * @subpackage  Tags
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -205,22 +205,29 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @param   string  $beginTag  Begin tag
 	 * @param   string  $endTag    End tag
+	 * @param   string  $template  Template
 	 *
 	 * @return  mixed
 	 *
 	 * @since   2.0.0.6
 	 */
-	protected function getTemplateBetweenLoop($beginTag, $endTag)
+	protected function getTemplateBetweenLoop($beginTag, $endTag, $template = '')
 	{
 		if ($this->isTagExists($beginTag) && $this->isTagExists($endTag))
 		{
 			$templateStartData = explode($beginTag, $this->template);
-			$templateStart     = $templateStartData [0];
 
-			$templateEndData = explode($endTag, $templateStartData [1]);
-			$templateEnd     = $templateEndData[1];
+			if (!empty($template))
+			{
+				$templateStartData = explode($beginTag, $template);
+			}
 
-			$templateMain = $templateEndData[0];
+			$templateStart     = $templateStartData [0] ?? '';
+
+			$templateEndData = explode($endTag, $templateStartData [1] ?? '');
+			$templateEnd     = $templateEndData[1] ?? '';
+
+			$templateMain = $templateEndData[0] ?? '';
 
 			return array(
 				'begin'    => $templateStart,
@@ -238,9 +245,9 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @since  2.0.6
 	 */
-	protected function getDispatcher()
+	protected function getDispatcher($group = 'redshop')
 	{
-		JPluginHelper::importPlugin('redshop');
+		JPluginHelper::importPlugin($group);
 
 		return RedshopHelperUtility::getDispatcher();
 	}

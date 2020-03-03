@@ -46,9 +46,6 @@ class RedshopModelQuotation_detail extends RedshopModel
 	{
 		$session = JFactory::getSession();
 
-		$carthelper      = rsCarthelper::getInstance();
-		$producthelper   = productHelper::getInstance();
-
 		$cart = $session->get('cart');
 
 		$idx = (int) ($cart['idx']);
@@ -60,10 +57,10 @@ class RedshopModelQuotation_detail extends RedshopModel
 		// Set session for giftcard
 		if ($data->is_giftcard == 1)
 		{
-			if ($carthelper->rs_recursiveArraySearch($cart, $data->product_id))
+			if (\Redshop\Helper\Utility::rsRecursiveArraySearch($cart, $data->product_id))
 			{
 				$cart[$idx]['quantity'] += 1;
-				RedshopHelperCartSession::setCart($cart);
+				\Redshop\Cart\Helper::setCart($cart);
 
 				return;
 			}
@@ -90,7 +87,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 			}
 
 			$cart['idx'] = $idx + 1;
-			RedshopHelperCartSession::setCart($cart);
+			\Redshop\Cart\Helper::setCart($cart);
 
 			return;
 		}
@@ -101,7 +98,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 		if ($data->product_excl_price)
 		{
-			$getprotax                   = $producthelper->getProductTax($cart[$idx]['product_id'], $data->product_excl_price);
+			$getprotax                   = RedshopHelperProduct::getProductTax($cart[$idx]['product_id'], $data->product_excl_price);
 			$cart[$idx]['product_price'] = $data->product_excl_price + $getprotax;
 			$cart[$idx]['product_price'] += $data->wrapper_price;
 			$cart[$idx]['product_subtotal'] = $cart[$idx]['quantity'] * $cart[$idx]['product_price'];
@@ -202,19 +199,18 @@ class RedshopModelQuotation_detail extends RedshopModel
 			$cart[$idx][$field_name] = $row_data[$i]->data_txt;
 		}
 
-		RedshopHelperCartSession::setCart($cart);
+		\Redshop\Cart\Helper::setCart($cart);
 	}
 
 	public function modifyQuotation($user_id = 0)
 	{
 		$session    = JFactory::getSession();
-		$carthelper = rsCarthelper::getInstance();
 		$cart       = $session->get('cart');
 
 		$cart = \Redshop\Cart\Cart::modify($cart, $user_id);
 
-		RedshopHelperCartSession::setCart($cart);
-		$carthelper->cartFinalCalculation(false);
+		\Redshop\Cart\Helper::setCart($cart);
+        RedshopHelperCart::cartFinalCalculation(false);
 	}
 
 	/**

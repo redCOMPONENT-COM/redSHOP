@@ -13,11 +13,14 @@ $app = JFactory::getApplication();
 
 if (!$app->input->getInt('questionSend', 0))
 {
-	$displayData = array(
-		'form' => $this->form,
-		'ask' => $app->input->getInt('ask', 0)
+	echo RedshopTagsReplacer::_(
+		'askquestion',
+		'',
+		array(
+			'form' => $this->form,
+			'ask' => $app->input->getInt('ask', 0)
+		)
 	);
-	echo RedshopLayoutHelper::render('product.ask_question', $displayData);
 }
 else
 {
