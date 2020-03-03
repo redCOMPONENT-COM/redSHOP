@@ -79,7 +79,7 @@ class RedshopModelSample_request extends RedshopModel
     /**
      * @return JDatabaseQuery
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public function _buildQuery()
     {
@@ -102,7 +102,7 @@ class RedshopModelSample_request extends RedshopModel
      * @param array $cid
      * @return bool
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public function delete($cid = [])
     {
@@ -131,7 +131,7 @@ class RedshopModelSample_request extends RedshopModel
      * @param int $publish
      * @return bool
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public function publish($cid = array(), $publish = 1)
     {

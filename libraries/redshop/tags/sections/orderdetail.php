@@ -20,7 +20,7 @@ class RedshopTagsSectionsOrderDetail extends RedshopTagsAbstract
 	/**
 	 * @var    array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $tags = array(
 		'{print}',
@@ -36,7 +36,7 @@ class RedshopTagsSectionsOrderDetail extends RedshopTagsAbstract
 	 * @return mixed|void
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function init()
 	{
@@ -47,7 +47,7 @@ class RedshopTagsSectionsOrderDetail extends RedshopTagsAbstract
 	 * @return string
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function replace()
 	{

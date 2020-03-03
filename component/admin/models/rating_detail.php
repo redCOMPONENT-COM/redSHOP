@@ -103,7 +103,7 @@ class RedshopModelRating_detail extends RedshopModelForm
      * @param $data
      * @return bool|JTable
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function store($data)
 	{
@@ -152,7 +152,7 @@ class RedshopModelRating_detail extends RedshopModelForm
      * @param array $pks
      * @return bool
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function delete(&$pks)
 	{
@@ -163,7 +163,7 @@ class RedshopModelRating_detail extends RedshopModelForm
      * @param array $pks
      * @param int $value
      * @return bool
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function publish(&$pks, $value = 1)
 	{
@@ -172,7 +172,7 @@ class RedshopModelRating_detail extends RedshopModelForm
 
     /**
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
 	public function getUsers()
 	{
@@ -203,7 +203,7 @@ class RedshopModelRating_detail extends RedshopModelForm
     /**
      * @param $uid
      * @return string
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public function getUseFullName($uid)
     {

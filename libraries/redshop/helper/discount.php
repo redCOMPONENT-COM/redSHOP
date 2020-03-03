@@ -241,7 +241,7 @@ class RedshopHelperDiscount
      * @return  mixed
      *
      * @throws  Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function modifyDiscount($cart)
     {

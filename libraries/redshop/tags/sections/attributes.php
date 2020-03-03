@@ -12,72 +12,72 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 {
     /**
      * @var    array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     public $tags = array();
 
     /**
      * @var    integer
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     private $mphThumb;
 
     /**
      * @var
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static $selectSubProperty;
 
     /**
      * @var
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static $propertyStockRooms;
 
     /**
      * @var
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static $preSelected;
 
     /**
      * @var
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static $propertyPreOrderStockRooms;
 
     /**
      * @var
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static $preOrderPropertyStock;
 
     /**
      * @var    integer
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     private $mpwThumb;
 
     /**
      * @var    integer
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     private $isAjax;
 
     /**
      * @var    string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     private $prefix;
 
@@ -86,7 +86,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
      *
      * @return  mixed
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     public function init()
     {
@@ -97,7 +97,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     public function replace()
     {

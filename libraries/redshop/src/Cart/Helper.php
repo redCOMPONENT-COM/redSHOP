@@ -20,7 +20,7 @@ class Helper
 {
     /**
      * @var array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static $globalVoucher = [];
 
@@ -462,7 +462,7 @@ class Helper
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     public static function checkProductSubscription()
     {
@@ -475,7 +475,7 @@ class Helper
      * @param $cart
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getCartProductPrice($productId, $cart)
     {
@@ -511,7 +511,7 @@ class Helper
 
     /**
      * @return array|mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getCart()
     {
@@ -529,7 +529,7 @@ class Helper
     /**
      * @param $cart
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function setCart($cart)
     {
@@ -538,7 +538,7 @@ class Helper
 
     /**
      * @return int
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getTotalQuantity()
     {

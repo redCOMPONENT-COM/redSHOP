@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 {
@@ -303,7 +303,7 @@ class RedshopTagsSectionsPaymentMethod extends RedshopTagsAbstract
 	 *
 	 * @return  string     Credit Card form display data in HTML
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function getSubscriptionPlans()
 	{

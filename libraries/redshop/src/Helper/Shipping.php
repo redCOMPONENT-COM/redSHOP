@@ -23,7 +23,7 @@ class Shipping
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public static function calculateShipping($shippingRateId)
 	{

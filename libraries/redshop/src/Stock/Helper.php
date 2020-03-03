@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Wrapper Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Helper
 {
@@ -24,7 +24,7 @@ class Helper
      * @param   int    $minQuantity
      *
      * @return int
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function checkQuantityInStock($data = array(), $newQuantity = 1, $minQuantity = 0)
     {

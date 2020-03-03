@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Terms & Condition tag
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class Tag
 {
@@ -23,7 +23,7 @@ class Tag
      * @param   int     $onChange
      *
      * @return string|string[]
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function replaceNewsletterSubscription($templateDesc = "", $onChange = 0)
     {

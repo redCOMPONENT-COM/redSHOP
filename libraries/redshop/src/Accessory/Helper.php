@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Accessory Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Helper
 {
@@ -24,7 +24,7 @@ class Helper
      * @param   int  $quantity
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function generateAccessoryFromCart($cartItemId = 0, $productId = 0, $quantity = 1)
     {
@@ -61,7 +61,7 @@ class Helper
      * @param int $cartItemId
      *
      * @return null
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getCartItemAccessoryDetail($cartItemId = 0)
     {
@@ -88,7 +88,7 @@ class Helper
      * @return  array|bool
      *
      * @throws  Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function generateAccessoryArray($data, $userId = 0)
     {
@@ -275,7 +275,7 @@ class Helper
      * @param int $requiredAttribute
      * @param int $notAttributeId
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getProductAccAttribute(
         $productId = 0,
@@ -348,7 +348,7 @@ class Helper
      * @param   array  $accessories
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getSelectedCartAccessoryArray($accessories = array())
     {
@@ -383,7 +383,7 @@ class Helper
      * @param   int  $quantity
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public function generateAccessoryFromOrder($orderItemId = 0, $productId = 0, $quantity = 1)
     {

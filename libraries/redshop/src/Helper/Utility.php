@@ -290,7 +290,7 @@ class Utility
      * @param $haystack
      *
      * @return bool
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function rsMultiArrayKeyExists($needle, $haystack)
     {
@@ -315,7 +315,7 @@ class Utility
      * @param null $index
      *
      * @return bool
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function rsRecursiveArraySearch($haystack, $needle, $index = null)
     {

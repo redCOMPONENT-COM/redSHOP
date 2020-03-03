@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Discount Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Discount
 {
@@ -23,7 +23,7 @@ class Discount
      * @param $data
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function discountCalculatorData($productData, $data)
     {
@@ -168,7 +168,7 @@ class Discount
      * @param $get
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function discountCalculator($get)
     {
@@ -414,7 +414,7 @@ class Discount
      * @param   int  $areabetween
      *
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
     {

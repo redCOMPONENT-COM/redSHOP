@@ -2141,7 +2141,7 @@ class RedshopHelperProduct
      *
      * @return string|string[]
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getRelatedTemplateView($templateDesc, $productId)
     {

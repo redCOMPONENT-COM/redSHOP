@@ -14,14 +14,14 @@ defined('_JEXEC') or die;
 /**
  * Currency class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class Helper
 {
     /**
      * @param string $currencyCode
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getCurrenciesListForSelectBox($currencyCode = "")
     {

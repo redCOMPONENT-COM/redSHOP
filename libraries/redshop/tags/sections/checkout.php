@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsCheckout extends RedshopTagsAbstract
 {
@@ -21,7 +21,7 @@ class RedshopTagsSectionsCheckout extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function init()
 	{
@@ -33,7 +33,7 @@ class RedshopTagsSectionsCheckout extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replace()
 	{

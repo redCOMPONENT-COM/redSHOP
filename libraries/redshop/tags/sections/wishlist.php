@@ -12,49 +12,49 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 {
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $wishlistId;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $itemId;
 
 	/**
 	 * @var    array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $productModel = array();
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $mainId = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $totalId = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $totalCountNoUserField = null;
 
@@ -68,7 +68,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $view;
 
@@ -77,7 +77,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function init()
 	{
@@ -92,7 +92,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 * @return string
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function replace()
 	{
@@ -284,7 +284,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function getTemplateBetweenLoop($beginTag, $endTag, $template = '')
 	{
@@ -321,7 +321,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 * @return bool
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function replaceProduct($wishlist, $templateProduct)
 	{
@@ -722,7 +722,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function getWidthHeight($template, $type)
 	{

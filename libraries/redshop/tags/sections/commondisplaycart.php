@@ -14,7 +14,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 
 class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
@@ -25,7 +25,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0
 	 */
 	public $tags = array(
 		'{customer_note}', '{customer_note_lbl}', '{requisition_number}', '{shop_more}', '{checkout_button}',
@@ -40,7 +40,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function init()
 	{
@@ -52,7 +52,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replace()
 	{

@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
 {
@@ -100,7 +100,7 @@ class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
 	 *
 	 * @return  string|boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceShippingMethod($templateMiddle, $templateRateMiddle, $shippingRate, $shippingMethod)
 	{
@@ -156,7 +156,7 @@ class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
 	 *
 	 * @return  string|boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceShippingRate($templateRateMiddle, $rate, $shippingMethod, $index)
 	{
@@ -250,7 +250,7 @@ class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceExtraField(&$template, $shippingMethod)
 	{

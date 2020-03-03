@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Rating Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Helper
 {
@@ -23,7 +23,7 @@ class Helper
      * @param int $publish
      * @return bool
      * @throws \Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function setFavoured($cid = [], $publish = 1)
     {
@@ -96,7 +96,7 @@ class Helper
      * @param array $ids
      * @return bool
      * @throws \Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function removeRatings($ids = [])
     {
