@@ -116,7 +116,8 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		{
 			case 'user':
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
-				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				$I->wait(0.5);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
@@ -255,7 +256,8 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		{
 			case 'user':
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
-				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+				$I->wait(0.5);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
@@ -283,6 +285,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -290,6 +293,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -315,6 +319,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -322,6 +327,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -335,6 +341,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -342,6 +349,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
