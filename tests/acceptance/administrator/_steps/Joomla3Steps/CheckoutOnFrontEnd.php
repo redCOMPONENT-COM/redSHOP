@@ -218,13 +218,16 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 		$I->click($productNameAccessories);
 		$I->waitForText($productNameAccessories, 30);
 		$I->see($productName);
+		$I->waitForElementVisible(ConfigurationPage::$addAccessory, 30);
 		$I->click(ConfigurationPage::$addAccessory);
+		$I->waitForElementVisible(ConfigurationPage::$addToCart, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
 
 		switch ($function)
 		{
 			case 'Yes':
 				$I = $this;
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5);
 				$I->amOnPage(ProductManagerPage::$cartPageUrL);
 				$I->waitForText($productName, 30);
 				$I->see($productName);

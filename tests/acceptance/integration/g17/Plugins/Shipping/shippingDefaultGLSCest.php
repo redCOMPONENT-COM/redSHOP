@@ -133,7 +133,7 @@ class shippingDefaultGLSCest
 			"onePage"          => 'yes',
 			"showShippingCart" => 'no',
 			"attributeImage"   => 'no',
-			"quantityChange"   => 'no',
+			"quantityChange"   => 'yes',
 			"quantityInCart"   => 0,
 			"minimumOrder"     => 0,
 			"enableQuotation"  => 'no'

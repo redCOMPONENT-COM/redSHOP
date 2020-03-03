@@ -96,6 +96,9 @@ class CheckoutWithTotalDiscoutBeforeTodayCest
 	 */
 	public function addFunction(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
+		$I->wantTo('Disable PayPal');
+		$I->disablePlugin('PayPal');
+
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');

@@ -151,6 +151,9 @@ class ShippingWithOneItemCest
 		$I = new ConfigurationSteps($scenario);
 		$I->cartSetting($this->cartSetting);
 
+		$I->wantTo('Disable PayPal');
+		$I->disablePlugin('PayPal');
+
 		$I->comment('Create Category');
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->categoryName);

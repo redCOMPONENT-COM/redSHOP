@@ -39,8 +39,8 @@ class ShippingGiaoHangNhanh extends CheckoutWithEWAYPayment
 
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantity1, 30);
-		$quantity = $I->grabTextFrom(FrontEndProductManagerJoomla3Page::$quantity1);
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$quantityFieldCart, 30);
+		$quantity = $I->grabValueFrom(FrontEndProductManagerJoomla3Page::$quantityFieldCart);
 
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);

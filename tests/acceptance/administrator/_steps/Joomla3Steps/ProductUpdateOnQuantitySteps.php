@@ -107,9 +107,11 @@ class ProductUpdateOnQuantitySteps extends AdminManagerJoomla3Steps
 				$I->click(AdminJ3Page:: $addToCart);
 			}
 		}
-		$I->click($menuItem);
-		$I->see($nameProduct);
-		$I->see($total);
+
+		$I->waitForElementVisible(["link" => $menuItem], 30);
+		$I->click(["link" => $menuItem]);
+		$I->waitForText($nameProduct, 10);
+		$I->waitForText($total, 10);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$radioCompany, 30);
