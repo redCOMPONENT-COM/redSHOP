@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$producthelper = productHelper::getInstance();
 $session       = JFactory::getSession();
 
 $post = JFactory::getApplication()->input->get->getArray();
@@ -19,7 +18,7 @@ $productarr          = $post['productarr'];
 $qntarr              = $post['qntarr'];
 $user_id             = $post['order_user_id'];
 $shipp_users_info_id = $post['shipp_users_info_id'];
-$userinfo            = $producthelper->getUserInformation($user_id, "BT");
+$userinfo            = RedshopHelperUser::getUserInformation($user_id, "BT");
 
 if ($shipp_users_info_id == 0 && count($userinfo) > 0)
 {
@@ -42,7 +41,7 @@ $session->set('order_user_id', $user_id);
 $session->set('shipp_users_info_id', $shipp_users_info_id);
 $session->set('ordertotal', $ordertotal);
 $session->set('ordersubtotal', $ordersubtotal);
-RedshopHelperCartSession::setCart($cart);
+\Redshop\Cart\Helper::setCart($cart);
 
 echo "<div id='paymentblock'>" . $this->loadTemplate('payment') . "</div>";
 echo "<div id='shippingblock'>" . $this->loadTemplate('shipping') . "</div>";

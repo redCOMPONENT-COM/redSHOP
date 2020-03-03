@@ -1,0 +1,7 @@
+<select id="{{ id }}" name="{{ name }}" size="{{ size }}" {{ multiple }}>
+    {% for element in list %}
+        <option value="{{ element.value }}" {{ element.selected }}>
+            {{ element.name }}
+        </option>
+    {% endfor %}
+</select>

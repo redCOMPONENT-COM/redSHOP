@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 $billing      = $this->billing;
-$is_company   = $billing->is_company;
+$isCompany   = $billing->is_company;
 $allowCompany = '';
 
-if ($is_company != 1)
+if ($isCompany != 1)
 {
 	$allowCompany = 'style="display:none;"';
 }
@@ -219,7 +219,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
 					<?php
 				}
 
-				if ($is_company)
+				if ($isCompany)
 				{
 					echo RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_BILLING_ADDRESS, $billing->users_info_id);
 				}

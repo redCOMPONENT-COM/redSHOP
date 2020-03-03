@@ -13,13 +13,11 @@ defined('_JEXEC') or die;
  * $displayData extract
  *
  * @param   object $form       A JForm object
- * @param   int    $product_id Id current product
+ * @param   int    $productId Id current product
  * @param   int    $modal      Flag use form in modal
  */
 extract($displayData);
 
-$redHelper     = redhelper::getInstance();
-$productHelper = productHelper::getInstance();
 $compare       = $displayData['object'];
 $cmd           = JFactory::getApplication()->input->get('cmd');
 $total         = $compare->getItemsTotal();
@@ -30,9 +28,9 @@ $total         = $compare->getItemsTotal();
 			<?php
 			$productId  = $data['item']->productId;
 			$categoryId = $data['item']->categoryId;
-			$product    = RedshopHelperProduct::getProductById($productId);
+			$product    = \Redshop\Product\Product::getProductById($productId);
 
-			$ItemData  = $productHelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+			$ItemData  = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
 			$catidmain = $product->cat_in_sefurl;
 
 			if (count($ItemData) > 0)

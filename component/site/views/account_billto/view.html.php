@@ -31,7 +31,7 @@ class RedshopViewAccount_Billto extends RedshopView
 	/**
 	 * @var object|boolean
 	 */
-	public $billingaddresses;
+	public $billingAddresses;
 
 	/**
 	 * @var  \Joomla\Registry\Registry

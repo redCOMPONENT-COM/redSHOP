@@ -1,0 +1,10 @@
+{% if wishlist > 0 %}
+    <form name='frm' method='POST' action=''>
+        <input type='hidden' name='product_id' id='product_id' value='{{ mainId }}'>
+        <input type='hidden' name='totacc_id' id='totacc_id' value='{{ totalId }}' >
+        <input type='hidden' name='totcount_no_user_field' id='totcount_no_user_field' value='{{ totalCountNoUserField }}' >
+        <input type='button' name='submit' onclick='return productalladdprice();' value='{{ jtext('COM_REDSHOP_ADD_TO_CART') }}'>
+    </form>
+{% else %}
+    <div>{{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') }}</div>
+{% endif %}

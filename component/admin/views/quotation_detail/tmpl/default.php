@@ -10,8 +10,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal', 'a.joom-box');
 
-$producthelper   = productHelper::getInstance();
-
 $quotationHelper = quotationHelper::getInstance();
 
 $order_functions = order_functions::getInstance();
@@ -316,7 +314,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 
 							if ($quo->product_excl_price > 0)
 							{
-								$vat = $producthelper->getProductTax($quo->product_id, $quo->product_excl_price, $quotation->user_id);
+								$vat = RedshopHelperProduct::getProductTax($quo->product_id, $quo->product_excl_price, $quotation->user_id);
 							}
 
 							$quo->product_price = $quo->product_excl_price + $vat;
@@ -324,18 +322,18 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 
 						$product_userfield = RedshopHelperQuotation::displayQuotationUserField($quo->quotation_item_id, $section);
 
-						$product_attribute = "<br/>" . $producthelper->makeAttributeQuotation($quo->quotation_item_id, 0, $quo->product_id);
-						$product_accessory = "<br/>" . $producthelper->makeAccessoryQuotation($quo->quotation_item_id);
+						$product_attribute = "<br/>" . RedshopHelperProduct::makeAttributeQuotation($quo->quotation_item_id, 0, $quo->product_id);
+						$product_accessory = "<br/>" . RedshopHelperProduct::makeAccessoryQuotation($quo->quotation_item_id);
 
 						$wrapper_name = "";
 
 						if ($quo->product_wrapperid)
 						{
-							$wrapper = $producthelper->getWrapper($quo->product_id, $quo->product_wrapperid);
+							$wrapper = RedshopHelperProduct::getWrapper($quo->product_id, $quo->product_wrapperid);
 
 							if (count($wrapper) > 0)
 							{
-								$wrapper_name = $wrapper[0]->wrapper_name . " (" . $producthelper->getProductFormattedPrice($quo->wrapper_price) . ")";
+								$wrapper_name = $wrapper[0]->wrapper_name . " (" . RedshopHelperProductPrice::formattedPrice($quo->wrapper_price) . ")";
 							}
 						}
 
@@ -365,11 +363,11 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 							<td><?php echo $wrapper_name;?></td>
 							<td><input type="number" name="product_excl_pricep<?php echo $unq; ?>"
 							           id="product_excl_pricep<?php echo $unq; ?>" size="10" maxlength="50"
-							           value="<?php echo $producthelper->redpriceDecimal($quo->product_excl_price); ?>"
+							           value="<?php echo RedshopHelperProduct::redpriceDecimal($quo->product_excl_price); ?>"
 							           onchange="getQuotationDetail('p<?php echo $unq; ?>');"></td>
 							<td align="right">
 								<div
-									id="tdprdpricep<?php echo $unq; ?>"><?php echo $producthelper->getProductFormattedPrice($quo->product_price);?></div>
+									id="tdprdpricep<?php echo $unq; ?>"><?php echo RedshopHelperProductPrice::formattedPrice($quo->product_price);?></div>
 								<input type="hidden" name="product_pricep<?php echo $unq; ?>"
 								       value="<?php echo $quo->product_price; ?>"
 								       id="product_pricep<?php echo $unq; ?>"/></td>
@@ -386,7 +384,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 
 							<td align="right">
 								<div
-									id="tdtotalpricep<?php echo $unq; ?>"><?php echo $producthelper->getProductFormattedPrice($product_total);?></div>
+									id="tdtotalpricep<?php echo $unq; ?>"><?php echo RedshopHelperProductPrice::formattedPrice($product_total);?></div>
 								<input type="hidden" name="totalpricep<?php echo $unq; ?>"
 								       value="<?php echo $product_total; ?>" id="totalpricep<?php echo $unq; ?>">
 								<input type="hidden" name="taxpricep<?php echo $unq; ?>"
@@ -404,7 +402,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 
 						<td align="right">
 							<div
-								id="divMainSubTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_subtotal);?></div>
+								id="divMainSubTotal"><?php echo RedshopHelperProductPrice::formattedPrice($quotation->quotation_subtotal);?></div>
 							<input name="quotation_subtotal" id="quotation_subtotal" type="hidden"
 							       value="<?php echo $quotation->quotation_subtotal; ?>"/>
 
@@ -442,7 +440,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 								}
 								?>
 
-								<?php echo $producthelper->getProductFormattedPrice($DiscountWithotVat);?>
+								<?php echo RedshopHelperProductPrice::formattedPrice($DiscountWithotVat);?>
 							</td>
 						</tr>
 
@@ -452,7 +450,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 							</td>
 							<td align="right">
 								<input type="number" name="quotation_discount" size='10'
-									            value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_discount); ?>"
+									            value="<?php echo RedshopHelperProduct::redpriceDecimal($quotation->quotation_discount); ?>"
 									            id="quotation_discount" onchange="calculateQuotationTotal();"/>
 							</td>
 						</tr>
@@ -465,7 +463,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 
 								<div style="float: right;">
 									<input type="number" name="quotation_special_discount" size='10'
-									       value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_special_discount); ?>"
+									       value="<?php echo RedshopHelperProduct::redpriceDecimal($quotation->quotation_special_discount); ?>"
 									       id="quotation_special_discount" onchange="calculateQuotationTotal();"/>
 									%&nbsp;&nbsp;&nbsp;</div>
 							</td>
@@ -481,7 +479,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 
 						<td align="right">
 							<div
-								id="divMainSubTotalwithDiscount"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_subtotal - $DiscountWithotVat - $DiscountspWithotVat);?></div>
+								id="divMainSubTotalwithDiscount"><?php echo RedshopHelperProductPrice::formattedPrice($quotation->quotation_subtotal - $DiscountWithotVat - $DiscountspWithotVat);?></div>
 							<input name="quotation_subtotal_with_discount" id="quotation_subtotal_with_discount" type="hidden"
 							       value="<?php echo ($quotation->quotation_subtotal - $DiscountWithotVat - $DiscountspWithotVat); ?>"/>
 
@@ -490,7 +488,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 					<tr align="left">
 						<td align="right" width="85%"><strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TAX'); ?></strong></td>
 						<td align="right">
-							<div id="divMainTax"><?php echo $producthelper->getProductFormattedPrice($tax);?></div>
+							<div id="divMainTax"><?php echo RedshopHelperProductPrice::formattedPrice($tax);?></div>
 							<input name="quotation_tax" id="quotation_tax" type="hidden"
 							       value="<?php echo $quotation->quotation_tax; ?>"/></td>
 					</tr>
@@ -503,7 +501,7 @@ $quotation_item = RedshopHelperQuotation::getQuotationProduct($quotation->quotat
 						<td align="right"><strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TOTAL'); ?></strong></td>
 						<td align="right">
 							<div
-								id="divMainFinalTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_total);?></div>
+								id="divMainFinalTotal"><?php echo RedshopHelperProductPrice::formattedPrice($quotation->quotation_total);?></div>
 							<input name="quotation_total" id="quotation_total" type="hidden"
 							       value="<?php echo $quotation->quotation_total; ?>"/>
 

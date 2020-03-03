@@ -164,7 +164,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 			foreach ($categories as $category)
 			{
-				$products = productHelper::getInstance()->getProductCategory($category);
+				$products = RedshopHelperProduct::getProductCategory($category);
 
 				if (empty($products))
 				{
@@ -271,7 +271,6 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		$db            = $this->_db;
 		$query         = $db->getQuery(true);
-		$productHelper = productHelper::getInstance();
 
 		$this->updateProductsBaseDiscountProduct($this, $isNew, $oldItem);
 
@@ -298,7 +297,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		foreach ($diffCategories as $diffCategory)
 		{
-			$products   = $productHelper->getProductCategory($diffCategory);
+			$products   = RedshopHelperProduct::getProductCategory($diffCategory);
 			$productIds = array();
 
 			foreach ($products as $product)
@@ -342,7 +341,7 @@ class RedshopTableMass_Discount extends RedshopTable
 
 		foreach ($newDiffCategories as $newDiffCategory)
 		{
-			$products = $productHelper->getProductCategory($newDiffCategory);
+			$products = RedshopHelperProduct::getProductCategory($newDiffCategory);
 
 			foreach ($products as $product)
 			{
@@ -357,7 +356,7 @@ class RedshopTableMass_Discount extends RedshopTable
 					$price = $productData->product_price - $this->amount;
 				}
 
-				$price = $productHelper->productPriceRound($price);
+				$price = RedshopHelperProductPrice::priceRound($price);
 
 				$query->clear()
 					->update($db->qn('#__redshop_product'))
@@ -451,7 +450,7 @@ class RedshopTableMass_Discount extends RedshopTable
 					$price = $productData->product_price - $this->amount;
 				}
 
-				$price = $productHelper->productPriceRound($price);
+				$price = RedshopHelperProductPrice::priceRound($price);
 
 				$query->clear()
 					->update($db->qn('#__redshop_product'))
@@ -550,7 +549,6 @@ class RedshopTableMass_Discount extends RedshopTable
 		$query              = $db->getQuery(true);
 		$isChangeProduct    = false;
 		$isNewChangeProduct = false;
-		$productHelper      = productHelper::getInstance();
 
 		$discountProducts    = $isNew ? array() : explode(',', $oldItem->discount_product);
 		$newDiscountProducts = explode(',', $this->discount_product);
@@ -620,7 +618,7 @@ class RedshopTableMass_Discount extends RedshopTable
 					$price = $productData->product_price - $this->amount;
 				}
 
-				$price = $productHelper->productPriceRound($price);
+				$price = RedshopHelperProductPrice::priceRound($price);
 				$query->clear();
 
 				// Update fields

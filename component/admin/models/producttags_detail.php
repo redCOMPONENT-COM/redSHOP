@@ -48,12 +48,21 @@ class RedshopModelProducttags_detail extends RedshopModel
 		return $this->_data;
 	}
 
+    /**
+     * @return bool
+     * @since 3.0
+     */
 	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_tags WHERE tags_id = ' . $this->_id;
-			$this->_db->setQuery($query);
+		    $db = \JFactory::getDbo();
+		    $query = $db->getQuery(true);
+		    $query->select('*')
+                ->from($db->qn('#__redshop_product_tags'))
+                ->where($db->qn('tags_id') . ' = ' . $db->q((int) $this->_id));
+			$db->setQuery($query);
+
 			$this->_data = $this->_db->loadObject();
 
 			return (boolean) $this->_data;
@@ -101,57 +110,83 @@ class RedshopModelProducttags_detail extends RedshopModel
 		return true;
 	}
 
-	public function delete($cid = array())
+    /**
+     * @param array $cid
+     * @return bool
+     * @throws Exception
+     * @since 3.0
+     */
+	public function delete($cid = [])
 	{
-		if (count($cid))
+		if (is_array($cid) && count($cid))
 		{
-			$cids = implode(',', $cid);
+			$tagIds = implode(',', $cid);
+			$query = $this->_db->getQuery(true);
+			$db = $this->_db;
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags WHERE tags_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			try {
+			    $db->transactionStart();
 
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
+			    # Remove xref between product & tags frist
+			    $query->delete($db->qn('#__redshop_product_tags_xref'))
+                    ->where($db->qn('tags_id') . ' IN(' . $db->q($tagIds) . ')');
+			    $db->setQuery($query);
+			    $db->execute();
 
-				return false;
-			}
-			else
-			{
-				$query = 'DELETE FROM ' . $this->_table_prefix . 'product_tags_xref WHERE tags_id IN ( ' . $cids . ' )';
-				$this->_db->setQuery($query);
+			    # Remove product_tag.
+			    $query->clear();
+                $query->delete($db->qn('#__redshop_product_tags'))
+                    ->where($db->qn('tags_id') . ' IN (' . $db->q($tagIds) . ')');
+                $db->setQuery($query);
+                $db->execute();
 
-				if (!$this->_db->execute())
-				{
-					$this->setError($this->_db->getErrorMsg());
+            } catch (\RuntimeException $e) {
+			    $db->transactionRollback();
+                \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-					return false;
-				}
-			}
+                return false;
+            }
+
+            return true;
 		}
 
-		return true;
+		return false;
 	}
 
-	public function publish($cid = array(), $publish = 1)
+    /**
+     * @param array $cid
+     * @param int $publish
+     * @return bool
+     * @throws Exception
+     * @since 3.0
+     */
+	public function publish($cid = [], $publish = 1)
 	{
-		if (count($cid))
+		if (is_array($cid) && count($cid))
 		{
-			$cids = implode(',', $cid);
+			$tagIds = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'product_tags'
-				. ' SET published = ' . intval($publish)
-				. ' WHERE tags_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
+			$db = \JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->update($db->qn('#__product_tags'))
+                ->set([
+                    $db->qn('published') . ' = ' . $db->q((int) $publish)
+                ])
+                ->where($db->qn('tags_id') . ' IN (' . $db->q($tagIds) . ')');
 
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
+			try {
+			    $db->transactionStart();
+			    $db->setQuery($query);
+			    $db->execute();
+            } catch (\RuntimeException $e) {
+			    $db->transactionRollback();
+			    \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			    return false;
+            }
 
-				return false;
-			}
+            return true;
 		}
 
-		return true;
+		return false;
 	}
 }

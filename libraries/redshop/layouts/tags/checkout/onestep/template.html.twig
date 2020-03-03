@@ -1,0 +1,17 @@
+{% if showLoginTemplate %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ jtext('COM_REDSHOP_RETURNING_CUSTOMERS') }}</h3>
+        </div>
+        <div class="panel-body">
+            {{ loginTemplate }}
+        </div>
+    </div>
+{% endif %}
+<form action="{{ jroute('index.php?option=com_redshop&view=checkout', false) }}" method="post"
+      name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">
+    <div id='divOnestepCheckout'>
+        {{ oneStepTemplateHtml }}
+    </div>
+    <div style="display:none" id="responceonestep"></div>
+</form>

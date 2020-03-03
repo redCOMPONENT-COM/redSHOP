@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -496,7 +496,7 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function getOrdersDetail($orderIds)
 	{
-		$orderIds = Joomla\Utilities\ArrayHelper::toInteger($orderIds);
+		$orderIds = \Joomla\Utilities\ArrayHelper::toInteger($orderIds);
 
 		// Init variables.
 		$db    = JFactory::getDbo();
@@ -522,6 +522,6 @@ class RedshopModelOrder extends RedshopModel
 	 */
 	public function getProductWeight($productId)
 	{
-		return RedshopHelperProduct::getProductById($productId)->weight;
+		return \Redshop\Product\Product::getProductById($productId)->weight;
 	}
 }

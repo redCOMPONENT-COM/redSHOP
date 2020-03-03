@@ -16,7 +16,6 @@ $jinput = JFactory::getApplication()->input;
 
 $product_data = $jinput->get('product');
 $model = $this->getModel('rating_detail');
-$productHelper = productHelper::getInstance();
 
 if (!empty($this->detail->images))
 {
@@ -140,7 +139,7 @@ if (!empty($this->detail->images))
 							}
 							else
 							{
-								$uname->text = $model->getuserfullname2($this->detail->userid);
+								$uname->text = $model->getUseFullName($this->detail->userid);
 							}
 
 							$uname->value = $this->detail->userid;
@@ -169,7 +168,7 @@ if (!empty($this->detail->images))
 							$productObject->value = $product_data->product_id;
 							$listAttributes = array('disabled' => 'disabled');
 						}
-						elseif (isset($this->detail->product_id) && ($productInfo = $productHelper->getProductById($this->detail->product_id)))
+						elseif (isset($this->detail->product_id) && ($productInfo = \Redshop\Product\Product::getProductById($this->detail->product_id)))
 						{
 							$productObject->text = $productInfo->product_name;
 							$productObject->value = $this->detail->product_id;

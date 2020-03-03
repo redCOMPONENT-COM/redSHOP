@@ -45,7 +45,6 @@ class RedshopControllerStatistic_Product extends RedshopControllerAdmin
 	 */
 	public function exportProduct()
 	{
-		$productHelper = productHelper::getInstance();
 		$model         = $this->getModel();
 		$data          = $model->getItems();
 

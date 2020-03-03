@@ -1,7 +1,9 @@
-redSHOP 2.x
+redSHOP 3.x
 ==========
 
 [![Build Status](https://travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=exSzjzLhFrzHef99DDg1&branch=develop)](https://travis-ci.com/redCOMPONENT-COM/redSHOP) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/badges/quality-score.png?b=develop&s=f945d89ef335953761803d0e0f0e37d5fecf0b62)](https://scrutinizer-ci.com/g/redCOMPONENT-COM/redSHOP/?branch=develop)
+
+redSHOP 3.x is a major release and breaking change version, including a lot of enhancement in core and bugs fixes. The new version is opened for people to contribute new features, bugs fixes, improvements.
 
 ## Requirement
 - For redSHOP version **<= 2.1.4**: PHP Version: **>= 5.6**
@@ -36,6 +38,12 @@ There are an MySQL Workbench DB Model file in src/db/redshop.mwb. When need some
 
 > SET SQL_MODE=@OLD_SQL_MODE; 
 
+## Twig template engine support
+
+- Twig library is ready and embeded into redSHOP.
+- Almost tags system of redSHOP using Twig template instead of PHP inline
+- Remaining layouts, views of redSHOP is moving to Twig and PHP Inline will be deprecated soon.
+
 ## Release process for redSHOP
 Please follow the next steps in order to release a new version of redSHOP.
 
@@ -50,6 +58,17 @@ Before you can run any Gulp command you need to:
 - install Gulp: `npm install --save gulp-install`
 - install joomla-gulp-release: `sudo npm install --save-dev joomla-gulp-release`
 
+## Using NodeJS version >= 10 on redSHOP
+
+- download and install NodeJS https://nodejs.org/download/. If you need to update NodeJS do as bellow:
+- install: `npm install -g n`
+- update Node to version you want, example NodeJS 2: `sudo n 12`
+- npm install: `npm install --save-dev`
+- rebuild node-sass: `npm rebuild node-sass`
+
+## Gulp 4 support
+
+- we will support gulp task rewritten in version 4 very soon. Currently, all gulp script are executed properly with version 3.9
 ### Following tasks and switches are available:
 #### Setup gulp config file. Copy and rename `gulp-config.sample.json` file into `gulp-config.json`
 
@@ -63,25 +82,11 @@ Before you can run any Gulp command you need to:
 
 #### To Release `modules` and create `.zip` file
 
-    gulp release:modules
+    gulp release:module
 
 #### To Release `plugins` and create `.zip` file
 
-    gulp release:plugins
-
-#### To Release `packages` and create `.zip` file
-
-    gulp release:packages
-
-_or_
-
-    gulp release:packages --folder ./individual_package_dir
-
-
-This command is to release the extensions.
-
-    gulp release:extensions
-
+    gulp release:plugin
 
 This command will read the base directory and create zip files for each of the folder.
 
@@ -163,6 +168,8 @@ _Or Compare across versions_
  - Create the release: https://github.com/redCOMPONENT-COM/redSHOP/releases
  - Add a description to the release with the changelog information that you generated in the previous step
 
-
 # Testing
-See: [testing redSHOP1](./tests/README.md)
+See: [testing redSHOP](./tests/README.md)
+
+# redSHOP Road map
+Will be updated here soon.

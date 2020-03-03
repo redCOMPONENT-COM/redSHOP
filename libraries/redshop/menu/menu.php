@@ -3,7 +3,7 @@
  * @package     Redshop.Library
  * @subpackage  Product
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later, see LICENSE.
  *
  * @since       2.0.3
@@ -199,6 +199,18 @@ class RedshopMenu
 			$item->param   = $param;
 			$item->icon    = $icon;
 			$item->disable = in_array($title, $this->menuHide);
+
+            /**
+             * Prepare declare to prevent warning / notice
+             */
+			if (empty($this->data)){
+			    $this->data = [];
+            }
+
+			if (empty($this->data[$this->section])){
+			    $this->data[$this->section] = new stdClass;
+			    $this->data[$this->section]->items = [];
+            }
 
 			if ($this->section)
 			{

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -78,14 +78,14 @@ class RedshopModelQuestion extends RedshopModelForm
 
 		if (empty($data['answer']))
 		{
-			return true;
+			return array('parent_id' => $this->_db->insertid());
 		}
 
 		if ($data['parent_id'])
 		{
 			$this->questionId = $data['parent_id'];
 
-			return true;
+			return $data;
 		}
 
 		$user = JFactory::getUser();

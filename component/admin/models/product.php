@@ -203,21 +203,20 @@ class RedshopModelProduct extends RedshopModel
 			{
 				$query_prd           = "SELECT DISTINCT(p.product_id),p.attribute_set_id FROM #__redshop_product AS p ";
 				$tot_products        = $this->_getList($query_prd);
-				$product_id_array    = '';
-				$producthelper       = productHelper::getInstance();
-				$products_stock      = $producthelper->removeOutofstockProduct($tot_products);
+				$productId_array    = '';
+				$products_stock      = RedshopHelperProduct::removeOutofstockProduct($tot_products);
 				$final_product_stock = $this->getFinalProductStock($products_stock);
 
 				if (count($final_product_stock) > 0)
 				{
-					$product_id_array = implode(',', $final_product_stock);
+					$productId_array = implode(',', $final_product_stock);
 				}
 				else
 				{
-					$product_id_array = "0";
+					$productId_array = "0";
 				}
 
-				$and = "AND p.product_id IN (" . $product_id_array . ")";
+				$and = "AND p.product_id IN (" . $productId_array . ")";
 			}
 		}
 
@@ -342,8 +341,8 @@ class RedshopModelProduct extends RedshopModel
 				$product[] = $product_stock[$i]->product_id;
 			}
 
-			$product_id = implode(',', $product);
-			$query_prd  = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
+			$productId = implode(',', $product);
+			$query_prd  = "SELECT DISTINCT(p.product_id) FROM #__redshop_product AS p WHERE p.product_id NOT IN(" . $productId . ")";
 			$this->_db->setQuery($query_prd);
 			$final_products = $this->_db->loadColumn();
 
@@ -402,29 +401,29 @@ class RedshopModelProduct extends RedshopModel
 
 	/**
 	 * @param   integer $template_id Template ID
-	 * @param   integer $product_id  Product ID
+	 * @param   integer $productId  Product ID
 	 * @param   integer $section     Section
 	 *
 	 * @return  array|string|void
 	 * @throws  Exception
 	 */
-	public function product_template($template_id, $product_id, $section)
+	public function product_template($template_id, $productId, $section)
 	{
 		if ($section == RedshopHelperExtrafields::SECTION_PRODUCT || $section == RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD)
 		{
-			$template_desc = RedshopHelperTemplate::getTemplate("product", $template_id);
+			$templateDesc = RedshopHelperTemplate::getTemplate("product", $template_id);
 		}
 		else
 		{
-			$template_desc = RedshopHelperTemplate::getTemplate("category", $template_id);
+			$templateDesc = RedshopHelperTemplate::getTemplate("category", $template_id);
 		}
 
-		if (count($template_desc) == 0)
+		if (count($templateDesc) == 0)
 		{
 			return;
 		}
 
-		$template = $template_desc[0]->template_desc;
+		$template = $templateDesc[0]->template_desc;
 		$str      = array();
 		$sec      = explode(',', $section);
 
@@ -464,7 +463,7 @@ class RedshopModelProduct extends RedshopModel
 
 			for ($t = 0, $tn = count($sec); $t < $tn; $t++)
 			{
-				$list_field[] = RedshopHelperExtrafields::listAllField($sec[$t], $product_id, $dbname);
+				$list_field[] = RedshopHelperExtrafields::listAllField($sec[$t], $productId, $dbname);
 			}
 		}
 

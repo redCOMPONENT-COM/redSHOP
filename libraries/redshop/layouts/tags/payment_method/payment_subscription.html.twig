@@ -1,0 +1,17 @@
+<label class="radio" for="{{ oneMethod.name ~ index }}">
+    <input id="{{ oneMethod.name ~ index }}" type="radio" name="payment_method_id" value="{{ oneMethod.name }}"
+           {{ checked ? 'checked="checked"' :  '' }}
+         onclick="javascript:onestepCheckoutProcess(this.name);" />
+        {{ jtext(oneMethod.name) }}
+    </label>
+<br>
+<table>
+    <tr>
+        <td>
+            {{ jtext('COM_REDSHOP_SUBSCRIPTION_PLAN') }}
+        </td>
+        <td>
+            {{ subscriptionPlan }}
+        </td>
+    </tr>
+</table>

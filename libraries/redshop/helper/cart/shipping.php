@@ -152,7 +152,7 @@ class RedshopHelperCartShipping
 	public static function getShippingRateFirst($volume = 0, $weightTotal = 0.0, $orderSubtotal = 0, $whereCountry = '', $isWhere = '',
 	                                            $whereState = '', $whereShopper = '')
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = (int) $cart['idx'];
 
 		if (!$idx)
@@ -202,7 +202,7 @@ class RedshopHelperCartShipping
 	 */
 	public static function prepareProductWhere()
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = (int) $cart['idx'];
 
 		if (!$idx)
@@ -249,7 +249,7 @@ class RedshopHelperCartShipping
 	public static function getShippingRateSecond($volume = 0, $weightTotal = 0.0, $orderSubtotal = 0, $whereCountry = '', $isWhere = '',
 	                                             $whereState = '', $whereShopper = '')
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = (int) $cart['idx'];
 
 		if (!$idx)
@@ -275,9 +275,14 @@ class RedshopHelperCartShipping
 			. $db->quote($orderSubtotal) . ")  OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
 								 AND ((" . $db->qn('shipping_rate_weight_start') . " <= " . $db->quote($weightTotal)
 			. " AND " . $db->qn('shipping_rate_weight_end') . " >= "
-			. $db->quote($weightTotal) . ")  OR (" . $db->qn('shipping_rate_weight_end') . " = 0))"
-			. $where . $whereState . "
-								ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
+			. $db->quote($weightTotal) . ")  OR (" . $db->qn('shipping_rate_weight_end') . " = 0))" ;
+
+		if(trim($where) && trim($whereState))
+        {
+            $sql .= $where . $whereState;
+        }
+
+		$sql .=" ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
 
 		return $db->setQuery($sql)->loadObject();
 	}
@@ -291,7 +296,7 @@ class RedshopHelperCartShipping
 	 */
 	public static function prepareCategoryWhere()
 	{
-		$cart = RedshopHelperCartSession::getCart();
+		$cart = \Redshop\Cart\Helper::getCart();
 		$idx  = (int) $cart['idx'];
 
 		if (!$idx)
@@ -311,7 +316,7 @@ class RedshopHelperCartShipping
 			}
 
 			$productId = (int) $cart[$i]['product_id'];
-			$product   = RedshopHelperProduct::getProductById($productId);
+			$product   = \Redshop\Product\Product::getProductById($productId);
 
 			if (empty($product->categories))
 			{
@@ -321,17 +326,20 @@ class RedshopHelperCartShipping
 			$where .= ' AND ( ';
 			$index  = 0;
 
-			foreach ($product->categories as $category)
-			{
-				$where .= " FIND_IN_SET(" . (int) $category . ", " . $db->qn('shipping_rate_on_category') . ") ";
+			if (is_array($product->categories) && count($product->categories) > 0)
+            {
+                foreach ($product->categories as $category)
+                {
+                    $where .= " FIND_IN_SET(" . (int) $category . ", " . $db->qn('shipping_rate_on_category') . ") ";
 
-				if ($index != count($product->categories) - 1)
-				{
-					$where .= " OR ";
-				}
+                    if ($index != count($product->categories) - 1)
+                    {
+                        $where .= " OR ";
+                    }
 
-				$index++;
-			}
+                    $index++;
+                }
+            }
 
 			$where .= ")";
 		}
@@ -362,6 +370,7 @@ class RedshopHelperCartShipping
 		$newProductWhere = str_replace("AND (", "OR (", self::prepareProductWhere());
 		$newCwhere       = str_replace("AND (", "OR (", self::prepareCategoryWhere());
 
+
 		$sql = "SELECT * FROM " . $db->qn('#__redshop_shipping_rate') . " AS sr
 							 LEFT JOIN " . $db->qn('#__extensions') . " AS s
 							 ON
@@ -376,10 +385,13 @@ class RedshopHelperCartShipping
 			. $db->quote($orderSubtotal) . ")  OR (" . $db->qn('shipping_rate_ordertotal_end') . " = 0))
 					AND ((" . $db->qn('shipping_rate_weight_start') . " <= " . $db->quote($weightTotal)
 			. " AND " . $db->qn('shipping_rate_weight_end') . " >= " . $db->quote($weightTotal) . ")"
-			. " OR (" . $db->qn('shipping_rate_weight_end') . " = 0))
-					AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $newProductWhere . ")"
-			. " AND (" . $db->qn('shipping_rate_on_category') . " = '' " . $newCwhere . " )
-					ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
+			. " OR (" . $db->qn('shipping_rate_weight_end') . " = 0))";
+
+		if (trim($newCwhere) && trim($newProductWhere)){
+		    $sql .= " AND (" . $db->qn('shipping_rate_on_product') . " = '' " . $newProductWhere . ")"
+                . " AND (" . $db->qn('shipping_rate_on_category') . " = '' " . $newCwhere . " ) ";
+        }
+			$sql .= " ORDER BY " . $db->qn('s.ordering') . ", " . $db->qn('sr.shipping_rate_priority') . " LIMIT 0,1";
 
 		return $db->setQuery($sql)->loadObject();
 	}

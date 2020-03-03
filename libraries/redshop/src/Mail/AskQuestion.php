@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Order
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,7 @@ class AskQuestion
 			$mailBcc = explode(",", $mailInfo[0]->mail_bcc);
 		}
 
-		$answerData = \productHelper::getInstance()->getQuestionAnswer($answerId);
+		$answerData = \RedshopHelperProduct::getQuestionAnswer($answerId);
 
 		if (empty($answerData))
 		{
@@ -68,7 +68,7 @@ class AskQuestion
 		if ($answerData->parent_id)
 		{
 			$answer       = $answerData->question;
-			$questionData = \productHelper::getInstance()->getQuestionAnswer($answerData->parent_id);
+			$questionData = \RedshopHelperProduct::getQuestionAnswer($answerData->parent_id);
 
 			if (count($questionData) > 0)
 			{
@@ -138,7 +138,7 @@ class AskQuestion
 			}
 		}
 
-		$product = \RedshopHelperProduct::getProductById($productId);
+		$product = \Redshop\Product\Product::getProductById($productId);
 		$content = str_replace('{product_name}', $product->product_name, $content);
 		$content = str_replace('{product_desc}', $product->product_desc, $content);
 

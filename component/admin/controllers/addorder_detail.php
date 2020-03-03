@@ -315,12 +315,12 @@ class RedshopControllerAddorder_Detail extends RedshopController
 	{
 		$shippingadd_id = $this->input->getInt('shippingadd_id', 0);
 		$user_id        = $this->input->getInt('user_id', 0);
-		$is_company     = $this->input->getInt('is_company', 0);
+		$isCompany     = $this->input->getInt('is_company', 0);
 
 		/** @var RedshopModelAddorder_detail $model */
 		$model = $this->getModel('addorder_detail');
 
-		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $is_company);
+		$htmlshipping = $model->changeshippingaddress($shippingadd_id, $user_id, $isCompany);
 
 		echo $htmlshipping;
 

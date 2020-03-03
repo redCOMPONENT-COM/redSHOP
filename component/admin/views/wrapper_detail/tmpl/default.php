@@ -3,13 +3,12 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
-$showall = JFactory::getApplication()->input->get('showall', '0');
-$producthelper = productHelper::getInstance();
+$showAll = JFactory::getApplication()->input->get('showall', '0');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -28,7 +27,7 @@ $producthelper = productHelper::getInstance();
 		}
 	}
 </script>
-<?php if ($showall)
+<?php if ($showAll)
 {
 	?>
 	<fieldset>
@@ -43,7 +42,7 @@ $producthelper = productHelper::getInstance();
 		<div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_WRAPPER'); ?></div>
 	</fieldset>
 <?php } ?>
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+<form action="<?php echo JRoute::_($this->requestUrl) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<div class="col50">
 		<fieldset class="adminform">
@@ -61,11 +60,11 @@ $producthelper = productHelper::getInstance();
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_WRAPPER_PRICE');?></td>
 					<td><input class="text_area" type="text" name="wrapper_price" id="wrapper_price" size="10"
 					           maxlength="10"
-					           value="<?php echo $producthelper->redpriceDecimal($this->detail->wrapper_price); ?>"/>
+					           value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->wrapper_price); ?>"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WRAPPER_PRICE'), JText::_('COM_REDSHOP_WRAPPER_PRICE'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
-				<?php if (!$showall)
+				<?php if (!$showAll)
 				{ ?>
 					<tr>
 						<td width="100" align="right"
@@ -90,7 +89,7 @@ $producthelper = productHelper::getInstance();
 									'deleteid'  => 'thumb_image_delete',
 									'displayid' => 'thumb_image_display',
 									'type'      => 'wrapper',
-									'image'     => $this->detail->wrapper_image
+									'image'     => $this->detail->wrapper_image ?? ''
 								)
 							);
 							?>
@@ -112,9 +111,9 @@ $producthelper = productHelper::getInstance();
 	</div>
 	<div class="clr"></div>
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->wrapper_id; ?>"/>
-	<input type="hidden" name="product_id" value="<?php echo $this->product_id; ?>"/>
+	<input type="hidden" name="product_id" value="<?php echo $this->productId; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="wrapper_detail"/>
-	<input type="hidden" name="showall" value="<?php echo $showall; ?>"/>
+	<input type="hidden" name="showall" value="<?php echo $showAll; ?>"/>
     <input type="hidden" name="old_thumb_image" id="old_thumb_image" value="<?php echo $this->detail->wrapper_image; ?>">
 </form>

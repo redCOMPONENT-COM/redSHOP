@@ -151,7 +151,7 @@ class ProductUpdateOnQuantityCest
 		}
 		$quantity = (int)$this->quantity;
 		$priceTotal = $currencySymbol.''.$this->randomProductPrice*$quantity.$decimalSeparator.$NumberZero;
-		$priceTotalWithName = 'Total: '.$currencySymbol.' '.$this->randomProductPrice *$quantity.$decimalSeparator.$NumberZero;
+		$priceTotalWithName = $currencySymbol.$this->randomProductPrice *$quantity.$decimalSeparator.$NumberZero;
 
 		$I->wantToTest("Review product");
 		$I = new OrderManagerJoomla3Steps($scenario);

@@ -152,7 +152,7 @@ class CurrencyLayer
 		$timeNowLocal  = gmdate('Hi', $now);
 		$timeECBUpdate = '1415';
 
-		$storePath = JPATH_SITE . '/components/com_redshop/helpers';
+		$storePath = JPATH_SITE . '/libraries/redshop/src/Currency';
 		$storeFile = $storePath . '/currency.json';
 
 		if (\JFile::exists($storeFile) && filesize($storeFile) > 0)

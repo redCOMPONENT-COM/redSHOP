@@ -41,8 +41,6 @@ class RedshopViewCategory extends RedshopViewForm
 	 */
 	public function display($tpl = null)
 	{
-		$producthelper = productHelper::getInstance();
-
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.fields.min.js', false, true);
 		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
@@ -59,7 +57,7 @@ class RedshopViewCategory extends RedshopViewForm
 
 		if ($this->item->id)
 		{
-			$categoryAccessoryProduct = $producthelper->getProductAccessory(0, 0, 0, $this->item->id);
+			$categoryAccessoryProduct = RedshopHelperAccessory::getProductAccessories(0, 0, 0, $this->item->id);
 		}
 		else
 		{

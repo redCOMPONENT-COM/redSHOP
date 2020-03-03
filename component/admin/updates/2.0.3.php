@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Updates
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -343,10 +343,6 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			'currency.php'         => 'currencyhelper.php',
 			'extra_field.php'      => 'extrafield.php',
 			'google_analytics.php' => 'googleanalytics.php',
-			'product.php'          => 'producthelper.php',
-			'helper.php'           => 'redhelper.php',
-			'cart.php'             => 'rscarthelper.php',
-			'user.php'             => 'rsuserhelper.php'
 		);
 
 		foreach ($adminHelpers as $path => $files)
@@ -418,9 +414,6 @@ class RedshopUpdate203 extends RedshopInstallUpdate
 			'extra_field.php'      => 'extrafield.php',
 			'google_analytics.php' => 'googleanalytics.php',
 			'product.php'          => 'producthelper.php',
-			'helper.php'           => 'redhelper.php',
-			'cart.php'             => 'rscarthelper.php',
-			'user.php'             => 'rsuserhelper.php'
 		);
 
 		foreach ($adminTemplateHelpers as $path => $files)

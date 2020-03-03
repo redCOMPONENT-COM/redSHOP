@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 class Tableaccessory_detail extends JTable
 {
-	public $accessory_id = null;
+	public $accessoryId = null;
 
 	public $product_id = null;
 

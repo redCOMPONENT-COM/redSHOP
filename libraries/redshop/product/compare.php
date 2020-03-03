@@ -119,7 +119,7 @@ class RedshopProductCompare implements Countable
 	public function addItem($item)
 	{
 		$this->item  = $item;
-		$productData = RedshopHelperProduct::getProductById($this->item->productId);
+		$productData = \Redshop\Product\Product::getProductById($this->item->productId);
 
 		// Throw an exception for invalid entry
 		if (!$this->validItem())

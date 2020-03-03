@@ -90,7 +90,6 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 		JPluginHelper::importPlugin('redshop_product_type');
 
 		$this->dispatcher    = RedshopHelperUtility::getDispatcher();
-		$this->producthelper = productHelper::getInstance();
 
 		$this->option = $this->input->getString('option', 'com_redshop');
 		$lists        = array();
@@ -376,7 +375,7 @@ class RedshopViewProduct_Detail extends RedshopViewAdmin
 
 		if ($detail->product_id > 0)
 		{
-			$menu           = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
+			$menu           = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
 			$mainCategoryId = $detail->cat_in_sefurl;
 
 			if (!empty($menu))

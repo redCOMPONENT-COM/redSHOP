@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Currency
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -100,7 +100,7 @@ class Currency
 		$timeNowLocal  = gmdate('Hi', $now);
 		$timeECBUpdate = '1415';
 
-		$storePath = JPATH_SITE . '/components/com_redshop/helpers';
+		$storePath = JPATH_SITE . '/libraries/redshop/src/Currency';
 		$storeFile = $storePath . '/currency.xml';
 
 		$ecbFile = $this->documentAddress;

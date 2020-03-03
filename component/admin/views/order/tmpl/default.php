@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-$productHelper = productHelper::getInstance();
 
 global $context;
 
@@ -288,7 +287,7 @@ JPluginHelper::importPlugin('redshop_product');
             <th width="1">&nbsp;</th>
             <th></th>
 			<?php if (Redshop::getConfig()->get('POSTDK_INTEGRATION')): ?>
-                <th></th>
+                <th width="35%"></th>
 			<?php endif; ?>
         </tr>
         </thead>
@@ -365,7 +364,7 @@ JPluginHelper::importPlugin('redshop_product');
 			</span>
                 </td>
                 <td>
-					<?php echo $productHelper->getProductFormattedPrice($row->order_total); ?>
+					<?php echo RedshopHelperProductPrice::formattedPrice($row->order_total); ?>
                 </td>
                 <td>
 					<?php
@@ -471,7 +470,6 @@ JPluginHelper::importPlugin('redshop_product');
                     </td>
                     <td align="center">
 						<?php
-						$carthelper = rsCarthelper::getInstance();
 						echo $shipping_name = Redshop\Shipping\Tag::replaceShippingMethod($row, "{shipping_method}");
 						echo "<br />";
 

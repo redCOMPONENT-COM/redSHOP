@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,7 +59,6 @@ class Label
 		self::checkTag($search, $replace, $content, 'total_lbl', \JText::_('COM_REDSHOP_TOTAL_LBL'));
 		self::checkTag($search, $replace, $content, 'discount_type_lbl', \JText::_('COM_REDSHOP_CART_DISCOUNT_CODE_TBL'));
 		self::checkTag($search, $replace, $content, 'payment_lbl', \JText::_('COM_REDSHOP_PAYMENT_METHOD'));
-		self::checkTag($search, $replace, $content, 'customer_note_lbl', \JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'));
 		self::checkTag($search, $replace, $content, 'product_number_lbl', \JText::_('COM_REDSHOP_PRODUCT_NUMBER'));
 		self::checkTag($search, $replace, $content, 'shopname', \Redshop::getConfig()->get('SHOP_NAME'));
 		self::checkTag($search, $replace, $content, 'quotation_id_lbl', \JText::_('COM_REDSHOP_QUOTATION_ID'));
@@ -73,6 +72,7 @@ class Label
 		self::checkTag($search, $replace, $content, 'quotation_subtotal_lbl', \JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'));
 		self::checkTag($search, $replace, $content, 'quotation_discount_lbl', \JText::_('COM_REDSHOP_QUOTATION_DISCOUNT_LBL'));
 		self::checkTag($search, $replace, $content, 'thirdparty_email_lbl', \JText::_('COM_REDSHOP_THIRDPARTY_EMAIL_LBL'));
+		self::checkTag($search, $replace, $content, 'customer_note_lbl', \JText::_('COM_REDSHOP_CUSTOMER_NOTE_LBL'));
 
 		if (\Redshop::getConfig()->getBool('SHIPPING_METHOD_ENABLE'))
 		{

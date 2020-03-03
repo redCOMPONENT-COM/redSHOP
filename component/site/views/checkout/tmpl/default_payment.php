@@ -12,26 +12,33 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
 
 $redTemplate      = Redtemplate::getInstance();
-$carthelper       = rsCarthelper::getInstance();
 $model            = $this->getModel('checkout');
-$payment_template = RedshopHelperTemplate::getTemplate("redshop_payment");
+$paymentTemplate  = \RedshopHelperTemplate::getTemplate("redshop_payment");
 
-if (count($payment_template) > 0 && $payment_template[0]->template_desc)
+if (isset($paymentTemplate[0]->template_desc))
 {
-	$template_desc = $payment_template[0]->template_desc;
+	$templateDesc = $paymentTemplate[0]->template_desc;
 }
 else
 {
-	$template_desc = "<fieldset class=\"adminform\"><legend><strong>{payment_heading}</strong></legend>\r\n<div>{payment_loop_start}\r\n<div>{payment_method_name}</div>\r\n<div>{creditcard_information}</div>\r\n{payment_loop_end}</div></fieldset>";
+	$templateDesc = \RedshopHelperTemplate::getDefaultTemplateContent('payment_method');
 }
 
 // Get billing info for check is_company
-$billingaddresses = $model->billingaddresses();
-$is_company       = $billingaddresses->is_company;
+$billingAddresses = $model->billingaddresses();
+$isCompany        = $billingAddresses->is_company;
 
-$eanNumber 	  = (int) $billingaddresses->ean_number;
+$eanNumber 	  = (int) $billingAddresses->ean_number;
 
-$template_desc = $carthelper->replacePaymentTemplate($template_desc, $this->element, $is_company, $eanNumber);
+$templateDesc = \RedshopTagsReplacer::_(
+	'paymentmethod',
+	$templateDesc,
+	array(
+		'paymentMethodId' => $this->element,
+		'isCompany' => $isCompany,
+		'eanNumber' => $eanNumber
+	)
+);
 
-$template_desc = RedshopHelperTemplate::parseRedshopPlugin($template_desc);
-echo eval("?>" . $template_desc . "<?php ");
+$templateDesc = \RedshopHelperTemplate::parseRedshopPlugin($templateDesc);
+echo eval("?>" . $templateDesc . "<?php ");

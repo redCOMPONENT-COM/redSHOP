@@ -3,7 +3,7 @@
  * @package     RedShop
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ class Price
 	{
 		$userId = !$userId ? \JFactory::getUser()->id : $userId;
 
-		$row    = \RedshopHelperProduct::getProductById($productId);
+		$row    = \Redshop\Product\Product::getProductById($productId);
 		$result = \RedshopHelperProduct::getProductPrices($productId, $userId);
 
 		if (!empty($result))
@@ -43,7 +43,7 @@ class Price
 			$row->product_price = $tmpProductPrice;
 		}
 
-		$discountId = \productHelper::getInstance()->getProductSpecialId($userId);
+		$discountId = \RedshopHelperProduct::getProductSpecialId($userId);
 		$result     = \RedshopHelperProductPrice::getProductSpecialPrice($row->product_price, $discountId);
 
 		if (!empty($result))

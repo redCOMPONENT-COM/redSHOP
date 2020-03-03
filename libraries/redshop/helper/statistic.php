@@ -104,4 +104,18 @@ abstract class RedshopHelperStatistic
 
 		return $table->store();
 	}
+
+    /**
+     * @throws Exception
+     * @since 3.0
+     */
+    public static function track()
+    {
+        // Only when enabled in configuration
+        if (\Redshop::getConfig()->get('STATISTICS_ENABLE'))
+        {
+           self::recordVisitor();
+           self::recordPage();
+        }
+    }
 }

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 $configobj       = Redconfiguration::getInstance();
 $order_functions = order_functions::getInstance();
-$redhelper       = redhelper::getInstance();
 
 $url = JURI::base();
 $Itemid = RedshopHelperRouter::getCheckoutItemId();
@@ -39,18 +38,18 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		$adminpath        = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
-		$billingaddresses = RedshopHelperOrder::getOrderBillingUserInfo($order->order_id);
+		$billingAddresses = RedshopHelperOrder::getOrderBillingUserInfo($order->order_id);
 
-		if (isset($billingaddresses))
+		if (isset($billingAddresses))
 		{
-			if (isset($billingaddresses->country_code))
+			if (isset($billingAddresses->country_code))
 			{
-				$billingaddresses->country_2_code = RedshopHelperWorld::getCountryCode2($billingaddresses->country_code);
+				$billingAddresses->country_2_code = RedshopHelperWorld::getCountryCode2($billingAddresses->country_code);
 			}
 
-			if (isset($billingaddresses->state_code))
+			if (isset($billingAddresses->state_code))
 			{
-				$billingaddresses->state_2_code = $billingaddresses->state_code;
+				$billingAddresses->state_2_code = $billingAddresses->state_code;
 			}
 		}
 
@@ -77,7 +76,7 @@ if ($order->order_total > 0 && !Redshop::getConfig()->get('USE_AS_CATALOG'))
 		}
 
 		$values['shippinginfo']   = $shippingaddresses;
-		$values['billinginfo']    = $billingaddresses;
+		$values['billinginfo']    = $billingAddresses;
 		$values['carttotal']      = $order->order_total;
 		$values['order_subtotal'] = $order->order_subtotal;
 		$values["order_id"]       = $order_id;

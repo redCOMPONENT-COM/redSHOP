@@ -25,5 +25,5 @@ $thumbUrl = RedshopHelperMedia::getImagePath(
 ?>
 
 <span class="hasTooltip" title="<?php echo $stockamountImage->stock_amount_image_tooltip ?>">
-	<img src="<?php echo $thumbUrl ?>" alt="<?php echo $stockamountImage->stock_amount_image_tooltip ?>" id="stockImage<?php echo $product_id ?>"/>
+	<img src="<?php echo $thumbUrl ?>" alt="<?php echo $stockamountImage->stock_amount_image_tooltip ?>" id="stockImage<?php echo $productId ?>"/>
 </span>

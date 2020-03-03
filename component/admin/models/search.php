@@ -40,7 +40,7 @@ class RedshopModelSearch extends RedshopModel
 
 		$id = $jinput->get('id', 0);
 
-		$product_id = $jinput->get('product_id', '');
+		$productId = $jinput->get('product_id', '');
 
 		$related = $jinput->get('related', '');
 
@@ -82,7 +82,7 @@ class RedshopModelSearch extends RedshopModel
 
 		$this->_stockroom_id = ((int) $stockroom_id);
 
-		$this->_product_id = ((int) $product_id);
+		$this->_product_id = ((int) $productId);
 
 		$this->_related = ((int) $related);
 
@@ -340,9 +340,9 @@ class RedshopModelSearch extends RedshopModel
 		}
 		elseif ($jInput->getInt('parent', 0) == 1)
 		{
-			if ($product_id = $jInput->getInt('product_id', 0))
+			if ($productId = $jInput->getInt('product_id', 0))
 			{
-				$query->where($db->qn('p.product_id') . ' != ' . $product_id);
+				$query->where($db->qn('p.product_id') . ' != ' . $productId);
 			}
 
 			$query->select(
@@ -376,15 +376,15 @@ class RedshopModelSearch extends RedshopModel
 			if ($accessoryList = $jInput->getString('accessoryList', ''))
 			{
 				$accessoryList = explode(',', $accessoryList);
-				$accessoryList = Joomla\Utilities\ArrayHelper::toInteger($accessoryList);
+				$accessoryList = \Joomla\Utilities\ArrayHelper::toInteger($accessoryList);
 				$query->where('p.product_id NOT IN (' . implode(',', $accessoryList) . ')');
 			}
 
-			if ($product_id = $jInput->getInt('product_id', 0))
+			if ($productId = $jInput->getInt('product_id', 0))
 			{
-				$query->leftJoin($db->qn('#__redshop_product_accessory', 'pa') . ' ON pa.child_product_id = p.product_id AND pa.product_id = ' . $product_id)
+				$query->leftJoin($db->qn('#__redshop_product_accessory', 'pa') . ' ON pa.child_product_id = p.product_id AND pa.product_id = ' . $productId)
 					->where('pa.accessory_id IS NULL')
-					->where($db->qn('p.product_id') . ' != ' . $product_id);
+					->where($db->qn('p.product_id') . ' != ' . $productId);
 			}
 
 			$query->select(

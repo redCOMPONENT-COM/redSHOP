@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 $jinput                = JFactory::getApplication()->input;
-$this->producthelper   = productHelper::getInstance();
 $this->order_functions = order_functions::getInstance();
 $this->config          = Redconfiguration::getInstance();
 $this->model           = $this->getModel('user_detail');
