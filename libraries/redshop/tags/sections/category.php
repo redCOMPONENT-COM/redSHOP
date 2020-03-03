@@ -758,7 +758,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 					'',
 					RedshopLayoutHelper::$layoutOption
 				);
-
 			}
 
 			$replacements[$cTag] = $catMainThumb;
@@ -840,7 +839,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 					$dataAdd = explode('{explode_product}', $subCatTemplate);
 
-
 					// Category template extra field
 					// "2" argument is set for category
 
@@ -874,9 +872,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 			if (strpos($template, "{product_price_slider}") !== false)
 			{
-
-
-
 				$priceSlider = RedshopLayoutHelper::render(
 					'tags.category.price_slider',
 					array(
@@ -889,7 +884,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				$productTmpl  = JText::_('COM_REDSHOP_NO_PRODUCT_FOUND');
 			}
 		}
-
 
 		if (strpos($template, "{product_loop_start}") !== false && strpos($template, "{product_loop_end}") !== false)
 		{
@@ -923,13 +917,10 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				// Replace Product price when config enable discount is "No"
 				if (Redshop::getConfig()->getInt('DISCOUNT_ENABLE') === 0)
 				{
-					//$dataAdd = str_replace('{product_old_price}', '', $dataAdd);
 					$productReplacements['{product_old_price}'] = '';
 				}
 
-
-				//Process the prepare Product plugins
-
+				// Process the prepare Product plugins
 				$params  = array();
 				$results = RedshopHelperUtility::getDispatcher()->trigger('onPrepareProduct', array(& $dataAdd, & $params, $product));
 
@@ -1133,8 +1124,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 					}
 				}
 
-				$productReplacements['{product_id_lbl}'] = JText::_('COM_REDSHOP_PRODUCT_ID_LBL');
-				$productReplacements['{product_id}'] = $product->product_id;
+				$productReplacements['{product_id_lbl}']     = JText::_('COM_REDSHOP_PRODUCT_ID_LBL');
+				$productReplacements['{product_id}']         = $product->product_id;
 				$productReplacements['{product_number_lbl}'] = JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL');
 
 				$productNumberOutput = RedshopLayoutHelper::render(
@@ -1212,7 +1203,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 				if (strpos($dataAdd, '{product_name}') !== false)
 				{
-
 					$pName = RedshopLayoutHelper::render(
 						'tags.common.link',
 						array(
@@ -1254,9 +1244,8 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 					$productReplacements['{read_more_link}'] = $link;
 				}
 
-
-				//Related Product List in Lightbox
-				//Tag Format = {related_product_lightbox:<related_product_name>[:width][:height]}
+				// Related Product List in Lightbox
+				// Tag Format = {related_product_lightbox:<related_product_name>[:width][:height]}
 
 				if (strpos($dataAdd, '{related_product_lightbox:') !== false)
 				{
@@ -1267,7 +1256,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 					$rtln           = $rtlnThree[0];
 					$rtlnfWidth     = (isset($rtlnThree[1])) ? $rtlnThree[1] : "900";
 					$rtlnWidthTag   = (isset($rtlnThree[1])) ? ":" . $rtlnThree[1] : "";
-
 					$rtlnfHeight   = (isset($rtlnThree[2])) ? $rtlnThree[2] : "600";
 					$rtlnHeightTag = (isset($rtlnThree[2])) ? ":" . $rtlnThree[2] : "";
 
@@ -1311,7 +1299,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 				if (strpos($dataAdd, '{product_desc}') !== false)
 				{
-					$pDesc   = $redConfiguration->maxchar(
+					$pDesc = $redConfiguration->maxchar(
 						$product->product_desc,
 						Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'),
 						Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX')
@@ -1358,7 +1346,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 
 				if (strpos($dataAdd, '{manufacturer_product_link}') !== false)
 				{
-					$manuUrl           = JRoute::_(
+					$manuUrl = JRoute::_(
 						'index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $product->manufacturer_id .
 						'&Itemid=' . $this->itemid
 					);
@@ -1375,7 +1363,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 					);
 
 					$productReplacements['{manufacturer_product_link}'] = $manufacturerPLink;
-
 				}
 
 				if (strpos($dataAdd, '{manufacturer_name}') !== false)
@@ -1449,7 +1436,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				);
 
 				// Product image flying addwishlist time end
-				//$dataAdd = str_replace($pImgTag, $thumbImage . $hiddenThumbImage, $dataAdd);
 				$productReplacements[$pImgTag] = $thumbImage . $hiddenThumbImage;
 
 				// Front-back image tag...
@@ -1496,7 +1482,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 						'tags.common.link',
 						array(
 							'link' => '#',
-							'attr' => 'onclick="javascript:changeproductImage(' .$product->product_id . ',\'' . $mainSrcPath . '\',\'' . $ahrefpath . '\')";',
+							'attr' => 'onclick="javascript:changeproductImage(' . $product->product_id . ',\'' . $mainSrcPath . '\',\'' . $ahrefpath . '\')";',
 							'content' => JText::_('COM_REDSHOP_FRONT_IMAGE')
 						),
 						'',
@@ -1528,7 +1514,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				// Product preview image.
 				if (strpos($dataAdd, '{product_preview_img}') !== false)
 				{
-
 					if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
 					{
 						$preViewSrcPath = RedshopHelperMedia::getImagePath(
@@ -1562,22 +1547,24 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				$dataAdd = $this->strReplace($productReplacements, $dataAdd);
 				$dataAdd = RedshopHelperProduct::getJcommentEditor($product, $dataAdd);
 
-
-				//Product loop template extra field
-				//lat arg set to "1" for indetify parsing data for product tag loop in category
-				//last arg will parse {producttag:NAMEOFPRODUCTTAG} nameing tags.
-				//"1" is for section as product
+				/*
+				Product loop template extra field
+				lat arg set to "1" for indetify parsing data for product tag loop in category
+				last arg will parse {producttag:NAMEOFPRODUCTTAG} nameing tags.
+				"1" is for section as product
+				*/
 
 				if ($extraFieldsForCurrentTemplate && !empty($loadCategoryTemplate))
 				{
 					$dataAdd = Redshop\Helper\ExtraFields::displayExtraFields(1, $product->product_id, $extraFieldsForCurrentTemplate, $dataAdd, true);
 				}
 
-
-				//Conditional tag
-				//if product on discount : Yes
-				//{if product_on_sale} This product is on sale {product_on_sale end if} // OUTPUT : This product is on sale
-				//NO : // OUTPUT : Display blank
+				/*
+				 Conditional tag
+				if product on discount : Yes
+				{if product_on_sale} This product is on sale {product_on_sale end if} // OUTPUT : This product is on sale
+				NO : // OUTPUT : Display blank
+				*/
 
 				$dataAdd = RedshopHelperProduct::getProductOnSaleComment($product, $dataAdd);
 
@@ -1635,9 +1622,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				// Check product for not for sale
 
 				$dataAdd = RedshopHelperProduct::getProductNotForSaleComment($product, $dataAdd, $attributes);
-
 				$dataAdd = Redshop\Product\Stock::replaceInStock($product->product_id, $dataAdd, $attributes, $attributeTemplate);
-
 				$dataAdd = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, 0, $attributes, $dataAdd, $attributeTemplate, $isChilds);
 
 				// Get cart tempalte
@@ -1678,7 +1663,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				);
 
 				RedshopHelperUtility::getDispatcher()->trigger('onAfterDisplayProduct', array(&$dataAdd, array(), $product));
-
 				$productData .= $dataAdd;
 			}
 
@@ -1712,7 +1696,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				RedshopLayoutHelper::$layoutOption
 			);
 
-			$productTmpl .=  RedshopLayoutHelper::render(
+			$productTmpl .= RedshopLayoutHelper::render(
 				'tags.common.input',
 				array(
 					'name' => 'slider_texpricemax',
@@ -1792,7 +1776,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 						'',
 						RedshopLayoutHelper::$layoutOption
 					);
-
 				}
 
 				$replacements['{product_display_limit}'] = $limitBox;
@@ -1838,7 +1821,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 				RedshopLayoutHelper::$layoutOption
 			);
 
-			$template = str_replace($templateProduct,$productTmpl, $template);
+			$template = str_replace($templateProduct, $productTmpl, $template);
 		}
 
 		if (!$slide)
@@ -1889,7 +1872,6 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 					$replacements['{template_selector_category}']     = $templateSelecterForm;
 				}
 
-				//$template = str_replace("{template_selector_category_lbl}", "", $template);
 				$replacements['{template_selector_category_lbl}'] = '';
 				$replacements['{template_selector_category}']     = '';
 			}
