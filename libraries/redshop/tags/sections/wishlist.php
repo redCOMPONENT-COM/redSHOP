@@ -12,49 +12,49 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since 3.0
+ * @since __DEPLOY_VERSION__
  */
 class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 {
 	/**
 	 * @var    integer
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $wishlistId;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $itemId;
 
 	/**
 	 * @var    array
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $productModel = array();
 
 	/**
 	 * @var    integer
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $mainId = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $totalId = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $totalCountNoUserField = null;
 
@@ -68,7 +68,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	/**
 	 * @var    integer
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $view;
 
@@ -77,7 +77,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function init()
 	{
@@ -92,7 +92,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 * @return string
 	 *
 	 * @throws Exception
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function replace()
 	{
@@ -273,45 +273,94 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 				return $this->template;
 			}
 		}
-	}
-
-	/**
-	 * Get template content between loop tags
-	 *
-	 * @param   string  $beginTag  Begin tag
-	 * @param   string  $endTag    End tag
-	 * @param   string  $template  Template
-	 *
-	 * @return  mixed
-	 *
-	 * @since 3.0
-	 */
-	public function getTemplateBetweenLoop($beginTag, $endTag, $template = '')
-	{
-		if ($this->isTagExists($beginTag) && $this->isTagExists($endTag))
+		elseif ($this->view == 'wishlist')
 		{
-			$templateStartData = explode($beginTag, $this->template);
+			$userFieldArr = $this->data['userFieldArr'];
+			$wishlistSesions = $this->data['wishlistSesion'];
+			$wishlists = $this->data['wishlists'];
+			$template = $this->replaceWishListMain($wishlistSesions, $this->template);
+			$user = $this->data['user'];
+			$countWishlistSesion = count($this->data['wishlistSesion']);
+			$wishlistsArr = array();
 
-			if (!empty($template))
+			if (count($wishlistSesions) > 0)
 			{
-				$templateStartData = explode($beginTag, $template);
+				if (isset($user->id) && $user->id != 0)
+				{
+					$myProductId = '';
+					$countNoUserField = 0;
+
+					foreach ($wishlistSesions as $wishlistSesion)
+					{
+						for ($i = 1; $i < count($userFieldArr); $i++)
+						{
+							$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userFieldArr[$i], 12, '', 0, 0, $wishlistSesion->product_id);
+
+							if ($productUserFields[1] != "")
+							{
+								$countNoUserField++;
+							}
+						}
+
+						$myProductId .= $wishlistSesion->product_id . ",";
+					}
+
+					$link = "index.php?tmpl=component&option=com_redshop&view=wishlist&task=addtowishlist&tmpl=component";
+	}
+				else
+				{
+					$link = JRoute::_("index.php?wishlist=1&option=com_redshop&view=login&Itemid=" . $this->itemId);
+					$myProductId = '';
+					$countNoUserField = 0;
+
+					for ($i = 1; $i < count($wishlistSesions); $i++)
+	{
+						for ($k = 1; $k < count($userFieldArr); $k++)
+		{
+							$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userFieldArr[$k], 12, '', 0, 0, $wishlistSesions[$i]->product_id);
+
+							if ($productUserFields[1] != "")
+			{
+								$countNoUserField++;
+							}
 			}
 
-			$templateStart     = $templateStartData [0];
+						$myProductId .= $wishlistSesions[$i]->product_id . ",";
+					}
+				}
+			}
 
-			$templateEndData = explode($endTag, $templateStartData [1]);
-			$templateEnd     = $templateEndData[1];
+			if (!empty($wishlists) && count((array) $wishlists) > 0)
+			{
+				foreach ($wishlists as $wishlist)
+				{
+					$wishlistName = $wishlist->wishlist_name ?? '';
+					$wishlistLink = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlist->wishlist_id . "&option=com_redshop&Itemid=" . $this->itemId);
+					$delWishlist = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlist->wishlist_id . "&option=com_redshop&Itemid=" . $this->itemId);
+					$wishlist = array_merge((array)$wishlist, array('wishlistLink' => $wishlistLink, 'wishlistName' => $wishlistName, 'delWishlist' => $delWishlist));
+					$wishlistsArr[] = $wishlist;
+				}
+			}
 
-			$templateMain = $templateEndData[0];
-
-			return array(
-				'begin'    => $templateStart,
-				'template' => $templateMain,
-				'end'      => $templateEnd
+			$layout = RedshopLayoutHelper::render(
+				'tags.wishlist.template',
+				array(
+					'userId'            => $user->id,
+					'wishlistSesion'    => $this->data['wishlistSesion'],
+					'countSesion'       => $countWishlistSesion,
+					'content'           => $template,
+					'wishlists'         => $wishlistsArr,
+					'link'              => $link ?? '',
+					'countNoUserField'  => $countNoUserField ?? '',
+					'myProductId'       => $myProductId ?? ''
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
 			);
-		}
 
-		return false;
+			$this->template = $layout;
+			return parent::replace();
+		}
 	}
 
 	/**
@@ -321,15 +370,15 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 * @return bool
 	 *
 	 * @throws Exception
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function replaceProduct($wishlist, $templateProduct)
 	{
 		// @Todo: Refactor template section product
-		$wishlist->wishlistData = RedshopHelperWishlist::getWishlist($wishlist->wishlist_id);
+		$wishlist->wishlistData = RedshopHelperWishlist::getWishlist($wishlist->wishlist_id ?? '');
 		$session       = JFactory::getSession();
 		$isIndividualAddToCart = (boolean) Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE');
-		$wishlistuserfielddata  = RedshopHelperWishlist::getUserFieldData($wishlist->wishlist_id, $wishlist->product_id);
+		$wishlistuserfielddata  = RedshopHelperWishlist::getUserFieldData($wishlist->wishlist_id ?? '', $wishlist->product_id);
 		$link                   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $wishlist->product_id . '&Itemid=' . $this->itemId);
 		$linkRemove            = 'index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id=' . $this->wishlistId
 			. '&pid=' . $wishlist->product_id . '&remove=1';
@@ -339,7 +388,15 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 			$linkRemove .= '&wishlist_product_id=' . $wishlist->wishlistData->wishlist_product_id;
 		}
 
+		if (isset($wishlist->wishlist_id))
+		{
 		$linkRemove = JRoute::_($linkRemove . '&Itemid=' . $this->itemId, false);
+		}
+		else
+		{
+			$linkRemove = JRoute::_("index.php?mydel=1&view=wishlist&wishlist_id=" . $wishlist->product_id . "&task=mysessdelwishlist", false);
+		}
+
 		$imageThumbProduct = $this->getWidthHeight($templateProduct, 'product_thumb_image');
 		$thumbImage             = Redshop\Product\Image\Image::getImage($wishlist->product_id, $link, $imageThumbProduct['width'], $imageThumbProduct['height']);
 
@@ -722,7 +779,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  array
 	 *
-	 * @since 3.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getWidthHeight($template, $type)
 	{
@@ -746,5 +803,87 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
 		$productThumbImage = ['height' => $height, 'imageTag' => $imageTag, 'width' => $width];
 		return $productThumbImage;
+	}
+
+
+	public function replaceWishListMain($wishlists, &$template)
+	{
+		$this->extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+		$wishlistTemplate = '';
+		$templateProduct = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');
+
+		if (count($wishlists) > 0) {
+			$link = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $this->wishlistId;
+
+			foreach ($wishlists as $wishlist) {
+				$wishlistTemplate .= $this->replaceProduct($wishlist, $templateProduct['template']);
+			}
+
+			$template = $templateProduct['begin'] . $wishlistTemplate . $templateProduct['end'];
+
+			if ($this->isTagExists('{mail_link}')) {
+				$srcImage = RedshopLayoutHelper::render(
+					'tags.common.img',
+					array(
+						'src' => REDSHOP_MEDIA_IMAGES_ABSPATH . 'mailcenter16.png'
+					),
+					'',
+					RedshopLayoutHelper::$layoutOption
+				);
+
+				$mailLink = RedshopLayoutHelper::render(
+					'tags.common.link',
+					array(
+						'class' => 'redcolorproductimg',
+						'link' => $link,
+						'content' => $srcImage
+					),
+					'',
+					RedshopLayoutHelper::$layoutOption
+				);
+
+				$this->replacements["{mail_link}"] = $mailLink;
+				$template = $this->strReplace($this->replacements, $template);
+			}
+
+			if ($this->isTagExists('{back_link}')) {
+				$backLink = RedshopLayoutHelper::render(
+					'tags.common.link',
+					array(
+						'link' => JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $this->itemId),
+						'content' => JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT'),
+						'attr' => 'title="' . JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT') . '"'
+					),
+					'',
+					RedshopLayoutHelper::$layoutOption
+				);
+
+				$this->replacements["{back_link}"] = $backLink;
+				$template = $this->strReplace($this->replacements, $template);
+			}
+
+			if ($this->isTagExists('{all_cart}')) {
+				$backLink = RedshopLayoutHelper::render(
+					'tags.wishlist.all_cart',
+					array(
+						'wishlist' => count($wishlists),
+						'mainId' => $this->mainId,
+						'totalId' => $this->totalId,
+						'totalCountNoUserField' => $this->totalCountNoUserField
+					),
+					'',
+					RedshopLayoutHelper::$layoutOption
+				);
+
+				$this->replacements["{all_cart}"] = $backLink;
+				$template = $this->strReplace($this->replacements, $template);
+			}
+		}
+		else
+		{
+			$template = '';
+		}
+
+		return $template;
 	}
 }
