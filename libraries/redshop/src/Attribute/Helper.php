@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Attribute Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Helper
 {
@@ -25,7 +25,7 @@ class Helper
      * @param   int     $parentSectionId
      *
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getCartItemAttributeDetail(
         $cartItemId = 0,
@@ -60,7 +60,7 @@ class Helper
      * @param   array  $atttributes
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getSelectedCartAttributeArray($atttributes = array())
     {
@@ -90,7 +90,7 @@ class Helper
      * @param   int  $quantity
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function generateAttributeFromOrder(
         $orderItemId = 0,

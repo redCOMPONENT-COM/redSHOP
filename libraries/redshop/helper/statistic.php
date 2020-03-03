@@ -107,7 +107,7 @@ abstract class RedshopHelperStatistic
 
     /**
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function track()
     {

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * User Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Helper
 {
@@ -24,7 +24,7 @@ class Helper
      * @param   int  $section
      *
      * @return string
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function userFieldValidation($data, $dataAdd, $section = 12)
     {
@@ -53,7 +53,7 @@ class Helper
      * @param array $columns
      * @param array $conditions
      * @return mixed
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getUsers(
         $columns = []
@@ -94,7 +94,7 @@ class Helper
     /**
      * @param $uid
      * @return string
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function getUserFullName($uid)
     {

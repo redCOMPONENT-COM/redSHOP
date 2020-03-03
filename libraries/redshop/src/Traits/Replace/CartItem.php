@@ -17,7 +17,7 @@ defined('_JEXEC') || die;
 /**
  * For classes extends class RedshopTagsAbstract
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 trait CartItem
 {
@@ -32,7 +32,7 @@ trait CartItem
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceCartItem($data, $cart = array(), $isReplaceButton = false, $quotationMode = 0)
 	{

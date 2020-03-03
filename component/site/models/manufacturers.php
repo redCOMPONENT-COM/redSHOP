@@ -315,7 +315,7 @@ class RedshopModelManufacturers extends RedshopModel
 		/**
 		 * you modify query for get product
 		 *
-		 * @since __DEPLOY_VERSION__
+		 * @since 3.0
 		 */
 		JPluginHelper::importPlugin('redshop_product');
 		RedshopHelperUtility::getDispatcher()->trigger('onAfterQueryManufacturerProduct', array(&$query));

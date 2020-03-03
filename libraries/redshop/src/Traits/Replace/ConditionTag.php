@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * For classes extends class RedshopTagsAbstract
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 trait ConditionTag
 {
@@ -27,7 +27,7 @@ trait ConditionTag
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0
 	 */
 	public function replaceConditionTag($template = '', $amount = 0, $cart = 0, $paymentOprand = '-')
 	{

@@ -12,28 +12,28 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 {
 	/**
 	 * @var    array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $category = array();
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $itemId;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public $model;
 
@@ -42,7 +42,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function init()
 	{
@@ -58,7 +58,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function replace()
 	{

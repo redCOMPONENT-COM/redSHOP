@@ -388,7 +388,7 @@ class Tag
      * @param   int     $shippingBoxPostId
      *
      * @return string|string[]
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public function replaceShippingBoxTemplate($boxTemplateDesc = "", $shippingBoxPostId = 0)
     {
@@ -464,7 +464,7 @@ class Tag
      * @param   array   $post
      *
      * @return array
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function replaceShippingTemplate(
         $templateDesc = "",

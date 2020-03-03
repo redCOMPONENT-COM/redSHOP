@@ -13,7 +13,7 @@ defined('_JEXEC') || die;
 /**
  * For classes extends class RedshopTagsAbstract
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 trait Template
 {
@@ -24,7 +24,7 @@ trait Template
 	 *
 	 * @return string|string[]
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0
 	 */
 	public function replaceTemplate($cart, $cartData, $checkout = 1)
 	{

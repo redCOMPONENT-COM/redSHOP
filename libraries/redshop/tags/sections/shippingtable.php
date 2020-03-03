@@ -12,7 +12,7 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 {
@@ -266,7 +266,7 @@ class RedshopTagsSectionsShippingTable extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0
 	 *
 	 * @throws  Exception
 	 */

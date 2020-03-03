@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Payment Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0
  */
 class Helper
 {
@@ -22,7 +22,7 @@ class Helper
      * @param   int  $paymentMethodId
      *
      * @return string
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function replaceCreditCardInformation($paymentMethodId = 0)
     {

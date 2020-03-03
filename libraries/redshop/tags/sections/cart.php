@@ -14,7 +14,7 @@ use \Redshop\Traits\Replace;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0
  */
 class RedshopTagsSectionsCart extends RedshopTagsAbstract
 {
@@ -24,7 +24,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
     /**
      * @var    array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     public $tags = array(
         '{with_vat}',
@@ -49,7 +49,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
      *
      * @return  mixed
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     public function init()
     {
@@ -60,7 +60,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0
      */
     public function replace()
     {
@@ -296,7 +296,7 @@ class RedshopTagsSectionsCart extends RedshopTagsAbstract
      *
      * @return   string
      *
-     * @since    __DEPLOY_VERSION__
+     * @since    3.0
      */
     public function shippingRateCalc()
     {

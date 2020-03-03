@@ -783,7 +783,7 @@ class RedshopHelperCartTag
      *
      * @return string|string[]
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0
      */
     public static function replaceTemplate($cart, $cartData, $checkout = 1)
     {
