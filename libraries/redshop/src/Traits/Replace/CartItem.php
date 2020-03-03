@@ -586,6 +586,8 @@ trait CartItem
 		}
 
 		if ($isReplaceButton) {
+			$updateImage = '';
+
 			if ($view == 'checkout') {
 				$updateCart = $quantity;
 			} else {
