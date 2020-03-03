@@ -74,7 +74,6 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 
 		try
 		{
-			$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 			$I->wait(3);
 			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
 			$I->acceptPopup();

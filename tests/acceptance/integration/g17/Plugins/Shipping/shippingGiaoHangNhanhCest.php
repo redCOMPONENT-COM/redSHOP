@@ -121,7 +121,7 @@ class shippingGiaoHangNhanhCest
 			"onePage"           => 'yes',
 			"showShippingCart"  => 'no',
 			"attributeImage"    => 'no',
-			"quantityChange"    => 'no',
+			"quantityChange"    => 'yes',
 			"quantityInCart"    => 0,
 			"minimumOrder"      => 0,
 			"enableQuotation"   => 'no'
@@ -210,7 +210,7 @@ class shippingGiaoHangNhanhCest
 		$I->createProductSaveClose($this->product['name'], $this->categoryName, $this->product['number'], $this->product['price']);
 
 		$I->wantToTest('Check on Front-end');
-		$I = new ShippingGiaoHangNhanh($scenario); 
+		$I = new ShippingGiaoHangNhanh($scenario);
 		$I->checkoutWithShippingGiaoHangNhanh($this->categoryName, $this->product['name'], $this->customerInformation, $this->product['price'], $this->shipping, $this->pluginName);
 
 		$I->wantToTest('Check Order on Backend');

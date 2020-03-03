@@ -139,11 +139,14 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->switchToNextTab();
 		$I->waitForText($name, 30, \ProductManagerPage::$namePageXpath);
 	}
+
 	/**
 	 * @param $nameProduct
+	 * @param $price
 	 * @param $username
 	 * @param $password
 	 * @throws \Exception
+	 * @since 2.1.
 	 */
 	public function addProductToCart($nameProduct,$price, $username, $password)
 	{
@@ -445,9 +448,13 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				}catch (\Exception $e)
 				{
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeName($product['attributeName']), 30);
+					$I->wait(0.5);
 					$I->click($userOrderPage->returnXpathAttributeName($product['attributeName']));
+					$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
+					$I->wait(0.5);
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
+					$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 					$I->wait(2);
 					$I->waitForElementVisible(OrderManagerPage::$selectSubProperty, 30);
 				}

@@ -34,6 +34,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForText(CategoryManagerJ3Page::$newButton, 30);
 		$I->click(\CategoryManagerJ3Page::$newButton);
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
 

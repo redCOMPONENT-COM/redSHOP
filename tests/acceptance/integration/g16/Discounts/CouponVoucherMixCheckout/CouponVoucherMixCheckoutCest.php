@@ -20,7 +20,7 @@ use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\VoucherManagerJoomla3Steps as VoucherManagerJoomla3Steps;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
-class CouponCheckoutMixCheckoutCest
+class CouponVoucherMixCheckoutCest
 {
 	/**
 	 * CouponCheckoutProductCest constructor.
@@ -135,7 +135,7 @@ class CouponCheckoutMixCheckoutCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
-	 * 
+	 *
 	 * The method check for voucher/coupon/discount
 	 * @throws Exception
 	 */
@@ -267,7 +267,7 @@ class CouponCheckoutMixCheckoutCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
-	 * 
+	 *
 	 * The method check for Discount + voucher (single) + coupon (single
 	 * @throws \Exception
 	 */
@@ -330,7 +330,7 @@ class CouponCheckoutMixCheckoutCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
-	 * 
+	 *
 	 * The method check for Discount + voucher (multiple) + coupon (multiple)
 	 * @throws Exception
 	 */
@@ -340,7 +340,7 @@ class CouponCheckoutMixCheckoutCest
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->deleteUser($this->firstName);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save');
-		
+
 		$this->discount['allow'] = 'Discount + voucher (multiple) + coupon (multiple)';
 		$I = new ConfigurationSteps($scenario);
 		$I->priceDiscount($this->discount);
