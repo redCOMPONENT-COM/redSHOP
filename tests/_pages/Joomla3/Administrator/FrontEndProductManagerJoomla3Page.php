@@ -233,7 +233,7 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $checkoutFinalStep = "//input[@id='checkout_final']";
+	public static $checkoutFinalStep = "#checkout_final";
 
 	/**
 	 * @var string
@@ -687,9 +687,9 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 *
 	 * @return string
 	 */
-	public function attributeDropdownSeach($position)
+	public function attributeDropdownSearch($position)
 	{
-		$xpath = "//input[@id='s2id_autogen'.$position.'_search']";
+		$xpath = "#s2id_autogen".$position."_search";
 
 		return $xpath;
 	}
@@ -709,6 +709,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $radioPayment = '//label[@class="radio"]';
+
+	/**
+	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $containerSelect = "(//div[@class='select2-container'])[2]";
+
+	/**
+	 * @var string
+	 * @since 2.1.6
+	 */
+	public static $select2Input = "//div[@id='select2-drop']//input";
 
 	/**
 	 * @var string

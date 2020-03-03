@@ -581,6 +581,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 //		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->wait(1);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addressEmail,30);
 		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
@@ -590,8 +591,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$saveInfoUser, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$saveInfoUser);
-		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$paymentPayPad);
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$bankTransfer, 30);
+		$I->click(\FrontEndProductManagerJoomla3Page::$bankTransfer);
 		$I->wait(1);
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
 		$I->click(\FrontEndProductManagerJoomla3Page::$checkoutButton);
@@ -1121,24 +1122,39 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click($productFrontEndManagerPage->productCategory($category));
 		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
 		$I->click($productFrontEndManagerPage->product($product));
-//		$length = count($attributes);
-//		$I->wantToTest($length);
-//		$usePage = new \FrontEndProductManagerJoomla3Page();
-//		$attribute  = $attributes[0];
-//		$I->waitForElement($usePage->attributeDropdown(1), 30);
-//		$I->click($usePage->attributeDropdown(1));
-//		$I->waitForElement($usePage-> attributeDropdownSeach(1), 30);
-//		$I->fillField($usePage->attributeDropdownSeach(1), $attribute['attributeName']);
-//		$I->pressKey($usePage->attributeDropdownSeach(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		try{
-			$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
-		}catch (\Exception $e)
+
+		$length = count($attributes);
+		$I->comment("show $length");
+
+		$usePage = new \FrontEndProductManagerJoomla3Page();
+
+		for($x = 0; $x <$length; $x ++)
 		{
-			$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+			$attribute  = $attributes[$x];
+
+			if($x == 0)
+			{
+				$I->waitForElement($usePage->attributeDropdown(1), 30);
+				$I->click($usePage->attributeDropdown(1));
+				$I->waitForElementVisible($usePage-> attributeDropdownSearch(1), 30);
+				$I->fillField($usePage->attributeDropdownSearch(1), $attribute['attributeName']);
+				$I->pressKey($usePage->attributeDropdownSearch(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
+			}
+			else
+			{
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$containerSelect, 30);
+				$I->click(FrontEndProductManagerJoomla3Page::$containerSelect);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$select2Input, 30);
+				$I->fillField(FrontEndProductManagerJoomla3Page::$select2Input, $attribute['attributeName']);
+				$I->pressKey(FrontEndProductManagerJoomla3Page::$select2Input, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			}
 		}
-		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,5, \GiftCardCheckoutPage::$selectorSuccess);
+
+		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
+		$I->wait(0.5);
+		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
+
+		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage,10, \GiftCardCheckoutPage::$selectorSuccess);
 		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $product]);
 		$I->see($subTotal, \FrontEndProductManagerJoomla3Page::$priceTotal);
@@ -1194,8 +1210,8 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
+		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 	}
 
 	/**

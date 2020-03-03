@@ -115,18 +115,12 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+				$I->wait(0.5);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-				try
-				{
-					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
-				}
-				catch (Exception $e)
-				{
-					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-					$I->wait(1);
-					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				}
+				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterCompanyName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("company_name"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessageCompany("firstname"));
@@ -145,13 +139,16 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+				$I->wait(0.5);
+				$I->canSeeInPopup(FrontEndProductManagerJoomla3Page::$messageAcceptTerms);
+				$I->acceptPopup();
 				break;
 
 			case 'payment':
 				$I->fillInformationBusiness($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -159,29 +156,22 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				try
-				{
-					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 10, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
-				}
-				catch (Exception $e)
-				{
-					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-					$I->wait(0.5);
-					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 30, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
-				}
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageSelectPayment, 10, FrontEndProductManagerJoomla3Page::$locatorMessagePayment);
+
 				break;
 
 			case 'wrongEmail':
 				$I->fillInformationBusiness($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -189,6 +179,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -200,8 +191,10 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 
 			case 'wrongPhone':
 				$I->fillInformationBusiness($customerInformation);
+
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -209,6 +202,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -220,8 +214,10 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 
 			case 'wrongEAN':
 				$I->fillInformationBusiness($customerInformation);
+
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -229,6 +225,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -258,20 +255,11 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 		switch ($missing)
 		{
 			case 'user':
+				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
+				$I->wait(0.5);
+				$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-
-				try
-				{
-					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-					$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
-				}
-				catch (Exception $e)
-				{
-					$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
-					$I->wait(1);
-					$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				}
-
+				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterEmail, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("email1"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterFirstName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("firstname"));
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEnterLastName, 30, FrontEndProductManagerJoomla3Page::locatorMessagePrivate("lastname"));
@@ -288,13 +276,16 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
+				$I->wait(0.5);
+				$I->seeInPopup(FrontEndProductManagerJoomla3Page::$messageAcceptTerms);
+				$I->acceptPopup();
 				break;
 
 			case 'payment':
 				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -302,6 +293,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -327,6 +319,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -334,6 +327,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
@@ -347,6 +341,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->fillInformationPrivate($customerInformation);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(FrontEndProductManagerJoomla3Page::$termAndConditionsId));
+
 				try
 				{
 					$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$termAndConditions);
@@ -354,6 +349,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				{
 					$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 				}
+
 				$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
