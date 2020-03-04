@@ -210,7 +210,7 @@ abstract class RedshopHelperProduct_Attribute
 					{
 						$attributePropertyVAT = RedshopHelperProduct::getProductTax($productId, $property->property_price, $userId);
 					}
-
+					$property->property_price_without_vat = $property->property_price;
 					$property->property_price += $attributePropertyVAT;
 				}
 
