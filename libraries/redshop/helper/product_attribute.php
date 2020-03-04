@@ -255,7 +255,7 @@ abstract class RedshopHelperProduct_Attribute
 								$userId
 							);
 						}
-
+						$subProperty->subattribute_color_price_without_vat = $subProperty->subattribute_color_price;
 						$subProperty->subattribute_color_price += $attributesSubPropertyVAT;
 					}
 
