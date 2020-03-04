@@ -192,8 +192,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $selectSubProperty = $selectedAttributes[1];
         }
 
-        self:
-        $selectSubProperty = $selectSubProperty;
+        self::$selectSubProperty = $selectSubProperty;
 
         $attributeTemplateData = $attributeTemplate->template_desc;
 
