@@ -4314,7 +4314,7 @@ class RedshopHelperProduct
                 $preselectSubPro = true;
 
                 for ($i = 0, $in = count($subproperty); $i < $in; $i++) {
-                    if (is_array($selectSubproperty) > 0) {
+                    if (count($selectSubproperty) > 0) {
                         if (in_array($subproperty[$i]->value, $selectSubproperty)) {
                             $selectedsubproperty = $subproperty[$i]->value;
                         }
@@ -4324,7 +4324,7 @@ class RedshopHelperProduct
                         }
                     }
 
-                    if ($subproperty[$i]->setdefault_selected) {
+                    if ($subproperty[$i]->setdefault_selected && !empty($subproperty[$i]->subattribute_color_price_without_vat)) {
                         $subproperty[$i]->subattribute_color_price = $subproperty[$i]->subattribute_color_price_without_vat;
                     }
 

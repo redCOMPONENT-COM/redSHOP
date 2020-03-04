@@ -635,7 +635,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         $attributesPropertyOldPrice   = 0;
 
         if ($property->property_price > 0) {
-            if ($property->setdefault_selected) {
+            if ($property->setdefault_selected && !empty($property->property_price_without_vat)) {
                 $property->property_price = $property->property_price_without_vat;
             }
 
