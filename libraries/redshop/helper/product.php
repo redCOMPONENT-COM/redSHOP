@@ -4314,7 +4314,7 @@ class RedshopHelperProduct
                 $preselectSubPro = true;
 
                 for ($i = 0, $in = count($subproperty); $i < $in; $i++) {
-                    if (count((array)$selectSubproperty) > 0) {
+                    if (is_array($selectSubproperty) > 0) {
                         if (in_array($subproperty[$i]->value, $selectSubproperty)) {
                             $selectedsubproperty = $subproperty[$i]->value;
                         }
