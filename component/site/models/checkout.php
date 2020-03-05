@@ -1101,7 +1101,7 @@ class RedshopModelCheckout extends RedshopModel
         }
 
         if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS')) {
-            RedshopHelperClickatell::clickatellSMS($orderId);
+            \RedshopHelperClickatell::clickatellSMS($orderId);
         }
 
         if (isset($cart['extrafields_values'])) {
