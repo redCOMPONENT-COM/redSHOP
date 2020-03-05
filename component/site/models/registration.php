@@ -35,7 +35,21 @@ class RedshopModelRegistration extends RedshopModel
 
 	public function store(&$data)
 	{
-		$captcha = Redshop\Helper\Utility::checkCaptcha($data);
+        $plugin = JPluginHelper::getPlugin('captcha','recaptcha');
+
+        $dataCaptcha = $data;
+
+        if ($plugin)
+        {
+            $params  = new JRegistry($plugin->params);
+
+            if ($params->get('version', '') === '2.0')
+            {
+                $dataCaptcha = null;
+            }
+        }
+
+		$captcha = Redshop\Helper\Utility::checkCaptcha($dataCaptcha);
 
 		if (!$captcha)
 		{
