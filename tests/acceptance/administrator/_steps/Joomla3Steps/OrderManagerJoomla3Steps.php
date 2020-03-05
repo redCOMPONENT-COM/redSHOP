@@ -379,6 +379,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->fillField(OrderManagerPage::$productsSearch, $product['productName']);
 		$I->waitForElementVisible($userOrderPage->returnSearch($product['productName']), 30);
+		$I->wait(0.5);
 		$I->click($userOrderPage->returnSearch($product['productName']));
 
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
@@ -387,8 +388,8 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
-		$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
 		$I->wait(0.5);
+		$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 
 		switch ($function)
