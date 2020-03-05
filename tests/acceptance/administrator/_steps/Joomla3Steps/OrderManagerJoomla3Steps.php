@@ -370,7 +370,7 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		$I->waitForElement(OrderManagerPage::$productId, 30);
-		$I->executeJS(OrderManagerPage::$productId);
+		$I->scrollTo(OrderManagerPage::$productId);
 
 		$I->waitForElementVisible(OrderManagerPage::$productId, 30);
 		$I->wait(0.5);
