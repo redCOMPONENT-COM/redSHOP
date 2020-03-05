@@ -37,8 +37,20 @@ $templateDesc = RedshopTagsReplacer::_(
 	array(
 		'category' => $this->maincat,
 		'subCategories' => $this->detail,
-		'manufacturer_id' => $this->manufacturer_id,
+		'manufacturerId' => $this->manufacturer_id,
 		'itemId' => $mainItemId,
+		'excludedTags' => $excludedTags
+	)
+);
+
+$templateDesc = RedshopTagsReplacer::_(
+	'categorydetail',
+	$templateDesc,
+	array(
+		'maincat' => $this->maincat,
+		'detail' => $this->detail,
+		'manufacturer_id' => $this->manufacturer_id,
+		'mainItemId' => $mainItemId,
 		'excludedTags' => $excludedTags,
 		'params' => $this->params,
 		'pageheadingtag' => $this->pageheadingtag,
