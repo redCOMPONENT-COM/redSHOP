@@ -370,9 +370,10 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 
 		$I->waitForElement(OrderManagerPage::$productId, 30);
-		$I->executeJS('window.scrollTo(80,80)');
+		$I->scrollTo(OrderManagerPage::$productId);
 
 		$I->waitForElementVisible(OrderManagerPage::$productId, 30);
+		$I->wait(0.5);
 		$I->click(OrderManagerPage::$productId);
 		$I->waitForElementVisible(OrderManagerPage::$productsSearch, 30);
 
@@ -380,9 +381,11 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible($userOrderPage->returnSearch($product['productName']), 30);
 		$I->click($userOrderPage->returnSearch($product['productName']));
 
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible($userOrderPage->returnXpathAttributeName($product['attributeName']), 30);
 		$I->click($userOrderPage->returnXpathAttributeName($product['attributeName']));
 
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
 		$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
 		$I->wait(0.5);
@@ -402,8 +405,10 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 				}catch (\Exception $e)
 				{
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeName($product['attributeName']), 30);
+					$I->wait(0.5);
 					$I->click($userOrderPage->returnXpathAttributeName($product['attributeName']));
 					$I->waitForElementVisible($userOrderPage->returnXpathAttributeValue($product['size']), 30);
+					$I->wait(0.5);
 					$I->click($userOrderPage->returnXpathAttributeValue($product['size']));
 					$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 					$I->wait(2);
