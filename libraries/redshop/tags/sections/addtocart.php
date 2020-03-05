@@ -307,7 +307,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             $attributeSets = array();
 
             if ($product->attribute_set_id > 0) {
-                $attributeSets = \RedshopHelperProduct_Attribute::getProductAttribute(
+                $attributeSets = \Redshop\Product\Attribute::getProductAttribute(
                     0,
                     $product->attribute_set_id,
                     0,
