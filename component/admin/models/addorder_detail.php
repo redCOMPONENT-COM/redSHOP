@@ -266,14 +266,10 @@ class RedshopModelAddorder_detail extends RedshopModel
 
 			return false;
 		}
-
-		$rowOrderStatus                = $this->getTable('order_status_log');
-		$rowOrderStatus->order_id      = $row->order_id;
-		$rowOrderStatus->order_status  = $row->order_status;
-		$rowOrderStatus->date_changed  = time();
-		$rowOrderStatus->customer_note = $row->customer_note;
-		$rowOrderStatus->store();
-
+		
+		// Write Order Log
+		\RedshopHelperOrder::writeOrderLog($row->order_id, null, $row->order_status, $row->order_payment_status, $row->customer_note);
+		
 		$billingAddresses = RedshopHelperOrder::getBillingAddress($row->user_id);
 
 		if (isset($postdata['billisship']) && $postdata['billisship'] == 1)

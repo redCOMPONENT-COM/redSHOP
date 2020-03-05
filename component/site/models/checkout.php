@@ -526,13 +526,8 @@ class RedshopModelCheckout extends RedshopModel
 
         $session->set('order_id', $orderId);
 
-        // Add order status log
-        $rowOrderStatus = $this->getTable('order_status_log');
-        $rowOrderStatus->order_id = $orderId;
-        $rowOrderStatus->order_status = $order_status;
-        $rowOrderStatus->date_changed = time();
-        $rowOrderStatus->customer_note = $order_status_log;
-        $rowOrderStatus->store();
+        // Write order log
+	    \RedshopHelperOrder::writeOrderLog($orderId, $userId, $order_status, $row->order_payment_status, $order_status_log);
 
         $input->set('order_id', $row->order_id);
         $input->set('order_number', $row->order_number);
