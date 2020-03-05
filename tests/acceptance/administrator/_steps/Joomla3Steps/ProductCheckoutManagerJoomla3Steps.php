@@ -1131,23 +1131,12 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		for($x = 0; $x <$length; $x ++)
 		{
 			$attribute  = $attributes[$x];
+			$I->waitForElement($usePage->attributeDropdown($x +1), 30);
+			$I->click($usePage->attributeDropdown($x +1));
+			$I->waitForElementVisible($usePage-> attributeDropdownSearch($x +1), 30);
+			$I->fillField($usePage->attributeDropdownSearch($x +1), $attribute['attributeName']);
+			$I->pressKey($usePage->attributeDropdownSearch($x +1), \Facebook\WebDriver\WebDriverKeys::ENTER);
 
-			if($x == 0)
-			{
-				$I->waitForElement($usePage->attributeDropdown(1), 30);
-				$I->click($usePage->attributeDropdown(1));
-				$I->waitForElementVisible($usePage-> attributeDropdownSearch(1), 30);
-				$I->fillField($usePage->attributeDropdownSearch(1), $attribute['attributeName']);
-				$I->pressKey($usePage->attributeDropdownSearch(1), \Facebook\WebDriver\WebDriverKeys::ENTER);
-			}
-			else
-			{
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$containerSelect, 30);
-				$I->click(FrontEndProductManagerJoomla3Page::$containerSelect);
-				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$select2Input, 30);
-				$I->fillField(FrontEndProductManagerJoomla3Page::$select2Input, $attribute['attributeName']);
-				$I->pressKey(FrontEndProductManagerJoomla3Page::$select2Input, \Facebook\WebDriver\WebDriverKeys::ENTER);
-			}
 		}
 
 		$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$addToCart, 30);
