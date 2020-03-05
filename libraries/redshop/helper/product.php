@@ -4324,6 +4324,10 @@ class RedshopHelperProduct
                         }
                     }
 
+                    if ($subproperty[$i]->setdefault_selected && !empty($subproperty[$i]->subattribute_color_price_without_vat)) {
+                        $subproperty[$i]->subattribute_color_price = $subproperty[$i]->subattribute_color_price_without_vat;
+                    }
+
                     if (!empty($subproperty[$i]->subattribute_color_image)) {
                         if (JFile::exists(
                             REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image
