@@ -104,7 +104,11 @@ class RedshopHelperTax
 					. '(' . $db->qn('tr.tax_state') . ' = ' . $db->quote('')
 					. ' OR ' . $db->qn('tr.tax_state') . ' IS NULL))'
 				)
-				->where($db->qn('tr.tax_country') . ' = ' . $db->quote($userData->country_code))
+				->where(
+					'(' . $db->qn('tr.tax_country') . ' = ' . $db->quote($userData->country_code) . ' OR '
+					. '(' . $db->qn('tr.tax_country') . ' = ' . $db->quote('')
+					. ' OR ' . $db->qn('tr.tax_country') . ' IS NULL))'
+				)
 				->where('tr.tax_group_id = ' . (int) $taxGroup)
 				->order('tax_rate');
 
