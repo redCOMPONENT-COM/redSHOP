@@ -37,6 +37,7 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
     public $tags = [
         '{billing_address_information_lbl}',
         '{quotation_custom_field_list}',
+        '{billing_address}',
         '{customer_note}',
         '{cancel_btn}',
         '{request_quotation_btn}'
