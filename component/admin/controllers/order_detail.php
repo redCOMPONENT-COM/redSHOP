@@ -22,6 +22,63 @@ class RedshopControllerOrder_detail extends RedshopController
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
+
+		$app   = \JFactory::getApplication();
+		$input = $app->input;
+		$task  = $input->get('task', 'display');
+		$canDo = $this->checkPermission($task);
+
+		if (!$canDo)
+		{
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+			$app->redirect('index.php?option=com_redshop');
+		}
+	}
+
+	public function checkPermission($task)
+	{
+		$task = strtolower($task);
+		$canView   = \RedshopHelperAccess::canView('order');
+		$canEdit   = \RedshopHelperAccess::canEdit('order');
+		$canDelete   = \RedshopHelperAccess::canEdit('order');
+
+		// Check permission on create new
+		if (!$canView)
+		{
+			return false;
+		}
+
+		$allowEditTasks = array(
+			'edit',
+			'neworderitem',
+			'delete_item',
+			'updateitem',
+			'update_discount',
+			'special_discount',
+			'update_shippingrates',
+			'updateshippingadd',
+			'updatebillingadd',
+			'createpdf',
+			'createpdfstocknote',
+			'send_downloadmail',
+			'displayproductiteminfo',
+			'send_invoicemail',
+			'resendordermail',
+			'pay',
+			'storeextrafield'
+		);
+
+		if (in_array($task, $allowEditTasks) && !$canEdit)
+		{
+			return false;
+		}
+
+		if ($task == 'remove' && !$canDelete)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public function edit()

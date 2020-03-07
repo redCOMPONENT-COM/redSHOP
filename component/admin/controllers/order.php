@@ -15,6 +15,94 @@ use Redshop\Economic\RedshopEconomic;
 class RedshopControllerOrder extends RedshopController
 {
 	/**
+	 * Execute a task by triggering a method in the derived class.
+	 *
+	 * @param   string  $task  The task to perform. If no matching task is found, the '__default' task is executed, if defined.
+	 *
+	 * @return  mixed   The value returned by the called method.
+	 *
+	 * @since   3.0
+	 * @throws  \Exception
+	 */
+	public function execute($task)
+	{
+		$this->task = $task;
+
+		$task = strtolower($task);
+
+		$canDo = $this->checkPermission($task);
+
+		if (!$canDo)
+		{
+			$this->setMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+			$this->setRedirect('index.php?option=com_redshop');
+		}
+
+		if (isset($this->taskMap[$task]))
+		{
+			$doTask = $this->taskMap[$task];
+		}
+		elseif (isset($this->taskMap['__default']))
+		{
+			$doTask = $this->taskMap['__default'];
+		}
+		else
+		{
+			throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+		}
+
+		// Record the actual task being fired
+		$this->doTask = $doTask;
+
+		return $this->$doTask();
+	}
+
+	public function checkPermission($task)
+	{
+		$canView   = \RedshopHelperAccess::canView('order');
+		$canEdit   = \RedshopHelperAccess::canEdit('order');
+
+		// Check permission on create new
+		if (!$canView)
+		{
+			return false;
+		}
+
+		$allowViewTasks = array(
+			'display',
+			'printpdf',
+			'multiprint_order',
+			'cancel',
+			'export_fullorder_data',
+			'export_data',
+			'gls_export',
+			'business_gls_export'
+		);
+
+		if (in_array($task, $allowViewTasks) && $canView)
+		{
+			return true;
+		}
+
+		$allowEditTasks = array(
+			'update_status',
+			'allstatus',
+			'allStatusexceptpacsoft',
+			'updateroderstatus',
+			'bookinvoice',
+			'createinvoice',
+			'generateparcel'
+		);
+
+		if (in_array($task, $allowEditTasks) && !$canEdit)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method for generate PDF for specific order.
 	 *
 	 * @return void
