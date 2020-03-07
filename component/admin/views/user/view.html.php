@@ -27,6 +27,7 @@ class RedshopViewUser extends RedshopViewAdmin
 
 		if ($sync)
 		{
+			JToolBarHelper::title(JText::_('COM_REDSHOP_USER_SYNC'), 'users redshop_user48');
 			$this->setLayout('user_sync');
 			$sync_user       = RedshopInstall::synchronizeUser();
 			$this->sync_user = $sync_user;
