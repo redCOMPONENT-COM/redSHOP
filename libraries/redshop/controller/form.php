@@ -33,6 +33,18 @@ class RedshopControllerForm extends JControllerForm
 	protected $name;
 
 	/**
+	 * @var    string
+	 * @since  3.0
+	 */
+	public $option;
+
+	/**
+	 * @var    string
+	 * @since  3.0
+	 */
+	public $context;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array $config   An optional associative array of configuration settings.
