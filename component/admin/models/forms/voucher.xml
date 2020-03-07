@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fieldset name="details">
+    <fieldset name="details" addrulepath="administrator/components/com_redshop/models/rules">
         <field
                 name="id"
                 type="hidden"
@@ -11,7 +11,8 @@
                 label="COM_REDSHOP_VOUCHER_CODE"
                 description="COM_REDSHOP_VOUCHER_CODE_DESC"
                 placeholder="COM_REDSHOP_VOUCHER_CODE"
-                class="form-control"
+                class="form-control validate-alphanumeric"
+                validate="alphanumeric"
                 default=""
                 required="true"
                 table-sortable="1"
