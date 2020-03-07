@@ -230,7 +230,141 @@ class RedshopModelUser_detail extends RedshopModel
 		else
 		{
 			$post['billisship'] = 1;
+
+			if (!empty($post['group']))
+			{
+				$post['groups'] = $post['group'];
+			}
+
 			$joomlauser         = RedshopHelperJoomla::updateJoomlaUser($post);
+
+			if (!$joomlauser)
+			{
+				return false;
+			}
+
+			$reduser = RedshopHelperUser::storeRedshopUser($post, $joomlauser->id, 1);
+		}
+
+		return $reduser;
+	}
+
+	public function updateJoomlaUser($data)
+	{
+		$app = JFactory::getApplication();
+
+		if ((!$app->isAdmin() && (Redshop::getConfig()->get('REGISTER_METHOD') == 1 || $data['user_id'] < 0))
+			|| $app->isAdmin() && $data['user_id'] < 0 && isset($data['users_info_id']))
+		{
+			$reduser     = new stdClass;
+			$reduser->id = $data['user_id'];
+
+			return $reduser;
+		}
+
+		$me = JFactory::getUser();
+
+		$data['name'] = $name = $data['firstname'];
+
+		// Check: Validate username.
+		if (RedshopHelperUser::validateUser($data['username'], $data['user_id']))
+		{
+			JError::raiseWarning('', JText::_('COM_REDSHOP_USERNAME_ALREADY_EXISTS'));
+
+			return false;
+		}
+
+		// Check: Validate email
+		if (RedshopHelperUser::validateEmail($data['email'], $data['user_id']))
+		{
+			JError::raiseWarning('', JText::_('COM_REDSHOP_EMAIL_ALREADY_EXISTS'));
+
+			return false;
+		}
+
+		// Get required system objects
+		$user = new JUser($data['user_id']);
+
+		$data['name'] = $user->name;
+		$data['email'] = $user->email;
+
+		if (!$user->bind($data))
+		{
+			JError::raiseError(500, $user->getError());
+
+			return false;
+		}
+
+		// Initialise variables;
+		$pk = $user->get('id');
+
+		if ($user->get('block') && $pk == $me->id && !$me->block)
+		{
+			$app->enqueueMessage(JText::_('YOU_CANNOT_BLOCK_YOURSELF!'), 'error');
+
+			return false;
+		}
+
+		// Make sure that we are not removing ourself from Super Admin group
+		if ($me->authorise('core.admin') && $me->get('id') == $pk)
+		{
+			// Check that at least one of our new groups is Super Admin
+			$stillSuperAdmin = false;
+			$myNewGroups     = $user->groups;
+
+			foreach ($myNewGroups as $group)
+			{
+				$stillSuperAdmin = ($stillSuperAdmin) ? ($stillSuperAdmin) : JAccess::checkGroup($group, 'core.admin');
+			}
+
+			if (!$stillSuperAdmin)
+			{
+				$app->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'), 'error');
+
+				return false;
+			}
+		}
+
+		// If there was an error with registration, set the message and display form
+		if (!$user->save())
+		{
+			JError::raiseWarning('', JText::_($user->getError()));
+
+			return false;
+		}
+
+		return $user;
+	}
+
+	public function storeWS($post)
+	{
+		$shipping              = isset($post["shipping"]) ? true : false;
+		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
+		$post['user_email']    = $post['email1'] = $post['email'];
+
+		if ($shipping)
+		{
+			$post['country_code_ST'] = $post['country_code'];
+			$post['state_code_ST']   = $post['state_code'];
+			$post['firstname_ST']    = $post['firstname'];
+			$post['lastname_ST']     = $post['lastname'];
+			$post['address_ST']      = $post['address'];
+			$post['city_ST']         = $post['city'];
+			$post['zipcode_ST']      = $post['zipcode'];
+			$post['phone_ST']        = $post['phone'];
+
+			$reduser = RedshopHelperUser::storeRedshopUserShipping($post);
+		}
+		else
+		{
+			$post['billisship'] = 1;
+
+			if (!empty($post['group']))
+			{
+				$post['groups'] = $post['group'];
+			}
+
+			$joomlauser         = $this->updateJoomlaUser($post);
 
 			if (!$joomlauser)
 			{

@@ -1,0 +1,320 @@
+<?xml version="1.0"?>
+<apiservice client="administrator">
+	<name>redSHOP User Webservice</name>
+	<author>redCOMPONENT</author>
+	<copyright>Copyright (C) 2008 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+	<description>Web service redSHOP product information.</description>
+	<config>
+		<name>redshop-user</name>
+		<version>1.0.0</version>
+		<authorizationAssetName>redshop</authorizationAssetName>
+	</config>
+	<operations>
+		<documentation authorizationNeeded="false" source="auto" url=""/>
+
+		<create authorizationNeeded="true" strictFields="true" authorization="core.webservice,core.create" dataMode="model" optionName="com_redshop" modelClassName="User_detail" modelClassPath="" isAdminClass="true" functionName="store" functionArgs="" validateData="none" validateDataFunction="validate" tableName="">
+			<description><![CDATA[This operation creates a new redSHOP user]]></description>
+			<fields>
+				<field name="username" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[User name]]></description>
+				</field>
+				<field name="password" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[User password]]></description>
+				</field>
+				<field name="password2" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[User password confirm]]></description>
+				</field>
+				<field name="email" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[User email]]></description>
+				</field>
+				<field name="shopper_group_id" transform="int" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[ID of shopper group]]></description>
+				</field>
+				<field name="group" transform="array" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[User group]]></description>
+				</field>
+				<field name="block" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[Block user or not]]></description>
+				</field>
+				<field name="is_company" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[Private or company customer]]></description>
+				</field>
+				<field name="sendEmail" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[Sent mail or not]]></description>
+				</field>
+				<field name="firstname" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[User first name]]></description>
+				</field>
+				<field name="lastname" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[User last name]]></description>
+				</field>
+				<field name="address" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User address]]></description>
+				</field>
+				<field name="city" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User city]]></description>
+				</field>
+				<field name="country" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User country]]></description>
+				</field>
+				<field name="state_code" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[End date of discount]]></description>
+				</field>
+				<field name="phone" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User phone]]></description>
+				</field>
+				<field name="zipcode" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User zipcode]]></description>
+				</field>
+				<description><![CDATA[web service create a new user]]></description>
+			</fields>
+			<resources>
+				<resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Web services documentation]]></description>
+				</resource>
+				<resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Webservices root]]></description>
+				</resource>
+				<resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Product webservice]]></description>
+				</resource>
+				<resource displayName="{webserviceName}:self" transform="string" fieldFormat="{webserviceUrlPath}&amp;id={result}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Link to User]]></description>
+				</resource>
+				<resource displayName="result" transform="int" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[New internal user ID upon success, zero on error]]></description>
+				</resource>
+				<description><![CDATA[web service create a new user]]></description>
+			</resources>
+		</create>
+
+		<read>
+			<list authorizationNeeded="true" strictFields="false" authorization="core.login.site" dataMode="model" optionName="com_redshop" modelClassName="User" modelClassPath="" isAdminClass="true" functionName="getData" functionArgs="" validateData="none" validateDataFunction="validate" tableName="">
+				<description><![CDATA[This operation lists all user]]></description>
+				<fields>
+					<description><![CDATA[List user]]></description>
+				</fields>
+				<resources>
+
+					<resource displayName="username" transform="string" fieldFormat="{username}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[username]]></description>
+					</resource>
+
+					<resource displayName="user_email" transform="string" fieldFormat="{user_email}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[user_email]]></description>
+					</resource>
+
+					<resource displayName="shopper_group_id" transform="string" fieldFormat="{shopper_group_id}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[shopper_group_id]]></description>
+					</resource>
+
+					<resource displayName="group" transform="array" fieldFormat="{group}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[group]]></description>
+					</resource>
+
+					<resource displayName="block" transform="int" fieldFormat="{block}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[block]]></description>
+					</resource>
+
+					<resource displayName="is_company" transform="int" fieldFormat="{is_company}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[is_company]]></description>
+					</resource>
+
+					<resource displayName="sendEmail" transform="int" fieldFormat="{sendEmail}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[sendEmail]]></description>
+					</resource>
+
+					<resource displayName="firstname" transform="string" fieldFormat="{firstname}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[firstname]]></description>
+					</resource>
+
+					<resource displayName="lastname" transform="string" fieldFormat="{lastname}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[lastname]]></description>
+					</resource>
+
+					<resource displayName="address" transform="string" fieldFormat="{address}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[address]]></description>
+					</resource>
+
+					<resource displayName="city" transform="string" fieldFormat="{city}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[city]]></description>
+					</resource>
+
+					<resource displayName="country" transform="string" fieldFormat="{country}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[country]]></description>
+					</resource>
+
+					<resource displayName="state_code" transform="string" fieldFormat="{state_code}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[state_code]]></description>
+					</resource>
+
+					<resource displayName="phone" transform="string" fieldFormat="{phone}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[phone]]></description>
+					</resource>
+
+					<resource displayName="zipcode" transform="string" fieldFormat="{zipcode}" displayGroup="" resourceSpecific="listItem">
+						<description><![CDATA[zipcode]]></description>
+					</resource>
+
+					<resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Web services documentation]]></description>
+					</resource>
+					<resource displayName="page" transform="int" fieldFormat="{pagination.page}" displayGroup="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Page number]]></description>
+					</resource>
+					<resource displayName="pageLimit" transform="int" fieldFormat="{pagination.limit}" displayGroup="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Number of items per page]]></description>
+					</resource>
+					<resource displayName="limitstart" transform="int" fieldFormat="{pagination.limitstart}" displayGroup="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Start displaying from a certain item in the list]]></description>
+					</resource>
+					<resource displayName="totalItems" transform="int" fieldFormat="{pagination.totalItems}" displayGroup="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Total number of items]]></description>
+					</resource>
+					<resource displayName="totalPages" transform="int" fieldFormat="{pagination.totalPages}" displayGroup="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Total number of pages of items]]></description>
+					</resource>
+					<resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Webservices root]]></description>
+					</resource>
+					<resource displayName="{webserviceName}:first" transform="string" fieldFormat="{webserviceUrlPath}&amp;list[limitstart]=0" displayGroup="_links" linkTitle="Pagination first" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[First page]]></description>
+					</resource>
+					<resource displayName="{webserviceName}:previous" transform="string" fieldFormat="{webserviceUrlPath}&amp;list[limitstart]={pagination.previous}" displayGroup="_links" linkTitle="Pagination previous" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Previous page]]></description>
+					</resource>
+					<resource displayName="{webserviceName}:next" transform="string" fieldFormat="{webserviceUrlPath}&amp;list[limitstart]={pagination.next}" displayGroup="_links" linkTitle="Pagination next" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Next page]]></description>
+					</resource>
+					<resource displayName="{webserviceName}:last" transform="string" fieldFormat="{webserviceUrlPath}&amp;list[limitstart]={pagination.last}" displayGroup="_links" linkTitle="Pagination last" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Last page]]></description>
+					</resource>
+					<resource displayName="{webserviceName}:all" transform="string" fieldFormat="{webserviceUrlPath}&amp;list[limit]=0" displayGroup="_links" linkTitle="Show all items" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[List all items]]></description>
+					</resource>
+					<resource displayName="{webserviceName}:limit" transform="string" fieldFormat="{webserviceUrlPath}&amp;list[limit]={limit}&amp;list[limitstart]={limitstart}" displayGroup="_links" linkTitle="List limit" linkName="" hrefLang="" linkTemplated="true" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Limit the number of listed items]]></description>
+					</resource>
+					<resource displayName="{webserviceName}:filter" transform="string" fieldFormat="{webserviceUrlPath}&amp;filter[search]={filter_search}" displayGroup="_links" linkTitle="Filter list" linkName="" hrefLang="" linkTemplated="true" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Items search]]></description>
+					</resource>
+					<resource displayName="{webserviceName}:sort" transform="string" fieldFormat="{webserviceUrlPath}&amp;filter[order]={filter_order}&amp;filter[order_Dir]={filter_order_Dir}" displayGroup="_links" linkTitle="List sort" linkName="" hrefLang="" linkTemplated="true" linkRel="" resourceSpecific="rcwsGlobal">
+						<description><![CDATA[Sort list by field and direction]]></description>
+					</resource>
+				</resources>
+			</list>
+		</read>
+
+		<update authorizationNeeded="true" strictFields="true" authorization="core.webservice,core.edit,core.edit.own" dataMode="model" optionName="com_redshop" modelClassName="User_detail" modelClassPath="" isAdminClass="true" functionName="storeWS" functionArgs="" validateData="none" validateDataFunction="validate" tableName="">
+			<description><![CDATA[This operation updates a user]]></description>
+
+			<fields>
+				<field name="users_info_id" transform="int" defaultValue="" isRequiredField="true" isPrimaryField="true">
+					<description><![CDATA[User info id]]></description>
+				</field>
+				<field name="user_id" transform="int" defaultValue="" isRequiredField="true" isPrimaryField="true">
+					<description><![CDATA[User id]]></description>
+				</field>
+				<field name="username" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="false">
+					<description><![CDATA[User name]]></description>
+				</field>
+				<field name="password" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User password]]></description>
+				</field>
+				<field name="password2" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User password confirm]]></description>
+				</field>
+				<field name="email" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User email]]></description>
+				</field>
+				<field name="shopper_group_id" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[ID of shopper group]]></description>
+				</field>
+				<field name="group" transform="array" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User group]]></description>
+				</field>
+				<field name="block" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[Block user or not]]></description>
+				</field>
+				<field name="is_company" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[Private or company customer]]></description>
+				</field>
+				<field name="sendEmail" transform="int" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[Sent mail or not]]></description>
+				</field>
+				<field name="firstname" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User first name]]></description>
+				</field>
+				<field name="lastname" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User last name]]></description>
+				</field>
+				<field name="address" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User address]]></description>
+				</field>
+				<field name="city" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User city]]></description>
+				</field>
+				<field name="country" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User country]]></description>
+				</field>
+				<field name="state_code" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[End date of discount]]></description>
+				</field>
+				<field name="phone" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User phone]]></description>
+				</field>
+				<field name="zipcode" transform="string" defaultValue="" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[User zipcode]]></description>
+				</field>
+				<field name="webservice" transform="int" defaultValue="1" isRequiredField="false" isPrimaryField="false">
+					<description><![CDATA[Check create user from webservice or not]]></description>
+				</field>
+				<description><![CDATA[web service create a new user]]></description>
+			</fields>
+
+			<resources>
+				<resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Web services documentation]]></description>
+				</resource>
+				<resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Webservices root]]></description>
+				</resource>
+				<resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Wallet webservice]]></description>
+				</resource>
+				<resource displayName="{webserviceName}:self" transform="string" fieldFormat="{webserviceUrlPath}&amp;id={id}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Link to Wallet]]></description>
+				</resource>
+				<resource displayName="result" transform="int" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[New internal product ID upon success, zero on error]]></description>
+				</resource>
+				<description><![CDATA[Wallet update resources]]></description>
+			</resources>
+		</update>
+
+		<delete authorizationNeeded="true" strictFields="false" authorization="core.webservice,core.delete" dataMode="model" optionName="com_redshop" modelClassName="User_detail" modelClassPath="" isAdminClass="true" functionName="deleteWS" functionArgs="id{string}" validateData="none" validateDataFunction="function" tableName="">
+			<description><![CDATA[This operation deletes products.]]></description>
+			<fields>
+				<field name="id" transform="string" defaultValue="" isRequiredField="true" isPrimaryField="true">
+					<description><![CDATA[user ID.]]></description>
+				</field>
+				<description><![CDATA[Product delete fields]]></description>
+			</fields>
+			<resources>
+				<resource displayName="documentation" transform="string" fieldFormat="{webserviceUrlPath}&amp;format=doc#{rel}" displayGroup="_links" linkTitle="Documentation" linkName="{webserviceName}" hrefLang="" linkTemplated="true" linkRel="curies" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Web services documentation]]></description>
+				</resource>
+				<resource displayName="base" transform="string" fieldFormat="/" displayGroup="_links" linkTitle="Default page" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[Webservices root]]></description>
+				</resource>
+				<resource displayName="{webserviceName}:list" transform="string" fieldFormat="{webserviceUrlPath}" displayGroup="_links" linkTitle="" linkName="" hrefLang="" linkTemplated="false" linkRel="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[User webservice]]></description>
+				</resource>
+				<resource displayName="result" transform="boolean" fieldFormat="{result}" displayGroup="" resourceSpecific="rcwsGlobal">
+					<description><![CDATA[True upon success, false on error]]></description>
+				</resource>
+				<description><![CDATA[Product delete resources]]></description>
+			</resources>
+		</delete>
+	</operations>
+</apiservice>

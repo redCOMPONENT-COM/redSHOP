@@ -519,7 +519,7 @@ class RedshopHelperUser
 			 *      1. User register at frontend.
 			 *      2. User created in backend by super user but forget to set shopper group.
 			 */
-			if (!$isAdmin || ($isAdmin && empty($data['shopper_group_id'])))
+			if ((!$isAdmin && !$data['webservice']) || ($isAdmin && empty($data['shopper_group_id'])))
 			{
 				$data['shopper_group_id'] = ($data['is_company'] == 1) ? (int) Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_COMPANY', 2)
 					: (int) Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_PRIVATE', 1);
