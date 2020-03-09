@@ -9,15 +9,16 @@
 
 defined('_JEXEC') or die;
 
-$quotationTemplate = RedshopHelperTemplate::getTemplate("quotation_request");
+$quotationTemplate = \RedshopHelperTemplate::getTemplate("quotation_request");
 
-if (count($quotationTemplate) > 0 && $quotationTemplate[0]->template_desc != "") {
+if (is_string($quotationTemplate[0]->template_desc) &&
+    \Joomla\String\StringHelper::strlen(trim($quotationTemplate[0]->template_desc)) > 0) {
     $templateDesc = $quotationTemplate[0]->template_desc;
 } else {
-    $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('quotation_request');
+    $templateDesc = \RedshopHelperTemplate::getDefaultTemplateContent('quotation_request');
 }
 
-echo RedshopTagsReplacer::_(
+echo \RedshopTagsReplacer::_(
     'quotationrequest',
     $templateDesc,
     [

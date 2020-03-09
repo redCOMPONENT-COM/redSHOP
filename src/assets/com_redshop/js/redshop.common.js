@@ -1180,7 +1180,7 @@ function all_update(u) {
 	document.update_cart.submit();
 }
 
-function validateInfo() {
+function validateInfoQuotation() {
 	var frm = document.adminForm;
 
 	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
