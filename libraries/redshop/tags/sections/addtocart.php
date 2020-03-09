@@ -41,19 +41,6 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         $fieldSection       = $this->data['fieldSection'];
 		$template = $this->template;
 
-        if (null === $cartTemplate) {
-            if (!empty($content)) {
-                $cartTemplate                = new \stdClass;
-                $cartTemplate->name          = "";
-                $cartTemplate->template_desc = "";
-            } else {
-                $cartTemplate                = new \stdClass;
-                $cartTemplate->name          = "notemplate";
-                $cartTemplate->template_desc = "<div>{addtocart_image_aslink}</div>";
-                $content                     = "{form_addtocart:$cartTemplate->name}";
-            }
-        }
-
         $input                = JFactory::getApplication()->input;
         $itemId               = $input->getInt('Itemid');
         $productQuantity      = $input->get('product_quantity');
