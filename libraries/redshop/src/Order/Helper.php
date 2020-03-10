@@ -252,7 +252,8 @@ class Helper
                 . ' AND ' . $db->qn('u.address_type') . '="BT"')
             ->innerJoin($db->qn('#__redshop_order_status', 'os')
                 . ' ON ' . $db->qn('os.order_status_code') . '=' . $db->qn('o.order_status'))
-            ->order($db->qn('o.order_id') . ' DESC');
+            ->order($db->qn('o.order_id') . ' DESC')
+            ->setLimit(10);
 
         return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
     }
