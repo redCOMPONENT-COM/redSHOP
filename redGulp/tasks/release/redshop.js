@@ -85,6 +85,50 @@ function getIncludedExtensions() {
     return included.concat(includedPlugins, includedModules, excluded);
 }
 
+// Composer
+gulp.task('clean:libraries.redshop:composer.lock', function (cb) {
+    del(extPath + '/composer.lock', { force: true });
+    cb();
+})
+
+gulp.task("composer:libraries.redshop", gulp.series('clean:libraries.redshop:composer.lock'), function (cb) {
+    executeComposer(extPath);
+    cb();
+});
+
+/// Minified and deploy from Src to Media.
+gulp.task('scripts:components.redshop', function () {
+    return gulp.src([
+        assetsPath + '/js/*.js',
+        assetsPath + '/js/**/*.js'
+    ])
+        .pipe(gulp.dest(mediaPath + '/js'))
+        .pipe(uglify())
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(rename(function (path) {
+            path.basename += '.min';
+        }))
+        .pipe(gulp.dest(mediaPath + '/js'));
+});
+
+/// Sass Compiler
+gulp.task('sass:components.redshop', function () {
+    return gulp.src([
+        assetsPath + "/scss/*.scss",
+        assetsPath + "/scss/**/*.scss"
+    ])
+        .pipe(sass())
+        .pipe(gulp.dest(mediaPath + "/css"))
+        .pipe(sass({
+            outputStyle: "compressed",
+            errLogToConsole: true
+        }))
+        .pipe(rename(function (path) {
+            path.basename += '.min';
+        }))
+        .pipe(gulp.dest(mediaPath + "/css"));
+});
+
 gulp.task("release:redshop",
     gulp.series("scripts:components.redshop",
         "sass:components.redshop",

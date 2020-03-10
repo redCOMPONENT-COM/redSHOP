@@ -1,58 +1,52 @@
 var gulp = require("gulp");
 
-var config = require("../../gulp-config.json");
+var config = require("../../../gulp-config.json");
 
 // Dependencies
 var browserSync = require("browser-sync");
-var concat      = require("gulp-concat");
-var del         = require("del");
-var fs          = require("fs");
-var rename      = require("gulp-rename");
-var xml2js      = require("xml2js");
-var parser      = new xml2js.Parser({explicitArray: false});
-var path        = require("path");
-var composer    = require("gulp-composer");
+var concat = require("gulp-concat");
+var del = require("del");
+var fs = require("fs");
+var rename = require("gulp-rename");
+var xml2js = require("xml2js");
+var parser = new xml2js.Parser({ explicitArray: false });
+var path = require("path");
+var composer = require("gulp-composer");
 var gutil = require("gulp-util");
 
 var libraryName = "redshop";
-
-var baseTask     = "libraries." + libraryName;
-var extPath      = "./libraries/" + libraryName;
+var extPath = "./libraries/" + libraryName;
 var manifestFile = libraryName + ".xml";
-var wwwPath      = config.wwwDir + "/libraries/" + libraryName;
+var wwwPath = config.wwwDir + "/libraries/" + libraryName;
 var libraryFiles = [];
 
-// Clean
-gulp.task("clean:" + baseTask, ["clean:" + baseTask + ":library", "clean:" + baseTask + ":manifest"], function () {
-});
+
 
 // Clean: library
-gulp.task("clean:" + baseTask + ":library", function () {
-    return del(wwwPath, {force: true});
+gulp.task("clean:libraries.redshop:library", function () {
+    return del(wwwPath, { force: true });
 });
 
 // Clean: manifest
-gulp.task("clean:" + baseTask + ":manifest", function () {
-    return del(config.wwwDir + "/administrator/manifests/libraries/" + manifestFile, {force: true});
+gulp.task("clean:libraries.redshop:manifest", function () {
+    return del(config.wwwDir + "/administrator/manifests/libraries/" + manifestFile, { force: true });
 });
 
-// Copy
-gulp.task("copy:" + baseTask,
-    [
-        "copy:" + baseTask + ":library",
-        "copy:" + baseTask + ":manifest"
-    ],
-    function () {
-    }
-);
+// Clean
+gulp.task("clean:libraries.redshop",
+    gulp.series("clean:libraries.redshop:library", "clean:libraries.redshop:manifest"), function () {
+    });
+
 
 // Copy: manifest
-gulp.task("copy:" + baseTask + ":manifest", ["clean:" + baseTask + ":manifest"], function () {
-    return gulp.src(extPath + "/" + manifestFile)
-        .pipe(gulp.dest(config.wwwDir + "/administrator/manifests/libraries"));
-});
+gulp.task("copy:libraries.redshop:manifest",
+    gulp.series("clean:libraries.redshop:manifest")
+    , function () {
+        return gulp.src(extPath + "/" + manifestFile)
+            .pipe(gulp.dest(config.wwwDir + "/administrator/manifests/libraries"));
+    });
 
-gulp.task("copy:" + baseTask + ":vendor", function () {
+gulp.task("copy:libraries.redshop:vendor", function () {
     return gulp.src([
         extPath + "/vendor/**",
         "!" + extPath + "/vendor/**/docs",
@@ -74,9 +68,20 @@ gulp.task("copy:" + baseTask + ":vendor", function () {
         "!" + extPath + "/vendor/**/Vagrant*",
         "!" + extPath + "/vendor/**/.*.yml",
         "!" + extPath + "/vendor/**/.editorconfig"
-    ], {base: extPath})
+    ], { base: extPath })
         .pipe(gulp.dest(wwwPath));
 });
+
+
+// Copy
+gulp.task("copy:libraries.redshop",
+    gulp.series(
+        "copy:libraries.redshop:library",
+        "copy:libraries.redshop:manifest"
+    ),
+    function () {
+    }
+);
 
 /**
  * Retrieve folders + files from the library manifest (except vendor folder) ready to be used by gulp.src
@@ -85,18 +90,17 @@ gulp.task("copy:" + baseTask + ":vendor", function () {
  *
  * @return  {mixed}
  */
-function getLibraryFiles (callback) {
+function getLibraryFiles(callback) {
     // Already cached
     if (libraryFiles.length > 0) {
         return callback(libraryFiles);
     }
 
     fs.readFile(extPath + "/" + libraryName + ".xml", function (err, data) {
-        if (data !== undefined)
-        {
+        if (data !== undefined) {
             parser.parseString(data, function (err, result) {
                 var folders = result.extension.files.folder;
-                var files   = result.extension.files.filename;
+                var files = result.extension.files.filename;
 
                 for (var i = folders.length - 1; i >= 0; i--) {
                     if (folders[i] !== "vendor") {
@@ -115,25 +119,17 @@ function getLibraryFiles (callback) {
 }
 
 // Copy: library
-gulp.task("copy:" + baseTask + ":library", function (cb) {
+gulp.task("copy:libraries.redshop:library", function (cb) {
     getLibraryFiles(function (src) {
-        return gulp.src(src, {base: extPath})
+        return gulp.src(src, { base: extPath })
             .pipe(gulp.dest(wwwPath))
             .on("end", cb);
     });
 });
 
-// Watch
-gulp.task("watch:" + baseTask,
-    [
-        "watch:" + baseTask + ":library",
-        "watch:" + baseTask + ":manifest"
-    ],
-    function () {
-    });
 
 // Watch: library
-gulp.task("watch:" + baseTask + ":library", function () {
+gulp.task("watch:libraries.redshop:library", function () {
     gulp.watch(
         [
             extPath,
@@ -144,7 +140,7 @@ gulp.task("watch:" + baseTask + ":library", function () {
             "!" + extPath + "/" + manifestFile
         ],
         function (event) {
-            var folder     = "libraries/redshop";
+            var folder = "libraries/redshop";
             var deployFile = path.join(wwwPath, event.path.substring(event.path.indexOf("libraries") + folder.length, event.path.length));
 
             if (event.type == "changed") {
@@ -154,7 +150,7 @@ gulp.task("watch:" + baseTask + ":library", function () {
             }
             else if (event.type == "deleted") {
                 // Delete files
-                del(deployFile, {force: true});
+                del(deployFile, { force: true });
             }
 
             browserSync.reload();
@@ -162,18 +158,16 @@ gulp.task("watch:" + baseTask + ":library", function () {
     );
 });
 
+// Watch
+gulp.task("watch:libraries.redshop",
+    gulp.series(
+        "watch:libraries.redshop:library",
+        "watch:libraries.redshop:manifest"
+    ),
+    function () {
+    });
+
 // Watch: manifest
-gulp.task("watch:" + baseTask + ":manifest", function () {
-    gulp.watch(extPath + "/" + manifestFile, ["copy:" + baseTask + ":manifest", browserSync.reload]);
-});
-
-gulp.task('clean:libraries.redshop:composer.lock', function (cb) {
-    del(extPath + '/composer.lock', { force: true });
-    cb();
-})
-
-// Composer
-gulp.task("composer:" + baseTask, ['clean:libraries.redshop:composer.lock'], function (cb) {
-    executeComposer(extPath);
-    cb();
+gulp.task("watch:libraries.redshop:manifest", function () {
+    gulp.watch(extPath + "/" + manifestFile, gulp.series("copy:libraries.redshop:manifest", browserSync.reload));
 });

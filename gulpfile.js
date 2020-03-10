@@ -6,9 +6,6 @@ var fs = require("fs");
 var path = require("path");
 var glob = require('glob');
 global.config = require("./gulp-config.json");
-var gulpSrc = requireDir("./redGulp/tasks", { recurse: true });
-var jgulp = requireDir("./redGulp/extensions", { recurse: true });
-var gulpSrc = requireDir("./redGulp/src", { recurse: true });
 
 /**
  * Function for read list folder
@@ -119,3 +116,7 @@ gulp.task("composer", function () {
         }
     });
 });
+
+var gulpSrc = requireDir("./redGulp/tasks", { recurse: true });
+var jgulp = requireDir("./redGulp/extensions", { recurse: true });
+var gulpSrc = requireDir("./redGulp/src", { recurse: true });
