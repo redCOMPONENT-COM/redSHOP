@@ -57,9 +57,7 @@ class Render
 
 		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
-		$title = " title='" . $altText . "' ";
-		$alt   = " alt='" . $altText . "' ";
-
+		$title           = $altText;
 		$catProductHover = false;
 
 		if ($enableHover && \Redshop::getConfig()->getBool('PRODUCT_HOVER_IMAGE_ENABLE'))
@@ -101,51 +99,95 @@ class Render
 		if (!empty($preSelectedResult))
 		{
 			$productImageDefault = $preSelectedResult['product_mainimg'];
-			$title               = " title='" . $preSelectedResult['aTitleImageResponse'] . "' ";
+			$title               = $preSelectedResult['aTitleImageResponse'];
 			$linkImage           = $preSelectedResult['aHrefImageResponse'];
 		}
 
-		$commonId = !empty($suffixId) ? $productId . '_' . $suffixId : $productId;
+		$commonId  = !empty($suffixId) ? $productId . '_' . $suffixId : $productId;
+		$imgSource = $productImageDefault;
+		$imgClass  = '';
+		$divClass  = '';
+
+		if ($catProductHover)
+		{
+			$imgSource = $productHoverImg;
+			$imgClass  = 'redImagepreview';
+			$divClass  = 'redhoverImagebox';
+		}
 
 		if ($isLight !== 2 && $isLight !== 1)
 		{
-			$thumbImage = "<img id='main_image" . $commonId . "' src='" . $productImageDefault . "' " . $title . $alt . " />";
+			$thumbImage = \RedshopLayoutHelper::render(
+				'tags.common.img',
+				array(
+					'src' => $productImageDefault,
+					'alt' => $altText,
+					'attr' => 'id="main_image' . $commonId . '" title="' . $title . '"'
+				),
+				'',
+				\RedshopLayoutHelper::$layoutOption
+			);
 		}
 		else
 		{
 			if ($isLight === 1)
 			{
-				$thumbImage = "<a id='a_main_image" . $commonId . "' " . $title . " href='" . $linkImage . "' rel=\"myallimg\">";
+				$thumbImage = \RedshopLayoutHelper::render(
+					'tags.common.img_link',
+					array(
+						'link' => $linkImage,
+						'linkAttr' => 'id="a_main_image' . $commonId . '" rel="myallimg" title="' . $title . '"',
+						'src' => $imgSource,
+						'alt' => $altText,
+						'imgAttr' => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
+					),
+					'',
+					\RedshopLayoutHelper::$layoutOption
+				);
 			}
 			elseif (\Redshop::getConfig()->getInt('PRODUCT_IS_LIGHTBOX') === 1)
 			{
-				$thumbImage = "<a id='a_main_image" . $commonId . "' " . $title . " href='" . $linkImage
-					. "' class=\"modal\" rel=\"{handler: 'image', size: {}}\">";
+				$thumbImage = \RedshopLayoutHelper::render(
+					'tags.common.img_link',
+					array(
+						'class' => 'modal',
+						'link' => $linkImage,
+						'linkAttr' => 'id="a_main_image' . $commonId . '" rel="{handler: \'image\', size: {}}" title="' . $title . '"',
+						'src' => $imgSource,
+						'alt' => $altText,
+						'imgAttr' => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
+					),
+					'',
+					\RedshopLayoutHelper::$layoutOption
+				);
 			}
 			else
 			{
-				$thumbImage = "<a id='a_main_image" . $commonId . "' " . $title . " href='" . $link . "'>";
+				$thumbImage = \RedshopLayoutHelper::render(
+					'tags.common.img_link',
+					array(
+						'link' => $link,
+						'linkAttr' => 'id="a_main_image' . $commonId . '" title="' . $title . '"',
+						'src' => $imgSource,
+						'alt' => $altText,
+						'imgAttr' => 'id="main_image' . $commonId . '" class="' . $imgClass . '" title="' . $title . '"'
+					),
+					'',
+					\RedshopLayoutHelper::$layoutOption
+				);
 			}
-
-			$thumbImage .= "<img id='main_image" . $commonId . "' src='" . $productImageDefault . "' " . $title . $alt . " />";
-
-			if ($catProductHover)
-			{
-				$thumbImage .= "<img id='main_image" . $commonId . "' src='" . $productHoverImg . "' "
-					. $title . $alt . " class='redImagepreview' />";
-			}
-
-			$thumbImage .= '</a>';
 		}
 
-		if ($catProductHover)
-		{
-			$thumbImage = "<div class='redhoverImagebox'>" . $thumbImage . "</div>";
-		}
-		else
-		{
-			$thumbImage = '<div>' . $thumbImage . '</div>';
-		}
+		$thumbImage = \RedshopLayoutHelper::render(
+			'tags.common.tag',
+			array(
+				'tag' => 'div',
+				'class' => $divClass,
+				'text' => $thumbImage
+			),
+			'',
+			\RedshopLayoutHelper::$layoutOption
+		);
 
 		$dispatcher->trigger('onChangeMainProductImageAlternateText', array(&$product, &$altText));
 
