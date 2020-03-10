@@ -520,10 +520,6 @@ class RedshopModelCheckout extends RedshopModel
             RedshopHelperQuotation::updateQuotationWithOrder($cart['quotation_id'], $row->order_id);
         }
 
-        if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS')) {
-            RedshopHelperClickatell::clickatellSMS($orderId);
-        }
-
         $session->set('order_id', $orderId);
 
         // Write order log
@@ -1097,6 +1093,10 @@ class RedshopModelCheckout extends RedshopModel
             $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
             return false;
+        }
+
+        if ($row->order_status == Redshop::getConfig()->get('CLICKATELL_ORDER_STATUS')) {
+            \RedshopHelperClickatell::clickatellSMS($orderId);
         }
 
         if (isset($cart['extrafields_values'])) {

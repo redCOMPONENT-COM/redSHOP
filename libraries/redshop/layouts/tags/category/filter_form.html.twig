@@ -1,0 +1,13 @@
+<form name="filterby_form" action="" method="post" >
+    {{ lists['manufacturer'] }}
+
+    {% if lists['categories'] %}
+        {{ lists['categories'] }}
+    {% endif %}
+
+    <input type="hidden" name="texpricemin" id="manuf_texpricemin" value="{{ texPriceMin }}"/>
+    <input type="hidden" name="texpricemax" id="manuf_texpricemax" value="{{ texPriceMax }}"/>
+    <input type="hidden" name="order_by" id="order_by" value="{{ orderBySelect }}"/>
+    <input type="hidden" name="limitstart" value="0"/>
+    <input type="hidden" name="category_template" id="category_template" value="{{ categoryTemplateId }}"/>
+</form>
