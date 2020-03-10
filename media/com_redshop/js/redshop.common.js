@@ -1179,3 +1179,26 @@ function all_update(u) {
 	document.update_cart.task.value = 'update_all';
 	document.update_cart.submit();
 }
+
+function validateInfoQuotation() {
+	var frm = document.adminForm;
+
+	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+	if (frm.user_email.value == '') {
+		alert(Joomla.JText._('COM_REDSHOP_PROVIDE_EMAIL_ADDRESS'));
+		return false;
+	}
+
+	var email = frm.user_email.value;
+
+	if (reg.test(email) == false) {
+		alert(Joomla.JText._('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS'));
+		return false;
+	}
+
+	if (validateExtrafield(frm) == false) {
+		return false;
+	}
+	return true;
+}
