@@ -35,14 +35,28 @@ class RedshopModelRegistration extends RedshopModel
 
 	public function store(&$data)
 	{
-		$captcha = Redshop\Helper\Utility::checkCaptcha($data);
+        $plugin = \JPluginHelper::getPlugin('captcha','recaptcha');
+
+        $dataCaptcha = $data;
+
+        if ($plugin)
+        {
+            $params  = new \Joomla\Registry\Registry($plugin->params);
+
+            if ($params->get('version', '') === '2.0')
+            {
+                $dataCaptcha = null;
+            }
+        }
+
+		$captcha = \Redshop\Helper\Utility::checkCaptcha($dataCaptcha);
 
 		if (!$captcha)
 		{
 			return false;
 		}
 
-		$joomlauser = RedshopHelperJoomla::createJoomlaUser($data, 1);
+		$joomlauser = \RedshopHelperJoomla::createJoomlaUser($data, 1);
 
 		if (!$joomlauser)
 		{
@@ -50,7 +64,7 @@ class RedshopModelRegistration extends RedshopModel
 		}
 
 		$data['billisship'] = 1;
-		$reduser            = RedshopHelperUser::storeRedshopUser($data, $joomlauser->id);
+		$reduser            = \RedshopHelperUser::storeRedshopUser($data, $joomlauser->id);
 
 		return $reduser;
 	}

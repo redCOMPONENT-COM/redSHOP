@@ -32,7 +32,8 @@ class RedshopControllerStockroom_listing extends RedshopControllerAdmin
 			$model->storeStockroomQuantity($stockroom_type, $sid[$i], $pid[$i], $quantity[$i], $preorder_stock[$i], $ordered_preorder[$i]);
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
+        $msg = JText::_('COM_REDSHOP_INVENTORY_SAVE_SUCCESSFULLY');
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type, $msg);
 	}
 
 	public function ResetPreorderStock()
