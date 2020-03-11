@@ -43,7 +43,8 @@ pipeline:
             # - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
             - pwd
             - node -v
-            - npm install -g 13.2
+            - gulp -v
+            - nvm install 13.2
             - npm install --save-dev
             - npm rebuild node-sass
             - node -v
