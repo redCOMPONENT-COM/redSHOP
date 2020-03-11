@@ -495,13 +495,16 @@ class RedshopModelSearch extends RedshopModel
 		{
 			$cat = RedshopHelperCategory::getCategoryListArray(0, $category_id);
 
-			for ($j = 0, $countCat = count($cat); $j < $countCat; $j++)
+			if (isset($cat))
 			{
-				$cat_group[$j] = $cat[$j]->category_id;
-
-				if ($j == count($cat) - 1)
+				for ($j = 0, $countCat = count($cat); $j < $countCat; $j++)
 				{
-					$cat_group[$j + 1] = $category_id;
+					$cat_group[$j] = $cat[$j]->category_id;
+
+					if ($j == count($cat) - 1)
+					{
+						$cat_group[$j + 1] = $category_id;
+					}
 				}
 			}
 
