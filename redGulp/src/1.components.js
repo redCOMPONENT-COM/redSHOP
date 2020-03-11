@@ -4,9 +4,9 @@ var config = require('../../gulp-config');
 
 // Do we have a specifc extensions file?
 try {
-    var extensions = require('../../../gulp-extensions.json');
-} catch(err) {
-    var extensions = config.extensions;
+	var extensions = require('../../gulp-extensions.json');
+} catch (err) {
+	var extensions = config.extensions;
 }
 
 /**
@@ -21,7 +21,7 @@ function getComponents() {
 		var sourceArray = extensions.components;
 
 		for (index = 0; index < sourceArray.length; ++index) {
-		    results.push(sourceArray[index]);
+			results.push(sourceArray[index]);
 		}
 	}
 
@@ -40,7 +40,7 @@ function getComponentsTasks(baseTask) {
 	var tasks = [];
 
 	for (index = 0; index < components.length; ++index) {
-	    tasks.push(baseTask + '.' + components[index]);
+		tasks.push(baseTask + '.' + components[index]);
 	}
 
 	if (tasks.length > 0) {
@@ -51,23 +51,23 @@ function getComponentsTasks(baseTask) {
 // Clean
 gulp.task('clean:components',
 	getComponentsTasks('clean:components'),
-	function() {
+	function () {
 		return true
-});
+	});
 
 // Copy
 gulp.task('copy:components',
 	getComponentsTasks('copy:components'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 // Watch
 gulp.task('watch:components',
 	getComponentsTasks('watch:components'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 exports.getComponents = getComponents;
 exports.getComponentsTasks = getComponentsTasks;

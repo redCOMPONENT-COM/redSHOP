@@ -3,9 +3,9 @@ var config = require('../../gulp-config');
 
 // Do we have a specifc extensions file?
 try {
-    var extensions = require('../../../gulp-extensions.json');
-} catch(err) {
-    var extensions = config.extensions;
+	var extensions = require('../../gulp-extensions.json');
+} catch (err) {
+	var extensions = config.extensions;
 }
 
 /**
@@ -20,7 +20,7 @@ function getPackages() {
 		var sourceArray = extensions.packages;
 
 		for (index = 0; index < sourceArray.length; ++index) {
-		    results.push(sourceArray[index]);
+			results.push(sourceArray[index]);
 		}
 	}
 
@@ -39,32 +39,35 @@ function getPackagesTasks(baseTask) {
 	var tasks = [];
 
 	for (index = 0; index < packages.length; ++index) {
-	    tasks.push(baseTask + '.' + packages[index]);
+		tasks.push(baseTask + '.' + packages[index]);
 	}
 
-	return tasks;
+	if (tasks.length > 0) {
+		console.log('[DEBUG] :==========>' + baseTask + '.' + app);
+		return gulp.series.apply(gulp, tasks);
+	}
 }
 
 // Clean
 gulp.task('clean:packages',
 	getPackagesTasks('clean:packages'),
-	function() {
+	function () {
 		return true
-});
+	});
 
 // Copy
 gulp.task('copy:packages',
 	getPackagesTasks('copy:packages'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 // Watch
 gulp.task('watch:packages',
 	getPackagesTasks('watch:packages'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 exports.getPackages = getPackages;
 exports.getPackagesTasks = getPackagesTasks;

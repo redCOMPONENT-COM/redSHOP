@@ -4,9 +4,9 @@ var config = require('../../gulp-config');
 
 // Do we have a specifc extensions file?
 try {
-    var extensions = require('../../../gulp-extensions.json');
-} catch(err) {
-    var extensions = config.extensions;
+	var extensions = require('../../gulp-extensions.json');
+} catch (err) {
+	var extensions = config.extensions;
 }
 
 /**
@@ -21,7 +21,7 @@ function getLibraries() {
 		var sourceArray = extensions.libraries;
 
 		for (index = 0; index < sourceArray.length; ++index) {
-		    results.push(sourceArray[index]);
+			results.push(sourceArray[index]);
 		}
 	}
 
@@ -40,7 +40,7 @@ function getLibrariesTasks(baseTask) {
 	var tasks = [];
 
 	for (index = 0; index < libraries.length; ++index) {
-	    tasks.push(baseTask + '.' + libraries[index]);
+		tasks.push(baseTask + '.' + libraries[index]);
 	}
 
 	if (tasks.length > 0) {
@@ -51,23 +51,23 @@ function getLibrariesTasks(baseTask) {
 // Clean
 gulp.task('clean:libraries',
 	getLibrariesTasks('clean:libraries'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 // Copy
 gulp.task('copy:libraries',
 	getLibrariesTasks('copy:libraries'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 // Watch
 gulp.task('watch:libraries',
 	getLibrariesTasks('watch:libraries'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 exports.getLibraries = getLibraries;
 exports.getLibrariesTasks = getLibrariesTasks;

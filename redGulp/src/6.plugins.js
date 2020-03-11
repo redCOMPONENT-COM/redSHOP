@@ -3,9 +3,9 @@ var config = require('../../gulp-config');
 
 // Do we have a specifc extensions file?
 try {
-    var extensions = require('../../../gulp-extensions.json');
-} catch(err) {
-    var extensions = config.extensions;
+	var extensions = require('../../gulp-extensions.json');
+} catch (err) {
+	var extensions = config.extensions;
 }
 
 /**
@@ -13,17 +13,16 @@ try {
  *
  * @return  array
  */
-function getPlugins()
-{
+function getPlugins() {
 	var results = []
 
 	if (extensions && extensions.hasOwnProperty('plugins')) {
 
-		for(var type in extensions.plugins) {
+		for (var type in extensions.plugins) {
 			var sourceArray = extensions.plugins[type];
 
 			for (index = 0; index < sourceArray.length; ++index) {
-			    results.push(type + '.' + sourceArray[index]);
+				results.push(type + '.' + sourceArray[index]);
 			}
 		}
 	}
@@ -49,29 +48,32 @@ function getPluginsTasks(baseTask) {
 		}
 	}
 
-	return tasks;
+	if (tasks.length > 0) {
+		console.log('[DEBUG] :==========>' + baseTask + '.' + app);
+		return gulp.series.apply(gulp, tasks);
+	}
 }
 
 // Clean
 gulp.task('clean:plugins',
 	getPluginsTasks('clean:plugins'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 // Copy
 gulp.task('copy:plugins',
 	getPluginsTasks('copy:plugins'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 // Watch
 gulp.task('watch:plugins',
 	getPluginsTasks('watch:plugins'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 exports.getPlugins = getPlugins;
 exports.getPluginsTasks = getPluginsTasks;
