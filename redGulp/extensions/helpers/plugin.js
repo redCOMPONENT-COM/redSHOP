@@ -67,22 +67,22 @@ function releasePlugin(group, name) {
         });
 
     // Watch: plugin
-    gulp.task('watch:' + baseTask + ':plugin', function () {
+    gulp.task('watch:' + baseTask + ':plugin', function (cb) {
         gulp.watch([
             extPath + '/**/*',
             '!' + extPath + '/language',
             '!' + extPath + '/language/**'
         ],
-            ['copy:' + baseTask, browserSync.reload]
-        );
+            gulp.series('copy:' + baseTask, browserSync.reload)
+        ).on('end', cb);
     });
 
     // Watch: Language
-    gulp.task('watch:' + baseTask + ':language', function () {
+    gulp.task('watch:' + baseTask + ':language', function (cb) {
         gulp.watch([
             extPath + '/language/**'
         ],
-            ['copy:' + baseTask + ':language', browserSync.reload]);
+            gulp.series('copy:' + baseTask + ':language', browserSync.reload)).on('end', cb);
     });
 
     // Watch

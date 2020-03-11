@@ -1,6 +1,6 @@
 {
   "name": "redSHOP",
-  "version": "3.0",
+  "version": "2.0.6",
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
   "dependencies": {

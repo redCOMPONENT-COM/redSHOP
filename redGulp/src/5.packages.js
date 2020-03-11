@@ -43,7 +43,6 @@ function getPackagesTasks(baseTask) {
 	}
 
 	if (tasks.length > 0) {
-		console.log('[DEBUG] :==========>' + baseTask + '.' + app);
 		return gulp.series.apply(gulp, tasks);
 	}
 }

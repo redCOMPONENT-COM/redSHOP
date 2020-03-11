@@ -106,8 +106,9 @@ gulp.task('copy:components.redshop:frontend:lang', gulp.series('clean:components
 });
 
 // Watch: Front-end language
-gulp.task('watch:components.redshop:frontend:lang', function () {
-    gulp.watch(extPath + '/component/site/language/**', ['copy:components.redshop:frontend:lang']);
+gulp.task('watch:components.redshop:frontend:lang', function (cb) {
+    gulp.watch(extPath + '/component/site/language/**',
+        gulp.series('copy:components.redshop:frontend:lang')).on('end', cb);
 });
 
 

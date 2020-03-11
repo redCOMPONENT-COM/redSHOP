@@ -50,7 +50,6 @@ function getModulesTasks(baseTask, app) {
 	}
 
 	if (tasks.length > 0) {
-		console.log('[DEBUG] :==========>' + baseTask + '.' + app);
 		return gulp.series.apply(gulp, tasks);
 	}
 }

@@ -49,7 +49,6 @@ function getPluginsTasks(baseTask) {
 	}
 
 	if (tasks.length > 0) {
-		console.log('[DEBUG] :==========>' + baseTask);
 		return gulp.series.apply(gulp, tasks);
 	}
 }
