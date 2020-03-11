@@ -105,7 +105,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public $infoImgTag;
+	public $infoTagImg;
 
 	/**
 	 * Init
@@ -142,7 +142,6 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 		$dispatcher    = \RedshopHelperUtility::getDispatcher();
 		$isViewProduct = !empty($this->data['isViewProduct']) ? true : false;
 		$print         = $this->input->getBool('print', false);
-		$optionLayout  = RedshopLayoutHelper::$layoutOption;
 		$url           = JURI::base();
 		$uri           = JURI::getInstance();
 		$Scheme        = $uri->getScheme();
@@ -158,9 +157,9 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 			$this->template = RedshopLayoutHelper::render(
 					'tags.product.heading',
 					[
-						'db'             => $this->db,
-						'data'           => $this->product,
-						'pageHeadingTag' => $this->data['pageHeadingTag']
+						'pageheading'    => $this->db->escape($this->product->pageheading),
+						'params'         => $this->data['params'],
+						'pageHeadingTag' => $this->db->escape($this->data['pageHeadingTag'])
 					],
 					'',
 					$this->optionLayout
@@ -503,7 +502,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 		$supplierName = '';
 
 		if ($this->product->supplier_id) {
-			$supplierName = $this->model->getNameSupplierById($this->product->supplier_id);
+			$supplierName = RedshopEntitySupplier::getInstance($this->product->supplier_id)->getItem()->name;
 		}
 
 		$this->addReplace('{supplier_name}', $supplierName);
@@ -596,6 +595,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 						) == "product_number") ? "product_number" : "product_name";
 
 					$selected = array($this->product->product_id);
+					$lists    = [];
 
 					$lists['product_child_id'] = JHtml::_(
 						'select.genericlist',
@@ -665,14 +665,14 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
 		$attributeTemplate = \Redshop\Template\Helper::getAttribute($this->template);
 
-// Check product for not for sale
+		// Check product for not for sale
 		$this->template = RedshopHelperProduct::getProductNotForSaleComment(
 			$this->product,
 			$this->template,
 			$attributes
 		);
 
-// Replace product in stock tags
+		// Replace product in stock tags
 		$this->template = Redshop\Product\Stock::replaceInStock(
 			$this->product->product_id,
 			$this->template,
@@ -680,7 +680,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 			$attributeTemplate
 		);
 
-// Product attribute  Start
+		// Product attribute  Start
 		$totalAtt = count($attributes);
 
 		$this->template = RedshopTagsReplacer::_(
@@ -731,14 +731,17 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 							$selectedPropertyId
 						);
 						$selectedId         = array();
+						$countSubProperty = count($subProperty);
+						if ($countSubProperty > 0)
+						{
+							for ($sp = 0; $sp < $countSubProperty; $sp++) {
+								if ($subProperty[$sp]->setdefault_selected) {
+									$selectedId[]    = $subProperty[$sp]->subattribute_color_id;
+									$subPropertyData .= $subProperty[$sp]->subattribute_color_id;
 
-						for ($sp = 0; $sp < count($subProperty); $sp++) {
-							if ($subProperty[$sp]->setdefault_selected) {
-								$selectedId[]    = $subProperty[$sp]->subattribute_color_id;
-								$subPropertyData .= $subProperty[$sp]->subattribute_color_id;
-
-								if ($sp != (count($subProperty) - 1)) {
-									$subPropertyData .= '##';
+									if ($sp != (count($subProperty) - 1)) {
+										$subPropertyData .= '##';
+									}
 								}
 							}
 						}
@@ -751,6 +754,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 				}
 			}
 
+			$get = [];
 			$get['product_id']       = $this->product->product_id;
 			$get['main_imgwidth']    = $this->infoTagImg['width'];
 			$get['main_imgheight']   = $this->infoTagImg['height'];
@@ -792,12 +796,6 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 			}
 
 			$moreImageResponse   = $preSelectedResult['response'];
-			$aHrefImageResponse  = $preSelectedResult['aHrefImageResponse'];
-			$aTitleImageResponse = $preSelectedResult['aTitleImageResponse'];
-
-			$mainImageResponse = $preSelectedResult['product_mainimg'];
-
-			$attributeImg = $preSelectedResult['attrbimg'];
 
 			if (!is_null($preSelectedResult['pr_number']) && !empty($preSelectedResult['pr_number'])) {
 				$prNumber = $preSelectedResult['pr_number'];
@@ -1115,7 +1113,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
 		$myTags = '';
 
-		if (Redshop::getConfig()->get('MY_TAGS') != 0 && $user->id && $this->isTagExists("{my_tags_button}")) {
+		if (Redshop::getConfig()->getInt('MY_TAGS') !== 0 && $user->id && $this->isTagExists("{my_tags_button}")) {
 			// Product Tags - New Feature Like Magento Store
 			$myTags = RedshopLayoutHelper::render(
 				'tags.product.my_tags_button',
@@ -1485,7 +1483,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 * @param object $mediaImage
 	 * @param array  $infoMoreImg
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -1493,6 +1491,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	{
 		$filename1  = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $mediaImage->media_name;
 		$moreImages = '';
+
 		if ($mediaImage->media_name != $mediaImage->product_full_image && file_exists(
 				$filename1
 			) && !empty($mediaImage->media_name)) {
@@ -1517,8 +1516,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 					$infoMoreImg['height'],
 					Redshop::getConfig()->get(
 						'WATERMARK_PRODUCT_ADDITIONAL_IMAGE'
-					),
-					"1"
+					)
 				);
 				$linkImage = RedshopHelperMedia::watermark(
 					'product',
@@ -1527,8 +1525,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 					'',
 					Redshop::getConfig()->get(
 						'WATERMARK_PRODUCT_ADDITIONAL_IMAGE'
-					),
-					"0"
+					)
 				);
 
 				$hoverimgPath = RedshopHelperMedia::watermark(
@@ -1641,24 +1638,6 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 					);
 				}
 
-				$hoverMoreOrg = RedshopHelperMedia::getImagePath(
-					$thumbOriginal,
-					'',
-					'thumb',
-					'product',
-					$this->infoTagImg['width'],
-					$this->infoTagImg['height'],
-					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-				);
-				$oImgPath     = RedshopHelperMedia::getImagePath(
-					$thumb,
-					'',
-					'thumb',
-					'product',
-					$infoMoreImg['width'],
-					$infoMoreImg['height'],
-					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-				);
 				$moreImages   .= RedshopLayoutHelper::render(
 					'tags.product.more_image.without_lightbox',
 					[
@@ -1692,12 +1671,12 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	private function replaceUserField($userFieldArr, &$countNoUserField)
 	{
 		$cart = \Redshop\Cart\Helper::getCart();
+		$idx    = 0;
 
 		if (isset($cart['idx'])) {
 			$idx = (int)($cart['idx']);
 		}
 
-		$idx    = 0;
 		$cartId = '';
 
 		for ($j = 0; $j < $idx; $j++) {
@@ -1706,29 +1685,33 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 			}
 		}
 
-		for ($ui = 0; $ui < count($userFieldArr); $ui++) {
-			if (!$idx) {
-				$cartId = "";
+		$countUserFieldArr = count($userFieldArr);
+
+		if ($countUserFieldArr > 0)
+		{
+			for ($ui = 0; $ui < $countUserFieldArr; $ui++) {
+				if (!$idx) {
+					$cartId = "";
+				}
+
+				$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields(
+					$userFieldArr[$ui],
+					12,
+					'',
+					$cartId,
+					0,
+					$this->product->product_id
+				);
+
+				if ($productUserFields[1] != "") {
+					$countNoUserField++;
+				}
+
+				$this->replacements['{' . $userFieldArr[$ui] . '_lbl}'] = $productUserFields[0];
+				$this->replacements['{' . $userFieldArr[$ui] . '}']     = $productUserFields[1];
 			}
-
-			$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields(
-				$userFieldArr[$ui],
-				12,
-				'',
-				$cartId,
-				0,
-				$this->product->product_id
-			);
-
-			if ($productUserFields[1] != "") {
-				$countNoUserField++;
-			}
-
-			$this->replacements['{' . $userFieldArr[$ui] . '_lbl}'] = $productUserFields[0];
-			$this->replacements['{' . $userFieldArr[$ui] . '}']     = $productUserFields[1];
 		}
 
-		$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 		$subTemplate           = $this->getTemplateBetweenLoop('{if product_userfield}', '{product_userfield end if}');
 		$productUserFieldsForm = RedshopLayoutHelper::render(
 			'tags.common.form',

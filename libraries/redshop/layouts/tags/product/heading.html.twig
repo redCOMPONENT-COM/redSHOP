@@ -1,9 +1,9 @@
 <div class="product">
     <div class="componentheading{{ params.get('pageclass_sfx') }}">
-        {% if data.pageheading %}
-            {{ db.escape(data.pageheading) }}
+        {% if pageheading %}
+            {{ pageheading }}
         {% else %}
-            {{ db.escape(pageHeadingTag) }}
+            {{ pageHeadingTag }}
         {% endif %}
     </div>
 </div>
