@@ -103,7 +103,7 @@ global.executeComposer = function executeComposer(composerPath) {
     composer({ cwd: composerPath, bin: 'php ./composer.phar' });
 }
 
-gulp.task("composer", function () {
+gulp.task("composer", function (cb) {
     glob("**/composer.json", [], function (er, files) {
         for (var i = 0; i < files.length; i++) {
             var composerPath = path.dirname(files[i]);
@@ -111,7 +111,7 @@ gulp.task("composer", function () {
             // Make sure this is not composer.json inside vendor library
             if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
                 gutil.log("Composer found: ", gutil.colors.blue(composerPath));
-                composer({ cwd: composerPath, bin: 'php ./composer.phar' });
+                composer({ cwd: composerPath, bin: 'php ./composer.phar' }).on('end', cb);
             }
         }
     });
