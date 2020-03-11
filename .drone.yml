@@ -40,7 +40,13 @@ pipeline:
             # - composer install --prefer-dist -d plugins/redshop_pdf/tcpdf/helper              # Uncomment if not using composer cache for redshopb_pdf plugin
 
             # npm setup
-            - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
+            # - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
+            - npm install -g n
+            - sudo n 13.2
+            - npm install --save-dev
+            - npm rebuild node-sass
+            - node -v
+            - gulp -v
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
             - composer config -g repo.packagist composer https?://packagist.jp
