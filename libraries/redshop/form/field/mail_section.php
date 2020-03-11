@@ -39,6 +39,11 @@ class RedshopFormFieldMail_Section extends JFormFieldList
 		{
 			$option = new stdClass;
 
+			if (!$text->value)
+			{
+				$text->value = '';
+			}
+
 			$option->text     = $text;
 			$option->value    = $value;
 			$option->disable  = false;
