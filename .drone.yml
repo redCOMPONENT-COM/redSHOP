@@ -44,8 +44,9 @@ pipeline:
             - pwd
             - node -v
             - gulp -v
-            - sudo npm install -g n
-            - sudo n 13.2
+            - npm install npm@latest -g
+            - npm install -g n
+            - n 13.2
             - npm install --save-dev
             - npm rebuild node-sass
             - node -v
