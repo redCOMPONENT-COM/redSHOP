@@ -48,26 +48,32 @@ function getComponentsTasks(baseTask) {
 	}
 }
 
-// Clean
-gulp.task('clean:components',
-	getComponentsTasks('clean:components'),
-	function () {
-		return true
-	});
+var components = getComponents();
 
-// Copy
-gulp.task('copy:components',
-	getComponentsTasks('copy:components'),
-	function () {
-		return true;
-	});
+if (components.length > 0) {
 
-// Watch
-gulp.task('watch:components',
-	getComponentsTasks('watch:components'),
-	function () {
-		return true;
-	});
+
+	// Clean
+	gulp.task('clean:components',
+		getComponentsTasks('clean:components'),
+		function () {
+			return true
+		});
+
+	// Copy
+	gulp.task('copy:components',
+		getComponentsTasks('copy:components'),
+		function () {
+			return true;
+		});
+
+	// Watch
+	gulp.task('watch:components',
+		getComponentsTasks('watch:components'),
+		function () {
+			return true;
+		});
+}
 
 exports.getComponents = getComponents;
 exports.getComponentsTasks = getComponentsTasks;

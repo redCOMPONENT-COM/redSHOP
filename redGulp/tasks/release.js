@@ -1,9 +1,9 @@
-const gulp   = require("gulp");
-const zip    = require("gulp-zip");
-const path   = require("path");
-const fs     = require("fs");
+const gulp = require("gulp");
+const zip = require("gulp-zip");
+const path = require("path");
+const fs = require("fs");
 const xml2js = require("xml2js");
-const merge  = require("merge-stream");
+const merge = require("merge-stream");
 
 var parser = new xml2js.Parser();
 
@@ -111,20 +111,20 @@ gulp.task("release:md5:generate", function () {
         "./plugins/twig/juser/**",
         "./plugins/twig/unseriallize/**",
         "./plugins/twig/redshop/**",
-    ], {base: "./"}).pipe(hashsum({dest: "./", filename: "checksum.md5", hash: "md5"}));
+    ], { base: "./" }).pipe(hashsum({ dest: "./", filename: "checksum.md5", hash: "md5" }));
 });
 
 gulp.task("release:md5:json", ["release:md5:generate"], function (cb) {
     var fileContent = fs.readFileSync(path.join("./checksum.md5"), "utf8");
-    var temp        = fileContent.split("\n");
-    var result      = [];
+    var temp = fileContent.split("\n");
+    var result = [];
     var t1;
 
     for (var i = 0; i < temp.length; i++) {
         t1 = temp[i].split(" ");
 
         if (t1[0].trim().length) {
-            var item = {"md5": t1[0], "path": t1[2]};
+            var item = { "md5": t1[0], "path": t1[2] };
             result.push(item);
         }
     }
@@ -139,22 +139,22 @@ gulp.task("release:md5:json", ["release:md5:generate"], function (cb) {
 });
 
 gulp.task("release:md5",
-    [
+    gulp.series(
         "release:md5:generate",
         "release:md5:json",
         "release:md5:clean"
-    ]
+    )
 );
 
 gulp.task("release:md5:clean", ["release:md5:json"], function () {
-    return gulp.src("./checksum.md5").pipe(clean({force: true}));
+    return gulp.src("./checksum.md5").pipe(clean({ force: true }));
 });
 
 // Temporary remove release:md5 since it not ready for use yet.
 // // gulp.task("release:redshop", ["composer:libraries", "release:md5"], function (cb) {
 
 gulp.task("release:languages", function () {
-    const langPath   = "./src/lang";
+    const langPath = "./src/lang";
     const releaseDir = path.join(config.releaseDir, "language");
 
     const folders = fs.readdirSync(langPath).map(function (file) {
@@ -165,36 +165,36 @@ gulp.task("release:languages", function () {
 
     // We need to combine streams so we can know when this task is actually done
     return merge(folders.map(function (directory) {
-            const data = fs.readFileSync(path.join(directory, "install.xml"));
+        const data = fs.readFileSync(path.join(directory, "install.xml"));
 
-            // xml2js parseString is sync, but must be called using callbacks... hence this awkwards vars
-            // see https://github.com/Leonidas-from-XIV/node-xml2js/issues/159
-            var task;
-            var error;
+        // xml2js parseString is sync, but must be called using callbacks... hence this awkwards vars
+        // see https://github.com/Leonidas-from-XIV/node-xml2js/issues/159
+        var task;
+        var error;
 
-            parser.parseString(data, function (err, result) {
-                if (err) {
-                    error = err;
+        parser.parseString(data, function (err, result) {
+            if (err) {
+                error = err;
 
-                    return;
-                }
-
-                const lang     = path.basename(directory);
-                const version  = result.extension.version[0];
-                const fileName = config.skipVersion ? result.extension.name + ".zip" : result.extension.name + "-v" + version + ".zip";
-
-                task = gulp.src([directory + "/**"]).pipe(zip(fileName)).pipe(gulp.dest(releaseDir));
-            });
-
-            if (error) {
-                throw error;
+                return;
             }
 
-            if (!error && !task) {
-                throw new Error("xml2js callback became suddenly async or something.");
-            }
+            const lang = path.basename(directory);
+            const version = result.extension.version[0];
+            const fileName = config.skipVersion ? result.extension.name + ".zip" : result.extension.name + "-v" + version + ".zip";
 
-            return task;
-        })
+            task = gulp.src([directory + "/**"]).pipe(zip(fileName)).pipe(gulp.dest(releaseDir));
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        if (!error && !task) {
+            throw new Error("xml2js callback became suddenly async or something.");
+        }
+
+        return task;
+    })
     );
 });

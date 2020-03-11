@@ -1,13 +1,13 @@
-var gulp       = require("gulp");
-var path       = require("path");
-var gutil      = require('gulp-util');
-var zip        = require("gulp-zip");
-var fs         = require("fs");
+var gulp = require("gulp");
+var path = require("path");
+var gutil = require('gulp-util');
+var zip = require("gulp-zip");
+var fs = require("fs");
 // Get console args
-var argv       = require("yargs").argv;
+var argv = require("yargs").argv;
 // XML parser
-var xml2js     = require("xml2js");
-var parser     = new xml2js.Parser();
+var xml2js = require("xml2js");
+var parser = new xml2js.Parser();
 
 /**
  * Function for release module
@@ -21,9 +21,8 @@ function moduleRelease(group, name) {
     var destDir = config.releaseDir + '/modules/' + group;
 
     if (!argv.skipVersion) {
-        fs.readFile('./modules/' + group + '/' + name + '/' + name + '.xml', function(err, data) {
-            if (data === undefined)
-            {
+        fs.readFile('./modules/' + group + '/' + name + '/' + name + '.xml', function (err, data) {
+            if (data === undefined) {
                 return false;
             }
 
@@ -35,15 +34,13 @@ function moduleRelease(group, name) {
                 var count = 35 - name.length;
                 var nameFormat = name;
 
-                for (var i = 0; i < count; i++)
-                {
+                for (var i = 0; i < count; i++) {
                     nameFormat += ' ';
                 }
 
                 count = 8 - version.length;
 
-                for (i = 0; i < count; i++)
-                {
+                for (i = 0; i < count; i++) {
                     version += ' ';
                 }
 
@@ -60,11 +57,11 @@ function moduleRelease(group, name) {
 }
 
 // Release: Modules
-gulp.task('release:module', function(cb) {
-    var basePath  = config.basePaths.modules;
+gulp.task('release:module', function (cb) {
+    var basePath = config.basePaths.modules;
     var modSource = argv.group ? argv.group : false;
-    var modName   = argv.name ? argv.name : false;
-    var modules   = [];
+    var modName = argv.name ? argv.name : false;
+    var modules = [];
 
     // No group specific, release all of them.
     if (!modSource) {
@@ -93,8 +90,7 @@ gulp.task('release:module', function(cb) {
             moduleRelease(modSource, modules[i]);
         }
     }
-    else
-    {
+    else {
         try {
             fs.statSync('./modules/' + modSource + '/' + modName);
         }
@@ -105,4 +101,6 @@ gulp.task('release:module', function(cb) {
 
         moduleRelease(modSource, modName);
     }
+
+    cb();
 });

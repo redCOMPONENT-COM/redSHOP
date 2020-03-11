@@ -3,6 +3,11 @@ var path = require("path");
 var gutil = require('gulp-util');
 var zip = require("gulp-zip");
 var fs = require("fs");
+var del = require('del');
+var sass = require('gulp-sass');
+var rename = require('gulp-rename');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 // Get console args
 var argv = require("yargs").argv;
 // XML parser
@@ -10,6 +15,15 @@ var xml2js = require("xml2js");
 var parser = new xml2js.Parser();
 require('./../../extensions/components/redshop');
 require('./../../extensions/components/redshop.assets');
+
+
+/// Define component tasks
+var componentName = 'com_redshop';
+
+/// Define paths of source and destination
+var extPath = '.';
+var mediaPath = extPath + '/media/' + componentName;
+var assetsPath = extPath + '/src/assets/' + componentName;
 
 function getIncludedExtensions() {
     var included = [];
@@ -190,4 +204,6 @@ gulp.task("release:redshop",
                     .on("end", cb);
             });
         });
+
+        cb();
     });

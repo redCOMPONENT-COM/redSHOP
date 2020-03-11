@@ -1,13 +1,13 @@
-var gulp       = require("gulp");
-var path       = require("path");
-var gutil      = require('gulp-util');
-var zip        = require("gulp-zip");
-var fs         = require("fs");
+var gulp = require("gulp");
+var path = require("path");
+var gutil = require('gulp-util');
+var zip = require("gulp-zip");
+var fs = require("fs");
 // Get console args
-var argv       = require("yargs").argv;
+var argv = require("yargs").argv;
 // XML parser
-var xml2js     = require("xml2js");
-var parser     = new xml2js.Parser();
+var xml2js = require("xml2js");
+var parser = new xml2js.Parser();
 
 /**
  * Function for release plugin
@@ -22,8 +22,7 @@ function pluginRelease(group, name) {
 
     if (!argv.skipVersion) {
         fs.readFile('./plugins/' + group + '/' + name + '/' + name + '.xml', function (err, data) {
-            if (data === undefined)
-            {
+            if (data === undefined) {
                 return false;
             }
 
@@ -110,4 +109,6 @@ gulp.task('release:plugin', function (cb) {
 
         pluginRelease(plgGroup, plgName);
     }
+
+    cb();
 });
