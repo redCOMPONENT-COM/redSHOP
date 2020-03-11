@@ -149,42 +149,12 @@ class RedshopModelProduct extends RedshopModel
 	 * @param   int $category_id current product category id
 	 * @param   int $dirn        to indicate next or previous product
 	 *
+     * @deprecated use Redshop\Product\Product::getPrevNextproduct
 	 * @return mixed
 	 */
 	public function getPrevNextproduct($productId, $category_id, $dirn)
 	{
-		$query = "SELECT ordering FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int) $productId . " AND category_id = " . (int) $category_id . " LIMIT 0,1";
-
-		$where = ' AND p.published="1" AND category_id = ' . (int) $category_id;
-
-		$sql = "SELECT pcx.product_id, p.product_name , ordering FROM " . $this->_table_prefix . "product_category_xref ";
-
-		$sql .= " as pcx LEFT JOIN " . $this->_table_prefix . "product as p ON p.product_id = pcx.product_id ";
-
-		if ($dirn < 0)
-		{
-			$sql .= ' WHERE ordering < (' . $query . ')';
-			$sql .= $where;
-			$sql .= ' ORDER BY ordering DESC';
-		}
-		elseif ($dirn > 0)
-		{
-			$sql .= ' WHERE ordering > (' . $query . ')';
-			$sql .= $where;
-			$sql .= ' ORDER BY ordering';
-		}
-		else
-		{
-			$sql .= ' WHERE ordering = (' . $query . ')';
-			$sql .= $where;
-			$sql .= ' ORDER BY ordering';
-		}
-
-		$this->_db->setQuery($sql, 0, 1);
-		$row = null;
-		$row = $this->_db->loadObject();
-
-		return $row;
+	    return Redshop\Product\Product::getPrevNextproduct($productId, $category_id, $dirn);
 	}
 
 	public function checkReview($email)

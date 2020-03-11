@@ -608,4 +608,42 @@ class Product
 
 		return static::$allProducts;
 	}
+
+	/**
+	 * get next or previous product using ordering.
+	 *
+	 * @param   int $productId  current product id
+	 * @param   int $category_id current product category id
+	 * @param   int $dirn        to indicate next or previous product
+	 *
+	 * @return mixed
+	 */
+	public static function getPrevNextproduct($productId, $category_id, $dirn)
+	{
+		$db       = \JFactory::getDbo();
+		$subQuery = "SELECT ordering FROM #__redshop_product_category_xref WHERE product_id = " . (int)$productId . " AND category_id = " . (int)$category_id . " LIMIT 0,1";
+		$query    = $db->getQuery(true)
+			->select('pcx.product_id, p.product_name , ordering')
+			->from($db->qn('#__redshop_product_category_xref', 'pcx'))
+			->leftJoin($db->qn('#__redshop_product', 'p') . 'ON p.product_id = pcx.product_id');
+
+		if ($dirn < 0) {
+			$query->where($db->qn('ordering') . ' < (' . $subQuery . ')')
+				->where($db->qn('p.published') . ' = 1')
+				->where($db->qn('category_id') . ' = ' . (int)$category_id)
+				->order($db->qn('ordering') . 'DESC');
+		} elseif ($dirn > 0) {
+			$query->where($db->qn('ordering') . ' > (' . $subQuery . ')')
+				->where($db->qn('p.published') . ' = 1')
+				->where($db->qn('category_id') . ' = ' . (int)$category_id)
+				->order($db->qn('ordering'));
+		} else {
+			$query->where($db->qn('ordering') . ' = (' . $subQuery . ')')
+				->where($db->qn('p.published') . ' = 1')
+				->where($db->qn('category_id') . ' = ' . (int)$category_id)
+				->order($db->qn('ordering'));
+		}
+
+		return $db->setQuery($query, 0, 1)->loadObject();
+	}
 }
