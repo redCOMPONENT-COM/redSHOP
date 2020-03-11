@@ -117,6 +117,6 @@ gulp.task("composer", function () {
     });
 });
 
-var gulpSrc = requireDir("./redGulp/tasks", { recurse: true });
 var jgulp = requireDir("./redGulp/extensions", { recurse: true });
+var gulpSrc = requireDir("./redGulp/tasks", { recurse: true });
 var gulpSrc = requireDir("./redGulp/src", { recurse: true });

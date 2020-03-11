@@ -1,7 +1,7 @@
-import { releaseModule } from "../../src/4.modules";
+const helper = require('./../../helpers/module.js');
 
 var modName = "redshop_cart";
 var modFolder = "mod_" + modName;
 var modBase = "site";
 
-releaseModule(modeName, modFolder, modeBase);
+releaseModule(modName, modFolder, modBase);

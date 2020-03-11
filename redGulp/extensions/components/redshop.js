@@ -346,3 +346,16 @@ gulp.task('watch:components.redshop',
         'watch:components.redshop:media'
     )
 );
+
+gulp.task('copy:components.redshop.assets', function () {
+    return true;
+});
+
+/// Watcher for Assets only
+gulp.task('watch:components.redshop.assets',
+    gulp.series(
+        'watch:components.redshop:asset:script',
+        'watch:components.redshop:asset:sass',
+        'watch:components.redshop:media'
+    )
+);

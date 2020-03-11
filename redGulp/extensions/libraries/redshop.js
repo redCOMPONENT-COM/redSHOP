@@ -72,17 +72,6 @@ gulp.task("copy:libraries.redshop:vendor", function () {
         .pipe(gulp.dest(wwwPath));
 });
 
-
-// Copy
-gulp.task("copy:libraries.redshop",
-    gulp.series(
-        "copy:libraries.redshop:library",
-        "copy:libraries.redshop:manifest"
-    ),
-    function () {
-    }
-);
-
 /**
  * Retrieve folders + files from the library manifest (except vendor folder) ready to be used by gulp.src
  *
@@ -127,6 +116,16 @@ gulp.task("copy:libraries.redshop:library", function (cb) {
     });
 });
 
+// Copy
+gulp.task("copy:libraries.redshop",
+    gulp.series(
+        "copy:libraries.redshop:library",
+        "copy:libraries.redshop:manifest"
+    ),
+    function () {
+    }
+);
+
 
 // Watch: library
 gulp.task("watch:libraries.redshop:library", function () {
@@ -158,6 +157,11 @@ gulp.task("watch:libraries.redshop:library", function () {
     );
 });
 
+// Watch: manifest
+gulp.task("watch:libraries.redshop:manifest", function () {
+    gulp.watch(extPath + "/" + manifestFile, gulp.series("copy:libraries.redshop:manifest", browserSync.reload));
+});
+
 // Watch
 gulp.task("watch:libraries.redshop",
     gulp.series(
@@ -166,8 +170,3 @@ gulp.task("watch:libraries.redshop",
     ),
     function () {
     });
-
-// Watch: manifest
-gulp.task("watch:libraries.redshop:manifest", function () {
-    gulp.watch(extPath + "/" + manifestFile, gulp.series("copy:libraries.redshop:manifest", browserSync.reload));
-});

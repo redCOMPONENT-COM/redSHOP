@@ -1,101 +1,11 @@
 var gulp = require('gulp');
 var config = require('../../gulp-config');
 
-// Dependencies
-var browserSync = require('browser-sync');
-var concat = require('gulp-concat');
-var del = require('del');
-var path = require('path');
-
 // Do we have a specifc extensions file?
 try {
 	var extensions = require('../../gulp-extensions.json');
 } catch (err) {
 	var extensions = config.extensions;
-}
-
-/**
- * 
- * @param {string} modName 
- * @param {string} modFolder 
- * @param {string} modBase 
- */
-function releaseModule(modName, modFolder, modBase) {
-
-	var baseTask = 'modules.frontend.' + modName;
-	var extPath = './modules/' + modBase + '/' + modFolder;
-	var wwwPath = config.wwwDir + '/modules/' + modFolder
-
-	// Clean
-	gulp.task('clean:' + baseTask,
-		gulp.series(
-			'clean:' + baseTask + ':module',
-			'clean:' + baseTask + ':language'
-		),
-		function () {
-		});
-
-	// Clean: Module
-	gulp.task('clean:' + baseTask + ':module', function () {
-		return del(wwwPath, { force: true });
-	});
-
-	// Clean: Language
-	gulp.task('clean:' + baseTask + ':language', function () {
-		return del(config.wwwDir + '/language/**/*.mod_' + modName + '.*', { force: true });
-	});
-
-	// Copy: Module
-	gulp.task('copy:' + baseTask,
-		gulp.series(
-			'copy:' + baseTask + ':module',
-			'copy:' + baseTask + ':language'
-		),
-		function () {
-		});
-
-	// Copy: Module
-	gulp.task('copy:' + baseTask + ':module', gulp.series('clean:' + baseTask + ':module'), function () {
-		return gulp.src([
-			extPath + '/**',
-			'!' + extPath + '/language',
-			'!' + extPath + '/language/**'
-		])
-			.pipe(gulp.dest(wwwPath));
-	});
-
-	// Copy: Language
-	gulp.task('copy:' + baseTask + ':language', gulp.series('clean:' + baseTask + ':language'), function () {
-		return gulp.src(extPath + '/language/**')
-			.pipe(gulp.dest(config.wwwDir + '/language'));
-	});
-
-	// Watch
-	gulp.task('watch:' + baseTask,
-		gulp.series(
-			'watch:' + baseTask + ':module',
-			'watch:' + baseTask + ':language'
-		),
-		function () {
-		});
-
-	// Watch: Module
-	gulp.task('watch:' + baseTask + ':module', function () {
-		gulp.watch([
-			extPath + '/**/*',
-			'!' + extPath + 'language',
-			'!' + extPath + 'language/**'
-		],
-			gulp.series('copy:' + baseTask + ':module', browserSync.reload));
-	});
-
-	// Watch: Language
-	gulp.task('watch:' + baseTask + ':language', function () {
-		gulp.watch([
-			extPath + '/language/**'
-		],
-			gulp.series('copy:' + baseTask + ':language', browserSync.reload));
-	});
 }
 
 /**
@@ -108,15 +18,22 @@ function releaseModule(modName, modFolder, modBase) {
 function getModules(app) {
 	var results = [];
 
+	console.log('[DEBUG-1] :===========>' + extensions);
+
 	if (extensions && extensions.hasOwnProperty('modules')
 		&& extensions.modules.hasOwnProperty(app)
 	) {
 		var sourceArray = extensions.modules[app];
+		console.log('[DEBUG-2] :===========>' + sourceArray);
 
 		for (index = 0; index < sourceArray.length; ++index) {
 			results.push(app + '.' + sourceArray[index]);
 		}
+
+		console.log('[DEBUG-3] :===========>' + sourceArray);
 	}
+
+	console.log('[DEBUG-4] :===========>' + results);
 
 	return results;
 }
@@ -133,14 +50,19 @@ function getModulesTasks(baseTask, app) {
 	var tasks = [];
 	var modules = getModules(app);
 
+	console.log('[DEBUG-5] :===========>' + modules);
+
 	if (modules) {
 		for (index = 0; index < modules.length; ++index) {
 			tasks.push(baseTask + '.' + modules[index]);
 		}
 	}
 
+	console.log('[DEBUG-6] :===========>' + tasks);
+
 	if (tasks.length > 0) {
-		return gulp.series(tasks);
+		console.log('[DEBUG] :==========>' + baseTask + '.' + app);
+		return gulp.series.apply(gulp, tasks);
 	}
 }
 
@@ -197,4 +119,3 @@ gulp.task('watch:modules',
 
 exports.getModules = getModules;
 exports.getModulesTasks = getModulesTasks;
-exports.releaseModule = releaseModule;
