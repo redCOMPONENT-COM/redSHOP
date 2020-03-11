@@ -10,6 +10,7 @@ var uglify = require('gulp-uglify');
 var path = require("path");
 var merge = require('merge-stream');
 var argv = require("yargs").argv;
+var hashsum = require('gulp-hashsum');
 // XML parser
 var xml2js = require("xml2js");
 var parser = new xml2js.Parser();
@@ -308,7 +309,7 @@ gulp.task("release:md5:generate", function () {
 		"./plugins/twig/juser/**",
 		"./plugins/twig/unseriallize/**",
 		"./plugins/twig/redshop/**",
-	], { base: "./" }).pipe(hashsum({ dest: "./", filename: "checksum.md5", hash: "md5" }));
+	], { base: "./", allowEmpty: true }).pipe(hashsum({ dest: "./", filename: "checksum.md5", hash: "md5" }));
 });
 
 gulp.task("release:md5:json", gulp.series("release:md5:generate"), function (cb) {
