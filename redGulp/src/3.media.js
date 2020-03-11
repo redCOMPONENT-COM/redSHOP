@@ -3,11 +3,17 @@ var config = require('../../gulp-config');
 
 // Do we have a specifc extensions file?
 try {
-    var extensions = require('../../../gulp-extensions.json');
-} catch(err) {
-    var extensions = config.extensions;
+	var extensions = require('../../../gulp-extensions.json');
+} catch (err) {
+	var extensions = config.extensions;
 }
 
+
+// Dependencies
+var browserSync = require('browser-sync');
+var concat = require('gulp-concat');
+var del = require('del');
+var path = require('path');
 /**
  * Get the list of libraries
  *
@@ -20,7 +26,7 @@ function getMedia() {
 		var sourceArray = extensions.media;
 
 		for (index = 0; index < sourceArray.length; ++index) {
-		    results.push(sourceArray[index]);
+			results.push(sourceArray[index]);
 		}
 	}
 
@@ -39,7 +45,7 @@ function getMediaTasks(baseTask) {
 	var tasks = [];
 
 	for (index = 0; index < media.length; ++index) {
-	    tasks.push(baseTask + '.' + media[index]);
+		tasks.push(baseTask + '.' + media[index]);
 	}
 
 	if (tasks.length > 0) {
@@ -50,23 +56,23 @@ function getMediaTasks(baseTask) {
 // Clean test site
 gulp.task('clean:media',
 	getMediaTasks('clean:media'),
-	function() {
+	function () {
 		return true
-});
+	});
 
 // Copy to test site
 gulp.task('copy:media',
 	getMediaTasks('copy:media'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 // Watch
 gulp.task('watch:media',
 	getMediaTasks('watch:media'),
-	function() {
+	function () {
 		return true;
-});
+	});
 
 exports.getMedia = getMedia;
 exports.getMediaTasks = getMediaTasks;
