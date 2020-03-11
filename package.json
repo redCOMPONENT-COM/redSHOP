@@ -1,19 +1,19 @@
 {
   "name": "redSHOP",
-  "version": "2.0.6",
+  "version": "3.0",
   "description": "Release script for redSHOP",
   "main": "gulpfile.js",
   "dependencies": {
     "node-sass": "^4.13.0"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.7",
-    "del": "^2.2.2",
-    "fs": "0.0.2",
+    "browser-sync": "2.26.7",
+    "del": "5.1.0",
+    "fs": "^0.0.2",
     "glob-stream": "^6.1.0",
     "gulp": "^4.0.2",
-    "gulp-changed": "^3.2.0",
-    "gulp-clean": "^0.3.2",
+    "gulp-changed": "^4.0.2",
+    "gulp-clean": "0.4.0",
     "gulp-composer": "^0.4.5",
     "gulp-concat": "^2.6.1",
     "gulp-hashsum": "^1.2.0",

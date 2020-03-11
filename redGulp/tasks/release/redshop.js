@@ -15,6 +15,7 @@ var xml2js = require("xml2js");
 var parser = new xml2js.Parser();
 require('./../../extensions/components/redshop');
 require('./../../extensions/components/redshop.assets');
+var config = require('./../../../gulp-config.json');
 
 
 /// Define component tasks
@@ -142,68 +143,3 @@ gulp.task('sass:components.redshop', function () {
         }))
         .pipe(gulp.dest(mediaPath + "/css"));
 });
-
-gulp.task("release:redshop",
-    gulp.series("scripts:components.redshop",
-        "sass:components.redshop",
-        "composer:libraries.redshop",
-        "composer:plugins.redshop_pdf.tcpdf")
-    , function (cb) {
-        fs.readFile("./redshop.xml", function (err, data) {
-            parser.parseString(data, function (err, result) {
-                var version = result.extension.version[0];
-                var fileName = argv.skipVersion ? "redshop.zip" : "redshop-v" + version + ".zip";
-                var dest = config.releaseDir;
-
-                gutil.log(gutil.colors.grey("===================================================================="));
-                gutil.log(gutil.colors.cyan.bold("redSHOP"), "  |  ", gutil.colors.yellow.bold(version), "  |  ", gutil.colors.white.bold(path.join(config.releaseDir + '/', fileName)));
-                gutil.log(gutil.colors.grey("===================================================================="));
-                var src = getIncludedExtensions();
-                src = src.concat([
-                    "./component/**/*",
-                    "./component/**/.gitkeep",
-                    "./libraries/redshop/**/*",
-                    "./libraries/redshop/vendor/**/*",
-                    "./libraries/redshop/.gitkeep",
-                    '!./**/composer.json',
-                    '!./**/composer.lock',
-                    '!./**/vendor/**/*.md',
-                    '!./**/vendor/**/*.txt',
-                    '!./**/vendor/**/*.TXT',
-                    '!./**/vendor/**/*.pdf',
-                    '!./**/vendor/**/LICENSE',
-                    '!./**/vendor/**/CHANGES',
-                    '!./**/vendor/**/README',
-                    '!./**/vendor/**/VERSION',
-                    '!./**/vendor/**/composer.json',
-                    '!./**/vendor/**/.gitignore',
-                    '!./**/vendor/**/docs',
-                    '!./**/vendor/**/docs/**',
-                    '!./**/vendor/**/tests',
-                    '!./**/vendor/**/tests/**',
-                    '!./**/vendor/**/unitTests',
-                    '!./**/vendor/**/unitTests/**',
-                    '!./**/vendor/**/.git',
-                    '!./**/vendor/**/.git/**',
-                    '!./**/vendor/**/examples',
-                    '!./**/vendor/**/examples/**',
-                    '!./**/vendor/**/build.xml',
-                    '!./**/vendor/**/phpunit.xml',
-                    '!./**/vendor/**/phpunit.xml.dist',
-                    '!./**/vendor/**/phpcs.xml',
-                    "!./**/vendor/**/Vagrantfile",
-                    "./media/**/*",
-                    "./media/**/.gitkeep",
-                    "!./media/com_redshop/scss",
-                    "!./media/com_redshop/scss/**",
-                    "./*(install.php|LICENSE.txt|redshop.xml)"
-                ]);
-                return gulp.src(src, { base: "./" })
-                    .pipe(zip(fileName))
-                    .pipe(gulp.dest(dest))
-                    .on("end", cb);
-            });
-        });
-
-        cb();
-    });
