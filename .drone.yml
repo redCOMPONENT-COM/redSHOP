@@ -41,8 +41,9 @@ pipeline:
 
             # npm setup
             # - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
-            - npm install -g n
-            - n 13.2
+            - pwd
+            - node -v
+            - npm install -g 13.2
             - npm install --save-dev
             - npm rebuild node-sass
             - node -v
