@@ -244,7 +244,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 					array(
 						'id' => 'password1',
 						'name' => 'password1',
-						'type' => 'text',
+						'type' => 'password',
 						'value' => (!empty($this->data['data']["username"]) ? $this->data['data']['username'] : ''),
 						'class' => 'inputbox required',
 						'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD') . '"'
@@ -273,7 +273,7 @@ class RedshopTagsSectionsBillingTemplate extends RedshopTagsAbstract
 					array(
 						'id' => 'password2',
 						'name' => 'password2',
-						'type' => 'text',
+						'type' => 'password',
 						'value' => '',
 						'class' => 'inputbox required',
 						'attr' => 'size="32" maxlength="250" data-msg="' . JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD') . '"'
