@@ -44,7 +44,8 @@ pipeline:
             - pwd
             - node -v
             - gulp -v
-            - nvm install 13.2
+            - sudo npm install -g n
+            - sudo n 13.2
             - npm install --save-dev
             - npm rebuild node-sass
             - node -v
