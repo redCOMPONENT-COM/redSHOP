@@ -19,14 +19,6 @@ defined('_JEXEC') or die;
 class RedshopViewMass_Discounts extends RedshopViewList
 {
 	/**
-	 * Column for render published state.
-	 *
-	 * @var    array
-	 * @since  2.0.6
-	 */
-	protected $stateColumns = array();
-
-	/**
 	 * Method for render 'Published' column
 	 *
 	 * @param   array   $config  Row config.
