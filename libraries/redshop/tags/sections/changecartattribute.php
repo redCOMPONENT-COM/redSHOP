@@ -47,37 +47,30 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 	 */
 	public function replace()
 	{
-		$cart      = $this->data['cart'];
+		$cart = $this->data['cart'];
 		$cartIndex = $this->data['cartIndex'];
 		$productId = $this->data['productId'];
-		$product   = \Redshop\Product\Product::getProductById($productId);
+		$product = \Redshop\Product\Product::getProductById($productId);
 
 		// Checking for child products
 		$childProduct = RedshopHelperProduct::getChildProduct($productId);
 
-		if (count($childProduct) > 0)
-		{
+		if (count($childProduct) > 0) {
 			$isChildren = true;
-		}
-		else
-		{
+		} else {
 			$isChildren = false;
 		}
 
 		// Product attribute  Start
 		$attributeTemplate = '';
 
-		if ($isChildren)
-		{
+		if ($isChildren) {
 			$attributes = array();
-			$selectAtt  = array(array(), array());
-		}
-		else
-		{
+			$selectAtt = array(array(), array());
+		} else {
 			$attributesSet = array();
 
-			if ($product->attribute_set_id > 0)
-			{
+			if ($product->attribute_set_id > 0) {
 				$attributesSet = \Redshop\Product\Attribute::getProductAttribute(
 					0,
 					$product->attribute_set_id,
@@ -86,7 +79,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 				);
 			}
 
-			$bool              = (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE')) ? false : true;
+			$bool = (Redshop::getConfig()->get('INDIVIDUAL_ADD_TO_CART_ENABLE')) ? false : true;
 			$attributeTemplate = \Redshop\Template\Helper::getAttribute($this->template, $bool);
 
 			$attributeTemplate->template_desc = str_replace(
@@ -107,7 +100,7 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 			$selectAtt = \Redshop\Attribute\Helper::getSelectedCartAttributeArray($cart[$cartIndex]['cart_attribute']);
 		}
 
-		$totalAtt       = count($attributes);
+		$totalAtt = count($attributes);
 		$this->template = RedshopTagsReplacer::_(
 			'attributes',
 			$this->template,
@@ -157,12 +150,9 @@ class RedshopTagsSectionsChangeCartAttribute extends RedshopTagsAbstract
 			RedshopLayoutHelper::$layoutOption
 		);
 
-		if ($totalAtt > 0)
-		{
+		if ($totalAtt > 0) {
 			$this->template = RedshopHelperTemplate::parseRedshopPlugin($this->template);
-		}
-		else
-		{
+		} else {
 			return JText::_("COM_REDSHOP_NO_ATTRIBUTE_TO_CHANGE");
 		}
 
