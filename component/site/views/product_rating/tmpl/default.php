@@ -18,12 +18,12 @@ $app = JFactory::getApplication();
 		</div>
 	<?php endif; ?>
 	<?php
-		$displayData = array(
-			'form' => $this->form,
-			'modal' => 1,
-			'product_id' => $this->productId
-		);
-		echo RedshopLayoutHelper::render('product.product_rating', $displayData);
+	$displayData = array(
+		'form'      => $this->form,
+		'modal'     => 1,
+		'productId' => $this->productId
+	);
+	echo RedshopLayoutHelper::render('product.product_rating', $displayData);
 	?>
 <?php else : ?>
 	<script>
