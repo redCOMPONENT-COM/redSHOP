@@ -1,0 +1,28 @@
+<div id="tags_main">
+	<div id="tags_title">{{ jtext('COM_REDSHOP_PRODUCT_TAGS') }}</div>
+	<div id="tags_lable">{{ jtext('COM_REDSHOP_ADD_YOUR_TAGS') }}</div>
+	<div id="tags_form">
+		<form method="post" action='' id="form_tags" name="form_tags">
+			<table id="tags_table">
+				<tr>
+					<td><span>{{ jtext('COM_REDSHOP_TAG_NAME') }}</span></td>
+					<td><input type="text" name="tags_name" id="tags_name" value="" size="52"/></td>
+					<td><input type="submit" name="tags_submit" id="tags_submit"
+							   value="{{ jtext('COM_REDSHOP_ADD_TAGS') }}"/></td>
+				</tr>
+				<tr>
+					<td colspan="3">{{ jtext('COM_REDSHOP_TIP_TAGS') }}</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<input type="hidden" name="tags_id" id="tags_id" value="0"/>
+						<input type="hidden" name="product_id" id="product_id" value="{{ productId }}"/>
+						<input type="hidden" name="users_id" id="users_id" value="{{ userId }}"/>
+						<input type="hidden" name="view" id="view" value="product"/>
+						<input type="hidden" name="task" id="task" value="addProductTags"/>
+						<input type="hidden" name="published" id="published" value="1"/></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
