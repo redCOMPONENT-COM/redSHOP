@@ -69,7 +69,9 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 		'{product_rating_summary}',
 		'{product_rating}',
 		'{ask_question_about_product_without_lightbox}',
-		'{form_rating_without_link}'
+		'{form_rating_without_link}',
+		'{component_heading}',
+		'{discount_calculator}'
 	];
 
 	/**
@@ -225,9 +227,9 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 				);
 			}
 
-			$this->addReplace('{returntocategory_link}', $returnCatLink);
-			$this->addReplace('{returntocategory_name}', $this->product->category_name);
-			$this->addReplace('{returntocategory}', $returnToCategory);
+			$this->replacements['{returntocategory_link}'] = $returnCatLink;
+			$this->replacements['{returntocategory_name}'] = $this->product->category_name;
+			$this->replacements['{returntocategory}']      = $returnToCategory;
 		}
 
 		if ($this->isTagExists('{navigation_link_right}') || $this->isTagExists('{navigation_link_left}')) {
@@ -731,9 +733,8 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 							$selectedPropertyId
 						);
 						$selectedId         = array();
-						$countSubProperty = count($subProperty);
-						if ($countSubProperty > 0)
-						{
+						$countSubProperty   = count($subProperty);
+						if ($countSubProperty > 0) {
 							for ($sp = 0; $sp < $countSubProperty; $sp++) {
 								if ($subProperty[$sp]->setdefault_selected) {
 									$selectedId[]    = $subProperty[$sp]->subattribute_color_id;
@@ -754,7 +755,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 				}
 			}
 
-			$get = [];
+			$get                     = [];
 			$get['product_id']       = $this->product->product_id;
 			$get['main_imgwidth']    = $this->infoTagImg['width'];
 			$get['main_imgheight']   = $this->infoTagImg['height'];
@@ -795,7 +796,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 				);
 			}
 
-			$moreImageResponse   = $preSelectedResult['response'];
+			$moreImageResponse = $preSelectedResult['response'];
 
 			if (!is_null($preSelectedResult['pr_number']) && !empty($preSelectedResult['pr_number'])) {
 				$prNumber = $preSelectedResult['pr_number'];
@@ -1637,7 +1638,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 					);
 				}
 
-				$moreImages   .= RedshopLayoutHelper::render(
+				$moreImages .= RedshopLayoutHelper::render(
 					'tags.product.more_image.without_lightbox',
 					[
 						'imgPath'         => $imgPath,
@@ -1670,7 +1671,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	private function replaceUserField($userFieldArr, &$countNoUserField)
 	{
 		$cart = \Redshop\Cart\Helper::getCart();
-		$idx    = 0;
+		$idx  = 0;
 
 		if (isset($cart['idx'])) {
 			$idx = (int)($cart['idx']);
@@ -1686,8 +1687,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
 		$countUserFieldArr = count($userFieldArr);
 
-		if ($countUserFieldArr > 0)
-		{
+		if ($countUserFieldArr > 0) {
 			for ($ui = 0; $ui < $countUserFieldArr; $ui++) {
 				if (!$idx) {
 					$cartId = "";
