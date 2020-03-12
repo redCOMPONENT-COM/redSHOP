@@ -1548,7 +1548,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 			$replacements['{product_loop_start}'] = '';
 			$replacements['{product_loop_end}']   = '';
 
-			$productTmpl .= RedshopLayoutHelper::render(
+			$productTmpl = RedshopLayoutHelper::render(
 				'tags.common.tag',
 				array(
 					'tag' => 'div',
@@ -1609,9 +1609,12 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 					$replacements['{template_selector_category_lbl}'] = JText::_('COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL');
 					$replacements['{template_selector_category}']     = $templateSelecterForm;
 				}
+				else
+				{
+					$replacements['{template_selector_category_lbl}'] = '';
+					$replacements['{template_selector_category}']     = '';
+				}
 
-				$replacements['{template_selector_category_lbl}'] = '';
-				$replacements['{template_selector_category}']     = '';
 			}
 
 			if (strpos($template, "{order_by}") !== false)
