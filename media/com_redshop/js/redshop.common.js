@@ -1202,3 +1202,10 @@ function validateInfoQuotation() {
 	}
 	return true;
 }
+
+function setsendImagepath(elm) {
+	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;
+	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
+	var imageName = filenamepath.split('&');
+	elm.href = elm + '&imageName=' + imageName[0];
+}

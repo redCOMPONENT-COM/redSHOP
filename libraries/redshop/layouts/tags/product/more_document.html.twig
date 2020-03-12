@@ -1,0 +1,15 @@
+<div id="additional_docs{{ productId }}">
+    {% for mediaDocument in mediaDocuments %}
+        {% set altText = redSHOPCall('RedshopHelperMedia','getAlternativeText',
+            ['product',mediaDocument.section_id, '', mediaDocument.media_id, 'document']) %}
+        {% if altText is empty %}
+            {% set altText = mediaDocument.media_name %}
+        {% endif %}
+        {% if redSHOPCall('JFile', 'exists', [constant('REDSHOP_FRONT_DOCUMENT_RELPATH') ~ "product/" ~ mediaDocument.media_name]) %}
+            <div>
+                <a href="{{ juri.root }}index.php?tmpl=component&option=com_redshop&view=product&pid={{ productId }}&task=downloadDocument&fname={{ mediaDocument.media_name }}"
+                   title="{{ altText }}">{{ altText }}</a>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
