@@ -19,8 +19,8 @@ pipeline:
             - mv /opt/cache/redSHOP/plugins/redshop_pdf/tcpdf/helper/vendor plugins/redshop_pdf/tcpdf/helper
             - touch tests/.cache.plugins.redshop_pdf.composer.tmp
             # redSHOP npm cache
-            # - mv /opt/cache/redSHOP/node_modules .
-            # - touch tests/.cache.npm.tmp
+            - mv /opt/cache/redSHOP/node_modules .
+            - touch tests/.cache.npm.tmp
             # Joomla CMS
             # - mv /opt/cache/joomla-cms tests
             # - touch tests/.cache.joomla-cms.tmp
@@ -40,17 +40,7 @@ pipeline:
             # - composer install --prefer-dist -d plugins/redshop_pdf/tcpdf/helper              # Uncomment if not using composer cache for redshopb_pdf plugin
 
             # npm setup
-            # - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
-            - pwd
-            - node -v
-            - gulp -v
-            - npm install npm@latest -g
-            - npm install -g n
-            - sudo n 13.2
-            - npm install --save-dev
-            - npm rebuild node-sass
-            - node -v
-            - gulp -v
+            - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
             - composer config -g repo.packagist composer https?://packagist.jp
