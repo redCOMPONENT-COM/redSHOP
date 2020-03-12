@@ -652,4 +652,28 @@ class Product
 
 		return $db->setQuery($query, 0, 1)->loadObject();
 	}
+
+	/**
+	 * Method get all child product
+	 *
+	 * @param   integer   $childid
+	 * @param   integer   $parentid
+	 *
+	 * @return mixed
+	 */
+	public static function getAllChildProductArrayList($childid = 0, $parentid = 0)
+	{
+		$info = \RedshopHelperProduct::getChildProduct($parentid);
+
+		for ($i = 0, $in = count($info); $i < $in; $i++)
+		{
+			if ($childid != $info[$i]->product_id)
+			{
+				$GLOBALS['childproductlist'][] = $info[$i];
+				self::getAllChildProductArrayList($childid, $info[$i]->product_id);
+			}
+		}
+
+		return $GLOBALS['childproductlist'];
+	}
 }

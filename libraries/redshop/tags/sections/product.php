@@ -585,7 +585,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 				$productInfo = \Redshop\Product\Product::getProductById($parentProductId);
 
 				// Get child products
-				$childProducts = $this->model->getAllChildProductArrayList(0, $parentProductId);
+				$childProducts = Redshop\Product\Product::getAllChildProductArrayList(0, $parentProductId);
 
 				if (!empty($childProducts)) {
 					$childProducts = array_merge(array($productInfo), $childProducts);
@@ -1533,8 +1533,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 					$thumb,
 					Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_WIDTH'),
 					Redshop::getConfig()->get('ADDITIONAL_HOVER_IMAGE_HEIGHT'),
-					Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE'),
-					'2'
+					Redshop::getConfig()->get('WATERMARK_PRODUCT_ADDITIONAL_IMAGE')
 				);
 			} else {
 				$pimg      = RedshopHelperMedia::getImagePath(
