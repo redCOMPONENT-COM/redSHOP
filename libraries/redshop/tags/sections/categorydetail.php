@@ -124,7 +124,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 	}
 
 	/**
-	 * Override parent replace with own category replacing
+	 * Override parent replace with  category detail replacing
 	 *
 	 * @return  string
 	 * @throws  Exception
@@ -133,13 +133,13 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 	 */
 	public function replace()
 	{
-		$this->template = $this->replaceExtantCategory($this->template);
+		$this->template = $this->replaceCategoryDetail($this->template);
 
 		return parent::replace();
 	}
 
 	/**
-	 * Replace category fields tags
+	 * Replace category detail fields tags
 	 *
 	 * @param   string $template Template to replace
 	 *
@@ -148,7 +148,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function replaceExtantCategory($template)
+	private function replaceCategoryDetail($template)
 	{
 		$replacements     = [];
 		$redConfiguration = Redconfiguration::getInstance();
