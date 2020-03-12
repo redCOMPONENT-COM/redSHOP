@@ -195,7 +195,7 @@ class RedshopTagsSectionsCategoryDetail extends RedshopTagsAbstract
 				RedshopLayoutHelper::$layoutOption
 			);
 
-			$template = $template . $divWrapHeading;
+			$template = $divWrapHeading . $template;
 
 			if ($this->print) {
 				$onclick = 'onclick="window.print();"';
