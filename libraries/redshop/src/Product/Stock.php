@@ -24,7 +24,7 @@ class Stock
 	 * @param   integer $productId         Product id
 	 * @param   string  $content           Template content
 	 * @param   array   $attributes        Attributes
-	 * @param   array   $attributeTemplate Attribute template
+	 * @param   mixed   $attributeTemplate Attribute template
 	 *
 	 * @return  mixed
 	 *
