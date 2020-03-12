@@ -193,7 +193,7 @@ class Helper
                                 );
                             }
 
-                            $ownSubPropReserveStock = RedshopHelperStockroom::getCurrentUserReservedStock(
+                            $ownSubPropReserveStock = \RedshopHelperStockroom::getCurrentUserReservedStock(
                                 $subProperties[$l]['subproperty_id'],
                                 "subproperty"
                             );
@@ -220,17 +220,17 @@ class Helper
                                 $newProductQuantity          = $ownProductReserveStock + $newQuantity;
                             }
 
-                            RedshopHelperStockroom::addReservedStock(
+                            \RedshopHelperStockroom::addReservedStock(
                                 $subProperties[$l]['subproperty_id'],
                                 $subPropertyReservedQuantity,
                                 'subproperty'
                             );
-                            RedshopHelperStockroom::addReservedStock(
+                            \RedshopHelperStockroom::addReservedStock(
                                 $properties[$k]['property_id'],
                                 $newPropertyQuantity,
                                 'property'
                             );
-                            RedshopHelperStockroom::addReservedStock(
+                            \RedshopHelperStockroom::addReservedStock(
                                 $data['product_id'],
                                 $newProductQuantity,
                                 'product'
