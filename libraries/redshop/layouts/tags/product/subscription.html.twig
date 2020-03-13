@@ -1,0 +1,22 @@
+<table>
+    <tr>
+        <th>{{ jtext('COM_REDSHOP_SUBSCRIPTION_PERIOD') }}</th>
+        <th>{{ jtext('COM_REDSHOP_SUBSCRIPTION_PRICE') }}</th>
+        <th>{{ jtext('COM_REDSHOP_SUBSCRIBE') }}</th>
+    </tr>
+    {% for subscription in subscriptions %}
+        <tr>
+            <td>{{ subscription.subscription_period }} {{ subscription.period_type }}</td>
+            <td>{{ redSHOPCall('RedshopHelperProductPrice', 'formattedPrice', [subscription.subscription_price]) }}</td>
+            <td>
+                <input type='hidden'
+                       id="hdn_subscribe_{{ subscription.subscription_id }}"
+                       value="{{ subscription.subscription_price }}"/>
+                <input type='radio'
+                       name='rdoSubscription'
+                       value="{{ subscription.subscription_id }}"
+                       onClick="changeSubscriptionPrice({{ subscription.subscription_id }},this.value, {{ productId }})"/>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

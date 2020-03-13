@@ -203,11 +203,10 @@ class RedshopTagsSectionsManufacturer extends RedshopTagsAbstract
 					}
 
 					$thumImage = RedshopLayoutHelper::render(
-
 						'tags.manufacturer.image',
 						array(
 							'altText' => $altText,
-							'data' => $data,
+							'manufacturerId' => $data->id,
 							'media' => $media,
 							'manufacturerImg' => $manufacturerImg
 						),
