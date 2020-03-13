@@ -51,7 +51,7 @@ class Coupon
 	 *
 	 * @param   integer $uid User ID
 	 *
-	 * @return  array
+	 * @return  mixed
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */

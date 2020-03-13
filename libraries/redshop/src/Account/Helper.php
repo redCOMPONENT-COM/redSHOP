@@ -109,7 +109,7 @@ class Helper
 	/**
 	 * Count my tags
 	 *
-	 * @return  integer
+	 * @return  mixed
 	 * @throws  \Exception
 	 *
 	 * @since  __DEPLOY_VERSION__
