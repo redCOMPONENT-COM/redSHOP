@@ -39,7 +39,7 @@ class RedshopFormFieldMail_Section extends JFormFieldList
 		foreach ($options as $value => $text) {
 			$option = new stdClass;
 
-			$text->value = $text->value ?? '';
+			$text->value = $text->value == 0 ? '' : $text->value;
 
 			$option->text     = $text;
 			$option->value    = $value;
