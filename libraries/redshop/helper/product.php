@@ -1683,7 +1683,7 @@ class RedshopHelperProduct
         $query               = $db->getQuery(true)
             ->select($db->qn('c.name'))
             ->select($db->qn('c.id'))
-            ->from($db->qn('#__redshop_category'))
+            ->from($db->qn('#__redshop_category', 'c'))
             ->leftjoin(
                 $db->qn('#__redshop_product_category_xref', 'pcx') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn(
                     'pcx.category_id'
