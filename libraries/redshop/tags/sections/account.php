@@ -222,7 +222,9 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 */
 	private function replaceOrder()
 	{
-		if ($this->isTagExists('{order_loop_start}') && $this->isTagExists('{order_loop_end}')) {
+		$subTemplate = $this->getTemplateBetweenLoop('{order_loop_start}', '{order_loop_end}');
+
+		if (!empty($subTemplate)) {
 			$this->replacements['{order_image}'] = RedshopLayoutHelper::render(
 				'tags.common.img',
 				[
@@ -251,8 +253,6 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 			} else {
 				$this->replacements['{more_orders}'] = '';
 			}
-
-			$subTemplate = $this->getTemplateBetweenLoop('{order_loop_start}', '{order_loop_end}');
 
 			$orderData = '';
 
@@ -309,8 +309,8 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	private function replaceCoupon()
 	{
 		$couponTemplate = $this->getTemplateBetweenLoop('{coupon_loop_start}', '{coupon_loop_end}');
+		$couponData     = '';
 
-		$couponData = '';
 		if (!empty($couponTemplate)) {
 			$userCoupons = \Redshop\Promotion\Coupon::getUserCoupons($this->user->id);
 
@@ -394,6 +394,10 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 			}
 
 			$this->replacements['{edit_tag_link}'] = $tagLink;
+		} else {
+			$this->replacements['{tag_title}']     = '';
+			$this->replacements['{tag_image}']     = '';
+			$this->replacements['{edit_tag_link}'] = '';
 		}
 	}
 
@@ -513,6 +517,10 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 			}
 
 			$this->replacements['{edit_wishlist_link}'] = $editWishlistLink;
+		} else {
+			$this->replacements['{wishlist_title}']     = '';
+			$this->replacements['{wishlist_image}']     = '';
+			$this->replacements['{edit_wishlist_link}'] = '';
 		}
 	}
 
@@ -603,6 +611,10 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 			}
 
 			$this->replacements['{edit_compare_link}'] = $cmpLink;
+		} else {
+			$this->replacements['{compare_title}']     = '';
+			$this->replacements['{compare_image}']     = '';
+			$this->replacements['{edit_compare_link}'] = '';
 		}
 	}
 }
