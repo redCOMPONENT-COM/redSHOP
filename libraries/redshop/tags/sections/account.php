@@ -287,12 +287,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 					$orderData .= $this->strReplace($replaceOrder, $subTemplate['template']);
 				}
 			} else {
-				$orderData                           .= $subTemplate['template'];
 				$replaceOrder['{order_index}']       = '';
 				$replaceOrder['{order_id}']          = '';
 				$replaceOrder['{order_number}']      = '';
 				$replaceOrder['{order_total}']       = '';
 				$replaceOrder['{order_detail_link}'] = JText::_('COM_REDSHOP_NO_ORDERS_PLACED_YET');
+
+				$orderData .= $this->strReplace($replaceOrder, $subTemplate['template']);
 			}
 
 			$this->template = $subTemplate['begin'] . $orderData . $subTemplate['end'];
