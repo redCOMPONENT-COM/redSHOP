@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Redshop.Libraries
  * @subpackage  Layout
@@ -51,30 +52,27 @@ class RedshopLayoutHelper
 	 *
 	 * @return  string
 	 */
-	public static function render($layoutFile,
-	                              $displayData = null,
-	                              $basePath = '',
-	                              $options = array('component' => 'com_redshop'))
-	{
+	public static function render(
+		$layoutFile,
+		$displayData = null,
+		$basePath = '',
+		$options = array('component' => 'com_redshop')
+	) {
 		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 
 		// Make sure we send null to JLayoutFile if no path set
 		$basePath  = empty($basePath) ? null : $basePath;
 		$renderedLayout = '';
 
-		if ($displayData === null)
-		{
+		if ($displayData === null) {
 			$displayData = array();
 		}
 
 		// Check for render Twig or PHP normally
-		if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig')
-		{
+		if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig') {
 			// Shorter code for Scrutinizer check
 			$renderedLayout = self::renderTwig($layoutFile, $displayData, $basePath, $options);
-		}
-		else
-		{
+		} else {
 			$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
 			$renderedLayout = $layout->render($displayData);
 		}
@@ -92,28 +90,26 @@ class RedshopLayoutHelper
 	 *
 	 * @return  string
 	 */
-	public static function renderTwig($layoutFile,
-	                              $displayData = array(),
-	                              $basePath = '',
-	                              $options = array('component' => 'com_redshop'))
-	{
-		if (empty($options['layoutOf']) )
-		{
+	public static function renderTwig(
+		$layoutFile,
+		$displayData = array(),
+		$basePath = '',
+		$options = array('component' => 'com_redshop')
+	) {
+		if (empty($options['layoutOf'])) {
 			return '';
 		}
 
 		$layoutOf = Joomla\String\StringHelper::strtolower($options['layoutOf']);
 		$layoutOf = Joomla\String\StringHelper::trim((string) $layoutOf);
 
-		if ($layoutOf === '')
-		{
+		if ($layoutOf === '') {
 			return '';
 		}
 
 		$prefix = 'redshop';
 
-		if (!empty($options['prefix']))
-		{
+		if (!empty($options['prefix'])) {
 			$prefix = $options['prefix'];
 		}
 
@@ -121,7 +117,10 @@ class RedshopLayoutHelper
 		$layoutFile = str_replace('_:', '', $layoutFile);
 
 		$renderPath     = str_replace('.', '/', $basePath . $layoutFile);
-		$renderPath     = '@' . /** @scrutinizer ignore-type */ $layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
+
+		$renderPath     = '@' .
+			/** @scrutinizer ignore-type */
+			$layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
 
 		return html_entity_decode(Twig::render($renderPath, $displayData));
 	}
@@ -140,19 +139,15 @@ class RedshopLayoutHelper
 	 */
 	public static function renderTag($tagName, &$template, $tagSection = '', $displayData = null, $basePath = '', $options = null)
 	{
-		if (strpos($template, $tagName) === false)
-		{
+		if (strpos($template, $tagName) === false) {
 			return;
 		}
 
 		$filePath = array('tags');
 
-		if ($tagSection)
-		{
+		if ($tagSection) {
 			$filePath[] = $tagSection;
-		}
-		else
-		{
+		} else {
 			$filePath[] = 'common';
 		}
 

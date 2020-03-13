@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  View
@@ -64,8 +65,7 @@ class RedshopViewAccount extends RedshopView
 
 		$userData = $model->getUserAccountInfo($user->id);
 
-		if (empty($userData) && $layout != 'mywishlist')
-		{
+		if (empty($userData) && $layout != 'mywishlist') {
 			$app->redirect(
 				JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId),
 				JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER')
@@ -76,20 +76,39 @@ class RedshopViewAccount extends RedshopView
 		$mail   = $input->getInt('mail');
 
 		// Preform security checks. Give permission to send wishlist while not logged in
-		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail)))
-		{
+		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) {
 			$app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId, false));
 		}
 
-		if ($layout == 'mytags')
-		{
+		if ($layout == 'mytags') {
+			$twigParams = [];
+
+			// Get product helper
+			$app        = JFactory::getApplication();
+
+			$twigParams = [
+				'url' => \JURI::base(),
+				'app' => $app,
+				'itemId' => $app->input->getInt('Itemid'),
+				'tagId' => $app->input->getInt('tagid'),
+				'edit' => $app->input->getInt('edit'),
+				'user' => \JFactory::getUser(),
+				'model' => $this->getModel('account'),
+				'pageTitle' => \JText::_('COM_REDSHOP_MY_TAGS')
+			];
+
+			/** @var RedshopModelAccount $model */
+			$model = $this->getModel('account');
+			$user  = JFactory::getUser();
+
+			$pagetitle = JText::_('COM_REDSHOP_MY_TAGS');
+
 			JLoader::import('joomla.html.pagination');
 			$this->setLayout('mytags');
 
 			$remove = $input->getInt('remove', 0);
 
-			if ($remove == 1)
-			{
+			if ($remove == 1) {
 				$model->removeTag();
 			}
 
@@ -99,29 +118,33 @@ class RedshopViewAccount extends RedshopView
 			$total            = $this->get('total');
 			$pagination       = new JPagination($total, $limitstart, $limit);
 			$this->pagination = $pagination;
+
+			$twigParams = array_merge($twigParams, [
+				'maxCategory' => $maxcategory,
+				'limit' => $limit,
+				'total' => $total,
+				'pagination' => $pagination
+			]);
 		}
 
-		if ($layout == 'mywishlist')
-		{
+		if ($layout == 'mywishlist') {
 			$wishlistId = $input->getInt('wishlist_id', 0);
 
-			if ($wishlistId == 0 && !Redshop::getConfig()->get('WISHLIST_LIST'))
-			{
+			if ($wishlistId == 0 && !Redshop::getConfig()->get('WISHLIST_LIST')) {
 				$usersWishlist = RedshopHelperWishlist::getUserWishlist();
 				$usersWishlist = reset($usersWishlist);
 
 				$app->redirect(
 					JRoute::_(
 						"index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id="
-						. $usersWishlist->wishlist_id . "&Itemid=" . $itemId,
+							. $usersWishlist->wishlist_id . "&Itemid=" . $itemId,
 						false
 					)
 				);
 			}
 
 			// If wishlist Id is not set then redirect to it's main page
-			if ($wishlistId == 0)
-			{
+			if ($wishlistId == 0) {
 				$app->redirect(JRoute::_("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $itemId));
 			}
 
@@ -131,8 +154,7 @@ class RedshopViewAccount extends RedshopView
 
 			$remove = $input->getInt('remove', 0);
 
-			if ($remove == 1)
-			{
+			if ($remove == 1) {
 				$model->removeWishlistProduct();
 			}
 
@@ -144,12 +166,10 @@ class RedshopViewAccount extends RedshopView
 			$this->pagination = $pagination;
 		}
 
-		if ($layout == 'compare')
-		{
+		if ($layout == 'compare') {
 			$remove = $input->getInt('remove', 0);
 
-			if ($remove == 1)
-			{
+			if ($remove == 1) {
 				$model->removeCompare();
 			}
 
@@ -161,6 +181,25 @@ class RedshopViewAccount extends RedshopView
 		$this->userdata = $userData;
 		$this->params   = $params;
 
-		parent::display($tpl);
+		$twigParams = array_merge($twigParams, [
+			'userData' => $userData,
+			'params' => $params
+		]);
+
+		if ($layout == 'mytags') {
+			print \RedshopLayoutHelper::render(
+				$layout,
+				$twigParams,
+				'',
+				array(
+					'component'     => 'com_redshop',
+					'layoutType'    => 'Twig',
+					'layoutOf'      => 'component',
+					'prefix'        => 'com_redshop/account'
+				)
+			);
+		} else {
+			parent::display($tpl);
+		}
 	}
 }

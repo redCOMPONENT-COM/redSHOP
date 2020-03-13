@@ -1,0 +1,172 @@
+
+{% if (params.get('show_page_heading') == 1) %}
+	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+		{{ pageTitile }}
+	</h1>
+{% endif %}
+
+{% if user.id != 0 %}
+    {% if tagId is defined %}
+        {% if edit is defined %}
+            {% set link = jroute('index.php?option=com_redshop&view=account&Itemid=' ~ itemId) %}
+			<div>&nbsp;</div>
+			<form id="tags_name" name="tags_name" action="{{ link }}" method="post">
+				<table border="0" cellpadding="5" cellspacing="0" width="100%" class="adminlist">
+					<tr>
+						<td width="10%">{{ jtext('COM_REDSHOP_TAG_NAME') }}</td>
+						<td width="70%"><input type="text" name="tags_name"
+                                               value="{{ model.getMyTag(tagId) }}" id="tags_name"
+                                               size="50"/></td>
+						<td width="20%">
+							<input type="submit" class="button btn btn-primary" name="tags_submit"
+							       value="{{ jtext('COM_REDSHOP_EDIT_TAG') }}"/>
+							<input type="hidden" name="tags_id" value="{{ tagId }}"/>
+							<input type="hidden" name="Itemid" value="{{ itemId }}"/>
+							<input type="hidden" name="task" value="editTag"/>
+							<input type="hidden" name="view" value="account"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div>&nbsp;</div>
+			<div>
+				<a href="{{ jroute('index.php?option=com_redshop&view=account&layout=mytags&tagid=') ~ tagId ~ '&ItemId=' ~ itemId }}"
+				   title="{{ jtext('COM_REDSHOP_BACK_TO_TAG_LIST') }}">
+					{{ jtext('COM_REDSHOP_BACK_TO_TAG_LIST') }}
+                </a>
+			</div>
+		{% else %}
+            {% set myTags = dump(model.getMyDetail()) %}
+            {% set linkEdit = jroute('index.php?option=com_redshop&view=account&layout=mytags&edit=1&tagid=' ~ tagid ~ '&Itemid=' ~ itemId) %}
+            {% set linkRemove = jroute('index.php?option=com_redshop&view=account&layout=mytags&remove=1&tagid=' ~ tagid ~ '&Itemid=' ~ itemId) %}
+			<!-- tag detail-->
+
+			<table border="0" cellpadding="5" cellspacing="0" width="100%">
+				<tr>
+					<td align="right">
+						<span><a href="<?php echo $link_edit; ?>" title=""
+						         style="text-decoration: none;">{{ jtext('COM_REDSHOP_EDIT_TAG') }}</a>&nbsp;|</span>
+						<span><a href="<?php echo $link_remove; ?>" title=""
+						         style="text-decoration: none;">{{ jtext('COM_REDSHOP_REMOVE_TAG') }}</a></span>
+					</td>
+				</tr>
+			</table>
+			<div>&nbsp;</div>
+			<table border="0" cellpadding="5" cellspacing="0" width="100%">
+				<tr valign="top">
+					<td width="40%">
+                        {% set i = 0 %}
+                        {% if myTags|length > 0 %}
+                            {% for row in myTags %}
+								{% set dataAdd = '<div style="float:left;width:' ~ ('THUMB_WIDTH'|redconfig + 50) ~ 'px;height:' ~ ('THUMB_HEIGHT'|redconfig + 70) ~ 'px;text-align:center;">' %}
+								{% set thumbImage = "" %}
+								{% set pname = row.product_name %}
+								{% set link = jroute('index.php?option=com_redshop&view=product&pid=' ~ row.product_id ~ '&Itemid=' ~ itemid) %}
+                                {% if  row.product_full_image is defined %}
+									{% set thumbUrl = redSHOPCall('RedshopHelperMedia', 'getImagePath', [
+                                                        row.product_full_image,
+                                                       	dump(''),
+                                                        'thumb',
+                                                        'product',
+                                                        'THUMB_WIDTH'|redconfig,
+                                                        'THUMB_HEIGHT'|redconfig,
+                                                        'USE_IMAGE_SIZE_SWAPPING'|redconfig
+                                                    ]) %}
+									{% set thumbImage = "<div style='width:" ~ ('THUMB_WIDTH'|redconfig) ~ "px;height:" ~ ('THUMB_HEIGHT'|redconfig) ~ "px;margin-left:20px;' ><a href='" ~ link ~ "' title=''><img src='" ~ thumbUrl ~ "'></a></div>" %}
+									{% set dataAdd = dataAdd ~ thumbImage %}
+								{% endif %}
+
+								{% set pname = "<div ><a href='" ~ link ~ "' >" ~ pname ~ "</a></div>" %} 
+								{% set dataAdd = dataAdd ~ pname %}
+								{% set priceAdd = '<span id="pr_price">' ~ redSHOPCall('RedshopHelperProductPrice', 'formattedPrice', [row.product_price]) ~ '</span>' %}
+								{% set taxAmount = redSHOPCall('RedshopHelperProduct', 'getProductTax', [row.product_id]) %}
+
+								{% if taxAmount == 0 %}
+									{% set dataAdd = dataAdd ~ '<div>' ~ priceAdd ~ '</div>' %}
+								{% else %}
+									{% set dataAdd = dataAdd ~ '<div>' ~ redSHOPCall('RedshopHelperProductPrice', 'formattedPrice', [taxAmount]) ~ '</div>' %}
+								{% endif %} 
+
+								{% if taxAmount == 0 %}
+									{% set productPrice = row.product_price %} 
+								{% else %} 
+									{% set productPrice = taxAmount %}
+								{% endif %}
+
+								{% set dataAdd = dataAdd ~ redSHOPCall('RedshopLayoutHelper', 'render', [
+										'tags.addtocart.addtocartscroll',
+										{
+											'i': i, 
+											'row': row, 
+											'productPrice':  productPrice
+										},
+										dump(''),
+										{
+											'component': 'com_redshop',
+											'layoutType': 'Twig',
+											'layoutOf': 'library'
+										}
+									]) %}
+								{% set i = i + 1 %}
+								{% set dataAdd = dataAdd ~ '</div>' %}
+								{{ dataAdd }}
+							{% endfor %}
+                        {% else %}
+							<div>{{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_TAGS') }}</div>
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+			<div>&nbsp;</div>
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td>
+						<div>
+							<a href="{{ jroute('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' ~ itemid) }}"
+							   title="{{ jtext('COM_REDSHOP_BACK_TO_TAG_LIST') }}">
+								{{ jtext('COM_REDSHOP_BACK_TO_TAG_LIST') }}
+							</a>
+						</div>
+					</td>
+					<td valign="top" align="center">
+						{{ pagination.getPagesLinks() }}
+						<br/><br/>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="center" colspan="2">
+						{{ pagination.getPagesCounter() }}
+					</td>
+				</tr>
+			</table>
+			<div>&nbsp;</div>
+		{% endif %}
+	{% endif %}
+{% else %}
+	{% set myTags = model.getMyDetail() %}
+		<fieldset class="adminform">
+			<legend>{{ jtext('COM_REDSHOP_AVAILABLE_TAGS') }}</legend>
+			<table border="0" cellpadding="2" cellspacing="0">
+				<tr>
+					<td>
+						{% if myTags|length > 0 %}
+							foreach ($MyTags as $MyTag)
+							{% for myTag in myTags %}
+								<a href="{{ jroute('index.php?option=com_redshop&view=account&layout=mytags&tagid=' ~ myTag.tags_id ~ '&Itemid=' ~ itemid) }}"
+								   style="text-decoration: none;"><span
+										style="font-size: {{ myTag.tags_counter + 15 }}px;">
+										{{ myTag.tags_name }}</span></a>
+							{% endfor %}
+						{% endif %}
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+		<div>&nbsp;</div>
+		<div>
+			<a href="{{ jroute('index.php?option=com_redshop&view=account&Itemid=' ~ itemid) }}"
+		        title="{{ jtext('COM_REDSHOP_BACK_TO_MYACCOUNT') }}">
+				{{ jtext('COM_REDSHOP_BACK_TO_MYACCOUNT') }}
+			</a>
+		</div>
+{% endif %}

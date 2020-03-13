@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Redshop.Library
  *
@@ -68,10 +69,9 @@ final class Twig
 	 *
 	 * @since 2.1.5
 	 */
-	public static function instance() : Twig
+	public static function instance(): Twig
 	{
-		if (null === self::$instance)
-		{
+		if (null === self::$instance) {
 			self::$instance = new self;
 		}
 
@@ -91,7 +91,7 @@ final class Twig
 	 * @throws \Twig\Error\SyntaxError
 	 * @since 2.1.5
 	 */
-	public static function render(string $layout, array $data = []) : string
+	public static function render(string $layout, array $data = []): string
 	{
 		return self::instance()->environment()->render($layout, $data);
 	}
@@ -102,9 +102,8 @@ final class Twig
 	 *
 	 * @since 2.1.5
 	 */
-	public function environment() : TwigEnvironment
+	public function environment(): TwigEnvironment
 	{
 		return $this->twigEnvironment;
-
 	}
 }
