@@ -8,6 +8,7 @@
  */
 
 namespace Redshop\Promotion;
+use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
@@ -43,5 +44,28 @@ class Coupon
 		}
 
 		return $row->type == 1 ? (float) (($cart['product_subtotal'] * $row->value) / 100) : (float) $row->value;
+	}
+
+	/**
+	 * Method for get user coupons
+	 *
+	 * @param   integer $uid User ID
+	 *
+	 * @return  array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function getUserCoupons($uid)
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__redshop_coupons')
+			->where('published = 1')
+			->where('userid = ' . (int) $uid)
+			->where('end_date >= ' . $db->q(Factory::getDate()->toSql()))
+			->where($db->qn('amount_left') . ' > 0');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
