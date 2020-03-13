@@ -58,7 +58,9 @@ pipeline:
             - vendor/bin/robo tests:paid-extensions-for-integration-tests
             - cd tests/extension/paid-extensions
             - mv gulp-config.sample.json gulp-config.json
-            - npm install
+            - npm install --save-dev
+            - node -v
+            - gulp -v
             - gulp composer
             - gulp release --skip-version
             - cd ../../..
@@ -75,7 +77,7 @@ pipeline:
 
     00-setup-73:
         group: 00-setup
-        image: redwebaps/testbox-chromedriver:79.0-n12-dev-n12-dev
+        image: redwebaps/testbox-chromedriver:79.0-n12-dev
         pull: true
         environment:
             - tests_user=admin
