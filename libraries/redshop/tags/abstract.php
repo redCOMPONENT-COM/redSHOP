@@ -65,6 +65,13 @@ abstract class RedshopTagsAbstract
 	 */
 	protected $data = array();
 
+    /**
+     * @var    array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public $optionLayout;
+
 	/**
 	 * RedshopTagsAbstract constructor.
 	 *
@@ -287,4 +294,39 @@ abstract class RedshopTagsAbstract
 
 		return $template;
 	}
+
+    /**
+     * Get width height
+     *
+     * @param   string   $template
+     * @param   string   $prefix
+     * @param   string   $redConfigHeight
+     * @param   string   $redConfigWidth
+     *
+     * @return  array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getWidthHeight($template, $prefix, $redConfigHeight, $redConfigWidth)
+    {
+        if (strpos($template, '{' . $prefix . '_3}') !== false) {
+            $imageTag = '{' . $prefix . '_3}';
+            $height   = Redshop::getConfig()->get($redConfigHeight . '_3');
+            $width    = Redshop::getConfig()->get($redConfigWidth . '_3');
+        } elseif (strpos($template, '{' . $prefix . '_2}') !== false) {
+            $imageTag = '{' . $prefix . '_2}';
+            $height   = Redshop::getConfig()->get($redConfigHeight . '_2');
+            $width    = Redshop::getConfig()->get($redConfigWidth . '_2');
+        } elseif (strpos($template, '{' . $prefix . '_1}') !== false) {
+            $imageTag = '{' . $prefix . '_1}';
+            $height   = Redshop::getConfig()->get($redConfigHeight);
+            $width    = Redshop::getConfig()->get($redConfigWidth);
+        } else {
+            $imageTag = '{' . $prefix . '}';
+            $height   = Redshop::getConfig()->get($redConfigHeight);
+            $width    = Redshop::getConfig()->get($redConfigWidth);
+        }
+
+        return ['height' => $height, 'imageTag' => $imageTag, 'width' => $width];
+    }
 }
