@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$remove_format = JHtml::$formatOptions;
+$removeFormat = JHtml::$formatOptions;
 
 // Calculation UNIT.
 $options = array();
@@ -16,8 +16,8 @@ $options[] = JHtml::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
 $options[] = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
 $options[] = JHtml::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
 $lists['discount_calc_oprand'] = JHtml::_('select.genericlist', $options, 'pdc_oprand[]', 'class="inputbox" size="1" ', 'value', 'text', '+');
-$lists['discount_calc_oprand'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_oprand']);
-$lists['discount_calc_oprand'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_oprand']);
+$lists['discount_calc_oprand'] = str_replace($removeFormat['format.indent'], "", $lists['discount_calc_oprand']);
+$lists['discount_calc_oprand'] = str_replace($removeFormat['format.eol'], "", $lists['discount_calc_oprand']);
 
 $app = JFactory::getApplication();
 $cId = $app->input->getInt('cid');
@@ -190,10 +190,10 @@ $stockrooms = $model->StockRoomList();
 									</tr>
 
 									<?php
-										$calc_data = \Redshop\Promotion\Discount::getDiscountCalcData(0, $cId[0], 0);
+										$calcData = \Redshop\Promotion\Discount::getDiscountCalcData(0, $cId[0], 0);
 
 										// ToDo: This should be in view.html.php?
-										for ($i = 0, $in = count($calc_data); $i < $in; $i++)
+										for ($i = 0, $in = count($calcData); $i < $in; $i++)
 										{
 											// Calculation UNIT.
 											$lists = array();
@@ -208,7 +208,7 @@ $stockrooms = $model->StockRoomList();
 																					'class="inputbox" size="1" ',
 																					'value',
 																					'text',
-																					$calc_data[$i]->discount_calc_unit
+																					$calcData[$i]->discount_calc_unit
 																			);
 											unset($options);
 									?>
@@ -218,13 +218,13 @@ $stockrooms = $model->StockRoomList();
 													<?php echo $lists['discount_calc_unit'];?>
 												</td>
 												<td>
-													<input type="text" name="area_start[]" value="<?php echo $calc_data[$i]->area_start; ?>"/>
+													<input type="text" name="area_start[]" value="<?php echo $calcData[$i]->area_start; ?>"/>
 												</td>
 												<td>
-													<input type="text" name="area_end[]" value="<?php echo $calc_data[$i]->area_end; ?>"/>
+													<input type="text" name="area_end[]" value="<?php echo $calcData[$i]->area_end; ?>"/>
 												</td>
 												<td>
-													<input type="text" name="area_price[]" value="<?php echo $calc_data[$i]->area_price; ?>"/>
+													<input type="text" name="area_price[]" value="<?php echo $calcData[$i]->area_price; ?>"/>
 												</td>
 												<td>
 													<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
@@ -232,7 +232,7 @@ $stockrooms = $model->StockRoomList();
 														   class="button"
 														   type="button"
 														/>
-													<input type="hidden" name="discount_calc_id[]" value="<?php echo $calc_data[$i]->id; ?>"/>
+													<input type="hidden" name="discount_calc_id[]" value="<?php echo $calcData[$i]->id; ?>"/>
 												</td>
 											</tr>
 									<?php
@@ -271,9 +271,9 @@ $stockrooms = $model->StockRoomList();
 									</tr>
 
 									<?php
-										$calc_data = \Redshop\Promotion\Discount::getDiscountCalcDataExtra('', $cId[0]);
+										$calcData = \Redshop\Promotion\Discount::getDiscountCalcDataExtra('', $cId[0]);
 
-										for ($i = 0, $in = count($calc_data); $i < $in; $i++)
+										for ($i = 0, $in = count($calcData); $i < $in; $i++)
 										{
 											// Calculation UNIT.
 											$options = array();
@@ -287,24 +287,24 @@ $stockrooms = $model->StockRoomList();
 																					'class="inputbox" size="1" ',
 																					'value',
 																					'text',
-																					$calc_data[$i]->oprand
+																					$calcData[$i]->oprand
 																				);
 
 											unset($options);
 									?>
 											<tr>
 												<td>
-													<input type="text" name="pdc_option_name[]" value="<?php echo $calc_data[$i]->option_name; ?>"/>
+													<input type="text" name="pdc_option_name[]" value="<?php echo $calcData[$i]->option_name; ?>"/>
 												</td>
 												<td>
 													<?php echo $lists['discount_calc_oprand'];?>
 												</td>
 												<td>
-													<input type="text" name="pdc_price[]" value="<?php echo $calc_data[$i]->price; ?>"/>
+													<input type="text" name="pdc_price[]" value="<?php echo $calcData[$i]->price; ?>"/>
 												</td>
 												<td>
 													<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElementExtra(this)" class="button" type="button"/>
-													<input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="<?php echo $calc_data[$i]->pdcextra_id; ?>"/>
+													<input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="<?php echo $calcData[$i]->pdcextra_id; ?>"/>
 												</td>
 											</tr>
 									<?php
