@@ -77,7 +77,7 @@ pipeline:
 
     00-setup-73:
         group: 00-setup
-        image: redwebaps/testbox-chromedriver:79.0-n12-dev-n12-dev
+        image: redwebaps/testbox-chromedriver:79.0-n12-dev
         pull: true
         environment:
             - tests_user=admin
