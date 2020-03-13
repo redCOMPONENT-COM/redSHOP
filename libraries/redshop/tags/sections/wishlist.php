@@ -340,7 +340,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		}
 
 		$linkRemove = JRoute::_($linkRemove . '&Itemid=' . $this->itemId, false);
-		$imageThumbProduct = $this->getWidthHeight($templateProduct, 'product_thumb_image');
+		$imageThumbProduct = $this->getWidthHeight($templateProduct, 'product_thumb_image', 'THUMB_HEIGHT', 'THUMB_WIDTH');
 		$thumbImage             = Redshop\Product\Image\Image::getImage($wishlist->product_id, $link, $imageThumbProduct['width'], $imageThumbProduct['height']);
 
 		if ($this->isTagExists($imageThumbProduct['imageTag']))
@@ -712,39 +712,5 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		$this->totalCountNoUserField .= $countNoUserField . ",";
 
 		return $templateProduct;
-	}
-
-	/**
-	 * Get width height
-	 *
-	 * @param   string   $template
-	 * @param   string   $type
-	 *
-	 * @return  array
-	 *
-	 * @since 3.0
-	 */
-	public function getWidthHeight($template, $type)
-	{
-		if (strpos($template, '{' . $type . '_3}') !== false) {
-			$imageTag = '{' . $type . '_3}';
-			$height   = Redshop::getConfig()->get('THUMB_HEIGHT_3');
-			$width    = Redshop::getConfig()->get('THUMB_WIDTH_3');
-		} elseif (strpos($template, '{' . $type . '_2}') !== false) {
-			$imageTag = '{' . $type . '_2}';
-			$height   = Redshop::getConfig()->get('THUMB_HEIGHT_2');
-			$width    = Redshop::getConfig()->get('THUMB_WIDTH_2');
-		} elseif (strpos($template, '{' . $type . '_1}') !== false) {
-			$imageTag = '{' . $type . '_1}';
-			$height   = Redshop::getConfig()->get('THUMB_HEIGHT');
-			$width    = Redshop::getConfig()->get('THUMB_WIDTH');
-		} else {
-			$imageTag = '{' . $type . '}';
-			$height   = Redshop::getConfig()->get('THUMB_HEIGHT');
-			$width    = Redshop::getConfig()->get('THUMB_WIDTH');
-		}
-
-		$productThumbImage = ['height' => $height, 'imageTag' => $imageTag, 'width' => $width];
-		return $productThumbImage;
 	}
 }

@@ -1,6 +1,6 @@
 {% if 'PRODUCT_IS_LIGHTBOX' | redconfig %}
     <a title="{{ altText }}" class="modal"
-       href="{{ constant('REDSHOP_MEDIA_IMAGE_ABSPATH') }}manufacturer/{{ data.id }}/{{ media.get('media_name') }}"
+       href="{{ constant('REDSHOP_MEDIA_IMAGE_ABSPATH') }}manufacturer/{{ manufacturerId }}/{{ media.get('media_name') }}"
        rel="{handler: 'image', size: {}}">
             <img alt="{{ altText }}" title="{{ altText }}" src={{ manufacturerImg }}>
     </a>
