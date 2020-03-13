@@ -43,8 +43,7 @@ pipeline:
             - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
             - npm install --save-dev
             - npm rebuild node-sass
-            - node -v
-            - gulp -v
+
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
             - composer config -g repo.packagist composer https?://packagist.jp
@@ -59,8 +58,6 @@ pipeline:
             - cd tests/extension/paid-extensions
             - mv gulp-config.sample.json gulp-config.json
             - npm install --save-dev
-            - node -v
-            - gulp -v
             - gulp composer
             - gulp release --skip-version
             - cd ../../..
