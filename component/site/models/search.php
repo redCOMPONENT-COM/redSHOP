@@ -346,6 +346,8 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	public function getSearchCondition($fields, $condition, $glue = 'OR')
 	{
+		$condition = trim($condition);
+
 		if (empty($condition)) {
 			return '1 = 1';
 		}
