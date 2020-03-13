@@ -157,7 +157,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 			return $this->template;
 		} elseif ($this->view == 'account') {
 			$this->productModel = $this->data['productModel'];
-			$this->extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
+			$this->extraFieldName = \Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$wishlistTemplate = '';
 			$wishlists = $this->data['wishlist'];
 			$templateProduct = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');
@@ -293,15 +293,15 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 					$myProductId = '';
 					$countNoUserField = 0;
 
-					for ($i = 1; $i < count($wishlistSesions); $i++) {
-						for ($k = 1; $k < count($userFieldArr); $k++) {
+					foreach ($wishlistSesions as $wishlistSesion) {
+						for ($k = 0; $k < count($userFieldArr); $k++) {
 							$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields(
 								$userFieldArr[$k],
 								12,
 								'',
 								0,
 								0,
-								$wishlistSesions[$i]->product_id
+                                $wishlistSesion->product_id
 							);
 
 							if ($productUserFields[1] != "") {
@@ -309,7 +309,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 							}
 						}
 
-						$myProductId .= $wishlistSesions[$i]->product_id . ",";
+						$myProductId .= $wishlistSesion->product_id . ",";
 					}
 				}
 			}
@@ -367,6 +367,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 */
 	public function replaceProduct($wishlist, $templateProduct)
 	{
+	    $repleaceProduct = [];
 		// @Todo: Refactor template section product
 		$wishlist->wishlistData = RedshopHelperWishlist::getWishlist($wishlist->wishlist_id ?? '');
 		$session = JFactory::getSession();
@@ -382,7 +383,14 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 			. '&pid=' . $wishlist->product_id . '&remove=1';
 
 		if ($isIndividualAddToCart) {
-			$linkRemove .= '&wishlist_product_id=' . $wishlist->wishlistData->wishlist_product_id;
+		    if (isset($wishlist->wishlistData->wishlist_product_id))
+            {
+                $linkRemove .= '&wishlist_product_id=' . $wishlist->wishlistData->wishlist_product_id;
+            }
+		    else
+            {
+                $linkRemove .= '&wishlist_product_id=""';
+            }
 		}
 
 		if (isset($wishlist->wishlist_id)) {
@@ -394,7 +402,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 			);
 		}
 
-		$imageThumbProduct = $this->getWidthHeight($templateProduct, 'product_thumb_image');
+		$imageThumbProduct = $this->getWidthHeight($templateProduct, 'product_thumb_image', 'THUMB_HEIGHT', 'THUMB_WIDTH');
 		$thumbImage = Redshop\Product\Image\Image::getImage(
 			$wishlist->product_id,
 			$link,
@@ -403,8 +411,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 		);
 
 		if ($this->isTagExists($imageThumbProduct['imageTag'])) {
-			$this->replacements[$imageThumbProduct["imageTag"]] = $thumbImage;
-			$templateProduct = $this->strReplace($this->replacements, $templateProduct);
+            $repleaceProduct[$imageThumbProduct["imageTag"]] = $thumbImage;
+			$templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 		}
 
 		if ($this->isTagExists('{product_number}')) {
@@ -420,8 +428,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 				RedshopLayoutHelper::$layoutOption
 			);
 
-			$this->replacements["{product_number}"] = $productNumber;
-			$templateProduct = $this->strReplace($this->replacements, $templateProduct);
+            $repleaceProduct["{product_number}"] = $productNumber;
+			$templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 		}
 
 		if ($this->isTagExists('{product_name}')) {
@@ -435,9 +443,25 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 				RedshopLayoutHelper::$layoutOption
 			);
 
-			$this->replacements["{product_name}"] = $nameAddress;
-			$templateProduct = $this->strReplace($this->replacements, $templateProduct);
+            $repleaceProduct["{product_name}"] = $nameAddress;
+			$templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 		}
+
+        if ($this->isTagExists('{product_s_desc}')) {
+            $productDesc = RedshopLayoutHelper::render(
+                'tags.common.tag',
+                array(
+                    'tag' => 'dev',
+                    'class' => 'product_desc',
+                    'text'  => $wishlist->product_s_desc
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
+
+            $repleaceProduct["{product_s_desc}"] = $productDesc;
+            $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
+        }
 
 		// Checking for child products start
 		if ($this->isTagExists("{child_products}")) {
@@ -688,22 +712,25 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 					$countNoUserField++;
 				}
 
-				$templateProduct = str_replace(
-					'{' . $userfieldArr[$ui] . '_lbl}',
-					$productUserFields[0],
-					$templateProduct
-				);
-				$templateProduct = str_replace('{' . $userfieldArr[$ui] . '}', $productUserFields[1], $templateProduct);
+                $repleaceProduct['{' . $userfieldArr[$ui] . '_lbl}'] = $productUserFields[0];
+                $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
+
+                $repleaceProduct['{' . $userfieldArr[$ui] . '_lbl}'] = $productUserFields[1];
+                $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 			}
 
 			$productUserFieldsForm = "<form method='post' action='' id='user_fields_form' name='user_fields_form'>";
 
 			if ($ufield != "") {
-				$templateProduct = str_replace("{if product_userfield}", $productUserFieldsForm, $templateProduct);
-				$templateProduct = str_replace("{product_userfield end if}", "</form>", $templateProduct);
+                $repleaceProduct["{if product_userfield}"] = $productUserFieldsForm;
+                $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
+                $repleaceProduct["{product_userfield end if}"] = "</form>";
+                $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 			} else {
-				$templateProduct = str_replace("{if product_userfield}", "", $templateProduct);
-				$templateProduct = str_replace("{product_userfield end if}", "", $templateProduct);
+                $repleaceProduct["{if product_userfield}"] = "";
+                $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
+                $repleaceProduct["{product_userfield end if}"] = "";
+                $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 			}
 		}
 
@@ -719,8 +746,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 				RedshopLayoutHelper::$layoutOption
 			);
 
-			$this->replacements["{read_more}"] = $rMore;
-			$templateProduct = $this->strReplace($this->replacements, $templateProduct);
+            $repleaceProduct["{read_more}"] = $rMore;
+			$templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 		}
 
 		if ($this->isTagExists('{read_more_link}')) {
@@ -734,8 +761,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 				RedshopLayoutHelper::$layoutOption
 			);
 
-			$this->replacements["{read_more_link}"] = $rMoreLink;
-			$templateProduct = $this->strReplace($this->replacements, $templateProduct);
+            $repleaceProduct["{read_more_link}"] = $rMoreLink;
+			$templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 		}
 
 		if ($this->isTagExists('{remove_product_link}')) {
@@ -750,8 +777,8 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 				RedshopLayoutHelper::$layoutOption
 			);
 
-			$this->replacements["{remove_product_link}"] = $removeProductLink;
-			$templateProduct = $this->strReplace($this->replacements, $templateProduct);
+            $repleaceProduct["{remove_product_link}"] = $removeProductLink;
+			$templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 		}
 
 		// Extra field display
@@ -763,8 +790,10 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 			1
 		);
 
-		$templateProduct = str_replace("{if product_on_sale}", "", $templateProduct);
-		$templateProduct = str_replace("{product_on_sale end if}", "", $templateProduct);
+        $repleaceProduct["{if product_on_sale}"] = "";
+        $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
+        $repleaceProduct["{product_on_sale end if}"] = "";
+        $templateProduct = $this->strReplace($repleaceProduct, $templateProduct);
 
 		if (isset($wishlist->category_id) === false) {
 			$wishlist->category_id = 0;
@@ -782,7 +811,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 				$totalatt,
 				$totalAccessory,
 				$countNoUserField,
-				$wishlist->wishlistData->wishlist_product_id
+				$wishlist->wishlistData->wishlist_product_id ?? ''
 			);
 		} else {
 			$templateProduct = Redshop\Cart\Render::replace(
@@ -805,41 +834,6 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
 		return $templateProduct;
 	}
-
-	/**
-	 * Get width height
-	 *
-	 * @param string $template
-	 * @param string $type
-	 *
-	 * @return  array
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function getWidthHeight($template, $type)
-	{
-		if (strpos($template, '{' . $type . '_3}') !== false) {
-			$imageTag = '{' . $type . '_3}';
-			$height = Redshop::getConfig()->get('THUMB_HEIGHT_3');
-			$width = Redshop::getConfig()->get('THUMB_WIDTH_3');
-		} elseif (strpos($template, '{' . $type . '_2}') !== false) {
-			$imageTag = '{' . $type . '_2}';
-			$height = Redshop::getConfig()->get('THUMB_HEIGHT_2');
-			$width = Redshop::getConfig()->get('THUMB_WIDTH_2');
-		} elseif (strpos($template, '{' . $type . '_1}') !== false) {
-			$imageTag = '{' . $type . '_1}';
-			$height = Redshop::getConfig()->get('THUMB_HEIGHT');
-			$width = Redshop::getConfig()->get('THUMB_WIDTH');
-		} else {
-			$imageTag = '{' . $type . '}';
-			$height = Redshop::getConfig()->get('THUMB_HEIGHT');
-			$width = Redshop::getConfig()->get('THUMB_WIDTH');
-		}
-
-		$productThumbImage = ['height' => $height, 'imageTag' => $imageTag, 'width' => $width];
-		return $productThumbImage;
-	}
-
 
 	public function replaceWishListMain($wishlists, &$template)
 	{
