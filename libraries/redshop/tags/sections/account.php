@@ -32,6 +32,11 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 */
 	public $itemId;
 
+	/**
+	 * @var    JUser
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private $user;
 
 	/**
@@ -169,6 +174,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 		return parent::replace();
 	}
 
+	/**
+	 * Execute replace tag shipping
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function replaceTagShipping()
 	{
 		if (Redshop::getConfig()->get('SHIPPING_METHOD_ENABLE')) {
@@ -201,6 +213,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 		}
 	}
 
+	/**
+	 * Execute replace order
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function replaceOrder()
 	{
 		if ($this->isTagExists('{order_loop_start}') && $this->isTagExists('{order_loop_end}')) {
@@ -280,6 +299,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 		}
 	}
 
+	/**
+	 * Execute replace coupon
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function replaceCoupon()
 	{
 		$couponTemplate = $this->getTemplateBetweenLoop('{coupon_loop_start}', '{coupon_loop_end}');
@@ -327,6 +353,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 		}
 	}
 
+	/**
+	 * Execute replace my tag
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function replaceMyTag()
 	{
 		$myTags = \Redshop\Account\Helper::countMyTags();
@@ -364,6 +397,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 		}
 	}
 
+	/**
+	 * Execute replace quotation
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function replaceQuotation()
 	{
 		$subTemplateQuotation = $this->getTemplateBetweenLoop('{quotation_loop_start}', '{quotation_loop_end}');
@@ -433,6 +473,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 		}
 	}
 
+	/**
+	 * Execute replace wishlist
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function replaceWishlist()
 	{
 		if (Redshop::getConfig()->get('MY_WISHLIST')) {
@@ -469,6 +516,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 		}
 	}
 
+	/**
+	 * Execute replace product serial
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function replaceProductSerial()
 	{
 		$subTemplateProductSerial = $this->getTemplateBetweenLoop(
@@ -509,6 +563,13 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 		}
 	}
 
+	/**
+	 * Execute replace compare product
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function replaceCompareProduct()
 	{
 		if (Redshop::getConfig()->get('COMPARE_PRODUCTS')) {
