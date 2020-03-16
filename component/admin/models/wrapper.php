@@ -136,8 +136,16 @@ class RedshopModelWrapper extends RedshopModel
 			$query->where($db->qn('w.wrapper_name') . " LIKE '%" . $filter . "%' ");
 		}
 
-		$filterOrder = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'wrapper_id');
-		$filterOrderDir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filterOrder = $app->getUserStateFromRequest(
+			$this->_context . 'filter_order',
+			'filter_order',
+			'wrapper_id'
+		);
+		$filterOrderDir = $app->getUserStateFromRequest(
+			$this->_context . 'filter_order_Dir',
+			'filter_order_Dir',
+			''
+		);
 
 		$query->order($db->escape($db->qn($filterOrder) . ' ' . $filterOrderDir));
 
