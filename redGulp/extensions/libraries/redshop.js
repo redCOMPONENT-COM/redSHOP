@@ -12,7 +12,6 @@ var xml2js = require("xml2js");
 var parser = new xml2js.Parser({ explicitArray: false });
 var path = require("path");
 var composer = require("gulp-composer");
-var gutil = require("gulp-util");
 
 var libraryName = "redshop";
 var extPath = "./libraries/" + libraryName;
