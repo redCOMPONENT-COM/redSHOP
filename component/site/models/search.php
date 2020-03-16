@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  Model
@@ -65,42 +66,32 @@ class RedshopModelSearch extends RedshopModel
 
 		$cid = 0;
 
-		if ($layout == 'newproduct')
-		{
+		if ($layout == 'newproduct') {
 			$result = $item->query['template_id'];
 
-			if ($result != 0)
-			{
+			if ($result != 0) {
 				$templateid = $result;
-			}
-			else
-			{
+			} else {
 				$cid = $item->query['categorytemplate'];
 			}
-		}
-		elseif ($layout == 'productonsale')
-		{
+		} elseif ($layout == 'productonsale') {
 			$cid = $item->params->get('categorytemplate');
 		}
 
-		if ($layout == 'productonsale' || $layout == 'featuredproduct')
-		{
+		if ($layout == 'productonsale' || $layout == 'featuredproduct') {
 			$result = $item->params->get('template_id');
 
-			if ($result != 0)
-			{
+			if ($result != 0) {
 				$templateid = $result;
 				$cid        = 0;
 			}
 		}
 
-		if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER'))
-		{
+		if ($templateid == "" && JModuleHelper::isEnabled('redPRODUCTFILTER')) {
 			$module        = JModuleHelper::getModule('redPRODUCTFILTER');
 			$module_params = new Registry($module->params);
 
-			if ($module_params->get('filtertemplate') != "")
-			{
+			if ($module_params->get('filtertemplate') != "") {
 				$templateid = $module_params->get('filtertemplate');
 			}
 		}
@@ -115,67 +106,53 @@ class RedshopModelSearch extends RedshopModel
 			->where('t.section = ' . $db->q('category'))
 			->where('t.published = 1');
 
-		if ($cid != 0)
-		{
+		if ($cid != 0) {
 			$query->where('c.id = ' . (int) $cid);
 		}
 
-		if ($templateid != 0)
-		{
+		if ($templateid != 0) {
 			$query->where('t.id = ' . (int) $templateid);
 		}
 
 		$templateDesc = null;
 
-		if ($template = $db->setQuery($query)->loadObject())
-		{
+		if ($template = $db->setQuery($query)->loadObject()) {
 			$templateDesc = RedshopHelperTemplate::readTemplateFile($template->section, $template->file_name);
 		}
 
 		$this->setState('templateDesc', $templateDesc);
 		$limit = 0;
 
-		if ($module = JModuleHelper::getModule('redshop_search'))
-		{
+		if ($module = JModuleHelper::getModule('redshop_search')) {
 			$module_params  = new Registry($module->params);
 			$perpageproduct = $module_params->get('productperpage', 5);
-		}
-		else
-		{
+		} else {
 			$perpageproduct = 5;
 		}
 
-		if (!strstr($templateDesc, "{show_all_products_in_category}")
+		if (
+			!strstr($templateDesc, "{show_all_products_in_category}")
 			&& strstr($templateDesc, "{pagination}")
 			&& strstr($templateDesc, "perpagelimit:")
-		)
-		{
+		) {
 			$perpage = explode('{perpagelimit:', $templateDesc);
 			$perpage = explode('}', $perpage[1]);
 			$limit   = intval($perpage[0]);
-		}
-		else
-		{
+		} else {
 			$limit = $app->getUserStateFromRequest($this->context . '.limit', 'limit', $limit, 'int');
 
-			if (!$limit && $perpageproduct != 0 && $perpageproduct != '' && $layout == 'default')
-			{
+			if (!$limit && $perpageproduct != 0 && $perpageproduct != '' && $layout == 'default') {
 				$limit = $perpageproduct;
-			}
-			elseif (!$limit && $layout == 'productonsale')
-			{
+			} elseif (!$limit && $layout == 'productonsale') {
 				$limit = $params->get('productlimit', 5);
-			}
-			elseif (!$limit)
-			{
+			} elseif (!$limit) {
 				$limit = Redshop::getConfig()->get('MAXCATEGORY');
 			}
 		}
 
 		$productlimit = 0;
 
-		if (isset($item->query['productlimit']))
-		{
+		if (isset($item->query['productlimit'])) {
 			$productlimit = $item->query['productlimit'];
 		}
 
@@ -236,8 +213,7 @@ class RedshopModelSearch extends RedshopModel
 		$store = $this->getStoreId('getstart');
 
 		// Try to load the data from internal storage.
-		if (isset($this->cache[$store]))
-		{
+		if (isset($this->cache[$store])) {
 			return $this->cache[$store];
 		}
 
@@ -245,8 +221,7 @@ class RedshopModelSearch extends RedshopModel
 		$limit = $this->getState('list.limit');
 		$total = $this->getTotal();
 
-		if ($start > $total - $limit)
-		{
+		if ($start > $total - $limit) {
 			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
 		}
 
@@ -269,8 +244,7 @@ class RedshopModelSearch extends RedshopModel
 		$store = $this->getStoreId();
 
 		// Try to load the data from internal storage.
-		if (isset($this->cache[$store]))
-		{
+		if (isset($this->cache[$store])) {
 			return $this->cache[$store];
 		}
 
@@ -280,28 +254,19 @@ class RedshopModelSearch extends RedshopModel
 		$query        = $this->_buildQuery($post);
 		$templateDesc = $this->getState('templateDesc');
 
-		if ($templateDesc)
-		{
-			if (strstr($templateDesc, "{show_all_products_in_category}"))
-			{
+		if ($templateDesc) {
+			if (strstr($templateDesc, "{show_all_products_in_category}")) {
 				$db->setQuery($query);
-			}
-			elseif (strstr($templateDesc, "{pagination}") || $this->getState('productlimit') > 0)
-			{
+			} elseif (strstr($templateDesc, "{pagination}") || $this->getState('productlimit') > 0) {
 				$db->setQuery($query, $this->getStart(), $this->getState('list.limit'));
-			}
-			else
-			{
+			} else {
 				$db->setQuery($query);
 			}
-		}
-		else
-		{
+		} else {
 			$db->setQuery($query);
 		}
 
-		if ($productIds = $db->loadColumn())
-		{
+		if ($productIds = $db->loadColumn()) {
 			// Third steep get all product relate info
 			$query->clear()
 				->where('p.product_id IN (' . implode(',', $productIds) . ')')
@@ -320,8 +285,7 @@ class RedshopModelSearch extends RedshopModel
 				->leftJoin('#__redshop_category AS c ON c.id = pc.category_id')
 				->leftJoin('#__redshop_manufacturer AS m ON m.id = p.manufacturer_id');
 
-			if ($products = $db->setQuery($query)->loadObjectList('concat_id'))
-			{
+			if ($products = $db->setQuery($query)->loadObjectList('concat_id')) {
 				\Redshop\Product\Product::setProduct($products);
 				$items = array_values($products);
 			}
@@ -348,8 +312,7 @@ class RedshopModelSearch extends RedshopModel
 		$store = $this->getStoreId('getTotal');
 
 		// Try to load the data from internal storage.
-		if (isset($this->cache[$store]))
-		{
+		if (isset($this->cache[$store])) {
 			return $this->cache[$store];
 		}
 
@@ -360,10 +323,8 @@ class RedshopModelSearch extends RedshopModel
 		$total = $db->setQuery($this->_buildQuery(0, true))
 			->loadResult();
 
-		if ($layout == 'newproduct' || $layout == 'productonsale')
-		{
-			if ($total > $productlimit && $productlimit != "")
-			{
+		if ($layout == 'newproduct' || $layout == 'productonsale') {
+			if ($total > $productlimit && $productlimit != "") {
 				$total = $productlimit;
 			}
 		}
@@ -385,8 +346,9 @@ class RedshopModelSearch extends RedshopModel
 	 */
 	public function getSearchCondition($fields, $condition, $glue = 'OR')
 	{
-		if (empty($condition))
-		{
+		$condition = trim($condition);
+
+		if (empty($condition)) {
 			return '1 = 1';
 		}
 
@@ -394,25 +356,19 @@ class RedshopModelSearch extends RedshopModel
 		$db           = JFactory::getDbo();
 		$conditions   = explode(' ', trim($condition));
 
-		if (!is_array($fields))
-		{
+		if (!is_array($fields)) {
 			$fields = array($fields, 'fds.data_txt');
-		}
-		else
-		{
+		} else {
 			$fields[] = 'fds.data_txt';
 		}
 
-		foreach ((array) $fields as $field)
-		{
+		foreach ((array) $fields as $field) {
 			$glueOneField = array();
 
-			foreach ((array) $conditions as $con)
-			{
+			foreach ((array) $conditions as $con) {
 				$con = trim($con);
 
-				if ($con != '')
-				{
+				if ($con != '') {
 					$glueOneField[] = $db->qn($field) . ' LIKE ' . $db->quote($con . '%');
 				}
 			}
@@ -423,12 +379,9 @@ class RedshopModelSearch extends RedshopModel
 			$where[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
 		}
 
-		if (!empty($where))
-		{
+		if (!empty($where)) {
 			return '(' . implode(' ' . $glue . ' ', $where) . ')';
-		}
-		else
-		{
+		} else {
 			return '1 = 1';
 		}
 	}
@@ -469,13 +422,10 @@ class RedshopModelSearch extends RedshopModel
 		$orderByObj = RedshopHelperUtility::prepareOrderBy(urldecode($orderByMethod));
 		$orderBy    = $orderByObj->ordering . ' ' . $orderByObj->direction;
 
-		if ($getTotal)
-		{
+		if ($getTotal) {
 			$query = $db->getQuery(true)
 				->select('COUNT(DISTINCT(p.product_id))');
-		}
-		else
-		{
+		} else {
 			$query = $db->getQuery(true)
 				->select('DISTINCT(p.product_id)')
 				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.id = p.manufacturer_id')
@@ -491,28 +441,24 @@ class RedshopModelSearch extends RedshopModel
 		$cat_group       = array();
 		$customField     = $input->get('custom_field', array(), 'array');
 
-		if ($category_id = $input->get('category_id', 0))
-		{
+		if ($category_id = $input->get('category_id', 0)) {
 			$cat = RedshopHelperCategory::getCategoryListArray(0, $category_id);
 
-			for ($j = 0, $countCat = count($cat); $j < $countCat; $j++)
-			{
-				$cat_group[$j] = $cat[$j]->category_id;
+			if (is_array($cat) && count($cat) > 0) {
+				for ($j = 0, $countCat = count($cat); $j < $countCat; $j++) {
+					$cat_group[$j] = $cat[$j]->category_id;
 
-				if ($j == count($cat) - 1)
-				{
-					$cat_group[$j + 1] = $category_id;
+					if ($j == count($cat) - 1) {
+						$cat_group[$j + 1] = $category_id;
+					}
 				}
 			}
 
 			$cat_group = ArrayHelper::toInteger($cat_group);
 
-			if (!empty($cat_group))
-			{
+			if (!empty($cat_group)) {
 				$cat_group = join(',', $cat_group);
-			}
-			else
-			{
+			} else {
 				$cat_group = $category_id;
 			}
 		}
@@ -527,8 +473,7 @@ class RedshopModelSearch extends RedshopModel
 		// Shopper group - choose from manufactures Start
 		$shopper_group_manufactures = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 
-		if ($shopper_group_manufactures != "")
-		{
+		if ($shopper_group_manufactures != "") {
 			// Sanitize ids
 			$manufacturerIds = explode(',', $shopper_group_manufactures);
 			$manufacturerIds = ArrayHelper::toInteger($manufacturerIds);
@@ -536,37 +481,32 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
 		}
 
-		if (!empty($customField))
-		{
+		if (!empty($customField)) {
 			$key = 0;
 			$subQuery = array();
 
-			foreach ($customField as $fieldId => $fieldValue)
-			{
-				if (empty($fieldValue))
-				{
+			foreach ($customField as $fieldId => $fieldValue) {
+				if (empty($fieldValue)) {
 					continue;
 				}
 
 				$subQuery[] = 'FIND_IN_SET("' . $fieldValue . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
 
 				$query->leftJoin(
-						$db->qn('#__redshop_fields_data', 'fd' . $key)
+					$db->qn('#__redshop_fields_data', 'fd' . $key)
 						. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('fd' . $key . '.itemid')
-					)
+				)
 					->where($db->qn('fd' . $key . '.fieldid') . ' = ' . $db->q((int) $fieldId));
 				$key++;
 			}
 
-			if (!empty($subQuery))
-			{
+			if (!empty($subQuery)) {
 				$query->where('(' . implode(' OR ', $subQuery) . ')');
 			}
 		}
 
 		// Shopper group - choose from manufactures End
-		if ($aclProducts != "")
-		{
+		if ($aclProducts != "") {
 			// Sanitize ids
 			$productIds = explode(',', $aclProducts);
 			$productIds = ArrayHelper::toInteger($productIds);
@@ -576,24 +516,20 @@ class RedshopModelSearch extends RedshopModel
 
 		$excludeCategories = $app->input->getString('excludeCategories', '');
 
-		if (!empty($excludeCategories))
-		{
+		if (!empty($excludeCategories)) {
 			$excludeCategories = explode(',', $excludeCategories);
 			$excludeCategories = ArrayHelper::toInteger($excludeCategories);
 			$query->where('pc.category_id NOT IN  (' . implode(',', $excludeCategories) . ')');
 		}
 
-		if ($layout == 'productonsale')
-		{
+		if ($layout == 'productonsale') {
 			$categoryid = $item->params->get('categorytemplate');
 
-			if ($categoryid)
-			{
+			if ($categoryid) {
 				$catMain      = RedshopHelperCategory::getCategoryTree($categoryid);
 				$catGroupMain = array();
 
-				foreach ($catMain as $row)
-				{
+				foreach ($catMain as $row) {
 					$catGroupMain[] = $row->id;
 				}
 
@@ -612,22 +548,16 @@ class RedshopModelSearch extends RedshopModel
 					'p.discount_price > 0'
 				)
 			);
-		}
-		elseif ($layout == 'featuredproduct')
-		{
+		} elseif ($layout == 'featuredproduct') {
 			$query->where('p.product_special = 1');
-		}
-		elseif ($layout == 'newproduct')
-		{
+		} elseif ($layout == 'newproduct') {
 			$categoryid = $item->params->get('categorytemplate');
 
-			if ($categoryid)
-			{
+			if ($categoryid) {
 				$catMain      = RedshopHelperCategory::getCategoryTree($categoryid);
 				$catGroupMain = array();
 
-				foreach ($catMain as $row)
-				{
+				foreach ($catMain as $row) {
 					$catGroupMain[] = $row->id;
 				}
 
@@ -640,23 +570,18 @@ class RedshopModelSearch extends RedshopModel
 			$query->where('p.publish_date BETWEEN ' . $db->quote($days_before) . ' AND ' . $db->quote($today))
 				->where('p.expired = 0')
 				->where('p.product_parent_id = 0');
-		}
-		elseif ($layout == 'redfilter')
-		{
+		} elseif ($layout == 'redfilter') {
 			$query->where('p.expired = 0');
 
 			// Get products for filtering
-			if ($products = $this->getRedFilterProduct())
-			{
+			if ($products = $this->getRedFilterProduct()) {
 				// Sanitize ids
 				$productIds = explode(',', $products);
 				$productIds = ArrayHelper::toInteger($productIds);
 
 				$query->where('p.product_id IN ( ' . implode(',', $productIds) . ')');
 			}
-		}
-		else
-		{
+		} else {
 			$keyword           = $this->getState('keyword');
 
 			$fieldSearchable = $this->getSearchableProductCustomfields();
@@ -667,13 +592,11 @@ class RedshopModelSearch extends RedshopModel
 
 			$defaultSearchType = $app->input->getCmd('search_type', 'product_name');
 
-			if (!empty($manudata['search_type']))
-			{
+			if (!empty($manudata['search_type'])) {
 				$defaultSearchType = $manudata['search_type'];
 			}
 
-			if ($defaultSearchType == "name_number_desc" || $defaultSearchType == "virtual_product_num")
-			{
+			if ($defaultSearchType == "name_number_desc" || $defaultSearchType == "virtual_product_num") {
 				$query->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.product_id = p.product_id')
 					->leftJoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON pap.attribute_id = a.attribute_id')
 					->leftJoin($db->qn('#__redshop_product_subattribute_color', 'ps') . ' ON ps.subattribute_id = pap.property_id');
@@ -681,8 +604,7 @@ class RedshopModelSearch extends RedshopModel
 
 			$columnsCondition = array();
 
-			switch ($defaultSearchType)
-			{
+			switch ($defaultSearchType) {
 				case 'name_number':
 					$columnsCondition = array('p.product_name', 'p.product_number');
 					break;
@@ -694,8 +616,8 @@ class RedshopModelSearch extends RedshopModel
 					break;
 				case 'name_number_desc':
 					$columnsCondition = array(
-								'p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number',
-								'ps.subattribute_color_number'
+						'p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number',
+						'ps.subattribute_color_number'
 					);
 					break;
 				case 'product_desc':
@@ -709,26 +631,22 @@ class RedshopModelSearch extends RedshopModel
 					break;
 			}
 
-			if ($input->getString('searchProductByCategoryName') == 'yes')
-			{
+			if ($input->getString('searchProductByCategoryName') == 'yes') {
 				$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON  pc.category_id = c.id');
 				$columnsCondition[] = 'c.name';
 			}
 
 			$query->where($this->getSearchCondition($columnsCondition, $keyword));
 
-			if ($manufacture_id == 0)
-			{
-				if (!empty($manudata['manufacturer_id']))
-				{
+			if ($manufacture_id == 0) {
+				if (!empty($manudata['manufacturer_id'])) {
 					$manufacture_id = $manudata['manufacturer_id'];
 				}
 			}
 
 			$query->where('p.expired = 0');
 
-			if ($category_id != 0)
-			{
+			if ($category_id != 0) {
 				// Sanitize ids
 				$cat_group = explode(',', $cat_group);
 				$cat_group = ArrayHelper::toInteger($cat_group);
@@ -736,8 +654,7 @@ class RedshopModelSearch extends RedshopModel
 				$query->where('pc.category_id IN (' . implode(',', $cat_group) . ')');
 			}
 
-			if ($manufacture_id != 0)
-			{
+			if ($manufacture_id != 0) {
 				$query->where('p.manufacturer_id = ' . (int) $manufacture_id);
 			}
 		}
@@ -768,20 +685,16 @@ class RedshopModelSearch extends RedshopModel
 		$lstproduct_id = array();
 		$products      = "";
 
-		if (!empty($getredfilter))
-		{
+		if (!empty($getredfilter)) {
 			$main_sal_sp   = array();
 			$main_sal_type = array();
 			$main_sal_tag  = array();
 
-			if ($app->input->get('main_sel') != "")
-			{
+			if ($app->input->get('main_sel') != "") {
 				$main_sal_sp = explode(",", $app->input->get('main_sel'));
 
-				for ($f = 0, $fn = count($main_sal_sp); $f < $fn; $f++)
-				{
-					if ($main_sal_sp[$f] != "")
-					{
+				for ($f = 0, $fn = count($main_sal_sp); $f < $fn; $f++) {
+					if ($main_sal_sp[$f] != "") {
 						$main_typeid     = explode(".", $main_sal_sp[$f]);
 						$main_sal_type[] = $main_typeid[1];
 						$main_sal_tag[]  = $main_typeid[0];
@@ -795,10 +708,8 @@ class RedshopModelSearch extends RedshopModel
 						  LEFT JOIN #__redshop_product AS p ON p.product_id = a.product_id
 						  LEFT JOIN #__redshop_product_category_xref x ON x.product_id = a.product_id ";
 
-			for ($i = 0, $in = count($main_sal_type); $i < $in; $i++)
-			{
-				if ($i != 0)
-				{
+			for ($i = 0, $in = count($main_sal_type); $i < $in; $i++) {
+				if ($i != 0) {
 					$q .= " LEFT JOIN #__redproductfinder_association_tag AS t" . $i . " ON t" . $i . ".association_id=ta.association_id ";
 				}
 			}
@@ -806,28 +717,22 @@ class RedshopModelSearch extends RedshopModel
 			$q        .= "where ( ";
 			$dep_cond = array();
 
-			for ($i = 0, $in = count($main_sal_type); $i < $in; $i++)
-			{
+			for ($i = 0, $in = count($main_sal_type); $i < $in; $i++) {
 				$chk_q = "";
 
 				// Search for checkboxes
-				if ($i != 0)
-				{
+				if ($i != 0) {
 					$chk_q .= "t" . $i . ".tag_id='" . (int) $main_sal_tag[$i] . "' ";
-				}
-				else
-				{
+				} else {
 					$chk_q .= "ta.tag_id='" . (int) $main_sal_tag[$i] . "' ";
 				}
 
-				if ($chk_q != "")
-				{
+				if ($chk_q != "") {
 					$dep_cond[] = " ( " . $chk_q . " ) ";
 				}
 			}
 
-			if (count($dep_cond) <= 0)
-			{
+			if (count($dep_cond) <= 0) {
 				$dep_cond[] = "1=1";
 			}
 
@@ -836,15 +741,12 @@ class RedshopModelSearch extends RedshopModel
 			$q       .= ") AND p.published = '1' AND x.category_id = " . (int) JRequest::getInt('cid', 0) . " order by p.product_name ";
 			$product = $this->_getList($q);
 
-			for ($i = 0, $in = count($product); $i < $in; $i++)
-			{
+			for ($i = 0, $in = count($product); $i < $in; $i++) {
 				$lstproduct_id[] = $product[$i]->product_id;
 			}
 
 			$products = implode(",", $lstproduct_id);
-		}
-		else
-		{
+		} else {
 			$session->set('redfilterproduct', array());
 		}
 
@@ -868,10 +770,8 @@ class RedshopModelSearch extends RedshopModel
 
 		$redproducttotal = count($redfilterproduct);
 
-		foreach ($types as $key => $type)
-		{
-			if (@!array_key_exists($type->id, $getredfilter))
-			{
+		foreach ($types as $key => $type) {
+			if (@!array_key_exists($type->id, $getredfilter)) {
 				$str                        = htmlentities($type->type_name, ENT_COMPAT, "UTF-8");
 				$str                        = preg_replace('/&([a-zA-Z])(uml|acute|grave|circ|tilde|elig|slash|ring);/', '$1', $str);
 				$str                        = str_replace(' ', '', $str);
@@ -881,21 +781,18 @@ class RedshopModelSearch extends RedshopModel
 				$all        = 1;
 				$productids = "";
 
-				if (count($getredfilter) > 0 && $all == 1)
-				{
+				if (count($getredfilter) > 0 && $all == 1) {
 					$type_id = array();
 					$tag_id  = array();
 
 					$k = 0;
 
-					foreach ($getredfilter as $typeid => $tags)
-					{
+					foreach ($getredfilter as $typeid => $tags) {
 						$type_id[] = $typeid;
 						$tags      = explode(".", $tags);
 						$tag_id[]  = $tags[0];
 
-						if (count($getredfilter) - 1 == $k)
-						{
+						if (count($getredfilter) - 1 == $k) {
 							$lasttypeid = $typeid;
 							$lasttagid  = $tags[0];
 						}
@@ -916,8 +813,7 @@ class RedshopModelSearch extends RedshopModel
 
 					$products = array();
 
-					for ($i = 0, $in = count($product); $i < $in; $i++)
-					{
+					for ($i = 0, $in = count($product); $i < $in; $i++) {
 						$products[] = $product[$i]->product_id;
 					}
 
@@ -932,8 +828,7 @@ class RedshopModelSearch extends RedshopModel
 					WHERE j.tag_id = t.id
 					AND j.type_id = " . (int) $id . "  ";
 
-				if ($productids != "")
-				{
+				if ($productids != "") {
 					// Sanitize ids
 					$productIds = explode(',', $productids);
 					$productIds = ArrayHelper::toInteger($productIds);
@@ -947,11 +842,9 @@ class RedshopModelSearch extends RedshopModel
 				$tagname = "";
 
 				// Only show if the type has tags
-				if (count($tags) > 0)
-				{
+				if (count($tags) > 0) {
 					// Create the selection boxes
-					for ($t = 0, $tn = count($tags); $t < $tn; $t++)
-					{
+					for ($t = 0, $tn = count($tags); $t < $tn; $t++) {
 						$type_id = explode('.', $tags[$t]->tag_id);
 
 						$query = "SELECT count(*) as count FROM #__redproductfinder_association_tag as ra
@@ -961,41 +854,30 @@ class RedshopModelSearch extends RedshopModel
 
 						$published = $this->_getList($query);
 
-						if ($published[0]->count > $redproducttotal && $redproducttotal > 0)
-						{
+						if ($published[0]->count > $redproducttotal && $redproducttotal > 0) {
 							$finalcount = $redproducttotal;
-						}
-						else
-						{
+						} else {
 							$finalcount = $published[0]->count;
 						}
 
-						if ($finalcount > 0)
-						{
+						if ($finalcount > 0) {
 							$tagname .= "&nbsp;&nbsp;<a  href='" . JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&typeid=' . $type->id . '&tagid=' . $tags[$t]->tag_id . '&Itemid=' . $Itemid) . "' title='" . $tags[$t]->tag_name . "' >" . $tags[$t]->tag_name . "</a> ( " . $finalcount . " )<br/>";
 						}
 					}
 
-					if ($tagname != "")
-					{
+					if ($tagname != "") {
 						$lists['type' . $key] = $tagname;
 					}
-				}
-				else
-				{
+				} else {
 					unset($types[$key]);
 				}
 			}
 		}
 
-		if (count($getredfilter) != 0)
-		{
-			foreach ($getredfilter as $typeid => $tag_id)
-			{
-				foreach ($types as $key => $type)
-				{
-					if ($typeid == $type->id)
-					{
+		if (count($getredfilter) != 0) {
+			foreach ($getredfilter as $typeid => $tag_id) {
+				foreach ($types as $key => $type) {
+					if ($typeid == $type->id) {
 						$str                        = htmlentities($type->type_name, ENT_COMPAT, "UTF-8");
 						$str                        = preg_replace('/&([a-zA-Z])(uml|acute|grave|circ|tilde|elig|slash|ring);/', '$1', $str);
 						$str                        = str_replace(' ', '', $str);
@@ -1006,24 +888,18 @@ class RedshopModelSearch extends RedshopModel
 						$tagname = "";
 
 						// Only show if the type has tags
-						if (count($tags) > 0)
-						{
+						if (count($tags) > 0) {
 							// Create the selection boxes
-							for ($t = 0, $tn = count($tags); $t < $tn; $t++)
-							{
-								if ($tags[$t]->tagid == $tag_id)
-								{
+							for ($t = 0, $tn = count($tags); $t < $tn; $t++) {
+								if ($tags[$t]->tagid == $tag_id) {
 									$tagname .= "<span style='float:left;'>&nbsp;&nbsp;" . $tags[$t]->tag_name . "</span><span style='float:right;'><a href='javascript:deleteTag(\"$type->id\",\"$Itemid\");' title='" . JText::_('COM_REDSHOP_DELETE') . "' >" . JText::_('COM_REDSHOP_DELETE') . "</a></span><br/>";
 								}
 							}
 
-							if ($tagname != "")
-							{
+							if ($tagname != "") {
 								$filteredlists['type' . $key] = $tagname;
 							}
-						}
-						else
-						{
+						} else {
 							unset($types[$key]);
 						}
 					}
@@ -1031,74 +907,61 @@ class RedshopModelSearch extends RedshopModel
 			}
 		}
 
-		if (count($getredfilter) != 0)
-		{
-			?>
+		if (count($getredfilter) != 0) {
+?>
 			<div id="pfsearchheader"><?php echo JText::_('COM_REDSHOP_SEARCH_RESULT'); ?></div>
 
 			<div class="hrdivider"></div>
 			<?php
-			foreach ($getredfilter as $typeid => $tag_id)
-			{
-				foreach ($types as $key => $type)
-				{
-					if ($typeid == $type->id)
-					{
-						?>
-						<div id="typename_<?php echo $type->id; ?>"
-							 class="typename <?php echo $type->type_name_css; ?>">
+			foreach ($getredfilter as $typeid => $tag_id) {
+				foreach ($types as $key => $type) {
+					if ($typeid == $type->id) {
+			?>
+						<div id="typename_<?php echo $type->id; ?>" class="typename <?php echo $type->type_name_css; ?>">
 							<?php echo $type->type_name; ?>
 							<?php
-							if (strlen($type->tooltip) > 0)
-							{
+							if (strlen($type->tooltip) > 0) {
 								echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', false);
 							} ?>
 						</div>
-						<div id="typevalue_<?php echo $type->id; ?>"
-							 class="typevalue <?php echo $type->type_name_css; ?>">
+						<div id="typevalue_<?php echo $type->id; ?>" class="typevalue <?php echo $type->type_name_css; ?>">
 							<?php echo $filteredlists['type' . $key]; ?></div>
 						<div class="hrdivider <?php echo $type->type_name_css; ?>"></div>
 
-						<?php
+			<?php
 					}
 				}
 			}
 			?>
 			<div>
-				<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&remove=1&Itemid=' . $Itemid); ?>"
-				   title="<?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?>">
+				<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=search&layout=redfilter&remove=1&Itemid=' . $Itemid); ?>" title="<?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?>">
 					<?php echo JText::_('COM_REDSHOP_CLEAR_ALL'); ?></a>
 			</div>
 			<div id="spacer">&nbsp;_________________________</div>
-			<?php
+		<?php
 		}
 
-		if (count($types) > 0)
-		{
-			?>
+		if (count($types) > 0) {
+		?>
 			<div id="pfsearchheader"><?php echo JText::_('COM_REDSHOP_SEARCH_CRITERIA'); ?></div>
 
 			<div class="hrdivider"></div>
 			<?php
 
-			foreach ($types as $key => $type)
-			{
-				if (@!array_key_exists($type->id, $getredfilter) && @array_key_exists('type' . $key, $lists))
-				{
-					?>
-					<div id="<?php echo $type->id; ?>"
-						 class="typename <?php echo $type->type_name_css; ?>">
+			foreach ($types as $key => $type) {
+				if (@!array_key_exists($type->id, $getredfilter) && @array_key_exists('type' . $key, $lists)) {
+			?>
+					<div id="<?php echo $type->id; ?>" class="typename <?php echo $type->type_name_css; ?>">
 						<?php echo $type->type_name; ?>
 						<?php
-						if (strlen($type->tooltip) > 0)
-						{
+						if (strlen($type->tooltip) > 0) {
 							echo ' ' . JHtml::tooltip($type->tooltip, $type->type_name, 'tooltip.png', '', '', false);
 						} ?>
 					</div>
 					<div class="typevalue <?php echo $type->type_name_css; ?>">
 						<?php echo $lists['type' . $key]; ?></div>
 					<div class="hrdivider <?php echo $type->type_name_css; ?>"></div>
-					<?php
+<?php
 				}
 			}
 		}
@@ -1112,20 +975,17 @@ class RedshopModelSearch extends RedshopModel
 		$db           = JFactory::getDbo();
 		$products     = array();
 
-		if (count($getredfilter) > 0 && $all == 1)
-		{
+		if (count($getredfilter) > 0 && $all == 1) {
 			$type_id = array();
 			$tag_id  = array();
 			$k       = 0;
 
-			foreach ($getredfilter as $typeid => $tags)
-			{
+			foreach ($getredfilter as $typeid => $tags) {
 				$type_id[] = $typeid;
 				$tags      = explode(".", $tags);
 				$tag_id[]  = $tags[0];
 
-				if (count($getredfilter) - 1 == $k)
-				{
+				if (count($getredfilter) - 1 == $k) {
 					$lasttypeid = $typeid;
 					$lasttagid  = $tags[0];
 				}
@@ -1143,8 +1003,7 @@ class RedshopModelSearch extends RedshopModel
 			$db->setQuery($query);
 			$product = $db->loadObjectList();
 
-			for ($i = 0, $in = count($product); $i < $in; $i++)
-			{
+			for ($i = 0, $in = count($product); $i < $in; $i++) {
 				$products[] = $product[$i]->product_id;
 			}
 		}
@@ -1157,8 +1016,7 @@ class RedshopModelSearch extends RedshopModel
 			. "WHERE j.tag_id = t.id "
 			. "AND j.type_id = " . (int) $id . " ";
 
-		if (!empty($products))
-		{
+		if (!empty($products)) {
 			// Sanitize ids
 			$products = ArrayHelper::toInteger($products);
 
@@ -1186,10 +1044,8 @@ class RedshopModelSearch extends RedshopModel
 
 		$mids = array();
 
-		for ($i = 0, $countManuf = count($manufacturer); $i < $countManuf; $i++)
-		{
-			if ($manufacturer[$i]->manufacturer_id > 0)
-			{
+		for ($i = 0, $countManuf = count($manufacturer); $i < $countManuf; $i++) {
+			if ($manufacturer[$i]->manufacturer_id > 0) {
 				$mids[] = $manufacturer[$i]->manufacturer_id;
 			}
 		}
@@ -1235,9 +1091,8 @@ class RedshopModelSearch extends RedshopModel
 			->group('p.product_id');
 
 		$columnsCondition = array();
-		
-		switch ($search_type)
-		{
+
+		switch ($search_type) {
 			case 'product_name':
 				$columnsCondition = array('p.product_name');
 				break;
@@ -1257,8 +1112,10 @@ class RedshopModelSearch extends RedshopModel
 				$columnsCondition = array('pap.property_number', 'ps.subattribute_color_number');
 				break;
 			case 'name_number_desc':
-				$columnsCondition = array('p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc',
-					'pap.property_number', 'ps.subattribute_color_number');
+				$columnsCondition = array(
+					'p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc',
+					'pap.property_number', 'ps.subattribute_color_number'
+				);
 				break;
 		}
 
@@ -1268,34 +1125,29 @@ class RedshopModelSearch extends RedshopModel
 		$query->leftJoin($db->qn('#__redshop_fields_data', 'fds') . ' ON p.product_id = fds.itemid'
 			. $joinSearchable);
 
-		if ($search_product_by_category_name == 'yes')
-		{
+		if ($search_product_by_category_name == 'yes') {
 			$columnsCondition[] = 'c.name';
 		}
 
 		$query->where($this->getSearchCondition($columnsCondition, $keyword));
 
-		if ($search_type == "name_number_desc" || $search_type == "virtual_product_num")
-		{
+		if ($search_type == "name_number_desc" || $search_type == "virtual_product_num") {
 			$query->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.product_id = p.product_id')
 				->leftJoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON pap.attribute_id = a.attribute_id')
 				->leftJoin($db->qn('#__redshop_product_subattribute_color', 'ps') . ' ON ps.subattribute_id = pap.property_id');
 		}
 
-		if ($category_id != "0")
-		{
+		if ($category_id != "0") {
 			$query->where('c.id = ' . (int) $category_id);
 		}
 
-		if ($manufacture_id != "0")
-		{
+		if ($manufacture_id != "0") {
 			$query->where('p.manufacturer_id = ' . (int) $manufacture_id);
 		}
 
 		$excludeCategories = $app->input->getString('excludeCategories', '');
 
-		if (!empty($excludeCategories))
-		{
+		if (!empty($excludeCategories)) {
 			$excludeCategories = explode(',', $excludeCategories);
 			$excludeCategories = ArrayHelper::toInteger($excludeCategories);
 
@@ -1311,31 +1163,32 @@ class RedshopModelSearch extends RedshopModel
 
 		$data = $db->setQuery($query, 0, $limit)->loadObjectList();
 
-		if ($data)
-		{
-			foreach ($data as &$row)
-			{
-				if (empty($category_id))
-				{
+		if ($data) {
+			foreach ($data as &$row) {
+				if (empty($category_id)) {
 					$category_id = (int) $row->cat_in_sefurl;
 				}
 
-					$pItemid = RedshopHelperRouter::getItemId($row->id, $category_id);
+				$pItemid = RedshopHelperRouter::getItemId($row->id, $category_id);
 
 				$row->link = JRoute::_(
 					'index.php?option=com_redshop' .
-					'&view=product&pid=' . $row->id .
-					'&cid=' . $row->cat_in_sefurl .
-					'&Itemid=' . $pItemid, false
+						'&view=product&pid=' . $row->id .
+						'&cid=' . $row->cat_in_sefurl .
+						'&Itemid=' . $pItemid,
+					false
 				);
 
 				//get product image
-				$row->product_image = Redshop\Product\Image\Image::getImage($row->id, $row->link,
-					Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 80), Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 40));
+				$row->product_image = Redshop\Product\Image\Image::getImage(
+					$row->id,
+					$row->link,
+					Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 80),
+					Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3', 40)
+				);
 
 				//get product price
 				$row->product_price = RedshopHelperProductPrice::formattedPrice(Redshop\Product\Price::getPrice($row->id, false, 0));
-
 			}
 		}
 
@@ -1359,8 +1212,8 @@ class RedshopModelSearch extends RedshopModel
 			->from($db->qn("#__redshop_product", "p"))
 			->leftJoin(
 				$db->qn("#__redshop_product_category_xref", "pc") . " ON "
-				. $db->qn('p.product_id') . " = "
-				. $db->qn('pc.product_id')
+					. $db->qn('p.product_id') . " = "
+					. $db->qn('pc.product_id')
 			)
 			->where($db->qn('p.published') . ' = 1')
 			->where($db->qn('p.expired') . ' = 0')
@@ -1376,73 +1229,59 @@ class RedshopModelSearch extends RedshopModel
 		$keyword         = !empty($pk['keyword']) ? $pk['keyword'] : "";
 		$customField     = !empty($pk['custom_field']) ? $pk['custom_field'] : "";
 
-		if (isset($pk["filterprice"]))
-		{
+		if (isset($pk["filterprice"])) {
 			$min = $pk["filterprice"]['min'];
 			$max = $pk["filterprice"]['max'];
 		}
 
-		if (!empty($categories))
-		{
-			if (in_array($rootCategory, $categories))
-			{
+		if (!empty($categories)) {
+			if (in_array($rootCategory, $categories)) {
 				$key = array_search($rootCategory, $categories);
 				unset($categories[$key]);
 			}
 
 			$categoryList = implode(',', $categories);
-		}
-		elseif (!empty($cid))
-		{
+		} elseif (!empty($cid)) {
 			$catList = RedshopHelperCategory::getCategoryListArray($cid);
 
-			if (!empty($catList))
-			{
-				foreach ($catList as $key => $cat)
-				{
+			if (!empty($catList)) {
+				foreach ($catList as $key => $cat) {
 					$list[] = $cat->id;
 				}
 
 				array_push($list, $cid);
 
 				$categoryList = implode(',', $list);
-
-			}
-			else
-			{
+			} else {
 				$categoryList = $cid;
 			}
-		}
-		else
-		{
+		} else {
 			$categoryList = $cid;
 		}
 
 		$orderBy = $this->getState('order_by');
 
-		if ($orderBy == 'pc.ordering ASC' || $orderBy == 'c.ordering ASC')
-		{
+		if ($orderBy == 'pc.ordering ASC' || $orderBy == 'c.ordering ASC') {
 			$orderBy = 'p.product_id DESC';
 		}
 
-		if (!empty($pk["filterprice"]))
-		{
+		if (!empty($pk["filterprice"])) {
 			$comparePrice         = $db->qn('p.product_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.product_price') . ' <= ' . $db->q(($max));
 			$compareDiscountPrice = $db->qn('p.discount_price') . ' >= ' . $db->q($min) . ' AND ' . $db->qn('p.discount_price') . ' <= ' . $db->q(($max));
 			$saleTime             = $db->qn('p.discount_stratdate') . ' AND ' . $db->qn('p.discount_enddate');
-			$query->where('( CASE WHEN( ' . $db->qn('p.product_on_sale') . ' = 1 AND UNIX_TIMESTAMP() BETWEEN '
-				. $saleTime . ') THEN ('
-				. $compareDiscountPrice . ') ELSE ('
-				. $comparePrice . ') END )'
+			$query->where(
+				'( CASE WHEN( ' . $db->qn('p.product_on_sale') . ' = 1 AND UNIX_TIMESTAMP() BETWEEN '
+					. $saleTime . ') THEN ('
+					. $compareDiscountPrice . ') ELSE ('
+					. $comparePrice . ') END )'
 			);
 		}
 
-		if (!empty($keyword))
-		{
+		if (!empty($keyword)) {
 			$search = $db->q('%' . $db->escape(trim($keyword, true) . '%'));
 			$query->leftJoin(
 				$db->qn('#__redshop_manufacturer', 'm') . ' ON '
-				. $db->qn('m.id') . ' = ' . $db->qn('p.manufacturer_id')
+					. $db->qn('m.id') . ' = ' . $db->qn('p.manufacturer_id')
 			)
 				->where('(' . $db->qn('p.product_name') . ' LIKE ' . $search . ' OR ' . $db->qn('m.name') . ' LIKE ' . $search . ')');
 		}
@@ -1450,27 +1289,22 @@ class RedshopModelSearch extends RedshopModel
 		$catList  = RedshopHelperCategory::getCategoryListArray($categoryForSale);
 		$childCat = array($categoryForSale);
 
-		foreach ($catList as $key => $value)
-		{
+		foreach ($catList as $key => $value) {
 			$childCat[] = $value->id;
 		}
 
-		if (!empty($customField))
-		{
+		if (!empty($customField)) {
 			$key = 0;
 			$subQuery = array();
 
-			foreach ($customField as $fieldId => $fieldValues)
-			{
+			foreach ($customField as $fieldId => $fieldValues) {
 				$fieldValues = array_filter($fieldValues);
 
-				if (empty($fieldValues))
-				{
+				if (empty($fieldValues)) {
 					continue;
 				}
 
-				foreach ($fieldValues as $value)
-				{
+				foreach ($fieldValues as $value) {
 					$subQuery[] = 'FIND_IN_SET("' . $value . '", ' . $db->qn('fd' . $key . '.data_txt') . ')';
 				}
 
@@ -1479,53 +1313,40 @@ class RedshopModelSearch extends RedshopModel
 				$key++;
 			}
 
-			if (!empty($subQuery))
-			{
+			if (!empty($subQuery)) {
 				$query->where('(' . implode(' OR ', $subQuery) . ')');
 			}
 		}
 
-		if (!empty($categoryForSale) && in_array($cid, $childCat))
-		{
-			if (!empty($categories))
-			{
-				foreach ($categories as $key => $value)
-				{
+		if (!empty($categoryForSale) && in_array($cid, $childCat)) {
+			if (!empty($categories)) {
+				foreach ($categories as $key => $value) {
 					$query->leftJoin(
 						$db->qn('#__redshop_product_category_xref', 'pc' . $key) . ' ON '
-						. $db->qn('p.product_id') . ' = '
-						. $db->qn('pc' . $key . '.product_id')
+							. $db->qn('p.product_id') . ' = '
+							. $db->qn('pc' . $key . '.product_id')
 					)
 						->where($db->qn('pc' . $key . '.category_id') . ' = ' . $db->q((int) $value))
 						->where($db->qn("pc.category_id") . " = " . $db->q((int) $cid));
 				}
-			}
-			elseif (!empty($cid) || !empty($categories))
-			{
+			} elseif (!empty($cid) || !empty($categories)) {
 				$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 			}
-		}
-		elseif (!empty($cid) || !empty($categories))
-		{
+		} elseif (!empty($cid) || !empty($categories)) {
 			$query->where($db->qn("pc.category_id") . " IN (" . $categoryList . ')');
 		}
 
-		if (!empty($manufacturers))
-		{
+		if (!empty($manufacturers)) {
 			$query->where($db->qn("p.manufacturer_id") . " IN (" . implode(',', $manufacturers) . ')');
-		}
-		elseif ($mid)
-		{
+		} elseif ($mid) {
 			$query->where($db->qn("p.manufacturer_id") . "=" . $db->q((int) $mid));
 		}
 
-		if (!empty($productOnSale))
-		{
+		if (!empty($productOnSale)) {
 			$query->where($db->qn('p.product_on_sale') . ' = ' . $db->q((int) $productOnSale));
 		}
 
-		if ($orderBy)
-		{
+		if ($orderBy) {
 			$query->order($db->escape($orderBy));
 		}
 
@@ -1551,19 +1372,13 @@ class RedshopModelSearch extends RedshopModel
 		$templateArr  = RedshopHelperTemplate::getTemplate("category", $templateId);
 		$templateDesc = $templateArr[0]->template_desc;
 
-		if ($templateDesc)
-		{
-			if (strstr($templateDesc, "{pagination}"))
-			{
+		if ($templateDesc) {
+			if (strstr($templateDesc, "{pagination}")) {
 				$db->setQuery($query, $start, $limit);
-			}
-			else
-			{
+			} else {
 				$db->setQuery($query);
 			}
-		}
-		else
-		{
+		} else {
 			$db->setQuery($query);
 		}
 
