@@ -1483,7 +1483,7 @@ class RedshopHelperOrder
 	 *
 	 * @param   integer  $userId  User ID
 	 *
-	 * @return  object
+	 * @return  mixed
 	 *
 	 * @since   2.0.3
 	 */
