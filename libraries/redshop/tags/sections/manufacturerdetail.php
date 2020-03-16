@@ -67,8 +67,8 @@ class RedshopTagsSectionsManufacturerDetail extends RedshopTagsAbstract
 				$this->optionLayout
 			) . $this->template;
 
-		$row            = !empty($this->data['detail']) ? $this->data['detail'][0] : null;
-		$manufacturerId = null !== $row ? $row->id : 0;
+		$row            = $this->data['detail'][0] ?? null;
+		$manufacturerId = !empty($row) ? $row->id : 0;
 		$category       = \Redshop\Manufacturer\Helper::getManufacturerCategory($manufacturerId, $row);
 
 		$this->replaceCategory($manufacturerId, $category);
@@ -142,7 +142,7 @@ class RedshopTagsSectionsManufacturerDetail extends RedshopTagsAbstract
 			$this->template
 		);
 
-		$this->replacements['{manufacturer_description}'] = null !== $row ? $row->description : '';
+		$this->replacements['{manufacturer_description}'] = !empty($row) ? $row->description : '';
 
 		if ($this->isTagExists('{manufacturer_extra_fields}')) {
 			$this->replacements['{manufacturer_extra_fields}'] = RedshopHelperExtrafields::listAllFieldDisplay(
@@ -169,6 +169,16 @@ class RedshopTagsSectionsManufacturerDetail extends RedshopTagsAbstract
 		return parent::replace();
 	}
 
+	/**
+	 * Replace category
+	 *
+	 * @param string  $manufacturerId
+	 * @param object  $category
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION
+	 */
 	private function replaceCategory($manufacturerId, $category)
 	{
 		$subTemplate = $this->getTemplateBetweenLoop('{category_loop_start}', '{category_loop_end}');
