@@ -131,20 +131,18 @@ gulp.task(
 	});
 
 // Copy to test site
-gulp.task('copy', gulp.parallel(
-	'copy:components',
-	'copy:libraries',
-	//'copy:media',
+gulp.task('copy', gulp.series(
 	'copy:modules',
-	//'copy:packages',
 	'copy:plugins',
-	//'copy:templates'
-), function () {
+	'copy:libraries',
+	'copy:components.redshop'
+), function (cb) {
+	cb();
 	return true;
 });
 
 // Watch for file changes
-gulp.task('watch', gulp.parallel(
+gulp.task('watch', gulp.series(
 	'watch:components',
 	'watch:libraries',
 	//'watch:media',
