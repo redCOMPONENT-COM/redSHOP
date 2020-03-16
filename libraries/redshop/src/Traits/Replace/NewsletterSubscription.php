@@ -55,7 +55,7 @@ trait NewsletterSubscription
 					if ($onChange)
 					{
 						$link = " onchange='window.location.href=\""
-							. JURI::root()
+							. \JURI::root()
 							. "index.php?option=com_redshop&view=account&task=newsletterSubscribe&tmpl=component&Itemid="
 							. $itemId . "\"";
 
