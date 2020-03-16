@@ -19,10 +19,20 @@ defined('_JEXEC') || die;
 /**
  * For classes extends class RedshopTagsAbstract
  *
- * @since  3.0
+ * @since  __DEPLOY_VERSION__
  */
 trait Product
 {
+	/**
+	 * Replace manufacturer
+	 *
+	 * @param string  $template
+	 * @param integer $productId
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION
+	 */
 	protected function replaceCommonProduct($template, $productId)
 	{
 		$productData                      = \Redshop\Product\Product::getProductById($productId);

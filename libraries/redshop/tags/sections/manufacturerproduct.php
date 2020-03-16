@@ -215,6 +215,16 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
 		return parent::replace();
 	}
 
+	/**
+	 * Replace manufacturer product
+	 *
+	 * @param string $template
+	 * @param object $product
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION
+	 */
 	private function replaceManufacturerProduct($template, $product)
 	{
 		$cName    = '';
