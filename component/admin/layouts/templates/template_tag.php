@@ -467,9 +467,9 @@ switch ($name)
 	case 'wishlist':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_WISHLIST_HINT'); ?></b><br /><br />
-		{if product_userfield} {product_userfield end if} {all_cart} {attribute_template:attributes} {product_loop_start} {product_loop_end} {mail_link} {product_price} {remove_product_link} <br />
+		{if product_userfield} {product_userfield end if} {all_cart} {product_loop_start} {product_loop_end} {mail_link} {product_price} {remove_product_link} <br />
 		{product_thumb_image} {product_name} {back_link} {product_thumb_image_2} {product_thumb_image_3} <br />
-		{price_excluding_vat} {product_price_table} {product_old_price} {product_price_saving} {product_price_saving_percentage} {accessory_template:templatename} {product_s_desc} {read_more} {read_more_link}
+		{price_excluding_vat} {product_price_table} {product_old_price} {product_price_saving} {product_price_saving_percentage} {product_s_desc} {read_more} {read_more_link}
 		<?php
 		break;
 	case 'wishlist_mail':
