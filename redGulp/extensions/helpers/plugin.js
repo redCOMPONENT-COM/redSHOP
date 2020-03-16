@@ -40,14 +40,13 @@ function releasePlugin(group, name) {
 
     // Copy: plugin
     gulp.task('copy:' + baseTask + ':plugin',
-        gulp.series('clean:' + baseTask + ':plugin')
-        , function () {
+         function (cb) {
             return gulp.src([
                 extPath + '/**',
                 '!' + extPath + '/language',
                 '!' + extPath + '/language/**'
             ])
-                .pipe(gulp.dest(wwwExtPath));
+                .pipe(gulp.dest(wwwExtPath)).on('end', cb);
         });
 
     // Copy: Language
