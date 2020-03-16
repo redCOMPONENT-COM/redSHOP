@@ -244,14 +244,6 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
 			$this->optionLayout
 		);
 
-		if (strstr($template, '{product_desc}')) {
-			$replace['{product_desc}'] = RedshopHelperUtility::maxChars(
-				$product->product_desc,
-				Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_MAX_CHARS'),
-				Redshop::getConfig()->get('CATEGORY_PRODUCT_DESC_END_SUFFIX')
-			);
-		}
-
 		$replace['{read_more_link}'] = $link;
 
 		if (strstr($template, '{manufacturer_product_link}')) {

@@ -118,7 +118,7 @@ trait Product
 		$replaceProduct['{product_s_desc}']     = $productData->product_s_desc;
 
 		if (strstr($template, '{product_desc}')) {
-			$replaceProduct['{product_s_desc}'] = \RedshopHelperUtility::maxChars(
+			$replaceProduct['{product_desc}'] = \RedshopHelperUtility::maxChars(
 				$productData->product_desc,
 				\Redshop::getConfig()->get(
 					'CATEGORY_PRODUCT_DESC_MAX_CHARS'
