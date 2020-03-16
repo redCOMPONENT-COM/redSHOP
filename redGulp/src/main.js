@@ -1,5 +1,6 @@
 var gulp = require('gulp');
-var gutil = require('gulp-util');
+var log = require('fancy-log');
+var colors = require('colors');
 var zip = require("gulp-zip");
 var fs = require("fs");
 var del = require('del');
@@ -226,7 +227,7 @@ gulp.task("release:languages", function () {
 
 gulp.task("release:md5:generate", function () {
 
-	gutil.log(gutil.colors.yellow("Create checksum.md5 file in: checksum.md5"));
+	log(colors.yellow("Create checksum.md5 file in: checksum.md5"));
 
 	return gulp.src([
 		"./component/**/*",
@@ -325,7 +326,7 @@ gulp.task("release:md5:json", gulp.series("release:md5:generate"), function (cb)
 		}
 	}
 
-	gutil.log(gutil.colors.yellow("checksum.md5.json file: "), "component/admin/assets/checksum.md5.json");
+	log(colors.yellow(("checksum.md5.json file: "), "component/admin/assets/checksum.md5.json"));
 
 	rs = JSON.stringify(result);
 
@@ -345,9 +346,9 @@ gulp.task("release:redshop", function (cb) {
 			var fileName = argv.skipVersion ? "redshop.zip" : "redshop-v" + version + ".zip";
 			var dest = config.releaseDir;
 
-			gutil.log(gutil.colors.grey("===================================================================="));
-			gutil.log(gutil.colors.cyan.bold("redSHOP"), "  |  ", gutil.colors.yellow.bold(version), "  |  ", gutil.colors.white.bold(path.join(config.releaseDir + '/', fileName)));
-			gutil.log(gutil.colors.grey("===================================================================="));
+			log(colors.grey("===================================================================="));
+			log(colors.cyan.bold("redSHOP"), "  |  ", colors.yellow.bold(version), "  |  ", colors.white.bold(path.join(config.releaseDir + '/', fileName)));
+			log(colors.grey("===================================================================="));
 			var src = getIncludedExtensions();
 			src = src.concat([
 				"./component/**/*",
