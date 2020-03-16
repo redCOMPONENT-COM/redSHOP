@@ -100,9 +100,9 @@ gulp.task('clean:components.redshop:frontend:lang', function () {
     return del(config.wwwDir + '/language/**/*.' + componentName + '.*', { force: true });
 });
 
-gulp.task('copy:components.redshop:frontend:lang', gulp.series('clean:components.redshop:frontend:lang'), function () {
+gulp.task('copy:components.redshop:frontend:lang', function (cb) {
     return gulp.src(extPath + '/component/site/language/**')
-        .pipe(gulp.dest(config.wwwDir + '/language'));
+        .pipe(gulp.dest(config.wwwDir + '/language')).on('end', cb);
 });
 
 // Watch: Front-end language
@@ -132,7 +132,7 @@ gulp.task('clean:components.redshop:frontend:files', function () {
 });
 
 // Copy: Front-end files
-gulp.task('copy:components.redshop:frontend:files', gulp.series('clean:components.redshop:frontend:files'), function () {
+gulp.task('copy:components.redshop:frontend:files', function () {
     return gulp.src([
         extPath + '/component/site/**',
         '!' + extPath + '/component/site/language',
@@ -194,9 +194,9 @@ gulp.task('clean:components.redshop:backend:lang', function () {
 });
 
 // Copy: Admin language
-gulp.task('copy:components.redshop:backend:lang', gulp.series('clean:components.redshop:backend:lang'), function () {
+gulp.task('copy:components.redshop:backend:lang', function (cb) {
     return gulp.src(extPath + '/component/admin/language/**')
-        .pipe(gulp.dest(config.wwwDir + '/administrator/language'));
+        .pipe(gulp.dest(config.wwwDir + '/administrator/language')).on('end', cb);
 });
 
 // Watch: Admin language
@@ -299,20 +299,21 @@ gulp.task('clean:components.redshop',
 
 
 // Copy: media
-gulp.task('copy:components.redshop:media', gulp.series('clean:components.redshop:media'), function () {
+gulp.task('copy:components.redshop:media', function (cb) {
     return gulp.src(mediaPath + '/**')
-        .pipe(gulp.dest(config.wwwDir + '/media/' + componentName));
+        .pipe((gulp.dest(config.wwwDir + '/media/' + componentName))).on('end', cb);
 });
 
 /// Main copy task
 /// gulp copy:components.redshop
 gulp.task('copy:components.redshop',
     gulp.series(
-        'copy:components.redshop:frontend',
+        'copy:components.redshop:media',
         'copy:components.redshop:backend',
-        'copy:components.redshop:media'
+        'copy:components.redshop:frontend'
     ),
-    function () {
+    function (cb) {
+        cb();
     });
 
 /**

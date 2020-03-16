@@ -1,6 +1,7 @@
 var gulp = require("gulp");
 var path = require("path");
-var gutil = require('gulp-util');
+const log = require('fancy-log');
+const color = require('colors');
 var zip = require("gulp-zip");
 var fs = require("fs");
 var del = require('del');
@@ -43,7 +44,7 @@ gulp.task('scripts:components.redshop', function (cb) {
     ])
         .pipe(gulp.dest(mediaPath + '/js'))
         .pipe(uglify())
-        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .on('error', function (err) { log(color.styles.red('[Error]'), err.toString()); })
         .pipe(rename(function (path) {
             path.basename += '.min';
         }))
