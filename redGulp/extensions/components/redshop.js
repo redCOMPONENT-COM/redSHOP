@@ -100,9 +100,9 @@ gulp.task('clean:components.redshop:frontend:lang', function () {
     return del(config.wwwDir + '/language/**/*.' + componentName + '.*', { force: true });
 });
 
-gulp.task('copy:components.redshop:frontend:lang', function () {
+gulp.task('copy:components.redshop:frontend:lang', function (cb) {
     return gulp.src(extPath + '/component/site/language/**')
-        .pipe(gulp.dest(config.wwwDir + '/language'));
+        .pipe(gulp.dest(config.wwwDir + '/language')).on('end', cb);
 });
 
 // Watch: Front-end language
@@ -194,9 +194,9 @@ gulp.task('clean:components.redshop:backend:lang', function () {
 });
 
 // Copy: Admin language
-gulp.task('copy:components.redshop:backend:lang', gulp.series('clean:components.redshop:backend:lang'), function () {
+gulp.task('copy:components.redshop:backend:lang', function (cb) {
     return gulp.src(extPath + '/component/admin/language/**')
-        .pipe(gulp.dest(config.wwwDir + '/administrator/language'));
+        .pipe(gulp.dest(config.wwwDir + '/administrator/language')).on('end', cb);
 });
 
 // Watch: Admin language
