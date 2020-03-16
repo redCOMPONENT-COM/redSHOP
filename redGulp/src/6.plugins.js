@@ -63,7 +63,8 @@ gulp.task('clean:plugins',
 // Copy
 gulp.task('copy:plugins',
 	getPluginsTasks('copy:plugins'),
-	function () {
+	function (cb) {
+		cb();
 		return true;
 	});
 

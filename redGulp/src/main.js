@@ -122,17 +122,15 @@ gulp.task(
 	gulp.series(
 		'clean:components',
 		'clean:libraries',
-		// 'clean:media',
 		'clean:modules',
-		//	'clean:packages',
 		'clean:plugins',
-		// 'clean:templates'
 	), function () {
 		return true;
 	});
 
 // Copy to test site
 gulp.task('copy', gulp.series(
+	'composer',
 	'copy:modules',
 	'copy:plugins',
 	'copy:libraries',
