@@ -82,8 +82,9 @@ abstract class RedshopTagsAbstract
 	 */
 	public function __construct($template, $data)
 	{
-		$this->template = $template;
-		$this->data     = $data;
+		$this->template     = $template;
+		$this->data         = $data;
+		$this->optionLayout = RedshopLayoutHelper::$layoutOption;
 		$this->init();
 	}
 
