@@ -106,7 +106,8 @@ class RedshopModelWrapper extends RedshopModel
 		$subQuery = [];
 
 		if ($showAll && $this->_productid != 0) {
-			$subQuery[] = 'FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1';
+			$subQuery[] = 'FIND_IN_SET(' . $db->q($this->_productid) . ',' . $db->qn('w.product_id') . ')';
+			$subQuery[] = $db->qn('wrapper_use_to_all') . '=' . $db->q(1);
 
 			$query = $db->getQuery(true)
 				->select('*')
@@ -116,7 +117,7 @@ class RedshopModelWrapper extends RedshopModel
 			$cat = $db->loadObjectList();
 
 			for ($i = 0, $in = count($cat); $i < $in; $i++) {
-				$subQuery[] = 'FIND_IN_SET(' . $cat[$i]->category_id . ',category_id)';
+				$subQuery[] = 'FIND_IN_SET(' . $db->q($cat[$i]->category_id) . ',' . $db->qn('category_id') . ')';
 			}
 		}
 
