@@ -77,23 +77,9 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
 			$this->optionLayout
 		);
 
-		$templateStart  = $this->template;
-		$templateMiddle = "";
-		$templateEnd    = "";
-
-		if (strstr($this->template, '{product_loop_start}') && strstr($this->template, '{product_loop_end}')) {
-			$templateSData  = explode('{product_loop_start}', $this->template);
-			$templateStart  = $templateSData[0];
-			$templateEData  = explode('{product_loop_end}', $templateSData[1]);
-			$templateEnd    = $templateEData[1];
-			$templateMiddle = $templateEData[0];
-		}
-
-		$cartMData = '';
-
+		$cartMData            = '';
 		$manufacturerProducts = $this->data['manufacturerProducts'];
-
-		$subTemplateProduct = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');
+		$subTemplateProduct   = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');
 
 		if (!empty($subTemplateProduct)) {
 			for ($i = 0, $in = count($manufacturerProducts); $i < $in; $i++) {
