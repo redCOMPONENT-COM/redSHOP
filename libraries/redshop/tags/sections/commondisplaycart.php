@@ -70,6 +70,7 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 		$referralCode    = $this->data['referralCode'];
 		$shopId          = $this->data['shopId'];
 		$layoutOptions   = RedshopLayoutHelper::$layoutOption;
+		$flagOneStep = 0;
 
 		$usersess['rs_user_info_id'] = $usersInfoId;
 		unset($cart['shipping']);
@@ -363,6 +364,11 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 		$this->template = $this->replaceTermsConditions($this->template, $itemId);
 		$this->template = $this->replaceNewsletterSubscription($this->template);
 
+        if (Redshop::getConfig()->get('ONESTEP_CHECKOUT_ENABLE'))
+        {
+            $flagOneStep = 1;
+        }
+
 		$checkout = RedshopLayoutHelper::render(
 			'tags.checkout.button',
 			array(
@@ -372,7 +378,8 @@ class RedshopTagsSectionsCommonDisplayCart extends RedshopTagsAbstract
 				'shopId' => $shopId,
 				'shippingRateId' => $shippingRateId,
 				'paymentMethodId' => $paymentMethodId,
-				'cartTotal' => $cart['total']
+				'cartTotal' => $cart['total'],
+                'flagOneStep'   => $flagOneStep
 			),
 			'',
 			$layoutOptions
