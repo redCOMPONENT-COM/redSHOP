@@ -1,8 +1,9 @@
 var gulp = require("gulp");
-var gutil = require('gulp-util');
 var composer = require('gulp-composer');
 var requireDir = require("require-dir");
 var fs = require("fs");
+const log = require('fancy-log');
+const colors = require('colors');
 var path = require("path");
 var glob = require('glob');
 global.config = require("./gulp-config.json");
@@ -33,16 +34,16 @@ global.getFolders = function getFolders(dir) {
  */
 global.renderLog = function renderLog(extension, group, extName, version, releasePath) {
     // We will output where release package is going so it is easier to find
-    gutil.log(
-        gutil.colors.green(extension),
+    log(
+        colors.green(extension),
         "  |  ",
-        gutil.colors.white(group),
+        colors.white(group),
         "  |  ",
-        gutil.colors.blue(extName),
+        colors.blue(extName),
         "  |  ",
-        gutil.colors.yellow(version),
+        colors.yellow(version),
         "|  ",
-        gutil.colors.grey(releasePath)
+        colors.grey(releasePath)
     );
 }
 
@@ -99,7 +100,7 @@ global.getGlobExtensionPattern = function getGlobExtensionPattern(extensionType,
  * @param composerPath
  */
 global.executeComposer = function executeComposer(composerPath) {
-    gutil.log("Composer found: ", gutil.colors.blue(composerPath));
+    log("Composer found: ", colors.blue(composerPath));
     composer({ cwd: composerPath, bin: 'php ./composer.phar' });
 }
 
@@ -110,7 +111,7 @@ gulp.task("composer", function (cb) {
 
             // Make sure this is not composer.json inside vendor library
             if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
-                gutil.log("Composer found: ", gutil.colors.blue(composerPath));
+                log("Composer found: ", colors.blue(composerPath));
                 composer({ cwd: composerPath, bin: 'php ./composer.phar' }).on('end', cb);
             }
         }
