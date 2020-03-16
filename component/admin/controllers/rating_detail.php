@@ -33,6 +33,11 @@ class RedshopControllerRating_detail extends RedshopController
 		parent::display();
 	}
 
+	public function apply()
+	{
+		$this->save(1);
+	}
+
 	public function save()
 	{
 		$post            = $this->input->post->getArray();
