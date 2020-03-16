@@ -108,7 +108,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 
 			if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
 			{
-				$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . RedshopHelperProductPrice::formattedPrice($wp) . ")";
+				$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . strip_tags(RedshopHelperProductPrice::formattedPrice($wp)) . ")";
 			}
 
 			$wrapperimageDiv .= "<td id='wrappertd" . $wid . "'>";

@@ -98,24 +98,31 @@ class RedshopModelWrapper extends RedshopModel
     {
         $db = \JFactory::getDbo();
         $app = \JFactory::getApplication();
-        $query = $db->getQuery(true);
         $showAll = $app->input->get('showall', '0');
-        $and = '';
+	    $subQuery = [];
 
         if ($showAll && $this->_productid != 0) {
-            $and = 'AND FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1 ';
+	        $subQuery[] = 'FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1';
 
-            $query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref "
-                . "WHERE product_id = " . $this->_productid;
-            $cat = $this->_getList($query);
+	        $query = $db->getQuery(true)
+		        ->select('*')
+		        ->from($db->qn('#__redshop_product_category_xref'))
+		        ->where($db->qn('product_id') . ' = ' . $db->q((int)$this->_productid));
+	        $db->setQuery($query);
+	        $cat = $db->loadObjectList();
 
-            for ($i = 0, $in = count($cat); $i < $in; $i++) {
-                $and .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
-            }
+	        for ($i = 0, $in = count($cat); $i < $in; $i++) {
+		        $subQuery[] = 'FIND_IN_SET(' . $cat[$i]->category_id . ',category_id)';
+	        }
         }
 
+	    $query = $db->getQuery(true);
         $query->select('*')
             ->from($db->qn('#__redshop_wrapper', 'w'));
+
+	    if (!empty($subQuery)) {
+		    $query->where('(' . implode(' OR ', $subQuery) . ')');
+	    }
 
         $filter = $this->getState('filter');
         $filter = $db->escape(trim($filter));

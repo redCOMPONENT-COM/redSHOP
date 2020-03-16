@@ -1631,14 +1631,18 @@ function preloadSlimbox(parameters) {
 }
 
 function setWrapperComboBox() {
-    if (document.getElementById("wrapper_id") && document.getElementById("sel_wrapper_id")) {
-        document.getElementById("sel_wrapper_id").value = document.getElementById("wrapper_id").value;
+    if (document.getElementById("wrapper_id") && jQuery('[data-id=sel_wrapper_id]').length) {
+        var wrapper_id = document.getElementById("wrapper_id").value;
+        jQuery('[data-id=sel_wrapper_id]').val(wrapper_id);
     }
+
     var obj = document.getElementsByName("w_price");
     var id = 0;
-    if (document.getElementById("sel_wrapper_id")) {
-        id = document.getElementById("sel_wrapper_id").value;
+
+    if (jQuery('[data-id=sel_wrapper_id]').length) {
+        id = jQuery('[data-id=sel_wrapper_id]').val();
     }
+
     var wprice = 0;
     var wprice_withoutvat = 0;
     if (document.getElementById("wrapper_check") && document.getElementById("wrapper_check").checked) {
