@@ -332,4 +332,29 @@ class Utility
 
         return false;
     }
+
+    /**
+     * @param $group
+     * @param $params
+     * @param bool $ref
+     * @return array|bool
+     */
+    public static function placePluginTrigger($group, $params, $ref = false)
+    {
+        if (!is_string($group) || (trim($group) === '')) {
+            return false;
+        }
+
+        $group = trim($group);
+        \JPluginHelper::importPlugin($group);
+        $dispatcher = \RedshopHelperUtility::getDispatcher();
+
+        if ($ref) {
+            return $dispatcher->trigger('onBeforeAddProductToCart', [&$params]);
+        } else {
+            return $dispatcher->trigger('onBeforeAddProductToCart', [$params]);
+        }
+
+        return true;
+    }
 }
