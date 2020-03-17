@@ -17,13 +17,6 @@ defined('_JEXEC') or die;
 class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 {
 	/**
-	 * @var    array
-	 *
-	 * @since  2.1.5
-	 */
-	public $model = array();
-
-	/**
 	 * @var    int
 	 *
 	 * @since  2.1.5
@@ -39,7 +32,6 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 	 */
 	public function init()
 	{
-		$this->model = $this->data['model'];
 		$this->itemId = $this->data['itemId'];
 		JText::script('COM_REDSHOP_SELECT_CATALOG');
 		JText::script('COM_REDSHOP_ENTER_NAME');
@@ -58,7 +50,7 @@ class RedshopTagsSectionsCaTaLog extends RedshopTagsAbstract
 	{
 		if ($this->isTagExists('{catalog_select}'))
 		{
-			$catalog        = $this->model->getCatalogList();
+			$catalog        = \Redshop\Catalog\Catalog::getCatalogList();
 			$optionselect   = [];
 			$optionselect[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 			$catalog_select = array_merge($optionselect, $catalog);

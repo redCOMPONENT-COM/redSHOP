@@ -36,7 +36,6 @@ var uglify = require('gulp-uglify');
 var path = require("path");
 var fs = require('fs');
 var changed = require('gulp-changed');
-var gutil = require('gulp-util');
 
 /// Define component tasks
 var componentName = 'com_redshop';

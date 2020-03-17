@@ -65,25 +65,42 @@ abstract class RedshopTagsAbstract
 	 */
 	protected $data = array();
 
-    /**
-     * @var    array
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public $optionLayout;
+	/**
+	 * @var    array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public $optionLayout;
+
+	/**
+	 * @var    integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public $itemId;
+
+	/**
+	 * @var    JInput
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public $input;
 
 	/**
 	 * RedshopTagsAbstract constructor.
 	 *
-	 * @param   string  $template  Template
-	 * @param   array   $data      Data
+	 * @param string $template Template
+	 * @param array  $data     Data
 	 *
 	 * @since   2.0.0.5
 	 */
 	public function __construct($template, $data)
 	{
-		$this->template = $template;
-		$this->data     = $data;
+		$this->template     = $template;
+		$this->data         = $data;
+		$this->optionLayout = RedshopLayoutHelper::$layoutOption;
+		$this->input        = JFactory::getApplication()->input;
+		$this->itemId       = $this->input->getInt('Itemid');
 		$this->init();
 	}
 
@@ -99,7 +116,7 @@ abstract class RedshopTagsAbstract
 	/**
 	 * Check if tag / tagAlias is registered or not
 	 *
-	 * @param   string  $tag  Tag
+	 * @param string $tag Tag
 	 *
 	 * @return  boolean
 	 *
@@ -107,8 +124,7 @@ abstract class RedshopTagsAbstract
 	 */
 	public function isTagRegistered($tag)
 	{
-		if (array_key_exists($tag, $this->tagAlias))
-		{
+		if (array_key_exists($tag, $this->tagAlias)) {
 			$tag = $this->tagAlias[$tag];
 		}
 
@@ -118,7 +134,7 @@ abstract class RedshopTagsAbstract
 	/**
 	 * Check if this tag exists in main template
 	 *
-	 * @param   string  $tag  Tag
+	 * @param string $tag Tag
 	 *
 	 * @return  boolean
 	 *
@@ -126,8 +142,7 @@ abstract class RedshopTagsAbstract
 	 */
 	public function isTagExists($tag)
 	{
-		if (strpos($this->template, $tag) === false)
-		{
+		if (strpos($this->template, $tag) === false) {
 			return false;
 		}
 
@@ -158,8 +173,10 @@ abstract class RedshopTagsAbstract
 		$dispatcher = $this->getDispatcher();
 
 		// Trigger event and cancel replace if event return false
-		if ($dispatcher->trigger('onBeforeReplaceTags', array(&$this->search, &$this->replace, &$this->template)) === false)
-		{
+		if ($dispatcher->trigger(
+				'onBeforeReplaceTags',
+				array(&$this->search, &$this->replace, &$this->template)
+			) === false) {
 			return $this->template;
 		}
 
@@ -171,8 +188,8 @@ abstract class RedshopTagsAbstract
 	/**
 	 * Add custom tag replace
 	 *
-	 * @param   string  $tag    Tag
-	 * @param   string  $value  Value
+	 * @param string $tag   Tag
+	 * @param string $value Value
 	 *
 	 * @return  boolean
 	 *
@@ -183,14 +200,12 @@ abstract class RedshopTagsAbstract
 		$dispatcher = $this->getDispatcher();
 
 		// Trigger event and cancel addReplace if event return false
-		if ($dispatcher->trigger('onBeforeAddReplaceTag', array(&$tag, &$value) === false))
-		{
+		if ($dispatcher->trigger('onBeforeAddReplaceTag', array(&$tag, &$value) === false)) {
 			return false;
 		}
 
 		// Make sure this tag is exists before adding replace
-		if ($this->isTagExists($tag) === false || $this->isTagRegistered($tag) === false)
-		{
+		if ($this->isTagExists($tag) === false || $this->isTagRegistered($tag) === false) {
 			return true;
 		}
 
@@ -198,8 +213,7 @@ abstract class RedshopTagsAbstract
 		$this->replace[] = $value;
 
 		// Check alias tag
-		if ($key = array_search($tag, $this->tagAlias) !== false)
-		{
+		if ($key = array_search($tag, $this->tagAlias) !== false) {
 			$this->search[]  = $key;
 			$this->replace[] = $value;
 		}
@@ -210,9 +224,9 @@ abstract class RedshopTagsAbstract
 	/**
 	 * Get template content between loop tags
 	 *
-	 * @param   string  $beginTag  Begin tag
-	 * @param   string  $endTag    End tag
-	 * @param   string  $template  Template
+	 * @param string $beginTag Begin tag
+	 * @param string $endTag   End tag
+	 * @param string $template Template
 	 *
 	 * @return  mixed
 	 *
@@ -220,16 +234,14 @@ abstract class RedshopTagsAbstract
 	 */
 	protected function getTemplateBetweenLoop($beginTag, $endTag, $template = '')
 	{
-		if ($this->isTagExists($beginTag) && $this->isTagExists($endTag))
-		{
+		if ($this->isTagExists($beginTag) && $this->isTagExists($endTag)) {
 			$templateStartData = explode($beginTag, $this->template);
 
-			if (!empty($template))
-			{
+			if (!empty($template)) {
 				$templateStartData = explode($beginTag, $template);
 			}
 
-			$templateStart     = $templateStartData [0] ?? '';
+			$templateStart = $templateStartData [0] ?? '';
 
 			$templateEndData = explode($endTag, $templateStartData [1] ?? '');
 			$templateEnd     = $templateEndData[1] ?? '';
@@ -262,15 +274,14 @@ abstract class RedshopTagsAbstract
 	/**
 	 * Method exclusion tags
 	 *
-	 * @param   string $tag tag
+	 * @param string $tag tag
 	 *
 	 * @return  boolean
 	 * @since  2.0.6
 	 */
 	protected function excludeTags($tag)
 	{
-		if (!empty($this->data['excludedTags']) && in_array($tag, $this->data['excludedTags']))
-		{
+		if (!empty($this->data['excludedTags']) && in_array($tag, $this->data['excludedTags'])) {
 			return false;
 		}
 
@@ -280,53 +291,53 @@ abstract class RedshopTagsAbstract
 	/**
 	 * Method help to do str_replace.
 	 *
-	 * @param   array  $replacements array of list tags and html replacements
-	 * @param   string $template     template before replace tags.
+	 * @param array  $replacements array of list tags and html replacements
+	 * @param string $template     template before replace tags.
 	 *
 	 * @return  string $template
 	 * @since  2.1.5
 	 */
 	public function strReplace($replacements, $template)
 	{
-		$search = array_keys($replacements);
-		$replace = array_values($replacements);
+		$search   = array_keys($replacements);
+		$replace  = array_values($replacements);
 		$template = str_replace($search, $replace, $template);
 
 		return $template;
 	}
 
-    /**
-     * Get width height
-     *
-     * @param   string   $template
-     * @param   string   $prefix
-     * @param   string   $redConfigHeight
-     * @param   string   $redConfigWidth
-     *
-     * @return  array
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function getWidthHeight($template, $prefix, $redConfigHeight, $redConfigWidth)
-    {
-        if (strpos($template, '{' . $prefix . '_3}') !== false) {
-            $imageTag = '{' . $prefix . '_3}';
-            $height   = Redshop::getConfig()->get($redConfigHeight . '_3');
-            $width    = Redshop::getConfig()->get($redConfigWidth . '_3');
-        } elseif (strpos($template, '{' . $prefix . '_2}') !== false) {
-            $imageTag = '{' . $prefix . '_2}';
-            $height   = Redshop::getConfig()->get($redConfigHeight . '_2');
-            $width    = Redshop::getConfig()->get($redConfigWidth . '_2');
-        } elseif (strpos($template, '{' . $prefix . '_1}') !== false) {
-            $imageTag = '{' . $prefix . '_1}';
-            $height   = Redshop::getConfig()->get($redConfigHeight);
-            $width    = Redshop::getConfig()->get($redConfigWidth);
-        } else {
-            $imageTag = '{' . $prefix . '}';
-            $height   = Redshop::getConfig()->get($redConfigHeight);
-            $width    = Redshop::getConfig()->get($redConfigWidth);
-        }
+	/**
+	 * Get width height
+	 *
+	 * @param string $template
+	 * @param string $prefix
+	 * @param string $redConfigHeight
+	 * @param string $redConfigWidth
+	 *
+	 * @return  array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getWidthHeight($template, $prefix, $redConfigHeight, $redConfigWidth)
+	{
+		if (strpos($template, '{' . $prefix . '_3}') !== false) {
+			$imageTag = '{' . $prefix . '_3}';
+			$height   = Redshop::getConfig()->get($redConfigHeight . '_3');
+			$width    = Redshop::getConfig()->get($redConfigWidth . '_3');
+		} elseif (strpos($template, '{' . $prefix . '_2}') !== false) {
+			$imageTag = '{' . $prefix . '_2}';
+			$height   = Redshop::getConfig()->get($redConfigHeight . '_2');
+			$width    = Redshop::getConfig()->get($redConfigWidth . '_2');
+		} elseif (strpos($template, '{' . $prefix . '_1}') !== false) {
+			$imageTag = '{' . $prefix . '_1}';
+			$height   = Redshop::getConfig()->get($redConfigHeight);
+			$width    = Redshop::getConfig()->get($redConfigWidth);
+		} else {
+			$imageTag = '{' . $prefix . '}';
+			$height   = Redshop::getConfig()->get($redConfigHeight);
+			$width    = Redshop::getConfig()->get($redConfigWidth);
+		}
 
-        return ['height' => $height, 'imageTag' => $imageTag, 'width' => $width];
-    }
+		return ['height' => $height, 'imageTag' => $imageTag, 'width' => $width];
+	}
 }
