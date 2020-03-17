@@ -96,7 +96,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 			}
 		}
 
-		$this->template = $cateogoryFrontPageTemplate['begin'] . $categoryTemplate . $cateogoryFrontPageTemplate['end'];
+		$template = $cateogoryFrontPageTemplate['begin'] . $categoryTemplate . $cateogoryFrontPageTemplate['end'];
 
 		if ($this->isTagExists('{print}'))
 		{
@@ -123,7 +123,7 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 			);
 
 			$this->replacements["{print}"] = $link;
-			$this->template = $this->strReplace($this->replacements, $this->template);
+            $template = $this->strReplace($this->replacements, $template);
 		}
 
 		if ($this->isTagExists('{category_frontpage_introtext}'))
@@ -141,14 +141,16 @@ class RedshopTagsSectionsCategoryFrontPage extends RedshopTagsAbstract
 			);
 
 			$this->replacements["{category_frontpage_introtext}"] = $introText;
-			$this->template = $this->strReplace($this->replacements, $this->template);
+            $template = $this->strReplace($this->replacements, $template);
 		}
 
 		if ($this->isTagExists('{pagination}'))
 		{
 			$this->replacements["{pagination}"] = $this->model->getCategoryPagination()->getPagesLinks();
-			$this->template = $this->strReplace($this->replacements, $this->template);
+            $template = $this->strReplace($this->replacements, $template);
 		}
+
+		$this->template = $template ? $template : $this->template;
 
 		return parent::replace();
 	}
