@@ -223,9 +223,10 @@ class Cart
          */
         \Redshop\Cart\Helper::initShopperGroupForCart();
 
-        $cart['free_shipping'] = 0;
-
-        \Redshop\Cart\Helper::setCart($cart);
+        /**
+         * Step 5. Init Shipping.
+         */
+        \Redshop\Cart\Helper::initShippingForCart();
 
         return true;
     }
@@ -301,12 +302,9 @@ class Cart
     public static function addNormalProduct(&$cart, $idx, $data = array())
     {
         $section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
-        $rows    = \RedshopHelperExtrafields::getSectionFieldList($section);
-
-        if (isset($data['hidden_attribute_cartimage'])) {
-            $cart[$idx]['hidden_attribute_cartimage'] = $data['hidden_attribute_cartimage'];
-        }
-
+        $rows = \RedshopHelperExtrafields::getSectionFieldList($section);
+        $cart[$idx]['hidden_attribute_cartimage'] = $data['hidden_attribute_cartimage']
+                                                        ? $data['hidden_attribute_cartimage'] : null;
         $productId = $data['product_id'];
         $quantity  = $data['quantity'];
         $product   = \Redshop\Product\Product::getProductById($productId);
