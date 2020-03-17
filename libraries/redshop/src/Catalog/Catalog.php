@@ -37,6 +37,6 @@ class Catalog
 			->from($db->qn('#__redshop_catalog', 'c'))
 			->where($db->qn('c.published') . ' = 1');
 
-		return $db->setQuery($query)->loadObjectList();
+		return \Redshop\DB\Tool::safeSelect($db, $query, true);
 	}
 }

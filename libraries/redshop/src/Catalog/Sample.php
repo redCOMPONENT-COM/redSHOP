@@ -35,13 +35,13 @@ class Sample
 			->from($db->qn('#__redshop_catalog_sample', 'c'))
 			->where($db->qn('c.published') . ' = 1');
 
-		return $db->setQuery($query)->loadObjectList();
+		return \Redshop\DB\Tool::safeSelect($db, $query, true);
 	}
 
 	/**
 	 * Method for get catalog sample color list
 	 *
-	 * @param   integer $sampleId Sample Id
+	 * @param integer $sampleId Sample Id
 	 *
 	 * @return  array
 	 *
@@ -54,11 +54,10 @@ class Sample
 			->select('c.*')
 			->from($db->qn('#__redshop_catalog_colour', 'c'));
 
-		if ($sampleId)
-		{
-			$query->where($db->qn('c.sample_id') . ' = ' . (int) $sampleId);
+		if ($sampleId) {
+			$query->where($db->qn('c.sample_id') . ' = ' . (int)$sampleId);
 		}
 
-		return $db->setQuery($query)->loadObjectList();
+		return \Redshop\DB\Tool::safeSelect($db, $query, true);
 	}
 }
