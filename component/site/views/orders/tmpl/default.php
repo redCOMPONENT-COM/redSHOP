@@ -13,7 +13,7 @@ JHTML::_('behavior.modal');
 
 $ordersListTemplate = RedshopHelperTemplate::getTemplate("order_list", $this->params->get('template_id'));
 
-if (count($ordersListTemplate) > 0 && $ordersListTemplate[0]->template_desc != "") {
+if (isset($ordersListTemplate[0]->template_desc) && !empty(trim($ordersListTemplate[0]->template_desc))) {
 	$templateDesc = $ordersListTemplate[0]->template_desc;
 } else {
 	$templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('order_list');
