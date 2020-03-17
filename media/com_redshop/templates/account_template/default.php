@@ -43,8 +43,6 @@
 				<div class="more_orders">{more_orders}</div>
 			</div>
 		</div>
-
-		{if quotation}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">{quotation_image} {quotation_title}</h3>
@@ -64,7 +62,6 @@
 				<!-- {quotation_loop_end} -->
 			</div>
 		</div>
-		{quotation end if}
 	</div>
 </div>
 
@@ -74,18 +71,14 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">{shipping_image} {shipping_title}</h3>
 			</div>
-
 			<div class="panel-body">
 				{edit_shipping_link}
 			</div>
 		</div>
-
-		{if product_serial}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">{product_serial_image} {product_serial_title}</h3>
 			</div>
-
 			<div class="panel-body">
 				<!-- {product_serial_loop_start} -->
 				<div class="row">
@@ -100,14 +93,10 @@
 				<!-- {product_serial_loop_end} -->
 			</div>
 		</div>
-		{product_serial end if}
-
-		{if coupon}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">{coupon_image} {coupon_title}</h3>
 			</div>
-
 			<div class="panel-body">
 				<!-- {coupon_loop_start} -->
 				<div class="row">
@@ -122,9 +111,6 @@
 				<!-- {coupon_loop_end} -->
 			</div>
 		</div>
-		{coupon end if}
-
-		{if wishlist}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">{wishlist_image} {wishlist_title}</h3>
@@ -134,9 +120,6 @@
 				{edit_wishlist_link}
 			</div>
 		</div>
-		{wishlist end if}
-
-		{if compare}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">{compare_image} {compare_title}</h3>
@@ -146,9 +129,6 @@
 				{edit_compare_link}
 			</div>
 		</div>
-		{compare end if}
-
-		{if tag}
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">{tag_image} {tag_title}</h3>
@@ -158,7 +138,6 @@
 				{edit_tag_link}
 			</div>
 		</div>
-		{tag end if}
 	</div>
 </div>
 

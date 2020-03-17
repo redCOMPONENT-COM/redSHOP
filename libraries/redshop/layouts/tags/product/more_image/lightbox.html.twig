@@ -1,0 +1,8 @@
+<div class="additional_image">
+    <a href="{{ linkImage }}" title="{{ altText }}" rel="myallimg">
+        <img src="{{ pimg }}" alt="{{ altText }}" title="{{ altText }}">
+        {% if 'ADDITIONAL_HOVER_IMAGE_ENABLE'|redconfig %}
+            <img src="{{ hoverimgPath }}" alt="{{ altText }}" title="{{ altText }}" class="redImagepreview">
+        {% endif %}
+    </a>
+</div>

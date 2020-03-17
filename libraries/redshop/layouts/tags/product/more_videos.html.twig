@@ -1,0 +1,20 @@
+{% if mediaYoutubes|length > 0 %}
+    {% for mediaYoutube in mediaYoutubes %}
+        <div id="additional_vids_{{ mediaYoutube.media_id }}">
+            <a class="modal"
+               title="{{ mediaYoutube.media_alternate_text }}"
+               href="http://www.youtube.com/embed/{{ mediaYoutube.media_name }}"
+               rel="{handler: 'iframe', size: {x: 800, y: 500}}">
+                <img src="https://img.youtube.com/vi/{{ mediaYoutube.media_name }}/default.jpg' height='80px' width='80px"/>
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}
+{% if mediaVideos|length > 0 %}
+    {% for mediaVideo in mediaVideos %}
+        <video width="400" controls autoplay>
+            <source src="{{ constant('REDSHOP_FRONT_VIDEO_ABSPATH') ~ mediaVideo.media_section ~ '/' ~ mediaVideo.media_name }}"
+                    type="{{ mediaVideo.media_mimetype }}">
+        </video>
+    {% endfor %}
+{% endif %}

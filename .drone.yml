@@ -27,7 +27,7 @@ pipeline:
 
     00-setup:
         group: 00-setup
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         pull: true
         commands:
             # Composer setup
@@ -41,6 +41,9 @@ pipeline:
 
             # npm setup
             - while [ ! -f tests/.cache.npm.tmp ]; do sleep 1; done                             # Comment if not using npm cache
+            - npm install --save-dev
+            - npm rebuild node-sass
+
             # - npm install gulp                                                                # Uncomment if not using npm cache
             - npm audit fix
             - composer config -g repo.packagist composer https?://packagist.jp
@@ -54,7 +57,7 @@ pipeline:
             - vendor/bin/robo tests:paid-extensions-for-integration-tests
             - cd tests/extension/paid-extensions
             - mv gulp-config.sample.json gulp-config.json
-            - npm install
+            - npm install --save-dev
             - gulp composer
             - gulp release --skip-version
             - cd ../../..
@@ -71,7 +74,7 @@ pipeline:
 
     00-setup-73:
         group: 00-setup
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         pull: true
         environment:
             - tests_user=admin
@@ -101,7 +104,7 @@ pipeline:
 
     01-Group1:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=01-Group1
@@ -127,7 +130,7 @@ pipeline:
 
     02-Group2:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=02-Group2
@@ -152,7 +155,7 @@ pipeline:
 
     03-Group3:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=03-Group3
@@ -174,7 +177,7 @@ pipeline:
 
     04-Group4:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=04-Group4
@@ -197,7 +200,7 @@ pipeline:
 
     05-Group5:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=05-Group5
@@ -218,7 +221,7 @@ pipeline:
 
     06-Group6:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=06-Group6
@@ -238,7 +241,7 @@ pipeline:
 
     07-Group7:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=07-Group7
@@ -259,7 +262,7 @@ pipeline:
 
     08-Group8:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=08-Group8
@@ -280,7 +283,7 @@ pipeline:
 
     09-Group9:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=09-Group9
@@ -301,7 +304,7 @@ pipeline:
 
     10-Group10:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=10-Group10
@@ -323,7 +326,7 @@ pipeline:
 
     11-Group11:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=11-Group11
@@ -345,7 +348,7 @@ pipeline:
 
     12-Group12:
         group: 01-tests
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_user=admin
             - tests_suite=12-Group12
@@ -380,7 +383,7 @@ services:
             - JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK=1
 
     setup-stages:
-        image: redwebaps/testbox-chromedriver:79.0
+        image: redwebaps/testbox-chromedriver:79.0-n12
         environment:
             - tests_suite=00-setup
             - tests_db=setup
