@@ -22,14 +22,21 @@ $model = $this->getModel('stockimage');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove') || (pressbutton == 'publish') || (pressbutton == 'unpublish')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')) {
 			form.view.value = "stockimage_detail";
-		}
+		} else if (pressbutton == 'remove') {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "stockimage_detail";
+            } else {
+                return false;
+            }
+        }
 		try {
 			form.onsubmit();
 		}
 		catch (e) {
 		}
+
 		form.submit();
 	}
 </script>

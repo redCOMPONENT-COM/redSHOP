@@ -22,11 +22,17 @@ $model = $this->getModel('quotation');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'edit') || (pressbutton == 'remove')) {
+		if ((pressbutton == 'edit')) {
 			form.view.value = "quotation_detail";
 		} else if ((pressbutton == 'add')) {
 			form.view.value = "addquotation_detail";
-		}
+		} else if (pressbutton == 'remove') {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "quotation_detail";
+            } else {
+                return false;
+            }
+        }
 
 		try {
 			form.onsubmit();

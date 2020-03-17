@@ -17,15 +17,24 @@ $filter = JFactory::getApplication()->input->get('filter');
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
+
 		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+			|| (pressbutton == 'copy')) {
 			form.view.value = "stockroom_detail";
-		}
+		} else if (pressbutton == 'remove'){
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "stockroom_detail";
+            } else {
+                return false;
+            }
+        }
+
 		try {
 			form.onsubmit();
 		}
 		catch (e) {
 		}
+
 		form.submit();
 	}
 </script>

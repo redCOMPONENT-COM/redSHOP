@@ -18,10 +18,16 @@ $model = $this->getModel('newsletter');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'copy')) {
 			form.view.value = "newsletter_detail";
-		}
+		} else if (pressbutton == 'remove') {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "newsletter_detail";
+            } else {
+                return false;
+            }
+        }
+
 		try {
 			form.onsubmit();
 		}

@@ -25,10 +25,18 @@ if ($this->shipper_location)
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
+
 		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+			|| (pressbutton == 'copy')) {
 			form.view.value = "shipping_rate_detail";
-		}
+		} else if (pressbutton == 'remove') {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "shipping_rate_detail";
+            } else {
+                return false;
+            }
+        }
+
 		try {
 			form.onsubmit();
 		}

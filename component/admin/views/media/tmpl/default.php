@@ -285,10 +285,18 @@ else
         if (pressbutton) {
             form.task.value = pressbutton;
         }
-        if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'remove' || pressbutton == 'copy' || pressbutton == 'edit'
+
+        if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'copy' || pressbutton == 'edit'
             || pressbutton == 'saveorder' || pressbutton == 'orderup' || pressbutton == 'orderdown') {
             form.view.value = "media_detail";
+        } else if (pressbutton == 'remove') {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "media_detail";
+            } else {
+                return false;
+            }
         }
+
         if (pressbutton == 'add')
         {
             form.submit();

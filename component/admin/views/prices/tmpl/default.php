@@ -13,15 +13,24 @@
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
+
 		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
+			|| (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
 			form.view.value = "prices_detail";
-		}
+		} else if (pressbutton == 'remove') {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "prices_detail";
+            } else {
+                return false;
+            }
+        }
+
 		try {
 			form.onsubmit();
 		}
 		catch (e) {
 		}
+
 		form.submit();
 	}
 </script>

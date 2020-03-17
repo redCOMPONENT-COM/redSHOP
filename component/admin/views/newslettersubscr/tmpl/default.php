@@ -25,11 +25,16 @@ $model = $this->getModel('newslettersubscr');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'remove') || (pressbutton == 'export_data') || (pressbutton == 'export_acy_data')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'export_data') || (pressbutton == 'export_acy_data')) {
 			form.view.value = "newslettersubscr_detail";
+		} else if (pressbutton == 'remove') {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "newslettersubscr_detail";
+            } else {
+                return false;
+            }
+        }
 
-		}
 		try {
 			form.onsubmit();
 		}

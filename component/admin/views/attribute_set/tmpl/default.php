@@ -15,15 +15,23 @@ defined('_JEXEC') or die;
 		if (pressbutton) {
 			form.task.value = pressbutton;
 		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
+
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'copy')) {
 			form.view.value = "attribute_set_detail";
-		}
+		} else if (pressbutton == 'remove') {
+            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
+                form.view.value = "attribute_set_detail";
+            } else {
+                return false;
+            }
+        }
+
 		try {
 			form.onsubmit();
 		}
 		catch (e) {
 		}
+
 		form.submit();
 	}
 </script>
