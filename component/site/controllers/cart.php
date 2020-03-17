@@ -38,6 +38,10 @@ class RedshopControllerCart extends RedshopController
      */
     public function add()
     {
+        $test = \RedshopEntityCart::getInstance();
+        echo '<pre>';
+        var_dump($test);
+        exit;
         /**
          * Step 1: get request data [Post]
          */
