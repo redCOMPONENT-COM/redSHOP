@@ -1209,3 +1209,44 @@ function setsendImagepath(elm) {
 	var imageName = filenamepath.split('&');
 	elm.href = elm + '&imageName=' + imageName[0];
 }
+
+function getCatalogSampleValidation() {
+	var frm = document.frmcatalogsample;
+	var email = frm.email_address.value;
+	var patt1 = new RegExp("([a-z0-9_]+)@([a-z0-9_-]+)[.][a-z]");
+
+	if (frm.name_2.value == '') {
+		alert(Joomla.JText._('COM_REDSHOP_ENTER_NAME'));
+		frm.name_2.focus();
+		return false;
+	}
+
+	if (email == '') {
+		alert(Joomla.JText._('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS'));
+		frm.email_address.focus();
+		return false;
+	} else if (patt1.test(email) == false) {
+		alert(Joomla.JText._('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID'));
+		frm.email_address.focus();
+		return false;
+	}
+	var sampleArr = [];
+
+	if (document.getElementsByName('sample_code[]')) {
+		var sName = document.getElementsByName('sample_code[]');
+		var i = 0;
+
+		for (var p = 0; p < sName.length; p++) {
+			if (sName[p].checked) {
+				sampleArr[i++] = sName[p].value;
+			}
+		}
+	}
+
+	if (sampleArr.length > 0) {
+		return true;
+	} else {
+		alert(Joomla.JText._('COM_REDSHOP_SELECT_SAMPLE_COLOR'));
+		return false;
+	}
+}
