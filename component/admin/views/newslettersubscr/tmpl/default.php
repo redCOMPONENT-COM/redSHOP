@@ -7,42 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JText::script('COM_REDSHOP_DELETE_CONFIRM');
 $order_function = order_functions::getInstance();
 
 $config = Redconfiguration::getInstance();
 $model = $this->getModel('newslettersubscr');
 ?>
 <script language="javascript" type="text/javascript">
-
-	Joomla.submitbutton = function (pressbutton) {
-
-		var form = document.adminForm;
-
-		form.task.value = "";
-		form.view.value = "newslettersubscr";
-
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'export_data') || (pressbutton == 'export_acy_data')) {
-			form.view.value = "newslettersubscr_detail";
-		} else if (pressbutton == 'remove') {
-            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
-                form.view.value = "newslettersubscr_detail";
-            } else {
-                return false;
-            }
-        }
-
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
+    var viewForm = 'newslettersubscr_detail';
+    Joomla.submitbutton = function (pressbutton) {
+        checkSubmit(pressbutton, viewForm);
+    };
 
 	function clearreset() {
 		var form = document.adminForm;

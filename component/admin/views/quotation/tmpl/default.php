@@ -10,38 +10,16 @@
 $quotationHelper = quotationHelper::getInstance();
 
 $config = Redconfiguration::getInstance();
-
+JText::script('COM_REDSHOP_DELETE_CONFIRM');
 
 $lists = $this->lists;
 $model = $this->getModel('quotation');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-
-		if ((pressbutton == 'edit')) {
-			form.view.value = "quotation_detail";
-		} else if ((pressbutton == 'add')) {
-			form.view.value = "addquotation_detail";
-		} else if (pressbutton == 'remove') {
-            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
-                form.view.value = "quotation_detail";
-            } else {
-                return false;
-            }
-        }
-
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
+    var viewForm = 'quotation_detail';
+    Joomla.submitbutton = function (pressbutton) {
+        checkSubmit(pressbutton, viewForm);
+    };
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>" method="post"

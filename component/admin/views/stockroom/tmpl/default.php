@@ -8,35 +8,15 @@
  */
 defined('_JEXEC') or die;
 
+JText::script('COM_REDSHOP_DELETE_CONFIRM');
 
 $filter = JFactory::getApplication()->input->get('filter');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-
-		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'copy')) {
-			form.view.value = "stockroom_detail";
-		} else if (pressbutton == 'remove'){
-            if (confirm("<?php echo JText::_('COM_REDSHOP_DELETE_CONFIRM');?>")) {
-                form.view.value = "stockroom_detail";
-            } else {
-                return false;
-            }
-        }
-
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
+    var viewForm = 'stockroom_detail';
+    Joomla.submitbutton = function (pressbutton) {
+        checkSubmit(pressbutton, viewForm);
+    };
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
