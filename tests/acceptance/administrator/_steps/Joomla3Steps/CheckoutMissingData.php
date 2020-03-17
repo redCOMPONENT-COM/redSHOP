@@ -139,9 +139,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->wait(0.5);
-				$I->canSeeInPopup(FrontEndProductManagerJoomla3Page::$messageAcceptTerms);
-				$I->acceptPopup();
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
 				break;
 
 			case 'payment':
@@ -276,9 +274,7 @@ class CheckoutMissingData extends CheckoutOnFrontEnd
 				$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$checkoutFinalStep, 30);
 				$I->wait(0.5);
 				$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-				$I->wait(0.5);
-				$I->seeInPopup(FrontEndProductManagerJoomla3Page::$messageAcceptTerms);
-				$I->acceptPopup();
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30, FrontEndProductManagerJoomla3Page::$locatorMessageAcceptTerms);
 				break;
 
 			case 'payment':
