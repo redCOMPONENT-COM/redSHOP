@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JText::script('COM_REDSHOP_DELETE_CONFIRM');
-
 $filter = JFactory::getApplication()->input->get('filter');
 
 $model = $this->getModel('stockimage');

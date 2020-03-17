@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-JText::script('COM_REDSHOP_DELETE_CONFIRM');
 ?>
 <script language="javascript" type="text/javascript">
     var viewForm = 'attribute_set_detail';

@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JText::script('COM_REDSHOP_DELETE_CONFIRM');
 ?>
 <script language="javascript" type="text/javascript">
     var viewForm = 'prices_detail';

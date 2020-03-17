@@ -13,7 +13,6 @@ JHtml::_('behavior.modal', 'a.joom-box');
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-JText::script('COM_REDSHOP_DELETE_CONFIRM');
 
 $uri           = JURI::getInstance();
 $url           = $uri->root();

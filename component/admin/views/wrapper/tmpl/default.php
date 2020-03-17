@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JText::script('COM_REDSHOP_DELETE_CONFIRM');
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $showall = JFactory::getApplication()->input->get('showall', '0');

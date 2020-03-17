@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-JText::script('COM_REDSHOP_DELETE_CONFIRM');
 
 $model = $this->getModel('newsletter');
 ?>

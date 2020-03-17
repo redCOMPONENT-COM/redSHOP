@@ -10,7 +10,6 @@
 $quotationHelper = quotationHelper::getInstance();
 
 $config = Redconfiguration::getInstance();
-JText::script('COM_REDSHOP_DELETE_CONFIRM');
 
 $lists = $this->lists;
 $model = $this->getModel('quotation');
