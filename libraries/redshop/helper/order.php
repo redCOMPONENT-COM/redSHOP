@@ -2893,20 +2893,20 @@ class RedshopHelperOrder
 	{
 		return RedshopEntityOrder_Payment::getInstance($orderPaymentId)->getItem();
 	}
-	
-	/**
-	 * Insert log record to database
-	 *
-	 * @param   int   $orderId Payment order id
-	 * @param  int    $byUserId
-	 * @param  string $orderStatusCode
-	 * @param  string $orderPaymentStatus
-	 * @param  string $customerNote
-	 *
-	 * return void
-	 *
-	 * @since   3.0.1
-	 */
+
+    /**
+     * Insert log record to database
+     *
+     * @param int $orderId Payment order id
+     * @param int $byUserId The ID of user who make changes to an order
+     * @param string $orderStatusCode
+     * @param string $orderPaymentStatus
+     * @param string $customerNote
+     *
+     * return void
+     *
+     * @since   3.0.1
+     */
 	public static function writeOrderLog($orderId, $byUserId, $orderStatusCode, $orderPaymentStatus, $customerNote)
 	{
 		$userId = 0;
