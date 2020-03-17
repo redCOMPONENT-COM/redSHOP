@@ -44,7 +44,6 @@ $catalogTemplateWapper = \RedshopTagsReplacer::_(
 	'catalog',
 	$templateDesc,
 	array(
-		'model' => $model,
 		'itemId' => $Itemid
 	)
 );
