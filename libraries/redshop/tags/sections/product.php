@@ -174,7 +174,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 
 		if ($this->product->use_discount_calc) {
 			// Get discount calculator Template
-			$this->addReplace('{discount_calculator}', $this->data['caclulatorTemplate']);
+			$this->addReplace('{discount_calculator}', $this->data['calculatorTemplate']);
 		} else {
 			$this->addReplace('{discount_calculator}', '');
 		}
