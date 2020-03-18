@@ -21,7 +21,7 @@ class RedshopTagsSectionsCommonField extends RedshopTagsAbstract
 		'{address_lbl}', '{address}', '{zipcode_lbl}', '{zipcode}', '{city_lbl}', '{city}',
 		'{country_lbl}', '{country}', '{state_lbl}', '{state}', '{phone_lbl}', '{phone}',
 		'{phone_optional}', '{private_extrafield}', '{retype_email_lbl}', '{retype_email}',
-		'{company_name_lbl}', '{company_name}'
+		'{company_name_lbl}', '{company_name}', '{country_style}', '{country_txtid}'
 	);
 
 	public function init()
