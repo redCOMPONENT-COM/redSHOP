@@ -39,6 +39,7 @@ class RedshopViewRating_detail extends RedshopViewAdmin
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_RATING') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_rating48');
 
+		JToolBarHelper::apply('rating_detail.apply');
 		JToolBarHelper::save();
 
 		if ($isNew)
