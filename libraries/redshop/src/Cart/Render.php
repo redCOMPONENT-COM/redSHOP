@@ -78,7 +78,7 @@ class Render
             } else {
                 $cartTemplate                = new \stdClass;
                 $cartTemplate->name          = "notemplate";
-                $cartTemplate->template_desc = "<div>{addtocart_image_aslink}</div>";
+                $cartTemplate->template_desc = "<div>{addtocart_link}</div>";
                 $content                     = "{form_addtocart:$cartTemplate->name}";
             }
         }
