@@ -75,6 +75,20 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	public $view;
 
 	/**
+	 * @var    string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public $height = 'CATEGORY_PRODUCT_THUMB_HEIGHT';
+
+	/**
+	 * @var    string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public $width = 'CATEGORY_PRODUCT_THUMB_WIDTH';
+
+	/**
 	 * Init
 	 *
 	 * @return  void
