@@ -145,6 +145,13 @@ class RedshopModelRating_detail extends RedshopModelForm
 			return false;
 		}
 
+		$row               = $data;
+		$row['cid']         = 0;
+		$row['rating_id']  = $data['cid'] ? $data['cid'] : $this->_db->insertid();
+		$row['comment']   = $data['comment'];
+		$row['cdate']      = time();
+		$row['user_rating']   = $data['user_rating'];
+
 		return $row;
 	}
 
