@@ -603,7 +603,7 @@ class RedshopHelperTemplate
 		asort($options);
 
 		$optionSection   = array();
-		$optionSection[] = JHtml::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$optionSection[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
 
 		if (empty($options))
 		{
