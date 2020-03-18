@@ -152,6 +152,13 @@ function validateUserDetail()
 		return false;
 	}
 
+    if (form.country_code.value == '')
+    {
+        alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_COUNTRY')?>");
+        form.country_code.focus();
+        return false;
+    }
+
 	if (form.phone.value == '')
 	{
 		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE')?>");

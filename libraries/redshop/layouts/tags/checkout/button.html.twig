@@ -2,7 +2,7 @@
 <button type="button" id="checkout_final"
        name="checkout_final"
        class="greenbutton btn btn-primary"
-        onclick="if(validation({{ cartTotal }})){checkout_disable('checkout_final');}">{{ jtext("COM_REDSHOP_BTN_CHECKOUTFINAL") }}</button>
+        onclick="if(validation({{ cartTotal }}, {{ flagOneStep }})){checkout_disable('checkout_final');}">{{ jtext("COM_REDSHOP_BTN_CHECKOUTFINAL") }}</button>
     <input type="hidden" name="task" value="checkoutfinal" />
     <input type="hidden" name="view" value="checkout" />
     <input type="hidden" name="option" value="com_redshop" />
