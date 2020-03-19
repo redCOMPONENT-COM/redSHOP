@@ -159,7 +159,9 @@ class RedshopModelWrapper_detail extends RedshopModel
             ->where($db->qn('published') . ' = ' . $db->q('1'));
 
         if (isset($productId) & $productId > 0) {
-                $query->where($db->qn('product_id') , ' IN (' . $db->q($productId) . ')');
+            $query->where($db->qn('product_id') . ' IN (' . $productId . ')');
+        } else {
+            $query->where($db->qn('product_id') . ' = "" ');
         }
 
         $db->setQuery($query);
