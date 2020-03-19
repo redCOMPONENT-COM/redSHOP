@@ -11,30 +11,14 @@ $quotationHelper = quotationHelper::getInstance();
 
 $config = Redconfiguration::getInstance();
 
-
 $lists = $this->lists;
 $model = $this->getModel('quotation');
 ?>
 <script language="javascript" type="text/javascript">
+    var viewForm = 'quotation_detail';
     Joomla.submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-
-        if ((pressbutton == 'edit') || (pressbutton == 'remove')) {
-            form.view.value = "quotation_detail";
-        } else if ((pressbutton == 'add')) {
-            form.view.value = "addquotation_detail";
-        }
-
-        try {
-            form.onsubmit();
-        } catch (e) {
-        }
-
-        form.submit();
-    }
+        checkSubmit(pressbutton, viewForm);
+    };
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>" method="post"

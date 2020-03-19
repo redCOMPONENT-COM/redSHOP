@@ -116,6 +116,7 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
 \RedshopHelperConfig::script('THOUSAND_SEPERATOR', \Redshop::getConfig()->get('THOUSAND_SEPERATOR'));
 \RedshopHelperConfig::script('VAT_RATE_AFTER_DISCOUNT', \Redshop::getConfig()->get('VAT_RATE_AFTER_DISCOUNT'));
 \JText::script('COM_REDSHOP_IS_REQUIRED');
+\JText::script('COM_REDSHOP_DELETE_CONFIRM');
 
 // Execute the task.
 $controller = \JControllerLegacy::getInstance('Redshop');
