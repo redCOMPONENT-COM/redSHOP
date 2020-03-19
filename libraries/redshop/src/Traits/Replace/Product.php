@@ -35,17 +35,18 @@ trait Product
 	 */
 	protected function replaceCommonProduct($template, $productId)
 	{
-		$productData                      = \Redshop\Product\Product::getProductById($productId);
-		$replaceProduct                   = [];
-		$link                             = Route::_(
+		$productData    = \Redshop\Product\Product::getProductById($productId);
+		$replaceProduct = [];
+		$link           = Route::_(
 			'index.php?option=com_redshop&view=product&pid='
 			. $productId . '&cid=' . $productData->cat_in_sefurl
 		);
-		$extraFieldName                   = \Redshop\Helper\ExtraFields::getSectionFieldNames(
+		$extraFieldName = \Redshop\Helper\ExtraFields::getSectionFieldNames(
 			\RedshopHelperExtrafields::SECTION_PRODUCT,
 			1,
 			1
 		);
+
 		$replaceProduct['{product_name}'] = \RedshopLayoutHelper::render(
 			'tags.common.link',
 			[
@@ -132,8 +133,8 @@ trait Product
 		$infoImg = $this->getWidthHeight(
 			$template,
 			'product_thumb_image',
-			'MANUFACTURER_PRODUCT_THUMB_HEIGHT',
-			'MANUFACTURER_PRODUCT_THUMB_WIDTH'
+			$this->height,
+			$this->width
 		);
 
 		$prodThumbImage = \Redshop\Product\Image\Image::getImage(
