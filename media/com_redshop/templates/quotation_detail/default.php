@@ -67,11 +67,11 @@
 			<tbody>
 			<!--  {product_loop_start} -->
 			<tr>
-				<td>{product_name}({product_number_lbl} - {product_number})<br/>{product_accessory}{product_attribute}{product_userfields}
+				<td><div class="product_name">{product_name}</div>({product_number_lbl} - {product_number})<br/>{product_accessory}{product_attribute}{product_userfields}
 				</td>
-				<td>{product_wrapper}</td>
-				<td>{product_price}</td>
-				<td>{product_quantity}</td>
+				<td><div class="product_note">{product_wrapper}</div></td>
+				<td><div class="product_price">{product_price}</div></td>
+				<td><div class="product_quantity">{product_quantity}</div></td>
 				<td align="right">{product_total_price}</td>
 			</tr>
 			<!--  {product_loop_end} -->
