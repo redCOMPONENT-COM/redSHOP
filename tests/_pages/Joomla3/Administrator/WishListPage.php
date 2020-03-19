@@ -106,7 +106,7 @@ class WishListPage extends FrontEndProductManagerJoomla3Page
 	 */
 	public function wishListName($wishListName)
 	{
-		$path = "//a[text() = '" . $wishListName . "']";
+		$path = "//a[contains(text(), '" . $wishListName . "']";
 
 		return $path;
 	}
