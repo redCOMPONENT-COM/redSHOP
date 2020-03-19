@@ -113,28 +113,34 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		// Specific cases
 		if ($this->isTagExists('{category_thumb_image}') && $this->isTagRegistered('{category_thumb_image}') && isset($category->category_full_image))
 		{
-			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'));
+			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'), 'full');
 			$replacements['{category_thumb_image}'] = $categoryImage;
 		}
+
+        if ($this->isTagExists('{category_back_thumb_image}') && isset($category->category_back_full_image))
+        {
+            $categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'), 'back');
+            $replacements['{category_back_thumb_image}'] = $categoryImage;
+        }
 
 		if ($this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}')
 			&& isset($category->category_full_image))
 		{
-			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'));
+			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'), 'full');
 			$replacements['{category_thumb_image_1}'] = $categoryImage;
 		}
 
 		if ($this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}')
 			&& isset($category->category_full_image))
 		{
-			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH_2'), Redshop::getConfig()->get('THUMB_HEIGHT_2'));
+			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH_2'), Redshop::getConfig()->get('THUMB_HEIGHT_2'), 'full');
 			$replacements['{category_thumb_image_2}'] = $categoryImage;
 		}
 
 		if ($this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}')
 			&& isset($category->category_full_image))
 		{
-			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH_3'), Redshop::getConfig()->get('THUMB_HEIGHT_3'));
+			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH_3'), Redshop::getConfig()->get('THUMB_HEIGHT_3'), 'full');
 			$replacements['{category_thumb_image_3}'] = $categoryImage;
 		}
 
@@ -364,7 +370,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @return  string
 	 * @throws  Exception
 	 */
-	private function getThumbnail($category, $width, $height)
+	private function getThumbnail($category, $width, $height, $scope = '')
 	{
 		$input          = JFactory::getApplication()->input;
 		$model          = JModelLegacy::getInstance('Category', 'RedshopModel');
@@ -397,13 +403,52 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 		foreach ($medias->getAll() as $media)
 		{
 			/** @var RedshopEntityMedia $media */
-			if ($media->get('scope') == 'full')
+			if ($media->get('scope') == 'full' && $scope == 'full')
 			{
 				$fullImage = RedshopEntityMediaImage::getInstance($media->getId());
 
 				break;
 			}
+
+			if ($media->get('scope') == 'back' && $scope == 'back') {
+                $backImage = RedshopEntityMediaImage::getInstance($media->getId());
+
+                break;
+            }
 		}
+
+		if (isset($backImage) && $backImage !== null) {
+            $categoryBackImage = $backImage->getAbsImagePath();
+
+            // Generate thumb with watermark if needed.
+            if (Redshop::getConfig()->getBool('WATERMARK_CATEGORY_THUMB_IMAGE'))
+            {
+                $productImg = RedshopHelperMedia::watermark(
+                    'category',
+                    $category->category_back_full_image,
+                    $width,
+                    $height,
+                    Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
+                );
+            }
+            else
+            {
+                $productImg = $backImage->generateThumb($width, $height);
+                $productImg = $productImg['abs'];
+            }
+        } elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')
+            && JFile::exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
+        {
+            // Use default image
+            $categoryBackImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+            $productImg        = RedshopHelperMedia::watermark(
+                'category',
+                Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'),
+                $width,
+                $height,
+                Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
+            );
+        }
 
 		if ($fullImage !== null)
 		{
@@ -422,7 +467,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			}
 			else
 			{
-				$productImg = $fullImage->generateThumb($width, $height);
+                $productImg = $fullImage->generateThumb($width, $height);
 				$productImg = $productImg['abs'];
 			}
 		}
@@ -440,36 +485,63 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			);
 		}
 
-		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
-		{
-			$categoryThumbnail = RedshopLayoutHelper::render(
-				'tags.common.img_link',
-				array(
-					'class' => 'modal',
-					'link' => $categoryFullImage,
-					'linkAttr' => 'rel="{handler: \'image\', size: {}}" ' . $title,
-					'src' => $productImg,
-					'alt' => $alt,
-					'imgAttr' => $title
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
-		}
-		else
-		{
-			$categoryThumbnail = RedshopLayoutHelper::render(
-				'tags.common.img_link',
-				array(
-					'link' => $link,
-					'linkAttr' => $title,
-					'src' => $productImg,
-					'alt' => $alt,
-					'imgAttr' => $title
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
+		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX')) {
+		    if ($backImage) {
+                $categoryThumbnail = RedshopLayoutHelper::render(
+                    'tags.common.img',
+                    array(
+                        'class' => 'modal',
+                        'link' => $categoryBackImage,
+                        'linkAttr' => 'rel="{handler: \'image\', size: {}}" ' . $title,
+                        'src' => $productImg,
+                        'alt' => $alt,
+                        'imgAttr' => $title
+                    ),
+                    '',
+                    RedshopLayoutHelper::$layoutOption
+                );
+            } else {
+                $categoryThumbnail = RedshopLayoutHelper::render(
+                    'tags.common.img_link',
+                    array(
+                        'class' => 'modal',
+                        'link' => $categoryFullImage,
+                        'linkAttr' => 'rel="{handler: \'image\', size: {}}" ' . $title,
+                        'src' => $productImg,
+                        'alt' => $alt,
+                        'imgAttr' => $title
+                    ),
+                    '',
+                    RedshopLayoutHelper::$layoutOption
+                );
+            }
+		} else  {
+            $categoryThumbnail = RedshopLayoutHelper::render(
+                'tags.common.img_link',
+                array(
+                    'link' => $link,
+                    'linkAttr' => $title,
+                    'src' => $productImg,
+                    'alt' => $alt,
+                    'imgAttr' => $title
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
+
+            if (isset($backImage)) {
+                $categoryThumbnail = RedshopLayoutHelper::render(
+                    'tags.common.img',
+                    array(
+                        'linkAttr' => $title,
+                        'src' => $productImg,
+                        'alt' => $alt,
+                        'imgAttr' => $title
+                    ),
+                    '',
+                    RedshopLayoutHelper::$layoutOption
+                );
+            }
 		}
 
 		return $categoryThumbnail;
