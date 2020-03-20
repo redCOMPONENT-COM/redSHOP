@@ -35,7 +35,7 @@
 				</a>
 			</div>
 		{% else %}
-			{% set myTags = dump(model.getMyDetail()) %}
+			{% set myTags = model.getMyDetail() %}
 			{% set linkEdit = jroute('index.php?option=com_redshop&view=account&layout=mytags&edit=1&tagid=' ~ tagid ~ '&Itemid=' ~ itemId) %}
 			{% set linkRemove = jroute('index.php?option=com_redshop&view=account&layout=mytags&remove=1&tagid=' ~ tagid ~ '&Itemid=' ~ itemId) %}
 			<!-- tag detail-->
@@ -64,7 +64,7 @@
 								{% if  row.product_full_image is defined %}
 									{% set thumbUrl = redSHOPCall('RedshopHelperMedia', 'getImagePath', [
 										row.product_full_image,
-										dump(''),
+										'',
 										'thumb',
 										'product',
 										'THUMB_WIDTH'|redconfig,
@@ -99,7 +99,7 @@
 										'row': row,
 										'productPrice':  productPrice
 									},
-									dump(''),
+									'',
 									{
 										'component': 'com_redshop',
 										'layoutType': 'Twig',
