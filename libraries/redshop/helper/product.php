@@ -179,7 +179,7 @@ class RedshopHelperProduct
      *
      * @since   2.0.3
      */
-    public static function replaceWrapperData($productId = 0, $userId = 0, $uniqueId = "")
+    public static function replaceWrapperData($productId = 0, $userId = 0, $uniqueId = "", $isTripTags = false)
     {
         $wrapperList = '';
 
@@ -203,8 +203,14 @@ class RedshopHelperProduct
             }
 
             $wrapper[$i]->wrapper_price += $wrapperVat;
-            $wrapper[$i]->wrapper_name  = $wrapper [$i]->wrapper_name . " ("
-                . RedshopHelperProductPrice::formattedPrice($wrapper[$i]->wrapper_price) . ")";
+
+            $wrapperPrice = RedshopHelperProductPrice::formattedPrice($wrapper[$i]->wrapper_price);
+
+            if ($isTripTags) {
+                $wrapperPrice = strip_tags($wrapperPrice);
+            }
+
+            $wrapper[$i]->wrapper_name  = $wrapper [$i]->wrapper_name . " (" . $wrapperPrice . ")";
 
             $wrapperList .= "<input type='hidden' id='wprice_" . $commonId . "_"
                 . $wrapper [$i]->wrapper_id . "' value='" . $wrapper[$i]->wrapper_price . "' />";
@@ -288,7 +294,8 @@ class RedshopHelperProduct
                     0,
                     $attributes,
                     $userId,
-                    $uniqueId
+                    $uniqueId,
+                    true
                 );
 
                 // Accessory start
@@ -296,7 +303,7 @@ class RedshopHelperProduct
                 $accessoryList = self::replaceAccessoryData($productId, $accessory, $userId, $uniqueId);
 
                 // Wrapper selection box generate
-                $wrapperList      = self::replaceWrapperData($productId, $userId, $uniqueId);
+                $wrapperList      = self::replaceWrapperData($productId, $userId, $uniqueId, true);
                 $productUserField = self::replaceUserField($productId, $productInfo->product_template, $uniqueId);
             }
         }
