@@ -6,6 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace AcceptanceTester;
+use StockRoomManagerJoomla3Page;
+
 /**
  * Class StockRoomManagerJoomla3Steps
  *
@@ -28,15 +30,15 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function addStockRoom($name = 'Sample', $minAmount = '100')
 	{
 		$I = $this;
-		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-		$I->click(\StockRoomManagerJoomla3Page::$newButton);
-		$I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName, 30);
-		$I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $name);
-		$I->fillField(\StockRoomManagerJoomla3Page::$minimumStockAmount, $minAmount);
-		$I->waitForElement(\StockRoomManagerJoomla3Page::$saveButton, 30);
-		$I->click(\StockRoomManagerJoomla3Page::$saveButton);
-		$I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, \StockRoomManagerJoomla3Page::$selectorSuccess);
-		$I->click(\StockRoomManagerJoomla3Page::$closeButton);
+		$I->amOnPage(StockRoomManagerJoomla3Page::$URL);
+		$I->click(StockRoomManagerJoomla3Page::$newButton);
+		$I->waitForElement(StockRoomManagerJoomla3Page::$stockRoomName, 30);
+		$I->fillField(StockRoomManagerJoomla3Page::$stockRoomName, $name);
+		$I->fillField(StockRoomManagerJoomla3Page::$minimumStockAmount, $minAmount);
+		$I->waitForElement(StockRoomManagerJoomla3Page::$saveButton, 30);
+		$I->click(StockRoomManagerJoomla3Page::$saveButton);
+		$I->waitForText(StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, StockRoomManagerJoomla3Page::$selectorSuccess);
+		$I->click(StockRoomManagerJoomla3Page::$closeButton);
 	}
 
 	/**
@@ -50,15 +52,15 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function editStockRoom($name = 'Sample', $newName = 'Updated Name')
 	{
 		$I = $this;
-		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
+		$I->amOnPage(StockRoomManagerJoomla3Page::$URL);
 		$I->filterListBySearching($name, $searchField = ['id' => 'filter']);
 		$I->wait(0.1);
 		$I->click(['link' => $name]);
-		$I->waitForElement(\StockRoomManagerJoomla3Page::$stockRoomName, 30);
-		$I->fillField(\StockRoomManagerJoomla3Page::$stockRoomName, $newName);
-		$I->click(\StockRoomManagerJoomla3Page::$saveCloseButton);
-		$I->waitForText(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, \StockRoomManagerJoomla3Page::$selectorSuccess);
-		$I->see(\StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, \StockRoomManagerJoomla3Page::$selectorSuccess);
+		$I->waitForElement(StockRoomManagerJoomla3Page::$stockRoomName, 30);
+		$I->fillField(StockRoomManagerJoomla3Page::$stockRoomName, $newName);
+		$I->click(StockRoomManagerJoomla3Page::$saveCloseButton);
+		$I->waitForText(StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, StockRoomManagerJoomla3Page::$selectorSuccess);
+		$I->see(StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, StockRoomManagerJoomla3Page::$selectorSuccess);
 	}
 
 	/**
@@ -71,7 +73,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function changeStockRoomState($name, $state = 'unpublish')
 	{
-		$this->changeState(new \StockRoomManagerJoomla3Page, $name, $state, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst);
+		$this->changeState(new StockRoomManagerJoomla3Page, $name, $state, StockRoomManagerJoomla3Page::$firstResultRow, StockRoomManagerJoomla3Page::$selectFirst);
 	}
 
 	/**
@@ -84,7 +86,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function searchStockRoom($name, $functionName = 'Search')
 	{
-		$this->search(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, $functionName);
+		$this->search(new StockRoomManagerJoomla3Page, $name, StockRoomManagerJoomla3Page::$firstResultRow, $functionName);
 	}
 
 	/**
@@ -96,7 +98,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function getStockRoomState($name)
 	{
-		$result = $this->getState(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$stockRoomStatePath);
+		$result = $this->getState(new StockRoomManagerJoomla3Page, $name, StockRoomManagerJoomla3Page::$firstResultRow, StockRoomManagerJoomla3Page::$stockRoomStatePath);
 
 		return $result;
 	}
@@ -110,7 +112,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 */
 	public function deleteStockRoom($name)
 	{
-		$this->delete(new \StockRoomManagerJoomla3Page, $name, \StockRoomManagerJoomla3Page::$firstResultRow, \StockRoomManagerJoomla3Page::$selectFirst, $filterId = ['id' => 'filter']);
+		$this->delete(new StockRoomManagerJoomla3Page, $name, StockRoomManagerJoomla3Page::$firstResultRow, StockRoomManagerJoomla3Page::$selectFirst, $filterId = ['id' => 'filter']);
 	}
 
 	/**
@@ -119,11 +121,11 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	public function deleteAllStockRoom()
 	{
 		$I = $this;
-		$I->amOnPage(\StockRoomManagerJoomla3Page::$URL);
-		$I->click(\StockRoomManagerJoomla3Page::$resetButton);
+		$I->amOnPage(StockRoomManagerJoomla3Page::$URL);
+		$I->click(StockRoomManagerJoomla3Page::$resetButton);
 		$I->checkAllResults();
-		$I->click(\StockRoomManagerJoomla3Page::$deleteButton);
+		$I->click(StockRoomManagerJoomla3Page::$deleteButton);
 		$I->acceptPopup();
-		$I->see(\StockRoomManagerJoomla3Page::$deleteMessage, \StockRoomManagerJoomla3Page::$selectorSuccess);
+		$I->see(StockRoomManagerJoomla3Page::$deleteMessage, StockRoomManagerJoomla3Page::$selectorSuccess);
 	}
 }
