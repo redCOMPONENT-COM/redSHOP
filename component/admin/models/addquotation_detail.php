@@ -540,7 +540,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 	}
 
 
-	public function replaceSubPropertyData($productId = 0, $accessoryId = 0, $attributeId = 0, $propertyId = 0, $uniqueid = "")
+	public function replaceSubPropertyData($productId = 0, $accessoryId = 0, $attributeId = 0, $propertyId = 0, $uniqueid = "", $isTripTags = false)
 	{
 
 		$subproperty = array();
@@ -576,9 +576,14 @@ class RedshopModelAddquotation_detail extends RedshopModel
 				{
 					$attributes_subproperty_vat                  = RedshopHelperProduct::getProducttax($productId, $subproperty[$i]->subattribute_color_price);
 					$subproperty [$i]->subattribute_color_price += $attributes_subproperty_vat;
+					$subpropertyPrice = RedshopHelperProductPrice::formattedPrice($subproperty [$i]->subattribute_color_price);
+
+					if ($isTripTags) {
+                        $subpropertyPrice = strip_tags($subpropertyPrice);
+                    }
+
 					$subproperty [$i]->text                      = urldecode($subproperty [$i]->subattribute_color_name)
-						. " (" . $subproperty [$i]->oprand
-						. RedshopHelperProductPrice::formattedPrice($subproperty [$i]->subattribute_color_price) . ")";
+						. " (" . $subproperty [$i]->oprand . $subpropertyPrice . ")";
 				}
 				else
 				{

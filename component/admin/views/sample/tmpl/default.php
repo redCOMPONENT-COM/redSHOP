@@ -10,22 +10,10 @@
 
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove')) {
-			form.view.value = "sample_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
+    var viewForm = 'sample_detail';
+    Joomla.submitbutton = function (pressbutton) {
+        checkSubmit(pressbutton, viewForm);
+    };
 </script>
 
 <form action="index.php?option=com_redshop&view=sample" method="post" name="adminForm" id="adminForm">
