@@ -27,7 +27,7 @@ class WishListSteps extends CheckoutMissingData
 	 * @param $wishListMenuItem
 	 * @param $wishListName
 	 * @param $function
-	 * @throws \Exception
+	 * @throws \Exceptiontests/acceptance/administrator/_steps/Joomla3Steps/ProductUpdateOnQuantitySteps.php
 	 * @since 2.1.3
 	 */
 	public function checkWistListAtFrontend($categoryName, $productName, $username, $pass, $wishListMenuItem, $wishListName, $function)
