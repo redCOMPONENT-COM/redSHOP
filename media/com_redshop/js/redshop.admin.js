@@ -16551,3 +16551,35 @@ function _init($) {
         });
     });
 })(jQuery);
+
+checkSubmit = function (pressbutton, viewForm) {
+    var form = document.adminForm;
+
+    if (pressbutton) {
+        form.task.value = pressbutton;
+    }
+
+    if (pressbutton == 'add' && viewForm == 'quotation_detail')
+    {
+        form.view.value = 'add' + viewForm;
+    } else
+    {
+        if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'copy' || pressbutton == 'edit'
+            || pressbutton == 'saveorder' || pressbutton == 'orderup' || pressbutton == 'orderdown') {
+            if (viewForm == 'wrapper')
+            {
+                form.view.value = viewForm + '_detail';
+            } else {
+                form.view.value = viewForm;
+            }
+        } else if (pressbutton == 'remove') {
+            if (confirm(Joomla.JText._('COM_REDSHOP_DELETE_CONFIRM'))) {
+                form.view.value = viewForm;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    form.submit();
+};
