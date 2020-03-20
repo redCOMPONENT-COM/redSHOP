@@ -573,7 +573,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 				)
 			);
 
-			$replaceProductItemData['product_s_desc'] = $productShortDesc;
+			$replaceProductItemData['{product_s_desc}'] = $productShortDesc;
 		}
 
 		if (strstr($template, '{product_desc}')) {
@@ -587,25 +587,27 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 				)
 			);
 
-			$replaceProductItemData['product_desc'] = $productDesc;
+			$replaceProductItemData['{product_desc}'] = $productDesc;
 		}
 
 		if (strstr($template, '{product_rating_summary}')) {
 			// Product Review/Rating Fetching reviews
-			$replaceProductItemData['product_rating_summary'] = Redshop\Product\Rating::getRating($productId);
+			$replaceProductItemData['{product_rating_summary}'] = Redshop\Product\Rating::getRating($productId);
 		}
 
+		$manufacturerName = RedshopEntityManufacturer::getInstance($product->manufacturer_id)->getItem()->name;
+
 		if (strstr($template, '{manufacturer_link}')) {
-			$replaceProductItemData['manufacturer_link'] = RedshopLayoutHelper::render(
+			$replaceProductItemData['{manufacturer_link}'] = RedshopLayoutHelper::render(
 				'tags.common.link',
 				[
 					'link'    => JRoute::_(
 						'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' .
-						$product->manufacturer_id . '&Itemid=' . $this->temid
+						$product->manufacturer_id . '&Itemid=' . $this->itemId
 					),
 					'class'   => 'btn btn-primary',
-					'attr'    => 'title="' . $product->manufacturer_name . '"',
-					'content' => $product->manufacturer_name
+					'attr'    => 'title="' . $manufacturerName . '"',
+					'content' => $manufacturerName
 				],
 				'',
 				$this->optionLayout
@@ -617,7 +619,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 		}
 
 		if (strstr($template, '{manufacturer_product_link}')) {
-			$replaceProductItemData['manufacturer_product_link'] = RedshopLayoutHelper::render(
+			$replaceProductItemData['{manufacturer_product_link}'] = RedshopLayoutHelper::render(
 				'tags.common.link',
 				[
 					'link'    => JRoute::_(
@@ -625,10 +627,10 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 						'&Itemid=' . $this->itemId
 					),
 					'class'   => 'btn btn-primary',
-					'attr'    => 'title="' . $product->manufacturer_name . '"',
+					'attr'    => 'title="' . $manufacturerName . '"',
 					'content' => JText::_(
 							"COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS"
-						) . ' ' . $product->manufacturer_name
+						) . ' ' . $manufacturerName
 				],
 				'',
 				$this->optionLayout
@@ -636,7 +638,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 		}
 
 		if (strstr($template, '{manufacturer_name}')) {
-			$replaceProductItemData['{manufacturer_name}'] = $product->manufacturer_name;
+			$replaceProductItemData['{manufacturer_name}'] = $manufacturerName;
 		}
 
 		$productThumbImgData = $this->getWidthHeight(
