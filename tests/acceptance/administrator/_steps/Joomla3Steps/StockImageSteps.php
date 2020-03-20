@@ -75,6 +75,7 @@ class StockImageSteps extends AdminManagerJoomla3Steps
 		$I->click(\StockImagePage::$resetButton);
 		$I->checkAllResults();
 		$I->click(\StockImagePage::$buttonDelete);
+		$I->acceptPopup();
 		$I->see(\StockImagePage::$messageDelete, \StockImagePage::$selectorSuccess);
 	}
 
