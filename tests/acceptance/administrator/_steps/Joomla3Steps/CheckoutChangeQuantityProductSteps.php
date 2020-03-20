@@ -110,7 +110,6 @@ class CheckoutChangeQuantityProductSteps extends AdminManagerJoomla3Steps
 		}catch (\Exception $e)
 		{
 			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageAcceptTerms, 30);
-			$I->acceptPopup();
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$termAndConditions, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
 			$I->waitForElement(\CheckoutChangeQuantityProductPage::$checkoutFinalStep, 60);
