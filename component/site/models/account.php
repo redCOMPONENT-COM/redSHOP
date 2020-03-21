@@ -131,7 +131,7 @@ class RedshopModelAccount extends RedshopModel
 
 		$tagId      = $app->input->getInt('tagid', 0);
 		$wishListId = $app->input->getInt('wishlist_id', 0);
-		$userId     = JFactory::getUser();
+		$userId     = JFactory::getUser()->id;
 		$db         = JFactory::getDbo();
 		$query      = $db->getQuery(true);
 
@@ -168,7 +168,7 @@ class RedshopModelAccount extends RedshopModel
 				->from($db->qn('#__redshop_wishlist', 'w'))
 				->leftJoin($db->qn('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
 				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
-				->where('w.user_id = ' . (int) $userId->id)
+				->where('w.user_id = ' . (int) $userId)
 				->where('w.wishlist_id = ' . (int) $wishListId)
 				->where('pw.wishlist_id = ' . (int) $wishListId);
 
