@@ -270,6 +270,7 @@ class ShippingSteps extends AdminManagerJoomla3Steps
 		$I->seeLink($shippingName);
 		$I->checkAllResults();
 		$I->click(ShippingPage::$buttonDelete);
+		$I->acceptPopup();
 		$I->dontSee($shippingName);
 	}
 }
