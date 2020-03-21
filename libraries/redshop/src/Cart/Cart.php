@@ -550,8 +550,6 @@ class Cart
                 if (is_bool($generateAccessoryCart)) {
                     return \JText::_('COM_REDSHOP_ACCESSORY_HAS_REQUIRED_ATTRIBUTES');
                 }
-
-                return false;
             }
         }
 
