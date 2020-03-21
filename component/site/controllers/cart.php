@@ -38,33 +38,43 @@ class RedshopControllerCart extends RedshopController
      */
     public function add()
     {
-        $app                      = \JFactory::getApplication();
-        $post                     = $app->input->post->getArray();
+        /**
+         * Step 1: get request data [Post]
+         */
+        $post = \Redshop\Cart\Helper::getRequestAddToCartData();
+
+        /**
+         * Step 2: Validate POST be valid or not (product_id and quantity)
+         */
+        \Redshop\Cart\Helper::validateAddProductToCart($post);
+
+        /**
+         * Step 3: Init some data
+         */
+        $app = \JFactory::getApplication();
         $parentAccessoryProductId = $post['product_id'];
-
-        // Invalid request then redirect to dashboard
-        if (empty($app->input->post->getInt('product_id')) || empty($app->input->post->getInt('quantity'))) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_CART_INVALID_REQUEST'), 'error');
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop'));
-        }
-
         $itemId = \RedshopHelperRouter::getCartItemId();
 
         // Call add method of modal to store product in cart session
         $userField = $app->input->get('userfield');
 
-        JPluginHelper::importPlugin('redshop_product');
-        $dispatcher = \RedshopHelperUtility::getDispatcher();
-        $dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
 
-        $isAjaxCartBox = \Redshop::getConfig()->getBool('AJAX_CART_BOX');
-        $result        = \Redshop\Cart\Cart::addProduct($post);
+        /**
+         * Step 4. Addup plugins trigger
+         */
+        \Redshop\Helper\Utility::placePluginTrigger('redshop_product', $post, true);
+
+        /**
+         * Step 5. add product(s) to cart
+         */
+        $result = \Redshop\Cart\Cart::addProduct($post);
 
         if (!is_bool($result) || (is_bool($result) && !$result)) {
-            $errorMessage = $result ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+            $errorMessage = $result ? $result : \JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
             // Set Error Message
             $app->enqueueMessage($errorMessage, 'error');
+            $isAjaxCartBox = \Redshop::getConfig()->getBool('AJAX_CART_BOX');
 
             if ($isAjaxCartBox) {
                 echo '`0`' . $errorMessage;
@@ -72,14 +82,10 @@ class RedshopControllerCart extends RedshopController
             } else {
                 $itemData = \RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $post['product_id']);
 
-                if (count($itemData) > 0) {
-                    $productItemId = $itemData->id;
-                } else {
-                    $productItemId = \RedshopHelperRouter::getItemId(
-                        $post['product_id'],
-                        \RedshopProduct::getInstance($post['product_id'])->cat_in_sefurl
-                    );
-                }
+                $productItemId = isset($itemData->id) ? $itemData->id : \RedshopHelperRouter::getItemId(
+                                                                        $post['product_id'],
+                                                                        \RedshopProduct::getInstance(
+                                                                                $post['product_id'])->cat_in_sefurl);
 
                 // Directly redirect if error found
                 $app->redirect(

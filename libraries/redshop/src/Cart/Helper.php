@@ -517,10 +517,12 @@ class Helper
     {
         $cart  = \JFactory::getSession()->get('cart', null);
 
-        if (empty($cart)) {
-            $cart = [
-                'idx' => 0
-            ];
+        if (empty($cart)
+            || !array_key_exists("idx", $cart)
+            || array_key_exists("quotation_id", $cart)
+            || !is_int($cart['idx'])
+        ) {
+            $cart['idx'] = 0;
         }
 
         return $cart;
@@ -557,5 +559,155 @@ class Helper
         self::setCart($cart);
 
         return $cart['totalQuantity'];
+    }
+
+    /**
+     * @param array $post
+     * @param bool $redirect
+     * @return bool
+     * @since __DEPLOY_VERSION__
+     */
+    public static function validateAddProductToCart($post = [], $redirect = true)
+    {
+        $app = \JFactory::getApplication();
+        // Invalid request then redirect to dashboard
+        if (empty($post['product_id']) || empty($post['quantity'])) {
+            $app->enqueueMessage(\JText::_('COM_REDSHOP_CART_INVALID_REQUEST'), 'error');
+
+            if ($redirect === true) {
+                $app->redirect(\JRoute::_('index.php?option=com_redshop'));
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getRequestAddToCartData()
+    {
+        $app = \JFactory::getApplication();
+
+        return $app->input->post->getArray();
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     */
+    public static function isGiftCard($data)
+    {
+        if (empty($data['giftcard_id'])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $data
+     * @return bool|mixed
+     * @throws \Exception
+     */
+    public static function addItemToCart(&$data)
+    {
+        $cart = \Redshop\Cart\Helper::getCart();
+        $data['quantity'] = is_int($data['quantity'])? round($data['quantity']) : 0;
+        $idx = (int)$cart['idx'];
+        $result = true;
+
+        if (\Redshop\Cart\Helper::isGiftCard($data)) {
+            \Redshop\Cart\Cart::addGiftCardProduct($cart, $idx, $data);
+        } // Set session for product
+        else {
+            $result = \Redshop\Cart\Cart::addNormalProduct($cart, $idx, $data);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function initDiscountForCart()
+    {
+        $cart = \Redshop\Cart\Helper::getCart();
+
+        if (!isset($cart['discount_type']) || !$cart['discount_type']) {
+            $cart['discount_type'] = 0;
+        }
+
+        if (!isset($cart['discount']) || !$cart['discount']) {
+            $cart['discount'] = 0;
+        }
+
+        if (!isset($cart['cart_discount']) || !$cart['cart_discount']) {
+            $cart['cart_discount'] = 0;
+        }
+
+        return \Redshop\Cart\Helper::setCart($cart);
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function initShopperGroupForCart()
+    {
+        $user = \Redshop\User\Helper::getCurrentUser();
+        $cart = \Redshop\Cart\Helper::getCart();
+
+        if (!isset($cart['user_shopper_group_id'])
+            || (isset($cart['user_shopper_group_id']) && $cart['user_shopper_group_id'] == 0)) {
+            $cart['user_shopper_group_id'] = \RedshopHelperUser::getShopperGroup($user->id);
+        }
+
+        return \Redshop\Cart\Helper::setCart($cart);
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function initShippingForCart()
+    {
+        $cart = \Redshop\Cart\Helper::getCart();
+        $cart['free_shipping'] = 0;
+
+        return \Redshop\Cart\Helper::setCart($cart);
+    }
+
+    public static function handleCartAccessoryPrice(&$data)
+    {
+        $cart = \Redshop\Cart\Helper::getCart();
+        $productId = $data['product_id'] ?? 0;
+
+        //@TODO: change to using Entity
+        $product   = \Redshop\Product\Product::getProductById($productId);
+
+        $condition = \Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
+            && isset($data['parent_accessory_product_id'])
+            && $data['parent_accessory_product_id'] != 0
+            && isset($data['accessory_id']);
+
+        // Handle individual accessory add to cart price
+        if ($condition) {
+            $cart['idx']['accessoryAsProductEligible'] = $data['accessory_id'];
+            $accessoryInfo = \RedshopHelperAccessory::getProductAccessories(
+                $data['accessory_id']
+            );
+            $product->product_price                   = $accessoryInfo[0]->newaccessory_price;
+
+            $tempData          = \Redshop\Product\Product::getProductById($data['parent_accessory_product_id']);
+            $productTemplate   = \RedshopHelperTemplate::getTemplate("product", $tempData->product_template);
+            $accessoryTemplate = \Redshop\Template\Helper::getAccessory($productTemplate[0]->template_desc);
+            $dataAdd           = null !== $accessoryTemplate ? $accessoryTemplate->template_desc : '';
+        } else {
+            $productTemplate = \RedshopHelperTemplate::getTemplate("product", $product->product_template);
+            $dataAdd         = $productTemplate[0]->template_desc;
+        }
+
+        \Redshop\Cart\Helper::setCart($cart);
     }
 }

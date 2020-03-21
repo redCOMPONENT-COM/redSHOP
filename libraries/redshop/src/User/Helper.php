@@ -127,4 +127,12 @@ class Helper
 
         return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
     }
+
+    /**
+     * @return \JUser
+     */
+    public static function getCurrentUser()
+    {
+        return \JFactory::getUser();
+    }
 }

@@ -195,49 +195,38 @@ class Cart
      *
      * @since   2.1.0
      */
-    public static function addProduct($data = array())
+    public static function addProduct($data = [])
     {
-        $user             = \JFactory::getUser();
-        $cart             = \Redshop\Cart\Helper::getCart();
-        $data['quantity'] = round($data['quantity']);
-
-        if (empty($cart) || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart)) {
-            $cart = array('idx' => 0);
+        /**
+         * Step 1: validate data for add to cart
+         */
+        if (!is_array($data) || count($data) == 0) {
+            return false;
         }
 
-        $idx = (int)$cart['idx'];
+        /**
+         * Step 2. Add GCard or Product to cart
+         */
+        $result = \Redshop\Cart\Helper::addItemToCart($data);
 
-        // Set session for giftcard
-        if (!empty($data['giftcard_id'])) {
-            self::addGiftCardProduct($cart, $idx, $data);
-        } // Set session for product
-        else {
-            $result = self::addNormalProduct($cart, $idx, $data);
-
-            if (true !== $result) {
-                return $result;
-            }
+        if ($result !== true) {
+            return $result;
         }
 
-        if (!isset($cart['discount_type']) || !$cart['discount_type']) {
-            $cart['discount_type'] = 0;
-        }
+        /**
+         * Step 3. init discount for cart ['discount', 'discount_type', 'cart_discount']
+         */
+        \Redshop\Cart\Helper::initDiscountForCart();
 
-        if (!isset($cart['discount']) || !$cart['discount']) {
-            $cart['discount'] = 0;
-        }
+        /**
+         * Step 4. Init Shopper Group for cart [user_shopper_group_id]
+         */
+        \Redshop\Cart\Helper::initShopperGroupForCart();
 
-        if (!isset($cart['cart_discount']) || !$cart['cart_discount']) {
-            $cart['cart_discount'] = 0;
-        }
-
-        if (!isset($cart['user_shopper_group_id']) || (isset($cart['user_shopper_group_id']) && $cart['user_shopper_group_id'] == 0)) {
-            $cart['user_shopper_group_id'] = \RedshopHelperUser::getShopperGroup($user->id);
-        }
-
-        $cart['free_shipping'] = 0;
-
-        \Redshop\Cart\Helper::setCart($cart);
+        /**
+         * Step 5. Init Shipping.
+         */
+        \Redshop\Cart\Helper::initShippingForCart();
 
         return true;
     }
@@ -294,6 +283,8 @@ class Cart
         }
 
         $cart['idx'] = $idx + 1;
+
+        \Redshop\Cart\Helper::setCart($cart);
     }
 
     /**
@@ -311,12 +302,9 @@ class Cart
     public static function addNormalProduct(&$cart, $idx, $data = array())
     {
         $section = \RedshopHelperExtrafields::SECTION_PRODUCT_USERFIELD;
-        $rows    = \RedshopHelperExtrafields::getSectionFieldList($section);
-
-        if (isset($data['hidden_attribute_cartimage'])) {
-            $cart[$idx]['hidden_attribute_cartimage'] = $data['hidden_attribute_cartimage'];
-        }
-
+        $rows = \RedshopHelperExtrafields::getSectionFieldList($section);
+        $cart[$idx]['hidden_attribute_cartimage'] = $data['hidden_attribute_cartimage']
+                                                        ? $data['hidden_attribute_cartimage'] : null;
         $productId = $data['product_id'];
         $quantity  = $data['quantity'];
         $product   = \Redshop\Product\Product::getProductById($productId);
@@ -801,6 +789,8 @@ class Cart
                 $cart[$idx][$fieldName] = $dataTxt;
             }
         }
+
+        \Redshop\Cart\Helper::setCart($cart);
 
         return true;
     }
