@@ -9,6 +9,8 @@
 
 namespace Redshop\Attribute;
 
+use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
+
 defined('_JEXEC') or die;
 
 /**
@@ -272,5 +274,69 @@ class Helper
         }
 
         return;
+    }
+
+    /**
+     * @param   Object  $params
+     *
+     * @return int / null
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getAttributePriceStartId($params = null)
+    {
+        // Validate
+        if (empty($params)
+            || empty($params->shopper_group_id)
+            || empty($params->section_id)
+            || empty($params->price_quantity_start)
+            || empty($params->price_quantity_start)
+        ) {
+            return null;
+        }
+
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->qn('price_id'))
+            ->from($db->qn('product_attribute_price'))
+            ->where($db->qn('shopper_group_id') . ' = ' . $db->q($params->shopper_group_id))
+            ->where($db->qn('section_id') . ' = ' . $db->q((int)$params->section_id))
+            ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int)$params->price_quantity_start))
+            ->where($db->qn('price_quantity_end') . ' >= ' . $db->q((int)$params->price_quantity_start));
+
+        $attributePriceIdStart = \Redshop\DB\Tool::safeSelect($db, $query);
+
+        return $attributePriceIdStart->price_id ?? null;
+    }
+
+    /**
+     * @param   Object  $params
+     *
+     * @return int / null
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getAttributePriceEndId($params = null)
+    {
+        // Validate
+        if (empty($params)
+            || empty($params->shopper_group_id)
+            || empty($params->section_id)
+            || empty($params->price_quantity_end)
+            || empty($params->price_quantity_end)
+        ) {
+            return null;
+        }
+
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select($db->qn('price_id'))
+            ->from($db->qn('product_attribute_price'))
+            ->where($db->qn('shopper_group_id') . ' = ' . $db->q($params->shopper_group_id))
+            ->where($db->qn('section_id') . ' = ' . $db->q((int)$params->section_id))
+            ->where($db->qn('price_quantity_start') . ' <= ' . $db->q((int)$params->price_quantity_end))
+            ->where($db->qn('price_quantity_end') . ' >= ' . $db->q((int)$params->price_quantity_end));
+
+        $attributePriceIdStart = \Redshop\DB\Tool::safeSelect($db, $query);
+
+        return $attributePriceIdStart->price_id ?? null;
     }
 }

@@ -122,6 +122,9 @@ class Product
 			}
 		}
 
+		$result['begin'] = $templateStart[0] ?? '';
+		$result['end'] = $templateEnd[1] ?? '';
+
 		$tmp = array();
 
 		for ($i = 0, $in = count($userFields); $i < $in; $i++) {
