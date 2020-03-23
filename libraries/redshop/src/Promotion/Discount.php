@@ -23,7 +23,7 @@ class Discount
      * @param $productData
      * @param $data
      *
-     * @return array
+     * @return object/null
      * @since 3.0
      */
     public static function discountCalculatorData($productData, $data)
@@ -39,7 +39,7 @@ class Discount
             $calculatorPrice = $discountCalc['product_price'];
             $productNetPricesTax = $discountCalc['product_price_tax'];
 
-            $discounts = array();
+            $discounts = new \stdClass;
             if ($calculatorPrice) {
                 $calcOutput          = "Type : " . $discountCalcMethod . "<br />";
                 $calcOutputs['type'] = $discountCalcMethod;
@@ -153,14 +153,14 @@ class Discount
                 // Extra selected value ids
                 $calcOutputs['calcextra_ids'] = $discountCalc['pdcextra_ids'];
 
-                $discounts[] = $calcOutput;
-                $discounts[] = $calcOutputs;
-                $discounts[] = $calculatorPrice;
-                $discounts[] = $productNetPricesTax;
+                $discounts->calcOutput = $calcOutput;
+                $discounts->calsOuputs = $calcOutputs;
+                $discounts->calculatorPrice = $calculatorPrice;
+                $discounts->productNetPricesTax = $productNetPricesTax;
 
                 return $discounts;
             } else {
-                return array();
+                return null;
             }
         }
     }

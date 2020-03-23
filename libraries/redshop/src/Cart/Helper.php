@@ -31,7 +31,7 @@ class Helper
      * or just "the price". This CONSTANT will define if the discounts needs to
      * be applied BEFORE or AFTER the VAT is applied to the product price.
      *
-     * @param integer $userId Current user ID
+     * @param   integer  $userId  Current user ID
      *
      * @return  array
      * @throws  \Exception
@@ -42,22 +42,22 @@ class Helper
     {
         $cart = \Redshop\Cart\Helper::getCart();
 
-        $index = $cart['idx'] ?? 0;
-        $vat = 0;
-        $subTotal = 0;
+        $index         = $cart['idx'] ?? 0;
+        $vat           = 0;
+        $subTotal      = 0;
         $subTotalNoVAT = 0;
         $totalDiscount = ($cart['cart_discount'] ?? 0)
             + ($cart['voucher_discount'] ?? 0)
             + ($cart['coupon_discount'] ?? 0);
-        $discountVAT = 0;
-        $shippingVat = 0;
-        $shipping = 0;
+        $discountVAT   = 0;
+        $shippingVat   = 0;
+        $shipping      = 0;
 
         for ($i = 0; $i < $index; $i++) {
-            $quantity = $cart[$i]['quantity'] ?? 0;
-            $subTotal += $quantity * ($cart[$i]['product_price'] ?? 0);
+            $quantity      = $cart[$i]['quantity'] ?? 0;
+            $subTotal      += $quantity * ($cart[$i]['product_price'] ?? 0);
             $subTotalNoVAT += $quantity * ($cart[$i]['product_price_excl_vat'] ?? 0);
-            $vat += $quantity * ($cart[$i]['product_vat'] ?? 0);
+            $vat           += $quantity * ($cart[$i]['product_vat'] ?? 0);
         }
 
         /* @TODO: Need to check why this variable still exist.
@@ -95,12 +95,12 @@ class Helper
 
                     // The total minus discount tax difference
                     $subTotal -= $vat - $taxAfterDiscount;
-                    $vat = $taxAfterDiscount;
+                    $vat      = $taxAfterDiscount;
                 }
             } else {
                 if (isset($cart['discount_tax']) && !empty($cart['discount_tax'])) {
                     $discountVAT = $cart['discount_tax'];
-                    $subTotal = $subTotal - $cart['discount_tax'];
+                    $subTotal    = $subTotal - $cart['discount_tax'];
                 } else {
                     $vatData = \RedshopHelperTax::getVatRates();
 
@@ -108,7 +108,7 @@ class Helper
                         $discountVAT = 0;
 
                         if ((int)$subTotalNoVAT > 0) {
-                            $avgVAT = (($subTotalNoVAT + $vat) / $subTotalNoVAT) - 1;
+                            $avgVAT      = (($subTotalNoVAT + $vat) / $subTotalNoVAT) - 1;
                             $discountVAT = ($avgVAT * $totalDiscount) / (1 + $avgVAT);
                         }
                     }
@@ -118,7 +118,7 @@ class Helper
             $vat = $vat - $discountVAT;
         }
 
-        $total = $subTotal + $shipping;
+        $total  = $subTotal + $shipping;
         $result = array($total, $subTotal, $subTotalNoVAT, $shipping);
 
         if (isset($cart['discount']) === false) {
@@ -133,11 +133,11 @@ class Helper
     }
 
     /**
-     * @param float $shipping Shipping rate
-     * @param float $shippingVat Shipping VAT
-     * @param array $cart Cart data
-     * @param float $subTotal Sub total
-     * @param integer $userId User ID
+     * @param   float    $shipping     Shipping rate
+     * @param   float    $shippingVat  Shipping VAT
+     * @param   array    $cart         Cart data
+     * @param   float    $subTotal     Sub total
+     * @param   integer  $userId       User ID
      *
      * @return  void
      *
@@ -156,12 +156,12 @@ class Helper
             return;
         }
 
-        $index = $cart['idx'];
+        $index       = $cart['idx'];
         $usersInfoId = 0;
 
         if (!$userId) {
-            $user = \JFactory::getUser();
-            $userId = $user->id;
+            $user            = \JFactory::getUser();
+            $userId          = $user->id;
             $shippingAddress = \RedshopHelperOrder::getShippingAddress($userId);
 
             if (!empty($shippingAddress) && !empty($shippingAddress[0])) {
@@ -201,19 +201,19 @@ class Helper
             'order_subtotal' => \Redshop::getConfig()->getString(
                 'SHIPPING_AFTER'
             ) == 'total' ? @$cart['product_subtotal_excl_vat'] - $totalDiscount : @$cart['product_subtotal_excl_vat'],
-            'users_info_id' => $usersInfoId
+            'users_info_id'  => $usersInfoId
         );
 
         $defaultShipping = \RedshopHelperCartShipping::getDefault($shippingData);
-        $shipping = $defaultShipping['shipping_rate'];
-        $shippingVat = $defaultShipping['shipping_vat'];
+        $shipping        = $defaultShipping['shipping_rate'];
+        $shippingVat     = $defaultShipping['shipping_vat'];
     }
 
     /**
      * Method for get default quantity
      *
-     * @param integer $productId Product ID
-     * @param string $html Template html
+     * @param   integer  $productId  Product ID
+     * @param   string   $html       Template html
      *
      * @return  integer
      * @throws \Exception
@@ -230,14 +230,14 @@ class Helper
         }
 
         $quantitySelected = 1;
-        $product = \Redshop\Product\Product::getProductById($productId);
+        $product          = \Redshop\Product\Product::getProductById($productId);
 
         if ((\Redshop::getConfig()->getString('DEFAULT_QUANTITY_SELECTBOX_VALUE') != ""
                 && $product->quantity_selectbox_value == '') || $product->quantity_selectbox_value != '') {
             $selectBoxValue = ($product->quantity_selectbox_value) ? $product->quantity_selectbox_value
                 : \Redshop::getConfig()->get('DEFAULT_QUANTITY_SELECTBOX_VALUE');
-            $quantityBoxes = explode(",", $selectBoxValue);
-            $quantityBoxes = array_merge(array(), array_unique($quantityBoxes));
+            $quantityBoxes  = explode(",", $selectBoxValue);
+            $quantityBoxes  = array_merge(array(), array_unique($quantityBoxes));
 
             sort($quantityBoxes);
 
@@ -255,8 +255,8 @@ class Helper
     /**
      * Method for get discount amount fromm cart
      *
-     * @param array $cart Cart data
-     * @param integer $userId User ID
+     * @param   array    $cart    Cart data
+     * @param   integer  $userId  User ID
      *
      * @return  float
      *
@@ -264,12 +264,12 @@ class Helper
      */
     public static function getDiscountAmount($cart = array(), $userId = 0)
     {
-        $cart = empty($cart) ? \Cart\Helper::getCart() : $cart;
-        $userId = empty($userId) ? \JFactory::getUser()->id : $userId;
+        $cart     = empty($cart) ? \Cart\Helper::getCart() : $cart;
+        $userId   = empty($userId) ? \JFactory::getUser()->id : $userId;
         $discount = \RedshopHelperDiscount::getDiscount($cart['product_subtotal'], $userId);
 
         $discountAmountFinal = 0;
-        $discountVAT = 0;
+        $discountVAT         = 0;
 
         if (!empty($discount) && isset($cart)) {
             $productSubtotal = $cart['product_subtotal'] + ($cart['shipping'] ?? 0);
@@ -313,9 +313,9 @@ class Helper
                     // Product already discount
                     if ($productPrice['product_discount_price'] > 0) {
                         // Restore to the origigal price
-                        $cart[$i]['product_price'] = $productPrice['product_old_price'];
+                        $cart[$i]['product_price']          = $productPrice['product_old_price'];
                         $cart[$i]['product_price_excl_vat'] = $productPrice['product_old_price_excl_vat'];
-                        $cart[$i]['product_vat'] = $productPrice['product_old_price'] - $productPrice['product_old_price_excl_vat'];
+                        $cart[$i]['product_vat']            = $productPrice['product_old_price'] - $productPrice['product_old_price_excl_vat'];
                     }
 
                     // Checking the product discount < total discount => get total discount
@@ -348,8 +348,8 @@ class Helper
     /**
      * Method for generate attribute array
      *
-     * @param array $data Data of attributes
-     * @param integer $userId ID of user
+     * @param   array    $data    Data of attributes
+     * @param   integer  $userId  ID of user
      *
      * @return  array
      *
@@ -363,16 +363,16 @@ class Helper
 
         $result = array();
 
-        $attributes = explode('##', $data['attribute_data']);
-        $propertiesData = explode('##', $data['property_data']);
+        $attributes         = explode('##', $data['attribute_data']);
+        $propertiesData     = explode('##', $data['property_data']);
         $subPropertiesDatas = !empty($data['subproperty_data']) ? explode('##', $data['subproperty_data']) : null;
 
         foreach ($attributes as $attrIndex => $attributeId) {
-            $propertiesOprand = array();
-            $propertiesPrice = array();
-            $accPropertyCart = array();
-            $attribute = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attributeId);
-            $result[$attrIndex]['attribute_id'] = $attributeId;
+            $propertiesOprand                     = array();
+            $propertiesPrice                      = array();
+            $accPropertyCart                      = array();
+            $attribute                            = \Redshop\Product\Attribute::getProductAttribute(0, 0, $attributeId);
+            $result[$attrIndex]['attribute_id']   = $attributeId;
             $result[$attrIndex]['attribute_name'] = $attribute[0]->text;
 
             if ($attribute[0]->text != "" && !empty($data['property_data']) && !empty($propertiesData[$attrIndex])) {
@@ -380,10 +380,10 @@ class Helper
 
                 foreach ($accessoriesPropertiesData as $propIndex => $accessoriesProperty) {
                     $accSubpropertyCart = array();
-                    $property = \RedshopHelperProduct_Attribute::getAttributeProperties(
+                    $property           = \RedshopHelperProduct_Attribute::getAttributeProperties(
                         $accessoriesPropertiesData[$propIndex]
                     );
-                    $priceList = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $priceList          = \RedshopHelperProduct_Attribute::getPropertyPrice(
                     /** @scrutinizer ignore-type */ $accessoriesProperty,
                                                     $data['quantity'],
                                                     'property',
@@ -397,15 +397,15 @@ class Helper
                     }
 
                     $accPropertyCart[$propIndex] = array(
-                        'property_id' => $property[0]->property_id,
-                        'attribute_id' => $property[0]->attribute_id,
-                        'property_name' => $property[0]->text,
+                        'property_id'     => $property[0]->property_id,
+                        'attribute_id'    => $property[0]->attribute_id,
+                        'property_name'   => $property[0]->text,
                         'property_oprand' => $property[0]->oprand,
-                        'property_price' => $propertyPrice,
+                        'property_price'  => $propertyPrice,
                     );
 
                     $propertiesOprand[$propIndex] = $property[0]->oprand;
-                    $propertiesPrice[$propIndex] = $propertyPrice;
+                    $propertiesPrice[$propIndex]  = $propertyPrice;
 
                     if (!empty($subPropertiesDatas)) {
                         $subPropertiesData = explode(',,', $subPropertiesDatas[$attrIndex]);
@@ -417,7 +417,7 @@ class Helper
                                 $subproperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                                     $subSubProperty
                                 );
-                                $priceList = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                                $priceList   = \RedshopHelperProduct_Attribute::getPropertyPrice(
                                     $subSubProperty,
                                     $data['quantity'],
                                     'subproperty',
@@ -431,12 +431,12 @@ class Helper
                                 }
 
                                 $accSubpropertyCart[$supPropIndex] = array(
-                                    'subproperty_id' => $subSubProperty,
-                                    'subproperty_name' => $subproperty[0]->text,
-                                    'subproperty_oprand' => $subproperty[0]->oprand,
-                                    'subattribute_color_title' => $subproperty[0]->subattribute_color_title,
+                                    'subproperty_id'            => $subSubProperty,
+                                    'subproperty_name'          => $subproperty[0]->text,
+                                    'subproperty_oprand'        => $subproperty[0]->oprand,
+                                    'subattribute_color_title'  => $subproperty[0]->subattribute_color_title,
                                     'subattribute_color_number' => $subproperty[0]->subattribute_color_number,
-                                    'subproperty_price' => $subPropertyPrice,
+                                    'subproperty_price'         => $subPropertyPrice,
                                 );
                             }
                         }
@@ -479,32 +479,32 @@ class Helper
      */
     public static function getCartProductPrice($productId, $cart)
     {
-        $productList = array();
-        $affectedProductIds = array();
-        $idx = $cart['idx'];
-        $productPrice = 0;
+        $productList         = array();
+        $affectedProductIds  = array();
+        $idx                 = $cart['idx'];
+        $productPrice        = 0;
         $productPriceExclVat = 0;
-        $quantity = 0;
-        $productIds = explode(',', $productId);
-        $productIds = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
+        $quantity            = 0;
+        $productIds          = explode(',', $productId);
+        $productIds          = \Joomla\Utilities\ArrayHelper::toInteger($productIds);
 
         for ($v = 0; $v < $idx; $v++) {
             if (in_array($cart[$v]['product_id'], $productIds) || self::$globalVoucher) {
                 // Set Quantity based on discount type - i.e Multiple or Single.
                 $productQuantity = (\Redshop::getConfig()->get('DISCOUNT_TYPE') == 4) ? $cart[$v]['quantity'] : 1;
 
-                $productPrice += ($cart[$v]['product_price'] * $productQuantity);
-                $productPriceExclVat += $cart[$v]['product_price_excl_vat'] * $productQuantity;
+                $productPrice         += ($cart[$v]['product_price'] * $productQuantity);
+                $productPriceExclVat  += $cart[$v]['product_price_excl_vat'] * $productQuantity;
                 $affectedProductIds[] = $cart[$v]['product_id'];
 
                 $quantity += $productQuantity;
             }
         }
 
-        $productList['product_ids'] = implode(',', $affectedProductIds);
-        $productList['product_price'] = $productPrice;
+        $productList['product_ids']            = implode(',', $affectedProductIds);
+        $productList['product_price']          = $productPrice;
         $productList['product_price_excl_vat'] = $productPriceExclVat;
-        $productList['product_quantity'] = $productQuantity;
+        $productList['product_quantity']       = $productQuantity;
 
         return $productList;
     }
@@ -515,7 +515,7 @@ class Helper
      */
     public static function getCart()
     {
-        $cart  = \JFactory::getSession()->get('cart', null);
+        $cart = \JFactory::getSession()->get('cart', null);
 
         if (empty($cart)
             || !array_key_exists("idx", $cart)
@@ -530,6 +530,7 @@ class Helper
 
     /**
      * @param $cart
+     *
      * @return mixed
      * @since 3.0
      */
@@ -552,8 +553,8 @@ class Helper
 
         $cart['totalQuantity'] = 0;
 
-        for ($i = 0; $i < (int) $cart['idx']; $i++) {
-            $cart['totalQuantity'] += (int) ($cart[$i]['quantity'] ?? 0);
+        for ($i = 0; $i < (int)$cart['idx']; $i++) {
+            $cart['totalQuantity'] += (int)($cart[$i]['quantity'] ?? 0);
         }
 
         self::setCart($cart);
@@ -562,8 +563,9 @@ class Helper
     }
 
     /**
-     * @param array $post
-     * @param bool $redirect
+     * @param   array  $post
+     * @param   bool   $redirect
+     *
      * @return bool
      * @since __DEPLOY_VERSION__
      */
@@ -596,6 +598,7 @@ class Helper
 
     /**
      * @param $data
+     *
      * @return bool
      */
     public static function isGiftCard($data)
@@ -609,15 +612,16 @@ class Helper
 
     /**
      * @param $data
+     *
      * @return bool|mixed
      * @throws \Exception
      */
     public static function addItemToCart(&$data)
     {
-        $cart = \Redshop\Cart\Helper::getCart();
-        $data['quantity'] = is_int($data['quantity'])? round($data['quantity']) : 0;
-        $idx = (int)$cart['idx'];
-        $result = true;
+        $cart             = \Redshop\Cart\Helper::getCart();
+        $data['quantity'] = is_int($data['quantity']) ? round($data['quantity']) : 0;
+        $idx              = (int)$cart['idx'];
+        $result           = true;
 
         if (\Redshop\Cart\Helper::isGiftCard($data)) {
             \Redshop\Cart\Cart::addGiftCardProduct($cart, $idx, $data);
@@ -672,32 +676,32 @@ class Helper
      */
     public static function initShippingForCart()
     {
-        $cart = \Redshop\Cart\Helper::getCart();
+        $cart                  = \Redshop\Cart\Helper::getCart();
         $cart['free_shipping'] = 0;
 
         return \Redshop\Cart\Helper::setCart($cart);
     }
 
-    public static function handleCartAccessoryPrice(&$data)
+    /**
+     * @param $data
+     * @param $product
+     *
+     * @return string
+     * @throws \Exception
+     * @since __DEPLOY_VERSION__
+     */
+    public static function handleCartAccessoryPrice(&$data, &$product)
     {
-        $cart = \Redshop\Cart\Helper::getCart();
-        $productId = $data['product_id'] ?? 0;
-
-        //@TODO: change to using Entity
-        $product   = \Redshop\Product\Product::getProductById($productId);
-
-        $condition = \Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
+        // Handle individual accessory add to cart price
+        if (\Redshop::getConfig()->get('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE')
             && isset($data['parent_accessory_product_id'])
             && $data['parent_accessory_product_id'] != 0
-            && isset($data['accessory_id']);
-
-        // Handle individual accessory add to cart price
-        if ($condition) {
+            && isset($data['accessory_id'])) {
             $cart['idx']['accessoryAsProductEligible'] = $data['accessory_id'];
-            $accessoryInfo = \RedshopHelperAccessory::getProductAccessories(
+            $accessoryInfo                             = \RedshopHelperAccessory::getProductAccessories(
                 $data['accessory_id']
             );
-            $product->product_price                   = $accessoryInfo[0]->newaccessory_price;
+            $product->product_price                    = $accessoryInfo[0]->newaccessory_price;
 
             $tempData          = \Redshop\Product\Product::getProductById($data['parent_accessory_product_id']);
             $productTemplate   = \RedshopHelperTemplate::getTemplate("product", $tempData->product_template);
@@ -708,6 +712,34 @@ class Helper
             $dataAdd         = $productTemplate[0]->template_desc;
         }
 
-        \Redshop\Cart\Helper::setCart($cart);
+        return $dataAdd;
+    }
+
+    /**
+     * @return array
+     * @since __DEPLOY_VERSION__
+     */
+    public static function getCartTemplate()
+    {
+        $session      = \JFactory::getSession();
+        $templateCart = $session->get('templateCart', '');
+
+        if (!empty($templateCart)) {
+            return $templateCart;
+        }
+
+        if (\Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE')) {
+            $templateCart = \RedshopHelperTemplate::getTemplate("quotation_cart");
+        } else {
+            if (!\Redshop::getConfig()->get('USE_AS_CATALOG')) {
+                $templateCart = \RedshopHelperTemplate::getTemplate("cart");
+            } else {
+                $templateCart = \RedshopHelperTemplate::getTemplate("catalogue_cart");
+            }
+        }
+
+        $session->set('templateCart', $templateCart);
+
+        return $templateCart;
     }
 }
