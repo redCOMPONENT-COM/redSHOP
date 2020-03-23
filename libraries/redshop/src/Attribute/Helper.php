@@ -242,10 +242,10 @@ class Helper
                 $selectedPropertyId = implode(",", $selectedPropId);
             }
 
-            $unSelectedSubPropId = 0;
+	        $unSelectedSubPropertyId = 0;
 
             if (is_array($unSelectedSubPropId) && count($unSelectedSubPropId) > 0) {
-                $unSelectedSubPropId = implode(",", $unSelectedSubPropId);
+	            $unSelectedSubPropertyId = implode(",", $unSelectedSubPropId);
             }
 
             $requiredProperty = \RedshopHelperProduct_Attribute::getAttributeProperties(
@@ -254,7 +254,7 @@ class Helper
                                             $data['product_id'],
                                             0,
                                             1,
-                /** @scrutinizer ignore-type */ $unSelectedSubPropId
+                /** @scrutinizer ignore-type */ $unSelectedSubPropertyId
             );
 
             if (!empty($requiredProperty)) {
@@ -268,7 +268,7 @@ class Helper
 
                 // Give error as second attribute is required
                 if ($data['reorder'] != 1) {
-                    return $requiredSubAttributeName . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
+                    return $requiredSubAttributeName . " " . \JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
                 }
             }
         }
