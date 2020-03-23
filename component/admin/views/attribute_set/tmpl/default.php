@@ -10,22 +10,10 @@ defined('_JEXEC') or die;
 
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
-			form.view.value = "attribute_set_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-		form.submit();
-	}
+    var viewForm = 'attribute_set_detail';
+    Joomla.submitbutton = function (pressbutton) {
+        checkSubmit(pressbutton, viewForm);
+    };
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">

@@ -1153,7 +1153,7 @@ function checkout_disable(val) {
 	}
 }
 
-function validation(cartTotal)
+function validation(cartTotal, flagOneStep)
 {
 	if (redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL') > 0 && cartTotal < redSHOP.RSConfig._('MINIMUM_ORDER_TOTAL'))
 	{
@@ -1161,7 +1161,7 @@ function validation(cartTotal)
 		return false;
 	}
 
-	if (!document.getElementById('termscondition').checked) {
+	if (!document.getElementById('termscondition').checked && flagOneStep != 1) {
 		alert(Joomla.JText._('COM_REDSHOP_PLEASE_SELECT_TEMS_CONDITIONS'));
 		return false;
 	}

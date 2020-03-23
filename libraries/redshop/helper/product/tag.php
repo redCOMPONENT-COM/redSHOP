@@ -914,7 +914,7 @@ class RedshopHelperProductTag
      *
      * @since   2.1.0
      */
-    public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "")
+    public static function replaceAttributeData($productId = 0, $accessoryId = 0, $attributes = array(), $userId = 0, $uniqueId = "", $isTripTags = false)
     {
         $attributeList = "";
 
@@ -946,6 +946,12 @@ class RedshopHelperProductTag
                         $property->property_price += $attributesPropertyVat;
 
                         $propertyPriceWithVat = RedshopHelperProductPrice::formattedPrice($property->property_price);
+
+                        if ($isTripTags)
+                        {
+                            $propertyPriceWithVat = strip_tags($propertyPriceWithVat);
+                            $propertyPrice        = strip_tags($propertyPrice);
+                        }
 
                         $property->text = urldecode($property->property_name) . ' (' . $propertyOprand . ' ' . $propertyPrice
                             . "excl. vat / "
