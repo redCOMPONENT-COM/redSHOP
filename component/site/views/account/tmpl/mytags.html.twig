@@ -71,7 +71,10 @@
 										'THUMB_HEIGHT'|redconfig,
 										'USE_IMAGE_SIZE_SWAPPING'|redconfig
 									]) %}
-									{% set thumbImage = "<div style='width:" ~ ('THUMB_WIDTH'|redconfig) ~ "px;height:" ~ ('THUMB_HEIGHT'|redconfig) ~ "px;margin-left:20px;' ><a href='" ~ link ~ "' title=''><img src='" ~ thumbUrl ~ "'></a></div>" %}
+									{% set thumbImage = '
+									<div style="width:' ~ 'THUMB_WIDTH'|redconfig ~'px;height:' ~ 'THUMB_HEIGHT'|redconfig ~ 'px;margin-left:20px;">
+									<a href="' ~ link ~ '"><img  src="'~ thumbUrl ~'"></a>
+									</div>' %}
 									{% set dataAdd = dataAdd ~ thumbImage %}
 								{% endif %}
 
