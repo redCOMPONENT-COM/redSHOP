@@ -118,7 +118,7 @@ class RedshopViewAccount_Billto extends RedshopView
 		}
 
 		$twigParams = [
-			'billingaddresses' => $billingAddresses,
+			'billingAddresses' => $billingAddresses,
 			'params'           => $params,
 			'requestUrl'       => $requestUrl,
 			'createAccount'    => $createAccount,
