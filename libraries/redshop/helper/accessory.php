@@ -187,4 +187,38 @@ class RedshopHelperAccessory
 
 		return $return;
 	}
+
+	public static function checkStockAccessory($data)
+	{
+		if (!empty($data['accessory_data']))
+		{
+			$errorMsg = [];
+			$accessories = explode('@@', $data['accessory_data']);
+
+			foreach ($accessories as $accessory)
+			{
+				$productAccessory = \RedshopHelperAccessory::getProductAccessories($accessory, $data['product_id']);
+				$isStock = RedshopHelperStockroom::isStockExists($productAccessory[0]->child_product_id);
+
+				if (!$isStock)
+				{
+					$errorMsg[] = $productAccessory[0]->product_name;
+				}
+			}
+
+			\JPluginHelper::importPlugin('redshop_product');
+			$result = \RedshopHelperUtility::getDispatcher()->trigger('onAfterCheckStockAccessory', array($accessories, $data));
+
+			$errorMsg = !empty($result[0]) ? $result[0] : $errorMsg;
+
+			if (empty($errorMsg))
+			{
+				return true;
+			}
+
+			return implode(', ', $errorMsg);
+		}
+
+		return true;
+	}
 }
