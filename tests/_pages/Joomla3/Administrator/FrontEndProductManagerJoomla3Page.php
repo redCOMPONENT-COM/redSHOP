@@ -638,6 +638,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 3.0.1
+	 */
+	public static $nameProduct1OnCart = "//tr[1]/td[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.1
+	 */
+	public static $nameProduct2OnCart = "//tr[2]/td[1]";
+
+	/**
+	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $shippingWithVat = '#spnShippingrate';
