@@ -308,7 +308,7 @@ class Cart
         $productId                                = $data['product_id'];
         $quantity                                 = $data['quantity'];
         $product = \RedshopEntityProduct::getInstance($productId);
-        $dataAdd = \Redshop\Cart\Helper::handleCartAccessoryPrice($data, $product);
+        $dataAdd = \Redshop\Cart\Helper::handleCartAccessoryPrice($data, $product, $cart);
 
         /*
          * Check if required user field are filled or not if not than redirect to product detail page...

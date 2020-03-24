@@ -2702,6 +2702,14 @@ class RedshopHelperProduct
         $quantity = 1,
         $data = ''
     ) {
+
+        $redCache = \Redshop\Performance\Helper::load('attributeCart', $productId);
+
+        if (isset($redCache))
+        {
+            return $redCache;
+        }
+
         $user = JFactory::getUser();
 
         if ($userId == 0) {
@@ -2712,10 +2720,10 @@ class RedshopHelperProduct
         $selP              = 0;
         $applyVat          = \Redshop\Template\Helper::isApplyAttributeVat($data, $userId);
         $setPropEqual      = true;
-        $setSubpropEqual   = true;
-        $selectedAttributs = array();
+        $setSubPropEqual   = true;
+        $selectedAttributes = array();
         $selectedProperty  = array();
-        $productOldprice   = 0;
+        $productOldPrice   = 0;
         $productVatPrice   = 0;
 
         if ($newProductPrice != 0) {
@@ -2730,11 +2738,12 @@ class RedshopHelperProduct
             // Using price without vat to proceed with calcualtion - we will apply vat in the end.
             $productPrice    = $productPrices['product_price_novat'];
             $productVatPrice = $productPrices['productVat'];
-            $productOldprice = $productPrices['product_old_price_excl_vat'];
+            $productOldPrice = $productPrices['product_old_price_excl_vat'];
         }
 
-        $isStock          = RedshopHelperStockroom::isStockExists($productId);
-        $isPreorderStock  = RedshopHelperStockroom::isPreorderStockExists($productId);
+        $isStock          = \RedshopHelperStockroom::isStockExists($productId);
+
+        $isPreOrderStock  = \RedshopHelperStockroom::isPreorderStockExists($productId);
         $displayAttribute = 0;
 
         for ($i = 0, $in = count($attributes); $i < $in; $i++) {
@@ -2775,7 +2784,7 @@ class RedshopHelperProduct
                 }
 
                 $isStock         = RedshopHelperStockroom::isStockExists($properties[$k]['property_id'], "property");
-                $isPreorderStock = RedshopHelperStockroom::isPreorderStockExists(
+                $isPreOrderStock = RedshopHelperStockroom::isPreorderStockExists(
                     $properties[$k]['property_id'],
                     "property"
                 );
@@ -2817,7 +2826,7 @@ class RedshopHelperProduct
                         $subProperties[$l]['subproperty_id'],
                         "subproperty"
                     );
-                    $isPreorderStock = RedshopHelperStockroom::isPreorderStockExists(
+                    $isPreOrderStock = RedshopHelperStockroom::isPreorderStockExists(
                         $subProperties[$l]['subproperty_id'],
                         "subproperty"
                     );
@@ -2834,16 +2843,16 @@ class RedshopHelperProduct
             $productPrice   = $propertyPrices[1];
 
             $propertyOldPriceVats = self::makeTotalPriceByOprand(
-                $productOldprice,
+                $productOldPrice,
                 $propertiesOperator,
                 $propertiesPrice
             );
-            $productOldprice      = $propertyOldPriceVats[1];
+            $productOldPrice      = $propertyOldPriceVats[1];
 
             for ($t = 0, $tn = count($properties); $t < $tn; $t++) {
-                $selectedAttributs[$sel++] = $attributes[$i]['attribute_id'];
+                $selectedAttributes[$sel++] = $attributes[$i]['attribute_id'];
 
-                if ($setPropEqual && $setSubpropEqual && isset($subPropertiesPriceWithVat[$t])) {
+                if ($setPropEqual && $setSubPropEqual && isset($subPropertiesPriceWithVat[$t])) {
                     $subPropertyPrices = self::makeTotalPriceByOprand(
                         $productPrice,
                         $subPropertiesOperator[$t],
@@ -2853,16 +2862,16 @@ class RedshopHelperProduct
                     $productPrice = $subPropertyPrices[1];
 
                     $subPropertyOldPriceVats = self::makeTotalPriceByOprand(
-                        $productOldprice,
+                        $productOldPrice,
                         $subPropertiesOperator[$t],
                         $subPropertiesPrice[$t]
                     );
-                    $productOldprice         = $subPropertyOldPriceVats[1];
+                    $productOldPrice         = $subPropertyOldPriceVats[1];
                 }
             }
         }
 
-        $displayattribute = RedshopLayoutHelper::render(
+        $displayAttribute = RedshopLayoutHelper::render(
             'product.product_attribute',
             array(
                 'attributes'       => $attributes,
@@ -2878,8 +2887,8 @@ class RedshopHelperProduct
 
         $productVatOldPrice = 0;
 
-        if ($productOldprice > 0) {
-            $productVatOldPrice = self::getProductTax($productId, $productOldprice, $userId);
+        if ($productOldPrice > 0) {
+            $productVatOldPrice = self::getProductTax($productId, $productOldPrice, $userId);
         }
 
         // Recalculate VAT if set to apply vat for attribute
@@ -2894,19 +2903,21 @@ class RedshopHelperProduct
 		}*/
 
         $data = array(
-            $displayattribute,
+            $displayAttribute,
             $productPrice,
             $productVatPrice,
-            $selectedAttributs,
+            $selectedAttributes,
             $isStock,
-            $productOldprice,
+            $productOldPrice,
             $productVatOldPrice,
-            $isPreorderStock,
+            $isPreOrderStock,
             $selectedProperty
         );
 
         JPluginHelper::importPlugin('redshop_product');
         RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data, $attributes, $productId));
+
+        \Redshop\Performance\Helper::save('attributeCart', $productId, $data);
 
         return $data;
     }
@@ -2922,7 +2933,7 @@ class RedshopHelperProduct
         $data                  = \Redshop\Template\Cart::getCartTemplate();
         $chktag                = \Redshop\Template\Helper::isApplyAttributeVat($data[0]->template_desc, $user_id);
         $setPropEqual          = true;
-        $setSubpropEqual       = true;
+        $setSubPropEqual       = true;
         $displayaccessory      = "";
         $accessory_total_price = 0;
         $accessory_vat_price   = 0;
@@ -3004,7 +3015,7 @@ class RedshopHelperProduct
                     }
 
                     /// FOR ACCESSORY PROPERTY AND SUBPROPERTY PRICE CALCULATION
-                    if ($setPropEqual && $setSubpropEqual) {
+                    if ($setPropEqual && $setSubPropEqual) {
                         $accessory_priceArr = self::makeTotalPriceByOprand($accessory_price, $prooprand, $provatprice);
                         $accessory_vatArr   = self::makeTotalPriceByOprand($accessory_vat_price, $prooprand, $provat);
                         //$setPropEqual = $accessory_priceArr[0];
@@ -3013,7 +3024,7 @@ class RedshopHelperProduct
                     }
 
                     for ($t = 0, $tn = count($propArr); $t < $tn; $t++) {
-                        if ($setPropEqual && $setSubpropEqual && isset($subprovatprice[$t])) {
+                        if ($setPropEqual && $setSubPropEqual && isset($subprovatprice[$t])) {
                             $accessory_priceArr  = self::makeTotalPriceByOprand(
                                 $accessory_price,
                                 $subprooprand[$t],
@@ -3772,7 +3783,7 @@ class RedshopHelperProduct
                 $cartAttributes[] = get_object_vars($attribute[0]);
             }
 
-            $displayattribute = RedshopLayoutHelper::render(
+            $displayAttribute = RedshopLayoutHelper::render(
                 'product.order_attribute',
                 array(
                     'orderItemAttdata' => $orderItemAttdata,
@@ -3789,15 +3800,15 @@ class RedshopHelperProduct
                 )
             );
         } else {
-            $displayattribute = $product_attribute;
+            $displayAttribute = $product_attribute;
         }
 
         if (isset($products->use_discount_calc) && $products->use_discount_calc == 1) {
-            $displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
+            $displayAttribute = $displayAttribute . $orderItemdata[0]->discount_calc_data;
         }
 
         $data                                 = new stdClass;
-        $data->product_attribute              = $displayattribute;
+        $data->product_attribute              = $displayAttribute;
         $data->attribute_middle_template      = $attribute_final_template;
         $data->attribute_middle_template_core = $attribute_middle_template;
         $data->cart_attribute                 = $cartAttributes;
@@ -3881,7 +3892,7 @@ class RedshopHelperProduct
         $quotation_status = 2,
         $stock = 0
     ) {
-        $displayattribute  = "";
+        $displayAttribute  = "";
         $product_attribute = "";
         $quantity          = 0;
         $stockroom_id      = "0";
@@ -3899,7 +3910,7 @@ class RedshopHelperProduct
             $parent_section_id
         );
 
-        $displayattribute = RedshopLayoutHelper::render(
+        $displayAttribute = RedshopLayoutHelper::render(
             'product.quotation_attribute',
             array(
                 'itemAttdata'     => $ItemAttdata,
@@ -3916,7 +3927,7 @@ class RedshopHelperProduct
             )
         );
 
-        return $displayattribute;
+        return $displayAttribute;
     }
 
     public static function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)

@@ -28,12 +28,21 @@ class Discount
      */
     public static function discountCalculatorData($productData, $data)
     {
+        $redCache = \JFactory::getSession()->get('redCache', new \stdClass);
+
         $useDiscountCalculator = $productData->use_discount_calc;
         $discountCalcMethod    = $productData->discount_calc_method;
         $useRange              = $productData->use_range;
         $calcOutputs           = array();
 
         if ($useDiscountCalculator) {
+
+            // Use cache in range of current Session.
+            if (isset($redCache->discount->productId)
+                && ($redCache->discount->productId == $productData->product_id) ) {
+                return $redCache->discount->productId;
+            }
+
             $discountCalc = self::discountCalculator($data);
 
             $calculatorPrice = $discountCalc['product_price'];
@@ -157,6 +166,10 @@ class Discount
                 $discounts->calsOuputs = $calcOutputs;
                 $discounts->calculatorPrice = $calculatorPrice;
                 $discounts->productNetPricesTax = $productNetPricesTax;
+
+                // Store back to session
+                $redCache->discount->productId = $discounts;
+                \JFactory::getSession()->set('redCache', $redCache);
 
                 return $discounts;
             } else {
