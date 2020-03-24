@@ -138,16 +138,6 @@ class RedshopModelAccount extends RedshopModel
 		// Layout: mytags
 		if ($layout == 'mytags')
 		{
-			if ($tagId != 0)
-			{
-				$query->select(array('ptx.product_id', 'p.*'))
-					->leftJoin(
-						$db->qn('#__redshop_product', 'p')
-						. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('ptx.product_id')
-					)
-					->where($db->qn('pt.tags_id') . ' = ' . (int) $tagId);
-			}
-
 			$query->select('DISTINCT pt.*')
 				->from($db->qn('#__redshop_product_tags', 'pt'))
 				->leftJoin(
@@ -156,6 +146,16 @@ class RedshopModelAccount extends RedshopModel
 				)
 				->where($db->qn('ptx.users_id') . ' = ' . (int) $userId)
 				->where($db->qn('pt.published') . ' = 1');
+
+			if ($tagId != 0)
+			{
+				$query->select(array('ptx.product_id', 'p.*'))
+					->leftJoin(
+						$db->qn('#__redshop_product', 'p')
+						. ' ON ' . $db->qn('ptx.product_id') . ' = ' . $db->qn('p.product_id')
+					)
+					->where($db->qn('pt.tags_id') . ' = ' . (int) $tagId);
+			}
 
 			return $query;
 		}

@@ -1,16 +1,16 @@
 <div>
-	<form name='addtocartscroll{{ i }}'
-	      id='addtocartscroll" ~ i ~ "'
-	      action=''
-	      method='post' >
-		<input type='hidden' value='{{ row.product_id }}' name='product_id'>
-		<input type='hidden'   value='cart' name='view'>
-		<input type='hidden'   value='add' name='task'>
-		<input type='hidden'   name='product_price' value='{{ productPrice }}'>
-		<input type='hidden' name='quantity' id='quantity{{ row->product_id }}'  value='1'>
-		<span onclick='document.addtocartscroll" . $i . ".submit();'
-		      align='center' style='background-color: #" {{ 'ADDTOCART_BACKGROUND'|redConfig }}";cursor:pointer;'>
-				<span style='cursor: pointer;' >{{ jtext('COM_REDSHOP_ADD_TO_CART') }}</span>
+	<form name="addtocartscroll{{ i }}"
+	      id="addtocartscroll{{ i }}"
+	      action=""
+	      method="post">
+		<input type="hidden" value="{{ row.product_id }}" name="product_id">
+		<input type="hidden" value="cart" name="view">
+		<input type="hidden" value="add" name="task">
+		<input type="hidden" name="product_price" value="{{ productPrice }}">
+		<input type="hidden" name="quantity" id="quantity{{ row.product_id }}" value="1">
+		<span onclick="document.addtocartscroll{{ i }}.submit();"
+		      align="center" style="background-color:{{ 'ADDTOCART_BACKGROUND'|redconfig }};cursor:pointer;">
+				<span style="cursor: pointer;">{{ jtext('COM_REDSHOP_ADD_TO_CART') }}</span>
 			</span>
 	</form>
-</div>"
+</div>
