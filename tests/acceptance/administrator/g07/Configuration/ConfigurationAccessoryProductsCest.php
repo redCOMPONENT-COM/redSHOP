@@ -117,14 +117,14 @@ class ConfigurationAccessoryProductsCest
 	 */
 	public function createProductWithAccessoriesNo(AcceptanceTester $I, $scenario)
 	{
-		$I->wantTo('Test Product Accessories');
-		$I = new ProductsConfigurationSteps($scenario);
-		$I->wantTo ('I Want To Configuration Product Accessory No');
-		$I->configurationProductAccessory('No');
-
-		$I->wantTo('Check Add');
-		$I = new CheckoutOnFrontEnd($scenario);
-		$I->ConfigurationProductAccessoryOnCart($this->randomCategoryName, $this->productName, $this->productNameAccessories, 'No');
+//		$I->wantTo('Test Product Accessories');
+//		$I = new ProductsConfigurationSteps($scenario);
+//		$I->wantTo ('I Want To Configuration Product Accessory No');
+//		$I->configurationProductAccessory('No');
+//
+//		$I->wantTo('Check Add');
+//		$I = new CheckoutOnFrontEnd($scenario);
+//		$I->ConfigurationProductAccessoryOnCart($this->randomCategoryName, $this->productName, $this->productNameAccessories, 'No');
 
 		$I->wantTo('I Want To Delete Product');
 		$I = new ProductManagerJoomla3Steps($scenario);

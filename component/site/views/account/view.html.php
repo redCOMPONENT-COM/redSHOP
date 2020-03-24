@@ -49,9 +49,10 @@ class RedshopViewAccount extends RedshopView
 	public function display($tpl = null)
 	{
 		/** @var JApplicationSite $app */
-		$app    = JFactory::getApplication();
-		$input  = $app->input;
-		$params = $app->getParams('com_redshop');
+		$app        = JFactory::getApplication();
+		$input      = $app->input;
+		$params     = $app->getParams('com_redshop');
+		$twigParams = [];
 
 		RedshopHelperBreadcrumb::generate();
 
@@ -80,8 +81,6 @@ class RedshopViewAccount extends RedshopView
 		}
 
 		if ($layout == 'mytags') {
-			$twigParams = [];
-
 			// Get product helper
 			$app = JFactory::getApplication();
 
