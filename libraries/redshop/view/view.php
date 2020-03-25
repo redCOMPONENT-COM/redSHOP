@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later, see LICENSE.
  */
 
+use Joomla\CMS\Application\CMSApplication;
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.viewlegacy');
@@ -20,4 +22,25 @@ jimport('joomla.application.component.viewlegacy');
  */
 class RedshopView extends JViewLegacy
 {
+	/**
+	 * @var  \JInput
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $input;
+
+	/**
+	 * @var  CMSApplication
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	public function __construct($config = array())
+	{
+		$this->app = JFactory::getApplication();
+		$this->input = $this->app->input;
+
+		parent::__construct($config);
+	}
 }
