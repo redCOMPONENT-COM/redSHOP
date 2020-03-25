@@ -194,13 +194,18 @@ class RedshopHelperAccessory
 		{
 			$errorMsg = [];
 			$accessories = explode('@@', $data['accessory_data']);
+			$newQuantity = $data['quantity'];
 
 			foreach ($accessories as $accessory)
 			{
 				$productAccessory = \RedshopHelperAccessory::getProductAccessories($accessory, $data['product_id']);
+				$accessoryData = $data;
+				$accessoryData['product_id'] = $productAccessory[0]->child_product_id;
+
+				$quantity = \Redshop\Stock\Helper::checkQuantityInStock($accessoryData, $newQuantity);
 				$isStock = RedshopHelperStockroom::isStockExists($productAccessory[0]->child_product_id);
 
-				if (!$isStock)
+				if (!$isStock || $newQuantity > $quantity)
 				{
 					$errorMsg[] = $productAccessory[0]->product_name;
 				}
