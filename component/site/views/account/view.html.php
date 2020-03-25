@@ -68,7 +68,7 @@ class RedshopViewAccount extends RedshopView
 		RedshopHelperBreadcrumb::generate();
 
 		$itemId = $this->input->getInt('Itemid');
-		$layout = $this->input->getCmd('layout');
+		$layout = $this->input->getString('layout');
 
 		/** @var RedshopModelAccount $this */
 		$this->model = $this->getModel();
@@ -82,11 +82,11 @@ class RedshopViewAccount extends RedshopView
 			);
 		}
 
-		$layout = $this->input->getCmd('layout', 'default');
+		$layout = $this->input->getString('layout', 'default');
 		$mail   = $this->input->getInt('mail');
 
 		// Preform security checks. Give permission to send wishlist while not logged in
-		if (($this->user->id == 0 && $layout != 'mywishlist') || ($this->user->id == 0 && $layout == 'mywishlist' && !isset($mail))) {
+		if (($this->user->id == 0 && $layout !== 'mywishlist') || ($this->user->id == 0 && $layout === 'mywishlist' && !isset($mail))) {
 			$this->app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId, false));
 		}
 
@@ -124,6 +124,13 @@ class RedshopViewAccount extends RedshopView
 		);
 	}
 
+	/**
+	 * Layout my tags
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function layoutMytags()
 	{
 		/** @var RedshopModelAccount $this ->model */
@@ -138,13 +145,14 @@ class RedshopViewAccount extends RedshopView
 			$this->model->removeTag();
 		}
 
-		$maxcategory      = $this->params->get('maxcategory', 5);
-		$limit            = $this->app->getUserStateFromRequest(
+		$maxcategory = $this->params->get('maxcategory', 5);
+		$limit       = $this->app->getUserStateFromRequest(
 			$this->model->context . 'limit',
 			'limit',
 			$maxcategory,
 			5
 		);
+
 		$limitstart       = $this->input->getInt('limitstart', 0, '', 'int');
 		$total            = $this->get('total');
 		$pagination       = new JPagination($total, $limitstart, $limit);
@@ -162,6 +170,13 @@ class RedshopViewAccount extends RedshopView
 		return $twigParams;
 	}
 
+	/**
+	 * Layout my wishlist
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function layoutMyWishlist()
 	{
 		$wishlistId = $this->input->getInt('wishlist_id');
@@ -220,6 +235,13 @@ class RedshopViewAccount extends RedshopView
 		];
 	}
 
+	/**
+	 * Wishlist template
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function wishlistTemplate()
 	{
 		$wishlist = $this->model->getMyDetail();
@@ -240,6 +262,13 @@ class RedshopViewAccount extends RedshopView
 		);
 	}
 
+	/**
+	 * Wishlist mail template
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function wishlistMailTemplate()
 	{
 		$mailTemplate = RedshopHelperTemplate::getTemplate("wishlist_mail_template");
@@ -261,6 +290,13 @@ class RedshopViewAccount extends RedshopView
 		);
 	}
 
+	/**
+	 * Layout default
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function layoutDefault()
 	{
 		$template = RedshopHelperTemplate::getTemplate("account_template");
@@ -283,6 +319,13 @@ class RedshopViewAccount extends RedshopView
 		];
 	}
 
+	/**
+	 * Layout cards
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	private function layoutCards()
 	{
 		JPluginHelper::importPlugin('redshop_payment');
