@@ -543,7 +543,7 @@ class Cart
 			$data['acc_property_data']    = "";
 			$data['acc_subproperty_data'] = "";
 		} else {
-			$result = \RedshopHelperAccessory::checkStockAccessory($data);
+			$result = \Redshop\Stock\Helper::checkStockAccessory($data);
 
 			if ($result !== true) {
 				return \JText::sprintf('COM_REDSHOP_ACCESSORIES_OUT_OF_STOCK', $result);
