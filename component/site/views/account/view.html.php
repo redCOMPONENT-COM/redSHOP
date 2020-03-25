@@ -110,7 +110,7 @@ class RedshopViewAccount extends RedshopView
 				'userData' => $this->userdata,
 			]
 		);
-//		parent::display($tpl);
+
 		print \RedshopLayoutHelper::render(
 			$layout,
 			$twigParams,
@@ -122,12 +122,6 @@ class RedshopViewAccount extends RedshopView
 				'prefix'     => 'com_redshop/account'
 			)
 		);
-
-//		if ($layout == 'mytags') {
-//
-//		} else {
-//			parent::display($tpl);
-//		}
 	}
 
 	private function layoutMytags()
