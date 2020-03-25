@@ -23,6 +23,7 @@ class Helper
      * @param   int    $newQuantity
      * @param   int    $minQuantity
      *
+     *
      * @return int
      * @since 3.0
      */
@@ -38,7 +39,7 @@ class Helper
             return $newQuantity;
         }
 
-        $productData     = \Redshop\Product\Product::getProductById($data['product_id']);
+        $productData     = \RedshopEntityProduct::getInstance($data['product_id']);
         $productPreOrder = $productData->preorder;
 
         if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $newQuantity) {

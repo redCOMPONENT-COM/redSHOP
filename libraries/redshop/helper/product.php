@@ -2702,8 +2702,7 @@ class RedshopHelperProduct
         $quantity = 1,
         $data = ''
     ) {
-
-        $redCache = \Redshop\Performance\Helper::load('attributeCart', $productId);
+        $redCache = \Redshop\Performance\Helper::load('attributeCart', $productId, $quantity);
 
         if (isset($redCache))
         {
@@ -2917,7 +2916,7 @@ class RedshopHelperProduct
         JPluginHelper::importPlugin('redshop_product');
         RedshopHelperUtility::getDispatcher()->trigger('onMakeAttributeCart', array(&$data, $attributes, $productId));
 
-        \Redshop\Performance\Helper::save('attributeCart', $productId, $data);
+        \Redshop\Performance\Helper::save('attributeCart', $productId, $data, $quantity);
 
         return $data;
     }

@@ -33,20 +33,25 @@ class Helper
     /**
      * @param         $property
      * @param         $id
+     * @param         $subId
      * @param   bool  $force
      *
      * @return  mixed|null
      * @since   __DEPLOY_VERSION__
      */
-    public static function load($property, $id, $force = false)
+    public static function load($property, $id, $subId = 0, $force = false)
     {
         if (self::isApply() || $force)
         {
             $redCache = \JFactory::getSession()->get('redCache', new \stdClass);
 
-            if (isset($redCache->$property[$id])
-                && ($redCache->$property[$id] == $id)) {
-                return $redCache->$property[$id];
+            if (isset($subId)
+                && (bool) $subId
+                && isset($redCache->$property[$id][$subId])
+            ) {
+                return $redCache->$property[$id][$subId];
+            } elseif (isset($redCache->$property[$id])) {
+                    return $redCache->$property[$id];
             }
 
             return null;
@@ -59,15 +64,22 @@ class Helper
      * @param $property
      * @param $id
      * @param $data
+     * @param $subId
      * @param $force
      *
      * @since __DEPLOY_VERSION__
      */
-    public static function save($property, $id, $data, $force = false)
+    public static function save($property, $id, $data, $subId = 0, $force = false)
     {
         if (self::isApply() || $force) {
             $redCache = \JFactory::getSession()->get('redCache', new \stdClass);
-            $redCache->$property[$id] = $data;
+
+            if (isset($subId) && (bool) $subId) {
+                $redCache->$property[$id][$subId] = $data;
+            } else {
+                $redCache->$property[$id] = $data;
+            }
+
             \JFactory::getSession()->set('redCache', $redCache);
         }
     }
