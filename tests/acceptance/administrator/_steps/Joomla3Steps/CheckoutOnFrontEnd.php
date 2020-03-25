@@ -229,19 +229,18 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 				$I = $this;
 				$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5);
 				$I->amOnPage(ProductManagerPage::$cartPageUrL);
-				$I->waitForText($productName, 30);
+				$I->waitForText($productNameAccessories, 30, FrontEndProductManagerJoomla3Page::$nameProduct1OnCart);
 				$I->see($productName);
-				$I->waitForText($productNameAccessories, 30);
+				$I->waitForText($productName, 30, FrontEndProductManagerJoomla3Page::$nameProduct2OnCart);
 				$I->see($productNameAccessories);
 				break;
 			case 'No':
-				$I->waitForText(FrontEndProductManagerJoomla3Page::$errorAddToCart, 30);
-				$I->see(FrontEndProductManagerJoomla3Page::$errorAddToCart);
-				$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
+				$I->waitForText(FrontEndProductManagerJoomla3Page::$alertSuccessMessage, 5);
 				$I->amOnPage(ProductManagerPage::$cartPageUrL);
-				$I->waitForText($productNameAccessories, 30);
+				$I->waitForText($productName, 30, FrontEndProductManagerJoomla3Page::$nameProduct1OnCart);
+				$I->see($productName);
+				$I->waitForText($productNameAccessories, 30, FrontEndProductManagerJoomla3Page::$nameProduct1OnCart);
 				$I->see($productNameAccessories);
-				$I->dontSee($productName);
 				break;
 		}
 	}
