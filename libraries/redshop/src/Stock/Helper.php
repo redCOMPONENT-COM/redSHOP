@@ -193,7 +193,7 @@ class Helper
 								);
 							}
 
-							$ownSubPropReserveStock = RedshopHelperStockroom::getCurrentUserReservedStock(
+							$ownSubPropReserveStock = \RedshopHelperStockroom::getCurrentUserReservedStock(
 								$subProperties[$l]['subproperty_id'],
 								"subproperty"
 							);
@@ -220,17 +220,17 @@ class Helper
 								$newProductQuantity          = $ownProductReserveStock + $newQuantity;
 							}
 
-							RedshopHelperStockroom::addReservedStock(
+							\RedshopHelperStockroom::addReservedStock(
 								$subProperties[$l]['subproperty_id'],
 								$subPropertyReservedQuantity,
 								'subproperty'
 							);
-							RedshopHelperStockroom::addReservedStock(
+							\RedshopHelperStockroom::addReservedStock(
 								$properties[$k]['property_id'],
 								$newPropertyQuantity,
 								'property'
 							);
-							RedshopHelperStockroom::addReservedStock(
+							\RedshopHelperStockroom::addReservedStock(
 								$data['product_id'],
 								$newProductQuantity,
 								'product'
@@ -268,7 +268,7 @@ class Helper
 				$accessoryData['product_id'] = $productAccessory[0]->child_product_id;
 
 				$quantity = \Redshop\Stock\Helper::checkQuantityInStock($accessoryData, $newQuantity);
-				$isStock  = RedshopHelperStockroom::isStockExists($productAccessory[0]->child_product_id);
+				$isStock  = \RedshopHelperStockroom::isStockExists($productAccessory[0]->child_product_id);
 
 				if (!$isStock || $newQuantity > $quantity) {
 					$errorMsg[] = $productAccessory[0]->product_name;
