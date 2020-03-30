@@ -615,11 +615,12 @@ class Helper
      *
      * @return bool|mixed
      * @throws \Exception
+     * @since __DEPLOY_VERSION__
      */
     public static function addItemToCart(&$data)
     {
         $cart             = \Redshop\Cart\Helper::getCart();
-        $data['quantity'] = is_int($data['quantity']) ? round($data['quantity']) : 0;
+        $data['quantity'] = isset($data['quantity']) ? (int) $data['quantity'] : 0;
         $idx              = (int)$cart['idx'];
         $result           = true;
 

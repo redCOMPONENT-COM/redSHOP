@@ -2706,10 +2706,10 @@ class RedshopHelperProduct
 
         if (isset($redCache))
         {
-            return $redCache;
+            //return $redCache;
         }
 
-        $user = JFactory::getUser();
+        $user = \Redshop\User\Helper::getCurrentUser();
 
         if ($userId == 0) {
             $userId = $user->id;

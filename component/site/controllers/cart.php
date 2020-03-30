@@ -35,6 +35,7 @@ class RedshopControllerCart extends RedshopController
      *
      * @return  void
      * @throws  Exception
+     * @since __DEPLOY_VERSION__
      */
     public function add()
     {
