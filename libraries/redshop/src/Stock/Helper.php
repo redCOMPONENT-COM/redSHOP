@@ -19,10 +19,9 @@ defined('_JEXEC') or die;
 class Helper
 {
     /**
-     * @param   array  $data
-     * @param   int    $newQuantity
-     * @param   int    $minQuantity
-     *
+     * @param array $data
+     * @param int   $newQuantity
+     * @param int   $minQuantity
      *
      * @return int
      * @since 3.0
@@ -39,7 +38,7 @@ class Helper
             return $newQuantity;
         }
 
-        $productData     = \RedshopEntityProduct::getInstance($data['product_id']);
+        $productData     = \Redshop\Product\Product::getProductById($data['product_id']);
         $productPreOrder = $productData->preorder;
 
         if ($productData->min_order_product_quantity > 0 && $productData->min_order_product_quantity > $newQuantity) {
@@ -194,7 +193,7 @@ class Helper
                                 );
                             }
 
-                            $ownSubPropReserveStock = RedshopHelperStockroom::getCurrentUserReservedStock(
+                            $ownSubPropReserveStock = \RedshopHelperStockroom::getCurrentUserReservedStock(
                                 $subProperties[$l]['subproperty_id'],
                                 "subproperty"
                             );
@@ -221,17 +220,17 @@ class Helper
                                 $newProductQuantity          = $ownProductReserveStock + $newQuantity;
                             }
 
-                            RedshopHelperStockroom::addReservedStock(
+                            \RedshopHelperStockroom::addReservedStock(
                                 $subProperties[$l]['subproperty_id'],
                                 $subPropertyReservedQuantity,
                                 'subproperty'
                             );
-                            RedshopHelperStockroom::addReservedStock(
+                            \RedshopHelperStockroom::addReservedStock(
                                 $properties[$k]['property_id'],
                                 $newPropertyQuantity,
                                 'property'
                             );
-                            RedshopHelperStockroom::addReservedStock(
+                            \RedshopHelperStockroom::addReservedStock(
                                 $data['product_id'],
                                 $newProductQuantity,
                                 'product'
@@ -243,5 +242,54 @@ class Helper
         }
 
         return $newQuantity;
+    }
+
+    /**
+     * Method check stock accessory
+     *
+     * @param array $data
+     *
+     * @return boolean|string return true if accesory in stock, return string if accessory out of stock
+     * @since __DEPLOY_VERSION__
+     */
+    public static function checkStockAccessory($data)
+    {
+        if (!empty($data['accessory_data'])) {
+            $errorMsg    = [];
+            $accessories = explode('@@', $data['accessory_data']);
+            $newQuantity = $data['quantity'];
+
+            foreach ($accessories as $accessory) {
+                $productAccessory            = \RedshopHelperAccessory::getProductAccessories(
+                    $accessory,
+                    $data['product_id']
+                );
+                $accessoryData               = $data;
+                $accessoryData['product_id'] = $productAccessory[0]->child_product_id;
+
+                $quantity = \Redshop\Stock\Helper::checkQuantityInStock($accessoryData, $newQuantity);
+                $isStock  = \RedshopHelperStockroom::isStockExists($productAccessory[0]->child_product_id);
+
+                if (!$isStock || $newQuantity > $quantity) {
+                    $errorMsg[] = $productAccessory[0]->product_name;
+                }
+            }
+
+            \JPluginHelper::importPlugin('redshop_product');
+            $result = \RedshopHelperUtility::getDispatcher()->trigger(
+                'onAfterCheckStockAccessory',
+                array($accessories, $data)
+            );
+
+            $errorMsg = !empty($result[0]) ? $result[0] : $errorMsg;
+
+            if (empty($errorMsg)) {
+                return true;
+            }
+
+            return implode(', ', $errorMsg);
+        }
+
+        return true;
     }
 }
