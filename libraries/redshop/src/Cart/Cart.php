@@ -684,7 +684,7 @@ class Cart
                     )->getBool('IS_PRODUCT_RESERVE')
                         ? \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE')
                         : urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
-                }
+                   }
             }
         }
 
@@ -727,15 +727,11 @@ class Cart
                 $cart['notice_message'] = "";
             }
 
-            if ($cart[$idx]['quantity'] <= 0) {
-                $msg = \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '' && \Redshop::getConfig()->get(
-                    'IS_PRODUCT_RESERVE'
-                )
-                    ? \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') : \JText::_(
-                        'COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'
-                    );
-
-                return $msg;
+            if ($cart[$idx]['quantity'] <= 0
+                    && (\Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '')
+                    && (\Redshop::getConfig()->get('IS_PRODUCT_RESERVE'))
+            ) {
+                return \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE');
             }
 
             $cart[$idx]['category_id']   = $data['category_id'];
