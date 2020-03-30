@@ -62,7 +62,7 @@
 
     {{ content }}
 
-    {% if fileExitPreOrderImage %}
+    {% if fileExitPreOrderImage and 'ALLOW_PRE_ORDER'|redconfig %}
         <span class="preordercart_order" data-id="preordercart{{ stockId }}" {{ preOrderStyle }}>
             <img {{ onclick }} {{ cartTitle }} alt="{{ preOrderLabel }}" style="cursor: pointer;" src="{{ REDSHOP_FRONT_IMAGES_RELPATH }}~{{ preOrderImage }}" />
         </span>

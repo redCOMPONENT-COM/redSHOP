@@ -95,7 +95,9 @@ class Cart
                 $accessoryHasProductWithoutVat
             );
 
-            $accessoryAsProductZero = !count($attributeCart[8]) && $price == 0 && !empty($accessoryHasProductWithoutVat);
+            $accessoryAsProductZero = !count(
+                    $attributeCart[8]
+                ) && $price == 0 && !empty($accessoryHasProductWithoutVat);
 
             // Product + attribute (price)
             $getProductPrice = ($accessoryAsProductZero) ? 0 : $attributeCart[1];
@@ -307,8 +309,12 @@ class Cart
             ? $data['hidden_attribute_cartimage'] : null;
         $productId                                = $data['product_id'];
         $quantity                                 = $data['quantity'];
-        $product = \RedshopEntityProduct::getInstance($productId);
-        $dataAdd = \Redshop\Cart\Helper::handleCartAccessoryPrice($data, $product, $cart);
+        $product                                  = \RedshopEntityProduct::getInstance($productId);
+        $dataAdd                                  = \Redshop\Cart\Helper::handleCartAccessoryPrice(
+            $data,
+            $product,
+            $cart
+        );
 
         /*
          * Check if required user field are filled or not if not than redirect to product detail page...
@@ -555,7 +561,7 @@ class Cart
         \JPluginHelper::importPlugin('redshop_product');
 
         for ($i = 0; $i < $idx; $i++) {
-            if ($cart[$i]['product_id'] === $data['product_id']) {
+            if ($cart[$i]['product_id'] == $data['product_id']) {
                 $sameProduct = true;
 
                 if (isset($data['subscription_id']) && $cart[$i]['subscription_id'] != $data['subscription_id']) {
@@ -680,11 +686,11 @@ class Cart
                         return true;
                     }
 
-                    return \Redshop::getConfig()->getString('CART_RESERVATION_MESSAGE') !== '' && \Redshop::getConfig(
-                    )->getBool('IS_PRODUCT_RESERVE')
-                        ? \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE')
-                        : urldecode(\JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE'));
-                   }
+                    if (\Redshop::getConfig()->getString('CART_RESERVATION_MESSAGE') !== ''
+                        && \Redshop::getConfig()->getBool('IS_PRODUCT_RESERVE')) {
+                        return \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE');
+                    }
+                }
             }
         }
 
@@ -728,8 +734,8 @@ class Cart
             }
 
             if ($cart[$idx]['quantity'] <= 0
-                    && (\Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '')
-                    && (\Redshop::getConfig()->get('IS_PRODUCT_RESERVE'))
+                && (\Redshop::getConfig()->get('CART_RESERVATION_MESSAGE') != '')
+                && (\Redshop::getConfig()->get('IS_PRODUCT_RESERVE'))
             ) {
                 return \Redshop::getConfig()->get('CART_RESERVATION_MESSAGE');
             }

@@ -725,7 +725,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
                     'isStockExist'            => $isStockExist,
                     'productPreOrder'         => $productPreOrder,
                     'categoryId'              => $categoryId,
-                    'itemId'                  => $itemId,
+                    'itemId'                => $itemId,
                     'productPrice'            => $productPrice,
                     'productOldPrice'         => $productOldPrice,
                     'productPriceNoVat'       => $productPriceNoVat,

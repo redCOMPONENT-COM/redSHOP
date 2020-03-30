@@ -55,6 +55,8 @@ class Helper
 
         $productStock  = 0;
         $allowPreOrder = \Redshop::getConfig()->getBool('ALLOW_PRE_ORDER');
+        var_dump($allowPreOrder);
+        exit;
 
         if (($productPreOrder == 'global' && !$allowPreOrder)
             || $productPreOrder == 'no'
