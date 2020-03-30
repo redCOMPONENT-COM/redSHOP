@@ -16,7 +16,7 @@
                 </div>
             {% endif %}
         {% else %}
-            <div> {{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') }} </div>
+            <div>{{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') }}</div>
         {% endif %}
     {% else %}
         {% if countSesion > 0 %}
@@ -46,13 +46,13 @@
             <table>
                 {% for wishlist in wishlists %}
                     <tr>
-                        <td><a href='{{ wishlist.wishlistLink }}'> {{ wishlist.wishlistName }} </a></td>
-                        <td><a href='{{ wishlist.delWishlist }}'> {{ jtext('COM_REDSHOP_DELETE') }} </a></td>
+                        <td><a href='{{ wishlist.wishlistLink }}'>{{ wishlist.wishlistName }}</a></td>
+                        <td><a href='{{ wishlist.delWishlist }}'>{{ jtext('COM_REDSHOP_DELETE') }}</a></td>
                     </tr>
                 {% endfor %}
             </table>
         {% else %}
-            <div> {{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') }} </div>
+            <div>{{ jtext('COM_REDSHOP_NO_PRODUCTS_IN_WISHLIST') }}</div>
         {% endif %}
     {% endif %}
 </div>

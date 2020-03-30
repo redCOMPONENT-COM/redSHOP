@@ -702,6 +702,13 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 				$template = $this->strReplace($this->replacements, $template);
             }
 
+            $result = \RedshopHelperUtility::getDispatcher()->trigger('onDisplayText', array($product->product_id, $cart));
+
+            if (!empty($result))
+            {
+                $displayText = $result[0];
+            }
+
             $layout = RedshopLayoutHelper::render(
                 'tags.addtocart.template',
                 array(
