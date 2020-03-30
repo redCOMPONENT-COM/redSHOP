@@ -117,6 +117,36 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			$replacements['{category_thumb_image}'] = $categoryImage;
 		}
 
+        if ($this->isTagExists('{category_back_thumb_image}') && isset($category->category_back_full_image))
+        {
+            $medias = RedshopEntityCategory::getInstance($category->id)->getMedia()->getAll();
+
+            if (isset($medias) && count($medias) > 0) {
+                foreach ($medias as $media)
+                {
+                    if ($media->get('scope') == 'back') {
+                        $backImage = RedshopEntityMediaImage::getInstance($media->getId())->getAbsImagePath();
+
+                        break;
+                    }
+                }
+
+                $categoryImage = RedshopLayoutHelper::render(
+                    'tags.common.img',
+                    array(
+                        'linkAttr' => $title,
+                        'src' =>  $backImage,
+                        'alt' => 'back-image',
+                        'imgAttr' => $title
+                    ),
+                    '',
+                    RedshopLayoutHelper::$layoutOption
+                );
+            }
+
+            $replacements['{category_back_thumb_image}'] = $categoryImage ?? '';
+        }
+
 		if ($this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}')
 			&& isset($category->category_full_image))
 		{
@@ -422,7 +452,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			}
 			else
 			{
-				$productImg = $fullImage->generateThumb($width, $height);
+                $productImg = $fullImage->generateThumb($width, $height);
 				$productImg = $productImg['abs'];
 			}
 		}
@@ -440,36 +470,33 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 			);
 		}
 
-		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
-		{
-			$categoryThumbnail = RedshopLayoutHelper::render(
-				'tags.common.img_link',
-				array(
-					'class' => 'modal',
-					'link' => $categoryFullImage,
-					'linkAttr' => 'rel="{handler: \'image\', size: {}}" ' . $title,
-					'src' => $productImg,
-					'alt' => $alt,
-					'imgAttr' => $title
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
-		}
-		else
-		{
-			$categoryThumbnail = RedshopLayoutHelper::render(
-				'tags.common.img_link',
-				array(
-					'link' => $link,
-					'linkAttr' => $title,
-					'src' => $productImg,
-					'alt' => $alt,
-					'imgAttr' => $title
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
+		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX')) {
+            $categoryThumbnail = RedshopLayoutHelper::render(
+                'tags.common.img_link',
+                array(
+                    'class' => 'modal',
+                    'link' => $categoryFullImage,
+                    'linkAttr' => 'rel="{handler: \'image\', size: {}}" ' . $title,
+                    'src' => $productImg,
+                    'alt' => $alt,
+                    'imgAttr' => $title
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
+		} else  {
+            $categoryThumbnail = RedshopLayoutHelper::render(
+                'tags.common.img_link',
+                array(
+                    'link' => $link,
+                    'linkAttr' => $title,
+                    'src' => $productImg,
+                    'alt' => $alt,
+                    'imgAttr' => $title
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
 		}
 
 		return $categoryThumbnail;
