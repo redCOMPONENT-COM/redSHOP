@@ -33,13 +33,6 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	public $itemId;
 
 	/**
-	 * @var    array
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public $productModel = array();
-
-	/**
 	 * @var    integer
 	 *
 	 * @since __DEPLOY_VERSION__
@@ -172,7 +165,6 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 
 			return $this->template;
 		} elseif ($this->view == 'account') {
-			$this->productModel = $this->data['productModel'];
 			$this->extraFieldName = \Redshop\Helper\ExtraFields::getSectionFieldNames(1, 1, 1);
 			$wishlists = $this->data['wishlist'];
 			$templateProduct = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');
