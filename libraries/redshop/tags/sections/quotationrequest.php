@@ -152,14 +152,14 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
         }
 
         $cancelBtn = \RedshopLayoutHelper::render(
-            'tags.quotation_request.cancel_btn',
+            'tags.quotation.cancel_btn',
             [],
             '',
             $layoutOption
         );
 
         $quotationBtn = \RedshopLayoutHelper::render(
-            'tags.quotation_request.request_quotation_btn',
+            'tags.quotation.request_quotation_btn',
             [
                 'itemId' => $itemId,
                 'return' => $return

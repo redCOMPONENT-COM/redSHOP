@@ -22,7 +22,19 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
 {
 	use \Redshop\Traits\Replace\Product;
 
-	public $tags;
+	/**
+	 * @var    string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $width = 'MANUFACTURER_PRODUCT_THUMB_WIDTH';
+
+	/**
+	 * @var    string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $height = 'MANUFACTURER_PRODUCT_THUMB_HEIGHT';
 
 	public function init()
 	{
@@ -100,8 +112,8 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
 				&& JFile::exists(
 					REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get('media_name')
 				)) {
-				$thumbHeight = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
-				$thumbWidth  = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
+				$thumbHeight = Redshop::getConfig()->get($this->height);
+				$thumbWidth  = Redshop::getConfig()->get($this->width);
 
 				if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
 						'WATERMARK_MANUFACTURER_THUMB_IMAGE'

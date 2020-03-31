@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Library
  * @subpackage  Form.Field
@@ -35,8 +36,7 @@ class RedshopFormFieldMail_Section extends JFormFieldList
 	{
 		$options = RedshopHelperTemplate::getMailSections();
 
-		foreach ($options as $value => $text)
-		{
+		foreach ($options as $value => $text) {
 			$option = new stdClass;
 
 			$option->text     = $text;

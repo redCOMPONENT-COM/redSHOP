@@ -81,6 +81,13 @@ class RedshopTableCategory extends RedshopTableNested
 	public $products_per_page;
 
 	/**
+	 * Event name to trigger after delete().
+	 *
+	 * @var  string
+	 */
+	protected $_eventAfterDelete = 'onAfterDeleteCategory';
+
+	/**
 	 * @var  integer
 	 */
 	public $ordering;
@@ -88,8 +95,8 @@ class RedshopTableCategory extends RedshopTableNested
 	/**
 	 * Called delete().
 	 *
-	 * @param   integer  $pk        The primary key of the node to delete.
-	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
+	 * @param integer $pk       The primary key of the node to delete.
+	 * @param boolean $children True to delete child nodes, false to move them up a level.
 	 *
 	 * @return  boolean  True on success.
 	 */
@@ -102,12 +109,11 @@ class RedshopTableCategory extends RedshopTableNested
 			->select('COUNT(*) AS ctotal')
 			->select($db->qn('name'))
 			->from($db->qn('#__redshop_category'))
-			->where($db->qn('parent_id') . ' = ' . (int) $this->id);
+			->where($db->qn('parent_id') . ' = ' . (int)$this->id);
 
 		$childCount = $db->setQuery($query)->loadResult();
 
-		if ($childCount > 0)
-		{
+		if ($childCount > 0) {
 			$this->setError(JText::sprintf('COM_REDSHOP_CATEGORY_PARENT_ERROR_MSG', $this->name, $this->id));
 
 			return false;
@@ -116,31 +122,26 @@ class RedshopTableCategory extends RedshopTableNested
 		// Check products
 		$productCount = RedshopEntityCategory::getInstance($this->id)->productCount();
 
-		if ($productCount > 0)
-		{
+		if ($productCount > 0) {
 			$this->setError(JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $this->name, $this->id));
 
 			return false;
 		}
 
 		// Remove thumb images.
-		if (!empty($this->category_thumb_image))
-		{
+		if (!empty($this->category_thumb_image)) {
 			$thumbPath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $this->category_thumb_image;
 
-			if (JFile::exists($thumbPath))
-			{
+			if (JFile::exists($thumbPath)) {
 				JFile::delete($thumbPath);
 			}
 		}
 
 		// Remove full images.
-		if (!empty($this->category_full_image))
-		{
+		if (!empty($this->category_full_image)) {
 			$fullImagePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $this->category_full_image;
 
-			if (JFile::exists($fullImagePath))
-			{
+			if (JFile::exists($fullImagePath)) {
 				JFile::delete($fullImagePath);
 			}
 		}
@@ -158,15 +159,14 @@ class RedshopTableCategory extends RedshopTableNested
 	/**
 	 * Do the database store.
 	 *
-	 * @param   boolean  $updateNulls  True to update null values as well.
+	 * @param boolean $updateNulls True to update null values as well.
 	 *
 	 * @return  boolean
 	 * @since   2.1.0
 	 */
 	protected function doStore($updateNulls = false)
 	{
-		if (!parent::doStore($updateNulls))
-		{
+		if (!parent::doStore($updateNulls)) {
 			return false;
 		}
 
@@ -180,13 +180,11 @@ class RedshopTableCategory extends RedshopTableNested
 		$model = RedshopModel::getInstance('Category', 'RedshopModel');
 		$media = $this->getOption('media', array());
 
-		if (!empty($media['category_full_image']))
-		{
+		if (!empty($media['category_full_image'])) {
 			$model->storeMedia($this, $media['category_full_image'], 'full');
 		}
 
-		if (!empty($media['category_back_full_image']))
-		{
+		if (!empty($media['category_back_full_image'])) {
 			$model->storeMedia($this, $media['category_back_full_image'], 'back');
 		}
 
@@ -203,8 +201,7 @@ class RedshopTableCategory extends RedshopTableNested
 	 */
 	protected function doCheck()
 	{
-		if (empty(trim($this->name)))
-		{
+		if (empty(trim($this->name))) {
 			$this->setError(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'));
 
 			return false;

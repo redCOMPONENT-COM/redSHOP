@@ -11,25 +11,10 @@ defined('_JEXEC') or die;
 $model = $this->getModel('newsletter');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-
-		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
-			form.view.value = "newsletter_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
+    var viewForm = 'newsletter_detail';
+    Joomla.submitbutton = function (pressbutton) {
+        checkSubmit(pressbutton, viewForm);
+    };
 </script>
 
 <form action="index.php?option=com_redshop" method="post"

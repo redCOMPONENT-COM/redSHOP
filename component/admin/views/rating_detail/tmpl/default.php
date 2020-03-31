@@ -229,7 +229,7 @@ if (!empty($this->detail->images))
 	else
 		$pid = $this->detail->product_id;
 	?>
-	<input type="hidden" name="cid[]" value="<?php echo $this->detail->rating_id; ?>"/>
+	<input type="hidden" name="cid" value="<?php echo $this->detail->rating_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="time" value="<?php echo time(); ?>"/>
 	<input type="hidden" name="view" value="rating_detail"/>
