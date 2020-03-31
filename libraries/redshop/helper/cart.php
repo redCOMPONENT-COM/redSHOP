@@ -789,6 +789,8 @@ abstract class RedshopHelperCart
 			JFactory::getApplication()->close();
 		}
 
+		\Redshop\Cart\Helper::setCart($cart);
+
 		return $cartOutput;
 	}
 

@@ -101,6 +101,7 @@ class RedshopControllerCart extends RedshopController
 
         $session              = \JFactory::getSession();
         $cart                 = \Redshop\Cart\Helper::getCart();
+
         $isQuotationMode      = \Redshop::getConfig()->getBool('DEFAULT_QUOTATION_MODE');
         $isShowQuotationPrice = \Redshop::getConfig()->getBool('SHOW_QUOTATION_PRICE');
 
