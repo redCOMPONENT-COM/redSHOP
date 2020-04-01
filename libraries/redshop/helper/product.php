@@ -2706,7 +2706,7 @@ class RedshopHelperProduct
 
         if (isset($redCache))
         {
-            return $redCache;
+            #return $redCache;
         }
 
         $user = \Redshop\User\Helper::getCurrentUser();
