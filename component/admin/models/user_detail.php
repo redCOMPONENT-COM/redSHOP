@@ -69,11 +69,8 @@ class RedshopModelUser_detail extends RedshopModel
 		if (empty($this->_data))
 		{
 			$this->_uid = 0;
-			$query      = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
-				. 'LEFT JOIN #__users as u on u.id = uf.user_id '
-				. 'WHERE users_info_id="' . $this->_id . '" ';
-			$this->_db->setQuery($query);
-			$this->_data = $this->_db->loadObject();
+			$user = \Redshop\User\Helper::getUsers([], ['ui.users_info_id' => ['=' => $this->_id]]);
+			$this->_data = $user[0];
 
 			if (isset($this->_data->user_id))
 			{
@@ -147,11 +144,8 @@ class RedshopModelUser_detail extends RedshopModel
 
 			if ($shipping)
 			{
-				$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
-					. 'LEFT JOIN #__users as u on u.id = uf.user_id '
-					. 'WHERE users_info_id="' . $info_id . '" ';
-				$this->_db->setQuery($query);
-				$bill_data = $this->_db->loadObject();
+                $temp = \Redshop\User\Helper::getUsers([], ['ui.users_info_id' => ['=' => $this->_id]]);
+				$bill_data = $temp[0];
 
 				$detail->id                    = $detail->user_id = $this->_uid = $bill_data->user_id;
 				$detail->email                 = $bill_data->user_email;
@@ -341,37 +335,47 @@ class RedshopModelUser_detail extends RedshopModel
 		return true;
 	}
 
+    /**
+     * @param $user
+     * @param $uid
+     *
+     * @return int
+     */
 	public function validate_user($user, $uid)
 	{
-		$query = "SELECT username FROM #__users WHERE username='" . $user . "' AND id !=" . $uid;
-		$this->_db->setQuery($query);
-		$users = $this->_db->loadObjectList();
-
-		return count($users);
+		return \Redshop\User\Helper::isUserExist($user, $uid);
 	}
 
+    /**
+     * @param $email
+     * @param $uid
+     *
+     * @return int
+     */
 	public function validate_email($email, $uid)
 	{
-		$query = "SELECT email FROM #__users WHERE email = '" . $email . "' AND id !=" . $uid;
-		$this->_db->setQuery($query);
-		$emails = $this->_db->loadObjectList();
-
-		return count($emails);
+	    return \Redshop\User\Helper::isUserEmailExist($email, $uid);
 	}
 
 	public function userOrders()
 	{
-		$query = $this->_buildUserorderQuery();
+		$query = $this->buildUserOrderQuery();
 		$list  = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
 		return $list;
 	}
 
-	public function _buildUserorderQuery()
+    /**
+     * @return mixed
+     */
+	public function buildUserOrderQuery()
 	{
-		$query = "SELECT * FROM `" . $this->_table_prefix . "orders` "
-			. "WHERE `user_id`='" . $this->_uid . "' "
-			. "ORDER BY order_id DESC ";
+	    $db = \JFactory::getDbo();
+	    $query = $db->getQuery(true);
+	    $query->select('*')
+            ->from($db->qn('#__redshop_orders'))
+            ->where($db->qn('user_id') . ' = ' . $db->q((int)$this->_uid))
+            ->order($db->qn('order_id') . ' DESC');
 
 		return $query;
 	}
@@ -380,7 +384,7 @@ class RedshopModelUser_detail extends RedshopModel
 	{
 		if ($this->_id)
 		{
-			$query        = $this->_buildUserorderQuery();
+			$query        = $this->buildUserOrderQuery();
 			$this->_total = $this->_getListCount($query);
 
 			return $this->_total;

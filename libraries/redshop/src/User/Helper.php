@@ -65,7 +65,7 @@ class Helper
         $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
         if (count($columns) < 1) {
-            $query->select('u.*');
+            $query->select('u.*, ui.*');
         } else {
             foreach ($columns as $col => $alias)
             {
@@ -112,7 +112,7 @@ class Helper
 
     /**
      * @return null
-     * @throws \Exception
+     * @since __DEPLOY_VERSION__
      */
     public static function getNewCustomers()
     {
@@ -126,5 +126,39 @@ class Helper
         $db->setQuery($query, 0, 10);
 
         return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
+    }
+
+    /**
+     * @param $username
+     * @param $uid
+     *
+     * @return int
+     * @since __DEPLOY_VERSION__
+     */
+    public static function isUserExist($username, $uid)
+    {
+        $users = self::getUsers([], [
+            'username' => ['=' => $username],
+            'id'       => ['!=' => $uid]
+        ]);
+
+        return count($users);
+    }
+
+    /**
+     * @param $email
+     * @param $uid
+     *
+     * @return int
+     * @since __DEPLOY_VERSION__
+     */
+    public static function isUserEmailExist($email, $uid)
+    {
+        $users = self::getUsers([], [
+            'email' => ['=' => $email],
+            'id'       => ['!=' => $uid]
+        ]);
+
+        return count($users);
     }
 }
