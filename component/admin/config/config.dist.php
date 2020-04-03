@@ -753,4 +753,6 @@ class RedshopConfig
 	public $INLINE_EDITING = '1';
 
 	public $WISHLIST_LIST = '1';
+
+	public $ENABLE_PERFORMANCE_MODE = '0';
 }
