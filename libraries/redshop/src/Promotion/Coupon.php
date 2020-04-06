@@ -53,7 +53,7 @@ class Coupon
 	 *
 	 * @return  mixed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public static function getUserCoupons($uid)
 	{

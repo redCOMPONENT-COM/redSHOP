@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 /**
  * Catalog sample
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class Catalog
 {
@@ -25,7 +25,7 @@ class Catalog
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public static function getCatalogList()
 	{

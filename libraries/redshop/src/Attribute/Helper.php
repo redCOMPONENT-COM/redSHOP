@@ -280,7 +280,7 @@ class Helper
      * @param   Object  $params
      *
      * @return int / null
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public static function getAttributePriceStartId($params = null)
     {
@@ -312,7 +312,7 @@ class Helper
      * @param   Object  $params
      *
      * @return int / null
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public static function getAttributePriceEndId($params = null)
     {

@@ -112,7 +112,7 @@ class Helper
 	 * @return  mixed
 	 * @throws  \Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0.1
 	 */
 	public static function countMyTags()
 	{

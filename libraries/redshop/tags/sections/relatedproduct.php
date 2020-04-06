@@ -12,14 +12,14 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
 {
 	/**
 	 * @var    object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0.1
 	 */
 	public $product = array();
 
@@ -28,7 +28,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function init()
 	{
@@ -67,7 +67,7 @@ class RedshopTagsSectionsRelatedProduct extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceProductItem($template, $product, $fieldList)
 	{
