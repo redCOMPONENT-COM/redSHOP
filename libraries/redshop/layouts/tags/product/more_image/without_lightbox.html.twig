@@ -1,0 +1,10 @@
+<div class="additional_image"
+     onmouseover="display_image('{{ imgPath }}',{{ productId }}, '{{ hoverMoreImages }}');"
+     onmouseout="display_image_out('{{ imgPathOrg }}', {{ productId }}, '{{ imgPathOrg }}');">
+    <a href="javascript:void(0)" >
+        <img src="{{ pimg }}" title="{{ altText }}" style='cursor: auto;'>
+        {% if 'ADDITIONAL_HOVER_IMAGE_ENABLE'|redconfig %}
+            <img src="{{ hoverimgPath }}" alt="{{ altText }}" title="{{ altText }}" class="redImagepreview">
+        {% endif %}
+    </a>
+</div>

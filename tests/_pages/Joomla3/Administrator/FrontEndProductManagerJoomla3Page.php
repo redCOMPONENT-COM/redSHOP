@@ -520,13 +520,13 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $quantity1 = "//tr[1]//td[4]//span[1]//label[1]";
+	public static $quantity1 = "(//span[@class='update_cart'])[1]";
 
 	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
-	public static $quantity2 = "//tr[2]//td[4]//span[1]//label[1]";
+	public static $quantity2 = "(//span[@class='update_cart'])[2]";
 
 	/**
 	 * @var string
@@ -635,6 +635,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.3
 	 */
 	public static $valueDiscount = '//div[@class="mod_discount_main"]//td[2]';
+
+	/**
+	 * @var string
+	 * @since 3.0.1
+	 */
+	public static $nameProduct1OnCart = "//tr[1]/td[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.1
+	 */
+	public static $nameProduct2OnCart = "//tr[2]/td[1]";
 
 	/**
 	 * @var string

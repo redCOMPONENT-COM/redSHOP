@@ -23,32 +23,31 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 		'{wrapper_add_checkbox}'
 	);
 
-    /**
-     * Init function
-     * @return mixed|void
-     *
-     * @throws Exception
-     * @since 2.1.5
-     */
+	/**
+	 * Init function
+	 * @return mixed|void
+	 *
+	 * @throws Exception
+	 * @since 2.1.5
+	 */
 	public function init()
 	{
 	}
 
-    /**
-     * Executing replace
-     * @return string
-     *
-     * @throws Exception
-     * @since 2.1.5
-     */
+	/**
+	 * Executing replace
+	 * @return string
+	 *
+	 * @throws Exception
+	 * @since 2.1.5
+	 */
 	public function replace()
 	{
 		$data = $this->data['data'];
 		$wrapper = $this->data['wrapper'];
 		$wrapperStart = explode("{product_wrapper_start}", $this->template);
 
-		if (isset ($wrapperStart[1]))
-		{
+		if (isset ($wrapperStart[1])) {
 			$wrapperStart = explode("{product_wrapper_end}", $wrapperStart[1]);
 			$this->template = $wrapperStart[0];
 		}
@@ -64,7 +63,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 				'class' => ''
 			),
 			'',
-            RedshopLayoutHelper::$layoutOption
+			RedshopLayoutHelper::$layoutOption
 		);
 
 		$this->template .= $hidden;
@@ -80,42 +79,42 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 				'class' => ''
 			),
 			'',
-            RedshopLayoutHelper::$layoutOption
+			RedshopLayoutHelper::$layoutOption
 		);
 
 		$this->template .= $hidden;
 		$wObj = new stdClass;
-		$wObj->wrapper_id   = 0;
+		$wObj->wrapper_id = 0;
 		$wObj->wrapper_name = JText::_('COM_REDSHOP_SELECT_WRAPPER');
 		$warray[] = $wObj;
-		$wrapperimageDiv  = "";
+		$wrapperimageDiv = "";
 		$wrapperimageDiv .= "<table><tr>";
 
-		for ($i = 0, $in = count($wrapper); $i < $in; $i++)
-		{
+		for ($i = 0, $in = count($wrapper); $i < $in; $i++) {
 			$wrapperVat = 0;
 
-			if ($wrapper[$i]->wrapper_price > 0 && !strstr($this->template, "{without_vat}"))
-			{
+			if ($wrapper[$i]->wrapper_price > 0 && !strstr($this->template, "{without_vat}")) {
 				$wrapperVat = RedshopHelperProduct::getProductTax($data->product_id, $wrapper[$i]->wrapper_price);
 			}
 
 			$wp = $wrapper[$i]->wrapper_price + $wrapperVat;
 			$wpWithoutvat = $wrapper[$i]->wrapper_price;
-			$wid   = $wrapper[$i]->wrapper_id;
+			$wid = $wrapper[$i]->wrapper_id;
 			$title = $wrapper[$i]->wrapper_name;
 			$alt = $wrapper[$i]->wrapper_name;
 
-			if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
-			{
-				$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . RedshopHelperProductPrice::formattedPrice($wp) . ")";
+			if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
+						'DEFAULT_QUOTATION_MODE'
+					) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))) {
+				$wrapper[$i]->wrapper_name = $wrapper[$i]->wrapper_name . " (" . strip_tags(
+						RedshopHelperProductPrice::formattedPrice($wp)
+					) . ")";
 			}
 
 			$wrapperimageDiv .= "<td id='wrappertd" . $wid . "'>";
 
-			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image))
-			{
-				$thumbUrl         = RedshopHelperMedia::getImagePath(
+			if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "wrapper/" . $wrapper[$i]->wrapper_image)) {
+				$thumbUrl = RedshopHelperMedia::getImagePath(
 					$wrapper[$i]->wrapper_image,
 					'',
 					'thumb',
@@ -128,24 +127,22 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 				$wrapperImage = RedshopLayoutHelper::render(
 					'tags.common.img_link',
 					array(
-                        'link'=>'javascript:void(0)',
-                        'linkAttr' => '
-                            onclick="setWrapper(' . $wid . ',' . $wp . ',' . $wpWithoutvat .',' . $data->product_id . ')" title="'. $title . '"                   
+						'link' => 'javascript:void(0)',
+						'linkAttr' => '
+                            onclick="setWrapper(' . $wid . ',' . $wp . ',' . $wpWithoutvat . ',' . $data->product_id . ')" title="' . $title . '"
                         ',
-                        'src' => $thumbUrl,
-                        'alt' => $alt,
-                        'imgAttr' => 'title="'. $title . '"'
+						'src' => $thumbUrl,
+						'alt' => $alt,
+						'imgAttr' => 'title="' . $title . '"'
 					),
 					'',
-                    RedshopLayoutHelper::$layoutOption
+					RedshopLayoutHelper::$layoutOption
 				);
 
 				$wrapperimageDiv .= $wrapperImage;
 			}
 
-			if (strstr($this->template, "{wrapper_price}"))
-			{
-
+			if (strstr($this->template, "{wrapper_price}")) {
 				$brTag = RedshopLayoutHelper::render(
 					'tags.common.short_tag',
 					array(
@@ -158,8 +155,9 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 				$wrapperimageDiv .= $brTag;
 				$wrapperPriceFormatted = '';
 
-				if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE)))
-				{
+				if (Redshop::getConfig()->get('SHOW_PRICE') && (!Redshop::getConfig()->get(
+							'DEFAULT_QUOTATION_MODE'
+						) || (Redshop::getConfig()->get('DEFAULT_QUOTATION_MODE') && SHOW_QUOTATION_PRICE))) {
 					$wrapperPriceFormatted .= RedshopHelperProductPrice::formattedPrice($wp);
 				}
 
@@ -191,7 +189,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 					'class' => ''
 				),
 				'',
-                RedshopLayoutHelper::$layoutOption
+				RedshopLayoutHelper::$layoutOption
 			);
 
 			$this->template .= $hidden;
@@ -207,15 +205,13 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 					'class' => ''
 				),
 				'',
-                RedshopLayoutHelper::$layoutOption
+				RedshopLayoutHelper::$layoutOption
 			);
 
-			$this->template  .= $hidden;
+			$this->template .= $hidden;
 
-			if (!Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
-			{
-				if (($i + 1) % 3 == 0)
-				{
+			if (!Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER')) {
+				if (($i + 1) % 3 == 0) {
 					$wrapperimageDiv .= "</tr><tr>";
 				}
 			}
@@ -223,9 +219,8 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 
 		$wrapperimageDiv .= "</tr></table>";
 
-		if (Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER'))
-		{
-            $wrapperimageDiv = "<marquee behavior='scroll'
+		if (Redshop::getConfig()->get('AUTO_SCROLL_WRAPPER')) {
+			$wrapperimageDiv = "<marquee behavior='scroll'
                 direction='left'
                 onmouseover='this.stop()'
                 onmouseout='this.start()'
@@ -233,8 +228,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
                 > $wrapperimageDiv </marquee>";
 		}
 
-		if (!empty($wrapper))
-		{
+		if (!empty($wrapper)) {
 			$wrapper = array_merge($warray, $wrapper);
 
 			$lists['wrapper_id'] = JHtml::_(
@@ -268,9 +262,7 @@ class RedshopTagsSectionsWrapper extends RedshopTagsAbstract
 
 			$wrapperCheckbox .= $checkbox;
 			$this->addReplace('{wrapper_add_checkbox}', $wrapperCheckbox);
-		}
-		else
-		{
+		} else {
 			return '';
 		}
 

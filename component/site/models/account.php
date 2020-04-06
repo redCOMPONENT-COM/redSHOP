@@ -86,27 +86,6 @@ class RedshopModelAccount extends RedshopModel
 	}
 
 	/**
-	 * Method for get user coupons
-	 *
-	 * @param   integer $uid User ID
-	 *
-	 * @return  array
-	 */
-	public function getUserCoupons($uid)
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from('#__redshop_coupons')
-			->where('published = 1')
-			->where('userid = ' . (int) $uid)
-			->where('end_date >= ' . JFactory::getDate()->toSql())
-			->where($db->qn('amount_left') . ' > 0');
-
-		return $db->setQuery($query)->loadObjectList();
-	}
-
-	/**
 	 * Method for get current account detail
 	 *
 	 * @return null|object[]
@@ -152,23 +131,13 @@ class RedshopModelAccount extends RedshopModel
 
 		$tagId      = $app->input->getInt('tagid', 0);
 		$wishListId = $app->input->getInt('wishlist_id', 0);
-		$userId     = JFactory::getUser();
+		$userId     = JFactory::getUser()->id;
 		$db         = JFactory::getDbo();
 		$query      = $db->getQuery(true);
 
 		// Layout: mytags
 		if ($layout == 'mytags')
 		{
-			if ($tagId != 0)
-			{
-				$query->select(array('ptx.product_id', 'p.*'))
-					->leftJoin(
-						$db->qn('#__redshop_product', 'p')
-						. ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('ptx.product_id')
-					)
-					->where($db->qn('pt.tags_id') . ' = ' . (int) $tagId);
-			}
-
 			$query->select('DISTINCT pt.*')
 				->from($db->qn('#__redshop_product_tags', 'pt'))
 				->leftJoin(
@@ -177,6 +146,16 @@ class RedshopModelAccount extends RedshopModel
 				)
 				->where($db->qn('ptx.users_id') . ' = ' . (int) $userId)
 				->where($db->qn('pt.published') . ' = 1');
+
+			if ($tagId != 0)
+			{
+				$query->select(array('ptx.product_id', 'p.*'))
+					->leftJoin(
+						$db->qn('#__redshop_product', 'p')
+						. ' ON ' . $db->qn('ptx.product_id') . ' = ' . $db->qn('p.product_id')
+					)
+					->where($db->qn('pt.tags_id') . ' = ' . (int) $tagId);
+			}
 
 			return $query;
 		}
@@ -189,7 +168,7 @@ class RedshopModelAccount extends RedshopModel
 				->from($db->qn('#__redshop_wishlist', 'w'))
 				->leftJoin($db->qn('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
 				->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
-				->where('w.user_id = ' . (int) $userId->id)
+				->where('w.user_id = ' . (int) $userId)
 				->where('w.wishlist_id = ' . (int) $wishListId)
 				->where('pw.wishlist_id = ' . (int) $wishListId);
 
@@ -265,44 +244,6 @@ class RedshopModelAccount extends RedshopModel
 		}
 
 		return $this->_total;
-	}
-
-	/**
-	 * Count my tags
-	 *
-	 * @return  integer
-	 * @throws  Exception
-	 */
-	public function countMyTags()
-	{
-		$userId = JFactory::getUser()->id;
-		$db     = JFactory::getDbo();
-		$query  = $db->getQuery(true)
-			->select('COUNT(pt.tags_id)')
-			->from($db->quoteName('#__redshop_product_tags', 'pt'))
-			->leftJoin($db->quoteName('#__redshop_product_tags_xref', 'ptx') . ' ON pt.tags_id = ptx.tags_id')
-			->where('ptx.users_id = ' . (int) $userId)
-			->where('pt.published = 1');
-
-		return (int) $db->setQuery($query)->loadResult();
-	}
-
-	/**
-	 * Get number of wishlist
-	 *
-	 * @return  integer
-	 *
-	 * @since   2.0.2
-	 */
-	public function countMyWishlist()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->quoteName('#__redshop_wishlist', 'pw'))
-			->where('pw.user_id = ' . (int) JFactory::getUser()->id);
-
-		return $db->setQuery($query)->loadResult();
 	}
 
 	/**
@@ -482,26 +423,6 @@ class RedshopModelAccount extends RedshopModel
 	}
 
 	/**
-	 * Get compare products
-	 *
-	 * @return  array
-	 * @deprecated 2.1.0
-	 */
-	public function getCompare()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('pc.compare_id'))
-			->select($db->qn('pc.user_id'))
-			->select('p.*')
-			->from($db->qn('#__redshop_product_compare', 'pc'))
-			->leftJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
-			->where($db->qn('pc.user_id') . ' = ' . (int) JFactory::getUser()->id);
-
-		return $this->_getList($query);
-	}
-
-	/**
 	 * Method for remove compare
 	 *
 	 * @return void
@@ -530,65 +451,6 @@ class RedshopModelAccount extends RedshopModel
 		}
 
 		$app->redirect(JRoute::_('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $itemId, false));
-	}
-
-	/**
-	 * Method for send wishlist
-	 *
-	 * @param   array $post Data
-	 *
-	 * @return  boolean
-	 * @throws  Exception
-	 *
-	 * @deprecated 2.1.0 Redshop\Account\Wishlist::send
-	 * @see        Redshop\Account\Wishlist::send
-	 */
-	public function sendWishlist($post)
-	{
-		return Redshop\Account\Wishlist::send($post);
-	}
-
-	/**
-	 * Method for get reserve discount
-	 *
-	 * @return  integer
-	 * @deprecated 2.1.0 Redshop\Account\Helper::getReserveDiscount
-	 * @see        Redshop\Account\Helper::getReserveDiscount
-	 */
-	public function getReserveDiscount()
-	{
-		return Redshop\Account\Helper::getReserveDiscount();
-	}
-
-	/**
-	 * Method for get list of downloadable product on specific user
-	 *
-	 * @param   integer $user_id User ID
-	 *
-	 * @return  array
-	 *
-	 * @deprecated 2.1.0 Redshop\Account\Helper::getDownloadProductList
-	 * @see        Redshop\Account\Helper::getDownloadProductList
-	 */
-	public function getdownloadproductlist($user_id)
-	{
-		return Redshop\Account\Helper::getDownloadProductList($user_id);
-	}
-
-	/**
-	 * Method for get remaining coupon amount of specific user
-	 *
-	 * @param   integer $user_id      User Id
-	 * @param   string  $coupone_code Coupon code
-	 *
-	 * @return  float
-	 *
-	 * @deprecated 2.1.0 Redshop\Account\Helper::getUnusedCouponAmount
-	 * @see        Redshop\Account\Helper::getUnusedCouponAmount
-	 */
-	public function unused_coupon_amount($user_id, $coupone_code)
-	{
-		return Redshop\Account\Helper::getUnusedCouponAmount($user_id, $coupone_code);
 	}
 
 	/**

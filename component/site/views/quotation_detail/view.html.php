@@ -48,7 +48,7 @@ class RedshopViewQuotation_Detail extends RedshopView
 
 		$quotationDetail = RedshopHelperQuotation::getQuotationDetail($quoid);
 
-		if (count($quotationDetail) < 1)
+		if (empty($quotationDetail))
 		{
 			JError::raiseWarning(404, JText::_('COM_REDSHOP_NOACCESS_QUOTATION'));
 			echo JText::_('COM_REDSHOP_NOACCESS_QUOTATION');
@@ -80,7 +80,7 @@ class RedshopViewQuotation_Detail extends RedshopView
 		}
 		else
 		{
-			if (count($quotationDetail) > 0 && $quotationDetail->user_id != $user->id)
+			if (isset($quotationDetail->user_id) && $quotationDetail->user_id != $user->id)
 			{
 				JError::raiseWarning(404, JText::_('COM_REDSHOP_NOACCESS_QUOTATION'));
 				echo JText::_('COM_REDSHOP_NOACCESS_QUOTATION');

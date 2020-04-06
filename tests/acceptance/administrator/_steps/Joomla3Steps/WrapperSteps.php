@@ -95,6 +95,7 @@ class WrapperSteps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->waitForText(\WrapperPage::$buttonDelete, 30);
 		$I->click(\WrapperPage::$buttonDelete);
+		$I->acceptPopup();
 		$I->dontSeeElement(['link' => $nameWrapper]);
 	}
 

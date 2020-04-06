@@ -323,40 +323,6 @@ class RedshopModelManufacturers extends RedshopModel
 		return $query;
 	}
 
-	public function getmanufacturercategory($mid, $tblobj)
-	{
-		$plg_manufacturer = RedshopHelperOrder::getParameters('plg_manucaturer_excluding_category');
-		$db = $this->_db;
-
-		$query = $db->getQuery(true)
-			->select('DISTINCT(c.id)')
-			->select($db->qn('c.name'))
-			->select($db->qn('c.short_description'))
-			->select($db->qn('c.description'))
-			->select($db->qn('c.category_thumb_image'))
-			->select($db->qn('c.category_full_image'))
-			->from($db->qn('#__redshop_product') . ' AS p')
-			->leftJoin($db->qn('#__redshop_product_category_xref') . ' AS pc' . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pc.product_id'))
-			->leftJoin($db->qn('#__redshop_category') . ' AS c' . ' ON ' . $db->qn('pc.category_id') . ' = ' . $db->qn('c.id'))
-			->where($db->qn('p.published') . ' = 1')
-			->where($db->qn('p.manufacturer_id') . ' = ' . $db->q((int) $mid))
-			->where($db->qn('p.expired') . ' = 0')
-			->where($db->qn('p.product_parent_id') . ' = 0');
-
-		if (!empty($plg_manufacturer) && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
-		{
-			$excluding_category_list = explode(',', $tblobj->excluding_category_list);
-
-			if (!empty($excluding_category_list))
-			{
-				$excluding_category_list = implode(',', \Joomla\Utilities\ArrayHelper::toInteger($excluding_category_list));
-				$query->where($db->qn('c.id') . ' NOT IN (' . $excluding_category_list . ')');
-			}
-		}
-
-		return $db->setQuery($query)->loadObjectlist();
-	}
-
 	public function getProductTotal()
 	{
 		$query = $this->_buildProductQuery();

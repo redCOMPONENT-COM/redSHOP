@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 JHtml::_('behavior.modal', 'a.joom-box');
 
 $showall = JFactory::getApplication()->input->get('showall', '0');
@@ -16,21 +15,10 @@ $tmpl = '';
 $uri = JURI::getInstance();
 $url = $uri->root(); ?>
 <script language="javascript" type="text/javascript">
+    var viewForm = 'wrapper';
     Joomla.submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-        if ((pressbutton == 'add') || (pressbutton == 'edit')) {
-            form.view.value = "wrapper_detail";
-        }
-        try {
-            form.onsubmit();
-        }
-        catch (e) {
-        }
-        form.submit();
-    }
+        checkSubmit(pressbutton, viewForm);
+    };
 </script>
 <?php if ($showall)
 {

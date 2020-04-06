@@ -49,6 +49,11 @@ $formToken = JSession::getFormToken();
                 });
 
                 $("#export_btn_start").click(function (event) {
+                    if ($("#export_plugins input[type='radio']:checked").length == 0)
+                    {
+                        alert('<?php echo JText::_('COM_REDSHOP_CHOOSE_SELECTION') ?>');
+                    }
+
                     if ($("#export_plugins input[type='radio']:checked").length)
                     {
                         $("#export_plugins").addClass("disabled muted");

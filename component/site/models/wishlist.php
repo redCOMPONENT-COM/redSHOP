@@ -157,7 +157,7 @@ class RedshopModelWishlist extends RedshopModel
 			foreach ($wishes as $wish)
 			{
 				$newWish                = clone $products[$productId];
-				$newWish->product_items = $wish->product_items;
+				$newWish->product_items = $wish->product_items ?? '';
 
 				$rows[] = $newWish;
 			}

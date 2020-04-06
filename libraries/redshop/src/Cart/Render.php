@@ -69,6 +69,20 @@ class Render
 
         $taxExemptAddToCart = \RedshopHelperCart::taxExemptAddToCart($userId, true);
         $cartTemplate = \Redshop\Template\Helper::getAddToCart($content);
+
+        if (null === $cartTemplate) {
+            if (!empty($content)) {
+                $cartTemplate                = new \stdClass;
+                $cartTemplate->name          = "";
+                $cartTemplate->template_desc = "";
+            } else {
+                $cartTemplate                = new \stdClass;
+                $cartTemplate->name          = "notemplate";
+                $cartTemplate->template_desc = "<div>{addtocart_link}</div>";
+                $content                     = "{form_addtocart:$cartTemplate->name}";
+            }
+        }
+
         $cartForm = $cartTemplate->template_desc ?? '';
 
         $cartTemplateWapper = \RedshopTagsReplacer::_(
