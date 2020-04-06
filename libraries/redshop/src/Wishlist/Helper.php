@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 /**
  * @package     Redshop\Wishlist
  *
- * @since       __DEPLOY_VERSION__
+ * @since       3.0.1
  */
 class Helper
 {

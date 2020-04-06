@@ -129,7 +129,7 @@ class RedshopViewAccount extends RedshopView
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function layoutMytags()
 	{
@@ -175,7 +175,7 @@ class RedshopViewAccount extends RedshopView
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function layoutMyWishlist()
 	{
@@ -240,7 +240,7 @@ class RedshopViewAccount extends RedshopView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function wishlistTemplate()
 	{
@@ -267,7 +267,7 @@ class RedshopViewAccount extends RedshopView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function wishlistMailTemplate()
 	{
@@ -295,7 +295,7 @@ class RedshopViewAccount extends RedshopView
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function layoutDefault()
 	{
@@ -324,7 +324,7 @@ class RedshopViewAccount extends RedshopView
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function layoutCards()
 	{

@@ -21,21 +21,21 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	/**
 	 * @var    array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $tags = array();
 
 	/**
 	 * @var    integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $itemId;
 
 	/**
 	 * @var    JUser
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private $user;
 
@@ -44,7 +44,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function init()
 	{
@@ -58,7 +58,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function replace()
 	{
@@ -179,7 +179,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceTagShipping()
 	{
@@ -218,7 +218,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceOrder()
 	{
@@ -305,7 +305,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceCoupon()
 	{
@@ -359,7 +359,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceMyTag()
 	{
@@ -407,7 +407,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceQuotation()
 	{
@@ -483,7 +483,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceWishlist()
 	{
@@ -530,7 +530,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceProductSerial()
 	{
@@ -577,7 +577,7 @@ class RedshopTagsSectionsAccount extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceCompareProduct()
 	{

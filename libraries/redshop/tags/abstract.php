@@ -68,21 +68,21 @@ abstract class RedshopTagsAbstract
 	/**
 	 * @var    array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $optionLayout;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $itemId;
 
 	/**
 	 * @var    JInput
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $input;
 
@@ -316,7 +316,7 @@ abstract class RedshopTagsAbstract
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public function getWidthHeight($template, $prefix, $redConfigHeight, $redConfigWidth)
 	{

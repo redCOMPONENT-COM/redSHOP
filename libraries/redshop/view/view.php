@@ -25,14 +25,14 @@ class RedshopView extends JViewLegacy
 	/**
 	 * @var  \JInput
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	protected $input;
 
 	/**
 	 * @var  CMSApplication
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	protected $app;
 

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Performance Helper
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0.1
  */
 class Helper
 {
@@ -37,7 +37,7 @@ class Helper
      * @param   bool  $force
      *
      * @return  mixed|null
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0.1
      */
     public static function load($property, $id, $subId = 0, $force = false)
     {
@@ -67,7 +67,7 @@ class Helper
      * @param $subId
      * @param $force
      *
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public static function save($property, $id, $data, $subId = 0, $force = false)
     {

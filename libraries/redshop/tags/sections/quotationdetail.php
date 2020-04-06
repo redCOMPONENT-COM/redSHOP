@@ -12,14 +12,14 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class RedshopTagsSectionsQuotationDetail extends RedshopTagsAbstract
 {
 	/**
 	 * @var    integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $quotationId;
 
@@ -28,7 +28,7 @@ class RedshopTagsSectionsQuotationDetail extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function init()
 	{
@@ -185,7 +185,7 @@ class RedshopTagsSectionsQuotationDetail extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceProductLoop($fieldList, $quotationStatus)
 	{
@@ -299,7 +299,7 @@ class RedshopTagsSectionsQuotationDetail extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceProductImage($product)
 	{

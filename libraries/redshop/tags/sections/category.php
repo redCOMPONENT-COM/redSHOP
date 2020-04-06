@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 {
 	/**
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0.1
 	 */
 	public $tags = array(
 		'{name}',
@@ -35,7 +35,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * List of tag alias
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.0.1
 	 */
 	public $tagAlias = array(
 		'{category_short_desc}'        => '{category_short_description}',
@@ -51,7 +51,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function init()
 	{
@@ -64,7 +64,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function replace()
 	{
@@ -93,7 +93,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceCategory($category, $template, $isSubCat = false)
 	{
@@ -226,7 +226,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceCategoryProperties(&$template, $category)
 	{
@@ -280,7 +280,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceSubCategories($subCategories)
 	{
@@ -331,7 +331,7 @@ class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 	 * @return  string
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceSubCategoriesLevel2($category, $categoryTemplate)
 	{

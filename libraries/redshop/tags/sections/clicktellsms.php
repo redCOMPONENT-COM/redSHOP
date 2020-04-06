@@ -12,21 +12,21 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0.1
  */
 class RedshopTagsSectionsClicktellSms extends RedshopTagsAbstract
 {
     /**
      * @var    array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public $orderData = array();
 
     /**
      * @var    integer
      *
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public $paymentName = '';
 
@@ -35,7 +35,7 @@ class RedshopTagsSectionsClicktellSms extends RedshopTagsAbstract
      *
      * @return  void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public function init()
     {
@@ -49,7 +49,7 @@ class RedshopTagsSectionsClicktellSms extends RedshopTagsAbstract
      * @return string
      *
      * @throws Exception
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public function replace()
     {
