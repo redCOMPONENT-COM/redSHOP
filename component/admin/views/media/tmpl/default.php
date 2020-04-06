@@ -277,28 +277,8 @@ else
     <input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists ['order_Dir']; ?>"/>
 </form>
 <script type="text/javascript">
+    var viewForm = 'media_detail';
     Joomla.submitbutton = function (pressbutton) {
-        submitbutton(pressbutton);
+        checkSubmit(pressbutton, viewForm);
     };
-    submitbutton = function (pressbutton) {
-        var form = document.adminForm;
-        if (pressbutton) {
-            form.task.value = pressbutton;
-        }
-        if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'remove' || pressbutton == 'copy' || pressbutton == 'edit'
-            || pressbutton == 'saveorder' || pressbutton == 'orderup' || pressbutton == 'orderdown') {
-            form.view.value = "media_detail";
-        }
-        if (pressbutton == 'add')
-        {
-            form.submit();
-        }
-        else if (!$("input[type='checkbox'][id^='cb'][name^='cid']:checked").length)
-        {
-            alert("<?php echo JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST') ?>");
-        }
-        else {
-            form.submit();
-        }
-    }
 </script>

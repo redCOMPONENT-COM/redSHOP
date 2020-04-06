@@ -8,6 +8,7 @@
  */
 
 namespace Redshop\Account;
+use \Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
@@ -103,5 +104,27 @@ class Helper
 			->where($db->qn('coupon_code') . ' = ' . $db->quote($couponCode));
 
 		return (float) $db->setQuery($query)->loadResult();
+	}
+
+	/**
+	 * Count my tags
+	 *
+	 * @return  mixed
+	 * @throws  \Exception
+	 *
+	 * @since  3.0.1
+	 */
+	public static function countMyTags()
+	{
+		$userId = Factory::getUser()->id;
+		$db     = Factory::getDbo();
+		$query  = $db->getQuery(true)
+			->select('COUNT(pt.tags_id)')
+			->from($db->quoteName('#__redshop_product_tags', 'pt'))
+			->leftJoin($db->quoteName('#__redshop_product_tags_xref', 'ptx') . ' ON pt.tags_id = ptx.tags_id')
+			->where('ptx.users_id = ' . (int) $userId)
+			->where('pt.published = 1');
+
+		return (int) $db->setQuery($query)->loadResult();
 	}
 }

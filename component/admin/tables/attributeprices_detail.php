@@ -18,90 +18,82 @@ defined('_JEXEC') or die;
  */
 class Tableattributeprices_detail extends JTable
 {
-	public $price_id = 0;
+    public $price_id = 0;
 
-	public $section_id = null;
+    public $section_id = null;
 
-	public $section = null;
+    public $section = null;
 
-	public $product_price = null;
+    public $product_price = null;
 
-	public $product_currency = null;
+    public $product_currency = null;
 
-	public $cdate = null;
+    public $cdate = null;
 
-	public $shopper_group_id = null;
+    public $shopper_group_id = null;
 
-	public $price_quantity_start = 0;
+    public $price_quantity_start = 0;
 
-	public $price_quantity_end = 0;
+    public $price_quantity_end = 0;
 
-	public $discount_price = 0;
+    public $discount_price = 0;
 
-	public $discount_start_date = 0;
+    public $discount_start_date = 0;
 
-	public $discount_end_date = 0;
+    public $discount_end_date = 0;
 
-	/**
-	 * Object constructor to set table and key fields.
-	 *
-	 * @param   JDatabase &$db JDatabase connector object.
-	 */
-	public function __construct(&$db)
-	{
-		$this->_table_prefix = '#__redshop_';
-		parent::__construct($this->_table_prefix . 'product_attribute_price', 'price_id', $db);
-	}
+    /**
+     * Construct
+     * @since 3.0.1
+     */
+    public function __construct(&$db)
+    {
+        $this->_table_prefix = '#__redshop_';
+        parent::__construct($this->_table_prefix . 'product_attribute_price', 'price_id', $db);
+    }
 
-	/**
-	 * Method to check user entered valid quantity start and end for shopper group based price.
-	 *
-	 * @return boolean True on success.
-	 */
-	public function check()
-	{
-		$query = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
-			. $this->shopper_group_id . '" AND section_id = ' . (int) $this->section_id
-			. ' AND price_quantity_start <= ' . (int) $this->price_quantity_start
-			. ' AND price_quantity_end >= ' . (int) $this->price_quantity_start;
+    /**
+     * Method to check user entered valid quantity start and end for shopper group based price.
+     *
+     * @return bool
+     * @throws Exception
+     * @since __DEPLOY_VERSION))
+     */
+    public function check()
+    {
+        $xid = \Redshop\Attribute\Helper::getAttributePriceStartId($this);
+        $xidEnd = \Redshop\Attribute\Helper::getAttributePriceStartId($this);
+        
 
-		$this->_db->setQuery($query);
-		$xid = intval($this->_db->loadResult());
+        if (($xid || $xidEnd)
+            && (($xid != intval($this->price_id)
+                    && $xid != 0)
+                || ($xidEnd != intval($this->price_id)
+                    && $xidEnd != 0))
+        ) {
+            $this->_error = \Joomla\CMS\Language\Text::sprintf(
+                'WARNNAMETRYAGAIN',
+                \Joomla\CMS\Language\Text::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
 
-		$query_end = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
-			. $this->shopper_group_id . '" AND section_id = ' . (int) $this->section_id
-			. ' AND price_quantity_start <= ' . (int) $this->price_quantity_end
-			. ' AND price_quantity_end >= ' . (int) $this->price_quantity_end;
+            return false;
+        }
 
-		$this->_db->setQuery($query_end);
-		$xid_end = intval($this->_db->loadResult());
+        if ($this->price_quantity_start > $this->price_quantity_end) {
+            throw new \Exception(
+                \Joomla\CMS\Language\Text::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START')
+            );
 
-		if (($xid || $xid_end)
-			&& (            ($xid != intval($this->price_id)
-			&& $xid != 0)
-			|| (            $xid_end != intval($this->price_id)
-			&& $xid_end != 0            ))
-		)
-		{
-			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
+            return false;
+        }
 
-			return false;
-		}
+        if ($this->discount_start_date > $this->discount_end_date) {
+            throw new \Exception(
+                \Joomla\CMS\Language\Text::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE')
+            );
 
-		if ($this->price_quantity_start > $this->price_quantity_end)
-		{
-			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START'), 'error');
+            return false;
+        }
 
-			return false;
-		}
-
-		if ($this->discount_start_date > $this->discount_end_date)
-		{
-			/** @scrutinizer ignore-deprecated */ $this->/** @scrutinizer ignore-call */ setError(JText::_('COM_REDSHOP_PRODUCT_PRICE_END_DATE_MUST_MORE_THAN_START_DATE'), 'error');
-
-			return false;
-		}
-
-		return true;
-	}
+        return true;
+    }
 }

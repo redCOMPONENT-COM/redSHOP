@@ -58,7 +58,7 @@ class PlgRedshop_PdfTcPDF extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$this->tcpdf = new PlgRedshop_PdfTcPDFHelper;
+		$this->tcpdf = new PlgRedshop_PdfTcPDFHelper('P', 'mm', $this->params->get('pageformat'));
 		$this->tcpdf->setFontSubsetting(true);
 		$this->tcpdf->SetAuthor(JText::_('LIB_REDSHOP_PDF_CREATOR'));
 		$this->tcpdf->SetCreator(JText::_('LIB_REDSHOP_PDF_CREATOR'));

@@ -69,6 +69,7 @@ class OrderPaymentDiscountAndSpecialDiscountSteps extends OrderManagerJoomla3Ste
 		$I->waitForElementVisible($userOrderPage->returnSearch($productName), 30);
 		$I->click($userOrderPage->returnSearch($productName));
 		$I->wait(1);
+		$I->waitForElement(OrderManagerPage::$bankTranferPayment, 30);
 		$I->scrollto(OrderManagerPage::$bankTranferPayment);
 		$I->executeJS('window.scrollTo(0,100);');
 		$I->waitForElementVisible(OrderManagerPage::$bankTranferPayment, 30);

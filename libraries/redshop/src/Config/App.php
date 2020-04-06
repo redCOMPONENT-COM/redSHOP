@@ -738,7 +738,8 @@ class App
 			"CURRENCY_LAYER_ACCESS_KEY"                    => $data['currency_layer_access_key'],
 			"MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload'],
 			"WISHLIST_LIST"                                => $data["wishlist_list"],
-			"PRODUCT_DEFAULT_CATEGORY"                     => $data["product_default_category"]
+			"PRODUCT_DEFAULT_CATEGORY"                     => $data["product_default_category"],
+            "ENABLE_PERFORMANCE_MODE"                      => $data["enable_performance_mode"]
 		);
 
 		$configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];

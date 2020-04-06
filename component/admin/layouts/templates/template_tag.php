@@ -129,7 +129,7 @@ switch ($name)
 		?>
 		<h3><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT'); ?></h3>
 		{if subcats} {category_main_description} {category_main_short_desc} {category_main_name} {category_main_thumb_image} {subproductlimit:X} {subcats end if} <br />
-		{category_loop_start} {category_loop_end} {category_name} {category_description} {category_short_desc} {category_thumb_image} <br />
+		{category_loop_start} {category_loop_end} {category_name} {category_description} {category_short_desc} {category_thumb_image} {category_back_thumb_image} {category_thumb_image} <br />
 		{product_price_lbl} {product_price_slider} {include_product_in_sub_cat} {product_loop_start} {product_loop_end} {product_name} {product_price} {product_rating_summary} {product_s_desc} <br />
 		{pagination} {perpagelimit:X} {product_display_limit} {show_all_products_in_category} {order_by} {if product_on_sale} {product_on_sale end if} {price_excluding_vat} <br />
 		{more_documents} {product_id_lbl} {product_id} {product_number_lbl} {product_number} {product_discount_price} {product_old_price} {product_price_saving} {product_price_saving_percentage} {with_vat} {without_vat} {filter_by} <br />
@@ -141,7 +141,7 @@ switch ($name)
 	case 'category_product':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_PRODUCT_HINT'); ?></b><br /><br />
-		{print} {filter_by_lbl} {filter_by} {order_by_lbl} {order_by} {category_frontpage_introtext} {template_selector_category} {template_selector_category_lbl} {category_loop_start} {category_thumb_image} {category_name} {category_description} {category_thumb_image_2} {category_thumb_image_3} {category_readmore} {category_short_desc} {category_total_product_lbl} {category_total_product} {product_loop_start} {product_thumb_image} {product_name} {product_price} {read_more} {attribute_template:attributes} {form_addtocart:add_to_cart1} {product_id_lbl} {product_id} {product_thumb_image_3} {product_thumb_image_2} {product_number_lbl} {product_number} {product_size} {product_length} {product_width} {product_height} {read_more_link} {product_s_desc} {product_desc} {product_rating_summary} {manufacturer_link} {manufacturer_name} {manufacturer_product_link} {if product_userfield} {product_userfield end if} {product_loop_end} {category_loop_end} {pagination}
+		{print} {filter_by_lbl} {filter_by} {order_by_lbl} {order_by} {category_frontpage_introtext} {template_selector_category} {template_selector_category_lbl} {category_loop_start} {category_thumb_image} {category_back_thumb_image} {category_name} {category_description} {category_thumb_image_2} {category_thumb_image_3} {category_readmore} {category_short_desc} {category_total_product_lbl} {category_total_product} {product_loop_start} {product_thumb_image} {product_name} {product_price} {read_more} {attribute_template:attributes} {form_addtocart:add_to_cart1} {product_id_lbl} {product_id} {product_thumb_image_3} {product_thumb_image_2} {product_number_lbl} {product_number} {product_size} {product_length} {product_width} {product_height} {read_more_link} {product_s_desc} {product_desc} {product_rating_summary} {manufacturer_link} {manufacturer_name} {manufacturer_product_link} {if product_userfield} {product_userfield end if} {product_loop_end} {category_loop_end} {pagination}
 		<?php
 		break;
 	case 'change_cart_attribute':
@@ -200,7 +200,7 @@ switch ($name)
 	case 'frontpage_category':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_FRONTPAGE_CATEGORY_HINT'); ?></b><br /><br />
-		{category_frontpage_introtext} {category_frontpage_loop_start} {category_thumb_image} {category_name} {category_frontpage_loop_end} {pagination} {print} {category_thumb_image_2} {category_thumb_image_3} {category_readmore} {category_description} {category_short_desc} {category_total_product} {category_total_product_lbl}
+		{category_frontpage_introtext} {category_frontpage_loop_start} {category_thumb_image} {category_back_thumb_image} {category_name} {category_frontpage_loop_end} {pagination} {print} {category_thumb_image_2} {category_thumb_image_3} {category_readmore} {category_description} {category_short_desc} {category_total_product} {category_total_product_lbl}
 		<?php
 		break;
 	case 'giftcard':
@@ -467,9 +467,9 @@ switch ($name)
 	case 'wishlist':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_WISHLIST_HINT'); ?></b><br /><br />
-		{if product_userfield} {product_userfield end if} {all_cart} {attribute_template:attributes} {product_loop_start} {product_loop_end} {mail_link} {product_price} {remove_product_link} <br />
+		{if product_userfield} {product_userfield end if} {all_cart} {product_loop_start} {product_loop_end} {mail_link} {product_price} {remove_product_link} <br />
 		{product_thumb_image} {product_name} {back_link} {product_thumb_image_2} {product_thumb_image_3} <br />
-		{price_excluding_vat} {product_price_table} {product_old_price} {product_price_saving} {product_price_saving_percentage} {accessory_template:templatename} {product_s_desc} {read_more} {read_more_link}
+		{price_excluding_vat} {product_price_table} {product_old_price} {product_price_saving} {product_price_saving_percentage} {product_s_desc} {read_more} {read_more_link}
 		<?php
 		break;
 	case 'wishlist_mail':

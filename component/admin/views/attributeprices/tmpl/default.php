@@ -11,21 +11,10 @@ JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 $message = "alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove')) {
-			form.view.value = "attributeprices_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-		form.submit();
-	}
+    var viewForm = 'attributeprices_detail';
+    Joomla.submitbutton = function (pressbutton) {
+        checkSubmit(pressbutton, viewForm);
+    };
 </script>
 <fieldset>
 	<div style="float: right">

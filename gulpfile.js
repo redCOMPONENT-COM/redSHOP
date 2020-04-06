@@ -1,24 +1,13 @@
-var gulp       = require("gulp");
-var gutil      = require('gulp-util');
-var sass       = require("gulp-sass");
-var composer   = require('gulp-composer');
-var zip        = require("gulp-zip");
-var hashsum    = require("gulp-hashsum");
-var clean      = require('gulp-clean');
-var argv       = require("yargs").argv;
+var gulp = require("gulp");
+var composer = require('gulp-composer');
 var requireDir = require("require-dir");
-var fs         = require("fs");
-var path       = require("path");
-var glob       = require('glob');
-// XML parser
-var xml2js     = require("xml2js");
-
-var extension  = require("./package.json");
-var joomlaGulp = requireDir("./node_modules/joomla-gulp", {recurse: true});
-var jgulp      = requireDir("./jgulp", {recurse: true});
-var parser     = new xml2js.Parser();
-
+var fs = require("fs");
+const log = require('fancy-log');
+const colors = require('colors');
+var path = require("path");
+var glob = require('glob');
 global.config = require("./gulp-config.json");
+
 /**
  * Function for read list folder
  *
@@ -26,11 +15,11 @@ global.config = require("./gulp-config.json");
  *
  * @return array      Subfolder list.
  */
-global.getFolders = function getFolders(dir){
+global.getFolders = function getFolders(dir) {
     return fs.readdirSync(dir)
-        .filter(function(file){
-                return fs.statSync(path.join(dir, file)).isDirectory();
-            }
+        .filter(function (file) {
+            return fs.statSync(path.join(dir, file)).isDirectory();
+        }
         );
 }
 
@@ -43,18 +32,18 @@ global.getFolders = function getFolders(dir){
  * @param version
  * @param releasePath
  */
-global.renderLog = function renderLog(extension, group, extName, version, releasePath){
+global.renderLog = function renderLog(extension, group, extName, version, releasePath) {
     // We will output where release package is going so it is easier to find
-    gutil.log(
-        gutil.colors.green(extension),
+    log(
+        colors.green(extension),
         "  |  ",
-        gutil.colors.white(group),
+        colors.white(group),
         "  |  ",
-        gutil.colors.blue(extName),
+        colors.blue(extName),
         "  |  ",
-        gutil.colors.yellow(version),
+        colors.yellow(version),
         "|  ",
-        gutil.colors.grey(releasePath)
+        colors.grey(releasePath)
     );
 }
 
@@ -66,8 +55,7 @@ global.renderLog = function renderLog(extension, group, extName, version, releas
  * @param extName
  * @returns {[*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*]}
  */
-global.getGlobExtensionPattern = function getGlobExtensionPattern(extensionType, group, extName)
-{
+global.getGlobExtensionPattern = function getGlobExtensionPattern(extensionType, group, extName) {
     return [
         './' + extensionType + '/' + group + '/' + extName + '/**',
         '!./' + extensionType + '/' + group + '/' + extName + '/**/composer.json',
@@ -111,22 +99,25 @@ global.getGlobExtensionPattern = function getGlobExtensionPattern(extensionType,
  *
  * @param composerPath
  */
-global.executeComposer = function executeComposer (composerPath)
-{
-    gutil.log("Composer found: ", gutil.colors.blue(composerPath));
-    composer({cwd: composerPath, bin: 'php ./composer.phar'});
+global.executeComposer = function executeComposer(composerPath) {
+    log("Composer found: ", colors.blue(composerPath));
+    composer({ cwd: composerPath, bin: 'php ./composer.phar' });
 }
 
-gulp.task("composer", function(){
-    glob("**/composer.json", [], function  (er, files) {
+gulp.task("composer", function (cb) {
+    glob("**/composer.json", [], function (er, files) {
         for (var i = 0; i < files.length; i++) {
             var composerPath = path.dirname(files[i]);
 
             // Make sure this is not composer.json inside vendor library
             if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
-                gutil.log("Composer found: ", gutil.colors.blue(composerPath));
-                composer({cwd: composerPath, bin: 'php ./composer.phar'});
+                log("Composer found: ", colors.blue(composerPath));
+                composer({ cwd: composerPath, bin: 'php ./composer.phar' }).on('end', cb);
             }
         }
     });
 });
+
+var jgulp = requireDir("./redGulp/extensions", { recurse: true });
+var gulpSrc = requireDir("./redGulp/tasks", { recurse: true });
+var gulpSrc = requireDir("./redGulp/src", { recurse: true });

@@ -13,31 +13,10 @@ $config = Redconfiguration::getInstance();
 $model = $this->getModel('newslettersubscr');
 ?>
 <script language="javascript" type="text/javascript">
-
-	Joomla.submitbutton = function (pressbutton) {
-
-		var form = document.adminForm;
-
-		form.task.value = "";
-		form.view.value = "newslettersubscr";
-
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-
-		if ((pressbutton == 'add') || (pressbutton == 'edit')
-			|| (pressbutton == 'remove') || (pressbutton == 'export_data') || (pressbutton == 'export_acy_data')) {
-			form.view.value = "newslettersubscr_detail";
-
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
+    var viewForm = 'newslettersubscr_detail';
+    Joomla.submitbutton = function (pressbutton) {
+        checkSubmit(pressbutton, viewForm);
+    };
 
 	function clearreset() {
 		var form = document.adminForm;

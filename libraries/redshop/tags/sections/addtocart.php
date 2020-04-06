@@ -41,19 +41,6 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
         $fieldSection       = $this->data['fieldSection'];
 		$template = $this->template;
 
-        if (null === $cartTemplate) {
-            if (!empty($content)) {
-                $cartTemplate                = new \stdClass;
-                $cartTemplate->name          = "";
-                $cartTemplate->template_desc = "";
-            } else {
-                $cartTemplate                = new \stdClass;
-                $cartTemplate->name          = "notemplate";
-                $cartTemplate->template_desc = "<div>{addtocart_image_aslink}</div>";
-                $content                     = "{form_addtocart:$cartTemplate->name}";
-            }
-        }
-
         $input                = JFactory::getApplication()->input;
         $itemId               = $input->getInt('Itemid');
         $productQuantity      = $input->get('product_quantity');
@@ -307,7 +294,7 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
             $attributeSets = array();
 
             if ($product->attribute_set_id > 0) {
-                $attributeSets = \RedshopHelperProduct_Attribute::getProductAttribute(
+                $attributeSets = \Redshop\Product\Attribute::getProductAttribute(
                     0,
                     $product->attribute_set_id,
                     0,
@@ -713,6 +700,13 @@ class RedshopTagsSectionsAddToCart extends RedshopTagsAbstract
 
 				$this->replacements["{quantity_lbl}"] = $quantityLbl;
 				$template = $this->strReplace($this->replacements, $template);
+            }
+
+            $result = \RedshopHelperUtility::getDispatcher()->trigger('onDisplayText', array($product->product_id, $cart));
+
+            if (!empty($result))
+            {
+                $displayText = $result[0];
             }
 
             $layout = RedshopLayoutHelper::render(

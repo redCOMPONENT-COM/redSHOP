@@ -208,7 +208,7 @@ class ProductManagerPage extends AdminJ3Page
 	/**
 	 * @var string
 	 */
-	public static $quantity = "//span[@class='update_cart']//label";
+	public static $quantity = "//span[@class='update_cart']";
 	/**
 	 * @var string
 	 */
