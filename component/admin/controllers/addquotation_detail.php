@@ -171,7 +171,7 @@ class RedshopControllerAddquotation_Detail extends RedshopController
 
 		foreach ($propertiesId as $propertyId)
 		{
-			$response .= $model->replaceSubPropertyData($productId, $accessoryId, $attributeId, $propertyId, $uniqueId);
+			$response .= $model->replaceSubPropertyData($productId, $accessoryId, $attributeId, $propertyId, $uniqueId, true);
 		}
 
 		echo $response;

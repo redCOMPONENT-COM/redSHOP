@@ -192,7 +192,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $selectSubProperty = $selectedAttributes[1];
         }
 
-        self:$selectSubProperty = $selectSubProperty;
+        self::$selectSubProperty = $selectSubProperty;
 
         $attributeTemplateData = $attributeTemplate->template_desc;
 
@@ -216,13 +216,13 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 );
             }
 
-            $attributeTable = RedshopLayoutHelper::render(
+            $attributeTable = \RedshopLayoutHelper::render(
                 'tags.attributes.attribute_template',
                 [
                     'content' => $attributeTable
                 ],
                 '',
-                RedshopLayoutHelper::$layoutOption
+                \RedshopLayoutHelper::$layoutOption
             );
 
             $this->replacements["{attribute_template:$attributeTemplate->name}"] = $attributeTable;
@@ -268,9 +268,12 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $property
         );
 
-        self::$propertyStockRooms         = RedshopHelperStockroom::getMultiSectionsStock($propertyIds, 'property');
-        self::$propertyPreOrderStockRooms = RedshopHelperStockroom::getMultiSectionsPreOrderStock($propertyIds, 'property');
-        $attributeTable             = '';
+        self::$propertyStockRooms         = \RedshopHelperStockroom::getMultiSectionsStock($propertyIds, 'property');
+        self::$propertyPreOrderStockRooms = \RedshopHelperStockroom::getMultiSectionsPreOrderStock(
+            $propertyIds,
+            'property'
+        );
+        $attributeTable                   = '';
         if ($attribute->text != "" && count($property) > 0) {
             $attributeTable .= $attributeTemplateData;
 
@@ -303,14 +306,14 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 );
             }
 
-            $propertyWoscrollerDiv = RedshopLayoutHelper::render(
+            $propertyWoscrollerDiv = \RedshopLayoutHelper::render(
                 'tags.attributes.property_image_w_scroller',
                 array(
                     'propertyImgWScroller' => $propertyImgWScroller,
                     'content'              => $propertyWoscrollerDiv
                 ),
                 '',
-                RedshopLayoutHelper::$layoutOption
+                \RedshopLayoutHelper::$layoutOption
             );
 
             if (!$this->mphThumb) {
@@ -382,7 +385,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $propertyId
             );
 
-            $attributeTable .= RedshopLayoutHelper::render(
+            $attributeTable .= \RedshopLayoutHelper::render(
                 'tags.common.input',
                 array(
                     'type'  => 'hidden',
@@ -390,7 +393,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                     'value' => $attribute->value
                 ),
                 '',
-                RedshopLayoutHelper::$layoutOption
+                \RedshopLayoutHelper::$layoutOption
             );
 
             if ($attribute->attribute_required > 0) {
@@ -419,9 +422,9 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             }
 
             $replaceAttr['{attribute_title}']   = $attrTitle;
-            $replaceAttr['{property_dropdown}'] = $lists ['property_id'];
+            $replaceAttr['{property_dropdown}'] = $lists['property_id'];
 
-            $propertyScroller = RedshopLayoutHelper::render(
+            $propertyScroller = \RedshopLayoutHelper::render(
                 'tags.attributes.property_scroller',
                 array(
                     'attribute'        => $attribute,
@@ -436,7 +439,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                     'height'           => $this->mphThumb
                 ),
                 '',
-                RedshopLayoutHelper::$layoutOption
+                \RedshopLayoutHelper::$layoutOption
             );
 
             // Changes for attribue Image Scroll
@@ -452,7 +455,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             } else {
                 $style = ' style="display:none" ';
             }
-
+            $attributeTable = $this->strReplace($replaceAttr, $attributeTable);
             $subPropertyData  = "";
             $subPropertyStart = $attributeTable;
             $subPropertyEnd   = "";
@@ -477,14 +480,13 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 }
             }
 
-            $subPropertyStart = '<div id="property_responce' . $commonId . '" ' . $style . '>';
+            $subPropertyStartTag = '<div id="property_responce' . $commonId . '" ' . $style . '>';
 
             $displaySubProperty = "";
 
             $layout = JFactory::getApplication()->input->getCmd('layout', '');
 
             foreach ($defaultPropertyId as $aDefaultPropertyId) {
-//				$displaySubProperty .= $this->replaceSubPropertyData(
                 $displaySubProperty .= RedshopHelperProduct::replaceSubPropertyData(
                     $productId,
                     $accessoryId,
@@ -502,7 +504,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $attributeTable = str_replace($replaceMiddle, $displaySubProperty, $attributeTable);
             }
 
-            $attributeTable .= RedshopLayoutHelper::render(
+            $attributeTable .= \RedshopLayoutHelper::render(
                 'tags.common.input',
                 [
                     'type'  => 'hidden',
@@ -510,15 +512,14 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                     'value' => base64_encode(htmlspecialchars($subPropertyData))
                 ],
                 '',
-                RedshopLayoutHelper::$layoutOption
+                \RedshopLayoutHelper::$layoutOption
             );
 
-            $replaceAttr['{subproperty_start}'] = $subPropertyStart;
-            $attributeTable                     = str_replace("{subproperty_end}", "</div>", $attributeTable);
-            $replaceAttr['{subproperty_end}']   = "</div>";
+            $attributeTable = str_replace("{subproperty_start}", $subPropertyStartTag, $attributeTable);
+            $attributeTable = str_replace("{subproperty_end}", "</div>", $attributeTable);
         }
 
-        return $this->strReplace($replaceAttr, $attributeTable);
+        return $attributeTable;
     }
 
     public function replaceProperty(
@@ -526,7 +527,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         &$imgAdded,
         $property,
         $selectProperty,
-        $selectedProperty,
+        &$selectedProperty,
         $propertyId,
         $productId,
         $relatedProductId,
@@ -568,8 +569,8 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             },
             $subProperty
         );
-        $subPropertyStockrooms         = RedshopHelperStockroom::getMultiSectionsStock($subPropertyIds, 'subproperty');
-        $subPropertyPreOrderStockrooms = RedshopHelperStockroom::getMultiSectionsPreOrderStock(
+        $subPropertyStockrooms         = \RedshopHelperStockroom::getMultiSectionsStock($subPropertyIds, 'subproperty');
+        $subPropertyPreOrderStockrooms = \RedshopHelperStockroom::getMultiSectionsPreOrderStock(
             $subPropertyIds,
             'subproperty'
         );
@@ -590,8 +591,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
         if ($property->property_image) {
             if (JFile::exists(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property->property_image)) {
-
-                $thumbUrl = RedshopHelperMedia::getImagePath(
+                $thumbUrl = \RedshopHelperMedia::getImagePath(
                     $property->property_image,
                     '',
                     'thumb',
@@ -604,11 +604,11 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $style = null;
 
                 if ($property->setdefault_selected && self::$preSelected) {
-                    $style       = ' style="border: 1px solid;"';
+                    $style             = ' style="border: 1px solid;"';
                     self::$preSelected = false;
                 }
 
-                $propertyWoscrollerDiv .= RedshopLayoutHelper::render(
+                $propertyWoscrollerDiv .= \RedshopLayoutHelper::render(
                     'tags.attributes.support_property_scroller',
                     [
                         'style'            => $style,
@@ -623,7 +623,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                         'thumbUrl'         => $thumbUrl
                     ],
                     '',
-                    RedshopLayoutHelper::$layoutOption
+                    \RedshopLayoutHelper::$layoutOption
                 );
 
                 $imgAdded++;
@@ -631,10 +631,14 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         }
 
         $attributesPropertyVatShow    = 0;
-	    $attributesPropertyWithoutVat = 0;
+        $attributesPropertyWithoutVat = 0;
         $attributesPropertyOldPrice   = 0;
 
         if ($property->property_price > 0) {
+            if ($property->setdefault_selected && !empty($property->property_price_without_vat)) {
+                $property->property_price = $property->property_price_without_vat;
+            }
+
             $attributesPropertyOldPrice = $property->property_price;
 
             $pricelist = RedshopHelperProduct_Attribute::getPropertyPrice($property->value, 1, 'property');
@@ -643,7 +647,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 $property->property_price = $pricelist->product_price;
             }
 
-	        $attributesPropertyWithoutVat = $property->property_price;
+            $attributesPropertyWithoutVat = $property->property_price;
 
             /*
              * changes for {without_vat} tag output parsing
@@ -670,7 +674,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             /*
              * get product vat to include
              */
-            $attributesPropertyVat    = RedshopHelperProduct::getProductTax(
+            $attributesPropertyVat = RedshopHelperProduct::getProductTax(
                 $productId,
                 $property->property_price,
                 \JFactory::getUser()->id
@@ -702,7 +706,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         // Add pre-order stock data into property data.
         $property->preorder_stock = self::$preOrderPropertyStock;
 
-        $attributeTable .= RedshopLayoutHelper::render(
+        $attributeTable .= \RedshopLayoutHelper::render(
             'tags.attributes.subtemplate_attribute',
             [
                 'propertyId'                   => $propertyId,
@@ -714,7 +718,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
                 'preorderPropertyStock'        => !empty(self::$preOrderPropertyStock) ? self::$preOrderPropertyStock : 0
             ],
             '',
-            RedshopLayoutHelper::$layoutOption
+            \RedshopLayoutHelper::$layoutOption
         );
 
         return $propertyWoscrollerDiv;

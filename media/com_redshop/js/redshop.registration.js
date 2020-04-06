@@ -47,7 +47,7 @@ if (typeof(window['jQuery']) != "undefined") {
                 username: {
                     required: function () {
                         return rs("#createaccount") && rs("#createaccount").is(":checked")
-                            || (!rs("#createaccount") && rs("#username"));
+                            || (!rs("#createaccount").length && rs("#username").length);
                     },
                     minlength: 2,
                     remote :
@@ -107,14 +107,17 @@ if (typeof(window['jQuery']) != "undefined") {
                 },
                 password1: {
                     required: function () {
-                        return rs("#createaccount") && rs("#createaccount").is(":checked") || (rs("#user_id") && rs("#user_id").val() == 0 && rs("#password1"));
+                        return rs("#createaccount") && rs("#createaccount").is(":checked") ||
+                            (rs("#user_id") && rs("#user_id").val() == 0 && rs("#password1")) ||
+                            (!rs("#createaccount").length && rs("#password1").length);
                     },
                     minlength: 5
                 },
                 password2: {
                     required: function () {
                         return rs("#createaccount") && rs("#createaccount").is(":checked")
-                            || (rs("#user_id") && rs("#user_id").val() == 0 && rs("#password2"));
+                            || (rs("#user_id") && rs("#user_id").val() == 0 && rs("#password2")) ||
+                            (!rs("#createaccount").length && rs("#password2").length);
                     },
                     minlength: 5,
                     equalTo: "#password1"

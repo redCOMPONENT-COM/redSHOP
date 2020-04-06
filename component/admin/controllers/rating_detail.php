@@ -33,20 +33,26 @@ class RedshopControllerRating_detail extends RedshopController
 		parent::display();
 	}
 
+	public function apply()
+	{
+		$this->save(1);
+	}
+
 	public function save()
 	{
 		$post            = $this->input->post->getArray();
 		$comment         = $this->input->post->get('comment', '', 'raw');
 		$post["comment"] = $comment;
+		$task = $post['task'];
+		$cid = $this->input->post->get('cid', 0);
 
-		$cid = $this->input->post->get('cid', array(0), 'array');
-
-		$post ['rating_id'] = $cid [0];
+		$post['rating_id'] = $cid;
 
 		/** @var RedshopModelRating_detail $model */
 		$model = $this->getModel('rating_detail');
+		$row = $model->store($post);
 
-		if ($model->store($post))
+		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_RATING_DETAIL_SAVED');
 		}
@@ -55,7 +61,13 @@ class RedshopControllerRating_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_RATING_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
+		if ($task == 'rating_detail.apply') {
+			$ratingId = max((int)$cid, (int)$row['rating_id']);
+
+			$this->setRedirect('index.php?option=com_redshop&view=rating_detail&layout=edit&cid=' . $ratingId, $msg);
+		} else {
+			$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
+		}
 	}
 
 	public function remove()
