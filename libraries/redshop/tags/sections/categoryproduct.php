@@ -16,14 +16,14 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 {
 	/**
 	 * @var  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $detail;
 
@@ -32,7 +32,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function init()
 	{
@@ -142,7 +142,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceCategory()
 	{
@@ -182,7 +182,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceCategoryItem($template, $infoImgCategory, $category, $extraFieldName)
 	{
@@ -336,7 +336,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceProduct($template, $catId)
 	{
@@ -376,7 +376,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceProductItem($product, $template, $extraFieldName, $attributeTemplate, $catId)
 	{
@@ -792,7 +792,7 @@ class RedshopTagsSectionsCategoryProduct extends RedshopTagsAbstract
 	 * @param integer $productId
 	 *
 	 * @return  string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceProductUserField($template, $userFieldArr, $productId)
 	{

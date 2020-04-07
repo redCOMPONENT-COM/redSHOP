@@ -44,7 +44,7 @@ class Tableattributeprices_detail extends JTable
 
     /**
      * Construct
-     * @since __DEPLOY_VERSION__
+     * @since 3.0.1
      */
     public function __construct(&$db)
     {

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 /**
  * Catalog sample
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class Sample
 {
@@ -25,7 +25,7 @@ class Sample
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public static function getCatalogSampleList()
 	{
@@ -45,7 +45,7 @@ class Sample
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public static function getCatalogSampleColorList($sampleId = 0)
 	{

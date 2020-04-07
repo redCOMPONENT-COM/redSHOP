@@ -25,14 +25,14 @@ class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
 	/**
 	 * @var    string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	protected $width = 'MANUFACTURER_PRODUCT_THUMB_WIDTH';
 
 	/**
 	 * @var    string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	protected $height = 'MANUFACTURER_PRODUCT_THUMB_HEIGHT';
 

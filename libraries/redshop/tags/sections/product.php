@@ -12,14 +12,14 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 {
 	/**
 	 * @var    array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $tags = [
 		'{back_link}',
@@ -77,35 +77,35 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	/**
 	 * @var    \JDatabaseDriver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $db;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $itemId;
 
 	/**
 	 * @var    \JInput
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $input;
 
 	/**
 	 * @var    object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $product;
 
 	/**
 	 * @var    array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $infoTagImg;
 
@@ -114,7 +114,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function init()
 	{
@@ -136,7 +136,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function replace()
 	{
@@ -1200,7 +1200,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceNavigationNextPrev()
 	{
@@ -1310,7 +1310,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceManufactureImage()
 	{
@@ -1371,7 +1371,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceWrapper()
 	{
@@ -1403,7 +1403,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceThumbImg($preSelectedResult)
 	{
@@ -1443,7 +1443,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceMoreImage($moreImageResponse)
 	{
@@ -1486,7 +1486,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceMoreImageItem($mediaImage, $infoMoreImg)
 	{
@@ -1666,7 +1666,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceUserField($userFieldArr, &$countNoUserField)
 	{
@@ -1732,7 +1732,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceCategoryProductImg()
 	{
@@ -1801,7 +1801,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceFrontImgLink()
 	{
@@ -1871,7 +1871,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceProductSubscription()
 	{
@@ -1903,7 +1903,7 @@ class RedshopTagsSectionsProduct extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	private function replaceQuestionAnswer()
 	{

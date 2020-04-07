@@ -250,7 +250,7 @@ class Helper
 	 * @param array $data
 	 *
 	 * @return boolean|string return true if accesory in stock, return string if accessory out of stock
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public static function checkStockAccessory($data)
 	{

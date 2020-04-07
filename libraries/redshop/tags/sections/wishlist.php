@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since __DEPLOY_VERSION__
+ * @since 3.0.1
  */
 class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 {
@@ -21,35 +21,35 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public $wishlistId;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public $itemId;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public $mainId = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public $totalId = null;
 
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public $totalCountNoUserField = null;
 
@@ -63,21 +63,21 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	/**
 	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public $view;
 
 	/**
 	 * @var    string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public $height = 'CATEGORY_PRODUCT_THUMB_HEIGHT';
 
 	/**
 	 * @var    string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public $width = 'CATEGORY_PRODUCT_THUMB_WIDTH';
 
@@ -86,7 +86,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public function init()
 	{
@@ -101,7 +101,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 * @return string
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public function replace()
 	{
@@ -306,7 +306,7 @@ class RedshopTagsSectionsWishlist extends RedshopTagsAbstract
 	 * @return bool
 	 *
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.0.1
 	 */
 	public function replaceProduct($wishlist, $templateProduct)
 	{

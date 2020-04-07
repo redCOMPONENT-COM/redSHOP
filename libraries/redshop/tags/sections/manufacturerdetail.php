@@ -23,7 +23,7 @@ class RedshopTagsSectionsManufacturerDetail extends RedshopTagsAbstract
 	/**
 	 * @var    integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public $itemId;
 
@@ -32,7 +32,7 @@ class RedshopTagsSectionsManufacturerDetail extends RedshopTagsAbstract
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.0.1
 	 */
 	public function init()
 	{
