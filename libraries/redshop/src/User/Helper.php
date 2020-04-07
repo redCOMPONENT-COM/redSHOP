@@ -73,9 +73,9 @@ class Helper
             }
         }
 
-        $query->from($db->qn('#__users', 'u'));
-        $query->leftJoin($db->qn('#__redshop_users_info', 'ui')
-            . 'ON' . $db->qn('u.id') . '=' . $db->qn('ui.user_id'));
+        $query->from($db->qn('#__redshop_users_info', 'ui'));
+        $query->leftJoin($db->qn('#__users', 'u')
+            . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ui.user_id'));
 
         if (count($conditions) > 0)
         {
