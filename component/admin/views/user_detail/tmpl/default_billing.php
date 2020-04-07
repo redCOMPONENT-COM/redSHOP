@@ -22,8 +22,8 @@ else
 	$allowCompany = 'style="display:none;"';
 }
 
-$countrystyle = (isset($this->showcountry) && $this->showcountry == 0) ? ' style="display:none;" ' : '';
-$statestyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="display:none;" ' : '';
+$countryStyle = (isset($this->showcountry) && $this->showcountry == 0) ? ' style="display:none;" ' : '';
+$stateStyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="display:none;" ' : '';
 ?>
 <div class="col50">
     <table class="admintable table">
@@ -60,17 +60,17 @@ $statestyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
 				<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CITY'), JText::_('COM_REDSHOP_CITY'), 'tooltip.png', '', '', false); ?>
             </td>
         </tr>
-        <tr <?php echo $countrystyle; ?>>
+        <tr <?php echo $countryStyle; ?>>
             <td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
             <td><?php echo $this->lists['country_code']; ?>
 				<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_COUNTRY'), JText::_('COM_REDSHOP_Country'), 'tooltip.png', '', '', false); ?></td>
         </tr>
-        <tr <?php echo $countrystyle; ?>>
+        <tr <?php echo $countryStyle; ?>>
             <td valign="top" align="right" class="key">
-                <div id="div_state_lbl" <?php echo $statestyle; ?>><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</div>
+                <div id="div_state_lbl" <?php echo $stateStyle; ?>><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</div>
             </td>
             <td>
-                <div id="div_state_txt" <?php echo $statestyle; ?>><?php echo $this->lists['state_code']; ?>
+                <div id="div_state_txt" <?php echo $stateStyle; ?>><?php echo $this->lists['state_code']; ?>
 					<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_STATE'), JText::_('COM_REDSHOP_State'), 'tooltip.png', '', '', false); ?></div>
             </td>
         </tr>
@@ -151,17 +151,21 @@ $statestyle   = (isset($this->showstates) && $this->showstates == 0) ? ' style="
 		<?php
 		if ($this->shipping)
 		{
+            $userInfoId  = \JFactory::getApplication()->input->getInt('info_id', 0);
+            $user = \Redshop\User\Helper::getUsers([], ['ui.users_info_id' => ['=' => $userInfoId]])[0];
 			?>
-            <input type="hidden" name="email" value="<?php echo $this->detail->email; ?>"/>
-            <input type="hidden" name="is_company" value="<?php echo $this->detail->is_company; ?>"/>
-            <input type="hidden" name="shopper_group_id" value="<?php echo $this->detail->shopper_group_id; ?>"/>
-            <input type="hidden" name="company_name" value="<?php echo $this->detail->company_name; ?>"/>
-            <input type="hidden" name="ean_number" value="<?php echo $this->detail->ean_number; ?>"/>
-            <input type="hidden" name="vat_number" value="<?php echo $this->detail->vat_number; ?>"/>
-            <input type="hidden" name="tax_exempt" value="<?php echo $this->detail->tax_exempt; ?>"/>
+            <input type="hidden" name="user_id" value="<?php echo $user->user_id; ?>"/>
+            <input type="hidden" name="user_info_id" value="<?php echo $userInfoId ?>"/>
+            <input type="hidden" name="email" value="<?php echo $user->email; ?>"/>
+            <input type="hidden" name="is_company" value="<?php echo $user->is_company; ?>"/>
+            <input type="hidden" name="shopper_group_id" value="<?php echo $user->shopper_group_id; ?>"/>
+            <input type="hidden" name="company_name" value="<?php echo $user->company_name; ?>"/>
+            <input type="hidden" name="ean_number" value="<?php echo $user->ean_number; ?>"/>
+            <input type="hidden" name="vat_number" value="<?php echo $user->vat_number; ?>"/>
+            <input type="hidden" name="tax_exempt" value="<?php echo $user->tax_exempt; ?>"/>
             <input type="hidden" name="requesting_tax_exempt"
-                   value="<?php echo $this->detail->requesting_tax_exempt; ?>"/>
-            <input type="hidden" name="tax_exempt_approved" value="<?php echo $this->detail->tax_exempt_approved; ?>"/>
+                   value="<?php echo $user->requesting_tax_exempt; ?>"/>
+            <input type="hidden" name="tax_exempt_approved" value="<?php echo $user->tax_exempt_approved; ?>"/>
 			<?php
 		} ?>
     </table>
