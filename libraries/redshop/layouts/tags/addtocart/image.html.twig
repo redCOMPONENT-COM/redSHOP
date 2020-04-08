@@ -1,29 +1,33 @@
 {% if 'AJAX_CART_BOX' | redconfig != 1 %}
     {% if fileExist %}
         <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" class="pdaddtocart_imgage">
-            <div {{ onclick }} {{ cartTitle }} align="center" style="cursor:pointer;background:url({{ REDSHOP_FRONT_IMAGES_ABSPATH }}~{{ requestBackground }});background-position:bottom;background-repeat:no-repeat;">
+            <div {{ onclick }} {{ cartTitle }} align="center"
+                                               style="cursor:pointer;background:url({{ REDSHOP_FRONT_IMAGES_ABSPATH }}~{{ requestBackground }});background-position:bottom;background-repeat:no-repeat;">
                 {{ requestLabel }}
             </div>
         </span>
     {% else %}
-        <a class="ajaxcartcolorbox{{ productId }}"  href="javascript:;" {{ onclick }}>
-            <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" {{ cartTitle }} style="cursor: pointer;" class="pdaddtocart_imgage">
+        <a class="ajaxcartcolorbox{{ productId }}" href="javascript:;" {{ onclick }}>
+            <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" {{ cartTitle }} style="cursor: pointer;"
+                                                          class="pdaddtocart_imgage">
                 {{ requestLabel }}
             </span>
         </a>
     {% endif %}
 {% else %}
     {% if fileExist %}
-        <a class="ajaxcartcolorbox{{ productId }}"  href="javascript:;" {{ onclick }}>
+        <a class="ajaxcartcolorbox{{ productId }}" href="javascript:;" {{ onclick }}>
             <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" class="pdaddtocart_imgage">
-                <div {{ cartTitle }} align="center" style="cursor:pointer;background:url({{ REDSHOP_FRONT_IMAGES_ABSPATH }}~{{ requestBackground }});background-position:bottom;background-repeat:no-repeat;">
+                <div {{ cartTitle }} align="center"
+                                     style="cursor:pointer;background:url({{ REDSHOP_FRONT_IMAGES_ABSPATH }}~{{ requestBackground }});background-position:bottom;background-repeat:no-repeat;">
                     {{ requestLabel }}
                 </div>
             </span>
         </a>
     {% else %}
-        <a class="ajaxcartcolorbox{{ productId }}"  href="javascript:;" {{ onclick }}>
-            <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" {{ cartTitle }} style="cursor: pointer;" class="pdaddtocart_imgage">
+        <a class="ajaxcartcolorbox{{ productId }}" href="javascript:;" {{ onclick }}>
+            <span {{ class }} {{ title }} {{ cartStyle }} id="pdaddtocart{{ stockId }}" {{ cartTitle }} style="cursor: pointer;"
+                                                          class="pdaddtocart_imgage">
                 {{ requestLabel }}
             </span>
         </a>

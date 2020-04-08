@@ -18,59 +18,57 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerField_Groups extends RedshopControllerAdmin
 {
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   2.1.0
-	 */
-	public function getModel($name = 'Field_Group', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
-	{
-		$model = parent::getModel($name, $prefix, $config);
+    /**
+     * Method for get prepared HTML of fields group
+     *
+     * @return  void
+     * @throws  Exception
+     *
+     * @since   2.1.0
+     */
+    public function ajaxGetFieldsGroup()
+    {
+        Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return $model;
-	}
+        $section  = $this->input->getInt('section', 0);
+        $selected = $this->input->getInt('selected', 0);
 
-	/**
-	 * Method for get prepared HTML of fields group
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since   2.1.0
-	 */
-	public function ajaxGetFieldsGroup()
-	{
-		Redshop\Helper\Ajax::validateAjaxRequest();
+        /** @var RedshopModelField_Groups $model */
+        $model = $this->getModel('Field_Groups');
+        $model->setState('list.limit', 99);
+        $model->setState('filter.section', $section);
 
-		$section  = $this->input->getInt('section', 0);
-		$selected = $this->input->getInt('selected', 0);
+        $fieldGroups = $model->getItems();
 
-		/** @var RedshopModelField_Groups $model */
-		$model = $this->getModel('Field_Groups');
-		$model->setState('list.limit', 99);
-		$model->setState('filter.section', $section);
+        $options = array('<option value="">' . JText::_('COM_REDSHOP_FIELD_GROUP_NOGROUP') . '</option>');
 
-		$fieldGroups = $model->getItems();
+        if (!empty($fieldGroups)) {
+            foreach ($fieldGroups as $fieldGroup) {
+                $checked   = $fieldGroup->id == $selected ? 'selected="selected"' : '';
+                $options[] = '<option value="' . $fieldGroup->id . '" ' . $checked . '>' . $fieldGroup->name . '</option>';
+            }
+        }
 
-		$options = array('<option value="">' . JText::_('COM_REDSHOP_FIELD_GROUP_NOGROUP') . '</option>');
+        echo implode("\n", $options);
 
-		if (!empty($fieldGroups))
-		{
-			foreach ($fieldGroups as $fieldGroup)
-			{
-				$checked   = $fieldGroup->id == $selected ? 'selected="selected"' : '';
-				$options[] = '<option value="' . $fieldGroup->id . '" ' . $checked . '>' . $fieldGroup->name . '</option>';
-			}
-		}
+        JFactory::getApplication()->close();
+    }
 
-		echo implode("\n", $options);
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  object  The model.
+     *
+     * @since   2.1.0
+     */
+    public function getModel($name = 'Field_Group', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+    {
+        $model = parent::getModel($name, $prefix, $config);
 
-		JFactory::getApplication()->close();
-	}
+        return $model;
+    }
 }

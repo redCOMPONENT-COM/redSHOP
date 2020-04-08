@@ -66,15 +66,15 @@ class RedshopModelUser_detail extends RedshopModel
         if (empty($this->_data)) {
             $this->_uid = 0;
 
-            $queryId  = $this->_id;
-            $user = \Redshop\User\Helper::getUsers([], ['ui.users_info_id' => ['=' => $queryId]]);
+            $queryId = $this->_id;
+            $user    = \Redshop\User\Helper::getUsers([], ['ui.users_info_id' => ['=' => $queryId]]);
 
             $shipping = \JFactory::getApplication()->input->getInt('shipping', 0);
 
             if ($shipping == 1) {
-                $queryId = (int) \JFactory::getApplication()->input->get('cid', [0])[0];
+                $queryId = (int)\JFactory::getApplication()->input->get('cid', [0])[0];
 
-                $user    = \Redshop\User\Helper::getUsers(
+                $user = \Redshop\User\Helper::getUsers(
                     [],
                     [
                         'ui.users_info_id' => ['=' => $queryId],
@@ -227,8 +227,8 @@ class RedshopModelUser_detail extends RedshopModel
             $post['phone_ST']        = $post['phone'];
 
             if ($post['user_id'] == 0) {
-                $userInfoId  = $post['user_info_id'];
-                $user = \Redshop\User\Helper::getUsers([], ['ui.users_info_id' => ['=' => $userInfoId]])[0];
+                $userInfoId      = $post['user_info_id'];
+                $user            = \Redshop\User\Helper::getUsers([], ['ui.users_info_id' => ['=' => $userInfoId]])[0];
                 $post['user_id'] = $user->user_id;
             }
 
@@ -384,16 +384,6 @@ class RedshopModelUser_detail extends RedshopModel
         return $query;
     }
 
-    public function getTotal()
-    {
-        if ($this->_id) {
-            $query        = $this->buildUserOrderQuery();
-            $this->_total = $this->_getListCount($query);
-
-            return $this->_total;
-        }
-    }
-
     public function getPagination()
     {
         if (empty($this->_pagination)) {
@@ -406,5 +396,15 @@ class RedshopModelUser_detail extends RedshopModel
         }
 
         return $this->_pagination;
+    }
+
+    public function getTotal()
+    {
+        if ($this->_id) {
+            $query        = $this->buildUserOrderQuery();
+            $this->_total = $this->_getListCount($query);
+
+            return $this->_total;
+        }
     }
 }

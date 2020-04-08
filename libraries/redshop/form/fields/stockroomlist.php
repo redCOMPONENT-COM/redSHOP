@@ -23,63 +23,56 @@ $lang->load('com_redshop', JPATH_ADMINISTRATOR);
  */
 class JFormFieldStockroomlist extends JFormFieldList
 {
-	/**
-	 * Element name
-	 *
-	 * @access    protected
-	 * @var        string
-	 */
-	protected $type = 'stockroomlist';
+    /**
+     * A static cache.
+     *
+     * @var array|null
+     */
+    protected static $cache = null;
+    /**
+     * Element name
+     *
+     * @access    protected
+     * @var        string
+     */
+    protected $type = 'stockroomlist';
 
-	/**
-	 * A static cache.
-	 *
-	 * @var array|null
-	 */
-	protected static $cache = null;
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     */
+    protected function getOptions()
+    {
+        $options = array();
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 */
-	protected function getOptions()
-	{
-		$options = array();
+        if (!$this->multiple) {
+            $options[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_STOCKROOM'), 'value', 'text');
+        }
 
-		if (!$this->multiple)
-		{
-			$options[] = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT_STOCKROOM'), 'value', 'text');
-		}
+        if (!self::$cache) {
+            // Get the Stockroom.
+            self::$cache = RedshopHelperStockroom::getStockroom();
+        }
 
-		if (!self::$cache)
-		{
-			// Get the Stockroom.
-			self::$cache = RedshopHelperStockroom::getStockroom();
-		}
+        // Build the field options.
+        if (!empty(self::$cache)) {
+            if ($this->multiple) {
+                $options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_STOCKROOM'));
+            }
 
-		// Build the field options.
-		if (!empty(self::$cache))
-		{
-			if ($this->multiple)
-			{
-				$options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_STOCKROOM'));
-			}
+            foreach (self::$cache as $item) {
+                $options[] = JHtml::_('select.option', $item->stockroom_id, $item->stockroom_name, 'value', 'text');
+            }
 
-			foreach (self::$cache as $item)
-			{
-				$options[] = JHtml::_('select.option', $item->stockroom_id, $item->stockroom_name, 'value', 'text');
-			}
+            if ($this->multiple) {
+                $options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_STOCKROOM'));
+            }
+        }
 
-			if ($this->multiple)
-			{
-				$options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_STOCKROOM'));
-			}
-		}
+        // Merge any additional options in the XML definition.
+        $options = array_merge(parent::getOptions(), $options);
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
-	}
+        return $options;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -9,10 +10,10 @@
 defined('_JEXEC') or die;
 
 echo RedshopLayoutHelper::render(
-	'config.config',
-	array(
-		'title' => JText::_('COM_REDSHOP_DEFAULT_CATEGORY_LBL'),
-		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_CATEGORY_LBL'),
-		'field' => $this->lists['product_default_category']
-	)
+    'config.config',
+    array(
+        'title' => JText::_('COM_REDSHOP_DEFAULT_CATEGORY_LBL'),
+        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_CATEGORY_LBL'),
+        'field' => $this->lists['product_default_category']
+    )
 );

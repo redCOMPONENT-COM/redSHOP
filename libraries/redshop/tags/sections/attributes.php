@@ -17,49 +17,42 @@ defined('_JEXEC') || die;
 class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 {
     /**
+     * @var
+     * @since 3.0
+     */
+    public static $selectSubProperty;
+    /**
+     * @var
+     * @since 3.0
+     */
+    public static $propertyStockRooms;
+    /**
+     * @var
+     * @since 3.0
+     */
+    public static $preSelected;
+    /**
+     * @var
+     * @since 3.0
+     */
+    public static $propertyPreOrderStockRooms;
+    /**
+     * @var
+     * @since 3.0
+     */
+    public static $preOrderPropertyStock;
+    /**
      * @var    array
      *
      * @since   3.0
      */
     public $tags = array();
-
     /**
      * @var    integer
      *
      * @since   3.0
      */
     private $mphThumb;
-
-    /**
-     * @var
-     * @since 3.0
-     */
-    public static $selectSubProperty;
-
-    /**
-     * @var
-     * @since 3.0
-     */
-    public static $propertyStockRooms;
-
-    /**
-     * @var
-     * @since 3.0
-     */
-    public static $preSelected;
-
-    /**
-     * @var
-     * @since 3.0
-     */
-    public static $propertyPreOrderStockRooms;
-
-    /**
-     * @var
-     * @since 3.0
-     */
-    public static $preOrderPropertyStock;
-
     /**
      * @var    integer
      *
@@ -235,6 +228,24 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         return parent::replace();
     }
 
+    public function setDimensionImage($product)
+    {
+        $productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
+
+        if (strpos($productTemplate[0]->template_desc, "{more_images_3}") !== false) {
+            $this->mphThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
+            $this->mpwThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
+        } elseif (strpos($productTemplate[0]->template_desc, "{more_images_2}") !== false) {
+            $this->mphThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
+            $this->mpwThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
+        } elseif (strpos($productTemplate[0]->template_desc, "{more_images_1}") !== false) {
+            $this->mphThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+            $this->mpwThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
+        } else {
+            $this->mphThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
+            $this->mpwThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
+        }
+    }
 
     public function replaceAttribute(
         $attribute,
@@ -455,7 +466,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             } else {
                 $style = ' style="display:none" ';
             }
-            $attributeTable = $this->strReplace($replaceAttr, $attributeTable);
+            $attributeTable   = $this->strReplace($replaceAttr, $attributeTable);
             $subPropertyData  = "";
             $subPropertyStart = $attributeTable;
             $subPropertyEnd   = "";
@@ -722,24 +733,5 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         );
 
         return $propertyWoscrollerDiv;
-    }
-
-    public function setDimensionImage($product)
-    {
-        $productTemplate = RedshopHelperTemplate::getTemplate("product", $product->product_template);
-
-        if (strpos($productTemplate[0]->template_desc, "{more_images_3}") !== false) {
-            $this->mphThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_3');
-            $this->mpwThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_3');
-        } elseif (strpos($productTemplate[0]->template_desc, "{more_images_2}") !== false) {
-            $this->mphThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT_2');
-            $this->mpwThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_2');
-        } elseif (strpos($productTemplate[0]->template_desc, "{more_images_1}") !== false) {
-            $this->mphThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
-            $this->mpwThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
-        } else {
-            $this->mphThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE_HEIGHT');
-            $this->mpwThumb = Redshop::getConfig()->get('PRODUCT_ADDITIONAL_IMAGE');
-        }
     }
 }

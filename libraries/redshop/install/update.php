@@ -18,40 +18,40 @@ use Redshop\Update\AbstractUpdate;
  */
 class RedshopInstallUpdate extends AbstractUpdate
 {
-	/**
-	 * Return list of old files for clean
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.6
-	 */
-	protected function getOldFiles()
-	{
-		return array();
-	}
+    /**
+     * Method clean old files
+     *
+     * @return  void
+     *
+     * @since   2.0.6
+     */
+    public function cleanOldFiles()
+    {
+        $this->deleteFolders($this->getOldFolders());
+        $this->deleteFiles($this->getOldFiles());
+    }
 
-	/**
-	 * Return list of old folders for clean
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.6
-	 */
-	protected function getOldFolders()
-	{
-		return array();
-	}
+    /**
+     * Return list of old folders for clean
+     *
+     * @return  array
+     *
+     * @since   2.0.6
+     */
+    protected function getOldFolders()
+    {
+        return array();
+    }
 
-	/**
-	 * Method clean old files
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
-	public function cleanOldFiles()
-	{
-		$this->deleteFolders($this->getOldFolders());
-		$this->deleteFiles($this->getOldFiles());
-	}
+    /**
+     * Return list of old files for clean
+     *
+     * @return  array
+     *
+     * @since   2.0.6
+     */
+    protected function getOldFiles()
+    {
+        return array();
+    }
 }

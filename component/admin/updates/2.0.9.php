@@ -18,303 +18,292 @@ defined('_JEXEC') or die;
  */
 class RedshopUpdate209 extends RedshopInstallUpdate
 {
-	/**
-	 * Return list of old files for clean
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.9
-	 */
-	protected function getOldFiles()
-	{
-		return array();
-	}
+    /**
+     * Method for migrate voucher data to new table
+     *
+     * @return  void
+     * @throws  Exception
+     *
+     * @since   2.0.9
+     */
+    public function migrateTemplateFiles()
+    {
+        $db = JFactory::getDbo();
 
-	/**
-	 * Return list of old folders for clean
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.9
-	 */
-	protected function getOldFolders()
-	{
-		return array(
-			JPATH_SITE . '/components/com_redshop/templates'
-		);
-	}
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_template'))
+            ->order($db->qn('section'));
 
-	/**
-	 * Method for migrate voucher data to new table
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since   2.0.9
-	 */
-	public function migrateTemplateFiles()
-	{
-		$db = JFactory::getDbo();
+        $templates = $db->setQuery($query)->loadObjectList();
 
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_template'))
-			->order($db->qn('section'));
+        if (empty($templates)) {
+            return;
+        }
 
-		$templates = $db->setQuery($query)->loadObjectList();
+        $templates = $this->migrateOldTemplate($templates);
 
-		if (empty($templates))
-		{
-			return;
-		}
+        if (empty($templates)) {
+            return;
+        }
 
-		$templates = $this->migrateOldTemplate($templates);
+        $this->migrateOverrideTemplate($templates);
+    }
 
-		if (empty($templates))
-		{
-			return;
-		}
+    /**
+     * Template View selector
+     *
+     * @param   array  $templates  Templates
+     *
+     * @return  array              List of template table which already migrate correct data.
+     *
+     * @since   2.0.9
+     */
+    protected function migrateOldTemplate($templates = array())
+    {
+        $oldPaths = array();
+        $tables   = array();
 
-		$this->migrateOverrideTemplate($templates);
-	}
+        // Copy old template files to new structure.
+        foreach ($templates as $template) {
+            /** @var RedshopTableTemplate $table */
+            $table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
+            $table->bind((array)$template);
 
-	/**
-	 * Template View selector
-	 *
-	 * @param   array $templates Templates
-	 *
-	 * @return  array              List of template table which already migrate correct data.
-	 *
-	 * @since   2.0.9
-	 */
-	protected function migrateOldTemplate($templates = array())
-	{
-		$oldPaths = array();
-		$tables   = array();
+            // Skip if template already migrate
+            if (!empty($template->file_name)) {
+                $tables[] = $table;
 
-		// Copy old template files to new structure.
-		foreach ($templates as $template)
-		{
-			/** @var RedshopTableTemplate $table */
-			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
-			$table->bind((array) $template);
+                continue;
+            }
 
-			// Skip if template already migrate
-			if (!empty($template->file_name))
-			{
-				$tables[] = $table;
+            $table->file_name = $table->generateTemplateFileName($table->id, $table->name);
 
-				continue;
-			}
+            if (!$table->store()) {
+                continue;
+            }
 
-			$table->file_name = $table->generateTemplateFileName($table->id, $table->name);
+            $view       = $this->getTemplateView($template->section);
+            $oldPaths[] = JPath::clean(
+                JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section
+            );
+            $sourceFile = JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section . '/' . $template->name . '.php';
+            $sourceFile = JPath::clean($sourceFile);
 
-			if (!$table->store())
-			{
-				continue;
-			}
+            if (!JFile::exists($sourceFile)) {
+                $sourceFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/default.php');
+            }
 
-			$view       = $this->getTemplateView($template->section);
-			$oldPaths[] = JPath::clean(JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section);
-			$sourceFile = JPATH_SITE . '/components/com_redshop/views/' . $view . '/tmpl/' . $template->section . '/' . $template->name . '.php';
-			$sourceFile = JPath::clean($sourceFile);
+            $targetFile = JPath::clean(
+                JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/' . $table->file_name . '.php'
+            );
 
-			if (!JFile::exists($sourceFile))
-			{
-				$sourceFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/default.php');
-			}
+            if (JFile::exists($sourceFile)) {
+                if (JFile::exists($targetFile)) {
+                    JFile::delete($targetFile);
+                }
 
-			$targetFile = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $table->section . '/' . $table->file_name . '.php');
+                JFile::copy($sourceFile, $targetFile);
+            }
 
-			if (JFile::exists($sourceFile))
-			{
-				if (JFile::exists($targetFile))
-				{
-					JFile::delete($targetFile);
-				}
+            $tables[] = $table;
+        }
 
-				JFile::copy($sourceFile, $targetFile);
-			}
+        // Delete old folders.
+        $oldPaths = array_unique($oldPaths);
 
-			$tables[] = $table;
-		}
+        foreach ($oldPaths as $path) {
+            if (JFolder::exists($path)) {
+                JFolder::delete($path);
+            }
+        }
 
-		// Delete old folders.
-		$oldPaths = array_unique($oldPaths);
+        return $tables;
+    }
 
-		foreach ($oldPaths as $path)
-		{
-			if (JFolder::exists($path))
-			{
-				JFolder::delete($path);
-			}
-		}
+    /**
+     * Template View selector
+     *
+     * @param   string  $section  Template section
+     *
+     * @return  string            Template Joomla view name
+     *
+     * @since   2.0.9
+     */
+    protected function getTemplateView($section)
+    {
+        $section = strtolower($section);
 
-		return $tables;
-	}
+        switch ($section) {
+            case 'product':
+            case 'related_product':
+            case 'product_sample':
+            case 'accessory_template':
+            case 'attribute_template':
+            case 'attributewithcart_template':
+            case 'review':
+            case 'wrapper_template':
+            case 'compare_product':
+                $view = "product";
+                break;
 
-	/**
-	 * Template View selector
-	 *
-	 * @param   array $templates Templates
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since   2.0.9
-	 */
-	protected function migrateOverrideTemplate($templates = array())
-	{
-		$joomlaTemplate = $this->getActiveSiteTemplate();
+            case 'categoryproduct':
+            case 'category':
+            case 'frontpage_category':
+                $view = "category";
+                break;
 
-		foreach ($templates as $template)
-		{
-			/** @var RedshopTableTemplate $template */
-			$view         = $this->getTemplateView($template->section);
-			$overrideFile = JPATH_SITE . '/templates/' . $joomlaTemplate . '/html/com_redshop/';
+            case 'catalog':
+            case 'catalog_sample':
+                $view = "catalog";
+                break;
 
-			if ($template->section != 'categoryproduct')
-			{
-				$overrideFile .= $view . '/' . $template->section . '/' . $template->name . '.php';
-			}
-			else
-			{
-				$overrideFile .= $template->section . '/' . $template->name . '.php';
-			}
+            case 'manufacturer':
+            case 'manufacturer_detail':
+            case 'manufacturer_products':
 
-			$overrideFile = JPath::clean($overrideFile);
+                $view = "manufacturers";
+                break;
+            case 'cart':
+            case 'add_to_cart':
+            case 'ajax_cart_detail_box':
+            case 'ajax_cart_box':
+            case 'empty_cart':
+                $view = "cart";
+                break;
 
-			if (!JFile::exists($overrideFile))
-			{
-				continue;
-			}
+            case 'account_template':
+                $view = "account";
+                break;
 
-			$target = JPath::clean(JPATH_REDSHOP_TEMPLATE . '/' . $template->section . '/' . $template->file_name . '.php');
+            case 'private_billing_template':
+            case 'company_billing_template':
+            case 'billing_template':
+            case 'shipping_template':
+                $view = "registration";
+                break;
 
-			if (JFile::exists($target))
-			{
-				JFile::delete($target);
-			}
+            case 'wishlist_template':
+            case 'wishlist_mail_template':
+                $view = "wishlist";
+                break;
 
-			JFile::move($overrideFile, $target);
-		}
-	}
+            case 'newsletter':
+            case 'newsletter_product':
+                $view = "newsletter";
+                break;
 
-	/**
-	 * Template View selector
-	 *
-	 * @param   string  $section  Template section
-	 *
-	 * @return  string            Template Joomla view name
-	 *
-	 * @since   2.0.9
-	 */
-	protected function getTemplateView($section)
-	{
-		$section = strtolower($section);
+            case 'order_list':
+            case 'order_detail':
+            case 'order_receipt':
+                $view = "orders";
+                break;
 
-		switch ($section)
-		{
-			case 'product':
-			case 'related_product':
-			case 'product_sample':
-			case 'accessory_template':
-			case 'attribute_template':
-			case 'attributewithcart_template':
-			case 'review':
-			case 'wrapper_template':
-			case 'compare_product':
-				$view = "product";
-				break;
+            case 'giftcard':
+                $view = "giftcard";
+                break;
 
-			case 'categoryproduct':
-			case 'category':
-			case 'frontpage_category':
-				$view = "category";
-				break;
+            case 'checkout':
+            case 'onestep_checkout':
+                $view = "checkout";
+                break;
 
-			case 'catalog':
-			case 'catalog_sample':
-				$view = "catalog";
-				break;
+            case 'ask_question_template':
+                $view = "ask_question";
+                break;
 
-			case 'manufacturer':
-			case 'manufacturer_detail':
-			case 'manufacturer_products':
+            default:
+                return '';
+        }
 
-				$view = "manufacturers";
-				break;
-			case 'cart':
-			case 'add_to_cart':
-			case 'ajax_cart_detail_box':
-			case 'ajax_cart_box':
-			case 'empty_cart':
-				$view = "cart";
-				break;
+        return $view;
+    }
 
-			case 'account_template':
-				$view = "account";
-				break;
+    /**
+     * Template View selector
+     *
+     * @param   array  $templates  Templates
+     *
+     * @return  void
+     * @throws  Exception
+     *
+     * @since   2.0.9
+     */
+    protected function migrateOverrideTemplate($templates = array())
+    {
+        $joomlaTemplate = $this->getActiveSiteTemplate();
 
-			case 'private_billing_template':
-			case 'company_billing_template':
-			case 'billing_template':
-			case 'shipping_template':
-				$view = "registration";
-				break;
+        foreach ($templates as $template) {
+            /** @var RedshopTableTemplate $template */
+            $view         = $this->getTemplateView($template->section);
+            $overrideFile = JPATH_SITE . '/templates/' . $joomlaTemplate . '/html/com_redshop/';
 
-			case 'wishlist_template':
-			case 'wishlist_mail_template':
-				$view = "wishlist";
-				break;
+            if ($template->section != 'categoryproduct') {
+                $overrideFile .= $view . '/' . $template->section . '/' . $template->name . '.php';
+            } else {
+                $overrideFile .= $template->section . '/' . $template->name . '.php';
+            }
 
-			case 'newsletter':
-			case 'newsletter_product':
-				$view = "newsletter";
-				break;
+            $overrideFile = JPath::clean($overrideFile);
 
-			case 'order_list':
-			case 'order_detail':
-			case 'order_receipt':
-				$view = "orders";
-				break;
+            if (!JFile::exists($overrideFile)) {
+                continue;
+            }
 
-			case 'giftcard':
-				$view = "giftcard";
-				break;
+            $target = JPath::clean(
+                JPATH_REDSHOP_TEMPLATE . '/' . $template->section . '/' . $template->file_name . '.php'
+            );
 
-			case 'checkout':
-			case 'onestep_checkout':
-				$view = "checkout";
-				break;
+            if (JFile::exists($target)) {
+                JFile::delete($target);
+            }
 
-			case 'ask_question_template':
-				$view = "ask_question";
-				break;
+            JFile::move($overrideFile, $target);
+        }
+    }
 
-			default:
-				return '';
-		}
+    /**
+     * Method for get "default" template use on Front-end
+     *
+     * @return  string
+     *
+     * @since   2.0.9
+     */
+    protected function getActiveSiteTemplate()
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select($db->qn('template'))
+            ->from($db->qn('#__template_styles'))
+            ->where($db->qn('client_id') . ' = 0')
+            ->where($db->qn('home') . ' = 1');
 
-		return $view;
-	}
+        return $db->setQuery($query)->loadResult();
+    }
 
-	/**
-	 * Method for get "default" template use on Front-end
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.9
-	 */
-	protected function getActiveSiteTemplate()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->qn('template'))
-			->from($db->qn('#__template_styles'))
-			->where($db->qn('client_id') . ' = 0')
-			->where($db->qn('home') . ' = 1');
+    /**
+     * Return list of old files for clean
+     *
+     * @return  array
+     *
+     * @since   2.0.9
+     */
+    protected function getOldFiles()
+    {
+        return array();
+    }
 
-		return $db->setQuery($query)->loadResult();
-	}
+    /**
+     * Return list of old folders for clean
+     *
+     * @return  array
+     *
+     * @since   2.0.9
+     */
+    protected function getOldFolders()
+    {
+        return array(
+            JPATH_SITE . '/components/com_redshop/templates'
+        );
+    }
 }

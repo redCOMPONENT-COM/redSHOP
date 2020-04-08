@@ -20,30 +20,30 @@ JFormHelper::loadFieldClass('list');
  */
 class RedshopFormFieldFieldType extends JFormFieldList
 {
-	/**
-	 * Element name
-	 *
-	 * @access    protected
-	 * @var        string
-	 */
-	protected $type = 'fieldtype';
+    /**
+     * Element name
+     *
+     * @access    protected
+     * @var        string
+     */
+    protected $type = 'fieldtype';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   11.1
-	 */
-	protected function getOptions()
-	{
-		JFactory::getLanguage()->load('com_redshop');
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   11.1
+     */
+    protected function getOptions()
+    {
+        JFactory::getLanguage()->load('com_redshop');
 
-		$fieldTypes = RedshopHelperTemplate::getFieldTypeSections();
+        $fieldTypes = RedshopHelperTemplate::getFieldTypeSections();
 
-		$parentOptions = parent::getOptions();
-		$options = array_merge($parentOptions, $fieldTypes);
+        $parentOptions = parent::getOptions();
+        $options       = array_merge($parentOptions, $fieldTypes);
 
-		return $options;
-	}
+        return $options;
+    }
 }

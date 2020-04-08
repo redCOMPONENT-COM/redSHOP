@@ -18,64 +18,60 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityTax_Group extends RedshopEntity
 {
-	/**
-	 * List of tax rates belong to this tax group
-	 *
-	 * @var    RedshopEntitiesCollection
-	 *
-	 * @since  2.0.4
-	 */
-	protected $taxRates;
+    /**
+     * List of tax rates belong to this tax group
+     *
+     * @var    RedshopEntitiesCollection
+     *
+     * @since  2.0.4
+     */
+    protected $taxRates;
 
-	/**
-	 * Method for get all associated tax rates
-	 *
-	 * @return  RedshopEntitiesCollection
-	 *
-	 * @since   2.0.4
-	 */
-	public function getTaxRates()
-	{
-		if (is_null($this->taxRates))
-		{
-			$this->loadTaxRates();
-		}
+    /**
+     * Method for get all associated tax rates
+     *
+     * @return  RedshopEntitiesCollection
+     *
+     * @since   2.0.4
+     */
+    public function getTaxRates()
+    {
+        if (is_null($this->taxRates)) {
+            $this->loadTaxRates();
+        }
 
-		return $this->taxRates;
-	}
+        return $this->taxRates;
+    }
 
-	/**
-	 * Method for load all tax rates
-	 *
-	 * @return  self
-	 *
-	 * @since   2.0.4
-	 */
-	protected function loadTaxRates()
-	{
-		/** @var RedshopEntitiesCollection taxRates */
-		$this->taxRates = new RedshopEntitiesCollection;
+    /**
+     * Method for load all tax rates
+     *
+     * @return  self
+     *
+     * @since   2.0.4
+     */
+    protected function loadTaxRates()
+    {
+        /** @var RedshopEntitiesCollection taxRates */
+        $this->taxRates = new RedshopEntitiesCollection;
 
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		$model = RedshopModel::getInstance('Tax_Rates', 'RedshopModel', array('ignore_request' => true));
-		$model->setState('filter.tax_group', $this->getId());
+        $model = RedshopModel::getInstance('Tax_Rates', 'RedshopModel', array('ignore_request' => true));
+        $model->setState('filter.tax_group', $this->getId());
 
-		$taxRates = $model->getItems();
+        $taxRates = $model->getItems();
 
-		if (empty($taxRates))
-		{
-			return $this;
-		}
+        if (empty($taxRates)) {
+            return $this;
+        }
 
-		foreach ($taxRates as $taxRate)
-		{
-			$this->taxRates->add(RedshopEntityTax_Rate::getInstance($taxRate->id)->bind($taxRate));
-		}
+        foreach ($taxRates as $taxRate) {
+            $this->taxRates->add(RedshopEntityTax_Rate::getInstance($taxRate->id)->bind($taxRate));
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 }

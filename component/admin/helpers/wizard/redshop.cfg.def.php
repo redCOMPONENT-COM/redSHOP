@@ -1,4 +1,5 @@
 <?php
+
 global $defaultarray;
 $defaultarray                                                 = array();
 $defaultarray["administrator_email"]                          = ADMINISTRATOR_EMAIL;

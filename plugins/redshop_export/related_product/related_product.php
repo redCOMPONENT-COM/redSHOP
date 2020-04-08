@@ -20,103 +20,112 @@ JLoader::import('redshop.library');
  */
 class PlgRedshop_ExportRelated_Product extends AbstractExportPlugin
 {
-	/**
-	 * Event run when user load config for export this data.
-	 *
-	 * @return  string
-	 *
-	 * @since  1.0.0
-	 *
-	 * @TODO: Need to load XML File instead
-	 */
-	public function onAjaxRelated_Product_Config()
-	{
-		\Redshop\Helper\Ajax::validateAjaxRequest();
+    /**
+     * Event run when user load config for export this data.
+     *
+     * @return  string
+     *
+     * @since  1.0.0
+     *
+     * @TODO   : Need to load XML File instead
+     */
+    public function onAjaxRelated_Product_Config()
+    {
+        \Redshop\Helper\Ajax::validateAjaxRequest();
 
-		\Redshop\Ajax\Response::getInstance()->respond();
-	}
+        \Redshop\Ajax\Response::getInstance()->respond();
+    }
 
-	/**
-	 * Event run when user click on Start Export
-	 *
-	 * @return  number
-	 *
-	 * @since  1.0.0
-	 */
-	public function onAjaxRelated_Product_Start()
-	{
-		\Redshop\Helper\Ajax::validateAjaxRequest();
+    /**
+     * Event run when user click on Start Export
+     *
+     * @return  number
+     *
+     * @since  1.0.0
+     */
+    public function onAjaxRelated_Product_Start()
+    {
+        \Redshop\Helper\Ajax::validateAjaxRequest();
 
-		$this->writeData($this->getHeader(), 'w+');
+        $this->writeData($this->getHeader(), 'w+');
 
-		return (int) $this->getTotal();
-	}
+        return (int)$this->getTotal();
+    }
 
-	/**
-	 * Event run on export process
-	 *
-	 * @return  int
-	 *
-	 * @since  1.0.0
-	 */
-	public function onAjaxRelated_Product_Export()
-	{
-		\Redshop\Helper\Ajax::validateAjaxRequest();
+    /**
+     * Method for get headers data.
+     *
+     * @return array
+     *
+     * @since  1.0.0
+     */
+    protected function getHeader()
+    {
+        return array(
+            'related_sku',
+            'product_sku'
+        );
+    }
 
-		$input = JFactory::getApplication()->input;
-		$limit = $input->getInt('limit', 0);
-		$start = $input->getInt('start', 0);
+    /**
+     * Event run on export process
+     *
+     * @return  int
+     *
+     * @since  1.0.0
+     */
+    public function onAjaxRelated_Product_Export()
+    {
+        \Redshop\Helper\Ajax::validateAjaxRequest();
 
-		return $this->exporting($start, $limit);
-	}
+        $input = JFactory::getApplication()->input;
+        $limit = $input->getInt('limit', 0);
+        $start = $input->getInt('start', 0);
 
-	/**
-	 * Event run on export process
-	 *
-	 * @return  number
-	 *
-	 * @since  1.0.0
-	 */
-	public function onAjaxRelated_Product_Complete()
-	{
-		$this->downloadFile();
+        return $this->exporting($start, $limit);
+    }
 
-		JFactory::getApplication()->close();
-	}
+    /**
+     * Event run on export process
+     *
+     * @return  number
+     *
+     * @since  1.0.0
+     */
+    public function onAjaxRelated_Product_Complete()
+    {
+        $this->downloadFile();
 
-	/**
-	 * Method for get query
-	 *
-	 * @return \JDatabaseQuery
-	 *
-	 * @since  1.0.0
-	 */
-	protected function getQuery()
-	{
-		$db = $this->db;
+        JFactory::getApplication()->close();
+    }
 
-		$query = $db->getQuery(true)
-			->select($db->qn('p1.product_number', 'related_sku'))
-			->select($db->qn('p2.product_number', 'product_sku'))
-			->from($db->qn('#__redshop_product_related', 'rp'))
-			->innerJoin($db->qn('#__redshop_product', 'p1') . ' ON ' . $db->qn('p1.product_id') . ' = ' . $db->qn('rp.related_id'))
-			->innerJoin($db->qn('#__redshop_product', 'p2') . ' ON ' . $db->qn('p2.product_id') . ' = ' . $db->qn('rp.product_id'))
-			->order($db->qn('p2.product_number'));
+    /**
+     * Method for get query
+     *
+     * @return \JDatabaseQuery
+     *
+     * @since  1.0.0
+     */
+    protected function getQuery()
+    {
+        $db = $this->db;
 
-		return $query;
-	}
+        $query = $db->getQuery(true)
+            ->select($db->qn('p1.product_number', 'related_sku'))
+            ->select($db->qn('p2.product_number', 'product_sku'))
+            ->from($db->qn('#__redshop_product_related', 'rp'))
+            ->innerJoin(
+                $db->qn('#__redshop_product', 'p1') . ' ON ' . $db->qn('p1.product_id') . ' = ' . $db->qn(
+                    'rp.related_id'
+                )
+            )
+            ->innerJoin(
+                $db->qn('#__redshop_product', 'p2') . ' ON ' . $db->qn('p2.product_id') . ' = ' . $db->qn(
+                    'rp.product_id'
+                )
+            )
+            ->order($db->qn('p2.product_number'));
 
-	/**
-	 * Method for get headers data.
-	 *
-	 * @return array
-	 *
-	 * @since  1.0.0
-	 */
-	protected function getHeader()
-	{
-		return array(
-			'related_sku','product_sku'
-		);
-	}
+        return $query;
+    }
 }

@@ -23,97 +23,94 @@ use Twig\Loader\LoaderInterface;
  */
 class PlgTwigDebug extends BaseTwigPlugin
 {
-	/**
-	 * Debug is enabled when Joomla debug is enabled.
-	 *
-	 * @const
-	 * @since 1.0.0
-	 */
-	const DEBUG_AUTO = 'auto';
+    /**
+     * Debug is enabled when Joomla debug is enabled.
+     *
+     * @const
+     * @since 1.0.0
+     */
+    const DEBUG_AUTO = 'auto';
 
-	/**
-	 * Debug is always enabled.
-	 *
-	 * @const
-	 * @since 1.0.0
-	 */
-	const DEBUG_ALWAYS = 'always';
+    /**
+     * Debug is always enabled.
+     *
+     * @const
+     * @since 1.0.0
+     */
+    const DEBUG_ALWAYS = 'always';
 
-	/**
-	 * Debug is never enabled.
-	 *
-	 * @const
-	 * @since 1.0.0
-	 */
-	const DEBUG_NEVER = 'never';
+    /**
+     * Debug is never enabled.
+     *
+     * @const
+     * @since 1.0.0
+     */
+    const DEBUG_NEVER = 'never';
 
-	/**
-	 * Is debug enabled?
-	 *
-	 * @var  boolean
-	 * @since 1.0.0
-	 */
-	private $isDebugEnabled;
+    /**
+     * Is debug enabled?
+     *
+     * @var  boolean
+     * @since 1.0.0
+     */
+    private $isDebugEnabled;
 
-	/**
-	 * @param   Environment      $environment
-	 * @param   LoaderInterface  $loader
-	 * @param                    $options
-	 *
-	 * @return void
-	 * @since 1.0.0
-	 */
-	public function onTwigBeforeLoad(Environment $environment, LoaderInterface $loader, &$options)
-	{
-		$options['debug'] = $this->isDebugEnabled();
-	}
+    /**
+     * @param   Environment      $environment
+     * @param   LoaderInterface  $loader
+     * @param                    $options
+     *
+     * @return void
+     * @since 1.0.0
+     */
+    public function onTwigBeforeLoad(Environment $environment, LoaderInterface $loader, &$options)
+    {
+        $options['debug'] = $this->isDebugEnabled();
+    }
 
-	/**
-	 * @param   Environment  $environment
-	 * @param   array        $options
-	 *
-	 *
-	 * @since 1.0.0
-	 */
-	public function onTwigAfterLoad(Environment $environment, $options = [])
-	{
-		if ($this->isDebugEnabled())
-		{
-			$environment->addExtension(new DebugExtension);
-		}
-	}
+    /**
+     *
+     * @return bool
+     *
+     * @since 1.0.0
+     */
+    private function isDebugEnabled()
+    {
+        if (null === $this->isDebugEnabled) {
+            $this->isDebugEnabled = $this->checkDebugEnabled();
+        }
 
-	/**
-	 *
-	 * @return bool
-	 *
-	 * @since 1.0.0
-	 */
-	private function isDebugEnabled()
-	{
-		if (null === $this->isDebugEnabled)
-		{
-			$this->isDebugEnabled = $this->checkDebugEnabled();
-		}
+        return $this->isDebugEnabled;
+    }
 
-		return $this->isDebugEnabled;
-	}
+    /**
+     *
+     * @return bool
+     *
+     * @since 1.0.0
+     */
+    private function checkDebugEnabled()
+    {
+        $mode = $this->params->get('mode', self::DEBUG_AUTO);
 
-	/**
-	 *
-	 * @return bool
-	 *
-	 * @since 1.0.0
-	 */
-	private function checkDebugEnabled()
-	{
-		$mode = $this->params->get('mode', self::DEBUG_AUTO);
+        if ($mode === self::DEBUG_AUTO) {
+            return JDEBUG === '1';
+        }
 
-		if ($mode === self::DEBUG_AUTO)
-		{
-			return JDEBUG === '1';
-		}
+        return $mode === self::DEBUG_ALWAYS;
+    }
 
-		return $mode === self::DEBUG_ALWAYS;
-	}
+    /**
+     * @param   Environment  $environment
+     * @param   array        $options
+     *
+     *
+     * @since 1.0.0
+     */
+    public function onTwigAfterLoad(Environment $environment, $options = [])
+    {
+        if ($this->isDebugEnabled()) {
+            $environment->addExtension(new DebugExtension);
+        }
+    }
 }

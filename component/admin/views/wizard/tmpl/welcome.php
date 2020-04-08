@@ -6,19 +6,26 @@
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 ?>
 <div class="welcome_wizard">
     <div class="wizard_intro_text"><?php echo JText::_('COM_REDSHOP_WELCOME_WIZARD_INTRO_TEXT'); ?></div>
 
-	<?php
-	$doc_link        = '<a href="http://wiki.redcomponent.com" target="_blank">website</a>';
-	$forum_link      = '<a href="http://redcomponent.com/forum/54-redshop" target="_blank">redSHOP - redCOMPONENT Forum</a>';
-	$contact_link    = '<a href="http://redcomponent.com" target="_blank">redCOMPONENT</a>';
-	$learn_more_link = '<a href="http://www.redcomponent.com" target="_blank">redcomponent.com</a>';
+    <?php
+    $doc_link        = '<a href="http://wiki.redcomponent.com" target="_blank">website</a>';
+    $forum_link      = '<a href="http://redcomponent.com/forum/54-redshop" target="_blank">redSHOP - redCOMPONENT Forum</a>';
+    $contact_link    = '<a href="http://redcomponent.com" target="_blank">redCOMPONENT</a>';
+    $learn_more_link = '<a href="http://www.redcomponent.com" target="_blank">redcomponent.com</a>';
 
-	?>
+    ?>
     <div
-            class="wizard_redshop_features"><?php echo sprintf(JText::_('COM_REDSHOP_WELCOME_REDSHOP_FEATURE_TEXT'), $doc_link, $forum_link, $contact_link, $learn_more_link); ?></div>
+            class="wizard_redshop_features"><?php echo sprintf(
+            JText::_('COM_REDSHOP_WELCOME_REDSHOP_FEATURE_TEXT'),
+            $doc_link,
+            $forum_link,
+            $contact_link,
+            $learn_more_link
+        ); ?></div>
     <div>&nbsp;</div>
     <div class="wizard_basic_info"><?php echo JText::_('COM_REDSHOP_WIZARD_BASIC_INFO_TEXT'); ?></div>
     <div>&nbsp;</div>

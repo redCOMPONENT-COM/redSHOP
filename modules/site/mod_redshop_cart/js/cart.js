@@ -1,5 +1,4 @@
-function deleteCartItem(idx, token, urlRedirect)
-{
+function deleteCartItem(idx, token, urlRedirect) {
     jQuery.ajax({
         type: "POST",
         data: {
@@ -7,7 +6,7 @@ function deleteCartItem(idx, token, urlRedirect)
             token: "1"
         },
         url: urlRedirect,
-        success: function(data) {
+        success: function (data) {
             responce = data.split("`");
 
             if (jQuery('#mod_cart_total') && responce[1]) {

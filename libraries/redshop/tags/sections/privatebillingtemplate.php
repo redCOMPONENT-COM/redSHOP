@@ -16,58 +16,58 @@ defined('_JEXEC') || die;
  */
 class RedshopTagsSectionsPrivateBillingTemplate extends RedshopTagsAbstract
 {
-	public $tags = array(
-		'{private_extrafield}'
-	);
+    public $tags = array(
+        '{private_extrafield}'
+    );
 
-	public function init()
-	{
+    public function init()
+    {
+    }
 
-	}
+    /**
+     * Execute replace
+     *
+     * @return  string
+     *
+     * @since   2.0.0.5
+     */
+    public function replace()
+    {
+        $template = RedshopTagsReplacer::_(
+            'commonfield',
+            $this->template,
+            array(
+                'data'   => $this->data['data'],
+                'lists'  => $this->data['lists'],
+                'prefix' => 'private-'
+            )
+        );
 
-	/**
-	 * Execute replace
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.0.5
-	 */
-	public function replace()
-	{
-		$template = RedshopTagsReplacer::_(
-				'commonfield',
-				$this->template,
-				array(
-					'data' => $this->data['data'],
-					'lists' => $this->data['lists'],
-					'prefix' => 'private-'
-				)
-			);
+        $hidden = RedshopLayoutHelper::render(
+            'tags.common.input',
+            array(
+                'name'  => 'is_company',
+                'id'    => '',
+                'type'  => 'hidden',
+                'value' => 0,
+                'attr'  => '',
+                'class' => ''
+            ),
+            '',
+            RedshopLayoutHelper::$layoutOption
+        );
 
-		$hidden = RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'name' => 'is_company',
-				'id' => '',
-				'type' => 'hidden',
-				'value' => 0,
-				'attr' => '',
-				'class' => ''
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
-		);
+        $this->template = $template . $hidden;
 
-		$this->template = $template . $hidden;
+        if ($this->isTagExists(('{private_extrafield}'))) {
+            $userExtraFields = Redshop::getConfig()->get(
+                'ALLOW_CUSTOMER_REGISTER_TYPE'
+            ) != 2 && $this->data['lists']['extra_field_user'] != "" ?
+                $this->data['lists']['extra_field_user'] : '';
 
-		if ($this->isTagExists(('{private_extrafield}')))
-		{
-			$userExtraFields = Redshop::getConfig()->get('ALLOW_CUSTOMER_REGISTER_TYPE') != 2 && $this->data['lists']['extra_field_user'] != "" ?
-				$this->data['lists']['extra_field_user'] : '';
+            $this->addReplace('{private_extrafield}', $userExtraFields);
+        }
 
-			$this->addReplace('{private_extrafield}', $userExtraFields);
-		}
-
-		return parent::replace();
-	}
+        return parent::replace();
+    }
 }

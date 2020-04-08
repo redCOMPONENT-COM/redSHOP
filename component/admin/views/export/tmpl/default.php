@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -49,13 +50,11 @@ $formToken = JSession::getFormToken();
                 });
 
                 $("#export_btn_start").click(function (event) {
-                    if ($("#export_plugins input[type='radio']:checked").length == 0)
-                    {
+                    if ($("#export_plugins input[type='radio']:checked").length == 0) {
                         alert('<?php echo JText::_('COM_REDSHOP_CHOOSE_SELECTION') ?>');
                     }
 
-                    if ($("#export_plugins input[type='radio']:checked").length)
-                    {
+                    if ($("#export_plugins input[type='radio']:checked").length) {
                         $("#export_plugins").addClass("disabled muted");
                         $("#export_config").addClass("disabled muted");
 
@@ -109,8 +108,7 @@ $formToken = JSession::getFormToken();
 
                         if (response == 1) {
                             run_export(success);
-                        }
-                        else if (response == 0 || success > total) {
+                        } else if (response == 0 || success > total) {
                             percent = 100;
                             total = 0;
                             $("#export_process_msg").addClass("alert-success").removeClass("alert-danger");
@@ -119,8 +117,7 @@ $formToken = JSession::getFormToken();
                             $("#export_config").removeClass("disabled muted");
                             $("#export_iframe")
                                 .attr("src", "index.php?option=com_ajax&plugin=" + plugin + "_complete&group=redshop_export&format=raw");
-                        }
-                        else {
+                        } else {
                             percent = 100;
                             total = 0;
                             $("#export_plugins").removeClass("disabled muted");
@@ -144,16 +141,18 @@ $formToken = JSession::getFormToken();
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-							<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_1') ?>
+                            <?php echo JText::_('COM_REDSHOP_EXPORT_STEP_1') ?>
                         </h4>
                     </div>
                     <div class="panel-body" id="export_plugins">
-						<?php foreach ($this->exports as $export): ?>
+                        <?php foreach ($this->exports as $export): ?>
                             <label>
                                 <input type="radio" value="<?php echo $export->name ?>"
-                                       name="plugin_name"/> <?php echo JText::_('PLG_REDSHOP_EXPORT_' . strtoupper($export->name) . '_TITLE') ?>
+                                       name="plugin_name"/> <?php echo JText::_(
+                                    'PLG_REDSHOP_EXPORT_' . strtoupper($export->name) . '_TITLE'
+                                ) ?>
                             </label>
-						<?php endforeach; ?>
+                        <?php endforeach; ?>
                     </div>
                 </div>
                 <!-- Step 1. End -->
@@ -163,7 +162,7 @@ $formToken = JSession::getFormToken();
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-							<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_2') ?>
+                            <?php echo JText::_('COM_REDSHOP_EXPORT_STEP_2') ?>
                         </h4>
                     </div>
                     <div class="panel-body">
@@ -174,14 +173,15 @@ $formToken = JSession::getFormToken();
                                         <?php echo JText::_('COM_REDSHOP_EXPORT_CONFIG_SEPARATOR') ?>
                                     </label>
                                     <div class="col-md-10">
-                                        <input type="text" value="," class="form-control" maxlength="1" name="separator" />
+                                        <input type="text" value="," class="form-control" maxlength="1"
+                                               name="separator"/>
                                     </div>
                                 </div>
                                 <div id="export_config_body"></div>
                             </fieldset>
                             <hr/>
                             <button class="btn btn-primary btn-large" id="export_btn_start" type="button">
-								<?php echo JText::_('COM_REDSHOP_EXPORT_START') ?>
+                                <?php echo JText::_('COM_REDSHOP_EXPORT_START') ?>
                             </button>
                         </div>
                     </div>
@@ -195,13 +195,14 @@ $formToken = JSession::getFormToken();
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title" id="export_process_title">
-							<?php echo JText::_('COM_REDSHOP_EXPORT_STEP_3') ?> <span class="small"></span>
+                            <?php echo JText::_('COM_REDSHOP_EXPORT_STEP_3') ?> <span class="small"></span>
                         </h4>
                     </div>
                     <div id="export_process_panel">
                         <div class="panel-body">
                             <div class="progress">
-                                <div id="export_process_bar" class="progress-bar progress-bar-striped active" role="progressbar"
+                                <div id="export_process_bar" class="progress-bar progress-bar-striped active"
+                                     role="progressbar"
                                      aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                                     0%
                                 </div>
@@ -223,6 +224,6 @@ $formToken = JSession::getFormToken();
         <!-- Hidden field -->
         <input type="hidden" name="task" value=""/>
         <input type="hidden" name="boxchecked" value="0"/>
-		<?php echo JHtml::_('form.token') ?>
+        <?php echo JHtml::_('form.token') ?>
     </form>
 <?php endif; ?>

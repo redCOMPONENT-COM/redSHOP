@@ -19,23 +19,22 @@ defined('_JEXEC') or die;
 class General
 {
 
-	/**
-	 * @param   array  $tags     Array of tags
-	 * @param   string $template Template
-	 *
-	 * @return  string
-	 *
-	 * @since   2.1.0
-	 */
-	public static function replaceBlank($tags, $template)
-	{
-		if (empty($tags))
-		{
-			return $template;
-		}
+    /**
+     * @param   array   $tags      Array of tags
+     * @param   string  $template  Template
+     *
+     * @return  string
+     *
+     * @since   2.1.0
+     */
+    public static function replaceBlank($tags, $template)
+    {
+        if (empty($tags)) {
+            return $template;
+        }
 
-		$replace = array_fill(0, count($tags) - 1, '');
+        $replace = array_fill(0, count($tags) - 1, '');
 
-		return str_replace($tags, $replace, $template);
-	}
+        return str_replace($tags, $replace, $template);
+    }
 }

@@ -50,60 +50,18 @@ class Helper
     }
 
     /**
-     * @param array $columns
-     * @param array $conditions
-     * @return mixed
-     * @since 3.0
-     */
-    public static function getUsers(
-        $columns = []
-        , $conditions = [
-            'ui.address_type' => ['=' => 'BT']
-        ]
-    )
-    {
-        $db = \JFactory::getDbo();
-        $query = $db->getQuery(true);
-        if (count($columns) < 1) {
-            $query->select('u.*, ui.*');
-        } else {
-            foreach ($columns as $col => $alias)
-            {
-                $query->select($db->qn($col, $alias));
-            }
-        }
-
-        $query->from($db->qn('#__redshop_users_info', 'ui'));
-        $query->leftJoin($db->qn('#__users', 'u')
-            . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ui.user_id'));
-
-        if (count($conditions) > 0)
-        {
-            foreach ($conditions as $key => $con) {
-                foreach ($con as $operator => $value) {
-                    $query->where($db->qn($key) . $operator . $db->q($value));
-                }
-            }
-        }
-
-        $db->setQuery($query);
-
-        return $db->loadObjectlist();
-    }
-
-    /**
      * @param $uid
+     *
      * @return string
      * @since 3.0
      */
     public static function getUserFullName($uid)
     {
-        $uid = (int) $uid;
+        $uid = (int)$uid;
 
         $user = \RedshopHelperUser::getUserInformation($uid);
 
-        if (isset($user))
-        {
+        if (isset($user)) {
             return $user->firstname . " " . $user->lastname . " (" . $user->user_email . ")";
         }
 
@@ -116,7 +74,7 @@ class Helper
      */
     public static function getNewCustomers()
     {
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select('*')
@@ -137,12 +95,58 @@ class Helper
      */
     public static function isUserExist($username, $uid)
     {
-        $users = self::getUsers([], [
-            'username' => ['=' => $username],
-            'id'       => ['!=' => $uid]
-        ]);
+        $users = self::getUsers(
+            [],
+            [
+                'username' => ['=' => $username],
+                'id'       => ['!=' => $uid]
+            ]
+        );
 
         return count($users);
+    }
+
+    /**
+     * @param   array  $columns
+     * @param   array  $conditions
+     *
+     * @return mixed
+     * @since 3.0
+     */
+    public static function getUsers(
+        $columns = []
+        ,
+        $conditions = [
+            'ui.address_type' => ['=' => 'BT']
+        ]
+    ) {
+        $db    = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        if (count($columns) < 1) {
+            $query->select('u.*, ui.*');
+        } else {
+            foreach ($columns as $col => $alias) {
+                $query->select($db->qn($col, $alias));
+            }
+        }
+
+        $query->from($db->qn('#__redshop_users_info', 'ui'));
+        $query->leftJoin(
+            $db->qn('#__users', 'u')
+            . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ui.user_id')
+        );
+
+        if (count($conditions) > 0) {
+            foreach ($conditions as $key => $con) {
+                foreach ($con as $operator => $value) {
+                    $query->where($db->qn($key) . $operator . $db->q($value));
+                }
+            }
+        }
+
+        $db->setQuery($query);
+
+        return $db->loadObjectlist();
     }
 
     /**
@@ -154,10 +158,13 @@ class Helper
      */
     public static function isUserEmailExist($email, $uid)
     {
-        $users = self::getUsers([], [
-            'email' => ['=' => $email],
-            'id'       => ['!=' => $uid]
-        ]);
+        $users = self::getUsers(
+            [],
+            [
+                'email' => ['=' => $email],
+                'id'    => ['!=' => $uid]
+            ]
+        );
 
         return count($users);
     }

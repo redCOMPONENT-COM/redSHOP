@@ -115,8 +115,12 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
         );
 
 
-        $this->lists['block'] = JHtml::_('select.booleanlist', 'block', 'class="inputbox"',
-                                         $this->detail->block ?? 0);
+        $this->lists['block'] = JHtml::_(
+            'select.booleanlist',
+            'block',
+            'class="inputbox"',
+            $this->detail->block ?? 0
+        );
 
 
         $this->lists['tax_exempt_approved'] = JHtml::_(
@@ -142,12 +146,12 @@ class RedshopViewUser_Detail extends RedshopViewAdmin
             JText::_('COM_REDSHOP_USER_CUSTOMER')
         );
 
-            $this->lists['sendEmail'] = JHtml::_(
-                'select.booleanlist',
-                'sendEmail',
-                'class="inputbox"',
-                $this->detail->sendEmail ?? 0
-            );
+        $this->lists['sendEmail'] = JHtml::_(
+            'select.booleanlist',
+            'sendEmail',
+            'class="inputbox"',
+            $this->detail->sendEmail ?? 0
+        );
 
         $this->lists['extra_field'] = RedshopHelperExtrafields::listAllField(
             RedshopHelperExtrafields::SECTION_USER_INFORMATIONS,

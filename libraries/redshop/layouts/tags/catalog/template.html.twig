@@ -27,8 +27,7 @@
             alert("{{ jtext('COM_REDSHOP_ENTER_AN_EMAIL_ADDRESS') }}");
             frm.email_address.focus();
             return false;
-        }
-        else if (patt1.test(email) == false) {
+        } else if (patt1.test(email) == false) {
             alert("{{ jtext('COM_REDSHOP_EMAIL_ADDRESS_NOT_VALID') }}");
             frm.email_address.focus();
             return false;

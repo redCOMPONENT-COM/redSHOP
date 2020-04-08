@@ -18,43 +18,41 @@ JFormHelper::loadFieldClass('list');
  */
 class RedshopFormFieldPayment_Method extends JFormFieldList
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.0
-	 */
-	public $type = 'Payment_Method';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.0
+     */
+    public $type = 'Payment_Method';
 
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  array  The field input markup.
-	 */
-	protected function getOptions()
-	{
-		$payments = RedshopHelperOrder::getPaymentMethodInfo();
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  array  The field input markup.
+     */
+    protected function getOptions()
+    {
+        $payments = RedshopHelperOrder::getPaymentMethodInfo();
 
-		if (empty($payments))
-		{
-			return parent::getOptions();
-		}
+        if (empty($payments)) {
+            return parent::getOptions();
+        }
 
-		RedshopHelperPayment::loadLanguages();
+        RedshopHelperPayment::loadLanguages();
 
-		$options     = array();
-		$this->value = $this->multiple ? (array) $this->value : (string) $this->value;
+        $options     = array();
+        $this->value = $this->multiple ? (array)$this->value : (string)$this->value;
 
-		foreach ($payments as $payment)
-		{
-			$option = new stdClass;
+        foreach ($payments as $payment) {
+            $option = new stdClass;
 
-			$option->text  = JText::_($payment->name);
-			$option->value = $payment->element;
+            $option->text  = JText::_($payment->name);
+            $option->value = $payment->element;
 
-			$options[] = $option;
-		}
+            $options[] = $option;
+        }
 
-		return array_merge(parent::getOptions(), $options);
-	}
+        return array_merge(parent::getOptions(), $options);
+    }
 }

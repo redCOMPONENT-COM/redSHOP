@@ -32,6 +32,6 @@ $itemId    = RedshopHelperRouter::getCheckoutItemId();
     <input type="hidden" name="option" value="com_redshop"/>
     <input type="hidden" name="view" value="login"/>
     <a href="<?php echo JRoute::_('index.php?option=com_users&view=reset', false); ?>">
-		<?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK') ?>
+        <?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK') ?>
     </a>
 </form>

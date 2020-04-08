@@ -3,15 +3,13 @@
  * @package     Phproberto.Joomla-Twig
  * @subpackage  Twig
  *
- * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
- * @license    See COPYING.txt
+ * @copyright   Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
+ * @license     See COPYING.txt
  */
 
 namespace Redshop\Twig\View;
 
 defined('_JEXEC') || die;
-
-use Redshop\Twig\View\HtmlView;
 
 /**
  * Base list view.
@@ -20,25 +18,25 @@ use Redshop\Twig\View\HtmlView;
  */
 abstract class ListView extends HtmlView
 {
-	/**
-	 * Load layout data.
-	 *
-	 * @return  self
-	 */
-	protected function loadLayoutData()
-	{
-		$model = $this->getModel();
+    /**
+     * Load layout data.
+     *
+     * @return  self
+     */
+    protected function loadLayoutData()
+    {
+        $model = $this->getModel();
 
-		return array_merge(
-			parent::loadLayoutData(),
-			[
-				'items'         => $model->getItems(),
-				'state'         => $model->getState(),
-				'pagination'    => $model->getPagination(),
-				'filterForm'    => $model->getFilterForm(),
-				'activeFilters' => $model->getActiveFilters(),
-				'model'         => $model
-			]
-		);
-	}
+        return array_merge(
+            parent::loadLayoutData(),
+            [
+                'items'         => $model->getItems(),
+                'state'         => $model->getState(),
+                'pagination'    => $model->getPagination(),
+                'filterForm'    => $model->getFilterForm(),
+                'activeFilters' => $model->getActiveFilters(),
+                'model'         => $model
+            ]
+        );
+    }
 }

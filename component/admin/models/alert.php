@@ -12,114 +12,115 @@ defined('_JEXEC') or die;
 
 class RedshopModelAlert extends RedshopModel
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @see     JModelLegacy
-	 */
-	public function __construct($config = array())
-	{
-		// Different context depending on the view
-		if (empty($this->context))
-		{
-			$input         = JFactory::getApplication()->input;
-			$view          = $input->getString('view', '');
-			$this->context = strtolower('com_redshop.' . $view . '.' . $this->getName());
-		}
+    /**
+     * Constructor.
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @see     JModelLegacy
+     */
+    public function __construct($config = array())
+    {
+        // Different context depending on the view
+        if (empty($this->context)) {
+            $input         = JFactory::getApplication()->input;
+            $view          = $input->getString('view', '');
+            $this->context = strtolower('com_redshop.' . $view . '.' . $this->getName());
+        }
 
-		parent::__construct($config);
-	}
+        parent::__construct($config);
+    }
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.5
-	 */
-	protected function getStoreId($id = '')
-	{
-		$id .= ':' . $this->getState('read_filter');
-		$id .= ':' . $this->getState('name_filter');
+    public function _buildQuery()
+    {
+        $readFilter = $this->getState('read_filter');
+        $nameFilter = $this->getState('name_filter');
+        $db         = JFactory::getDbo();
+        $query      = $db->getQuery(true)
+            ->select('a.*')
+            ->from($db->qn('#__redshop_alerts', 'a'));
 
-		return parent::getStoreId($id);
-	}
+        if ($readFilter != 'select') {
+            $query->where($db->qn('a.read') . ' = ' . $db->q((int)$readFilter));
+        }
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 */
-	protected function populateState($ordering = 'a.sent_date', $direction = 'DESC')
-	{
-		$readFilter = $this->getUserStateFromRequest($this->context . '.read_filter', 'read_filter', 'select');
-		$nameFilter = $this->getUserStateFromRequest($this->context . '.name_filter', 'name_filter', '');
-		$this->setState('read_filter', $readFilter);
-		$this->setState('name_filter', $nameFilter);
+        if (!empty($nameFilter)) {
+            $search = $db->q('%' . $db->escape($nameFilter, true) . '%');
+            $query->where($db->qn('a.message') . ' LIKE ' . $search);
+        }
 
-		parent::populateState($ordering, $direction);
-	}
+        // Add the list ordering clause.
+        $query->order(
+            $db->escape($this->getState('list.ordering', 'a.sent_date')) . ' ' . $db->escape(
+                $this->getState('list.direction', 'DESC')
+            )
+        );
 
-	public function _buildQuery()
-	{
-		$readFilter = $this->getState('read_filter');
-		$nameFilter = $this->getState('name_filter');
-		$db         = JFactory::getDbo();
-		$query      = $db->getQuery(true)
-			->select('a.*')
-			->from($db->qn('#__redshop_alerts', 'a'));
+        return $query;
+    }
 
-		if ($readFilter != 'select')
-		{
-			$query->where($db->qn('a.read') . ' = ' . $db->q((int) $readFilter));
-		}
+    public function countAlert()
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('COUNT(*)')
+            ->from($db->qn('#__redshop_alerts'))
+            ->where($db->qn('read') . ' = 0');
 
-		if (!empty($nameFilter))
-		{
-			$search = $db->q('%' . $db->escape($nameFilter, true) . '%');
-			$query->where($db->qn('a.message') . ' LIKE ' . $search);
-		}
+        return $db->setQuery($query)->loadResult();
+    }
 
-		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.sent_date')) . ' ' . $db->escape($this->getState('list.direction', 'DESC')));
+    public function getAlert($limit)
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_alerts'))
+            ->where($db->qn('read') . ' = 0')
+            ->order($db->qn('sent_date') . ' DESC')
+            ->setLimit($limit);
 
-		return $query;
-	}
+        return $db->setQuery($query)->loadObjectList();
+    }
 
-	public function countAlert()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->qn('#__redshop_alerts'))
-			->where($db->qn('read') . ' = 0');
+    /**
+     * Method to get a store id based on model configuration state.
+     *
+     * This is necessary because the model is used by the component and
+     * different modules that might need different sets of data or different
+     * ordering requirements.
+     *
+     * @param   string  $id  A prefix for the store id.
+     *
+     * @return  string  A store id.
+     *
+     * @since   1.5
+     */
+    protected function getStoreId($id = '')
+    {
+        $id .= ':' . $this->getState('read_filter');
+        $id .= ':' . $this->getState('name_filter');
 
-		return $db->setQuery($query)->loadResult();
-	}
+        return parent::getStoreId($id);
+    }
 
-	public function getAlert($limit)
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_alerts'))
-			->where($db->qn('read') . ' = 0')
-			->order($db->qn('sent_date') . ' DESC')
-			->setLimit($limit);
+    /**
+     * Method to auto-populate the model state.
+     *
+     * @param   string  $ordering   An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
+     *
+     * @return  void
+     *
+     * @note    Calling getState in this method will result in recursion.
+     */
+    protected function populateState($ordering = 'a.sent_date', $direction = 'DESC')
+    {
+        $readFilter = $this->getUserStateFromRequest($this->context . '.read_filter', 'read_filter', 'select');
+        $nameFilter = $this->getUserStateFromRequest($this->context . '.name_filter', 'name_filter', '');
+        $this->setState('read_filter', $readFilter);
+        $this->setState('name_filter', $nameFilter);
 
-		return $db->setQuery($query)->loadObjectList();
-	}
+        parent::populateState($ordering, $direction);
+    }
 }
