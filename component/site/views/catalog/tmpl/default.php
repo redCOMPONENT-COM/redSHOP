@@ -20,33 +20,28 @@ $model = $this->getModel('catalog');
 
 $template = RedshopHelperTemplate::getTemplate("catalog");
 
-if (count($template) > 0 && $template[0]->template_desc != "")
-{
-	$templateDesc = $template[0]->template_desc;
-}
-else
-{
-	$templateDesc =  RedshopHelperTemplate::getDefaultTemplateContent("catalog");
+if (count($template) > 0 && $template[0]->template_desc != "") {
+    $templateDesc = $template[0]->template_desc;
+} else {
+    $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent("catalog");
 }
 
-if ($this->params->get('show_page_heading', 1))
-{
-	if ($this->params->get('page_title'))
-	{
-		?>
+if ($this->params->get('show_page_heading', 1)) {
+    if ($this->params->get('page_title')) {
+        ?>
     <h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
-		<?php echo $this->escape($this->params->get('page_title')); ?>
+        <?php echo $this->escape($this->params->get('page_title')); ?>
         </h1><?php
-	}
+    }
 }
 
 $catalogTemplateWapper = \RedshopTagsReplacer::_(
-	'catalog',
-	$templateDesc,
-	array(
-		'itemId' => $Itemid
-	)
+    'catalog',
+    $templateDesc,
+    array(
+        'itemId' => $Itemid
+    )
 );
 
 echo $catalogTemplateWapper;
-	?>
+?>

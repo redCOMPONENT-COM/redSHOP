@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Layout
@@ -22,48 +23,48 @@ $allowClose  = (isset($displayData['allowClose'])) ? $displayData['allowClose'] 
 
 ?>
 <div id="system-message-container">
-	<?php if (is_array($msgList) && !empty($msgList)) : ?>
-		<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+    <?php if (is_array($msgList) && !empty($msgList)) : ?>
+        <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
             <div id="system-message">
-				<?php foreach ($msgList as $type => $msgs) : ?>
+                <?php foreach ($msgList as $type => $msgs) : ?>
                     <div class="alert alert-<?php echo $type; ?>">
-						<?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
-						<?php if ($allowClose) : ?>
+                        <?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
+                        <?php if ($allowClose) : ?>
                             <a class="close" data-dismiss="alert">×</a>
-						<?php endif; ?>
-						<?php if (!empty($msgs)) : ?>
+                        <?php endif; ?>
+                        <?php if (!empty($msgs)) : ?>
 
-							<?php if ($showHeading) : ?>
+                            <?php if ($showHeading) : ?>
                                 <h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
-							<?php endif; ?>
+                            <?php endif; ?>
                             <div>
-								<?php foreach ($msgs as $msg) : ?>
+                                <?php foreach ($msgs as $msg) : ?>
                                     <p><?php echo $msg; ?></p>
-								<?php endforeach; ?>
+                                <?php endforeach; ?>
                             </div>
-						<?php endif; ?>
+                        <?php endif; ?>
                     </div>
-				<?php endforeach; ?>
+                <?php endforeach; ?>
             </div>
-		<?php else: ?>
+        <?php else: ?>
             <dl id="system-message">
-				<?php foreach ($msgList as $type => $msgs) : ?>
-					<?php if (!empty($msgs)) : ?>
+                <?php foreach ($msgList as $type => $msgs) : ?>
+                    <?php if (!empty($msgs)) : ?>
 
-						<?php if ($showHeading) : ?>
+                        <?php if ($showHeading) : ?>
                             <dt class="<?php echo strtolower($type); ?>"><?php echo JText::_($type); ?></dt>
-						<?php endif; ?>
+                        <?php endif; ?>
 
                         <dd class="<?php echo strtolower($type); ?> message">
                             <ul>
-								<?php foreach ($msgs as $msg) : ?>
+                                <?php foreach ($msgs as $msg) : ?>
                                     <li><?php echo $msg; ?></li>
-								<?php endforeach; ?>
+                                <?php endforeach; ?>
                             </ul>
                         </dd>
-					<?php endif; ?>
-				<?php endforeach; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </dl>
-		<?php endif; ?>
-	<?php endif; ?>
+        <?php endif; ?>
+    <?php endif; ?>
 </div>

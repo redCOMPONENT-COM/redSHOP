@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -12,7 +13,7 @@ defined('_JEXEC') or die;
     (function ($) {
         $(document).ready(function () {
             // Image clean thumb
-            $("#images-clean-thumb").click(function(event){
+            $("#images-clean-thumb").click(function (event) {
                 event.preventDefault();
 
                 $("a").addClass("disabled").prop("disabled", true);
@@ -23,13 +24,12 @@ defined('_JEXEC') or die;
                     {
                         "<?php echo JSession::getFormToken() ?>": 1
                     },
-                    function(response){
+                    function (response) {
                         $("a").removeClass("disabled").prop("disabled", false);
                         $(".images-loading").hide();
                         $(".images-status-log").html('');
 
-                        for (i = 0; i < response.length; i++)
-                        {
+                        for (i = 0; i < response.length; i++) {
                             $(".images-status-log").append('<p>' + response[i] + '</p>');
                         }
                     },
@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
             });
 
             // Image size check
-            $("#images-size-check").click(function(event){
+            $("#images-size-check").click(function (event) {
                 event.preventDefault();
 
                 $("a").addClass("disabled").prop("disabled", true);
@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
                     {
                         "<?php echo JSession::getFormToken() ?>": 1
                     },
-                    function(response){
+                    function (response) {
                         $(".images-status-log").html('<p>' + response + '</p>');
                         processImageCheck();
                     }
@@ -60,15 +60,14 @@ defined('_JEXEC') or die;
     })(jQuery);
 </script>
 <script type="text/javascript">
-    function processImageCheck()
-    {
-        (function($){
+    function processImageCheck() {
+        (function ($) {
             $.post(
                 'index.php?option=com_redshop&task=tool_image.processImageCheck',
                 {
                     "<?php echo JSession::getFormToken() ?>": 1
                 },
-                function(response){
+                function (response) {
                     if (response.status == 2) {
                         processImageCheck();
                     } else {
@@ -88,7 +87,9 @@ defined('_JEXEC') or die;
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    <img class="images-loading" src="<?php echo JUri::root() ?>/components/com_redshop/assets/images/loading.gif" width="20" height="20" style="display: none" />
+                    <img class="images-loading"
+                         src="<?php echo JUri::root() ?>/components/com_redshop/assets/images/loading.gif" width="20"
+                         height="20" style="display: none"/>
                     <?php echo JText::_('COM_REDSHOP_TOOLS_IMAGE_WRAPPER') ?>
                 </h3>
             </div>
@@ -101,13 +102,15 @@ defined('_JEXEC') or die;
                     </div>
                     <div class="col-md-3">
                         <a class="btn btn-block btn-app" id="images-clean-thumb" href="javascript:void(0);">
-                            <i class="fa fa-remove"></i><?php echo JText::_('COM_REDSHOP_TOOLS_IMAGE_CLEAN_THUMBNAIL') ?>
+                            <i class="fa fa-remove"></i><?php echo JText::_(
+                                'COM_REDSHOP_TOOLS_IMAGE_CLEAN_THUMBNAIL'
+                            ) ?>
                         </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <hr />
+                        <hr/>
                         <div class="images-status-log well" style="height: 300px; overflow: auto;"></div>
                     </div>
                 </div>

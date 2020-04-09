@@ -18,44 +18,41 @@ defined('_JEXEC') or die;
  */
 class RedshopViewStates extends RedshopViewList
 {
-	/**
-	 * Column for render published state.
-	 *
-	 * @var    array
-	 * @since  2.0.7
-	 */
-	protected $stateColumns = array();
+    /**
+     * Column for render published state.
+     *
+     * @var    array
+     * @since  2.0.7
+     */
+    protected $stateColumns = array();
 
-	/**
-	 * Method for render 'Published' column
-	 *
-	 * @param   array   $config  Row config.
-	 * @param   int     $index   Row index.
-	 * @param   object  $row     Row data.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.0.7
-	 */
-	public function onRenderColumn($config, $index, $row)
-	{
-		$value = $row->{$config['dataCol']};
+    /**
+     * Method for render 'Published' column
+     *
+     * @param   array   $config  Row config.
+     * @param   int     $index   Row index.
+     * @param   object  $row     Row data.
+     *
+     * @return  string
+     *
+     * @since   2.0.7
+     */
+    public function onRenderColumn($config, $index, $row)
+    {
+        $value = $row->{$config['dataCol']};
 
-		if ($config['dataCol'] === 'country_id')
-		{
-			return RedshopEntityCountry::getInstance($value)->get('country_name');
-		}
+        if ($config['dataCol'] === 'country_id') {
+            return RedshopEntityCountry::getInstance($value)->get('country_name');
+        }
 
-		if ($config['dataCol'] === 'show_state')
-		{
-			if ($value === 3)
-			{
-				return JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
-			}
+        if ($config['dataCol'] === 'show_state') {
+            if ($value === 3) {
+                return JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
+            }
 
-			return JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
-		}
+            return JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
+        }
 
-		return parent::onRenderColumn($config, $index, $row);
-	}
+        return parent::onRenderColumn($config, $index, $row);
+    }
 }

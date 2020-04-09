@@ -4,7 +4,7 @@
         <field
                 name="id"
                 type="hidden"
-                />
+        />
         <field
                 id="name"
                 name="name"
@@ -19,7 +19,7 @@
                 table-sortable="1"
                 table-inline="1"
                 table-edit-link="1"
-                />
+        />
         <field
                 name="section"
                 type="redshop.fieldsection"

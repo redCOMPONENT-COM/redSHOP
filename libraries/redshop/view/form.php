@@ -20,255 +20,235 @@ use Redshop\View\AbstractView;
  */
 class RedshopViewForm extends AbstractView
 {
-	/**
-	 * Layout used to render the component
-	 *
-	 * @var  string
-	 */
-	protected $componentLayout = 'component.admin';
+    /**
+     * @var    object
+     *
+     * @since  2.0.6
+     */
+    public $item;
+    /**
+     * @var    JForm
+     *
+     * @since  2.0.6
+     */
+    public $form;
+    /**
+     * @var    array
+     *
+     * @since  2.0.6
+     */
+    public $fields;
+    /**
+     * @var    array
+     *
+     * @since  2.0.6
+     */
+    public $hiddenFields;
+    /**
+     * Split fieldset in form into column
+     *
+     * @var   integer
+     * @since 2.0.7
+     */
+    public $formFieldsetsColumn = 2;
+    /**
+     * Layout used to render the component
+     *
+     * @var  string
+     */
+    protected $componentLayout = 'component.admin';
+    /**
+     * Form layout. (box, tab)
+     *
+     * @var    string
+     *
+     * @since  2.0.6
+     */
+    protected $formLayout = 'box';
+    /**
+     * Do we have to display a sidebar ?
+     *
+     * @var  boolean
+     */
+    protected $displaySidebar = false;
+    /**
+     * Do we have to disable a sidebar ?
+     *
+     * @var  boolean
+     */
+    protected $disableSidebar = false;
 
-	/**
-	 * Form layout. (box, tab)
-	 *
-	 * @var    string
-	 *
-	 * @since  2.0.6
-	 */
-	protected $formLayout = 'box';
+    /**
+     * Method for run before display to initial variables.
+     *
+     * @param   string  $tpl  Template name
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     * @since   2.0.6
+     *
+     */
+    public function beforeDisplay(&$tpl)
+    {
+        // Get data from the model
+        $this->item = $this->model->getItem();
+        $this->form = $this->model->getForm();
 
-	/**
-	 * Do we have to display a sidebar ?
-	 *
-	 * @var  boolean
-	 */
-	protected $displaySidebar = false;
+        $this->checkPermission();
+        $this->loadFields();
+    }
 
-	/**
-	 * Do we have to disable a sidebar ?
-	 *
-	 * @var  boolean
-	 */
-	protected $disableSidebar = false;
+    /**
+     * Method for check permission of current user on view
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     * @since   2.0.6
+     *
+     */
+    protected function checkPermission()
+    {
+        if (!$this->useUserPermission) {
+            return;
+        }
 
-	/**
-	 * @var    object
-	 *
-	 * @since  2.0.6
-	 */
-	public $item;
+        $app = JFactory::getApplication();
 
-	/**
-	 * @var    JForm
-	 *
-	 * @since  2.0.6
-	 */
-	public $form;
+        // Check permission on create new
+        if ((empty($this->item->{$this->getPrimaryKey()}) && !$this->canCreate)
+            || (!empty($this->item->{$this->getPrimaryKey()}) && !$this->canEdit)) {
+            $app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
 
-	/**
-	 * @var    array
-	 *
-	 * @since  2.0.6
-	 */
-	public $fields;
+            $app->redirect('index.php?option=com_redshop');
+        }
+    }
 
-	/**
-	 * @var    array
-	 *
-	 * @since  2.0.6
-	 */
-	public $hiddenFields;
+    /**
+     * Method for load all available fields and populate in groups
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     * @since   2.0.6
+     */
+    protected function loadFields()
+    {
+        $this->fields = array();
+        $this->hiddenFields = array();
 
-	/**
-	 * Split fieldset in form into column
-	 *
-	 * @var   integer
-	 * @since 2.0.7
-	 */
-	public $formFieldsetsColumn = 2;
+        foreach ($this->form->getFieldsets() as $fieldset) {
+            $this->fields[$fieldset->name] = $fieldset;
+            $this->prepareFields($this->fields[$fieldset->name]);
 
-	/**
-	 * Method for run before display to initial variables.
-	 *
-	 * @param   string  $tpl  Template name
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 *
-	 * @throws  Exception
-	 */
-	public function beforeDisplay(&$tpl)
-	{
-		// Get data from the model
-		$this->item = $this->model->getItem();
-		$this->form = $this->model->getForm();
+            if (empty($this->fields[$fieldset->name]->fields)) {
+                unset($this->fields[$fieldset->name]);
+            }
+        }
+    }
 
-		$this->checkPermission();
-		$this->loadFields();
-	}
+    /**
+     * Method for prepare fields in group and also HTML content
+     *
+     * @param   object  $group  Group object
+     *
+     * @return  void
+     * @throws  Exception
+     *
+     * @since  2.0.6
+     */
+    protected function prepareFields($group)
+    {
+        $group->fields = array();
 
-	/**
-	 * Method for check permission of current user on view
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 *
-	 * @throws  Exception
-	 */
-	protected function checkPermission()
-	{
-		if (!$this->useUserPermission)
-		{
-			return;
-		}
+        $fields = $this->form->getFieldset($group->name);
 
-		$app = JFactory::getApplication();
+        if (empty($fields)) {
+            return;
+        }
 
-		// Check permission on create new
-		if ((empty($this->item->{$this->getPrimaryKey()}) && !$this->canCreate)
-			|| (!empty($this->item->{$this->getPrimaryKey()}) && !$this->canEdit))
-		{
-			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION'), 'error');
+        foreach ($fields as $field) {
+            $fieldHtml = $this->prepareField($field);
 
-			$app->redirect('index.php?option=com_redshop');
-		}
-	}
+            if (false === $fieldHtml) {
+                continue;
+            }
 
-	/**
-	 * Method for add toolbar.
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since   2.0.6
-	 */
-	protected function addToolbar()
-	{
-		$isNew = ($this->item->{$this->getPrimaryKey()} < 1);
+            $group->fields[] = $fieldHtml;
+        }
 
-		if ($this->canEdit)
-		{
-			JToolbarHelper::apply($this->getInstanceName() . '.apply');
-		}
+        $group->html = implode('', $group->fields);
+    }
 
-		if ($this->canEdit || $this->canCreate)
-		{
-			JToolbarHelper::save($this->getInstanceName() . '.save');
-			JToolbarHelper::save2new($this->getInstanceName() . '.save2new');
-		}
+    /**
+     * Method for prepare field HTML
+     *
+     * @param   object  $field  Group object
+     *
+     * @return  boolean|string  False if keep. String for HTML content if success.
+     *
+     * @since   2.1.0
+     */
+    protected function prepareField($field)
+    {
+        if ($field->getAttribute('type') === "spacer") {
+            return false;
+        }
 
-		if ($isNew)
-		{
-			JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
-		}
-		else
-		{
-			JToolbarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
-		}
-	}
+        if ($field->getAttribute('type') === "hidden") {
+            $this->hiddenFields[] = $this->form->getInput($field->getAttribute('name'));
 
-	/**
-	 * Method for load all available fields and populate in groups
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 * @throws  Exception
-	 */
-	protected function loadFields()
-	{
-		$this->fields       = array();
-		$this->hiddenFields = array();
+            return false;
+        }
 
-		foreach ($this->form->getFieldsets() as $fieldset)
-		{
-			$this->fields[$fieldset->name] = $fieldset;
-			$this->prepareFields($this->fields[$fieldset->name]);
+        return $this->form->renderField($field->getAttribute('name'));
+    }
 
-			if (empty($this->fields[$fieldset->name]->fields))
-			{
-				unset($this->fields[$fieldset->name]);
-			}
-		}
-	}
+    /**
+     * Method for get page title.
+     *
+     * @return  string
+     *
+     * @throws  Exception
+     * @since   2.1.0
+     */
+    public function getTitle()
+    {
+        $primaryKey = $this->getPrimaryKey();
+        $title      = parent::getTitle();
 
-	/**
-	 * Method for prepare fields in group and also HTML content
-	 *
-	 * @param   object  $group  Group object
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since  2.0.6
-	 */
-	protected function prepareFields($group)
-	{
-		$group->fields = array();
+        return !empty($this->item->{$primaryKey}) ? $title . ' <small>[ ' . JText::_(
+                'COM_REDSHOP_EDIT'
+            ) . ' ]</small>' :
+            $title . ' <small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small>';
+    }
 
-		$fields = $this->form->getFieldset($group->name);
+    /**
+     * Method for add toolbar.
+     *
+     * @return  void
+     * @throws  Exception
+     *
+     * @since   2.0.6
+     */
+    protected function addToolbar()
+    {
+        $isNew = ($this->item->{$this->getPrimaryKey()} < 1);
 
-		if (empty($fields))
-		{
-			return;
-		}
+        if ($this->canEdit) {
+            JToolbarHelper::apply($this->getInstanceName() . '.apply');
+        }
 
-		foreach ($fields as $field)
-		{
-			$fieldHtml = $this->prepareField($field);
+        if ($this->canEdit || $this->canCreate) {
+            JToolbarHelper::save($this->getInstanceName() . '.save');
+            JToolbarHelper::save2new($this->getInstanceName() . '.save2new');
+        }
 
-			if (false === $fieldHtml)
-			{
-				continue;
-			}
-
-			$group->fields[] = $fieldHtml;
-		}
-
-		$group->html = implode('', $group->fields);
-	}
-
-	/**
-	 * Method for prepare field HTML
-	 *
-	 * @param   object  $field  Group object
-	 *
-	 * @return  boolean|string  False if keep. String for HTML content if success.
-	 *
-	 * @since   2.1.0
-	 */
-	protected function prepareField($field)
-	{
-		if ($field->getAttribute('type') === "spacer")
-		{
-			return false;
-		}
-
-		if ($field->getAttribute('type') === "hidden")
-		{
-			$this->hiddenFields[] = $this->form->getInput($field->getAttribute('name'));
-
-			return false;
-		}
-
-		return $this->form->renderField($field->getAttribute('name'));
-	}
-
-	/**
-	 * Method for get page title.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.1.0
-	 * @throws  Exception
-	 */
-	public function getTitle()
-	{
-		$primaryKey = $this->getPrimaryKey();
-		$title      = parent::getTitle();
-
-		return !empty($this->item->{$primaryKey}) ? $title . ' <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>' :
-			$title . ' <small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small>';
-	}
+        if ($isNew) {
+            JToolbarHelper::cancel($this->getInstanceName() . '.cancel');
+        } else {
+            JToolbarHelper::cancel($this->getInstanceName() . '.cancel', JText::_('JTOOLBAR_CLOSE'));
+        }
+    }
 }

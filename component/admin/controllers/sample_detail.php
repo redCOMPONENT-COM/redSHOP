@@ -12,133 +12,124 @@ defined('_JEXEC') or die;
 
 class RedshopControllerSample_detail extends RedshopController
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-		$this->registerTask('add', 'edit');
-	}
+    public function __construct($default = array())
+    {
+        parent::__construct($default);
+        $this->registerTask('add', 'edit');
+    }
 
-	public function edit()
-	{
-		$this->input->set('view', 'sample_detail');
-		parent::display();
-	}
+    public function edit()
+    {
+        $this->input->set('view', 'sample_detail');
+        parent::display();
+    }
 
-	public function apply()
-	{
-		$this->save(1);
-	}
+    public function apply()
+    {
+        $this->save(1);
+    }
 
-	public function save2new()
-	{
-		$this->save(2);
-	}
+    public function save($apply = 0)
+    {
+        $post = $this->input->post->getArray();
+        $cid = $this->input->post->get('cid', array(), 'array');
+        $post ['sample_id'] = $cid[0];
 
-	public function save($apply = 0)
-	{
-		$post = $this->input->post->getArray();
-		$cid  = $this->input->post->get('cid', array(), 'array');
-		$post ['sample_id']  = $cid[0];
+        /** @var RedshopModelSample_detail $model */
+        $model = $this->getModel('sample_detail');
 
-		/** @var RedshopModelSample_detail $model */
-		$model = $this->getModel('sample_detail');
-		
-		$row = $model->store($post);
+        $row = $model->store($post);
 
-		if ($row)
-		{
-			$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_SAVED');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SAMPLE_DETAIL');
-		}
+        if ($row) {
+            $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_SAVED');
+        } else {
+            $msg = JText::_('COM_REDSHOP_ERROR_SAVING_SAMPLE_DETAIL');
+        }
 
-		if ($apply == 1)
-		{
-		    $this->setRedirect('index.php?option=com_redshop&view=sample_detail&task=edit&cid[]=' . $row->sample_id, $msg);
-		}
-		elseif ($apply == 2)
-		{
-		    $this->setRedirect('index.php?option=com_redshop&view=sample_detail&task=add', $msg);
-		}
-		else
-		{
-		    $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
-		}
-	}
+        if ($apply == 1) {
+            $this->setRedirect(
+                'index.php?option=com_redshop&view=sample_detail&task=edit&cid[]=' . $row->sample_id,
+                $msg
+            );
+        } elseif ($apply == 2) {
+            $this->setRedirect('index.php?option=com_redshop&view=sample_detail&task=add', $msg);
+        } else {
+            $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
+        }
+    }
 
-	public function remove()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
+    public function save2new()
+    {
+        $this->save(2);
+    }
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
-		}
+    public function remove()
+    {
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
-		/** @var RedshopModelSample_detail $model */
-		$model = $this->getModel('sample_detail');
+        if (!is_array($cid) || count($cid) < 1) {
+            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+        }
 
-		if (!$model->delete($cid))
-		{
-			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
-		}
+        /** @var RedshopModelSample_detail $model */
+        $model = $this->getModel('sample_detail');
 
-		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_DELETED_SUCCESSFULLY');
+        if (!$model->delete($cid)) {
+            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(
+                ) . "'); window.history.go(-1); </script>\n";
+        }
 
-		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
-	}
+        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_DELETED_SUCCESSFULLY');
 
-	public function publish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
+        $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
+    }
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
+    public function publish()
+    {
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
-		/** @var RedshopModelSample_detail $model */
-		$model = $this->getModel('sample_detail');
+        if (!is_array($cid) || count($cid) < 1) {
+            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+        }
 
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
-		}
+        /** @var RedshopModelSample_detail $model */
+        $model = $this->getModel('sample_detail');
 
-		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_PUBLISHED_SUCCESFULLY');
+        if (!$model->publish($cid, 1)) {
+            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(
+                ) . "'); window.history.go(-1); </script>\n";
+        }
 
-		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
-	}
+        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_PUBLISHED_SUCCESFULLY');
 
-	public function unpublish()
-	{
-		$cid = $this->input->post->get('cid', array(0), 'array');
+        $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
+    }
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
+    public function unpublish()
+    {
+        $cid = $this->input->post->get('cid', array(0), 'array');
 
-		/** @var RedshopModelSample_detail $model */
-		$model = $this->getModel('sample_detail');
+        if (!is_array($cid) || count($cid) < 1) {
+            throw new Exception(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+        }
 
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError() . "'); window.history.go(-1); </script>\n";
-		}
+        /** @var RedshopModelSample_detail $model */
+        $model = $this->getModel('sample_detail');
 
-		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_UNPUBLISHED_SUCCESFULLY');
+        if (!$model->publish($cid, 0)) {
+            echo "<script> alert('" . /** @scrutinizer ignore-deprecated */ $model->getError(
+                ) . "'); window.history.go(-1); </script>\n";
+        }
 
-		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
-	}
+        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
-	public function cancel()
-	{
+        $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
+    }
 
-		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_EDITING_CANCELLED');
+    public function cancel()
+    {
+        $msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_EDITING_CANCELLED');
 
-		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
-	}
+        $this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
+    }
 }

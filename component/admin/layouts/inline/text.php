@@ -28,5 +28,5 @@ extract($displayData);
        data-original-value="<?php echo $value ?>" disabled="disabled" style="display: none;"/>
 <div id="<?php echo $name ?>-<?php echo $id ?>" data-target="<?php echo $name ?>-<?php echo $id ?>-edit-inline"
      data-id="<?php echo $id ?>" class="label-edit-inline">
-	<?php echo $display ?>
+    <?php echo $display ?>
 </div>

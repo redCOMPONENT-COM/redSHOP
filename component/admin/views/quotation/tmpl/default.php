@@ -36,7 +36,7 @@ $model = $this->getModel('quotation');
                 </div>
             </div>
             <div class="filterItem">
-				<?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS') . ": " . $lists['filter_status']; ?>
+                <?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS') . ": " . $lists['filter_status']; ?>
             </div>
         </div>
         <table class="adminlist table table-striped">
@@ -44,103 +44,103 @@ $model = $this->getModel('quotation');
             <tr>
                 <th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
                 <th width="5%" class="title">
-					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+                    <?php echo JHtml::_('redshopgrid.checkall'); ?>
                 </th>
                 <th class="title" width="5%">
-					<?php echo JHTML::_(
-						'grid.sort',
-						'COM_REDSHOP_QUOTATION_ID',
-						'quotation_id',
-						$this->lists['order_Dir'],
-						$this->lists['order']
-					); ?></th>
+                    <?php echo JHTML::_(
+                        'grid.sort',
+                        'COM_REDSHOP_QUOTATION_ID',
+                        'quotation_id',
+                        $this->lists['order_Dir'],
+                        $this->lists['order']
+                    ); ?></th>
                 <th class="title" width="5%">
-					<?php echo JHTML::_(
-						'grid.sort',
-						'COM_REDSHOP_QUOTATION_NUMBER',
-						'quotation_number',
-						$this->lists['order_Dir'],
-						$this->lists['order']
-					); ?></th>
+                    <?php echo JHTML::_(
+                        'grid.sort',
+                        'COM_REDSHOP_QUOTATION_NUMBER',
+                        'quotation_number',
+                        $this->lists['order_Dir'],
+                        $this->lists['order']
+                    ); ?></th>
                 <th width="20%">
-					<?php echo JText::_('COM_REDSHOP_FULLNAME'); ?></th>
+                    <?php echo JText::_('COM_REDSHOP_FULLNAME'); ?></th>
                 <th width="20%">
-					<?php echo JHTML::_(
-						'grid.sort',
-						'COM_REDSHOP_QUOTATION_STATUS',
-						'quotation_status',
-						$this->lists['order_Dir'],
-						$this->lists['order']
-					); ?></th>
+                    <?php echo JHTML::_(
+                        'grid.sort',
+                        'COM_REDSHOP_QUOTATION_STATUS',
+                        'quotation_status',
+                        $this->lists['order_Dir'],
+                        $this->lists['order']
+                    ); ?></th>
                 <th width="10%">
-					<?php echo JHTML::_(
-						'grid.sort',
-						'COM_REDSHOP_TOTAL',
-						'quotation_total',
-						$this->lists['order_Dir'],
-						$this->lists['order']
-					); ?></th>
+                    <?php echo JHTML::_(
+                        'grid.sort',
+                        'COM_REDSHOP_TOTAL',
+                        'quotation_total',
+                        $this->lists['order_Dir'],
+                        $this->lists['order']
+                    ); ?></th>
                 <th width="10%" nowrap="nowrap">
-					<?php echo JHTML::_(
-						'grid.sort',
-						'COM_REDSHOP_QUOTATION_DATE',
-						'quotation_cdate',
-						$this->lists['order_Dir'],
-						$this->lists['order']
-					); ?></th>
+                    <?php echo JHTML::_(
+                        'grid.sort',
+                        'COM_REDSHOP_QUOTATION_DATE',
+                        'quotation_cdate',
+                        $this->lists['order_Dir'],
+                        $this->lists['order']
+                    ); ?></th>
             </tr>
             </thead>
-			<?php
-			$k = 0;
-			for ($i = 0, $n = count($this->quotation); $i < $n; $i++) {
-				$row = $this->quotation[$i];
-				$row->id = $row->quotation_id;
-				$display = $row->user_email;
-				if ($row->user_id) {
-					$userarr = RedshopHelperUser::getUserInformation($row->user_id);
+            <?php
+            $k = 0;
+            for ($i = 0, $n = count($this->quotation); $i < $n; $i++) {
+                $row     = $this->quotation[$i];
+                $row->id = $row->quotation_id;
+                $display = $row->user_email;
+                if ($row->user_id) {
+                    $userarr = RedshopHelperUser::getUserInformation($row->user_id);
 
-					if (isset($userarr)) {
-						$display = $userarr->firstname . ' ' . $userarr->lastname;
-						$display .= ($userarr->is_company && $userarr->company_name != "") ? "<br>" . $userarr->company_name : "";
-					}
-				}
-				$link = JRoute::_(
-					'index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id
-				);
-				$status = RedshopHelperQuotation::getQuotationStatusName($row->quotation_status);
-				if ($row->quotation_status == 5) {
-					$status .= " (" . JText::_('COM_REDSHOP_ORDER_ID') . "-" . $row->order_id . " )";
-				} ?>
+                    if (isset($userarr)) {
+                        $display = $userarr->firstname . ' ' . $userarr->lastname;
+                        $display .= ($userarr->is_company && $userarr->company_name != "") ? "<br>" . $userarr->company_name : "";
+                    }
+                }
+                $link   = JRoute::_(
+                    'index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id
+                );
+                $status = RedshopHelperQuotation::getQuotationStatusName($row->quotation_status);
+                if ($row->quotation_status == 5) {
+                    $status .= " (" . JText::_('COM_REDSHOP_ORDER_ID') . "-" . $row->order_id . " )";
+                } ?>
                 <tr class="<?php echo "row$k"; ?>">
                     <td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
                     <td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
                     <td align="center"><a href="<?php echo $link; ?>"
                                           title="<?php echo JText::_(
-						                      'COM_REDSHOP_VIEW_QUOTATION'
-					                      ); ?>"><?php echo $row->quotation_id; ?></a>
+                                              'COM_REDSHOP_VIEW_QUOTATION'
+                                          ); ?>"><?php echo $row->quotation_id; ?></a>
                     </td>
                     <td align="center"><a href="<?php echo $link; ?>"
                                           title="<?php echo JText::_(
-						                      'COM_REDSHOP_VIEW_QUOTATION'
-					                      ); ?>"><?php echo $row->quotation_number; ?></a>
+                                              'COM_REDSHOP_VIEW_QUOTATION'
+                                          ); ?>"><?php echo $row->quotation_number; ?></a>
                     </td>
                     <td><?php echo $display; ?></td>
                     <td align="center"><?php echo $status; ?></td>
                     <td align="center"><?php echo RedshopHelperProductPrice::formattedPrice(
-							$row->quotation_total
-						); ?></td>
+                            $row->quotation_total
+                        ); ?></td>
                     <td align="center"><?php echo $config->convertDateFormat($row->quotation_cdate); ?></td>
                 </tr>
-				<?php $k = 1 - $k;
-			} ?>
+                <?php $k = 1 - $k;
+            } ?>
             <tr>
                 <td colspan="8">
-					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+                    <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
                         <div class="redShopLimitBox">
-							<?php echo $this->pagination->getLimitBox(); ?>
+                            <?php echo $this->pagination->getLimitBox(); ?>
                         </div>
-					<?php endif; ?>
-					<?php echo $this->pagination->getListFooter(); ?></td>
+                    <?php endif; ?>
+                    <?php echo $this->pagination->getListFooter(); ?></td>
         </table>
     </div>
 

@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityProduct_Subscribe extends RedshopEntity
 {
-	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Product_Subscribe_Detail', 'Table');
-	}
+    /**
+     * Get the associated table
+     *
+     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+     *
+     * @return  RedshopTable
+     */
+    public function getTable($name = null)
+    {
+        return JTable::getInstance('Product_Subscribe_Detail', 'Table');
+    }
 }

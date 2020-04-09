@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -15,8 +16,8 @@ JPluginHelper::importPlugin('redshop_product');
  * Trigger event onAfterDisplayProduct
  * Show content return by plugin directly into product page after display product title
  */
-$data = new stdClass;
-$results = $dispatcher->trigger('onBackendOrderDetailFooter', array(& $this));
+$data           = new stdClass;
+$results        = $dispatcher->trigger('onBackendOrderDetailFooter', array(& $this));
 $data->loadhtml = trim(implode("\n", $results));
 
 echo $data->loadhtml;

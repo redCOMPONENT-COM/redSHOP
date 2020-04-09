@@ -19,23 +19,24 @@ defined('_JEXEC') or die;
  */
 class JFormFieldEpayCardTypes extends JFormField
 {
-	/**
-	 * Element name
-	 *
-	 * @var   string
-	 */
-	public $type = 'epaycardtypes';
+    /**
+     * Element name
+     *
+     * @var   string
+     */
+    public $type = 'epaycardtypes';
 
-	/**
-	 * Get input HTML
-	 *
-	 * @return  string
-	 *
-	 * @since  1.7
-	 */
-	protected function getInput()
-	{
-		JFactory::getDocument()->addScriptDeclaration('
+    /**
+     * Get input HTML
+     *
+     * @return  string
+     *
+     * @since  1.7
+     */
+    protected function getInput()
+    {
+        JFactory::getDocument()->addScriptDeclaration(
+            '
 	        function enableDisableAll() {
                 if (document.getElementById("ALL").checked == true) {
                     document.getElementById("VD").checked = true;
@@ -67,66 +68,56 @@ class JFormFieldEpayCardTypes extends JFormField
                     document.getElementById("MOBILPENGE").checked = false;
                 }
             }
-	    ');
+	    '
+        );
 
-		// This might get a conflict with the dynamic translation - TODO: search for better solution
+        // This might get a conflict with the dynamic translation - TODO: search for better solution
 
-		//$selected_cc = explode(",",$this->detail->accepted_credict_card);
-		$creditCards = array();
+        //$selected_cc = explode(",",$this->detail->accepted_credict_card);
+        $creditCards = array();
 
-		$creditCards['ALL']                = 'All cards';
-		$creditCards['VD']                 = 'Dankort/VISA Dankort';
-		$creditCards['ED']                 = 'eDankort';
-		$creditCards['VE']                 = 'VISA / VISA Electron';
-		$creditCards['MC']                 = 'MASTERCARD';
-		$creditCards['JCB']                = 'JCB';
-		$creditCards['DINERS']             = 'DINERS';
-		$creditCards['MAESTRO']            = 'MAESTRO';
-		$creditCards['AE']                 = 'AMERICAN EXPRESS';
-		$creditCards['FORBRUGSFORENINGEN'] = 'FORBRUGSFORENINGEN';
-		$creditCards['NORDEA']             = 'NORDEA';
-		$creditCards['DANSKE']             = 'Danske Netbetalinger';
-		$creditCards['PAYPAL']             = 'PAYPAL';
-		$creditCards['MOBILPENGE']         = 'MOBILPENGE';
+        $creditCards['ALL']                = 'All cards';
+        $creditCards['VD']                 = 'Dankort/VISA Dankort';
+        $creditCards['ED']                 = 'eDankort';
+        $creditCards['VE']                 = 'VISA / VISA Electron';
+        $creditCards['MC']                 = 'MASTERCARD';
+        $creditCards['JCB']                = 'JCB';
+        $creditCards['DINERS']             = 'DINERS';
+        $creditCards['MAESTRO']            = 'MAESTRO';
+        $creditCards['AE']                 = 'AMERICAN EXPRESS';
+        $creditCards['FORBRUGSFORENINGEN'] = 'FORBRUGSFORENINGEN';
+        $creditCards['NORDEA']             = 'NORDEA';
+        $creditCards['DANSKE']             = 'Danske Netbetalinger';
+        $creditCards['PAYPAL']             = 'PAYPAL';
+        $creditCards['MOBILPENGE']         = 'MOBILPENGE';
 
-		$html = '';
+        $html = '';
 
-		foreach ($creditCards as $key => $value)
-		{
-			if (count($this->value) != 0 || $this->value != 0)
-			{
-				if (is_array($this->value))
-				{
-					$checked = in_array($key, $this->value) ? "checked" : "";
-				}
-				else
-				{
-					$checked = ($key == $this->value) ? "checked" : "";
-				}
-			}
-			else
-			{
-				$checked = '';
-			}
+        foreach ($creditCards as $key => $value) {
+            if (count($this->value) != 0 || $this->value != 0) {
+                if (is_array($this->value)) {
+                    $checked = in_array($key, $this->value) ? "checked" : "";
+                } else {
+                    $checked = ($key == $this->value) ? "checked" : "";
+                }
+            } else {
+                $checked = '';
+            }
 
 
-			if ($key == 'ALL')
-			{
-				if ($key == $this->value)
-				{
-					$checked = 'checked';
-				}
+            if ($key == 'ALL') {
+                if ($key == $this->value) {
+                    $checked = 'checked';
+                }
 
-				$html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' "
-					. $checked . " onclick='javascript:enableDisableAll();'  />" . $value . "&nbsp;<br /></label>";
-			}
-			else
-			{
-				$html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' "
-					. $checked . "   />" . $value . "&nbsp;<br /></label>";
-			}
-		}
+                $html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' "
+                    . $checked . " onclick='javascript:enableDisableAll();'  />" . $value . "&nbsp;<br /></label>";
+            } else {
+                $html .= "<label><input type='checkbox' id='" . $key . "'[]' name='" . $this->name . "[]'  value='" . $key . "' "
+                    . $checked . "   />" . $value . "&nbsp;<br /></label>";
+            }
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 }

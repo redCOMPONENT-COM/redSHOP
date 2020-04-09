@@ -16,17 +16,17 @@ namespace Redshop\Repositories;
  */
 class Table
 {
-	/**
-	 * @param   string $table Table
-	 *
-	 * @return  mixed
-	 *
-	 * @since   2.1.0
-	 */
-	public static function getFields($table)
-	{
-		$db = \JFactory::getDbo();
+    /**
+     * @param   string  $table  Table
+     *
+     * @return  mixed
+     *
+     * @since   2.1.0
+     */
+    public static function getFields($table)
+    {
+        $db = \JFactory::getDbo();
 
-		return $db->setQuery('SHOW COLUMNS FROM ' . $db->quoteName($table))->loadObjectList();
-	}
+        return $db->setQuery('SHOW COLUMNS FROM ' . $db->quoteName($table))->loadObjectList();
+    }
 }

@@ -18,41 +18,38 @@ defined('_JEXEC') or die;
  */
 class Rating
 {
-	/**
-	 * Get Product Rating
-	 *
-	 * @param   integer $productId Product id
-	 *
-	 * @return  string
-	 * @since   2.1.0
-	 */
-	public static function getRating($productId)
-	{
-		$productData = \Redshop\Product\Product::getProductById($productId);
+    /**
+     * Get Product Rating
+     *
+     * @param   integer  $productId  Product id
+     *
+     * @return  string
+     * @since   2.1.0
+     */
+    public static function getRating($productId)
+    {
+        $productData = \Redshop\Product\Product::getProductById($productId);
 
-		if (empty($productData))
-		{
-			return '';
-		}
+        if (empty($productData)) {
+            return '';
+        }
 
-		$avgRating = 0;
+        $avgRating = 0;
 
-		if ($productData->count_rating > 0)
-		{
-			$avgRating = round($productData->sum_rating / $productData->count_rating);
-		}
+        if ($productData->count_rating > 0) {
+            $avgRating = round($productData->sum_rating / $productData->count_rating);
+        }
 
-		if (!$avgRating)
-		{
-			return '';
-		}
+        if (!$avgRating) {
+            return '';
+        }
 
-		return \RedshopLayoutHelper::render(
-			'product.rating',
-			array(
-				'avgRating'   => $avgRating,
-				'countRating' => $productData->count_rating
-			)
-		);
-	}
+        return \RedshopLayoutHelper::render(
+            'product.rating',
+            array(
+                'avgRating'   => $avgRating,
+                'countRating' => $productData->count_rating
+            )
+        );
+    }
 }

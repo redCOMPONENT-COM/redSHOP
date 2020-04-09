@@ -54,40 +54,39 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
 <fieldset class="adminform">
     <legend>
         <input type="radio" name="selectedCard" value="" checked="checked">
-		<?php echo JText::_('COM_REDSHOP_CARD_INFORMATION') ?>
+        <?php echo JText::_('COM_REDSHOP_CARD_INFORMATION') ?>
     </legend>
     <div class="credit-card-form">
         <div class="control-group">
             <div class="controls">
-				<?php
-				$cardTypes  = array();
-				$creditCard = $pluginParams->get("accepted_credict_card", array());
+                <?php
+                $cardTypes  = array();
+                $creditCard = $pluginParams->get("accepted_credict_card", array());
 
-				for ($ic = 0, $nic = count($creditCard); $ic < $nic; $ic++)
-				{
-					$url         = REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $creditCardList[$creditCard[$ic]]->img;
-					$text        = '<img src="' . $url . '" alt="" border="0" />';
-					$cardTypes[] = JHtml::_('select.option', $creditCard[$ic], $text);
-				}
+                for ($ic = 0, $nic = count($creditCard); $ic < $nic; $ic++) {
+                    $url         = REDSHOP_FRONT_IMAGES_ABSPATH . 'checkout/' . $creditCardList[$creditCard[$ic]]->img;
+                    $text        = '<img src="' . $url . '" alt="" border="0" />';
+                    $cardTypes[] = JHtml::_('select.option', $creditCard[$ic], $text);
+                }
 
-				echo JHtml::_(
-				        'redshopselect.radiolist',
-                        $cardTypes,
-                        'creditcard_code',
-                        ['cssClassSuffix' => ''],
-                        'value',
-                        'text',
-                        $creditCardData['creditcard_code'] ?? ''
+                echo JHtml::_(
+                    'redshopselect.radiolist',
+                    $cardTypes,
+                    'creditcard_code',
+                    ['cssClassSuffix' => ''],
+                    'value',
+                    'text',
+                    $creditCardData['creditcard_code'] ?? ''
                 );
-				?>
+                ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="order_payment_name">
-				<?php echo JText::_('COM_REDSHOP_NAME_ON_CARD'); ?>
+                <?php echo JText::_('COM_REDSHOP_NAME_ON_CARD'); ?>
             </label>
             <div class="controls">
-				<?php $orderPaymentName = (!empty($creditCardData['order_payment_name'])) ? $creditCardData['order_payment_name'] : ""; ?>
+                <?php $orderPaymentName = (!empty($creditCardData['order_payment_name'])) ? $creditCardData['order_payment_name'] : ""; ?>
                 <input
                         class="input-medium"
                         type="text"
@@ -101,12 +100,12 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
         </div>
         <div class="control-group">
             <label class="control-label" for="order_payment_number">
-				<?php echo JText::_('COM_REDSHOP_CARD_NUM'); ?>
+                <?php echo JText::_('COM_REDSHOP_CARD_NUM'); ?>
             </label>
             <div class="controls">
-				<?php
-				$orderPaymentNumber = (!empty($creditCardData['order_payment_number'])) ? $creditCardData['order_payment_number'] : "";
-				?>
+                <?php
+                $orderPaymentNumber = (!empty($creditCardData['order_payment_number'])) ? $creditCardData['order_payment_number'] : "";
+                ?>
                 <input
                         class="input-medium"
                         type="text"
@@ -119,47 +118,48 @@ RedshopHelperUtility::getDispatcher()->trigger('onListCreditCards', array('selec
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="order_payment_expire_month"><?php echo JText::_('COM_REDSHOP_EXPIRY_DATE'); ?></label>
+            <label class="control-label" for="order_payment_expire_month"><?php echo JText::_(
+                    'COM_REDSHOP_EXPIRY_DATE'
+                ); ?></label>
             <div class="controls">
-				<?php
-				echo JHtml::_(
-					'select.genericlist',
-					$months,
-					'order_payment_expire_month',
-					'size="1" class="input-small" ',
-					'value',
-					'text',
-					$creditCardData['order_payment_expire_month'] ?? ''
-				);
+                <?php
+                echo JHtml::_(
+                    'select.genericlist',
+                    $months,
+                    'order_payment_expire_month',
+                    'size="1" class="input-small" ',
+                    'value',
+                    'text',
+                    $creditCardData['order_payment_expire_month'] ?? ''
+                );
 
-				$currentYear = date('Y');
-				$years       = array();
+                $currentYear = date('Y');
+                $years       = array();
 
-				for ($y = $currentYear; $y < ($currentYear + 10); $y++)
-				{
-					$years[] = JHtml::_('select.option', $y, $y);
-				}
+                for ($y = $currentYear; $y < ($currentYear + 10); $y++) {
+                    $years[] = JHtml::_('select.option', $y, $y);
+                }
 
-				echo JHtml::_(
-					'select.genericlist',
-					$years,
-					'order_payment_expire_year',
-					'size="1" class="input-small" ',
-					'value',
-					'text',
-					$creditCardData['order_payment_expire_year'] ?? ''
-				);
-				?>
+                echo JHtml::_(
+                    'select.genericlist',
+                    $years,
+                    'order_payment_expire_year',
+                    'size="1" class="input-small" ',
+                    'value',
+                    'text',
+                    $creditCardData['order_payment_expire_year'] ?? ''
+                );
+                ?>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="credit_card_code">
-				<?php echo JText::_('COM_REDSHOP_CARD_SECURITY_CODE'); ?>
+                <?php echo JText::_('COM_REDSHOP_CARD_SECURITY_CODE'); ?>
             </label>
             <div class="controls">
-				<?php
-				$creditCardCode = (!empty($creditCardData['credit_card_code'])) ? $creditCardData['credit_card_code'] : "";
-				?>
+                <?php
+                $creditCardCode = (!empty($creditCardData['credit_card_code'])) ? $creditCardData['credit_card_code'] : "";
+                ?>
                 <input
                         class="input-mini"
                         type="password"

@@ -18,401 +18,372 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityOrder extends RedshopEntity
 {
-	/**
-	 * @var   RedshopEntitiesCollection
-	 *
-	 * @since   2.0.6
-	 */
-	protected $orderItems;
+    /**
+     * @var   RedshopEntitiesCollection
+     *
+     * @since   2.0.6
+     */
+    protected $orderItems;
 
-	/**
-	 * @var   RedshopEntityOrder_Payment
-	 *
-	 * @since   2.0.6
-	 */
-	protected $payment;
+    /**
+     * @var   RedshopEntityOrder_Payment
+     *
+     * @since   2.0.6
+     */
+    protected $payment;
 
-	/**
-	 * @var    RedshopEntitiesCollection
-	 *
-	 * @since  2.0.6
-	 */
-	protected $users;
+    /**
+     * @var    RedshopEntitiesCollection
+     *
+     * @since  2.0.6
+     */
+    protected $users;
 
-	/**
-	 * @var   RedshopEntityOrder_User
-	 *
-	 * @since   2.0.6
-	 */
-	protected $billing;
+    /**
+     * @var   RedshopEntityOrder_User
+     *
+     * @since   2.0.6
+     */
+    protected $billing;
 
-	/**
-	 * @var   RedshopEntityOrder_User
-	 *
-	 * @since   2.0.6
-	 */
-	protected $shipping;
+    /**
+     * @var   RedshopEntityOrder_User
+     *
+     * @since   2.0.6
+     */
+    protected $shipping;
 
-	/**
-	 * @var   array
-	 *
-	 * @since   2.0.6
-	 */
-	protected $statusLog;
+    /**
+     * @var   array
+     *
+     * @since   2.0.6
+     */
+    protected $statusLog;
 
-	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  boolean|Tableorder_detail
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Order_Detail', 'Table');
-	}
+    /**
+     * Get the associated table
+     *
+     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+     *
+     * @return  boolean|Tableorder_detail
+     */
+    public function getTable($name = null)
+    {
+        return JTable::getInstance('Order_Detail', 'Table');
+    }
 
-	/**
-	 * Method for get order items for this order
-	 *
-	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
-	 *
-	 * @since   2.0.6
-	 */
-	public function getOrderItems()
-	{
-		if (!$this->hasId())
-		{
-			return null;
-		}
+    /**
+     * Method for get order items for this order
+     *
+     * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+     *
+     * @since   2.0.6
+     */
+    public function getOrderItems()
+    {
+        if (!$this->hasId()) {
+            return null;
+        }
 
-		if (null === $this->orderItems)
-		{
-			$this->loadOrderItems();
-		}
+        if (null === $this->orderItems) {
+            $this->loadOrderItems();
+        }
 
-		return $this->orderItems;
-	}
+        return $this->orderItems;
+    }
 
-	/**
-	 * Method for get order status log for this order
-	 *
-	 * @return   array   RedshopEntitiesCollection if success. Null otherwise.
-	 *
-	 * @since   2.0.6
-	 */
-	public function getStatusLog()
-	{
-		if (!$this->hasId())
-		{
-			return null;
-		}
+    /**
+     * Method for load order items for this order
+     *
+     * @return  self
+     *
+     * @since   2.0.6
+     */
+    protected function loadOrderItems()
+    {
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		if (null === $this->statusLog)
-		{
-			$this->loadStatusLog();
-		}
+        $this->orderItems = new RedshopEntitiesCollection;
 
-		return $this->statusLog;
-	}
+        $db         = JFactory::getDbo();
+        $query      = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_order_item'))
+            ->where($db->qn('order_id') . ' = ' . $this->getId());
+        $orderItems = $db->setQuery($query)->loadObjectList();
 
-	/**
-	 * Method for get payment for this order
-	 *
-	 * @return   RedshopEntityOrder_Payment   Payment data if success. Null otherwise.
-	 *
-	 * @since   2.0.6
-	 */
-	public function getPayment()
-	{
-		if (!$this->hasId())
-		{
-			return null;
-		}
+        if (empty($orderItems)) {
+            return $this;
+        }
 
-		if (null === $this->payment)
-		{
-			$this->loadPayment();
-		}
+        foreach ($orderItems as $orderItem) {
+            $entity = RedshopEntityOrder_Item::getInstance($orderItem->order_item_id);
+            $entity->bind($orderItem);
 
-		return $this->payment;
-	}
+            $this->orderItems->add($entity);
+        }
 
-	/**
-	 * Method for get users of this order
-	 *
-	 * @return   RedshopEntitiesCollection   Collection of users if success. Null otherwise.
-	 *
-	 * @since   2.0.6
-	 */
-	public function getUsers()
-	{
-		if (!$this->hasId())
-		{
-			return null;
-		}
+        return $this;
+    }
 
-		if (null === $this->users)
-		{
-			$this->loadUsers();
-		}
+    /**
+     * Method for get order status log for this order
+     *
+     * @return   array   RedshopEntitiesCollection if success. Null otherwise.
+     *
+     * @since   2.0.6
+     */
+    public function getStatusLog()
+    {
+        if (!$this->hasId()) {
+            return null;
+        }
 
-		return $this->users;
-	}
+        if (null === $this->statusLog) {
+            $this->loadStatusLog();
+        }
 
-	/**
-	 * Method for get billing information of this order
-	 *
-	 * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
-	 *
-	 * @since   2.0.6
-	 */
-	public function getBilling()
-	{
-		if (!$this->hasId())
-		{
-			return null;
-		}
+        return $this->statusLog;
+    }
 
-		if (null === $this->billing)
-		{
-			$this->loadBilling();
-		}
+    /**
+     * Method for load order status log for this order
+     *
+     * @return  self
+     *
+     * @since   2.0.6
+     */
+    protected function loadStatusLog()
+    {
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		return $this->billing;
-	}
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('l.*')
+            ->select($db->qn('s.order_status_name'))
+            ->from($db->qn('#__redshop_order_status_log', 'l'))
+            ->leftJoin(
+                $db->qn('#__redshop_order_status', 's') . ' ON '
+                . $db->qn('l.order_status') . ' = ' . $db->qn('s.order_status_code')
+            )
+            ->where($db->qn('l.order_id') . ' = ' . $this->getId());
 
-	/**
-	 * Method for get shipping information of this order
-	 *
-	 * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
-	 *
-	 * @since   2.0.6
-	 */
-	public function getShipping()
-	{
-		if (!$this->hasId())
-		{
-			return null;
-		}
+        $this->statusLog = $db->setQuery($query)->loadObjectList();
 
-		if (null === $this->shipping)
-		{
-			$this->loadShipping();
-		}
+        return $this;
+    }
 
-		return $this->shipping;
-	}
+    /**
+     * Method for get payment for this order
+     *
+     * @return   RedshopEntityOrder_Payment   Payment data if success. Null otherwise.
+     *
+     * @since   2.0.6
+     */
+    public function getPayment()
+    {
+        if (!$this->hasId()) {
+            return null;
+        }
 
-	/**
-	 * Method for load order items for this order
-	 *
-	 * @return  self
-	 *
-	 * @since   2.0.6
-	 */
-	protected function loadOrderItems()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+        if (null === $this->payment) {
+            $this->loadPayment();
+        }
 
-		$this->orderItems = new RedshopEntitiesCollection;
+        return $this->payment;
+    }
 
-		$db         = JFactory::getDbo();
-		$query      = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_order_item'))
-			->where($db->qn('order_id') . ' = ' . $this->getId());
-		$orderItems = $db->setQuery($query)->loadObjectList();
+    /**
+     * Method for load payment of this order
+     *
+     * @return  self
+     *
+     * @since   2.0.6
+     */
+    protected function loadPayment()
+    {
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		if (empty($orderItems))
-		{
-			return $this;
-		}
+        $this->payment = RedshopEntityOrder_Payment::getInstance();
 
-		foreach ($orderItems as $orderItem)
-		{
-			$entity = RedshopEntityOrder_Item::getInstance($orderItem->order_item_id);
-			$entity->bind($orderItem);
+        $db     = JFactory::getDbo();
+        $query  = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_order_payment'))
+            ->where($db->qn('order_id') . ' = ' . (int)$this->getId());
+        $result = $db->setQuery($query)->loadObject();
 
-			$this->orderItems->add($entity);
-		}
+        if (empty($result)) {
+            return $this;
+        }
 
-		return $this;
-	}
+        $this->payment = RedshopEntityOrder_Payment::getInstance($result->payment_order_id)->bind($result);
+        $this->payment->loadPlugin();
 
-	/**
-	 * Method for load order status log for this order
-	 *
-	 * @return  self
-	 *
-	 * @since   2.0.6
-	 */
-	protected function loadStatusLog()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+        return $this;
+    }
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('l.*')
-			->select($db->qn('s.order_status_name'))
-			->from($db->qn('#__redshop_order_status_log', 'l'))
-			->leftJoin(
-				$db->qn('#__redshop_order_status', 's') . ' ON '
-				. $db->qn('l.order_status') . ' = ' . $db->qn('s.order_status_code')
-			)
-			->where($db->qn('l.order_id') . ' = ' . $this->getId());
+    /**
+     * Method for get billing information of this order
+     *
+     * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
+     *
+     * @since   2.0.6
+     */
+    public function getBilling()
+    {
+        if (!$this->hasId()) {
+            return null;
+        }
 
-		$this->statusLog = $db->setQuery($query)->loadObjectList();
+        if (null === $this->billing) {
+            $this->loadBilling();
+        }
 
-		return $this;
-	}
+        return $this->billing;
+    }
 
-	/**
-	 * Method for load payment of this order
-	 *
-	 * @return  self
-	 *
-	 * @since   2.0.6
-	 */
-	protected function loadPayment()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+    /**
+     * Method for load billing user information of this order
+     *
+     * @return  self
+     *
+     * @since   2.0.6
+     */
+    protected function loadBilling()
+    {
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		$this->payment = RedshopEntityOrder_Payment::getInstance();
+        $this->billing = RedshopEntityOrder_User::getInstance();
+        $users         = $this->getUsers();
 
-		$db     = JFactory::getDbo();
-		$query  = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_order_payment'))
-			->where($db->qn('order_id') . ' = ' . (int) $this->getId());
-		$result = $db->setQuery($query)->loadObject();
+        if ($users->isEmpty()) {
+            return $this;
+        }
 
-		if (empty($result))
-		{
-			return $this;
-		}
+        foreach ($users as $user) {
+            if ($user->get('address_type') == 'BT') {
+                $this->billing = $user;
 
-		$this->payment = RedshopEntityOrder_Payment::getInstance($result->payment_order_id)->bind($result);
-		$this->payment->loadPlugin();
+                return $this;
+            }
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Method for load users of this order
-	 *
-	 * @return  self
-	 *
-	 * @since   2.0.6
-	 */
-	protected function loadUsers()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+    /**
+     * Method for get users of this order
+     *
+     * @return   RedshopEntitiesCollection   Collection of users if success. Null otherwise.
+     *
+     * @since   2.0.6
+     */
+    public function getUsers()
+    {
+        if (!$this->hasId()) {
+            return null;
+        }
 
-		$this->users = new RedshopEntitiesCollection;
+        if (null === $this->users) {
+            $this->loadUsers();
+        }
 
-		$db = JFactory::getDbo();
+        return $this->users;
+    }
 
-		$query   = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_order_users_info'))
-			->where($db->qn('order_id') . ' = ' . (int) $this->getId());
-		$results = $db->setQuery($query)->loadObjectList();
+    /**
+     * Method for load users of this order
+     *
+     * @return  self
+     *
+     * @since   2.0.6
+     */
+    protected function loadUsers()
+    {
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		if (empty($results))
-		{
-			return $this;
-		}
+        $this->users = new RedshopEntitiesCollection;
 
-		foreach ($results as $result)
-		{
-			$entity = RedshopEntityOrder_User::getInstance($result->order_info_id)->bind($result)->loadExtraFields();
+        $db = JFactory::getDbo();
 
-			$this->users->add($entity);
-		}
+        $query   = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_order_users_info'))
+            ->where($db->qn('order_id') . ' = ' . (int)$this->getId());
+        $results = $db->setQuery($query)->loadObjectList();
 
-		return $this;
-	}
+        if (empty($results)) {
+            return $this;
+        }
 
-	/**
-	 * Method for load billing user information of this order
-	 *
-	 * @return  self
-	 *
-	 * @since   2.0.6
-	 */
-	protected function loadBilling()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+        foreach ($results as $result) {
+            $entity = RedshopEntityOrder_User::getInstance($result->order_info_id)->bind($result)->loadExtraFields();
 
-		$this->billing = RedshopEntityOrder_User::getInstance();
-		$users         = $this->getUsers();
+            $this->users->add($entity);
+        }
 
-		if ($users->isEmpty())
-		{
-			return $this;
-		}
+        return $this;
+    }
 
-		foreach ($users as $user)
-		{
-			if ($user->get('address_type') == 'BT')
-			{
-				$this->billing = $user;
+    /**
+     * Method for get shipping information of this order
+     *
+     * @return   RedshopEntityOrder_User   User infor if success. Null otherwise.
+     *
+     * @since   2.0.6
+     */
+    public function getShipping()
+    {
+        if (!$this->hasId()) {
+            return null;
+        }
 
-				return $this;
-			}
-		}
+        if (null === $this->shipping) {
+            $this->loadShipping();
+        }
 
-		return $this;
-	}
+        return $this->shipping;
+    }
 
-	/**
-	 * Method for load shipping user information of this order
-	 *
-	 * @return  self
-	 *
-	 * @since   2.0.6
-	 */
-	protected function loadShipping()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+    /**
+     * Method for load shipping user information of this order
+     *
+     * @return  self
+     *
+     * @since   2.0.6
+     */
+    protected function loadShipping()
+    {
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		$this->shipping = RedshopEntityOrder_User::getInstance();
-		$users          = $this->getUsers();
+        $this->shipping = RedshopEntityOrder_User::getInstance();
+        $users          = $this->getUsers();
 
-		if ($users->isEmpty())
-		{
-			return $this;
-		}
+        if ($users->isEmpty()) {
+            return $this;
+        }
 
-		foreach ($users as $user)
-		{
-			if ($user->get('address_type') == 'ST')
-			{
-				$this->shipping = $user;
+        foreach ($users as $user) {
+            if ($user->get('address_type') == 'ST') {
+                $this->shipping = $user;
 
-				return $this;
-			}
-		}
+                return $this;
+            }
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 }

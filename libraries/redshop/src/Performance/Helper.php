@@ -18,18 +18,6 @@ defined('_JEXEC') or die;
  */
 class Helper
 {
-    protected static function isEnable()
-    {
-        return \Redshop::getConfig('ENABLE_PERFORMANCE_MODE');
-    }
-
-    protected static function isApply()
-    {
-        $condition = true;
-
-        return (self::isEnable() && $condition);
-    }
-
     /**
      * @param         $property
      * @param         $id
@@ -41,12 +29,11 @@ class Helper
      */
     public static function load($property, $id, $subId = 0, $force = false)
     {
-        if (self::isApply() || $force)
-        {
+        if (self::isApply() || $force) {
             $redCache = \JFactory::getSession()->get('redCache', new \stdClass);
 
             if (isset($subId)
-                && (bool) $subId
+                && (bool)$subId
                 && isset($redCache->$property[$id][$subId])
             ) {
                 return $redCache->$property[$id][$subId];
@@ -58,6 +45,18 @@ class Helper
         }
 
         return null;
+    }
+
+    protected static function isApply()
+    {
+        $condition = true;
+
+        return (self::isEnable() && $condition);
+    }
+
+    protected static function isEnable()
+    {
+        return \Redshop::getConfig('ENABLE_PERFORMANCE_MODE');
     }
 
     /**
@@ -74,7 +73,7 @@ class Helper
         if (self::isApply() || $force) {
             $redCache = \JFactory::getSession()->get('redCache', new \stdClass);
 
-            if (isset($subId) && (bool) $subId) {
+            if (isset($subId) && (bool)$subId) {
                 $redCache->$property[$id][$subId] = $data;
             } else {
                 $redCache->$property[$id] = $data;

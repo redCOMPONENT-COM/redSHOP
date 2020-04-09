@@ -40,178 +40,6 @@ class RedshopHelperUser
     protected static $totalSales = array();
 
     /**
-     * Get redshop user information
-     *
-     * @param   int     $userId          Id joomla user
-     * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
-     * @param   int     $userInfoId      Id redshop user
-     * @param   bool    $useAddressType  Select user info relate with address type
-     * @param   bool    $force           Force to get user information from DB instead of cache
-     *
-     * @return  object  Redshop user information
-     */
-    public static function getUserInformation(
-        $userId = 0,
-        $addressType = 'BT',
-        $userInfoId = 0,
-        $useAddressType = true,
-        $force = false
-    ) {
-        if (0 == $userId && 0 == $userInfoId) {
-            $userId     = JFactory::getUser()->id;
-            $auth       = JFactory::getSession()->get('auth');
-            $userInfoId = $auth['users_info_id'];
-        }
-
-        // If both is not set return, as we also have silent user creating where joomla user id is not set
-        if (!$userId && !$userInfoId) {
-            return (new stdClass);
-        }
-
-        if (!$useAddressType) {
-            $addressType = 'NA';
-        } elseif ($addressType == '') {
-            $addressType = 'BT';
-        }
-
-        $key = $userId . '.' . $addressType . '.' . $userInfoId;
-
-        if (!array_key_exists($key, self::$redshopUserInfo) || $force) {
-            $db    = JFactory::getDbo();
-            $query = $db->getQuery(true)
-                ->select(array('sh.*', 'u.*'))
-                ->from($db->qn('#__redshop_users_info', 'u'))
-                ->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id');
-
-            // Not necessary that all user is registered with joomla id. We have silent user creation too.
-            if ($userId) {
-                $query->where('u.user_id = ' . (int)$userId);
-            }
-
-            if ($useAddressType) {
-                $query->where('u.address_type = ' . $db->quote($addressType));
-            }
-
-            if ($userInfoId) {
-                $query->where('u.users_info_id = ' . (int)$userInfoId);
-            }
-
-            self::$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
-        }
-
-        return self::$redshopUserInfo[$key];
-    }
-
-    /**
-     * Create redshop user session
-     *
-     * @param   int  $userId  Joomla user id
-     *
-     * @return  array|mixed
-     */
-    public static function createUserSession($userId = 0)
-    {
-        $session = JFactory::getSession();
-        $userArr = $session->get('rs_user');
-
-        if (!$userId) {
-            $userId = JFactory::getUser()->id;
-        }
-
-        if (empty($userArr)) {
-            $userArr = array();
-        }
-
-        $userArr['rs_userid'] = $userId;
-
-        if ($userId) {
-            $userArr['rs_is_user_login'] = 1;
-
-            if (!isset($userArr['rs_user_info_id'])) {
-                $userInformation = self::getUserInformation($userId);
-                $shippingAddress = RedshopHelperOrder::getShippingAddress($userId);
-
-                if (count($shippingAddress) > 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST') {
-                    $redshopUserInforId = $shippingAddress[0]->users_info_id;
-                    $userInformation    = self::getUserInformation($userId, 'ST', $redshopUserInforId);
-                }
-
-                $userArr['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
-            }
-        } else {
-            $userArr['rs_is_user_login'] = 0;
-        }
-
-        $userArr['rs_user_shopperGroup'] = self::getShopperGroup($userId);
-        $session->set('rs_user', $userArr);
-
-        return $userArr;
-    }
-
-    /**
-     * Replace Conditional tag from Redshop tax
-     *
-     * @param   integer  $userId  User identifier
-     *
-     * @return  integer            User group
-     */
-    public static function getShopperGroup($userId = 0)
-    {
-        $shopperGroupData = self::getShopperGroupData($userId);
-
-        if (!is_null($shopperGroupData)) {
-            return $shopperGroupData->shopper_group_id;
-        }
-
-        return Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
-    }
-
-    /**
-     * Get Shopper Group Data
-     *
-     * @param   int  $userId  User id
-     *
-     * @return  mixed
-     */
-    public static function getShopperGroupData($userId = 0)
-    {
-        $userId = !$userId ? JFactory::getUser()->id : $userId;
-
-        // If user is guest. Try to get redshop user id.
-        if (!$userId) {
-            $auth = JFactory::getSession()->get('auth');
-
-            if (is_array($auth) && array_key_exists('users_info_id', $auth)) {
-                $userId -= $auth['users_info_id'];
-            }
-        }
-
-        // In case user doesn't not entered any information yet. Get from default config.
-        if (!$userId) {
-            $shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
-
-            return RedshopEntityShopper_Group::getInstance($shopperGroupId)->getItem();
-        }
-
-        // In case user is not guest.
-        if (!array_key_exists($userId, self::$userShopperGroupData)) {
-            $db    = JFactory::getDbo();
-            $query = $db->getQuery(true)
-                ->select('sg.*')
-                ->from($db->qn('#__redshop_shopper_group', 'sg'))
-                ->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
-                ->where('ui.user_id = ' . (int)$userId)
-                ->where('ui.address_type = ' . $db->q('BT'));
-
-            $db->setQuery($query);
-
-            self::$userShopperGroupData[$userId] = $db->loadObject();
-        }
-
-        return self::$userShopperGroupData[$userId];
-    }
-
-    /**
      * Get Shopper Group Data using shopper group id
      *
      * @param   int  $id  Shopper Group Id
@@ -451,6 +279,178 @@ class RedshopHelperUser
     }
 
     /**
+     * Create redshop user session
+     *
+     * @param   int  $userId  Joomla user id
+     *
+     * @return  array|mixed
+     */
+    public static function createUserSession($userId = 0)
+    {
+        $session = JFactory::getSession();
+        $userArr = $session->get('rs_user');
+
+        if (!$userId) {
+            $userId = JFactory::getUser()->id;
+        }
+
+        if (empty($userArr)) {
+            $userArr = array();
+        }
+
+        $userArr['rs_userid'] = $userId;
+
+        if ($userId) {
+            $userArr['rs_is_user_login'] = 1;
+
+            if (!isset($userArr['rs_user_info_id'])) {
+                $userInformation = self::getUserInformation($userId);
+                $shippingAddress = RedshopHelperOrder::getShippingAddress($userId);
+
+                if (count($shippingAddress) > 0 && Redshop::getConfig()->get('CALCULATE_VAT_ON') == 'ST') {
+                    $redshopUserInforId = $shippingAddress[0]->users_info_id;
+                    $userInformation    = self::getUserInformation($userId, 'ST', $redshopUserInforId);
+                }
+
+                $userArr['rs_user_info_id'] = isset($userInformation->users_info_id) ? $userInformation->users_info_id : 0;
+            }
+        } else {
+            $userArr['rs_is_user_login'] = 0;
+        }
+
+        $userArr['rs_user_shopperGroup'] = self::getShopperGroup($userId);
+        $session->set('rs_user', $userArr);
+
+        return $userArr;
+    }
+
+    /**
+     * Get redshop user information
+     *
+     * @param   int     $userId          Id joomla user
+     * @param   string  $addressType     Type user address BT (Billing Type) or ST (Shipping Type)
+     * @param   int     $userInfoId      Id redshop user
+     * @param   bool    $useAddressType  Select user info relate with address type
+     * @param   bool    $force           Force to get user information from DB instead of cache
+     *
+     * @return  object  Redshop user information
+     */
+    public static function getUserInformation(
+        $userId = 0,
+        $addressType = 'BT',
+        $userInfoId = 0,
+        $useAddressType = true,
+        $force = false
+    ) {
+        if (0 == $userId && 0 == $userInfoId) {
+            $userId     = JFactory::getUser()->id;
+            $auth       = JFactory::getSession()->get('auth');
+            $userInfoId = $auth['users_info_id'];
+        }
+
+        // If both is not set return, as we also have silent user creating where joomla user id is not set
+        if (!$userId && !$userInfoId) {
+            return (new stdClass);
+        }
+
+        if (!$useAddressType) {
+            $addressType = 'NA';
+        } elseif ($addressType == '') {
+            $addressType = 'BT';
+        }
+
+        $key = $userId . '.' . $addressType . '.' . $userInfoId;
+
+        if (!array_key_exists($key, self::$redshopUserInfo) || $force) {
+            $db    = JFactory::getDbo();
+            $query = $db->getQuery(true)
+                ->select(array('sh.*', 'u.*'))
+                ->from($db->qn('#__redshop_users_info', 'u'))
+                ->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id');
+
+            // Not necessary that all user is registered with joomla id. We have silent user creation too.
+            if ($userId) {
+                $query->where('u.user_id = ' . (int)$userId);
+            }
+
+            if ($useAddressType) {
+                $query->where('u.address_type = ' . $db->quote($addressType));
+            }
+
+            if ($userInfoId) {
+                $query->where('u.users_info_id = ' . (int)$userInfoId);
+            }
+
+            self::$redshopUserInfo[$key] = $db->setQuery($query)->loadObject();
+        }
+
+        return self::$redshopUserInfo[$key];
+    }
+
+    /**
+     * Replace Conditional tag from Redshop tax
+     *
+     * @param   integer  $userId  User identifier
+     *
+     * @return  integer            User group
+     */
+    public static function getShopperGroup($userId = 0)
+    {
+        $shopperGroupData = self::getShopperGroupData($userId);
+
+        if (!is_null($shopperGroupData)) {
+            return $shopperGroupData->shopper_group_id;
+        }
+
+        return Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+    }
+
+    /**
+     * Get Shopper Group Data
+     *
+     * @param   int  $userId  User id
+     *
+     * @return  mixed
+     */
+    public static function getShopperGroupData($userId = 0)
+    {
+        $userId = !$userId ? JFactory::getUser()->id : $userId;
+
+        // If user is guest. Try to get redshop user id.
+        if (!$userId) {
+            $auth = JFactory::getSession()->get('auth');
+
+            if (is_array($auth) && array_key_exists('users_info_id', $auth)) {
+                $userId -= $auth['users_info_id'];
+            }
+        }
+
+        // In case user doesn't not entered any information yet. Get from default config.
+        if (!$userId) {
+            $shopperGroupId = Redshop::getConfig()->get('SHOPPER_GROUP_DEFAULT_UNREGISTERED');
+
+            return RedshopEntityShopper_Group::getInstance($shopperGroupId)->getItem();
+        }
+
+        // In case user is not guest.
+        if (!array_key_exists($userId, self::$userShopperGroupData)) {
+            $db    = JFactory::getDbo();
+            $query = $db->getQuery(true)
+                ->select('sg.*')
+                ->from($db->qn('#__redshop_shopper_group', 'sg'))
+                ->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
+                ->where('ui.user_id = ' . (int)$userId)
+                ->where('ui.address_type = ' . $db->q('BT'));
+
+            $db->setQuery($query);
+
+            self::$userShopperGroupData[$userId] = $db->loadObject();
+        }
+
+        return self::$userShopperGroupData[$userId];
+    }
+
+    /**
      * Method for store redshop user.
      *
      * @param   array    $data    User data.
@@ -678,10 +678,10 @@ class RedshopHelperUser
         }
 
         $userTable->user_id               = $data['user_id'] > 0 ? $data['user_id'] : \JFactory::getApplication(
-                                                                                        )->input->getInt(
-                                                                                            'user_id',
-                                                                                            0
-                                                                                        );
+        )->input->getInt(
+            'user_id',
+            0
+        );
         $userTable->address_type          = 'ST';
         $userTable->country_code          = $data['country_code_ST'];
         $userTable->state_code            = (isset($data['state_code_ST'])) ? $data['state_code_ST'] : "";

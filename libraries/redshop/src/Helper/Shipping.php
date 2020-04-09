@@ -18,30 +18,28 @@ defined('_JEXEC') or die;
  */
 class Shipping
 {
-	/**
-	 * @param   string $shippingRateId Shipping rate
-	 *
-	 * @return  array
-	 *
-	 * @since   3.0
-	 */
-	public static function calculateShipping($shippingRateId)
-	{
-		$shipArr        = array();
-		$order_shipping = \Redshop\Shipping\Rate::decrypt($shippingRateId);
+    /**
+     * @param   string  $shippingRateId  Shipping rate
+     *
+     * @return  array
+     *
+     * @since   3.0
+     */
+    public static function calculateShipping($shippingRateId)
+    {
+        $shipArr        = array();
+        $order_shipping = \Redshop\Shipping\Rate::decrypt($shippingRateId);
 
-		if (!isset($order_shipping[3]))
-		{
-			return $shipArr;
-		}
+        if (!isset($order_shipping[3])) {
+            return $shipArr;
+        }
 
-		$shipArr['order_shipping_rate'] = $order_shipping[3];
+        $shipArr['order_shipping_rate'] = $order_shipping[3];
 
-		if (array_key_exists(6, $order_shipping))
-		{
-			$shipArr['shipping_vat'] = $order_shipping [6];
-		}
+        if (array_key_exists(6, $order_shipping)) {
+            $shipArr['shipping_vat'] = $order_shipping [6];
+        }
 
-		return $shipArr;
-	}
+        return $shipArr;
+    }
 }

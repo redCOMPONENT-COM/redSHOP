@@ -18,22 +18,22 @@ defined('_JEXEC') or die;
  */
 class RedshopViewQuotation extends RedshopViewCsv
 {
-	/**
-	 * Delimiter character for CSV columns
-	 *
-	 * @var string
-	 */
-	public $delimiter = ';';
+    /**
+     * Delimiter character for CSV columns
+     *
+     * @var string
+     */
+    public $delimiter = ';';
 
-	/**
-	 * Get the columns for the csv file.
-	 *
-	 * @return  array  An associative array of column names as key and the title as value.
-	 */
-	protected function getColumns()
-	{
-		$model = $this->getModel();
+    /**
+     * Get the columns for the csv file.
+     *
+     * @return  array  An associative array of column names as key and the title as value.
+     */
+    protected function getColumns()
+    {
+        $model = $this->getModel();
 
-		return $model->getCsvColumns();
-	}
+        return $model->getCsvColumns();
+    }
 }

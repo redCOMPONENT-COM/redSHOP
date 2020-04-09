@@ -16,56 +16,53 @@ defined('_JEXEC') or die;
  */
 class PlgRedshop_ProductSh404urls extends JPlugin
 {
-	/**
-	 * Constructor
-	 *
-	 * @param    object $subject The object to observe
-	 * @param    array  $config  An array that holds the plugin configuration
-	 *
-	 * @since    2.1.3
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+    /**
+     * Constructor
+     *
+     * @param   object  $subject  The object to observe
+     * @param   array   $config   An array that holds the plugin configuration
+     *
+     * @since    2.1.3
+     */
+    public function __construct(&$subject, $config)
+    {
+        parent::__construct($subject, $config);
+        $this->loadLanguage();
+    }
 
-	/**
-	 * @param   $pids  array  products id
-	 *
-	 * @return  boolean
-	 *
-	 * @since   2.1.3
-	 */
-	public function onAfterProductDelete($pids)
-	{
-		if (empty($pids))
-		{
-			return false;
-		}
+    /**
+     * @param   $pids  array  products id
+     *
+     * @return  boolean
+     *
+     * @since   2.1.3
+     */
+    public function onAfterProductDelete($pids)
+    {
+        if (empty($pids)) {
+            return false;
+        }
 
-		$db      = JFactory::getDbo();
-		$query   = $db->getQuery(true);
-		$conds   = array();
-		$results = $db->setQuery('SHOW TABLES')->loadColumn();
-		$table   = $db->getPrefix() . 'sh404sef_urls';
+        $db      = JFactory::getDbo();
+        $query   = $db->getQuery(true);
+        $conds   = array();
+        $results = $db->setQuery('SHOW TABLES')->loadColumn();
+        $table   = $db->getPrefix() . 'sh404sef_urls';
 
-		if (empty($results) || !in_array($table, $results))
-		{
-			return false;
-		}
+        if (empty($results) || !in_array($table, $results)) {
+            return false;
+        }
 
-		foreach ($pids as $pid)
-		{
-			$conds[] = $db->qn('newurl') . ' LIKE ' . $db->q('%pid=' . (int) $pid . '%');
-		}
+        foreach ($pids as $pid) {
+            $conds[] = $db->qn('newurl') . ' LIKE ' . $db->q('%pid=' . (int)$pid . '%');
+        }
 
-		$query->clear()
-			->delete($db->qn($table))
-			->where($db->qn('newurl') . ' LIKE ' . $db->q('%view=product%'))
-			->where($db->qn('newurl') . ' LIKE ' . $db->q('%option=com_redshop%'))
-			->where(implode(' OR ', $conds));
+        $query->clear()
+            ->delete($db->qn($table))
+            ->where($db->qn('newurl') . ' LIKE ' . $db->q('%view=product%'))
+            ->where($db->qn('newurl') . ' LIKE ' . $db->q('%option=com_redshop%'))
+            ->where(implode(' OR ', $conds));
 
-		return $db->setQuery($query)->execute();
-	}
+        return $db->setQuery($query)->execute();
+    }
 }
