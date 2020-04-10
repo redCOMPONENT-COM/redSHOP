@@ -29,8 +29,6 @@ JHtml::script('com_redshop/bootstrap.min.js', false, true);
 $app = JFactory::getApplication();
 $doc = new RedshopHelperDocument;
 
-$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.min.css');
-
 if (Redshop::getConfig()->getBool('LOAD_REDSHOP_STYLE', true)) {
     $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.min.css');
 }
@@ -39,3 +37,5 @@ if (Redshop::getConfig()->getBool('LOAD_REDSHOP_STYLE', true)) {
 if ($app->input->getCmd('print', '')) {
     $doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/redshop.print.min.css');
 }
+
+$doc->addBottomStylesheet(JURI::root() . 'media/com_redshop/css/bootstrap-grid.min.css');
