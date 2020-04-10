@@ -133,26 +133,12 @@ class TaxRateSteps extends AdminManagerJoomla3Steps
 
 		$client->click(TaxRatePage::$buttonSaveClose);
 
-		try
-		{
-			$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
-		}catch (\Exception $e)
-		{
-			$client->click(TaxRatePage::$buttonSaveClose);
-			$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
-		}
+		$client->wait(0.5);
+		$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
 
 		$client->click(TaxRatePage::$buttonSaveNew);
-
-		try
-		{
-			$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
-		}catch (\Exception $e)
-		{
-			$client->click(TaxRatePage::$buttonSaveNew);
-			$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
-		}
-
+		$client->wait(0.5);
+		$client->waitForElement(TaxGroupPage::$selectorMissing, 30);
 		$taxRateMessage = new TaxRatePage();
 		$client->waitForText($taxRateMessage->messageMissing('Name'), 30, TaxRatePage::$selectorMissing);
 	}
