@@ -219,11 +219,11 @@ class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
             $this->replacements['{shipping_location}'] = $mainLocation;
         }
 
+        $data = $this->strReplace($this->replacements, $data);
+
         $this->dispatcher->trigger('onReplaceShippingTemplate', array($this->data, &$data, $className, $checked));
 
-        $this->replacements['{gls_shipping_location}'] = '';
-
-        return $this->strReplace($this->replacements, $data);
+        return str_replace('{gls_shipping_location}', '', $data);
     }
 
     /**

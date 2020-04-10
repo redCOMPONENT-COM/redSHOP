@@ -538,6 +538,15 @@ class RedshopControllerCheckout extends RedshopController
                 JPluginHelper::importPlugin('system');
                 $dispatcher->trigger('afterOrderCreated', array($orderresult));
 
+                $dispatcher->trigger(
+                    'sendOrderShipping'
+                    , array(
+                        $orderresult->order_id,
+                        $orderresult->order_payment_status,
+                        $orderresult->order_status
+                    )
+                );
+
                 // New checkout flow
                 /**
                  * change redirection
