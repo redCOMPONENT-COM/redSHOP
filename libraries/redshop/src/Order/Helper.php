@@ -297,7 +297,26 @@ class Helper
         $result = \Redshop\DB\Tool::safeExecute($db, $query);
 
         if ($result) {
-            if (\Redshop\Mail\Order::sendMail($orderId)) {
+            $app = \JFactory::getApplication();
+
+            $db = \JFactory::getDbo();
+            $query = $db->getQuery(true);
+            $query->select('*')
+                ->from($db->qn('#__redshop_order_status_log'))
+                ->where($db->qn('order_id') . ' = ' . $db->q($orderId));
+
+            $orderStatus = \Redshop\DB\Tool::safeSelect($db, $query);
+
+            if (isset($orderStatus->order_id)) {
+                if ($app->isClient('administrator')) {
+                    \RedshopHelperOrder::changeOrderStatusMail(
+                        $orderId,
+                        $orderStatus->order_stattus,
+                        $orderStatus->customer_note
+                    );
+                }
+
+                \RedshopHelperOrder::createBookInvoice($orderId, $orderStatus->order_stattus);
                 \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_SEND_ORDER_MAIL'));
             } else {
                 \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
