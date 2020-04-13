@@ -174,7 +174,7 @@ class ModuleProductRelatedCest
 		$this->lastName       = 'Last';
 		$this->function       = 'saveclose';
 
-		//install module
+		//module
 		$this->extensionURL   = 'extension url';
 		$this->moduleName     = 'redSHOP - Related Products';
 		$this->moduleURL      = 'paid-extensions/tests/releases/modules/site/';
@@ -237,7 +237,7 @@ class ModuleProductRelatedCest
 	 * @throws Exception
 	 * @since 3.0.2
 	 */
-	public function installModule(AdminManagerJoomla3Steps $I, $scenario)
+	public function installAndConfigModule(AdminManagerJoomla3Steps $I, $scenario)
 	{
 		$I->wantTo("install module Multi Currencies");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
@@ -255,8 +255,9 @@ class ModuleProductRelatedCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 3.0.2
 	 */
-	public function checkModuleProductTab(AcceptanceTester $I, $scenario)
+	public function checkModuleProductRelated(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('check Module Products related');
 
