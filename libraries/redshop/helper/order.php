@@ -903,9 +903,6 @@ class RedshopHelperOrder
             Redshop\Mail\Helper::imgInMail($mailBody);
             $mailSubject = str_replace($search, $replace, $mailSubject);
 
-            echo $mailBody;
-            exit;
-
             if ('' != $userDetail->thirdparty_email && $mailBody) {
                 Redshop\Mail\Helper::sendEmail(
                     $mailFrom,

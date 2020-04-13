@@ -313,15 +313,36 @@ class Helper
 
             if (isset($orderStatus->order_id)) {
                 if ($app->isClient('administrator')) {
-                    \RedshopHelperOrder::changeOrderStatusMail(
+                    /* \RedshopHelperOrder::changeOrderStatusMail(
                         $orderId,
                         $orderStatus->order_status,
                         $orderStatus->customer_note
+                    );*/
+
+                    $emailBody = \RedshopLayoutHelper::render(
+                        'email.order.payment_method_changed',
+                        array(
+                            'order' => $orderStatus
+                        )
                     );
+
+                    $mailFrom     = $app->get('mailfrom');
+                    $fromName     = $app->get('fromname');
+                    $userDetail   = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+
+                    $isSend = \Redshop\Mail\Helper::sendEmail(
+                        $mailFrom,
+                        $fromName,
+                        $userDetail->user_email,
+                        \JText::_('COM_REDSHOP_PAYMENT_METHOD_CHANGED_EMAIL_SUBJECT'),
+                        $emailBody
+                    );
+
+                    if ($isSend) {
+                        \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_SEND_ORDER_MAIL'));
+                    }
                 }
 
-                \RedshopHelperOrder::createBookInvoice($orderId, $orderStatus->order_status);
-                \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_SEND_ORDER_MAIL'));
             } else {
                 \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
             }
