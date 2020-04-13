@@ -301,9 +301,13 @@ class Helper
 
             $db = \JFactory::getDbo();
             $query = $db->getQuery(true);
-            $query->select('*')
-                ->from($db->qn('#__redshop_order_status_log'))
-                ->where($db->qn('order_id') . ' = ' . $db->q($orderId));
+            $query->select('o.*, ol.*')
+                ->from($db->qn('#__redshop_order_status_log', 'ol'))
+                ->leftJoin(
+                    $db->qn('#__redshop_order_status', 'o')
+                    . ' ON ' . $db->qn('ol.order_status') . ' = ' . $db->qn('o.order_status_code')
+                )
+                ->where($db->qn('ol.order_id') . ' = ' . $db->q($orderId));
 
             $orderStatus = \Redshop\DB\Tool::safeSelect($db, $query);
 
@@ -311,12 +315,12 @@ class Helper
                 if ($app->isClient('administrator')) {
                     \RedshopHelperOrder::changeOrderStatusMail(
                         $orderId,
-                        $orderStatus->order_stattus,
+                        $orderStatus->order_status,
                         $orderStatus->customer_note
                     );
                 }
 
-                \RedshopHelperOrder::createBookInvoice($orderId, $orderStatus->order_stattus);
+                \RedshopHelperOrder::createBookInvoice($orderId, $orderStatus->order_status);
                 \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_SEND_ORDER_MAIL'));
             } else {
                 \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
