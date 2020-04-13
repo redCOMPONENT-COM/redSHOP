@@ -261,4 +261,42 @@ class Helper
 
         return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
     }
+
+    /**
+     * @param $data
+     *
+     * @return bool
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function updateOrderPaymentMethod($data)
+    {
+        $db           = \JFactory::getDbo();
+        $query        = $db->getQuery(true);
+        $orderId      = (int)$data['cid'][0];
+        $paymentClass = $data['payment_method_class'];
+
+        $paymentMethod = \RedshopHelperOrder::getPaymentMethodInfo($paymentClass, false)[0];
+
+        if (empty($paymentMethod->extension_id))
+        {
+            return false;
+        }
+
+        $fields = array(
+            $db->qn('payment_method_class') . ' = ' . $db->q($paymentClass),
+            $db->qn('order_payment_name') . ' = ' . $db->q($paymentMethod->name)
+        );
+
+        $conditions = array(
+            $db->qn('order_id') . ' = ' . $db->q($orderId)
+        );
+
+        $query->update($db->qn('#__redshop_order_payment'))
+            ->set($fields)
+            ->where($conditions);
+
+        $result = \Redshop\DB\Tool::safeExecute($db, $query);
+
+        return $result;
+    }
 }
