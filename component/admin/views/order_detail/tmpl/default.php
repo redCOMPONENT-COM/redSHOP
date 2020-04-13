@@ -157,20 +157,6 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
                                 <td><?php echo $config->convertDateFormat($this->detail->cdate); ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD'); ?>:</td>
-                                <td><?php echo JText::_($this->payment_detail->order_payment_name); ?>
-                                    <?php if (!empty($model->getccdetail($orderId))): ?>
-                                        <a href="<?php echo JRoute::_(
-                                            'index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId
-                                        ); ?>"
-                                           class="joom-box btn btn-primary"
-                                           rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_(
-                                                'COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL'
-                                            ); ?></a>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_EXTRA_FILEDS'); ?>:</td>
                                 <td><?php echo $PaymentExtrafields = RedshopHelperProduct::getPaymentandShippingExtrafields(
                                         $this->detail,
@@ -324,6 +310,53 @@ for ($t = 0; $t < $totalDownloadProduct; $t++) {
             </div>
         </div>
 
+        <!-- H.A 10.04.2020 -->
+        <div class="col-sm-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?php echo JText::_('COM_REDSHOP_PAYMENT_METHOD'); ?></h3>
+                </div>
+                <div class="box-body">
+                    <form method="post" name="updatepaymentmethod"
+                          id="updatepaymentmethod">
+                        <table border="0" cellspacing="0" cellpadding="0"
+                               class="adminlist table table-striped table-condensed no-margin">
+                            <tr>
+                                <td><?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD'); ?>:</td>
+                                <td>
+                                    <?php if ($this->detail->order_payment_status == 'Unpaid'): ?>
+                                        <?php echo $this->loadTemplate('payment'); ?>
+                                    <?php else: ?>
+                                        <?php echo JText::_($this->payment_detail->order_payment_name); ?>
+                                        <?php if (!empty($model->getccdetail($orderId))): ?>
+                                            <a href="<?php echo JRoute::_(
+                                                'index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $orderId
+                                            ); ?>"
+                                               class="joom-box btn btn-primary"
+                                               rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_(
+                                                    'COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL'
+                                                ); ?></a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        </table>
+                        <?php if ($this->detail->order_payment_status == 'Unpaid'): ?>
+                            <input type="submit" name="add" id="add" class="btn btn-primary"
+                                   value="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"/>
+                            <input type="hidden" name="task" value="update_paymentmethod">
+                            <input type="hidden" name="user_id" id="user_id"
+                                   value="<?php echo $this->detail->user_id; ?>">
+                            <input type="hidden" name="shipp_users_info_id" id="shipp_users_info_id"
+                                   value="<?php echo $shipping->users_info_id; ?>">
+                            <input type="hidden" name="view" value="order_detail">
+                            <input type="hidden" name="return" value="order_detail">
+                            <input type="hidden" name="cid[]" value="<?php echo $orderId; ?>">
+                        <?php endif; ?>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-6">
             <?php if ($this->detail->ship_method_id) : ?>
                 <div class="box box-primary">

@@ -240,6 +240,19 @@ class RedshopControllerOrder_detail extends RedshopController
         $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
     }
 
+    public function update_paymentmethod() {
+        $post = $this->input->post->getArray();
+        $cid  = $this->input->post->get('cid', array(0), 'array');
+
+        if (\Redshop\Order\Helper::updateOrderPaymentMethod($post)) {
+            $msg = JText::_('COM_REDSHOP_PAYMENT_METHOD_UPDATED');
+        } else {
+            $msg = JText::_('COM_REDSHOP_ERROR_UPDATING_PAYMENT_METHOD');
+        }
+
+        $this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
+    }
+
     public function updateShippingAdd()
     {
         $post             = $this->input->post->getArray();
