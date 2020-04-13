@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     redSHOP
- * @subpackage  Steps redSHOPProductSteps
+ * @subpackage  Steps ModuleProductRelated
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,7 +15,7 @@ use FrontEndProductManagerJoomla3Page;
 use ProductManagerPage;
 
 /**
- * Class redSHOPProduct
+ * Class ModuleProductRelatedSteps
  * @package Frontend\Module
  * @since 3.0.2
  */
