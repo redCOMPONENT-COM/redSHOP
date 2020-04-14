@@ -21,7 +21,7 @@ class Helper
     /**
      * Method for generate accessory of order.
      *
-     * @param   integer  $orderItemId  Order item ID.
+     * @param integer $orderItemId Order item ID.
      *
      * @return  string
      *
@@ -38,10 +38,10 @@ class Helper
                 ) . ':</div>';
 
             foreach ($orderItemData as $orderItemDatum) {
-                $accessoryQuantity  = " [" . \JText::_(
+                $accessoryQuantity = " [" . \JText::_(
                         'COM_REDSHOP_ACCESSORY_QUANTITY_LBL'
                     ) . " " . $orderItemDatum->product_quantity . "] ";
-                $accessoryHtml      .= "<div class='checkout_accessory_title'>"
+                $accessoryHtml .= "<div class='checkout_accessory_title'>"
                     . urldecode($orderItemDatum->order_acc_item_name)
                     . " ("
                     . \RedshopHelperProductPrice::formattedPrice(
@@ -53,7 +53,7 @@ class Helper
                     1,
                     $orderItemDatum->product_id
                 );
-                $accessoryHtml      .= $makeAttributeOrder->product_attribute;
+                $accessoryHtml .= $makeAttributeOrder->product_attribute;
             }
         } else {
             $orderItemData = \RedshopHelperOrder::getOrderItemDetail(0, 0, $orderItemId);
@@ -67,7 +67,7 @@ class Helper
     /**
      * Redesign product item
      *
-     * @param   array  $post  Data
+     * @param array $post Data
      *
      * @return  array
      *
@@ -80,7 +80,7 @@ class Helper
         }
 
         $orderItem = array();
-        $i         = -1;
+        $i = -1;
 
         foreach ($post as $key => $value) {
             if (!strcmp("product", substr($key, 0, 7)) && strlen($key) < 10) {
@@ -165,7 +165,7 @@ class Helper
      */
     public static function getOrderTotalAmountByUserId($userId)
     {
-        $db    = \JFactory::getDbo();
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select('SUM(' . $db->qn('o.order_total') . ') AS order_total')
             ->from($db->qn('#__redshop_orders', 'o'))
@@ -191,7 +191,7 @@ class Helper
      */
     public static function getAvgAmountById($userId)
     {
-        $db    = \JFactory::getDbo();
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select(
             '(SUM(' . $db->qn('o.order_total') . ')/COUNT(DISTINCT('
@@ -208,14 +208,14 @@ class Helper
     }
 
     /**
-     * @param   int  $id
+     * @param int $id
      *
      * @return null
      * @throws \Exception
      */
     public static function getTotalOrderById($id = 0)
     {
-        $db    = \JFactory::getDbo();
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select(
             'SUM(' . $db->qn('order_total') . ') AS ' . $db->qn('order_total')
@@ -233,7 +233,7 @@ class Helper
      */
     public static function getNewOrders()
     {
-        $db    = \JFactory::getDbo();
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -270,15 +270,14 @@ class Helper
      */
     public static function updateOrderPaymentMethod($data)
     {
-        $db           = \JFactory::getDbo();
-        $query        = $db->getQuery(true);
-        $orderId      = (int)$data['cid'][0];
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $orderId = (int)$data['cid'][0];
         $paymentClass = $data['payment_method_class'];
 
         $paymentMethod = \RedshopHelperOrder::getPaymentMethodInfo($paymentClass, false)[0];
 
-        if (empty($paymentMethod->extension_id))
-        {
+        if (empty($paymentMethod->extension_id)) {
             return false;
         }
 
@@ -296,6 +295,58 @@ class Helper
             ->where($conditions);
 
         $result = \Redshop\DB\Tool::safeExecute($db, $query);
+
+        if ($result) {
+            $app = \JFactory::getApplication();
+
+            $db = \JFactory::getDbo();
+            $query = $db->getQuery(true);
+            $query->select('o.*, ol.*')
+                ->from($db->qn('#__redshop_order_status_log', 'ol'))
+                ->leftJoin(
+                    $db->qn('#__redshop_order_status', 'o')
+                    . ' ON ' . $db->qn('ol.order_status') . ' = ' . $db->qn('o.order_status_code')
+                )
+                ->where($db->qn('ol.order_id') . ' = ' . $db->q($orderId));
+
+            $orderStatus = \Redshop\DB\Tool::safeSelect($db, $query);
+
+            if (isset($orderStatus->order_id)) {
+                if ($app->isClient('administrator')) {
+                    /* \RedshopHelperOrder::changeOrderStatusMail(
+                        $orderId,
+                        $orderStatus->order_status,
+                        $orderStatus->customer_note
+                    );*/
+
+                    $emailBody = \RedshopLayoutHelper::render(
+                        'email.order.payment_method_changed',
+                        array(
+                            'order' => $orderStatus
+                        )
+                    );
+
+                    $mailFrom     = $app->get('mailfrom');
+                    $fromName     = $app->get('fromname');
+                    $userDetail   = \RedshopHelperOrder::getOrderBillingUserInfo($orderId);
+
+                    $isSend = \Redshop\Mail\Helper::sendEmail(
+                        $mailFrom,
+                        $fromName,
+                        $userDetail->user_email,
+                        \JText::_('COM_REDSHOP_PAYMENT_METHOD_CHANGED_EMAIL_SUBJECT'),
+                        $emailBody
+                    );
+
+                    if ($isSend) {
+                        \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_SEND_ORDER_MAIL'));
+                    }
+                }
+
+            } else {
+                \JFactory::getApplication()->enqueueMessage(\JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL'), 'error');
+            }
+        }
 
         return $result;
     }
