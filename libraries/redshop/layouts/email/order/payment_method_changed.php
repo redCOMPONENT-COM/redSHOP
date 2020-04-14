@@ -55,7 +55,7 @@ extract($displayData);
             <table width="100%" style="margin-top: 30px;" cellpadding="0" cellspacing="0">
                 <tr>
                     <p> You can view order detail
-                        <a href="<?php echo \JRoute::_(\JUri::root(true) . '/index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order->order_id . '&Itemid=0') ?>">here</a>
+                        <a href="<?php echo \JRoute::_(\JUri::root() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order->order_id . '&Itemid=0') ?>">here</a>
                     </p>
                     <td style="height: 45px; background-color: #444544; display: block !important;"></td>
                 </tr>
