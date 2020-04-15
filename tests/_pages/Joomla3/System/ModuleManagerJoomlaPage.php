@@ -287,4 +287,24 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	{
 		return $path = "//label[@for='jform_params_show_discountpricelayout".$option."']";
 	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function displayStockroomStatus($option)
+	{
+		return $path = "//label[@for='jform_params_show_stockroom_status".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function showWishlist($option)
+	{
+		return $path = "//label[@for='jform_params_show_wishlist".$option."']";
+	}
 }
