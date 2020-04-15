@@ -255,11 +255,11 @@ class RedshopHelperProductTag
         $additionalVideos = "";
 
         if (!empty($subPropertyAdditionalImages)) {
-            $response = "<div>" . $subPropertyAdditionalImages . "</div>";
+            $response = $subPropertyAdditionalImages;
         } elseif (!empty($propertyAdditionalImages)) {
-            $response = "<div>" . $propertyAdditionalImages . "</div>";
+            $response = $propertyAdditionalImages;
         } elseif (!empty($productAdditionalImages)) {
-            $response = "<div>" . $productAdditionalImages . "</div>";
+            $response = $productAdditionalImages;
         }
 
         if (!empty($subPropertyAdditionalVideos)) {
