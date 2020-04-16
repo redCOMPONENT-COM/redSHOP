@@ -387,4 +387,154 @@ class ModuleManagerJoomla extends AdminManagerJoomla3Steps
 		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
 		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
 	}
+
+	/**
+	 * @param $moduleName
+	 * @param $moduleSetting
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function configurationModuleProductRelated($moduleName, $moduleSetting)
+	{
+		$I = $this;
+		$I->amOnPage(ModuleManagerJoomlaPage::$URL);
+		$I->searchForItem($moduleName);
+		$I->waitForElementVisible(["link" => $moduleName], 30);
+		$I->click(["link" => $moduleName]);
+		$I->waitForText($moduleName, 30, ModuleManagerJoomlaPage::$h2);
+		$module = new ModuleManagerJoomlaPage();
+
+		if (isset($moduleSetting['showProductImage']))
+		{
+			if ($moduleSetting['showProductImage'] == 'yes')
+			{
+				$I->waitForElementVisible($module->showProductImage(0), 30);
+				$I->click($module->showProductImage(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showProductImage(1), 30);
+				$I->click($module->showProductImage(1));
+			}
+		}
+
+		$I->scrollTo(ModuleManagerJoomlaPage::$productImageHeight);
+		if (isset($moduleSetting['showProductPrice']))
+		{
+			if ($moduleSetting['showProductPrice'] == 'yes')
+			{
+				$I->waitForElementVisible($module->showProductPrice(0), 30);
+				$I->click($module->showProductPrice(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showProductPrice(1), 30);
+				$I->click($module->showProductPrice(1));
+			}
+		}
+
+		if (isset($moduleSetting['showVAT']))
+		{
+			if ($moduleSetting['showVAT'] == 'yes')
+			{
+				$I->waitForElementVisible($module->showVAT(0), 30);
+				$I->click($module->showVAT(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showVAT(1), 30);
+				$I->click($module->showVAT(1));
+			}
+		}
+
+		if (isset($moduleSetting['showShortDescription']))
+		{
+			if ($moduleSetting['showShortDescription'] == 'yes')
+			{
+				$I->waitForElementVisible($module->showShortDescription(0), 30);
+				$I->click($module->showShortDescription(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showShortDescription(1), 30);
+				$I->click($module->showShortDescription(1));
+			}
+		}
+
+		if (isset($moduleSetting['showReadMore']))
+		{
+			if ($moduleSetting['showReadMore'] == 'yes')
+			{
+				$I->waitForElementVisible($module->showReadMore(0), 30);
+				$I->click($module->showReadMore(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showReadMore(1), 30);
+				$I->click($module->showReadMore(1));
+			}
+		}
+
+		if (isset($moduleSetting['showAddToCart']))
+		{
+			if ($moduleSetting['showAddToCart'] == 'yes')
+			{
+				$I->waitForElementVisible($module->showAddToCart(0), 30);
+				$I->click($module->showAddToCart(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->showAddToCart(1), 30);
+				$I->click($module->showAddToCart(1));
+			}
+		}
+
+		if (isset($moduleSetting['displayDiscountPriceLayout']))
+		{
+			if ($moduleSetting['displayDiscountPriceLayout'] == 'yes')
+			{
+				$I->waitForElementVisible($module->displayDiscountPrice(0), 30);
+				$I->click($module->displayDiscountPrice(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->displayDiscountPrice(1), 30);
+				$I->click($module->displayDiscountPrice(1));
+			}
+		}
+
+		if (isset($moduleSetting['displayStockroomStatus']))
+		{
+			$I->scrollTo($module->displayStockroomStatus(0));
+
+			if ($moduleSetting['displayStockroomStatus'] == 'yes')
+			{
+				$I->waitForElementVisible($module->displayStockroomStatus(0), 30);
+				$I->click($module->displayStockroomStatus(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->displayStockroomStatus(1), 30);
+				$I->click($module->displayStockroomStatus(1));
+			}
+		}
+
+		if (isset($moduleSetting['showWishlist']))
+		{
+			if ($moduleSetting['showWishlist'] == 'yes')
+			{
+				$I->waitForElementVisible($module->displayDiscountPrice(0), 30);
+				$I->click($module->displayDiscountPrice(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($module->displayDiscountPrice(1), 30);
+				$I->click($module->displayDiscountPrice(1));
+			}
+		}
+
+		$I->waitForElementVisible(ModuleManagerJoomlaPage::$saveCloseButton, 30);
+		$I->click(ModuleManagerJoomlaPage::$saveCloseButton);
+		$I->waitForText(ModuleManagerJoomlaPage::$messageModuleSaved, 30);
+	}
 }
