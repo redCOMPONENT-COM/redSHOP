@@ -97,6 +97,8 @@ defined('_JEXEC') or die;
                         ?>
                         <br/>
                         <span class="label label-important red">
+                            <?php $test = \JPluginHelper::getPlugin('redshop_product', 'canonical');
+                            echo '<pre>'; var_dump($test); exit;?>
 							<?php echo JText::_('COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT_PLUGIN'); ?>
 						</span>
                     </label>
