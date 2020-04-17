@@ -173,7 +173,7 @@ class RedshopModelCategory extends RedshopModel
             $query->where('p.manufacturer_id = ' . (int)$manufacturerId);
         }
 
-        $query->select('DISTINCT(p.product_id)')
+        $query->select('DISTINCT(' . $db->qn('p.product_id') . ')')
             ->from($db->qn('#__redshop_product', 'p'))
             ->leftJoin(
                 $db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn(
@@ -181,9 +181,15 @@ class RedshopModelCategory extends RedshopModel
                 )
             )
             ->where($db->qn('p.published') . ' = 1')
-            ->where($db->qn('p.expired') . ' = 0')
-            ->where($db->qn('p.product_parent_id') . ' = 0')
-            ->group($db->qn('p.product_id'))
+            ->where($db->qn('p.product_parent_id') . ' = 0');
+
+        if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+            $query->where($db->qn('p.expired') . ' IN (0, 1)');
+        } else {
+            $query->where($db->qn('p.expired') . ' IN (0)');
+        }
+
+        $query->group($db->qn('p.product_id'))
             ->order($orderBy);
 
         $filterIncludeProductFromSubCat = $this->getState('include_sub_categories_products', false);

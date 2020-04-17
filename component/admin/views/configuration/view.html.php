@@ -1416,6 +1416,12 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'class="form-control" size="1"',
             $this->config->get('PRODUCT_DEFAULT_CATEGORY')
         );
+        $lists['show_discontinued_products'] = JHtml::_(
+            'redshopselect.booleanlist',
+            'show_discontinued_products',
+            'class="form-control" size="1"',
+            $this->config->get('SHOW_DISCONTINUED_PRODUCTS')
+        );
 
         $invoice_mail_send_option           = array();
         $invoice_mail_send_option[0]        = new stdClass;
