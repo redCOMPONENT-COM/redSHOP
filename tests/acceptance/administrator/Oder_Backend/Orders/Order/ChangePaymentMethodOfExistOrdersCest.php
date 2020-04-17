@@ -197,14 +197,13 @@ class ChangePaymentMethodOfExistOrdersCest
 
 	/**
 	 * @param AcceptanceTester $I
-	 * @param \Codeception\Scenario $scenario
+	 * @param $scenario
 	 * @throws Exception
 	 * @since 3.0.2
 	 */
-	public function ChangePaymentMethodOnOrderDetail(AcceptanceTester $I, \Codeception\Scenario $scenario)
+	public function ChangePaymentMethodOnOrderDetail(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-
 		$I->wantTo('Enable PayPal');
 		$I->enablePlugin('PayPal');
 
