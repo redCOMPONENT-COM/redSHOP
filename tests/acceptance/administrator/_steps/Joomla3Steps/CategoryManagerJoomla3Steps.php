@@ -85,6 +85,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
 		$I->click(\CategoryManagerJ3Page::$newButton);
 		$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
 		$I->fillField(\CategoryManagerJ3Page::$categoryNoPage, $noPage);
