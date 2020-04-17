@@ -60,6 +60,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerJ3Page::$URL);
+		$I->checkForPhpNoticesOrWarnings();
 		$I->click(\CategoryManagerJ3Page::$newButton);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(CategoryManagerJ3Page::$categoryName, 30);
