@@ -92,7 +92,7 @@ class ConfigurationShowDiscontinuedProductsCest
 	 */
 	public function checkProductDiscontinueYes(ConfigurationSteps $I, $scenario)
 	{
-		$I->wantTo ('I Want To Configuration Product Accessory Yes');
+		$I->wantTo ('I Want To Configuration Show Discontinued Products Yes');
 		$I->configShowDiscontinuedProducts($this->optionYes);
 
 		$I->wantTo('Create Category ');
@@ -120,7 +120,7 @@ class ConfigurationShowDiscontinuedProductsCest
 	 */
 	public function checkProductDiscontinueNo(ConfigurationSteps $I, $scenario)
 	{
-		$I->wantTo ('I Want To Configuration Product Accessory No');
+		$I->wantTo ('I Want To Configuration Show Discontinued Products No');
 		$I->configShowDiscontinuedProducts($this->optionNo);
 
 		$I = new ProductsConfigurationSteps($scenario);
