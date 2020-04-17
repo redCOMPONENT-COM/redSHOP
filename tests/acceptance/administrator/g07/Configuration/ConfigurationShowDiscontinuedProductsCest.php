@@ -66,7 +66,7 @@ class ConfigurationShowDiscontinuedProductsCest
 	public function __construct()
 	{
 		$this->faker              = Faker\Factory::create();
-		$this->productName        = $this->faker->bothify('Testing productName_?##?');
+		$this->productName        = $this->faker->bothify('Testing productName ?##?');
 		$this->randomCategoryName = $this->faker->bothify('Category Demo ?##?');
 		$this->productNumber      = $this->faker->numberBetween(999, 9999);
 		$this->price              = $this->faker->numberBetween(99, 199);
