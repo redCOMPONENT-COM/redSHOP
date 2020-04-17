@@ -1269,6 +1269,39 @@ class ProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $productName
+	 * @param $setProductDiscontinue
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function setProductDiscontinue($productName, $setProductDiscontinue)
+	{
+		$I = $this;
+		$I->amOnPage(ProductManagerPage::$URL);
+		$I->searchProduct($productName);
+		$I->click(['link' => $productName]);
+		$I->waitForElementVisible(ProductManagerPage::$productName, 30);
+		$I->waitForElementVisible(ProductManagerPage::$additionalInformation, 30);
+		$product = new ProductManagerPage();
+
+		if (isset($setProductDiscontinue))
+		{
+			if ($setProductDiscontinue == 'yes')
+			{
+				$I->waitForElementVisible($product->productDiscontinued(0), 30);
+				$I->click($product->productDiscontinued(0));
+			}
+			else
+			{
+				$I->waitForElementVisible($product->productDiscontinued(1), 30);
+				$I->click($product->productDiscontinued(1));
+			}
+		}
+
+		$I->click(ProductManagerPage::$buttonSaveClose);
+	}
+
+	/**
+	 * @param $productName
 	 * @param $attributeParameter
 	 * @param $attributes
 	 * @param $category
