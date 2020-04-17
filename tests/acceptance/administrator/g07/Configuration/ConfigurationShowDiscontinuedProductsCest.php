@@ -127,7 +127,6 @@ class ConfigurationShowDiscontinuedProductsCest
 		$I->checkProductConfigDiscontinue($this->randomCategoryName, $this->productName, $this->optionNo);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
-
 		$I->wantTo('I Want To Delete Product');
 		$I->deleteProduct($this->productName);
 
