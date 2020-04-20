@@ -363,6 +363,7 @@ class RedshopModelCategory extends RedshopModel
         $orderBy        = RedshopHelperUtility::prepareOrderBy(
             Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD')
         );
+
         $filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
         $filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 
