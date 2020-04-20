@@ -157,4 +157,34 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 				break;
 		}
 	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productName
+	 * @param $function
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function checkProductConfigDiscontinue($categoryName, $productName, $function)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+
+		switch ($function)
+		{
+			case 'Yes':
+				$I->waitForElementVisible($productFrontEndManagerPage->product($productName), 30);
+				$I->click($productFrontEndManagerPage->product($productName));
+				$I->waitForElementNotVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30);
+				break;
+
+			case 'No':
+				$I->waitForElementNotVisible($productFrontEndManagerPage->product($productName), 30);
+				break;
+		}
+	}
 }
