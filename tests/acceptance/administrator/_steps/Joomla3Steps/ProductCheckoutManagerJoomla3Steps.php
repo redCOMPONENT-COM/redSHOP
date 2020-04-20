@@ -116,7 +116,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		try
 		{
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$selectorEmailInvalid, 10);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 10, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
 			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
 			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
 			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
