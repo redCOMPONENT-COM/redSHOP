@@ -608,7 +608,8 @@ class App
             "MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload'],
             "WISHLIST_LIST"                                => $data["wishlist_list"],
             "PRODUCT_DEFAULT_CATEGORY"                     => $data["product_default_category"],
-            "ENABLE_PERFORMANCE_MODE"                      => $data["enable_performance_mode"]
+            "ENABLE_PERFORMANCE_MODE"                      => $data["enable_performance_mode"],
+            "SHOW_DISCONTINUED_PRODUCTS"                   => $data["show_discontinued_products"]
         );
 
         $configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];
