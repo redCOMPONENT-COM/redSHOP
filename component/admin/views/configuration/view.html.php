@@ -748,9 +748,10 @@ class RedshopViewConfiguration extends RedshopViewAdmin
         $lists['display_out_of_stock_after'] = JHtml::_(
             'redshopselect.booleanlist',
             'display_out_of_stock_after',
-            'class="form-control"',
+            'class="form-control" size="1"',
             $this->config->get('DISPLAY_OUT_OF_STOCK_AFTER')
         );
+
         $lists['display_out_of_stock_attribute_data'] = JHtml::_(
             'redshopselect.booleanlist',
             'display_out_of_stock_attribute_data',
