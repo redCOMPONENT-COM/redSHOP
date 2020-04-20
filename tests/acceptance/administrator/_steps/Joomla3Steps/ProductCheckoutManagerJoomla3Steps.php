@@ -927,18 +927,26 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
 					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 				}
-				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
-				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
 
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idEanNumber, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
+				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
