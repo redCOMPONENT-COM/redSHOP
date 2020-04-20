@@ -124,7 +124,7 @@ class ModuleMultiCurrenciesCest
 
 		//install module
 		$this->extensionURL   = 'extension url';
-		$this->moduleName     = 'Redshop Multi Currencies';
+		$this->moduleName     = '\Redshop Multi Currencies';
 		$this->moduleURL      = 'paid-extensions/tests/releases/modules/site/';
 		$this->package        = 'mod_redshop_currencies.zip';
 
@@ -155,9 +155,9 @@ class ModuleMultiCurrenciesCest
 	 */
 	public function installModule(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("Install Module Multi Currencies");
-		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
-		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
+//		$I->wantTo("Install Module Multi Currencies");
+//		$I->installExtensionPackageFromURL($this->extensionURL, $this->moduleURL, $this->package);
+//		$I->waitForText(AdminJ3Page::$messageInstallModuleSuccess, 120, AdminJ3Page::$idInstallSuccess);
 		$I->publishModule($this->moduleName);
 		$I = new ModuleManagerJoomla($scenario);
 		$I->configurationCurrent($this->moduleName);

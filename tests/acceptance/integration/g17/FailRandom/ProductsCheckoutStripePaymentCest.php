@@ -191,10 +191,10 @@ class ProductsCheckoutStripePaymentCest
 	 */
 	public function installPlugin(AdminManagerJoomla3Steps $I, $scenario)
 	{
-		$I->wantTo("install plugin payment Bank Transfer Discount");
+		$I->wantTo("install plugin payment Stripe");
 		$I->installExtensionPackageFromURL($this->extensionURL, $this->pluginURL, $this->package);
 		$I->waitForText(AdminJ3Page::$messageInstallPluginSuccess, 120, AdminJ3Page::$idInstallSuccess);
-		$I->wantTo('Enable Plugin Bank Transfer Discount Payments in Administrator');
+		$I->wantTo('Enable Plugin Stripe Payments in Administrator');
 		$I->enablePlugin($this->pluginName);
 
 		$I = new PluginPaymentManagerJoomla($scenario);
