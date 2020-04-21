@@ -745,6 +745,13 @@ class RedshopViewConfiguration extends RedshopViewAdmin
             'class="form-control" size="1"',
             $this->config->get('SHOW_QUOTATION_PRICE')
         );
+        $lists['display_out_of_stock_after'] = JHtml::_(
+            'redshopselect.booleanlist',
+            'display_out_of_stock_after',
+            'class="form-control" size="1"',
+            $this->config->get('DISPLAY_OUT_OF_STOCK_AFTER')
+        );
+
         $lists['display_out_of_stock_attribute_data'] = JHtml::_(
             'redshopselect.booleanlist',
             'display_out_of_stock_attribute_data',

@@ -350,6 +350,31 @@ class RedshopModelCategory extends RedshopModel
             $this->_total = $db->loadResult();
         }
 
+        // H.A 20.04.2020 REDSHOP-5970 Display out of stock after in stock products
+        if (\Redshop::getConfig()->getInt('USE_STOCKROOM')
+            && \Redshop::getConfig()->getInt('DISPLAY_OUT_OF_STOCK_AFTER')) {
+
+            $inStock = \RedshopHelperProduct::removeOutofstockProduct($this->_product);
+
+            if (count($this->_product) > 0) {
+                foreach ($this->_product as $p) {
+                    $flag = false;
+                    foreach ($inStock as $i) {
+                        if ($p->product_id == $i->product_id) {
+                            $flag = true;
+                            break;
+                        }
+                    }
+
+                    if (!$flag) {
+                        $inStock[] = $p;
+                    }
+                }
+            }
+
+            $this->_product = $inStock;
+        }
+
         return $this->_product;
     }
 
@@ -363,6 +388,7 @@ class RedshopModelCategory extends RedshopModel
         $orderBy        = RedshopHelperUtility::prepareOrderBy(
             Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD')
         );
+
         $filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
         $filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 
