@@ -85,6 +85,9 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userOrderPage->returnSearch($paymentStatus), 30);
 		$I->click($userOrderPage->returnSearch($paymentStatus));
 		$I->fillField(\OrderManagerPage::$quantityp1, $newQuantity);
+		$I->pressKey(OrderManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->waitForElementVisible(\OrderManagerPage::$nameButtonStatus);
+		$I->scrollTo(OrderManagerPage::$statusOrder);
 		$I->click(\OrderManagerPage::$nameButtonStatus);
 	}
 

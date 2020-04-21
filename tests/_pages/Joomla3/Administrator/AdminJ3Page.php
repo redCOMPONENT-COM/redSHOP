@@ -517,7 +517,7 @@ abstract class AdminJ3Page
 	 * @var array
 	 * @since 2.1.2
 	 */
-	public static $paymentPayPad = "//input[@id='rs_payment_paypal1']";
+	public static $paymentPayPad = "//input[@value='rs_payment_paypal']";
 
 	/**
 	 * @var array
