@@ -356,7 +356,7 @@ class RedshopModelCategory extends RedshopModel
 
             $inStock = \RedshopHelperProduct::removeOutofstockProduct($this->_product);
 
-            if ((count($this->_product) > 0) && (count($inStock) > 0)) {
+            if (count($this->_product) > 0) {
                 foreach ($this->_product as $p) {
                     $flag = false;
                     foreach ($inStock as $i) {
