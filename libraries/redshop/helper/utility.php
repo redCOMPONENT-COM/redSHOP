@@ -796,7 +796,8 @@ class RedshopHelperUtility
             JHtml::_('select.option', 'number_desc', JText::_('COM_REDSHOP_PRODUCT_NUMBER_DESC')),
             JHtml::_('select.option', 'id', JText::_('COM_REDSHOP_NEWEST')),
             JHtml::_('select.option', 'ordering', JText::_('COM_REDSHOP_ORDERING_ASC')),
-            JHtml::_('select.option', 'ordering_desc', JText::_('COM_REDSHOP_ORDERING_DESC'))
+            JHtml::_('select.option', 'ordering_desc', JText::_('COM_REDSHOP_ORDERING_DESC')),
+            JHtml::_('select.option', 'random', JText::_('COM_REDSHOP_ORDERING_RANDOM'))
         );
 
         JPluginHelper::importPlugin('system');
@@ -880,6 +881,10 @@ class RedshopHelperUtility
                 $orderBy->ordering  = 'pc.ordering';
                 $orderBy->direction = 'DESC';
 
+                break;
+            case 'random':
+                $orderBy->ordering  = 'RAND()';
+                $orderBy->direction = '';
                 break;
 
             case 'name':

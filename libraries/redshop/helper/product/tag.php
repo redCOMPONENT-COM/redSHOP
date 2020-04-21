@@ -308,7 +308,7 @@ class RedshopHelperProductTag
         $stockImgFlag       = false;
         $notifyStock        = '';
 
-        if (Redshop::getConfig()->get('USE_STOCKROOM') == 1 && empty($accessoryId)) {
+        if (Redshop::getConfig()->get(' USE_STOCKROOM') == 1 && empty($accessoryId)) {
             $stockAmounts = array();
 
             if ($subPropertyId) {
