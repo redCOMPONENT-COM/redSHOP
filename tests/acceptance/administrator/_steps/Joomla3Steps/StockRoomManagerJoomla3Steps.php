@@ -1,10 +1,11 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace AcceptanceTester;
 use StockRoomManagerJoomla3Page;
 
@@ -15,17 +16,16 @@ use StockRoomManagerJoomla3Page;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since    1.4
+ * @since    1.4.0
  */
 class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 	/**
-	 * Function to add a new Stock Room Detail
-	 *
-	 * @param   string $name Name of the Stock Room
-	 * @param   string $minAmount Min Amount
-	 *
-	 * @return void
+	 * Function to add a new Stockroom Detail
+	 * @param string $name
+	 * @param string $minAmount
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addStockRoom($name = 'Sample', $minAmount = '100')
 	{
@@ -42,12 +42,11 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to update a Stock Room Information
-	 *
-	 * @param   string $name Current Name
-	 * @param   string $newName Updated Name
-	 *
-	 * @return void
+	 * Function to update a Stockroom Information
+	 * @param string $name
+	 * @param string $newName
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function editStockRoom($name = 'Sample', $newName = 'Updated Name')
 	{
@@ -64,12 +63,11 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to change State of a Stock Room
-	 *
-	 * @param   string $name Name of the Stock Room
-	 * @param   string $state State of the Stock Room
-	 *
-	 * @return void
+	 * Function to change State of a Stockroom
+	 * @param $name
+	 * @param string $state
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function changeStockRoomState($name, $state = 'unpublish')
 	{
@@ -77,12 +75,10 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to Search for a Stock Room
-	 *
-	 * @param   string $name Name of the Stock Room
-	 * @param   string $functionName Name of the function After Which search is being Called
-	 *
-	 * @return void
+	 * Function to Search for a Stockroom
+	 * @param $name
+	 * @param string $functionName
+	 * @since 1.4.0
 	 */
 	public function searchStockRoom($name, $functionName = 'Search')
 	{
@@ -90,11 +86,10 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to get State of the Stock Room
-	 *
-	 * @param   String $name Name of the Stock Room
-	 *
+	 * Function to get State of the Stockroom
+	 * @param $name
 	 * @return string
+	 * @since 1.4.0
 	 */
 	public function getStockRoomState($name)
 	{
@@ -104,11 +99,12 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * Function to Delete Stock Room
+	 * Function to Delete Stockroom
 	 *
-	 * @param   String $name Name of the Stock Room which is to be Deleted
+	 * @param   String $name Name of the Stockroom which is to be Deleted
 	 *
 	 * @return void
+	 * @since 1.4.0
 	 */
 	public function deleteStockRoom($name)
 	{
@@ -116,7 +112,9 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * Function to Delete all Stockroom
 	 * @throws \Exception
+	 *
 	 */
 	public function deleteAllStockRoom()
 	{

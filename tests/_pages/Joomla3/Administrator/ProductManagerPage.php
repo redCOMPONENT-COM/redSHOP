@@ -15,7 +15,6 @@
  */
 class ProductManagerPage extends AdminJ3Page
 {
-
 	/**
 	 * @var string
 	 */

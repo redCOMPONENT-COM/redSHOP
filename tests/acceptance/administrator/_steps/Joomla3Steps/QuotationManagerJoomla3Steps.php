@@ -9,6 +9,7 @@
 namespace AcceptanceTester;
 use QuotationManagerPage as QuotationManagerPage;
 use UserManagerJoomla3Page as UserManagerJoomla3Page;
+
 /**
  * Class QuotationManagerJoomla3Steps
  *
@@ -22,8 +23,11 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 	/**
 	 * Function to add a New Quotation
-	 * since 2.1.2
-	 * @return void
+	 * @param $nameUser
+	 * @param $nameProduct
+	 * @param $quantity
+	 * @throws \Exception
+	 * @since 2.1.2
 	 */
 	public function addQuotation($nameUser, $nameProduct, $quantity)
 	{
@@ -121,7 +125,7 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	}
 
 	/**
-	 * @param $firstname
+	 * @param $firstName
 	 * @param $lastName
 	 * @param $address
 	 * @param $postalCode
@@ -130,16 +134,16 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $email
 	 * @param $userName
 	 * @param $passWord
-	 * @throws \Codeception\Exception\ModuleException
-	 * since 2.1.2
+	 * @throws \Exception
+	 * @since 2.1.2
 	 */
-	public function checkPhoneNumber($firstname, $lastName, $address, $postalCode, $city, $stringPhone, $email, $userName, $passWord)
+	public function checkPhoneNumber($firstName, $lastName, $address, $postalCode, $city, $stringPhone, $email, $userName, $passWord)
 	{
 		$I = $this;
 		$I->amOnPage(QuotationManagerPage::$URL);
 		$I->click(QuotationManagerPage::$buttonNew);
 		$I->waitForElementVisible(UserManagerJoomla3Page::$firstName, 30);
-		$I->fillField(UserManagerJoomla3Page::$firstName, $firstname);
+		$I->fillField(UserManagerJoomla3Page::$firstName, $firstName);
 		$I->fillField(UserManagerJoomla3Page::$lastName, $lastName);
 		$I->fillField(UserManagerJoomla3Page::$address, $address);
 		$I->fillField(UserManagerJoomla3Page::$zipcode, $postalCode);
