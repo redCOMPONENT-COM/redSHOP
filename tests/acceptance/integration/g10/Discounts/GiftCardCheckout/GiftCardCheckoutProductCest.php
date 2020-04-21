@@ -366,7 +366,7 @@ class GiftCardCheckoutProductCest
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
-		$I->deeteCategory($this->categoryName);
+		$I->deleteCategory($this->categoryName);
 
 		$I = new CouponSteps($scenario);
 		$I->wantTo('Create a Coupon');
