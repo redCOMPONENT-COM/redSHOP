@@ -262,7 +262,7 @@ class GiftCardCheckoutProductCest
 		$this->dataCoupon['amount_left'] = $this->faker->numberBetween(99, 999);
 
 		$this->total         = "DKK 24,00";
-		$this->discountPrice = "DKK 24,00";
+		$this->discountPrice = "DKK 10,00";
 		$this->subTotal      = "DKK 14,00";
 	}
 
