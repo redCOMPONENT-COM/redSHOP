@@ -2,7 +2,7 @@
 /**
  * @package     redSHOP
  * @subpackage  Cest ModuleMultiCurrencies
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -124,7 +124,7 @@ class ModuleMultiCurrenciesCest
 
 		//install module
 		$this->extensionURL   = 'extension url';
-		$this->moduleName     = 'Redshop Multi Currencies';
+		$this->moduleName     = '\Redshop Multi Currencies';
 		$this->moduleURL      = 'paid-extensions/tests/releases/modules/site/';
 		$this->package        = 'mod_redshop_currencies.zip';
 
