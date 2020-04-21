@@ -2,7 +2,7 @@
 /**
  * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,27 +87,27 @@ class ProductsCheckoutFrontEndCest
 	 */
 	public function __construct()
 	{
-		$this->faker            = Faker\Factory::create();
-		$this->categoryName     = $this->faker->bothify('CategoryName ?###?');
-		$this->productName      = $this->faker->bothify('Testing Product ??####?');
-		$this->minimumPerProduct            = 1;
-		$this->minimumQuantity              = 3;
-		$this->maximumQuantity              = 5;
-		$this->discountStart                = "2016-12-12";
-		$this->discountEnd                  = "2017-05-23";
-		$this->randomProductNumber          = rand(999, 9999);
-		$this->randomProductPrice           = rand(99, 199);
+		$this->faker               = Faker\Factory::create();
+		$this->categoryName        = $this->faker->bothify('CategoryName ?###?');
+		$this->productName         = $this->faker->bothify('Testing Product ??####?');
+		$this->minimumPerProduct   = 1;
+		$this->minimumQuantity     = 3;
+		$this->maximumQuantity     = 5;
+		$this->discountStart       = "2016-12-12";
+		$this->discountEnd         = "2017-05-23";
+		$this->randomProductNumber = rand(999, 9999);
+		$this->randomProductPrice  = rand(99, 199);
 		$this->customerInformation = array(
-		"email"      => "test@test" . rand() . ".com",
-		"firstName"  => "Tester",
-		"lastName"   => "User",
-		"address"    => "Some Place in the World",
-		"postalCode" => "23456",
-		"city"       => "Bangalore",
-		"country"    => "India",
-		"state"      => "Karnataka",
-		"phone"      => "8787878787"
-	);
+			"email"      => "test@test" . rand() . ".com",
+			"firstName"  => "Tester",
+			"lastName"   => "User",
+			"address"    => "Some Place in the World",
+			"postalCode" => "23456",
+			"city"       => "Bangalore",
+			"country"    => "India",
+			"state"      => "Karnataka",
+			"phone"      => "8787878787"
+			);
 	}
 
 	/**
@@ -151,7 +151,6 @@ class ProductsCheckoutFrontEndCest
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-
 		$I->wantTo('Delete product');
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->deleteProduct($this->productName);
