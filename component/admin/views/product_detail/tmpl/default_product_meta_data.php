@@ -96,9 +96,15 @@ defined('_JEXEC') or die;
                         );
                         ?>
                         <br/>
+                        <?php
+                            $plugin = \JPluginHelper::getPlugin('redshop_product', 'canonical');
+                            $isCanonicalPluginEnable = isset($plugin->id)? true: false;
+                        ?>
+                        <?php if (!$isCanonicalPluginEnable): ?>
                         <span class="label label-important red">
-							<?php echo JText::_('COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT_PLUGIN'); ?>
+                            <?php echo JText::_('COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT_PLUGIN'); ?>
 						</span>
+                        <?php endif ?>
                     </label>
                     <input
                             class="form-control"

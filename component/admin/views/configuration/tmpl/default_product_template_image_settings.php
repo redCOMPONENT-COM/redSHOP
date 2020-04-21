@@ -31,6 +31,14 @@ echo RedshopLayoutHelper::render(
 echo RedshopLayoutHelper::render(
     'config.config',
     array(
+        'title' => JText::_('COM_REDSHOP_DISPLAY_OUT_OF_STOCK_AFTER'),
+        'desc'  => JText::_('COM_REDSHOP_DISPLAY_OUT_OF_STOCK_AFTER'),
+        'field' => $this->lists['display_out_of_stock_after']
+    )
+);
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
         'title' => JText::_('COM_REDSHOP_DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA'),
         'desc'  => JText::_('COM_REDSHOP_DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA'),
         'field' => $this->lists['display_out_of_stock_attribute_data']

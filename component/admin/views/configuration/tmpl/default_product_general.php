@@ -17,3 +17,12 @@ echo RedshopLayoutHelper::render(
         'field' => $this->lists['product_default_category']
     )
 );
+
+echo RedshopLayoutHelper::render(
+    'config.config',
+    array(
+        'title' => JText::_('COM_REDSHOP_SHOW_DISCONTINUED_PRODUCTS_LBL'),
+        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_SHOW_DISCONTINUED_PRODUCTS_LBL'),
+        'field' => $this->lists['show_discontinued_products']
+    )
+);
