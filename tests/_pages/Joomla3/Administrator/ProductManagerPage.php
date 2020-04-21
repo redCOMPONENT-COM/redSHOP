@@ -557,4 +557,14 @@ class ProductManagerPage extends AdminJ3Page
 
 		return $xpath;
 	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function productDiscontinued($option)
+	{
+		return $path = "//input[@id='expired".$option."']";
+	}
 }

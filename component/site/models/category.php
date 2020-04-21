@@ -173,7 +173,7 @@ class RedshopModelCategory extends RedshopModel
             $query->where('p.manufacturer_id = ' . (int)$manufacturerId);
         }
 
-        $query->select('DISTINCT(p.product_id)')
+        $query->select('DISTINCT(' . $db->qn('p.product_id') . ')')
             ->from($db->qn('#__redshop_product', 'p'))
             ->leftJoin(
                 $db->qn('#__redshop_product_category_xref', 'pc') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn(
@@ -181,9 +181,15 @@ class RedshopModelCategory extends RedshopModel
                 )
             )
             ->where($db->qn('p.published') . ' = 1')
-            ->where($db->qn('p.expired') . ' = 0')
-            ->where($db->qn('p.product_parent_id') . ' = 0')
-            ->group($db->qn('p.product_id'))
+            ->where($db->qn('p.product_parent_id') . ' = 0');
+
+        if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+            $query->where($db->qn('p.expired') . ' IN (0, 1)');
+        } else {
+            $query->where($db->qn('p.expired') . ' IN (0)');
+        }
+
+        $query->group($db->qn('p.product_id'))
             ->order($orderBy);
 
         $filterIncludeProductFromSubCat = $this->getState('include_sub_categories_products', false);
@@ -344,6 +350,31 @@ class RedshopModelCategory extends RedshopModel
             $this->_total = $db->loadResult();
         }
 
+        // H.A 20.04.2020 REDSHOP-5970 Display out of stock after in stock products
+        if (\Redshop::getConfig()->getInt('USE_STOCKROOM')
+            && \Redshop::getConfig()->getInt('DISPLAY_OUT_OF_STOCK_AFTER')) {
+
+            $inStock = \RedshopHelperProduct::removeOutofstockProduct($this->_product);
+
+            if (count($this->_product) > 0) {
+                foreach ($this->_product as $p) {
+                    $flag = false;
+                    foreach ($inStock as $i) {
+                        if ($p->product_id == $i->product_id) {
+                            $flag = true;
+                            break;
+                        }
+                    }
+
+                    if (!$flag) {
+                        $inStock[] = $p;
+                    }
+                }
+            }
+
+            $this->_product = $inStock;
+        }
+
         return $this->_product;
     }
 
@@ -357,6 +388,7 @@ class RedshopModelCategory extends RedshopModel
         $orderBy        = RedshopHelperUtility::prepareOrderBy(
             Redshop::getConfig()->get('DEFAULT_PRODUCT_ORDERING_METHOD')
         );
+
         $filterOrder    = $this->getState('list.ordering', $orderBy->ordering);
         $filterOrderDir = $this->getState('list.direction', $orderBy->direction);
 

@@ -586,6 +586,7 @@ class App
             "PURCHASE_PARENT_WITH_CHILD"                   => $data['purchase_parent_with_child'],
             "ADDTOCART_DELETE"                             => $data["addtocart_delete"],
             "ADDTOCART_UPDATE"                             => $data["addtocart_update"],
+            "DISPLAY_OUT_OF_STOCK_AFTER"                   => $data["display_out_of_stock_after"],
             "DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"          => $data["display_out_of_stock_attribute_data"],
             "SEND_MAIL_TO_CUSTOMER"                        => $data["send_mail_to_customer"],
             "AJAX_DETAIL_BOX_WIDTH"                        => $data["ajax_detail_box_width"],
@@ -608,7 +609,8 @@ class App
             "MAX_FILE_SIZE_UPLOAD"                         => $data['max_file_size_upload'],
             "WISHLIST_LIST"                                => $data["wishlist_list"],
             "PRODUCT_DEFAULT_CATEGORY"                     => $data["product_default_category"],
-            "ENABLE_PERFORMANCE_MODE"                      => $data["enable_performance_mode"]
+            "ENABLE_PERFORMANCE_MODE"                      => $data["enable_performance_mode"],
+            "SHOW_DISCONTINUED_PRODUCTS"                   => $data["show_discontinued_products"]
         );
 
         $configs["CART_TIMEOUT"]               = $data["cart_timeout"] <= 0 ? 20 : $data["cart_timeout"];

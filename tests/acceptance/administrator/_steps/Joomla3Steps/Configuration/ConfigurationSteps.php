@@ -655,6 +655,36 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	}
 
 	/**
+	 * @param $setProductDiscontinue
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function configShowDiscontinuedProducts($setProductDiscontinue)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+
+		switch ($setProductDiscontinue)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(ConfigurationPage::$showDiscontinuedProductsYes, 30);
+				$I->click(ConfigurationPage::$showDiscontinuedProductsYes);
+				break;
+
+			case 'No':
+				$I->waitForElementVisible(ConfigurationPage::$showDiscontinuedProductsNo, 30);
+				$I->click(ConfigurationPage::$showDiscontinuedProductsNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
 	 * @param $price
 	 * @param $order
 	 * @param $firstName
