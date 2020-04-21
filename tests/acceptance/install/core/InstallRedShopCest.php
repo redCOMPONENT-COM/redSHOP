@@ -31,8 +31,6 @@ class InstallRedShopCest
 	{
 		$I->wantTo('Execute Joomla Installation');
 		$I->installJoomlaRemovingInstallationFolder();
-		$I->doAdministratorLogin();
-		$I->setErrorReportingtoDevelopment();
 	}
 
 	/**

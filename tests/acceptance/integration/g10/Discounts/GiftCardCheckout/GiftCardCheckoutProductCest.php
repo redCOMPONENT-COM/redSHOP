@@ -6,17 +6,209 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\GiftCardManagerJoomla3Steps;
+use AcceptanceTester\OrderManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps;
+
 /**
  * Class GiftCardCheckoutProductCest
- *
- * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
- * @since    1.4
+ * @since 3.0.2
  */
 class GiftCardCheckoutProductCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 3.0.2
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $userName;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $lastName;
+
+	/**
+	 * @var array
+	 * @since 3.0.2
+	 */
+	protected $userInformation;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $randomCardName;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $cardPrice;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $cardValidity;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $cardValue;
+
+	/**
+	 * @var null
+	 * @since 3.0.2
+	 */
+	protected $couponCode;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $noPage;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $productName;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $randomProductNumber;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $minimumPerProduct;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $discountStart;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $discountEnd;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $status;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $paymentStatus;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $newQuantity;
+
+	/**
+	 * @var array
+	 * @since 3.0.2
+	 */
+	protected $dataCoupon;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $total;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $discountPrice;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $subTotal;
+
+	/**
+	 * GiftCardCheckoutProductCest constructor.
+	 * @since 3.0.2
+	 */
 	public function __construct()
 	{
 		$this->faker           = Faker\Factory::create();
@@ -36,11 +228,12 @@ class GiftCardCheckoutProductCest
 			"city"       => "Bangalore",
 			"phone"      => "8787878787"
 		);
-		$this->randomCardName  = $this->faker->bothify('ManageGiftCardAdministratorCest Card ?##?');
-		$this->cardPrice       = '10';
-		$this->cardValue       = '10';
-		$this->cardValidity    = $this->faker->numberBetween(2, 10);
-		$this->couponCode      = null;
+
+		$this->randomCardName = $this->faker->bothify('ManageGiftCardAdministratorCest Card ?##?');
+		$this->cardPrice      = '10';
+		$this->cardValue      = '10';
+		$this->cardValidity   = $this->faker->numberBetween(2, 10);
+		$this->couponCode     = null;
 
 		//create category
 		$this->categoryName = 'Testing Category ' . $this->faker->randomNumber();
@@ -60,143 +253,76 @@ class GiftCardCheckoutProductCest
 		$this->status        = "Confirmed";
 		$this->paymentStatus = "Paid";
 		$this->newQuantity   = '1';
-		//information checkout
-		$this->checkoutAccountInformation = array(
-			"accessId"        => "62qpC9xN9nN4",
-			"transactionId"   => "97sRY6pGTea3E48d",
-			"password"        => "Pull416!t",
-			"debitCardNumber" => "4012888818888",
-			"cvv"             => "1234",
-			"cardExpiryMonth" => '2',
-			"cardExpiryYear"  => '2016',
-			"shippingAddress" => "some place on earth",
-			"customerName"    => 'Testing Customer'
-		);
 
+		$this->dataCoupon = array();
+		$this->dataCoupon['code']        = $this->faker->bothify('Coupon Code ?##?');
+		$this->dataCoupon['type']        = 'Total';
+		$this->dataCoupon['value']       = '10';
+		$this->dataCoupon['effect']      = 'Global';
+		$this->dataCoupon['amount_left'] = $this->faker->numberBetween(99, 999);
+
+		$this->total         = "DKK 24,00";
+		$this->discountPrice = "DKK 10,00";
+		$this->subTotal      = "DKK 14,00";
 	}
 
 	/**
-	 * Function install payment_paypal and enable
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
 	 */
 	public function checkoutWithPayment(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
-		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using paypal payment plugin for purchasing gift card');
-		$I->amOnPage(\GiftCardCheckoutPage::$URLLoginAdmin);
-		$I->wantTo('Enable redshop_payment_paypal Administrator');
-		$path = $I->getConfig('packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip';
-		$I->comment( 'The path of payment');
-		$I->wantTo($path);
-		$I->wait(1);
-		$I->installExtensionFromUrl($I->getConfig('packages url') . 'plugins/plg_redshop_payment_rs_payment_paypal.zip');
 		$I->enablePlugin('PayPal');
 
-		$I->wait(1);
 		$I->wantTo('Test Category Save creation in Administrator');
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Create a Category Save button');
 		$I->addCategorySave($this->categoryName);
 
 		$I->wantTo('Test Product Save Manager in Administrator');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
 		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 
 		$I->wantTo('Test User creation in Administrator');
-		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
 		$I->searchUser($this->firstName);
 
-		$I = new AcceptanceTester($scenario);
 		$I->wantTo('Test Gift Card creation in Administrator');
-		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+		$I = new GiftCardManagerJoomla3Steps($scenario);
 		$I->addCardNew($this->randomCardName, $this->cardPrice, $this->cardValue, $this->cardValidity, 'save');
 
-		$I = new AcceptanceTester($scenario);
+		$I = new CouponSteps($scenario);
+		$I->wantTo('Create a Coupon');
+		$I->addNewItem($this->dataCoupon);
+
 		$I->wantTo('Test Giftcard checkout on Frontend, Applying Giftcard to a Product, using Authorize payment plugin for purchasing gift card');
-		$I = new AcceptanceTester\ProductCheckoutManagerJoomla3Steps($scenario);
-		$this->checkoutGiftCardWithAuthorizePayment($I, $this->userInformation, $this->randomCardName);
-
+		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
+		$I->checkoutGiftCard($this->userInformation, $this->randomCardName, $this->userName, $this->password, $this->firstName, $this->email);
 	}
 
 	/**
-	 * Function to Test Checkout Process of a Gift Card using the Authorize Payment Plugin
-	 *
-	 * @param   AcceptanceTester $I                     Actor Class Object
-	 * @param   String           $scenario              Scenario Variable
-	 * @param   Array            $addressDetail         Address Detail
-	 * @param   Array            $shipmentDetail        Shipping Address Detail
-	 * @param   Array            $checkoutAccountDetail 2Checkout Account Detail
-	 * @param   string           $giftCardName          Name of the Gift Card which needs to be purchased
-	 *
-	 * @return void
-	 */
-	private function checkoutGiftCardWithAuthorizePayment(AcceptanceTester $I, $addressDetail, $giftCardName)
-	{
-		$I->doFrontEndLogin($this->userName, $this->password);
-		// here , can't get this link
-		$I->amOnPage(\GiftCardCheckoutPage::$pageCart);
-		$I->waitForElement(['link' => $giftCardName], 60);
-		$I->click(['link' => $giftCardName]);
-		$I->waitForElement(\GiftCardCheckoutPage::$reciverName);
-		$I->fillField(\GiftCardCheckoutPage::$reciverName, $this->firstName);
-		$I->fillField(\GiftCardCheckoutPage::$reciverEmail, $this->email);
-		$I->waitForElementVisible(\GiftCardCheckoutPage::$addToCart, 30);
-		$I->click(\GiftCardCheckoutPage::$addToCart);
-		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
-		$I->see(GiftCardCheckoutPage::$alertSuccessMessage, \GiftCardCheckoutPage::$selectorSuccess);
-		$I->amOnPage(\GiftCardCheckoutPage::$cartPageUrL);
-		$I->seeElement(['link' => $giftCardName]);
-
-		$I->click(\GiftCardCheckoutPage::$checkoutButton);
-		$I->waitForElement(\GiftCardCheckoutPage::$paymentPayPad, 30);
-		$I->click(\GiftCardCheckoutPage::$paymentPayPad);
-
-		$I->click(\GiftCardCheckoutPage::$checkoutButton);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$addressEmail, 30);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressEmail, $this->email);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressFirstName, $this->firstName);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressLastName, $this->lastName);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
-		$I->fillField(\FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
-		$I->click(GiftCardCheckoutPage::$buttonSave);
-
-		$I->waitForElement(\GiftCardCheckoutPage::$addressLink, 30);
-		$I->waitForElementVisible(\GiftCardCheckoutPage::$paymentPayPad, 30);
-		$I->click(\GiftCardCheckoutPage::$paymentPayPad);
-		$I->waitForElementVisible(\GiftCardCheckoutPage::$checkoutButton, 30);
-		$I->click(\GiftCardCheckoutPage::$checkoutButton);
-
-		//accept
-		$I->waitForElementVisible(\GiftCardCheckoutPage::$acceptTerms, 30);
-		$I->click(\GiftCardCheckoutPage::$acceptTerms);
-		$I->waitForElementVisible(\GiftCardCheckoutPage::$checkoutFinalStep, 30);
-		$I->click(\GiftCardCheckoutPage::$checkoutFinalStep);
-	}
-
-	/**
-	 * Change status of order to paid for get coupon
-	 *
 	 * @param AcceptanceTester $I
-	 * @param                  $scenario
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 3.0.2
 	 */
-	public function changeStatusOrder(AcceptanceTester $I, $scenario)
+	 function changeStatusOrder(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
 		$I->wantTo('Change order status');
-		$I = new AcceptanceTester\OrderManagerJoomla3Steps($scenario);
-		$I->editOrder($this->firstName . ' ' . $this->lastName, $this->status, $this->paymentStatus, $this->newQuantity);
+		$I = new OrderManagerJoomla3Steps($scenario);
+		$I->editOrder($this-> userInformation['firstName'] . ' ' . $this-> userInformation['lastName'], $this->status, $this->paymentStatus, $this->newQuantity);
 	}
 
 	/**
-	 * Function to Fetch the Coupon Code Generated by Gift Card
-	 *
-	 * @param   AcceptanceTester $I        Actor Class Object
-	 * @param   String           $scenario Scenario Variable
-	 *
-	 * @return String
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 3.0.2
 	 */
 	public function fetchCouponCode(AcceptanceTester $I, $scenario)
 	{
@@ -212,73 +338,38 @@ class GiftCardCheckoutProductCest
 	}
 
 	/**
-	 *
-	 * Checkout with gift cart
-	 *
+	 * @param CouponSteps $I
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
+	public function getGiftCartCheckout(CouponSteps $I)
+	{
+		$I->checkoutProductWithCouponCode($this->userName, $this->password, $this->productName, $this->categoryName, $this->couponCode, $this->total, $this->discountPrice, $this->subTotal);
+	}
+
+	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
+	 * @throws Exception
+	 * @since 3.0.2
 	 */
-	public function getGiftCartCheckout(AcceptanceTester $I, $scenario)
-	{
-		$I = new AcceptanceTester($scenario);
-		$this->checkoutProductWithCouponCode($I, $this->productName, $this->categoryName, $this->couponCode);
-		$this->deleteGiftCard($I, $scenario);
-	}
-
-	/**
-	 * Function to Test Checkout Process of a Product using the Coupon Code
-	 *
-	 * @param   AcceptanceTester $I              Actor Class Object
-	 * @param   String           $scenario       Scenario Variable
-	 * @param   Array            $addressDetail  Address Detail
-	 * @param   Array            $shipmentDetail Shipping Address Detail
-	 * @param   string           $productName    Name of the Product
-	 * @param   string           $categoryName   Name of the Category
-	 * @param   string           $couponCode     Code for the Coupon
-	 *
-	 * @return void
-	 */
-	private function checkoutProductWithCouponCode(AcceptanceTester $I, $productName, $categoryName, $couponCode)
-	{
-		$I->doFrontEndLogin($this->userName, $this->password);
-		$I->amOnPage(\FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(\FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(\FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText(\GiftCardCheckoutPage::$alertSuccessMessage, 60, \GiftCardCheckoutPage::$selectorSuccess);
-		$I->see(GiftCardCheckoutPage::$alertSuccessMessage, \GiftCardCheckoutPage::$selectorSuccess);
-		$I->amOnPage(\GiftCardCheckoutPage::$cartPageUrL);
-		$I->seeElement(['link' => $productName]);
-		$I->fillField(\GiftCardCheckoutPage::$couponInput, $couponCode);
-		$I->click(\GiftCardCheckoutPage::$couponButton);
-		$I->waitForText(\GiftCardCheckoutPage::$messageValid, 10, \GiftCardCheckoutPage::$selectorSuccess);
-		$I->see(\GiftCardCheckoutPage::$messageValid, \GiftCardCheckoutPage::$selectorSuccess);
-
-		$I->see("DKK 24,00", \GiftCardCheckoutPage::$priceTotal);
-		$I->see("DKK 10,00", \GiftCardCheckoutPage::$priceDiscount);
-		$I->see("DKK 14,00", \GiftCardCheckoutPage::$priceEnd);
-	}
-
-	/**
-	 * Function to Test Gift Card Deletion
-	 *
-	 */
-	private function deleteGiftCard(AcceptanceTester $I, $scenario)
+	public function deleteGiftCard(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
 		$I->wantTo('Deletion of Gift Card in Administrator');
-		$I = new AcceptanceTester\GiftCardManagerJoomla3Steps($scenario);
+		$I = new GiftCardManagerJoomla3Steps($scenario);
 		$I->deleteCard($this->randomCardName);
 
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
 		$I->deleteProduct($this->productName);
 
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
 		$I->deleteCategory($this->categoryName);
+
+		$I = new CouponSteps($scenario);
+		$I->wantTo('Create a Coupon');
+		$I->deleteItem($this->dataCoupon['code']);
 	}
 }

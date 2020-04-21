@@ -40,7 +40,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $currentConfiguration = ['link' => "Redshop Multi Currencies"];
+	public static $currentConfiguration = ['link' => "\Redshop Multi Currencies"];
 
 	/**
 	 * @var string
