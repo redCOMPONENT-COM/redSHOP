@@ -7,6 +7,8 @@
  */
 
 namespace AcceptanceTester;
+use FrontEndProductManagerJoomla3Page;
+use ModuleManagerJ3page;
 
 /**
  * Class CheckoutSearchProductFrontendSteps
@@ -15,11 +17,8 @@ namespace AcceptanceTester;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  *
- * @since   2.2
+ * @since   2.1.0
  */
-use FrontEndProductManagerJoomla3Page;
-use ModuleManagerJ3page;
-
 class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 {
 	/**
@@ -27,6 +26,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 	 *
 	 * @param $module
 	 * @throws \Exception
+	 * @since 2.1.0
 	 */
 	public function createModuleRedShopSearch($module)
 	{
@@ -128,6 +128,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 	 * @param $productName
 	 * @param $customerInformation
 	 * @throws \Exception
+	 * @since 2.1.0
 	 */
 	public function checkoutSearchProductFrontend($productName,$customerInformation)
 	{

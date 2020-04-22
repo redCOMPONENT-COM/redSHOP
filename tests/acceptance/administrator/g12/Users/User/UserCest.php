@@ -161,6 +161,7 @@ class UserCest
 	 *
 	 * @param AcceptanceTester $I
 	 * @param $scenario
+     * @throws \Exception
 	 * @since 1.4.0
 	 */
 	public function addUser(AcceptanceTester $I, $scenario)
@@ -178,11 +179,12 @@ class UserCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @since 1.4.0
+     * @throws \Exception
 	 */
 	public function addUserMissing(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test User creation with save button in Administrator');
-		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUserMissing($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'email');
 		$I->addUserMissing($this->userMissing, $this->password, $this->emailWrong, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'wrongemail');
 		$I->addUserMissing($this->userNameEdit, $this->password, $this->emailMissingUser, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'userName');
@@ -198,11 +200,12 @@ class UserCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @since 1.4.0
+     * @throws \Exception
 	 */
 	public function addUserMissingJoomla(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test User creation with save button in Administrator');
-		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUserMissing($this->userNameEdit . "editMail1", $this->password, $this->emailMatching, $this->group, $this->shopperGroup, $this->firstNameSave, $this->lastNameSave, 'missingJoomlaGroup');
 	}
 
@@ -223,12 +226,13 @@ class UserCest
 	 * Function to Test User Update in the Administrator
 	 *
 	 * @depends addUser
+     * @throws \Exception
 	 * @since 1.4.0
 	 */
 	public function updateReadyUserName(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Test if User gets updated in Administrator');
-		$I = new AcceptanceTester\UserManagerJoomla3Steps($scenario);
+		$I = new UserManagerJoomla3Steps($scenario);
 		$I->editUserReady($this->updateFirstName, $this->userNameEdit);
 	}
 
@@ -236,6 +240,7 @@ class UserCest
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @since 1.4.0
+     * @throws \Exception
 	 */
 	public function checkCloseButton(AcceptanceTester $I, $scenario)
 	{

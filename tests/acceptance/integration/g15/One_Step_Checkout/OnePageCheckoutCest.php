@@ -1,11 +1,19 @@
 <?php
 
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
+use Configuration\ConfigurationSteps as ConfigurationSteps;
+use AcceptanceTester\OrderManagerJoomla3Steps;
 
 /**
  * Class OnePageCheckoutCest
@@ -14,25 +22,175 @@
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since    1.4.0
  */
-use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
-use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\ProductManagerJoomla3Steps;
-use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
-use Configuration\ConfigurationSteps as ConfigurationSteps;
-use AcceptanceTester\OrderManagerJoomla3Steps;
-
 class OnePageCheckoutCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 1.4.0
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $categoryName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $productName;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $productPrice;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $total;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $subtotal;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $userName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $password;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $lastName;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $minimumPerProduct;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $minimumQuantity;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $discountStart;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $discountEnd;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $customerInformationSecond;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $customerBussinesInformation;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $customerBussinesInformationSecond;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $shippingWithVat;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $cartSetting;
+
+	/**
+	 * OnePageCheckoutCest constructor.
+	 * @since 1.4.0
+	 */
 	public function __construct()
 	{
 		$this->faker                  = Faker\Factory::create();
-		$this->ProductName            =  $this->faker->bothify('ProductName ?####?');
-		$this->CategoryName           =  $this->faker->bothify('CategoryName ?####?');
-		$this->ManufactureName        = $this->faker->bothify('ManufactureName ?#####');
-		$this->MassDiscountAmoutTotal = 90;
-		$this->MassDiscountPercent    = 0.3;
+		$this->productName            =  $this->faker->bothify('productName ?####?');
+		$this->categoryName           =  $this->faker->bothify('categoryName ?####?');
 		$this->minimumPerProduct      = 1;
 		$this->minimumQuantity        = 1;
 		$this->maximumQuantity        = $this->faker->numberBetween(100, 1000);
@@ -42,8 +200,7 @@ class OnePageCheckoutCest
 		$this->randomProductPrice     = 100;
 
 		$this->subtotal = "DKK 100,00";
-		$this->Total    = "DKK 100,00";
-
+		$this->total    = "DKK 100,00";
 
 		$this->userName        = $this->faker->bothify('OnePageCest ?####?');
 		$this->password        = $this->faker->bothify('Password ?##?');
@@ -51,12 +208,7 @@ class OnePageCheckoutCest
 		$this->shopperGroup    = 'Default Private';
 		$this->group           = 'Registered';
 		$this->firstName       = $this->faker->bothify('OnePageCest FN ?#####?');
-		$this->updateFirstName = 'Updating ' . $this->firstName;
 		$this->lastName        = 'Last';
-		$this->address         = '14 Phan Ton';
-		$this->zipcode         = 7000;
-		$this->city            = 'Ho Chi Minh';
-		$this->phone           = 010101010;
 
 		$this->customerInformation = array(
 			"email"      => "test@test" . rand() . ".com",
@@ -141,6 +293,8 @@ class OnePageCheckoutCest
 	 * Step6: goes on frontend login and logout to clear all at site frontend
 	 * Step7: Goes on frontend and create quotation with business account
 	 * Step8: Goes on admin page and delete all data and convert cart setting the same default demo
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function onePageCheckout(AcceptanceTester $I, $scenario)
 	{
@@ -155,27 +309,27 @@ class OnePageCheckoutCest
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->addCategorySave($this->CategoryName);
+		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
+		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->wantToTest('Test one page checkout with business user with name is customerBussinesInformation[firstName]');
-		$I->onePageCheckout('admin', 'admin', $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerBussinesInformation, 'business', 'no');
+		$I->onePageCheckout('admin', 'admin', $this->productName, $this->categoryName, $this->subtotal, $this->total, $this->customerBussinesInformation, 'business', 'no');
 
 		$I = new UserManagerJoomla3Steps($scenario);
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
 
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->wantTo('checkout with user with login ');
-		$I->checkoutOnePageWithLogin($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
+		$I->checkoutOnePageWithLogin($this->userName, $this->password, $this->productName, $this->categoryName, $this->shippingWithVat, $this->total);
 		$I->doFrontendLogout();
 
 
 		$I->wantToTest('Test one page checkout with private with user login is customerInformation[firstName]');
-		$I->onePageCheckout($this->customerInformation['firstName'], $this->customerInformation['firstName'], $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerInformation, 'private', 'yes');
+		$I->onePageCheckout($this->customerInformation['firstName'], $this->customerInformation['firstName'], $this->productName, $this->categoryName, $this->subtotal, $this->total, $this->customerInformation, 'private', 'yes');
 		$I->doFrontendLogout();
 
 		$I = new UserManagerJoomla3Steps($scenario);
@@ -183,13 +337,19 @@ class OnePageCheckoutCest
 		$I->deleteUser($this->firstName);
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 1.4.0
+	 */
 	public function businessCreatePrivateNo(AcceptanceTester $I, $scenario)
 	{
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
 		$I->comment('want to check bussines ');
 		$I->wantToTest('Test one page checkout with business with user login is customerBussinesInformationSecond[firstName]');
 
-		$I->onePageCheckout($this->customerBussinesInformationSecond['firstName'], $this->customerBussinesInformationSecond['firstName'], $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerBussinesInformationSecond, 'business', 'yes');
+		$I->onePageCheckout($this->customerBussinesInformationSecond['firstName'], $this->customerBussinesInformationSecond['firstName'], $this->productName, $this->categoryName, $this->subtotal, $this->total, $this->customerBussinesInformationSecond, 'business', 'yes');
 		$I->doFrontendLogout();
 
 		$I->doAdministratorLogin();
@@ -197,14 +357,20 @@ class OnePageCheckoutCest
 		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'save');
 		$I->wantTo('checkout with user with login ');
 		$I = new ProductCheckoutManagerJoomla3Steps($scenario);
-		$I->checkoutOnePageWithLogin($this->userName, $this->password, $this->ProductName, $this->CategoryName, $this->shippingWithVat, $this->Total);
+		$I->checkoutOnePageWithLogin($this->userName, $this->password, $this->productName, $this->categoryName, $this->shippingWithVat, $this->total);
 		$I->doFrontendLogout();
 
 		$I->comment('Test one page checkout with private user');
 		$I->wantToTest('Test one page checkout with private and do not login is customerInformationSecond[firstName]');
-		$I->onePageCheckout('admin', 'admin', $this->ProductName, $this->CategoryName, $this->subtotal, $this->Total, $this->customerInformationSecond, 'private', 'no');
+		$I->onePageCheckout('admin', 'admin', $this->productName, $this->categoryName, $this->subtotal, $this->total, $this->customerInformationSecond, 'private', 'no');
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 1.4.0
+	 */
 	public function clearUpDatabase(AcceptanceTester $I, $scenario)
 	{
 		$I->doAdministratorLogin();
