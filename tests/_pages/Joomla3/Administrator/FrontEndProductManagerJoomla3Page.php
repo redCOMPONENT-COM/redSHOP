@@ -638,6 +638,18 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 3.0.1
+	 */
+	public static $nameProduct1OnCart = "//tr[1]/td[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.1
+	 */
+	public static $nameProduct2OnCart = "//tr[2]/td[1]";
+
+	/**
+	 * @var string
 	 * @since 2.1.3
 	 */
 	public static $shippingWithVat = '#spnShippingrate';
@@ -867,4 +879,16 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 2.1.4
 	 */
 	public static $buttonEmptyCart = '//input[@onclick = "document.empty_cart.submit();"]';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $productRelatedTitle = "//div[@class='mod_redshop_products_title']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $addToCartProductRelated = "//div[@class='mod_redshop_products_addtocart']//span[contains(text(),'Add to cart')]";
 }

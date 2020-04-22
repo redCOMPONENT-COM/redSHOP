@@ -25,11 +25,13 @@ class RedshopModelWizard extends RedshopModelConfiguration
     public function getTaxRates()
     {
         $query = \Redshop\Tax\Helper::getTaxRatesQuery(1);
+
         return $this->_getList($query);
     }
 
     /**
-     * @param string $currencyCode
+     * @param   string  $currencyCode
+     *
      * @return mixed
      * @deprecated Please consider using \Redshop\Currency\Helper::getCurrenciesListForSelectBox
      */

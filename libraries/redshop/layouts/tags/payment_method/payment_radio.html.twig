@@ -9,13 +9,13 @@
                 id="{{ oneMethod.name ~ index }}"
                 value="{{ oneMethod.name }}"
                 {{ checked }}
-        onclick="javascript:onestepCheckoutProcess(this.name, '');"
+                onclick="javascript:onestepCheckoutProcess(this.name, '');"
         />
         {% if showImage %}
             <img
                     alt="{{ jtext('PLG_' ~ oneMethod.name|upper) }}"
                     title="{{ jtext('PLG_' ~ oneMethod.name|upper) }}"
-                    src="{{ logo }}" />
+                    src="{{ logo }}"/>
         {% endif %}
 
         <span>{{ jtext('PLG_' ~ oneMethod.name|upper) }}</span>

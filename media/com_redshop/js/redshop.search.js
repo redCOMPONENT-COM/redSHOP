@@ -1,13 +1,13 @@
-if (typeof(bsn) == "undefined")
+if (typeof (bsn) == "undefined")
     _b = bsn = {};
 
 
-if (typeof(_b.Autosuggest) == "undefined")
+if (typeof (_b.Autosuggest) == "undefined")
     _b.Autosuggest = {};
 else
     alert("Autosuggest is already set!");
 
-_b.AutoSuggest = function(id, param) {
+_b.AutoSuggest = function (id, param) {
 
     // no DOM - give up!
     //
@@ -51,7 +51,7 @@ _b.AutoSuggest = function(id, param) {
         getrawresults: false
     };
     for (k in def) {
-        if (typeof(this.oP[k]) != typeof(def[k]))
+        if (typeof (this.oP[k]) != typeof (def[k]))
             this.oP[k] = def[k];
     }
 
@@ -63,17 +63,17 @@ _b.AutoSuggest = function(id, param) {
     // NOTE: not using addEventListener because UpArrow fired twice in Safari
     //_b.DOM.addEvent( this.fld, 'keyup', function(ev){ return pointer.onKeyPress(ev); } );
 
-    this.fld.onkeypress = function(ev) {
+    this.fld.onkeypress = function (ev) {
         return p.onKeyPress(ev);
     };
-    this.fld.onkeyup = function(ev) {
+    this.fld.onkeyup = function (ev) {
         return p.onKeyUp(ev);
     };
 
     this.fld.setAttribute("autocomplete", "off");
 };
 
-_b.AutoSuggest.prototype.onKeyPress = function(ev) {
+_b.AutoSuggest.prototype.onKeyPress = function (ev) {
 
     var key = (window.event) ? window.event.keyCode : ev.keyCode;
 
@@ -102,7 +102,7 @@ _b.AutoSuggest.prototype.onKeyPress = function(ev) {
     return bubble;
 };
 
-_b.AutoSuggest.prototype.onKeyUp = function(ev) {
+_b.AutoSuggest.prototype.onKeyUp = function (ev) {
     var key = (window.event) ? window.event.keyCode : ev.keyCode;
 
     // set responses to keydown events in the field
@@ -140,7 +140,7 @@ _b.AutoSuggest.prototype.onKeyUp = function(ev) {
 
 };
 
-_b.AutoSuggest.prototype.getSuggestions = function(val) {
+_b.AutoSuggest.prototype.getSuggestions = function (val) {
 
     // if input stays the same, do nothing
     //
@@ -187,13 +187,13 @@ _b.AutoSuggest.prototype.getSuggestions = function(val) {
 
         return false;
     } else
-    // do new request
-    //
+        // do new request
+        //
     {
         var pointer = this;
         var input = this.sInp;
         clearTimeout(this.ajID);
-        this.ajID = setTimeout(function() {
+        this.ajID = setTimeout(function () {
             pointer.doAjaxRequest(input)
         }, this.oP.delay);
     }
@@ -201,7 +201,7 @@ _b.AutoSuggest.prototype.getSuggestions = function(val) {
     return false;
 };
 
-_b.AutoSuggest.prototype.doAjaxRequest = function(input) {
+_b.AutoSuggest.prototype.doAjaxRequest = function (input) {
     // check that saved input is still the value of the field
     //
 
@@ -214,7 +214,7 @@ _b.AutoSuggest.prototype.doAjaxRequest = function(input) {
 
     // create ajax request
     //
-    if (typeof(this.oP.script) == "function")
+    if (typeof (this.oP.script) == "function")
         var url = this.oP.script(encodeURIComponent(this.sInp));
     else
         var url = this.oP.script + this.oP.varname + "=" + encodeURIComponent(this.sInp);
@@ -225,10 +225,10 @@ _b.AutoSuggest.prototype.doAjaxRequest = function(input) {
     var meth = this.oP.meth;
     var input = this.sInp;
 
-    var onSuccessFunc = function(req) {
+    var onSuccessFunc = function (req) {
         pointer.setSuggestions(req, input)
     };
-    var onErrorFunc = function(status) {
+    var onErrorFunc = function (status) {
         //alert("AJAX error: "+status);
     };
 
@@ -236,7 +236,7 @@ _b.AutoSuggest.prototype.doAjaxRequest = function(input) {
     myAjax.makeRequest(url, meth, onSuccessFunc, onErrorFunc);
 };
 
-_b.AutoSuggest.prototype.setSuggestions = function(req, input) {
+_b.AutoSuggest.prototype.setSuggestions = function (req, input) {
     // if field input no longer matches what was passed to the request
     // don't show the suggestions
     //
@@ -323,7 +323,7 @@ _b.AutoSuggest.prototype.setSuggestions = function(req, input) {
 
 };
 
-_b.AutoSuggest.prototype.createList = function(arr) {
+_b.AutoSuggest.prototype.createList = function (arr) {
     var pointer = this;
 
 
@@ -402,11 +402,11 @@ _b.AutoSuggest.prototype.createList = function(arr) {
         a.appendChild(tr);
 
         var htmlObjectImage = document.createElement('div');
-        htmlObjectImage.className +="search-ajax-image";
+        htmlObjectImage.className += "search-ajax-image";
         htmlObjectImage.innerHTML = arr[i].product_image;
 
         var htmlObjectPrice = document.createElement('div');
-        htmlObjectPrice.className +="search-ajax-price";
+        htmlObjectPrice.className += "search-ajax-price";
         htmlObjectPrice.innerHTML = arr[i].product_price;
 
         a.appendChild(htmlObjectImage);
@@ -415,11 +415,11 @@ _b.AutoSuggest.prototype.createList = function(arr) {
 
 
         a.name = i + 1;
-        a.onclick = function() {
+        a.onclick = function () {
             pointer.setHighlightedValue();
             return false;
         };
-        a.onmouseover = function() {
+        a.onmouseover = function () {
             pointer.setHighlight(this.name);
         };
 
@@ -471,10 +471,10 @@ _b.AutoSuggest.prototype.createList = function(arr) {
     // when mouse pointer leaves div, set a timeout to remove the list after an interval
     // when mouse enters div, kill the timeout so the list won't be removed
     //
-    div.onmouseover = function() {
+    div.onmouseover = function () {
         pointer.killTimeout()
     };
-    div.onmouseout = function() {
+    div.onmouseout = function () {
         pointer.resetTimeout()
     };
 
@@ -492,14 +492,14 @@ _b.AutoSuggest.prototype.createList = function(arr) {
     // remove list after an interval
     //
     var pointer = this;
-    this.toID = setTimeout(function() {
+    this.toID = setTimeout(function () {
         pointer.clearSuggestions()
     }, this.oP.timeout + 5000);
 
 };
 
 
-_b.AutoSuggest.prototype.changeHighlight = function(key) {
+_b.AutoSuggest.prototype.changeHighlight = function (key) {
     var list = _b.DOM.gE("as_ul");
     if (!list)
         return false;
@@ -522,7 +522,7 @@ _b.AutoSuggest.prototype.changeHighlight = function(key) {
 };
 
 
-_b.AutoSuggest.prototype.setHighlight = function(n) {
+_b.AutoSuggest.prototype.setHighlight = function (n) {
     var list = _b.DOM.gE("as_ul");
     if (!list)
         return false;
@@ -539,7 +539,7 @@ _b.AutoSuggest.prototype.setHighlight = function(n) {
 };
 
 
-_b.AutoSuggest.prototype.clearHighlight = function() {
+_b.AutoSuggest.prototype.clearHighlight = function () {
     var list = _b.DOM.gE("as_ul");
     if (!list)
         return false;
@@ -551,7 +551,7 @@ _b.AutoSuggest.prototype.clearHighlight = function() {
 };
 
 
-_b.AutoSuggest.prototype.setHighlightedValue = function() {
+_b.AutoSuggest.prototype.setHighlightedValue = function () {
     if (this.iHigh) {
         this.sInp = this.fld.value = this.aSug[this.iHigh - 1].value;
 
@@ -566,33 +566,33 @@ _b.AutoSuggest.prototype.setHighlightedValue = function() {
 
         // pass selected object to callback function, if exists
         //
-        if (typeof(this.oP.callback) == "function")
+        if (typeof (this.oP.callback) == "function")
             this.oP.callback(this.aSug[this.iHigh - 1]);
     }
 };
 
 
-_b.AutoSuggest.prototype.killTimeout = function() {
+_b.AutoSuggest.prototype.killTimeout = function () {
     clearTimeout(this.toID);
 };
 
-_b.AutoSuggest.prototype.resetTimeout = function() {
+_b.AutoSuggest.prototype.resetTimeout = function () {
     clearTimeout(this.toID);
     var pointer = this;
-    this.toID = setTimeout(function() {
+    this.toID = setTimeout(function () {
         pointer.clearSuggestions()
     }, 1000);
 };
 
 
-_b.AutoSuggest.prototype.clearSuggestions = function() {
+_b.AutoSuggest.prototype.clearSuggestions = function () {
 
     this.killTimeout();
 
     var ele = _b.DOM.gE(this.idAs);
     var pointer = this;
     if (ele) {
-        var fade = new _b.Fader(ele, 1, 0, 250, function() {
+        var fade = new _b.Fader(ele, 1, 0, 250, function () {
             _b.DOM.remE(pointer.idAs)
         });
     }
@@ -602,17 +602,17 @@ _b.AutoSuggest.prototype.clearSuggestions = function() {
 // AJAX PROTOTYPE _____________________________________________
 
 
-if (typeof(_b.Ajax) == "undefined")
+if (typeof (_b.Ajax) == "undefined")
     _b.Ajax = {};
 
 
-_b.Ajax = function() {
+_b.Ajax = function () {
     this.req = {};
     this.isIE = false;
 };
 
 
-_b.Ajax.prototype.makeRequest = function(url, meth, onComp, onErr) {
+_b.Ajax.prototype.makeRequest = function (url, meth, onComp, onErr) {
 
     if (meth != "POST")
         meth = "GET";
@@ -625,7 +625,7 @@ _b.Ajax.prototype.makeRequest = function(url, meth, onComp, onErr) {
     // branch for native XMLHttpRequest object
     if (window.XMLHttpRequest) {
         this.req = new XMLHttpRequest();
-        this.req.onreadystatechange = function() {
+        this.req.onreadystatechange = function () {
             pointer.processReqChange()
         };
         this.req.open("GET", url, true);
@@ -635,7 +635,7 @@ _b.Ajax.prototype.makeRequest = function(url, meth, onComp, onErr) {
     } else if (window.ActiveXObject) {
         this.req = new ActiveXObject("Microsoft.XMLHTTP");
         if (this.req) {
-            this.req.onreadystatechange = function() {
+            this.req.onreadystatechange = function () {
                 pointer.processReqChange()
             };
             this.req.open(meth, url, true);
@@ -646,7 +646,7 @@ _b.Ajax.prototype.makeRequest = function(url, meth, onComp, onErr) {
 };
 
 
-_b.Ajax.prototype.processReqChange = function() {
+_b.Ajax.prototype.processReqChange = function () {
 
     // only if req shows "loaded"
     if (this.req.readyState == 4) {
@@ -662,12 +662,12 @@ _b.Ajax.prototype.processReqChange = function() {
 // DOM PROTOTYPE _____________________________________________
 
 
-if (typeof(_b.DOM) == "undefined")
+if (typeof (_b.DOM) == "undefined")
     _b.DOM = {};
 
 
 /* create element */
-_b.DOM.cE = function(type, attr, cont, html) {
+_b.DOM.cE = function (type, attr, cont, html) {
     var ne = document.createElement(type);
     if (!ne)
         return 0;
@@ -675,7 +675,7 @@ _b.DOM.cE = function(type, attr, cont, html) {
     for (var a in attr)
         ne[a] = attr[a];
 
-    var t = typeof(cont);
+    var t = typeof (cont);
 
     if (t == "string" && !html)
         ne.appendChild(document.createTextNode(cont));
@@ -689,19 +689,19 @@ _b.DOM.cE = function(type, attr, cont, html) {
 
 
 /* get element */
-_b.DOM.gE = function(e) {
-    var t = typeof(e);
+_b.DOM.gE = function (e) {
+    var t = typeof (e);
     if (t == "undefined")
         return 0;
     else if (t == "string") {
         var re = document.getElementById(e);
         if (!re)
             return 0;
-        else if (typeof(re.appendChild) != "undefined")
+        else if (typeof (re.appendChild) != "undefined")
             return re;
         else
             return 0;
-    } else if (typeof(e.appendChild) != "undefined")
+    } else if (typeof (e.appendChild) != "undefined")
         return e;
     else
         return 0;
@@ -709,7 +709,7 @@ _b.DOM.gE = function(e) {
 
 
 /* remove element */
-_b.DOM.remE = function(ele) {
+_b.DOM.remE = function (ele) {
     var e = this.gE(ele);
 
     if (!e)
@@ -722,7 +722,7 @@ _b.DOM.remE = function(ele) {
 
 
 /* get position */
-_b.DOM.getPos = function(e) {
+_b.DOM.getPos = function (e) {
 
     var e = this.gE(e);
 
@@ -757,11 +757,11 @@ _b.DOM.getPos = function(e) {
 // FADER PROTOTYPE _____________________________________________
 
 
-if (typeof(_b.Fader) == "undefined")
+if (typeof (_b.Fader) == "undefined")
     _b.Fader = {};
 
 
-_b.Fader = function(ele, from, to, fadetime, callback) {
+_b.Fader = function (ele, from, to, fadetime, callback) {
     if (!ele)
         return 0;
 
@@ -778,13 +778,13 @@ _b.Fader = function(ele, from, to, fadetime, callback) {
     this.nTime = 0;
 
     var p = this;
-    this.nID = setInterval(function() {
+    this.nID = setInterval(function () {
         p._fade()
     }, this.nInt);
 };
 
 
-_b.Fader.prototype._fade = function() {
+_b.Fader.prototype._fade = function () {
     this.nTime += this.nInt;
 
     var ieop = Math.round(this._tween(this.nTime, this.from, this.to, this.nDur) * 100);
@@ -812,6 +812,6 @@ _b.Fader.prototype._fade = function() {
 };
 
 
-_b.Fader.prototype._tween = function(t, b, c, d) {
+_b.Fader.prototype._tween = function (t, b, c, d) {
     return b + ((c - b) * (t / d));
 };

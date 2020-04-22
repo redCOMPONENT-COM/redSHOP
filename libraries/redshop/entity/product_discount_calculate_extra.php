@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityProduct_Discount_Calculate_Extra extends RedshopEntity
 {
-	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Product_Discount_Calc_Extra', 'Table');
-	}
+    /**
+     * Get the associated table
+     *
+     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+     *
+     * @return  RedshopTable
+     */
+    public function getTable($name = null)
+    {
+        return JTable::getInstance('Product_Discount_Calc_Extra', 'Table');
+    }
 }

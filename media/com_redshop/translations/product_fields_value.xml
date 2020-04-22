@@ -8,10 +8,10 @@
     <reference>
         <table name="redshop_fields_value">
             <field type="referenceid" name="value_id" translate="0">ID</field>
-            <field type="titletext" name="field_value" translate="1" >Value</field>
-            <field type="text" name="field_name" translate="1" >Name</field>
-            <field type="text" name="alt_text" translate="1" >Alt Text</field>
-            <field type="text" name="image_link" translate="1" >Image Link</field>
+            <field type="titletext" name="field_value" translate="1">Value</field>
+            <field type="text" name="field_name" translate="1">Name</field>
+            <field type="text" name="alt_text" translate="1">Alt Text</field>
+            <field type="text" name="image_link" translate="1">Image Link</field>
         </table>
         <component>
             <form>com_redshop#fields#cid#task#!edit</form>

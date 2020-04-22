@@ -6,12 +6,119 @@ use Configuration\ConfigurationSteps;
 
 class CompareProductsCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 3.0.2
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $ProductName;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $CategoryName;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $minimumPerProduct;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $discountStart;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $discountEnd;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $productNumber;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $productPrice;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $subtotal;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $Discount;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $Total;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $productNameCompares;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $productNumberCompares;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $productPriceCompares;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $productPriceDKK;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $productPriceComparesDKK;
 
 	public function __construct()
 	{
 		$this->faker = Faker\Factory::create();
-		$this->ProductName = 'ProductName' . rand(100, 999);
-		$this->CategoryName = "CategoryName" . rand(1, 100);
+		$this->ProductName = $this->faker->bothify('Testing Product ??####?');
+		$this->CategoryName = $this->faker->bothify('CategoryName ?###?');;
 		$this->minimumPerProduct = 1;
 		$this->minimumQuantity = 1;
 		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
@@ -24,12 +131,12 @@ class CompareProductsCest
 		$this->Discount ="DKK 50,00";
 		$this->Total="DKK 50,00";
 
-		$this->productNameCompares = 'ProductNameCompares' . rand(100, 999);
+		$this->productNameCompares = $this->faker->bothify('Product Compare ??####?');
 		$this->productNumberCompares = $this->faker->numberBetween(999, 9999);
 		$this->productPriceCompares = 80;
 
-		$this->productPriceDKK="DKK 100,00";
-		$this->productPriceComparesDKK="DKK 80,00";
+		$this->productPriceDKK = "DKK 100,00";
+		$this->productPriceComparesDKK = "DKK 80,00";
 
 	}
 

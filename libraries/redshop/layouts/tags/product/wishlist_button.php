@@ -23,23 +23,22 @@ $user          = JFactory::getUser();
 $wishlistExist = 'icon icon-heart-2';
 $checkWishlist = RedshopHelperWishlist::checkWishlistExist($productId);
 
-if ($checkWishlist)
-{
-	$wishlistExist = 'icon icon-heart';
+if ($checkWishlist) {
+    $wishlistExist = 'icon icon-heart';
 }
 ?>
 
 <?php if (!$user->guest) : ?>
     <i class="<?php echo $wishlistExist; ?>"></i>
     <input type="button" class="redshop-wishlist-button"
-            data-productid="<?php echo $productId ?>" data-href="<?php echo $link ?>"
-            data-formid="<?php echo $formId ?>" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>" />
+           data-productid="<?php echo $productId ?>" data-href="<?php echo $link ?>"
+           data-formid="<?php echo $formId ?>" value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"/>
 <?php else : ?>
-	<?php if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) : ?>
+    <?php if (Redshop::getConfig()->get('WISHLIST_LOGIN_REQUIRED') != 0) : ?>
         <input type="submit" class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
                value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"
                onclick="window.location='<?php echo $link ?>'"/>
-	<?php else : ?>
+    <?php else : ?>
         <form method="post" action="" id="form_wishlist_<?php echo $productId ?>_link"
               name="form_wishlist_<?php echo $productId ?>_link">
             <input type='hidden' name='task' value='addtowishlist'/>
@@ -54,5 +53,5 @@ if ($checkWishlist)
                    class="redshop-wishlist-form-button" name="btnwishlist" id="btnwishlist"
                    value="<?php echo JText::_("COM_REDSHOP_ADD_TO_WISHLIST") ?>"/>
         </form>
-	<?php endif; ?>
+    <?php endif; ?>
 <?php endif; ?>

@@ -6,19 +6,19 @@
                 type="hidden"
                 readonly="true"
                 default=""
-                />
+        />
         <field
                 name="assetId"
                 type="hidden"
                 readonly="true"
                 default=""
-                />
+        />
         <field
                 name="title"
                 type="hidden"
                 readonly="true"
                 default="COM_REDSHOP_ACCESS_MANAGER"
-                />
+        />
     </fieldset>
     <fieldset name="accesscontrol">
         <field
@@ -33,6 +33,6 @@
                 section="backend"
                 asset_field="id"
                 show_group="true"
-                />
+        />
     </fieldset>
 </form>

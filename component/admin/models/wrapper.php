@@ -31,13 +31,18 @@ class RedshopModelWrapper extends RedshopModel
     public function __construct()
     {
         parent::__construct();
-        $app = \JFactory::getApplication();
-        $this->_context = 'wrapper_id';
+        $app                 = \JFactory::getApplication();
+        $this->_context      = 'wrapper_id';
         $this->_table_prefix = '#__redshop_';
-        $limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-        $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-        $filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
+        $limit               = $app->getUserStateFromRequest(
+            $this->_context . 'limit',
+            'limit',
+            $app->getCfg('list_limit'),
+            0
+        );
+        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $filter              = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
         $this->setState('limit', $limit);
         $this->setState('limitstart', $limitstart);
         $this->setState('filter', $filter);
@@ -52,7 +57,7 @@ class RedshopModelWrapper extends RedshopModel
     public function setProductId($id)
     {
         $this->_productid = $id;
-        $this->_data = null;
+        $this->_data      = null;
     }
 
     /**
@@ -61,24 +66,65 @@ class RedshopModelWrapper extends RedshopModel
     public function getData()
     {
         if (empty($this->_data)) {
-            $query = $this->_buildQuery();
+            $query       = $this->_buildQuery();
             $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
         }
 
         return $this->_data;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getTotal()
+    public function _buildQuery()
     {
-        if (empty($this->_total)) {
-            $query = $this->_buildQuery();
-            $this->_total = $this->_getListCount($query);
+        $db       = \JFactory::getDbo();
+        $app      = \JFactory::getApplication();
+        $showAll  = $app->input->get('showall', '0');
+        $subQuery = [];
+
+        if ($showAll && $this->_productid != 0) {
+            $subQuery[] = 'FIND_IN_SET(' . $db->q($this->_productid) . ',' . $db->qn('w.product_id') . ')';
+            $subQuery[] = $db->qn('wrapper_use_to_all') . '=' . $db->q(1);
+
+            $query = $db->getQuery(true)
+                ->select('*')
+                ->from($db->qn('#__redshop_product_category_xref'))
+                ->where($db->qn('product_id') . ' = ' . $db->q((int)$this->_productid));
+            $db->setQuery($query);
+            $cat = $db->loadObjectList();
+
+            for ($i = 0, $in = count($cat); $i < $in; $i++) {
+                $subQuery[] = 'FIND_IN_SET(' . $db->q($cat[$i]->category_id) . ',' . $db->qn('category_id') . ')';
+            }
         }
 
-        return $this->_total;
+        $query = $db->getQuery(true);
+        $query->select('*')
+            ->from($db->qn('#__redshop_wrapper', 'w'));
+
+        if (!empty($subQuery)) {
+            $query->where('(' . implode(' OR ', $subQuery) . ')');
+        }
+
+        $filter = $this->getState('filter');
+        $filter = $db->escape(trim($filter));
+
+        if ($filter) {
+            $query->where($db->qn('w.wrapper_name') . " LIKE '%" . $filter . "%' ");
+        }
+
+        $filterOrder    = $app->getUserStateFromRequest(
+            $this->_context . 'filter_order',
+            'filter_order',
+            'wrapper_id'
+        );
+        $filterOrderDir = $app->getUserStateFromRequest(
+            $this->_context . 'filter_order_Dir',
+            'filter_order_Dir',
+            ''
+        );
+
+        $query->order($db->escape($db->qn($filterOrder) . ' ' . $filterOrderDir));
+
+        return $query;
     }
 
     /**
@@ -88,47 +134,26 @@ class RedshopModelWrapper extends RedshopModel
     {
         if (empty($this->_pagination)) {
             jimport('joomla.html.pagination');
-            $this->_pagination = new \JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
+            $this->_pagination = new \JPagination(
+                $this->getTotal(),
+                $this->getState('limitstart'),
+                $this->getState('limit')
+            );
         }
 
         return $this->_pagination;
     }
 
-    public function _buildQuery()
+    /**
+     * @return int|null
+     */
+    public function getTotal()
     {
-        $db = \JFactory::getDbo();
-        $app = \JFactory::getApplication();
-        $query = $db->getQuery(true);
-        $showAll = $app->input->get('showall', '0');
-        $and = '';
-
-        if ($showAll && $this->_productid != 0) {
-            $and = 'AND FIND_IN_SET(' . $this->_productid . ',w.product_id) OR wrapper_use_to_all = 1 ';
-
-            $query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref "
-                . "WHERE product_id = " . $this->_productid;
-            $cat = $this->_getList($query);
-
-            for ($i = 0, $in = count($cat); $i < $in; $i++) {
-                $and .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
-            }
+        if (empty($this->_total)) {
+            $query        = $this->_buildQuery();
+            $this->_total = $this->_getListCount($query);
         }
 
-        $query->select('*')
-            ->from($db->qn('#__redshop_wrapper', 'w'));
-
-        $filter = $this->getState('filter');
-        $filter = $db->escape(trim($filter));
-
-        if ($filter) {
-           $query->where($db->qn('w.wrapper_name') . " LIKE '%" . $filter . "%' ");
-        }
-
-        $filterOrder = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'wrapper_id');
-        $filterOrderDir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-        $query->order($db->escape($db->qn($filterOrder) . ' ' . $filterOrderDir));
-
-        return $query;
+        return $this->_total;
     }
 }

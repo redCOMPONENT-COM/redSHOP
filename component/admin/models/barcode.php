@@ -19,85 +19,81 @@ defined('_JEXEC') or die();
  */
 class RedshopModelBarcode extends RedshopModel
 {
-	public $_id = null;
+    public $_id = null;
 
-	public $_data = null;
+    public $_data = null;
 
-	public $_table_prefix = null;
+    public $_table_prefix = null;
 
-	public $_loglist = null;
+    public $_loglist = null;
 
-	public function __construct()
-	{
-		parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
-	}
+        $this->_table_prefix = '#__redshop_';
+    }
 
-	public function save($data)
-	{
-		$row = $this->getTable('barcode');
+    public function save($data)
+    {
+        $row = $this->getTable('barcode');
 
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
+        if (!$row->bind($data)) {
+            $this->setError($this->_db->getErrorMsg());
 
-			return false;
-		}
+            return false;
+        }
 
-		if (!$row->store())
-		{
-			$this->setError($this->_db->getErrorMsg());
+        if (!$row->store()) {
+            $this->setError($this->_db->getErrorMsg());
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 
-	public function checkorder($barcode)
-	{
-		$query = "SELECT order_id  FROM " . $this->_table_prefix . "orders where barcode='" . $barcode . "'";
-		$this->_db->setQuery($query);
-		$order = $this->_db->loadObject();
+    public function checkorder($barcode)
+    {
+        $query = "SELECT order_id  FROM " . $this->_table_prefix . "orders where barcode='" . $barcode . "'";
+        $this->_db->setQuery($query);
+        $order = $this->_db->loadObject();
 
-		if (!$order)
-		{
-			return false;
-		}
+        if (!$order) {
+            return false;
+        }
 
-		return $order;
-	}
+        return $order;
+    }
 
-	public function getLog($order_id)
-	{
-		$query = "SELECT count(*) as log FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
-		$this->_db->setQuery($query);
+    public function getLog($order_id)
+    {
+        $query = "SELECT count(*) as log FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
+        $this->_db->setQuery($query);
 
-		return $this->_db->loadObject();
-	}
+        return $this->_db->loadObject();
+    }
 
-	public function getLogdetail($order_id)
-	{
-		$logquery = "SELECT *  FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
-		$this->_db->setQuery($logquery);
+    public function getLogdetail($order_id)
+    {
+        $logquery = "SELECT *  FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
+        $this->_db->setQuery($logquery);
 
-		return $this->_db->loadObjectlist();
-	}
+        return $this->_db->loadObjectlist();
+    }
 
-	public function getUser($user_id)
-	{
+    public function getUser($user_id)
+    {
+        $this->_table_prefix = '#__';
+        $userquery           = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
+        $this->_db->setQuery($userquery);
 
-		$this->_table_prefix = '#__';
-		$userquery           = "SELECT name  FROM " . $this->_table_prefix . "users where id=" . $user_id;
-		$this->_db->setQuery($userquery);
+        return $this->_db->loadObject();
+    }
 
-		return $this->_db->loadObject();
-	}
-
-	public function updateorderstatus($barcode, $order_id)
-	{
-		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
-			. $barcode . "' and order_id ='" . $order_id . "'";
-		$this->_db->setQuery($update_query);
-		$this->_db->execute();
-	}
+    public function updateorderstatus($barcode, $order_id)
+    {
+        $update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
+            . $barcode . "' and order_id ='" . $order_id . "'";
+        $this->_db->setQuery($update_query);
+        $this->_db->execute();
+    }
 }

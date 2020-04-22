@@ -21,8 +21,9 @@
     user-select: none;
 }
 
-.cropper-container img {/*Avoid margin top issue (Occur only when margin-top <= -height)
- */
+.cropper-container img {
+    /*Avoid margin top issue (Occur only when margin-top <= -height)
+     */
     display: block;
     height: 100%;
     image-orientation: 0deg;

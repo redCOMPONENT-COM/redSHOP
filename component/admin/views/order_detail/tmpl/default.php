@@ -1200,13 +1200,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 						<?php foreach ($orderStatusLogs as $index => $log): ?>
 							<?php $nextLog = (isset($orderStatusLogs[$index + 1])) ? $orderStatusLogs[$index + 1] : false; ?>
 							<li class="time-label">
-								<span class="bg-green">
-									<?php
-										$timezone = new \DateTimeZone(\JFactory::getConfig()->get('offset', 'UTC'));
-										$dt = new \DateTime('now', $timezone);
-										echo $dt->setTimestamp($log->date_changed)->format('d-m-Y H:i');
-									?>
-								</span>
+								<span class="bg-green"><?php echo RedshopHelperDatetime::convertDateFormat($log->date_changed) ?></span>
 							</li>
 							<?php if (!$nextLog): ?>
 								<li>
@@ -1214,34 +1208,17 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									<div class="timeline-item">
 										<h3 class="timeline-header"><?php echo JText::_('COM_REDSHOP_ORDER_PLACED') ?></h3>
 										<div class="timeline-body">
-											<?php if ($log->by_user_id > 0): ?>
-												<p>
-													<?php echo JText::_('JGLOBAL_USERNAME') ?>:
-													<span class="label order_placed_by_username">
-														<?php echo JFactory::getUser($log->by_user_id)->username ?>
-													</span>
-												</p>
-											<?php endif; ?>
-											<p>
-												<?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>:
-												<span class="label order_status_<?php echo strtolower($log->order_status) ?>">
-													<?php echo $log->order_status_name ?>
-												</span>
+											<p><?php echo JText::_('COM_REDSHOP_ORDER_STATUS') ?>: <span
+														class="label order_status_<?php echo strtolower($log->order_status) ?>"><?php echo $log->order_status_name ?></span>
 											</p>
 											<?php if (empty($log->order_payment_status)): ?>
-												<p>
-													<?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>:
-													<span class="label order_payment_status_unpaid">
-														<?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?>
-													</span>
+												<p><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>: <span
+															class="label order_payment_status_unpaid"><?php echo JText::_('COM_REDSHOP_PAYMENT_STA_UNPAID') ?></span>
 												</p>
 											<?php else: ?>
 												<?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ', '_', $log->order_payment_status))); ?>
-												<p>
-													<?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>:
-													<span class="label order_payment_status_<?php echo strtolower($log->order_payment_status) ?>">
-														<?php echo $paymentName ?>
-													</span>
+												<p><?php echo JText::_('COM_REDSHOP_PAYMENT_STATUS') ?>: <span
+															class="label order_payment_status_<?php echo strtolower($log->order_payment_status) ?>"><?php echo $paymentName ?></span>
 												</p>
 											<?php endif; ?>
 											<p><?php echo $log->customer_note ?></p>
@@ -1249,43 +1226,25 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 									</div>
 								</li>
 							<?php else: ?>
-								<?php if (!empty($log->by_user_id)): ?>
-									<li>
-										<i class="fa fa-user bg-navy"></i>
-										<div class="timeline-item">
-											<div class="timeline-body">
-												<?php echo JText::_('JGLOBAL_USERNAME') ?>&nbsp;
-												<span class="label order_status_<?php echo strtolower($log->by_user_id) ?>">
-													<?php echo JFactory::getUser($log->by_user_id)->username ?>
-												</span>
-											</div>
-										</div>
-									</li>
-								<?php endif; ?>
 								<?php if ($log->order_status != $nextLog->order_status): ?>
 									<li>
 										<i class="fa fa-book bg-blue"></i>
 										<div class="timeline-item">
 											<div class="timeline-body">
-												<?php echo JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE_TO') ?>&nbsp;
-												<span class="label order_status_<?php echo strtolower($log->order_status) ?>">
-													<?php echo $log->order_status_name ?>
-												</span>
+												<?php echo JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE_TO') ?>&nbsp;<span
+														class="label order_status_<?php echo strtolower($log->order_status) ?>"><?php echo $log->order_status_name ?>
 											</div>
 										</div>
 									</li>
 								<?php endif; ?>
 								<?php if ($log->order_payment_status != $nextLog->order_payment_status && $log->order_payment_status): ?>
-									<?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ',
-											'_', $log->order_payment_status))); ?>
+									<?php $paymentName = JText::_('COM_REDSHOP_PAYMENT_STA_' . strtoupper(str_replace(' ', '_', $log->order_payment_status))); ?>
 									<li>
 										<i class="fa fa-dollar bg-red"></i>
 										<div class="timeline-item">
 											<div class="timeline-body">
-												<?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_STATUS_CHANGE_TO') ?>
-												&nbsp;<span class="label order_payment_status_<?php echo strtolower($log->order_payment_status) ?>">
-													<?php echo $paymentName ?>
-												</span>
+												<?php echo JText::_('COM_REDSHOP_ORDER_PAYMENT_STATUS_CHANGE_TO') ?>&nbsp;<span
+														class="label order_payment_status_<?php echo strtolower($log->order_payment_status) ?>"><?php echo $paymentName ?>
 											</div>
 										</div>
 									</li>

@@ -9,7 +9,6 @@
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Utilities\ArrayHelper;
 
 defined('_JEXEC') || die;
 
@@ -20,236 +19,248 @@ defined('_JEXEC') || die;
  */
 class RedshopTagsSectionsManufacturerProduct extends RedshopTagsAbstract
 {
-	use \Redshop\Traits\Replace\Product;
+    use \Redshop\Traits\Replace\Product;
 
-	public $tags;
+    /**
+     * @var    string
+     *
+     * @since   3.0.1
+     */
+    protected $width = 'MANUFACTURER_PRODUCT_THUMB_WIDTH';
 
-	public function init()
-	{
-	}
+    /**
+     * @var    string
+     *
+     * @since   3.0.1
+     */
+    protected $height = 'MANUFACTURER_PRODUCT_THUMB_HEIGHT';
 
-	/**
-	 * Execute replace
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION
-	 */
-	public function replace()
-	{
-		$app          = JFactory::getApplication();
-		$url          = JUri::base();
-		$itemId       = $app->input->getInt('Itemid');
-		$print        = $app->input->getInt('print');
-		$manufacturer = $this->data['manufacturer'];
-		$db           = JFactory::getDbo();
+    public function init()
+    {
+    }
 
-		// Page Title
-		if ($this->data['params']->get('show_page_heading', 1)) {
-			$this->template = RedshopLayoutHelper::render(
-					'tags.common.pageheading',
-					[
-						'params'         => $this->data['params'],
-						'pageheading'    => trim($db->escape($this->data['params']->get('page_title'))),
-						'pageHeadingTag' => JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'),
-						'class'          => 'manufacturer-product'
-					],
-					'',
-					$this->optionLayout
-				) . $this->template;
-		}
-		// Page title end
+    /**
+     * Execute replace
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION
+     */
+    public function replace()
+    {
+        $app          = JFactory::getApplication();
+        $url          = JUri::base();
+        $itemId       = $app->input->getInt('Itemid');
+        $print        = $app->input->getInt('print');
+        $manufacturer = $this->data['manufacturer'];
+        $db           = JFactory::getDbo();
 
-		if ($print) {
-			$onClick = "onclick='window.print();'";
-		} else {
-			$printUrl = $url . "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manufacturer->id . "&print=1&tmpl=component&Itemid=" . $itemId;
-			$onClick  = 'onclick="window.open(\'' . $printUrl . '\',\'mywindow\',\'scrollbars=1\',\'location=1\')"';
-		}
+        // Page Title
+        if ($this->data['params']->get('show_page_heading', 1)) {
+            $this->template = RedshopLayoutHelper::render(
+                    'tags.common.pageheading',
+                    [
+                        'params'         => $this->data['params'],
+                        'pageheading'    => trim($db->escape($this->data['params']->get('page_title'))),
+                        'pageHeadingTag' => JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'),
+                        'class'          => 'manufacturer-product'
+                    ],
+                    '',
+                    $this->optionLayout
+                ) . $this->template;
+        }
+        // Page title end
 
-		$this->replacements['{print}'] = RedshopLayoutHelper::render(
-			'tags.common.print',
-			[
-				'onClick' => $onClick
-			]
-			,
-			'',
-			$this->optionLayout
-		);
+        if ($print) {
+            $onClick = "onclick='window.print();'";
+        } else {
+            $printUrl = $url . "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manufacturer->id . "&print=1&tmpl=component&Itemid=" . $itemId;
+            $onClick  = 'onclick="window.open(\'' . $printUrl . '\',\'mywindow\',\'scrollbars=1\',\'location=1\')"';
+        }
 
-		$cartMData            = '';
-		$manufacturerProducts = $this->data['manufacturerProducts'];
-		$subTemplateProduct   = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');
+        $this->replacements['{print}'] = RedshopLayoutHelper::render(
+            'tags.common.print',
+            [
+                'onClick' => $onClick
+            ]
+            ,
+            '',
+            $this->optionLayout
+        );
 
-		if (!empty($subTemplateProduct)) {
-			for ($i = 0, $in = count($manufacturerProducts); $i < $in; $i++) {
-				$cartMData .= $this->replaceManufacturerProduct(
-					$subTemplateProduct['template'],
-					$manufacturerProducts[$i]
-				);
-			}
-		}
+        $cartMData            = '';
+        $manufacturerProducts = $this->data['manufacturerProducts'];
+        $subTemplateProduct   = $this->getTemplateBetweenLoop('{product_loop_start}', '{product_loop_end}');
 
-		$this->template = $subTemplateProduct['begin'] . $cartMData . $subTemplateProduct['end'];
+        if (!empty($subTemplateProduct)) {
+            for ($i = 0, $in = count($manufacturerProducts); $i < $in; $i++) {
+                $cartMData .= $this->replaceManufacturerProduct(
+                    $subTemplateProduct['template'],
+                    $manufacturerProducts[$i]
+                );
+            }
+        }
 
-		if ($this->isTagExists('{manufacturer_image}')) {
-			$thumbImage = '';
-			$media      = RedshopEntityManufacturer::getInstance($manufacturer->id)->getMedia();
+        $this->template = $subTemplateProduct['begin'] . $cartMData . $subTemplateProduct['end'];
 
-			if ($media->isValid() && !empty($media->get('media_name'))
-				&& JFile::exists(
-					REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get('media_name')
-				)) {
-				$thumbHeight = Redshop::getConfig()->get('MANUFACTURER_THUMB_HEIGHT');
-				$thumbWidth  = Redshop::getConfig()->get('MANUFACTURER_THUMB_WIDTH');
+        if ($this->isTagExists('{manufacturer_image}')) {
+            $thumbImage = '';
+            $media      = RedshopEntityManufacturer::getInstance($manufacturer->id)->getMedia();
 
-				if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
-						'WATERMARK_MANUFACTURER_THUMB_IMAGE'
-					)) {
-					$imagePath = RedshopHelperMedia::watermark(
-						'manufacturer',
-						$media->get('media_name'),
-						$thumbWidth,
-						$thumbHeight,
-						Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
-					);
-				} else {
-					$imagePath = RedshopHelperMedia::getImagePath(
-						$media->get('media_name'),
-						'',
-						'thumb',
-						'manufacturer',
-						$thumbWidth,
-						$thumbHeight,
-						Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
-						'manufacturer',
-						$manufacturer->id
-					);
-				}
+            if ($media->isValid() && !empty($media->get('media_name'))
+                && JFile::exists(
+                    REDSHOP_MEDIA_IMAGE_RELPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get('media_name')
+                )) {
+                $thumbHeight = Redshop::getConfig()->get($this->height);
+                $thumbWidth  = Redshop::getConfig()->get($this->width);
 
-				$altText = $media->get('media_alternate_text', $manufacturer->name);
+                if (Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE') || Redshop::getConfig()->get(
+                        'WATERMARK_MANUFACTURER_THUMB_IMAGE'
+                    )) {
+                    $imagePath = RedshopHelperMedia::watermark(
+                        'manufacturer',
+                        $media->get('media_name'),
+                        $thumbWidth,
+                        $thumbHeight,
+                        Redshop::getConfig()->get('WATERMARK_MANUFACTURER_IMAGE')
+                    );
+                } else {
+                    $imagePath = RedshopHelperMedia::getImagePath(
+                        $media->get('media_name'),
+                        '',
+                        'thumb',
+                        'manufacturer',
+                        $thumbWidth,
+                        $thumbHeight,
+                        Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING'),
+                        'manufacturer',
+                        $manufacturer->id
+                    );
+                }
 
-				$thumbImage = RedshopLayoutHelper::render(
-					'tags.common.img_link',
-					[
-						'link'     => REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get(
-								'media_name'
-							),
-						'linkAttr' => 'rel="{handler: \'image\', size: {}}" title="' . $altText . '"',
-						'src'      => $imagePath,
-						'alt'      => $altText,
-						'imgAttr'  => 'title="' . $altText . '"'
-					],
-					'',
-					$this->optionLayout
-				);
-			}
+                $altText = $media->get('media_alternate_text', $manufacturer->name);
 
-			$this->replacements['{manufacturer_image}'] = $thumbImage;
-		}
+                $thumbImage = RedshopLayoutHelper::render(
+                    'tags.common.img_link',
+                    [
+                        'link'     => REDSHOP_MEDIA_IMAGE_ABSPATH . 'manufacturer/' . $manufacturer->id . '/' . $media->get(
+                                'media_name'
+                            ),
+                        'linkAttr' => 'rel="{handler: \'image\', size: {}}" title="' . $altText . '"',
+                        'src'      => $imagePath,
+                        'alt'      => $altText,
+                        'imgAttr'  => 'title="' . $altText . '"'
+                    ],
+                    '',
+                    $this->optionLayout
+                );
+            }
 
-		$this->replacements['{manufacturer_name}'] = $manufacturer->name;
+            $this->replacements['{manufacturer_image}'] = $thumbImage;
+        }
 
-		// Extra field display
-		$extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
-		$this->template = RedshopHelperProductTag::getExtraSectionTag(
-			$extraFieldName,
-			$manufacturer->id,
-			"10",
-			$this->template
-		);
+        $this->replacements['{manufacturer_name}'] = $manufacturer->name;
 
-		$this->replacements['{manufacturer_description}']  = $manufacturer->description;
-		$this->replacements['{manufacturer_extra_fields}'] = RedshopHelperExtrafields::listAllFieldDisplay(
-			10,
-			$manufacturer->id
-		);
+        // Extra field display
+        $extraFieldName = Redshop\Helper\ExtraFields::getSectionFieldNames(10, 1, 1);
+        $this->template = RedshopHelperProductTag::getExtraSectionTag(
+            $extraFieldName,
+            $manufacturer->id,
+            "10",
+            $this->template
+        );
 
-		$this->replacements['{manufacturer_link}'] = JRoute::_(
-			'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->id . '&Itemid=' . $itemId
-		);
+        $this->replacements['{manufacturer_description}']  = $manufacturer->description;
+        $this->replacements['{manufacturer_extra_fields}'] = RedshopHelperExtrafields::listAllFieldDisplay(
+            10,
+            $manufacturer->id
+        );
 
-		if ($this->isTagExists('{filter_by}')) {
-			$this->replacements['{filter_by}'] = RedshopLayoutHelper::render(
-				'tags.manufacturer_product.filter_by',
-				[
-					'filterSelect' => $this->data['lists']['filter_select']
-				],
-				'',
-				$this->optionLayout
-			);
-		}
+        $this->replacements['{manufacturer_link}'] = JRoute::_(
+            'index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->id . '&Itemid=' . $itemId
+        );
 
-		if ($this->isTagExists('{order_by}')) {
-			$this->replacements['{order_by}'] = RedshopLayoutHelper::render(
-				'tags.manufacturer_product.order_by',
-				[
-					'orderSelect' => $this->data['lists']['order_select']
-				],
-				'',
-				$this->optionLayout
-			);
-		}
+        if ($this->isTagExists('{filter_by}')) {
+            $this->replacements['{filter_by}'] = RedshopLayoutHelper::render(
+                'tags.manufacturer_product.filter_by',
+                [
+                    'filterSelect' => $this->data['lists']['filter_select']
+                ],
+                '',
+                $this->optionLayout
+            );
+        }
 
-		if ($this->isTagExists('{pagination}')) {
-			$this->replacements['{pagination}'] = $this->data['pagination']->getPagesLinks();
-		}
+        if ($this->isTagExists('{order_by}')) {
+            $this->replacements['{order_by}'] = RedshopLayoutHelper::render(
+                'tags.manufacturer_product.order_by',
+                [
+                    'orderSelect' => $this->data['lists']['order_select']
+                ],
+                '',
+                $this->optionLayout
+            );
+        }
 
-		$this->template = $this->strReplace($this->replacements, $this->template);
-		$this->template = RedshopHelperTemplate::parseRedshopPlugin($this->template);
+        if ($this->isTagExists('{pagination}')) {
+            $this->replacements['{pagination}'] = $this->data['pagination']->getPagesLinks();
+        }
 
-		return parent::replace();
-	}
+        $this->template = $this->strReplace($this->replacements, $this->template);
+        $this->template = RedshopHelperTemplate::parseRedshopPlugin($this->template);
 
-	/**
-	 * Replace manufacturer product
-	 *
-	 * @param string $template
-	 * @param object $product
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION
-	 */
-	private function replaceManufacturerProduct($template, $product)
-	{
-		$cName    = '';
-		$template = $this->replaceCommonProduct($template, $product->product_id);
-		$replace  = [];
+        return parent::replace();
+    }
 
-		$link = Route::_(
-			'index.php?option=com_redshop&view=product&pid='
-			. $product->product_id . '&cid=' . $product->cat_in_sefurl
-		);
+    /**
+     * Replace manufacturer product
+     *
+     * @param   string  $template
+     * @param   object  $product
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION
+     */
+    private function replaceManufacturerProduct($template, $product)
+    {
+        $cName    = '';
+        $template = $this->replaceCommonProduct($template, $product->product_id);
+        $replace  = [];
 
-		$subTemplateCatHeading = $this->getTemplateBetweenLoop('{category_heading_start}', '{category_heading_end}');
+        $link = Route::_(
+            'index.php?option=com_redshop&view=product&pid='
+            . $product->product_id . '&cid=' . $product->cat_in_sefurl
+        );
 
-		if (strstr($template, "{category_heading_start}") && strstr($template, "{category_heading_end}")) {
-			if ($cName != $product->name) {
-				$replace['{category_name}']          = $product->name;
-				$replace['{category_heading_start}'] = '';
-				$replace['{category_heading_end}']   = '';
-			} else {
-				$template = $subTemplateCatHeading['begin'] . $subTemplateCatHeading['end'];
-			}
-		}
+        $subTemplateCatHeading = $this->getTemplateBetweenLoop('{category_heading_start}', '{category_heading_end}');
 
-		$replace['{read_more}'] = RedshopLayoutHelper::render(
-			'tags.common.link',
-			[
-				'link'    => $link,
-				'content' => Text::_('COM_REDSHOP_READ_MORE')
-			],
-			'',
-			$this->optionLayout
-		);
+        if (strstr($template, "{category_heading_start}") && strstr($template, "{category_heading_end}")) {
+            if ($cName != $product->name) {
+                $replace['{category_name}']          = $product->name;
+                $replace['{category_heading_start}'] = '';
+                $replace['{category_heading_end}']   = '';
+            } else {
+                $template = $subTemplateCatHeading['begin'] . $subTemplateCatHeading['end'];
+            }
+        }
 
-		$replace['{read_more_link}'] = $link;
+        $replace['{read_more}'] = RedshopLayoutHelper::render(
+            'tags.common.link',
+            [
+                'link'    => $link,
+                'content' => Text::_('COM_REDSHOP_READ_MORE')
+            ],
+            '',
+            $this->optionLayout
+        );
 
-		if (strstr($template, '{manufacturer_product_link}')) {
-			$replace['{manufacturer_product_link}'] = $link;
-		}
+        $replace['{read_more_link}'] = $link;
 
-		return $this->strReplace($replace, $template);
-	}
+        if (strstr($template, '{manufacturer_product_link}')) {
+            $replace['{manufacturer_product_link}'] = $link;
+        }
+
+        return $this->strReplace($replace, $template);
+    }
 }

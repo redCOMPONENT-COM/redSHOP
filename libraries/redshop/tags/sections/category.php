@@ -12,466 +12,482 @@ defined('_JEXEC') or die;
 /**
  * Tags replacer abstract class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class RedshopTagsSectionsCategory extends RedshopTagsAbstract
 {
-	/**
-	 * @var    array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public $tags = array(
-		'{name}',
-		'{category_short_description}',
-		'{category_description}',
-		'{category_thumb_image}',
-		'{category_thumb_image_1}',
-		'{category_thumb_image_2}',
-		'{category_thumb_image_3}',
-	);
+    /**
+     * @var    array
+     *
+     * @since  3.0.1
+     */
+    public $tags = array(
+        '{name}',
+        '{category_short_description}',
+        '{category_description}',
+        '{category_thumb_image}',
+        '{category_thumb_image_1}',
+        '{category_thumb_image_2}',
+        '{category_thumb_image_3}',
+    );
 
-	/**
-	 * List of tag alias
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public $tagAlias = array(
-		'{category_short_desc}'        => '{category_short_description}',
-		'{categoryshortdesc}'          => '{category_short_description}',
-		'{categorydesc}'               => '{category_description}',
-		'{category_name}'              => '{name}',
-		'{category_short_description}' => '{short_description}',
-		'{category_description}'       => '{description}',
-	);
+    /**
+     * List of tag alias
+     *
+     * @var    array
+     * @since  3.0.1
+     */
+    public $tagAlias = array(
+        '{category_short_desc}'        => '{category_short_description}',
+        '{categoryshortdesc}'          => '{category_short_description}',
+        '{categorydesc}'               => '{category_description}',
+        '{category_name}'              => '{name}',
+        '{category_short_description}' => '{short_description}',
+        '{category_description}'       => '{description}',
+    );
 
-	/**
-	 * Init
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function init()
-	{
-		// Apply general init here
-	}
+    /**
+     * Init
+     *
+     * @return  void
+     *
+     * @since   3.0.1
+     */
+    public function init()
+    {
+        // Apply general init here
+    }
 
-	/**
-	 * Override parent replace with own category replacing
-	 *
-	 * @return  string
-	 * @throws  Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function replace()
-	{
-		if (isset($this->data['subCategories']))
-		{
-			// Execute category self replace before parent::replace
-			$this->template = $this->replaceSubCategories($this->data['subCategories']);
-		}
+    /**
+     * Override parent replace with own category replacing
+     *
+     * @return  string
+     * @throws  Exception
+     *
+     * @since   3.0.1
+     */
+    public function replace()
+    {
+        if (isset($this->data['subCategories'])) {
+            // Execute category self replace before parent::replace
+            $this->template = $this->replaceSubCategories($this->data['subCategories']);
+        }
 
-		// Replace main category if possible
-		if (isset($this->data['category']))
-		{
-			$this->template = $this->replaceCategory($this->data['category'], $this->template);
-		}
+        // Replace main category if possible
+        if (isset($this->data['category'])) {
+            $this->template = $this->replaceCategory($this->data['category'], $this->template);
+        }
 
-		return parent::replace();
-	}
+        return parent::replace();
+    }
 
-	/**
-	 * Replace category fields tags
-	 *
-	 * @param   object $category Category object
-	 * @param   string $template Template to replace
-	 * @param   bool   $isSubCat is Sub category
-	 *
-	 * @return  string
-	 * @throws  Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function replaceCategory($category, $template, $isSubCat = false)
-	{
-		$replacements = [];
-		$manufacturerId = (!empty($this->data['manufacturerId'])) ? $this->data['manufacturerId'] : '';
-		$catItemId      = RedshopHelperRouter::getCategoryItemid($category->id);
+    /**
+     * Replace sub categories tags
+     *
+     * @param   array  $subCategories  Sub categories array
+     *
+     * @return  string
+     * @throws  Exception
+     *
+     * @since   3.0.1
+     */
+    private function replaceSubCategories($subCategories)
+    {
+        $subTemplate = $this->getTemplateBetweenLoop('{category_loop_start}', '{category_loop_end}');
 
-		$link = JRoute::_(
-			'index.php?option=com_redshop' .
-			'&view=category&cid=' . $category->id .
-			'&manufacturer_id=' . $manufacturerId .
-			'&layout=detail&Itemid=' . $catItemId
-		);
+        if ($subTemplate) {
+            $template = array();
 
-		$title = ' title="' . $category->name . '" ';
+            // Replace all sub categories
+            foreach ($subCategories as $category) {
+                $lastElement      = end($subCategories);
+                $categoryTemplate = $subTemplate['template'];
+                $categoryTemplate = $this->replaceCategory($category, $categoryTemplate, true);
+                $categoryTemplate = $this->replaceSubCategoriesLevel2($category, $categoryTemplate);
 
-		// Specific cases
-		if ($this->isTagExists('{category_thumb_image}') && $this->isTagRegistered('{category_thumb_image}') && isset($category->category_full_image))
-		{
-			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'));
-			$replacements['{category_thumb_image}'] = $categoryImage;
-		}
+                if (!empty($this->data['excludedTags'])) {
+                    $template[] = ($category->id == $lastElement->id) ? $categoryTemplate : $categoryTemplate . "{explode_product}";
+                } else {
+                    $template[] = $categoryTemplate;
+                }
+            }
 
-		if ($this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}')
-			&& isset($category->category_full_image))
-		{
-			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH'), Redshop::getConfig()->get('THUMB_HEIGHT'));
-			$replacements['{category_thumb_image_1}'] = $categoryImage;
-		}
+            $templateTmp = implode(PHP_EOL, $template);
 
-		if ($this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}')
-			&& isset($category->category_full_image))
-		{
-			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH_2'), Redshop::getConfig()->get('THUMB_HEIGHT_2'));
-			$replacements['{category_thumb_image_2}'] = $categoryImage;
-		}
+            if (!empty($this->data['excludedTags'])) {
+                $templateTmp = "{category_loop_start}" . $templateTmp . "{category_loop_end}";
+            }
 
-		if ($this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}')
-			&& isset($category->category_full_image))
-		{
-			$categoryImage = $this->getThumbnail($category, Redshop::getConfig()->get('THUMB_WIDTH_3'), Redshop::getConfig()->get('THUMB_HEIGHT_3'));
-			$replacements['{category_thumb_image_3}'] = $categoryImage;
-		}
+            // Return all template after replaced
+            return $subTemplate['begin'] . $templateTmp . $subTemplate['end'];
+        }
 
-		if ($this->isTagExists('{category_name}') && $this->isTagRegistered('{category_name}') && isset($category->name))
-		{
-			$categoryName = RedshopLayoutHelper::render(
-				'tags.common.link',
-				array(
-					'link' => $link,
-					'attr' => $title,
-					'content' => $category->name
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
+        return $this->template;
+    }
 
-			$replacements['{category_name}'] = $categoryName;
-		}
+    /**
+     * Replace category fields tags
+     *
+     * @param   object  $category  Category object
+     * @param   string  $template  Template to replace
+     * @param   bool    $isSubCat  is Sub category
+     *
+     * @return  string
+     * @throws  Exception
+     *
+     * @since   3.0.1
+     */
+    private function replaceCategory($category, $template, $isSubCat = false)
+    {
+        $replacements   = [];
+        $manufacturerId = (!empty($this->data['manufacturerId'])) ? $this->data['manufacturerId'] : '';
+        $catItemId      = RedshopHelperRouter::getCategoryItemid($category->id);
 
-		if ($this->isTagExists('{category_readmore}') && $this->excludeTags('{category_readmore}'))
-		{
-			$categoryReadMore = RedshopLayoutHelper::render(
-				'tags.common.link',
-				array(
-					'link' => $link,
-					'attr' => $title,
-					'content' => JText::_('COM_REDSHOP_READ_MORE')
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
+        $link = JRoute::_(
+            'index.php?option=com_redshop' .
+            '&view=category&cid=' . $category->id .
+            '&manufacturer_id=' . $manufacturerId .
+            '&layout=detail&Itemid=' . $catItemId
+        );
 
-			$replacements['{category_readmore}'] = $categoryReadMore;
-		}
+        $title = ' title="' . $category->name . '" ';
 
-		if ($this->isTagExists('{category_total_product}') && $this->excludeTags('{category_total_product}'))
-		{
-			$totalPrd                                     = \RedshopHelperProduct::getProductCategory($category->id);
-			$replacements['{category_total_product}']     = count($totalPrd);
-			$replacements['{category_total_product_lbl}'] = JText::_('COM_REDSHOP_TOTAL_PRODUCT');
-		}
+        // Specific cases
+        if ($this->isTagExists('{category_thumb_image}') && $this->isTagRegistered(
+                '{category_thumb_image}'
+            ) && isset($category->category_full_image)) {
+            $categoryImage                          = $this->getThumbnail(
+                $category,
+                Redshop::getConfig()->get('THUMB_WIDTH'),
+                Redshop::getConfig()->get('THUMB_HEIGHT')
+            );
+            $replacements['{category_thumb_image}'] = $categoryImage;
+        }
 
-		$template = $this->strReplace($replacements, $template);
-		$this->replaceCategoryProperties($template, $category);
+        if ($this->isTagExists('{category_back_thumb_image}') && isset($category->category_back_full_image)) {
+            $medias = RedshopEntityCategory::getInstance($category->id)->getMedia()->getAll();
 
-		if ($isSubCat == true)
-		{
-			RedshopHelperProduct::replaceProductSubCategory($template, $category);
-		}
+            if (isset($medias) && count($medias) > 0) {
+                foreach ($medias as $media) {
+                    if ($media->get('scope') == 'back') {
+                        $backImage = RedshopEntityMediaImage::getInstance($media->getId())->getAbsImagePath();
 
-		RedshopHelperUtility::getDispatcher()->trigger('onReplaceCategory', array(&$template, &$category));
+                        break;
+                    }
+                }
 
-		return $template;
-	}
+                $categoryImage = RedshopLayoutHelper::render(
+                    'tags.common.img',
+                    array(
+                        'linkAttr' => $title,
+                        'src'      => $backImage,
+                        'alt'      => 'back-image',
+                        'imgAttr'  => $title
+                    ),
+                    '',
+                    RedshopLayoutHelper::$layoutOption
+                );
+            }
 
-	/**
-	 * @param   string $template Template
-	 * @param   object $category Category object
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function replaceCategoryProperties(&$template, $category)
-	{
-		$replacements = [];
+            $replacements['{category_back_thumb_image}'] = $categoryImage ?? '';
+        }
 
-		// Replace all registered tag if category object have it
-		foreach ($this->tags as $tag)
-		{
-			if ($this->excludeTags($tag))
-			{
-				$tag = str_replace('{', '', $tag);
-				$tag = str_replace('}', '', $tag);
+        if ($this->isTagExists('{category_thumb_image_1}') && $this->isTagRegistered('{category_thumb_image_1}')
+            && isset($category->category_full_image)) {
+            $categoryImage                            = $this->getThumbnail(
+                $category,
+                Redshop::getConfig()->get('THUMB_WIDTH'),
+                Redshop::getConfig()->get('THUMB_HEIGHT')
+            );
+            $replacements['{category_thumb_image_1}'] = $categoryImage;
+        }
 
-				// Make this this tag also have object property to use
-				if (property_exists($category, $tag))
-				{
-					$replacements['{' . $tag . '}'] = $category->{$tag};
-				}
-			}
-		}
+        if ($this->isTagExists('{category_thumb_image_2}') && $this->isTagRegistered('{category_thumb_image_2}')
+            && isset($category->category_full_image)) {
+            $categoryImage                            = $this->getThumbnail(
+                $category,
+                Redshop::getConfig()->get('THUMB_WIDTH_2'),
+                Redshop::getConfig()->get('THUMB_HEIGHT_2')
+            );
+            $replacements['{category_thumb_image_2}'] = $categoryImage;
+        }
 
-		// Also replace with alias
-		foreach ($this->tagAlias as $alias => $tag)
-		{
-			if ($this->excludeTags($alias) && $this->excludeTags($tag))
-			{
-				$tag              = str_replace('{', '', $tag);
-				$tag              = str_replace('}', '', $tag);
-				$tagWithoutPrefix = str_replace('category_', '', $tag);
+        if ($this->isTagExists('{category_thumb_image_3}') && $this->isTagRegistered('{category_thumb_image_3}')
+            && isset($category->category_full_image)) {
+            $categoryImage                            = $this->getThumbnail(
+                $category,
+                Redshop::getConfig()->get('THUMB_WIDTH_3'),
+                Redshop::getConfig()->get('THUMB_HEIGHT_3')
+            );
+            $replacements['{category_thumb_image_3}'] = $categoryImage;
+        }
 
-				// Make this this tag also have object property to use
-				if (property_exists($category, $tag))
-				{
-					$replacements[$alias] = $category->{$tag};
-				}
-				else
-				{
-					$replacements[$alias] = $category->{$tagWithoutPrefix};
-				}
-			}
-		}
+        if ($this->isTagExists('{category_name}') && $this->isTagRegistered(
+                '{category_name}'
+            ) && isset($category->name)) {
+            $categoryName = RedshopLayoutHelper::render(
+                'tags.common.link',
+                array(
+                    'link'    => $link,
+                    'attr'    => $title,
+                    'content' => $category->name
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
 
-		$template = $this->strReplace($replacements, $template);
-	}
+            $replacements['{category_name}'] = $categoryName;
+        }
 
-	/**
-	 * Replace sub categories tags
-	 *
-	 * @param   array  $subCategories  Sub categories array
-	 *
-	 * @return  string
-	 * @throws  Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function replaceSubCategories($subCategories)
-	{
-		$subTemplate = $this->getTemplateBetweenLoop('{category_loop_start}', '{category_loop_end}');
+        if ($this->isTagExists('{category_readmore}') && $this->excludeTags('{category_readmore}')) {
+            $categoryReadMore = RedshopLayoutHelper::render(
+                'tags.common.link',
+                array(
+                    'link'    => $link,
+                    'attr'    => $title,
+                    'content' => JText::_('COM_REDSHOP_READ_MORE')
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
 
-		if ($subTemplate)
-		{
-			$template = array();
+            $replacements['{category_readmore}'] = $categoryReadMore;
+        }
 
-			// Replace all sub categories
-			foreach ($subCategories as $category)
-			{
-				$lastElement      = end($subCategories);
-				$categoryTemplate = $subTemplate['template'];
-				$categoryTemplate = $this->replaceCategory($category, $categoryTemplate, true);
-				$categoryTemplate = $this->replaceSubCategoriesLevel2($category, $categoryTemplate);
+        if ($this->isTagExists('{category_total_product}') && $this->excludeTags('{category_total_product}')) {
+            $totalPrd                                     = \RedshopHelperProduct::getProductCategory($category->id);
+            $replacements['{category_total_product}']     = count($totalPrd);
+            $replacements['{category_total_product_lbl}'] = JText::_('COM_REDSHOP_TOTAL_PRODUCT');
+        }
 
-				if (!empty($this->data['excludedTags']))
-				{
-					$template[] = ($category->id == $lastElement->id) ? $categoryTemplate : $categoryTemplate . "{explode_product}";
-				}
-				else
-				{
-					$template[] = $categoryTemplate;
-				}
-			}
+        $template = $this->strReplace($replacements, $template);
+        $this->replaceCategoryProperties($template, $category);
 
-			$templateTmp = implode(PHP_EOL, $template);
+        if ($isSubCat == true) {
+            RedshopHelperProduct::replaceProductSubCategory($template, $category);
+        }
 
-			if (!empty($this->data['excludedTags']))
-			{
-				$templateTmp = "{category_loop_start}" . $templateTmp . "{category_loop_end}";
-			}
+        RedshopHelperUtility::getDispatcher()->trigger('onReplaceCategory', array(&$template, &$category));
 
-			// Return all template after replaced
-			return $subTemplate['begin'] . $templateTmp . $subTemplate['end'];
-		}
+        return $template;
+    }
 
-		return $this->template;
-	}
+    /**
+     * Method for get category thumbnail
+     *
+     * @param   object   $category  Category object
+     * @param   integer  $width     Width
+     * @param   integer  $height    Height
+     *
+     * @return  string
+     * @throws  Exception
+     */
+    private function getThumbnail($category, $width, $height)
+    {
+        $input          = JFactory::getApplication()->input;
+        $model          = JModelLegacy::getInstance('Category', 'RedshopModel');
+        $manufacturerId = $model->getState('manufacturer_id');
 
-	/**
-	 * Replace sub categories level 2
-	 *
-	 * @param   object  $category          Category
-	 * @param   string  $categoryTemplate  Template
-	 *
-	 * @return  string
-	 * @throws  Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function replaceSubCategoriesLevel2($category, $categoryTemplate)
-	{
-		if (strstr($categoryTemplate, "{subcategory_loop_start}") && strstr($categoryTemplate, "{subcategory_loop_end}"))
-		{
-			$template            = [];
-			$templateSubCategory = $this->getTemplateBetweenLoop('{subcategory_loop_start}', '{subcategory_loop_end}', $categoryTemplate);
-			$subCategories       = RedshopHelperCategory::getCategoryListArray($category->id);
+        // Default with JPATH_ROOT . '/components/com_redshop/assets/images/'
+        $middlePath        = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
+        $title             = ' title="' . $category->name . '" ';
+        $alt               = $category->name;
+        $productImg        = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+        $categoryFullImage = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
 
-			if (count($subCategories) > 0)
-			{
-				foreach ($subCategories as $row)
-				{
-					$replacements = [];
+        // Try to get category Itemid
+        $categoryItemId = (int)RedshopHelperRouter::getCategoryItemid($category->id);
+        $mainItemId     = !$categoryItemId ? $input->getInt('Itemid', null) : $categoryItemId;
 
-					if ($row->parent_id != $category->id)
-					{
-						continue;
-					}
+        // Generate category link
+        $link = JRoute::_(
+            'index.php?option=' . $input->get('option', 'com_redshop') .
+            '&view=category&cid=' . $category->id .
+            '&manufacturer_id=' . $manufacturerId .
+            '&layout=detail&Itemid=' . $mainItemId
+        );
 
-					$dataAdd = $templateSubCategory['template'];
+        $medias = RedshopEntityCategory::getInstance($category->id)->getMedia();
 
-					if (strstr($dataAdd, '{subcategory_id}'))
-					{
-						$replacements['{subcategory_id}'] = $row->id;
-					}
+        /** @var RedshopEntityMediaImage $fullImage */
+        $fullImage = null;
 
-					if (strstr($dataAdd, '{subcategory_name}'))
-					{
-						$replacements['{subcategory_name}'] = $row->name;
-					}
+        foreach ($medias->getAll() as $media) {
+            /** @var RedshopEntityMedia $media */
+            if ($media->get('scope') == 'full') {
+                $fullImage = RedshopEntityMediaImage::getInstance($media->getId());
 
-					if (strstr($dataAdd, '{subcategory_link}'))
-					{
-						$link  = 'index.php?option=com_redshop' .
-							'&view=category&cid=' . $row->id .
-							'&layout=detail&Itemid=' . $this->data['itemId'];
-						$link .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';
-						$replacements['{subcategory_link}'] = $link;
-					}
+                break;
+            }
+        }
 
-					$dataAdd    = $this->strReplace($replacements, $dataAdd);
-					$template[] = $dataAdd;
-				}
-			}
+        if ($fullImage !== null) {
+            $categoryFullImage = $fullImage->getAbsImagePath();
 
-			$categoryTemplate = $templateSubCategory['begin'] . implode(PHP_EOL, $template) . $templateSubCategory['end'];
-		}
+            // Generate thumb with watermark if needed.
+            if (Redshop::getConfig()->getBool('WATERMARK_CATEGORY_THUMB_IMAGE')) {
+                $productImg = RedshopHelperMedia::watermark(
+                    'category',
+                    $category->category_full_image,
+                    $width,
+                    $height,
+                    Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
+                );
+            } else {
+                $productImg = $fullImage->generateThumb($width, $height);
+                $productImg = $productImg['abs'];
+            }
+        } elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')
+            && JFile::exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'))) {
+            // Use default image
+            $categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
+            $productImg        = RedshopHelperMedia::watermark(
+                'category',
+                Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'),
+                $width,
+                $height,
+                Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
+            );
+        }
 
-		return $categoryTemplate;
-	}
+        if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX')) {
+            $categoryThumbnail = RedshopLayoutHelper::render(
+                'tags.common.img_link',
+                array(
+                    'class'    => 'modal',
+                    'link'     => $categoryFullImage,
+                    'linkAttr' => 'rel="{handler: \'image\', size: {}}" ' . $title,
+                    'src'      => $productImg,
+                    'alt'      => $alt,
+                    'imgAttr'  => $title
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
+        } else {
+            $categoryThumbnail = RedshopLayoutHelper::render(
+                'tags.common.img_link',
+                array(
+                    'link'     => $link,
+                    'linkAttr' => $title,
+                    'src'      => $productImg,
+                    'alt'      => $alt,
+                    'imgAttr'  => $title
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
+        }
 
-	/**
-	 * Method for get category thumbnail
-	 *
-	 * @param   object  $category Category object
-	 * @param   integer $width    Width
-	 * @param   integer $height   Height
-	 *
-	 * @return  string
-	 * @throws  Exception
-	 */
-	private function getThumbnail($category, $width, $height)
-	{
-		$input          = JFactory::getApplication()->input;
-		$model          = JModelLegacy::getInstance('Category', 'RedshopModel');
-		$manufacturerId = $model->getState('manufacturer_id');
+        return $categoryThumbnail;
+    }
 
-		// Default with JPATH_ROOT . '/components/com_redshop/assets/images/'
-		$middlePath        = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
-		$title             = ' title="' . $category->name . '" ';
-		$alt               = $category->name;
-		$productImg        = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
-		$categoryFullImage = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+    /**
+     * @param   string  $template  Template
+     * @param   object  $category  Category object
+     *
+     * @return  void
+     *
+     * @since   3.0.1
+     */
+    private function replaceCategoryProperties(&$template, $category)
+    {
+        $replacements = [];
 
-		// Try to get category Itemid
-		$categoryItemId = (int) RedshopHelperRouter::getCategoryItemid($category->id);
-		$mainItemId     = !$categoryItemId ? $input->getInt('Itemid', null) : $categoryItemId;
+        // Replace all registered tag if category object have it
+        foreach ($this->tags as $tag) {
+            if ($this->excludeTags($tag)) {
+                $tag = str_replace('{', '', $tag);
+                $tag = str_replace('}', '', $tag);
 
-		// Generate category link
-		$link = JRoute::_(
-			'index.php?option=' . $input->get('option', 'com_redshop') .
-			'&view=category&cid=' . $category->id .
-			'&manufacturer_id=' . $manufacturerId .
-			'&layout=detail&Itemid=' . $mainItemId
-		);
+                // Make this this tag also have object property to use
+                if (property_exists($category, $tag)) {
+                    $replacements['{' . $tag . '}'] = $category->{$tag};
+                }
+            }
+        }
 
-		$medias = RedshopEntityCategory::getInstance($category->id)->getMedia();
+        // Also replace with alias
+        foreach ($this->tagAlias as $alias => $tag) {
+            if ($this->excludeTags($alias) && $this->excludeTags($tag)) {
+                $tag              = str_replace('{', '', $tag);
+                $tag              = str_replace('}', '', $tag);
+                $tagWithoutPrefix = str_replace('category_', '', $tag);
 
-		/** @var RedshopEntityMediaImage $fullImage */
-		$fullImage = null;
+                // Make this this tag also have object property to use
+                if (property_exists($category, $tag)) {
+                    $replacements[$alias] = $category->{$tag};
+                } else {
+                    $replacements[$alias] = $category->{$tagWithoutPrefix};
+                }
+            }
+        }
 
-		foreach ($medias->getAll() as $media)
-		{
-			/** @var RedshopEntityMedia $media */
-			if ($media->get('scope') == 'full')
-			{
-				$fullImage = RedshopEntityMediaImage::getInstance($media->getId());
+        $template = $this->strReplace($replacements, $template);
+    }
 
-				break;
-			}
-		}
+    /**
+     * Replace sub categories level 2
+     *
+     * @param   object  $category          Category
+     * @param   string  $categoryTemplate  Template
+     *
+     * @return  string
+     * @throws  Exception
+     *
+     * @since   3.0.1
+     */
+    private function replaceSubCategoriesLevel2($category, $categoryTemplate)
+    {
+        if (strstr($categoryTemplate, "{subcategory_loop_start}") && strstr(
+                $categoryTemplate,
+                "{subcategory_loop_end}"
+            )) {
+            $template            = [];
+            $templateSubCategory = $this->getTemplateBetweenLoop(
+                '{subcategory_loop_start}',
+                '{subcategory_loop_end}',
+                $categoryTemplate
+            );
+            $subCategories       = RedshopHelperCategory::getCategoryListArray($category->id);
 
-		if ($fullImage !== null)
-		{
-			$categoryFullImage = $fullImage->getAbsImagePath();
+            if (count($subCategories) > 0) {
+                foreach ($subCategories as $row) {
+                    $replacements = [];
 
-			// Generate thumb with watermark if needed.
-			if (Redshop::getConfig()->getBool('WATERMARK_CATEGORY_THUMB_IMAGE'))
-			{
-				$productImg = RedshopHelperMedia::watermark(
-					'category',
-					$category->category_full_image,
-					$width,
-					$height,
-					Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
-				);
-			}
-			else
-			{
-				$productImg = $fullImage->generateThumb($width, $height);
-				$productImg = $productImg['abs'];
-			}
-		}
-		elseif (Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')
-			&& JFile::exists($middlePath . Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE')))
-		{
-			// Use default image
-			$categoryFullImage = Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE');
-			$productImg        = RedshopHelperMedia::watermark(
-				'category',
-				Redshop::getConfig()->get('CATEGORY_DEFAULT_IMAGE'),
-				$width,
-				$height,
-				Redshop::getConfig()->get('WATERMARK_CATEGORY_THUMB_IMAGE')
-			);
-		}
+                    if ($row->parent_id != $category->id) {
+                        continue;
+                    }
 
-		if (Redshop::getConfig()->get('CAT_IS_LIGHTBOX'))
-		{
-			$categoryThumbnail = RedshopLayoutHelper::render(
-				'tags.common.img_link',
-				array(
-					'class' => 'modal',
-					'link' => $categoryFullImage,
-					'linkAttr' => 'rel="{handler: \'image\', size: {}}" ' . $title,
-					'src' => $productImg,
-					'alt' => $alt,
-					'imgAttr' => $title
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
-		}
-		else
-		{
-			$categoryThumbnail = RedshopLayoutHelper::render(
-				'tags.common.img_link',
-				array(
-					'link' => $link,
-					'linkAttr' => $title,
-					'src' => $productImg,
-					'alt' => $alt,
-					'imgAttr' => $title
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
-		}
+                    $dataAdd = $templateSubCategory['template'];
 
-		return $categoryThumbnail;
-	}
+                    if (strstr($dataAdd, '{subcategory_id}')) {
+                        $replacements['{subcategory_id}'] = $row->id;
+                    }
+
+                    if (strstr($dataAdd, '{subcategory_name}')) {
+                        $replacements['{subcategory_name}'] = $row->name;
+                    }
+
+                    if (strstr($dataAdd, '{subcategory_link}')) {
+                        $link                               = 'index.php?option=com_redshop' .
+                            '&view=category&cid=' . $row->id .
+                            '&layout=detail&Itemid=' . $this->data['itemId'];
+                        $link                               .= isset($this->data['manufacturerId']) ? '&manufacturer_id=' . $this->data['manufacturerId'] : '';
+                        $replacements['{subcategory_link}'] = $link;
+                    }
+
+                    $dataAdd    = $this->strReplace($replacements, $dataAdd);
+                    $template[] = $dataAdd;
+                }
+            }
+
+            $categoryTemplate = $templateSubCategory['begin'] . implode(
+                    PHP_EOL,
+                    $template
+                ) . $templateSubCategory['end'];
+        }
+
+        return $categoryTemplate;
+    }
 }

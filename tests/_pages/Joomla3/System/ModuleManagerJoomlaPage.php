@@ -40,7 +40,7 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	 * @var string
 	 * @since 2.1.3
 	 */
-	public static $currentConfiguration = ['link' => "Redshop Multi Currencies"];
+	public static $currentConfiguration = ['link' => "\Redshop Multi Currencies"];
 
 	/**
 	 * @var string
@@ -286,5 +286,25 @@ class ModuleManagerJoomlaPage extends AdminJ3Page
 	public function displayDiscountPrice($option)
 	{
 		return $path = "//label[@for='jform_params_show_discountpricelayout".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function displayStockroomStatus($option)
+	{
+		return $path = "//label[@for='jform_params_show_stockroom_status".$option."']";
+	}
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function showWishlist($option)
+	{
+		return $path = "//label[@for='jform_params_show_wishlist".$option."']";
 	}
 }

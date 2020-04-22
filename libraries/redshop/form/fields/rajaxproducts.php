@@ -16,31 +16,33 @@ defined('_JEXEC') or die;
  * @subpackage  FormField
  * @since       2.0.0.4
  */
-
 class JFormFieldRAjaxProducts extends JFormField
 {
-	/**
-	 * Element name
-	 *
-	 * @access    Public
-	 * @var        string
-	 */
-	public $type = 'RAjaxProducts';
+    /**
+     * Element name
+     *
+     * @access    Public
+     * @var        string
+     */
+    public $type = 'RAjaxProducts';
 
-	/**
-	 * getInput.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   2.0.0.4
-	 */
-	protected function getInput()
-	{
-		return JHTML::_('redshopselect.jFormSearch', $this->value, 'productid',
-					array(
-						'select2.ajaxOptions' => array('typeField' => ', product:1'),
-						'select2.options' => array('placeholder' => JText::_('COM_REDSHOP_PRODUCT'))
-					)
-				);
-	}
+    /**
+     * getInput.
+     *
+     * @return  object  The model.
+     *
+     * @since   2.0.0.4
+     */
+    protected function getInput()
+    {
+        return JHTML::_(
+            'redshopselect.jFormSearch',
+            $this->value,
+            'productid',
+            array(
+                'select2.ajaxOptions' => array('typeField' => ', product:1'),
+                'select2.options'     => array('placeholder' => JText::_('COM_REDSHOP_PRODUCT'))
+            )
+        );
+    }
 }

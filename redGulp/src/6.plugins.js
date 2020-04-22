@@ -3,9 +3,9 @@ var config = require('../../gulp-config');
 
 // Do we have a specifc extensions file?
 try {
-	var extensions = require('../../gulp-extensions.json');
+    var extensions = require('../../gulp-extensions.json');
 } catch (err) {
-	var extensions = config.extensions;
+    var extensions = config.extensions;
 }
 
 /**
@@ -14,20 +14,20 @@ try {
  * @return  array
  */
 function getPlugins() {
-	var results = []
+    var results = []
 
-	if (extensions && extensions.hasOwnProperty('plugins')) {
+    if (extensions && extensions.hasOwnProperty('plugins')) {
 
-		for (var type in extensions.plugins) {
-			var sourceArray = extensions.plugins[type];
+        for (var type in extensions.plugins) {
+            var sourceArray = extensions.plugins[type];
 
-			for (index = 0; index < sourceArray.length; ++index) {
-				results.push(type + '.' + sourceArray[index]);
-			}
-		}
-	}
+            for (index = 0; index < sourceArray.length; ++index) {
+                results.push(type + '.' + sourceArray[index]);
+            }
+        }
+    }
 
-	return results;
+    return results;
 }
 
 /**
@@ -39,41 +39,41 @@ function getPlugins() {
  * @return  array
  */
 function getPluginsTasks(baseTask) {
-	var tasks = [];
-	var plugins = getPlugins();
+    var tasks = [];
+    var plugins = getPlugins();
 
-	if (plugins) {
-		for (pos = 0; pos < plugins.length; ++pos) {
-			tasks.push(baseTask + '.' + plugins[pos]);
-		}
-	}
+    if (plugins) {
+        for (pos = 0; pos < plugins.length; ++pos) {
+            tasks.push(baseTask + '.' + plugins[pos]);
+        }
+    }
 
-	if (tasks.length > 0) {
-		return gulp.series.apply(gulp, tasks);
-	}
+    if (tasks.length > 0) {
+        return gulp.series.apply(gulp, tasks);
+    }
 }
 
 // Clean
 gulp.task('clean:plugins',
-	getPluginsTasks('clean:plugins'),
-	function () {
-		return true;
-	});
+    getPluginsTasks('clean:plugins'),
+    function () {
+        return true;
+    });
 
 // Copy
 gulp.task('copy:plugins',
-	getPluginsTasks('copy:plugins'),
-	function (cb) {
-		cb();
-		return true;
-	});
+    getPluginsTasks('copy:plugins'),
+    function (cb) {
+        cb();
+        return true;
+    });
 
 // Watch
 gulp.task('watch:plugins',
-	getPluginsTasks('watch:plugins'),
-	function () {
-		return true;
-	});
+    getPluginsTasks('watch:plugins'),
+    function () {
+        return true;
+    });
 
 exports.getPlugins = getPlugins;
 exports.getPluginsTasks = getPluginsTasks;

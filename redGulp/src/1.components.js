@@ -4,9 +4,9 @@ var config = require('../../gulp-config');
 
 // Do we have a specifc extensions file?
 try {
-	var extensions = require('../../gulp-extensions.json');
+    var extensions = require('../../gulp-extensions.json');
 } catch (err) {
-	var extensions = config.extensions;
+    var extensions = config.extensions;
 }
 
 /**
@@ -15,17 +15,17 @@ try {
  * @return  array
  */
 function getComponents() {
-	var results = [];
+    var results = [];
 
-	if (extensions && extensions.hasOwnProperty('components')) {
-		var sourceArray = extensions.components;
+    if (extensions && extensions.hasOwnProperty('components')) {
+        var sourceArray = extensions.components;
 
-		for (index = 0; index < sourceArray.length; ++index) {
-			results.push(sourceArray[index]);
-		}
-	}
+        for (index = 0; index < sourceArray.length; ++index) {
+            results.push(sourceArray[index]);
+        }
+    }
 
-	return results;
+    return results;
 }
 
 /**
@@ -36,16 +36,16 @@ function getComponents() {
  * @return  array
  */
 function getComponentsTasks(baseTask) {
-	var components = getComponents();
-	var tasks = [];
+    var components = getComponents();
+    var tasks = [];
 
-	for (index = 0; index < components.length; ++index) {
-		tasks.push(baseTask + '.' + components[index]);
-	}
+    for (index = 0; index < components.length; ++index) {
+        tasks.push(baseTask + '.' + components[index]);
+    }
 
-	if (tasks.length > 0) {
-		return gulp.series.apply(gulp, tasks);
-	}
+    if (tasks.length > 0) {
+        return gulp.series.apply(gulp, tasks);
+    }
 }
 
 var components = getComponents();
@@ -53,26 +53,26 @@ var components = getComponents();
 if (components.length > 0) {
 
 
-	// Clean
-	gulp.task('clean:components',
-		getComponentsTasks('clean:components'),
-		function () {
-			return true
-		});
+    // Clean
+    gulp.task('clean:components',
+        getComponentsTasks('clean:components'),
+        function () {
+            return true
+        });
 
-	// Copy
-	gulp.task('copy:components',
-		getComponentsTasks('copy:components'),
-		function () {
-			return true;
-		});
+    // Copy
+    gulp.task('copy:components',
+        getComponentsTasks('copy:components'),
+        function () {
+            return true;
+        });
 
-	// Watch
-	gulp.task('watch:components',
-		getComponentsTasks('watch:components'),
-		function () {
-			return true;
-		});
+    // Watch
+    gulp.task('watch:components',
+        getComponentsTasks('watch:components'),
+        function () {
+            return true;
+        });
 }
 
 exports.getComponents = getComponents;

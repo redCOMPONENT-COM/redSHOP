@@ -26,14 +26,12 @@ class Helper
      */
     public static function getWrapperPrice($cart = array())
     {
-        $wrapper     = \RedshopHelperProduct::getWrapper($cart['product_id'], $cart['wrapper_id']);
+        $wrapper    = \RedshopHelperProduct::getWrapper($cart['product_id'], $cart['wrapper_id']);
         $wrapperVat = 0;
-        $wrappers  = array();
+        $wrappers   = array();
 
-        if (count($wrapper) > 0)
-        {
-            if ($wrapper[0]->wrapper_price > 0)
-            {
+        if (count($wrapper) > 0) {
+            if ($wrapper[0]->wrapper_price > 0) {
                 $wrapperVat = \RedshopHelperProduct::getProductTax($cart['product_id'], $wrapper[0]->wrapper_price);
             }
 
@@ -48,31 +46,37 @@ class Helper
 
     /**
      * @param $id
+     *
      * @return bool|mixed
      * @throws \Exception
      */
     public static function getWrapperById($id)
     {
         try {
-            $id = (int) $id;
-            $db = \JFactory::getDbo();
+            $id    = (int)$id;
+            $db    = \JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select('p.*, w.*')
                 ->from($db->qn('#__redshop_wrapper', 'w'))
-                ->leftJoin($db->qn('#__redshop_product', 'p')
-                    . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('w.product_id'))
-                ->where($db->qn('w.wrapper_id') . ' = ' .  $db->q((int) $id));
+                ->leftJoin(
+                    $db->qn('#__redshop_product', 'p')
+                    . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('w.product_id')
+                )
+                ->where($db->qn('w.wrapper_id') . ' = ' . $db->q((int)$id));
 
             $db->setQuery($query);
+
             return $db->loadObject();
         } catch (\Exception $e) {
             \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
             return false;
         }
     }
 
     /**
-     * @param array $wrapperIds
+     * @param   array  $wrapperIds
+     *
      * @return bool
      * @throws \Exception
      */
@@ -80,8 +84,7 @@ class Helper
     {
         if (is_array($wrapperIds)
             && (count($wrapperIds) > 0)) {
-
-            $db = \JFactory::getDbo();
+            $db    = \JFactory::getDbo();
             $query = $db->getQuery(true);
 
             $query->delete($db->qn('#__redshop_wrapper'))
@@ -94,8 +97,9 @@ class Helper
     }
 
     /**
-     * @param array $wrapperIds
-     * @param int $publish
+     * @param   array  $wrapperIds
+     * @param   int    $publish
+     *
      * @return bool
      * @throws \Exception
      */
@@ -103,13 +107,14 @@ class Helper
     {
         if (is_array($wrapperIds)
             && (count($wrapperIds) > 0)) {
-
-            $db = \JFactory::getDbo();
+            $db    = \JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->update($db->qn('#__redshop_wrapper'))
-                ->set([
-                    $db->qn('published') . ' = ' . $db->q($publish)
-                ])->where($db->qn('wrapper_id') . ' IN (' . $db->q(implode(',', $wrapperIds)) . ')');
+                ->set(
+                    [
+                        $db->qn('published') . ' = ' . $db->q($publish)
+                    ]
+                )->where($db->qn('wrapper_id') . ' IN (' . $db->q(implode(',', $wrapperIds)) . ')');
 
             return \Redshop\DB\Tool::safeExecute($db, $query);
         }
@@ -118,8 +123,9 @@ class Helper
     }
 
     /**
-     * @param array $wrapperIds
-     * @param int $status
+     * @param   array  $wrapperIds
+     * @param   int    $status
+     *
      * @return bool
      * @throws \Exception
      */
@@ -128,13 +134,15 @@ class Helper
         if (count($wrapperIds)) {
             $wrapperIds = implode(',', $wrapperIds);
 
-            $db = \JFactory::getDbo();
+            $db    = \JFactory::getDbo();
             $query = $db->getQuery(true);
 
             $query->update($db->qn('#__redshop_wrapper'))
-                ->set([
-                    $db->qn('wrapper_use_to_all') . ' = ' . $db->q((int) $status)
-                ])->where($db->qn('wrapper_id') . ' IN (' . $db->q($wrapperIds) . ')');
+                ->set(
+                    [
+                        $db->qn('wrapper_use_to_all') . ' = ' . $db->q((int)$status)
+                    ]
+                )->where($db->qn('wrapper_id') . ' IN (' . $db->q($wrapperIds) . ')');
 
             return \Redshop\DB\Tool::safeExecute($db, query);
         }

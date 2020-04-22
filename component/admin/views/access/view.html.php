@@ -17,62 +17,61 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       2.0.6
  */
-
 class RedshopViewAccess extends RedshopViewAdmin
 {
-	/**
-	 * @var  JForm
-	 */
-	protected $form;
+    /**
+     * @var  JForm
+     */
+    protected $form;
 
-	/**
-	 * @var  object
-	 */
-	protected $item;
+    /**
+     * @var  object
+     */
+    protected $item;
 
-	/**
-	 * @var  array
-	 */
-	protected $state;
+    /**
+     * @var  array
+     */
+    protected $state;
 
-	/**
-	 * Function display template
-	 *
-	 * @param   string  $tpl  name of template
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
-	public function display($tpl = null)
-	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'), 'redshop_country_48');
+    /**
+     * Function display template
+     *
+     * @param   string  $tpl  name of template
+     *
+     * @return  void
+     *
+     * @since   2.0.6
+     */
+    public function display($tpl = null)
+    {
+        JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'), 'redshop_country_48');
 
-		/** @var RedshopModelAccess $model */
-		$model = $this->getModel();
+        /** @var RedshopModelAccess $model */
+        $model = $this->getModel();
 
-		$this->item  = $model->getItem();
-		$this->form  = $model->getForm();
-		$this->state = $model->getState();
+        $this->item  = $model->getItem();
+        $this->form  = $model->getForm();
+        $this->state = $model->getState();
 
-		$this->addToolBar();
+        $this->addToolBar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.6
-	 */
-	protected function addToolbar()
-	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   2.0.6
+     */
+    protected function addToolbar()
+    {
+        JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		// Prepare text for title
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'));
-		JToolBarHelper::apply('access.save');
-	}
+        // Prepare text for title
+        JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'));
+        JToolBarHelper::apply('access.save');
+    }
 }

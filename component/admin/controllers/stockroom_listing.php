@@ -16,40 +16,51 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerStockroom_listing extends RedshopControllerAdmin
 {
-	public function saveStock()
-	{
-		$model          = $this->getModel('stockroom_listing');
-		$stockroom_type = $this->input->post->getString('stockroom_type', 'product');
+    public function saveStock()
+    {
+        $model          = $this->getModel('stockroom_listing');
+        $stockroom_type = $this->input->post->getString('stockroom_type', 'product');
 
-		$pid              = $this->input->post->get('pid', array(0), 'array');
-		$sid              = $this->input->post->get('sid', array(0), 'array');
-		$quantity         = $this->input->post->get('quantity', array(0), 'array');
-		$preorder_stock   = $this->input->post->get('preorder_stock', array(0), 'array');
-		$ordered_preorder = $this->input->post->get('ordered_preorder', array(0), 'post', 'array');
+        $pid              = $this->input->post->get('pid', array(0), 'array');
+        $sid              = $this->input->post->get('sid', array(0), 'array');
+        $quantity         = $this->input->post->get('quantity', array(0), 'array');
+        $preorder_stock   = $this->input->post->get('preorder_stock', array(0), 'array');
+        $ordered_preorder = $this->input->post->get('ordered_preorder', array(0), 'post', 'array');
 
-		for ($i = 0, $in = count($sid); $i < $in; $i++)
-		{
-			$model->storeStockroomQuantity($stockroom_type, $sid[$i], $pid[$i], $quantity[$i], $preorder_stock[$i], $ordered_preorder[$i]);
-		}
+        for ($i = 0, $in = count($sid); $i < $in; $i++) {
+            $model->storeStockroomQuantity(
+                $stockroom_type,
+                $sid[$i],
+                $pid[$i],
+                $quantity[$i],
+                $preorder_stock[$i],
+                $ordered_preorder[$i]
+            );
+        }
 
         $msg = JText::_('COM_REDSHOP_INVENTORY_SAVE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type, $msg);
-	}
+        $this->setRedirect(
+            'index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type,
+            $msg
+        );
+    }
 
-	public function ResetPreorderStock()
-	{
-		$model          = $this->getModel('stockroom_listing');
-		$stockroom_type = $this->input->get('stockroom_type', 'product');
-		$pid            = $this->input->get('product_id');
-		$sid            = $this->input->get('stockroom_id');
+    public function ResetPreorderStock()
+    {
+        $model          = $this->getModel('stockroom_listing');
+        $stockroom_type = $this->input->get('stockroom_type', 'product');
+        $pid            = $this->input->get('product_id');
+        $sid            = $this->input->get('stockroom_id');
 
-		$model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid);
+        $model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $pid);
 
-		$this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
-	}
+        $this->setRedirect(
+            'index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type
+        );
+    }
 
-	public function print_data()
-	{
-		echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
-	}
+    public function print_data()
+    {
+        echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
+    }
 }

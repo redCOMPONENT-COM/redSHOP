@@ -7,8 +7,8 @@
     </layout>
     <fields name="params" addfieldpath="/libraries/redshop/form/fields">
         <fieldset name="basic">
-                <field name="template_id" type="template" label="COM_REDSHOP_SELECT_TEMPLATE" required="true"
-                       description="Displays the Products of selected category Template"/>
+            <field name="template_id" type="template" label="COM_REDSHOP_SELECT_TEMPLATE" required="true"
+                   description="Displays the Products of selected category Template"/>
         </fieldset>
     </fields>
 </metadata>

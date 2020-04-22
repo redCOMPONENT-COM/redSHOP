@@ -1,9 +1,9 @@
 <label class="radio" for="{{ oneMethod.name ~ index }}">
     <input id="{{ oneMethod.name ~ index }}" type="radio" name="payment_method_id" value="{{ oneMethod.name }}"
-           {{ checked ? 'checked="checked"' :  '' }}
-         onclick="javascript:onestepCheckoutProcess(this.name);" />
-        {{ jtext(oneMethod.name) }}
-    </label>
+            {{ checked ? 'checked="checked"' :  '' }}
+           onclick="javascript:onestepCheckoutProcess(this.name);"/>
+    {{ jtext(oneMethod.name) }}
+</label>
 <br>
 <table>
     <tr>

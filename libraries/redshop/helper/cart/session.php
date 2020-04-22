@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     RedSHOP.Library
  * @subpackage  Helper
@@ -17,39 +18,39 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperCartSession
 {
-	/**
-	 * Get cart from session
-	 *
-	 * @return   array
-	 *
-	 * @since    2.0.7
-	 */
-	public static function getCart()
-	{
-		return (array) JFactory::getSession()->get('cart', array());
-	}
+    /**
+     * Get cart from session
+     *
+     * @return   array
+     *
+     * @since    2.0.7
+     */
+    public static function getCart()
+    {
+        return (array)JFactory::getSession()->get('cart', array());
+    }
 
-	/**
-	 * @param   array $cart Cart array
-	 *
-	 * @return  boolean|array
-	 *
-	 * @since   2.0.7
-	 */
-	public static function setCart($cart)
-	{
-		return JFactory::getSession()->set('cart', $cart);
-	}
+    /**
+     * Reset cart session
+     *
+     * @return  void
+     *
+     * @since   2.0.7
+     */
+    public static function reset()
+    {
+        self::setCart(null);
+    }
 
-	/**
-	 * Reset cart session
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.7
-	 */
-	public static function reset()
-	{
-		self::setCart(null);
-	}
+    /**
+     * @param   array  $cart  Cart array
+     *
+     * @return  boolean|array
+     *
+     * @since   2.0.7
+     */
+    public static function setCart($cart)
+    {
+        return JFactory::getSession()->set('cart', $cart);
+    }
 }

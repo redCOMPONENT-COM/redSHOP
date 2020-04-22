@@ -26,8 +26,11 @@ defined('JPATH_BASE') or die;
  */
 extract($displayData);
 
-$layout = ($showGroup === true) ? 'field.rules.group' : 'field.rules.rules';
-$selectedTabPosition = JFactory::getApplication()->getUserState('com_redshop.access.selectedTabPosition', 'permission-1');
+$layout              = ($showGroup === true) ? 'field.rules.group' : 'field.rules.rules';
+$selectedTabPosition = JFactory::getApplication()->getUserState(
+    'com_redshop.access.selectedTabPosition',
+    'permission-1'
+);
 ?>
 
 <p class="rule-desc"><?php echo JText::_('JLIB_RULES_SETTINGS_DESC') ?></p>
@@ -35,51 +38,55 @@ $selectedTabPosition = JFactory::getApplication()->getUserState('com_redshop.acc
     <div class="row">
         <div class="col-md-3">
             <ul class="nav nav-stacked nav-pills">
-				<?php foreach ($groups as $group): ?>
-					<?php $active = ('permission-' . $group->value == $selectedTabPosition) ? 'active' : ''; ?>
+                <?php foreach ($groups as $group): ?>
+                    <?php $active = ('permission-' . $group->value == $selectedTabPosition) ? 'active' : ''; ?>
                     <li class="<?php echo $active ?>">
-                        <a href="#permission-<?php echo $group->value ?>" data-toggle="tab" aria-controls="permission-<?php echo $group->value ?>">
+                        <a href="#permission-<?php echo $group->value ?>" data-toggle="tab"
+                           aria-controls="permission-<?php echo $group->value ?>">
                             <?php if ($group->level == 1): ?>
                                 <span class="level">&vdash;</span>
                             <?php elseif ($group->level > 1): ?>
-                                <span class="level">&vdash;</span><?php echo str_repeat('&ndash;&ndash;', $group->level - 1) ?>
+                                <span class="level">&vdash;</span><?php echo str_repeat(
+                                    '&ndash;&ndash;',
+                                    $group->level - 1
+                                ) ?>
                             <?php endif; ?>
-							<?php echo $group->text ?>
+                            <?php echo $group->text ?>
                         </a>
                     </li>
-				<?php endforeach; ?>
+                <?php endforeach; ?>
             </ul>
         </div>
         <div class="col-md-9">
             <div class="tab-content">
-				<?php
-				echo RedshopLayoutHelper::render(
-					$layout,
-					array(
-						'groups'         => $groups,
-						'actions'        => $actions,
-						'field'          => $field,
-						'newItem'        => $newItem,
-						'assetRules'     => $assetRules,
-						'assetId'        => $assetId,
-						'isGlobalConfig' => $isGlobalConfig,
-						'component'      => $component
-					)
-				);
-				?>
+                <?php
+                echo RedshopLayoutHelper::render(
+                    $layout,
+                    array(
+                        'groups'         => $groups,
+                        'actions'        => $actions,
+                        'field'          => $field,
+                        'newItem'        => $newItem,
+                        'assetRules'     => $assetRules,
+                        'assetId'        => $assetId,
+                        'isGlobalConfig' => $isGlobalConfig,
+                        'component'      => $component
+                    )
+                );
+                ?>
             </div>
         </div>
     </div>
     <div class="row">
         <div clas="col-md-12">
             <div class="alert">
-				<?php
-				if ($section === 'component' || $section === null):
-					echo JText::_('JLIB_RULES_SETTING_NOTES');
-				else:
-					echo JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
-				endif;
-				?>
+                <?php
+                if ($section === 'component' || $section === null):
+                    echo JText::_('JLIB_RULES_SETTING_NOTES');
+                else:
+                    echo JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
+                endif;
+                ?>
             </div>
         </div>
     </div>
