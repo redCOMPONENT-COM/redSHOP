@@ -151,6 +151,9 @@ class RedshopControllerRegistration extends RedshopController
             );
         }
 
+        JPluginHelper::importPlugin('redshop_checkout');
+        RedshopHelperUtility::getDispatcher()->trigger('onRenderBillingCheckout', array(&$templateHtml));
+
         echo $return = '<div id="ajaxRegistrationDiv">' . $templateHtml . '</div>';
 
         $app->close();
