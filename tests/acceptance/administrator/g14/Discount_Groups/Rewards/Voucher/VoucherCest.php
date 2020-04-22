@@ -6,6 +6,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use AcceptanceTester\CategoryManagerJoomla3Steps;
+use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\VoucherManagerJoomla3Steps;
 
 /**
@@ -117,6 +119,12 @@ class VoucherCest
 	protected $randomProductNumber;
 
 	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $randomProductPrice;
+
+	/**
 	 * VoucherCest constructor.
 	 * @since 1.4.0
 	 */
@@ -139,6 +147,7 @@ class VoucherCest
 		$this->discountStart                = "2016-12-12";
 		$this->discountEnd                  = "2017-05-23";
 		$this->randomProductNumber          = rand(999, 9999);
+		$this->randomProductPrice           = rand(99, 199);
 	}
 
 	/**
@@ -160,7 +169,7 @@ class VoucherCest
 	public function createCategory(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create category for use in Voucher test');
-		$I = new AcceptanceTester\CategoryManagerJoomla3Steps($scenario);
+		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->addCategorySave($this->randomCategoryName);
 	}
 
@@ -173,7 +182,7 @@ class VoucherCest
 	public function createProduct(AcceptanceTester $I, $scenario)
 	{
 		$I->wantTo('Create product for use in Voucher test');
-		$I = new AcceptanceTester\ProductManagerJoomla3Steps($scenario);
+		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->createProductSave($this->productName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->discountStart, $this->discountEnd);
 	}
 
