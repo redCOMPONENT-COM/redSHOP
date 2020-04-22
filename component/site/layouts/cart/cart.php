@@ -69,8 +69,8 @@ if ($displayData['cartOutput'] == 'simple'): ?>
                     </div>
                 <?php endif; ?>
                 <div class="mod_cart_product_delete">
-                    <a href="javascript:void(0);"
-                       onclick="deleteCartItem(<?php echo $i; ?>)"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></a>
+                <a href="javascript:void(0);"
+                       onclick="deleteCartItem(<?php echo $i; ?>, '<?php echo JSession::getFormToken() ?>', '<?php echo JUri::root() . 'index.php?option=com_redshop&task=cart.ajaxDeleteCartItem'; ?>')"><?php echo JText::_('COM_REDSHOP_DELETE'); ?></a>
                 </div>
             </div>
         <?php endfor; ?>

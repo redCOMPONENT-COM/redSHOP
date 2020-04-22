@@ -1,12 +1,14 @@
-function deleteCartItem(idx, token, urlRedirect) {
+function deleteCartItem(idx, token, urlRedirect, callback)
+{
+    var data = {};
+    data["idx"] = idx;
+    data[token] = 1;
+
     jQuery.ajax({
         type: "POST",
-        data: {
-            "idx": idx,
-            token: "1"
-        },
+        data: data,
         url: urlRedirect,
-        success: function (data) {
+        success: function(data) {
             responce = data.split("`");
 
             if (jQuery('#mod_cart_total') && responce[1]) {
@@ -19,6 +21,10 @@ function deleteCartItem(idx, token, urlRedirect) {
 
             if (jQuery('#mod_cart_checkout_ajax')) {
                 jQuery('#mod_cart_checkout_ajax').css("display", "inline-block");
+            }
+
+            if (typeof callback == 'function'){
+                callback(responce);
             }
         }
     });
