@@ -28,9 +28,15 @@ class PriceProductJoomla3Page extends AdminJ3Page
 	 * @var string
      * @since 2.1.2
 	 */
-	public static $priceProduct = '//input[@name="price[]"]';
+	public static $priceProduct = "#product_price";
 
-	/**
+    /**
+     * @var string
+     * @since 2.1.2
+     */
+    public static $price = '//input[@name="price[]"]';
+
+    /**
 	 * @var string
      * @since 2.1.2
 	 */

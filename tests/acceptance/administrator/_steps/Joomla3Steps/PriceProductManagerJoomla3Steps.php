@@ -61,7 +61,7 @@ class PriceProductManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(PriceProductJoomla3Page::$URL);
 		$I->searchProduct($productName);
 		$I->waitForElementVisible(PriceProductJoomla3Page::$discount, 30);
-		$I->fillField(PriceProductJoomla3Page::$priceProduct, $randomPriceLess);
+		$I->fillField(PriceProductJoomla3Page::$price, $randomPriceLess);
 		$I->click(PriceProductJoomla3Page::$savePrice);
 	}
 

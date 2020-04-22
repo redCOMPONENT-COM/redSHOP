@@ -32,6 +32,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * @param   string $discountCondition Discount conditions
 	 *
 	 * @return void
+     * @throws \Exception
 	 * @since 2.1.0
 	 */
 	public function addDiscount($name, $amount, $discountAmount, $shopperGroup, $discountType, $discountCondition)
@@ -58,6 +59,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * @param   string $discountCode Code of the Discount for which we are searching
 	 *
 	 * @return  void
+     * @throws \Exception
 	 * @since 2.1.0
 	 */
 	public function searchDiscount($discountCode = '')
@@ -78,6 +80,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * @param   string $discountType   Type of Discount
 	 *
 	 * @return void
+     * @throws \Exception
 	 * @since 2.1.0
 	 */
 	public function addDiscountSave($name, $amount, $discountAmount, $shopperGroup, $discountType)
@@ -100,6 +103,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * Function to Save Discount with missing fields
 	 *
 	 * @return void
+     * @throws \Exception
 	 * @since 2.1.0
 	 */
 	public function addDiscountWithAllFieldsEmpty()
@@ -124,7 +128,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * @param   string $discountType   Type of Discount
 	 * @param   string $startDate      Start date.
 	 * @param   string $endDate        End date.
-	 *
+	 * @throws \Exception
 	 * @return void
 	 * @since 2.1.0
 	 */
@@ -156,7 +160,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * @param   string $discountType Type of Discount
 	 * @param   string $startDate    Start date.
 	 * @param   string $endDate      End date.
-	 *
+	 * @throws \Exception
 	 * @return void
 	 * @since 2.1.0
 	 */
@@ -188,7 +192,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * @param   string $discountType   Type of Discount
 	 * @param   string $startDate      Start date.
 	 * @param   string $endDate        End date.
-	 *
+	 * @throws \Exception
 	 * @return void
 	 * @since 2.1.0
 	 */
@@ -221,7 +225,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * @param   string $discountType   Type of Discount
 	 * @param   string $startDate      Start date.
 	 * @param   string $endDate        End date.
-	 *
+	 * @throws \Exception
 	 * @return void
 	 * @since 2.1.0
 	 */
@@ -253,7 +257,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * @param   string $name      Discount name
 	 * @param   string $amount    Amount for the Discount
 	 * @param   string $newAmount New Amount for the Discount
-	 *
+	 * @throws \Exception
 	 * @return void
 	 * @since 2.1.0
 	 */
@@ -279,7 +283,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * Function to change State of a Discount
 	 *
 	 * @param   string $discountName Discount name
-	 *
+	 * @throws \Exception
 	 * @return void
 	 * @since 2.1.0
 	 */
@@ -299,7 +303,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * Function to change State of a Discount
 	 *
 	 * @param   string $discountName Discount name
-	 *
+	 * @throws \Exception
 	 * @return void
 	 * @since 2.1.0
 	 */
@@ -358,7 +362,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * Function to get State of the Discount Name
 	 *
 	 * @param   string $discountName Name of the Discount Name
-	 *
+	 * @throws \Exception
 	 * @return  string
 	 * @since 2.1.0
 	 */
@@ -390,7 +394,7 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 	 * Function to Delete Discount
 	 *
 	 * @param   string $name Discount name
-	 *
+	 * @throws \Exception
 	 * @return void
 	 * @since 2.1.0
 	 */
@@ -417,18 +421,6 @@ class DiscountSteps extends AdminManagerJoomla3Steps
 		$client->fillField(DiscountPage::$searchField, $name);
 		$client->pressKey(DiscountPage::$searchField, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$client->dontSee($name, DiscountPage::$resultRow);
-	}
-
-	/**
-	 * @param $shopperGroup
-	 * @throws \Exception
-	 * @since 2.1.0
-	 */
-	public function resultShopperGroup($shopperGroup)
-	{
-		$I = $this;
-		$I->waitForElement(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"], 30);
-		$I->click(['xpath' => "//ul[@class='select2-results']//li//div//span//..[contains(text(), '" . $shopperGroup . "')]"]);
 	}
 
 	/**
