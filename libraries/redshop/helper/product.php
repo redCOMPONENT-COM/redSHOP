@@ -1862,6 +1862,15 @@ class RedshopHelperProduct
                     ->where($db->qn('published') . ' = 1')
                     ->where($db->qn('p.product_id') . ' IN (' . implode(',', $relatedArr) . ') ');
 
+
+                /* REDSHOP-5967 */
+                if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+                    $query->where($db->qn('p.expired') . ' IN (0, 1)');
+                } else {
+                    $query->where($db->qn('p.expired') . ' IN (0)');
+                }
+                /* End REDSHOP-5967 */
+
                 if (!empty($orderby)) {
                     $query->order($orderby);
                 }
@@ -2909,6 +2918,14 @@ class RedshopHelperProduct
                 $db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('pc.product_id') . ' = ' . $db->qn('p.product_id')
             )
             ->where($db->qn('category_id') . ' = ' . (int)$id);
+
+        /* REDSHOP-5967 */
+        if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+            $query->where($db->qn('p.expired') . ' IN (0, 1)');
+        } else {
+            $query->where($db->qn('p.expired') . ' IN (0)');
+        }
+        /* End REDSHOP-5967 */
 
         return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
     }
