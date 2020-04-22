@@ -7,7 +7,7 @@
  */
 
 use AcceptanceTester\CategoryManagerJoomla3Steps;
-use AcceptanceTester\discountSteps;
+use AcceptanceTester\DiscountSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
@@ -293,7 +293,7 @@ class CheckoutdiscounttotalCest
 		);
 
 		$I->wantTo('Test discount creation with save and close button in Administrator');
-		$I = new discountSteps($scenario);
+		$I = new DiscountSteps($scenario);
 		$I->wantTo('Create a discount');
 		$I->adddiscount(
 			$this->discountName, $this->amount, $this->discountAmount, $this->shopperGroup, $this->discountType, $this->discountCondition
