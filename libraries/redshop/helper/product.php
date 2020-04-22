@@ -1862,6 +1862,15 @@ class RedshopHelperProduct
                     ->where($db->qn('published') . ' = 1')
                     ->where($db->qn('p.product_id') . ' IN (' . implode(',', $relatedArr) . ') ');
 
+
+                /* REDSHOP-5967 */
+                if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+                    $query->where($db->qn('p.expired') . ' IN (0, 1)');
+                } else {
+                    $query->where($db->qn('p.expired') . ' IN (0)');
+                }
+                /* End REDSHOP-5967 */
+
                 if (!empty($orderby)) {
                     $query->order($orderby);
                 }
