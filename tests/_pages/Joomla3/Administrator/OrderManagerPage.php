@@ -130,7 +130,7 @@ class OrderManagerPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $nameButtonStatus = ['name' => 'order_status'];
+	public static $nameButtonStatus = "//input[@name='order_status']";
 
 	/**
 	 * @var string
