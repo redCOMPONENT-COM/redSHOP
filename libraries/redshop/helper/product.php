@@ -2919,6 +2919,14 @@ class RedshopHelperProduct
             )
             ->where($db->qn('category_id') . ' = ' . (int)$id);
 
+        /* REDSHOP-5967 */
+        if (\Redshop::getConfig()->getInt('SHOW_DISCONTINUED_PRODUCTS')) {
+            $query->where($db->qn('p.expired') . ' IN (0, 1)');
+        } else {
+            $query->where($db->qn('p.expired') . ' IN (0)');
+        }
+        /* End REDSHOP-5967 */
+
         return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
     }
 
