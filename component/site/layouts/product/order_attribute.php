@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 extract($displayData);
-$orderFunctions = order_functions::getInstance();
+$orderFunctions   = order_functions::getInstance();
 ?>
 <?php for ($i = 0, $in = count($orderItemAttdata); $i < $in; $i++) : ?>
 
@@ -31,36 +31,19 @@ $orderFunctions = order_functions::getInstance();
             </div>
         <?php endif; ?>
     <?php endif; ?>
-    <?php $orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail(
-        $orderItemId,
-        $isAccessory,
-        "property",
-        $orderItemAttdata[$i]->section_id
-    ); ?>
+    <?php $orderPropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItemId, $isAccessory, "property", $orderItemAttdata[$i]->section_id); ?>
     <?php for ($p = 0, $pn = count($orderPropdata); $p < $pn; $p++) : ?>
-        <?php $property = RedshopHelperProduct_Attribute::getAttributeProperties(
-            $orderPropdata[$p]->section_id,
-            $orderPropdata[$p]->parent_section_id,
-            0,
-            0,
-            0,
-            0,
-            false
-        ); ?>
+        <?php $property = RedshopHelperProduct_Attribute::getAttributeProperties($orderPropdata[$p]->section_id, $orderPropdata[$p]->parent_section_id, 0, 0, 0, 0, false); ?>
         <?php $virtualNumber = ""; ?>
         <?php if (!empty($chktag)) : ?>
             <?php $propertyPrice = $orderPropdata[$p]->section_price + $orderPropdata[$p]->section_vat; ?>
         <?php endif; ?>
         <?php if ($export == 1) : ?>
-            <?php $disPrice = " (" . $orderPropdata[$p]->section_oprand . Redshop::getConfig()->get(
-                    'REDCURRENCY_SYMBOL'
-                ) . $propertyPrice . ")"; ?>
+            <?php $disPrice = " (" . $orderPropdata[$p]->section_oprand . Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $propertyPrice . ")"; ?>
         <?php else: ?>
             <?php $disPrice = ""; ?>
             <?php if (!$hideAttributePrice) : ?>
-                <?php $disPrice = " (" . $orderPropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice(
-                        $propertyPrice
-                    ) . ")"; ?>
+                <?php $disPrice = " (" . $orderPropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice($propertyPrice) . ")"; ?>
             <?php endif; ?>
             <?php $propertyOperand = $orderPropdata[$p]->section_oprand; ?>
             <?php if (strpos($data, '{product_attribute_price}') === false) : ?>
@@ -81,39 +64,26 @@ $orderFunctions = order_functions::getInstance();
                     <?php echo urldecode($orderPropdata[$p]->property_number) . $disPrice; ?>
                 </div>
             <?php endif; ?>
-            <?php if (!empty($property[$p]->property_number)) : ?>
+            <?php if (!empty($property[$p]->property_number)) :?>
                 <div class="checkout_attribute_number">
                     <?php echo $property[$p]->property_number; ?>
                 </div>
             <?php endif; ?>
         </div>
-        <?php $orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail(
-            $orderItemId,
-            $isAccessory,
-            "subproperty",
-            $orderPropdata[$p]->section_id
-        ); ?>
+        <?php $orderSubpropdata = RedshopHelperOrder::getOrderItemAttributeDetail($orderItemId, $isAccessory, "subproperty", $orderPropdata[$p]->section_id); ?>
         <?php if (!empty($orderSubpropdata[0]->section_id)) : ?>
             <?php for ($sp = 0; $sp < count($orderSubpropdata); $sp++) : ?>
                 <?php $subPropertyPrice = $orderSubpropdata[$sp]->section_price; ?>
-                <?php $subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties(
-                    $orderSubpropdata[$sp]->section_id,
-                    $orderSubpropdata[$sp]->parent_section_id,
-                    false
-                ); ?>
+                <?php $subProperty = RedshopHelperProduct_Attribute::getAttributeSubProperties($orderSubpropdata[$sp]->section_id, $orderSubpropdata[$sp]->parent_section_id, false); ?>
                 <?php if (!empty($chktag)) : ?>
                     <?php $subPropertyPrice = $orderSubpropdata[$sp]->section_price + $orderSubpropdata[$sp]->section_vat; ?>
                 <?php endif; ?>
                 <?php if ($export == 1) : ?>
-                    <?php $disPrice = " (" . $orderSubpropdata[$p]->section_oprand . Redshop::getConfig()->get(
-                            'REDCURRENCY_SYMBOL'
-                        ) . $subPropertyPrice . ")"; ?>
+                    <?php $disPrice = " (" . $orderSubpropdata[$p]->section_oprand . Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . $subPropertyPrice . ")"; ?>
                 <?php else: ?>
                     <?php $disPrice = ""; ?>
                     <?php if (!$hideAttributePrice) : ?>
-                        <?php $disPrice = " (" . $orderSubpropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice(
-                                $subPropertyPrice
-                            ) . ")"; ?>
+                        <?php $disPrice = " (" . $orderSubpropdata[$p]->section_oprand . RedshopHelperProductPrice::formattedPrice($subPropertyPrice) . ")"; ?>
                     <?php endif; ?>
                     <?php $subPropertyOperand = $orderSubpropdata[$p]->section_oprand; ?>
                     <?php if (strpos($data, '{product_attribute_price}') === false) : ?>

@@ -15,18 +15,19 @@ $view = JFactory::getApplication()->input->getCmd('view', 'redshop');
 
 $classtoolbar = "";
 
-if ($view == 'redshop') {
-    $classtoolbar = ' class="hidden-xs"';
+if ($view == 'redshop')
+{
+	$classtoolbar = ' class="hidden-xs"';
 }
 
 ?>
 
 <div class="component-title">
-    <?php echo JFactory::getApplication()->JComponentTitle; ?>
+	<?php echo JFactory::getApplication()->JComponentTitle; ?>
 </div>
 
 <div<?php echo $classtoolbar ?>>
-    <?php echo $toolbar->render() ?>
+	<?php echo $toolbar->render() ?>
 </div>
 
 <div class="row-fluid message-sys" id="message-sys"></div>

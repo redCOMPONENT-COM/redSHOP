@@ -20,62 +20,62 @@ use Joomla\Registry\Registry;
  */
 trait HasParams
 {
-    /**
-     * Class parameters.
-     *
-     * @var  Registry
-     */
-    protected $params;
+	/**
+	 * Class parameters.
+	 *
+	 * @var  Registry
+	 */
+	protected $params;
 
-    /**
-     * Get the value of a parameter.
-     *
-     * @param   string  $name          Name of the parameter to get
-     * @param   mixed   $defaultValue  Default value if parameter is null
-     *
-     * @return  mixed
-     */
-    public function getParam($name, $defaultValue = null)
-    {
-        return $this->params->get($name, $defaultValue);
-    }
+	/**
+	 * Get the value of a parameter.
+	 *
+	 * @param   string  $name          Name of the parameter to get
+	 * @param   mixed   $defaultValue  Default value if parameter is null
+	 *
+	 * @return  mixed
+	 */
+	public function getParam($name, $defaultValue = null)
+	{
+		return $this->params->get($name, $defaultValue);
+	}
 
-    /**
-     * Get active parameters.
-     *
-     * @return  Registry
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
+	/**
+	 * Get active parameters.
+	 *
+	 * @return  Registry
+	 */
+	public function getParams()
+	{
+		return $this->params;
+	}
 
-    /**
-     * Set active parameters.
-     *
-     * @param   array|Registry  $params  Parameters to set
-     *
-     * @return  self
-     */
-    public function setParams($params)
-    {
-        $this->params = $params instanceof Registry ? $params : new Registry($params);
+	/**
+	 * Set the value of a parameter.
+	 *
+	 * @param   string  $name   Name of the parameter to set.
+	 * @param   mixed   $value  Value to assign.
+	 *
+	 * @return  self
+	 */
+	public function setParam($name, $value)
+	{
+		$this->params->set($name, $value);
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Set the value of a parameter.
-     *
-     * @param   string  $name   Name of the parameter to set.
-     * @param   mixed   $value  Value to assign.
-     *
-     * @return  self
-     */
-    public function setParam($name, $value)
-    {
-        $this->params->set($name, $value);
+	/**
+	 * Set active parameters.
+	 *
+	 * @param   array|Registry  $params  Parameters to set
+	 *
+	 * @return  self
+	 */
+	public function setParams($params)
+	{
+		$this->params = $params instanceof Registry ? $params : new Registry($params);
 
-        return $this;
-    }
+		return $this;
+	}
 }

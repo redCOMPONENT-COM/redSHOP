@@ -49,10 +49,10 @@ abstract class RedshopHelperProduct_Attribute
     /**
      * Method for get property price with discount
      *
-     * @param   integer  $sectionId  Section ID
-     * @param   string   $quantity   Quantity
-     * @param   string   $section    Section
-     * @param   integer  $userId     User ID
+     * @param integer $sectionId Section ID
+     * @param string  $quantity  Quantity
+     * @param string  $section   Section
+     * @param integer $userId    User ID
      *
      * @return  object
      * @throws  Exception
@@ -152,12 +152,12 @@ abstract class RedshopHelperProduct_Attribute
     /**
      * Method for display attribute price
      *
-     * @param   integer  $productId     Product IID
-     * @param   float    $showPrice     Show price
-     * @param   string   $templateHtml  Template HTML
-     * @param   integer  $userId        User ID
-     * @param   integer  $applyTax      Is apply tax
-     * @param   array    $attributes    Attributes data.
+     * @param integer $productId    Product IID
+     * @param float   $showPrice    Show price
+     * @param string  $templateHtml Template HTML
+     * @param integer $userId       User ID
+     * @param integer $applyTax     Is apply tax
+     * @param array   $attributes   Attributes data.
      *
      * @return  float
      * @throws  Exception
@@ -279,12 +279,12 @@ abstract class RedshopHelperProduct_Attribute
     /**
      * Get Attribute Properties of specific product.
      *
-     * @param   integer  $propertyId      Property id
-     * @param   integer  $attributeId     Attribute id
-     * @param   integer  $productId       Product id
-     * @param   string   $attributeSetId  Attribute set id
-     * @param   integer  $required        Required
-     * @param   integer  $notPropertyId   Not property id
+     * @param integer $propertyId     Property id
+     * @param integer $attributeId    Attribute id
+     * @param integer $productId      Product id
+     * @param string  $attributeSetId Attribute set id
+     * @param integer $required       Required
+     * @param integer $notPropertyId  Not property id
      *
      * @return  mixed
      * @throws  Exception
@@ -434,8 +434,8 @@ abstract class RedshopHelperProduct_Attribute
     /**
      * Method for get sub properties
      *
-     * @param   integer  $subPropertyId  Sub-Property ID
-     * @param   integer  $propertyId     Property ID
+     * @param integer $subPropertyId Sub-Property ID
+     * @param integer $propertyId    Property ID
      *
      * @return  mixed                    List of sub-properties data.
      *

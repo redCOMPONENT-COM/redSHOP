@@ -15,9 +15,9 @@ $orderIds   = implode(',', $postdata['cid']);
 ?>
 <a class="btn btn-lg" href="index.php?option=com_redshop&view=order">
     <i class="fa fa-backward"></i>
-    <?php echo JText::_('COM_REDSHOP_ORDER_STATUS_UPDATE_BACK_TO_ORDER_LIST') ?>
+	<?php echo JText::_('COM_REDSHOP_ORDER_STATUS_UPDATE_BACK_TO_ORDER_LIST') ?>
 </a>
-<hr/>
+<hr />
 <div id="editcell" class="well">
     <fieldset>
         <legend><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_UPDATE_LOG'); ?></legend>
@@ -61,17 +61,16 @@ $orderIds   = implode(',', $postdata['cid']);
                     },
                     onFailure: function (xhr) {
                         statusElement.show()
-                            .set('text', '<?php echo JText::_(
-                                "COM_REDSHOP_AJAX_ORDER_UPDATE_FAIL"
-                            ); ?>' + xhr.statusText)
+                            .set('text', '<?php echo JText::_("COM_REDSHOP_AJAX_ORDER_UPDATE_FAIL"); ?>' + xhr.statusText)
                             .removeClass('alert-info')
                             .addClass('alert-error');
                     }
                 }).send();
-            } else {
+            }
+            else {
                 statusElement.className += " hidden";
 
-                window.setTimeout(function () {
+                window.setTimeout(function(){
                     window.location = 'index.php?option=com_redshop&view=order';
                 }, 1000);
             }

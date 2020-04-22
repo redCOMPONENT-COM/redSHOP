@@ -12,84 +12,82 @@ defined('_JEXEC') or die;
 
 class RedshopViewSample_detail extends RedshopViewAdmin
 {
-    /**
-     * Do we have to display a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $displaySidebar = false;
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
-    public function display($tpl = null)
-    {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
+	public function display($tpl = null)
+	{
 
-        $document = JFactory::getDocument();
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/colorpicker.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/redshop.layout.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.validation.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/colorpicker.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/eye.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/redshop.utils.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/json.min.js', false, true);
+		$document = JFactory::getDocument();
 
-        $uri = JUri::getInstance();
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/colorpicker.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/redshop.layout.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.validation.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/colorpicker.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/eye.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/redshop.utils.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/json.min.js', false, true);
 
-        $this->setLayout('default');
+		$uri = JUri::getInstance();
 
-        $lists = array();
+		$this->setLayout('default');
 
-        $detail = $this->get('data');
+		$lists = array();
 
-        $layout = JFactory::getApplication()->input->getCmd('layout', 'default');
+		$detail = $this->get('data');
 
-        $this->setLayout($layout);
+		$layout = JFactory::getApplication()->input->getCmd('layout', 'default');
 
-        $model = $this->getModel('sample_detail');
+		$this->setLayout($layout);
 
-        if ($layout == 'default') {
-            $isNew      = ($detail->sample_id < 1);
-            $color_data = $model->color_Data($detail->sample_id);
+		$model = $this->getModel('sample_detail');
 
-            if (!is_array($color_data)) {
-                $color_data = array();
-            }
+		if ($layout == 'default')
+		{
+			$isNew      = ($detail->sample_id < 1);
+			$color_data = $model->color_Data($detail->sample_id);
 
-            $lists['color_data'] = $color_data;
-        } else {
-            $isNew = ($detail->catalog_id < 1);
-        }
+			if (!is_array($color_data))
+			{
+				$color_data = array();
+			}
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+			$lists['color_data'] = $color_data;
+		}
+		else
+		{
+			$isNew = ($detail->catalog_id < 1);
+		}
 
-        JToolBarHelper::title(
-            JText::_('COM_REDSHOP_PRODUCT_SAMPLE') . ': <small><small>[ ' . $text . ' ]</small></small>',
-            'redshop_catalogmanagement48'
-        );
+		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-        JToolBarHelper::apply();
-        JToolBarHelper::save2new();
-        JToolBarHelper::save();
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_catalogmanagement48');
 
-        if ($isNew) {
-            JToolBarHelper::cancel();
-        } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
-        }
+        	JToolBarHelper::apply();
+        	JToolBarHelper::save2new();
+		JToolBarHelper::save();
 
-        $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		if ($isNew)
+		{
+			JToolBarHelper::cancel();
+		}
+		else
+		{
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
 
-        $this->lists       = $lists;
-        $this->detail      = $detail;
-        $this->request_url = $uri->toString();
+		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-        parent::display($tpl);
-    }
+		$this->lists       = $lists;
+		$this->detail      = $detail;
+		$this->request_url = $uri->toString();
+
+		parent::display($tpl);
+	}
 }

@@ -1,13 +1,12 @@
 <form name="adminForm" id="adminForm">
-    <label>{{ jtext('COM_REDSHOP_COUNTRY') }}</label><br/>
-    {{ country }}
-    <div id="div_state_lbl">
-        <label>{{ jtext('COM_REDSHOP_STATE') }}</label>
-    </div>
-    <div id="div_state_txt">{{ state }}</div>
-    <br/>
-    <label>{{ jtext('COM_REDSHOP_ZIPCODE') }}</label><br/>
-    <input type="text" name="zipcode" id="zip_code"/><br/>
-    <button class="blackbutton btn" type="button" name="shippingcalc" id="shippingcalc"
-            onClick="javascript:getShippingrate();">{{ jtext('COM_REDSHOP_UPDATE') }}</button>
+	<label>{{ jtext('COM_REDSHOP_COUNTRY') }}</label><br />
+		{{ country }}
+	<div id="div_state_lbl">
+		<label>{{ jtext('COM_REDSHOP_STATE') }}</label>
+	</div>
+	<div id="div_state_txt">{{ state }}</div><br />
+	<label>{{ jtext('COM_REDSHOP_ZIPCODE') }}</label><br />
+	<input type="text" name="zipcode" id="zip_code" /><br />
+	<button class="blackbutton btn" type="button" name="shippingcalc" id="shippingcalc"
+			onClick="javascript:getShippingrate();">{{ jtext('COM_REDSHOP_UPDATE') }}</button>
 </form>

@@ -18,266 +18,272 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperMediaImage
 {
-    /**
-     * Render Drag n Drop template in site
-     *
-     * @param   string   $id            ID of media input name
-     * @param   string   $type          Type of item want to show gallery
-     * @param   string   $sectionId     Section ID to show
-     * @param   string   $mediaSection  Section type to show
-     * @param   string   $image         URL of featured image
-     * @param   boolean  $showMedia     Show pop-up of media or not.
-     * @param   boolean  $useMediaPath  Use new structure of media folder or not.
-     * @param   integer  $mediaId       Media ID
-     *
-     * @return  string
-     */
-    public static function render(
-        $id,
-        $type,
-        $sectionId,
-        $mediaSection,
-        $image,
-        $showMedia = true,
-        $useMediaPath = false,
-        $mediaId = 0
-    ) {
-        self::requireDependencies();
+	/**
+	 * Render Drag n Drop template in site
+	 *
+	 * @param   string   $id            ID of media input name
+	 * @param   string   $type          Type of item want to show gallery
+	 * @param   string   $sectionId     Section ID to show
+	 * @param   string   $mediaSection  Section type to show
+	 * @param   string   $image         URL of featured image
+	 * @param   boolean  $showMedia     Show pop-up of media or not.
+	 * @param   boolean  $useMediaPath  Use new structure of media folder or not.
+	 * @param   integer  $mediaId       Media ID
+	 *
+	 * @return  string
+	 */
+	public static function render($id, $type, $sectionId, $mediaSection, $image, $showMedia = true, $useMediaPath = false, $mediaId = 0)
+	{
+		self::requireDependencies();
 
-        $imgUrl = $useMediaPath ? '/media/com_redshop/images/' . $type . '/' . $sectionId . '/' . $image
-            : '/components/com_redshop/assets/images/' . $type . '/' . $image;
-        $imgUrl = JRoute::_($imgUrl);
+		$imgUrl = $useMediaPath ? '/media/com_redshop/images/' . $type . '/' . $sectionId . '/' . $image
+			: '/components/com_redshop/assets/images/' . $type . '/' . $image;
+		$imgUrl = JRoute::_($imgUrl);
 
-        $imgFile = $useMediaPath ? REDSHOP_MEDIA_IMAGE_RELPATH . $type . '/' . $sectionId . '/' . $image
-            : REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+		$imgFile = $useMediaPath ? REDSHOP_MEDIA_IMAGE_RELPATH . $type . '/' . $sectionId . '/' . $image
+			: REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
 
-        $file = array();
+		$file = array();
 
-        if (!empty($image) && file_exists($imgFile)) {
-            $file = array(
-                'path' => $imgUrl,
-                'name' => $image,
-                'size' => filesize($imgFile) ? filesize($imgFile) : 0,
-                'blob' => 'data: ' . self::getMimeType($imgFile) . ';base64,' . base64_encode(
-                        file_get_contents($imgFile)
-                    )
-            );
-        }
+		if (!empty($image) && file_exists($imgFile))
+		{
+			$file = array(
+				'path' => $imgUrl,
+				'name' => $image,
+				'size' => filesize($imgFile) ? filesize($imgFile) : 0,
+				'blob' => 'data: ' . self::getMimeType($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
+			);
+		}
 
-        return RedshopLayoutHelper::render(
-            'media.dropzone',
-            array(
-                'id'           => $id,
-                'type'         => $type,
-                'sectionId'    => $sectionId,
-                'mediaSection' => $mediaSection,
-                'file'         => $file,
-                'showMedia'    => $showMedia,
-                'mediaId'      => $mediaId
-            )
-        );
-    }
+		return RedshopLayoutHelper::render(
+			'media.dropzone',
+			array(
+				'id'           => $id,
+				'type'         => $type,
+				'sectionId'    => $sectionId,
+				'mediaSection' => $mediaSection,
+				'file'         => $file,
+				'showMedia'    => $showMedia,
+				'mediaId'      => $mediaId
+			)
+		);
+	}
 
-    /**
-     * Require dependencies from bower.js.
-     * Checking dependencies are existed or not then require them to header
-     *
-     * @return  boolean
-     */
-    public static function requireDependencies()
-    {
-        JHtml::stylesheet('com_redshop/dropzone.min.css', array(), true);
-        JHtml::stylesheet('com_redshop/cropper.min.css', array(), true);
-        JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.min.css', array(), true);
-        JHtml::stylesheet('com_redshop/redshop.media.min.css', array(), true);
+	/**
+	 * Require dependencies from bower.js.
+	 * Checking dependencies are existed or not then require them to header
+	 *
+	 * @return  boolean
+	 */
+	public static function requireDependencies()
+	{
+		JHtml::stylesheet('com_redshop/dropzone.min.css', array(), true);
+		JHtml::stylesheet('com_redshop/cropper.min.css', array(), true);
+		JHtml::stylesheet('com_redshop/lightbox2/css/lightbox.min.css', array(), true);
+		JHtml::stylesheet('com_redshop/redshop.media.min.css', array(), true);
 
-        JHtml::script('com_redshop/dropzone.min.js', false, true);
-        JHtml::script('com_redshop/cropper.min.js', false, true);
-        JHtml::script('com_redshop/lightbox2.min.js', false, true);
-        JHtml::script('com_redshop/redshop.media.min.js', false, true);
+		JHtml::script('com_redshop/dropzone.min.js', false, true);
+		JHtml::script('com_redshop/cropper.min.js', false, true);
+		JHtml::script('com_redshop/lightbox2.min.js', false, true);
+		JHtml::script('com_redshop/redshop.media.min.js', false, true);
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Method for get MIME Type of specific file.
-     *
-     * @param   string  $path  Path of file.
-     *
-     * @return  mixed          Mime type of file.
-     *
-     * @since   2.0.3
-     */
-    public static function getMimeType($path)
-    {
-        if (empty($path) || !JFile::exists($path)) {
-            return false;
-        }
+	/**
+	 * Render gallery pop-up for media
+	 *
+	 * @param   string $id           ID of media input name
+	 * @param   string $type         Type of item want to show gallery
+	 * @param   string $sectionId    Section ID to show
+	 * @param   string $mediaSection Section type to show
+	 * @param   string $image        URL of featured image
+	 *
+	 * @return  void
+	 */
+	public static function renderGallery($id, $type, $sectionId, $mediaSection, $image)
+	{
+		$imgUrl  = JUri::root() . 'components/com_redshop/assets/images/' . $type . '/' . $image;
+		$imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
 
-        if (function_exists('mime_content_type')) {
-            return mime_content_type($path);
-        }
+		$file = array();
 
-        if (function_exists('finfo_file') && function_exists('finfo_open')) {
-            return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
-        }
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+		$media = JModelLegacy::getInstance('Media', 'RedshopModel');
 
-        return false;
-    }
+		$listMedia = $media->all();
+		$gallery   = array();
 
-    /**
-     * Render gallery pop-up for media
-     *
-     * @param   string  $id            ID of media input name
-     * @param   string  $type          Type of item want to show gallery
-     * @param   string  $sectionId     Section ID to show
-     * @param   string  $mediaSection  Section type to show
-     * @param   string  $image         URL of featured image
-     *
-     * @return  void
-     */
-    public static function renderGallery($id, $type, $sectionId, $mediaSection, $image)
-    {
-        $imgUrl  = JUri::root() . 'components/com_redshop/assets/images/' . $type . '/' . $image;
-        $imgFile = REDSHOP_FRONT_IMAGES_RELPATH . $type . '/' . $image;
+		if (!empty($listMedia))
+		{
+			foreach ($listMedia as $lk => $lm)
+			{
+				$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->media_section . '/' . $lm->media_name;
 
-        $file = array();
+				if (file_exists($tmpFile))
+				{
+					$dimension = getimagesize($tmpFile);
 
-        JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-        $media = JModelLegacy::getInstance('Media', 'RedshopModel');
+					if ($dimension)
+					{
+						$dimension = $dimension[0] . ' x ' . $dimension[1];
+					}
 
-        $listMedia = $media->all();
-        $gallery   = array();
+					$tmpImg = array(
+						'id'        => $lm->media_id,
+						'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
+						'name'      => $lm->media_name,
+						'size'      => self::sizeFilter(filesize($tmpFile)),
+						'dimension' => $dimension,
+						'media'     => $lm->media_section,
+						'mime'      => substr($lm->media_type, 0, -1),
+						'status'    => $lm->published ? '' : '-slash'
+					);
 
-        if (!empty($listMedia)) {
-            foreach ($listMedia as $lk => $lm) {
-                $tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->media_section . '/' . $lm->media_name;
+					if ($image === $lm->media_name)
+					{
+						$tmpImg['attached'] = "true";
+					}
+					else
+					{
+						$tmpImg['attached'] = "false";
+					}
 
-                if (file_exists($tmpFile)) {
-                    $dimension = getimagesize($tmpFile);
+					$gallery[] = $tmpImg;
+				}
+			}
+		}
 
-                    if ($dimension) {
-                        $dimension = $dimension[0] . ' x ' . $dimension[1];
-                    }
+		if (!empty($image) && file_exists($imgFile))
+		{
+			$file = array(
+				'path' => $imgUrl,
+				'name' => $image,
+				'size' => filesize($imgFile),
+				'blob' => 'data: ' . mime_content_type($imgFile) . ';base64,' . base64_encode(file_get_contents($imgFile))
+			);
+		}
 
-                    $tmpImg = array(
-                        'id'        => $lm->media_id,
-                        'url'       => JUri::root(
-                            ) . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
-                        'name'      => $lm->media_name,
-                        'size'      => self::sizeFilter(filesize($tmpFile)),
-                        'dimension' => $dimension,
-                        'media'     => $lm->media_section,
-                        'mime'      => substr($lm->media_type, 0, -1),
-                        'status'    => $lm->published ? '' : '-slash'
-                    );
+		echo RedshopLayoutHelper::render(
+			'media.gallery',
+			array(
+				'id'           => $id,
+				'type'         => $type,
+				'sectionId'    => $sectionId,
+				'mediaSection' => $mediaSection,
+				'file'         => $file,
+				'gallery'      => $gallery
+			)
+		);
+	}
 
-                    if ($image === $lm->media_name) {
-                        $tmpImg['attached'] = "true";
-                    } else {
-                        $tmpImg['attached'] = "false";
-                    }
+	/**
+	 * Show file size in KB, MB, GB...
+	 *
+	 * @param   integer $bytes Volume of item
+	 *
+	 * @return  string
+	 */
+	public static function sizeFilter($bytes)
+	{
+		$label = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
 
-                    $gallery[] = $tmpImg;
-                }
-            }
-        }
+		for ($i = 0; $bytes >= 1024 && $i < (count($label) - 1); $i++)
+		{
+			$bytes /= 1024;
+		}
 
-        if (!empty($image) && file_exists($imgFile)) {
-            $file = array(
-                'path' => $imgUrl,
-                'name' => $image,
-                'size' => filesize($imgFile),
-                'blob' => 'data: ' . mime_content_type($imgFile) . ';base64,' . base64_encode(
-                        file_get_contents($imgFile)
-                    )
-            );
-        }
+		return round($bytes, 2) . " " . $label[$i];
+	}
 
-        echo RedshopLayoutHelper::render(
-            'media.gallery',
-            array(
-                'id'           => $id,
-                'type'         => $type,
-                'sectionId'    => $sectionId,
-                'mediaSection' => $mediaSection,
-                'file'         => $file,
-                'gallery'      => $gallery
-            )
-        );
-    }
+	/**
+	 * Method for get all media files of redSHOP
+	 *
+	 * @param   string $selectedImage Selected file.
+	 *
+	 * @return  array                   List of media files.
+	 *
+	 * @since   2.0.3
+	 */
+	public static function getMediaFiles($selectedImage = '')
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
+		$media     = JModelLegacy::getInstance('Media', 'RedshopModel');
+		$listMedia = $media->all();
 
-    /**
-     * Show file size in KB, MB, GB...
-     *
-     * @param   integer  $bytes  Volume of item
-     *
-     * @return  string
-     */
-    public static function sizeFilter($bytes)
-    {
-        $label = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+		if (empty($listMedia))
+		{
+			return array();
+		}
 
-        for ($i = 0; $bytes >= 1024 && $i < (count($label) - 1); $i++) {
-            $bytes /= 1024;
-        }
+		$gallery = array();
 
-        return round($bytes, 2) . " " . $label[$i];
-    }
+		foreach ($listMedia as $lk => $lm)
+		{
+			$tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->media_section . '/' . $lm->media_name;
 
-    /**
-     * Method for get all media files of redSHOP
-     *
-     * @param   string  $selectedImage  Selected file.
-     *
-     * @return  array                   List of media files.
-     *
-     * @since   2.0.3
-     */
-    public static function getMediaFiles($selectedImage = '')
-    {
-        JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/models');
-        $media     = JModelLegacy::getInstance('Media', 'RedshopModel');
-        $listMedia = $media->all();
+			if (file_exists($tmpFile))
+			{
+				$dimension = getimagesize($tmpFile);
 
-        if (empty($listMedia)) {
-            return array();
-        }
+				if ($dimension)
+				{
+					$dimension = $dimension[0] . ' x ' . $dimension[1];
+				}
 
-        $gallery = array();
+				$tmpImg = array(
+					'id'        => $lm->media_id,
+					'url'       => JUri::root() . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
+					'name'      => $lm->media_name,
+					'size'      => self::sizeFilter(filesize($tmpFile)),
+					'dimension' => $dimension,
+					'media'     => $lm->media_section,
+					'mime'      => substr($lm->media_type, 0, -1),
+					'status'    => $lm->published ? '' : '-slash'
+				);
 
-        foreach ($listMedia as $lk => $lm) {
-            $tmpFile = REDSHOP_FRONT_IMAGES_RELPATH . $lm->media_section . '/' . $lm->media_name;
+				if ($selectedImage === $lm->media_name)
+				{
+					$tmpImg['attached'] = "true";
+				}
+				else
+				{
+					$tmpImg['attached'] = "false";
+				}
 
-            if (file_exists($tmpFile)) {
-                $dimension = getimagesize($tmpFile);
+				$gallery[] = $tmpImg;
+			}
+		}
 
-                if ($dimension) {
-                    $dimension = $dimension[0] . ' x ' . $dimension[1];
-                }
+		return $gallery;
+	}
 
-                $tmpImg = array(
-                    'id'        => $lm->media_id,
-                    'url'       => JUri::root(
-                        ) . 'components/com_redshop/assets/images/' . $lm->media_section . '/' . $lm->media_name,
-                    'name'      => $lm->media_name,
-                    'size'      => self::sizeFilter(filesize($tmpFile)),
-                    'dimension' => $dimension,
-                    'media'     => $lm->media_section,
-                    'mime'      => substr($lm->media_type, 0, -1),
-                    'status'    => $lm->published ? '' : '-slash'
-                );
+	/**
+	 * Method for get MIME Type of specific file.
+	 *
+	 * @param   string $path Path of file.
+	 *
+	 * @return  mixed          Mime type of file.
+	 *
+	 * @since   2.0.3
+	 */
+	public static function getMimeType($path)
+	{
+		if (empty($path) || !JFile::exists($path))
+		{
+			return false;
+		}
 
-                if ($selectedImage === $lm->media_name) {
-                    $tmpImg['attached'] = "true";
-                } else {
-                    $tmpImg['attached'] = "false";
-                }
+		if (function_exists('mime_content_type'))
+		{
+			return mime_content_type($path);
+		}
 
-                $gallery[] = $tmpImg;
-            }
-        }
+		if (function_exists('finfo_file') && function_exists('finfo_open'))
+		{
+			return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+		}
 
-        return $gallery;
-    }
+		return false;
+	}
 }

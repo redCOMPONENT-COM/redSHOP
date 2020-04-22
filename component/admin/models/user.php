@@ -12,132 +12,130 @@ defined('_JEXEC') or die;
 
 class RedshopModelUser extends RedshopModel
 {
-    public $_id = null;
+	public $_id = null;
 
-    public function __construct()
-    {
-        parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 
-        $array = JFactory::getApplication()->input->get('user_id', 0, 'array');
+		$array = JFactory::getApplication()->input->get('user_id', 0, 'array');
 
-        $this->setId((int)$array[0]);
-    }
+		$this->setId((int) $array[0]);
+	}
 
-    public function setId($id)
-    {
-        $this->_id = $id;
-    }
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter');
+		$id .= ':' . $this->getState('spgrp_filter');
+		$id .= ':' . $this->getState('tax_exempt_request_filter');
 
-    public function _buildQuery()
-    {
-        $filter                    = $this->getState('filter');
-        $spgrp_filter              = $this->getState('spgrp_filter');
-        $tax_exempt_request_filter = $this->getState('tax_exempt_request_filter');
+		return parent::getStoreId($id);
+	}
 
-        $where = '';
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'users_info_id', $direction = '')
+	{
+		$filter                    = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
+		$spgrp_filter              = $this->getUserStateFromRequest($this->context . '.spgrp_filter', 'spgrp_filter', 0);
+		$tax_exempt_request_filter = $this->getUserStateFromRequest($this->context . '.tax_exempt_request_filter', 'tax_exempt_request_filter', 'select');
 
-        if ($filter) {
-            $filter = str_replace(' ', '', $filter);
-            $where  .= " AND (u.username LIKE '%" . $filter . "%' ";
-            $where  .= " OR (REPLACE(CONCAT(uf.firstname, uf.lastname), ' ', '') like '%" . $filter . "%'))";
-        }
+		$this->setState('filter', $filter);
+		$this->setState('spgrp_filter', $spgrp_filter);
+		$this->setState('tax_exempt_request_filter', $tax_exempt_request_filter);
 
-        if ($spgrp_filter) {
-            $where .= " AND sp.shopper_group_id = '" . $spgrp_filter . "' ";
-        }
+		parent::populateState($ordering, $direction);
+	}
 
-        if ($tax_exempt_request_filter != 'select') {
-            $where .= " AND uf.tax_exempt='" . $tax_exempt_request_filter . "' "
-                . "AND tax_exempt_approved=0 ";
-        }
+	public function setId($id)
+	{
+		$this->_id = $id;
+	}
 
-        $orderby = $this->_buildContentOrderBy();
+	public function _buildQuery()
+	{
+		$filter                    = $this->getState('filter');
+		$spgrp_filter              = $this->getState('spgrp_filter');
+		$tax_exempt_request_filter = $this->getState('tax_exempt_request_filter');
 
-        if ($this->_id != 0) {
-            $query = ' SELECT * FROM  #__users AS u '
-                . 'LEFT JOIN #__redshop_users_info AS uf ON u.id=uf.user_id '
-                . 'LEFT JOIN #__redshop_shopper_group AS sp ON uf.shopper_group_id=sp.shopper_group_id '
-                . 'WHERE uf.address_type="ST" '
-                . 'AND uf.user_id="' . $this->_id . '" '
-                . $where
-                . $orderby;
-        } else {
-            $query = ' SELECT uf.user_id, uf.*,u.username,u.name,sp.shopper_group_name '
-                . 'FROM #__redshop_users_info AS uf '
-                . 'LEFT JOIN #__users AS u ON u.id = uf.user_id '
-                . 'LEFT JOIN #__redshop_shopper_group AS sp ON sp.shopper_group_id = uf.shopper_group_id '
-                . 'WHERE uf.address_type="BT" '
-                . $where
-                . $orderby;
-        }
+		$where = '';
 
-        return $query;
-    }
+		if ($filter)
+		{
+			$filter = str_replace(' ', '', $filter);
+			$where .= " AND (u.username LIKE '%" . $filter . "%' ";
+			$where .= " OR (REPLACE(CONCAT(uf.firstname, uf.lastname), ' ', '') like '%" . $filter . "%'))";
+		}
 
-    /**
-     * Customer Total sales
-     *
-     * @param   integer  $uid  User Information id
-     *
-     * @return      float   Total Sales of customer
-     * @deprecated  1.6     Use RedshopHelperUser::totalSales($uid) instead.
-     */
-    public function customertotalsales($uid)
-    {
-        return RedshopHelperUser::totalSales($uid);
-    }
+		if ($spgrp_filter)
+		{
+			$where .= " AND sp.shopper_group_id = '" . $spgrp_filter . "' ";
+		}
 
-    /**
-     * Method to get a store id based on model configuration state.
-     *
-     * This is necessary because the model is used by the component and
-     * different modules that might need different sets of data or different
-     * ordering requirements.
-     *
-     * @param   string  $id  A prefix for the store id.
-     *
-     * @return  string  A store id.
-     *
-     * @since   1.5
-     */
-    protected function getStoreId($id = '')
-    {
-        // Compile the store id.
-        $id .= ':' . $this->getState('filter');
-        $id .= ':' . $this->getState('spgrp_filter');
-        $id .= ':' . $this->getState('tax_exempt_request_filter');
+		if ($tax_exempt_request_filter != 'select')
+		{
+			$where .= " AND uf.tax_exempt='" . $tax_exempt_request_filter . "' "
+				. "AND tax_exempt_approved=0 ";
+		}
 
-        return parent::getStoreId($id);
-    }
+		$orderby = $this->_buildContentOrderBy();
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     *
-     * @note    Calling getState in this method will result in recursion.
-     */
-    protected function populateState($ordering = 'users_info_id', $direction = '')
-    {
-        $filter                    = $this->getUserStateFromRequest($this->context . '.filter', 'filter', '');
-        $spgrp_filter              = $this->getUserStateFromRequest(
-            $this->context . '.spgrp_filter',
-            'spgrp_filter',
-            0
-        );
-        $tax_exempt_request_filter = $this->getUserStateFromRequest(
-            $this->context . '.tax_exempt_request_filter',
-            'tax_exempt_request_filter',
-            'select'
-        );
+		if ($this->_id != 0)
+		{
+			$query = ' SELECT * FROM  #__users AS u '
+				. 'LEFT JOIN #__redshop_users_info AS uf ON u.id=uf.user_id '
+				. 'LEFT JOIN #__redshop_shopper_group AS sp ON uf.shopper_group_id=sp.shopper_group_id '
+				. 'WHERE uf.address_type="ST" '
+				. 'AND uf.user_id="' . $this->_id . '" '
+				. $where
+				. $orderby;
+		}
+		else
+		{
+			$query = ' SELECT uf.user_id, uf.*,u.username,u.name,sp.shopper_group_name '
+				. 'FROM #__redshop_users_info AS uf '
+				. 'LEFT JOIN #__users AS u ON u.id = uf.user_id '
+				. 'LEFT JOIN #__redshop_shopper_group AS sp ON sp.shopper_group_id = uf.shopper_group_id '
+				. 'WHERE uf.address_type="BT" '
+				. $where
+				. $orderby;
+		}
 
-        $this->setState('filter', $filter);
-        $this->setState('spgrp_filter', $spgrp_filter);
-        $this->setState('tax_exempt_request_filter', $tax_exempt_request_filter);
+		return $query;
+	}
 
-        parent::populateState($ordering, $direction);
-    }
+	/**
+	 * Customer Total sales
+	 *
+	 * @param   integer  $uid  User Information id
+	 *
+	 * @deprecated  1.6     Use RedshopHelperUser::totalSales($uid) instead.
+	 * @return      float   Total Sales of customer
+	 */
+	public function customertotalsales($uid)
+	{
+		return RedshopHelperUser::totalSales($uid);
+	}
 }

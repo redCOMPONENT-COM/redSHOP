@@ -18,39 +18,39 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerAccess extends RedshopControllerForm
 {
-    /**
-     * Method to save a record.
-     *
-     * @param   string  $key     The name of the primary key of the URL variable.
-     * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-     *
-     * @return  boolean          True if successful, false otherwise.
-     *
-     * @throws  Exception
-     */
-    public function save($key = null, $urlVar = null)
-    {
-        JFactory::getApplication()->setUserState(
-            'com_redshop.access.selectedTabPosition',
-            $this->input->get('selectedTabPosition')
-        );
-        // Check for request forgeries.
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+	/**
+	 * Method to save a record.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean          True if successful, false otherwise.
+	 *
+	 * @throws  Exception
+	 */
+	public function save($key = null, $urlVar = null)
+	{
+		JFactory::getApplication()->setUserState('com_redshop.access.selectedTabPosition', $this->input->get('selectedTabPosition'));
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-        $app  = JFactory::getApplication();
-        $data = $app->input->get('jform', array(), 'Array');
+		$app  = JFactory::getApplication();
+		$data = $app->input->get('jform', array(), 'Array');
 
-        /** @var RedshopModelAccess $model */
-        $model = $this->getModel();
+		/** @var RedshopModelAccess $model */
+		$model = $this->getModel();
 
-        if ($model->save($data)) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_SUCCESS', 'success'));
-        } else {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_FAIL', 'error'));
-        }
+		if ($model->save($data))
+		{
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_SUCCESS', 'success'));
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ACCESS_SAVE_FAIL', 'error'));
+		}
 
-        $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=access', false));
+		$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=access', false));
 
-        return true;
-    }
+		return true;
+	}
 }

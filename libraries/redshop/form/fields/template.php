@@ -20,34 +20,36 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldTemplate extends JFormFieldList
 {
-    /**
-     * Element name
-     *
-     * @access    protected
-     * @var        string
-     */
-    public $type = 'Template';
+	/**
+	 * Element name
+	 *
+	 * @access    protected
+	 * @var        string
+	 */
+	public $type = 'Template';
 
-    protected function getOptions()
-    {
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true)
-            ->select($db->qn('id'))
-            ->select($db->qn('name'))
-            ->from($db->qn('#__redshop_template'))
-            ->where($db->qn('published') . ' = 1')
-            ->where($db->qn('section') . ' = ' . $db->q('category'));
+	protected function getOptions()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->select($db->qn('name'))
+			->from($db->qn('#__redshop_template'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('section') . ' = ' . $db->q('category'));
 
-        $items   = $db->setQuery($query)->loadObjectList();
-        $options = array();
+		$items = $db->setQuery($query)->loadObjectList();
+		$options = array();
 
-        if (count($items) > 0) {
-            foreach ($items as $item) {
-                $option    = JHTML::_('select.option', $item->id, $item->name);
-                $options[] = $option;
-            }
-        }
+		if (count($items) > 0)
+		{
+			foreach ($items as $item)
+			{
+				$option = JHTML::_('select.option', $item->id, $item->name);
+				$options[] = $option;
+			}
+		}
 
-        return array_merge(parent::getOptions(), $options);
-    }
+		return array_merge(parent::getOptions(), $options);
+	}
 }

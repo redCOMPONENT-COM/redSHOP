@@ -20,37 +20,40 @@ jimport('joomla.application.component.controller');
  */
 class RedshopController extends JControllerLegacy
 {
-    /**
-     * Gets the URL arguments to append to an item redirect.
-     *
-     * @param   integer  $recordId  The primary key id for the item.
-     * @param   string   $urlVar    The name of the URL variable for the id.
-     *
-     * @return  string  The arguments to append to the redirect URL.
-     *
-     * @throws  Exception
-     * @since   1.5.1
-     */
-    protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
-    {
-        $app    = JFactory::getApplication();
-        $tmpl   = $app->input->get('tmpl');
-        $layout = $app->input->get('layout', 'edit', 'string');
-        $append = '';
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   1.5.1
+	 * @throws  Exception
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+	{
+		$app    = JFactory::getApplication();
+		$tmpl   = $app->input->get('tmpl');
+		$layout = $app->input->get('layout', 'edit', 'string');
+		$append = '';
 
-        // Setup redirect info.
-        if ($tmpl) {
-            $append .= '&tmpl=' . $tmpl;
-        }
+		// Setup redirect info.
+		if ($tmpl)
+		{
+			$append .= '&tmpl=' . $tmpl;
+		}
 
-        if ($layout) {
-            $append .= '&layout=' . $layout;
-        }
+		if ($layout)
+		{
+			$append .= '&layout=' . $layout;
+		}
 
-        if ($recordId) {
-            $append .= '&' . $urlVar . '=' . $recordId;
-        }
+		if ($recordId)
+		{
+			$append .= '&' . $urlVar . '=' . $recordId;
+		}
 
-        return $append;
-    }
+		return $append;
+	}
 }

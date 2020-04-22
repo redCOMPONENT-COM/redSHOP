@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -9,15 +8,15 @@
  */
 defined('_JEXEC') or die;
 
-$billing = $this->billing;
+$billing  = $this->billing;
 $shipping = $this->shipping;
 
-if (!$shipping) {
-    $shipping = $billing;
+if (!$shipping)
+{
+	$shipping = $billing;
 }
-if (!isset($shipping->order_info_id)) {
-    $shipping->order_info_id = 0;
-}
+if (!isset($shipping->order_info_id))
+	$shipping->order_info_id = 0;
 
 $Itemid = JFactory::getApplication()->input->get('Itemid');
 ?>
@@ -67,7 +66,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                 <tr>
                     <td width="100" align="right" class="key">
                         <label>
-                            <?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:
+							<?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:
                         </label>
                     </td>
                     <td>
@@ -78,7 +77,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                 <tr>
                     <td width="100" align="right" class="key">
                         <label>
-                            <?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:
+							<?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:
                         </label>
                     </td>
                     <td>
@@ -91,7 +90,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                 <tr>
                     <td width="100" align="right" class="key">
                         <label>
-                            <?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:
+							<?php echo JText::_('COM_REDSHOP_ADDRESS'); ?>:
                         </label>
                     </td>
                     <td>
@@ -102,7 +101,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                 <tr>
                     <td width="100" align="right" class="key">
                         <label for="address">
-                            <?php echo JText::_('COM_REDSHOP_ZIP'); ?>:
+							<?php echo JText::_('COM_REDSHOP_ZIP'); ?>:
                         </label>
                     </td>
                     <td>
@@ -113,7 +112,7 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                 <tr>
                     <td width="100" align="right" class="key">
                         <label>
-                            <?php echo JText::_('COM_REDSHOP_CITY'); ?>:
+							<?php echo JText::_('COM_REDSHOP_CITY'); ?>:
                         </label>
                     </td>
                     <td>
@@ -121,34 +120,30 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                                value="<?php echo @$shipping->city; ?>"/>
                     </td>
                 </tr>
-                <tr <?php if ($this->showcountry == 0) {
-                    echo " style='display:none;'";
-                } ?>>
+                <tr <?php if ($this->showcountry == 0) echo " style='display:none;'"; ?>>
                     <td width="100" align="right" class="key">
                         <label for="contact_info">
-                            <?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:
+							<?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:
                         </label>
                     </td>
                     <td>
-                        <?php echo $this->lists['country_code']; ?>
+						<?php echo $this->lists['country_code']; ?>
                     </td>
                 </tr>
-                <tr id="div_state_txt" <?php if ($this->showstate == 0) {
-                    echo " style='display:none;'";
-                } ?> >
+                <tr id="div_state_txt" <?php if ($this->showstate == 0) echo " style='display:none;'"; ?> >
                     <td width="100" align="right" class="key">
                         <label for="address">
-                            <?php echo JText::_('COM_REDSHOP_STATE'); ?>:
+							<?php echo JText::_('COM_REDSHOP_STATE'); ?>:
                         </label>
                     </td>
                     <td>
-                        <?php echo $this->lists['state_code']; ?>
+						<?php echo $this->lists['state_code']; ?>
                     </td>
                 </tr>
                 <tr>
                     <td width="100" align="right" class="key">
                         <label>
-                            <?php echo JText::_('COM_REDSHOP_PHONE'); ?>:
+							<?php echo JText::_('COM_REDSHOP_PHONE'); ?>:
                         </label>
                     </td>
                     <td>
@@ -157,26 +152,22 @@ $Itemid = JFactory::getApplication()->input->get('Itemid');
                     </td>
                 </tr>
                 <tr>
-                    <?php
-                    $field = extra_field::getInstance();
-                    if ($shipping->is_company == 1) {
-                        echo $extrafields = RedshopHelperExtrafields::listAllField(
-                            RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS,
-                            $shipping->users_info_id
-                        );
-                    } else {
-                        echo $extrafields = RedshopHelperExtrafields::listAllField(
-                            RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS,
-                            $shipping->users_info_id
-                        );
-                    }
-                    ?>
+					<?php
+					$field = extra_field::getInstance();
+					if ($shipping->is_company == 1)
+					{
+						echo $extrafields = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS, $shipping->users_info_id);
+					}
+					else
+					{
+						echo $extrafields = RedshopHelperExtrafields::listAllField(RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS, $shipping->users_info_id);
+					}
+					?>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
-                        <input type="submit" name="submit" value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>"
-                               class="btn btn-primary"
+                        <input type="submit" name="submit" value="<?php echo JText::_('COM_REDSHOP_SAVE'); ?>" class="btn btn-primary"
                                onclick="return validateInfo();">
                     </td>
                 </tr>

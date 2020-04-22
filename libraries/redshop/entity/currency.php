@@ -18,38 +18,41 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityCurrency extends RedshopEntity
 {
-    /**
-     * @var    array
-     * @since  2.0.6
-     */
-    protected static $codeInstance;
+	/**
+	 * @var    array
+	 * @since  2.0.6
+	 */
+	protected static $codeInstance;
 
-    /**
-     * Method for load currency instance base on currency code
-     *
-     * @param   string  $code  Currency Code
-     *
-     * @return  self
-     *
-     * @since   2.0.6
-     */
-    public function loadFromCode($code = '')
-    {
-        if (empty($code)) {
-            return self::getInstance();
-        }
+	/**
+	 * Method for load currency instance base on currency code
+	 *
+	 * @param   string  $code  Currency Code
+	 *
+	 * @return  self
+	 *
+	 * @since   2.0.6
+	 */
+	public function loadFromCode($code = '')
+	{
+		if (empty($code))
+		{
+			return self::getInstance();
+		}
 
-        if (!isset(static::$codeInstance[$code])) {
-            /** @var RedshopTableCurrency $table */
-            $table = $this->getTable();
+		if (!isset(static::$codeInstance[$code]))
+		{
+			/** @var RedshopTableCurrency $table */
+			$table = $this->getTable();
 
-            if (!$table->load(array('code' => $code))) {
-                return self::getInstance();
-            }
+			if (!$table->load(array('code' => $code)))
+			{
+				return self::getInstance();
+			}
 
-            static::$codeInstance[$code] = $table->id;
-        }
+			static::$codeInstance[$code] = $table->id;
+		}
 
-        return self::getInstance(static::$codeInstance[$code]);
-    }
+		return self::getInstance(static::$codeInstance[$code]);
+	}
 }

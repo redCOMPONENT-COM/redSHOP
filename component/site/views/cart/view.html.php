@@ -18,66 +18,72 @@ defined('_JEXEC') or die;
  */
 class RedshopViewCart extends RedshopView
 {
-    /**
-     * @var array|null
-     */
-    public $cart;
+	/**
+	 * @var array|null
+	 */
+	public $cart;
 
-    /**
-     * @var array|null
-     */
-    public $data;
+	/**
+	 * @var array|null
+	 */
+	public $data;
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed         A string if successful, otherwise a JError object.
-     * @throws  Exception
-     */
-    public function display($tpl = null)
-    {
-        $app  = \JFactory::getApplication();
-        $cart = \Redshop\Cart\Helper::getCart();
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise a JError object.
+	 * @throws  Exception
+	 */
+	public function display($tpl = null)
+	{
+		$app = \JFactory::getApplication();
+		$cart   = \Redshop\Cart\Helper::getCart();
 
-        $layout = $app->input->getCmd('layout');
-        $itemId = $app->input->getInt('Itemid');
+		$layout = $app->input->getCmd('layout');
+		$itemId = $app->input->getInt('Itemid');
 
-        if ($app->input->getString('quotemsg') != "") {
-            $app->redirect(
-                JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false),
-                $app->input->getString('quotemsg')
-            );
-        }
+		if ($app->input->getString('quotemsg') != "")
+		{
+			$app->redirect(
+				JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId, false),
+				$app->input->getString('quotemsg')
+			);
+		}
 
-        JHtml::_('redshopjquery.framework');
-        /** @scrutinizer ignore-deprecated */
-        \JHtml::script('com_redshop/redshop.common.min.js', false, true);
+		JHtml::_('redshopjquery.framework');
+		/** @scrutinizer ignore-deprecated */
+		\JHtml::script('com_redshop/redshop.common.min.js', false, true);
 
-        if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1)) {
-            $cartData = RedshopHelperTemplate::getTemplate("empty_cart");
+		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
+		{
+			$cartData = RedshopHelperTemplate::getTemplate("empty_cart");
 
-            if (count($cartData) > 0 && $cartData[0]->template_desc != "") {
-                $cartTemplate = $cartData[0]->template_desc;
-            } else {
-                $cartTemplate = JText::_("COM_REDSHOP_EMPTY_CART");
-            }
+			if (count($cartData) > 0 && $cartData[0]->template_desc != "")
+			{
+				$cartTemplate = $cartData[0]->template_desc;
+			}
+			else
+			{
+				$cartTemplate = JText::_("COM_REDSHOP_EMPTY_CART");
+			}
 
-            echo eval ("?>" . $cartTemplate . "<?php ");
+			echo eval ("?>" . $cartTemplate . "<?php ");
 
-            return false;
-        }
+			return false;
+		}
 
-        $data = $this->get('data');
+		$data = $this->get('data');
 
-        if ($layout == 'change_attribute') {
-            $this->setLayout('change_attribute');
-        }
+		if ($layout == 'change_attribute')
+		{
+			$this->setLayout('change_attribute');
+		}
 
-        $this->cart = $cart;
-        $this->data = $data;
+		$this->cart = $cart;
+		$this->data = $data;
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

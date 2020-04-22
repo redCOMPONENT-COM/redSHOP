@@ -1,12 +1,12 @@
 <div class="form-group">
-    <label for="billisship">
-        <input class="toggler" type="checkbox" id="billisship"
-               name="billisship" value="1" onclick="billingIsShipping(this);" checked=""/>
-        {{ jtext('COM_REDSHOP_SHIPPING_SAME_AS_BILLING') }}
-    </label>
+	<label for="billisship">
+		<input class="toggler" type="checkbox" id="billisship"
+			   name="billisship" value="1" onclick="billingIsShipping(this);" checked="" />
+				{{ jtext('COM_REDSHOP_SHIPPING_SAME_AS_BILLING') }}
+	</label>
 </div>
 <div id="divShipping" style="display: none">
-    <fieldset class="subTable">
-        {{ shippingTable }}
-    </fieldset>
+	<fieldset class="subTable">
+		{{ shippingTable }}
+	</fieldset>
 </div>

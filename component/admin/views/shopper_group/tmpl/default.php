@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -19,9 +18,7 @@ defined('_JEXEC') or die;
         }
 
         if (pressbutton == 'add' || pressbutton == 'edit' || pressbutton == 'remove') {
-            if (pressbutton == 'remove' && !confirm('<?php echo JText::_(
-                "COM_REDSHOP_SHOPPER_GROUPS_DELETE_CONFIRM"
-            )?>')) {
+            if (pressbutton == 'remove' && !confirm('<?php echo JText::_("COM_REDSHOP_SHOPPER_GROUPS_DELETE_CONFIRM")?>')) {
                 return;
             }
 
@@ -29,15 +26,16 @@ defined('_JEXEC') or die;
         }
         try {
             form.onsubmit();
-        } catch (e) {
+        }
+        catch (e) {
         }
 
         form.submit();
     }
 
     resetFilter = function () {
-        document.adminForm.task.value = "";
-        document.getElementById("filter").value = "";
+        document.adminForm.task.value                          = "";
+        document.getElementById("filter").value                = "";
         document.adminForm.submit();
     };
 
@@ -49,121 +47,92 @@ defined('_JEXEC') or die;
                 <div class="btn-wrapper input-append">
                     <input type="text" name="filter" id="filter" value="<?php echo $this->filter; ?>"
                            placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
-                    <button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_(
-                            'COM_REDSHOP_SEARCH'
-                        ); ?></button>
-                    <input type="button" class="btn reset" onclick="resetFilter();"
-                           value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
+                    <button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
+                    <input type="button" class="btn reset" onclick="resetFilter();" value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"/>
                 </div>
             </div>
         </div>
     </div>
 
-    <table class="adminlist table table-striped">
-        <thead>
-        <tr>
-            <th width="5%">
-                <?php echo JText::_('COM_REDSHOP_NUM'); ?>
-            </th>
-            <th width="5%">
-                <?php echo JHtml::_('redshopgrid.checkall'); ?>
-            </th>
-            <th class="title">
-                <?php echo JHTML::_(
-                    'grid.sort',
-                    'COM_REDSHOP_SHOPPER_GROUP_NAME',
-                    'shopper_group_name',
-                    $this->lists['order_Dir'],
-                    $this->lists['order']
-                ); ?>
-            </th>
-            <th width="15%" nowrap="nowrap">
-                <?php echo JText::_('COM_REDSHOP_DISCOUNT'); ?>
-            </th>
-            <th width="5%" nowrap="nowrap">
-                <?php echo JHTML::_(
-                    'grid.sort',
-                    'COM_REDSHOP_PUBLISHED',
-                    'published',
-                    $this->lists['order_Dir'],
-                    $this->lists['order']
-                ); ?>
-            </th>
-            <th width="5%" nowrap="nowrap">
-                <?php echo JHTML::_(
-                    'grid.sort',
-                    'COM_REDSHOP_ID',
-                    'shopper_group_id',
-                    $this->lists['order_Dir'],
-                    $this->lists['order']
-                ); ?>
-            </th>
+        <table class="adminlist table table-striped">
+            <thead>
+            <tr>
+                <th width="5%">
+					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
+                </th>
+                <th width="5%">
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+                </th>
+                <th class="title">
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHOPPER_GROUP_NAME', 'shopper_group_name', $this->lists['order_Dir'], $this->lists['order']); ?>
+                </th>
+                <th width="15%" nowrap="nowrap">
+					<?php echo JText::_('COM_REDSHOP_DISCOUNT'); ?>
+                </th>
+                <th width="5%" nowrap="nowrap">
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists['order_Dir'], $this->lists['order']); ?>
+                </th>
+                <th width="5%" nowrap="nowrap">
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'shopper_group_id', $this->lists['order_Dir'], $this->lists['order']); ?>
+                </th>
 
-        </tr>
-        </thead>
-        <?php
-        $k = 0;
-
-        for (
-            $i = $this->pagination->limitstart, $j = 0, $n = count(
-            $this->media
-        ); $i < ($this->pagination->limitstart + $this->pagination->limit); $i++, $j++
-        ) {
-            if (!isset($this->media[$i])) {
-                break;
-            }
-
-            $row = $this->media[$i];
-            $row->id = $row->shopper_group_id;
-
-            $link = JRoute::_(
-                'index.php?option=com_redshop&view=shopper_group_detail&task=edit&cid[]=' . $row->shopper_group_id
-            );
-
-            $published = JHTML::_('grid.published', $row, $j);
-
-            $link_adddis = JRoute::_(
-                'index.php?option=com_redshop&view=discount&layout=edit&spgrpdis_filter=' . $row->shopper_group_id
-            );
-
-            ?>
-            <tr class="<?php echo "row$k"; ?>">
-                <td align="center">
-                    <?php echo $this->pagination->getRowOffset($j); ?>
-                </td>
-                <td align="center">
-                    <?php echo JHTML::_('grid.id', $j, $row->id); ?>
-                </td>
-                <td><a href="<?php echo $link; ?>"
-                       title="<?php echo JText::_(
-                           'COM_REDSHOP_EDIT_SHOPPER_GROUP'
-                       ); ?>"><?php echo $row->shopper_group_name; ?></a>
-                <td align="center"><a
-                            href="<?php echo $link_adddis; ?>"><?php echo JText::_('COM_REDSHOP_ADD_DISCOUNT'); ?></a>
-                </td>
-                <td align="center">
-                    <?php echo $published; ?>
-                </td>
-                <td align="center">
-                    <?php echo $row->shopper_group_id; ?>
-                </td>
             </tr>
-            <?php
-            $k = 1 - $k;
-        }
-        ?>
+            </thead>
+			<?php
+			$k = 0;
 
-        <tfoot>
-        <td colspan="9">
-            <?php if (version_compare(JVERSION, '3.0', '>=')): ?>
-                <div class="redShopLimitBox">
-                    <?php echo $this->pagination->getLimitBox(); ?>
-                </div>
-            <?php endif; ?>
-            <?php echo $this->pagination->getListFooter(); ?>
-        </td>
-        </tfoot>
-    </table>
+			for ($i = $this->pagination->limitstart, $j = 0, $n = count($this->media); $i < ($this->pagination->limitstart + $this->pagination->limit); $i++, $j++)
+			{
+				if (!isset($this->media[$i]))
+				{
+					break;
+				}
+
+				$row     = $this->media[$i];
+				$row->id = $row->shopper_group_id;
+
+				$link = JRoute::_('index.php?option=com_redshop&view=shopper_group_detail&task=edit&cid[]=' . $row->shopper_group_id);
+
+				$published = JHTML::_('grid.published', $row, $j);
+
+				$link_adddis = JRoute::_('index.php?option=com_redshop&view=discount&layout=edit&spgrpdis_filter=' . $row->shopper_group_id);
+
+				?>
+                <tr class="<?php echo "row$k"; ?>">
+                    <td align="center">
+						<?php echo $this->pagination->getRowOffset($j); ?>
+                    </td>
+                    <td align="center">
+						<?php echo JHTML::_('grid.id', $j, $row->id); ?>
+                    </td>
+                    <td><a href="<?php echo $link; ?>"
+                           title="<?php echo JText::_('COM_REDSHOP_EDIT_SHOPPER_GROUP'); ?>"><?php echo $row->shopper_group_name; ?></a>
+                    <td align="center"><a
+                                href="<?php echo $link_adddis; ?>"><?php echo JText::_('COM_REDSHOP_ADD_DISCOUNT'); ?></a>
+                    </td>
+                    <td align="center">
+						<?php echo $published; ?>
+                    </td>
+                    <td align="center">
+						<?php echo $row->shopper_group_id; ?>
+                    </td>
+                </tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+
+            <tfoot>
+            <td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+                    <div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+                    </div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+            </td>
+            </tfoot>
+        </table>
 
     <input type="hidden" name="view" value="shopper_group"/>
     <input type="hidden" name="task" value=""/>

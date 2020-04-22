@@ -18,32 +18,32 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldRcountries extends JFormFieldList
 {
-    /**
-     * The form field type.
-     *
-     * @var    string
-     * @since  2.0.0.4
-     */
-    protected $type = 'Rcountries';
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  2.0.0.4
+	 */
+	protected $type = 'Rcountries';
 
-    /**
-     * Method to get the field input markup for a generic list.
-     *
-     * @return  array  The field input markup.
-     */
-    public function getOptions()
-    {
-        $db    = JFactory::getDBO();
-        $query = $db->getQuery(true)
-            ->select($db->qn('id', 'value'))
-            ->select($db->qn('country_name', 'text'))
-            ->from($db->qn('#__redshop_country'))
-            ->order($db->qn('country_name'));
+	/**
+	 * Method to get the field input markup for a generic list.
+	 *
+	 * @return  array  The field input markup.
+	 */
+	public function getOptions()
+	{
+		$db    = JFactory::getDBO();
+		$query = $db->getQuery(true)
+			->select($db->qn('id', 'value'))
+			->select($db->qn('country_name', 'text'))
+			->from($db->qn('#__redshop_country'))
+			->order($db->qn('country_name'));
 
-        $options = $db->setQuery($query)->loadObjectList();
+		$options = $db->setQuery($query)->loadObjectList();
 
-        $parentOptions = parent::getOptions();
+		$parentOptions = parent::getOptions();
 
-        return array_merge($parentOptions, $options);
-    }
+		return array_merge($parentOptions, $options);
+	}
 }

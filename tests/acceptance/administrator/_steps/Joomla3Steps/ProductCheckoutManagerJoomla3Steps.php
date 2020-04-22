@@ -18,7 +18,6 @@ namespace AcceptanceTester;
  * @since    1.4
  */
 use \ConfigurationPage as ConfigurationPage;
-use GiftCardCheckoutPage;
 use PHPUnit\Runner\Exception;
 use FrontEndProductManagerJoomla3Page;
 use CheckoutChangeQuantityProductPage;
@@ -117,7 +116,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		try
 		{
 			$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$selectorEmailInvalid, 10);
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 10, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$messageEmailInvalid, 30, FrontEndProductManagerJoomla3Page::$selectorEmailInvalid);
 			$I->see(FrontEndProductManagerJoomla3Page::$messageEmailInvalid);
 			$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
 			$I->seeInField(FrontEndProductManagerJoomla3Page::$addressEmail, 'example@gmail.com');
@@ -928,26 +927,18 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 					$I->click(\FrontEndProductManagerJoomla3Page::$radioIDCompany);
 					$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 				}
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
+				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
 
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyNameOnePage, $customerInformation['companyName']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idBusinessNumber, $customerInformation['businessNumber']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyFirstName, $customerInformation['firstName']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyLastName, $customerInformation['lastName']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyAddressOnePage, $customerInformation['address']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyZipCodeOnePage, $customerInformation['postalCode']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyCityOnePage, $customerInformation['city']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyPhoneOnePage, $customerInformation['phone']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idEanNumber, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idEanNumber, $customerInformation['eanNumber']);
-				$I->waitForElementVisible(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, 30);
 				$I->fillField(\FrontEndProductManagerJoomla3Page::$idCompanyEmailOnePage, $customerInformation['email']);
 				$I->waitForElement(\FrontEndProductManagerJoomla3Page::$acceptTerms, 30);
 				$I->executeJS($productFrontEndManagerPage->radioCheckID(\FrontEndProductManagerJoomla3Page::$termAndConditionsId));
@@ -1272,59 +1263,5 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$orderReceiptTitle, 30);
 		$I->see($total, FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
 		$I->waitForText($total, 30 ,FrontEndProductManagerJoomla3Page::$totalFinalCheckout);
-	}
-
-	/**
-	 * @param $addressDetail
-	 * @param $giftCardName
-	 * @param $userName
-	 * @param $password
-	 * @param $firstName
-	 * @param $email
-	 * @throws \Exception
-	 * @since 3.0.2
-	 */
-	public function checkoutGiftCard($addressDetail, $giftCardName, $userName, $password, $firstName, $email)
-	{
-		$I = $this;
-		$I->doFrontEndLogin($userName, $password);
-		$I->amOnPage(GiftCardCheckoutPage::$pageCart);
-		$I->waitForElement(['link' => $giftCardName], 60);
-		$I->click(['link' => $giftCardName]);
-		$I->waitForElement(GiftCardCheckoutPage::$reciverName);
-		$I->fillField(GiftCardCheckoutPage::$reciverName, $firstName);
-		$I->fillField(GiftCardCheckoutPage::$reciverEmail, $email);
-		$I->waitForElementVisible(GiftCardCheckoutPage::$addToCart, 30);
-		$I->click(GiftCardCheckoutPage::$addToCart);
-		$I->waitForText(GiftCardCheckoutPage::$alertSuccessMessage, 60, GiftCardCheckoutPage::$selectorSuccess);
-		$I->see(GiftCardCheckoutPage::$alertSuccessMessage, GiftCardCheckoutPage::$selectorSuccess);
-		$I->amOnPage(GiftCardCheckoutPage::$cartPageUrL);
-		$I->seeElement(['link' => $giftCardName]);
-
-		$I->click(GiftCardCheckoutPage::$checkoutButton);
-		$I->waitForElement(GiftCardCheckoutPage::$paymentPayPad, 30);
-		$I->click(GiftCardCheckoutPage::$paymentPayPad);
-
-		$I->click(GiftCardCheckoutPage::$checkoutButton);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addressEmail, 30);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressEmail, $addressDetail['email']);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressFirstName, $addressDetail['firstName']);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressLastName, $addressDetail['lastName']);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, $addressDetail['address']);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, $addressDetail['postalCode']);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, $addressDetail['city']);
-		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, $addressDetail['phone']);
-		$I->click(GiftCardCheckoutPage::$buttonSave);
-
-		$I->waitForElement(GiftCardCheckoutPage::$addressLink, 30);
-		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$paymentPayPad, 30);
-		$I->click(GiftCardCheckoutPage::$paymentPayPad);
-		$I->waitForElementVisible(GiftCardCheckoutPage::$checkoutButton, 30);
-		$I->click(GiftCardCheckoutPage::$checkoutButton);
-
-		$I->waitForElementVisible(GiftCardCheckoutPage::$acceptTerms, 30);
-		$I->click(GiftCardCheckoutPage::$acceptTerms);
-		$I->waitForElementVisible(GiftCardCheckoutPage::$checkoutFinalStep, 30);
-		$I->click(GiftCardCheckoutPage::$checkoutFinalStep);
 	}
 }

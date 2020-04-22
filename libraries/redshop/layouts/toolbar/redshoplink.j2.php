@@ -17,6 +17,6 @@ $target = $displayData['target'];
 ?>
 <a href="<?php echo $doTask; ?>"
    target="<?php echo $target; ?>">
-    <span class="<?php echo $class; ?>"></span>
-    <?php echo $text; ?>
+	<span class="<?php echo $class; ?>"></span>
+	<?php echo $text; ?>
 </a>

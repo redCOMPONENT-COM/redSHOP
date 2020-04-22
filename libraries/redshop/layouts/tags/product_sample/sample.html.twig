@@ -2,22 +2,22 @@
 {% set sampleCheck = '<tr>' %}
 {{ catalogSample.sample_name }}<br>
 <table cellpadding="0" border="0" cellspacing="0">
-    <tr>
-        {% for catalogColour in catalogColours %}
-            <td style="padding-right:2px;">
-                {% if catalogColour.is_image == 1 %}
-                    <img src="{{ catalogColour.code_image }}" border="0" width="27" height="27"/><br>
-                {% else %}
-                    <div style="background-color:{{ catalogColour.code_image }};width: 27px; height:27px; "></div>
-                {% endif %}
-            </td>
-            {% set sampleCheck = sampleCheck ~ '<td><input type="checkbox" name="sample_code[]" id="sample_code'~ (loop.index - 1) ~'"
+	<tr>
+		{% for catalogColour in catalogColours %}
+			<td style="padding-right:2px;">
+				{% if catalogColour.is_image == 1 %}
+					<img src="{{ catalogColour.code_image }}" border="0"  width="27" height="27"/><br>
+				{% else %}
+					<div style="background-color:{{ catalogColour.code_image }};width: 27px; height:27px; "></div>
+				{% endif %}
+			</td>
+			{% set sampleCheck = sampleCheck ~ '<td><input type="checkbox" name="sample_code[]" id="sample_code'~ (loop.index - 1) ~'"
 			value="'~ catalogColour.colour_id ~'" ></td>' %}
-        {% endfor %}
-        {% set sampleCheck = sampleCheck ~ '</tr>' %}
-        {{ sampleCheck }}
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-    </tr>
+		{% endfor %}
+		{% set sampleCheck = sampleCheck ~ '</tr>' %}
+		{{ sampleCheck }}
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
 </table>

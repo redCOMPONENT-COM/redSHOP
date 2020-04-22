@@ -20,31 +20,32 @@ use Joomla\Utilities\ArrayHelper;
  */
 class RedshopHelperPdf
 {
-    /**
-     * Get PDF Merger
-     *
-     * @return  RedshopHelperPdf_Merge
-     */
-    public static function getPDFMerger()
-    {
-        return new RedshopHelperPdf_Merge;
-    }
+	/**
+	 * Get PDF Merger
+	 *
+	 * @return  RedshopHelperPdf_Merge
+	 */
+	public static function getPDFMerger()
+	{
+		return new RedshopHelperPdf_Merge;
+	}
 
-    /**
-     * Create multiple print invoice PDF
-     *
-     * @param   array  $orderIds  Order ID List.
-     *
-     * @return  string
-     */
-    public static function createMultiInvoice($orderIds)
-    {
-        if (empty($orderIds) || !self::isAvailablePdfPlugins()) {
-            return '';
-        }
+	/**
+	 * Create multiple print invoice PDF
+	 *
+	 * @param   array  $orderIds  Order ID List.
+	 *
+	 * @return  string
+	 */
+	public static function createMultiInvoice($orderIds)
+	{
+		if (empty($orderIds) || !self::isAvailablePdfPlugins())
+		{
+			return '';
+		}
 
-        $orderIds        = ArrayHelper::toInteger($orderIds);
-        $defaultTemplate = '<table style="width: 100%;" border="0" cellpadding="5" cellspacing="0">
+		$orderIds = ArrayHelper::toInteger($orderIds);
+		$defaultTemplate = '<table style="width: 100%;" border="0" cellpadding="5" cellspacing="0">
 				<tbody><tr><td colspan="2"><table style="width: 100%;" border="0" cellpadding="2" cellspacing="0"><tbody>
 				<tr style="background-color: #cccccc;"><th align="left">{order_information_lbl}{print}</th></tr><tr></tr
 				><tr><td>{order_id_lbl} : {order_id}</td></tr><tr><td>{order_number_lbl} : {order_number}</td></tr><tr>
@@ -72,37 +73,41 @@ class RedshopHelperPdf
 				</td><td align="right">{order_total}</td></tr><tr align="left"><td colspan="2" align="left"><hr /><br />
 				 <hr /></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>';
 
-        $orderPrintTemplate = RedshopHelperTemplate::getTemplate('order_print');
+		$orderPrintTemplate = RedshopHelperTemplate::getTemplate('order_print');
 
-        if (!empty($orderPrintTemplate) > 0 && !empty($orderPrintTemplate[0]->template_desc)) {
-            $message = $orderPrintTemplate[0]->template_desc;
-        } else {
-            $message = $defaultTemplate;
-        }
+		if (!empty($orderPrintTemplate) > 0 && !empty($orderPrintTemplate[0]->template_desc))
+		{
+			$message = $orderPrintTemplate[0]->template_desc;
+		}
+		else
+		{
+			$message = $defaultTemplate;
+		}
 
-        JPluginHelper::importPlugin('redshop_pdf');
-        $dispatcher = RedshopHelperUtility::getDispatcher();
+		JPluginHelper::importPlugin('redshop_pdf');
+		$dispatcher = RedshopHelperUtility::getDispatcher();
 
-        $result = $dispatcher->trigger('onRedshopOrderCreateMultiInvoicePdf', array($orderIds, $message));
+		$result = $dispatcher->trigger('onRedshopOrderCreateMultiInvoicePdf', array($orderIds, $message));
 
-        if (!empty($result)) {
-            return $result[0];
-        }
+		if (!empty($result))
+		{
+			return $result[0];
+		}
 
-        return '';
-    }
+		return '';
+	}
 
-    /**
-     * Method for check if there are any available PDF plugin support.
-     *
-     * @return  boolean  True if has available plugins. False other wise.
-     *
-     * @since  2.0.3
-     */
-    public static function isAvailablePdfPlugins()
-    {
-        $pdfPlugins = JPluginHelper::getPlugin('redshop_pdf');
+	/**
+	 * Method for check if there are any available PDF plugin support.
+	 *
+	 * @return  boolean  True if has available plugins. False other wise.
+	 *
+	 * @since  2.0.3
+	 */
+	public static function isAvailablePdfPlugins()
+	{
+		$pdfPlugins = JPluginHelper::getPlugin('redshop_pdf');
 
-        return empty($pdfPlugins) ? false : true;
-    }
+		return empty($pdfPlugins) ? false : true;
+	}
 }

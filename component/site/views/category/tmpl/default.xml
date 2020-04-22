@@ -9,7 +9,7 @@
     <fields name="params" addfieldpath="/libraries/redshop/form/fields">
         <fieldset name="basic">
             <field name="manufacturer_id" type="manufacturer" default="0" label="COM_REDSHOP_SELECT_MANUFACTURER"
-                   description="COM_REDSHOP_DISPLAYS_THE_SELECTED_MANUFACTURER_DETAIL_PAGE"/>
+                       description="COM_REDSHOP_DISPLAYS_THE_SELECTED_MANUFACTURER_DETAIL_PAGE"/>
         </fieldset>
     </fields>
 </metadata>

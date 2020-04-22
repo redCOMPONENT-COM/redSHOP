@@ -12,26 +12,27 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 // Nothing to show
-if (!is_array($msgList) || empty($msgList)) {
-    return;
+if (!is_array($msgList) || empty($msgList))
+{
+	return;
 }
 
 $allowedTypes = array('error', 'message', 'notice', 'warning');
 
 ?>
 <div id="system-message-container">
-    <div id="system-message">
-        <?php foreach ($msgList as $type => $msgs): ?>
-            <?php
-            $type = in_array($type, $allowedTypes) ? $type : 'notice';
+	<div id="system-message">
+		<?php foreach ($msgList as $type => $msgs): ?>
+			<?php
+			$type = in_array($type, $allowedTypes) ? $type : 'notice';
 
-            $layoutData = array(
-                'type'     => $type,
-                'messages' => $msgs
-            );
+			$layoutData = array(
+				'type'     => $type,
+				'messages' => $msgs
+			);
 
-            echo JLayoutHelper::render('joomla.system.message.' . strtolower($type), $layoutData);
-            ?>
-        <?php endforeach; ?>
-    </div>
+			echo JLayoutHelper::render('joomla.system.message.' . strtolower($type), $layoutData);
+			?>
+		<?php endforeach; ?>
+	</div>
 </div>

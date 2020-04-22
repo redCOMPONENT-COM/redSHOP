@@ -9,8 +9,8 @@
     <fields name="request">
         <fieldset name="request" addfieldpath="/libraries/redshop/form/fields">
             <field name="template_id" type="ordertemplatelist" default="0"
-                   label="COM_REDSHOP_SELECT_ORDERLIST_TEMPLATE"
-                   description="COM_REDSHOP_SELECT_ORDERLIST_TEMPLATE"/>
+                       label="COM_REDSHOP_SELECT_ORDERLIST_TEMPLATE"
+                       description="COM_REDSHOP_SELECT_ORDERLIST_TEMPLATE"/>
         </fieldset>
     </fields>
 </metadata>

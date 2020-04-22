@@ -11,27 +11,28 @@ defined('_JEXEC') or die;
 
 class Tablemedia_download extends JTable
 {
-    public $id = null;
+	public $id = null;
 
-    public $name = null;
+	public $name = null;
 
-    public $media_id = null;
+	public $media_id = null;
 
-    public function __construct(&$db)
-    {
-        $this->_table_prefix = '#__redshop_';
+	public function __construct(&$db)
+	{
+		$this->_table_prefix = '#__redshop_';
 
-        parent::__construct($this->_table_prefix . 'media_download', 'id', $db);
-    }
+		parent::__construct($this->_table_prefix . 'media_download', 'id', $db);
+	}
 
-    public function bind($array, $ignore = '')
-    {
-        if (array_key_exists('params', $array) && is_array($array['params'])) {
-            $registry = new JRegistry;
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
+	public function bind($array, $ignore = '')
+	{
+		if (array_key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
 
-        return parent::bind($array, $ignore);
-    }
+		return parent::bind($array, $ignore);
+	}
 }

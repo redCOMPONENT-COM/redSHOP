@@ -17,43 +17,45 @@ defined('_JEXEC') or die;
  */
 class RedshopViewProduct_Rating extends RedshopView
 {
-    protected $state;
+	protected $state;
 
-    protected $form;
+	protected $form;
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed  A string if successful, otherwise a Error object.
-     */
-    public function display($tpl = null)
-    {
-        $this->state = $this->get('State');
-        $this->form  = $this->get('Form');
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
+	public function display ($tpl = null)
+	{
+		$this->state = $this->get('State');
+		$this->form  = $this->get('Form');
 
-        $app  = JFactory::getApplication();
-        $user = JFactory::getUser();
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
 
-        // Preform security checks
-        if (!$user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED')) {
-            $app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
+		// Preform security checks
+		if (!$user->id && Redshop::getConfig()->get('RATING_REVIEW_LOGIN_REQUIRED'))
+		{
+			$app->enqueueMessage(JText::_('COM_REDSHOP_ALERTNOTAUTH_REVIEW'), 'warning');
 
-            return;
-        }
+			return;
+		}
 
-        $this->params      = $app->getParams('com_redshop');
-        $model             = $this->getModel('product_rating');
-        $this->productId   = $app->input->getInt('product_id', 0);
-        $rate              = $app->input->getInt('rate', 0);
-        $this->productInfo = \Redshop\Product\Product::getProductById($this->productId);
+		$this->params      = $app->getParams('com_redshop');
+		$model             = $this->getModel('product_rating');
+		$this->productId   = $app->input->getInt('product_id', 0);
+		$rate              = $app->input->getInt('rate', 0);
+		$this->productInfo = \Redshop\Product\Product::getProductById($this->productId);
 
-        if (!$rate && $user->id && $model->checkRatedProduct($this->productId, $user->id)) {
-            $app->input->set('rate', 1);
-            $app->enqueueMessage(JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
-        }
+		if (!$rate && $user->id && $model->checkRatedProduct($this->productId, $user->id))
+		{
+			$app->input->set('rate', 1);
+			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN'), 'warning');
+		}
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

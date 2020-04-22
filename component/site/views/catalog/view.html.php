@@ -18,33 +18,34 @@ defined('_JEXEC') or die;
  */
 class RedshopViewCatalog extends RedshopView
 {
-    /**
-     * @var  Joomla\Registry\Registry
-     */
-    public $params;
+	/**
+	 * @var  Joomla\Registry\Registry
+	 */
+	public $params;
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed         A string if successful, otherwise a JError object.
-     * @throws  Exception
-     */
-    public function display($tpl = null)
-    {
-        /** @var JApplicationSite $app */
-        $app = JFactory::getApplication();
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise a JError object.
+	 * @throws  Exception
+	 */
+	public function display($tpl = null)
+	{
+		/** @var JApplicationSite $app */
+		$app = JFactory::getApplication();
 
-        $params = $app->getParams('com_redshop');
-        $layout = $app->input->getCmd('layout');
+		$params = $app->getParams('com_redshop');
+		$layout = $app->input->getCmd('layout');
 
-        if ($layout == "sample") {
-            $this->setLayout('sample');
-        }
+		if ($layout == "sample")
+		{
+			$this->setLayout('sample');
+		}
 
-        $this->params = $params;
+		$this->params = $params;
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

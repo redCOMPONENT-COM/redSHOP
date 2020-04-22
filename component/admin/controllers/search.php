@@ -12,28 +12,28 @@ defined('_JEXEC') or die;
 
 class RedshopControllerSearch extends RedshopController
 {
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
+	public function cancel()
+	{
+		$this->setRedirect('index.php');
+	}
 
-    /**
-     * AJAX Task to get states list
-     *
-     * @return  string  JSON encoded string of states list.
-     */
-    public function getStatesAjax()
-    {
-        // Only verify token
-        \Redshop\Helper\Ajax::validateAjaxRequest('post');
+	/**
+	 * AJAX Task to get states list
+	 *
+	 * @return  string  JSON encoded string of states list.
+	 */
+	public function getStatesAjax()
+	{
+		// Only verify token
+		\Redshop\Helper\Ajax::validateAjaxRequest('post');
 
-        $app = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-        ob_clean();
+		ob_clean();
 
-        echo RedshopHelperWorld::getStatesAjax($app->input->getCmd('country'));
+		echo RedshopHelperWorld::getStatesAjax($app->input->getCmd('country'));
 
-        $app->close();
-    }
+		$app->close();
+	}
 }
 

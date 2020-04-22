@@ -18,136 +18,137 @@ defined('_JEXEC') or die;
  */
 class RedshopModelVouchers extends RedshopModelList
 {
-    /**
-     * Construct class
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
-     *
-     * @since   2.x
-     */
-    public function __construct($config = array())
-    {
-        if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id',
-                'v.id',
-                'code',
-                'v.code',
-                'published',
-                'v.published',
-                'type',
-                'v.type',
-                'start_date',
-                'v.start_date',
-                'end_date',
-                'v.end_date',
-                'free_ship',
-                'v.free_ship',
-                'voucher_left',
-                'v.voucher_left'
-            );
-        }
+	/**
+	 * Construct class
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   2.x
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id', 'v.id',
+				'code', 'v.code',
+				'published', 'v.published',
+				'type', 'v.type',
+				'start_date', 'v.start_date',
+				'end_date', 'v.end_date',
+				'free_ship', 'v.free_ship',
+				'voucher_left', 'v.voucher_left'
+			);
+		}
 
-        parent::__construct($config);
-    }
+		parent::__construct($config);
+	}
 
-    /**
-     * Method to build an SQL query to load the list data.
-     *
-     * @return      string  An SQL query
-     */
-    public function getListQuery()
-    {
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true);
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function populateState($ordering = 'v.id', $direction = 'asc')
+	{
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
-        $query->select('v.*')
-            ->from($db->qn('#__redshop_voucher', 'v'));
+		$type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type');
+		$this->setState('filter.type', $type);
 
-        // Filter by search in name.
-        $search = $this->getState('filter.search');
+		$freeShip = $this->getUserStateFromRequest($this->context . '.filter.free_ship', 'filter_free_ship');
+		$this->setState('filter.free_ship', trim($freeShip));
 
-        if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $query->where($db->qn('v.id') . ' = ' . (int)substr($search, 3));
-            } else {
-                $search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-                $query->where($db->qn('v.code') . ' LIKE ' . $search);
-            }
-        }
+		// List state information.
+		parent::populateState($ordering, $direction);
+	}
 
-        // Filter: type
-        $filterType = $this->getState('filter.type', null);
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.6
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter.search');
+		$id .= $this->getState('filter.type');
+		$id .= $this->getState('filter.free_ship');
 
-        if (!empty($filterType)) {
-            $query->where($db->qn('v.type') . ' = ' . $db->quote($filterType));
-        }
+		return parent::getStoreId($id);
+	}
 
-        // Filter: type
-        $filterFreeShip = $this->getState('filter.free_ship');
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return      string  An SQL query
+	 */
+	public function getListQuery()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-        if (is_numeric($filterFreeShip)) {
-            $query->where($db->qn('v.free_ship') . ' = ' . (int)$filterFreeShip);
-        } elseif ($filterFreeShip === '') {
-            $query->where($db->qn('v.free_ship') . ' IN (0,1)');
-        }
+		$query->select('v.*')
+			->from($db->qn('#__redshop_voucher', 'v'));
 
-        // Add the list ordering clause.
-        $orderCol  = $this->state->get('list.ordering', 'v.id');
-        $orderDirn = $this->state->get('list.direction', 'asc');
+		// Filter by search in name.
+		$search = $this->getState('filter.search');
 
-        $query->order($db->escape($orderCol . ' ' . $orderDirn));
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where($db->qn('v.id') . ' = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where($db->qn('v.code') . ' LIKE ' . $search);
+			}
+		}
 
-        return $query;
-    }
+		// Filter: type
+		$filterType = $this->getState('filter.type', null);
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * Note. Calling getState in this method will result in recursion.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function populateState($ordering = 'v.id', $direction = 'asc')
-    {
-        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
+		if (!empty($filterType))
+		{
+			$query->where($db->qn('v.type') . ' = ' . $db->quote($filterType));
+		}
 
-        $type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type');
-        $this->setState('filter.type', $type);
+		// Filter: type
+		$filterFreeShip = $this->getState('filter.free_ship');
 
-        $freeShip = $this->getUserStateFromRequest($this->context . '.filter.free_ship', 'filter_free_ship');
-        $this->setState('filter.free_ship', trim($freeShip));
+		if (is_numeric($filterFreeShip))
+		{
+			$query->where($db->qn('v.free_ship') . ' = ' . (int) $filterFreeShip);
+		}
+		elseif ($filterFreeShip === '')
+		{
+			$query->where($db->qn('v.free_ship') . ' IN (0,1)');
+		}
 
-        // List state information.
-        parent::populateState($ordering, $direction);
-    }
+		// Add the list ordering clause.
+		$orderCol  = $this->state->get('list.ordering', 'v.id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
-    /**
-     * Method to get a store id based on model configuration state.
-     *
-     * This is necessary because the model is used by the component and
-     * different modules that might need different sets of data or different
-     * ordering requirements.
-     *
-     * @param   string  $id  A prefix for the store id.
-     *
-     * @return  string  A store id.
-     *
-     * @since   1.6
-     */
-    protected function getStoreId($id = '')
-    {
-        // Compile the store id.
-        $id .= ':' . $this->getState('filter.search');
-        $id .= $this->getState('filter.type');
-        $id .= $this->getState('filter.free_ship');
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-        return parent::getStoreId($id);
-    }
+		return $query;
+	}
 }

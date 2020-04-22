@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * View Voucher
  *
  * @package      RedSHOP.Backend
- * @subpackage   View
+ * @subpackage  View
  * @since        2.0.7
  */
 class RedshopViewVoucher extends RedshopViewForm

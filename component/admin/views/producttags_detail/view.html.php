@@ -12,48 +12,48 @@ defined('_JEXEC') or die;
 
 class RedshopViewProducttags_detail extends RedshopViewAdmin
 {
-    /**
-     * Do we have to display a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $displaySidebar = false;
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = false;
 
-    public function display($tpl = null)
-    {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT_DETAIL'), 'redshop_textlibrary48');
+	public function display($tpl = null)
+	{
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT_DETAIL'), 'redshop_textlibrary48');
 
-        $uri = JFactory::getURI();
+		$uri = JFactory::getURI();
 
-        $this->setLayout('default');
+		$this->setLayout('default');
 
-        $lists = array();
+		$lists = array();
 
-        $detail = $this->get('data');
+		$detail = $this->get('data');
 
-        $isNew = ($detail->tags_id < 1);
+		$isNew = ($detail->tags_id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-        JToolBarHelper::title(
-            JText::_('COM_REDSHOP_TAGS') . ': <small><small>[ ' . $text . ' ]</small></small>',
-            'redshop_textlibrary48'
-        );
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_textlibrary48');
 
-        JToolBarHelper::save();
+		JToolBarHelper::save();
 
-        if ($isNew) {
-            JToolBarHelper::cancel();
-        } else {
-            JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
-        }
+		if ($isNew)
+		{
+			JToolBarHelper::cancel();
+		}
+		else
+		{
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
 
-        $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
+		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-        $this->lists       = $lists;
-        $this->detail      = $detail;
-        $this->request_url = $uri->toString();
+		$this->lists       = $lists;
+		$this->detail      = $detail;
+		$this->request_url = $uri->toString();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

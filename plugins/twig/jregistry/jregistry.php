@@ -11,9 +11,9 @@ defined('_JEXEC') || die;
 
 JLoader::import('redshop.library');
 
-use Redshop\Extension\JRegistry as TwigJRegistry;
-use Redshop\Plugin\BaseTwigPlugin;
 use Twig\Environment;
+use Redshop\Plugin\BaseTwigPlugin;
+use Redshop\Extension\JRegistry as TwigJRegistry;
 
 /**
  * Plugin to use Joomla Registry class in twig.
@@ -22,15 +22,15 @@ use Twig\Environment;
  */
 class PlgTwigJregistry extends BaseTwigPlugin
 {
-    /**
-     * @param   Environment  $environment
-     * @param   array        $params
-     *
-     *
-     * @since 1.0.0
-     */
-    public function onTwigAfterLoad(Environment $environment, $params = [])
-    {
-        $environment->addExtension(new TwigJRegistry);
-    }
+	/**
+	 * @param   Environment  $environment
+	 * @param   array        $params
+	 *
+	 *
+	 * @since 1.0.0
+	 */
+	public function onTwigAfterLoad(Environment $environment, $params = [])
+	{
+		$environment->addExtension(new TwigJRegistry);
+	}
 }

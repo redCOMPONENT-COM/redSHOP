@@ -107,7 +107,7 @@ function getShippinginfo(ship_id, is_company) {
         if (document.getElementById("user_id")) {
             val = '&user_id=' + document.getElementById("user_id").value;
         }
-        xmlhttp.onreadystatechange = function () {
+        xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 if (document.getElementById('order_shipping_div')) {
                     document.getElementById('order_shipping_div').innerHTML = xmlhttp.responseText;

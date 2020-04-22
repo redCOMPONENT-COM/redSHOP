@@ -21,42 +21,43 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldExtraFieldPayment extends JFormFieldList
 {
-    /**
-     * Element name
-     *
-     * @var    string
-     */
-    public $type = 'extrafieldpayment';
+	/**
+	 * Element name
+	 *
+	 * @var    string
+	 */
+	public $type = 'extrafieldpayment';
 
-    /**
-     * Get Extra field info as an option
-     *
-     * @return  array  Extra Field list
-     */
-    protected function getOptions()
-    {
-        if (!is_array($this->value)) {
-            $this->value = explode(',', $this->value);
-        }
+	/**
+	 * Get Extra field info as an option
+	 *
+	 * @return  array  Extra Field list
+	 */
+	protected function getOptions()
+	{
+		if (!is_array($this->value))
+		{
+			$this->value = explode(',', $this->value);
+		}
 
-        // Init variables.
-        $db = JFactory::getDbo();
+		// Init variables.
+		$db = JFactory::getDbo();
 
-        // Create the base select statement.
-        $query = $db->getQuery(true)
-            ->select('name as value, title as text')
-            ->from($db->qn('#__redshop_fields'))
-            ->where($db->qn('published') . ' = 1')
-            ->where($db->qn('show_in_front') . ' = 1')
-            ->where($db->qn('section') . ' = 18')
-            ->order($db->qn('ordering') . ' ASC');
+		// Create the base select statement.
+		$query = $db->getQuery(true)
+			->select('name as value, title as text')
+			->from($db->qn('#__redshop_fields'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('show_in_front') . ' = 1')
+			->where($db->qn('section') . ' = 18')
+			->order($db->qn('ordering') . ' ASC');
 
-        // Set the query and load the result.
-        $db->setQuery($query);
+		// Set the query and load the result.
+		$db->setQuery($query);
 
-        return array_merge(
-            parent::getOptions(),
-            $db->loadObjectList()
-        );
-    }
+		return array_merge(
+			parent::getOptions(),
+			$db->loadObjectList()
+		);
+	}
 }

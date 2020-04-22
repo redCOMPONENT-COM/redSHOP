@@ -18,43 +18,45 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityMedia extends RedshopEntity
 {
-    /**
-     * @var  RedshopEntity
-     */
-    protected $sectionEntity;
+	/**
+	 * @var  RedshopEntity
+	 */
+	protected $sectionEntity;
 
-    /**
-     * Method for get section entity
-     *
-     * @return  RedshopEntity
-     *
-     * @since   2.1.0
-     */
-    public function getSection()
-    {
-        if ($this->sectionEntity === null) {
-            $this->loadSectionEntity();
-        }
+	/**
+	 * Method for get section entity
+	 *
+	 * @return  RedshopEntity
+	 *
+	 * @since   2.1.0
+	 */
+	public function getSection()
+	{
+		if ($this->sectionEntity === null)
+		{
+			$this->loadSectionEntity();
+		}
 
-        return $this->sectionEntity;
-    }
+		return $this->sectionEntity;
+	}
 
-    /**
-     * Method for load section entity
-     *
-     * @return  self
-     *
-     * @since   2.1.0
-     */
-    public function loadSectionEntity()
-    {
-        if (!$this->hasId()) {
-            return $this;
-        }
+	/**
+	 * Method for load section entity
+	 *
+	 * @return  self
+	 *
+	 * @since   2.1.0
+	 */
+	public function loadSectionEntity()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
 
-        $entityClass         = 'RedshopEntity' . ucfirst($this->get('media_section'));
-        $this->sectionEntity = $entityClass::getInstance($this->get('section_id'));
+		$entityClass         = 'RedshopEntity' . ucfirst($this->get('media_section'));
+		$this->sectionEntity = $entityClass::getInstance($this->get('section_id'));
 
-        return $this;
-    }
+		return $this;
+	}
 }

@@ -18,35 +18,36 @@ JFormHelper::loadFieldClass('list');
  */
 class RedshopFormFieldManufacturer extends JFormFieldList
 {
-    /**
-     * The form field type.
-     *
-     * @var    string
-     * @since  1.0
-     */
-    public $type = 'Manufacturer';
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $type = 'Manufacturer';
 
-    /**
-     * Method to get the field input markup.
-     *
-     * @return  array  The field input markup.
-     */
-    protected function getOptions()
-    {
-        // Process value
-        if (!empty($this->value) && $this->multiple && !is_array($this->value)) {
-            $this->value = explode(',', $this->value);
-        }
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  array  The field input markup.
+	 */
+	protected function getOptions()
+	{
+		// Process value
+		if (!empty($this->value) && $this->multiple && !is_array($this->value))
+		{
+			$this->value = explode(',', $this->value);
+		}
 
-        $db      = JFactory::getDbo();
-        $query   = $db->getQuery(true)
-            ->select($db->qn('id', 'value'))
-            ->select($db->qn('name', 'text'))
-            ->from($db->qn('#__redshop_manufacturer'));
-        $options = $db->setQuery($query)->loadObjectList();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('id', 'value'))
+			->select($db->qn('name', 'text'))
+			->from($db->qn('#__redshop_manufacturer'));
+		$options = $db->setQuery($query)->loadObjectList();
 
-        $options = array_merge(parent::getOptions(), $options);
+		$options = array_merge(parent::getOptions(), $options);
 
-        return $options;
-    }
+		return $options;
+	}
 }

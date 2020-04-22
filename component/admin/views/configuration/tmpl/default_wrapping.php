@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -10,9 +9,8 @@
 defined('_JEXEC') or die;
 ?>
     <div class="form-group row-fluid">
-        <label class="col-md-4 hasPopover"
-               data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_WRAPPER_THUMB_WIDTH_LBL'); ?>">
-            <?php echo JText::_('COM_REDSHOP_DEFAULT_WRAPPER_THUMB_WIDTH_HEIGHT'); ?>
+        <label class="col-md-4 hasPopover" data-content="<?php echo JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_WRAPPER_THUMB_WIDTH_LBL'); ?>">
+			<?php echo JText::_('COM_REDSHOP_DEFAULT_WRAPPER_THUMB_WIDTH_HEIGHT'); ?>
         </label>
         <div class="col-md-8">
             <div class="row">
@@ -29,10 +27,10 @@ defined('_JEXEC') or die;
     </div>
 <?php
 echo RedshopLayoutHelper::render(
-    'config.config',
-    array(
-        'title' => JText::_('COM_REDSHOP_AUTO_SCROLL_FOR_WRAPPER_LBL'),
-        'desc'  => JText::_('COM_REDSHOP_TOOLTIP_AUTO_SCROLL_FOR_WRAPPER_LBL'),
-        'field' => $this->lists['auto_scroll_wrapper']
-    )
+	'config.config',
+	array(
+		'title' => JText::_('COM_REDSHOP_AUTO_SCROLL_FOR_WRAPPER_LBL'),
+		'desc'  => JText::_('COM_REDSHOP_TOOLTIP_AUTO_SCROLL_FOR_WRAPPER_LBL'),
+		'field' => $this->lists['auto_scroll_wrapper']
+	)
 );

@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
 /**
  * Controller Zipcode Detail
  *
@@ -18,19 +17,19 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerZipcode extends RedshopControllerForm
 {
-    /**
-     * Ajax get state 2 code
-     *
-     * @return  void
-     *
-     * @since   2.1.3
-     */
-    public function ajaxGetState2Code()
-    {
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-        $model = $this->getModel();
-        $form  = $model->getForm();
-        echo $form->renderField('state_code');
-        jexit();
-    }
+	/**
+	 * Ajax get state 2 code
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.3
+	 */
+	public function ajaxGetState2Code()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$model = $this->getModel();
+		$form  = $model->getForm();
+		echo $form->renderField('state_code');
+		jexit();
+	}
 }

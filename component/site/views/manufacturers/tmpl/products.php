@@ -15,11 +15,11 @@ $manufacturer         = $this->detail[0];
 $manufacturerTemplate = RedshopHelperTemplate::getTemplate("manufacturer_products", $manufacturer->template_id);
 
 if (count($manufacturerTemplate) > 0 && $manufacturerTemplate[0]->template_desc) {
-    $templateDesc = $manufacturerTemplate[0]->template_desc;
-    $templateId   = $manufacturerTemplate[0]->id;
+	$templateDesc = $manufacturerTemplate[0]->template_desc;
+	$templateId   = $manufacturerTemplate[0]->id;
 } else {
-    $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('manufacturer_products');
-    $templateId   = 0;
+	$templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('manufacturer_products');
+	$templateId   = 0;
 }
 
 
@@ -27,13 +27,13 @@ if (count($manufacturerTemplate) > 0 && $manufacturerTemplate[0]->template_desc)
 $model = $this->getModel('manufacturers');
 
 echo RedshopTagsReplacer::_(
-    'manufacturerproduct',
-    $templateDesc,
-    [
-        'params'               => $this->params,
-        'manufacturerProducts' => $model->getManufacturerProducts($templateDesc),
-        'manufacturer'         => $manufacturer,
-        'pagination'           => $model->getProductPagination(),
-        'lists'                => $this->lists
-    ]
+	'manufacturerproduct',
+	$templateDesc,
+	[
+		'params'               => $this->params,
+		'manufacturerProducts' => $model->getManufacturerProducts($templateDesc),
+		'manufacturer'         => $manufacturer,
+		'pagination'           => $model->getProductPagination(),
+		'lists'                => $this->lists
+	]
 );

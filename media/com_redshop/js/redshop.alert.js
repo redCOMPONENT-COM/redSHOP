@@ -39,12 +39,12 @@
          * Display alert function
          */
         this.display = function () {
-            $wrapper.find("div.alert-item").each(function (index, item) {
+            $wrapper.find("div.alert-item").each(function(index, item){
                 var $item = $(item);
 
-                $item.fadeIn('slow', function () {
+                $item.fadeIn('slow', function(){
                     window.setTimeout(function () {
-                        $item.fadeOut('slow', function () {
+                        $item.fadeOut('slow', function(){
                             $item.remove();
                         });
                     }, 2500);
@@ -63,7 +63,7 @@
                     $("<h4>").html(msgTitle)
                 )
                 .append($("<p>").html(msgBody))
-                .click(function (evt) {
+                .click(function(evt){
                     $(this).remove();
                 });
 

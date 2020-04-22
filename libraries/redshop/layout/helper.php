@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
 use Redshop\Twig;
 
 JLoader::import('redshop.library');
@@ -23,139 +24,141 @@ JLoader::import('redshop.library');
  */
 class RedshopLayoutHelper
 {
-    /**
-     * A default base path that will be used if none is provided when calling the render method.
-     * Note that JLayoutFile itself will defaults to JPATH_ROOT . '/layouts' if no basePath is supplied at all
-     *
-     * @var    string
-     */
-    public static $defaultBasePath = '';
+	/**
+	 * A default base path that will be used if none is provided when calling the render method.
+	 * Note that JLayoutFile itself will defaults to JPATH_ROOT . '/layouts' if no basePath is supplied at all
+	 *
+	 * @var    string
+	 */
+	public static $defaultBasePath = '';
 
-    /**
-     * @var    array
-     */
-    public static $layoutOption = array(
-        'component'  => 'com_redshop',
-        'layoutType' => 'Twig',
-        'layoutOf'   => 'library'
-    );
+	/**
+	 * @var    array
+	 */
+	public static $layoutOption = array(
+		'component'  => 'com_redshop',
+		'layoutType' => 'Twig',
+		'layoutOf'   => 'library'
+	);
 
-    /**
-     * Method to render the redshop tag layout.
-     *
-     * @param   string  $tagName      Name tag
-     * @param   string  $template     Template with current tag
-     * @param   string  $tagSection   Section tag
-     * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
-     * @param   string  $basePath     Base path to use when loading layout files
-     * @param   mixed   $options      Optional custom options to load. JRegistry or array format
-     *
-     * @return  void
-     */
-    public static function renderTag(
-        $tagName,
-        &$template,
-        $tagSection = '',
-        $displayData = null,
-        $basePath = '',
-        $options = null
-    ) {
-        if (strpos($template, $tagName) === false) {
-            return;
-        }
+	/**
+	 * Method to render the layout.
+	 *
+	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
+	 * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   string  $basePath     Base path to use when loading layout files
+	 * @param   mixed   $options      Optional custom options to load. JRegistry or array format
+	 *
+	 * @return  string
+	 */
+	public static function render($layoutFile,
+	                              $displayData = null,
+	                              $basePath = '',
+	                              $options = array('component' => 'com_redshop'))
+	{
+		$basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
 
-        $filePath = array('tags');
+		// Make sure we send null to JLayoutFile if no path set
+		$basePath  = empty($basePath) ? null : $basePath;
+		$renderedLayout = '';
 
-        if ($tagSection) {
-            $filePath[] = $tagSection;
-        } else {
-            $filePath[] = 'common';
-        }
+		if ($displayData === null)
+		{
+			$displayData = array();
+		}
 
-        $filePath[] = str_replace(array('{', '}', ':', ' '), array('', '', '_', '_'), $tagName);
+		// Check for render Twig or PHP normally
+		if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig')
+		{
+			// Shorter code for Scrutinizer check
+			$renderedLayout = self::renderTwig($layoutFile, $displayData, $basePath, $options);
+		}
+		else
+		{
+			$layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
+			$renderedLayout = $layout->render($displayData);
+		}
 
-        $return   = self::render(implode('.', $filePath), $displayData, $basePath, $options);
-        $template = str_replace($tagName, $return, $template);
-    }
+		return $renderedLayout;
+	}
 
-    /**
-     * Method to render the layout.
-     *
-     * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
-     * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
-     * @param   string  $basePath     Base path to use when loading layout files
-     * @param   mixed   $options      Optional custom options to load. JRegistry or array format
-     *
-     * @return  string
-     */
-    public static function render(
-        $layoutFile,
-        $displayData = null,
-        $basePath = '',
-        $options = array('component' => 'com_redshop')
-    ) {
-        $basePath = empty($basePath) ? self::$defaultBasePath : $basePath;
+	/**
+	 * Method to render the layout of Twig
+	 *
+	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
+	 * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   string  $basePath     Base path to use when loading layout files
+	 * @param   mixed   $options      Optional custom options to load. JRegistry or array format
+	 *
+	 * @return  string
+	 */
+	public static function renderTwig($layoutFile,
+	                              $displayData = array(),
+	                              $basePath = '',
+	                              $options = array('component' => 'com_redshop'))
+	{
+		if (empty($options['layoutOf']) )
+		{
+			return '';
+		}
 
-        // Make sure we send null to JLayoutFile if no path set
-        $basePath       = empty($basePath) ? null : $basePath;
-        $renderedLayout = '';
+		$layoutOf = Joomla\String\StringHelper::strtolower($options['layoutOf']);
+		$layoutOf = Joomla\String\StringHelper::trim((string) $layoutOf);
 
-        if ($displayData === null) {
-            $displayData = array();
-        }
+		if ($layoutOf === '')
+		{
+			return '';
+		}
 
-        // Check for render Twig or PHP normally
-        if (!empty($options['layoutType']) && $options['layoutType'] === 'Twig') {
-            // Shorter code for Scrutinizer check
-            $renderedLayout = self::renderTwig($layoutFile, $displayData, $basePath, $options);
-        } else {
-            $layout         = new RedshopLayoutFile($layoutFile, $basePath, $options);
-            $renderedLayout = $layout->render($displayData);
-        }
+		$prefix = 'redshop';
 
-        return $renderedLayout;
-    }
+		if (!empty($options['prefix']))
+		{
+			$prefix = $options['prefix'];
+		}
 
-    /**
-     * Method to render the layout of Twig
-     *
-     * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
-     * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
-     * @param   string  $basePath     Base path to use when loading layout files
-     * @param   mixed   $options      Optional custom options to load. JRegistry or array format
-     *
-     * @return  string
-     */
-    public static function renderTwig(
-        $layoutFile,
-        $displayData = array(),
-        $basePath = '',
-        $options = array('component' => 'com_redshop')
-    ) {
-        if (empty($options['layoutOf'])) {
-            return '';
-        }
+		// Ensure not include strange thing
+		$layoutFile = str_replace('_:', '', $layoutFile);
 
-        $layoutOf = Joomla\String\StringHelper::strtolower($options['layoutOf']);
-        $layoutOf = Joomla\String\StringHelper::trim((string)$layoutOf);
+		$renderPath     = str_replace('.', '/', $basePath . $layoutFile);
+		$renderPath     = '@' . /** @scrutinizer ignore-type */ $layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
 
-        if ($layoutOf === '') {
-            return '';
-        }
+		return html_entity_decode(Twig::render($renderPath, $displayData));
+	}
 
-        $prefix = 'redshop';
+	/**
+	 * Method to render the redshop tag layout.
+	 *
+	 * @param   string  $tagName      Name tag
+	 * @param   string  $template     Template with current tag
+	 * @param   string  $tagSection   Section tag
+	 * @param   array   $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   string  $basePath     Base path to use when loading layout files
+	 * @param   mixed   $options      Optional custom options to load. JRegistry or array format
+	 *
+	 * @return  void
+	 */
+	public static function renderTag($tagName, &$template, $tagSection = '', $displayData = null, $basePath = '', $options = null)
+	{
+		if (strpos($template, $tagName) === false)
+		{
+			return;
+		}
 
-        if (!empty($options['prefix'])) {
-            $prefix = $options['prefix'];
-        }
+		$filePath = array('tags');
 
-        // Ensure not include strange thing
-        $layoutFile = str_replace('_:', '', $layoutFile);
+		if ($tagSection)
+		{
+			$filePath[] = $tagSection;
+		}
+		else
+		{
+			$filePath[] = 'common';
+		}
 
-        $renderPath = str_replace('.', '/', $basePath . $layoutFile);
-        $renderPath = '@' . /** @scrutinizer ignore-type */
-            $layoutOf . '/' . $prefix . '/' . $renderPath . '.html.twig';
+		$filePath[] = str_replace(array('{', '}', ':', ' '), array('', '', '_', '_'), $tagName);
 
-        return html_entity_decode(Twig::render($renderPath, $displayData));
-    }
+		$return = self::render(implode('.', $filePath), $displayData, $basePath, $options);
+		$template = str_replace($tagName, $return, $template);
+	}
 }

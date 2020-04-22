@@ -24,26 +24,28 @@ $text     = $displayData['text'];
 $desc     = $displayData['description'];
 $for      = $displayData['for'];
 $req      = $displayData['required'];
-$classes  = array_filter((array)$displayData['classes']);
+$classes  = array_filter((array) $displayData['classes']);
 $position = $displayData['position'];
 
 $id    = $for . '-lbl';
 $title = '';
 
 // If a description is specified, use it to build a tooltip.
-if (!empty($desc)) {
-    JHtml::_('redshopjquery.popover');
-    $classes[] = 'hasPopover';
-    $title     = ' title="' . trim($text) . '" data-content="' . trim($desc) . '"';
+if (!empty($desc))
+{
+	JHtml::_('redshopjquery.popover');
+	$classes[] = 'hasPopover';
+	$title     = ' title="' . trim($text) . '" data-content="' . trim($desc) . '"';
 }
 
 // If required, there's a class for that.
-if ($req) {
-    $classes[] = 'required';
+if ($req)
+{
+	$classes[] = 'required';
 }
 
 ?>
 <label id="<?php echo $id ?>" for="<?php echo $for ?>"
        class="col-md-2 control-label <?php echo implode(' ', $classes) ?>"<?php echo $title ?><?php echo $position ?>>
-    <?php echo $text ?><?php if ($req) : ?><span class="star text-danger">&#160;*</span><?php endif; ?>
+	<?php echo $text ?><?php if ($req) : ?><span class="star text-danger">&#160;*</span><?php endif; ?>
 </label>

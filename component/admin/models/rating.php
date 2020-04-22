@@ -12,61 +12,62 @@ defined('_JEXEC') or die;
 
 class RedshopModelRating extends RedshopModel
 {
-    public function _buildQuery()
-    {
-        $comment_filter = $this->getState('comment_filter');
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('comment_filter');
 
-        $where = '';
+		return parent::getStoreId($id);
+	}
 
-        if ($comment_filter) {
-            $where = " WHERE u.username LIKE '%" . $comment_filter . "%' ";
-            $where .= " OR r.comment LIKE '%" . $comment_filter . "%' ";
-            $where .= " OR p.product_name LIKE '%" . $comment_filter . "%' ";
-        }
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'rating_id', $direction = 'desc')
+	{
+		$comment_filter = $this->getUserStateFromRequest($this->context . '.comment_filter', 'comment_filter', '');
+		$this->setState('comment_filter', $comment_filter);
 
-        $orderby = $this->_buildContentOrderBy();
+		parent::populateState($ordering, $direction);
+	}
 
-        $query = ' SELECT p.product_name,u.username,r.* '
-            . ' FROM #__redshop_product_rating r LEFT JOIN #__redshop_product p ON p.product_id = r.product_id  LEFT JOIN #__users u ON u.id = r.userid ' . $where . $orderby;
+	public function _buildQuery()
+	{
+		$comment_filter = $this->getState('comment_filter');
 
-        return $query;
-    }
+		$where = '';
 
-    /**
-     * Method to get a store id based on model configuration state.
-     *
-     * This is necessary because the model is used by the component and
-     * different modules that might need different sets of data or different
-     * ordering requirements.
-     *
-     * @param   string  $id  A prefix for the store id.
-     *
-     * @return  string  A store id.
-     *
-     * @since   1.5
-     */
-    protected function getStoreId($id = '')
-    {
-        $id .= ':' . $this->getState('comment_filter');
+		if ($comment_filter)
+		{
+			$where  = " WHERE u.username LIKE '%" . $comment_filter . "%' ";
+			$where .= " OR r.comment LIKE '%" . $comment_filter . "%' ";
+			$where .= " OR p.product_name LIKE '%" . $comment_filter . "%' ";
+		}
 
-        return parent::getStoreId($id);
-    }
+		$orderby = $this->_buildContentOrderBy();
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     *
-     * @note    Calling getState in this method will result in recursion.
-     */
-    protected function populateState($ordering = 'rating_id', $direction = 'desc')
-    {
-        $comment_filter = $this->getUserStateFromRequest($this->context . '.comment_filter', 'comment_filter', '');
-        $this->setState('comment_filter', $comment_filter);
+		$query = ' SELECT p.product_name,u.username,r.* '
+			. ' FROM #__redshop_product_rating r LEFT JOIN #__redshop_product p ON p.product_id = r.product_id  LEFT JOIN #__users u ON u.id = r.userid ' . $where . $orderby;
 
-        parent::populateState($ordering, $direction);
-    }
+		return $query;
+	}
 }

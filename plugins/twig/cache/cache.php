@@ -23,67 +23,70 @@ use Twig\Loader\LoaderInterface;
  */
 class PlgTwigCache extends BaseTwigPlugin
 {
-    /**
-     * Cache status inherited.
-     *
-     * @const
-     * @since  1.1.0
-     */
-    const STATUS_INHERITED = 0;
+	/**
+	 * Cache status inherited.
+	 *
+	 * @const
+	 * @since  1.1.0
+	 */
+	const STATUS_INHERITED = 0;
 
-    /**
-     * Cache status enabled.
-     *
-     * @const
-     * @since  1.1.0
-     */
-    const STATUS_ENABLED = 1;
+	/**
+	 * Cache status enabled.
+	 *
+	 * @const
+	 * @since  1.1.0
+	 */
+	const STATUS_ENABLED = 1;
 
-    /**
-     * Cache status disabled.
-     *
-     * @const
-     * @since  1.1.0
-     */
-    const STATUS_DISABLED = 2;
+	/**
+	 * Cache status disabled.
+	 *
+	 * @const
+	 * @since  1.1.0
+	 */
+	const STATUS_DISABLED = 2;
 
-    /**
-     * @param   Environment      $environment
-     * @param   LoaderInterface  $loader
-     * @param                    $options
-     *
-     * @throws Exception
-     */
-    public function onTwigBeforeLoad(Environment $environment, LoaderInterface $loader, &$options)
-    {
-        if (!$this->isEnabled()) {
-            return;
-        }
+	/**
+	 * @param   Environment      $environment
+	 * @param   LoaderInterface  $loader
+	 * @param                    $options
+	 *
+	 * @throws Exception
+	 */
+	public function onTwigBeforeLoad(Environment $environment, LoaderInterface $loader, &$options)
+	{
+		if (!$this->isEnabled())
+		{
+			return;
+		}
 
-        $cacheFolder = Factory::getConfig()->get('cache_path', JPATH_CACHE) . '/twig';
+		$cacheFolder = Factory::getConfig()->get('cache_path', JPATH_CACHE) . '/twig';
 
-        if ($cacheFolder !== JPATH_CACHE) {
-            $cacheFolder .= '/' . (Factory::getApplication()->isSite() ? 'site' : 'admin');
-        }
+		if ($cacheFolder !== JPATH_CACHE)
+		{
+			$cacheFolder .= '/' . (Factory::getApplication()->isSite() ? 'site' : 'admin');
+		}
 
-        $options['cache'] = $cacheFolder;
-    }
+		$options['cache'] = $cacheFolder;
+	}
 
-    /**
-     * Check if the cache is enabled.
-     *
-     * @return  boolean
-     *
-     * @since   1.1.0
-     */
-    private function isEnabled()
-    {
-        $status = (int)$this->params->get('enabled', 0);
+	/**
+	 * Check if the cache is enabled.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.1.0
+	 */
+	private function isEnabled()
+	{
+		$status = (int) $this->params->get('enabled', 0);
 
-        if (self::STATUS_INHERITED === $status) {
-            return (0 !== (int)Factory::getConfig()->get('caching'));
-        }
+		if (self::STATUS_INHERITED === $status)
+		{
+			return (0 !== (int) Factory::getConfig()->get('caching'));
+		}
 
-        return $status === self::STATUS_ENABLED;
-    }
+		return $status === self::STATUS_ENABLED;
+	}
 }

@@ -16,37 +16,41 @@ defined('_JEXEC') or die;
  */
 class RedshopTagsReplacer
 {
-    /**
-     * Execute replace
-     *
-     * @param   string  $key       Key
-     * @param   string  $template  Input template
-     * @param   array   $data      Extra data
-     *
-     * @return  string
-     *
-     * @since   2.1
-     */
-    public static function _($key, $template, $data = array())
-    {
-        if (strpos($key, '.') !== false) {
-            $execute = explode('.', $key);
-        } else {
-            $execute[0] = $key;
+	/**
+	 * Execute replace
+	 *
+	 * @param   string  $key       Key
+	 * @param   string  $template  Input template
+	 * @param   array   $data      Extra data
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1
+	 */
+	public static function _($key, $template, $data = array())
+	{
+		if (strpos($key, '.') !== false)
+		{
+			$execute = explode('.', $key);
+		}
+		else
+		{
+			$execute[0] = $key;
 
-            // By default we call replace for general replace
-            $execute[1] = 'replace';
-        }
+			// By default we call replace for general replace
+			$execute[1] = 'replace';
+		}
 
-        $className = 'RedshopTagsSections' . ucfirst($execute[0]);
+		$className = 'RedshopTagsSections' . ucfirst($execute[0]);
 
-        // Make sure we have this sub class before use it
-        if (class_exists($className)) {
-            $class = new $className($template, $data);
+		// Make sure we have this sub class before use it
+		if (class_exists($className))
+		{
+			$class = new $className($template, $data);
 
-            return call_user_func(array($class, $execute[1]));
-        }
+			return call_user_func(array($class, $execute[1]));
+		}
 
-        return $template;
-    }
+		return $template;
+	}
 }

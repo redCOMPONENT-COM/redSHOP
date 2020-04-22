@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -9,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$session = JFactory::getSession();
+$session       = JFactory::getSession();
 
 $post = JFactory::getApplication()->input->get->getArray();
 
@@ -21,17 +20,19 @@ $user_id             = $post['order_user_id'];
 $shipp_users_info_id = $post['shipp_users_info_id'];
 $userinfo            = RedshopHelperUser::getUserInformation($user_id, "BT");
 
-if ($shipp_users_info_id == 0 && count($userinfo) > 0) {
-    $shipp_users_info_id = $userinfo->users_info_id;
+if ($shipp_users_info_id == 0 && count($userinfo) > 0)
+{
+	$shipp_users_info_id = $userinfo->users_info_id;
 }
 $productItem = explode(",", $productarr);
 $qntItem     = explode(",", $qntarr);
 
 $cart = array();
 
-for ($pi = 0; $pi < count($productItem); $pi++) {
-    $cart[$pi]['product_id'] = $productItem[$pi];
-    $cart[$pi]['quantity']   = $qntItem[$pi];
+for ($pi = 0; $pi < count($productItem); $pi++)
+{
+	$cart[$pi]['product_id'] = $productItem[$pi];
+	$cart[$pi]['quantity']   = $qntItem[$pi];
 }
 
 $cart['idx']   = count($cart);

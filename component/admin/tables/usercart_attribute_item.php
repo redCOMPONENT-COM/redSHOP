@@ -18,40 +18,47 @@ defined('_JEXEC') or die;
  */
 class RedshopTableUsercart_Attribute_Item extends \Redshop\Table\AbstractTable
 {
-    /**
-     * @var integer
-     */
-    public $cart_att_item_id = 0;
-    /**
-     * @var integer
-     */
-    public $cart_item_id = 0;
-    /**
-     * @var integer
-     */
-    public $section_id = 0;
-    /**
-     * @var string
-     */
-    public $section = null;
-    /**
-     * @var integer
-     */
-    public $parent_section_id = 0;
-    /**
-     * @var integer
-     */
-    public $is_accessory_att = 0;
-    /**
-     * The table name without the prefix. Ex: cursos_courses
-     *
-     * @var  string
-     */
-    protected $_tableName = 'redshop_usercart_attribute_item';
-    /**
-     * The table key column. Usually: id
-     *
-     * @var  string
-     */
-    protected $_tableKey = 'cart_att_item_id';
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_usercart_attribute_item';
+
+	/**
+	 * The table key column. Usually: id
+	 *
+	 * @var  string
+	 */
+	protected $_tableKey = 'cart_att_item_id';
+
+	/**
+	 * @var integer
+	 */
+	public $cart_att_item_id = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $cart_item_id = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $section_id = 0;
+
+	/**
+	 * @var string
+	 */
+	public $section = null;
+
+	/**
+	 * @var integer
+	 */
+	public $parent_section_id = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $is_accessory_att = 0;
 }

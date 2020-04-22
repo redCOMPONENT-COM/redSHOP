@@ -18,11 +18,11 @@ defined('_JEXEC') or die;
  */
 class RedshopViewTemplate extends RedshopViewForm
 {
-    /**
-     * Split fieldset in form into column
-     *
-     * @var   integer
-     * @since 2.0.7
-     */
-    public $formFieldsetsColumn = 1;
+	/**
+	 * Split fieldset in form into column
+	 *
+	 * @var   integer
+	 * @since 2.0.7
+	 */
+	public $formFieldsetsColumn = 1;
 }

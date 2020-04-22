@@ -18,52 +18,62 @@ defined('_JEXEC') or die;
  */
 class RedshopTableUsercart_Item extends \Redshop\Table\AbstractTable
 {
-    /**
-     * @var integer
-     */
-    public $cart_item_id = 0;
-    /**
-     * @var integer
-     */
-    public $cart_idx = 0;
-    /**
-     * @var integer
-     */
-    public $cart_id = 0;
-    /**
-     * @var integer
-     */
-    public $product_id = 0;
-    /**
-     * @var integer
-     */
-    public $product_quantity = 0;
-    /**
-     * @var integer
-     */
-    public $product_wrapper_id = 0;
-    /**
-     * @var integer
-     */
-    public $product_subscription_id = 0;
-    /**
-     * @var integer
-     */
-    public $giftcard_id = 0;
-    /**
-     * @var string
-     */
-    public $attribs = '';
-    /**
-     * The table name without the prefix. Ex: cursos_courses
-     *
-     * @var  string
-     */
-    protected $_tableName = 'redshop_usercart_item';
-    /**
-     * The table key column. Usually: id
-     *
-     * @var  string
-     */
-    protected $_tableKey = 'cart_item_id';
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_usercart_item';
+
+	/**
+	 * The table key column. Usually: id
+	 *
+	 * @var  string
+	 */
+	protected $_tableKey = 'cart_item_id';
+
+	/**
+	 * @var integer
+	 */
+	public $cart_item_id = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $cart_idx = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $cart_id = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $product_id = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $product_quantity = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $product_wrapper_id = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $product_subscription_id = 0;
+
+	/**
+	 * @var integer
+	 */
+	public $giftcard_id = 0;
+
+	/**
+	 * @var string
+	 */
+	public $attribs = '';
 }

@@ -20,58 +20,56 @@ JLoader::import('redshop.library');
  */
 class JFormFieldRdaterange extends JFormField
 {
-    /**
-     * Element name
-     *
-     * @var   string
-     */
-    protected $type = 'Rdaterange';
+	/**
+	 * Element name
+	 *
+	 * @var   string
+	 */
+	protected $type = 'Rdaterange';
 
-    /**
-     * The autocomplete state for the form field.  If 'off' element will not be automatically
-     * completed by browser.
-     *
-     * @var    mixed
-     * @since  3.2
-     */
-    protected $autocomplete = 'false';
+	/**
+	 * The autocomplete state for the form field.  If 'off' element will not be automatically
+	 * completed by browser.
+	 *
+	 * @var    mixed
+	 * @since  3.2
+	 */
+	protected $autocomplete = 'false';
 
-    /**
-     * Method to get the field input markup.
-     *
-     * @return  string  The field input markup.
-     *
-     * @since   11.1
-     */
-    public function getInput()
-    {
-        $format     = (isset($this->element['format'])) ? (string)$this->element['format'] : 'DD/MM/YYYY';
-        $firstDay   = (isset($this->element['first_day'])) ? (int)$this->element['first_day'] : 1;
-        $autoApply  = (isset($this->element['auto_apply'])) ? (boolean)$this->element['auto_apply'] : true;
-        $showButton = (isset($this->element['show_button'])) ? (boolean)$this->element['show_button'] : true;
-        $class      = (isset($this->element['class'])) ? (string)$this->element['class'] : '';
-        $onChange   = (isset($this->element['onChange'])) ? (string)$this->element['onChange'] : '';
-        $phpFormat  = (isset($this->element['phpFormat'])) ? (string)$this->element['phpFormat'] : 'd/m/Y';
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   11.1
+	 */
+	public function getInput()
+	{
+		$format     = (isset($this->element['format'])) ? (string) $this->element['format'] : 'DD/MM/YYYY';
+		$firstDay   = (isset($this->element['first_day'])) ? (int) $this->element['first_day'] : 1;
+		$autoApply  = (isset($this->element['auto_apply'])) ? (boolean) $this->element['auto_apply'] : true;
+		$showButton = (isset($this->element['show_button'])) ? (boolean) $this->element['show_button'] : true;
+		$class      = (isset($this->element['class'])) ? (string) $this->element['class'] : '';
+		$onChange   = (isset($this->element['onChange'])) ? (string) $this->element['onChange'] : '';
+		$phpFormat  = (isset($this->element['phpFormat'])) ? (string) $this->element['phpFormat'] : 'd/m/Y';
 
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/moment.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/daterangepicker.min.js', false, true);
-        JHtml::stylesheet('com_redshop/daterangepicker.min.css', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/moment.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/daterangepicker.min.js', false, true);
+		JHtml::stylesheet('com_redshop/daterangepicker.min.css', false, true);
 
-        return RedshopLayoutHelper::render(
-            'field.date_range',
-            array(
-                'format'     => $format,
-                'firstDay'   => $firstDay,
-                'autoApply'  => $autoApply,
-                'field'      => $this,
-                'value'      => $this->value,
-                'class'      => $class,
-                'showButton' => $showButton,
-                'onChange'   => $onChange,
-                'phpFormat'  => $phpFormat
-            )
-        );
-    }
+		return RedshopLayoutHelper::render(
+			'field.date_range',
+			array(
+				'format'     => $format,
+				'firstDay'   => $firstDay,
+				'autoApply'  => $autoApply,
+				'field'      => $this,
+				'value'      => $this->value,
+				'class'      => $class,
+				'showButton' => $showButton,
+				'onChange'   => $onChange,
+				'phpFormat'  => $phpFormat
+			)
+		);
+	}
 }

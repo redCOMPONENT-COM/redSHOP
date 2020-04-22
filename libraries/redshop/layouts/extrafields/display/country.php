@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @var  array   $displayData Layout data.
- * @var  integer $data        Extra field data
+ * @var  array    $displayData  Layout data.
+ * @var  integer  $data         Extra field data
  */
 extract($displayData);
 
-echo RedshopEntityCountry::getInstance((int)$data)->get('country_name');
+echo RedshopEntityCountry::getInstance((int) $data)->get('country_name');

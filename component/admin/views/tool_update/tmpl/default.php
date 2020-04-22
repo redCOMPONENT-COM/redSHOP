@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -78,7 +77,7 @@ defined('_JEXEC') or die;
                     },
                     'JSON'
                 )
-                    .fail(function (response) {
+                    .fail(function(response) {
                         $.redshopAlert(
                             "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_DATABASE') ?>",
                             response.responseText,
@@ -123,7 +122,7 @@ defined('_JEXEC') or die;
             },
             'JSON'
         )
-            .fail(function (response) {
+            .fail(function(response) {
                 $.redshopAlert(
                     "<?php echo JText::_('COM_REDSHOP_TOOL_RUN_TASK') ?>",
                     response.responseText,
@@ -137,7 +136,7 @@ defined('_JEXEC') or die;
     }
 </script>
 <div class="row-fluid">
-    <?php if (!empty($this->availableVersions)): ?>
+	<?php if (!empty($this->availableVersions)): ?>
         <div class="callout callout-default">
             <strong class="text-warning"><i class="fa fa-exclamation-triangle"></i> <?php echo JText::_('WARNING') ?>
             </strong>
@@ -147,7 +146,7 @@ defined('_JEXEC') or die;
             <thead>
             <tr>
                 <th width="5%">
-                    <?php echo JText::_('COM_REDSHOP_TOOL_VERSION') ?>
+					<?php echo JText::_('COM_REDSHOP_TOOL_VERSION') ?>
                 </th>
                 <th width="10%"><?php echo JText::_('COM_REDSHOP_TOOL_TASKS') ?></th>
                 <th width="30%"></th>
@@ -156,10 +155,9 @@ defined('_JEXEC') or die;
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($this->availableVersions as $availableVersion): ?>
+			<?php foreach ($this->availableVersions as $availableVersion): ?>
                 <tr>
-                    <td class="text-center"><strong
-                                class="text-danger"><?php echo $availableVersion->version ?></strong></td>
+                    <td class="text-center"><strong class="text-danger"><?php echo $availableVersion->version ?></strong></td>
                     <td>
                         <button class="btn btn-default btn-block text-center btn-run-task"
                                 data-version="<?php echo $availableVersion->version ?>">
@@ -171,17 +169,15 @@ defined('_JEXEC') or die;
                     </td>
                     <td>
                         <ul>
-                            <?php foreach ($availableVersion->tasks as $task): ?>
+			                <?php foreach ($availableVersion->tasks as $task): ?>
                                 <li><?php echo $task['text'] ?></li>
-                            <?php endforeach; ?>
+			                <?php endforeach; ?>
                         </ul>
                     </td>
                     <td>
                         <button class="btn btn-default btn-block text-center btn-run-db"
                                 data-version="<?php echo $availableVersion->version ?>">
-                            <i class="fa fa-database text-danger"></i> <?php echo JText::_(
-                                'COM_REDSHOP_TOOL_RUN_DATABASE'
-                            ) ?>
+                            <i class="fa fa-database text-danger"></i> <?php echo JText::_('COM_REDSHOP_TOOL_RUN_DATABASE') ?>
                         </button>
                         <img src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH ?>/ajax-loader.gif" class="loader img hidden"
                              width="128px"
@@ -189,8 +185,8 @@ defined('_JEXEC') or die;
                     </td>
                     <td></td>
                 </tr>
-            <?php endforeach; ?>
+			<?php endforeach; ?>
             </tbody>
         </table>
-    <?php endif; ?>
+	<?php endif; ?>
 </div>

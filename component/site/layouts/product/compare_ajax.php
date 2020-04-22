@@ -12,37 +12,38 @@ defined('_JEXEC') or die;
 /**
  * $displayData extract
  *
- * @param   object  $form       A JForm object
- * @param   int     $productId  Id current product
- * @param   int     $modal      Flag use form in modal
+ * @param   object $form       A JForm object
+ * @param   int    $productId Id current product
+ * @param   int    $modal      Flag use form in modal
  */
 extract($displayData);
 
-$compare = $displayData['object'];
-$cmd     = JFactory::getApplication()->input->get('cmd');
-$total   = $compare->getItemsTotal();
+$compare       = $displayData['object'];
+$cmd           = JFactory::getApplication()->input->get('cmd');
+$total         = $compare->getItemsTotal();
 ?>
 <?php if (count($compare->getItems()) > 0) : ?>
     <ul id='compare_ul'>
-        <?php foreach ($compare->getItems() as $data) : ?>
-            <?php
-            $productId  = $data['item']->productId;
-            $categoryId = $data['item']->categoryId;
-            $product    = \Redshop\Product\Product::getProductById($productId);
+		<?php foreach ($compare->getItems() as $data) : ?>
+			<?php
+			$productId  = $data['item']->productId;
+			$categoryId = $data['item']->categoryId;
+			$product    = \Redshop\Product\Product::getProductById($productId);
 
-            $ItemData  = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
-            $catidmain = $product->cat_in_sefurl;
+			$ItemData  = RedshopHelperProduct::getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
+			$catidmain = $product->cat_in_sefurl;
 
-            if (count($ItemData) > 0) {
-                $pItemid = $ItemData->id;
-            } else {
-                $pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
-            }
+			if (count($ItemData) > 0)
+			{
+				$pItemid = $ItemData->id;
+			}
+			else
+			{
+				$pItemid = RedshopHelperRouter::getItemId($product->product_id, $catidmain);
+			}
 
-            $link = JRoute::_(
-                'index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $categoryId . '&Itemid=' . $pItemid
-            );
-            ?>
+			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $productId . '&cid=' . $categoryId . '&Itemid=' . $pItemid);
+			?>
             <li>
                 <span>
                     <a href="<?php echo $link ?>"><?php echo $product->product_name ?></a>
@@ -54,7 +55,7 @@ $total   = $compare->getItemsTotal();
 				</a>
 			</span>
             </li>
-        <?php endforeach; ?>
+		<?php endforeach; ?>
     </ul>
     <div id="totalCompareProduct" style="display:none;"><?php echo $total ?></div>
 <?php endif ?>

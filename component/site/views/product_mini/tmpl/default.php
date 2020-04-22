@@ -52,22 +52,10 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
                 </th>
 
                 <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_PRODUCT_NAME',
-                        'p.product_name',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
+                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
                 <th class="title">
-                    <?php echo JHTML::_(
-                        'grid.sort',
-                        'COM_REDSHOP_PRODUCT_NUMBER',
-                        'p.product_number',
-                        $this->lists['order_Dir'],
-                        $this->lists['order']
-                    ); ?>
+                    <?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NUMBER', 'p.product_number', $this->lists['order_Dir'], $this->lists['order']); ?>
                 </th>
 
             </tr>
@@ -78,10 +66,8 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
             for ($i = 0, $n = count($this->products); $i < $n; $i++) {
                 $row = $this->products[$i];
                 $row->id = $row->product_id ?? null;
-                $link = JRoute::_(
-                    'index.php?option=com_redshop&view=product_detail&task=edit&cid[]='
-                    . $row->id
-                );
+                $link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]='
+                    . $row->id);
 
                 $published = \JHtml::_('jgrid.published', ($row->published ?? null), $i, '', 1);
 

@@ -18,7 +18,7 @@ $task = $app->input->getCmd('task');
 // Group
 $type = $app->input->getCmd('type');
 
-$post = $app->input->getArray();
+$post   = $app->input->getArray();
 
 JPluginHelper::importPlugin($type);
 

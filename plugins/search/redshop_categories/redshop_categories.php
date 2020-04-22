@@ -20,154 +20,167 @@ JLoader::import('redshop.library');
  */
 class PlgSearchRedshop_Categories extends JPlugin
 {
-    /**
-     * Auto load language
-     *
-     * @var  string
-     */
-    protected $autoloadLanguage = true;
+	/**
+	 * Auto load language
+	 *
+	 * @var  string
+	 */
+	protected $autoloadLanguage = true;
 
-    /**
-     * Search content (redSHOP Categories).
-     *
-     * The SQL must return the following fields that are used in a common display
-     * routine: href, title, section, created, text, browsernav.
-     *
-     * @param   string  $text      Target search string.
-     * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
-     * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
-     * @param   mixed   $areas     An array if the search is to be restricted to areas or null to search all areas.
-     *
-     * @return  array  Search results.
-     * @throws  Exception
-     *
-     * @since   1.6
-     */
-    public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
-    {
-        if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
-            return array();
-        }
+	/**
+	 * Determine areas searchable by this plugin.
+	 *
+	 * @return  array  An array of search areas.
+	 */
+	public function onContentSearchAreas()
+	{
+		$areas = array(
+			'redshop_categories' => JText::_('PLG_SEARCH_REDSHOP_CATEGORIES_SECTION_NAME')
+		);
 
-        $text = trim($text);
+		return $areas;
+	}
 
-        if (empty($text)) {
-            return array();
-        }
+	/**
+	 * Search content (redSHOP Categories).
+	 *
+	 * The SQL must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav.
+	 *
+	 * @param   string $text     Target search string.
+	 * @param   string $phrase   Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string $ordering Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   mixed  $areas    An array if the search is to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 * @throws  Exception
+	 *
+	 * @since   1.6
+	 */
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
+	{
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
+		{
+			return array();
+		}
 
-        $section         = $this->params->get('showSection') ? JText::_('PLG_SEARCH_REDSHOP_CATEGORIES') : '';
-        $searchShortDesc = $this->params->get('searchShortDesc', 1);
-        $searchFullDesc  = $this->params->get('searchFullDesc', 1);
+		$text = trim($text);
 
-        // Init variables.
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true)
-            ->select(
-                array(
-                    $db->qn('id'),
-                    $db->qn('name', 'title'),
-                    $db->qn('short_description'),
-                    $db->qn('description', 'text'),
-                    $db->quote($section) . ' AS ' . $db->qn('section'),
-                    $db->quote('') . ' AS ' . $db->qn('created'),
-                    $db->quote('2') . ' AS ' . $db->qn('browsernav')
-                )
-            )
-            ->from($db->qn('#__redshop_category'))
-            ->where($db->qn('published') . ' = 1');
+		if (empty($text))
+		{
+			return array();
+		}
 
-        switch ($phrase) {
-            case 'exact':
-                $text  = $db->q('%' . $db->escape($text, true) . '%', false);
-                $where = array(
-                    $db->qn('name') . ' LIKE ' . $text
-                );
+		$section         = $this->params->get('showSection') ? JText::_('PLG_SEARCH_REDSHOP_CATEGORIES') : '';
+		$searchShortDesc = $this->params->get('searchShortDesc', 1);
+		$searchFullDesc  = $this->params->get('searchFullDesc', 1);
 
-                if ($searchShortDesc) {
-                    $where[] = $db->qn('short_description') . ' LIKE ' . $text;
-                }
+		// Init variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				array(
+					$db->qn('id'),
+					$db->qn('name', 'title'),
+					$db->qn('short_description'),
+					$db->qn('description', 'text'),
+					$db->quote($section) . ' AS ' . $db->qn('section'),
+					$db->quote('') . ' AS ' . $db->qn('created'),
+					$db->quote('2') . ' AS ' . $db->qn('browsernav')
+				)
+			)
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('published') . ' = 1');
 
-                if ($searchFullDesc) {
-                    $where[] = $db->qn('description') . ' LIKE ' . $text;
-                }
+		switch ($phrase)
+		{
+			case 'exact':
+				$text  = $db->q('%' . $db->escape($text, true) . '%', false);
+				$where = array(
+					$db->qn('name') . ' LIKE ' . $text
+				);
 
-                $query->where('(' . implode(' OR ', $where) . ')');
+				if ($searchShortDesc)
+				{
+					$where[] = $db->qn('short_description') . ' LIKE ' . $text;
+				}
 
-                break;
+				if ($searchFullDesc)
+				{
+					$where[] = $db->qn('description') . ' LIKE ' . $text;
+				}
 
-            case 'all':
-            case 'any':
-            default:
-                $words  = explode(' ', $text);
-                $wheres = array();
+				$query->where('(' . implode(' OR ', $where) . ')');
 
-                foreach ($words as $word) {
-                    $word  = $db->q('%' . $db->escape($word, true) . '%', false);
-                    $where = array(
-                        $db->qn('name') . ' LIKE ' . $word
-                    );
+				break;
 
-                    if ($searchShortDesc) {
-                        $where[] = $db->qn('short_description') . ' LIKE ' . $word;
-                    }
+			case 'all':
+			case 'any':
+			default:
+				$words  = explode(' ', $text);
+				$wheres = array();
 
-                    if ($searchFullDesc) {
-                        $where[] = $db->qn('description') . ' LIKE ' . $word;
-                    }
+				foreach ($words as $word)
+				{
+					$word  = $db->q('%' . $db->escape($word, true) . '%', false);
+					$where = array(
+						$db->qn('name') . ' LIKE ' . $word
+					);
 
-                    $wheres[] = implode(' OR ', $where);
-                }
+					if ($searchShortDesc)
+					{
+						$where[] = $db->qn('short_description') . ' LIKE ' . $word;
+					}
 
-                $query->where('(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')');
+					if ($searchFullDesc)
+					{
+						$where[] = $db->qn('description') . ' LIKE ' . $word;
+					}
 
-                break;
-        }
+					$wheres[] = implode(' OR ', $where);
+				}
 
-        switch ($ordering) {
-            case 'oldest':
-                $query->order($db->qn('id') . ' ASC');
-                break;
+				$query->where('(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')');
 
-            case 'alpha':
-                $query->order($db->qn('name') . ' ASC');
-                break;
+				break;
+		}
 
-            case 'newest':
-            default:
-                $query->order($db->qn('id') . ' DESC');
-        }
+		switch ($ordering)
+		{
+			case 'oldest':
+				$query->order($db->qn('id') . ' ASC');
+				break;
 
-        // Set the query and load the result.
-        $db->setQuery($query, 0, $this->params->def('search_limit', 50));
+			case 'alpha':
+				$query->order($db->qn('name') . ' ASC');
+				break;
 
-        try {
-            $rows = $db->loadObjectList();
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
-        }
+			case 'newest':
+			default:
+				$query->order($db->qn('id') . ' DESC');
+		}
 
-        $return = array();
+		// Set the query and load the result.
+		$db->setQuery($query, 0, $this->params->def('search_limit', 50));
 
-        foreach ($rows as $key => $row) {
-            $itemId    = RedshopHelperRouter::getItemId(0, $row->id);
-            $row->href = "index.php?option=com_redshop&view=category&cid=" . $row->id . "&Itemid=" . $itemId;
-            $return[]  = $row;
-        }
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (Exception $e)
+		{
+			throw new Exception($e->getMessage(), $e->getCode());
+		}
 
-        return $return;
-    }
+		$return = array();
 
-    /**
-     * Determine areas searchable by this plugin.
-     *
-     * @return  array  An array of search areas.
-     */
-    public function onContentSearchAreas()
-    {
-        $areas = array(
-            'redshop_categories' => JText::_('PLG_SEARCH_REDSHOP_CATEGORIES_SECTION_NAME')
-        );
+		foreach ($rows as $key => $row)
+		{
+			$itemId    = RedshopHelperRouter::getItemId(0, $row->id);
+			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->id . "&Itemid=" . $itemId;
+			$return[]  = $row;
+		}
 
-        return $areas;
-    }
+		return $return;
+	}
 }

@@ -9,8 +9,8 @@
     <fields name="params">
         <fieldset name="basic">
             <field name="registrationredirect" type="menuitem" default="" disable="separator"
-                   label="COM_REDSHOP_REGISTRATION_REDIRECTION_PAGE"
-                   description="COM_REDSHOP_REGISTRATION_REDIRECTION_PAGE_DESC"/>
+                           label="COM_REDSHOP_REGISTRATION_REDIRECTION_PAGE"
+                           description="COM_REDSHOP_REGISTRATION_REDIRECTION_PAGE_DESC"/>
         </fieldset>
     </fields>
 </metadata>

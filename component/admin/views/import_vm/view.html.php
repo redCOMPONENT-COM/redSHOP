@@ -18,37 +18,37 @@ defined('_JEXEC') or die;
  */
 class RedshopViewImport_Vm extends RedshopViewAdmin
 {
-    /**
-     * @var    boolean
-     * @since  2.1.0
-     */
-    protected $checkVirtuemart;
+	/**
+	 * @var    boolean
+	 * @since  2.1.0
+	 */
+	protected $checkVirtuemart;
 
-    /**
-     * @var    JModelLegacy
-     * @since  2.1.0
-     */
-    protected $model;
+	/**
+	 * @var    JModelLegacy
+	 * @since  2.1.0
+	 */
+	protected $model;
 
-    /**
-     * Function display template
-     *
-     * @param   string  $tpl  name of template
-     *
-     * @return  void
-     *
-     * @since   2.1.0
-     */
-    public function display($tpl = null)
-    {
-        $document = JFactory::getDocument();
+	/**
+	 * Function display template
+	 *
+	 * @param   string  $tpl  name of template
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	public function display($tpl = null)
+	{
+		$document = JFactory::getDocument();
 
-        $this->checkVirtuemart = (boolean)JComponentHelper::isEnabled('com_virtuemart');
-        $this->model           = $this->getModel('Import_VM');
+		$this->checkVirtuemart = (boolean) JComponentHelper::isEnabled('com_virtuemart');
+		$this->model           = $this->getModel('Import_VM');
 
-        $document->setTitle(JText::_('COM_REDSHOP_IMPORT_FROM_VM'));
-        JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_FROM_VM'), 'redshop_import48');
+		$document->setTitle(JText::_('COM_REDSHOP_IMPORT_FROM_VM'));
+		JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_FROM_VM'), 'redshop_import48');
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

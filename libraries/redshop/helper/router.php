@@ -16,289 +16,310 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperRouter
 {
-    /**
-     * @var   array
-     *
-     * @since  2.1.0
-     */
-    protected static $menuItems;
+	/**
+	 * @var   array
+	 *
+	 * @since  2.1.0
+	 */
+	protected static $menuItems;
 
-    /**
-     * @var   array
-     *
-     * @since  2.1.0
-     */
-    protected static $menuItemAssociation = array();
+	/**
+	 * @var   array
+	 *
+	 * @since  2.1.0
+	 */
+	protected static $menuItemAssociation = array();
 
-    /**
-     * Get Item Id
-     *
-     * @param   int  $productId   Product Id
-     * @param   int  $categoryId  Category Id
-     *
-     * @return  mixed
-     *
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    public static function getItemId($productId = 0, $categoryId = 0)
-    {
-        // Get Itemid from Product detail
-        if ($productId) {
-            $result = self::getRedShopMenuItem(
-                array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int)$productId)
-            );
+	/**
+	 * Get Redshop Menu Items
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public static function getRedshopMenuItems()
+	{
+		if (is_null(self::$menuItems))
+		{
+			self::$menuItems = JFactory::getApplication()->getMenu('site')->getItems('component', 'com_redshop');
+		}
 
-            if ($result) {
-                return $result;
-            }
-        }
+		return self::$menuItems;
+	}
 
-        // Get Itemid from Category detail
-        if ($categoryId) {
-            $result = self::getCategoryItemid($categoryId);
+	/**
+	 * Check Menu Query
+	 *
+	 * @param   object $oneMenuItem Values current menu item
+	 * @param   array  $queryItems  Name query check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.1.0
+	 */
+	public static function checkMenuQuery($oneMenuItem, $queryItems)
+	{
+		if (empty($oneMenuItem) || empty($queryItems))
+		{
+			return false;
+		}
 
-            if ($result) {
-                return $result;
-            }
-        }
+		foreach ($queryItems as $key => $value)
+		{
+			if (!isset($oneMenuItem->query[$key])
+				|| (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
+				|| (!is_array($value) && $oneMenuItem->query[$key] != $value)
+			)
+			{
+				return false;
+			}
+		}
 
-        $input = JFactory::getApplication()->input;
+		return true;
+	}
 
-        if ($input->getCmd('option', '') != 'com_redshop') {
-            $result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
+	/**
+	 * Get RedShop Menu Item
+	 *
+	 * @param   array $queryItems Values query
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public static function getRedShopMenuItem($queryItems)
+	{
+		$serializeItem = md5(serialize($queryItems));
 
-            if ($result) {
-                return $result;
-            }
+		if (!array_key_exists($serializeItem, self::$menuItemAssociation))
+		{
+			self::$menuItemAssociation[$serializeItem] = false;
 
-            $result = self::getRedShopMenuItem(array('option' => 'com_redshop'));
+			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			{
+				if (self::checkMenuQuery($oneMenuItem, $queryItems))
+				{
+					self::$menuItemAssociation[$serializeItem] = $oneMenuItem->id;
+					break;
+				}
+			}
+		}
 
-            if ($result) {
-                return $result;
-            }
-        }
+		return self::$menuItemAssociation[$serializeItem];
+	}
 
-        return $input->getInt('Itemid', 0);
-    }
+	/**
+	 * Get Item Id
+	 *
+	 * @param   int $productId  Product Id
+	 * @param   int $categoryId Category Id
+	 *
+	 * @return  mixed
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getItemId($productId = 0, $categoryId = 0)
+	{
+		// Get Itemid from Product detail
+		if ($productId)
+		{
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'product', 'pid' => (int) $productId));
 
-    /**
-     * Get RedShop Menu Item
-     *
-     * @param   array  $queryItems  Values query
-     *
-     * @return  mixed
-     *
-     * @throws  Exception
-     * @since   2.1.0
-     *
-     */
-    public static function getRedShopMenuItem($queryItems)
-    {
-        $serializeItem = md5(serialize($queryItems));
+			if ($result)
+			{
+				return $result;
+			}
+		}
 
-        if (!array_key_exists($serializeItem, self::$menuItemAssociation)) {
-            self::$menuItemAssociation[$serializeItem] = false;
+		// Get Itemid from Category detail
+		if ($categoryId)
+		{
+			$result = self::getCategoryItemid($categoryId);
 
-            foreach (self::getRedshopMenuItems() as $oneMenuItem) {
-                if (self::checkMenuQuery($oneMenuItem, $queryItems)) {
-                    self::$menuItemAssociation[$serializeItem] = $oneMenuItem->id;
-                    break;
-                }
-            }
-        }
+			if ($result)
+			{
+				return $result;
+			}
+		}
 
-        return self::$menuItemAssociation[$serializeItem];
-    }
+		$input = JFactory::getApplication()->input;
 
-    /**
-     * Get Redshop Menu Items
-     *
-     * @return  array
-     *
-     * @throws  Exception
-     * @since   2.1.0
-     *
-     */
-    public static function getRedshopMenuItems()
-    {
-        if (is_null(self::$menuItems)) {
-            self::$menuItems = JFactory::getApplication()->getMenu('site')->getItems('component', 'com_redshop');
-        }
+		if ($input->getCmd('option', '') != 'com_redshop')
+		{
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
 
-        return self::$menuItems;
-    }
+			if ($result)
+			{
+				return $result;
+			}
 
-    /**
-     * Check Menu Query
-     *
-     * @param   object  $oneMenuItem  Values current menu item
-     * @param   array   $queryItems   Name query check
-     *
-     * @return  boolean
-     *
-     * @since   2.1.0
-     */
-    public static function checkMenuQuery($oneMenuItem, $queryItems)
-    {
-        if (empty($oneMenuItem) || empty($queryItems)) {
-            return false;
-        }
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop'));
 
-        foreach ($queryItems as $key => $value) {
-            if (!isset($oneMenuItem->query[$key])
-                || (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
-                || (!is_array($value) && $oneMenuItem->query[$key] != $value)
-            ) {
-                return false;
-            }
-        }
+			if ($result)
+			{
+				return $result;
+			}
+		}
 
-        return true;
-    }
+		return $input->getInt('Itemid', 0);
+	}
 
-    /**
-     * Get Category Itemid
-     *
-     * @param   int  $categoryId  Category id
-     *
-     * @return  mixed
-     *
-     * @throws  Exception
-     * @since   2.1.0
-     *
-     */
-    public static function getCategoryItemid($categoryId = 0)
-    {
-        if (!$categoryId) {
-            $result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
+	/**
+	 * Get Category Itemid
+	 *
+	 * @param   int $categoryId Category id
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public static function getCategoryItemid($categoryId = 0)
+	{
+		if (!$categoryId)
+		{
+			$result = self::getRedShopMenuItem(array('option' => 'com_redshop', 'view' => 'category'));
 
-            if ($result) {
-                return $result;
-            }
+			if ($result)
+			{
+				return $result;
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        $categories = explode(',', $categoryId);
+		$categories = explode(',', $categoryId);
 
-        if ($categories) {
-            foreach ($categories as $category) {
-                $result = self::getRedShopMenuItem(
-                    array(
-                        'option' => 'com_redshop',
-                        'view'   => 'category',
-                        'layout' => 'detail',
-                        'cid'    => (int)$category
-                    )
-                );
+		if ($categories)
+		{
+			foreach ($categories as $category)
+			{
+				$result = self::getRedShopMenuItem(
+					array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $category)
+				);
 
-                if ($result) {
-                    return $result;
-                }
-            }
-        }
+				if ($result)
+				{
+					return $result;
+				}
+			}
+		}
 
-        // Get from Parents
-        $categories = RedshopHelperCategory::getCategoryListReverseArray($categoryId);
+		// Get from Parents
+		$categories = RedshopHelperCategory::getCategoryListReverseArray($categoryId);
 
-        if ($categories) {
-            foreach ($categories as $category) {
-                $result = self::getCategoryItemid($category->id);
+		if ($categories)
+		{
+			foreach ($categories as $category)
+			{
+				$result = self::getCategoryItemid($category->id);
 
-                if ($result) {
-                    return $result;
-                }
-            }
-        }
+				if ($result)
+				{
+					return $result;
+				}
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Method for get menu item id of checkout page
-     *
-     * @return  integer
-     *
-     * @throws  Exception
-     * @since   2.1.0
-     *
-     */
-    public static function getCheckoutItemId()
-    {
-        $itemId       = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
-        $shopperGroup = RedshopHelperUser::getShopperGroupData();
+	/**
+	 * Method for get menu item id of checkout page
+	 *
+	 * @return  integer
+	 *
+	 * @since   2.1.0
+	 *
+	 * @throws  Exception
+	 */
+	public static function getCheckoutItemId()
+	{
+		$itemId       = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
+		$shopperGroup = RedshopHelperUser::getShopperGroupData();
 
-        if (!empty($shopperGroup) && $shopperGroup->shopper_group_cart_checkout_itemid != 0) {
-            $itemId = $shopperGroup->shopper_group_cart_checkout_itemid;
-        }
+		if (!empty($shopperGroup) && $shopperGroup->shopper_group_cart_checkout_itemid != 0)
+		{
+			$itemId = $shopperGroup->shopper_group_cart_checkout_itemid;
+		}
 
-        if ($itemId == 0) {
-            $itemId = JFactory::getApplication()->input->getInt('Itemid');
-        }
+		if ($itemId == 0)
+		{
+			$itemId = JFactory::getApplication()->input->getInt('Itemid');
+		}
 
-        return $itemId;
-    }
+		return $itemId;
+	}
 
-    /**
-     * Method for get menu item id of cart page
-     *
-     * @return  integer
-     *
-     * @since   2.1.0
-     */
-    public static function getCartItemId()
-    {
-        $itemId           = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
-        $shopperGroupData = RedshopHelperUser::getShopperGroupData();
+	/**
+	 * Method for get menu item id of cart page
+	 *
+	 * @return  integer
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getCartItemId()
+	{
+		$itemId           = Redshop::getConfig()->get('DEFAULT_CART_CHECKOUT_ITEMID');
+		$shopperGroupData = RedshopHelperUser::getShopperGroupData();
 
-        if (!empty($shopperGroupData) && $shopperGroupData->shopper_group_cart_itemid != 0) {
-            $itemId = $shopperGroupData->shopper_group_cart_itemid;
-        }
+		if (!empty($shopperGroupData) && $shopperGroupData->shopper_group_cart_itemid != 0)
+		{
+			$itemId = $shopperGroupData->shopper_group_cart_itemid;
+		}
 
-        return $itemId;
-    }
+		return $itemId;
+	}
 
-    /**
-     * Get the URL route for a product from a product ID, product category ID and product manufacturer ID
-     *
-     * @param   int      $id              The id of the product
-     * @param   int      $catId           The id of the product's category
-     * @param   string   $language        Language
-     * @param   integer  $manufacturerId  The id of the product's manufacturer
-     *
-     * @return  string  The link to the product
-     *
-     * @throws  Exception
-     * @since   2.1.5
-     */
-    public static function getProductRoute($id, $catId, $language, $manufacturerId = 0)
-    {
-        // Create the link
-        $link = 'index.php?option=com_redshop&view=product&pid=' . $id;
+	/**
+	 * Get the URL route for a product from a product ID, product category ID and product manufacturer ID
+	 *
+	 * @param   int      $id              The id of the product
+	 * @param   int      $catId           The id of the product's category
+	 * @param   string   $language        Language
+	 * @param   integer  $manufacturerId  The id of the product's manufacturer
+	 *
+	 * @return  string  The link to the product
+	 *
+	 * @throws  Exception
+	 * @since   2.1.5
+	 */
+	public static function getProductRoute($id, $catId, $language, $manufacturerId = 0)
+	{
+		// Create the link
+		$link = 'index.php?option=com_redshop&view=product&pid=' . $id;
 
-        if ((int)$catId > 0) {
-            $link .= '&cid=' . $catId;
-        }
+		if ((int) $catId > 0)
+		{
+			$link .= '&cid=' . $catId;
+		}
 
-        // Find the menu item for the search
-        $app   = JFactory::getApplication();
-        $menu  = $app->getMenu();
-        $items = $menu->getItems(
-            'link',
-            'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId .
-            '&manufacturer_id=' . $manufacturerId
-        );
+		// Find the menu item for the search
+		$app   = JFactory::getApplication();
+		$menu  = $app->getMenu();
+		$items = $menu->getItems(
+			'link',
+			'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId .
+			'&manufacturer_id=' . $manufacturerId
+		);
 
-        if (isset($items[0])) {
-            $link .= '&Itemid=' . (int)$items[0]->id;
-        }
+		if (isset($items[0]))
+		{
+			$link .= '&Itemid=' . (int) $items[0]->id;
+		}
 
-        if ($language && $language !== '*' && JLanguageMultilang::isEnabled()) {
-            $link .= '&lang=' . $language;
-        }
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+		{
+			$link .= '&lang=' . $language;
+		}
 
-        return $link;
-    }
+		return $link;
+	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -10,7 +9,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($this->getinstalledmodule)): ?>
-    <?php RedshopHelperModule::loadLanguages(); ?>
+	<?php RedshopHelperModule::loadLanguages(); ?>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -20,28 +19,28 @@ defined('_JEXEC') or die;
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($this->getinstalledmodule as $module): ?>
+		<?php foreach ($this->getinstalledmodule as $module): ?>
             <tr>
                 <td><?php echo JText::_(strtoupper($module->element)) ?></td>
                 <td style="text-align: center">
-                    <?php if ($module->state == -1): ?>
+					<?php if ($module->state == -1): ?>
                         <label class="label label-danger">
-                            <?php echo JText::_('COM_REDSHOP_NOT_INSTALLED') ?>
+							<?php echo JText::_('COM_REDSHOP_NOT_INSTALLED') ?>
                         </label>
-                    <?php else: ?>
+					<?php else: ?>
                         <label class="label label-success">
-                            <?php echo JText::_('COM_REDSHOP_INSTALLED') ?>
+							<?php echo JText::_('COM_REDSHOP_INSTALLED') ?>
                         </label>
-                    <?php endif; ?>
+					<?php endif; ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php if ($module->enabled): ?>
+					<?php if ($module->enabled): ?>
                         <span class="fa fa-check-circle text-success"></span>
-                    <?php else: ?>
+					<?php else: ?>
                         <span class="fa fa-remove text-danger"></span>
-                    <?php endif; ?>
+					<?php endif; ?>
             </tr>
-        <?php endforeach ?>
+		<?php endforeach ?>
         </tbody>
     </table>
 <?php endif; ?>

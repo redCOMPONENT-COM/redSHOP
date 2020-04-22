@@ -25,11 +25,11 @@ extract($displayData);
 $id = (isset($id)) ? $id : '';
 ?>
 <?php if (!empty($showOn)): ?>
-    <?php
-    $showOn     = explode(':', $showOn);
-    $fieldName  = $showOn[0];
-    $fieldValue = $showOn[1];
-    ?>
+	<?php
+	$showOn     = explode(':', $showOn);
+	$fieldName  = $showOn[0];
+	$fieldValue = $showOn[1];
+	?>
     <script type="text/javascript">
         (function ($) {
             $(document).ready(function () {
@@ -39,7 +39,6 @@ $id = (isset($id)) ? $id : '';
     </script>
 <?php endif; ?>
 <div class="form-group row-fluid" id="<?php echo !empty($id) ? $id . '-wrapper' : '' ?>">
-    <label class="col-md-4 hasPopover" data-content="<?php echo $desc ?>"
-           title="<?php echo $title ?>"><?php echo $title ?></label>
+    <label class="col-md-4 hasPopover" data-content="<?php echo $desc ?>" title="<?php echo $title ?>"><?php echo $title ?></label>
     <div class="col-md-8"><?php echo $field ?></div>
 </div>

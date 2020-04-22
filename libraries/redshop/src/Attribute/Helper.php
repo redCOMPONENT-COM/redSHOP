@@ -9,6 +9,8 @@
 
 namespace Redshop\Attribute;
 
+use setasign\Fpdi\PdfParser\Type\PdfIndirectObject;
+
 defined('_JEXEC') or die;
 
 /**
@@ -124,7 +126,7 @@ class Helper
                 $property           = \RedshopHelperProduct_Attribute::getAttributeProperties(
                     $orderPropData[$p]->section_id
                 );
-                $prices             = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                $prices          = \RedshopHelperProduct_Attribute::getPropertyPrice(
                     $orderPropData[$p]->section_id,
                     $quantity,
                     'property'
@@ -152,7 +154,7 @@ class Helper
                     $subProperty = \RedshopHelperProduct_Attribute::getAttributeSubProperties(
                         $orderSubPropData[$sp]->section_id
                     );
-                    $prices      = \RedshopHelperProduct_Attribute::getPropertyPrice(
+                    $prices   = \RedshopHelperProduct_Attribute::getPropertyPrice(
                         $orderSubPropData[$sp]->section_id,
                         $quantity,
                         'subproperty'
@@ -240,10 +242,10 @@ class Helper
                 $selectedPropertyId = implode(",", $selectedPropId);
             }
 
-            $unSelectedSubPropertyId = 0;
+	        $unSelectedSubPropertyId = 0;
 
             if (is_array($unSelectedSubPropId) && count($unSelectedSubPropId) > 0) {
-                $unSelectedSubPropertyId = implode(",", $unSelectedSubPropId);
+	            $unSelectedSubPropertyId = implode(",", $unSelectedSubPropId);
             }
 
             $requiredProperty = \RedshopHelperProduct_Attribute::getAttributeProperties(
@@ -278,7 +280,7 @@ class Helper
      * @param   Object  $params
      *
      * @return int / null
-     * @since 3.0.1
+     * @since __DEPLOY_VERSION__
      */
     public static function getAttributePriceStartId($params = null)
     {
@@ -292,7 +294,7 @@ class Helper
             return null;
         }
 
-        $db    = \JFactory::getDbo();
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select($db->qn('price_id'))
             ->from($db->qn('product_attribute_price'))
@@ -310,7 +312,7 @@ class Helper
      * @param   Object  $params
      *
      * @return int / null
-     * @since 3.0.1
+     * @since __DEPLOY_VERSION__
      */
     public static function getAttributePriceEndId($params = null)
     {
@@ -324,7 +326,7 @@ class Helper
             return null;
         }
 
-        $db    = \JFactory::getDbo();
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select($db->qn('price_id'))
             ->from($db->qn('product_attribute_price'))

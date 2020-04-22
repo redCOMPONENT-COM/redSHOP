@@ -41,7 +41,7 @@
                 default=""
                 showon="mail_section:order_status"
                 table-hide="1">
-            <option value="">COM_REDSHOP_SELECT</option>
+                <option value="">COM_REDSHOP_SELECT</option>
         </field>
         <field
                 name="mail_bcc"

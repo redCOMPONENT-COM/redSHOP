@@ -16,94 +16,100 @@ defined('_JEXEC') || die;
  */
 class RedshopTagsSectionsAjaxCartBox extends RedshopTagsAbstract
 {
-    public $tags = array(
-        '{ajax_cart_box_title}',
-        '{show_cart_text}',
-        '{show_cart_button}',
-        '{continue_shopping_button}'
-    );
+	public $tags = array(
+		'{ajax_cart_box_title}',
+		'{show_cart_text}',
+		'{show_cart_button}',
+		'{continue_shopping_button}'
+	);
 
-    public function init()
-    {
-    }
+	public function init()
+	{
 
-    public function replace()
-    {
-        $itemId = \RedshopHelperRouter::getCartItemId();
+	}
 
-        if ($this->isTagExists('{ajax_cart_box_title}')) {
-            $cartBoxTitle = RedshopLayoutHelper::render(
-                'tags.common.tag',
-                array(
-                    'text'  => JText::_('COM_REDSHOP_CART_SAVE'),
-                    'tag'   => 'div',
-                    'id'    => '',
-                    'class' => 'ajax_cart_box_title',
-                    'attr'  => ''
-                ),
-                '',
-                RedshopLayoutHelper::$layoutOption
-            );
+	public function replace()
+	{
+		$itemId = \RedshopHelperRouter::getCartItemId();
 
-            $this->addReplace("{ajax_cart_box_title}", $cartBoxTitle);
-        }
+		if ($this->isTagExists('{ajax_cart_box_title}'))
+		{
+			$cartBoxTitle = RedshopLayoutHelper::render(
+				'tags.common.tag',
+				array(
+					'text' => JText::_('COM_REDSHOP_CART_SAVE'),
+					'tag' => 'div',
+					'id' => '',
+					'class' => 'ajax_cart_box_title',
+					'attr' => ''
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
+			);
 
-        if ($this->isTagExists("{show_cart_text}")) {
-            $showCartText = RedshopLayoutHelper::render(
-                'tags.common.tag',
-                array(
-                    'text'  => JText::_('COM_REDSHOP_SHOW_CART_TEXT'),
-                    'tag'   => 'div',
-                    'id'    => '',
-                    'class' => 'show_cart_text',
-                    'attr'  => ''
-                ),
-                '',
-                RedshopLayoutHelper::$layoutOption
-            );
+			$this->addReplace("{ajax_cart_box_title}", $cartBoxTitle);
+		}
 
-            $this->addReplace("{show_cart_text}", $showCartText);
-        }
+		if ($this->isTagExists("{show_cart_text}"))
+		{
+			$showCartText = RedshopLayoutHelper::render(
+				'tags.common.tag',
+				array(
+					'text' => JText::_('COM_REDSHOP_SHOW_CART_TEXT'),
+					'tag' => 'div',
+					'id' => '',
+					'class' => 'show_cart_text',
+					'attr' => ''
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
+			);
 
-        if ($this->isTagExists("{show_cart_button}")) {
-            $viewButton = RedshopLayoutHelper::render(
-                'tags.common.button',
-                array(
-                    'text'  => JText::_('COM_REDSHOP_VIEW_CART'),
-                    'class' => 'view_cart_button btn btn-primary',
-                    'attr'  => 'name="viewcart" onclick="javascript:window.location.href=\'' . JRoute::_(
-                            'index.php?option=com_redshop&view=cart&Itemid=' . $itemId
-                        ) . '\'"'
-                ),
-                '',
-                RedshopLayoutHelper::$layoutOption
-            );
+			$this->addReplace("{show_cart_text}", $showCartText);
+		}
 
-            $this->addReplace("{show_cart_button}", $viewButton);
-        }
+		if ($this->isTagExists("{show_cart_button}"))
+		{
+			$viewButton = RedshopLayoutHelper::render(
+				'tags.common.button',
+				array(
+					'text' => JText::_('COM_REDSHOP_VIEW_CART'),
+					'class' => 'view_cart_button btn btn-primary',
+					'attr' => 'name="viewcart" onclick="javascript:window.location.href=\'' . JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $itemId) . '\'"'
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
+			);
 
-        if ($this->isTagExists('{continue_shopping_button}')) {
-            if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '') {
-                $shopMoreLink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
-            } else {
-                $shopMoreLink = \JUri::base() . 'index.php?option=com_redshop';
-            }
+			$this->addReplace("{show_cart_button}", $viewButton);
+		}
+
+		if ($this->isTagExists('{continue_shopping_button}'))
+		{
+			if (Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK') != '')
+			{
+				$shopMoreLink = JRoute::_(Redshop::getConfig()->get('CONTINUE_REDIRECT_LINK'));
+			}
+			else
+			{
+				$shopMoreLink = \JUri::base() . 'index.php?option=com_redshop';
+			}
 
 
-            $continueButton = RedshopLayoutHelper::render(
-                'tags.common.button',
-                array(
-                    'text'  => JText::_('COM_REDSHOP_CONTINUE_SHOPPING'),
-                    'class' => 'continue_cart_button btn',
-                    'attr'  => 'name="continuecart" onclick="document.location=\'' . $shopMoreLink . '\'"'
-                ),
-                '',
-                RedshopLayoutHelper::$layoutOption
-            );
+			$continueButton = RedshopLayoutHelper::render(
+				'tags.common.button',
+				array(
+					'text' => JText::_('COM_REDSHOP_CONTINUE_SHOPPING'),
+					'class' => 'continue_cart_button btn',
+					'attr' => 'name="continuecart" onclick="document.location=\'' . $shopMoreLink . '\'"'
+				),
+				'',
+				RedshopLayoutHelper::$layoutOption
+			);
 
-            $this->addReplace('{continue_shopping_button}', $continueButton);
-        }
+			$this->addReplace('{continue_shopping_button}', $continueButton);
+		}
 
-        return parent::replace();
-    }
+		return parent::replace();
+	}
 }

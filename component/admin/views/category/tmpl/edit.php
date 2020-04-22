@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -17,8 +16,10 @@ JHtml::_('behavior.formvalidator');
         jQuery("select").select2({width: "100%"});
     });
 
-    Joomla.submitbutton = function (task) {
-        if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("adminForm"))) {
+    Joomla.submitbutton = function(task)
+    {
+        if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("adminForm")))
+        {
             Joomla.submitform(task);
         }
     };
@@ -31,17 +32,17 @@ JHtml::_('behavior.formvalidator');
         class="form-validate form-horizontal"
         enctype="multipart/form-data"
 >
-    <?php
-    echo RedshopLayoutHelper::render(
-        'component.full.tab.main',
-        array(
-            'view'    => $this,
-            'tabMenu' => $this->tabmenu->getData('tab')->items,
-        )
-    );
-    ?>
-    <?php echo $this->form->getInput('id'); ?>
+	<?php
+	echo RedshopLayoutHelper::render(
+		'component.full.tab.main',
+		array(
+			'view'    => $this,
+			'tabMenu' => $this->tabmenu->getData('tab')->items,
+		)
+	);
+	?>
+	<?php echo $this->form->getInput('id'); ?>
     <input type="hidden" name="old_image" id="old_image" value="<?php echo $this->item->category_full_image ?>">
     <input type="hidden" name="task" value=""/>
-    <?php echo JHtml::_('form.token'); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

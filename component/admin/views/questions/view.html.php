@@ -18,110 +18,117 @@ defined('_JEXEC') or die;
  */
 class RedshopViewQuestions extends RedshopViewAdmin
 {
-    /**
-     * Active filters
-     *
-     * @var   array
-     *
-     * @since 2.0.3
-     */
-    public $activeFilters = array();
-    /**
-     * Filter form
-     *
-     * @var   array
-     *
-     * @since 2.0.3
-     */
-    public $filterForm = array();
-    /**
-     * List of questions
-     *
-     * @var   array
-     *
-     * @since 2.0.3
-     */
-    protected $items = array();
-    /**
-     * Pagination
-     *
-     * @var   JPagination
-     *
-     * @since 2.0.3
-     */
-    protected $pagination = null;
-    /**
-     * Model state
-     *
-     * @var   array
-     *
-     * @since 2.0.3
-     */
-    protected $state = null;
-    /**
-     * Ordering
-     *
-     * @var   string
-     *
-     * @since 2.0.3
-     */
-    protected $ordering = '';
+	/**
+	 * List of questions
+	 *
+	 * @var   array
+	 *
+	 * @since 2.0.3
+	 */
+	protected $items = array();
 
-    /**
-     * Display the States view
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  void
-     *
-     * @throws  Exception
-     */
-    public function display($tpl = null)
-    {
-        // Get data from the model
-        $model = $this->getModel();
+	/**
+	 * Pagination
+	 *
+	 * @var   JPagination
+	 *
+	 * @since 2.0.3
+	 */
+	protected $pagination = null;
 
-        $this->items         = $this->get('Items');
-        $this->pagination    = $this->get('Pagination');
-        $this->state         = $this->get('State');
-        $this->ordering      = $this->state->get('list.ordering', 'q.ordering');
-        $this->activeFilters = $model->getActiveFilters();
-        $this->filterForm    = $model->getForm();
+	/**
+	 * Model state
+	 *
+	 * @var   array
+	 *
+	 * @since 2.0.3
+	 */
+	protected $state = null;
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new Exception(implode('<br />', $errors));
+	/**
+	 * Ordering
+	 *
+	 * @var   string
+	 *
+	 * @since 2.0.3
+	 */
+	protected $ordering = '';
 
-            return false;
-        }
+	/**
+	 * Active filters
+	 *
+	 * @var   array
+	 *
+	 * @since 2.0.3
+	 */
+	public $activeFilters = array();
 
-        // Set the tool-bar and number of found items
-        $this->addToolBar();
+	/**
+	 * Filter form
+	 *
+	 * @var   array
+	 *
+	 * @since 2.0.3
+	 */
+	public $filterForm = array();
 
-        // Display the template
-        parent::display($tpl);
-    }
+	/**
+	 * Display the States view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
+	public function display($tpl = null)
+	{
+		// Get data from the model
+		$model = $this->getModel();
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return  void
-     *
-     * @since   2.0.0.4
-     */
-    protected function addToolBar()
-    {
-        $title = JText::_('COM_REDSHOP_QUESTION_MANAGEMENT');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->ordering      = $this->state->get('list.ordering', 'q.ordering');
+		$this->activeFilters = $model->getActiveFilters();
+		$this->filterForm    = $model->getForm();
 
-        if ($this->pagination->total) {
-            $title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
-        }
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode('<br />', $errors));
 
-        JToolBarHelper::title($title, 'redshop_question_48');
-        JToolBarHelper::addNew('question.add');
-        JToolBarHelper::editList('question.edit');
-        JToolBarHelper::deleteList('', 'questions.delete');
-        JToolbarHelper::publish('questions.publish', 'JTOOLBAR_PUBLISH', true);
-        JToolbarHelper::unpublish('questions.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-    }
+			return false;
+		}
+
+		// Set the tool-bar and number of found items
+		$this->addToolBar();
+
+		// Display the template
+		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.4
+	 */
+	protected function addToolBar()
+	{
+		$title = JText::_('COM_REDSHOP_QUESTION_MANAGEMENT');
+
+		if ($this->pagination->total)
+		{
+			$title .= "<span style='font-size: 0.5em; vertical-align: middle;'>(" . $this->pagination->total . ")</span>";
+		}
+
+		JToolBarHelper::title($title, 'redshop_question_48');
+		JToolBarHelper::addNew('question.add');
+		JToolBarHelper::editList('question.edit');
+		JToolBarHelper::deleteList('', 'questions.delete');
+		JToolbarHelper::publish('questions.publish', 'JTOOLBAR_PUBLISH', true);
+		JToolbarHelper::unpublish('questions.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+	}
 }

@@ -18,164 +18,156 @@ defined('_JEXEC') or die;
  */
 class RedshopModelCoupons extends RedshopModelList
 {
-    /**
-     * Construct class
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
-     *
-     * @since   2.1.0
-     */
-    public function __construct($config = array())
-    {
-        if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id',
-                'c.id',
-                'code',
-                'c.code',
-                'type',
-                'c.type',
-                'value',
-                'c.value',
-                'start_date',
-                'c.start_date',
-                'end_date',
-                'c.end_date',
-                'effect',
-                'c.effect',
-                'userid',
-                'c.userid',
-                'amount_left',
-                'c.amount_left',
-                'published',
-                'c.published',
-                'subtotal',
-                'c.subtotal',
-                'order_id',
-                'c.order_id',
-                'free_shipping',
-                'c.free_shipping'
-            );
-        }
+	/**
+	 * Construct class
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   2.1.0
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id', 'c.id',
+				'code', 'c.code',
+				'type', 'c.type',
+				'value', 'c.value',
+				'start_date', 'c.start_date',
+				'end_date', 'c.end_date',
+				'effect', 'c.effect',
+				'userid', 'c.userid',
+				'amount_left', 'c.amount_left',
+				'published', 'c.published',
+				'subtotal', 'c.subtotal',
+				'order_id', 'c.order_id',
+				'free_shipping', 'c.free_shipping'
+			);
+		}
 
-        parent::__construct($config);
-    }
+		parent::__construct($config);
+	}
 
-    /**
-     * Method to build an SQL query to load the list data.
-     *
-     * @return  JDatabaseQuery  An SQL query
-     *
-     * @since   2.1.0
-     */
-    public function getListQuery()
-    {
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true);
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.0
+	 */
+	protected function populateState($ordering = 'c.id', $direction = 'asc')
+	{
+		$search = $this->getUserStateFromRequest((string) $this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
-        $query->select('c.*')
-            ->from($db->qn('#__redshop_coupons', 'c'));
+		$type = $this->getUserStateFromRequest((string) $this->context . '.filter.type', 'filter_type');
+		$this->setState('filter.type', $type);
 
-        // Filter by search in name.
-        $search = $this->getState('filter.search');
+		$couponType = $this->getUserStateFromRequest((string) $this->context . '.filter.coupon_type', 'filter_coupon_type');
+		$this->setState('filter.coupon_type', $couponType);
 
-        if (!empty($search)) {
-            $query->where($db->qn('c.code') . ' LIKE ' . $db->quote('%' . $search . '%'));
-        }
+		$filterPublished = $this->getUserStateFromRequest((string) $this->context . '.filter.published', 'filter_published');
+		$this->setState('filter.published', $filterPublished);
 
-        // Filter: type
-        $filterType = $this->getState('filter.type', null);
+		// List state information.
+		parent::populateState($ordering, $direction);
+	}
 
-        if (is_numeric($filterType)) {
-            $query->where($db->qn('c.type') . ' = ' . $filterType);
-        } else {
-            $query->where($db->qn('c.type') . ' IN (0,1)');
-        }
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   2.1.0
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.type');
+		$id .= ':' . $this->getState('filter.coupon_type');
+		$id .= ':' . $this->getState('filter.published');
 
-        // Filter: Effect
-        $filterEffect = $this->getState('filter.effect');
+		return parent::getStoreId($id);
+	}
 
-        if (is_numeric($filterEffect)) {
-            $query->where($db->qn('c.effect') . ' = ' . (int)$filterEffect);
-        } elseif ($filterEffect === '') {
-            $query->where($db->qn('c.effect') . ' IN (0,1)');
-        }
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return  JDatabaseQuery  An SQL query
+	 *
+	 * @since   2.1.0
+	 */
+	public function getListQuery()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-        // Filter: Published
-        $filterPublished = $this->getState('filter.published');
+		$query->select('c.*')
+			->from($db->qn('#__redshop_coupons', 'c'));
 
-        if (is_numeric($filterPublished)) {
-            $query->where($db->qn('c.published') . ' = ' . (int)$filterPublished);
-        } elseif ($filterPublished === '') {
-            $query->where($db->qn('c.published') . ' IN (0,1)');
-        }
+		// Filter by search in name.
+		$search = $this->getState('filter.search');
 
-        // Add the list ordering clause.
-        $orderCol       = $this->state->get('list.ordering', 'c.id');
-        $orderDirection = $this->state->get('list.direction', 'asc');
+		if (!empty($search))
+		{
+			$query->where($db->qn('c.code') . ' LIKE ' . $db->quote('%' . $search . '%'));
+		}
 
-        $query->order($db->escape($orderCol . ' ' . $orderDirection));
+		// Filter: type
+		$filterType = $this->getState('filter.type', null);
 
-        return $query;
-    }
+		if (is_numeric($filterType))
+		{
+			$query->where($db->qn('c.type') . ' = ' . $filterType);
+		}
+		else
+		{
+			$query->where($db->qn('c.type') . ' IN (0,1)');
+		}
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * Note. Calling getState in this method will result in recursion.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     *
-     * @since   2.1.0
-     */
-    protected function populateState($ordering = 'c.id', $direction = 'asc')
-    {
-        $search = $this->getUserStateFromRequest((string)$this->context . '.filter.search', 'filter_search');
-        $this->setState('filter.search', $search);
+		// Filter: Effect
+		$filterEffect = $this->getState('filter.effect');
 
-        $type = $this->getUserStateFromRequest((string)$this->context . '.filter.type', 'filter_type');
-        $this->setState('filter.type', $type);
+		if (is_numeric($filterEffect))
+		{
+			$query->where($db->qn('c.effect') . ' = ' . (int) $filterEffect);
+		}
+		elseif ($filterEffect === '')
+		{
+			$query->where($db->qn('c.effect') . ' IN (0,1)');
+		}
 
-        $couponType = $this->getUserStateFromRequest(
-            (string)$this->context . '.filter.coupon_type',
-            'filter_coupon_type'
-        );
-        $this->setState('filter.coupon_type', $couponType);
+		// Filter: Published
+		$filterPublished = $this->getState('filter.published');
 
-        $filterPublished = $this->getUserStateFromRequest(
-            (string)$this->context . '.filter.published',
-            'filter_published'
-        );
-        $this->setState('filter.published', $filterPublished);
+		if (is_numeric($filterPublished))
+		{
+			$query->where($db->qn('c.published') . ' = ' . (int) $filterPublished);
+		}
+		elseif ($filterPublished === '')
+		{
+			$query->where($db->qn('c.published') . ' IN (0,1)');
+		}
 
-        // List state information.
-        parent::populateState($ordering, $direction);
-    }
+		// Add the list ordering clause.
+		$orderCol       = $this->state->get('list.ordering', 'c.id');
+		$orderDirection = $this->state->get('list.direction', 'asc');
 
-    /**
-     * Method to get a store id based on model configuration state.
-     *
-     * This is necessary because the model is used by the component and
-     * different modules that might need different sets of data or different
-     * ordering requirements.
-     *
-     * @param   string  $id  A prefix for the store id.
-     *
-     * @return  string  A store id.
-     *
-     * @since   2.1.0
-     */
-    protected function getStoreId($id = '')
-    {
-        // Compile the store id.
-        $id .= ':' . $this->getState('filter.search');
-        $id .= ':' . $this->getState('filter.type');
-        $id .= ':' . $this->getState('filter.coupon_type');
-        $id .= ':' . $this->getState('filter.published');
+		$query->order($db->escape($orderCol . ' ' . $orderDirection));
 
-        return parent::getStoreId($id);
-    }
+		return $query;
+	}
 }

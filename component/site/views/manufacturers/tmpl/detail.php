@@ -14,19 +14,19 @@ JHtml::_('behavior.modal');
 $manufacturerTemplate = RedshopHelperTemplate::getTemplate('manufacturer_detail');
 
 if (count($manufacturerTemplate) > 0 && $manufacturerTemplate[0]->template_desc != "") {
-    $templateHtml = $manufacturerTemplate[0]->template_desc;
-    $templateId   = $manufacturerTemplate[0]->id;
+	$templateHtml = $manufacturerTemplate[0]->template_desc;
+	$templateId   = $manufacturerTemplate[0]->id;
 } else {
-    $templateHtml = RedshopHelperTemplate::getDefaultTemplateContent('manufacturer_detail');
-    $templateId   = 0;
+	$templateHtml = RedshopHelperTemplate::getDefaultTemplateContent('manufacturer_detail');
+	$templateId   = 0;
 }
 
 echo RedshopTagsReplacer::_(
-    'manufacturerdetail',
-    $templateHtml,
-    [
-        'params'         => $this->params,
-        'pageHeadingTag' => $this->pageheadingtag,
-        'detail'         => $this->detail
-    ]
+	'manufacturerdetail',
+	$templateHtml,
+	[
+		'params' => $this->params,
+		'pageHeadingTag' => $this->pageheadingtag,
+		'detail' => $this->detail
+	]
 );

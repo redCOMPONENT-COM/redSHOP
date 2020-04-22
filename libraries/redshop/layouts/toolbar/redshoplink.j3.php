@@ -15,7 +15,7 @@ $text   = $displayData['text'];
 $target = $displayData['target'];
 ?>
 <a href="<?php echo $doTask; ?>"
-   target="<?php echo $target; ?>" class="btn btn-small">
-    <span class="<?php echo $class; ?>"></span>
-    <?php echo $text; ?>
+	  target="<?php echo $target; ?>" class="btn btn-small">
+	<span class="<?php echo $class; ?>"></span>
+	<?php echo $text; ?>
 </a>

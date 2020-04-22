@@ -18,18 +18,18 @@ defined('_JEXEC') or die;
  */
 class RedshopModelOrdertracker extends RedshopModel
 {
-    public $_id = null;
+	public $_id = null;
 
-    public $_data = null;
+	public $_data = null;
 
-    public $_table_prefix = null;
+	public $_table_prefix = null;
 
-    public $_template = null;
+	public $_template = null;
 
-    public function __construct()
-    {
-        parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
-    }
+		$this->_table_prefix = '#__redshop_';
+	}
 }

@@ -31,6 +31,6 @@ $logoLgUrl = JUri::root() . 'media/com_redshop/images/redshop_white_logo.png';
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">
     <div class="navbar-custom-menu">
-        <?php echo RedshopLayoutHelper::render('component.full.header.menu', $displayData); ?>
+		<?php echo RedshopLayoutHelper::render('component.full.header.menu', $displayData); ?>
     </div>
 </nav>

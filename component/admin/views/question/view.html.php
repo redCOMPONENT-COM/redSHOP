@@ -18,66 +18,67 @@ defined('_JEXEC') or die;
  */
 class RedshopViewQuestion extends RedshopViewAdmin
 {
-    /**
-     * Function display template
-     *
-     * @param   string  $tpl  name of template
-     *
-     * @return  void
-     *
-     * @since   2.0.0.5
-     */
+	/**
+	 * Function display template
+	 *
+	 * @param   string  $tpl  name of template
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.0.5
+	 */
 
-    public function display($tpl = null)
-    {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question_48');
+	public function display($tpl = null)
+	{
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question_48');
 
-        $this->form   = $this->get('Form');
-        $this->detail = $this->get('Item');
-        $this->item   = $this->detail;
-        $this->state  = $this->get('State');
+		$this->form   = $this->get('Form');
+		$this->detail = $this->get('Item');
+		$this->item   = $this->detail;
+		$this->state  = $this->get('State');
 
-        $model            = $this->getModel('Question');
-        $this->answers    = $model->getAnswers($this->item->id);
-        $this->requestUrl = JUri::getInstance()->toString();
+		$model            = $this->getModel('Question');
+		$this->answers    = $model->getAnswers($this->item->id);
+		$this->requestUrl = JUri::getInstance()->toString();
 
-        if (!$this->item->id) {
-            $user                   = JFactory::getUser();
-            $this->item->user_email = $user->email;
-            $this->item->user_name  = $user->username;
-        }
+		if (!$this->item->id)
+		{
+			$user                   = JFactory::getUser();
+			$this->item->user_email = $user->email;
+			$this->item->user_name 	= $user->username;
+		}
 
-        $this->addToolBar();
+		$this->addToolBar();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function addToolbar()
-    {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-        $isNew = ($this->item->id < 1);
+		$isNew = ($this->item->id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-        JToolBarHelper::title(
-            JText::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>[ ' . $text . ' ]</small>',
-            'redshop_question_48'
-        );
-        JToolBarHelper::apply('question.apply');
-        JToolBarHelper::save('question.save');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT') . ': <small>[ ' . $text . ' ]</small>', 'redshop_question_48');
+		JToolBarHelper::apply('question.apply');
+		JToolBarHelper::save('question.save');
 
-        if ($isNew) {
-            JToolBarHelper::cancel('question.cancel');
-        } else {
-            JToolBarHelper::cancel('question.cancel', JText::_('JTOOLBAR_CLOSE'));
-        }
-    }
+		if ($isNew)
+		{
+			JToolBarHelper::cancel('question.cancel');
+		}
+		else
+		{
+			JToolBarHelper::cancel('question.cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
+	}
 }

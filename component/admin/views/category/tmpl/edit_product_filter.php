@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -12,10 +11,12 @@ defined('_JEXEC') or die;
 $productsFilter = array();
 $productList    = RedshopEntityCategory::getInstance($this->item->id)->getProducts(true);
 
-if (!empty($productList)) {
-    foreach ($productList as $product) {
-        $productsFilter[] = $product->product_id;
-    }
+if (!empty($productList))
+{
+	foreach ($productList as $product)
+	{
+		$productsFilter[] = $product->product_id;
+	}
 }
 
 $registry     = new JRegistry;
@@ -30,26 +31,28 @@ $filterParams = $registry->loadString($this->item->product_filter_params);
             </div>
             <div class="box-body">
                 <h4 class="notice"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_FILTERS_NOTICE'); ?></h4>
-                <?php foreach ($this->form->getFieldset('filters') as $field) : ?>
-                    <div class="control-group">
-                        <?php
-                        $options = array();
+		<?php foreach ($this->form->getFieldset('filters') as $field) : ?>
+			<div class="control-group">
+				<?php
+				$options = array();
 
-                        if ($field->fieldname == 'product_attributes') {
-                            $options['product_ids'] = $productsFilter;
-                        }
+				if ($field->fieldname == 'product_attributes')
+				{
+					$options['product_ids'] = $productsFilter;
+				}
 
-                        $value = $filterParams->get($field->fieldname);
+				$value = $filterParams->get($field->fieldname);
 
-                        if ($field->type === 'Radio' && empty($value)) {
-                            $value = 0;
-                        }
+				if ($field->type === 'Radio' && empty($value))
+				{
+					$value = 0;
+				}
 
-                        $field->setValue($value, true);
-                        ?>
-                        <?php echo $field->renderField($options); ?>
-                    </div>
-                <?php endforeach; ?>
+				$field->setValue($value, true);
+				?>
+				<?php echo $field->renderField($options); ?>
+			</div>
+		<?php endforeach; ?>
             </div>
         </div>
     </div>

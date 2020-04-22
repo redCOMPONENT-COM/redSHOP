@@ -1,25 +1,25 @@
 {{ window }}
 {% if window == 1 %}
-    <script type="text/javascript">window.parent.location.reload();</script>
+	<script type="text/javascript">window.parent.location.reload();</script>
 {% endif %}
 {% if params.get('show_page_heading', 1) %}
-    {{ redSHOPCall(
-        'RedshopLayoutHelper',
-        'render',
-        [
-            'tags.common.pageheading',
-            {
-                'params': params,
-                'pageheading': jtext('COM_REDSHOP_MY_WISHLIST'),
-                'class': 'mywishlist'
-            },
-            '',
-            {
-                'component': 'com_redshop',
-                'layoutType': 'Twig',
-                'layoutOf': 'library'
-            }
-        ]
-    ) }}
+	{{ redSHOPCall(
+		'RedshopLayoutHelper',
+		'render',
+		[
+			'tags.common.pageheading',
+			{
+				'params': params,
+				'pageheading': jtext('COM_REDSHOP_MY_WISHLIST'),
+				'class': 'mywishlist'
+			},
+			'',
+			{
+				'component': 'com_redshop',
+				'layoutType': 'Twig',
+				'layoutOf': 'library'
+			}
+		]
+	) }}
 {% endif %}
 {{ disPlayWishlist }}

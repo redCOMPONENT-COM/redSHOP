@@ -18,31 +18,33 @@ defined('_JEXEC') or die;
  */
 class RedshopTableQuestion extends RedshopTable
 {
-    /**
-     * The table name without the prefix. Ex: cursos_courses
-     *
-     * @var  string
-     */
-    protected $_tableName = 'redshop_customer_question';
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_customer_question';
 
-    /**
-     * Checks that the object is valid and able to be stored.
-     *
-     * This method checks that the parent_id is non-zero and exists in the database.
-     * Note that the root node (parent_id = 0) cannot be manipulated with this class.
-     *
-     * @return  boolean  True if all checks pass.
-     */
-    protected function doCheck()
-    {
-        if (!parent::doCheck()) {
-            return false;
-        }
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		if (!parent::doCheck())
+		{
+			return false;
+		}
 
-        if (isset($this->question_date) || empty($this->question_date)) {
-            $this->question_date = time();
-        }
+		if (isset($this->question_date) || empty($this->question_date))
+		{
+			$this->question_date = time();
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

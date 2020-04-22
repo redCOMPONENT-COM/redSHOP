@@ -8,8 +8,7 @@
  */
 
 namespace Redshop\Account;
-
-use Joomla\CMS\Factory;
+use \Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
 
@@ -20,114 +19,112 @@ defined('_JEXEC') or die;
  */
 class Helper
 {
-    /**
-     * Method for get reserve discount
-     *
-     * @return  integer
-     *
-     * @since   2.1.0
-     */
-    public static function getReserveDiscount()
-    {
-        $userId = \JFactory::getUser()->id;
-        $db     = \JFactory::getDbo();
-        $query  = $db->getQuery(true)
-            ->select('*')
-            ->from($db->qn('#__redshop_coupons_transaction'))
-            ->where($db->qn('userid') . ' = ' . $userId)
-            ->where($db->qn('coupon_value') . ' > 0');
+	/**
+	 * Method for get reserve discount
+	 *
+	 * @return  integer
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getReserveDiscount()
+	{
+		$userId = \JFactory::getUser()->id;
+		$db     = \JFactory::getDbo();
+		$query  = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_coupons_transaction'))
+			->where($db->qn('userid') . ' = ' . $userId)
+			->where($db->qn('coupon_value') . ' > 0');
 
-        $result         = $db->setQuery($query)->loadObject();
-        $remainDiscount = 0;
+		$result         = $db->setQuery($query)->loadObject();
+		$remainDiscount = 0;
 
-        if (null !== $result) {
-            $remainDiscount = $result->coupon_value;
-        }
+		if (null !== $result)
+		{
+			$remainDiscount = $result->coupon_value;
+		}
 
-        $query->clear()
-            ->select('*')
-            ->from($db->qn('#__redshop_product_voucher_transaction'))
-            ->where($db->qn('user_id') . ' = ' . $userId)
-            ->where($db->qn('amount') . ' > 0');
+		$query->clear()
+			->select('*')
+			->from($db->qn('#__redshop_product_voucher_transaction'))
+			->where($db->qn('user_id') . ' = ' . $userId)
+			->where($db->qn('amount') . ' > 0');
 
-        $result = $db->setQuery($query)->loadObject();
+		$result = $db->setQuery($query)->loadObject();
 
-        if ($result) {
-            $remainDiscount += $result->amount;
-        }
+		if ($result)
+		{
+			$remainDiscount += $result->amount;
+		}
 
-        return $remainDiscount;
-    }
+		return $remainDiscount;
+	}
 
-    /**
-     * Method for get list of downloadable product on specific user
-     *
-     * @param   integer  $userId  User ID
-     *
-     * @return  array
-     *
-     * @since   2.1.0
-     */
-    public static function getDownloadProductList($userId)
-    {
-        $db    = \JFactory::getDbo();
-        $query = $db->getQuery(true)
-            ->select('pd.*')
-            ->select($db->qn('p.product_name'))
-            ->from($db->qn('#__redshop_product_download', 'pd'))
-            ->innerJoin(
-                $db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pd.product_id')
-            )
-            ->innerJoin(
-                $db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('pd.order_id')
-            )
-            ->where($db->qn('pd.user_id') . ' = ' . (int)$userId)
-            ->where($db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid'));
+	/**
+	 * Method for get list of downloadable product on specific user
+	 *
+	 * @param   integer  $userId  User ID
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getDownloadProductList($userId)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('pd.*')
+			->select($db->qn('p.product_name'))
+			->from($db->qn('#__redshop_product_download', 'pd'))
+			->innerJoin($db->qn('#__redshop_product', 'p') . ' ON ' . $db->qn('p.product_id') . ' = ' . $db->qn('pd.product_id'))
+			->innerJoin($db->qn('#__redshop_orders', 'o') . ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('pd.order_id'))
+			->where($db->qn('pd.user_id') . ' = ' . (int) $userId)
+			->where($db->qn('o.order_payment_status') . ' = ' . $db->quote('Paid'));
 
-        return $db->setQuery($query)->loadObjectList();
-    }
+		return $db->setQuery($query)->loadObjectList();
+	}
 
-    /**
-     * Method for get remaining coupon amount of specific user
-     *
-     * @param   integer  $userId      User Id
-     * @param   string   $couponCode  Coupon code
-     *
-     * @return  float
-     *
-     * @since   2.1.0
-     */
-    public static function getUnusedCouponAmount($userId, $couponCode)
-    {
-        $db    = \JFactory::getDbo();
-        $query = $db->getQuery(true)
-            ->select($db->qn('coupon_value'))
-            ->from($db->qn('#__redshop_coupons_transaction'))
-            ->where($db->qn('userid') . ' = ' . (int)$userId)
-            ->where($db->qn('coupon_code') . ' = ' . $db->quote($couponCode));
+	/**
+	 * Method for get remaining coupon amount of specific user
+	 *
+	 * @param   integer $userId     User Id
+	 * @param   string  $couponCode Coupon code
+	 *
+	 * @return  float
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getUnusedCouponAmount($userId, $couponCode)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('coupon_value'))
+			->from($db->qn('#__redshop_coupons_transaction'))
+			->where($db->qn('userid') . ' = ' . (int) $userId)
+			->where($db->qn('coupon_code') . ' = ' . $db->quote($couponCode));
 
-        return (float)$db->setQuery($query)->loadResult();
-    }
+		return (float) $db->setQuery($query)->loadResult();
+	}
 
-    /**
-     * Count my tags
-     *
-     * @return  mixed
-     * @throws  \Exception
-     *
-     * @since  3.0.1
-     */
-    public static function countMyTags()
-    {
-        $userId = Factory::getUser()->id;
-        $db     = Factory::getDbo();
-        $query  = $db->getQuery(true)
-            ->select('COUNT(pt.tags_id)')
-            ->from($db->quoteName('#__redshop_product_tags', 'pt'))
-            ->leftJoin($db->quoteName('#__redshop_product_tags_xref', 'ptx') . ' ON pt.tags_id = ptx.tags_id')
-            ->where('ptx.users_id = ' . (int)$userId)
-            ->where('pt.published = 1');
+	/**
+	 * Count my tags
+	 *
+	 * @return  mixed
+	 * @throws  \Exception
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function countMyTags()
+	{
+		$userId = Factory::getUser()->id;
+		$db     = Factory::getDbo();
+		$query  = $db->getQuery(true)
+			->select('COUNT(pt.tags_id)')
+			->from($db->quoteName('#__redshop_product_tags', 'pt'))
+			->leftJoin($db->quoteName('#__redshop_product_tags_xref', 'ptx') . ' ON pt.tags_id = ptx.tags_id')
+			->where('ptx.users_id = ' . (int) $userId)
+			->where('pt.published = 1');
 
-        return (int)$db->setQuery($query)->loadResult();
-    }
+		return (int) $db->setQuery($query)->loadResult();
+	}
 }

@@ -18,9 +18,9 @@ $user = JFactory::getUser();
 <script type="text/javascript" language="javascript">var J = jQuery.noConflict();</script>
 <script type="text/javascript" language="javascript">
     function friend_val() {
-        var your_name = document.getElementById("your_name").value;
+        var your_name     = document.getElementById("your_name").value;
         var friends_email = document.getElementById("friends_email").value;
-        var friends_name = document.getElementById("friends_name").value;
+        var friends_name  = document.getElementById("friends_name").value;
 
         if (your_name == "") {
             alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_YOUR_NAME') ?>");
@@ -43,12 +43,12 @@ $user = JFactory::getUser();
                 <td>&nbsp;
                 </td>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_SEND_TO_FRIEND'); ?>
+					<?php echo JText::_('COM_REDSHOP_SEND_TO_FRIEND'); ?>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_YOUR_NAME'); ?>
+					<?php echo JText::_('COM_REDSHOP_YOUR_NAME'); ?>
                 </td>
                 <td>
                     <input type="text" name="your_name" id="your_name" value="<?php echo $user->name ?>"/>
@@ -56,7 +56,7 @@ $user = JFactory::getUser();
             </tr>
             <tr>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_FRIENDS_NAME'); ?>
+					<?php echo JText::_('COM_REDSHOP_FRIENDS_NAME'); ?>
                 </td>
                 <td>
                     <input type="text" name="friends_name" id="friends_name"/>
@@ -64,7 +64,7 @@ $user = JFactory::getUser();
             </tr>
             <tr>
                 <td>
-                    <?php echo JText::_('COM_REDSHOP_FRIENDS_EMAIL'); ?>
+					<?php echo JText::_('COM_REDSHOP_FRIENDS_EMAIL'); ?>
                 </td>
                 <td>
                     <input type="text" name="friends_email" id="friends_email"/>
@@ -73,13 +73,11 @@ $user = JFactory::getUser();
             <tr>
                 <td>&nbsp;</td>
                 <td>
-                    <input type="submit" value="<?php echo JText::_('COM_REDSHOP_SEND_TO_FRIEND'); ?>"
-                           onclick="return friend_val();"/>
+                    <input type="submit" value="<?php echo JText::_('COM_REDSHOP_SEND_TO_FRIEND'); ?>" onclick="return friend_val();" />
                 </td>
             </tr>
         </table>
-        <input type="hidden" name="pid" id="pid"
-               value="<?php echo JFactory::getApplication()->input->getInt('pid', 0); ?>"/>
+        <input type="hidden" name="pid" id="pid" value="<?php echo JFactory::getApplication()->input->getInt('pid', 0); ?>"/>
         <input type="hidden" name="task" id="task" value="sendmail"/>
         <input type="hidden" name="option" value="com_redshop"/>
         <input type="hidden" name="view" value="send_friend"/>

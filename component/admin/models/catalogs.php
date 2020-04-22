@@ -18,90 +18,94 @@ defined('_JEXEC') or die;
  */
 class RedshopModelCatalogs extends RedshopModelList
 {
-    /**
-     * Method to build an SQL query string to load the list data.
-     *
-     * @return  string  An SQL query
-     */
-    public function getListQuery()
-    {
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true);
-        $query->select('*')
-            ->from($db->qn('#__redshop_catalog', 'c'));
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc/desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.2
+	 */
+	protected function populateState($ordering = 'c.catalog_id', $direction = 'asc')
+	{
+		$search = $this->getUserStateFromRequest($this->context . 'filter.search', 'filter.search');
+		$this->setState('filter.search', $search);
 
-        $search = $this->getState('filter.search');
+		parent::populateState($ordering, $direction);
+	}
 
-        if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $query->where($db->qn('c.catalog_id') . ' = ' . (int)substr($search, 3));
-            } else {
-                $search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-                $query->where($db->qn('c.catalog_name') . ' LIKE ' . $search);
-            }
-        }
+	/**
+	 * Method to get a store id based on model configuration state
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id
+	 *
+	 * @since   2.1.2
+	 */
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('filter.search');
 
-        $orderCol  = $this->state->get('list.ordering', 'c.catalog_id');
-        $orderDirn = $this->state->get('list.direction', 'asc');
+		return parent::getStoreId($id);
+	}
 
-        $query->order($db->escape($orderCol . ' ' . $orderDirn));
+	/**
+	 * Method to build an SQL query string to load the list data.
+	 *
+	 * @return  string  An SQL query
+	 */
+	public function getListQuery()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->qn('#__redshop_catalog', 'c'));
 
-        return $query;
-    }
+		$search = $this->getState('filter.search');
 
-    /**
-     * Method to get media of catalog
-     *
-     * @param   integer  $pid  section id
-     *
-     * @return  mixed
-     * @throws  Exception
-     *
-     * @since   2.1.2
-     */
-    public function mediaDetail($pid)
-    {
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true);
-        $query->select('*')
-            ->from($db->qn('#__redshop_media', 'c'))
-            ->where($db->qn('section_id') . '=' . $pid)
-            ->where($db->qn('media_section') . '=' . $db->q('catalog'));
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where($db->qn('c.catalog_id') . ' = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where($db->qn('c.catalog_name') . ' LIKE ' . $search);
+			}
+		}
 
-        return $db->setQuery($query)->loadObjectList();
-    }
+		$orderCol = $this->state->get('list.ordering', 'c.catalog_id');
+		$orderDirn = $this->state->get('list.direction', 'asc');
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc/desc).
-     *
-     * @return  void
-     *
-     * @since   2.1.2
-     */
-    protected function populateState($ordering = 'c.catalog_id', $direction = 'asc')
-    {
-        $search = $this->getUserStateFromRequest($this->context . 'filter.search', 'filter.search');
-        $this->setState('filter.search', $search);
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-        parent::populateState($ordering, $direction);
-    }
+		return $query;
+	}
 
-    /**
-     * Method to get a store id based on model configuration state
-     *
-     * @param   string  $id  A prefix for the store id.
-     *
-     * @return  string  A store id
-     *
-     * @since   2.1.2
-     */
-    protected function getStoreId($id = '')
-    {
-        $id .= ':' . $this->getState('filter.search');
+	/**
+	 * Method to get media of catalog
+	 *
+	 * @param   integer   $pid section id
+	 *
+	 * @return  mixed
+	 * @throws  Exception
+	 *
+	 * @since   2.1.2
+	 */
+	public function mediaDetail($pid)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+		      ->from($db->qn('#__redshop_media', 'c'))
+		      ->where($db->qn('section_id') . '=' . $pid)
+		      ->where($db->qn('media_section') . '=' . $db->q('catalog'));
 
-        return parent::getStoreId($id);
-    }
+		return $db->setQuery($query)->loadObjectList();
+	}
 }

@@ -18,17 +18,17 @@ defined('_JEXEC') or die;
  */
 class RedshopTableField_Data extends RedshopTable
 {
-    /**
-     * The table name without the prefix. Ex: cursos_courses
-     *
-     * @var  string
-     */
-    protected $_tableName = 'redshop_fields_data';
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_fields_data';
 
-    /**
-     * The table key column. Usually: id
-     *
-     * @var  string
-     */
-    protected $_tableKey = 'data_id';
+	/**
+	 * The table key column. Usually: id
+	 *
+	 * @var  string
+	 */
+	protected $_tableKey = 'data_id';
 }

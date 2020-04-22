@@ -19,41 +19,33 @@ JLoader::import('redshop.library');
  */
 class JFormFieldOrderbymanufacturer extends JFormField
 {
-    /**
-     * Element name
-     *
-     * @access    protected
-     * @var        string
-     */
-    public $type = 'orderbymanufacturer';
+	/**
+	 * Element name
+	 *
+	 * @access    protected
+	 * @var        string
+	 */
+	public $type = 'orderbymanufacturer';
 
-    /**
-     * Method to get the field input markup.
-     *
-     * @return  string  The field input markup.
-     */
-    protected function getInput()
-    {
-        $name = $this->name;
-        $value = $this->value;
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 */
+	protected function getInput()
+	{
+		$name  = $this->name;
+		$value = $this->value;
 
-        if (!$value) {
-            $value = Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD');
-        }
+		if (!$value)
+		{
+			$value = Redshop::getConfig()->get('DEFAULT_MANUFACTURER_ORDERING_METHOD');
+		}
 
-        $order_data = RedshopHelperUtility::getManufacturerOrderByList();
+		$order_data = RedshopHelperUtility::getManufacturerOrderByList();
 
-        $order_select = JHTML::_(
-            'select.genericlist',
-            $order_data,
-            $name,
-            'class="inputbox"',
-            'value',
-            'text',
-            $value,
-            $name
-        );
+		$order_select = JHTML::_('select.genericlist', $order_data, $name, 'class="inputbox"', 'value', 'text', $value, $name);
 
-        return $order_select;
-    }
+		return $order_select;
+	}
 }

@@ -16,131 +16,132 @@ defined('_JEXEC') or die;
  */
 class RedshopInstall
 {
-    /**
-     * Install state key
-     *
-     * @var   string
-     */
-    const REDSHOP_INSTALL_STATE_NAME = 'redshop.install.tasks';
+	/**
+	 * Install state key
+	 *
+	 * @var   string
+	 */
+	const REDSHOP_INSTALL_STATE_NAME = 'redshop.install.tasks';
 
-    /**
-     * @var  null|array
-     */
-    public static $tasks = null;
+	/**
+	 * @var  null|array
+	 */
+	public static $tasks = null;
 
-    /**
-     * Get list of available tasks for clean install
-     *
-     * @return  array|mixed
-     *
-     * @throws  Exception
-     * @since   2.0.6
-     *
-     */
-    public static function getInstallTasks()
-    {
-        $tasks = array(
-            array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
-                'func' => 'RedshopInstall::synchronizeUser'
-            ),
-            array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_DATA'),
-                'func' => 'RedshopInstall::templateData'
-            ),
-            array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
-                'func' => 'RedshopInstall::integrateSh404sef'
-            ),
-            array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
-                'func' => 'RedshopInstall::handleConfig'
-            )
-        );
+	/**
+	 * Get list of available tasks for clean install
+	 *
+	 * @return  array|mixed
+	 *
+	 * @since   2.0.6
+	 *
+	 * @throws  Exception
+	 */
+	public static function getInstallTasks()
+	{
+		$tasks = array(
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_SYNCHRONIZE_USERS'),
+				'func' => 'RedshopInstall::synchronizeUser'
+			),
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_TEMPLATE_DATA'),
+				'func' => 'RedshopInstall::templateData'
+			),
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_INTEGRATE_SH404SEF'),
+				'func' => 'RedshopInstall::integrateSh404sef'
+			),
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
+				'func' => 'RedshopInstall::handleConfig'
+			)
+		);
 
-        JFactory::getApplication()->setUserState(self::REDSHOP_INSTALL_STATE_NAME, $tasks);
+		JFactory::getApplication()->setUserState(self::REDSHOP_INSTALL_STATE_NAME, $tasks);
 
-        return $tasks;
-    }
+		return $tasks;
+	}
 
-    /**
-     * Method for get remaining tasks
-     *
-     * @return  mixed  List of remaining tasks
-     *
-     * @throws  Exception
-     * @since   2.0.6
-     *
-     */
-    public static function getRemainingTasks()
-    {
-        return JFactory::getApplication()->getUserState(self::REDSHOP_INSTALL_STATE_NAME, null);
-    }
+	/**
+	 * Method for get remaining tasks
+	 *
+	 * @return  mixed  List of remaining tasks
+	 *
+	 * @since   2.0.6
+	 *
+	 * @throws  Exception
+	 */
+	public static function getRemainingTasks()
+	{
+		return JFactory::getApplication()->getUserState(self::REDSHOP_INSTALL_STATE_NAME, null);
+	}
 
-    /**
-     * Method for synchronize Joomla User to redSHOP user
-     *
-     * @return  int   Number of synchronized user.
-     *
-     * @throws  Exception
-     * @since   2.0.6
-     */
-    public static function synchronizeUser()
-    {
-        $db          = JFactory::getDbo();
-        $query       = $db->getQuery(true)
-            ->select('u.*')
-            ->from($db->qn('#__users', 'u'))
-            ->leftJoin(
-                $db->qn('#__redshop_users_info', 'ru') . ' ON ' . $db->qn('ru.user_id') . ' = ' . $db->qn('u.id')
-            )
-            ->where($db->qn('ru.user_id') . ' IS NULL');
-        $joomlaUsers = $db->setQuery($query)->loadObjectList();
+	/**
+	 * Method for synchronize Joomla User to redSHOP user
+	 *
+	 * @return  int   Number of synchronized user.
+	 *
+	 * @since   2.0.6
+	 * @throws  Exception
+	 */
+	public static function synchronizeUser()
+	{
+		$db          = JFactory::getDbo();
+		$query       = $db->getQuery(true)
+			->select('u.*')
+			->from($db->qn('#__users', 'u'))
+			->leftJoin($db->qn('#__redshop_users_info', 'ru') . ' ON ' . $db->qn('ru.user_id') . ' = ' . $db->qn('u.id'))
+			->where($db->qn('ru.user_id') . ' IS NULL');
+		$joomlaUsers = $db->setQuery($query)->loadObjectList();
 
-        if (empty($joomlaUsers)) {
-            return 0;
-        }
+		if (empty($joomlaUsers))
+		{
+			return 0;
+		}
 
-        foreach ($joomlaUsers as $joomlaUser) {
-            $name = explode(" ", $joomlaUser->name);
+		foreach ($joomlaUsers as $joomlaUser)
+		{
+			$name = explode(" ", $joomlaUser->name);
 
-            $post               = array();
-            $post['user_id']    = $joomlaUser->id;
-            $post['email']      = $joomlaUser->email;
-            $post['email1']     = $joomlaUser->email;
-            $post['firstname']  = $name[0];
-            $post['lastname']   = (isset($name[1]) && $name[1]) ? $name[1] : '';
-            $post['is_company'] = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
-            $post['password1']  = '';
-            $post['billisship'] = 1;
+			$post               = array();
+			$post['user_id']    = $joomlaUser->id;
+			$post['email']      = $joomlaUser->email;
+			$post['email1']     = $joomlaUser->email;
+			$post['firstname']  = $name[0];
+			$post['lastname']   = (isset($name[1]) && $name[1]) ? $name[1] : '';
+			$post['is_company'] = (Redshop::getConfig()->get('DEFAULT_CUSTOMER_REGISTER_TYPE') == 2) ? 1 : 0;
+			$post['password1']  = '';
+			$post['billisship'] = 1;
 
-            RedshopHelperUser::storeRedshopUser($post, $joomlaUser->id, 1);
-        }
+			RedshopHelperUser::storeRedshopUser($post, $joomlaUser->id, 1);
+		}
 
-        return count($joomlaUsers);
-    }
+		return count($joomlaUsers);
+	}
 
-    /**
-     * Method for insert demo templates
-     *
-     * @return  boolean
-     *
-     * @since   2.0.6
-     */
-    public static function templateData()
-    {
-        $db     = JFactory::getDbo();
-        $query  = $db->getQuery(true)
-            ->select('COUNT(id)')
-            ->from($db->qn('#__redshop_template'));
-        $result = $db->setQuery($query)->loadResult();
+	/**
+	 * Method for insert demo templates
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.0.6
+	 */
+	public static function templateData()
+	{
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true)
+			->select('COUNT(id)')
+			->from($db->qn('#__redshop_template'));
+		$result = $db->setQuery($query)->loadResult();
 
-        if ($result) {
-            return true;
-        }
+		if ($result)
+		{
+			return true;
+		}
 
-        // Start template demo content
-        $query = "INSERT IGNORE INTO `#__redshop_template` (`id`, `name`, `section`, `published`) VALUES
+		// Start template demo content
+		$query = "INSERT IGNORE INTO `#__redshop_template` (`id`, `name`, `section`, `published`) VALUES
 			(8, 'grid', 'category', 1),
 			(5, 'list', 'category', 1),
 			(26, 'product2', 'product',1),
@@ -200,155 +201,159 @@ class RedshopInstall
 			(550, 'stock_note', 'stock_note', 1),
 			(551, 'login', 'login', 1)";
 
-        $db->setQuery($query)->execute();
+		$db->setQuery($query)->execute();
 
-        $query     = $db->getQuery(true)
-            ->select($db->qn('id'))
-            ->from($db->qn('#__redshop_template'))
-            ->order($db->qn('id'));
-        $templates = $db->setQuery($query)->loadColumn();
+		$query     = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__redshop_template'))
+			->order($db->qn('id'));
+		$templates = $db->setQuery($query)->loadColumn();
 
-        foreach ($templates as $templateId) {
-            /** @var RedshopTableTemplate $table */
-            $table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
+		foreach ($templates as $templateId)
+		{
+			/** @var RedshopTableTemplate $table */
+			$table = RedshopTable::getAdminInstance('Template', array('ignore_request' => true), 'com_redshop');
 
-            $table->load($templateId);
-            $table->templateDesc = RedshopHelperTemplate::getDefaultTemplateContent($table->section);
-            $table->store();
-        }
+			$table->load($templateId);
+			$table->templateDesc = RedshopHelperTemplate::getDefaultTemplateContent($table->section);
+			$table->store();
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Method for integrate with com_sh404sef extension if necessary.
-     *
-     * @return  boolean
-     *
-     * @throws  Exception
-     *
-     * @since   2.0.3
-     */
-    public static function integrateSh404sef()
-    {
-        if (!JComponentHelper::isInstalled('com_sh404sef')) {
-            return true;
-        }
+	/**
+	 * Method for integrate with com_sh404sef extension if necessary.
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   2.0.3
+	 */
+	public static function integrateSh404sef()
+	{
+		if (!JComponentHelper::isInstalled('com_sh404sef'))
+		{
+			return true;
+		}
 
-        // Install the sh404SEF router files
-        JLoader::import('joomla.filesystem.file');
-        JLoader::import('joomla.filesystem.folder');
+		// Install the sh404SEF router files
+		JLoader::import('joomla.filesystem.file');
+		JLoader::import('joomla.filesystem.folder');
 
-        $sh404SEFAdmin    = JPATH_SITE . '/administrator/components/com_sh404sef';
-        $redShopSefFolder = JPATH_SITE . '/administrator/components/com_redshop/extras';
+		$sh404SEFAdmin    = JPATH_SITE . '/administrator/components/com_sh404sef';
+		$redShopSefFolder = JPATH_SITE . '/administrator/components/com_redshop/extras';
 
-        if (!JFile::copy(
-            $redShopSefFolder . '/sh404sef/language/com_redshop.php',
-            $sh404SEFAdmin . '/language/plugins/com_redshop.php'
-        )) {
-            throw new Exception(JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE'));
-        }
+		if (!JFile::copy($redShopSefFolder . '/sh404sef/language/com_redshop.php', $sh404SEFAdmin . '/language/plugins/com_redshop.php'))
+		{
+			throw new Exception(JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE'));
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Handle config
-     *
-     * @return  void
-     *
-     * @throws  Exception
-     * @since   2.0.6
-     *
-     */
-    public static function handleConfig()
-    {
-        // Only loading from legacy when version is older than 1.6
-        if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<')) {
-            // Load configuration file from legacy file.
-            Redshop::getConfig()->loadLegacy();
-        }
+	/**
+	 * Handle config
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 *
+	 * @throws  Exception
+	 */
+	public static function handleConfig()
+	{
+		// Only loading from legacy when version is older than 1.6
+		if (version_compare(RedshopHelperJoomla::getManifestValue('version'), '1.6', '<'))
+		{
+			// Load configuration file from legacy file.
+			Redshop::getConfig()->loadLegacy();
+		}
 
-        // Try to load distinct if no config found.
-        Redshop::getConfig()->loadDist();
-    }
+		// Try to load distinct if no config found.
+		Redshop::getConfig()->loadDist();
+	}
 
-    /**
-     * Method for get specific available version of installation.
-     *
-     * @param   string  $version  Version specific.
-     *
-     * @return  array
-     *
-     * @since   2.1.0
-     */
-    public static function getUpdateTasks($version = null)
-    {
-        if (null === $version) {
-            return array();
-        }
+	/**
+	 * Method for get specific available version of installation.
+	 *
+	 * @param   string  $version  Version specific.
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
+	public static function getUpdateTasks($version = null)
+	{
+		if (null === $version)
+		{
+			return array();
+		}
 
-        $tasks = self::loadUpdateTasks();
+		$tasks = self::loadUpdateTasks();
 
-        if (empty($tasks) || !isset($tasks[$version])) {
-            return array();
-        }
+		if (empty($tasks) || !isset($tasks[$version]))
+		{
+			return array();
+		}
 
-        return $tasks[$version];
-    }
+		return $tasks[$version];
+	}
 
-    /**
-     * Method for get all available version of installation.
-     *
-     * @return  array  List of update tasks.
-     *
-     * @since   2.1.0
-     */
-    public static function loadUpdateTasks()
-    {
-        if (null !== self::$tasks) {
-            return self::$tasks;
-        }
+	/**
+	 * Method for get all available version of installation.
+	 *
+	 * @return  array  List of update tasks.
+	 *
+	 * @since   2.1.0
+	 */
+	public static function loadUpdateTasks()
+	{
+		if (null !== self::$tasks)
+		{
+			return self::$tasks;
+		}
 
-        $updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
+		$updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
 
-        $files    = JFolder::files($updatePath, '.php', false, true);
-        $versions = array();
+		$files    = JFolder::files($updatePath, '.php', false, true);
+		$versions = array();
 
-        foreach ($files as $file) {
-            $version = new stdClass;
+		foreach ($files as $file)
+		{
+			$version = new stdClass;
 
-            $version->version = JFile::stripExt(basename($file));
+			$version->version = JFile::stripExt(basename($file));
 
-            require_once $file;
+			require_once $file;
 
-            $version->class = 'RedshopUpdate' . str_replace(array('.', '-'), '', $version->version);
-            $version->path  = $file;
+			$version->class = 'RedshopUpdate' . str_replace(array('.', '-'), '', $version->version);
+			$version->path  = $file;
 
-            /** @var RedshopInstallUpdate $updateClass */
-            $updateClass    = new $version->class;
-            $classTasks     = $updateClass->getTasksList();
-            $version->tasks = array();
+			/** @var RedshopInstallUpdate $updateClass */
+			$updateClass    = new $version->class;
+			$classTasks     = $updateClass->getTasksList();
+			$version->tasks = array();
 
-            if (empty($classTasks)) {
-                continue;
-            }
+			if (empty($classTasks))
+			{
+				continue;
+			}
 
-            foreach ($classTasks as $classTask) {
-                $version->tasks[] = array(
-                    'text' => JText::_($classTask->name),
-                    'func' => $version->class . '.' . $classTask->func
-                );
-            }
+			foreach ($classTasks as $classTask)
+			{
+				$version->tasks[] = array('text' => JText::_($classTask->name), 'func' => $version->class . '.' . $classTask->func);
+			}
 
-            $versions[$version->version] = $version;
-        }
+			$versions[$version->version] = $version;
+		}
 
-        uksort($versions, 'version_compare');
-        $versions = array_reverse($versions);
+		uksort($versions, 'version_compare');
+		$versions = array_reverse($versions);
 
-        self::$tasks = $versions;
+		self::$tasks = $versions;
 
-        return self::$tasks;
-    }
+		return self::$tasks;
+	}
 }

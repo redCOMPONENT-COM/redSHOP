@@ -19,21 +19,20 @@ defined('_JEXEC') or die;
 class Helper
 {
     /**
-     * @param   string  $currencyCode
-     *
+     * @param string $currencyCode
      * @return mixed
      * @since 3.0
      */
     public static function getCurrenciesListForSelectBox($currencyCode = "")
     {
-        $db    = \JFactory::getDbo();
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
 
         if (isset($currencyCode) && $currencyCode != '') {
             $query->where($db->qn('code') . ' IN (' . $db->q($currencyCode) . ')');
         }
 
-        $query->select($db->qn('code', 'value'), $db->qn('name' . 'text'))
+        $query->select($db->qn('code', 'value'), $db->qn('name'. 'text'))
             ->from($db->qn('#__redshop_currency'))
             ->order($db->qn('name') . ' ASC');
 

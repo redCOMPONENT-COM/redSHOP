@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class RedshopModelTool_Update extends RedshopModelList
 {
-    /**
-     * Method for get all available version of installation.
-     *
-     * @return  array
-     *
-     * @since   2.1.0
-     */
-    public function getAvailableUpdate()
-    {
-        return RedshopInstall::loadUpdateTasks();
-    }
+	/**
+	 * Method for get all available version of installation.
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
+	public function getAvailableUpdate()
+	{
+		return RedshopInstall::loadUpdateTasks();
+	}
 }

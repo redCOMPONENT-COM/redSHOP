@@ -20,55 +20,49 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldTemplatecompare extends JFormFieldList
 {
-    /**
-     * Element name
-     *
-     * @access    protected
-     * @var        string
-     */
-    public $type = 'Templatecompare';
+	/**
+	 * Element name
+	 *
+	 * @access    protected
+	 * @var        string
+	 */
+	public $type = 'Templatecompare';
 
-    protected function getInput()
-    {
-        $db    = JFactory::getDBO();
-        $query = $db->getQuery(true)
-            ->select($db->qn('id'))
-            ->select($db->qn('name'))
-            ->from($db->qn('#__redshop_template'))
-            ->where($db->qn('published') . ' = 1')
-            ->where($db->qn('section') . ' = ' . $db->q('compare_product'));
+	protected function getInput()
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true)
+			->select($db->qn('id'))
+			->select($db->qn('name'))
+			->from($db->qn('#__redshop_template'))
+			->where($db->qn('published') . ' = 1')
+			->where($db->qn('section') . ' = ' . $db->q('compare_product'));
 
-        $items   = $db->setQuery($query)->loadObjectList();
-        $options = array();
+		$items = $db->setQuery($query)->loadObjectList();
+		$options = array();
 
-        if (count($items) > 0) {
-            foreach ($items as $item) {
-                $option    = JHTML::_('select.option', $item->id, $item->name);
-                $options[] = $option;
-            }
-        }
+		if (count($items) > 0)
+		{
+			foreach ($items as $item)
+			{
+				$option = JHTML::_('select.option', $item->id, $item->name);
+				$options[] = $option;
+			}
+		}
 
-        $options = array_merge(parent::getOptions(), $options);
+		$options = array_merge(parent::getOptions(), $options);
 
-        $attr = '';
+		$attr = '';
 
-        // Initialize some field attributes.
-        $attr .= $this->element['class'] ? ' class="' . (string)$this->element['class'] . '"' : '';
-        $attr .= $this->element['size'] ? ' size="' . (int)$this->element['size'] . '"' : '';
-        $attr .= $this->element['multiple'] ? ' multiple' : '';
+		// Initialize some field attributes.
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$attr .= $this->element['multiple'] ? ' multiple' : '';
 
-        // Initialize JavaScript field attributes.
-        $attr .= $this->element['onchange'] ? ' onchange="' . (string)$this->element['onchange'] . '"' : '';
+		// Initialize JavaScript field attributes.
+		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-        return JHTML::_(
-            'select.genericlist',
-            $options,
-            $this->name,
-            trim($attr),
-            'value',
-            'text',
-            $this->value,
-            $this->id
-        );
-    }
+		return JHTML::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+
+	}
 }

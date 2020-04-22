@@ -33,7 +33,7 @@
 .dndlist-place-holder {
     height: 51px;
     border-left: none;
-    border-right: none;
+    border-right:none;
 }
 
 .dndlist-dragged-row {
@@ -68,7 +68,7 @@
     cursor: auto;
 }
 
-.sortable .sortable-handler.sortable-inactive {
+.sortable .sortable-handler.sortable-inactive{
     opacity: 0.5;
     filter: alpha(opacity=50);
 }

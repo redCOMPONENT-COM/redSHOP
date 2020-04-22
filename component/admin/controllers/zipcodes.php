@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Controller
@@ -8,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 /**
  * Zipcodes controller
  *
@@ -16,6 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       2.1.3
  */
+
 class RedshopControllerZipcodes extends RedshopControllerAdmin
 {
 }

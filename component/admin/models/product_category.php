@@ -12,105 +12,115 @@ defined('_JEXEC') or die;
 
 class RedshopModelProduct_category extends RedshopModel
 {
-    public function __construct()
-    {
-        parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 
-        $this->_table_prefix = '#__redshop_';
-    }
+		$this->_table_prefix = '#__redshop_';
+	}
 
-    public function getProductlist()
-    {
-        $pid   = JFactory::getApplication()->input->post->get('cid', array(), 'array');
-        $pids  = implode(",", $pid);
-        $query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product  WHERE product_id IN(' . $pids . ')';
-        $this->_db->setQuery($query);
+	public function getProductlist()
+	{
+		$pid   = JFactory::getApplication()->input->post->get('cid', array(), 'array');
+		$pids  = implode(",", $pid);
+		$query = 'SELECT product_id,product_name FROM ' . $this->_table_prefix . 'product  WHERE product_id IN(' . $pids . ')';
+		$this->_db->setQuery($query);
 
-        if ($products = $this->_db->loadObjectlist('product_id')) {
-            $products = $this->getProductCategories($products);
-        }
+		if ($products = $this->_db->loadObjectlist('product_id'))
+		{
+			$products = $this->getProductCategories($products);
+		}
 
-        return $products;
-    }
+		return $products;
+	}
 
-    /**
-     * Get Product Categories
-     *
-     * @param   array  $products  Data products
-     *
-     * @return  mixed
-     */
-    public function getProductCategories($products)
-    {
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true)
-            ->select('c.name, pcx.product_id')
-            ->from($db->qn('#__redshop_category', 'c'))
-            ->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.category_id = c.id')
-            ->where('pcx.product_id IN (' . implode(',', array_keys($products)) . ')');
+	/**
+	 * Get Product Categories
+	 *
+	 * @param   array  $products  Data products
+	 *
+	 * @return  mixed
+	 */
+	public function getProductCategories($products)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('c.name, pcx.product_id')
+			->from($db->qn('#__redshop_category', 'c'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.category_id = c.id')
+			->where('pcx.product_id IN (' . implode(',', array_keys($products)) . ')');
 
-        if ($categories = $db->setQuery($query)->loadObjectList()) {
-            foreach ($categories as $category) {
-                if (!isset($products[$category->product_id]->categories)) {
-                    $products[$category->product_id]->categories = array();
-                }
+		if ($categories = $db->setQuery($query)->loadObjectList())
+		{
+			foreach ($categories as $category)
+			{
+				if (!isset($products[$category->product_id]->categories))
+				{
+					$products[$category->product_id]->categories = array();
+				}
 
-                $products[$category->product_id]->categories[] = $category->name;
-            }
-        }
+				$products[$category->product_id]->categories[] = $category->name;
+			}
+		}
 
-        return $products;
-    }
+		return $products;
+	}
 
-    public function saveProduct_Category()
-    {
-        $app    = JFactory::getApplication();
-        $pid    = $app->input->post->get('cid', array(), 'array');
-        $cat_id = $app->input->get('category_id');
+	public function saveProduct_Category()
+	{
+		$app    = JFactory::getApplication();
+		$pid    = $app->input->post->get('cid', array(), 'array');
+		$cat_id = $app->input->get('category_id');
 
-        for ($i = 0, $in = count($pid); $i < $in; $i++) {
-            for ($j = 0, $jn = count($cat_id); $j < $jn; $j++) {
-                if (count($this->getIdfromXref($pid[$i], $cat_id[$j])) <= 0) {
-                    $query = "INSERT INTO " . $this->_table_prefix . "product_category_xref "
-                        . "(`category_id`,`product_id`) VALUES ('" . $cat_id[$j] . "','" . $pid[$i] . "')";
-                    $this->_db->setQuery($query);
+		for ($i = 0, $in = count($pid); $i < $in; $i++)
+		{
+			for ($j = 0, $jn = count($cat_id); $j < $jn; $j++)
+			{
+				if (count($this->getIdfromXref($pid[$i], $cat_id[$j])) <= 0)
+				{
+					$query = "INSERT INTO " . $this->_table_prefix . "product_category_xref "
+						. "(`category_id`,`product_id`) VALUES ('" . $cat_id[$j] . "','" . $pid[$i] . "')";
+					$this->_db->setQuery($query);
 
-                    if (!$this->_db->execute()) {
-                        return false;
-                    }
-                }
-            }
-        }
+					if (!$this->_db->execute())
+					{
+						return false;
+					}
+				}
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public function getIdfromXref($pid, $cid)
-    {
-        $query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product_category_xref '
-            . ' WHERE product_id ="' . $pid . '" AND category_id="' . $cid . '"';
-        $this->_db->setQuery($query);
+	public function removeProduct_Category()
+	{
+		$app     = JFactory::getApplication();
+		$pid     = $app->input->post->get('cid', array(), 'array');
+		$cat_id  = $app->input->post->get('category_id', array(), 'array');
+		$cat_ids = implode(",", $cat_id);
 
-        return $this->_db->loadObjectlist();
-    }
+		for ($i = 0, $in = count($pid); $i < $in; $i++)
+		{
+			$query = "DELETE FROM " . $this->_table_prefix . "product_category_xref "
+				. " WHERE product_id=" . $pid[$i] . " AND category_id IN (" . $cat_ids . ")";
+			$this->_db->setQuery($query);
 
-    public function removeProduct_Category()
-    {
-        $app     = JFactory::getApplication();
-        $pid     = $app->input->post->get('cid', array(), 'array');
-        $cat_id  = $app->input->post->get('category_id', array(), 'array');
-        $cat_ids = implode(",", $cat_id);
+			if (!$this->_db->execute())
+			{
+				return false;
+			}
+		}
 
-        for ($i = 0, $in = count($pid); $i < $in; $i++) {
-            $query = "DELETE FROM " . $this->_table_prefix . "product_category_xref "
-                . " WHERE product_id=" . $pid[$i] . " AND category_id IN (" . $cat_ids . ")";
-            $this->_db->setQuery($query);
+		return true;
+	}
 
-            if (!$this->_db->execute()) {
-                return false;
-            }
-        }
+	public function getIdfromXref($pid, $cid)
+	{
+		$query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product_category_xref '
+			. ' WHERE product_id ="' . $pid . '" AND category_id="' . $cid . '"';
+		$this->_db->setQuery($query);
 
-        return true;
-    }
+		return $this->_db->loadObjectlist();
+	}
 }

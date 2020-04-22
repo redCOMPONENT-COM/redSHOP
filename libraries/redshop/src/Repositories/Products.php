@@ -16,27 +16,28 @@ namespace Redshop\Repositories;
  */
 class Products
 {
-    /**
-     * @var   string
-     * @since 2.1.0
-     */
-    protected static $table = '#__redshop_product';
+	/**
+	 * @var   string
+	 * @since 2.1.0
+	 */
+	protected static $table = '#__redshop_product';
 
-    /**
-     * @param   array  $conditions  Conditions
-     *
-     * @return  boolean
-     * @since   2.1.0
-     */
-    public static function delete($conditions)
-    {
-        $db    = \JFactory::getDbo();
-        $query = $db->getQuery(true);
+	/**
+	 * @param   array $conditions Conditions
+	 *
+	 * @return  boolean
+	 * @since   2.1.0
+	 */
+	public static function delete($conditions)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-        foreach ($conditions as $key => $value) {
-            $query->where($db->quoteName($key) . ' = ' . (int)$value);
-        }
+		foreach ($conditions as $key => $value)
+		{
+			$query->where($db->quoteName($key) . ' = ' . (int) $value);
+		}
 
-        return $db->setQuery($query->delete(self::$table))->execute();
-    }
+		return $db->setQuery($query->delete(self::$table))->execute();
+	}
 }

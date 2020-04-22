@@ -18,35 +18,36 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerStatistic_Customer extends RedshopControllerAdmin
 {
-    /**
-     * Export customers CSV.
-     *
-     * @return  mixed.
-     *
-     * @since   2.0.3
-     */
-    public function exportCustomer()
-    {
-        $model = $this->getModel();
-        $data  = $model->getItems();
+	/**
+	 * Export customers CSV.
+	 *
+	 * @return  mixed.
+	 *
+	 * @since   2.0.3
+	 */
+	public function exportCustomer()
+	{
+		$model         = $this->getModel();
+		$data          = $model->getItems();
 
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-type: text/x-csv");
-        header("Content-type: text/csv");
-        header("Content-type: application/csv");
-        header('Content-Disposition: attachment; filename=Customer.csv');
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Content-type: text/x-csv");
+		header("Content-type: text/csv");
+		header("Content-type: application/csv");
+		header('Content-Disposition: attachment; filename=Customer.csv');
 
-        ob_clean();
+		ob_clean();
 
-        echo "Name, Email, Order count, Total sale\n";
+		echo "Name, Email, Order count, Total sale\n";
 
-        foreach ($data as $value) {
-            echo trim($value->customer_name) . ",";
-            echo trim($value->user_email) . ",";
-            echo $value->count . ",";
-            echo RedshopHelperProductPrice::formattedPrice($value->total_sale) . "\n";
-        }
+		foreach ($data as $value)
+		{
+			echo trim($value->customer_name) . ",";
+			echo trim($value->user_email) . ",";
+			echo $value->count . ",";
+			echo RedshopHelperProductPrice::formattedPrice($value->total_sale) . "\n";
+		}
 
-        JFactory::getApplication()->close();
-    }
+		JFactory::getApplication()->close();
+	}
 }

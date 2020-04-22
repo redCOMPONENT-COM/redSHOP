@@ -21,31 +21,14 @@ class Helper
     /**
      * @param   int  $taxGroupId
      *
-     * @return null
-     * @throws \Exception
-     * @since 3.0
-     */
-    public static function getTaxRatesById($taxGroupId = 1)
-    {
-        $db    = \JFactory::getDbo();
-        $query = \Redshop\Tax\Helper::getTaxRatesQuery($taxGroupId);
-
-        return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
-    }
-
-    /**
-     * @param   int  $taxGroupId
-     *
      * @return \JDatabaseQuery
      * @since 3.0
      */
-    public static function getTaxRatesQuery($taxGroupId = 1)
-    {
-        $db    = \JFactory::getDbo();
+    public static function getTaxRatesQuery($taxGroupId = 1) {
+        $db = \JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->select(
-            $db->qn(
-                [
+            $db->qn([
                     'tax_group_id',
                     'id',
                     'tax_country',
@@ -57,5 +40,20 @@ class Helper
         $query->where($db->qn('tax_group_id') . '=' . $db->q($taxGroupId));
 
         return $query;
+    }
+
+    /**
+     * @param   int  $taxGroupId
+     *
+     * @return null
+     * @throws \Exception
+     * @since 3.0
+     */
+    public static function getTaxRatesById($taxGroupId = 1)
+    {
+        $db = \JFactory::getDbo();
+        $query = \Redshop\Tax\Helper::getTaxRatesQuery($taxGroupId);
+
+        return \Redshop\DB\Tool::safeSelect($db, $query, true, []);
     }
 }

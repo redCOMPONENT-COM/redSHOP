@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -18,16 +17,14 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
             submitform(pressbutton);
             return;
         }
-        if (parseFloat(form.price_quantity_start.value) > parseFloat(form.price_quantity_end.value)) {
-            alert("<?php echo JText::_(
-                'COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START',
-                true
-            ); ?>");
+        if (parseFloat(form.price_quantity_start.value) > parseFloat(form.price_quantity_end.value))
+        {
+            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_QUANTITY_END_MUST_MORE_THAN_QUANTITY_START', true ); ?>");
             form.price_quantity_start.focus();
             return;
         }
         if (form.product_price.value == "" || isNaN(form.product_price.value) || form.product_price.value == 0) {
-            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_INVALID', true); ?>");
+            alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_INVALID', true ); ?>");
             form.product_price.focus();
             return;
         }
@@ -57,9 +54,7 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
                     <td><input class="text_area" type="number" name="product_price" id="product_price" size="10"
                                maxlength="10" min="0"
                                oninput="validity.valid || (value='');"
-                               value="<?php echo RedshopHelperProduct::redpriceDecimal(
-                                   $this->detail->product_price
-                               ); ?>"/>
+                               value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->product_price); ?>"/>
                     </td>
                 </tr>
                 <tr>
@@ -74,8 +69,7 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
                 <tr>
                     <td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_QUANTITY_END_LBL'); ?>:
                     </td>
-                    <td><input class="text_area" type="number" name="price_quantity_end" id="price_quantity_end"
-                               size="10"
+                    <td><input class="text_area" type="number" name="price_quantity_end" id="price_quantity_end" size="10"
                                maxlength="20" min="0" oninput="validity.valid || (value='')"
                                value="<?php echo $this->detail->price_quantity_end; ?>"/></td>
                 </tr>
@@ -84,9 +78,7 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
                     </td>
                     <td><input class="text_area" type="number" name="discount_price" id="discount_price" size="10"
                                maxlength="10" min="0" oninput="validity.valid || (value='');"
-                               value="<?php echo RedshopHelperProduct::redpriceDecimal(
-                                   $this->detail->discount_price
-                               ); ?>"/>
+                               value="<?php echo RedshopHelperProduct::redpriceDecimal($this->detail->discount_price); ?>"/>
                     </td>
                 </tr>
                 <tr>
@@ -94,25 +86,23 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
                         :
                     </td>
                     <td>
-                        <?php
-                        $sdate = "";
+						<?php
+						$sdate = "";
 
-                        if ($this->detail->discount_start_date) {
-                            $sdate = date(
-                                Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'),
-                                $this->detail->discount_start_date
-                            );
-                        }
+						if ($this->detail->discount_start_date)
+						{
+							$sdate = date(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $this->detail->discount_start_date);
+						}
 
-                        echo JHtml::_(
-                            'redshopcalendar.calendar',
-                            $sdate,
-                            'discount_start_date',
-                            'discount_start_date',
-                            $calendarFormat,
-                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
-                        );
-                        ?>
+						echo JHtml::_(
+							'redshopcalendar.calendar',
+							$sdate,
+							'discount_start_date',
+							'discount_start_date',
+							$calendarFormat,
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+						);
+						?>
                     </td>
                 </tr>
                 <tr>
@@ -120,25 +110,23 @@ $calendarFormat = Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d')
                         :
                     </td>
                     <td>
-                        <?php
-                        $sdate = "";
+						<?php
+						$sdate = "";
 
-                        if ($this->detail->discount_end_date) {
-                            $sdate = date(
-                                Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'),
-                                $this->detail->discount_end_date
-                            );
-                        }
+						if ($this->detail->discount_end_date)
+						{
+							$sdate = date(Redshop::getConfig()->getString('DEFAULT_DATEFORMAT', 'Y-m-d'), $this->detail->discount_end_date);
+						}
 
-                        echo JHtml::_(
-                            'redshopcalendar.calendar',
-                            $sdate,
-                            'discount_end_date',
-                            'discount_end_date',
-                            $calendarFormat,
-                            array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
-                        );
-                        ?>
+						echo JHtml::_(
+							'redshopcalendar.calendar',
+							$sdate,
+							'discount_end_date',
+							'discount_end_date',
+							$calendarFormat,
+							array('class' => 'form-control', 'size' => '15', 'maxlength' => '19')
+						);
+						?>
                     </td>
                 </tr>
             </table>

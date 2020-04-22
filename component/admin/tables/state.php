@@ -18,85 +18,94 @@ defined('_JEXEC') or die;
  */
 class RedshopTableState extends RedshopTable
 {
-    /**
-     * The table name without the prefix. Ex: cursos_courses
-     *
-     * @var  string
-     */
-    protected $_tableName = 'redshop_state';
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_state';
 
-    /**
-     * Checks that the object is valid and able to be stored.
-     *
-     * This method checks that the parent_id is non-zero and exists in the database.
-     * Note that the root node (parent_id = 0) cannot be manipulated with this class.
-     *
-     * @return  boolean  True if all checks pass.
-     */
-    protected function doCheck()
-    {
-        if (empty($this->country_id)) {
-            return false;
-        }
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		if (empty($this->country_id))
+		{
+			return false;
+		}
 
-        if (empty($this->state_name)) {
-            return false;
-        }
+		if (empty($this->state_name))
+		{
+			return false;
+		}
 
-        if (empty($this->state_3_code)) {
-            return false;
-        }
+		if (empty($this->state_3_code))
+		{
+			return false;
+		}
 
-        if (empty($this->state_2_code)) {
-            return false;
-        }
+		if (empty($this->state_2_code))
+		{
+			return false;
+		}
 
-        if (!parent::doCheck()) {
-            return false;
-        }
+		if (!parent::doCheck())
+		{
+			return false;
+		}
 
-        $db = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
-        $query = $db->getQuery(true);
-        $query->select([$db->qn('id'), $db->qn('state_3_code')])
-            ->from($db->qn('#__redshop_state'))
-            ->where(
-                $db->qn('state_3_code') . ' = ' . $db->q($this->state_3_code)
-                . ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id)
-                . ' AND ' . $db->qn('country_id') . ' = ' . $db->q($this->country_id)
-            );
+		$query = $db->getQuery(true);
+		$query->select([$db->qn('id'), $db->qn('state_3_code')])
+			->from($db->qn('#__redshop_state'))
+			->where(
+				$db->qn('state_3_code') . ' = ' . $db->q($this->state_3_code)
+				. ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id)
+				. ' AND ' . $db->qn('country_id') . ' = ' . $db->q($this->country_id)
+			);
 
-        $db->setQuery($query);
+		$db->setQuery($query);
 
-        $xid = intval($db->loadResult());
+		$xid = intval($db->loadResult());
 
-        if ($xid) {
-            $this->_error = JText::_('COM_REDSHOP_STATE_CODE3_ALREADY_EXISTS');
-            JError::raiseWarning('', $this->_error);
+		if ($xid)
+		{
+			$this->_error = JText::_('COM_REDSHOP_STATE_CODE3_ALREADY_EXISTS');
+			JError::raiseWarning('', $this->_error);
 
-            return false;
-        } else {
-            $query = $db->getQuery(true);
+			return false;
+		}
+		else
+		{
+			$query = $db->getQuery(true);
 
-            $query->select([$db->qn('id'), $db->qn('state_3_code'), $db->qn('state_2_code')])
-                ->from($db->qn('#__redshop_state'))
-                ->where(
-                    $db->qn('state_2_code') . ' = ' . $db->q($this->state_2_code)
-                    . ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id)
-                    . ' AND ' . $db->qn('country_id') . ' = ' . $db->q($this->country_id)
-                );
+			$query->select([$db->qn('id'), $db->qn('state_3_code'), $db->qn('state_2_code')])
+				->from($db->qn('#__redshop_state'))
+				->where(
+					$db->qn('state_2_code') . ' = ' . $db->q($this->state_2_code)
+					. ' AND ' . $db->qn('id') . ' != ' . $db->q($this->id)
+					. ' AND ' . $db->qn('country_id') . ' = ' . $db->q($this->country_id)
+				);
 
-            $db->setQuery($query);
-            $xid = intval($db->loadResult());
+			$db->setQuery($query);
+			$xid = intval($db->loadResult());
 
-            if ($xid) {
-                $this->_error = JText::_('COM_REDSHOP_STATE_CODE2_ALREADY_EXISTS');
-                JError::raiseWarning('', $this->_error);
+			if ($xid)
+			{
+				$this->_error = JText::_('COM_REDSHOP_STATE_CODE2_ALREADY_EXISTS');
+				JError::raiseWarning('', $this->_error);
 
-                return false;
-            }
-        }
+				return false;
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

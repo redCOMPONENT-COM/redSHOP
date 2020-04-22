@@ -22,15 +22,15 @@ use Twig\Environment;
  */
 class PlgTwigRedshop extends BaseTwigPlugin
 {
-    /**
-     * @param   Environment  $environment
-     * @param                $params
-     *
-     *
-     * @since 1.0.0
-     */
-    public function onTwigAfterLoad(Environment $environment, $params)
-    {
-        $environment->addExtension(new TwigRedshop);
-    }
+	/**
+	 * @param   Environment  $environment
+	 * @param                $params
+	 *
+	 *
+	 * @since 1.0.0
+	 */
+	public function onTwigAfterLoad(Environment $environment, $params)
+	{
+		$environment->addExtension(new TwigRedshop);
+	}
 }

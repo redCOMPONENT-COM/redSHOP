@@ -1,31 +1,31 @@
 {% if quotationDetail.quotation_status == 2 %}
-    <form method="post">
-        <input type="radio" name="quotation_status" checked value="3">{{ jtext('COM_REDSHOP_ACCEPT') }}
-        <input type="radio" name="quotation_status" value='4'>{{ jtext('COM_REDSHOP_REJECT') }}
-        <input type="hidden" name="quotation_id" value="{{ quoId }}">
-        <input type="hidden" name="option" value="com_redshop">
-        <input type="hidden" name="Itemid" value="{{ itemId }}">
-        <input type="hidden" name="encr" value="{{ encr }}">
-        <input type="hidden" name="view" value="quotation_detail">
-        <input type="hidden" name="task" value="updatestatus">
-        <input type="submit" name="submit" value="{{ jtext('COM_REDSHOP_SUBMIT') }}"
-               onclick="return confirm('{{ jtext('COM_REDSHOP_CONFIRM_SEND_QUOTATION') }}')"/>
-        <div>
-            <textarea name='quotation_customer_note'>{{ quotationDetail.quotation_customer_note }}</textarea>
-        </div>
-    </form>
+	<form method="post">
+		<input type="radio" name="quotation_status" checked value="3">{{ jtext('COM_REDSHOP_ACCEPT') }}
+		<input type="radio" name="quotation_status" value='4'>{{ jtext('COM_REDSHOP_REJECT') }}
+		<input type="hidden" name="quotation_id" value="{{ quoId }}">
+		<input type="hidden" name="option" value="com_redshop">
+		<input type="hidden" name="Itemid" value="{{ itemId }}">
+		<input type="hidden" name="encr" value="{{ encr }}">
+		<input type="hidden" name="view" value="quotation_detail">
+		<input type="hidden" name="task" value="updatestatus">
+		<input type="submit" name="submit" value="{{ jtext('COM_REDSHOP_SUBMIT') }}"
+		       onclick="return confirm('{{ jtext('COM_REDSHOP_CONFIRM_SEND_QUOTATION') }}')" />
+		<div>
+			<textarea name='quotation_customer_note' >{{ quotationDetail.quotation_customer_note }}</textarea>
+		</div>
+	</form>
 {% elseif quotationDetail.quotation_status == 3 %}
-    <form method="post">
-        <input type="hidden" name="quotation_id" value="{{ quoId }}">
-        <input type="hidden" name="option" value="com_redshop">
-        <input type="hidden" name="Itemid" value="{{ itemId }}">
-        <input type="hidden" name="encr" value="{{ encr }}">
-        <input type="hidden" name="task" value="checkout">
-        <input type="hidden" name="view" value="quotation_detail">
-        <input type="submit" name="submit" value="{{ jtext('COM_REDSHOP_CHECKOUT') }}"/>
-    </form>
+	<form method="post">
+		<input type="hidden" name="quotation_id" value="{{ quoId }}">
+		<input type="hidden" name="option" value="com_redshop">
+		<input type="hidden" name="Itemid" value="{{ itemId }}">
+		<input type="hidden" name="encr" value="{{ encr }}">
+		<input type="hidden" name="task" value="checkout">
+		<input type="hidden" name="view" value="quotation_detail">
+		<input type="submit" name="submit" value="{{ jtext('COM_REDSHOP_CHECKOUT') }}" />
+	</form>
 {% elseif quotationDetail.quotation_status == 5 %}
-    ( {{ jtext('COM_REDSHOP_ORDER_ID') }}-{{ quotationDetail.order_id }} )
+	( {{ jtext('COM_REDSHOP_ORDER_ID') }}-{{ quotationDetail.order_id }} )
 {% else %}
 
 {% endif %}

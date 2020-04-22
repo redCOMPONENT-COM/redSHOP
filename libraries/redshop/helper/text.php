@@ -18,82 +18,88 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperText
 {
-    /**
-     * @var  array
-     */
-    protected static $data = array();
+	/**
+	 * @var  array
+	 */
+	protected static $data = array();
 
-    /**
-     * Get array of tag for text library
-     *
-     * @return  array
-     *
-     * @since   2.0.3
-     */
-    public static function getTextLibraryTagArray()
-    {
-        $result   = array();
-        $textData = self::getTextLibraryData();
+	/**
+	 * Get data of text library
+	 *
+	 * @param   string  $section  Section of text library
+	 *
+	 * @return  array<object>
+	 *
+	 * @since   2.0.3
+	 */
+	public static function getTextLibraryData($section = null)
+	{
+		$key = null === $section ? '0' : $section;
 
-        if (!empty($textData)) {
-            foreach ($textData as $oneData) {
-                $result[] = $oneData->name;
-            }
-        }
+		if (!array_key_exists($key, self::$data))
+		{
+			$db = JFactory::getDbo();
 
-        return $result;
-    }
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_textlibrary'))
+				->where($db->qn('published') . ' = 1');
 
-    /**
-     * Get data of text library
-     *
-     * @param   string  $section  Section of text library
-     *
-     * @return  array<object>
-     *
-     * @since   2.0.3
-     */
-    public static function getTextLibraryData($section = null)
-    {
-        $key = null === $section ? '0' : $section;
+			if (null !== $section)
+			{
+				$query->where($db->qn('section') . ' = ' . $db->q($section));
+			}
 
-        if (!array_key_exists($key, self::$data)) {
-            $db = JFactory::getDbo();
+			self::$data[$key] = $db->setQuery($query)->loadObjectList();
+		}
 
-            $query = $db->getQuery(true)
-                ->select('*')
-                ->from($db->qn('#__redshop_textlibrary'))
-                ->where($db->qn('published') . ' = 1');
+		return self::$data[$key];
+	}
 
-            if (null !== $section) {
-                $query->where($db->qn('section') . ' = ' . $db->q($section));
-            }
+	/**
+	 * Get array of tag for text library
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.3
+	 */
+	public static function getTextLibraryTagArray()
+	{
+		$result   = array();
+		$textData = self::getTextLibraryData();
 
-            self::$data[$key] = $db->setQuery($query)->loadObjectList();
-        }
+		if (!empty($textData))
+		{
+			foreach ($textData as $oneData)
+			{
+				$result[] = $oneData->name;
+			}
+		}
 
-        return self::$data[$key];
-    }
+		return $result;
+	}
 
-    /**
-     * Replace data with data of text library
-     *
-     * @param   string  $data  Data to replace with
-     *
-     * @return  string
-     *
-     * @since   2.0.3
-     */
-    public static function replaceTexts($data)
-    {
-        $textData = self::getTextLibraryData();
+	/**
+	 * Replace data with data of text library
+	 *
+	 * @param   string  $data  Data to replace with
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.3
+	 */
+	public static function replaceTexts($data)
+	{
+		$textData = self::getTextLibraryData();
 
-        if (!empty($textData)) {
-            foreach ($textData as $oneData) {
-                $data = str_replace("{" . $oneData->name . "}", $oneData->content, $data);
-            }
-        }
+		if (!empty($textData))
+		{
+			foreach ($textData as $oneData)
+			{
+				$data = str_replace("{" . $oneData->name . "}", $oneData->content, $data);
+			}
+		}
 
-        return $data;
-    }
+		return $data;
+	}
 }

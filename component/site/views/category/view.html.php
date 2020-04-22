@@ -19,480 +19,494 @@ defined('_JEXEC') or die;
  */
 class RedshopViewCategory extends RedshopView
 {
-    public $app;
+	public $app;
 
-    public $input;
+	public $input;
 
-    public $state = null;
+	public $state = null;
 
-    public $productPriceSliderEnable = false;
+	public $productPriceSliderEnable = false;
 
-    public $category_id;
+	public $category_id;
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed  A string if successful, otherwise a JError object.
-     *
-     * @throws  Exception
-     * @since   11.1
-     *
-     * @see     fetch()
-     */
-    public function display($tpl = null)
-    {
-        $this->app   = JFactory::getApplication();
-        $this->input = $this->app->input;
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @see     fetch()
+	 * @since   11.1
+	 *
+	 * @throws  Exception
+	 */
+	public function display($tpl = null)
+	{
+		$this->app     = JFactory::getApplication();
+		$this->input   = $this->app->input;
 
-        // Request variables
-        $this->option = $this->input->getString('option', 'com_redshop');
-        $this->itemid = $this->input->getInt('Itemid', null);
-        $this->catid  = $this->input->getInt('cid', 0);
-        $layout       = $this->input->getString('layout', '');
-        $this->print  = $this->input->getBool('print', false);
+		// Request variables
+		$this->option = $this->input->getString('option', 'com_redshop');
+		$this->itemid = $this->input->getInt('Itemid', null);
+		$this->catid  = $this->input->getInt('cid', 0);
+		$layout       = $this->input->getString('layout', '');
+		$this->print  = $this->input->getBool('print', false);
 
-        /** @scrutinizer ignore-call */
-        $params = $this->app->getParams('com_redshop');
-        /** @var RedshopModelCategory $model */
-        $model       = $this->getModel('category');
-        $this->state = $model->get('state');
+		/** @scrutinizer ignore-call */
+		$params = $this->app->getParams('com_redshop');
+		/** @var RedshopModelCategory $model */
+		$model       = $this->getModel('category');
+		$this->state = $model->get('state');
 
-        JPluginHelper::importPlugin('redshop_product');
-        JPluginHelper::importPlugin('redshop_product_type');
-        $this->dispatcher = RedshopHelperUtility::getDispatcher();
+		JPluginHelper::importPlugin('redshop_product');
+		JPluginHelper::importPlugin('redshop_product_type');
+		$this->dispatcher = RedshopHelperUtility::getDispatcher();
 
-        $menu_meta_keywords    = $params->get('menu-meta_keywords');
-        $menu_robots           = $params->get('robots');
-        $menu_meta_description = $params->get('menu-meta_description');
+		$menu_meta_keywords    = $params->get('menu-meta_keywords');
+		$menu_robots           = $params->get('robots');
+		$menu_meta_description = $params->get('menu-meta_description');
 
-        if (!$this->catid && $layout == 'detail') {
-            $this->catid = $params->get('cid');
+		if (!$this->catid && $layout == 'detail')
+		{
+			$this->catid = $params->get('cid');
 
-            if (!$this->catid) {
-                throw new InvalidArgumentException(JText::_('COM_REDSHOP_CATEGORY_NOT_FOUND'), 404);
-            }
+			if (!$this->catid)
+			{
+				throw new InvalidArgumentException(JText::_('COM_REDSHOP_CATEGORY_NOT_FOUND'), 404);
+			}
 
-            $this->setLayout('detail');
-        }
+			$this->setLayout('detail');
+		}
 
-        if (empty($layout) && $this->catid > 0) {
-            $this->setLayout('detail');
-        }
+		if (empty($layout) && $this->catid > 0)
+		{
+			$this->setLayout('detail');
+		}
 
-        $document = JFactory::getDocument();
-        JHtml::stylesheet('com_redshop/redshop.priceslider.min.css', array(), true);
+		$document = JFactory::getDocument();
+		JHtml::stylesheet('com_redshop/redshop.priceslider.min.css', array(), true);
 
-        $lists   = array();
-        $minmax  = array(0, 0);
-        $product = array();
+		$lists   = array();
+		$minmax  = array(0, 0);
+		$product = array();
 
-        $maincat = $model->_loadCategory();
+		$maincat = $model->_loadCategory();
 
-        $categoryTemplateId   = $model->getState('category_template');
-        $allCategoryTemplate  = $model->getCategoryTemplate();
-        $orderData            = RedshopHelperUtility::getOrderByList();
-        $manufacturers        = $model->getManufacturer();
-        $loadCategorytemplate = $model->loadCategoryTemplate($categoryTemplateId);
-        $detail               = $model->getdata();
+		$categoryTemplateId   = $model->getState('category_template');
+		$allCategoryTemplate  = $model->getCategoryTemplate();
+		$orderData            = RedshopHelperUtility::getOrderByList();
+		$manufacturers        = $model->getManufacturer();
+		$loadCategorytemplate = $model->loadCategoryTemplate($categoryTemplateId);
+		$detail               = $model->getdata();
 
-        if (!empty($maincat) && !empty($maincat->canonical_url)) {
-            $main_url  = JUri::root() . $maincat->canonical_url;
-            $canonical = '<link rel="canonical" href="' . $main_url . '" />';
-            $document->addCustomTag($canonical);
-        }
+		if (!empty($maincat) && !empty($maincat->canonical_url))
+		{
+			$main_url  = JUri::root() . $maincat->canonical_url;
+			$canonical = '<link rel="canonical" href="' . $main_url . '" />';
+			$document->addCustomTag($canonical);
+		}
 
-        $pageheadingtag = '';
+		$pageheadingtag = '';
 
-        if ($this->catid) {
-            // Restrict category if category not published
-            if ($maincat->published == 0) {
-                $this->setLayout('notfound');
-            }
+		if ($this->catid)
+		{
+			// Restrict category if category not published
+			if ($maincat->published == 0)
+			{
+				$this->setLayout('notfound');
+			}
 
-            $registry     = new JRegistry;
-            $filterParams = $registry->loadString($maincat->product_filter_params);
+			$registry = new JRegistry;
+			$filterParams = $registry->loadString($maincat->product_filter_params);
 
-            $isSlider = false;
+			$isSlider = false;
 
-            if ((!empty($loadCategorytemplate) && strpos(
-                        $loadCategorytemplate[0]->template_desc,
-                        "{include_product_in_sub_cat}"
-                    ) !== false)
-                || ($filterParams->get('enable') == 1 && $filterParams->get('category_enable') == 1)
-            ) {
-                $model->setState('include_sub_categories_products', true);
-                $loadCategorytemplate[0]->template_desc = str_replace(
-                    "{include_product_in_sub_cat}",
-                    '',
-                    $loadCategorytemplate[0]->template_desc
-                );
-            }
+			if ((!empty($loadCategorytemplate) && strpos($loadCategorytemplate[0]->template_desc, "{include_product_in_sub_cat}") !== false)
+				|| ($filterParams->get('enable') == 1 && $filterParams->get('category_enable') == 1)
+			)
+			{
+				$model->setState('include_sub_categories_products', true);
+				$loadCategorytemplate[0]->template_desc = str_replace("{include_product_in_sub_cat}", '', $loadCategorytemplate[0]->template_desc);
+			}
 
-            if (!empty($loadCategorytemplate) && strpos(
-                    $loadCategorytemplate[0]->template_desc,
-                    "{product_price_slider}"
-                ) !== false) {
-                $model->getCategoryProduct(1);
-                $minmax[0] = $model->getState('minprice');
-                $minmax[1] = $model->getState('maxprice');
+			if (!empty($loadCategorytemplate) && strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
+			{
+				$model->getCategoryProduct(1);
+				$minmax[0] = $model->getState('minprice');
+				$minmax[1] = $model->getState('maxprice');
 
-                $isSlider    = true;
-                $texpricemin = $this->input->getInt('texpricemin', $minmax[0]);
-                $texpricemax = $this->input->getInt('texpricemax', $minmax[1]);
-                $model->setMaxMinProductPrice(array($texpricemin, $texpricemax));
-            }
+				$isSlider    = true;
+				$texpricemin = $this->input->getInt('texpricemin', $minmax[0]);
+				$texpricemax = $this->input->getInt('texpricemax', $minmax[1]);
+				$model->setMaxMinProductPrice(array($texpricemin, $texpricemax));
+			}
 
-            $product = $model->getCategoryProduct(0, $isSlider);
+			$product = $model->getCategoryProduct(0, $isSlider);
 
-            $document->setMetaData('keywords', $maincat->metakey);
-            $document->setMetaData('description', $maincat->metadesc);
-            $document->setMetaData('robots', $maincat->metarobot_info);
+			$document->setMetaData('keywords', $maincat->metakey);
+			$document->setMetaData('description', $maincat->metadesc);
+			$document->setMetaData('robots', $maincat->metarobot_info);
 
-            // For page title
-            $pagetitletag = Redshop::getConfig()->get('SEO_PAGE_TITLE_CATEGORY');
-            $parentcat    = "";
-            $parentid     = RedshopHelperProduct::getParentCategory($maincat->id);
+			// For page title
+			$pagetitletag = Redshop::getConfig()->get('SEO_PAGE_TITLE_CATEGORY');
+			$parentcat    = "";
+			$parentid     = RedshopHelperProduct::getParentCategory($maincat->id);
 
-            while ($parentid != 0) {
-                $parentdetail = RedshopEntityCategory::getInstance($parentid)->getItem();
-                $parentcat    = $parentdetail->name . "  " . $parentcat;
-                $parentid     = RedshopHelperProduct::getParentCategory($parentdetail->id);
-            }
+			while ($parentid != 0)
+			{
+				$parentdetail = RedshopEntityCategory::getInstance($parentid)->getItem();
+				$parentcat    = $parentdetail->name . "  " . $parentcat;
+				$parentid     = RedshopHelperProduct::getParentCategory($parentdetail->id);
+			}
 
-            $pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
-            $pagetitletag = str_replace("{categoryname}", $maincat->name, $pagetitletag);
-            $pagetitletag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagetitletag);
-            $pagetitletag = str_replace("{categoryshortdesc}", strip_tags($maincat->short_description), $pagetitletag);
+			$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
+			$pagetitletag = str_replace("{categoryname}", $maincat->name, $pagetitletag);
+			$pagetitletag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagetitletag);
+			$pagetitletag = str_replace("{categoryshortdesc}", strip_tags($maincat->short_description), $pagetitletag);
 
-            if ($maincat->pagetitle != "" && RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig(
-                )->get('SEO_PAGE_TITLE_CATEGORY') != '') {
-                if ($maincat->append_to_global_seo == 'append') {
-                    $pagetitletag = $pagetitletag . $maincat->pagetitle;
-                    $document->setTitle($pagetitletag);
-                } elseif ($maincat->append_to_global_seo == 'prepend') {
-                    $pagetitletag = $maincat->pagetitle . $pagetitletag;
-                    $document->setTitle($pagetitletag);
-                } elseif ($maincat->append_to_global_seo == 'replace') {
-                    $document->setTitle($maincat->pagetitle);
-                }
-            } elseif ($maincat->pagetitle != "") {
-                $document->setTitle($maincat->pagetitle);
-            } elseif (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get(
-                    'SEO_PAGE_TITLE_CATEGORY'
-                ) != '') {
-                $document->setTitle($pagetitletag);
-            } else {
-                $document->setTitle($this->app->getCfg('sitename'));
-            }
+			if ($maincat->pagetitle != "" && RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get('SEO_PAGE_TITLE_CATEGORY') != '')
+			{
+				if ($maincat->append_to_global_seo == 'append')
+				{
+					$pagetitletag = $pagetitletag . $maincat->pagetitle;
+					$document->setTitle($pagetitletag);
+				}
+				elseif ($maincat->append_to_global_seo == 'prepend')
+				{
+					$pagetitletag = $maincat->pagetitle . $pagetitletag;
+					$document->setTitle($pagetitletag);
+				}
+				elseif ($maincat->append_to_global_seo == 'replace')
+				{
+					$document->setTitle($maincat->pagetitle);
+				}
+			}
+			elseif ($maincat->pagetitle != "")
+			{
+				$document->setTitle($maincat->pagetitle);
+			}
+			elseif (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get('SEO_PAGE_TITLE_CATEGORY') != '')
+			{
+				$document->setTitle($pagetitletag);
+			}
+			else
+			{
+				$document->setTitle($this->app->getCfg('sitename'));
+			}
 
-            $pagekeywordstag = '';
+			$pagekeywordstag = '';
 
-            if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get(
-                    'SEO_PAGE_KEYWORDS_CATEGORY'
-                ) != '') {
-                $pagekeywordstag = Redshop::getConfig()->get('SEO_PAGE_KEYWORDS_CATEGORY');
-                $pagekeywordstag = str_replace("{categoryname}", $maincat->name, $pagekeywordstag);
-                $pagekeywordstag = str_replace(
-                    "{categoryshortdesc}",
-                    strip_tags($maincat->short_description),
-                    $pagekeywordstag
-                );
-                $pagekeywordstag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagekeywordstag);
-                $document->setMetaData('keywords', $pagekeywordstag);
-            }
+			if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get('SEO_PAGE_KEYWORDS_CATEGORY') != '')
+			{
+				$pagekeywordstag = Redshop::getConfig()->get('SEO_PAGE_KEYWORDS_CATEGORY');
+				$pagekeywordstag = str_replace("{categoryname}", $maincat->name, $pagekeywordstag);
+				$pagekeywordstag = str_replace("{categoryshortdesc}", strip_tags($maincat->short_description), $pagekeywordstag);
+				$pagekeywordstag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagekeywordstag);
+				$document->setMetaData('keywords', $pagekeywordstag);
+			}
 
-            if (trim($maincat->metakey) != ''
-                && RedShop::getConfig()->get('AUTOGENERATED_SEO')
-                && Redshop::getConfig()->get('SEO_PAGE_KEYWORDS_CATEGORY') != '') {
-                if ($maincat->append_to_global_seo == 'append') {
-                    $pagekeywordstag .= "," . trim($maincat->metakey);
-                    $document->setMetaData('keywords', $pagekeywordstag);
-                } elseif ($maincat->append_to_global_seo == 'prepend') {
-                    $pagekeywordstag = trim($maincat->metakey) . $pagekeywordstag;
-                    $document->setMetaData('keywords', $pagekeywordstag);
-                } elseif ($maincat->append_to_global_seo == 'replace') {
-                    $document->setMetaData('keywords', $maincat->metakey);
-                }
-            } else {
-                if ($maincat->metakey != '') {
-                    $document->setMetaData('keywords', $maincat->metakey);
-                } else {
-                    if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get(
-                            'SEO_PAGE_KEYWORDS_CATEGORY'
-                        ) != '') {
-                        $document->setMetaData('keywords', $pagekeywordstag);
-                    } else {
-                        $document->setMetaData('keywords', $maincat->name);
-                    }
-                }
-            }
+			if (trim($maincat->metakey) != ''
+				&& RedShop::getConfig()->get('AUTOGENERATED_SEO')
+				&& Redshop::getConfig()->get('SEO_PAGE_KEYWORDS_CATEGORY') != '')
+			{
+				if ($maincat->append_to_global_seo == 'append')
+				{
+					$pagekeywordstag .= "," . trim($maincat->metakey);
+					$document->setMetaData('keywords', $pagekeywordstag);
+				}
+				elseif ($maincat->append_to_global_seo == 'prepend')
+				{
+					$pagekeywordstag = trim($maincat->metakey) . $pagekeywordstag;
+					$document->setMetaData('keywords', $pagekeywordstag);
+				}
+				elseif ($maincat->append_to_global_seo == 'replace')
+				{
+					$document->setMetaData('keywords', $maincat->metakey);
+				}
+			}
+			else
+			{
+				if ($maincat->metakey != '')
+				{
+					$document->setMetaData('keywords', $maincat->metakey);
+				}
+				else
+				{
+					if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get('SEO_PAGE_KEYWORDS_CATEGORY') != '')
+					{
+						$document->setMetaData('keywords', $pagekeywordstag);
+					}
+					else
+					{
+						$document->setMetaData('keywords', $maincat->name);
+					}
+				}
+			}
 
-            $pagedesctag = '';
+			$pagedesctag = '';
 
-            // For custom + auto generated description
-            if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get(
-                    'SEO_PAGE_DESCRIPTION_CATEGORY'
-                ) != '') {
-                $pagedesctag = Redshop::getConfig()->get('SEO_PAGE_DESCRIPTION_CATEGORY');
-                $pagedesctag = str_replace("{categoryname}", $maincat->name, $pagedesctag);
-                $pagedesctag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagedesctag);
-                $pagedesctag = str_replace(
-                    "{categoryshortdesc}",
-                    strip_tags($maincat->short_description),
-                    $pagedesctag
-                );
-                $pagedesctag = str_replace("{categorydesc}", strip_tags($maincat->description), $pagedesctag);
-            }
+			// For custom + auto generated description
+			if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get('SEO_PAGE_DESCRIPTION_CATEGORY') != '')
+			{
+				$pagedesctag = Redshop::getConfig()->get('SEO_PAGE_DESCRIPTION_CATEGORY');
+				$pagedesctag = str_replace("{categoryname}", $maincat->name, $pagedesctag);
+				$pagedesctag = str_replace("{shopname}", Redshop::getConfig()->get('SHOP_NAME'), $pagedesctag);
+				$pagedesctag = str_replace("{categoryshortdesc}", strip_tags($maincat->short_description), $pagedesctag);
+				$pagedesctag = str_replace("{categorydesc}", strip_tags($maincat->description), $pagedesctag);
+			}
 
-            if ($maincat->metadesc != '' && RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get(
-                    'SEO_PAGE_DESCRIPTION_CATEGORY'
-                ) != '') {
-                if ($maincat->append_to_global_seo == 'append') {
-                    $pagedesctag .= $maincat->metadesc;
-                    $document->setMetaData('description', $pagedesctag);
-                } elseif ($maincat->append_to_global_seo == 'prepend') {
-                    $pagedesctag = trim($maincat->metadesc) . $pagedesctag;
-                    $document->setMetaData('description', $pagedesctag);
-                } elseif ($maincat->append_to_global_seo == 'replace') {
-                    $document->setMetaData('description', $maincat->metadesc);
-                }
-            } elseif ($maincat->metadesc != '') {
-                $document->setMetaData('description', $maincat->metadesc);
-            } else {
-                if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get(
-                        'SEO_PAGE_DESCRIPTION_CATEGORY'
-                    ) != '') {
-                    $document->setMetaData('description', $pagedesctag);
-                } else {
-                    $document->setMetaData('description', $maincat->name);
-                }
-            }
+			if ($maincat->metadesc != '' && RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get('SEO_PAGE_DESCRIPTION_CATEGORY') != '')
+			{
+				if ($maincat->append_to_global_seo == 'append')
+				{
+					$pagedesctag .= $maincat->metadesc;
+					$document->setMetaData('description', $pagedesctag);
+				}
+				elseif ($maincat->append_to_global_seo == 'prepend')
+				{
+					$pagedesctag = trim($maincat->metadesc) . $pagedesctag;
+					$document->setMetaData('description', $pagedesctag);
+				}
+				elseif ($maincat->append_to_global_seo == 'replace')
+				{
+					$document->setMetaData('description', $maincat->metadesc);
+				}
+			}
+			elseif ($maincat->metadesc != '')
+			{
+				$document->setMetaData('description', $maincat->metadesc);
+			}
+			else
+			{
+				if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get('SEO_PAGE_DESCRIPTION_CATEGORY') != '')
+				{
+					$document->setMetaData('description', $pagedesctag);
+				}
+				else
+				{
+					$document->setMetaData('description', $maincat->name);
+				}
+			}
 
-            // For metarobot
-            if ($maincat->metarobot_info != '') {
-                $document->setMetaData('robots', $maincat->metarobot_info);
-            } else {
-                if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && JFactory::getConfig()->get('robots') != '') {
-                    $document->setMetaData('robots', JFactory::getConfig()->get('robots'));
-                } else {
-                    $document->setMetaData('robots', "INDEX,FOLLOW");
-                }
-            }
+			// For metarobot
+			if ($maincat->metarobot_info != '')
+			{
+				$document->setMetaData('robots', $maincat->metarobot_info);
+			}
+			else
+			{
+				if (RedShop::getConfig()->get('AUTOGENERATED_SEO') && JFactory::getConfig()->get('robots') != '')
+				{
+					$document->setMetaData('robots', JFactory::getConfig()->get('robots'));
+				}
+				else
+				{
+					$document->setMetaData('robots', "INDEX,FOLLOW");
+				}
+			}
 
-            $pageheadingtag = str_replace(
-                "{categoryname}",
-                $maincat->name,
-                Redshop::getConfig()->get('SEO_PAGE_HEADING_CATEGORY')
-            );
+			$pageheadingtag = str_replace("{categoryname}", $maincat->name, Redshop::getConfig()->get('SEO_PAGE_HEADING_CATEGORY'));
 
-            if ($maincat->pageheading != "" && RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig(
-                )->get('SEO_PAGE_HEADING_CATEGORY') != '') {
-                $pageheadingtag = $pageheadingtag . $maincat->pageheading;
-            } elseif ($maincat->pageheading != "") {
-                $pageheadingtag = $maincat->pageheading;
-            } else {
-                $pageheadingtag = $this->app->getCfg('sitename');
-            }
-        } else {
-            if ($menu_meta_keywords != "") {
-                $document->setMetaData('keywords', $menu_meta_keywords);
-            } else {
-                $document->setMetaData('keywords', $this->app->getCfg('sitename'));
-            }
+			if ($maincat->pageheading != "" && RedShop::getConfig()->get('AUTOGENERATED_SEO') && Redshop::getConfig()->get('SEO_PAGE_HEADING_CATEGORY') != '')
+			{
+				$pageheadingtag = $pageheadingtag . $maincat->pageheading;
+			}
+			elseif ($maincat->pageheading != "")
+			{
+				$pageheadingtag = $maincat->pageheading;
+			}
+			else
+			{
+				$pageheadingtag = $this->app->getCfg('sitename');
+			}
+		}
+		else
+		{
+			if ($menu_meta_keywords != "")
+			{
+				$document->setMetaData('keywords', $menu_meta_keywords);
+			}
+			else
+			{
+				$document->setMetaData('keywords', $this->app->getCfg('sitename'));
+			}
 
-            if ($menu_meta_description != "") {
-                $document->setMetaData('description', $menu_meta_description);
-            } else {
-                $document->setMetaData('description', $this->app->getCfg('sitename'));
-            }
+			if ($menu_meta_description != "")
+			{
+				$document->setMetaData('description', $menu_meta_description);
+			}
+			else
+			{
+				$document->setMetaData('description', $this->app->getCfg('sitename'));
+			}
 
-            if ($menu_robots != "") {
-                $document->setMetaData('robots', $menu_robots);
-            } else {
-                $document->setMetaData('robots', $this->app->getCfg('sitename'));
-            }
-        }
+			if ($menu_robots != "")
+			{
+				$document->setMetaData('robots', $menu_robots);
+			}
+			else
+			{
+				$document->setMetaData('robots', $this->app->getCfg('sitename'));
+			}
+		}
 
-        // Breadcrumbs
-        RedshopHelperBreadcrumb::generate($this->catid);
-        $disabled = "";
+		// Breadcrumbs
+		RedshopHelperBreadcrumb::generate($this->catid);
+		$disabled = "";
 
-        if ($this->print) {
-            $disabled = "disabled";
-        }
+		if ($this->print)
+		{
+			$disabled = "disabled";
+		}
 
-        $manufacturerId = $model->getState('manufacturer_id');
+		$manufacturerId = $model->getState('manufacturer_id');
 
-        $lists['category_template'] = "";
-        $lists['manufacturer']      = "";
+		$lists['category_template'] = "";
+		$lists['manufacturer']      = "";
 
-        if (!empty($manufacturers)) {
-            $temps                 = array(
-                (object)array(
-                    'id'   => 0,
-                    'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
-                )
-            );
-            $manufacturers         = array_merge($temps, $manufacturers);
-            $lists['manufacturer'] = JHtml::_(
-                'select.genericlist',
-                $manufacturers,
-                'manufacturer_id',
-                'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
-                'id',
-                'name',
-                $manufacturerId
-            );
-        }
+		if (!empty($manufacturers))
+		{
+			$temps                 = array(
+				(object) array(
+					'id'   => 0,
+					'name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
+				)
+			);
+			$manufacturers         = array_merge($temps, $manufacturers);
+			$lists['manufacturer'] = JHtml::_(
+				'select.genericlist',
+				$manufacturers,
+				'manufacturer_id',
+				'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
+				'id',
+				'name',
+				$manufacturerId
+			);
+		}
 
-        $categories = new RedshopEntitiesCollection;
+		$categories = new RedshopEntitiesCollection;
 
-        if ($model->getState('include_sub_categories_products', false)) {
-            $categories          = RedshopEntityCategory::getInstance($this->catid)->getChildCategories();
-            $lists['categories'] = '';
-            $this->category_id   = $model->getState('category_id');
+		if ($model->getState('include_sub_categories_products', false))
+		{
+			$categories = RedshopEntityCategory::getInstance($this->catid)->getChildCategories();
+			$lists['categories'] = '';
+			$this->category_id   = $model->getState('category_id');
 
-            $categoryList = array(
-                (object)array(
-                    'id'   => 0,
-                    'name' => JText::_('COM_REDSHOP_SELECT_CATEGORY')
-                )
-            );
+			$categoryList = array(
+				(object) array(
+					'id'   => 0,
+					'name' => JText::_('COM_REDSHOP_SELECT_CATEGORY')
+				)
+			);
 
-            if (!empty($categories)) {
-                foreach ($categories as $category) {
-                    array_push($categoryList, $category->getItem());
-                }
-            }
+			if (!empty($categories))
+			{
+				foreach ($categories as $category)
+				{
+					array_push($categoryList, $category->getItem());
+				}
+			}
 
-            if (count($categoryList) > 1) {
-                $lists['categories'] = JHtml::_(
-                    'select.genericlist',
-                    $categoryList,
-                    'category_id',
-                    'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
-                    'id',
-                    'name',
-                    $this->category_id
-                );
-            }
-        }
+			if (count($categoryList) > 1)
+			{
+				$lists['categories'] = JHtml::_(
+					'select.genericlist',
+					$categoryList,
+					'category_id',
+					'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
+					'id',
+					'name',
+						$this->category_id
+				);
+			}
+		}
 
-        if (count($allCategoryTemplate) > 1) {
-            $lists['category_template'] = JHtml::_(
-                'select.genericlist',
-                $allCategoryTemplate,
-                'category_template',
-                'class="inputbox" size="1" onchange="javascript:setSliderMinMaxForTemplate();" ' . $disabled . ' ',
-                'id',
-                'name',
-                $categoryTemplateId
-            );
-        }
+		if (count($allCategoryTemplate) > 1)
+		{
+			$lists['category_template'] = JHtml::_(
+				'select.genericlist',
+				$allCategoryTemplate,
+				'category_template',
+				'class="inputbox" size="1" onchange="javascript:setSliderMinMaxForTemplate();" ' . $disabled . ' ',
+				'id',
+				'name',
+				$categoryTemplateId
+			);
+		}
 
-        $orderByMethod     = $this->app->getUserStateFromRequest($model->context . '.order_by', 'order_by');
-        $lists['order_by'] = JHtml::_(
-            'select.genericlist',
-            $orderData,
-            'order_by',
-            'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ',
-            'value',
-            'text',
-            $orderByMethod
-        );
+		$orderByMethod     = $this->app->getUserStateFromRequest($model->context . '.order_by', 'order_by');
+		$lists['order_by'] = JHtml::_(
+			'select.genericlist',
+			$orderData,
+			'order_by',
+			'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ',
+			'value',
+			'text',
+			$orderByMethod
+		);
 
-        if ($this->catid && count($loadCategorytemplate) > 0) {
-            if (strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false) {
-                $ajaxSlide = $this->input->getBool('ajaxslide', false);
+		if ($this->catid && count($loadCategorytemplate) > 0)
+		{
+			if (strpos($loadCategorytemplate[0]->template_desc, "{product_price_slider}") !== false)
+			{
+				$ajaxSlide = $this->input->getBool('ajaxslide', false);
 
-                if (!$ajaxSlide) {
-                    $strToInsert                            = "<div id='oldredcatpagination'>{show_all_products_in_category}</div>";
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{show_all_products_in_category}",
-                        $strToInsert,
-                        $loadCategorytemplate[0]->template_desc
-                    );
+				if (!$ajaxSlide)
+				{
+					$strToInsert                            = "<div id='oldredcatpagination'>{show_all_products_in_category}</div>";
+					$loadCategorytemplate[0]->template_desc = str_replace("{show_all_products_in_category}", $strToInsert, $loadCategorytemplate[0]->template_desc);
 
-                    $strToInsert                            = "<div id='oldredcatpagination'>{pagination}</div>";
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{pagination}",
-                        $strToInsert,
-                        $loadCategorytemplate[0]->template_desc
-                    );
+					$strToInsert                            = "<div id='oldredcatpagination'>{pagination}</div>";
+					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", $strToInsert, $loadCategorytemplate[0]->template_desc);
 
-                    $strToInsert                            = '<span id="oldRedPageLimit">{product_display_limit}</span>';
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{product_display_limit}",
-                        $strToInsert,
-                        $loadCategorytemplate[0]->template_desc
-                    );
-                }
+					$strToInsert                            = '<span id="oldRedPageLimit">{product_display_limit}</span>';
+					$loadCategorytemplate[0]->template_desc = str_replace("{product_display_limit}", $strToInsert, $loadCategorytemplate[0]->template_desc);
+				}
 
-                if (!empty($product)) {
-                    $this->productPriceSliderEnable = true;
+				if (!empty($product))
+				{
+					$this->productPriceSliderEnable = true;
 
-                    // Start Code for fixes IE9 issue
-                    JHtml::_('redshopjquery.ui');
+					// Start Code for fixes IE9 issue
+					JHtml::_('redshopjquery.ui');
 
-                    // End Code for fixes IE9 issue
-                    require_once JPATH_ROOT . '/media/com_redshop/js/catprice_filter.php';
-                } else {
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{product_price_slider}",
-                        "",
-                        $loadCategorytemplate[0]->template_desc
-                    );
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{pagination}",
-                        "",
-                        $loadCategorytemplate[0]->template_desc
-                    );
-                }
-            }
-        }
+					// End Code for fixes IE9 issue
+					require_once JPATH_ROOT . '/media/com_redshop/js/catprice_filter.php';
+				}
+				else
+				{
+					$loadCategorytemplate[0]->template_desc = str_replace("{product_price_slider}", "", $loadCategorytemplate[0]->template_desc);
+					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", "", $loadCategorytemplate[0]->template_desc);
+				}
+			}
+		}
 
-        if ((!count($product) && !$model->getState('include_sub_categories_products', false)) ||
-            ($model->getState('include_sub_categories_products', false) && !$categories->count())) {
-            if (isset($loadCategorytemplate[0]->template_desc)) {
-                $loadCategorytemplate[0]->template_desc = str_replace(
-                    "{order_by_lbl}",
-                    "",
-                    $loadCategorytemplate[0]->template_desc
-                );
-                $loadCategorytemplate[0]->template_desc = str_replace(
-                    "{order_by}",
-                    "",
-                    $loadCategorytemplate[0]->template_desc
-                );
+		if ((!count($product) && !$model->getState('include_sub_categories_products', false)) ||
+			($model->getState('include_sub_categories_products', false) && !$categories->count()))
+		{
+		    if (isset($loadCategorytemplate[0]->template_desc)) {
+                $loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
+                $loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
 
                 if (!$manufacturerId) {
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{filter_by_lbl}",
-                        "",
-                        $loadCategorytemplate[0]->template_desc
-                    );
-                    $loadCategorytemplate[0]->template_desc = str_replace(
-                        "{filter_by}",
-                        "",
-                        $loadCategorytemplate[0]->template_desc
-                    );
+                    $loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
+                    $loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
                 }
             }
-        }
+		}
 
-        $this->detail               = $detail;
-        $this->lists                = $lists;
-        $this->product              = $product;
-        $this->pageheadingtag       = $pageheadingtag;
-        $this->params               = $params;
-        $this->maincat              = $maincat;
-        $this->category_template_id = $categoryTemplateId;
-        $this->order_by_select      = $orderByMethod;
-        $this->manufacturer_id      = $manufacturerId;
-        $this->loadCategorytemplate = $loadCategorytemplate;
+		$this->detail               = $detail;
+		$this->lists                = $lists;
+		$this->product              = $product;
+		$this->pageheadingtag       = $pageheadingtag;
+		$this->params               = $params;
+		$this->maincat              = $maincat;
+		$this->category_template_id = $categoryTemplateId;
+		$this->order_by_select      = $orderByMethod;
+		$this->manufacturer_id      = $manufacturerId;
+		$this->loadCategorytemplate = $loadCategorytemplate;
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

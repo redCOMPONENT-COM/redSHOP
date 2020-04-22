@@ -12,7 +12,7 @@ use AcceptanceTester\OrderUpdateDiscountAndSpecialDiscountSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
 
 /**
- * Class OrderDiscountAndSpecialUpdateCest
+ * Class UpdateDiscountAndSpecialDiscountCest
  *
  * @package  AcceptanceTester
  *
@@ -20,7 +20,7 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
  *
  * @since    2.1.3
  */
-class OrderDiscountAndSpecialUpdateCest
+class OrderDiscountAndSpecialDiscountCest
 {
 	/**
 	 * @var \Faker\Generator

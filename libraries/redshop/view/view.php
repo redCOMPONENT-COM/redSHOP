@@ -22,25 +22,25 @@ jimport('joomla.application.component.viewlegacy');
  */
 class RedshopView extends JViewLegacy
 {
-    /**
-     * @var  \JInput
-     *
-     * @since 3.0.1
-     */
-    protected $input;
+	/**
+	 * @var  \JInput
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $input;
 
-    /**
-     * @var  CMSApplication
-     *
-     * @since 3.0.1
-     */
-    protected $app;
+	/**
+	 * @var  CMSApplication
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $app;
 
-    public function __construct($config = array())
-    {
-        $this->app   = JFactory::getApplication();
-        $this->input = $this->app->input;
+	public function __construct($config = array())
+	{
+		$this->app = JFactory::getApplication();
+		$this->input = $this->app->input;
 
-        parent::__construct($config);
-    }
+		parent::__construct($config);
+	}
 }

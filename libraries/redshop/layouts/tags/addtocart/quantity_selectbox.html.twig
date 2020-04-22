@@ -1,10 +1,8 @@
-<input class="quantity_select" type="hidden" name="quantity" id="quantity{{ productId }}" value="{{ quantity }}"
-       maxlength="{{ 'DEFAULT_QUANTITY' | redconfig }}"
+<input class="quantity_select" type="hidden" name="quantity" id="quantity{{ productId }}" value="{{ quantity }}" maxlength="{{ 'DEFAULT_QUANTITY' | redconfig }}"
        size="{{ 'DEFAULT_QUANTITY' | redconfig }}">
 
 {% if 'DEFAULT_QUANTITY_SELECTBOX_VALUE' | redconfig != '' or {{ product | quantity_selectbox_value }} ==  '' or {{ product | quantity_selectbox_value }} != '' %}
-    <select name="quantity" id="quantity{{ productId }}"
-            OnChange="calculateTotalPrice({{ productId }},{{ relatedProductId }});">
+    <select name="quantity" id="quantity{{ productId }}"  OnChange="calculateTotalPrice({{ productId }},{{ relatedProductId }});">
         {% for quantityBoxes in quantityBox %}
         {% if intVal{{ quantityBox }} and intVal{{ quantityBox }} != 0 %}
         <option value="intVal{{ quantityBox }}" {{ quantityselect }}>

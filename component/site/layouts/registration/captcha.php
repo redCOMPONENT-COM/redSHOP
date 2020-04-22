@@ -13,18 +13,19 @@ $app = JFactory::getApplication();
 
 $default = JFactory::getConfig()->get('captcha');
 
-if ($app->isSite()) {
-    $default = $app->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+if ($app->isSite())
+{
+	$default = $app->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 }
 ?>
 
 <?php if (!empty($default)): ?>
-    <?php $captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop')); ?>
+	<?php $captcha = JCaptcha::getInstance($default, array('namespace' => 'redshop')); ?>
 
-    <?php if ($captcha != null): ?>
+	<?php if ($captcha != null): ?>
         <div class="form-group">
-            <?php echo $captcha->display('security_code', 'security_code', 'required'); ?>
+			<?php echo $captcha->display('security_code', 'security_code', 'required'); ?>
         </div>
-    <?php endif; ?>
+	<?php endif; ?>
 <?php endif; ?>
 

@@ -18,58 +18,56 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerStatistic_Product extends RedshopControllerAdmin
 {
-    /**
-     * Export products CSV.
-     *
-     * @return  mixed.
-     *
-     * @since   2.0.0.3
-     */
-    public function exportProduct()
-    {
-        $model = $this->getModel();
-        $data  = $model->getItems();
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function getModel($name = 'Statistic_Product', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
 
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-type: text/x-csv");
-        header("Content-type: text/csv");
-        header("Content-type: application/csv");
-        header('Content-Disposition: attachment; filename=Product.csv');
+		return $model;
+	}
 
-        ob_clean();
+	/**
+	 * Export products CSV.
+	 *
+	 * @return  mixed.
+	 *
+	 * @since   2.0.0.3
+	 */
+	public function exportProduct()
+	{
+		$model         = $this->getModel();
+		$data          = $model->getItems();
 
-        echo "Date, Product name, Product SKU, Product manufacturer, Unit sold, Total sale\n";
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Content-type: text/x-csv");
+		header("Content-type: text/csv");
+		header("Content-type: application/csv");
+		header('Content-Disposition: attachment; filename=Product.csv');
 
-        foreach ($data as $key => $value) {
+		ob_clean();
+
+		echo "Date, Product name, Product SKU, Product manufacturer, Unit sold, Total sale\n";
+
+		foreach ($data as $key => $value)
+		{
             echo date("Y-m-d", $value->order_create_date) . " ,";
-            echo $value->product_name . " ,";
-            echo $value->product_number . " ,";
-            echo $value->manufacturer_name . " ,";
-            echo $value->unit_sold . " ,";
-            echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . ' ' . $value->total_sale . "\n";
-        }
+			echo $value->product_name . " ,";
+			echo $value->product_number . " ,";
+			echo $value->manufacturer_name . " ,";
+			echo $value->unit_sold . " ,";
+			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . ' ' . $value->total_sale . "\n";
+		}
 
-        exit();
-    }
-
-    /**
-     * Proxy for getModel.
-     *
-     * @param   string  $name  The model name. Optional.
-     * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  Configuration array for model. Optional.
-     *
-     * @return  object  The model.
-     *
-     * @since   2.0.0.3
-     */
-    public function getModel(
-        $name = 'Statistic_Product',
-        $prefix = 'RedshopModel',
-        $config = array('ignore_request' => true)
-    ) {
-        $model = parent::getModel($name, $prefix, $config);
-
-        return $model;
-    }
+		exit();
+	}
 }

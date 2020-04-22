@@ -20,71 +20,76 @@ JFormHelper::loadFieldClass('list');
  */
 abstract class JFormFieldPredefinedList extends JFormFieldList
 {
-    /**
-     * Cached array of the category items.
-     *
-     * @var    array
-     * @since  1.0
-     */
-    protected static $options = array();
-    /**
-     * The form field type.
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $type = 'PredefinedList';
-    /**
-     * Available predefined options
-     *
-     * @var  array
-     * @since  1.0
-     */
-    protected $predefinedOptions = array();
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	protected $type = 'PredefinedList';
 
-    /**
-     * Translate options labels ?
-     *
-     * @var  boolean
-     * @since  1.0
-     */
-    protected $translate = true;
+	/**
+	 * Cached array of the category items.
+	 *
+	 * @var    array
+	 * @since  1.0
+	 */
+	protected static $options = array();
 
-    /**
-     * Method to get the options to populate list
-     *
-     * @return  array  The field option objects.
-     *
-     * @since   1.0
-     */
-    protected function getOptions()
-    {
-        // Hash for caching
-        $hash = md5($this->element);
-        $type = strtolower($this->type);
+	/**
+	 * Available predefined options
+	 *
+	 * @var  array
+	 * @since  1.0
+	 */
+	protected $predefinedOptions = array();
 
-        if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions)) {
-            static::$options[$type][$hash] = parent::getOptions();
+	/**
+	 * Translate options labels ?
+	 *
+	 * @var  boolean
+	 * @since  1.0
+	 */
+	protected $translate = true;
 
-            $options = array();
+	/**
+	 * Method to get the options to populate list
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   1.0
+	 */
+	protected function getOptions()
+	{
+		// Hash for caching
+		$hash = md5($this->element);
+		$type = strtolower($this->type);
 
-            // Allow to only use specific values of the predefined list
-            $filter = isset($this->element['filter']) ? explode(',', $this->element['filter']) : array();
+		if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions))
+		{
+			static::$options[$type][$hash] = parent::getOptions();
 
-            foreach ($this->predefinedOptions as $value => $text) {
-                if (empty($filter) || in_array($value, $filter)) {
-                    $text = $this->translate ? JText::_($text) : $text;
+			$options = array();
 
-                    $options[] = (object)array(
-                        'value' => $value,
-                        'text'  => $text
-                    );
-                }
-            }
+			// Allow to only use specific values of the predefined list
+			$filter = isset($this->element['filter']) ? explode(',', $this->element['filter']) : array();
 
-            static::$options[$type][$hash] = array_merge(static::$options[$type][$hash], $options);
-        }
+			foreach ($this->predefinedOptions as $value => $text)
+			{
+				if (empty($filter) || in_array($value, $filter))
+				{
+					$text = $this->translate ? JText::_($text) : $text;
 
-        return static::$options[$type][$hash];
-    }
+					$options[] = (object) array(
+						'value' => $value,
+						'text'  => $text
+					);
+				}
+			}
+
+			static::$options[$type][$hash] = array_merge(static::$options[$type][$hash], $options);
+		}
+
+		return static::$options[$type][$hash];
+	}
 }

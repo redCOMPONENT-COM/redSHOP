@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -36,7 +35,7 @@ defined('_JEXEC') or die;
                 </th>
             </tr>
             </thead>
-            <?php foreach ($this->prices as $row): ?>
+			<?php foreach ($this->prices as $row): ?>
                 <tr>
                     <td align="center"><?php echo $row->shopper_group_name ?></td>
                     <td align="center">
@@ -54,7 +53,7 @@ defined('_JEXEC') or die;
                                value="<?php echo RedshopHelperProduct::redpriceDecimal($row->product_price); ?>"/>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+			<?php endforeach; ?>
         </table>
     </div>
     <input type="hidden" name="view" value="product_price"/>

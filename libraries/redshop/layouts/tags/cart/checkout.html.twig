@@ -1,12 +1,12 @@
 {% if pluginButton %}
     <div class="googlecheckout-button" style="float:left;">{{ pluginButton }}</div>
 {% endif %}
-<div class="checkout_button" style="float:right;">
-    <input type=button class="greenbutton btn btn-primary" value="{{ jtext('COM_REDSHOP_CART_CHECKOUT') }}"
+<div class="checkout_button"  style="float:right;">
+<input type=button class="greenbutton btn btn-primary" value="{{ jtext('COM_REDSHOP_CART_CHECKOUT') }}"
 
-            {% if 'MINIMUM_ORDER_TOTAL' | redconfig > 0 and cart['total'] < 'MINIMUM_ORDER_TOTAL' | redconfig %}
-           onclick="alert('{{ jtext('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') ~ ' ' ~ 'MINIMUM_ORDER_TOTAL' | redconfig }}');">
-    {% else %}
-        onclick="javascript:document.location='{{ link }}'">
-    {% endif %}
+{% if 'MINIMUM_ORDER_TOTAL' | redconfig > 0 and cart['total'] < 'MINIMUM_ORDER_TOTAL' | redconfig %}
+     onclick="alert('{{ jtext('COM_REDSHOP_MINIMUM_ORDER_TOTAL_HAS_TO_BE_MORE_THAN') ~ ' ' ~ 'MINIMUM_ORDER_TOTAL' | redconfig }}');">
+{% else %}
+    onclick="javascript:document.location='{{ link }}'">
+{% endif %}
 </div>

@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 $template = RedshopHelperTemplate::getTemplate("quotation_detail");
 
 if (isset($template[0]->template_desc) && !empty(trim($template[0]->template_desc))) {
-    $quotationTemplate = $template[0]->template_desc;
+	$quotationTemplate = $template[0]->template_desc;
 } else {
-    $quotationTemplate = RedshopHelperTemplate::getDefaultTemplateContent('quotation_detail');
+	$quotationTemplate = RedshopHelperTemplate::getDefaultTemplateContent('quotation_detail');
 }
 
 echo RedshopTagsReplacer::_(
-    'quotationdetail',
-    $quotationTemplate,
-    []
+	'quotationdetail',
+	$quotationTemplate,
+	[]
 );
 

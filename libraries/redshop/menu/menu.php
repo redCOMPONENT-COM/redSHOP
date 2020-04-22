@@ -22,226 +22,235 @@ defined('_JEXEC') or die;
  */
 class RedshopMenu
 {
-    /**
-     * Set menu is disable or not
-     *
-     * @var boolean
-     *
-     * @since  2.0.3
-     */
-    public $disableMenu = false;
+	/**
+	 * Set menu is disable or not
+	 *
+	 * @var boolean
+	 *
+	 * @since  2.0.3
+	 */
+	public $disableMenu = false;
 
-    /**
-     * Set items for menu
-     *
-     * @var array
-     *
-     * @since  2.0.3
-     */
-    public $items = array();
+	/**
+	 * Set items for menu
+	 *
+	 * @var array
+	 *
+	 * @since  2.0.3
+	 */
+	public $items = array();
 
-    /**
-     * Data of items in menu
-     *
-     * @var    array
-     *
-     * @since  2.0.3
-     */
-    protected $data = array();
+	/**
+	 * Data of items in menu
+	 *
+	 * @var    array
+	 *
+	 * @since  2.0.3
+	 */
+	protected $data = array();
 
-    /**
-     * Store section
-     *
-     * @var    string
-     *
-     * @since  2.0.3
-     */
-    protected $section;
+	/**
+	 * Store section
+	 *
+	 * @var    string
+	 *
+	 * @since  2.0.3
+	 */
+	protected $section;
 
-    /**
-     * Store title
-     *
-     * @var    string
-     *
-     * @since  2.0.3
-     */
-    protected $title;
+	/**
+	 * Store title
+	 *
+	 * @var    string
+	 *
+	 * @since  2.0.3
+	 */
+	protected $title;
 
-    /**
-     * Store hidden menu
-     *
-     * @var    array
-     *
-     * @since  2.0.3
-     */
-    protected $menuHide;
+	/**
+	 * Store hidden menu
+	 *
+	 * @var    array
+	 *
+	 * @since  2.0.3
+	 */
+	protected $menuHide;
 
-    /**
-     * Protected menu constructor. Must use getInstance() method.
-     *
-     * @since       2.0.3
-     */
-    public function __construct()
-    {
-        $this->menuHide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
-    }
+	/**
+	 * Protected menu constructor. Must use getInstance() method.
+	 *
+	 * @since       2.0.3
+	 */
+	public function __construct()
+	{
+		$this->menuHide = explode(",", Redshop::getConfig()->get('MENUHIDE', ''));
+	}
 
-    /**
-     * Set section value for an instance
-     *
-     * @param   string  $section  Section value
-     *
-     * @return  self
-     *
-     * @since   2.0.3
-     */
-    public function section($section)
-    {
-        $this->section = $section;
+	/**
+	 * Set section value for an instance
+	 *
+	 * @param   string  $section  Section value
+	 *
+	 * @return  self
+	 *
+	 * @since   2.0.3
+	 */
+	public function section($section)
+	{
+		$this->section = $section;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Set title value for an instance
-     *
-     * @param   string  $title  Title value
-     *
-     * @return  self
-     *
-     * @since   2.0.3
-     */
-    public function title($title)
-    {
-        $this->title = $title;
+	/**
+	 * Set title value for an instance
+	 *
+	 * @param   string  $title  Title value
+	 *
+	 * @return  self
+	 *
+	 * @since   2.0.3
+	 */
+	public function title($title)
+	{
+		$this->title = $title;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get Data by section ID
-     *
-     * @param   string  $section  Section ID
-     *
-     * @return  array
-     *
-     * @since   2.0.3
-     */
-    public function getData($section)
-    {
-        return $this->data[$section];
-    }
+	/**
+	 * Get Data by section ID
+	 *
+	 * @param   string  $section  Section ID
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.3
+	 */
+	public function getData($section)
+	{
+		return $this->data[$section];
+	}
 
-    /**
-     * Set data to group
-     *
-     * @param   string  $group  Group name
-     * @param   string  $style  Group display
-     *
-     * @return  void
-     *
-     * @since   2.0.3
-     */
-    public function group($group, $style = 'tree')
-    {
-        // Check if all of sub-menu is disabled => Disable this menu too.
-        $isDisable = true;
+	/**
+	 * Set data to group
+	 *
+	 * @param   string  $group  Group name
+	 * @param   string  $style  Group display
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.3
+	 */
+	public function group($group, $style = 'tree')
+	{
+		// Check if all of sub-menu is disabled => Disable this menu too.
+		$isDisable = true;
 
-        foreach ($this->data as $groupData) {
-            if (empty($groupData->items)) {
-                continue;
-            }
+		foreach ($this->data as $groupData)
+		{
+			if (empty($groupData->items))
+			{
+				continue;
+			}
 
-            foreach ($groupData->items as $item) {
-                if ($item->disable === false) {
-                    $isDisable = false;
+			foreach ($groupData->items as $item)
+			{
+				if ($item->disable === false)
+				{
+					$isDisable = false;
 
-                    break;
-                }
-            }
+					break;
+				}
+			}
 
-            if (!$isDisable) {
-                break;
-            }
-        }
+			if (!$isDisable)
+			{
+				break;
+			}
+		}
 
-        $this->items[$group]['items']   = $this->data;
-        $this->items[$group]['style']   = $style;
-        $this->items[$group]['disable'] = $isDisable;
+		$this->items[$group]['items']   = $this->data;
+		$this->items[$group]['style']   = $style;
+		$this->items[$group]['disable'] = $isDisable;
 
-        $this->data = array();
-    }
+		$this->data = array();
+	}
 
-    /**
-     * Add new menu item
-     *
-     * @param   string   $link    Link of item
-     * @param   string   $title   Title of item
-     * @param   boolean  $active  Active or not
-     * @param   string   $param   Other options
-     * @param   string   $icon    Icon class
-     *
-     * @return  self
-     */
-    public function addItem($link, $title, $active = null, $param = null, $icon = '')
-    {
-        if (!$this->disableMenu) {
-            $item          = new stdClass;
-            $item->link    = $link;
-            $item->title   = $title;
-            $item->active  = $active;
-            $item->param   = $param;
-            $item->icon    = $icon;
-            $item->disable = in_array($title, $this->menuHide);
+	/**
+	 * Add new menu item
+	 *
+	 * @param   string  $link   Link of item
+	 * @param   string  $title  Title of item
+	 * @param   boolean $active Active or not
+	 * @param   string  $param  Other options
+	 * @param   string  $icon   Icon class
+	 *
+	 * @return  self
+	 */
+	public function addItem($link, $title, $active = null, $param = null, $icon = '')
+	{
+		if (!$this->disableMenu)
+		{
+			$item          = new stdClass;
+			$item->link    = $link;
+			$item->title   = $title;
+			$item->active  = $active;
+			$item->param   = $param;
+			$item->icon    = $icon;
+			$item->disable = in_array($title, $this->menuHide);
 
             /**
              * Prepare declare to prevent warning / notice
              */
-            if (empty($this->data)) {
-                $this->data = [];
+			if (empty($this->data)){
+			    $this->data = [];
             }
 
-            if (empty($this->data[$this->section])) {
-                $this->data[$this->section]        = new stdClass;
-                $this->data[$this->section]->items = [];
+			if (empty($this->data[$this->section])){
+			    $this->data[$this->section] = new stdClass;
+			    $this->data[$this->section]->items = [];
             }
 
-            if ($this->section) {
-                $this->data[$this->section]->items[] = $item;
-            }
+			if ($this->section)
+			{
+				$this->data[$this->section]->items[] = $item;
+			}
 
-            if ($this->title) {
-                $this->data[$this->section]->title = $this->title;
-            }
-        }
+			if ($this->title)
+			{
+				$this->data[$this->section]->title = $this->title;
+			}
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Add new menu header item
-     *
-     * @param   string   $link    Link of item
-     * @param   string   $title   Title of item
-     * @param   boolean  $active  Active or not
-     * @param   array    $param   Other options
-     * @param   string   $icon    Icon class
-     *
-     * @return  self
-     */
-    public function addHeaderItem($link, $title, $active = null, $param = null, $icon = '')
-    {
-        if (!$this->disableMenu) {
-            $item          = new stdClass;
-            $item->link    = $link;
-            $item->title   = $title;
-            $item->active  = $active;
-            $item->param   = $param;
-            $item->icon    = $icon;
-            $item->disable = in_array($title, $this->menuHide);
-            $this->items[] = $item;
-        }
+	/**
+	 * Add new menu header item
+	 *
+	 * @param   string   $link    Link of item
+	 * @param   string   $title   Title of item
+	 * @param   boolean  $active  Active or not
+	 * @param   array    $param   Other options
+	 * @param   string   $icon    Icon class
+	 *
+	 * @return  self
+	 */
+	public function addHeaderItem($link, $title, $active = null, $param = null, $icon = '')
+	{
+		if (!$this->disableMenu)
+		{
+			$item          = new stdClass;
+			$item->link    = $link;
+			$item->title   = $title;
+			$item->active  = $active;
+			$item->param   = $param;
+			$item->icon    = $icon;
+			$item->disable = in_array($title, $this->menuHide);
+			$this->items[] = $item;
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 }

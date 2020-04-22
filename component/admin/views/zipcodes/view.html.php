@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  View
@@ -8,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 /**
  * View Zipcodes
  *
@@ -18,40 +16,41 @@ defined('_JEXEC') or die;
  */
 class RedshopViewZipcodes extends RedshopViewList
 {
-    /**
-     * @var  array
-     */
-    public $filterFormOptions = array('filtersHidden' => false);
+	/**
+	 * @var  array
+	 */
+	public $filterFormOptions = array('filtersHidden' => false);
 
-    /**
-     * Column for render published state.
-     *
-     * @var    array
-     * @since  2.0.6
-     */
-    protected $stateColumns = array();
+	/**
+	 * Column for render published state.
+	 *
+	 * @var    array
+	 * @since  2.0.6
+	 */
+	protected $stateColumns = array();
 
-    /**
-     * Method for render column
-     *
-     * @param   array   $config  Row config.
-     * @param   int     $index   Row index.
-     * @param   object  $row     Row data.
-     *
-     * @return  string
-     * @throws  Exception
-     *
-     * @since   2.1.3
-     */
-    public function onRenderColumn($config, $index, $row)
-    {
-        switch ($config['dataCol']) {
-            case 'country_code' :
-                return $row->country_name;
-            case 'state_code' :
-                return $row->state_name;
-            default:
-                return parent::onRenderColumn($config, $index, $row);
-        }
-    }
+	/**
+	 * Method for render column
+	 *
+	 * @param   array   $config  Row config.
+	 * @param   int     $index   Row index.
+	 * @param   object  $row     Row data.
+	 *
+	 * @return  string
+	 * @throws  Exception
+	 *
+	 * @since   2.1.3
+	 */
+	public function onRenderColumn($config, $index, $row)
+	{
+		switch ($config['dataCol'])
+		{
+			case 'country_code' :
+				return $row->country_name;
+			case 'state_code' :
+				return $row->state_name;
+			default:
+				return parent::onRenderColumn($config, $index, $row);
+		}
+	}
 }

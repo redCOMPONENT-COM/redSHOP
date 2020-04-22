@@ -3,8 +3,8 @@
  * @package     Phproberto.Joomla-Twig
  * @subpackage  Twig
  *
- * @copyright   Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
- * @license     See COPYING.txt
+ * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
+ * @license    See COPYING.txt
  */
 
 namespace Redshop\Twig\View;
@@ -20,21 +20,21 @@ use Redshop\View\HtmlView;
  */
 abstract class ItemView extends HtmlView
 {
-    /**
-     * Load layout data.
-     *
-     * @return  self
-     */
-    protected function loadLayoutData()
-    {
-        $model = $this->getModel();
+	/**
+	 * Load layout data.
+	 *
+	 * @return  self
+	 */
+	protected function loadLayoutData()
+	{
+		$model = $this->getModel();
 
-        return array_merge(
-            parent::loadLayoutData(),
-            [
-                'item'  => $model->getItem(),
-                'model' => $model
-            ]
-        );
-    }
+		return array_merge(
+			parent::loadLayoutData(),
+			[
+				'item'  => $model->getItem(),
+				'model' => $model
+			]
+		);
+	}
 }

@@ -22,15 +22,15 @@ use Twig\Environment;
  */
 class PlgTwigJposition extends BaseTwigPlugin
 {
-    /**
-     * @param   Environment  $environment
-     * @param   array        $params
-     *
-     *
-     * @since 1.0.0
-     */
-    public function onTwigAfterLoad(Environment $environment, $params = [])
-    {
-        $environment->addExtension(new TwigJPos);
-    }
+	/**
+	 * @param   Environment  $environment
+	 * @param   array        $params
+	 *
+	 *
+	 * @since 1.0.0
+	 */
+	public function onTwigAfterLoad(Environment $environment, $params = [])
+	{
+		$environment->addExtension(new TwigJPos);
+	}
 }

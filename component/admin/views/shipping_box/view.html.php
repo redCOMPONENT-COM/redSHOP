@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class RedshopViewShipping_Box extends RedshopViewForm
 {
-    /**
-     * Method for get page title.
-     *
-     * @return  string
-     *
-     * @since   2.1.0
-     */
-    public function getTitle()
-    {
-        return JText::_('COM_REDSHOP_SHIPPING_BOX') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
-    }
+	/**
+	 * Method for get page title.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.1.0
+	 */
+	public function getTitle()
+	{
+		return JText::_('COM_REDSHOP_SHIPPING_BOX') . ': <small>[ ' . JText::_('COM_REDSHOP_EDIT') . ' ]</small>';
+	}
 }

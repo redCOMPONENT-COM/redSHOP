@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -13,5 +12,5 @@ extract($displayData);
 
 ?>
 <div role="tabpanel" class="tab-pane <?php echo ($row->active) ? 'active' : '' ?>" id="<?php echo $row->param ?>">
-    <?php echo $view->loadTemplate($row->param); ?>
+	<?php echo $view->loadTemplate($row->param); ?>
 </div>

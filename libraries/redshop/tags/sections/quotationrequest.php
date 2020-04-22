@@ -12,16 +12,27 @@ defined('_JEXEC') || die;
 /**
  * Tags replacer abstract class
  *
- * @since  3.0.1
+ * @since  __DEPLOY_VERSION__
  */
 class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
 {
     use \Redshop\Traits\Replace\CartItem;
 
     /**
+     * Init
+     *
+     * @return  mixed
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function init()
+    {
+    }
+
+    /**
      * @var    array
      *
-     * @since   3.0.1
+     * @since   __DEPLOY_VERSION__
      */
     public $tags = [
         '{billing_address_information_lbl}',
@@ -33,22 +44,11 @@ class RedshopTagsSectionsQuotationRequest extends RedshopTagsAbstract
     ];
 
     /**
-     * Init
-     *
-     * @return  mixed
-     *
-     * @since   3.0.1
-     */
-    public function init()
-    {
-    }
-
-    /**
      * Execute replace
      *
      * @return  string
      *
-     * @since   3.0.1
+     * @since   __DEPLOY_VERSION__
      */
     public function replace()
     {

@@ -12,8 +12,8 @@ defined('_JEXEC') || die;
 JLoader::import('redshop.library');
 
 use Joomla\CMS\Factory;
-use Redshop\Extension\JSession as TwigJSession;
 use Redshop\Plugin\BaseTwigPlugin;
+use Redshop\Extension\JSession as TwigJSession;
 use Twig\Environment;
 
 /**
@@ -23,16 +23,16 @@ use Twig\Environment;
  */
 class PlgTwigJsession extends BaseTwigPlugin
 {
-    /**
-     * @param   Environment  $environment
-     * @param   array        $params
-     *
-     *
-     * @since 1.0.0
-     */
-    public function onTwigAfterLoad(Environment $environment, $params = [])
-    {
-        $environment->addExtension(new TwigJSession);
-        $environment->addGlobal('jsession', Factory::getSession());
-    }
+	/**
+	 * @param   Environment  $environment
+	 * @param   array        $params
+	 *
+	 *
+	 * @since 1.0.0
+	 */
+	public function onTwigAfterLoad(Environment $environment, $params = [])
+	{
+		$environment->addExtension(new TwigJSession);
+		$environment->addGlobal('jsession', Factory::getSession());
+	}
 }

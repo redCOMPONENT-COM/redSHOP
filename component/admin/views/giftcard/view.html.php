@@ -18,63 +18,67 @@ defined('_JEXEC') or die;
  */
 class RedshopViewGiftcard extends RedshopViewAdmin
 {
-    protected $form;
+	protected $form;
 
-    protected $item;
+	protected $item;
 
-    protected $state;
+	protected $state;
 
-    /**
-     * Display the view.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed  A string if successful, otherwise an Error object.
-     */
-    public function display($tpl = null)
-    {
-        // Initialise variables.
-        $this->form  = $this->get('Form');
-        $this->item  = $this->get('Item');
-        $this->state = $this->get('State');
+	/**
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 */
+	public function display($tpl = null)
+	{
+		// Initialise variables.
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
-            throw new Exception(implode("\n", $errors));
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode("\n", $errors));
 
-            return false;
-        }
+			return false;
+		}
 
-        $this->addToolbar();
-        parent::display($tpl);
-    }
+		$this->addToolbar();
+		parent::display($tpl);
+	}
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function addToolbar()
-    {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-        $isNew = ($this->item->giftcard_id < 1);
+		$isNew = ($this->item->giftcard_id < 1);
 
-        $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		
+		// Prepare text for title
+		$title = JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT') . ': <small>[ ' . $text . ' ]</small>';
 
-        // Prepare text for title
-        $title = JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT') . ': <small>[ ' . $text . ' ]</small>';
+		JToolBarHelper::title($title, 'redshop_giftcard_48');
+		JToolBarHelper::apply('giftcard.apply');
+		JToolBarHelper::save('giftcard.save');
 
-        JToolBarHelper::title($title, 'redshop_giftcard_48');
-        JToolBarHelper::apply('giftcard.apply');
-        JToolBarHelper::save('giftcard.save');
-
-        if ($isNew) {
-            JToolBarHelper::cancel('giftcard.cancel');
-        } else {
-            JToolBarHelper::cancel('giftcard.cancel', JText::_('JTOOLBAR_CLOSE'));
-        }
-    }
+		if ($isNew)
+		{
+			JToolBarHelper::cancel('giftcard.cancel');
+		}
+		else
+		{
+			JToolBarHelper::cancel('giftcard.cancel', JText::_('JTOOLBAR_CLOSE'));
+		}
+	}
 }

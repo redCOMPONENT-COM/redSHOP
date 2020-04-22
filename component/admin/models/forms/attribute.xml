@@ -4,7 +4,7 @@
         <field
                 name="attribute_id"
                 type="hidden"
-        />
+                />
         <field
                 name="product_id"
                 type="rproducts"
@@ -32,7 +32,7 @@
                 class="inputbox"
                 default=""
                 required="true"
-        />
+                />
         <field
                 name="attribute_required"
                 type="radio"
@@ -54,23 +54,23 @@
             <option value="0">JNO</option>
         </field>
         <field
-                name="hide_attribute_price"
-                type="radio"
-                label="COM_REDSHOP_HIDE_ATTRIBUTE_PRICE"
-                description="COM_REDSHOP_HIDE_ATTRIBUTE_PRICE"
-                class="btn-group btn-group-yesno"
-                default="0"
+            name="hide_attribute_price"
+            type="radio"
+            label="COM_REDSHOP_HIDE_ATTRIBUTE_PRICE"
+            description="COM_REDSHOP_HIDE_ATTRIBUTE_PRICE"
+            class="btn-group btn-group-yesno"
+            default="0"
         >
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
         <field
-                name="published"
-                type="radio"
-                class="btn-group btn-group-yesno"
-                default="1"
-                label="COM_REDSHOP_PUBLISHED"
-                description="COM_REDSHOP_PUBLISHED"
+            name="published"
+            type="radio"
+            class="btn-group btn-group-yesno"
+            default="1"
+            label="COM_REDSHOP_PUBLISHED"
+            description="COM_REDSHOP_PUBLISHED"
         >
             <option value="1">JPUBLISHED</option>
             <option value="0">JUNPUBLISHED</option>

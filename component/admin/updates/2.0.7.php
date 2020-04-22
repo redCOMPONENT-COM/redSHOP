@@ -18,122 +18,122 @@ defined('_JEXEC') or die;
  */
 class RedshopUpdate207 extends RedshopInstallUpdate
 {
-    /**
-     * Method for migrate voucher data to new table
-     *
-     * @return  void
-     *
-     * @since   2.0.7
-     */
-    public function migrateVoucher()
-    {
-        $db = JFactory::getDbo();
+	/**
+	 * Return list of old files for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.7
+	 */
+	protected function getOldFiles()
+	{
+		return array(
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/voucher_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/views/voucher/tmpl/default.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/models/voucher_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/voucher_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/mail_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/views/mail/tmpl/default.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/models/mail_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/mail_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/template_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/views/template/tmpl/default.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/models/template_detail.php',
+			JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/template_detail.php',
+			JPATH_LIBRARIES . '/redshop/helper/route.php'
+		);
+	}
 
-        // Check table exist.
-        $result = $db->setQuery("SHOW TABLES LIKE " . $db->quote('#__redshop_product_voucher'))->loadResult();
+	/**
+	 * Return list of old folders for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.7
+	 */
+	protected function getOldFolders()
+	{
+		return array(
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/voucher_detail',
+			JPATH_SITE . '/components/com_redshop/layouts/tags',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/mail_detail',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/template_detail'
+		);
+	}
 
-        if (empty($result)) {
-            return;
-        }
+	/**
+	 * Method for migrate voucher data to new table
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.7
+	 */
+	public function migrateVoucher()
+	{
+		$db = JFactory::getDbo();
 
-        $query = $db->getQuery(true)
-            ->select('*')
-            ->from($db->qn('#__redshop_product_voucher'))
-            ->order($db->qn('voucher_id'));
+		// Check table exist.
+		$result = $db->setQuery("SHOW TABLES LIKE " . $db->quote('#__redshop_product_voucher'))->loadResult();
 
-        $vouchers = $db->setQuery($query)->loadObjectList();
+		if (empty($result))
+		{
+			return;
+		}
 
-        if (empty($vouchers)) {
-            $this->dropOldTable();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_product_voucher'))
+			->order($db->qn('voucher_id'));
 
-            return;
-        }
+		$vouchers = $db->setQuery($query)->loadObjectList();
 
-        $table = RedshopTable::getAdminInstance('Voucher');
-        $table->setOption('skip.checkPrimary', true);
-        $table->setOption('skip.updateProducts', true);
+		if (empty($vouchers))
+		{
+			$this->dropOldTable();
 
-        foreach ($vouchers as $voucher) {
-            $data = (array)$voucher;
+			return;
+		}
 
-            $data['id']         = $data['voucher_id'];
-            $data['code']       = $data['voucher_code'];
-            $data['type']       = $data['voucher_type'];
-            $data['free_ship']  = $data['free_shipping'];
-            $data['start_date'] = !$data['start_date'] ? '0000-00-00 00:00:00' : JFactory::getDate(
-                $data['start_date']
-            )->format('Y-m-d H:i:s');
-            $data['end_date']   = !$data['end_date'] ? '0000-00-00 00:00:00' : JFactory::getDate(
-                $data['end_date']
-            )->format('Y-m-d H:i:s');
+		$table = RedshopTable::getAdminInstance('Voucher');
+		$table->setOption('skip.checkPrimary', true);
+		$table->setOption('skip.updateProducts', true);
 
-            unset($data['voucher_id']);
-            unset($data['voucher_code']);
-            unset($data['voucher_type']);
-            unset($data['free_shipping']);
+		foreach ($vouchers as $voucher)
+		{
+			$data = (array) $voucher;
 
-            if (!$table->save($data)) {
-                JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
-            }
-        }
+			$data['id']         = $data['voucher_id'];
+			$data['code']       = $data['voucher_code'];
+			$data['type']       = $data['voucher_type'];
+			$data['free_ship']  = $data['free_shipping'];
+			$data['start_date'] = !$data['start_date'] ? '0000-00-00 00:00:00' : JFactory::getDate($data['start_date'])->format('Y-m-d H:i:s');
+			$data['end_date']   = !$data['end_date'] ? '0000-00-00 00:00:00' : JFactory::getDate($data['end_date'])->format('Y-m-d H:i:s');
 
-        $this->dropOldTable();
-    }
+			unset($data['voucher_id']);
+			unset($data['voucher_code']);
+			unset($data['voucher_type']);
+			unset($data['free_shipping']);
 
-    /**
-     * Method for drop old `#__redshop_product_voucher` table.
-     *
-     * @return  void
-     *
-     * @since   2.0.7
-     */
-    protected function dropOldTable()
-    {
-        $db = JFactory::getDbo();
+			if (!$table->save($data))
+			{
+				JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+			}
+		}
 
-        $db->setQuery('DROP TABLE IF EXISTS ' . $db->qn('#__redshop_product_voucher'))->execute();
-    }
+		$this->dropOldTable();
+	}
 
-    /**
-     * Return list of old files for clean
-     *
-     * @return  array
-     *
-     * @since   2.0.7
-     */
-    protected function getOldFiles()
-    {
-        return array(
-            JPATH_ADMINISTRATOR . '/components/com_redshop/tables/voucher_detail.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/views/voucher/tmpl/default.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/models/voucher_detail.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/voucher_detail.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/tables/mail_detail.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/views/mail/tmpl/default.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/models/mail_detail.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/mail_detail.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/tables/template_detail.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/views/template/tmpl/default.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/models/template_detail.php',
-            JPATH_ADMINISTRATOR . '/component/com_redshop/controllers/template_detail.php',
-            JPATH_LIBRARIES . '/redshop/helper/route.php'
-        );
-    }
+	/**
+	 * Method for drop old `#__redshop_product_voucher` table.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.7
+	 */
+	protected function dropOldTable()
+	{
+		$db = JFactory::getDbo();
 
-    /**
-     * Return list of old folders for clean
-     *
-     * @return  array
-     *
-     * @since   2.0.7
-     */
-    protected function getOldFolders()
-    {
-        return array(
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/voucher_detail',
-            JPATH_SITE . '/components/com_redshop/layouts/tags',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/mail_detail',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/template_detail'
-        );
-    }
+		$db->setQuery('DROP TABLE IF EXISTS ' . $db->qn('#__redshop_product_voucher'))->execute();
+	}
 }

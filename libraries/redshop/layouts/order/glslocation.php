@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Layout
@@ -21,15 +20,15 @@ extract($displayData);
 
 <div class="form-group gls_zipcode">
     <label><?php echo JText::_('COM_REDSHOP_PROVIDE_ZIPCODE_TO_PICKUP_PARCEL') ?></label>
-    <?php echo $zipcode; ?>
+	<?php echo $zipcode; ?>
 </div>
 
 <div class="form-group gls_shoplist">
     <label><?php echo JText::_('COM_REDSHOP_SELECT_GLS_LOCATION') ?></label>
-    <?php echo $shopList; ?>
+	<?php echo $shopList; ?>
 </div>
 
 <div class="form-group gls_mobile">
     <label><?php echo JText::_('COM_REDSHOP_ENTER_GLS_MOBILE') ?></label>
-    <?php echo $phone; ?>
+	<?php echo $phone; ?>
 </div>

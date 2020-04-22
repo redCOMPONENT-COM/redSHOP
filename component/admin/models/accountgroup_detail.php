@@ -45,7 +45,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
      */
     public function setId($id)
     {
-        $this->_id   = $id;
+        $this->_id = $id;
         $this->_data = null;
     }
 
@@ -68,7 +68,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
     public function _loadData()
     {
         if (empty($this->_data)) {
-            $db    = \JFactory::getDbo();
+            $db = \JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select('*')
                 ->from($db->qn('#__redshop_economic_accountgroup'))
@@ -91,17 +91,17 @@ class RedshopModelAccountgroup_detail extends RedshopModel
         if (empty($this->_data)) {
             $detail = new stdClass;
 
-            $detail->accountgroup_id                  = 0;
-            $detail->accountgroup_name                = null;
-            $detail->economic_vat_account             = null;
-            $detail->economic_nonvat_account          = null;
-            $detail->economic_discount_vat_account    = null;
+            $detail->accountgroup_id = 0;
+            $detail->accountgroup_name = null;
+            $detail->economic_vat_account = null;
+            $detail->economic_nonvat_account = null;
+            $detail->economic_discount_vat_account = null;
             $detail->economic_discount_nonvat_account = null;
-            $detail->economic_shipping_vat_account    = null;
+            $detail->economic_shipping_vat_account = null;
             $detail->economic_shipping_nonvat_account = null;
             $detail->economic_discount_product_number = null;
-            $detail->published                        = 1;
-            $this->_data                              = $detail;
+            $detail->published = 1;
+            $this->_data = $detail;
 
             return (boolean)$this->_data;
         }
@@ -111,7 +111,6 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 
     /**
      * @param $data
-     *
      * @return bool|JTable
      * @throws Exception
      */
@@ -135,8 +134,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
     }
 
     /**
-     * @param   array  $accountGroupIds
-     *
+     * @param array $accountGroupIds
      * @return bool
      * @throws Exception
      */
@@ -146,9 +144,8 @@ class RedshopModelAccountgroup_detail extends RedshopModel
     }
 
     /**
-     * @param   array  $accountGroupIds
-     * @param   int    $publish
-     *
+     * @param array $accountGroupIds
+     * @param int $publish
      * @return bool
      * @throws Exception
      */

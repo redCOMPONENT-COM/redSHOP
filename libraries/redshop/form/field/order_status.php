@@ -18,28 +18,28 @@ JFormHelper::loadFieldClass('list');
  */
 class RedshopFormFieldOrder_Status extends JFormFieldList
 {
-    /**
-     * The form field type.
-     *
-     * @var    string
-     * @since  1.0
-     */
-    public $type = 'Order_Status';
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $type = 'Order_Status';
 
-    /**
-     * Method to get the field input markup.
-     *
-     * @return  array  The field input markup.
-     */
-    protected function getOptions()
-    {
-        // Load redSHOP Library
-        JLoader::import('redshop.library');
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  array  The field input markup.
+	 */
+	protected function getOptions()
+	{
+		// Load redSHOP Library
+		JLoader::import('redshop.library');
 
-        $this->value = $this->multiple ? (array)$this->value : (string)$this->value;
-        $orderStatus = RedshopHelperOrder::getOrderStatusList();
+		$this->value = $this->multiple ? (array) $this->value : (string) $this->value;
+		$orderStatus = RedshopHelperOrder::getOrderStatusList();
 
-        // Merge any additional options in the XML definition.
-        return array_merge(parent::getOptions(), $orderStatus);
-    }
+		// Merge any additional options in the XML definition.
+		return array_merge(parent::getOptions(), $orderStatus);
+	}
 }

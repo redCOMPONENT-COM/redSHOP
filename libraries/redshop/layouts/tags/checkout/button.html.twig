@@ -1,17 +1,17 @@
 <div id="checkoutfinal" style="float: right;">
-    <button type="button" id="checkout_final"
-            name="checkout_final"
-            class="greenbutton btn btn-primary"
-            onclick="if(validation({{ cartTotal }}, {{ flagOneStep }})){checkout_disable('checkout_final');}">{{ jtext("COM_REDSHOP_BTN_CHECKOUTFINAL") }}</button>
-    <input type="hidden" name="task" value="checkoutfinal"/>
-    <input type="hidden" name="view" value="checkout"/>
-    <input type="hidden" name="option" value="com_redshop"/>
-    <input type="hidden" name="Itemid" id="onestepItemid" value="{{ itemId }}"/>
-    <input type="hidden" name="users_info_id" value="{{ usersInfoId }}"/>
-    <input type="hidden" name="order_id" value="{{ orderId }}"/>
+<button type="button" id="checkout_final"
+       name="checkout_final"
+       class="greenbutton btn btn-primary"
+        onclick="if(validation({{ cartTotal }}, {{ flagOneStep }})){checkout_disable('checkout_final');}">{{ jtext("COM_REDSHOP_BTN_CHECKOUTFINAL") }}</button>
+    <input type="hidden" name="task" value="checkoutfinal" />
+    <input type="hidden" name="view" value="checkout" />
+    <input type="hidden" name="option" value="com_redshop" />
+    <input type="hidden" name="Itemid" id="onestepItemid" value="{{ itemId }}" />
+    <input type="hidden" name="users_info_id" value="{{ usersInfoId }}" />
+    <input type="hidden" name="order_id" value="{{ orderId }}" />
     {% if 'ONESTEP_CHECKOUT_ENABLE' | redconfig == false %}
-        <input type="hidden" name="shop_id" value="{{ shopId }}"/>
-        <input type="hidden" name="shipping_rate_id" value="{{ shippingRateId }}"/>
-        <input type="hidden" name="payment_method_id" value="{{ paymentMethodId }}"/>
+        <input type="hidden" name="shop_id" value="{{ shopId }}" />
+        <input type="hidden" name="shipping_rate_id" value="{{ shippingRateId }}" />
+        <input type="hidden" name="payment_method_id" value="{{ paymentMethodId }}" />
     {% endif %}
 </div>

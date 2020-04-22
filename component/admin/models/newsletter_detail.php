@@ -12,270 +12,294 @@ defined('_JEXEC') or die;
 
 class RedshopModelNewsletter_detail extends RedshopModel
 {
-    public $_id = null;
+	public $_id = null;
 
-    public $_data = null;
+	public $_data = null;
 
-    public $_table_prefix = null;
+	public $_table_prefix = null;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-        $array               = JFactory::getApplication()->input->get('cid', 0, 'array');
-        $this->setId((int)$array[0]);
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->_table_prefix = '#__redshop_';
+		$array               = JFactory::getApplication()->input->get('cid', 0, 'array');
+		$this->setId((int) $array[0]);
+	}
 
-    public function setId($id)
-    {
-        $this->_id   = $id;
-        $this->_data = null;
-    }
+	public function setId($id)
+	{
+		$this->_id   = $id;
+		$this->_data = null;
+	}
 
-    public function &getData()
-    {
-        if ($this->_loadData()) {
-        } else {
-            $this->_initData();
-        }
+	public function &getData()
+	{
+		if ($this->_loadData())
+		{
+		}
+		else
+		{
+			$this->_initData();
+		}
 
-        return $this->_data;
-    }
+		return $this->_data;
+	}
 
-    public function _loadData()
-    {
-        if (empty($this->_data)) {
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id = ' . $this->_id;
-            $this->_db->setQuery($query);
-            $this->_data = $this->_db->loadObject();
+	public function _loadData()
+	{
+		if (empty($this->_data))
+		{
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id = ' . $this->_id;
+			$this->_db->setQuery($query);
+			$this->_data = $this->_db->loadObject();
 
-            return (boolean)$this->_data;
-        }
+			return (boolean) $this->_data;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public function _initData()
-    {
-        if (empty($this->_data)) {
-            $detail                = new stdClass;
-            $detail->newsletter_id = 0;
-            $detail->name          = null;
-            $detail->subject       = null;
-            $detail->body          = null;
-            $detail->template_id   = 0;
-            $detail->published     = 1;
-            $this->_data           = $detail;
+	public function _initData()
+	{
+		if (empty($this->_data))
+		{
+			$detail                = new stdClass;
+			$detail->newsletter_id = 0;
+			$detail->name          = null;
+			$detail->subject       = null;
+			$detail->body          = null;
+			$detail->template_id   = 0;
+			$detail->published     = 1;
+			$this->_data           = $detail;
 
-            return (boolean)$this->_data;
-        }
+			return (boolean) $this->_data;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public function delete($cid = array())
-    {
-        if (count($cid)) {
-            $cids = implode(',', $cid);
+	public function store($data)
+	{
+		$row = $this->getTable();
 
-            $query = 'DELETE FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
+		if (!$row->bind($data))
+		{
+			$this->setError($this->_db->getErrorMsg());
 
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
+			return false;
+		}
 
-                return false;
-            }
-        }
+		if (!$row->store())
+		{
+			$this->setError($this->_db->getErrorMsg());
 
-        return true;
-    }
+			return false;
+		}
 
-    public function publish($cid = array(), $publish = 1)
-    {
-        if (count($cid)) {
-            $cids = implode(',', $cid);
+		return $row;
+	}
 
-            $query = 'UPDATE ' . $this->_table_prefix . 'newsletter'
-                . ' SET published = ' . intval($publish)
-                . ' WHERE newsletter_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
+	public function delete($cid = array())
+	{
+		if (count($cid))
+		{
+			$cids = implode(',', $cid);
 
-            if (!$this->_db->execute()) {
-                $this->setError($this->_db->getErrorMsg());
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
 
-                return false;
-            }
-        }
+			if (!$this->_db->execute())
+			{
+				$this->setError($this->_db->getErrorMsg());
 
-        return true;
-    }
+				return false;
+			}
+		}
 
-    public function copy($cid = array())
-    {
-        $copydata = array();
+		return true;
+	}
 
-        if (count($cid)) {
-            $cids = implode(',', $cid);
+	public function publish($cid = array(), $publish = 1)
+	{
+		if (count($cid))
+		{
+			$cids = implode(',', $cid);
 
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter '
-                . 'WHERE newsletter_id IN ( ' . $cids . ' )';
-            $this->_db->setQuery($query);
-            $copydata = $this->_db->loadObjectList();
-        }
+			$query = 'UPDATE ' . $this->_table_prefix . 'newsletter'
+				. ' SET published = ' . intval($publish)
+				. ' WHERE newsletter_id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
 
-        for ($i = 0, $in = count($copydata); $i < $in; $i++) {
-            $post['newsletter_id'] = 0;
-            $post['name']          = $this->renameToUniqueValue('name', $copydata[$i]->name);
-            $post['subject']       = $copydata[$i]->subject;
-            $post['body']          = $copydata[$i]->body;
-            $post['template_id']   = $copydata[$i]->template_id;
-            $post['published']     = $copydata[$i]->published;
+			if (!$this->_db->execute())
+			{
+				$this->setError($this->_db->getErrorMsg());
 
-            $row = $this->store($post);
+				return false;
+			}
+		}
 
-            // Copy subscriber of newsletters
-            $query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter_subscription '
-                . 'WHERE newsletter_id IN ( ' . $copydata[$i]->newsletter_id . ' )';
-            $this->_db->setQuery($query);
-            $subscriberdata = $this->_db->loadObjectList();
+		return true;
+	}
 
-            for ($j = 0, $jn = count($subscriberdata); $j < $jn; $j++) {
-                $rowsubscr                  = $this->getTable('newslettersubscr_detail');
-                $rowsubscr->subscription_id = 0;
-                $rowsubscr->user_id         = $subscriberdata[$j]->user_id;
-                $rowsubscr->date            = time();
-                $rowsubscr->newsletter_id   = $row->newsletter_id;
-                $rowsubscr->name            = $subscriberdata[$j]->name;
-                $rowsubscr->email           = $subscriberdata[$j]->email;
-                $rowsubscr->published       = $subscriberdata[$j]->published;
-                $rowsubscr->checkout        = $subscriberdata[$j]->checkout;
-                $rowsubscr->store();
-            }
-        }
+	public function copy($cid = array())
+	{
+		$copydata = array();
 
-        return true;
-    }
+		if (count($cid))
+		{
+			$cids = implode(',', $cid);
 
-    public function store($data)
-    {
-        $row = $this->getTable();
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter '
+				. 'WHERE newsletter_id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+			$copydata = $this->_db->loadObjectList();
+		}
 
-        if (!$row->bind($data)) {
-            $this->setError($this->_db->getErrorMsg());
+		for ($i = 0, $in = count($copydata); $i < $in; $i++)
+		{
+			$post['newsletter_id'] = 0;
+			$post['name']          = $this->renameToUniqueValue('name', $copydata[$i]->name);
+			$post['subject']       = $copydata[$i]->subject;
+			$post['body']          = $copydata[$i]->body;
+			$post['template_id']   = $copydata[$i]->template_id;
+			$post['published']     = $copydata[$i]->published;
 
-            return false;
-        }
+			$row = $this->store($post);
 
-        if (!$row->store()) {
-            $this->setError($this->_db->getErrorMsg());
+			// Copy subscriber of newsletters
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'newsletter_subscription '
+				. 'WHERE newsletter_id IN ( ' . $copydata[$i]->newsletter_id . ' )';
+			$this->_db->setQuery($query);
+			$subscriberdata = $this->_db->loadObjectList();
 
-            return false;
-        }
+			for ($j = 0, $jn = count($subscriberdata); $j < $jn; $j++)
+			{
+				$rowsubscr                  = $this->getTable('newslettersubscr_detail');
+				$rowsubscr->subscription_id = 0;
+				$rowsubscr->user_id         = $subscriberdata[$j]->user_id;
+				$rowsubscr->date            = time();
+				$rowsubscr->newsletter_id   = $row->newsletter_id;
+				$rowsubscr->name            = $subscriberdata[$j]->name;
+				$rowsubscr->email           = $subscriberdata[$j]->email;
+				$rowsubscr->published       = $subscriberdata[$j]->published;
+				$rowsubscr->checkout        = $subscriberdata[$j]->checkout;
+				$rowsubscr->store();
+			}
+		}
 
-        return $row;
-    }
+		return true;
+	}
 
-    public function gettemplates()
-    {
-        $query = 'SELECT id AS value,name AS text FROM ' . $this->_table_prefix . 'template '
-            . 'WHERE section="newsletter" '
-            . 'AND published=1';
-        $this->_db->setQuery($query);
+	public function gettemplates()
+	{
+		$query = 'SELECT id AS value,name AS text FROM ' . $this->_table_prefix . 'template '
+			. 'WHERE section="newsletter" '
+			. 'AND published=1';
+		$this->_db->setQuery($query);
 
-        return $this->_db->loadObjectlist();
-    }
+		return $this->_db->loadObjectlist();
+	}
 
-    /**
-     * Method for get texts of newsletter.
-     *
-     * @return  array
-     */
-    public function getnewslettertexts()
-    {
-        $db = $this->_db;
+	/**
+	 * Method for get texts of newsletter.
+	 *
+	 * @return  array
+	 */
+	public function getnewslettertexts()
+	{
+		$db = $this->_db;
 
-        $query = $db->getQuery(true)
-            ->select($db->qn(array('name', 'desc')))
-            ->from($db->qn('#__redshop_textlibrary'))
-            ->where($db->qn('section') . ' = ' . $db->quote('newsletter'))
-            ->where($db->qn('published') . ' = 1');
+		$query = $db->getQuery(true)
+			->select($db->qn(array('name', 'desc')))
+			->from($db->qn('#__redshop_textlibrary'))
+			->where($db->qn('section') . ' = ' . $db->quote('newsletter'))
+			->where($db->qn('published') . ' = 1');
 
-        return $db->setQuery($query)->loadObjectList();
-    }
+		return $db->setQuery($query)->loadObjectList();
+	}
 
-    public function getNewsletterTracker($newsletter_id = 0)
-    {
-        $data = $this->getNewsletterList($newsletter_id);
+	public function getNewsletterList($newsletter_id = 0)
+	{
+		$and = "";
 
-        $return = array();
-        $qs     = array();
+		if ($newsletter_id != 0)
+		{
+			$and .= "AND n.newsletter_id='" . $newsletter_id . "' ";
+		}
 
-        for ($d = 0, $dn = count($data); $d < $dn; $d++) {
-            $query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
-                . "WHERE newsletter_id='" . $data[$d]->newsletter_id . "' ";
-            $this->_db->setQuery($query);
-            $totalresult = $this->_db->loadResult();
+		$query = 'SELECT n.*,CONCAT(n.name," (",n.subject,")") AS text FROM ' . $this->_table_prefix . 'newsletter AS n '
+			. 'WHERE 1=1 '
+			. $and;
 
-            if (!$totalresult) {
-                $totalresult = 0;
-            }
+		$this->_db->setQuery($query);
+		$list = $this->_db->loadObjectlist();
 
-            if ($newsletter_id != 0) {
-                $totalread    = $this->getReadNewsletter($data[$d]->newsletter_id);
-                $qs[0]        = new stdClass;
-                $qs[0]->xdata = JText::_('COM_REDSHOP_NO_OF_UNREAD_NEWSLETTER');
-                $qs[0]->ydata = $totalresult - $totalread;
-                $qs[1]        = new stdClass;
-                $qs[1]->xdata = JText::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER');
-                $qs[1]->ydata = $totalread;
-            } else {
-                $qs[$d]        = new stdClass;
-                $qs[$d]->xdata = $data[$d]->name;
-                $qs[$d]->ydata = $totalresult;
-            }
-        }
+		return $list;
+	}
 
-        if ($newsletter_id != 0) {
-            $return = array($qs, $data[0]->name);
-        } else {
-            $return = array($qs, JText::_('COM_REDSHOP_NO_OF_SENT_NEWSLETTER'));
-        }
+	public function getNewsletterTracker($newsletter_id = 0)
+	{
+		$data = $this->getNewsletterList($newsletter_id);
 
-        return $return;
-    }
+		$return = array();
+		$qs     = array();
 
-    public function getNewsletterList($newsletter_id = 0)
-    {
-        $and = "";
+		for ($d = 0, $dn = count($data); $d < $dn; $d++)
+		{
+			$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
+				. "WHERE newsletter_id='" . $data[$d]->newsletter_id . "' ";
+			$this->_db->setQuery($query);
+			$totalresult = $this->_db->loadResult();
 
-        if ($newsletter_id != 0) {
-            $and .= "AND n.newsletter_id='" . $newsletter_id . "' ";
-        }
+			if (!$totalresult)
+			{
+				$totalresult = 0;
+			}
 
-        $query = 'SELECT n.*,CONCAT(n.name," (",n.subject,")") AS text FROM ' . $this->_table_prefix . 'newsletter AS n '
-            . 'WHERE 1=1 '
-            . $and;
+			if ($newsletter_id != 0)
+			{
+				$totalread    = $this->getReadNewsletter($data[$d]->newsletter_id);
+				$qs[0]        = new stdClass;
+				$qs[0]->xdata = JText::_('COM_REDSHOP_NO_OF_UNREAD_NEWSLETTER');
+				$qs[0]->ydata = $totalresult - $totalread;
+				$qs[1]        = new stdClass;
+				$qs[1]->xdata = JText::_('COM_REDSHOP_NO_OF_READ_NEWSLETTER');
+				$qs[1]->ydata = $totalread;
+			}
+			else
+			{
+				$qs[$d]        = new stdClass;
+				$qs[$d]->xdata = $data[$d]->name;
+				$qs[$d]->ydata = $totalresult;
+			}
+		}
 
-        $this->_db->setQuery($query);
-        $list = $this->_db->loadObjectlist();
+		if ($newsletter_id != 0)
+		{
+			$return = array($qs, $data[0]->name);
+		}
+		else
+		{
+			$return = array($qs, JText::_('COM_REDSHOP_NO_OF_SENT_NEWSLETTER'));
+		}
 
-        return $list;
-    }
+		return $return;
+	}
 
-    public function getReadNewsletter($newsletter_id)
-    {
-        $query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
-            . "WHERE `newsletter_id`='" . $newsletter_id . "' "
-            . "AND `read`='1' ";
+	public function getReadNewsletter($newsletter_id)
+	{
+		$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "
+			. "WHERE `newsletter_id`='" . $newsletter_id . "' "
+			. "AND `read`='1' ";
 
-        $this->_db->setQuery($query);
-        $result = $this->_db->loadObject();
+		$this->_db->setQuery($query);
+		$result = $this->_db->loadObject();
 
-        if (!$result) {
-            $result->total = 0;
-        }
+		if (!$result)
+		{
+			$result->total = 0;
+		}
 
-        return $result->total;
-    }
+		return $result->total;
+	}
 }

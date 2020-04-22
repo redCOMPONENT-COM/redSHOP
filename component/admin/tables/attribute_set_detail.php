@@ -11,27 +11,28 @@ defined('_JEXEC') or die;
 
 class Tableattribute_set_detail extends JTable
 {
-    public $attribute_set_id = null;
+	public $attribute_set_id = null;
 
-    public $attribute_set_name = 0;
+	public $attribute_set_name = 0;
 
-    public $published = null;
+	public $published = null;
 
-    public function __construct(&$db)
-    {
-        $this->_table_prefix = '#__redshop_';
+	public function __construct(&$db)
+	{
+		$this->_table_prefix = '#__redshop_';
 
-        parent::__construct($this->_table_prefix . 'attribute_set', 'attribute_set_id', $db);
-    }
+		parent::__construct($this->_table_prefix . 'attribute_set', 'attribute_set_id', $db);
+	}
 
-    public function bind($array, $ignore = '')
-    {
-        if (array_key_exists('params', $array) && is_array($array['params'])) {
-            $registry = new JRegistry;
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
+	public function bind($array, $ignore = '')
+	{
+		if (array_key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
 
-        return parent::bind($array, $ignore);
-    }
+		return parent::bind($array, $ignore);
+	}
 }

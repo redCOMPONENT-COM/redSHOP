@@ -18,53 +18,54 @@ defined('_JEXEC') or die;
  */
 class RedshopViewInstall extends RedshopViewAdmin
 {
-    /**
-     * @var  array
-     */
-    public $steps;
+	/**
+	 * @var  array
+	 */
+	public $steps;
 
-    /**
-     * @var  string
-     */
-    public $installType;
+	/**
+	 * @var  string
+	 */
+	public $installType;
 
-    /**
-     * @var  array
-     */
-    public $availableVersions;
+	/**
+	 * @var  array
+	 */
+	public $availableVersions;
 
-    /**
-     * Do we have to disable a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $disableSidebar = true;
+	/**
+	 * Do we have to disable a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $disableSidebar = true;
 
-    /**
-     * Display template function
-     *
-     * @param   object  $tpl  template variable
-     *
-     * @return  void
-     *
-     * @since  2.0.4
-     */
-    public function display($tpl = null)
-    {
-        $this->installType = JFactory::getApplication()->input->getString('install_type', 'install');
+	/**
+	 * Display template function
+	 *
+	 * @param   object  $tpl  template variable
+	 *
+	 * @return  void
+	 *
+	 * @since  2.0.4
+	 */
+	public function display($tpl = null)
+	{
+		$this->installType = JFactory::getApplication()->input->getString('install_type', 'install');
 
-        JToolbarHelper::title(JText::_('COM_REDSHOP_INSTALL_TITLE'));
+		JToolbarHelper::title(JText::_('COM_REDSHOP_INSTALL_TITLE'));
 
-        /** @var RedshopModelInstall $model */
-        $model = $this->getModel();
+		/** @var RedshopModelInstall $model */
+		$model = $this->getModel();
 
-        $this->steps = $model->getSteps($this->installType);
+		$this->steps = $model->getSteps($this->installType);
 
-        if ($this->installType == 'update') {
-            $this->availableVersions = $model->getAvailableUpdate();
-        }
+		if ($this->installType == 'update')
+		{
+			$this->availableVersions = $model->getAvailableUpdate();
+		}
 
-        // Display the template
-        parent::display($tpl);
-    }
+		// Display the template
+		parent::display($tpl);
+	}
 }

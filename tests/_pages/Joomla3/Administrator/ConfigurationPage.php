@@ -660,16 +660,4 @@ class ConfigurationPage extends AdminJ3Page
 	 * @since 2.1.4
 	 */
 	public static $purchaseParentNo = '#purchase_parent_with_child_0-lbl';
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $showDiscontinuedProductsYes = '#show_discontinued_products_1-lbl';
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $showDiscontinuedProductsNo = '#show_discontinued_products_0-lbl';
 }

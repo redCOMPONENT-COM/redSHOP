@@ -20,58 +20,59 @@ jimport('joomla.application.component.viewlegacy');
  */
 class RedshopViewAdmin extends JViewLegacy
 {
-    /**
-     * Layout used to render the component
-     *
-     * @var  string
-     */
-    protected $componentLayout = 'component.admin';
+	/**
+	 * Layout used to render the component
+	 *
+	 * @var  string
+	 */
+	protected $componentLayout = 'component.admin';
 
-    /**
-     * Do we have to display a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $displaySidebar = true;
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = true;
 
-    /**
-     * Do we have to disable a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $disableSidebar = false;
+	/**
+	 * Do we have to disable a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $disableSidebar = false;
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed         A string if successful, otherwise a Error object.
-     */
-    public function display($tpl = null)
-    {
-        JPluginHelper::importPlugin('system');
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise a Error object.
+	 */
+	public function display($tpl = null)
+	{
+		JPluginHelper::importPlugin('system');
 
-        RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminBeforeRender', array($this));
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminBeforeRender', array($this));
 
-        $render = RedshopLayoutHelper::render(
-            $this->componentLayout,
-            array(
-                'view'            => $this,
-                'tpl'             => $tpl,
-                'sidebar_display' => $this->displaySidebar,
-                'disableSidebar'  => $this->disableSidebar
-            )
-        );
+		$render = RedshopLayoutHelper::render(
+			$this->componentLayout,
+			array(
+				'view'            => $this,
+				'tpl'             => $tpl,
+				'sidebar_display' => $this->displaySidebar,
+				'disableSidebar'  => $this->disableSidebar
+			)
+		);
 
-        RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
+		RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
 
-        if ($render instanceof Exception) {
-            return $render;
-        }
+		if ($render instanceof Exception)
+		{
+			return $render;
+		}
 
-        echo $render;
+		echo $render;
 
-        return true;
-    }
+		return true;
+	}
 }

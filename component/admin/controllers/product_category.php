@@ -12,37 +12,44 @@ defined('_JEXEC') or die;
 
 class RedshopControllerProduct_category extends RedshopController
 {
-    public function assignCategory()
-    {
-        $this->input->set('hidemainmenu', 1);
-        parent::display();
-    }
+	public function assignCategory()
+	{
+		$this->input->set('hidemainmenu', 1);
+		parent::display();
+	}
 
-    public function saveProduct_Category()
-    {
-        $app   = JFactory::getApplication();
-        $model = $this->getModel("product_category");
+	public function saveProduct_Category()
+	{
+		$app   = JFactory::getApplication();
+		$model = $this->getModel("product_category");
 
-        if ($model->saveProduct_Category()) {
-            $msg = JText::_('COM_REDSHOP_CATEGORY_ASSIGNED_TO_PRODUCT_SUCCESSFULLY');
-        } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_WHILE_ASSIGNING_CATEGORY_TO_PRODUCT');
-        }
+		if ($model->saveProduct_Category())
+		{
+			$msg = JText::_('COM_REDSHOP_CATEGORY_ASSIGNED_TO_PRODUCT_SUCCESSFULLY');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_WHILE_ASSIGNING_CATEGORY_TO_PRODUCT');
+		}
 
-        $app->redirect("index.php?option=com_redshop&view=product", $msg);
-    }
+		$app->redirect("index.php?option=com_redshop&view=product", $msg);
+	}
 
-    public function removeProduct_Category()
-    {
-        $app   = JFactory::getApplication();
-        $model = $this->getModel("product_category");
+	public function removeProduct_Category()
+	{
+		$app   = JFactory::getApplication();
+		$model = $this->getModel("product_category");
 
-        if ($model->removeProduct_Category()) {
-            $msg = JText::_('COM_REDSHOP_CATEGORY_REMOVED_FROM_PRODUCT_SUCCESSFULLY');
-        } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_WHILE_REMOVING_CATEGORY_FROM_PRODUCT');
-        }
+		if ($model->removeProduct_Category())
+		{
+			$msg = JText::_('COM_REDSHOP_CATEGORY_REMOVED_FROM_PRODUCT_SUCCESSFULLY');
+		}
 
-        $app->redirect("index.php?option=com_redshop&view=product", $msg);
-    }
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_WHILE_REMOVING_CATEGORY_FROM_PRODUCT');
+		}
+
+		$app->redirect("index.php?option=com_redshop&view=product", $msg);
+	}
 }

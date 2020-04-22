@@ -12,17 +12,20 @@ defined('_JEXEC') || die;
 $cartTemplate = "";
 $ajaxTemplate = $this->redTemplate->getTemplate("ajax_cart_box");
 
-if (count($ajaxTemplate) > 0 && $ajaxTemplate[0]->template_desc) {
-    $cartTemplate = $ajaxTemplate[0]->template_desc;
-} else {
-    $cartTemplate = RedshopHelperTemplate::getDefaultTemplateContent('ajax_cart_box');
+if (count($ajaxTemplate) > 0 && $ajaxTemplate[0]->template_desc)
+{
+	$cartTemplate = $ajaxTemplate[0]->template_desc;
+}
+else
+{
+	$cartTemplate = RedshopHelperTemplate::getDefaultTemplateContent('ajax_cart_box');
 }
 
 $cartTemplate = RedshopTagsReplacer::_(
-    'ajaxcartbox',
-    $cartTemplate,
-    array()
-);
+					'ajaxcartbox',
+					$cartTemplate,
+					array()
+				);
 
 echo eval("?>" . $cartTemplate . "<?php ");
 JFactory::getApplication()->close();

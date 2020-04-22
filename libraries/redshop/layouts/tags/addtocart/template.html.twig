@@ -1,9 +1,7 @@
 <form name="{{ cartFromName }}" id="{{ cartFromName }}" class="addtocart_formclass" action="" method="post">
-    <input type="hidden" name="preorder_product_stock" data-id="preorder_product_stock{{ productId }}"
-           value="{{ isPreorderStockExists }}">
+    <input type="hidden" name="preorder_product_stock" data-id="preorder_product_stock{{ productId }}" value="{{ isPreorderStockExists }}">
     <input type="hidden" name="product_stock" data-id="product_stock{{ productId }}" value="{{ isStockExist }}">
-    <input type="hidden" name="product_preorder" data-id="product_preorder{{ productId }}"
-           value="{{ productPreOrder }}">
+    <input type="hidden" name="product_preorder" data-id="product_preorder{{ productId }}" value="{{ productPreOrder }}">
     <input type="hidden" name="product_id" data-id="product_id" value="{{ productId }}">
     <input type="hidden" name="category_id" value="{{ categoryId }}">
     <input type="hidden" name="view" value="cart">
@@ -12,20 +10,17 @@
     <input type="hidden" name="Itemid" data-id="Itemid" value="{{ itemId }}">
     <input type="hidden" name="sel_wrapper_id" data-id="sel_wrapper_id" value="0">
 
-    <input type="hidden" name="main_price" id="main_price{{ productId }}" value="{{ productPrice }}"/>
+    <input type="hidden" name="main_price" id="main_price{{ productId }}" value="{{ productPrice }}" />
     <input type="hidden" name="tmp_product_price" data-id="tmp_product_price" value="0">
 
-    <input type="hidden" name="product_old_price" id="product_old_price{{ productId }}" value="{{ productOldPrice }}"/>
+    <input type="hidden" name="product_old_price" id="product_old_price{{ productId }}" value="{{ productOldPrice }}" />
     <input type="hidden" name="tmp_product_old_price" data-id="tmp_product_old_price" value="0">
 
-    <input type="hidden" name="product_price_no_vat" id="product_price_no_vat{{ productId }}"
-           value="{{ productPriceNoVat }}"/>
+    <input type="hidden" name="product_price_no_vat" id="product_price_no_vat{{ productId }}" value="{{ productPriceNoVat }}" />
     <input type="hidden" name="productprice_notvat" data-id="productprice_notvat" value="0">
 
-    <input type="hidden" name="min_quantity" data-id="min_quantity" value="{{ minQuantity }}"
-           requiredtext="{{ jtext('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') }}">
-    <input type="hidden" name="max_quantity" data-id="max_quantity" value="{{ maxQuantity }}"
-           requiredtext="{{ jtext('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') }}">
+    <input type="hidden" name="min_quantity" data-id="min_quantity" value="{{ minQuantity }}" requiredtext="{{ jtext('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') }}">
+    <input type="hidden" name="max_quantity" data-id="max_quantity" value="{{ maxQuantity }}" requiredtext="{{ jtext('COM_REDSHOP_MINIMUM_QUANTITY_SHOULD_BE') }}">
 
     <input type="hidden" name="accessory_data" data-id="accessory_data" value="0">
     <input type="hidden" name="acc_attribute_data" data-id="acc_attribute_data" value="0">
@@ -39,45 +34,37 @@
     <input type="hidden" name="property_data" data-id="property_data" value="0">
     <input type="hidden" name="subproperty_data" data-id="subproperty_data" value="0">
     <input type="hidden" name="attribute_price" data-id="attribute_price" value="0">
-    <input type="hidden" name="requiedAttribute" data-id="requiedAttribute" value=""
-           reattribute="{{ totalRequiredAttributes }}">
-    <input type="hidden" name="requiedProperty" data-id="requiedProperty" value=""
-           reproperty="{{ totalRequiredProperties }}">
+    <input type="hidden" name="requiedAttribute" data-id="requiedAttribute" value="" reattribute="{{ totalRequiredAttributes }}">
+    <input type="hidden" name="requiedProperty" data-id="requiedProperty" value="" reproperty="{{ totalRequiredProperties }}">
 
-    <input type="hidden" name="calcHeight" data-id="hidden_calc_height" value=""/>
-    <input type="hidden" name="calcWidth" data-id="hidden_calc_width" value=""/>
-    <input type="hidden" name="calcDepth" data-id="hidden_calc_depth" value=""/>
-    <input type="hidden" name="calcRadius" data-id="hidden_calc_radius" value="">
-    <input type="hidden" name="calcUnit" data-id="hidden_calc_unit" value=""/>
-    <input type="hidden" name="pdcextraid" data-id="hidden_calc_extraid" value=""/>
-    <input type="hidden" name="hidden_attribute_cartimage" data-id="hidden_attribute_cartimage{{ productId }}"
-           value="{{ preSelectedAttrImage }}"/>
+    <input type="hidden" name="calcHeight" data-id="hidden_calc_height" value="" />
+    <input type="hidden" name="calcWidth" data-id="hidden_calc_width" value="" />
+    <input type="hidden" name="calcDepth" data-id="hidden_calc_depth" value="" />
+    <input type="hidden" name="calcRadius" data-id="hidden_calc_radius" value="" >
+    <input type="hidden" name="calcUnit" data-id="hidden_calc_unit" value="" />
+    <input type="hidden" name="pdcextraid" data-id="hidden_calc_extraid" value="" />
+    <input type="hidden" name="hidden_attribute_cartimage" data-id="hidden_attribute_cartimage{{ productId }}" value="{{ preSelectedAttrImage }}" />
 
     {% if giftcardId != 0 %}
-        <input type="hidden" name="giftcard_id" data-id="giftcard_id" value="{{ giftcardId }}"/>
-        <input type="hidden" name="reciver_email" data-id="reciver_email"
-               value="{{ cart.reciver_email ? cart.reciver_email : '' }}"/>
-        <input type="hidden" name="reciver_name" data-id="reciver_name"
-               value="{{ cart.reciver_email ? cart.reciver_email : '' }}"/>
+        <input type="hidden" name="giftcard_id" data-id="giftcard_id" value="{{ giftcardId }}" />
+        <input type="hidden" name="reciver_email" data-id="reciver_email" value="{{ cart.reciver_email ? cart.reciver_email : '' }}"/>
+        <input type="hidden" name="reciver_name" data-id="reciver_name" value="{{ cart.reciver_email ? cart.reciver_email : '' }}"/>
 
         {% if product.customer_amount == 1 %}
-            <input type="hidden" name="customer_amount" id="customer_amount"
-                   value="{{ cart.customer_amount ? cart.customer_amount : '' }}">
+            <input type="hidden" name="customer_amount" id="customer_amount" value="{{ cart.customer_amount ? cart.customer_amount : '' }}">
         {% endif %}
 
     {% endif %}
 
     {% if checkTag == false %}
-        <input class="quantity_select" type="hidden" name="quantity" id="quantity{{ productId }}" value="{{ quantity }}"
-               maxlength="{{ 'DEFAULT_QUANTITY' | redconfig }}" size="{{ 'DEFAULT_QUANTITY' | redconfig }}"/>
+        <input class="quantity_select" type="hidden" name="quantity" id="quantity{{ productId }}" value="{{ quantity }}" maxlength="{{ 'DEFAULT_QUANTITY' | redconfig }}" size="{{ 'DEFAULT_QUANTITY' | redconfig }}"/>
     {% endif %}
 
     {{ content }}
 
     {% if fileExitPreOrderImage %}
         <span class="preordercart_order" data-id="preordercart{{ stockId }}" {{ preOrderStyle }}>
-            <img {{ onclick }} {{ cartTitle }} alt="{{ preOrderLabel }}" style="cursor: pointer;"
-                                               src="{{ REDSHOP_FRONT_IMAGES_RELPATH }}~{{ preOrderImage }}"/>
+            <img {{ onclick }} {{ cartTitle }} alt="{{ preOrderLabel }}" style="cursor: pointer;" src="{{ REDSHOP_FRONT_IMAGES_RELPATH }}~{{ preOrderImage }}" />
         </span>
         {{ cartIcon }}
     {% else %}

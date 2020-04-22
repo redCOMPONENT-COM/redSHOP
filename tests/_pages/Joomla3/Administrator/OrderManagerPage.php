@@ -130,7 +130,7 @@ class OrderManagerPage extends AdminJ3Page
 	/**
 	 * @var array
 	 */
-	public static $nameButtonStatus = "//input[@name='order_status']";
+	public static $nameButtonStatus = ['name' => 'order_status'];
 
 	/**
 	 * @var string
@@ -236,39 +236,9 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 * @since 3.0.1
+	 *  @since 3.0.1
 	 */
 	public static $orderDetailTable = "//th[contains(text(),'Order Details')]";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $paymentTitle = "//h3[contains(text(),'Payment Method')]";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $checkboxPaymentPayPal = "(//input[@value ='rs_payment_paypal'])[1]";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $checkboxPaymentBanktransfer = "(//input[@value ='rs_payment_banktransfer'])[1]";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $updatePaymentMethod = "//form[@id='updatepaymentmethod']//input[@id='add']";
-
-	/**
-	 * @var string
-	 * @since 3.0.2
-	 */
-	public static $messageUpdatePaymentSuccess = "Payment Method Updated";
 
 	/**
 	 * Function to get Path $userName in Order item

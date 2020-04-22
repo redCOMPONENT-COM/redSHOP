@@ -19,65 +19,68 @@ use Redshop\Repositories\Product;
  */
 trait Related
 {
-    /**
-     * @var   \RedshopEntitiesCollection  Collections of related products
-     *
-     * @since 2.1.0
-     */
-    protected $relatedProducts = null;
+	/**
+	 * @var   \RedshopEntitiesCollection  Collections of related products
+	 *
+	 * @since 2.1.0
+	 */
+	protected $relatedProducts = null;
 
-    /**
-     * @param   boolean  $reload  Force reload even it's cached
-     *
-     * @return  \RedshopEntitiesCollection
-     *
-     * @since   2.1.0
-     */
-    public function getRelatedProducts($reload = false)
-    {
-        if (null === $this->relatedProducts || $reload === true) {
-            $this->loadRelated();
-        }
+	/**
+	 * @param   boolean $reload Force reload even it's cached
+	 *
+	 * @return  \RedshopEntitiesCollection
+	 *
+	 * @since   2.1.0
+	 */
+	public function getRelatedProducts($reload = false)
+	{
+		if (null === $this->relatedProducts || $reload === true)
+		{
+			$this->loadRelated();
+		}
 
-        return $this->relatedProducts;
-    }
+		return $this->relatedProducts;
+	}
 
-    /**
-     * Method to get related products
-     *
-     * @return  self
-     *
-     * @since   2.1.0
-     */
-    protected function loadRelated()
-    {
-        if (!$this->hasId()) {
-            return $this;
-        }
+	/**
+	 * Method to get related products
+	 *
+	 * @return  self
+	 *
+	 * @since   2.1.0
+	 */
+	protected function loadRelated()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
 
-        $this->relatedProducts = new \RedshopEntitiesCollection;
-        $productIds            = Product::getRelatedProductIds($this->getId());
+		$this->relatedProducts = new \RedshopEntitiesCollection;
+		$productIds            = Product::getRelatedProductIds($this->getId());
 
-        foreach ($productIds as $productId) {
-            $this->relatedProducts->add(self::getInstance($productId));
-        }
+		foreach ($productIds as $productId)
+		{
+			$this->relatedProducts->add(self::getInstance($productId));
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Check if we have an identifier loaded
-     *
-     * @return  boolean
-     * @since   2.1.0
-     */
-    abstract public function hasId();
+	/**
+	 * Check if we have an identifier loaded
+	 *
+	 * @return  boolean
+	 * @since   2.1.0
+	 */
+	abstract public function hasId();
 
-    /**
-     * Get the id
-     *
-     * @return  integer | null
-     * @since   2.1.0
-     */
-    abstract public function getId();
+	/**
+	 * Get the id
+	 *
+	 * @return  integer | null
+	 * @since   2.1.0
+	 */
+	abstract public function getId();
 }

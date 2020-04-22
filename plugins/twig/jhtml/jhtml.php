@@ -22,15 +22,15 @@ use Twig\Environment;
  */
 class PlgTwigJhtml extends BaseTwigPlugin
 {
-    /**
-     * @param   Environment  $environment
-     * @param   array        $params
-     *
-     *
-     * @since 1.0.0
-     */
-    public function onTwigAfterLoad(Environment $environment, $params = [])
-    {
-        $environment->addExtension(new TwigJHtml);
-    }
+	/**
+	 * @param   Environment  $environment
+	 * @param   array        $params
+	 *
+	 *
+	 * @since 1.0.0
+	 */
+	public function onTwigAfterLoad(Environment $environment, $params = [])
+	{
+		$environment->addExtension(new TwigJHtml);
+	}
 }

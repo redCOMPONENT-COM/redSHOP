@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -18,17 +17,18 @@ echo RedshopLayoutHelper::render('view.edit.' . $this->formLayout, array('data' 
             var url = "index.php?option=com_redshop&view=state&task=ajaxGetState";
 
             $.ajax({
-                url: url,
-                data: {
-                    country: countryValue,
+                url   : url,
+                data  : {
+                    country                                 : countryValue,
                     "<?php echo JSession::getFormToken() ?>": 1
                 },
                 method: "POST",
-                cache: false
+                cache : false
             }).success(function (data) {
                 if ($("#jform_tax_state").length) {
                     $("#jform_tax_state").parent().html(data);
-                } else if ($("#rs_state_jformtax_state").length) {
+                }
+                else if ($("#rs_state_jformtax_state").length) {
                     $("#rs_state_jformtax_state").parent().html(data);
                 }
 

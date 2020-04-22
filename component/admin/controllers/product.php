@@ -15,340 +15,360 @@ use Redshop\Economic\RedshopEconomic;
 
 class RedshopControllerProduct extends RedshopController
 {
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
+	public function cancel()
+	{
+		$this->setRedirect('index.php');
+	}
 
-    public function ins_product()
-    {
-        $this->input->set('layout', 'ins_product');
-        $this->input->set('hidemainmenu', 1);
-        parent::display();
-    }
+	public function ins_product()
+	{
+		$this->input->set('layout', 'ins_product');
+		$this->input->set('hidemainmenu', 1);
+		parent::display();
+	}
 
-    public function importeconomic()
-    {
-        // Add product to economic
-        $cnt      = $this->input->getInt('cnt', 0);
-        $totalprd = 0;
-        $msg      = '';
+	public function importeconomic()
+	{
+		// Add product to economic
+		$cnt      = $this->input->getInt('cnt', 0);
+		$totalprd = 0;
+		$msg      = '';
 
-        if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') == 1) {
-            $db    = JFactory::getDbo();
-            $incNo = $cnt;
-            $query = 'SELECT p.* FROM #__redshop_product AS p '
-                . 'LIMIT ' . $cnt . ', 10 ';
-            $db->setQuery($query);
-            $prd         = $db->loadObjectlist();
-            $totalprd    = count($prd);
-            $responcemsg = '';
+		if (Redshop::getConfig()->getInt('ECONOMIC_INTEGRATION') == 1)
+		{
+			$db    = JFactory::getDbo();
+			$incNo = $cnt;
+			$query = 'SELECT p.* FROM #__redshop_product AS p '
+				. 'LIMIT ' . $cnt . ', 10 ';
+			$db->setQuery($query);
+			$prd         = $db->loadObjectlist();
+			$totalprd    = count($prd);
+			$responcemsg = '';
 
-            for ($i = 0, $in = count($prd); $i < $in; $i++) {
-                $incNo++;
-                $ecoProductNumber = RedshopEconomic::createProductInEconomic($prd[$i]);
-                $responcemsg      .= "<div>" . $incNo . ": " . JText::_(
-                        'COM_REDSHOP_PRODUCT_NUMBER'
-                    ) . " " . $prd[$i]->product_number . " -> ";
+			for ($i = 0, $in = count($prd); $i < $in; $i++)
+			{
+				$incNo++;
+				$ecoProductNumber = RedshopEconomic::createProductInEconomic($prd[$i]);
+				$responcemsg      .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . " " . $prd[$i]->product_number . " -> ";
 
-                if (count($ecoProductNumber) > 0 && is_object(
-                        $ecoProductNumber[0]
-                    ) && isset($ecoProductNumber[0]->Number)) {
-                    $responcemsg .= "<span style='color: #00ff00'>" . JText::_(
-                            'COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC_SUCCESS'
-                        ) . "</span>";
-                } else {
-                    $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC');
+				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
+				{
+					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_PRODUCTS_TO_ECONOMIC_SUCCESS') . "</span>";
+				}
+				else
+				{
+					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_PRODUCT_TO_ECONOMIC');
 
-                    if (JError::isError(JError::getError())) {
-                        $error  = JError::getError();
-                        $errmsg = $error->getMessage();
-                    }
+					if (JError::isError(JError::getError()))
+					{
+						$error  = JError::getError();
+						$errmsg = $error->getMessage();
+					}
 
-                    $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
-                }
+					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
+				}
 
-                $responcemsg .= "</div>";
-            }
+				$responcemsg .= "</div>";
+			}
 
-            if ($totalprd > 0) {
-                $msg = $responcemsg;
-            } else {
-                $msg = JText::_("COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_IS_COMPLETED");
-            }
-        }
+			if ($totalprd > 0)
+			{
+				$msg = $responcemsg;
+			}
+			else
+			{
+				$msg = JText::_("COM_REDSHOP_IMPORT_PRODUCT_TO_ECONOMIC_IS_COMPLETED");
+			}
+		}
 
-        echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
+		echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
 
-        JFactory::getApplication()->close();
-    }
+		JFactory::getApplication()->close();
+	}
 
-    public function importatteco()
-    {
-        // Add product attribute to economic
-        $cnt      = $this->input->getInt('cnt', 0);
-        $totalprd = 0;
-        $msg      = '';
+	public function importatteco()
+	{
+		// Add product attribute to economic
+		$cnt      = $this->input->getInt('cnt', 0);
+		$totalprd = 0;
+		$msg      = '';
 
-        if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get(
-                'ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC'
-            ) == 1) {
-            $db    = JFactory::getDbo();
-            $incNo = $cnt;
-            $query = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "
-                . "FROM #__redshop_product_attribute_property AS ap "
-                . "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
-                . "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
-                . "WHERE p.published=1 "
-                . "AND p.product_id!='' "
-                . "AND ap.property_number!='' "
-                . "LIMIT " . $cnt . ", 10 ";
-            $db->setQuery($query);
-            $list        = $db->loadObjectlist();
-            $totalprd    = count($list);
-            $responcemsg = '';
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1 && Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC') == 1)
+		{
+			$db    = JFactory::getDbo();
+			$incNo = $cnt;
+			$query = "SELECT ap.*, a.attribute_name, p.product_id, p.accountgroup_id "
+				. "FROM #__redshop_product_attribute_property AS ap "
+				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
+				. "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
+				. "WHERE p.published=1 "
+				. "AND p.product_id!='' "
+				. "AND ap.property_number!='' "
+				. "LIMIT " . $cnt . ", 10 ";
+			$db->setQuery($query);
+			$list        = $db->loadObjectlist();
+			$totalprd    = count($list);
+			$responcemsg = '';
 
-            for ($i = 0, $in = count($list); $i < $in; $i++) {
-                $incNo++;
-                $prdrow                  = new stdClass;
-                $prdrow->product_id      = $list[$i]->product_id;
-                $prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-                $ecoProductNumber        = RedshopEconomic::createPropertyInEconomic($prdrow, $list[$i]);
-                $responcemsg             .= "<div>" . $incNo . ": " . JText::_(
-                        'COM_REDSHOP_PROPERTY_NUMBER'
-                    ) . " " . $list[$i]->property_number . " -> ";
+			for ($i = 0, $in = count($list); $i < $in; $i++)
+			{
+				$incNo++;
+				$prdrow                  = new stdClass;
+				$prdrow->product_id      = $list[$i]->product_id;
+				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
+				$ecoProductNumber        = RedshopEconomic::createPropertyInEconomic($prdrow, $list[$i]);
+				$responcemsg             .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_PROPERTY_NUMBER') . " " . $list[$i]->property_number . " -> ";
 
-                if (count($ecoProductNumber) > 0 && is_object(
-                        $ecoProductNumber[0]
-                    ) && isset($ecoProductNumber[0]->Number)) {
-                    $responcemsg .= "<span style='color: #00ff00'>" . JText::_(
-                            'COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS'
-                        ) . "</span>";
-                } else {
-                    $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
+				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
+				{
+					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS') . "</span>";
+				}
+				else
+				{
+					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
 
-                    if (JError::isError(JError::getError())) {
-                        $error  = JError::getError();
-                        $errmsg = $error->getMessage();
-                    }
+					if (JError::isError(JError::getError()))
+					{
+						$error  = JError::getError();
+						$errmsg = $error->getMessage();
+					}
 
-                    $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
-                }
+					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
+				}
 
-                $responcemsg .= "</div>";
-            }
+				$responcemsg .= "</div>";
+			}
 
-            $query = "SELECT sp.*, ap.property_id, ap.property_name, p.product_id, p.accountgroup_id  FROM #__redshop_product_subattribute_color AS sp "
-                . "LEFT JOIN #__redshop_product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
-                . "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
-                . "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
-                . "WHERE p.published=1 "
-                . "AND p.product_id!='' "
-                . "AND sp.subattribute_color_number!='' "
-                . "LIMIT " . $cnt . ", 10 ";
-            $db->setQuery($query);
-            $list     = $db->loadObjectlist();
-            $totalprd = $totalprd + count($list);
+			$query = "SELECT sp.*, ap.property_id, ap.property_name, p.product_id, p.accountgroup_id  FROM #__redshop_product_subattribute_color AS sp "
+				. "LEFT JOIN #__redshop_product_attribute_property AS ap ON ap.property_id=sp.subattribute_id "
+				. "LEFT JOIN #__redshop_product_attribute AS a ON a.attribute_id=ap.attribute_id "
+				. "LEFT JOIN #__redshop_product AS p ON p.product_id=a.product_id "
+				. "WHERE p.published=1 "
+				. "AND p.product_id!='' "
+				. "AND sp.subattribute_color_number!='' "
+				. "LIMIT " . $cnt . ", 10 ";
+			$db->setQuery($query);
+			$list     = $db->loadObjectlist();
+			$totalprd = $totalprd + count($list);
 
-            for ($i = 0, $in = count($list); $i < $in; $i++) {
-                $incNo++;
-                $prdrow                  = new stdClass;
-                $prdrow->product_id      = $list[$i]->product_id;
-                $prdrow->accountgroup_id = $list[$i]->accountgroup_id;
-                $ecoProductNumber        = RedshopEconomic::createSubpropertyInEconomic($prdrow, $list[$i]);
-                $responcemsg             .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER') . " "
-                    . $list[$i]->subattribute_color_number . " -> ";
+			for ($i = 0, $in = count($list); $i < $in; $i++)
+			{
+				$incNo++;
+				$prdrow                  = new stdClass;
+				$prdrow->product_id      = $list[$i]->product_id;
+				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
+				$ecoProductNumber        = RedshopEconomic::createSubpropertyInEconomic($prdrow, $list[$i]);
+				$responcemsg             .= "<div>" . $incNo . ": " . JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER') . " "
+					. $list[$i]->subattribute_color_number . " -> ";
 
-                if (count($ecoProductNumber) > 0 && is_object(
-                        $ecoProductNumber[0]
-                    ) && isset($ecoProductNumber[0]->Number)) {
-                    $responcemsg .= "<span style='color: #00ff00'>" . JText::_(
-                            'COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS'
-                        ) . "</span>";
-                } else {
-                    $errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
+				if (count($ecoProductNumber) > 0 && is_object($ecoProductNumber[0]) && isset($ecoProductNumber[0]->Number))
+				{
+					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_SUCCESS') . "</span>";
+				}
+				else
+				{
+					$errmsg = JText::_('COM_REDSHOP_ERROR_IN_IMPORT_ATTRIBUTES_TO_ECONOMIC');
 
-                    if (JError::isError(JError::getError())) {
-                        $error  = JError::getError();
-                        $errmsg = $error->getMessage();
-                    }
+					if (JError::isError(JError::getError()))
+					{
+						$error  = JError::getError();
+						$errmsg = $error->getMessage();
+					}
 
-                    $responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
-                }
+					$responcemsg .= "<span style='color: #ff0000'>" . $errmsg . "</span>";
+				}
 
-                $responcemsg .= "</div>";
-            }
+				$responcemsg .= "</div>";
+			}
 
-            if ($totalprd > 0) {
-                $msg = $responcemsg;
-            } else {
-                $msg = JText::_("COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_IS_COMPLETED");
-            }
-        }
+			if ($totalprd > 0)
+			{
+				$msg = $responcemsg;
+			}
+			else
+			{
+				$msg = JText::_("COM_REDSHOP_IMPORT_ATTRIBUTES_TO_ECONOMIC_IS_COMPLETED");
+			}
+		}
 
-        echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
+		echo "<div id='sentresponse'>" . $totalprd . "`_`" . $msg . "</div>";
 
-        JFactory::getApplication()->close();
-    }
+		JFactory::getApplication()->close();
+	}
 
-    public function saveprice()
-    {
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+	public function saveprice()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-        $productIds     = $this->input->post->get('pid', array(), 'array');
-        $discountPrices = $this->input->post->get('price', array(), 'array');
+		$productIds     = $this->input->post->get('pid', array(), 'array');
+		$discountPrices = $this->input->post->get('price', array(), 'array');
 
-        /** @var RedshopModelProduct $model */
-        $model = $this->getModel('Product');
-        $model->savePrices($productIds, $discountPrices);
-        $msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_SUCCESS');
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('Product');
+		$model->savePrices($productIds, $discountPrices);
+		$msg   = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_SUCCESS');
 
-        if (!$model->savePrices($productIds, $discountPrices)) {
-            $msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_FAILED');
-        }
+		if (!$model->savePrices($productIds, $discountPrices))
+		{
+			$msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_FAILED');
+		}
 
-        $this->setRedirect('index.php?option=com_redshop&view=product&layout=listing', $msg);
-    }
+		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing', $msg);
+	}
 
-    /**
-     * Save all discount price
-     *
-     * @return void
-     */
-    public function savediscountprice()
-    {
-        JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+	/**
+	 * Save all discount price
+	 *
+	 * @return void
+	 */
+	public function savediscountprice()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-        $productIds     = $this->input->post->get('pid', array(), 'array');
-        $discountPrices = $this->input->post->get('discount_price', array(), 'array');
+		$productIds     = $this->input->post->get('pid', array(), 'array');
+		$discountPrices = $this->input->post->get('discount_price', array(), 'array');
 
-        /** @var RedshopModelProduct $model */
-        $model = $this->getModel('Product');
-        $model->saveDiscountPrices($productIds, $discountPrices);
-        $msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_SUCCESS');
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('Product');
+		$model->saveDiscountPrices($productIds, $discountPrices);
+		$msg   = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_SUCCESS');
 
-        if (!$model->saveDiscountPrices($productIds, $discountPrices)) {
-            $msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_FAILED');
-        }
+		if (!$model->saveDiscountPrices($productIds, $discountPrices))
+		{
+			$msg = JText::_('COM_REDSHOP_PRODUCT_PRICE_SAVE_FAILED');
+		}
 
-        $this->setRedirect('index.php?option=com_redshop&view=product&layout=listing', $msg);
-    }
+		$this->setRedirect('index.php?option=com_redshop&view=product&layout=listing', $msg);
+	}
 
-    public function template()
-    {
-        $template_id = $this->input->get('template_id', '');
-        $productId   = $this->input->get('product_id', '');
-        $section     = $this->input->get('section', '');
+	public function template()
+	{
+		$template_id = $this->input->get('template_id', '');
+		$productId  = $this->input->get('product_id', '');
+		$section     = $this->input->get('section', '');
 
-        /** @var RedshopModelProduct $model */
-        $model = $this->getModel('product');
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('product');
 
-        $data_product = $model->product_template($template_id, $productId, $section);
+		$data_product = $model->product_template($template_id, $productId, $section);
 
-        if (is_array($data_product)) {
-            for ($i = 0, $in = count($data_product); $i < $in; $i++) {
-                echo $data_product[$i];
-            }
-        } else {
-            echo $data_product;
-        }
+		if (is_array($data_product))
+		{
+			for ($i = 0, $in = count($data_product); $i < $in; $i++)
+			{
+				echo $data_product[$i];
+			}
+		}
 
-        JFactory::getApplication()->close();
-    }
+		else
+		{
+			echo $data_product;
+		}
 
-    public function assignTemplate()
-    {
-        $post = $this->input->post->getArray();
+		JFactory::getApplication()->close();
+	}
 
-        /** @var RedshopModelProduct $model */
-        $model = $this->getModel('product');
+	public function assignTemplate()
+	{
+		$post = $this->input->post->getArray();
 
-        if ($model->assignTemplate($post)) {
-            $msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
-        } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
-        }
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('product');
 
-        $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-    }
+		if ($model->assignTemplate($post))
+		{
+			$msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
+		}
 
-    public function saveorder()
-    {
-        $cid   = $this->input->post->get('cid', array(), 'array');
-        $order = $this->input->post->get('order', array(), 'array');
-        $cid   = ArrayHelper::toInteger($cid);
-        $order = ArrayHelper::toInteger($order);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
 
-        /** @var RedshopModelProduct $model */
-        $model = $this->getModel('product');
-        $model->saveorder($cid, $order);
+	public function saveorder()
+	{
 
-        $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-        $this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-    }
+		$cid   = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
+		$cid   = ArrayHelper::toInteger($cid);
+		$order = ArrayHelper::toInteger($order);
 
-    /**
-     * Check in of one or more records.
-     *
-     * @return  boolean  True on success
-     *
-     * @since   12.2
-     */
-    public function checkin()
-    {
-        // Check for request forgeries.
-        JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('product');
+		$model->saveorder($cid, $order);
 
-        $ids = $this->input->post->get('cid', array(), 'array');
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
 
-        /** @var RedshopModelProduct $model */
-        $model  = $this->getModel('product_detail');
-        $return = $model->checkin($ids);
+	/**
+	 * Check in of one or more records.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   12.2
+	 */
+	public function checkin()
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-        if ($return === false) {
-            // Checkin failed.
-            $message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message, 'error');
+		$ids = $this->input->post->get('cid', array(), 'array');
 
-            return false;
-        } else {
-            // Checkin succeeded.
-            $message = JText::plural('COM_REDSHOP_PRODUCT_N_ITEMS_CHECKED_IN', count($ids));
-            $this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message);
+		/** @var RedshopModelProduct $model */
+		$model  = $this->getModel('product_detail');
+		$return = $model->checkin($ids);
 
-            return true;
-        }
-    }
+		if ($return === false)
+		{
+			// Checkin failed.
+			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message, 'error');
 
-    /**
-     * Save order ajax.
-     *
-     * @return  void
-     *
-     * @since   2.1.3
-     */
-    public function saveOrderAjax()
-    {
-        // Get the input
-        $pks = $this->input->post->get('cid', array(), 'array');
+			return false;
+		}
+		else
+		{
+			// Checkin succeeded.
+			$message = JText::plural('COM_REDSHOP_PRODUCT_N_ITEMS_CHECKED_IN', count($ids));
+			$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product', false), $message);
 
-        $order = $this->input->post->get('order', array(), 'array');
+			return true;
+		}
+	}
 
-        // Sanitize the input
-        $pks   = ArrayHelper::toInteger($pks);
-        $order = ArrayHelper::toInteger($order);
+	/**
+	 * Save order ajax.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.1.3
+	 */
+	public function saveOrderAjax()
+	{
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
 
-        /** @var RedshopModelProduct $model */
-        $model = $this->getModel('product_detail');
+		$order = $this->input->post->get('order', array(), 'array');
 
-        // Save the ordering
-        $return = $model->saveorder($pks, $order);
+		// Sanitize the input
+		$pks   = ArrayHelper::toInteger($pks);
+		$order = ArrayHelper::toInteger($order);
 
-        if ($return) {
-            echo '1';
-        }
+		/** @var RedshopModelProduct $model */
+		$model = $this->getModel('product_detail');
 
-        // Close the application
-        \JFactory::getApplication()->close();
-    }
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+
+		if ($return)
+		{
+			echo '1';
+		}
+
+		// Close the application
+		\JFactory::getApplication()->close();
+	}
 }

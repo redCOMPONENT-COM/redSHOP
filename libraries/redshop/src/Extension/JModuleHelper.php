@@ -23,29 +23,29 @@ use Twig\TwigFunction;
  */
 final class JModuleHelper extends AbstractExtension
 {
-    /**
-     *
-     * @return array
-     *
-     * @since 2.1.5
-     */
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('jmodule_get_module', [ModuleHelper::class, 'getModule']),
-            new TwigFunction('jmodule_get_modules', [ModuleHelper::class, 'getModules']),
-            new TwigFunction('jmodule_render_module', [ModuleHelper::class, 'renderModule'], ['is_safe' => ['html']])
-        ];
-    }
+	/**
+	 *
+	 * @return array
+	 *
+	 * @since 2.1.5
+	 */
+	public function getFunctions() : array
+	{
+		return [
+			new TwigFunction('jmodule_get_module', [ModuleHelper::class, 'getModule']),
+			new TwigFunction('jmodule_get_modules', [ModuleHelper::class, 'getModules']),
+			new TwigFunction('jmodule_render_module', [ModuleHelper::class, 'renderModule'], ['is_safe' => ['html']])
+		];
+	}
 
-    /**
-     *
-     * @return string
-     *
-     * @since 2.1.5
-     */
-    public function getName(): string
-    {
-        return 'jmodule';
-    }
+	/**
+	 *
+	 * @return string
+	 *
+	 * @since 2.1.5
+	 */
+	public function getName() : string
+	{
+		return 'jmodule';
+	}
 }

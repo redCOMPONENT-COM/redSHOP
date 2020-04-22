@@ -18,122 +18,140 @@ defined('_JEXEC') or die;
  */
 class RedshopViewStockroom_Listing extends RedshopViewCsv
 {
-    /**
-     * Delimiter character for CSV columns
-     *
-     * @var string
-     */
-    public $delimiter = ';';
+	/**
+	 * Delimiter character for CSV columns
+	 *
+	 * @var string
+	 */
+	public $delimiter = ';';
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse.
-     *
-     * @return  mixed  A string if successful, otherwise a Error object.
-     *
-     * @throws  RuntimeException
-     */
-    public function display($tpl = null)
-    {
-        // Get the columns
-        $columns = $this->getColumns();
+	/**
+	 * Get the columns for the csv file.
+	 *
+	 * @return  array  An associative array of column names as key and the title as value.
+	 */
+	protected function getColumns()
+	{
+		$model = $this->getModel();
 
-        if (empty($columns)) {
-            throw new RuntimeException(
-                sprintf(
-                    'Empty columns not allowed for the csv view %s',
-                    get_class($this)
-                )
-            );
-        }
+		return $model->getCsvColumns();
+	}
 
-        $model = $this->getModel();
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @throws  RuntimeException
+	 */
+	public function display($tpl = null)
+	{
+		// Get the columns
+		$columns = $this->getColumns();
 
-        // For additional filtering and formating if needed
-        $model->setState('streamOutput', 'csv');
+		if (empty($columns))
+		{
+			throw new RuntimeException(
+				sprintf(
+					'Empty columns not allowed for the csv view %s',
+					get_class($this)
+				)
+			);
+		}
 
-        // Prepare the items
-        $items          = $model->getItems();
-        $state          = $this->get('State');
-        $stockroom_type = $state->get('stockroom_type');
-        $stockrooms     = $this->get('Stockroom');
-        $ids            = array();
+		$model = $this->getModel();
 
-        if ($stockroom_type != 'product') {
-            $nameId = 'section_id';
-        } else {
-            $nameId = 'product_id';
-            unset($columns['section_id'], $columns['stockroom_type']);
-        }
+		// For additional filtering and formating if needed
+		$model->setState('streamOutput', 'csv');
 
-        foreach ($items as $item) {
-            $ids[] = $item->$nameId;
-        }
+		// Prepare the items
+		$items          = $model->getItems();
+		$state          = $this->get('State');
+		$stockroom_type = $state->get('stockroom_type');
+		$stockrooms     = $this->get('Stockroom');
+		$ids            = array();
 
-        $quantities = $model->getQuantity($stockroom_type, '', $ids);
+		if ($stockroom_type != 'product')
+		{
+			$nameId = 'section_id';
+		}
+		else
+		{
+			$nameId = 'product_id';
+			unset($columns['section_id'], $columns['stockroom_type']);
+		}
 
-        $csvLines[0] = $columns;
-        $i           = 1;
+		foreach ($items as $item)
+		{
+			$ids[] = $item->$nameId;
+		}
 
-        if ($stockrooms) {
-            foreach ($stockrooms as $stockroom) {
-                foreach ($items as $item) {
-                    if (!isset($quantities[$item->$nameId . '.' . $stockroom->stockroom_id])) {
-                        continue;
-                    }
+		$quantities = $model->getQuantity($stockroom_type, '', $ids);
 
-                    $value = $quantities[$item->$nameId . '.' . $stockroom->stockroom_id];
+		$csvLines[0] = $columns;
+		$i           = 1;
 
-                    foreach ($columns as $name => $title) {
-                        if (property_exists($value, $name)) {
-                            $csvLines[$i][$name] = $value->$name;
-                        }
-                    }
+		if ($stockrooms)
+		{
+			foreach ($stockrooms as $stockroom)
+			{
+				foreach ($items as $item)
+				{
+					if (!isset($quantities[$item->$nameId . '.' . $stockroom->stockroom_id]))
+					{
+						continue;
+					}
 
-                    $csvLines[$i]['stockroom_type'] = $state->get('stockroom_type');
+					$value = $quantities[$item->$nameId . '.' . $stockroom->stockroom_id];
 
-                    foreach ($columns as $name => $title) {
-                        if (property_exists($item, $name)) {
-                            $csvLines[$i][$name] = $item->$name;
-                        }
-                    }
+					foreach ($columns as $name => $title)
+					{
+						if (property_exists($value, $name))
+						{
+							$csvLines[$i][$name] = $value->$name;
+						}
+					}
 
-                    $i++;
-                }
-            }
-        }
+					$csvLines[$i]['stockroom_type'] = $state->get('stockroom_type');
 
-        $stream = $this->initFIle();
+					foreach ($columns as $name => $title)
+					{
+						if (property_exists($item, $name))
+						{
+							$csvLines[$i][$name] = $item->$name;
+						}
+					}
 
-        foreach ($csvLines as $line) {
-            $orderLine = array();
+					$i++;
+				}
+			}
+		}
 
-            foreach ($columns as $name => $title) {
-                if (array_key_exists($name, $line)) {
-                    $orderLine[$name] = $line[$name];
-                } else {
-                    $orderLine[$name] = '';
-                }
-            }
+		$stream = $this->initFIle();
 
-            fputcsv($stream, $orderLine, $this->delimiter, $this->enclosure);
-        }
+		foreach ($csvLines as $line)
+		{
+			$orderLine = array();
 
-        fclose($stream);
+			foreach ($columns as $name => $title)
+			{
+				if (array_key_exists($name, $line))
+				{
+					$orderLine[$name] = $line[$name];
+				}
+				else
+				{
+					$orderLine[$name] = '';
+				}
+			}
 
-        JFactory::getApplication()->close();
-    }
+			fputcsv($stream, $orderLine, $this->delimiter, $this->enclosure);
+		}
 
-    /**
-     * Get the columns for the csv file.
-     *
-     * @return  array  An associative array of column names as key and the title as value.
-     */
-    protected function getColumns()
-    {
-        $model = $this->getModel();
+		fclose($stream);
 
-        return $model->getCsvColumns();
-    }
+		JFactory::getApplication()->close();
+	}
 }

@@ -19,34 +19,34 @@ JFormHelper::loadFieldClass('list');
  */
 class RedshopFormFieldMail_Section extends JFormFieldList
 {
-    /**
-     * The form field type.
-     *
-     * @var    string
-     * @since  1.0
-     */
-    public $type = 'Mail_Section';
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  1.0
+	 */
+	public $type = 'Mail_Section';
 
-    /**
-     * Method to get the field input markup.
-     *
-     * @return  string  The field input markup.
-     */
-    protected function getOptions()
-    {
-        $options = RedshopHelperTemplate::getMailSections();
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 */
+	protected function getOptions()
+	{
+		$options = RedshopHelperTemplate::getMailSections();
 
-        foreach ($options as $value => $text) {
-            $option = new stdClass;
+		foreach ($options as $value => $text) {
+			$option = new stdClass;
 
-            $option->text     = $text;
-            $option->value    = $value;
-            $option->disable  = false;
-            $option->class    = '';
-            $option->selected = false;
-            $option->checked  = false;
-        }
+			$option->text     = $text;
+			$option->value    = $value;
+			$option->disable  = false;
+			$option->class    = '';
+			$option->selected = false;
+			$option->checked  = false;
+		}
 
-        return array_merge(parent::getOptions(), $options);
-    }
+		return array_merge(parent::getOptions(), $options);
+	}
 }

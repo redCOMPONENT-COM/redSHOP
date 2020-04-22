@@ -11,229 +11,212 @@ defined('_JEXEC') or die;
 
 class RedshopModelQuotation extends RedshopModelList
 {
-    /**
-     * Constructor.
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
-     *
-     * @since   1.6
-     * @see     JController
-     */
-    public function __construct($config = array())
-    {
-        if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'q.quotation_cdate',
-                'quotation_cdate',
-                'quotation_id',
-                'quotation_number',
-                'quotation_status',
-                'quotation_total'
-            );
-        }
+	/**
+	 * Constructor.
+	 *
+	 * @param   array $config An optional associative array of configuration settings.
+	 *
+	 * @since   1.6
+	 * @see     JController
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'q.quotation_cdate', 'quotation_cdate',
+				'quotation_id', 'quotation_number',
+				'quotation_status', 'quotation_total'
+			);
+		}
 
-        parent::__construct($config);
-    }
+		parent::__construct($config);
+	}
 
-    /**
-     * Get the columns for the csv file.
-     *
-     * @return  array  An associative array of column names as key and the title as value.
-     */
-    public function getCsvColumns()
-    {
-        return array(
-            'quotation_id'        => JText::_('COM_REDSHOP_QUOTATION_ID'),
-            'full_name'           => JText::_('COM_REDSHOP_FULLNAME'),
-            'user_email'          => JText::_('COM_REDSHOP_USEREMAIL'),
-            'phone'               => JText::_('COM_REDSHOP_PHONE'),
-            'quotation_status'    => JText::_('COM_REDSHOP_QUOTATION_STATUS'),
-            'quotation_note'      => JText::_('COM_REDSHOP_QUOTATION_NOTE'),
-            'product_name'        => JText::_('COM_REDSHOP_PRODUCT_NAME'),
-            'product_final_price' => JText::_('COM_REDSHOP_PRODUCT_PRICE'),
-            'product_attribute'   => JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE')
-        );
-    }
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string $id A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter');
+		$id .= ':' . $this->getState('filter_status');
 
-    /**
-     * Method to get a JDatabaseQuery object for retrieving the data set from a database.
-     *
-     * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
-     */
-    public function getListQuery()
-    {
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true)
-            ->select('q.*')
-            ->from($db->qn('#__redshop_quotation', 'q'))
-            ->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON q.user_id = uf.user_id')
-            ->where('(uf.address_type = ' . $db->q('BT') . ' OR q.user_id = 0)')
-            ->group('q.quotation_id');
+		return parent::getStoreId($id);
+	}
 
-        $filter        = $this->getState('filter');
-        $filter_status = $this->getState('filter_status');
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'q.quotation_cdate', $direction = 'desc')
+	{
+		$filter_status = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', 0);
+		$filter        = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
 
-        if ($filter) {
-            $query->where(
-                '(uf.firstname LIKE ' . $db->q('%' . $filter . '%') . ' OR uf.lastname LIKE ' . $db->q(
-                    '%' . $filter . '%'
-                ) . ')'
-            );
-        }
+		$this->setState('filter', $filter);
+		$this->setState('filter_status', $filter_status);
 
-        if ($filter_status != 0) {
-            $query->where('q.quotation_status = ' . $db->q($filter_status));
-        }
+		parent::populateState($ordering, $direction);
+	}
 
-        $filterOrder    = $this->getState('list.ordering', 'q.quotation_cdate');
-        $filterOrderDir = $this->getState('list.direction', 'desc');
+	/**
+	 * Get the columns for the csv file.
+	 *
+	 * @return  array  An associative array of column names as key and the title as value.
+	 */
+	public function getCsvColumns()
+	{
+		return array(
+			'quotation_id'        => JText::_('COM_REDSHOP_QUOTATION_ID'),
+			'full_name'           => JText::_('COM_REDSHOP_FULLNAME'),
+			'user_email'          => JText::_('COM_REDSHOP_USEREMAIL'),
+			'phone'               => JText::_('COM_REDSHOP_PHONE'),
+			'quotation_status'    => JText::_('COM_REDSHOP_QUOTATION_STATUS'),
+			'quotation_note'      => JText::_('COM_REDSHOP_QUOTATION_NOTE'),
+			'product_name'        => JText::_('COM_REDSHOP_PRODUCT_NAME'),
+			'product_final_price' => JText::_('COM_REDSHOP_PRODUCT_PRICE'),
+			'product_attribute'   => JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTE')
+		);
+	}
 
-        $query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 */
+	public function getItemsCsv()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId();
 
-        return $query;
-    }
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
 
-    /**
-     * Method to get an array of data items.
-     *
-     * @return  mixed  An array of data items on success, false on failure.
-     */
-    public function getItems()
-    {
-        if ($this->getState('streamOutput', '') == 'csv') {
-            return $this->getItemsCsv();
-        } else {
-            return parent::getItems();
-        }
-    }
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				array(
+					'q.*', 'uf.*', 'qi.quotation_item_id', 'qi.product_name', 'qi.product_final_price', 'qi.product_id',
+					'(CONCAT_WS(' . $db->q(' ') . ', uf.firstname, uf.lastname)) AS full_name'
+				)
+			)
+			->from($db->qn('#__redshop_quotation', 'q'))
+			->leftjoin($db->qn('#__redshop_users_info', 'uf') . ' ON q.user_id = uf.user_id AND uf.address_type = ' . $db->q('BT'))
+			->leftJoin($db->qn('#__redshop_quotation_item', 'qi') . ' ON qi.quotation_id = q.quotation_id');
 
-    /**
-     * Method to get an array of data items.
-     *
-     * @return  mixed  An array of data items on success, false on failure.
-     */
-    public function getItemsCsv()
-    {
-        // Get a storage key.
-        $store = $this->getStoreId();
+		if ($filter = $this->getState('filter'))
+		{
+			$query->where('(uf.firstname LIKE ' . $db->q('%' . $filter . '%') . ' OR uf.lastname LIKE ' . $db->q('%' . $filter . '%') . ')');
+		}
 
-        // Try to load the data from internal storage.
-        if (isset($this->cache[$store])) {
-            return $this->cache[$store];
-        }
+		if ($filterStatus = $this->getState('filter_status'))
+		{
+			$query->where('q.quotation_status = ' . $db->q($filterStatus));
+		}
 
-        $db    = $this->getDbo();
-        $query = $db->getQuery(true)
-            ->select(
-                array(
-                    'q.*',
-                    'uf.*',
-                    'qi.quotation_item_id',
-                    'qi.product_name',
-                    'qi.product_final_price',
-                    'qi.product_id',
-                    '(CONCAT_WS(' . $db->q(' ') . ', uf.firstname, uf.lastname)) AS full_name'
-                )
-            )
-            ->from($db->qn('#__redshop_quotation', 'q'))
-            ->leftjoin(
-                $db->qn('#__redshop_users_info', 'uf') . ' ON q.user_id = uf.user_id AND uf.address_type = ' . $db->q(
-                    'BT'
-                )
-            )
-            ->leftJoin($db->qn('#__redshop_quotation_item', 'qi') . ' ON qi.quotation_id = q.quotation_id');
+		$filterOrder    = $this->getState('list.ordering', 'q.quotation_cdate');
+		$filterOrderDir = $this->getState('list.direction', 'desc');
 
-        if ($filter = $this->getState('filter')) {
-            $query->where(
-                '(uf.firstname LIKE ' . $db->q('%' . $filter . '%') . ' OR uf.lastname LIKE ' . $db->q(
-                    '%' . $filter . '%'
-                ) . ')'
-            );
-        }
+		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
 
-        if ($filterStatus = $this->getState('filter_status')) {
-            $query->where('q.quotation_status = ' . $db->q($filterStatus));
-        }
+		$items = $this->_getList($query);
 
-        $filterOrder    = $this->getState('list.ordering', 'q.quotation_cdate');
-        $filterOrderDir = $this->getState('list.direction', 'desc');
+		// Check for a database error.
+		if (/** @scrutinizer ignore-deprecated */ $this->_db->getErrorNum())
+		{
+            /** @scrutinizer ignore-deprecated */ $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
 
-        $query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
+			return false;
+		}
 
-        $items = $this->_getList($query);
+		if ($items)
+		{
+			foreach ($items as $key => $item)
+			{
+				$items[$key]->quotation_status    = RedshopHelperQuotation::getQuotationStatusName($item->quotation_status);
+				$items[$key]->product_final_price = RedshopHelperProductPrice::formattedPrice($item->product_final_price);
+				$productAttribute                 = RedshopHelperProduct::makeAttributeQuotation($item->quotation_item_id, 0, $item->product_id);
+				$productAttribute                 = preg_replace('#<[^>]+>#', ' ', $productAttribute);
+				$items[$key]->product_attribute   = $productAttribute;
+			}
+		}
 
-        // Check for a database error.
-        if (/** @scrutinizer ignore-deprecated */ $this->_db->getErrorNum()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+		// Add the items to the internal cache.
+		$this->cache[$store] = $items;
 
-            return false;
-        }
+		return $this->cache[$store];
+	}
 
-        if ($items) {
-            foreach ($items as $key => $item) {
-                $items[$key]->quotation_status    = RedshopHelperQuotation::getQuotationStatusName(
-                    $item->quotation_status
-                );
-                $items[$key]->product_final_price = RedshopHelperProductPrice::formattedPrice(
-                    $item->product_final_price
-                );
-                $productAttribute                 = RedshopHelperProduct::makeAttributeQuotation(
-                    $item->quotation_item_id,
-                    0,
-                    $item->product_id
-                );
-                $productAttribute                 = preg_replace('#<[^>]+>#', ' ', $productAttribute);
-                $items[$key]->product_attribute   = $productAttribute;
-            }
-        }
+	/**
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 *
+	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 */
+	public function getListQuery()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('q.*')
+			->from($db->qn('#__redshop_quotation', 'q'))
+			->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON q.user_id = uf.user_id')
+			->where('(uf.address_type = ' . $db->q('BT') . ' OR q.user_id = 0)')
+			->group('q.quotation_id');
 
-        // Add the items to the internal cache.
-        $this->cache[$store] = $items;
+		$filter        = $this->getState('filter');
+		$filter_status = $this->getState('filter_status');
 
-        return $this->cache[$store];
-    }
+		if ($filter)
+		{
+			$query->where('(uf.firstname LIKE ' . $db->q('%' . $filter . '%') . ' OR uf.lastname LIKE ' . $db->q('%' . $filter . '%') . ')');
+		}
 
-    /**
-     * Method to get a store id based on model configuration state.
-     *
-     * This is necessary because the model is used by the component and
-     * different modules that might need different sets of data or different
-     * ordering requirements.
-     *
-     * @param   string  $id  A prefix for the store id.
-     *
-     * @return  string  A store id.
-     *
-     * @since   1.5
-     */
-    protected function getStoreId($id = '')
-    {
-        // Compile the store id.
-        $id .= ':' . $this->getState('filter');
-        $id .= ':' . $this->getState('filter_status');
+		if ($filter_status != 0)
+		{
+			$query->where('q.quotation_status = ' . $db->q($filter_status));
+		}
 
-        return parent::getStoreId($id);
-    }
+		$filterOrder    = $this->getState('list.ordering', 'q.quotation_cdate');
+		$filterOrderDir = $this->getState('list.direction', 'desc');
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     *
-     * @note    Calling getState in this method will result in recursion.
-     */
-    protected function populateState($ordering = 'q.quotation_cdate', $direction = 'desc')
-    {
-        $filter_status = $this->getUserStateFromRequest($this->context . 'filter_status', 'filter_status', 0);
-        $filter        = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
+		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
 
-        $this->setState('filter', $filter);
-        $this->setState('filter_status', $filter_status);
+		return $query;
+	}
 
-        parent::populateState($ordering, $direction);
-    }
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 */
+	public function getItems()
+	{
+		if ($this->getState('streamOutput', '') == 'csv')
+		{
+			return $this->getItemsCsv();
+		}
+		else
+		{
+			return parent::getItems();
+		}
+	}
 }

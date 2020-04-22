@@ -18,17 +18,17 @@ defined('_JEXEC') or die;
  */
 class RedshopTableCatalog extends RedshopTable
 {
-    /**
-     * The table name without prefix.
-     *
-     * @var string
-     */
-    protected $_tableName = 'redshop_catalog';
+	/**
+	 * The table name without prefix.
+	 *
+	 * @var string
+	 */
+	protected $_tableName = 'redshop_catalog';
 
-    /**
-     * The table key column
-     *
-     * @var string
-     */
-    protected $_tableKey = 'catalog_id';
+	/**
+	 * The table key column
+	 *
+	 * @var string
+	 */
+	protected $_tableKey  = 'catalog_id';
 }

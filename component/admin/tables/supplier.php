@@ -18,27 +18,28 @@ defined('_JEXEC') or die;
  */
 class RedshopTableSupplier extends RedshopTable
 {
-    /**
-     * The table name without the prefix. Ex: cursos_courses
-     *
-     * @var  string
-     */
-    protected $_tableName = 'redshop_supplier';
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_supplier';
 
-    /**
-     * Checks that the object is valid and able to be stored.
-     *
-     * This method checks that the parent_id is non-zero and exists in the database.
-     * Note that the root node (parent_id = 0) cannot be manipulated with this class.
-     *
-     * @return  boolean  True if all checks pass.
-     */
-    protected function doCheck()
-    {
-        if (empty($this->name)) {
-            return false;
-        }
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		if (empty($this->name))
+		{
+			return false;
+		}
 
-        return parent::doCheck();
-    }
+		return parent::doCheck();
+	}
 }

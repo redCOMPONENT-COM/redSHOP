@@ -21,8 +21,8 @@ class Utility
     /**
      * This function is for check captcha code
      *
-     * @param   string   $data            The answer
-     * @param   boolean  $displayWarning  Display warning or not.
+     * @param string $data The answer
+     * @param boolean $displayWarning Display warning or not.
      *
      * @return  boolean
      * @throws  \Exception
@@ -57,8 +57,8 @@ class Utility
     /**
      * Function which will return product tag array form  given template
      *
-     * @param   integer  $section       Display warning or not.
-     * @param   string   $templateHtml  Display warning or not.
+     * @param integer $section Display warning or not.
+     * @param string $templateHtml Display warning or not.
      *
      * @return  array
      *
@@ -70,8 +70,8 @@ class Utility
             return array();
         }
 
-        $db     = \JFactory::getDbo();
-        $query  = $db->getQuery(true)
+        $db = \JFactory::getDbo();
+        $query = $db->getQuery(true)
             ->select($db->qn('name'))
             ->from($db->qn('#__redshop_fields'))
             ->where($db->qn('section') . ' = ' . (int)$section);
@@ -103,8 +103,8 @@ class Utility
     /**
      * Method for convert Unit
      *
-     * @param   string  $globalUnit  Base conversation unit
-     * @param   string  $calcUnit    Unit ratio which to convert
+     * @param string $globalUnit Base conversation unit
+     * @param string $calcUnit Unit ratio which to convert
      *
      * @return  float                Unit ratio
      *
@@ -270,9 +270,9 @@ class Utility
     /**
      * Method to get string between inputs
      *
-     * @param   string  $start   Starting string where you need to start search
-     * @param   string  $end     Ending string where you need to end search
-     * @param   string  $string  Target string from where need to search
+     * @param string $start Starting string where you need to start search
+     * @param string $end Ending string where you need to end search
+     * @param string $string Target string from where need to search
      *
      * @return  array            Matched string array
      *
@@ -312,7 +312,7 @@ class Utility
     /**
      * @param         $haystack
      * @param         $needle
-     * @param   null  $index
+     * @param null $index
      *
      * @return bool
      * @since 3.0
@@ -320,7 +320,7 @@ class Utility
     public static function rsRecursiveArraySearch($haystack, $needle, $index = null)
     {
         $aIt = new \RecursiveArrayIterator($haystack);
-        $it  = new \RecursiveIteratorIterator($aIt);
+        $it = new \RecursiveIteratorIterator($aIt);
 
         while ($it->valid()) {
             if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {

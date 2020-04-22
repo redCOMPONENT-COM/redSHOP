@@ -4,7 +4,7 @@
         <field
                 name="id"
                 type="hidden"
-        />
+                />
         <field
                 id="country_name"
                 name="country_name"
@@ -19,7 +19,7 @@
                 table-sortable="1"
                 table-inline="1"
                 table-edit-link="1"
-        />
+                />
         <field
                 name="country_3_code"
                 type="redshop.text"
@@ -33,7 +33,7 @@
                 table-sortable="1"
                 table-inline="1"
                 table-width="10%"
-        />
+                />
         <field
                 name="country_2_code"
                 type="redshop.text"
@@ -47,7 +47,7 @@
                 table-sortable="1"
                 table-inline="1"
                 table-width="10%"
-        />
+                />
         <field
                 name="country_jtext"
                 type="redshop.text"
@@ -60,6 +60,6 @@
                 table-sortable="1"
                 table-inline="1"
                 table-width="20%"
-        />
+                />
     </fieldset>
 </form>

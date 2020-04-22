@@ -22,9 +22,8 @@ extract($displayData);
 $imgLink = !empty($link[$value->value_id]) ? 'href="' . $link[$value->value_id] . '"' : '';
 ?>
 <a class="imgtooltip" <?php echo $imgLink; ?>>
-    <img src="<?php echo $imageLink ?>" title="<?php echo $value->field_value; ?>"
-         alt="<?php echo $value->field_value; ?>">
-    <span>
+	<img src="<?php echo $imageLink ?>" title="<?php echo $value->field_value; ?>" alt="<?php echo $value->field_value; ?>">
+	<span>
 		<div class="spnheader">
 			<?php echo $data->title; ?>
 		</div>

@@ -16,29 +16,29 @@ defined('_JEXEC') or die;
  */
 class RedshopViewExport extends RedshopViewAdmin
 {
-    /**
-     * @var  array
-     */
-    public $exports;
+	/**
+	 * @var  array
+	 */
+	public $exports;
 
-    /**
-     * Method to display export view
-     *
-     * @param   string  $tpl  Template name
-     *
-     * @return  void
-     */
-    public function display($tpl = null)
-    {
-        /** @var RedshopModelExport $model */
-        $model         = $this->getModel('export');
-        $this->exports = $model->getExports();
+	/**
+	 * Method to display export view
+	 *
+	 * @param   string  $tpl  Template name
+	 *
+	 * @return  void
+	 */
+	public function display($tpl = null)
+	{
+		/** @var RedshopModelExport $model */
+		$model         = $this->getModel('export');
+		$this->exports = $model->getExports();
 
-        $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_EXPORT'));
+		$document = JFactory::getDocument();
+		$document->setTitle(JText::_('COM_REDSHOP_EXPORT'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_EXPORT_MANAGEMENT'));
+		JToolBarHelper::title(JText::_('COM_REDSHOP_EXPORT_MANAGEMENT'));
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

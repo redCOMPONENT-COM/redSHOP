@@ -18,144 +18,147 @@ defined('_JEXEC') or die;
  */
 class RedshopUpdate204 extends RedshopInstallUpdate
 {
-    /**
-     * Method for rename image files name to correct format.
-     *
-     * @return  void
-     *
-     * @since   2.0.4
-     */
-    public function updateImageFileNames()
-    {
-        $db = JFactory::getDbo();
+	/**
+	 * Return list of old files for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.4
+	 */
+	protected function getOldFiles()
+	{
+		return array(
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/tax_group_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/models/tax_group_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/tables/tax_group_detail.php',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group/tmpl/default.php',
+			JPATH_SITE . '/libraries/redshop/install/database.php'
+		);
+	}
 
-        /** Update DB */
-        $fields = array(
-            $db->qn('product_full_image') . ' = REPLACE(' . $db->qn('product_full_image') . ", '%20', '-')",
-            $db->qn('product_full_image') . ' = REPLACE(' . $db->qn('product_full_image') . ", ' ', '-')",
-            $db->qn('product_thumb_image') . ' = REPLACE(' . $db->qn('product_thumb_image') . ", '%20', '-')",
-            $db->qn('product_thumb_image') . ' = REPLACE(' . $db->qn('product_thumb_image') . ", ' ', '-')"
-        );
+	/**
+	 * Return list of old folders for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.4
+	 */
+	protected function getOldFolders()
+	{
+		return array(
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/update',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/sef_ext',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/meta_ext',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/barcode',
+			JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group_detail'
+		);
+	}
 
-        $query = $db->getQuery(true)
-            ->update($db->qn('#__redshop_product'))
-            ->set($fields);
-        $db->setQuery($query)->execute();
+	/**
+	 * Change images file name
+	 *
+	 * @param   array   $files  List files in image folder
+	 * @param   string  $path   Path to folder
+	 *
+	 * @return  void
+	 */
+	protected function changeImageFileName(&$files, &$path)
+	{
+		if (empty($files))
+		{
+			return;
+		}
 
-        /** Update Image Name */
-        $files = JFolder::files(JPATH_SITE . '/components/com_redshop/assets/images/product/');
-        $this->changeImageFileName($files, $path);
+		foreach ($files as $file)
+		{
+			$fileName = str_replace(array('%20', ' '), '-', $file);
 
-        $files = JFolder::files(JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/');
-        $this->changeImageFileName($files, $path);
-    }
+			JFile::move($path . $file, $path . $fileName);
+		}
+	}
 
-    /**
-     * Change images file name
-     *
-     * @param   array   $files  List files in image folder
-     * @param   string  $path   Path to folder
-     *
-     * @return  void
-     */
-    protected function changeImageFileName(&$files, &$path)
-    {
-        if (empty($files)) {
-            return;
-        }
+	/**
+	 * Method for rename image files name to correct format.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.4
+	 */
+	public function updateImageFileNames()
+	{
+		$db = JFactory::getDbo();
 
-        foreach ($files as $file) {
-            $fileName = str_replace(array('%20', ' '), '-', $file);
+		/** Update DB */
+		$fields = array(
+			$db->qn('product_full_image') . ' = REPLACE(' . $db->qn('product_full_image') . ", '%20', '-')",
+			$db->qn('product_full_image') . ' = REPLACE(' . $db->qn('product_full_image') . ", ' ', '-')",
+			$db->qn('product_thumb_image') . ' = REPLACE(' . $db->qn('product_thumb_image') . ", '%20', '-')",
+			$db->qn('product_thumb_image') . ' = REPLACE(' . $db->qn('product_thumb_image') . ", ' ', '-')"
+		);
 
-            JFile::move($path . $file, $path . $fileName);
-        }
-    }
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_product'))
+			->set($fields);
+		$db->setQuery($query)->execute();
 
-    /**
-     * Method for update menu item id if necessary.
-     *
-     * @return  void
-     *
-     * @since   2.0.4
-     */
-    public function updateMenuItem()
-    {
-        $db = JFactory::getDbo();
+		/** Update Image Name */
+		$files = JFolder::files(JPATH_SITE . '/components/com_redshop/assets/images/product/');
+		$this->changeImageFileName($files, $path);
 
-        // For Blank component id in menu table-admin menu error solution - Get redSHOP extension id from the table
-        $query = $db->getQuery(true)
-            ->select('extension_id')
-            ->from($db->qn('#__extensions'))
-            ->where($db->qn('name') . ' LIKE ' . $db->quote('%redshop'))
-            ->where($db->qn('element') . ' = ' . $db->quote('com_redshop'))
-            ->where($db->qn('type') . ' = ' . $db->quote('component'));
+		$files = JFolder::files(JPATH_SITE . '/components/com_redshop/assets/images/product/thumb/');
+		$this->changeImageFileName($files, $path);
+	}
 
-        $extensionId = $db->setQuery($query)->loadResult();
+	/**
+	 * Method for update menu item id if necessary.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.4
+	 */
+	public function updateMenuItem()
+	{
+		$db = JFactory::getDbo();
 
-        // Check for component menu item entry
-        $query->clear()
-            ->select('id,component_id')
-            ->from($db->qn('#__menu'))
-            ->where($db->qn('menutype') . ' = ' . $db->quote('main'))
-            ->where($db->qn('path') . ' LIKE ' . $db->quote('%redshop'))
-            ->where($db->qn('type') . ' = ' . $db->quote('component'));
+		// For Blank component id in menu table-admin menu error solution - Get redSHOP extension id from the table
+		$query = $db->getQuery(true)
+			->select('extension_id')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('name') . ' LIKE ' . $db->quote('%redshop'))
+			->where($db->qn('element') . ' = ' . $db->quote('com_redshop'))
+			->where($db->qn('type') . ' = ' . $db->quote('component'));
 
-        $menuItem = $db->setQuery($query)->loadObject();
+		$extensionId = $db->setQuery($query)->loadResult();
 
-        // If component Entry found and component_id is same as extension id - no need to update menu item
-        $isUpdate = ($menuItem && $menuItem->component_id == $extensionId) ? false : true;
+		// Check for component menu item entry
+		$query->clear()
+			->select('id,component_id')
+			->from($db->qn('#__menu'))
+			->where($db->qn('menutype') . ' = ' . $db->quote('main'))
+			->where($db->qn('path') . ' LIKE ' . $db->quote('%redshop'))
+			->where($db->qn('type') . ' = ' . $db->quote('component'));
 
-        if (!$isUpdate) {
-            return;
-        }
+		$menuItem = $db->setQuery($query)->loadObject();
 
-        $query->clear()
-            ->update($db->qn('#__menu'))
-            ->set($db->qn('component_id') . ' = ' . (int)$extensionId)
-            ->where($db->qn('menutype') . ' = ' . $db->quote('main'))
-            ->where($db->qn('path') . ' LIKE ' . $db->quote('%redshop'))
-            ->where($db->qn('type') . ' = ' . $db->quote('component'));
+		// If component Entry found and component_id is same as extension id - no need to update menu item
+		$isUpdate = ($menuItem && $menuItem->component_id == $extensionId) ? false : true;
 
-        // Set the query and execute the update.
-        $db->setQuery($query)->execute();
-    }
+		if (!$isUpdate)
+		{
+			return;
+		}
 
-    /**
-     * Return list of old files for clean
-     *
-     * @return  array
-     *
-     * @since   2.0.4
-     */
-    protected function getOldFiles()
-    {
-        return array(
-            JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/update.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshopupdate.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/models/update.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/controllers/tax_group_detail.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/models/tax_group_detail.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/tables/tax_group_detail.php',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group/tmpl/default.php',
-            JPATH_SITE . '/libraries/redshop/install/database.php'
-        );
-    }
+		$query->clear()
+			->update($db->qn('#__menu'))
+			->set($db->qn('component_id') . ' = ' . (int) $extensionId)
+			->where($db->qn('menutype') . ' = ' . $db->quote('main'))
+			->where($db->qn('path') . ' LIKE ' . $db->quote('%redshop'))
+			->where($db->qn('type') . ' = ' . $db->quote('component'));
 
-    /**
-     * Return list of old folders for clean
-     *
-     * @return  array
-     *
-     * @since   2.0.4
-     */
-    protected function getOldFolders()
-    {
-        return array(
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/update',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/sef_ext',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/extras/sh404sef/meta_ext',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/barcode',
-            JPATH_ADMINISTRATOR . '/components/com_redshop/views/tax_group_detail'
-        );
-    }
+		// Set the query and execute the update.
+		$db->setQuery($query)->execute();
+	}
 }

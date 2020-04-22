@@ -21,16 +21,16 @@
     <config addfieldpath="/libraries/redshop/form/field">
         <fields name="params">
             <fieldset name="basic">
-                <field
-                        name="fontPDF"
-                        type="redshop.fontlist"
-                        default=""
-                        label="PLG_REDSHOP_PDF_TCPDF_FONT_LABLE"
-                        description="PLG_REDSHOP_PDF_TCPDF_FONT_LABEL_DESC"
-                        directory="plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts"
-                        filter="php"
-                        exclude=""
-                        stripext="true"/>
+                <field 
+                    name="fontPDF" 
+                    type="redshop.fontlist" 
+                    default="" 
+                    label="PLG_REDSHOP_PDF_TCPDF_FONT_LABLE"
+                    description="PLG_REDSHOP_PDF_TCPDF_FONT_LABEL_DESC"
+                    directory="plugins/redshop_pdf/tcpdf/helper/vendor/tecnickcom/tcpdf/fonts" 
+                    filter="php"
+                    exclude=""
+                    stripext="true" />
                 <field
                         name="pageformat"
                         type="list"

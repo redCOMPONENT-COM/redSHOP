@@ -3,8 +3,8 @@
  * @package     Phproberto.Joomla-Twig
  * @subpackage  Twig
  *
- * @copyright   Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
- * @license     See COPYING.txt
+ * @copyright  Copyright (C) 2017-2018 Roberto Segura López, Inc. All rights reserved.
+ * @license    See COPYING.txt
  */
 
 namespace Redshop\Twig\View\Traits;
@@ -20,80 +20,85 @@ use Redshop\Twig\Twig;
  */
 trait HasTwigRenderer
 {
-    /**
-     * Component option.
-     *
-     * @var  string
-     */
-    protected $option;
+	/**
+	 * Component option.
+	 *
+	 * @var  string
+	 */
+	protected $option;
 
-    /**
-     * Load a template file -- first look in the templates folder for an override
-     *
-     * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
-     *
-     * @return  string  The output of the the template script.
-     *
-     * @throws  \Exception
-     */
-    public function loadTemplate($tpl = null)
-    {
-        $layout = $this->getLayout();
-        $tpl    = $tpl ? $layout . '_' . $tpl : $layout;
+	/**
+	 * Get the data that will be sent to renderer.
+	 *
+	 * @return  array
+	 */
+	abstract protected function getLayoutData();
 
-        $renderer = Twig::instance();
+	/**
+	 * Get this component option.
+	 *
+	 * @return  string
+	 */
+	public function getOption()
+	{
+		if (null === $this->option)
+		{
+			$this->option = $this->getOptionFromPrefix();
+		}
 
-        $data   = $this->getLayoutData();
-        $prefix = '@component/' . $this->getOption() . '/' . $this->getName();
+		return $this->option;
+	}
 
-        $name = $prefix . '/' . $tpl . '.html.twig';
+	/**
+	 * Get the component from the prefix. Ex.: ContentViewArticle will return com_content
+	 *
+	 * @return  string
+	 */
+	protected function getOptionFromPrefix()
+	{
+		$class = get_class($this);
 
-        if ($renderer->environment()->getLoader()->exists($name)) {
-            return $renderer->render($name, $data);
-        }
+		if (false !== strpos($class, '\\'))
+		{
+			$name = array_filter(explode('\\', strstr($class, 'View', true)));
+			$name = strtolower(end($name));
+		}
+		else
+		{
+			$name = strtolower(strstr($class, 'View', true));
+		}
 
-        $name = $prefix . '/default.html.twig';
+		return 'com_' . strtolower($name);
+	}
 
-        return $renderer->render($name, $data);
-    }
+	/**
+	 * Load a template file -- first look in the templates folder for an override
+	 *
+	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
+	 *
+	 * @return  string  The output of the the template script.
+	 *
+	 * @throws  \Exception
+	 */
+	public function loadTemplate($tpl = null)
+	{
+		$layout = $this->getLayout();
+		$tpl = $tpl ? $layout . '_' . $tpl : $layout;
 
-    /**
-     * Get the data that will be sent to renderer.
-     *
-     * @return  array
-     */
-    abstract protected function getLayoutData();
+		$renderer = Twig::instance();
 
-    /**
-     * Get this component option.
-     *
-     * @return  string
-     */
-    public function getOption()
-    {
-        if (null === $this->option) {
-            $this->option = $this->getOptionFromPrefix();
-        }
+		$data = $this->getLayoutData();
+		$prefix = '@component/' . $this->getOption() . '/' . $this->getName();
 
-        return $this->option;
-    }
+		$name = $prefix . '/' . $tpl . '.html.twig';
 
-    /**
-     * Get the component from the prefix. Ex.: ContentViewArticle will return com_content
-     *
-     * @return  string
-     */
-    protected function getOptionFromPrefix()
-    {
-        $class = get_class($this);
+		if ($renderer->environment()->getLoader()->exists($name))
+		{
+			return $renderer->render($name, $data);
+		}
 
-        if (false !== strpos($class, '\\')) {
-            $name = array_filter(explode('\\', strstr($class, 'View', true)));
-            $name = strtolower(end($name));
-        } else {
-            $name = strtolower(strstr($class, 'View', true));
-        }
+		$name = $prefix . '/default.html.twig';
 
-        return 'com_' . strtolower($name);
-    }
+		return $renderer->render($name, $data);
+	}
 }

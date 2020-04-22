@@ -7,7 +7,7 @@
                 label="COM_REDSHOP_FILTER_SEARCH_DESC"
                 placeholder="JSEARCH_FILTER"
                 class="js-enter-submits"
-        />
+                />
     </fields>
     <fields name="list">
         <field
@@ -18,6 +18,6 @@
                 label="JGLOBAL_ORDERING_LIST_LIMIT"
                 description="JGLOBAL_ORDERING_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
-        />
+                />
     </fields>
 </form>

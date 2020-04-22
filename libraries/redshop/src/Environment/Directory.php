@@ -18,66 +18,75 @@ defined('_JEXEC') or die;
  */
 class Directory extends \JFolder
 {
-    /**
-     * Create a folder -- and all necessary parent folders.
-     *
-     * @param   string   $path  A path to create from the base path.
-     * @param   integer  $mode  Directory permissions to set for folders created. 0755 by default.
-     *
-     * @return  boolean
-     *
-     * @since   2.1.0
-     */
-    public static function create($path = '', $mode = 0755)
-    {
-        if (self::exists($path)) {
-            return true;
-        }
+	/**
+	 * Create a folder -- and all necessary parent folders.
+	 *
+	 * @param   string  $path A path to create from the base path.
+	 * @param   integer $mode Directory permissions to set for folders created. 0755 by default.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   2.1.0
+	 */
+	public static function create($path = '', $mode = 0755)
+	{
+		if (self::exists($path))
+		{
+			return true;
+		}
 
-        if (!parent::create($path, $mode)) {
-            return false;
-        }
+		if (!parent::create($path, $mode))
+		{
+			return false;
+		}
 
-        if (!\JFile::exists($path . '/index.html')) {
-            // Avoid 'pass by reference' error in J1.6+
-            $content = '<html><body bgcolor="#ffffff"></body></html>';
+		if (!\JFile::exists($path . '/index.html'))
+		{
+			// Avoid 'pass by reference' error in J1.6+
+			$content = '<html><body bgcolor="#ffffff"></body></html>';
 
-            return \JFile::write($path . '/index.html', $content);
-        }
+			return \JFile::write($path . '/index.html', $content);
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * @param   string  $dir  Directory
-     *
-     * @return  array
-     *
-     * @since   2.1.0
-     */
-    public static function count($dir)
-    {
-        $totalFile = 0;
-        $totalDir  = 0;
+	/**
+	 * @param   string $dir Directory
+	 *
+	 * @return  array
+	 *
+	 * @since   2.1.0
+	 */
+	public static function count($dir)
+	{
+		$totalFile = 0;
+		$totalDir  = 0;
 
-        if (!is_dir($dir)) {
-            return array($totalFile, $totalDir);
-        }
+		if (!is_dir($dir))
+		{
+			return array($totalFile, $totalDir);
+		}
 
-        $it = new \DirectoryIterator($dir);
+		$it = new \DirectoryIterator($dir);
 
-        foreach ($it as $fileinfo) {
-            if ($fileinfo->isDot()) {
-                continue;
-            }
+		foreach ($it as $fileinfo)
+		{
+			if ($fileinfo->isDot())
+			{
+				continue;
+			}
 
-            if ($fileinfo->isFile()) {
-                $totalFile++;
-            } elseif ($fileinfo->isDir()) {
-                $totalDir++;
-            }
-        }
+			if ($fileinfo->isFile())
+			{
+				$totalFile++;
+			}
+			elseif ($fileinfo->isDir())
+			{
+				$totalDir++;
+			}
+		}
 
-        return array($totalFile, $totalDir);
-    }
+		return array($totalFile, $totalDir);
+	}
 }

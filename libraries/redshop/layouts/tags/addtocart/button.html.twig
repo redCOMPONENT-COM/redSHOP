@@ -1,11 +1,11 @@
 {% if 'AJAX_CART_BOX' | redconfig != 1 %}
     <div id="pdaddtocart{{ stockId }}" {{ class }} {{ title }} {{ cartStyle }} class="pdaddtocart">
-        <input type="button" {{ onclick }} {{ cartTitle }} name="addtocart_button" value="{{ requestLabel }}"/>
+        <input type="button" {{ onclick }} {{ cartTitle }} name="addtocart_button" value="{{ requestLabel }}" />
     </div>
 {% else %}
-    <a class="ajaxcartcolorbox{{ productId }}" href="javascript:;" {{ onclick }}>
+    <a class="ajaxcartcolorbox{{ productId }}"  href="javascript:;" {{ onclick }}>
         <div id="pdaddtocart{{ stockId }}" {{ class }} {{ title }} {{ cartStyle }} class="pdaddtocart">
-            <input type="button" {{ cartTitle }} name="addtocart_button" value="{{ requestLabel }}"/>
+            <input type="button" {{ cartTitle }} name="addtocart_button" value="{{ requestLabel }}" />
         </div>
     </a>
 {% endif %}

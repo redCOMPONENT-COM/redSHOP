@@ -16,22 +16,23 @@ defined('_JEXEC') or die;
  * @subpackage     Banners
  * @since          1.5
  */
+
 class JFormFieldextrainfo extends JFormField
 {
-    /**
-     * Element name
-     *
-     * @access    protected
-     * @var        string
-     */
+	/**
+	 * Element name
+	 *
+	 * @access    protected
+	 * @var        string
+	 */
 
-    public $type = 'extrainfo';
+	public $type = 'extrainfo';
 
-    protected function getInput()
-    {
-        $html = '';
-        $html .= "<textarea  name='" . $this->name . "'[]'  id='" . $this->name . "'[]' rows='8' cols='20'>" . $this->value . "</textarea>";
+	protected function getInput()
+	{
+		$html = '';
+		$html .= "<textarea  name='" . $this->name . "'[]'  id='" . $this->name . "'[]' rows='8' cols='20'>" . $this->value . "</textarea>";
 
-        return $html;
-    }
+		return $html;
+	}
 }

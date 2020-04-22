@@ -1,7 +1,7 @@
 {% if 'CAT_IS_LIGHTBOX'|redconfig %}
 <a rel="myallimg" href="{{ linkImage }}" title="{{ category.name }}">
-    {% else %}
-    <a href="{{ link }}" title="{{ category.name }}">
-        {% endif %}
-        <img src="{{ productImg }}" title="{{ category.name }}" alt="{{ category.name }}"/>
-    </a>
+{% else %}
+<a href="{{ link }}" title="{{ category.name }}">
+{% endif %}
+<img src="{{ productImg }}" title="{{ category.name }}" alt="{{ category.name }}" />
+</a>

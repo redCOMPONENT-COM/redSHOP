@@ -11,13 +11,9 @@ defined('_JEXEC') or die;
 
 extract($displayData);
 
-$url = JRoute::_(
-    JURI::base(
-    ) . 'index.php?option=com_redshop&view=media&section_id=' . $sectionId . '&showbuttons=1&media_section=' . $mediaSection . '&section_name=' . $sectionName . '&tmpl=component'
-);
+$url = JRoute::_(JURI::base() . 'index.php?option=com_redshop&view=media&section_id=' . $sectionId . '&showbuttons=1&media_section=' . $mediaSection . '&section_name=' . $sectionName . '&tmpl=component');
 
-JFactory::getDocument()->addScriptDeclaration(
-    '
+JFactory::getDocument()->addScriptDeclaration('
 (function($){
 	jQuery(document).ready(function(){
 		jQuery("#btnModal_' . $sectionId . '").on("click", function(){
@@ -28,16 +24,15 @@ JFactory::getDocument()->addScriptDeclaration(
 		});
 	});
 })(jQuery);
-'
-);
+');
 ?>
 <a style="cursor: pointer" id="btnModal_<?php echo $sectionId ?>"><img
-            src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
-            alt="media"> (<?php echo $count; ?>)</a>
+	src="<?php echo REDSHOP_MEDIA_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
+	alt="media"> (<?php  echo $count;?>)</a>
 
-<div class="<?php echo $class ?> fade shadow"
-     id="mediaButton_<?php echo $sectionId ?>"
-     style="overflow-y: hidden; width: <?php echo $width ?>px; padding: 5px;">
+<div class="<?php echo $class ?> fade shadow" 
+	id="mediaButton_<?php echo $sectionId?>"
+	style="overflow-y: hidden; width: <?php echo $width ?>px; padding: 5px;">
 </div>
 
 

@@ -110,8 +110,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="checkbox"><label class="checkbox">{newsletter_signup_chk}{newsletter_signup_lbl}</label>
-                                    </div>
+                                    <div class="checkbox"><label class="checkbox">{newsletter_signup_chk}{newsletter_signup_lbl}</label></div>
                                     <div class="checkbox">{terms_and_conditions:width=500 height=450}</div>
                                 </div>
                             </div>

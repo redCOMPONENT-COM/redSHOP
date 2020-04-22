@@ -20,214 +20,201 @@ JLoader::import('redshop.library');
  */
 class PlgRedshop_ExportShopper_Group_Attribute_Price extends AbstractExportPlugin
 {
-    /**
-     * Event run when user load config for export this data.
-     *
-     * @return  string
-     *
-     * @since  1.0.0
-     *
-     * @TODO   : Need to load XML File instead
-     */
-    public function onAjaxShopper_Group_Attribute_Price_Config()
-    {
-        \Redshop\Helper\Ajax::validateAjaxRequest();
+	/**
+	 * Event run when user load config for export this data.
+	 *
+	 * @return  string
+	 *
+	 * @since  1.0.0
+	 *
+	 * @TODO: Need to load XML File instead
+	 */
+	public function onAjaxShopper_Group_Attribute_Price_Config()
+	{
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-        \Redshop\Ajax\Response::getInstance()->respond();
-    }
+		\Redshop\Ajax\Response::getInstance()->respond();
+	}
 
-    /**
-     * Event run when user click on Start Export
-     *
-     * @return  number
-     *
-     * @since  1.0.0
-     */
-    public function onAjaxShopper_Group_Attribute_Price_Start()
-    {
-        \Redshop\Helper\Ajax::validateAjaxRequest();
+	/**
+	 * Event run when user click on Start Export
+	 *
+	 * @return  number
+	 *
+	 * @since  1.0.0
+	 */
+	public function onAjaxShopper_Group_Attribute_Price_Start()
+	{
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-        $this->writeData($this->getHeader(), 'w+');
+		$this->writeData($this->getHeader(), 'w+');
 
-        return (int)$this->getTotal();
-    }
+		return (int) $this->getTotal();
+	}
 
-    /**
-     * Method for get headers data.
-     *
-     * @return array|bool
-     *
-     * @since  1.0.0
-     */
-    protected function getHeader()
-    {
-        return array(
-            'price_id',
-            'section_id',
-            'section',
-            'product_number',
-            'product_name',
-            'product_price',
-            'attribute_number',
-            'product_attribute',
-            'attribute_price',
-            'price_quantity_start',
-            'price_quantity_end',
-            'discount_price',
-            'discount_start_date',
-            'discount_end_date',
-            'shopper_group_id',
-            'shopper_group_name'
-        );
-    }
+	/**
+	 * Event run on export process
+	 *
+	 * @return  int
+	 *
+	 * @since  1.0.0
+	 */
+	public function onAjaxShopper_Group_Attribute_Price_Export()
+	{
+		\Redshop\Helper\Ajax::validateAjaxRequest();
 
-    /**
-     * Method for get total count of data.
-     *
-     * @return int
-     *
-     * @since  1.0.0
-     */
-    protected function getTotal()
-    {
-        $db       = $this->db;
-        $query    = $this->getQuery();
-        $newQuery = $db->getQuery(true)
-            ->select('COUNT(*)')
-            ->from('(' . $query . ') AS ' . $db->qn('attribute_price'));
+		$input = JFactory::getApplication()->input;
+		$limit = $input->getInt('limit', 0);
+		$start = $input->getInt('start', 0);
 
-        return (int)$this->db->setQuery($newQuery)->loadResult();
-    }
+		return $this->exporting($start, $limit);
+	}
 
-    /**
-     * Method for get query
-     *
-     * @return \JDatabaseQuery
-     *
-     * @since  1.0.0
-     */
-    protected function getQuery()
-    {
-        $db = $this->db;
+	/**
+	 * Event run on export process
+	 *
+	 * @return  number
+	 *
+	 * @since  1.0.0
+	 */
+	public function onAjaxShopper_Group_Attribute_Price_Complete()
+	{
+		$this->downloadFile();
 
-        $attributesQuery = $db->getQuery(true)
-            ->select(
-                array(
-                    $db->qn('ap.price_id'),
-                    $db->qn('ap.section_id'),
-                    $db->qn('ap.section'),
-                    $db->qn('product.product_number'),
-                    $db->qn('product.product_name'),
-                    $db->qn('product.product_price'),
-                    $db->qn('p.property_number', 'attribute_number'),
-                    $db->qn('p.property_name', 'product_attribute'),
-                    $db->qn('ap.product_price', 'attribute_price'),
-                    $db->qn('ap.price_quantity_start'),
-                    $db->qn('ap.price_quantity_end'),
-                    $db->qn('ap.discount_price'),
-                    $db->qn('ap.discount_start_date'),
-                    $db->qn('ap.discount_end_date'),
-                    $db->qn('s.shopper_group_id'),
-                    $db->qn('s.shopper_group_name')
-                )
-            )
-            ->from($db->qn('#__redshop_product_attribute_price', 'ap'))
-            ->leftjoin(
-                $db->qn('#__redshop_product_attribute_property', 'p')
-                . ' ON ' . $db->qn('p.property_id') . '=' . $db->qn('ap.section_id')
-            )
-            ->leftjoin(
-                $db->qn('#__redshop_shopper_group', 's')
-                . ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
-            )
-            ->leftjoin(
-                $db->qn('#__redshop_product_attribute', 'pa')
-                . ' ON ' . $db->qn('pa.attribute_id') . '=' . $db->qn('p.attribute_id')
-            )
-            ->leftjoin(
-                $db->qn('#__redshop_product', 'product')
-                . ' ON ' . $db->qn('product.product_id') . '=' . $db->qn('pa.product_id')
-            )
-            ->where($db->qn('ap.section') . ' = ' . $db->quote('property'));
+		JFactory::getApplication()->close();
+	}
 
-        $propertiesQuery = $db->getQuery(true)
-            ->select(
-                array(
-                    $db->qn('ap.price_id'),
-                    $db->qn('ap.section_id'),
-                    $db->qn('ap.section'),
-                    $db->qn('product.product_number'),
-                    $db->qn('product.product_name'),
-                    $db->qn('product.product_price'),
-                    $db->qn('sp.subattribute_color_number', 'attribute_number'),
-                    $db->qn('sp.subattribute_color_name', 'product_attribute'),
-                    $db->qn('ap.product_price', 'attribute_price'),
-                    $db->qn('ap.price_quantity_start'),
-                    $db->qn('ap.price_quantity_end'),
-                    $db->qn('ap.discount_price'),
-                    $db->qn('ap.discount_start_date'),
-                    $db->qn('ap.discount_end_date'),
-                    $db->qn('s.shopper_group_id'),
-                    $db->qn('s.shopper_group_name')
-                )
-            )
-            ->from($db->qn('#__redshop_product_attribute_price', 'ap'))
-            ->leftjoin(
-                $db->qn('#__redshop_product_subattribute_color', 'sp')
-                . ' ON ' . $db->qn('sp.subattribute_color_id') . '=' . $db->qn('ap.section_id')
-            )
-            ->leftjoin(
-                $db->qn('#__redshop_shopper_group', 's')
-                . ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
-            )
-            ->leftjoin(
-                $db->qn('#__redshop_product_attribute_property', 'p')
-                . ' ON ' . $db->qn('sp.subattribute_id') . '=' . $db->qn('p.property_id')
-            )
-            ->leftjoin(
-                $db->qn('#__redshop_product_attribute', 'pa')
-                . ' ON ' . $db->qn('pa.attribute_id') . '=' . $db->qn('p.attribute_id')
-            )
-            ->leftjoin(
-                $db->qn('#__redshop_product', 'product')
-                . ' ON ' . $db->qn('product.product_id') . '=' . $db->qn('pa.product_id')
-            )
-            ->where($db->qn('ap.section') . ' = ' . $db->quote('subproperty'));
+	/**
+	 * Method for get query
+	 *
+	 * @return \JDatabaseQuery
+	 *
+	 * @since  1.0.0
+	 */
+	protected function getQuery()
+	{
+		$db = $this->db;
 
-        $attributesQuery->union($propertiesQuery);
+		$attributesQuery = $db->getQuery(true)
+			->select(
+				array(
+					$db->qn('ap.price_id'),
+					$db->qn('ap.section_id'),
+					$db->qn('ap.section'),
+					$db->qn('product.product_number'),
+					$db->qn('product.product_name'),
+					$db->qn('product.product_price'),
+					$db->qn('p.property_number', 'attribute_number'),
+					$db->qn('p.property_name', 'product_attribute'),
+					$db->qn('ap.product_price', 'attribute_price'),
+					$db->qn('ap.price_quantity_start'),
+					$db->qn('ap.price_quantity_end'),
+					$db->qn('ap.discount_price'),
+					$db->qn('ap.discount_start_date'),
+					$db->qn('ap.discount_end_date'),
+					$db->qn('s.shopper_group_id'),
+					$db->qn('s.shopper_group_name')
+				)
+			)
+			->from($db->qn('#__redshop_product_attribute_price', 'ap'))
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute_property', 'p')
+				. ' ON ' . $db->qn('p.property_id') . '=' . $db->qn('ap.section_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 's')
+				. ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute', 'pa')
+				. ' ON ' . $db->qn('pa.attribute_id') . '=' . $db->qn('p.attribute_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product', 'product')
+				. ' ON ' . $db->qn('product.product_id') . '=' . $db->qn('pa.product_id')
+			)
+			->where($db->qn('ap.section') . ' = ' . $db->quote('property'));
 
-        return $attributesQuery;
-    }
+		$propertiesQuery = $db->getQuery(true)
+			->select(
+				array(
+					$db->qn('ap.price_id'),
+					$db->qn('ap.section_id'),
+					$db->qn('ap.section'),
+					$db->qn('product.product_number'),
+					$db->qn('product.product_name'),
+					$db->qn('product.product_price'),
+					$db->qn('sp.subattribute_color_number', 'attribute_number'),
+					$db->qn('sp.subattribute_color_name', 'product_attribute'),
+					$db->qn('ap.product_price', 'attribute_price'),
+					$db->qn('ap.price_quantity_start'),
+					$db->qn('ap.price_quantity_end'),
+					$db->qn('ap.discount_price'),
+					$db->qn('ap.discount_start_date'),
+					$db->qn('ap.discount_end_date'),
+					$db->qn('s.shopper_group_id'),
+					$db->qn('s.shopper_group_name')
+				)
+			)
+			->from($db->qn('#__redshop_product_attribute_price', 'ap'))
+			->leftjoin(
+				$db->qn('#__redshop_product_subattribute_color', 'sp')
+				. ' ON ' . $db->qn('sp.subattribute_color_id') . '=' . $db->qn('ap.section_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 's')
+				. ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute_property', 'p')
+				. ' ON ' . $db->qn('sp.subattribute_id') . '=' . $db->qn('p.property_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute', 'pa')
+				. ' ON ' . $db->qn('pa.attribute_id') . '=' . $db->qn('p.attribute_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product', 'product')
+				. ' ON ' . $db->qn('product.product_id') . '=' . $db->qn('pa.product_id')
+			)
+			->where($db->qn('ap.section') . ' = ' . $db->quote('subproperty'));
 
-    /**
-     * Event run on export process
-     *
-     * @return  int
-     *
-     * @since  1.0.0
-     */
-    public function onAjaxShopper_Group_Attribute_Price_Export()
-    {
-        \Redshop\Helper\Ajax::validateAjaxRequest();
+		$attributesQuery->union($propertiesQuery);
 
-        $input = JFactory::getApplication()->input;
-        $limit = $input->getInt('limit', 0);
-        $start = $input->getInt('start', 0);
+		return $attributesQuery;
+	}
 
-        return $this->exporting($start, $limit);
-    }
+	/**
+	 * Method for get total count of data.
+	 *
+	 * @return int
+	 *
+	 * @since  1.0.0
+	 */
+	protected function getTotal()
+	{
+		$db = $this->db;
+		$query = $this->getQuery();
+		$newQuery = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('(' . $query . ') AS ' . $db->qn('attribute_price'));
 
-    /**
-     * Event run on export process
-     *
-     * @return  number
-     *
-     * @since  1.0.0
-     */
-    public function onAjaxShopper_Group_Attribute_Price_Complete()
-    {
-        $this->downloadFile();
+		return (int) $this->db->setQuery($newQuery)->loadResult();
+	}
 
-        JFactory::getApplication()->close();
-    }
+	/**
+	 * Method for get headers data.
+	 *
+	 * @return array|bool
+	 *
+	 * @since  1.0.0
+	 */
+	protected function getHeader()
+	{
+		return array(
+			'price_id', 'section_id', 'section', 'product_number', 'product_name', 'product_price', 'attribute_number',
+			'product_attribute', 'attribute_price',	'price_quantity_start', 'price_quantity_end', 'discount_price',
+			'discount_start_date', 'discount_end_date', 'shopper_group_id',	'shopper_group_name'
+		);
+	}
 }

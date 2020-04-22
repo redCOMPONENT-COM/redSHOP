@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -66,9 +65,9 @@ defined('_JEXEC') or die;
                         $("#slider-install").parent().fadeOut('slow', function () {
                             $("#install-desc").fadeIn('slow');
                             $("#system-message-container").removeClass("hidden");
-                            <?php if ($this->installType == 'update'): ?>
+							<?php if ($this->installType == 'update'): ?>
                             $("#update_versions").fadeIn('slow');
-                            <?php endif; ?>
+							<?php endif; ?>
                         });
                     }, 500);
                 })
@@ -87,7 +86,7 @@ defined('_JEXEC') or die;
             <div id="system-message-container" class="hidden">
                 <div id="system-message">
                     <div class="alert alert-success">
-                        <?php echo JText::_('COM_REDSHOP_INSTALL_SUCCESS') ?>
+						<?php echo JText::_('COM_REDSHOP_INSTALL_SUCCESS') ?>
                     </div>
                 </div>
             </div>
@@ -111,18 +110,16 @@ defined('_JEXEC') or die;
         <hr/>
         <div class="row">
             <div class="col-md-12 center panel-body">
-                <?php if ($this->installType != 'update'): ?>
+				<?php if ($this->installType != 'update'): ?>
                     <button type="button" class="btn btn-large btn-primary" name="save"
                             onclick="location.href='index.php?option=com_redshop&wizard=1'">
                         <icon class="fa fa-cog"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_WIZARD') ?>
                     </button>
                     <button type="button" class="btn btn-large btn-warning" name="content" id="btn-demo-content"
                             onclick="location.href='index.php?option=com_redshop&wizard=0&task=demoContentInsert'">
-                        <icon class="fa fa-laptop"></icon>&nbsp;&nbsp;<?php echo JText::_(
-                            'COM_REDSHOP_INSTALL_DEMO_CONTENT'
-                        ) ?>
+                        <icon class="fa fa-laptop"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT') ?>
                     </button>
-                <?php endif; ?>
+				<?php endif; ?>
                 <button type="button" class="btn btn-large btn-info" name="cancel"
                         onclick="location.href='index.php?option=com_redshop&wizard=0'">
                     <icon class="fa fa-bar-chart"></icon>&nbsp;&nbsp;<?php echo JText::_('COM_REDSHOP_DASHBOARD') ?>
@@ -139,7 +136,7 @@ defined('_JEXEC') or die;
     </div>
     <table class="table" id="table-install">
         <tbody>
-        <?php foreach ($this->steps as $i => $step): ?>
+		<?php foreach ($this->steps as $i => $step): ?>
             <tr id="row-<?php echo preg_replace("/[^A-Za-z0-9?!]/", '', $step['func']) ?>">
                 <td width="1">
                     <i class="fa fa-tasks status-icon"></i>
@@ -149,12 +146,11 @@ defined('_JEXEC') or die;
                 </td>
                 <td width="20%" style="text-align: right;">
                     <strong class="text-result text-muted">Pending</strong>
-                    <img src="<?php echo JUri::root() ?>media/com_redshop/images/ajax-loader.gif" class="loader img"
-                         width="128px"
+                    <img src="<?php echo JUri::root() ?>media/com_redshop/images/ajax-loader.gif" class="loader img" width="128px"
                          height="15px"/>
                 </td>
             </tr>
-        <?php endforeach; ?>
+		<?php endforeach; ?>
         </tbody>
     </table>
 </div>

@@ -18,169 +18,183 @@ defined('_JEXEC') or die;
  */
 class RedshopHelperPdf_Merge
 {
-    /**
-     * @var  array  ['form.pdf']  ["1,2,4, 5-19"]
-     */
-    private $files;
+	/**
+	 * @var  array  ['form.pdf']  ["1,2,4, 5-19"]
+	 */
+	private $files;
 
-    /**
-     * Add a PDF for inclusion in the merge with a valid file path. Pages should be formatted: 1,3,6, 12-16.
-     *
-     * @param   string  $filePath  File path
-     * @param   string  $pages     Page
-     *
-     * @return  self
-     *
-     * @throws  Exception
-     */
-    public function addPDF($filePath, $pages = 'all')
-    {
-        if (!JFile::exists($filePath)) {
-            throw new exception('Could not locate PDF on: ' . $filePath);
-        }
+	/**
+	 * Add a PDF for inclusion in the merge with a valid file path. Pages should be formatted: 1,3,6, 12-16.
+	 *
+	 * @param   string $filePath File path
+	 * @param   string $pages    Page
+	 *
+	 * @return  self
+	 *
+	 * @throws  Exception
+	 */
+	public function addPDF($filePath, $pages = 'all')
+	{
+		if (!JFile::exists($filePath))
+		{
+			throw new exception('Could not locate PDF on: ' . $filePath);
+		}
 
-        if (strtolower($pages) != 'all') {
-            $pages = $this->rewritePages($pages);
-        }
+		if (strtolower($pages) != 'all')
+		{
+			$pages = $this->rewritePages($pages);
+		}
 
-        $this->files[] = array($filePath, $pages);
+		$this->files[] = array($filePath, $pages);
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Takes our provided pages in the form of 1,3,4,16-50 and creates an array of all pages
-     *
-     * @param   string  $pages  Page
-     *
-     * @return  mixed
-     *
-     * @throws  Exception
-     */
-    private function rewritePages($pages)
-    {
-        $pages = str_replace(' ', '', $pages);
-        $parts = explode(',', $pages);
-        $newPages = array();
+	/**
+	 * Merges your provided PDFs and outputs to specified location.
+	 *
+	 * @param   string $outputMode Output mode
+	 * @param   string $outputPath Output path
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  Exception
+	 */
+	public function merge($outputMode = 'browser', $outputPath = 'newfile.pdf')
+	{
+		if (!isset($this->files) || !is_array($this->files))
+		{
+			throw new exception("No PDFs to merge.");
+		}
 
-        if (empty($parts)) {
-            return $newPages;
-        }
+		$fpdi = new FPDI;
 
-        // Parse hyphens
-        foreach ($parts as $part) {
-            $ind = explode('-', $part);
+		// Merger operations
+		foreach ($this->files as $file)
+		{
+			$fileName = $file[0];
+			$pages    = $file[1];
+			$count    = $fpdi->setSourceFile($fileName);
 
-            if (count($ind) != 2) {
-                $newPages[] = (int)$ind[0];
+			// Add the pages
+			if ($pages == 'all')
+			{
+				for ($i = 1; $i <= $count; $i++)
+				{
+					$template = $fpdi->importPage($i);
+					$size     = $fpdi->getTemplateSize($template);
 
-                continue;
-            }
+					$fpdi->AddPage('P', array($size['w'], $size['h']));
+					$fpdi->useTemplate($template);
+				}
+			}
+			else
+			{
+				foreach ($pages as $page)
+				{
+					if (!$template = $fpdi->importPage($page))
+					{
+						throw new exception("Could not load page '$page' in PDF '$fileName'. Check that the page exists.");
+					}
 
-            // Start page
-            $x = $ind[0];
+					$size = $fpdi->getTemplateSize($template);
 
-            // End page
-            $y = $ind[1];
+					$fpdi->AddPage('P', array($size['w'], $size['h']));
+					$fpdi->useTemplate($template);
+				}
+			}
+		}
 
-            if ($x > $y) {
-                throw new exception("Starting page, '$x' is greater than ending page '$y'.");
-            }
+		// Output operations
+		$mode = $this->switchMode($outputMode);
 
-            // Add middle pages
-            while ($x <= $y) {
-                $newPages[] = (int)$x;
-                $x++;
-            }
-        }
+		return $fpdi->Output($outputPath, $mode);
+	}
 
-        return $newPages;
-    }
+	/**
+	 * FPDI uses single characters for specifying the output location. Change our more descriptive string into proper format.
+	 *
+	 * @param   string  $mode  Mode
+	 *
+	 * @return  string
+	 */
+	private function switchMode($mode)
+	{
+		switch (strtolower($mode))
+		{
+			case 'download':
+				return 'D';
+				break;
 
-    /**
-     * Merges your provided PDFs and outputs to specified location.
-     *
-     * @param   string  $outputMode  Output mode
-     * @param   string  $outputPath  Output path
-     *
-     * @return  boolean
-     *
-     * @throws  Exception
-     */
-    public function merge($outputMode = 'browser', $outputPath = 'newfile.pdf')
-    {
-        if (!isset($this->files) || !is_array($this->files)) {
-            throw new exception("No PDFs to merge.");
-        }
+			case 'browser':
+				return 'I';
+				break;
 
-        $fpdi = new FPDI;
+			case 'file':
+				return 'F';
+				break;
 
-        // Merger operations
-        foreach ($this->files as $file) {
-            $fileName = $file[0];
-            $pages    = $file[1];
-            $count    = $fpdi->setSourceFile($fileName);
+			case 'string':
+				return 'S';
+				break;
 
-            // Add the pages
-            if ($pages == 'all') {
-                for ($i = 1; $i <= $count; $i++) {
-                    $template = $fpdi->importPage($i);
-                    $size     = $fpdi->getTemplateSize($template);
+			default:
+				return 'I';
+				break;
+		}
+	}
 
-                    $fpdi->AddPage('P', array($size['w'], $size['h']));
-                    $fpdi->useTemplate($template);
-                }
-            } else {
-                foreach ($pages as $page) {
-                    if (!$template = $fpdi->importPage($page)) {
-                        throw new exception(
-                            "Could not load page '$page' in PDF '$fileName'. Check that the page exists."
-                        );
-                    }
+	/**
+	 * Takes our provided pages in the form of 1,3,4,16-50 and creates an array of all pages
+	 *
+	 * @param   string  $pages  Page
+	 *
+	 * @return  mixed
+	 *
+	 * @throws  Exception
+	 */
+	private function rewritePages($pages)
+	{
+		$pages    = str_replace(' ', '', $pages);
+		$parts    = explode(',', $pages);
+		$newPages = array();
 
-                    $size = $fpdi->getTemplateSize($template);
+		if (empty($parts))
+		{
+			return $newPages;
+		}
 
-                    $fpdi->AddPage('P', array($size['w'], $size['h']));
-                    $fpdi->useTemplate($template);
-                }
-            }
-        }
+		// Parse hyphens
+		foreach ($parts as $part)
+		{
+			$ind = explode('-', $part);
 
-        // Output operations
-        $mode = $this->switchMode($outputMode);
+			if (count($ind) != 2)
+			{
+				$newPages[] = (int) $ind[0];
 
-        return $fpdi->Output($outputPath, $mode);
-    }
+				continue;
+			}
 
-    /**
-     * FPDI uses single characters for specifying the output location. Change our more descriptive string into proper format.
-     *
-     * @param   string  $mode  Mode
-     *
-     * @return  string
-     */
-    private function switchMode($mode)
-    {
-        switch (strtolower($mode)) {
-            case 'download':
-                return 'D';
-                break;
+			// Start page
+			$x = $ind[0];
 
-            case 'browser':
-                return 'I';
-                break;
+			// End page
+			$y = $ind[1];
 
-            case 'file':
-                return 'F';
-                break;
+			if ($x > $y)
+			{
+				throw new exception("Starting page, '$x' is greater than ending page '$y'.");
+			}
 
-            case 'string':
-                return 'S';
-                break;
+			// Add middle pages
+			while ($x <= $y)
+			{
+				$newPages[] = (int) $x;
+				$x++;
+			}
+		}
 
-            default:
-                return 'I';
-                break;
-        }
-    }
+		return $newPages;
+	}
 }

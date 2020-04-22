@@ -761,7 +761,8 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$db            = $this->getDbo();
 		$orderNumber   = RedshopHelperOrder::generateOrderNumber();
 		$encrKey       = \Redshop\Crypto\Helper\Encrypt::generateCustomRandomEncryptKey(35);
-
+		
+		/** @var Tableorder_detail $row */
 		$row                          = $this->getTable('order_detail');
 		$row->user_id                 = (int) $data['user_id'];
 		$row->order_number            = $orderNumber;
@@ -779,6 +780,7 @@ class RedshopModelQuotation_detail extends RedshopModel
 		$row->encr_key                = $encrKey;
 		$row->special_discount        = $data['quotation_special_discount'];
 		$row->order_discount_vat      = $data['Discountvat'];
+		$row->customer_note           = $data['quotation_note'];
 
 		if (!$row->store())
 		{
@@ -788,13 +790,9 @@ class RedshopModelQuotation_detail extends RedshopModel
 		}
 
 		$orderId = $row->order_id;
-
-		$rowOrderStatus                = $this->getTable('order_status_log');
-		$rowOrderStatus->order_id      = $orderId;
-		$rowOrderStatus->order_status  = 'P';
-		$rowOrderStatus->date_changed  = time();
-		$rowOrderStatus->customer_note = '';
-		$rowOrderStatus->store();
+		
+		// Write Order Log
+		\RedshopHelperOrder::writeOrderLog($orderId, null, 'P', 'Unpaid', $row->customer_note);
 
 		foreach ($data['quotation_item'] as $key => $item)
 		{
@@ -802,10 +800,11 @@ class RedshopModelQuotation_detail extends RedshopModel
 
 			if (!empty($item->quotation_item_id))
 			{
-				$query         = $db->getQuery(true)
+				$query = $db->getQuery(true)
 					->select('*')
 					->from($db->qn('#__redshop_quotation_item'))
 					->where($db->qn('quotation_item_id') . ' = ' . $db->q((int) $item->quotation_item_id));
+				
 				$quotationItem = $db->setQuery($query)->loadObject();
 
 				$product = \Redshop\Product\Product::getProductById($quotationItem->product_id);

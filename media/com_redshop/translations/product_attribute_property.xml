@@ -8,7 +8,7 @@
     <reference>
         <table name="redshop_product_attribute_property">
             <field type="referenceid" name="property_id" translate="0">ID</field>
-            <field type="titletext" name="property_name" translate="1">Name</field>
+            <field type="titletext" name="property_name" translate="1" >Name</field>
             <field type="text" name="property_image" translate="1">Image</field>
             <field type="text" name="property_main_image" translate="1">Main image</field>
             <field type="state" name="property_published" stateoptions="0,1" translate="1">State</field>

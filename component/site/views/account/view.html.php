@@ -18,327 +18,327 @@ defined('_JEXEC') or die;
  */
 class RedshopViewAccount extends RedshopView
 {
-    /**
-     * @var  JPagination
-     */
-    public $pagination;
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
 
-    /**
-     * @var  JUser
-     */
-    public $user;
+	/**
+	 * @var  JUser
+	 */
+	public $user;
 
-    /**
-     * @var  mixed
-     */
-    public $userdata;
+	/**
+	 * @var  mixed
+	 */
+	public $userdata;
 
-    /**
-     * @var  Joomla\Registry\Registry
-     */
-    public $params;
+	/**
+	 * @var  Joomla\Registry\Registry
+	 */
+	public $params;
 
-    /**
-     * @var  \JModelLegacy
-     */
-    public $model;
+	/**
+	 * @var  \JModelLegacy
+	 */
+	public $model;
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed         A string if successful, otherwise a JError object.
-     * @throws  Exception
-     */
-    public function display($tpl = null)
-    {
-        $this->params = $this->app->getParams('com_redshop');
-        $this->user   = JFactory::getUser();
-        $twigParams   = [
-            'url'    => \JURI::base(),
-            'app'    => $this->app,
-            'itemId' => $this->app->input->getInt('Itemid'),
-            'tagId'  => $this->app->input->getInt('tagid'),
-            'edit'   => $this->app->input->getInt('edit'),
-            'user'   => $this->user,
-            'params' => $this->params
-        ];
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed         A string if successful, otherwise a JError object.
+	 * @throws  Exception
+	 */
+	public function display($tpl = null)
+	{
+		$this->params = $this->app->getParams('com_redshop');
+		$this->user   = JFactory::getUser();
+		$twigParams   = [
+			'url'    => \JURI::base(),
+			'app'    => $this->app,
+			'itemId' => $this->app->input->getInt('Itemid'),
+			'tagId'  => $this->app->input->getInt('tagid'),
+			'edit'   => $this->app->input->getInt('edit'),
+			'user'   => $this->user,
+			'params' => $this->params
+		];
 
-        RedshopHelperBreadcrumb::generate();
+		RedshopHelperBreadcrumb::generate();
 
-        $itemId = $this->input->getInt('Itemid');
-        $layout = $this->input->getString('layout');
+		$itemId = $this->input->getInt('Itemid');
+		$layout = $this->input->getString('layout');
 
-        /** @var RedshopModelAccount $this */
-        $this->model = $this->getModel();
+		/** @var RedshopModelAccount $this */
+		$this->model = $this->getModel();
 
-        $this->userdata = $this->model->getUserAccountInfo($this->user->id);
+		$this->userdata = $this->model->getUserAccountInfo($this->user->id);
 
-        if (empty($this->userdata) && $layout != 'mywishlist') {
-            $this->app->redirect(
-                JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId),
-                JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER')
-            );
-        }
+		if (empty($this->userdata) && $layout != 'mywishlist') {
+			$this->app->redirect(
+				JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $itemId),
+				JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER')
+			);
+		}
 
-        $layout = $this->input->getString('layout', 'default');
-        $mail   = $this->input->getInt('mail');
+		$layout = $this->input->getString('layout', 'default');
+		$mail   = $this->input->getInt('mail');
 
-        // Preform security checks. Give permission to send wishlist while not logged in
-        if (($this->user->id == 0 && $layout !== 'mywishlist') || ($this->user->id == 0 && $layout === 'mywishlist' && !isset($mail))) {
-            $this->app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId, false));
-        }
+		// Preform security checks. Give permission to send wishlist while not logged in
+		if (($this->user->id == 0 && $layout !== 'mywishlist') || ($this->user->id == 0 && $layout === 'mywishlist' && !isset($mail))) {
+			$this->app->redirect(JRoute::_('index.php?option=com_redshop&view=login&Itemid=' . $itemId, false));
+		}
 
-        switch ($layout) {
-            case 'cards':
-                $twigParams = array_merge($twigParams, $this->layoutCards());
-                break;
-            case 'mytags':
-                $twigParams = array_merge($twigParams, $this->layoutMytags());
-                break;
-            case 'mywishlist':
-                $twigParams = array_merge($twigParams, $this->layoutMyWishlist());
-                break;
-            default:
-                $twigParams = array_merge($twigParams, $this->layoutDefault());
-        }
+		switch ($layout) {
+			case 'cards':
+				$twigParams = array_merge($twigParams, $this->layoutCards());
+				break;
+			case 'mytags':
+				$twigParams = array_merge($twigParams, $this->layoutMytags());
+				break;
+			case 'mywishlist':
+				$twigParams = array_merge($twigParams, $this->layoutMyWishlist());
+				break;
+			default:
+				$twigParams = array_merge($twigParams, $this->layoutDefault());
+		}
 
-        $twigParams = array_merge(
-            $twigParams,
-            [
-                'userData' => $this->userdata,
-            ]
-        );
+		$twigParams = array_merge(
+			$twigParams,
+			[
+				'userData' => $this->userdata,
+			]
+		);
 
-        print \RedshopLayoutHelper::render(
-            $layout,
-            $twigParams,
-            '',
-            array(
-                'component'  => 'com_redshop',
-                'layoutType' => 'Twig',
-                'layoutOf'   => 'component',
-                'prefix'     => 'com_redshop/account'
-            )
-        );
-    }
+		print \RedshopLayoutHelper::render(
+			$layout,
+			$twigParams,
+			'',
+			array(
+				'component'  => 'com_redshop',
+				'layoutType' => 'Twig',
+				'layoutOf'   => 'component',
+				'prefix'     => 'com_redshop/account'
+			)
+		);
+	}
 
-    /**
-     * Layout cards
-     *
-     * @return  mixed
-     *
-     * @since   3.0.1
-     */
-    private function layoutCards()
-    {
-        JPluginHelper::importPlugin('redshop_payment');
-        $dispatcher = \RedshopHelperUtility::getDispatcher();
-        $cards      = $dispatcher->trigger('onListCreditCards', array());
+	/**
+	 * Layout my tags
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function layoutMytags()
+	{
+		/** @var RedshopModelAccount $this ->model */
+		$this->model = $this->getModel('account');
 
-        if (empty($cards)) {
-            JFactory::getApplication()->enqueueMessage(
-                JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
-                'warning'
-            );
-        }
+		JLoader::import('joomla.html.pagination');
+		$this->setLayout('mytags');
 
-        return ['cards' => $cards];
-    }
+		$remove = $this->input->getInt('remove', 0);
 
-    /**
-     * Layout my tags
-     *
-     * @return  mixed
-     *
-     * @since   3.0.1
-     */
-    private function layoutMytags()
-    {
-        /** @var RedshopModelAccount $this ->model */
-        $this->model = $this->getModel('account');
+		if ($remove == 1) {
+			$this->model->removeTag();
+		}
 
-        JLoader::import('joomla.html.pagination');
-        $this->setLayout('mytags');
+		$maxcategory = $this->params->get('maxcategory', 5);
+		$limit       = $this->app->getUserStateFromRequest(
+			$this->model->context . 'limit',
+			'limit',
+			$maxcategory,
+			5
+		);
 
-        $remove = $this->input->getInt('remove', 0);
+		$limitstart       = $this->input->getInt('limitstart', 0, '', 'int');
+		$total            = $this->get('total');
+		$pagination       = new JPagination($total, $limitstart, $limit);
+		$this->pagination = $pagination;
 
-        if ($remove == 1) {
-            $this->model->removeTag();
-        }
+		$twigParams = [
+			'model'       => $this->getModel('account'),
+			'pageTitle'   => \JText::_('COM_REDSHOP_MY_TAGS'),
+			'maxCategory' => $maxcategory,
+			'limit'       => $limit,
+			'total'       => $total,
+			'pagination'  => $pagination
+		];
 
-        $maxcategory = $this->params->get('maxcategory', 5);
-        $limit       = $this->app->getUserStateFromRequest(
-            $this->model->context . 'limit',
-            'limit',
-            $maxcategory,
-            5
-        );
+		return $twigParams;
+	}
 
-        $limitstart       = $this->input->getInt('limitstart', 0, '', 'int');
-        $total            = $this->get('total');
-        $pagination       = new JPagination($total, $limitstart, $limit);
-        $this->pagination = $pagination;
+	/**
+	 * Layout my wishlist
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function layoutMyWishlist()
+	{
+		$wishlistId = $this->input->getInt('wishlist_id');
+		$mail       = $this->input->getInt('mail', 0);
+		$window     = $this->input->getInt('window');
 
-        $twigParams = [
-            'model'       => $this->getModel('account'),
-            'pageTitle'   => \JText::_('COM_REDSHOP_MY_TAGS'),
-            'maxCategory' => $maxcategory,
-            'limit'       => $limit,
-            'total'       => $total,
-            'pagination'  => $pagination
-        ];
+		if ($wishlistId == 0 && !Redshop::getConfig()->get('WISHLIST_LIST')) {
+			$usersWishlist = RedshopHelperWishlist::getUserWishlist();
+			$usersWishlist = reset($usersWishlist);
 
-        return $twigParams;
-    }
+			$this->app->redirect(
+				JRoute::_(
+					"index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id="
+					. $usersWishlist->wishlist_id . "&Itemid=" . $itemId,
+					false
+				)
+			);
+		}
 
-    /**
-     * Layout my wishlist
-     *
-     * @return  mixed
-     *
-     * @since   3.0.1
-     */
-    private function layoutMyWishlist()
-    {
-        $wishlistId = $this->input->getInt('wishlist_id');
-        $mail       = $this->input->getInt('mail', 0);
-        $window     = $this->input->getInt('window');
+		// If wishlist Id is not set then redirect to it's main page
+		if ($wishlistId == 0) {
+			$this->app->redirect(
+				JRoute::_("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $itemId)
+			);
+		}
 
-        if ($wishlistId == 0 && !Redshop::getConfig()->get('WISHLIST_LIST')) {
-            $usersWishlist = RedshopHelperWishlist::getUserWishlist();
-            $usersWishlist = reset($usersWishlist);
+		JLoader::import('joomla.html.pagination');
 
-            $this->app->redirect(
-                JRoute::_(
-                    "index.php?option=com_redshop&view=account&layout=mywishlist&wishlist_id="
-                    . $usersWishlist->wishlist_id . "&Itemid=" . $itemId,
-                    false
-                )
-            );
-        }
+		$this->setLayout('mywishlist');
 
-        // If wishlist Id is not set then redirect to it's main page
-        if ($wishlistId == 0) {
-            $this->app->redirect(
-                JRoute::_("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $itemId)
-            );
-        }
+		$remove = $this->input->getInt('remove', 0);
 
-        JLoader::import('joomla.html.pagination');
+		if ($remove == 1) {
+			$this->model->removeWishlistProduct();
+		}
 
-        $this->setLayout('mywishlist');
+		$maxcategory = $this->params->get('maxcategory', 5);
+		$limit       = $this->app->getUserStateFromRequest(
+			$this->model->context . 'limit',
+			'limit',
+			$maxcategory,
+			5
+		);
 
-        $remove = $this->input->getInt('remove', 0);
+		$limitstart       = $this->input->getInt('limitstart', 0, '', 'int');
+		$total            = $this->get('total');
+		$pagination       = new JPagination($total, $limitstart, $limit);
+		$this->pagination = $pagination;
+		$displayWishlist  = $mail == 0 ? $this->wishlistTemplate() : $this->wishlistMailTemplate();
 
-        if ($remove == 1) {
-            $this->model->removeWishlistProduct();
-        }
+		return [
+			'wishlistId'      => $wishlistId,
+			'mail'            => $mail,
+			'window'          => $window,
+			'disPlayWishlist' => $displayWishlist
+		];
+	}
 
-        $maxcategory = $this->params->get('maxcategory', 5);
-        $limit       = $this->app->getUserStateFromRequest(
-            $this->model->context . 'limit',
-            'limit',
-            $maxcategory,
-            5
-        );
+	/**
+	 * Wishlist template
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function wishlistTemplate()
+	{
+		$wishlist = $this->model->getMyDetail();
+		$template = RedshopHelperTemplate::getTemplate("wishlist_template");
 
-        $limitstart       = $this->input->getInt('limitstart', 0, '', 'int');
-        $total            = $this->get('total');
-        $pagination       = new JPagination($total, $limitstart, $limit);
-        $this->pagination = $pagination;
-        $displayWishlist  = $mail == 0 ? $this->wishlistTemplate() : $this->wishlistMailTemplate();
+		if (count($template) > 0 && $template[0]->template_desc != "") {
+			$templateDesc = $template[0]->template_desc;
+		} else {
+			$templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('wishlist_template');
+		}
 
-        return [
-            'wishlistId'      => $wishlistId,
-            'mail'            => $mail,
-            'window'          => $window,
-            'disPlayWishlist' => $displayWishlist
-        ];
-    }
+		return \RedshopTagsReplacer::_(
+			'wishlist',
+			$templateDesc,
+			array(
+				'wishlist' => $wishlist
+			)
+		);
+	}
 
-    /**
-     * Wishlist template
-     *
-     * @return  string
-     *
-     * @since   3.0.1
-     */
-    private function wishlistTemplate()
-    {
-        $wishlist = $this->model->getMyDetail();
-        $template = RedshopHelperTemplate::getTemplate("wishlist_template");
+	/**
+	 * Wishlist mail template
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function wishlistMailTemplate()
+	{
+		$mailTemplate = RedshopHelperTemplate::getTemplate("wishlist_mail_template");
 
-        if (count($template) > 0 && $template[0]->template_desc != "") {
-            $templateDesc = $template[0]->template_desc;
-        } else {
-            $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('wishlist_template');
-        }
+		if (count($mailTemplate) > 0 && $mailTemplate[0]->template_desc != "") {
+			$templateDesc = $mailTemplate[0]->template_desc;
+		} else {
+			$templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('wishlist_mail_template');
+		}
 
-        return \RedshopTagsReplacer::_(
-            'wishlist',
-            $templateDesc,
-            array(
-                'wishlist' => $wishlist
-            )
-        );
-    }
+		return \RedshopTagsReplacer::_(
+			'wishlistmail',
+			$templateDesc,
+			array(
+				'user'       => $this->user,
+				'itemId'     => $this->app->input->getInt('Itemid'),
+				'wishlistId' => $this->input->getInt('wishlist_id')
+			)
+		);
+	}
 
-    /**
-     * Wishlist mail template
-     *
-     * @return  string
-     *
-     * @since   3.0.1
-     */
-    private function wishlistMailTemplate()
-    {
-        $mailTemplate = RedshopHelperTemplate::getTemplate("wishlist_mail_template");
+	/**
+	 * Layout default
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function layoutDefault()
+	{
+		$template = RedshopHelperTemplate::getTemplate("account_template");
 
-        if (count($mailTemplate) > 0 && $mailTemplate[0]->template_desc != "") {
-            $templateDesc = $mailTemplate[0]->template_desc;
-        } else {
-            $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('wishlist_mail_template');
-        }
+		if (count($template) > 0 && $template[0]->template_desc != "") {
+			$templateDesc = $template[0]->template_desc;
+		} else {
+			$templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('account_template');
+		}
 
-        return \RedshopTagsReplacer::_(
-            'wishlistmail',
-            $templateDesc,
-            array(
-                'user'       => $this->user,
-                'itemId'     => $this->app->input->getInt('Itemid'),
-                'wishlistId' => $this->input->getInt('wishlist_id')
-            )
-        );
-    }
+		return [
+			'displayTemplate' => RedshopTagsReplacer::_(
+				'account',
+				$templateDesc,
+				[
+					'params'   => $this->params,
+					'userData' => $this->userdata
+				]
+			)
+		];
+	}
 
-    /**
-     * Layout default
-     *
-     * @return  mixed
-     *
-     * @since   3.0.1
-     */
-    private function layoutDefault()
-    {
-        $template = RedshopHelperTemplate::getTemplate("account_template");
+	/**
+	 * Layout cards
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function layoutCards()
+	{
+		JPluginHelper::importPlugin('redshop_payment');
+		$dispatcher = \RedshopHelperUtility::getDispatcher();
+		$cards      = $dispatcher->trigger('onListCreditCards', array());
 
-        if (count($template) > 0 && $template[0]->template_desc != "") {
-            $templateDesc = $template[0]->template_desc;
-        } else {
-            $templateDesc = RedshopHelperTemplate::getDefaultTemplateContent('account_template');
-        }
+		if (empty($cards)) {
+			JFactory::getApplication()->enqueueMessage(
+				JText::_('COM_REDSHOP_PAYMENT_NO_CREDIT_CARDS_PLUGIN_LIST_FOUND'),
+				'warning'
+			);
+		}
 
-        return [
-            'displayTemplate' => RedshopTagsReplacer::_(
-                'account',
-                $templateDesc,
-                [
-                    'params'   => $this->params,
-                    'userData' => $this->userdata
-                ]
-            )
-        ];
-    }
+		return ['cards' => $cards];
+	}
 }

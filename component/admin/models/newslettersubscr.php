@@ -12,76 +12,77 @@ defined('_JEXEC') or die;
 
 class RedshopModelNewslettersubscr extends RedshopModel
 {
-    public function _buildQuery()
-    {
-        $filter = $this->getState('filter');
-        $where  = '';
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   1.5
+	 */
+	protected function getStoreId($id = '')
+	{
+		$id .= ':' . $this->getState('filter');
 
-        if ($filter) {
-            $where = " AND (ns.name like '%" . $filter . "%' OR ns.email like '%" . $filter . "%') ";
-        }
+		return parent::getStoreId($id);
+	}
 
-        $orderby = $this->_buildContentOrderBy();
-        $query   = 'SELECT  distinct(ns.subscription_id),ns.*,n.name as n_name FROM #__redshop_newsletter_subscription as ns '
-            . ',#__redshop_newsletter as n '
-            . 'WHERE ns.newsletter_id=n.newsletter_id '
-            . $where
-            . $orderby;
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 */
+	protected function populateState($ordering = 'subscription_id', $direction = '')
+	{
+		$filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
+		$this->setState('filter', $filter);
 
-        return $query;
-    }
+		parent::populateState($ordering, $direction);
+	}
 
-    public function getnewslettername($nid)
-    {
-        $query = 'SELECT name FROM #__redshop_newsletter WHERE newsletter_id=' . $nid;
-        $this->_db->setQuery($query);
+	public function _buildQuery()
+	{
+		$filter = $this->getState('filter');
+		$where  = '';
 
-        return $this->_db->loadResult();
-    }
+		if ($filter)
+		{
+			$where = " AND (ns.name like '%" . $filter . "%' OR ns.email like '%" . $filter . "%') ";
+		}
 
-    public function getnewsletters()
-    {
-        $query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
-        $this->_db->setQuery($query);
+		$orderby = $this->_buildContentOrderBy();
+		$query   = 'SELECT  distinct(ns.subscription_id),ns.*,n.name as n_name FROM #__redshop_newsletter_subscription as ns '
+			. ',#__redshop_newsletter as n '
+			. 'WHERE ns.newsletter_id=n.newsletter_id '
+			. $where
+			. $orderby;
 
-        return $this->_db->loadObjectlist();
-    }
+		return $query;
+	}
 
-    /**
-     * Method to get a store id based on model configuration state.
-     *
-     * This is necessary because the model is used by the component and
-     * different modules that might need different sets of data or different
-     * ordering requirements.
-     *
-     * @param   string  $id  A prefix for the store id.
-     *
-     * @return  string  A store id.
-     *
-     * @since   1.5
-     */
-    protected function getStoreId($id = '')
-    {
-        $id .= ':' . $this->getState('filter');
+	public function getnewslettername($nid)
+	{
+		$query = 'SELECT name FROM #__redshop_newsletter WHERE newsletter_id=' . $nid;
+		$this->_db->setQuery($query);
 
-        return parent::getStoreId($id);
-    }
+		return $this->_db->loadResult();
+	}
 
-    /**
-     * Method to auto-populate the model state.
-     *
-     * @param   string  $ordering   An optional ordering field.
-     * @param   string  $direction  An optional direction (asc|desc).
-     *
-     * @return  void
-     *
-     * @note    Calling getState in this method will result in recursion.
-     */
-    protected function populateState($ordering = 'subscription_id', $direction = '')
-    {
-        $filter = $this->getUserStateFromRequest($this->context . 'filter', 'filter', '');
-        $this->setState('filter', $filter);
+	public function getnewsletters()
+	{
+		$query = 'SELECT newsletter_id as value,name as text FROM #__redshop_newsletter WHERE published=1';
+		$this->_db->setQuery($query);
 
-        parent::populateState($ordering, $direction);
-    }
+		return $this->_db->loadObjectlist();
+	}
 }

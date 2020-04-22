@@ -19,33 +19,33 @@ use Redshop\Traits;
  */
 trait HasTwigRenderer
 {
-    /**
-     * Render a layout of this module.
-     *
-     * @param   string  $layout  Layout to render.
-     * @param   array   $data    Optional data for the layout.
-     *
-     * @return  string
-     */
-    public function render($layout, array $data = [])
-    {
-        return $this->getRenderer()->render($layout, array_merge($this->getLayoutData(), $data));
-    }
+	/**
+	 * Get the data that will be sent to renderer.
+	 *
+	 * @return  array
+	 */
+	abstract protected function getLayoutData();
 
-    /**
-     * Get the module renderer.
-     *
-     * @return  Twig
-     */
-    public function getRenderer(): Twig
-    {
-        return Twig::instance();
-    }
+	/**
+	 * Render a layout of this module.
+	 *
+	 * @param   string  $layout  Layout to render.
+	 * @param   array   $data    Optional data for the layout.
+	 *
+	 * @return  string
+	 */
+	public function render($layout, array $data = [])
+	{
+		return $this->getRenderer()->render($layout, array_merge($this->getLayoutData(), $data));
+	}
 
-    /**
-     * Get the data that will be sent to renderer.
-     *
-     * @return  array
-     */
-    abstract protected function getLayoutData();
+	/**
+	 * Get the module renderer.
+	 *
+	 * @return  Twig
+	 */
+	public function getRenderer() : Twig
+	{
+		return Twig::instance();
+	}
 }

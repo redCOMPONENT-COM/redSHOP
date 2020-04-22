@@ -1,5 +1,4 @@
 <?php
-
 /**
  * redSHOP can be downloaded from www.redcomponent.com
  * redSHOP is free software; you can redistribute it and/or
@@ -25,10 +24,11 @@ $app = \JFactory::getApplication();
 $config = \Redshop::getConfig();
 
 // Don't redirect view if current view is "install"
-if (!$config->isExists() && $app->input->getCmd('view') != 'install') {
-    $controller = 'redshop';
-    \JFactory::getApplication()->input->set('view', 'redshop');
-    \JFactory::getApplication()->input->set('layout', 'noconfig');
+if (!$config->isExists() && $app->input->getCmd('view') != 'install')
+{
+	$controller = 'redshop';
+	\JFactory::getApplication()->input->set('view', 'redshop');
+	\JFactory::getApplication()->input->set('layout', 'noconfig');
 }
 
 \Redshop\Shipping\Rate::removeShippingRate();
@@ -40,28 +40,31 @@ $userType       = array_keys($user->groups);
 $user->usertype = $userType[0];
 $user->gid      = $user->groups[$user->usertype];
 
-if (!$user->authorise('core.manage', 'com_redshop') && !$json) {
-    $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+if (!$user->authorise('core.manage', 'com_redshop') && !$json)
+{
+	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-    return false;
+	return false;
 }
 
 $isWizard = \JFactory::getApplication()->input->getInt('wizard', 0);
 $step     = \JFactory::getApplication()->input->get('step', '');
 
 // Initialize wizard
-if ($isWizard || $step != '') {
-    if ($user->gid != 8 && !$user->authorise('core.manage', 'com_redshop')) {
-        throw new Exception('COM_REDSHOP_DONT_HAVE_PERMISSION');
-    }
+if ($isWizard || $step != '')
+{
+	if ($user->gid != 8 && !$user->authorise('core.manage', 'com_redshop'))
+	{
+		throw new Exception('COM_REDSHOP_DONT_HAVE_PERMISSION');
+	}
 
-    \JFactory::getApplication()->input->set('view', 'wizard');
+	\JFactory::getApplication()->input->set('view', 'wizard');
 
-    require_once JPATH_COMPONENT . '/helpers/wizard/wizard.php';
-    $redSHOPWizard = new \redSHOPWizard;
-    $redSHOPWizard->initialize();
+	require_once JPATH_COMPONENT . '/helpers/wizard/wizard.php';
+	$redSHOPWizard = new \redSHOPWizard;
+	$redSHOPWizard->initialize();
 
-    return true;
+	return true;
 }
 
 $view = $app->input->get('view', 'redshop');
@@ -75,26 +78,33 @@ $showAll     = \JFactory::getApplication()->input->getInt('showall', 0);
 // Check for array format.
 $filter = \JFilterInput::getInstance();
 
-if (is_array($task)) {
-    $command = $filter->clean(array_pop(array_keys($task)), 'cmd');
-} else {
-    $command = $filter->clean($task, 'cmd');
+if (is_array($task))
+{
+	$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
+}
+else
+{
+	$command = $filter->clean($task, 'cmd');
 }
 
 // Check for a not controller.task command.
-if ($command != '' && strpos($command, '.') === false) {
-    \JFactory::getApplication()->input->set('task', $view . '.' . $command);
-    $task = $command;
-} elseif ($command != '' && strpos($command, '.') !== false) {
-    $commands = explode('.', $command);
-    $view     = $commands[0];
-    $task     = $commands[1];
+if ($command != '' && strpos($command, '.') === false)
+{
+	\JFactory::getApplication()->input->set('task', $view . '.' . $command);
+	$task = $command;
+}
+elseif ($command != '' && strpos($command, '.') !== false)
+{
+	$commands = explode('.', $command);
+	$view     = $commands[0];
+	$task     = $commands[1];
 }
 
 // Set the controller page
-if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php')) {
-    $view = 'redshop';
-    \JFactory::getApplication()->input->set('view', $view);
+if (!file_exists(JPATH_COMPONENT . '/controllers/' . $view . '.php'))
+{
+	$view = 'redshop';
+	\JFactory::getApplication()->input->set('view', $view);
 }
 
 \RedshopHelperConfig::script('SITE_URL', \JURI::root());

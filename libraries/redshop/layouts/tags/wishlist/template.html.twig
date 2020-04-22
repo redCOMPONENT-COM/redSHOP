@@ -5,16 +5,14 @@
 
             {% if countNoUserField > 0 %}
                 <div id='saveid' style='clear:both' style='display:block'>
-                    <form method='post'>
-                        <input type='hidden' name='product_id' value='{{ myProductId }}'>
-                        <input type='button' onClick='return productalladdprice(1)'
-                               value='"{{ jtext('SAVE_WISHLIST') }}'>
+                    <form method='post' >
+                        <input type='hidden' name='product_id' value='{{ myProductId }}' >
+                        <input type='button' onClick='return productalladdprice(1)'  value='"{{ jtext('SAVE_WISHLIST') }}' >
                     </form>
                 </div>
             {% else %}
                 <div id='saveid' style='clear:both'>
-                    <input type='button' onClick='window.location = "{{ link }}"'
-                           value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
+                    <input type='button' onClick='window.location = "{{ link }}"'  value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
                 </div>
             {% endif %}
         {% else %}
@@ -25,20 +23,19 @@
             {{ content }}
 
             {% if countNoUserField > 0 %}
-                <div style='clear:both'>
+                <div style='clear:both' >
                     <a class="redcolorproductimg" href='{{ link }}'>
-                        <form method='post'>
+                        <form method='post' >
                             <input type='hidden' name='product_id' value='{{ myProductId }}'>
-                            <input type='button' onClick='return productalladdprice(2)'
-                                   value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
+                            <input type='button' onClick='return productalladdprice(2)'  value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
                         </form>
                     </a>
                 </div>
                 <br/>
             {% else %}
-                <div style="clear:both">
+                <div style="clear:both" >
                     <a class="redcolorproductimg" href='{{ link }}' data-productid='{{ myProductId }}'>
-                        <input type='button' value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
+                        <input type='button'  value='{{ jtext('COM_REDSHOP_SAVE_WISHLIST') }}'>
                     </a>
                 </div>
                 <br/>

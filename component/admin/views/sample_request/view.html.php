@@ -12,36 +12,36 @@ defined('_JEXEC') or die;
 
 class RedshopViewSample_request extends RedshopViewAdmin
 {
-    public function display($tpl = null)
-    {
-        $context = "request_id";
+	public function display($tpl = null)
+	{
+		$context = "request_id";
 
-        $uri      = JFactory::getURI();
-        $app      = JFactory::getApplication();
-        $document = JFactory::getDocument();
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
 
-        $document->setTitle(JText::_('COM_REDSHOP_CATALOG_SAMPLE'));
+		$document->setTitle(JText::_('COM_REDSHOP_CATALOG_SAMPLE'));
 
-        JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
-        JToolBarHelper::deleteList();
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_SAMPLE'), 'redshop_colorsample48');
+		JToolBarHelper::deleteList();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
 
-        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'request_id');
-        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'request_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-        $lists['order']     = $filter_order;
-        $lists['order_Dir'] = $filter_order_Dir;
+		$lists['order']     = $filter_order;
+		$lists['order_Dir'] = $filter_order_Dir;
 
-        $catalog    = $this->get('Data');
-        $pagination = $this->get('Pagination');
+		$catalog    = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
-        $this->user        = JFactory::getUser();
-        $this->lists       = $lists;
-        $this->catalog     = $catalog;
-        $this->pagination  = $pagination;
-        $this->request_url = $uri->toString();
+		$this->user        = JFactory::getUser();
+		$this->lists       = $lists;
+		$this->catalog     = $catalog;
+		$this->pagination  = $pagination;
+		$this->request_url = $uri->toString();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

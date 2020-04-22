@@ -9,10 +9,10 @@
     <fields name="params">
         <fieldset name="basic">
             <field name="login" type="menuitem" default="" disable="separator"
-                   label="COM_REDSHOP_LOGIN_REDIRECTION_PAGE" description="COM_REDSHOP_PARAMLOGINREDIRECTURL"/>
+                           label="COM_REDSHOP_LOGIN_REDIRECTION_PAGE" description="COM_REDSHOP_PARAMLOGINREDIRECTURL"/>
             <field name="logout" type="menuitem" default="" disable="separator"
-                   label="COM_REDSHOP_LOGOUT_REDIRECTION_PAGE"
-                   description="COM_REDSHOP_PARAMLOGOUTREDIRECTURL"/>
+                           label="COM_REDSHOP_LOGOUT_REDIRECTION_PAGE"
+                           description="COM_REDSHOP_PARAMLOGOUTREDIRECTURL"/>
         </fieldset>
     </fields>
 </metadata>

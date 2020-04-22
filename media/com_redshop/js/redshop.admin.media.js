@@ -65,7 +65,7 @@ function mail_select(str) {
     if (str.value == '0')
         alert(please);
 
-    xmlHttp.onreadystatechange = function () {
+    xmlHttp.onreadystatechange = function() {
 
         if (xmlHttp.readyState == 4) {
 

@@ -11,41 +11,42 @@ defined('_JEXEC') or die;
 
 class Tablestockroom_detail extends JTable
 {
-    public $stockroom_id = null;
+	public $stockroom_id = null;
 
-    public $stockroom_name = null;
+	public $stockroom_name = null;
 
-    public $min_stock_amount = 0;
+	public $min_stock_amount = 0;
 
-    public $stockroom_desc = null;
+	public $stockroom_desc = null;
 
-    public $creation_date = null;
+	public $creation_date = null;
 
-    public $min_del_time = null;
+	public $min_del_time = null;
 
-    public $max_del_time = null;
+	public $max_del_time = null;
 
-    public $show_in_front = 0;
+	public $show_in_front = 0;
 
-    public $delivery_time = 'Days';
+	public $delivery_time = 'Days';
 
-    public $published = null;
+	public $published = null;
 
-    public function __construct(&$db)
-    {
-        $this->_table_prefix = '#__redshop_';
+	public function __construct(&$db)
+	{
+		$this->_table_prefix = '#__redshop_';
 
-        parent::__construct($this->_table_prefix . 'stockroom', 'stockroom_id', $db);
-    }
+		parent::__construct($this->_table_prefix . 'stockroom', 'stockroom_id', $db);
+	}
 
-    public function bind($array, $ignore = '')
-    {
-        if (array_key_exists('params', $array) && is_array($array['params'])) {
-            $registry = new JRegistry;
-            $registry->loadArray($array['params']);
-            $array['params'] = $registry->toString();
-        }
+	public function bind($array, $ignore = '')
+	{
+		if (array_key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
 
-        return parent::bind($array, $ignore);
-    }
+		return parent::bind($array, $ignore);
+	}
 }

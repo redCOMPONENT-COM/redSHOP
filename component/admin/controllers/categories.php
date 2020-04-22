@@ -18,48 +18,51 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerCategories extends RedshopControllerAdmin
 {
-    /**
-     * assign template to multiple categories
-     *
-     * @return  mixed
-     *
-     * @since   2.0.6
-     */
-    public function assignTemplate()
-    {
-        $input                     = JFactory::getApplication()->input;
-        $cid                       = $input->post->get('cid', array(), 'array');
-        $filter                    = $input->post->get('filter', array(), 'array');
-        $post                      = array();
-        $post['cid']               = $cid;
-        $post['category_template'] = $filter['category_template'];
-        $model                     = $this->getModel('categories');
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   2.0.6
+	 */
+	public function getModel($name = 'Category', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
 
-        if ($model->assignTemplate($post)) {
-            $msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
-        } else {
-            $msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
-        }
+		return $model;
+	}
 
-        $this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
-    }
+	/**
+	 * assign template to multiple categories
+	 *
+	 * @return  mixed
+	 *
+	 * @since   2.0.6
+	 */
+	public function assignTemplate()
+	{
+		$input                     = JFactory::getApplication()->input;
+		$cid                       = $input->post->get('cid', array(), 'array');
+		$filter                    = $input->post->get('filter', array(), 'array');
+		$post                      = array();
+		$post['cid']               = $cid;
+		$post['category_template'] = $filter['category_template'];
+		$model                     = $this->getModel('categories');
 
-    /**
-     * Proxy for getModel.
-     *
-     * @param   string  $name    The model name. Optional.
-     * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  Configuration array for model. Optional.
-     *
-     * @return  object  The model.
-     *
-     * @since   2.0.6
-     */
-    public function getModel($name = 'Category', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
-    {
-        $model = parent::getModel($name, $prefix, $config);
+		if ($model->assignTemplate($post))
+		{
+			$msg = JText::_('COM_REDSHOP_TEMPLATE_ASSIGN_SUCESS');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
+		}
 
-        return $model;
-    }
+		$this->setRedirect('index.php?option=com_redshop&view=categories', $msg);
+	}
 }
 

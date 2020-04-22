@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
  * Layout variables
  * =========================
  *
- * @var  array  $displayData List of data
- * @var  string $title       Title of this config field
- * @var  string $content     Description of this config field.
+ * @var  array   $displayData  List of data
+ * @var  string  $title        Title of this config field
+ * @var  string  $content      Description of this config field.
  */
 extract($displayData);
 ?>

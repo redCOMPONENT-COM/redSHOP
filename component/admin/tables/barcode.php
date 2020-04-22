@@ -18,32 +18,32 @@ defined('_JEXEC') or die;
  */
 class TableBarcode extends JTable
 {
-    /**
-     * Primary Key
-     *
-     * @var integer
-     */
-    public $log_id = null;
+	/**
+	 * Primary Key
+	 *
+	 * @var integer
+	 */
+	public $log_id = null;
 
-    /**
-     * @var string
-     */
-    public $order_id = null;
+	/**
+	 * @var string
+	 */
+	public $order_id = null;
 
-    public $user_id = null;
+	public $user_id = null;
 
-    public $barcode = null;
+	public $barcode = null;
 
-    public $search_date = null;
+	public $search_date = null;
 
-    /**
-     * Constructor
-     *
-     * @param   object Database connector object
-     */
-    public function __construct(&$db)
-    {
-        $this->_table_prefix = '#__redshop_';
-        parent::__construct($this->_table_prefix . 'orderbarcode_log', 'log_id', $db);
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param object Database connector object
+	 */
+	public function __construct(&$db)
+	{
+		$this->_table_prefix = '#__redshop_';
+		parent::__construct($this->_table_prefix . 'orderbarcode_log', 'log_id', $db);
+	}
 }

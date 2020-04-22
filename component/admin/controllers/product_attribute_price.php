@@ -31,15 +31,15 @@ class RedshopControllerProduct_attribute_price extends RedshopController
     {
         $db = \JFactory::getDbo();
 
-        $sectionId           = $this->input->get('section_id');
-        $section             = $this->input->get('section');
-        $cid                 = $this->input->get('cid');
-        $shopperGroupId      = $this->input->post->get('shopper_group_id', array(), 'array');
-        $prices              = $this->input->post->get('price', array(), 'array');
+        $sectionId = $this->input->get('section_id');
+        $section = $this->input->get('section');
+        $cid = $this->input->get('cid');
+        $shopperGroupId = $this->input->post->get('shopper_group_id', array(), 'array');
+        $prices = $this->input->post->get('price', array(), 'array');
         $pricesQuantityStart = $this->input->post->get('price_quantity_start', array(), 'array');
-        $pricesQuantityEnd   = $this->input->post->get('price_quantity_end', array(), 'array');
-        $pricesId            = $this->input->post->get('price_id', array(), 'array');
-        $query               = $db->getQuery(true);
+        $pricesQuantityEnd = $this->input->post->get('price_quantity_end', array(), 'array');
+        $pricesId = $this->input->post->get('price_id', array(), 'array');
+        $query = $db->getQuery(true);
 
         for ($i = 0, $in = count($prices); $i < $in; $i++) {
             $query->clear()
@@ -72,13 +72,11 @@ class RedshopControllerProduct_attribute_price extends RedshopController
                 if ($prices[$i] != '') {
                     $query->clear()
                         ->update($db->qn('#__redshop_product_attribute_price'))
-                        ->set(
-                            [
-                                $db->qn('product_price') . ' = ' . $db->q($prices[$i]),
-                                $db->qn('price_quantity_start') . ' = ' . $db->q($pricesQuantityStart[$i]),
-                                $db->qn('price_quantity_end') . ' = ' . $db->q($pricesQuantityEnd[$i])
-                            ]
-                        )
+                        ->set([
+                            $db->qn('product_price') . ' = ' . $db->q($prices[$i]),
+                            $db->qn('price_quantity_start') . ' = ' . $db->q($pricesQuantityStart[$i]),
+                            $db->qn('price_quantity_end') . ' = ' . $db->q($pricesQuantityEnd[$i])
+                        ])
                         ->where($db->qn('section_id') . ' = ' . $db->q($sectionId))
                         ->where($db->qn('section') . ' = ' . $db->q($section))
                         ->where($db->qn('price_id') . ' = ' . $db->q($pricesId[$i]))
@@ -92,26 +90,10 @@ class RedshopControllerProduct_attribute_price extends RedshopController
                         ->where($db->qn('shopper_group_id') . ' = ' . $db->q($shopperGroupId[$i]));
                 }
             } elseif ($prices[$i] != '') {
-                $columns = $db->qn(
-                    [
-                        'product_price',
-                        'price_quantity_start',
-                        'price_quantity_end',
-                        'section_id',
-                        'price_quantity_end',
-                        'shopper_group_id'
-                    ]
-                );
-                $values  = $db->q(
-                    [
-                        $prices[$i],
-                        $pricesQuantityStart[$i],
-                        $pricesQuantityEnd[$i],
-                        $sectionId,
-                        $section,
-                        $shopperGroupId[$i]
-                    ]
-                );
+                $columns = $db->qn(['product_price', 'price_quantity_start', 'price_quantity_end',
+                            'section_id', 'price_quantity_end', 'shopper_group_id']);
+                $values = $db->q([$prices[$i],  $pricesQuantityStart[$i], $pricesQuantityEnd[$i],
+                            $sectionId, $section, $shopperGroupId[$i]]);
 
                 $query->clear()
                     ->insert($db->qn('#__redshop_product_attribute_price'))

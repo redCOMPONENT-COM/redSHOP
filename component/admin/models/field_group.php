@@ -16,34 +16,36 @@ defined('_JEXEC') or die;
  * @subpackage  Model
  * @since       2.1.0
  */
+
 class RedshopModelField_Group extends RedshopModelForm
 {
-    /**
-     * The unique columns.
-     *
-     * @var  array
-     */
-    protected $copyUniqueColumns = array('name');
+	/**
+	 * The unique columns.
+	 *
+	 * @var  array
+	 */
+	protected $copyUniqueColumns = array('name');
 
-    /**
-     * Method to get the data that should be injected in the form.
-     *
-     * @return  mixed  The data for the form.
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    protected function loadFormData()
-    {
-        // Check the session for previously entered form data.
-        $data = JFactory::getApplication()->getUserState('com_redshop.edit.field_group.data', array());
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_redshop.edit.field_group.data', array());
 
-        if (empty($data)) {
-            $data = $this->getItem();
-        }
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
 
-        $this->preprocessData('com_redshop.field_group', $data);
+		$this->preprocessData('com_redshop.field_group', $data);
 
-        return $data;
-    }
+		return $data;
+	}
 }

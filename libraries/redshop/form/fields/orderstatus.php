@@ -18,27 +18,27 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldOrderStatus extends JFormFieldList
 {
-    /**
-     * Element name
-     *
-     * @access    protected
-     * @var        string
-     */
-    public $type = 'orderstatus';
+	/**
+	 * Element name
+	 *
+	 * @access    protected
+	 * @var        string
+	 */
+	public $type = 'orderstatus';
 
-    /**
-     * Set select list options
-     *
-     * @return  string  select list options
-     */
-    protected function getOptions()
-    {
-        // Load redSHOP Library
-        JLoader::import('redshop.library');
+	/**
+	 * Set select list options
+	 *
+	 * @return  string  select list options
+	 */
+	protected function getOptions()
+	{
+		// Load redSHOP Library
+		JLoader::import('redshop.library');
 
-        $orderStatus = RedshopHelperOrder::getOrderStatusList();
+		$orderStatus = RedshopHelperOrder::getOrderStatusList();
 
-        // Merge any additional options in the XML definition.
-        return array_merge(parent::getOptions(), $orderStatus);
-    }
+		// Merge any additional options in the XML definition.
+		return array_merge(parent::getOptions(), $orderStatus);
+	}
 }

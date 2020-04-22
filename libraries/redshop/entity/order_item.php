@@ -18,79 +18,84 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityOrder_Item extends RedshopEntity
 {
-    /**
-     * @var   RedshopEntitiesCollection
-     *
-     * @since   2.0.6
-     */
-    protected $accessoryItems;
+	/**
+	 * @var   RedshopEntitiesCollection
+	 *
+	 * @since   2.0.6
+	 */
+	protected $accessoryItems;
 
-    /**
-     * Get the associated table
-     *
-     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-     *
-     * @return  RedshopTable
-     */
-    public function getTable($name = null)
-    {
-        return JTable::getInstance('Order_Item_Detail', 'Table');
-    }
+	/**
+	 * Get the associated table
+	 *
+	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+	 *
+	 * @return  RedshopTable
+	 */
+	public function getTable($name = null)
+	{
+		return JTable::getInstance('Order_Item_Detail', 'Table');
+	}
 
-    /**
-     * Method for get accessory items for this order item
-     *
-     * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
-     *
-     * @since   2.0.6
-     */
-    public function getAccessoryItems()
-    {
-        if (!$this->hasId()) {
-            return null;
-        }
+	/**
+	 * Method for get accessory items for this order item
+	 *
+	 * @return   RedshopEntitiesCollection   RedshopEntitiesCollection if success. Null otherwise.
+	 *
+	 * @since   2.0.6
+	 */
+	public function getAccessoryItems()
+	{
+		if (!$this->hasId())
+		{
+			return null;
+		}
 
-        if (null === $this->accessoryItems) {
-            $this->loadAccessoryItems();
-        }
+		if (null === $this->accessoryItems)
+		{
+			$this->loadAccessoryItems();
+		}
 
-        return $this->accessoryItems;
-    }
+		return $this->accessoryItems;
+	}
 
-    /**
-     * Method for load accessory items for this order item
-     *
-     * @return  self
-     *
-     * @since   2.0.6
-     */
-    protected function loadAccessoryItems()
-    {
-        if (!$this->hasId()) {
-            return $this;
-        }
+	/**
+	 * Method for load accessory items for this order item
+	 *
+	 * @return  self
+	 *
+	 * @since   2.0.6
+	 */
+	protected function loadAccessoryItems()
+	{
+		if (!$this->hasId())
+		{
+			return $this;
+		}
 
-        $this->accessoryItems = new RedshopEntitiesCollection;
+		$this->accessoryItems = new RedshopEntitiesCollection;
 
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true)
-            ->select('*')
-            ->from($db->qn('#__redshop_order_acc_item'))
-            ->where($db->qn('order_item_id') . ' = ' . $this->getId());
-        $items = $db->setQuery($query)->loadObjectList();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__redshop_order_acc_item'))
+			->where($db->qn('order_item_id') . ' = ' . $this->getId());
+		$items = $db->setQuery($query)->loadObjectList();
 
-        if (empty($items)) {
-            return $this;
-        }
+		if (empty($items))
+		{
+			return $this;
+		}
 
-        foreach ($items as $item) {
-            $entity = RedshopEntityOrder_Item_Accessory::getInstance($item->order_item_acc_id);
+		foreach ($items as $item)
+		{
+			$entity = RedshopEntityOrder_Item_Accessory::getInstance($item->order_item_acc_id);
 
-            $entity->bind($item);
+			$entity->bind($item);
 
-            $this->accessoryItems->add($entity);
-        }
+			$this->accessoryItems->add($entity);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 }

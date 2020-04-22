@@ -40,37 +40,27 @@ class RedshopViewRedshop extends RedshopViewAdmin
 
     /**
      * Display the States view
-     *
-     * @param   null  $tpl
-     *
+     * @param null $tpl
      * @return mixed|void
      * @throws Exception
      */
     public function display($tpl = null)
     {
-        $user         = \JFactory::getUser();
+        $user = \JFactory::getUser();
         $this->layout = \JFactory::getApplication()->input->getCmd('layout', 'default');
-        $menuHide     = explode(",", \Redshop::getConfig()->get('MENUHIDE'));
+        $menuHide = explode(",", \Redshop::getConfig()->get('MENUHIDE'));
         \JToolBarHelper::title(JText::sprintf('COM_REDSHOP_ADMIN_WELCOME', $user->name));
 
         if ($this->layout != "noconfig") {
             if (!in_array('COM_REDSHOP_STATISTIC', $menuHide)) {
-                \JToolBarHelper::custom(
-                    'statistic',
-                    'redshop_statistic32',
-                    \JText::_('COM_REDSHOP_STATISTIC'),
-                    \JText::_('COM_REDSHOP_STATISTIC'),
-                    false
+                \JToolBarHelper::custom('statistic', 'redshop_statistic32', \JText::_('COM_REDSHOP_STATISTIC'),
+                    \JText::_('COM_REDSHOP_STATISTIC'), false
                 );
             }
 
             if (!in_array('COM_REDSHOP_RESHOP_CONFIGURATION', $menuHide)) {
-                \JToolBarHelper::custom(
-                    'configuration',
-                    'redshop_icon-32-settings',
-                    JText::_('COM_REDSHOP_CONFIG'),
-                    \JText::_('COM_REDSHOP_CONFIG'),
-                    false
+                \JToolBarHelper::custom('configuration', 'redshop_icon-32-settings', JText::_('COM_REDSHOP_CONFIG'),
+                    \JText::_('COM_REDSHOP_CONFIG'), false
                 );
             }
         }
@@ -79,9 +69,9 @@ class RedshopViewRedshop extends RedshopViewAdmin
             throw new \Exception('COM_REDSHOP_ACCESS_ERROR_NOT_HAVE_PERMISSION');
         }
 
-        $this->model        = $this->getModel();
+        $this->model = $this->getModel();
         $this->newcustomers = $this->model->getNewCustomers();
-        $this->neworders    = $this->model->getNewOrders();
+        $this->neworders = $this->model->getNewOrders();
 
         // Check PDF plugin
         if (!\RedshopHelperPdf::isAvailablePdfPlugins()) {

@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityProperty extends RedshopEntity
 {
-    /**
-     * Get the associated table
-     *
-     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-     *
-     * @return  RedshopTable
-     */
-    public function getTable($name = null)
-    {
-        return JTable::getInstance('Attribute_Property', 'Table');
-    }
+	/**
+	 * Get the associated table
+	 *
+	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+	 *
+	 * @return  RedshopTable
+	 */
+	public function getTable($name = null)
+	{
+		return JTable::getInstance('Attribute_Property', 'Table');
+	}
 }

@@ -57,7 +57,8 @@ function pluginRelease(group, name) {
                 return releaseExt(arraySrc, fileName, destDir);
             });
         });
-    } else {
+    }
+    else {
         return releaseExt(arraySrc, fileName + '.zip', destDir);
     }
 }
@@ -80,10 +81,12 @@ gulp.task('release:plugin', function (cb) {
                 pluginRelease(groups[i], plugins[j]);
             }
         }
-    } else if (plgGroup && !plgName) {
+    }
+    else if (plgGroup && !plgName) {
         try {
             fs.statSync('./plugins/' + plgGroup);
-        } catch (e) {
+        }
+        catch (e) {
             console.error("Folder not exist: " + basePath + '/' + plgGroup);
             return;
         }
@@ -93,10 +96,12 @@ gulp.task('release:plugin', function (cb) {
         for (i = 0; i < plugins.length; i++) {
             pluginRelease(plgGroup, plugins[i]);
         }
-    } else {
+    }
+    else {
         try {
             fs.statSync('./plugins/' + plgGroup + '/' + plgName);
-        } catch (e) {
+        }
+        catch (e) {
             console.error("Folder not exist: " + basePath + '/' + plgGroup + '/' + plgName);
             return;
         }

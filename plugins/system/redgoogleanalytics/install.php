@@ -1,15 +1,15 @@
 <?php
-
 /**
  * @package    Redshop.Modules
  * @subpackage plg_system_redgoogleanalytics
  *
- * @copyright  Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
- * @license    GNU General Public License version 2 or later, see LICENSE.
+ * @copyright Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @license   GNU General Public License version 2 or later, see LICENSE.
  */
 defined('_JEXEC') or die();
 
 use Joomla\Registry\Registry;
+use Redshop;
 
 JLoader::import('redshop.library');
 
@@ -24,7 +24,7 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
     /**
      * Method to run before an install/update/uninstall method
      *
-     * @param   string  $type  The type of change (install, update or discover_install)
+     * @param string $type The type of change (install, update or discover_install)
      *
      * @return void
      */
@@ -43,8 +43,8 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
             )->loadResult();
 
             if (!empty($version)) {
-                $version = new Registry($version);
-                $version = $version->get('version');
+                   $version = new Registry($version);
+                   $version = $version->get('version');
 
                 if (version_compare($version, '2.0.0', '<')) {
                     $this->getTrackerKeyFromOldRedshop();
@@ -66,10 +66,10 @@ class PlgSystemRedGoogleAnalyticsInstallerScript
 
         $pluginId = $extensionTable->find(
             array(
-                'element' => 'redgoogleanalytics',
-                'type'    => 'plugin',
-                'folder'  => 'system',
-                'enabled' => 1
+            'element' => 'redgoogleanalytics',
+            'type'    => 'plugin',
+            'folder'  => 'system',
+            'enabled' => 1
             )
         );
 

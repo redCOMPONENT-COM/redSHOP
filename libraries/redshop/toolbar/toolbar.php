@@ -19,55 +19,55 @@ defined('_JEXEC') or die;
  */
 class RedshopToolbar extends JToolbar
 {
-    /**
-     * Group title
-     *
-     * @var    string
-     */
-    protected $groupTitle;
+	/**
+	 * Group title
+	 *
+	 * @var    string
+	 */
+	protected $groupTitle;
 
-    /**
-     * Constructor
-     *
-     * @param   string  $name        The toolbar name.
-     * @param   string  $groupTitle  The group title.
-     *
-     * @since   1.7
-     */
-    public function __construct($name = 'toolbar', $groupTitle = '')
-    {
-        $this->groupTitle = $groupTitle;
+	/**
+	 * Constructor
+	 *
+	 * @param   string  $name        The toolbar name.
+	 * @param   string  $groupTitle  The group title.
+	 *
+	 * @since   1.7
+	 */
+	public function __construct($name = 'toolbar', $groupTitle = '')
+	{
+		$this->groupTitle = $groupTitle;
 
-        // Set base path to find buttons.
-        $this->_buttonPath[] = __DIR__ . '/button';
+		// Set base path to find buttons.
+		$this->_buttonPath[] = __DIR__ . '/button';
 
-        parent::__construct($name);
-    }
+		parent::__construct($name);
+	}
 
-    /**
-     * Render a tool bar.
-     *
-     * @return  void
-     *
-     * @since   1.7
-     */
-    public function renderGroup()
-    {
-        $html = RedshopLayoutHelper::render('toolbar.redshopgroup', array('toolbar' => $this));
+	/**
+	 * Render a tool bar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.7
+	 */
+	public function renderGroup()
+	{
+		$html = RedshopLayoutHelper::render('toolbar.redshopgroup', array('toolbar' => $this));
 
-        $bar = JToolbar::getInstance('toolbar');
-        $bar->appendButton('Custom', $html);
-    }
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton('Custom', $html);
+	}
 
-    /**
-     * Get the group title.
-     *
-     * @return  string
-     *
-     * @since   1.7
-     */
-    public function getGroupTitle()
-    {
-        return $this->groupTitle;
-    }
+	/**
+	 * Get the group title.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.7
+	 */
+	public function getGroupTitle()
+	{
+		return $this->groupTitle;
+	}
 }

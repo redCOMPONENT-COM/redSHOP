@@ -30,7 +30,7 @@ class Voucher
      */
     public static $couponRemain;
 
-
+    
     /**
      * @param $voucherCode
      *
@@ -41,13 +41,15 @@ class Voucher
     {
         $db = \JFactory::getDbo();
 
-        $user           = \JFactory::getUser();
-        $voucher        = array();
-        $currentTime    = \JFactory::getDate()->toSql();
+        $user         = \JFactory::getUser();
+        $voucher      = array();
+        $currentTime  = \JFactory::getDate()->toSql();
         $globalVouchers = self::getGlobalVoucher($voucherCode);
 
-        if (self::$globalVoucher != 1) {
-            if ($user->id) {
+        if (self::$globalVoucher != 1)
+        {
+            if ($user->id)
+            {
                 $subQuery = $db->getQuery(true)
                     ->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
                     ->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
@@ -55,13 +57,7 @@ class Voucher
 
                 $query = $db->getQuery(true)
                     ->select(
-                        array(
-                            'vt.transaction_voucher_id',
-                            'vt.amount AS total',
-                            'vt.product_id',
-                            'v.*',
-                            '(' . $subQuery . ') AS nproduct'
-                        )
+                        array('vt.transaction_voucher_id', 'vt.amount AS total', 'vt.product_id', 'v.*', '(' . $subQuery . ') AS nproduct')
                     )
                     ->from($db->qn('#__redshop_voucher', 'v'))
                     ->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.id')
@@ -77,17 +73,19 @@ class Voucher
                         . ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
                         . ')'
                     )
-                    ->where('vt.user_id = ' . (int)$user->id)
+                    ->where('vt.user_id = ' . (int) $user->id)
                     ->order('vt.transaction_voucher_id DESC');
 
                 $voucher = $db->setQuery($query)->loadObject();
 
-                if (count($voucher) > 0) {
+                if (count($voucher) > 0)
+                {
                     return false;
                 }
             }
 
-            if (count($voucher) <= 0) {
+            if (count($voucher) <= 0)
+            {
                 $subQuery = $db->getQuery(true)
                     ->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
                     ->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
@@ -96,26 +94,18 @@ class Voucher
                 $query = $db->getQuery(true)
                     ->select(
                         array(
-                            '(' . $subQuery . ') AS nproduct',
-                            'v.amount AS total',
-                            'v.type',
-                            'v.free_ship',
-                            'v.id',
-                            'v.code',
-                            'v.voucher_left'
-                        )
+                            '(' . $subQuery . ') AS nproduct', 'v.amount AS total', 'v.type',
+                            'v.free_ship', 'v.id', 'v.code', 'v.voucher_left')
                     )
                     ->from($db->qn('#__redshop_voucher', 'v'))
                     ->where($db->qn('v.published') . ' = 1')
                     ->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
-                    ->where(
-                        '('
-                        . '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
-                        . ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
-                        . ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
-                        . ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
-                        . ')'
-                    )
+                    ->where('('
+                            . '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+                            . ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
+                            . ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
+                            . ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
+                            . ')')
                     ->where($db->qn('v.voucher_left') . ' > 0');
 
                 return $db->setQuery($query)->loadObject();
@@ -144,19 +134,18 @@ class Voucher
             ->leftJoin($db->qn('#__redshop_voucher', 'v') . ' ON ' . $db->qn('v.id') . ' = ' . $db->qn('pv.voucher_id'))
             ->where($db->qn('v.published') . ' = 1')
             ->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
-            ->where(
-                '('
-                . '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
-                . ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
-                . ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
-                . ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
-                . ')'
-            )
+            ->where('('
+                    . '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+                    . ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
+                    . ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
+                    . ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
+                    . ')')
             ->where($db->qn('v.voucher_left') . ' > 0');
 
         $voucher = $db->setQuery($query)->loadObject();
 
-        if ($voucher) {
+        if ($voucher)
+        {
             return $voucher;
         }
 
@@ -168,14 +157,12 @@ class Voucher
             ->from($db->qn('#__redshop_voucher', 'v'))
             ->where($db->qn('v.published') . ' = 1')
             ->where($db->qn('v.code') . ' = ' . $db->quote($voucherCode))
-            ->where(
-                '('
-                . '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
-                . ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
-                . ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
-                . ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
-                . ')'
-            )
+            ->where('('
+                    . '(' . $db->qn('v.start_date') . ' = ' . $db->quote($db->getNullDate())
+                    . ' OR ' . $db->qn('v.start_date') . ' <= ' . $db->quote($currentTime) . ')'
+                    . ' AND (' . $db->qn('v.end_date') . ' = ' . $db->quote($db->getNullDate())
+                    . ' OR ' . $db->qn('v.end_date') . ' >= ' . $db->quote($currentTime) . ')'
+                    . ')')
             ->where($db->qn('v.voucher_left') . ' > 0');
 
         return $db->setQuery($query)->loadObject();
@@ -210,7 +197,8 @@ class Voucher
                 . ')'
             );
 
-        if ($user->id) {
+        if ($user->id)
+        {
             $userQuery = clone($query);
             $userQuery->select(
                 array(
@@ -225,19 +213,22 @@ class Voucher
                 )
                 ->where($db->qn('ct.coupon_value') . ' > 0')
                 ->where($db->qn('ct.coupon_code') . ' = ' . $db->quote($couponCode))
-                ->where($db->qn('ct.userid') . ' = ' . (int)$user->id)
+                ->where($db->qn('ct.userid') . ' = ' . (int) $user->id)
                 ->order($db->qn('ct.transaction_coupon_id') . ' DESC');
 
             $db->setQuery($userQuery, 0, 1);
             $coupon = $db->loadObject();
 
-            if (count($coupon) > 0) {
+            if (count($coupon) > 0)
+            {
                 self::$couponRemain = 1;
             }
         }
 
-        if (count($coupon) <= 0) {
+        if (count($coupon) <= 0)
+        {
             $query->where($db->qn('c.code') . ' = ' . $db->quote($couponCode))
+
                 ->where($db->qn('c.amount_left') . ' > 0')
                 ->where(
                     '('

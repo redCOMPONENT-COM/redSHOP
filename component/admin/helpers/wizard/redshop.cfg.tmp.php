@@ -1,5 +1,4 @@
 <?php
-
 global $temparray;
 $temparray                                          = array();
 $temparray["currency_symbol"]                       = Redshop::getConfig()->get('REDCURRENCY_SYMBOL');
@@ -20,9 +19,7 @@ $temparray["discount_type"]                         = Redshop::getConfig()->get(
 $temparray["discount_enable"]                       = Redshop::getConfig()->get('DISCOUNT_ENABLE');
 $temparray["coupons_enable"]                        = Redshop::getConfig()->get('COUPONS_ENABLE');
 $temparray["vouchers_enable"]                       = Redshop::getConfig()->get('VOUCHERS_ENABLE');
-$temparray["apply_voucher_coupon_already_discount"] = Redshop::getConfig()->get(
-    'APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT'
-);
+$temparray["apply_voucher_coupon_already_discount"] = Redshop::getConfig()->get('APPLY_VOUCHER_COUPON_ALREADY_DISCOUNT');
 $temparray["attribute_as_product_in_economic"]      = Redshop::getConfig()->get('ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC');
 $temparray["economic_book_invoice_number"]          = Redshop::getConfig()->get('ECONOMIC_BOOK_INVOICE_NUMBER');
 $temparray["days_mail1"]                            = Redshop::getConfig()->get('DAYS_MAIL1');

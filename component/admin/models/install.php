@@ -18,154 +18,153 @@ defined('_JEXEC') or die;
  */
 class RedshopModelInstall extends RedshopModelList
 {
-    /**
-     * Method for get all available step of installation.
-     *
-     * @param   string  $type  Type of installation (install, install_discover, update)
-     *
-     * @return  array
-     *
-     * @since   2.0.4
-     */
-    public function getSteps($type = 'install')
-    {
-        if ($type != 'install') {
-            return $this->getUpdateSteps();
-        }
+	/**
+	 * Method for get all available step of installation.
+	 *
+	 * @param   string $type Type of installation (install, install_discover, update)
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.4
+	 */
+	public function getSteps($type = 'install')
+	{
+		if ($type != 'install')
+		{
+			return $this->getUpdateSteps();
+		}
 
-        return RedshopInstall::getInstallTasks();
-    }
+		return RedshopInstall::getInstallTasks();
+	}
 
-    /**
-     * Method for get all available step of update.
-     *
-     * @return  array
-     *
-     * @since   2.0.6
-     */
-    public function getUpdateSteps()
-    {
-        $updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
+	/**
+	 * Method for get all available version of installation.
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.7
+	 */
+	public function getAvailableUpdate()
+	{
+		$updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
 
-        // Get available updates class.
-        if (!is_dir($updatePath)) {
-            return array();
-        }
+		$files    = JFolder::files($updatePath, '.php', false, true);
+		$versions = array();
 
-        $app             = JFactory::getApplication();
-        $version         = $app->getUserState('redshop.old_version', null);
-        $specificVersion = $app->input->get('version', null);
+		foreach ($files as $file)
+		{
+			$version = new stdClass;
 
-        $tasks = array(
-            array(
-                'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
-                'func' => 'RedshopInstall::handleConfig'
-            )
-        );
+			$version->version = JFile::stripExt(basename($file));
 
-        if (is_null($version) && is_null($specificVersion)) {
-            $app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $tasks);
-            $app->setUserState('redshop.old_version', null);
+			require_once $file;
 
-            return $tasks;
-        }
+			$version->class = 'RedshopUpdate' . str_replace(array('.', '-'), '', $version->version);
 
-        $files   = JFolder::files($updatePath, '.php', false, true);
-        $classes = array();
+			/** @var RedshopInstallUpdate $updateClass */
+			$updateClass    = new $version->class;
+			$classTasks     = $updateClass->getTasksList();
+			$version->tasks = array();
 
-        foreach ($files as $file) {
-            $updateVersion = JFile::stripExt(basename($file));
+			if (empty($classTasks))
+			{
+				continue;
+			}
 
-            if (!is_null($version) && version_compare($version, $updateVersion, '<')) {
-                $classes[$updateVersion] = array(
-                    'class' => 'RedshopUpdate' . str_replace(
-                            array('.', '-'),
-                            '',
-                            $updateVersion
-                        ),
-                    'path'  => $file
-                );
-            } elseif (!is_null($specificVersion) && version_compare($specificVersion, $updateVersion, '=')) {
-                $classes[$updateVersion] = array(
-                    'class' => 'RedshopUpdate' . str_replace(
-                            array('.', '-'),
-                            '',
-                            $updateVersion
-                        ),
-                    'path'  => $file
-                );
-            }
-        }
+			foreach ($classTasks as $classTask)
+			{
+				$version->tasks[] = JText::_($classTask->name);
+			}
 
-        asort($classes);
+			$versions[$version->version] = $version;
+		}
 
-        foreach ($classes as $class) {
-            require_once $class['path'];
+		arsort($versions);
 
-            /** @var RedshopInstallUpdate $updateClass */
-            $updateClass = new $class['class'];
-            $classTasks  = $updateClass->getTasksList();
+		return $versions;
+	}
 
-            if (empty($classTasks)) {
-                continue;
-            }
+	/**
+	 * Method for get all available step of update.
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.6
+	 */
+	public function getUpdateSteps()
+	{
+		$updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
 
-            foreach ($classTasks as $classTask) {
-                $tasks[] = array(
-                    'text' => $classTask->name,
-                    'func' => $class['class'] . '.' . $classTask->func,
-                    'path' => $class['path']
-                );
-            }
-        }
+		// Get available updates class.
+		if (!is_dir($updatePath))
+		{
+			return array();
+		}
 
-        $app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $tasks);
-        $app->setUserState('redshop.old_version', null);
+		$app             = JFactory::getApplication();
+		$version         = $app->getUserState('redshop.old_version', null);
+		$specificVersion = $app->input->get('version', null);
 
-        return $tasks;
-    }
+		$tasks = array(
+			array(
+				'text' => JText::_('COM_REDSHOP_INSTALL_STEP_HANDLE_CONFIG'),
+				'func' => 'RedshopInstall::handleConfig'
+			)
+		);
 
-    /**
-     * Method for get all available version of installation.
-     *
-     * @return  array
-     *
-     * @since   2.0.7
-     */
-    public function getAvailableUpdate()
-    {
-        $updatePath = JPATH_COMPONENT_ADMINISTRATOR . '/updates';
+		if (is_null($version) && is_null($specificVersion))
+		{
+			$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $tasks);
+			$app->setUserState('redshop.old_version', null);
 
-        $files    = JFolder::files($updatePath, '.php', false, true);
-        $versions = array();
+			return $tasks;
+		}
 
-        foreach ($files as $file) {
-            $version = new stdClass;
+		$files   = JFolder::files($updatePath, '.php', false, true);
+		$classes = array();
 
-            $version->version = JFile::stripExt(basename($file));
+		foreach ($files as $file)
+		{
+			$updateVersion = JFile::stripExt(basename($file));
 
-            require_once $file;
+			if (!is_null($version) && version_compare($version, $updateVersion, '<'))
+			{
+				$classes[$updateVersion] = array('class' => 'RedshopUpdate' . str_replace(array('.', '-'), '', $updateVersion), 'path' => $file);
+			}
+			elseif (!is_null($specificVersion) && version_compare($specificVersion, $updateVersion, '='))
+			{
+				$classes[$updateVersion] = array('class' => 'RedshopUpdate' . str_replace(array('.', '-'), '', $updateVersion), 'path' => $file);
+			}
+		}
 
-            $version->class = 'RedshopUpdate' . str_replace(array('.', '-'), '', $version->version);
+		asort($classes);
 
-            /** @var RedshopInstallUpdate $updateClass */
-            $updateClass    = new $version->class;
-            $classTasks     = $updateClass->getTasksList();
-            $version->tasks = array();
+		foreach ($classes as $class)
+		{
+			require_once $class['path'];
 
-            if (empty($classTasks)) {
-                continue;
-            }
+			/** @var RedshopInstallUpdate $updateClass */
+			$updateClass = new $class['class'];
+			$classTasks  = $updateClass->getTasksList();
 
-            foreach ($classTasks as $classTask) {
-                $version->tasks[] = JText::_($classTask->name);
-            }
+			if (empty($classTasks))
+			{
+				continue;
+			}
 
-            $versions[$version->version] = $version;
-        }
+			foreach ($classTasks as $classTask)
+			{
+				$tasks[] = array(
+					'text' => $classTask->name,
+					'func' => $class['class'] . '.' . $classTask->func,
+					'path' => $class['path']
+				);
+			}
+		}
 
-        arsort($versions);
+		$app->setUserState(RedshopInstall::REDSHOP_INSTALL_STATE_NAME, $tasks);
+		$app->setUserState('redshop.old_version', null);
 
-        return $versions;
-    }
+		return $tasks;
+	}
 }

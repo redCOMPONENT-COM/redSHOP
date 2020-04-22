@@ -18,34 +18,34 @@ defined('_JEXEC') or die;
  */
 class RedshopUpdate2005 extends RedshopInstallUpdate
 {
-    /**
-     * Return list of old files for clean
-     *
-     * @return  array
-     *
-     * @since   2.0.0.5
-     */
-    protected function getOldFiles()
-    {
-        return array(
-            JPATH_ADMINISTRATOR . '/component/admin/controllers/question_detail.php',
-            JPATH_ADMINISTRATOR . '/component/admin/models/question_detail.php',
-            JPATH_ADMINISTRATOR . '/component/admin/tables/question_detail.php',
-            JPATH_ADMINISTRATOR . '/component/admin/views/question/tmpl/default.php'
-        );
-    }
+	/**
+	 * Return list of old files for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.0.5
+	 */
+	protected function getOldFiles()
+	{
+		return array(
+			JPATH_ADMINISTRATOR . '/component/admin/controllers/question_detail.php',
+			JPATH_ADMINISTRATOR . '/component/admin/models/question_detail.php',
+			JPATH_ADMINISTRATOR . '/component/admin/tables/question_detail.php',
+			JPATH_ADMINISTRATOR . '/component/admin/views/question/tmpl/default.php'
+		);
+	}
 
-    /**
-     * Return list of old folders for clean
-     *
-     * @return  array
-     *
-     * @since   2.0.0.5
-     */
-    protected function getOldFolders()
-    {
-        return array(
-            JPATH_ADMINISTRATOR . '/component/admin/views/question_detail'
-        );
-    }
+	/**
+	 * Return list of old folders for clean
+	 *
+	 * @return  array
+	 *
+	 * @since   2.0.0.5
+	 */
+	protected function getOldFolders()
+	{
+		return array(
+			JPATH_ADMINISTRATOR . '/component/admin/views/question_detail'
+		);
+	}
 }

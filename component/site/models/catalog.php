@@ -18,77 +18,77 @@ defined('_JEXEC') or die;
  */
 class RedshopModelCatalog extends RedshopModel
 {
-    /**
-     * @var null|string
-     */
-    public $_table_prefix = null;
+	/**
+	 * @var null|string
+	 */
+	public $_table_prefix = null;
 
-    /**
-     * RedshopModelCatalog constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_table_prefix = '#__redshop_';
-    }
+	/**
+	 * RedshopModelCatalog constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->_table_prefix = '#__redshop_';
+	}
 
-    /**
-     * Method for store catalog
-     *
-     * @param   array  $data  Data
-     *
-     * @return  boolean
-     * @throws  Exception
-     */
-    public function catalogStore($data)
-    {
-        /** @var Tablecatalog_request $row */
-        $row = $this->getTable('catalog_request');
+	/**
+	 * Method for store catalog
+	 *
+	 * @param   array  $data  Data
+	 *
+	 * @return  boolean
+	 * @throws  Exception
+	 */
+	public function catalogStore($data)
+	{
+		/** @var Tablecatalog_request $row */
+		$row = $this->getTable('catalog_request');
 
-        if (!$row->bind($data)) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+		if (!$row->bind($data))
+		{
+			/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
-            return false;
-        }
+			return false;
+		}
 
-        if (!$row->store()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+		if (!$row->store())
+		{
+			/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
-            return false;
-        }
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Method for store catalog sample
-     *
-     * @param   array  $data  Data
-     *
-     * @return  boolean
-     * @throws  Exception
-     */
-    public function catalogSampleStore($data)
-    {
-        /** @var Tablesample_request $row */
-        $row = $this->getTable('sample_request');
+	/**
+	 * Method for store catalog sample
+	 *
+	 * @param   array  $data  Data
+	 *
+	 * @return  boolean
+	 * @throws  Exception
+	 */
+	public function catalogSampleStore($data)
+	{
+		/** @var Tablesample_request $row */
+		$row = $this->getTable('sample_request');
 
-        if (!$row->bind($data)) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+		if (!$row->bind($data))
+		{
+			/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
-            return false;
-        }
+			return false;
+		}
 
-        if (!$row->store()) {
-            /** @scrutinizer ignore-deprecated */
-            $this->setError(/** @scrutinizer ignore-deprecated */ $this->_db->getErrorMsg());
+		if (!$row->store())
+		{
+			/** @scrutinizer ignore-deprecated */$this->setError(/** @scrutinizer ignore-deprecated */$this->_db->getErrorMsg());
 
-            return false;
-        }
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

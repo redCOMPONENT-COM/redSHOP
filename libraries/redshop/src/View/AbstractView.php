@@ -24,233 +24,249 @@ jimport('joomla.application.component.viewlegacy');
  */
 abstract class AbstractView extends \JViewLegacy
 {
-    /**
-     * @var  boolean
-     */
-    public $canView;
-    /**
-     * @var  boolean
-     */
-    public $canEdit;
-    /**
-     * @var  boolean
-     */
-    public $canDelete;
-    /**
-     * @var  boolean
-     */
-    public $canCreate;
-    /**
-     * @var    \JModelLegacy
-     *
-     * @since  2.0.6
-     */
-    public $model;
-    /**
-     * Layout used to render the component
-     *
-     * @var  string
-     */
-    protected $componentLayout = null;
-    /**
-     * Do we have to display a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $displaySidebar = true;
-    /**
-     * Do we have to disable a sidebar ?
-     *
-     * @var  boolean
-     */
-    protected $disableSidebar = false;
-    /**
-     * @var  string
-     */
-    protected $instancesName;
-    /**
-     * @var  string
-     */
-    protected $instanceName;
-    /**
-     * @var  boolean
-     *
-     * @since  2.0.6
-     */
-    protected $useUserPermission = true;
-    /**
-     * @var    string
-     *
-     * @since  2.0.6
-     */
-    protected $layout;
+	/**
+	 * Layout used to render the component
+	 *
+	 * @var  string
+	 */
+	protected $componentLayout = null;
 
-    /**
-     * Execute and display a template script.
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  mixed  A string if successful, otherwise a Error object.
-     *
-     * @throws  \Exception
-     */
-    public function display($tpl = null)
-    {
-        $this->generatePermission();
+	/**
+	 * Do we have to display a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $displaySidebar = true;
 
-        $errors = $this->getErrors();
+	/**
+	 * Do we have to disable a sidebar ?
+	 *
+	 * @var  boolean
+	 */
+	protected $disableSidebar = false;
 
-        // Check for errors.
-        if (!empty($errors)) {
-            throw new \Exception(implode('<br />', $errors));
-        }
+	/**
+	 * @var  string
+	 */
+	protected $instancesName;
 
-        $this->layout = $tpl;
-        $this->model  = $this->getModel();
+	/**
+	 * @var  string
+	 */
+	protected $instanceName;
 
-        // Before display
-        $this->beforeDisplay($tpl);
+	/**
+	 * @var  boolean
+	 *
+	 * @since  2.0.6
+	 */
+	protected $useUserPermission = true;
 
-        // Add page title
-        $this->addTitle();
+	/**
+	 * @var  boolean
+	 */
+	public $canView;
 
-        // Add toolbar
-        $this->addToolbar();
+	/**
+	 * @var  boolean
+	 */
+	public $canEdit;
 
-        \JPluginHelper::importPlugin('system');
-        \RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminBeforeRender', array(&$render));
+	/**
+	 * @var  boolean
+	 */
+	public $canDelete;
 
-        $render = \RedshopLayoutHelper::render(
-            $this->componentLayout,
-            array(
-                'view'            => $this,
-                'tpl'             => $tpl,
-                'sidebar_display' => $this->displaySidebar,
-                'disableSidebar'  => $this->disableSidebar
-            )
-        );
+	/**
+	 * @var  boolean
+	 */
+	public $canCreate;
 
-        \RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
+	/**
+	 * @var    \JModelLegacy
+	 *
+	 * @since  2.0.6
+	 */
+	public $model;
 
-        if ($render instanceof \Exception) {
-            return $render;
-        }
+	/**
+	 * @var    string
+	 *
+	 * @since  2.0.6
+	 */
+	protected $layout;
 
-        echo $render;
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @throws  \Exception
+	 */
+	public function display($tpl = null)
+	{
+		$this->generatePermission();
 
-        return true;
-    }
+		$errors = $this->getErrors();
 
-    /**
-     * Method for generate 4 normal permission.
-     *
-     * @return  void
-     *
-     * @since   2.0.6
-     */
-    protected function generatePermission()
-    {
-        if (!$this->useUserPermission) {
-            return;
-        }
+		// Check for errors.
+		if (!empty($errors))
+		{
+			throw new \Exception(implode('<br />', $errors));
+		}
 
-        $this->canCreate = \RedshopHelperAccess::canCreate($this->getInstanceName());
-        $this->canView   = \RedshopHelperAccess::canView($this->getInstanceName());
-        $this->canEdit   = \RedshopHelperAccess::canEdit($this->getInstanceName());
-        $this->canDelete = \RedshopHelperAccess::canDelete($this->getInstanceName());
-    }
+		$this->layout = $tpl;
+		$this->model  = $this->getModel();
 
-    /**
-     * Method for get instance name with single (Ex: product, category,...) of current view
-     *
-     * @return  string
-     *
-     * @since   2.0.6
-     */
-    public function getInstanceName()
-    {
-        if (is_null($this->instanceName)) {
-            $this->instanceName = Inflector::singularize($this->getInstancesName());
-        }
+		// Before display
+		$this->beforeDisplay($tpl);
 
-        return $this->instanceName;
-    }
+		// Add page title
+		$this->addTitle();
 
-    /**
-     * Method for get instance name with multi (Ex: products, categories,...) of current view
-     *
-     * @return  string
-     *
-     * @since   2.0.6
-     */
-    public function getInstancesName()
-    {
-        if (is_null($this->instancesName)) {
-            $this->instancesName = strtolower(str_replace('RedshopView', '', get_class($this)));
-        }
+		// Add toolbar
+		$this->addToolbar();
 
-        return $this->instancesName;
-    }
+		\JPluginHelper::importPlugin('system');
+		\RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminBeforeRender', array(&$render));
 
-    /**
-     * Method for run before display to initial variables.
-     *
-     * @param   string  $tpl  Template name
-     *
-     * @return  void
-     *
-     * @since   2.0.6
-     */
-    public function beforeDisplay(&$tpl)
-    {
-    }
+		$render = \RedshopLayoutHelper::render(
+			$this->componentLayout,
+			array(
+				'view'            => $this,
+				'tpl'             => $tpl,
+				'sidebar_display' => $this->displaySidebar,
+				'disableSidebar'  => $this->disableSidebar
+			)
+		);
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function addTitle()
-    {
-        \JToolbarHelper::title($this->getTitle());
-    }
+		\RedshopHelperUtility::getDispatcher()->trigger('onRedshopAdminRender', array(&$render));
 
-    /**
-     * Method for get page title.
-     *
-     * @return  string
-     *
-     * @since   2.0.6
-     */
-    public function getTitle()
-    {
-        return \JText::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()));
-    }
+		if ($render instanceof \Exception)
+		{
+			return $render;
+		}
 
-    /**
-     * Method for add toolbar.
-     *
-     * @return  void
-     *
-     * @since   2.0.6
-     */
-    protected function addToolbar()
-    {
-    }
+		echo $render;
 
-    /**
-     * Method for get primary key of data.
-     *
-     * @return  string
-     *
-     * @throws  \Exception
-     * @since   2.0.7
-     *
-     */
-    public function getPrimaryKey()
-    {
-        return $this->model->getTable(ucfirst($this->getInstanceName()), 'RedshopTable')->getKeyName();
-    }
+		return true;
+	}
+
+	/**
+	 * Method for run before display to initial variables.
+	 *
+	 * @param   string  $tpl  Template name
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	public function beforeDisplay(&$tpl)
+	{
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addTitle()
+	{
+		\JToolbarHelper::title($this->getTitle());
+	}
+
+	/**
+	 * Method for get page title.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public function getTitle()
+	{
+		return \JText::_('COM_REDSHOP_' . strtoupper($this->getInstanceName()));
+	}
+
+	/**
+	 * Method for add toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	protected function addToolbar()
+	{
+	}
+
+	/**
+	 * Method for generate 4 normal permission.
+	 *
+	 * @return  void
+	 *
+	 * @since   2.0.6
+	 */
+	protected function generatePermission()
+	{
+		if (!$this->useUserPermission)
+		{
+			return;
+		}
+
+		$this->canCreate = \RedshopHelperAccess::canCreate($this->getInstanceName());
+		$this->canView   = \RedshopHelperAccess::canView($this->getInstanceName());
+		$this->canEdit   = \RedshopHelperAccess::canEdit($this->getInstanceName());
+		$this->canDelete = \RedshopHelperAccess::canDelete($this->getInstanceName());
+	}
+
+	/**
+	 * Method for get instance name with multi (Ex: products, categories,...) of current view
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public function getInstancesName()
+	{
+		if (is_null($this->instancesName))
+		{
+			$this->instancesName = strtolower(str_replace('RedshopView', '', get_class($this)));
+		}
+
+		return $this->instancesName;
+	}
+
+	/**
+	 * Method for get instance name with single (Ex: product, category,...) of current view
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.6
+	 */
+	public function getInstanceName()
+	{
+		if (is_null($this->instanceName))
+		{
+			$this->instanceName = Inflector::singularize($this->getInstancesName());
+		}
+
+		return $this->instanceName;
+	}
+
+	/**
+	 * Method for get primary key of data.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.0.7
+	 *
+	 * @throws  \Exception
+	 */
+	public function getPrimaryKey()
+	{
+		return $this->model->getTable(ucfirst($this->getInstanceName()), 'RedshopTable')->getKeyName();
+	}
 }

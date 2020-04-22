@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Field
@@ -23,35 +22,35 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldEconomicAccountGroup extends JFormFieldList
 {
-    /**
-     * The form field type.
-     *
-     * @var   string
-     */
-    protected $type = 'EconomicAccountGroup';
+	/**
+	 * The form field type.
+	 *
+	 * @var   string
+	 */
+	protected $type = 'EconomicAccountGroup';
 
-    /**
-     * Get the select options
-     *
-     * @return  array  Options to populate the select field
-     */
-    public function getOptions()
-    {
-        // Initialize variables.
-        $db    = JFactory::getDbo();
-        $query = $db->getQuery(true);
+	/**
+	 * Get the select options
+	 *
+	 * @return  array  Options to populate the select field
+	 */
+	public function getOptions()
+	{
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-        $query->select($db->quoteName('accountgroup_id', 'value'))
-            ->select($db->quoteName('accountgroup_name', 'text'))
-            ->from($db->quoteName('#__redshop_economic_accountgroup'))
-            ->where($db->quoteName('published') . ' = 1');
-        $db->setQuery($query);
+		$query->select($db->quoteName('accountgroup_id', 'value'))
+			->select($db->quoteName('accountgroup_name', 'text'))
+			->from($db->quoteName('#__redshop_economic_accountgroup'))
+			->where($db->quoteName('published') . ' = 1');
+		$db->setQuery($query);
 
-        $options = $db->loadObjectList();
+		$options = $db->loadObjectList();
 
-        // Get other options inserted in the XML file
-        $parentOptions = parent::getOptions();
+		// Get other options inserted in the XML file
+		$parentOptions = parent::getOptions();
 
-        return array_merge($parentOptions, $options);
-    }
+		return array_merge($parentOptions, $options);
+	}
 }

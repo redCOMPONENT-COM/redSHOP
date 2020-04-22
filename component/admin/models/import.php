@@ -16,32 +16,31 @@ defined('_JEXEC') or die;
  */
 class RedshopModelImport extends RedshopModel
 {
-    /**
-     * Method for get all available imports plugin.
-     *
-     * @return  array  List of available imports.
-     *
-     * @since  2.0.3
-     */
-    public function getImports()
-    {
-        $plugins = JPluginHelper::getPlugin('redshop_import');
+	/**
+	 * Method for get all available imports plugin.
+	 *
+	 * @return  array  List of available imports.
+	 *
+	 * @since  2.0.3
+	 */
+	public function getImports()
+	{
+		$plugins = JPluginHelper::getPlugin('redshop_import');
 
-        if (empty($plugins)) {
-            return array();
-        }
+		if (empty($plugins))
+		{
+			return array();
+		}
 
-        asort($plugins);
+		asort($plugins);
 
-        $language = JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 
-        foreach ($plugins as $plugin) {
-            $language->load(
-                'plg_redshop_import_' . $plugin->name,
-                JPATH_SITE . '/plugins/redshop_import/' . $plugin->name
-            );
-        }
+		foreach ($plugins as $plugin)
+		{
+			$language->load('plg_redshop_import_' . $plugin->name, JPATH_SITE . '/plugins/redshop_import/' . $plugin->name);
+		}
 
-        return $plugins;
-    }
+		return $plugins;
+	}
 }

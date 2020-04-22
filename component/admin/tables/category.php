@@ -18,182 +18,195 @@ defined('_JEXEC') or die;
  */
 class RedshopTableCategory extends RedshopTableNested
 {
-    /**
-     * @var  integer
-     */
-    public $id;
-    /**
-     * @var  string
-     */
-    public $name;
-    /**
-     * @var  string
-     */
-    public $category_thumb_image;
-    /**
-     * @var  string
-     */
-    public $description;
-    /**
-     * @var  string
-     */
-    public $category_full_image;
-    /**
-     * @var  string
-     */
-    public $metakey;
-    /**
-     * @var  string
-     */
-    public $metadesc;
-    /**
-     * @var  integer
-     */
-    public $template;
-    /**
-     * @var  integer
-     */
-    public $published;
-    /**
-     * @var  integer
-     */
-    public $category_pdate;
-    /**
-     * @var  integer
-     */
-    public $products_per_page;
-    /**
-     * @var  integer
-     */
-    public $ordering;
-    /**
-     * The table name without the prefix. Ex: cursos_courses
-     *
-     * @var  string
-     */
-    protected $_tableName = 'redshop_category';
-    /**
-     * Event name to trigger after delete().
-     *
-     * @var  string
-     */
-    protected $_eventAfterDelete = 'onAfterDeleteCategory';
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_category';
 
-    /**
-     * Called delete().
-     *
-     * @param   integer  $pk        The primary key of the node to delete.
-     * @param   boolean  $children  True to delete child nodes, false to move them up a level.
-     *
-     * @return  boolean  True on success.
-     */
-    protected function doDelete($pk = null, $children = true)
-    {
-        $db = $this->getDbo();
+	/**
+	 * @var  integer
+	 */
+	public $id;
 
-        // Check child category
-        $query = $db->getQuery(true)
-            ->select('COUNT(*) AS ctotal')
-            ->select($db->qn('name'))
-            ->from($db->qn('#__redshop_category'))
-            ->where($db->qn('parent_id') . ' = ' . (int)$this->id);
+	/**
+	 * @var  string
+	 */
+	public $name;
 
-        $childCount = $db->setQuery($query)->loadResult();
+	/**
+	 * @var  string
+	 */
+	public $category_thumb_image;
 
-        if ($childCount > 0) {
-            $this->setError(JText::sprintf('COM_REDSHOP_CATEGORY_PARENT_ERROR_MSG', $this->name, $this->id));
+	/**
+	 * @var  string
+	 */
+	public $description;
 
-            return false;
-        }
+	/**
+	 * @var  string
+	 */
+	public $category_full_image;
 
-        // Check products
-        $productCount = RedshopEntityCategory::getInstance($this->id)->productCount();
+	/**
+	 * @var  string
+	 */
+	public $metakey;
 
-        if ($productCount > 0) {
-            $this->setError(JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $this->name, $this->id));
+	/**
+	 * @var  string
+	 */
+	public $metadesc;
 
-            return false;
-        }
+	/**
+	 * @var  integer
+	 */
+	public $template;
 
-        // Remove thumb images.
-        if (!empty($this->category_thumb_image)) {
-            $thumbPath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $this->category_thumb_image;
+	/**
+	 * @var  integer
+	 */
+	public $published;
 
-            if (JFile::exists($thumbPath)) {
-                JFile::delete($thumbPath);
-            }
-        }
+	/**
+	 * @var  integer
+	 */
+	public $category_pdate;
 
-        // Remove full images.
-        if (!empty($this->category_full_image)) {
-            $fullImagePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $this->category_full_image;
+	/**
+	 * @var  integer
+	 */
+	public $products_per_page;
 
-            if (JFile::exists($fullImagePath)) {
-                JFile::delete($fullImagePath);
-            }
-        }
+	/**
+	 * Event name to trigger after delete().
+	 *
+	 * @var  string
+	 */
+	protected $_eventAfterDelete = 'onAfterDeleteCategory';
 
-        // Remove reference with products
-        $query = $db->getQuery(true)
-            ->delete($db->qn('#__redshop_product_category_xref'))
-            ->where($db->qn('category_id') . ' = ' . $this->id);
-        $db->setQuery($query)->execute();
+	/**
+	 * @var  integer
+	 */
+	public $ordering;
 
-        // Force do not delete child categories
-        return parent::doDelete($pk, false);
-    }
+	/**
+	 * Called delete().
+	 *
+	 * @param integer $pk       The primary key of the node to delete.
+	 * @param boolean $children True to delete child nodes, false to move them up a level.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	protected function doDelete($pk = null, $children = true)
+	{
+		$db = $this->getDbo();
 
-    /**
-     * Do the database store.
-     *
-     * @param   boolean  $updateNulls  True to update null values as well.
-     *
-     * @return  boolean
-     * @since   2.1.0
-     */
-    protected function doStore($updateNulls = false)
-    {
-        if (!parent::doStore($updateNulls)) {
-            return false;
-        }
+		// Check child category
+		$query = $db->getQuery(true)
+			->select('COUNT(*) AS ctotal')
+			->select($db->qn('name'))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('parent_id') . ' = ' . (int)$this->id);
 
-        // Prepare target folder.
-        \Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id);
+		$childCount = $db->setQuery($query)->loadResult();
 
-        // Prepare target folder.
-        \Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id . '/thumb');
+		if ($childCount > 0) {
+			$this->setError(JText::sprintf('COM_REDSHOP_CATEGORY_PARENT_ERROR_MSG', $this->name, $this->id));
 
-        /** @var RedshopModelCategory $model */
-        $model = RedshopModel::getInstance('Category', 'RedshopModel');
-        $media = $this->getOption('media', array());
+			return false;
+		}
 
-        if (!empty($media['category_full_image'])) {
-            $model->storeMedia($this, $media['category_full_image'], 'full');
-        }
+		// Check products
+		$productCount = RedshopEntityCategory::getInstance($this->id)->productCount();
 
-        if (!empty($media['category_back_full_image'])) {
-            $model->storeMedia($this, $media['category_back_full_image'], 'back');
-        }
+		if ($productCount > 0) {
+			$this->setError(JText::sprintf('COM_REDSHOP_CATEGORY_EXIST_PRODUCT', $this->name, $this->id));
 
-        return true;
-    }
+			return false;
+		}
 
-    /**
-     * Called check().
-     *
-     * @return  boolean  True on success.
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    protected function doCheck()
-    {
-        if (empty(trim($this->name))) {
-            $this->setError(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'));
+		// Remove thumb images.
+		if (!empty($this->category_thumb_image)) {
+			$thumbPath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $this->category_thumb_image;
 
-            return false;
-        }
+			if (JFile::exists($thumbPath)) {
+				JFile::delete($thumbPath);
+			}
+		}
 
-        return parent::doCheck();
-    }
+		// Remove full images.
+		if (!empty($this->category_full_image)) {
+			$fullImagePath = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $this->category_full_image;
+
+			if (JFile::exists($fullImagePath)) {
+				JFile::delete($fullImagePath);
+			}
+		}
+
+		// Remove reference with products
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__redshop_product_category_xref'))
+			->where($db->qn('category_id') . ' = ' . $this->id);
+		$db->setQuery($query)->execute();
+
+		// Force do not delete child categories
+		return parent::doDelete($pk, false);
+	}
+
+	/**
+	 * Do the database store.
+	 *
+	 * @param boolean $updateNulls True to update null values as well.
+	 *
+	 * @return  boolean
+	 * @since   2.1.0
+	 */
+	protected function doStore($updateNulls = false)
+	{
+		if (!parent::doStore($updateNulls)) {
+			return false;
+		}
+
+		// Prepare target folder.
+		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id);
+
+		// Prepare target folder.
+		\Redshop\Helper\Media::createFolder(REDSHOP_MEDIA_IMAGE_RELPATH . 'category/' . $this->id . '/thumb');
+
+		/** @var RedshopModelCategory $model */
+		$model = RedshopModel::getInstance('Category', 'RedshopModel');
+		$media = $this->getOption('media', array());
+
+		if (!empty($media['category_full_image'])) {
+			$model->storeMedia($this, $media['category_full_image'], 'full');
+		}
+
+		if (!empty($media['category_back_full_image'])) {
+			$model->storeMedia($this, $media['category_back_full_image'], 'back');
+		}
+
+		return true;
+	}
+
+	/**
+	 * Called check().
+	 *
+	 * @return  boolean  True on success.
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	protected function doCheck()
+	{
+		if (empty(trim($this->name))) {
+			$this->setError(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'));
+
+			return false;
+		}
+
+		return parent::doCheck();
+	}
 }

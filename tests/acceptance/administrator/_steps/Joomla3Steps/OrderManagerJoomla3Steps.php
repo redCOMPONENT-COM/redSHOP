@@ -85,9 +85,6 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement($userOrderPage->returnSearch($paymentStatus), 30);
 		$I->click($userOrderPage->returnSearch($paymentStatus));
 		$I->fillField(\OrderManagerPage::$quantityp1, $newQuantity);
-		$I->pressKey(OrderManagerPage::$quantityp1, \Facebook\WebDriver\WebDriverKeys::ENTER);
-		$I->waitForElementVisible(\OrderManagerPage::$nameButtonStatus);
-		$I->scrollTo(OrderManagerPage::$statusOrder);
 		$I->click(\OrderManagerPage::$nameButtonStatus);
 	}
 
@@ -494,52 +491,5 @@ class OrderManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(OrderManagerPage::$buttonSave);
 		$I->waitForElement(OrderManagerPage::$close, 30);
 		$I->waitForText(OrderManagerPage::$buttonClose, 10, OrderManagerPage::$close);
-	}
-
-	/**
-	 * @param $firstName
-	 * @param $paymentOld
-	 * @param $paymentNew
-	 * @throws \Exception
-	 * @since 3.0.2
-	 */
-	public function changePaymentMethodOnBackend($firstName, $paymentOld, $paymentNew)
-	{
-		$I = $this;
-		$I->amOnPage(OrderManagerPage::$URL);
-		$I->searchOrder($firstName);
-		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
-		$I->click(OrderManagerPage::$iconEdit);
-		$I->waitForElementVisible(OrderManagerPage::$paymentTitle, 30);
-
-		if($paymentOld == 'PayPal')
-		{
-			$I->waitForElementVisible(OrderManagerPage::$checkboxPaymentPayPal, 30);
-			$I->seeCheckboxIsChecked(OrderManagerPage::$checkboxPaymentPayPal);
-		}else if ($paymentOld == 'RedSHOP - Bank Transfer Payment')
-		{
-			$I->waitForElementVisible(OrderManagerPage::$checkboxPaymentBanktransfer, 30);
-			$I->seeCheckboxIsChecked(OrderManagerPage::$checkboxPaymentBanktransfer);
-		}
-
-		if($paymentNew == 'PayPal')
-		{
-			$I->waitForElementVisible(OrderManagerPage::$checkboxPaymentPayPal, 30);
-			$I->click(OrderManagerPage::$checkboxPaymentPayPal);
-			$I->waitForElementVisible(OrderManagerPage::$updatePaymentMethod,30);
-			$I->click(OrderManagerPage::$updatePaymentMethod);
-			$I->waitForText("Payment Method Updated", 30);
-			$I->waitForElementVisible(OrderManagerPage::$checkboxPaymentPayPal, 30);
-			$I->seeCheckboxIsChecked(OrderManagerPage::$checkboxPaymentPayPal);
-		}else if ($paymentNew == 'RedSHOP - Bank Transfer Payment')
-		{
-			$I->waitForElementVisible(OrderManagerPage::$checkboxPaymentBanktransfer, 30);
-			$I->click(OrderManagerPage::$checkboxPaymentBanktransfer);
-			$I->waitForElementVisible(OrderManagerPage::$updatePaymentMethod,30);
-			$I->click(OrderManagerPage::$updatePaymentMethod);
-			$I->waitForText(OrderManagerPage::$messageUpdatePaymentSuccess, 30);
-			$I->waitForElementVisible(OrderManagerPage::$checkboxPaymentBanktransfer, 30);
-			$I->seeCheckboxIsChecked(OrderManagerPage::$checkboxPaymentBanktransfer);
-		}
 	}
 }

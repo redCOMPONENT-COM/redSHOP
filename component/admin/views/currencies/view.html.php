@@ -18,10 +18,10 @@ defined('_JEXEC') or die;
  */
 class RedshopViewCurrencies extends RedshopViewList
 {
-    /**
-     * Disable published feature
-     *
-     * @var null
-     */
-    public $stateColumns = array();
+	/**
+	 * Disable published feature
+	 *
+	 * @var null
+	 */
+	public $stateColumns = array();
 }

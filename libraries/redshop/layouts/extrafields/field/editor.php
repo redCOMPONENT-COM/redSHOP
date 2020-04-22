@@ -23,8 +23,8 @@ extract($displayData);
 ?>
 
 <td valign="top" width="100" align="right" class="key">
-    <?php echo $extraFieldLabel; ?>
+	<?php echo $extraFieldLabel; ?>
 </td>
 <td>
-    <?php echo $editor->display($rowData->name, $textValue, '200', '50', '100', '20', false); ?>
+	<?php echo $editor->display($rowData->name, $textValue, '200', '50', '100', '20', false); ?>
 </td>

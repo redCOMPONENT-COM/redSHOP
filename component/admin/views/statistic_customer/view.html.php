@@ -18,62 +18,64 @@ defined('_JEXEC') or die;
  */
 class RedshopViewStatistic_Customer extends RedshopViewAdmin
 {
-    public $customers = array();
-    /**
-     * @var  JForm
-     */
-    public $filterForm = null;
-    protected $state = array();
+	protected $state = array();
 
-    /**
-     * Display the Statistic Customer view
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  void
-     */
-    public function display($tpl = null)
-    {
-        $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_STATISTIC_CUSTOMER'));
+	public $customers = array();
 
-        /** @var RedshopModelStatistic_Customer $model */
-        $model = $this->getModel();
+	/**
+	 * @var  JForm
+	 */
+	public $filterForm = null;
 
-        $this->customers  = $model->getItems();
-        $this->pagination = $model->getPagination();
-        $this->state      = $model->getState();
-        $this->filterForm = $model->getForm();
+	/**
+	 * Display the Statistic Customer view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 */
+	public function display($tpl = null)
+	{
+		$document = JFactory::getDocument();
+		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC_CUSTOMER'));
 
-        $this->addToolbar();
+		/** @var RedshopModelStatistic_Customer $model */
+		$model = $this->getModel();
 
-        parent::display($tpl);
-    }
+		$this->customers  = $model->getItems();
+		$this->pagination = $model->getPagination();
+		$this->state      = $model->getState();
+		$this->filterForm = $model->getForm();
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function addToolbar()
-    {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
-        JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_CUSTOMER'), 'statistic redshop_statistic48');
+		$this->addToolbar();
 
-        RedshopToolbarHelper::custom(
-            'exportCustomer',
-            'save.png',
-            'save_f2.png',
-            'COM_REDSHOP_EXPORT_DATA_LBL',
-            false
-        );
-        RedshopToolbarHelper::link(
-            'index.php?tmpl=component&option=com_redshop&view=statistic_customer',
-            'print',
-            'COM_REDSHOP_PRINT',
-            '_blank'
-        );
-    }
+		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC_CUSTOMER'), 'statistic redshop_statistic48');
+
+		RedshopToolbarHelper::custom(
+			'exportCustomer',
+			'save.png',
+			'save_f2.png',
+			'COM_REDSHOP_EXPORT_DATA_LBL',
+			false
+		);
+		RedshopToolbarHelper::link(
+			'index.php?tmpl=component&option=com_redshop&view=statistic_customer',
+			'print',
+			'COM_REDSHOP_PRINT',
+			'_blank'
+		);
+	}
 }

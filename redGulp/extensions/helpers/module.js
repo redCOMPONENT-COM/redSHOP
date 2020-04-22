@@ -6,10 +6,10 @@ var del = require('del');
 var path = require('path');
 
 /**
- *
- * @param {string} modName
- * @param {string} modFolder
- * @param {string} modBase
+ * 
+ * @param {string} modName 
+ * @param {string} modFolder 
+ * @param {string} modBase 
  */
 function releaseModule(modName, modFolder, modBase) {
 
@@ -19,12 +19,12 @@ function releaseModule(modName, modFolder, modBase) {
 
     // Clean: Module
     gulp.task('clean:' + baseTask + ':module', function () {
-        return del(wwwPath, {force: true});
+        return del(wwwPath, { force: true });
     });
 
     // Clean: Language
     gulp.task('clean:' + baseTask + ':language', function () {
-        return del(config.wwwDir + '/language/**/*.mod_' + modName + '.*', {force: true});
+        return del(config.wwwDir + '/language/**/*.mod_' + modName + '.*', { force: true });
     });
 
     // Clean
@@ -64,18 +64,18 @@ function releaseModule(modName, modFolder, modBase) {
     // Watch: Module
     gulp.task('watch:' + baseTask + ':module', function () {
         gulp.watch([
-                extPath + '/**/*',
-                '!' + extPath + 'language',
-                '!' + extPath + 'language/**'
-            ],
+            extPath + '/**/*',
+            '!' + extPath + 'language',
+            '!' + extPath + 'language/**'
+        ],
             gulp.series('copy:' + baseTask + ':module', browserSync.reload));
     });
 
     // Watch: Language
     gulp.task('watch:' + baseTask + ':language', function () {
         gulp.watch([
-                extPath + '/language/**'
-            ],
+            extPath + '/language/**'
+        ],
             gulp.series('copy:' + baseTask + ':language', browserSync.reload));
     });
 

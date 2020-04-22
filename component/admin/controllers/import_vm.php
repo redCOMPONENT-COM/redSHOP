@@ -18,144 +18,141 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerImport_Vm extends RedshopControllerAdmin
 {
-    /**
-     * @var string
-     */
-    protected $logName = 'vm_sync.name';
+	/**
+	 * @var string
+	 */
+	protected $logName = 'vm_sync.name';
 
-    /**
-     * Sync category
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    public function syncCategory()
-    {
-        $this->sync('syncCategory');
-    }
+	/**
+	 * Sync category
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public function syncCategory()
+	{
+		$this->sync('syncCategory');
+	}
 
-    /**
-     * Base method for sync data
-     *
-     * @param   string  $method  Method of model for execute the sync
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since  2.1.0
-     */
-    private function sync($method = '')
-    {
-        Redshop\Helper\Ajax::validateAjaxRequest();
+	/**
+	 * Sync manufacturer
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public function syncManufacturer()
+	{
+		$this->sync('syncManufacturer');
+	}
 
-        $app = JFactory::getApplication();
+	/**
+	 * Sync shopper group
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public function syncShopperGroup()
+	{
+		$this->sync('syncShopperGroup');
+	}
 
-        /** @var \RedshopModelImport_Vm $model */
-        $model = $this->getModel('Import_Vm');
+	/**
+	 * Sync user
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public function syncUser()
+	{
+		$this->sync('syncUser');
+	}
 
-        $index = $this->input->getInt('index');
+	/**
+	 * Sync order status
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public function syncOrderStatus()
+	{
+		$this->sync('syncOrderStatus');
+	}
 
-        // Check method exist.
-        if (!method_exists($model, $method)) {
-            $app->setHeader('status', 500);
-            echo JText::sprintf('COM_REDSHOP_IMPORT_VM_ERROR_METHOD_NOT_EXIST', $method);
-            $app->sendHeaders();
-        }
+	/**
+	 * Sync product
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public function syncProduct()
+	{
+		$this->sync('syncProduct');
+	}
 
-        // Start sync process
-        if (!$model->$method($index)) {
-            $app->setHeader('status', 500);
-            echo json_encode(
-                array(
-                    'name' => $model->getState($this->logName),
-                    'msg'  => /** @scrutinizer ignore-deprecated */ $model->getError()
-                )
-            );
-            $app->sendHeaders();
-        }
+	/**
+	 * Sync order
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.1.0
+	 */
+	public function syncOrder()
+	{
+		$this->sync('syncOrder');
+	}
 
-        echo json_encode(array('name' => (string)$model->getState($this->logName), 'msg' => ''));
+	/**
+	 * Base method for sync data
+	 *
+	 * @param   string   $method  Method of model for execute the sync
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since  2.1.0
+	 */
+	private function sync($method = '')
+	{
+		Redshop\Helper\Ajax::validateAjaxRequest();
 
-        $app->close();
-    }
+		$app = JFactory::getApplication();
 
-    /**
-     * Sync manufacturer
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    public function syncManufacturer()
-    {
-        $this->sync('syncManufacturer');
-    }
+		/** @var \RedshopModelImport_Vm $model */
+		$model = $this->getModel('Import_Vm');
 
-    /**
-     * Sync shopper group
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    public function syncShopperGroup()
-    {
-        $this->sync('syncShopperGroup');
-    }
+		$index = $this->input->getInt('index');
 
-    /**
-     * Sync user
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    public function syncUser()
-    {
-        $this->sync('syncUser');
-    }
+		// Check method exist.
+		if (!method_exists($model, $method))
+		{
+			$app->setHeader('status', 500);
+			echo JText::sprintf('COM_REDSHOP_IMPORT_VM_ERROR_METHOD_NOT_EXIST', $method);
+			$app->sendHeaders();
+		}
 
-    /**
-     * Sync order status
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    public function syncOrderStatus()
-    {
-        $this->sync('syncOrderStatus');
-    }
+		// Start sync process
+		if (!$model->$method($index))
+		{
+			$app->setHeader('status', 500);
+			echo json_encode(array('name' => $model->getState($this->logName), 'msg' => /** @scrutinizer ignore-deprecated */ $model->getError()));
+			$app->sendHeaders();
+		}
 
-    /**
-     * Sync product
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    public function syncProduct()
-    {
-        $this->sync('syncProduct');
-    }
+		echo json_encode(array('name' => (string) $model->getState($this->logName), 'msg' => ''));
 
-    /**
-     * Sync order
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since   2.1.0
-     */
-    public function syncOrder()
-    {
-        $this->sync('syncOrder');
-    }
+		$app->close();
+	}
 }

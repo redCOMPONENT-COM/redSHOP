@@ -12,6 +12,22 @@ defined('_JEXEC') or die;
 
 class RedshopControllerWrapper extends RedshopController
 {
+    /**
+     * Proxy for getModel
+     *
+     * @param string $name The model name. Optional.
+     * @param string $prefix The class prefix. Optional.
+     * @param array $config The array of possible config values. Optional.
+     *
+     * @return  object  The model.
+     */
+    public function getModel($name = 'Wrapper_detail', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+    {
+        $model = parent::getModel($name, $prefix, $config);
+
+        return $model;
+    }
+
     public function cancel()
     {
         $this->setRedirect('index.php');
@@ -23,20 +39,18 @@ class RedshopControllerWrapper extends RedshopController
     public function remove()
     {
         $showAll = $this->input->get('showall', '0');
-        $tmpl    = '';
+        $tmpl = '';
 
         if ($showAll) {
             $tmpl = '&tmpl=component';
         }
 
-        $productId  = $this->input->get('product_id');
+        $productId = $this->input->get('product_id');
         $wrapperIds = $this->input->post->get('cid', [0], 'array');
 
         if (!is_array($wrapperIds) || count($wrapperIds) < 1) {
             \JFactory::getApplication()->enqueueMessage(
-                \JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'),
-                'warning'
-            );
+                \JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 'warning');
         }
 
         $result = \Redshop\Wrapper\Helper::removeWrappers($wrapperIds);
@@ -45,11 +59,8 @@ class RedshopControllerWrapper extends RedshopController
             $msg = \JText::_('COM_REDSHOP_WRAPPER_DETAIL_DELETED_SUCCESSFULLY');
         }
 
-        $this->setRedirect(
-            'index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl
-            . '&product_id=' . $productId,
-            $msg
-        );
+        $this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl
+            . '&product_id=' . $productId, $msg);
     }
 
     /**
@@ -58,13 +69,13 @@ class RedshopControllerWrapper extends RedshopController
     public function publish()
     {
         $showAll = $this->input->get('showall', '0');
-        $tmpl    = '';
+        $tmpl = '';
 
         if ($showAll) {
             $tmpl = '&tmpl=component';
         }
 
-        $productId  = $this->input->get('product_id');
+        $productId = $this->input->get('product_id');
         $wrapperIds = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($wrapperIds) || count($wrapperIds) < 1) {
@@ -78,29 +89,7 @@ class RedshopControllerWrapper extends RedshopController
         }
 
         $msg = JText::_('COM_REDSHOP_WRAPPER_PUBLISHED_SUCCESSFULLY');
-        $this->setRedirect(
-            'index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId,
-            $msg
-        );
-    }
-
-    /**
-     * Proxy for getModel
-     *
-     * @param   string  $name    The model name. Optional.
-     * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  The array of possible config values. Optional.
-     *
-     * @return  object  The model.
-     */
-    public function getModel(
-        $name = 'Wrapper_detail',
-        $prefix = 'RedshopModel',
-        $config = array('ignore_request' => true)
-    ) {
-        $model = parent::getModel($name, $prefix, $config);
-
-        return $model;
+        $this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId, $msg);
     }
 
     /**
@@ -112,13 +101,13 @@ class RedshopControllerWrapper extends RedshopController
     public function unpublish()
     {
         $showAll = $this->input->get('showall', '0');
-        $tmpl    = '';
+        $tmpl = '';
 
         if ($showAll) {
             $tmpl = '&tmpl=component';
         }
 
-        $productId  = $this->input->get('product_id');
+        $productId = $this->input->get('product_id');
         $wrapperIds = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($wrapperIds) || count($wrapperIds) < 1) {
@@ -132,22 +121,19 @@ class RedshopControllerWrapper extends RedshopController
         }
 
         $msg = JText::_('COM_REDSHOP_WRAPPER_UNPUBLISHED_SUCCESSFULLY');
-        $this->setRedirect(
-            'index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId,
-            $msg
-        );
+        $this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId, $msg);
     }
 
     public function enableWrapperUseToAll()
     {
         $showAll = $this->input->get('showall', '0');
-        $tmpl    = '';
+        $tmpl = '';
 
         if ($showAll) {
             $tmpl = '&tmpl=component';
         }
 
-        $productId  = $this->input->get('product_id');
+        $productId = $this->input->get('product_id');
         $wrapperIds = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($wrapperIds) || count($wrapperIds) < 1) {
@@ -161,22 +147,19 @@ class RedshopControllerWrapper extends RedshopController
         }
 
         $msg = JText::_('COM_REDSHOP_USE_TO_ALL_ENABLE_SUCCESSFULLY');
-        $this->setRedirect(
-            'index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId,
-            $msg
-        );
+        $this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId, $msg);
     }
 
     public function enable_defaultunpublish()
     {
         $showAll = $this->input->get('showall', '0');
-        $tmpl    = '';
+        $tmpl = '';
 
         if ($showAll) {
             $tmpl = '&tmpl=component';
         }
 
-        $productId  = $this->input->get('product_id');
+        $productId = $this->input->get('product_id');
         $wrapperIds = $this->input->post->get('cid', array(0), 'array');
 
         if (!is_array($wrapperIds) || count($wrapperIds) < 1) {
@@ -190,9 +173,6 @@ class RedshopControllerWrapper extends RedshopController
         }
 
         $msg = JText::_('COM_REDSHOP_USE_TO_ALL_DISABLE_SUCCESSFULLY');
-        $this->setRedirect(
-            'index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId,
-            $msg
-        );
+        $this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showAll . $tmpl . '&product_id=' . $productId, $msg);
     }
 }

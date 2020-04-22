@@ -18,46 +18,53 @@ defined('_JEXEC') or die;
  */
 class RedshopTableZipcode extends RedshopTable
 {
-    public $id = null;
-    public $state_code = null;
-    public $city_name = null;
-    public $zipcode = null;
-    public $country_code = null;
-    /**
-     * The table name without prefix.
-     *
-     * @var string
-     */
-    protected $_tableName = 'redshop_zipcode';
-    /**
-     * The table key column
-     *
-     * @var string
-     */
-    protected $_tableKey = 'id';
+	/**
+	 * The table name without prefix.
+	 *
+	 * @var string
+	 */
+	protected $_tableName = 'redshop_zipcode';
 
-    /**
-     * Check zipcode
-     *
-     * @return  boolean
-     */
-    public function docheck()
-    {
-        $db = JFactory::getDbo();
+	/**
+	 * The table key column
+	 *
+	 * @var string
+	 */
+	protected $_tableKey  = 'id';
 
-        $query = $db->getQuery(true)
-            ->select('id')
-            ->from($db->qn("#__redshop_zipcode"))
-            ->where($db->qn('zipcode') . ' = ' . $db->q((int)$this->zipcode))
-            ->where($db->qn('id') . ' != ' . $db->q((int)$this->id))
-            ->where($db->qn('country_code') . ' = ' . $db->q((string)$this->country_code));
+	public $id = null;
 
-        $xid = intval($db->setQuery($query)->loadResult());
+	public $state_code = null;
 
-        if ($xid) {
-            return false;
-        }
+	public $city_name = null;
 
-        return parent::doCheck();
-    }
+	public $zipcode = null;
+
+	public $country_code = null;
+
+	/**
+	 * Check zipcode
+	 *
+	 * @return  boolean
+	 */
+	public function docheck()
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select('id')
+			->from($db->qn("#__redshop_zipcode"))
+			->where($db->qn('zipcode') . ' = ' . $db->q((int) $this->zipcode))
+			->where($db->qn('id') . ' != ' . $db->q((int) $this->id))
+			->where($db->qn('country_code') . ' = ' . $db->q((string) $this->country_code));
+
+		$xid = intval($db->setQuery($query)->loadResult());
+
+		if ($xid)
+		{
+			return false;
+		}
+
+		return parent::doCheck();
+	}
 }

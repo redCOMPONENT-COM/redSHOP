@@ -22,16 +22,16 @@ use Twig\Environment;
  */
 class PlgTwigJapp extends BaseTwigPlugin
 {
-    /**
-     * @param   Environment  $environment
-     * @param   array        $params
-     *
-     *
-     * @throws Exception
-     * @since  1.0.0
-     */
-    public function onTwigAfterLoad(Environment $environment, $params = [])
-    {
-        $environment->addGlobal('japp', Factory::getApplication());
-    }
+	/**
+	 * @param   Environment  $environment
+	 * @param   array        $params
+	 *
+	 *
+	 * @throws Exception
+	 * @since  1.0.0
+	 */
+	public function onTwigAfterLoad(Environment $environment, $params = [])
+	{
+		$environment->addGlobal('japp', Factory::getApplication());
+	}
 }

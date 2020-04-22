@@ -18,70 +18,71 @@ defined('_JEXEC') or die;
  */
 class RedshopViewShipping extends RedshopViewAdmin
 {
-    /**
-     * The request url.
-     *
-     * @var  string
-     */
-    public $request_url;
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
 
-    /**
-     * @var  array
-     */
-    public $shippings;
+	/**
+	 * @var  array
+	 */
+	public $shippings;
 
-    /**
-     * @var  JPagination
-     */
-    public $pagination;
+	/**
+	 * @var  JPagination
+	 */
+	public $pagination;
 
-    /**
-     * @var  array
-     */
-    public $lists;
+	/**
+	 * @var  array
+	 */
+	public $lists;
 
-    /**
-     * Display the States view
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  void
-     *
-     * @throws  Exception
-     */
-    public function display($tpl = null)
-    {
-        $context = 'shipping';
+	/**
+	 * Display the States view
+	 *
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
+	public function display($tpl = null)
+	{
+		$context = 'shipping';
 
-        $uri      = JUri::getInstance();
-        $app      = JFactory::getApplication();
-        $document = JFactory::getDocument();
-        $language = JFactory::getLanguage();
+		$uri      = JUri::getInstance();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+		$language = JFactory::getLanguage();
 
-        // Load language files
-        $this->shippings = $this->get('Data');
+		// Load language files
+		$this->shippings = $this->get('Data');
 
-        foreach ($this->shippings as $shippingMethod) {
-            $extension = 'plg_redshop_shipping_' . strtolower($shippingMethod->element);
-            $language->load($extension, JPATH_ADMINISTRATOR);
-        }
+		foreach ($this->shippings as $shippingMethod)
+		{
+			$extension = 'plg_redshop_shipping_' . strtolower($shippingMethod->element);
+			$language->load($extension, JPATH_ADMINISTRATOR);
+		}
 
-        $document->setTitle(JText::_('COM_REDSHOP_SHIPPING'));
+		$document->setTitle(JText::_('COM_REDSHOP_SHIPPING'));
 
-        JToolbarHelper::title(JText::_('COM_REDSHOP_SHIPPING_MANAGEMENT'), 'redshop_shipping48');
+		JToolbarHelper::title(JText::_('COM_REDSHOP_SHIPPING_MANAGEMENT'), 'redshop_shipping48');
 
-        $filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
-        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-        $lists['order']     = $filter_order;
-        $lists['order_Dir'] = $filter_order_Dir;
+		$lists['order']     = $filter_order;
+		$lists['order_Dir'] = $filter_order_Dir;
 
-        $pagination = $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
-        $this->lists       = $lists;
-        $this->pagination  = $pagination;
-        $this->request_url = $uri->toString();
+		$this->lists       = $lists;
+		$this->pagination  = $pagination;
+		$this->request_url = $uri->toString();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

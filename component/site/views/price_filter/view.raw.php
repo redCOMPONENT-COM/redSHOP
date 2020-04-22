@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 
 class RedshopViewPrice_filter extends RedshopView
 {
-    public function display($tpl = null)
-    {
-        $prdlist = $this->get('Data');
+	public function display($tpl = null)
+	{
+		$prdlist = $this->get('Data');
 
-        $this->prdlist = $prdlist;
+		$this->prdlist = $prdlist;
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

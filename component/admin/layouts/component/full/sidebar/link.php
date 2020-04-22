@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -13,6 +12,6 @@ extract($displayData);
 
 $view = JFactory::getApplication()->input->getCmd('view');
 ?>
-<a href="<?php echo $link; ?>" class="<?php echo($active ? 'active' : '') ?>">
+<a href="<?php echo $link; ?>" class="<?php echo ($active ? 'active': '') ?>">
     <?php if (!empty($icon)): ?><i class="<?php echo $icon ?>"></i><?php endif; ?><span><?php echo $title ?></span>
 </a>

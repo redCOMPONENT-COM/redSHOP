@@ -18,31 +18,32 @@ defined('_JEXEC') || die;
  */
 trait HasLayoutData
 {
-    /**
-     * Layout data for the views.
-     *
-     * @var    array
-     */
-    protected $layoutData = [];
+	/**
+	 * Layout data for the views.
+	 *
+	 * @var    array
+	 */
+	protected $layoutData = [];
 
-    /**
-     * Get the data that will be sent to renderer.
-     *
-     * @return  array
-     */
-    protected function getLayoutData()
-    {
-        if (!isset($this->layoutData[__CLASS__])) {
-            $this->layoutData[__CLASS__] = $this->loadLayoutData();
-        }
+	/**
+	 * Get the data that will be sent to renderer.
+	 *
+	 * @return  array
+	 */
+	protected function getLayoutData()
+	{
+		if (!isset($this->layoutData[__CLASS__]))
+		{
+			$this->layoutData[__CLASS__] = $this->loadLayoutData();
+		}
 
-        return $this->layoutData[__CLASS__];
-    }
+		return $this->layoutData[__CLASS__];
+	}
 
-    /**
-     * Load layout data.
-     *
-     * @return  array
-     */
-    abstract protected function loadLayoutData();
+	/**
+	 * Load layout data.
+	 *
+	 * @return  array
+	 */
+	abstract protected function loadLayoutData();
 }

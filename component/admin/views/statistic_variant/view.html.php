@@ -18,65 +18,61 @@ defined('_JEXEC') or die;
  */
 class RedshopViewStatistic_Variant extends RedshopViewAdmin
 {
-    /**
-     * Display the Statistic Customer view
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  void
-     */
-    public function display($tpl = null)
-    {
-        global $context;
+	/**
+	 * Display the Statistic Customer view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 */
+	public function display($tpl = null)
+	{
+		global $context;
 
-        $uri      = JFactory::getURI();
-        $app      = JFactory::getApplication();
-        $document = JFactory::getDocument();
-        $document->setTitle(JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT'));
-        /** @scrutinizer ignore-deprecated */
-        JHtml::stylesheet('com_redshop/daterangepicker.min.css', array(), true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/moment.min.js', false, true);
-        /** @scrutinizer ignore-deprecated */
-        JHtml::script('com_redshop/daterangepicker.min.js', false, true);
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT'));
+		/** @scrutinizer ignore-deprecated */JHtml::stylesheet('com_redshop/daterangepicker.min.css', array(), true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/moment.min.js', false, true);
+		/** @scrutinizer ignore-deprecated */JHtml::script('com_redshop/daterangepicker.min.js', false, true);
 
-        $this->productVariants = $this->get('ProductVariants');
-        $this->filterStartDate = $app->input->getString('filter_start_date', '');
-        $this->filterEndDate   = $app->input->getString('filter_end_date', '');
-        $this->filterDateLabel = $app->input->getString('filter_date_label', '');
+		$this->productVariants = $this->get('ProductVariants');
+		$this->filterStartDate = $app->input->getString('filter_start_date', '');
+		$this->filterEndDate   = $app->input->getString('filter_end_date', '');
+		$this->filterDateLabel = $app->input->getString('filter_date_label', '');
 
-        $this->addToolbar();
-        parent::display($tpl);
-    }
+		$this->addToolbar();
+		parent::display($tpl);
+	}
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return  void
-     *
-     * @since   1.6
-     */
-    protected function addToolbar()
-    {
-        $title = JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT');
-        JFactory::getApplication()->input->set('hidemainmenu', true);
-        JToolBarHelper::title(
-            JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT') . " :: " . $title,
-            'statistic redshop_statistic48'
-        );
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		$title = JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT');
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		JToolBarHelper::title(
+			JText::_('COM_REDSHOP_STATISTIC_PRODUCT_VARIANT') . " :: " . $title, 'statistic redshop_statistic48'
+		);
 
-        RedshopToolbarHelper::custom(
-            'exportProductVariant',
-            'save.png',
-            'save_f2.png',
-            'COM_REDSHOP_EXPORT_DATA_LBL',
-            false
-        );
-        RedshopToolbarHelper::link(
-            'index.php?tmpl=component&option=com_redshop&view=statistic_variant',
-            'print',
-            'COM_REDSHOP_PRINT',
-            '_blank'
-        );
-    }
+		RedshopToolbarHelper::custom(
+			'exportProductVariant',
+			'save.png',
+			'save_f2.png',
+			'COM_REDSHOP_EXPORT_DATA_LBL',
+			false
+		);
+		RedshopToolbarHelper::link(
+			'index.php?tmpl=component&option=com_redshop&view=statistic_variant',
+			'print',
+			'COM_REDSHOP_PRINT',
+			'_blank'
+		);
+	}
 }

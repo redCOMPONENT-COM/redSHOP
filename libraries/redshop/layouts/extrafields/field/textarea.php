@@ -23,16 +23,16 @@ extract($displayData);
 ?>
 
 <td valign="top" width="100" align="right" class="key">
-    <?php echo $extraFieldLabel; ?>
+	<?php echo $extraFieldLabel; ?>
 </td>
 <td>
 	<textarea
-            id="<?php echo $rowData->name; ?>"
-            name="<?php echo $rowData->name; ?>"
-            class="<?php echo $rowData->class; ?>"
-            cols="<?php echo $rowData->cols; ?>"
-            rows="<?php echo $rowData->rows; ?>"
-    >
+		id="<?php echo $rowData->name; ?>"
+		name="<?php echo $rowData->name; ?>"
+		class="<?php echo $rowData->class; ?>"
+		cols="<?php echo $rowData->cols; ?>"
+		rows="<?php echo $rowData->rows; ?>"
+	>
 		<?php echo htmlspecialchars($textValue); ?>
 	</textarea>
 </td>

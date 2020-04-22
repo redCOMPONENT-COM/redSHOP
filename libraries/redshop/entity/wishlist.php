@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityWishlist extends RedshopEntity
 {
-    /**
-     * Get the associated table
-     *
-     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-     *
-     * @return  RedshopTable
-     */
-    public function getTable($name = null)
-    {
-        return JTable::getInstance('Wishlist', 'Table');
-    }
+	/**
+	 * Get the associated table
+	 *
+	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+	 *
+	 * @return  RedshopTable
+	 */
+	public function getTable($name = null)
+	{
+		return JTable::getInstance('Wishlist', 'Table');
+	}
 }

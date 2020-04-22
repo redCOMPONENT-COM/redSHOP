@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 class RedshopControllerPrices extends RedshopController
 {
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
+	public function cancel()
+	{
+		$this->setRedirect('index.php');
+	}
 }

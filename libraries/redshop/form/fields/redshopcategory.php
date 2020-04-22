@@ -23,60 +23,68 @@ $lang->load('com_redshop', JPATH_ADMINISTRATOR);
  */
 class JFormFieldRedshopCategory extends JFormFieldList
 {
-    /**
-     * A static cache.
-     *
-     * @var array|null
-     */
-    protected static $cache = null;
-    /**
-     * Element name
-     *
-     * @var  string
-     */
-    public $type = 'redshopcategory';
+	/**
+	 * Element name
+	 *
+	 * @var  string
+	 */
+	public $type = 'redshopcategory';
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        // Process value
-        if (!empty($this->value) && $this->multiple && !is_array($this->value)) {
-            $this->value = explode(',', $this->value);
-        }
+	/**
+	 * A static cache.
+	 *
+	 * @var array|null
+	 */
+	protected static $cache = null;
 
-        $options = array();
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		// Process value
+		if (!empty($this->value) && $this->multiple && !is_array($this->value))
+		{
+			$this->value = explode(',', $this->value);
+		}
 
-        if (!$this->multiple) {
-            $options[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
-        }
+		$options = array();
 
-        if (!self::$cache) {
-            // Get the categories.
-            self::$cache = RedshopHelperCategory::getCategoryListArray();
-        }
+		if (!$this->multiple)
+		{
+			$options[] = JHtml::_('select.option', '', JText::_('COM_REDSHOP_SELECT_CATEGORY'), 'value', 'text');
+		}
 
-        // Build the field options.
-        if (!empty(self::$cache)) {
-            if ($this->multiple) {
-                $options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_CATEGORY'));
-            }
+		if (!self::$cache)
+		{
+			// Get the categories.
+			self::$cache = RedshopHelperCategory::getCategoryListArray();
+		}
 
-            foreach (self::$cache as $item) {
-                $options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text');
-            }
+		// Build the field options.
+		if (!empty(self::$cache))
+		{
+			if ($this->multiple)
+			{
+				$options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_CATEGORY'));
+			}
 
-            if ($this->multiple) {
-                $options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_CATEGORY'));
-            }
-        }
+			foreach (self::$cache as $item)
+			{
+				$options[] = JHtml::_('select.option', $item->id, $item->name, 'value', 'text');
+			}
 
-        // Merge any additional options in the XML definition.
-        $options = array_merge(parent::getOptions(), $options);
+			if ($this->multiple)
+			{
+				$options[] = JHtml::_('select.optgroup', JText::_('COM_REDSHOP_SELECT_CATEGORY'));
+			}
+		}
 
-        return $options;
-    }
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
+
+		return $options;
+	}
 }

@@ -206,6 +206,34 @@ class RedshopHelperDiscount
     }
 
     /**
+     * Method for calculate discount.
+     *
+     * @param   string  $type   Type of discount
+     * @param   array   $types  List of type
+     *
+     * @return  float
+     *
+     * @since   2.1.0
+     */
+    public static function calculate($type, $types)
+    {
+        if (empty($types)) {
+            return 0;
+        }
+
+        $value    = $type == 'voucher' ? 'voucher_value' : 'coupon_value';
+        $discount = 0;
+
+        $idx = count($types);
+
+        for ($i = 0; $i < $idx; $i++) {
+            $discount += $types[$i][$value];
+        }
+
+        return $discount;
+    }
+
+    /**
      * Method for modify discount
      *
      * @param   array  $cart  Cart data.
@@ -302,10 +330,10 @@ class RedshopHelperDiscount
         $totalDiscount = $cart['cart_discount'] + $codeDiscount;
 
         \JFactory::getSession()->set('cart', $cart);
-        $calculations = \Redshop\Cart\Helper::calculation();
-        $tax          = $calculations[5];
-        $discountVAT  = 0;
-        $chktag       = RedshopHelperCart::taxExemptAddToCart();
+        $calculations      = \Redshop\Cart\Helper::calculation();
+        $tax         = $calculations[5];
+        $discountVAT = 0;
+        $chktag      = RedshopHelperCart::taxExemptAddToCart();
 
         if (Redshop::getConfig()->getFloat('VAT_RATE_AFTER_DISCOUNT') && !empty($chktag)) {
             if (Redshop::getConfig()->get('APPLY_VAT_ON_DISCOUNT')) {
@@ -347,33 +375,5 @@ class RedshopHelperDiscount
         \JFactory::getSession()->set('cart', $cart);
 
         return $cart;
-    }
-
-    /**
-     * Method for calculate discount.
-     *
-     * @param   string  $type   Type of discount
-     * @param   array   $types  List of type
-     *
-     * @return  float
-     *
-     * @since   2.1.0
-     */
-    public static function calculate($type, $types)
-    {
-        if (empty($types)) {
-            return 0;
-        }
-
-        $value    = $type == 'voucher' ? 'voucher_value' : 'coupon_value';
-        $discount = 0;
-
-        $idx = count($types);
-
-        for ($i = 0; $i < $idx; $i++) {
-            $discount += $types[$i][$value];
-        }
-
-        return $discount;
     }
 }

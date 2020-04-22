@@ -21,20 +21,28 @@ defined('_JEXEC') or die;
 class RedshopControllerQuestion extends RedshopControllerForm
 {
     /**
-     * Send function
+     * Proxy for getModel.
      *
-     * @return void
+     * @param string $name The model name. Optional.
+     * @param string $prefix The class prefix. Optional.
+     * @param array $config Configuration array for model. Optional.
+     *
+     * @return  object  The model.
+     *
+     * @since   2.1.0
      */
-    public function send()
+    public function getModel($name = 'Question', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
     {
-        $this->save(1);
+        $model = parent::getModel($name, $prefix, $config);
+
+        return $model;
     }
 
     /**
      * Save question
      *
-     * @param   integer  $send    Send Question?
-     * @param   string   $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+     * @param integer $send Send Question?
+     * @param string $urlVar The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
      *
      * @return  boolean  True if successful, false otherwise.
      * @todo    I know, I know this is not a proper way. But we needs to move to form way.
@@ -45,17 +53,17 @@ class RedshopControllerQuestion extends RedshopControllerForm
         $post = $this->input->post->getArray();
         $data = $post['jform'];
         $task = $post['task'];
-        $id   = \JFactory::getApplication()->input->get('id', 0);
+        $id = \JFactory::getApplication()->input->get('id', 0);
 
         $model = $this->getModel('Question');
 
         if ($data['id'] == 0) {
             $user = JFactory::getUser();
 
-            $data['user_name']     = $user->username;
-            $data['user_email']    = $user->email;
+            $data['user_name'] = $user->username;
+            $data['user_email'] = $user->email;
             $data['question_date'] = time();
-            $data['parent_id']     = 0;
+            $data['parent_id'] = 0;
         }
 
         $row = $model->save($data);
@@ -80,21 +88,13 @@ class RedshopControllerQuestion extends RedshopControllerForm
     }
 
     /**
-     * Proxy for getModel.
+     * Send function
      *
-     * @param   string  $name    The model name. Optional.
-     * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  Configuration array for model. Optional.
-     *
-     * @return  object  The model.
-     *
-     * @since   2.1.0
+     * @return void
      */
-    public function getModel($name = 'Question', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
+    public function send()
     {
-        $model = parent::getModel($name, $prefix, $config);
-
-        return $model;
+        $this->save(1);
     }
 
     /**
@@ -170,10 +170,10 @@ class RedshopControllerQuestion extends RedshopControllerForm
      */
     public function saveorder()
     {
-        $cid   = $this->input->post->get('cid', array(), 'array');
+        $cid = $this->input->post->get('cid', array(), 'array');
         $order = $this->input->post->get('order', array(), 'array');
 
-        $cid   = ArrayHelper::toInteger($cid);
+        $cid = ArrayHelper::toInteger($cid);
         $order = ArrayHelper::toInteger($order);
 
         /** @var RedshopModelQuestion $model */

@@ -16,19 +16,19 @@ $fields = $plugin->params->get('extrafield_payment', array());
 ?>
 <?php if (count($fields) > 0) : ?>
     <div id="extraFields_<?php echo $plugin->name; ?>">
-        <?php foreach ($fields as $name) : ?>
-            <?php
-            $fieldInput = Redshop\Fields\SiteHelper::listAllUserFields(
-                $name,
-                RedshopHelperExtrafields::SECTION_PAYMENT_GATEWAY,
-                '',
-                0,
-                0,
-                0
-            );
-            echo $fieldInput[0] . " " . $fieldInput[1] . "<br>";
-            echo '<input type="hidden" name="extrafields[]" value="' . $name . '">';
-            ?>
-        <?php endforeach; ?>
+		<?php foreach ($fields as $name) : ?>
+			<?php
+			$fieldInput = Redshop\Fields\SiteHelper::listAllUserFields(
+				$name,
+				RedshopHelperExtrafields::SECTION_PAYMENT_GATEWAY,
+				'',
+				0,
+				0,
+				0
+			);
+			echo $fieldInput[0] . " " . $fieldInput[1] . "<br>";
+			echo '<input type="hidden" name="extrafields[]" value="' . $name . '">';
+			?>
+		<?php endforeach; ?>
     </div>
 <?php endif; ?>

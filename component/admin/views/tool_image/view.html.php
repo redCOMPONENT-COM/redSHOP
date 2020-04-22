@@ -18,24 +18,24 @@ defined('_JEXEC') or die;
  */
 class RedshopViewTool_Image extends RedshopViewAdmin
 {
-    /**
-     * @var  RedshopModelRedshop
-     */
-    public $model;
+	/**
+	 * @var  RedshopModelRedshop
+	 */
+	public $model;
 
-    /**
-     * Display the States view
-     *
-     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-     *
-     * @return  void
-     *
-     * @throws  Exception
-     */
-    public function display($tpl = null)
-    {
-        JToolBarHelper::title(JText::_('COM_REDSHOP_TOOLS'));
+	/**
+	 * Display the States view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 */
+	public function display($tpl = null)
+	{
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TOOLS'));
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }

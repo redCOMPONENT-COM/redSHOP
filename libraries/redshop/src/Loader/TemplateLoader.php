@@ -20,29 +20,30 @@ use Joomla\CMS\Factory;
  */
 final class TemplateLoader extends ExtensionLoader
 {
-    /**
-     * @var string
-     * @since 2.1.5
-     */
-    protected $extensionNamespace = 'template';
+	/**
+	 * @var string
+	 * @since 2.1.5
+	 */
+	protected $extensionNamespace = 'template';
 
-    /**
-     *
-     * @return array
-     *
-     * @throws \Exception
-     * @since  2.1.5
-     */
-    protected function getTemplatePaths(): array
-    {
-        $paths = [];
+	/**
+	 *
+	 * @return array
+	 *
+	 * @throws \Exception
+	 * @since  2.1.5
+	 */
+	protected function getTemplatePaths() : array
+	{
+		$paths = [];
 
-        $tplOverrides = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html';
+		$tplOverrides = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html';
 
-        if (is_dir($tplOverrides)) {
-            $paths[] = $tplOverrides;
-        }
+		if (is_dir($tplOverrides))
+		{
+			$paths[] = $tplOverrides;
+		}
 
-        return $paths;
-    }
+		return $paths;
+	}
 }

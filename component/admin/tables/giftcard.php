@@ -20,131 +20,142 @@ use Redshop\Economic\RedshopEconomic;
  */
 class RedshopTableGiftcard extends RedshopTable
 {
-    /**
-     * The table name without the prefix. Ex: cursos_courses
-     *
-     * @var  string
-     */
-    protected $_tableName = 'redshop_giftcard';
+	/**
+	 * The table name without the prefix. Ex: cursos_courses
+	 *
+	 * @var  string
+	 */
+	protected $_tableName = 'redshop_giftcard';
 
-    /**
-     * The table key column. Usually: id
-     *
-     * @var  string
-     */
-    protected $_tableKey = 'giftcard_id';
+	/**
+	 * The table key column. Usually: id
+	 *
+	 * @var  string
+	 */
+	protected $_tableKey = 'giftcard_id';
 
-    /**
-     * Delete one or more registers
-     *
-     * @param   string/array  $pk  Array of ids or ids comma separated
-     *
-     * @return  boolean  Deleted successfuly?
-     */
-    protected function doDelete($pk = null)
-    {
-        if ($this->giftcard_image != '' && file(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image)) {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
-        }
+	/**
+	 * Delete one or more registers
+	 *
+	 * @param   string/array  $pk  Array of ids or ids comma separated
+	 *
+	 * @return  boolean  Deleted successfuly?
+	 */
+	protected function doDelete($pk = null)
+	{
+		if ($this->giftcard_image != '' && file(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image))
+		{
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
+		}
 
-        if ($this->giftcard_bgimage != '' && file(
-                REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage
-            )) {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
-        }
+		if ($this->giftcard_bgimage != '' && file(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage))
+		{
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
+		}
 
-        return parent::doDelete($pk);
-    }
+		return parent::doDelete($pk);
+	}
 
-    /**
-     * Do the database store.
-     *
-     * @param   boolean  $updateNulls  True to update null values as well.
-     *
-     * @return  boolean
-     */
-    protected function doStore($updateNulls = false)
-    {
-        // Get input
-        $app   = JFactory::getApplication();
-        $input = $app->input;
+	/**
+	 * Do the database store.
+	 *
+	 * @param   boolean  $updateNulls  True to update null values as well.
+	 *
+	 * @return  boolean
+	 */
+	protected function doStore($updateNulls = false)
+	{
 
-        $giftCardFile = $input->files->get('jform');
-        $image        = $giftCardFile['giftcard_image_file'];
+		// Get input
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 
-        if ($image['name'] != '' && $this->giftcard_image != '') {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
-            $this->giftcard_image = '';
-        }
+		$giftCardFile = $input->files->get('jform');
+		$image        = $giftCardFile['giftcard_image_file'];
 
-        if ($image['name'] != '') {
-            $image['name']        = RedshopHelperMedia::cleanFileName($image['name']);
-            $this->giftcard_image = $image['name'];
-            JFile::upload($image['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $image['name']);
-        }
+		if ($image['name'] != '' && $this->giftcard_image != '')
+		{
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_image);
+			$this->giftcard_image = '';
+		}
 
-        // Get background image file
-        $bgImage = $giftCardFile['giftcard_bgimage_file'];
+		if ($image['name'] != '')
+		{
+			$image['name']        = RedshopHelperMedia::cleanFileName($image['name']);
+			$this->giftcard_image = $image['name'];
+			JFile::upload($image['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $image['name']);
+		}
 
-        if (($bgImage['name'] != '' && $this->giftcard_bgimage != '')) {
-            JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
-            $this->giftcard_bgimage = '';
-        }
+		// Get background image file
+		$bgImage = $giftCardFile['giftcard_bgimage_file'];
 
-        if ($bgImage['name'] != '') {
-            $bgImage['name']        = RedshopHelperMedia::cleanFileName($bgImage['name']);
-            $this->giftcard_bgimage = $bgImage['name'];
-            JFile::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
-        }
+		if (($bgImage['name'] != '' && $this->giftcard_bgimage != ''))
+		{
+			JFile::delete(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $this->giftcard_bgimage);
+			$this->giftcard_bgimage = '';
+		}
 
-        $this->giftcard_price = RedshopHelperProduct::redpriceDecimal($this->giftcard_price);
-        $this->giftcard_value = RedshopHelperProduct::redpriceDecimal($this->giftcard_value);
+		if ($bgImage['name'] != '')
+		{
+			$bgImage['name']        = RedshopHelperMedia::cleanFileName($bgImage['name']);
+			$this->giftcard_bgimage = $bgImage['name'];
+			JFile::upload($bgImage['tmp_name'], REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $bgImage['name']);
+		}
 
-        if (!parent::doStore($updateNulls)) {
-            return false;
-        }
+		$this->giftcard_price = RedshopHelperProduct::redpriceDecimal($this->giftcard_price);
+		$this->giftcard_value = RedshopHelperProduct::redpriceDecimal($this->giftcard_value);
 
-        if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1) {
-            $giftData                  = new stdClass;
-            $giftData->product_id      = $this->giftcard_id;
-            $giftData->product_number  = "gift_" . $this->giftcard_id . "_" . $this->giftcard_name;
-            $giftData->product_name    = $this->giftcard_name;
-            $giftData->product_price   = $this->giftcard_price;
-            $giftData->accountgroup_id = $this->accountgroup_id;
-            $giftData->product_volume  = 0;
+		if (!parent::doStore($updateNulls))
+		{
+			return false;
+		}
 
-            RedshopEconomic::createProductInEconomic($giftData);
-        }
+		if (Redshop::getConfig()->get('ECONOMIC_INTEGRATION') == 1)
+		{
+			$giftData                  = new stdClass;
+			$giftData->product_id      = $this->giftcard_id;
+			$giftData->product_number  = "gift_" . $this->giftcard_id . "_" . $this->giftcard_name;
+			$giftData->product_name    = $this->giftcard_name;
+			$giftData->product_price   = $this->giftcard_price;
+			$giftData->accountgroup_id = $this->accountgroup_id;
+			$giftData->product_volume  = 0;
 
-        return true;
-    }
+			RedshopEconomic::createProductInEconomic($giftData);
+		}
 
-    /**
-     * Checks that the object is valid and able to be stored.
-     *
-     * This method checks that the parent_id is non-zero and exists in the database.
-     * Note that the root node (parent_id = 0) cannot be manipulated with this class.
-     *
-     * @return  boolean  True if all checks pass.
-     */
-    protected function doCheck()
-    {
-        if (empty($this->giftcard_name)) {
-            return false;
-        }
+		return true;
+	}
 
-        if (empty($this->giftcard_price)) {
-            return false;
-        }
+	/**
+	 * Checks that the object is valid and able to be stored.
+	 *
+	 * This method checks that the parent_id is non-zero and exists in the database.
+	 * Note that the root node (parent_id = 0) cannot be manipulated with this class.
+	 *
+	 * @return  boolean  True if all checks pass.
+	 */
+	protected function doCheck()
+	{
+		if (empty($this->giftcard_name))
+		{
+			return false;
+		}
 
-        if (empty($this->giftcard_value)) {
-            return false;
-        }
+		if (empty($this->giftcard_price))
+		{
+			return false;
+		}
 
-        if (empty($this->giftcard_validity)) {
-            return false;
-        }
+		if (empty($this->giftcard_value))
+		{
+			return false;
+		}
 
-        return parent::doCheck();
-    }
+		if (empty($this->giftcard_validity))
+		{
+			return false;
+		}
+
+		return parent::doCheck();
+	}
 }

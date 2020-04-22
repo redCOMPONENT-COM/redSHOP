@@ -13,8 +13,8 @@ jimport('joomla.application.component.controlleradmin');
 
 class RedshopControllerQuotation extends RedshopControllerAdmin
 {
-    public function cancel()
-    {
-        $this->setRedirect('index.php');
-    }
+	public function cancel()
+	{
+		$this->setRedirect('index.php');
+	}
 }

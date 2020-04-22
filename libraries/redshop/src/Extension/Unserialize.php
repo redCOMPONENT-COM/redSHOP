@@ -22,27 +22,27 @@ use Twig\TwigFilter;
  */
 final class Unserialize extends AbstractExtension
 {
-    /**
-     *
-     * @return array
-     *
-     * @since 2.1.5
-     */
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('unserialize', 'unserialize')
-        ];
-    }
+	/**
+	 *
+	 * @return array
+	 *
+	 * @since 2.1.5
+	 */
+	public function getFilters() : array
+	{
+		return [
+			new TwigFilter('unserialize', 'unserialize')
+		];
+	}
 
-    /**
-     *
-     * @return string
-     *
-     * @since 2.1.5
-     */
-    public function getName(): string
-    {
-        return 'junserialize';
-    }
+	/**
+	 *
+	 * @return string
+	 *
+	 * @since 2.1.5
+	 */
+	public function getName() : string
+	{
+		return 'junserialize';
+	}
 }

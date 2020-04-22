@@ -59,16 +59,14 @@ $dropzoneMedia = !empty($mediaId) ? 'dropzone[' . $id . '][media-' . $mediaId . 
                 <i class="fa fa-trash"></i> <?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_REMOVE') ?>
             </button>
         </div>
-        <?php if ($showMedia): ?>
+		<?php if ($showMedia): ?>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-success hasTooltip rs-media-gallery-btn"
                         data-original-title="<?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT_FROM_MEDIA'); ?>">
-                    <i class="fa fa-picture-o"></i> <?php echo JText::_(
-                        'COM_REDSHOP_MEDIA_BUTTON_INSERT_FROM_MEDIA'
-                    ); ?>
+                    <i class="fa fa-picture-o"></i> <?php echo JText::_('COM_REDSHOP_MEDIA_BUTTON_INSERT_FROM_MEDIA'); ?>
                 </button>
             </div>
-        <?php endif; ?>
+		<?php endif; ?>
     </div>
     <input type="hidden" name="<?php echo $dropzoneMedia ?>" class="redshop-media-img-select"/>
     <!-- End Dropzone Container -->
@@ -105,10 +103,10 @@ $dropzoneMedia = !empty($mediaId) ? 'dropzone[' . $id . '][media-' . $mediaId . 
                 </div>
                 <div class="modal-footer btn-toolbar text-center">
                     <button type="button" class="btn btn-small float-none" data-dismiss="modal">
-                        <?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CANCEL'); ?>
+						<?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CANCEL'); ?>
                     </button>
                     <button type="button" class="btn btn-small btn-success float-none crop-upload">
-                        <?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CROP'); ?>
+						<?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_BTN_CROP'); ?>
                     </button>
                 </div>
             </div><!-- /.modal-content -->
@@ -124,9 +122,7 @@ $dropzoneMedia = !empty($mediaId) ? 'dropzone[' . $id . '][media-' . $mediaId . 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"><i
-                                class="fa fa-warning text-yellow"></i> <?php echo JText::_(
-                            'COM_REDSHOP_MEDIA_MODAL_ALERT_TITLE'
-                        ); ?>
+                                class="fa fa-warning text-yellow"></i> <?php echo JText::_('COM_REDSHOP_MEDIA_MODAL_ALERT_TITLE'); ?>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -141,22 +137,22 @@ $dropzoneMedia = !empty($mediaId) ? 'dropzone[' . $id . '][media-' . $mediaId . 
     </div><!-- /.modal -->
     <!-- End Alert Modal -->
 
-    <?php if ($showMedia): ?>
-        <?php
-        $selectedImage = !empty($file) ? $file['name'] : '';
+	<?php if ($showMedia): ?>
+		<?php
+		$selectedImage = !empty($file) ? $file['name'] : '';
 
-        echo RedshopLayoutHelper::render(
-            'media.media_files',
-            array(
-                'id'           => $id,
-                'type'         => $type,
-                'sectionId'    => $sectionId,
-                'mediaSection' => $mediaSection,
-                'gallery'      => RedshopHelperMediaImage::getMediaFiles($selectedImage)
-            )
-        );
-        ?>
-    <?php endif; ?>
+		echo RedshopLayoutHelper::render(
+			'media.media_files',
+			array(
+				'id'           => $id,
+				'type'         => $type,
+				'sectionId'    => $sectionId,
+				'mediaSection' => $mediaSection,
+				'gallery'      => RedshopHelperMediaImage::getMediaFiles($selectedImage)
+			)
+		);
+		?>
+	<?php endif; ?>
 </div>
 
 <script type="text/javascript">
@@ -167,7 +163,7 @@ $dropzoneMedia = !empty($mediaId) ? 'dropzone[' . $id . '][media-' . $mediaId . 
                 imageMaxWidth: <?php echo $imageMaxWidth ?>,
                 imageMaxHeight: <?php echo $imageMaxHeight ?>
             };
-            <?php if (!empty($file)): ?>
+			<?php if (!empty($file)): ?>
             option.initFile = {
                 name: "<?php echo $file['name'] ?>",
                 size: <?php echo $file['size'] ?>,
@@ -177,10 +173,10 @@ $dropzoneMedia = !empty($mediaId) ? 'dropzone[' . $id . '][media-' . $mediaId . 
                 blob: "<?php echo $file['blob'] ?>",
                 preload: true
             };
-            <?php endif; ?>
-            <?php if ($showMedia): ?>
+			<?php endif; ?>
+			<?php if ($showMedia): ?>
             option.showMediaFiles = true;
-            <?php endif; ?>
+			<?php endif; ?>
 
             $("#<?php echo $id ?>-wrapper").redshopMedia(option);
         });

@@ -18,8 +18,8 @@ global.config = require("./gulp-config.json");
 global.getFolders = function getFolders(dir) {
     return fs.readdirSync(dir)
         .filter(function (file) {
-                return fs.statSync(path.join(dir, file)).isDirectory();
-            }
+            return fs.statSync(path.join(dir, file)).isDirectory();
+        }
         );
 }
 
@@ -101,7 +101,7 @@ global.getGlobExtensionPattern = function getGlobExtensionPattern(extensionType,
  */
 global.executeComposer = function executeComposer(composerPath) {
     log("Composer found: ", colors.blue(composerPath));
-    composer({cwd: composerPath, bin: 'php ./composer.phar'});
+    composer({ cwd: composerPath, bin: 'php ./composer.phar' });
 }
 
 gulp.task("composer", function (cb) {
@@ -112,12 +112,12 @@ gulp.task("composer", function (cb) {
             // Make sure this is not composer.json inside vendor library
             if (composerPath.indexOf("vendor") == -1 && composerPath != '.') {
                 log("Composer found: ", colors.blue(composerPath));
-                composer({cwd: composerPath, bin: 'php ./composer.phar'}).on('end', cb);
+                composer({ cwd: composerPath, bin: 'php ./composer.phar' }).on('end', cb);
             }
         }
     });
 });
 
-var jgulp = requireDir("./redGulp/extensions", {recurse: true});
-var gulpSrc = requireDir("./redGulp/tasks", {recurse: true});
-var gulpSrc = requireDir("./redGulp/src", {recurse: true});
+var jgulp = requireDir("./redGulp/extensions", { recurse: true });
+var gulpSrc = requireDir("./redGulp/tasks", { recurse: true });
+var gulpSrc = requireDir("./redGulp/src", { recurse: true });

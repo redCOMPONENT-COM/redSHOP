@@ -17,9 +17,10 @@ defined('_JEXEC') or die;
  *    $input           : (string) The input field html code
  */
 
-if (!empty($displayData['options']['showonEnabled'])) {
-    JHtml::_('jquery.framework');
-    JHtml::_('script', 'jui/cms.js', false, true);
+if (!empty($displayData['options']['showonEnabled']))
+{
+	JHtml::_('jquery.framework');
+	JHtml::_('script', 'jui/cms.js', false, true);
 }
 
 $class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
@@ -27,11 +28,11 @@ $rel   = empty($displayData['options']['rel']) ? "" : " " . $displayData['option
 ?>
 <?php if (!empty($displayData['label']) || !empty($displayData['input'])) : ?>
     <div class="form-group row-fluid <?php echo $class; ?>"<?php echo $rel; ?>>
-        <?php if (empty($displayData['options']['hiddenLabel'])) : ?>
-            <?php echo $displayData['label']; ?>
-        <?php endif; ?>
+		<?php if (empty($displayData['options']['hiddenLabel'])) : ?>
+			<?php echo $displayData['label']; ?>
+		<?php endif; ?>
         <div class="col-md-10">
-            <?php echo $displayData['input']; ?>
+			<?php echo $displayData['input']; ?>
         </div>
     </div>
 <?php endif ?>

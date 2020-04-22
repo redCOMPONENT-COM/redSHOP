@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     RedSHOP.Backend
  * @subpackage  Template
@@ -29,19 +28,19 @@ $paymentBlock = $this->detail->use_individual_payment_method == 1 ? 'block' : 'n
             <div class="box-body">
                 <div class="form-group">
                     <label class="col-md-3" for="use_individual_payment_method">
-                        <?php echo JText::_('COM_REDSHOP_USE_INDIVIDUAL_PAYMENT_METHOD'); ?>
+						<?php echo JText::_('COM_REDSHOP_USE_INDIVIDUAL_PAYMENT_METHOD'); ?>
                     </label>
                     <div class="col-md-9">
-                        <?php echo $this->lists['use_individual_payment_method']; ?>
+						<?php echo $this->lists['use_individual_payment_method']; ?>
                     </div>
                 </div>
                 <hr/>
                 <div class="form-group" id="payment_method_wrapper" style="display: <?php echo $paymentBlock ?>;">
                     <label class="col-md-3" for="payment_method[]">
-                        <?php echo JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD'); ?>
+						<?php echo JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD'); ?>
                     </label>
                     <div class="col-md-9">
-                        <?php echo $this->lists['payment_methods']; ?>
+						<?php echo $this->lists['payment_methods']; ?>
                     </div>
                 </div>
             </div>

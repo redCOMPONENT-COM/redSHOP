@@ -18,27 +18,28 @@ defined('_JEXEC') or die;
  */
 class RedshopModelCurrency extends RedshopModelForm
 {
-    /**
-     * Method to get the data that should be injected in the form.
-     *
-     * @return  mixed  The data for the form.
-     *
-     * @throws  Exception
-     * @since   2.0.11
-     *
-     */
-    protected function loadFormData()
-    {
-        // Check the session for previously entered form data.
-        $app  = JFactory::getApplication();
-        $data = $app->getUserState('com_redshop.edit.currency.data', array());
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   2.0.11
+	 *
+	 * @throws  Exception
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_redshop.edit.currency.data', array());
 
-        if (empty($data)) {
-            $data = $this->getItem();
-        }
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
 
-        $this->preprocessData('com_redshop.currency', $data);
+		$this->preprocessData('com_redshop.currency', $data);
 
-        return $data;
-    }
+		return $data;
+	}
 }

@@ -18,35 +18,35 @@ defined('_JEXEC') or die;
  */
 class RedshopViewImport extends RedshopViewAdmin
 {
-    /**
-     * @var   array
-     *
-     * @since  2.0.3
-     */
-    protected $imports;
+	/**
+	 * @var   array
+	 *
+	 * @since  2.0.3
+	 */
+	protected $imports;
 
-    /**
-     * Function display template
-     *
-     * @param   string  $tpl  name of template
-     *
-     * @return  void
-     * @throws  Exception
-     *
-     * @since   2.0.3
-     */
-    public function display($tpl = null)
-    {
-        $document = JFactory::getDocument();
+	/**
+	 * Function display template
+	 *
+	 * @param   string  $tpl  name of template
+	 *
+	 * @return  void
+	 * @throws  Exception
+	 *
+	 * @since   2.0.3
+	 */
+	public function display($tpl = null)
+	{
+		$document = JFactory::getDocument();
 
-        /** @var RedshopModelImport $model */
-        $model = $this->getModel();
+		/** @var RedshopModelImport $model */
+		$model = $this->getModel();
 
-        $this->imports = $model->getImports();
+		$this->imports = $model->getImports();
 
-        $document->setTitle(JText::_('COM_REDSHOP_DATA_IMPORT'));
-        JToolBarHelper::title(JText::_('COM_REDSHOP_DATA_IMPORT'));
+		$document->setTitle(JText::_('COM_REDSHOP_DATA_IMPORT'));
+		JToolBarHelper::title(JText::_('COM_REDSHOP_DATA_IMPORT'));
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 }
