@@ -160,7 +160,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$useMassDiscountPage->returnXpath($nameProduct);
 
 		$I->click(MassDiscountManagerPage::$buttonSave);
-		$I->waitForText(MassDiscountManagerPage::$messageError, 30, MassDiscountManagerPage::$selectorError);
+		$I->waitForText(MassDiscountManagerPage::$messageError, 30, MassDiscountManagerPage::$selectorMissing);
 	}
 
 	/**
@@ -174,7 +174,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(MassDiscountManagerPage::$buttonNew);
 		$I->checkForPhpNoticesOrWarnings(MassDiscountManagerPage::$URLNew);
 		$I->click(MassDiscountManagerPage::$buttonSave);
-		$I->waitForText(MassDiscountManagerPage::$fieldName, 30, MassDiscountManagerPage::$selectorError);
+		$I->waitForText(MassDiscountManagerPage::$fieldName, 30, MassDiscountManagerPage::$selectorMissing);
 	}
 
 	/**
@@ -196,7 +196,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->fillField(MassDiscountManagerPage::$fieldStartDate, date('Y-m-d'));
 		$I->click(MassDiscountManagerPage::$buttonSave);
-		$I->waitForText(MassDiscountManagerPage::$fieldName, 30, MassDiscountManagerPage::$selectorError);
+		$I->waitForText(MassDiscountManagerPage::$fieldName, 30, MassDiscountManagerPage::$selectorMissing);
 	}
 
 	/**
@@ -229,7 +229,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$I->click(MassDiscountManagerPage::$buttonSave);
 
-		$I->waitForText(MassDiscountManagerPage::$messageError, 30, MassDiscountManagerPage::$selectorError);
+		$I->waitForText(MassDiscountManagerPage::$messageError, 30, MassDiscountManagerPage::$selectorMissing);
 	}
 
 	/**
@@ -254,7 +254,7 @@ class MassDiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(MassDiscountManagerPage::$fieldEndDate, $toDay);
 
 		$I->click(MassDiscountManagerPage::$buttonSave);
-		$I->waitForText(MassDiscountManagerPage::$saveError, 30, MassDiscountManagerPage::$selectorError);
+		$I->waitForText(MassDiscountManagerPage::$saveError, 30, MassDiscountManagerPage::$selectorMissing);
 	}
 
 	/**
