@@ -1,13 +1,12 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace AcceptanceTester;
-
 use CategoryManagerJ3Page as CategoryManagerJ3Page;
 use CategoryPage;
 
@@ -35,8 +34,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
-		$I->waitForText(CategoryManagerJ3Page::$newButton, 30);
-		$I->click(CategoryManagerJ3Page::$newButton);
+		$I->waitForText(CategoryManagerJ3Page::$buttonNew, 30);
+		$I->click(CategoryManagerJ3Page::$buttonNew);
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $categoryName);
 
 		$I->waitForElementVisible(CategoryManagerJ3Page::$template, 30);
@@ -45,9 +44,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(CategoryManagerJ3Page::$choiceTemplate);
 		$I->wait(0.5);
 
-		$I->click(CategoryManagerJ3Page::$saveButton);
+		$I->click(CategoryManagerJ3Page::$buttonSave);
 		$I->waitForElement(CategoryManagerJ3Page::$categoryName, 30);
-		$I->see(CategoryManagerJ3Page::$messageSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
+		$I->see(CategoryManagerJ3Page::$messageItemSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
 		$I->click(\CategoryPage::$buttonClose);
 	}
 
@@ -61,7 +60,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings();
-		$I->click(CategoryManagerJ3Page::$newButton);
+		$I->click(CategoryManagerJ3Page::$buttonNew);
 		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
 		$I->waitForElementVisible(CategoryManagerJ3Page::$categoryName, 30);
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $categoryName);
@@ -72,7 +71,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElementVisible(CategoryManagerJ3Page::$saveCloseButton, 30);
 		$I->click(CategoryManagerJ3Page::$saveCloseButton);
 		$I->waitForElement(CategoryManagerJ3Page::$categoryFilter, 30);
-		$I->see(CategoryManagerJ3Page::$messageSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
+		$I->see(CategoryManagerJ3Page::$messageItemSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
 	}
 
 	/** Create category Save and New button
@@ -86,12 +85,12 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->checkForPhpNoticesOrWarnings();
-		$I->click(CategoryManagerJ3Page::$newButton);
+		$I->click(CategoryManagerJ3Page::$buttonNew);
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $categoryName);
 		$I->fillField(CategoryManagerJ3Page::$categoryNoPage, $noPage);
 		$I->click(CategoryManagerJ3Page::$template);
 		$I->click(CategoryManagerJ3Page::$choiceTemplate);
-		$I->click(CategoryManagerJ3Page::$saveNewButton);
+		$I->click(CategoryManagerJ3Page::$buttonSaveNew);
 		$I->waitForElement(CategoryManagerJ3Page::$categoryName, 30);
 
 	}
@@ -103,8 +102,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
-		$I->click(CategoryManagerJ3Page::$newButton);
-		$I->click(CategoryManagerJ3Page::$cancelButton);
+		$I->click(CategoryManagerJ3Page::$buttonNew);
+		$I->click(CategoryManagerJ3Page::$buttonCancel);
 		$I->waitForElement(CategoryManagerJ3Page::$categoryFilter, 30);
 	}
 
@@ -118,7 +117,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->pauseExecution();
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
-		$I->click(CategoryManagerJ3Page::$newButton);
+		$I->click(CategoryManagerJ3Page::$buttonNew);
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $categoryName);
 		$I->click(CategoryManagerJ3Page::$parentCategory);
 		$I->click(CategoryManagerJ3Page::$choiceTemplate);
@@ -140,7 +139,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
-		$I->click(CategoryManagerJ3Page::$newButton);
+		$I->click(CategoryManagerJ3Page::$buttonNew);
 		$I->waitForElementVisible(CategoryManagerJ3Page::$categoryName, 30);
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $childname);
 		$I->click(CategoryManagerJ3Page::$parentCategory);
@@ -148,7 +147,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(CategoryPage::$parentCategoryInput, $parentname);
 		$I->pressKey(CategoryPage::$parentCategoryInput, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->click(CategoryManagerJ3Page::$saveCloseButton);
-		$I->waitForText(CategoryManagerJ3Page::$messageSaveSuccess, 30, CategoryManagerJ3Page::$selectorSuccess);
+		$I->waitForText(CategoryManagerJ3Page::$messageItemSaveSuccess, 30, CategoryManagerJ3Page::$selectorSuccess);
 	}
 
 	/**
@@ -195,7 +194,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
-		$I->click(CategoryManagerJ3Page::$newButton);
+		$I->click(CategoryManagerJ3Page::$buttonNew);
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $categoryName);
 		$I->click(CategoryManagerJ3Page::$parentCategory);
 		$I->click(CategoryManagerJ3Page::$choiceTemplate);
@@ -207,7 +206,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$this->selectAccessories($productAccessories);
 		$I->click(CategoryManagerJ3Page::$saveCloseButton);
 		$I->waitForElement(CategoryManagerJ3Page::$categoryFilter, 30);
-		$I->see(CategoryManagerJ3Page::$messageSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
+		$I->see(CategoryManagerJ3Page::$messageItemSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
 	}
 
 	// That is the function for udpate category
@@ -241,9 +240,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		$URLEdit = CategoryManagerJ3Page::$URLEdit . $value;
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $updatedName);
-		$I->click(CategoryManagerJ3Page::$saveButton);
+		$I->click(CategoryManagerJ3Page::$buttonSave);
 		$I->waitForElement(CategoryManagerJ3Page::$categoryName, 30);
-		$I->see(CategoryManagerJ3Page::$messageSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
+		$I->see(CategoryManagerJ3Page::$messageItemSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
 	}
 
 	/**
@@ -268,7 +267,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->fillField(CategoryManagerJ3Page::$categoryName, $updatedName);
 		$I->click(CategoryManagerJ3Page::$saveCloseButton);
 		$I->waitForElement(CategoryManagerJ3Page::$categoryFilter, 60);
-		$I->see(CategoryManagerJ3Page::$messageSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
+		$I->see(CategoryManagerJ3Page::$messageItemSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
 	}
 
 	/**
@@ -329,7 +328,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
-		$I->click(CategoryManagerJ3Page::$deleteButton);
+		$I->click(CategoryManagerJ3Page::$buttonDelete);
 		$I->acceptPopup();
 		$I->waitForElement(CategoryManagerJ3Page::$categoryFilter, 30);
 	}
@@ -348,7 +347,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->searchCategory($categoryName);
 		$I->checkAllResults();
-		$I->click(CategoryManagerJ3Page::$deleteButton);
+		$I->click(CategoryManagerJ3Page::$buttonDelete);
 		$I->acceptPopup();
 
 		try
@@ -362,7 +361,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		{
 			$I->waitForElementVisible(CategoryManagerJ3Page::$checkAllXpath, 30);
 			$I->click(CategoryManagerJ3Page::$checkAllXpath);
-			$I->click(CategoryManagerJ3Page::$deleteButton);
+			$I->click(CategoryManagerJ3Page::$buttonDelete);
 			$I->acceptPopup();
 		}
 
@@ -377,7 +376,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
-		$I->click(CategoryManagerJ3Page::$deleteButton);
+		$I->click(CategoryManagerJ3Page::$buttonDelete);
 		$I->acceptPopup();
 //		$I->assertSystemMessageContains(CategoryManagerJ3Page::$messageErrorDeleteCategoryHasChildCategoriesOrProducts);
 	}
@@ -386,7 +385,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
-		$I->click(CategoryManagerJ3Page::$publishButton);
+		$I->click(CategoryManagerJ3Page::$buttonUnpublish);
 		$I->acceptPopup();
 	}
 
@@ -395,14 +394,14 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
-		$I->click(CategoryManagerJ3Page::$publishButton);
+		$I->click(CategoryManagerJ3Page::$buttonUnpublish);
 	}
 
 	public function unpublishWithoutChoice()
 	{
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
-		$I->click(CategoryManagerJ3Page::$unpublishButton);
+		$I->click(CategoryManagerJ3Page::$buttonUnpublish);
 		$I->acceptPopup();
 	}
 
@@ -411,14 +410,14 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
-		$I->click(CategoryManagerJ3Page::$unpublishButton);
+		$I->click(CategoryManagerJ3Page::$buttonUnpublish);
 	}
 
 	public function checkinWithoutChoice()
 	{
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
-		$I->click(CategoryManagerJ3Page::$checkInButton);
+		$I->click(CategoryManagerJ3Page::$buttonCheckIn);
 		$I->acceptPopup();
 	}
 
@@ -430,7 +429,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
-		$I->click(CategoryManagerJ3Page::$checkInButton);
+		$I->click(CategoryManagerJ3Page::$buttonCheckIn);
 //		$I->assertSystemMessageContains(CategoryManagerJ3Page::$messageCheckInSuccess);
 	}
 }
