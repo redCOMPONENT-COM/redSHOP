@@ -9,6 +9,7 @@
 namespace AcceptanceTester;
 
 use AdminJ3Page;
+use ExtensionManagerJoomla3Page;
 use FrontEndProductManagerJoomla3Page;
 use Step\Acceptance\Redshop;
 use \ConfigurationPage as ConfigurationPage;
@@ -382,5 +383,43 @@ class AdminManagerJoomla3Steps extends Redshop
 			'decimalSeparator'          => $decimalSeparator,
 			'numberZero'                => $NumberZero
 		);
+	}
+
+	/**
+	 * Function Uninstall redSHOP component
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function uninstallRedSHOP()
+	{
+		$I = $this;
+		$I->amOnPage(ExtensionManagerJoomla3Page::$urlManage);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForText(ExtensionManagerJoomla3Page::$buttonClear, 30);
+		$I->click(ExtensionManagerJoomla3Page::$buttonClear);
+
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForElementVisible(ExtensionManagerJoomla3Page::$searchTools, 30);
+		$I->wait(0.5);
+		$I->click(ExtensionManagerJoomla3Page::$searchTools);
+		$I->waitForJS("return window.jQuery && jQuery.active == 0;", 30);
+		$I->waitForElement(ExtensionManagerJoomla3Page::$filterType, 30);
+		$I->selectOptionInChosen(ExtensionManagerJoomla3Page::$filterType, 'Component');
+		$I->fillField(ExtensionManagerJoomla3Page::$searchField, 'redSHOP');
+		$I->click(ExtensionManagerJoomla3Page::$searchButtonJ3);
+		$I->waitForElementVisible(ExtensionManagerJoomla3Page::$manageList);
+		$I->click(ExtensionManagerJoomla3Page::$linkLocation);
+		$I->waitForElementVisible(ExtensionManagerJoomla3Page::$manageList);
+		$I->click(ExtensionManagerJoomla3Page::$linkLocation);
+		$I->click(ExtensionManagerJoomla3Page::$firstCheck);
+		$I->click(ExtensionManagerJoomla3Page::$buttonUninstall);
+		$I->acceptPopup();
+		$I->see(ExtensionManagerJoomla3Page::$messageUninstallSuccess, ExtensionManagerJoomla3Page::$idInstallSuccess);
+
+		$I->fillField(ExtensionManagerJoomla3Page::$searchField, 'redSHOP');
+		$I->click(ExtensionManagerJoomla3Page::$searchButtonJ3);
+		$I->waitForText(ExtensionManagerJoomla3Page::$messageUninstall, 10, ExtensionManagerJoomla3Page::$selectorAlert);
+		$I->see(ExtensionManagerJoomla3Page::$messageUninstall, ExtensionManagerJoomla3Page::$selectorAlert);
+		$I->selectOptionInChosen(ExtensionManagerJoomla3Page::$filterType, '- Select Type -');
 	}
 }

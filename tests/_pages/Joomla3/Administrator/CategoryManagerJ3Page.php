@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,7 +9,7 @@
 /**
  * Class CategoryManagerJ3Page
  *
- * @since  2.4
+ * @since  1.4.0
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
@@ -19,6 +19,7 @@ class CategoryManagerJ3Page extends AdminJ3Page
 
     /**
      * @var string
+     * @since 1.4.0
      */
     public static $URL = '/administrator/index.php?option=com_redshop&view=categories';
 
