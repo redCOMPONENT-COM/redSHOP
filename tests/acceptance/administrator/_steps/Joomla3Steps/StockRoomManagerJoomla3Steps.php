@@ -38,7 +38,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(StockRoomManagerJoomla3Page::$saveButton, 30);
 		$I->click(StockRoomManagerJoomla3Page::$saveButton);
 		$I->waitForText(StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, StockRoomManagerJoomla3Page::$selectorSuccess);
-		$I->click(StockRoomManagerJoomla3Page::$closeButton);
+		$I->click(StockRoomManagerJoomla3Page::$buttonClose);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(['link' => $name]);
 		$I->waitForElement(StockRoomManagerJoomla3Page::$stockRoomName, 30);
 		$I->fillField(StockRoomManagerJoomla3Page::$stockRoomName, $newName);
-		$I->click(StockRoomManagerJoomla3Page::$saveCloseButton);
+		$I->click(StockRoomManagerJoomla3Page::$buttonSaveClose);
 		$I->waitForText(StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, 60, StockRoomManagerJoomla3Page::$selectorSuccess);
 		$I->see(StockRoomManagerJoomla3Page::$stockRoomSuccessMessage, StockRoomManagerJoomla3Page::$selectorSuccess);
 	}
@@ -89,6 +89,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * Function to get State of the Stockroom
 	 * @param $name
 	 * @return string
+	 * @throws \Exception
 	 * @since 1.4.0
 	 */
 	public function getStockRoomState($name)
@@ -104,6 +105,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String $name Name of the Stockroom which is to be Deleted
 	 *
 	 * @return void
+	 * @throws \Exception
 	 * @since 1.4.0
 	 */
 	public function deleteStockRoom($name)
@@ -114,7 +116,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	/**
 	 * Function to Delete all Stockroom
 	 * @throws \Exception
-	 *
+	 * @since 1.4.0
 	 */
 	public function deleteAllStockRoom()
 	{
@@ -122,7 +124,7 @@ class StockRoomManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(StockRoomManagerJoomla3Page::$URL);
 		$I->click(StockRoomManagerJoomla3Page::$resetButton);
 		$I->checkAllResults();
-		$I->click(StockRoomManagerJoomla3Page::$deleteButton);
+		$I->click(StockRoomManagerJoomla3Page::$buttonDelete);
 		$I->acceptPopup();
 		$I->see(StockRoomManagerJoomla3Page::$deleteMessage, StockRoomManagerJoomla3Page::$selectorSuccess);
 	}

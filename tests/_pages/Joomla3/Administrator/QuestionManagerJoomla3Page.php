@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,58 +11,68 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  2.4
+ * @since  1.4.0
  */
 class QuestionManagerJoomla3Page
 {
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $URL = '/administrator/index.php?option=com_redshop&view=question';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $userPhone = "//input[@id='telephone']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $productNameDropDown = "//div[@id='s2id_product_id']/a";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $productNameSearchField = "//input[@id='s2id_autogen1_search']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $toggleQuestionDescriptionEditor = "//div[@class='editor']//textarea[@id='question']/../div//div//a[@title='Toggle editor']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $question = "//textarea[@id='question']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $questionSuccessMessage = 'Question Detail Saved';
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $firstResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $selectFirst = "//input[@id='cb0']";
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
 	public static $questionStatePath = "//div[@id='editcell']//table//tbody/tr[1]/td[9]/a";
 
 	/**
@@ -71,6 +81,7 @@ class QuestionManagerJoomla3Page
 	 * @param   String  $name  Name of the Product for which question is to be posted
 	 *
 	 * @return string
+	 * @since 1.4.0
 	 */
 	public function productName($name)
 	{
