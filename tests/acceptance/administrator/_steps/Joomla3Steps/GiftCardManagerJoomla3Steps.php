@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -238,6 +238,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $cardName Name on the Card
 	 *
 	 * @return void
+	 * @throws \Exception
 	 * @since 1.4.0
 	 */
 	public function deleteCard($cardName)
@@ -257,6 +258,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $functionName Name of the function after which Search is being Called
 	 *
 	 * @return void
+	 * @throws \Exception
 	 * @since 1.4.0
 	 */
 	public function searchCard($cardName = 'Sample Card', $functionName = 'Search')
@@ -272,6 +274,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String $cardName Name of the Card for which the state is to be Changed
 	 * @since 1.4.0
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function changeCardState($cardName = 'Sample Card')
 	{
@@ -284,6 +287,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $cardName
+	 * @throws \Exception
 	 * @since 1.4.0
 	 */
 	public function changeCardUnpublishButton($cardName)
@@ -297,6 +301,7 @@ class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $cardName
+	 * @throws \Exception
 	 * @since 1.4.0
 	 */
 	public function changeCardPublishButton($cardName)

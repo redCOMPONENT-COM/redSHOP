@@ -13,7 +13,7 @@
  *
  * @since 1.4.0
  */
-class CustomFieldManagerJoomla3Page
+class CustomFieldManagerJoomla3Page extends AdminJ3Page
 {
 	/**
 	 * @var string

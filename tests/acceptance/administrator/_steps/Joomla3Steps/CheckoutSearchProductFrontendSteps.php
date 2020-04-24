@@ -42,6 +42,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 		$I->fillField(ModuleManagerJ3page::$fieldPosition,$module['Position']);
 		$I->pressKey(ModuleManagerJ3page::$fieldPosition, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->scrollTo(ModuleManagerJ3page::$labelSearchTypeField);
+
 		if(isset($module['SearchTypeField']))
 		{
 			switch ($module['SearchTypeField'])
@@ -54,6 +55,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 					break;
 			}
 		}
+
 		if(isset($module['SearchField']))
 		{
 			switch ($module['SearchField'] )
@@ -67,6 +69,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 					break;
 			}
 		}
+
 		if(isset($module['CategoryField']))
 		{
 			switch ($module['CategoryField'])
@@ -80,6 +83,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 					break;
 			}
 		}
+
 		if(isset($module['ManufacturerField']))
 		{
 			switch ($module['ManufacturerField'])
@@ -93,6 +97,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 					break;
 			}
 		}
+
 		if(isset($module['ProductSearchTitle']))
 		{
 			switch ($module['ProductSearchTitle'])
@@ -106,7 +111,9 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 					break;
 			}
 		}
-		if(isset($module['KeywordTitle'])) {
+
+		if(isset($module['KeywordTitle']))
+		{
 			switch ($module['KeywordTitle'])
 			{
 				case 'yes':
@@ -118,6 +125,7 @@ class CheckoutSearchProductFrontendSteps  extends AdminManagerJoomla3Steps
 					break;
 			}
 		}
+
 		$I->click(ModuleManagerJ3page:: $buttonSaveClose);
 		$I->waitForText(ModuleManagerJ3page::$messageSaveModuleSuccess,10,ModuleManagerJ3page::$selectorMessage);
 	}
