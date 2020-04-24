@@ -78,8 +78,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @param $categoryName
 	 * @param $noPage
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
-
 	public function addCategorySaveNew($categoryName, $noPage)
 	{
 		$I = $this;
@@ -92,11 +93,12 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(CategoryManagerJ3Page::$choiceTemplate);
 		$I->click(CategoryManagerJ3Page::$buttonSaveNew);
 		$I->waitForElement(CategoryManagerJ3Page::$categoryName, 30);
-
 	}
 
 	/**
 	 *  Function check Cancel button
+	 * @since 1.4.0
+	 * @throws \Exception
 	 */
 	public function addCategoryCancel()
 	{
@@ -110,7 +112,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	/** Function create new Category is child of other category
 	 *
 	 * @param $categoryName
-	 * @param $NoPage
+	 * @param $noPage
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addCategoryChild($categoryName, $noPage)
 	{
@@ -152,6 +156,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * @param $name
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function checkReview($name)
 	{
@@ -173,6 +179,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $functionName Name of the function After Which search is being Called
 	 *
 	 * @return void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function searchCategory($categoryName)
 	{
@@ -188,7 +196,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param $noPage
 	 * @param $productAccessories
 	 * Here, can you support to fills in value to choice
-	 *
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addCategoryAccessories($categoryName, $noPage, $productAccessories)
 	{
@@ -209,8 +218,11 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->see(CategoryManagerJ3Page::$messageItemSaveSuccess, CategoryManagerJ3Page::$selectorSuccess);
 	}
 
-	// That is the function for udpate category
-
+	/**
+	 * @param $accessoryName
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	private function selectAccessories($accessoryName)
 	{
 		$I = $this;
@@ -226,6 +238,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 *
 	 * @param $categoryName
 	 * @param $updatedName
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function updateCategorySave($categoryName, $updatedName)
 	{
@@ -252,6 +266,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String $updatedName  Updated Name of the Category
 	 *
 	 * @return void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function updateCategory($categoryName, $updatedName)
 	{
@@ -277,6 +293,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   string $state        State of the Category
 	 *
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function changeCategoryState($categoryName, $state = 'unpublish')
 	{
@@ -302,6 +319,8 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	 * @param   String $categoryName Name of the Category
 	 *
 	 * @return string
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function getCategoryState($categoryName)
 	{
@@ -324,6 +343,10 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		return $result;
 	}
 
+	/**
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function deleteWithoutChoice()
 	{
 		$I = $this;
@@ -370,6 +393,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * Delete all category
+	 * @since 1.4.0
 	 */
 	public function deleteAllCategory()
 	{
@@ -378,9 +402,11 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->checkAllResults();
 		$I->click(CategoryManagerJ3Page::$buttonDelete);
 		$I->acceptPopup();
-//		$I->assertSystemMessageContains(CategoryManagerJ3Page::$messageErrorDeleteCategoryHasChildCategoriesOrProducts);
 	}
 
+	/**
+	 * @since 1.4.0
+	 */
 	public function publishWithoutChoice()
 	{
 		$I = $this;
@@ -389,6 +415,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->acceptPopup();
 	}
 
+	/**
+	 * @since 1.4.0
+	 */
 	public function publishAllCategory()
 	{
 		$I = $this;
@@ -397,6 +426,9 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(CategoryManagerJ3Page::$buttonUnpublish);
 	}
 
+	/**
+	 * @since 1.4.0
+	 */
 	public function unpublishWithoutChoice()
 	{
 		$I = $this;
@@ -405,6 +437,10 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->acceptPopup();
 	}
 
+	/**
+	 * Function unpublish all category
+	 * @since 1.4.0
+	 */
 	public function unpublishAllCategories()
 	{
 		$I = $this;
@@ -413,6 +449,10 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(CategoryManagerJ3Page::$buttonUnpublish);
 	}
 
+	/**
+	 * Funtcion check button Check in
+	 * @since 1.4.0
+	 */
 	public function checkinWithoutChoice()
 	{
 		$I = $this;
@@ -423,6 +463,7 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 	/**
 	 * Method for test check-in all categories
+	 * @since 1.4.0
 	 */
 	public function checkinAllCategories()
 	{
@@ -430,6 +471,5 @@ class CategoryManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->amOnPage(CategoryManagerJ3Page::$URL);
 		$I->checkAllResults();
 		$I->click(CategoryManagerJ3Page::$buttonCheckIn);
-//		$I->assertSystemMessageContains(CategoryManagerJ3Page::$messageCheckInSuccess);
 	}
 }
