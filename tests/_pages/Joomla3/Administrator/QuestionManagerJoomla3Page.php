@@ -13,7 +13,7 @@
  *
  * @since  1.4.0
  */
-class QuestionManagerJoomla3Page
+class QuestionManagerJoomla3Page extends AdminJ3Page
 {
 	/**
 	 * @var string

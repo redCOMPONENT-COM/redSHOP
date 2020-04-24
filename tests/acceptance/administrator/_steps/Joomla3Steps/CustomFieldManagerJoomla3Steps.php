@@ -51,7 +51,6 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(CustomFieldManagerJoomla3Page::$fieldSectionSearch, 30);
 		$I->fillField(CustomFieldManagerJoomla3Page::$fieldSectionSearch, $section);
 		$I->click($customFieldsManagerPage->xPathChoice($section));
-		$I->click(CustomFieldManagerJoomla3Page::$buttonSave);
 	}
 
 	/**
