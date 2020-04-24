@@ -10,7 +10,6 @@ namespace AcceptanceTester;
 
 use \ConfigurationPage as ConfigurationPage;
 use GiftCardCheckoutPage;
-use PHPUnit\Runner\Exception;
 use FrontEndProductManagerJoomla3Page;
 use CheckoutChangeQuantityProductPage;
 
@@ -203,63 +202,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->click(\PayPalPluginManagerJoomla3Page::$payNowField);
 		$I->waitForElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage, 30);
 		$I->seeElement(\PayPalPluginManagerJoomla3Page::$paymentCompletionSuccessMessage);
-	}
-
-	/**
-	 * Function to Test Checkout Process of a Product using the 2Checkout Payment Plugin
-	 *
-	 * @param   Array  $addressDetail         Address Detail
-	 * @param   Array  $shipmentDetail        Shipping Address Detail
-	 * @param   Array  $checkoutAccountDetail 2Checkout Account Detail
-	 * @param   string $productName           Name of the Product
-	 * @param   string $categoryName          Name of the Category
-	 *
-	 * @return void
-	 * @throws \Exception
-	 */
-	public function checkoutProductWith2CheckoutPayment($addressDetail, $shipmentDetail, $checkoutAccountDetail, $productName = 'redCOOKIE', $categoryName = 'Events and Forms')
-	{
-		$I = $this;
-		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Product Front End Page');
-		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
-		$I->click($productFrontEndManagerPage->productCategory($categoryName));
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->click($productFrontEndManagerPage->product($productName));
-		$I->click(FrontEndProductManagerJoomla3Page::$addToCart);
-		$I->waitForText("Product has been added to your cart.", 10, '.alert-message');
-		$I->see("Product has been added to your cart.", '.alert-message');
-		$I->amOnPage('index.php?option=com_redshop&view=cart');
-		$I->checkForPhpNoticesOrWarnings();
-		$I->seeElement(['link' => $productName]);
-		$I->click(['xpath' => "//input[@value='Checkout']"]);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$newCustomerSpan, 30);
-		$I->click(FrontEndProductManagerJoomla3Page::$newCustomerSpan);
-		$this->addressInformation($addressDetail);
-		$this->shippingInformation($shipmentDetail);
-		$I->click("Proceed");
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$billingFinal);
-		$I->click(['xpath' => "//div[@id='rs_payment_2checkout']//label//input"]);
-		$I->click("Checkout");
-		$I->waitForElement($productFrontEndManagerPage->product($productName), 30);
-		$I->seeElement($productFrontEndManagerPage->product($productName));
-		$I->click(FrontEndProductManagerJoomla3Page::$termAndConditions);
-		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->scrollTo(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->click(FrontEndProductManagerJoomla3Page::$checkoutFinalStep);
-		$I->waitForText('Secure Checkout', 20, ['xpath' => '//h1']);
-		$I->see('Secure Checkout', ['xpath' => '//h1']);
-		$I->click(['xpath' => "//section[@id='review-cart']/button"]);
-		$I->fillField(['xpath' => "//input[@id='shipping-address-1']"], $checkoutAccountDetail['shippingAddress']);
-		$I->click(['xpath' => "//section[@id='shipping-information']/button"]);
-		$I->click(['xpath' => "//input[@id='same-as-shipping']"]);
-		$I->click(['xpath' => "//section[@id='billing-information']/button"]);
-		$I->waitForElement(['xpath' => "//input[@id='card-number']"], 30);
-		$I->fillField(['xpath' => "//input[@id='card-number']"], $checkoutAccountDetail['debitCardNumber']);
-		$I->click(['xpath' => "//section[@id='payment-method']/div[2]/button"]);
-		$I->waitForText('Your payment has been processed', 10, '//h1');
-		$I->see('Your payment has been processed', '//h1');
 	}
 
 	/**
@@ -692,20 +634,6 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		}
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->seeElement(['link' => $productName]);
-//		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-//
-//		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addressEmail);
-//		$I->fillField(FrontEndProductManagerJoomla3Page::$addressAddress, 'address');
-//		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPostalCode, 1201010);
-//		$I->fillField(FrontEndProductManagerJoomla3Page::$addressCity, "address");
-//		$I->fillField(FrontEndProductManagerJoomla3Page::$addressPhone, '123100120101');
-//		$I->click(FrontEndProductManagerJoomla3Page::$buttonSave);
-//		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
-//		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
-//		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
-//		$I->click(FrontEndProductManagerJoomla3Page::$paymentPayPad);
-//		$I->waitForElement(FrontEndProductManagerJoomla3Page::$checkoutButton, 30);
-//		$I->click(FrontEndProductManagerJoomla3Page::$checkoutButton);
 
 		try{
 			$I->waitForText($ShippingRate, 5, FrontEndProductManagerJoomla3Page::$shippingRate);
@@ -810,7 +738,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 
 		try{
 			$I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$addToCompare);
-		}catch (Exception $e)
+		}catch (\Exception $e)
 		{
 			$I->click(FrontEndProductManagerJoomla3Page::$addToCompare);
 		}
@@ -818,7 +746,9 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->wait(0.5);
 		$I->click(FrontEndProductManagerJoomla3Page::$showProductToCompare);
 		$I->wait(0.5);
-		try{
+
+		try
+        {
 			$I->waitForElement($usePage->productName($productFirst), 5);
 		}catch (\Exception $e)
 		{
@@ -832,6 +762,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 			$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCompare, 30);
 			$I->click(FrontEndProductManagerJoomla3Page::$addToCompare);
 		}
+
 		$I->wait(1);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
@@ -845,19 +776,7 @@ class ProductCheckoutManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$addToCompare, 30);
 		$I->click(FrontEndProductManagerJoomla3Page::$addToCompare);
 		$I->wait(1);
-//		try{
-//            $I->seeCheckboxIsChecked(FrontEndProductManagerJoomla3Page::$addToCompare);
-//        }catch (Exception $e)
-//        {
-//            $I->click(FrontEndProductManagerJoomla3Page::$addToCompare);
-//        }
-//		$I->waitForElement(FrontEndProductManagerJoomla3Page::$showProductToCompare, 30);
-//		$I->click(FrontEndProductManagerJoomla3Page::$showProductToCompare);
-//        $I->waitForElement($usePage->productName($productSecond), 30);
-//        $I->wait(1);
-//
-//		$I->waitForElement($usePage->productName($productFirst), 30);
-//		$I->waitForElement($usePage->productName($productSecond), 30);
+
 	}
 
 	/**

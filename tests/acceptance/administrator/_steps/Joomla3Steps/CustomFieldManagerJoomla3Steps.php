@@ -37,7 +37,6 @@ class CustomFieldManagerJoomla3Steps extends AdminManagerJoomla3Steps
 	{
 		$I = $this;
 		$I->amOnPage(CustomFieldManagerJoomla3Page::$URL);
-		$I->checkForPhpNoticesOrWarnings(CustomFieldManagerJoomla3Page::$URL);
 		$customFieldsManagerPage = new CustomFieldManagerJoomla3Page;
 		$I->click(CustomFieldManagerJoomla3Page::$newButton);
 		$I->waitForElement(CustomFieldManagerJoomla3Page::$fieldName, 30);

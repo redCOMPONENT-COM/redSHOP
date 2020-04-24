@@ -13,7 +13,7 @@
  *
  * @since  1.4.0
  */
-class MediaManagerPage
+class MediaManagerPage extends AdminJ3Page
 {
 	/**
 	 * @var string

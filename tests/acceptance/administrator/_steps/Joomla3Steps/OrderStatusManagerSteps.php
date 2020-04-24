@@ -8,6 +8,7 @@
 
 namespace AcceptanceTester;
 
+use DiscountPage;
 use OrderStatusManagerPage;
 
 /**
@@ -29,16 +30,18 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 	 * @param String $orderStatusCode code of Order Status
 	 *
 	 * @return void
+     * @throws \Exception
+     * @since 1.4.0
 	 */
 	public function createOrderStatus($orderStatusName,$orderStatusCode)
 	{
 		$I = $this;
-		$I->amOnPage(\OrderStatusManagerPage::$URL);
-		$I->click(\OrderStatusManagerPage::$buttonNew);
-		$I->fillField(\OrderStatusManagerPage::$orderstatusName, $orderStatusName);
-		$I->fillField(\OrderStatusManagerPage::$orderstatusCode, $orderStatusCode);
-		$I->click(\OrderStatusManagerPage::$buttonSave);
-		$I->waitForText(\OrderStatusManagerPage::$messageItemSaveSuccess, 30, \OrderStatusManagerPage::$selectorSuccess);
+		$I->amOnPage(OrderStatusManagerPage::$URL);
+		$I->click(OrderStatusManagerPage::$buttonNew);
+		$I->fillField(OrderStatusManagerPage::$orderstatusName, $orderStatusName);
+		$I->fillField(OrderStatusManagerPage::$orderstatusCode, $orderStatusCode);
+		$I->click(OrderStatusManagerPage::$buttonSave);
+		$I->waitForText(OrderStatusManagerPage::$messageItemSaveSuccess, 30, OrderStatusManagerPage::$selectorSuccess);
 	}
 
 	/**
@@ -47,15 +50,17 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 	 * @param String $orderStatusCode code of Order Status
 	 *
 	 * @return void
+     * @throws \Exception
+     * @since 1.4.0
 	 */
 	public function createOrderStatusMissingName($orderStatusCode)
 	{
 		$I = $this;
-		$I->amOnPage(\OrderStatusManagerPage::$URL);
-		$I->click(\OrderStatusManagerPage::$buttonNew);
-		$I->fillField(\OrderStatusManagerPage::$orderstatusCode, $orderStatusCode);
-		$I->click(\OrderStatusManagerPage::$buttonSave);
-		$I->waitForText(\OrderStatusManagerPage::$messageNameFieldRequired, 30, \OrderStatusManagerPage::$selectorMissing);
+		$I->amOnPage(OrderStatusManagerPage::$URL);
+		$I->click(OrderStatusManagerPage::$buttonNew);
+		$I->fillField(OrderStatusManagerPage::$orderstatusCode, $orderStatusCode);
+		$I->click(OrderStatusManagerPage::$buttonSave);
+		$I->waitForText(OrderStatusManagerPage::$messageNameFieldRequired, 30, OrderStatusManagerPage::$selectorMissing);
 	}
 
 	/**
@@ -64,15 +69,17 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 	 * @param String $orderStatusName name of Order Status
 	 *
 	 * @return void
+     * @throws \Exception
+     * @since 1.4.0
 	 */
 	public function createOrderStatusMissingCode($orderStatusName)
 	{
 		$I = $this;
-		$I->amOnPage(\OrderStatusManagerPage::$URL);
-		$I->click(\OrderStatusManagerPage::$buttonNew);
-		$I->fillField(\OrderStatusManagerPage::$orderstatusName, $orderStatusName);
-		$I->click(\OrderStatusManagerPage::$buttonSave);
-		$I->waitForText(\OrderStatusManagerPage::$messageCodeFieldRequired, 30, \OrderStatusManagerPage::$selectorMissing);
+		$I->amOnPage(OrderStatusManagerPage::$URL);
+		$I->click(OrderStatusManagerPage::$buttonNew);
+		$I->fillField(OrderStatusManagerPage::$orderstatusName, $orderStatusName);
+		$I->click(OrderStatusManagerPage::$buttonSave);
+		$I->waitForText(OrderStatusManagerPage::$messageCodeFieldRequired, 30, OrderStatusManagerPage::$selectorMissing);
 	}
 
 	/**
@@ -81,18 +88,19 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 	 * @param String $changename name change of Order Status
 	 *
 	 * @return void
+     * @throws \Exception
+     * @since 1.4.0
 	 */
-
 	public function editOrderStatus($orderStatusName, $changeName)
 	{
 		$I = $this;
-		$I->amOnPage(\OrderStatusManagerPage::$URL);
+		$I->amOnPage(OrderStatusManagerPage::$URL);
 		$I->searchOrderStatus($orderStatusName);
-		$I->click(\OrderStatusManagerPage::$editButton);
-		$I->waitForElement(\OrderStatusManagerPage::$orderstatusName, 30);
-		$I->fillField(\OrderStatusManagerPage::$orderstatusName, $changeName);
-		$I->click(\OrderStatusManagerPage::$buttonSaveClose);
-		$I->waitForText(\OrderStatusManagerPage::$messageItemSaveSuccess, 30, \OrderStatusManagerPage::$selectorSuccess);
+		$I->click(OrderStatusManagerPage::$editButton);
+		$I->waitForElement(OrderStatusManagerPage::$orderstatusName, 30);
+		$I->fillField(OrderStatusManagerPage::$orderstatusName, $changeName);
+		$I->click(OrderStatusManagerPage::$buttonSaveClose);
+		$I->waitForText(OrderStatusManagerPage::$messageItemSaveSuccess, 30, OrderStatusManagerPage::$selectorSuccess);
 	}
 
 	/**
@@ -101,16 +109,17 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 	 * @param String $orderStatusName name of Order Status
 	 *
 	 * @return void
+     * @since 1.4.0
 	 */
 	public function searchOrderStatus($orderStatusName)
 	{
 		$I = $this;
 		$I->wantTo('Search the Order Status');
-		$I->click(\OrderStatusManagerPage::$buttonReset);
-		$I->fillField(\OrderStatusManagerPage::$filterSearch, $orderStatusName);
-		$I->presskey(\OrderStatusManagerPage::$filterSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click(OrderStatusManagerPage::$buttonReset);
+		$I->fillField(OrderStatusManagerPage::$filterSearch, $orderStatusName);
+		$I->presskey(OrderStatusManagerPage::$filterSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		$I->checkAllResults();
-		$I->click(\OrderStatusManagerPage::$buttonCheckIn);
+		$I->click(OrderStatusManagerPage::$buttonCheckIn);
 	}
 
 	/**
@@ -119,15 +128,17 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 	 * @param String $changeName name of Order Status
 	 *
 	 * @return void
+     * @throws \Exception
+     * @since 1.4.0
 	 */
 	public function changeStatusUnpublish($changeName)
 	{
 		$I = $this;
-		$I->amOnPage(\OrderStatusManagerPage::$URL);
+		$I->amOnPage(OrderStatusManagerPage::$URL);
 		$I->searchOrderStatus($changeName);
 		$I->checkAllResults();
-		$I->click(\OrderStatusManagerPage::$buttonUnpublish);
-		$I->waitForText(\OrderStatusManagerPage::$messageUnpublishSuccess, 30, \OrderStatusManagerPage::$selectorSuccess);
+		$I->click(OrderStatusManagerPage::$buttonUnpublish);
+		$I->waitForText(OrderStatusManagerPage::$messageUnpublishSuccess, 30, OrderStatusManagerPage::$selectorSuccess);
 	}
 
 	/**
@@ -136,15 +147,17 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 	 * @param String $changeName name of Order Status
 	 *
 	 * @return void
+     * @throws \Exception
+     * @since 1.4.0
 	 */
 	public function changeStatusPublish($changeName)
 	{
 		$I = $this;
-		$I->amOnPage(\OrderStatusManagerPage::$URL);
+		$I->amOnPage(OrderStatusManagerPage::$URL);
 		$I->searchOrderStatus($changeName);
 		$I->checkAllResults();
-		$I->click(\OrderStatusManagerPage::$buttonPublish);
-		$I->waitForText(\OrderStatusManagerPage::$messagePublishSuccess, 30, \OrderStatusManagerPage::$selectorSuccess);
+		$I->click(OrderStatusManagerPage::$buttonPublish);
+		$I->waitForText(OrderStatusManagerPage::$messagePublishSuccess, 30, OrderStatusManagerPage::$selectorSuccess);
 	}
 
 	/**
@@ -153,29 +166,31 @@ class OrderStatusManagerSteps extends AdminManagerJoomla3Steps
 	 * @param String $changeName name of Order Status
 	 *
 	 * @return void
+     * @throws \Exception
+     * @since 1.4.0
 	 */
 	public function deleteOrderStatus($changeName)
 	{
 		$I = $this;
-		$I->amOnPage(\OrderStatusManagerPage::$URL);
+		$I->amOnPage(OrderStatusManagerPage::$URL);
 		$I->searchOrderStatus($changeName);
 		$I->checkAllResults();
-		$I->click(\OrderStatusManagerPage::$buttonDelete);
+		$I->click(OrderStatusManagerPage::$buttonDelete);
 		$I->wantTo('Test with delete Order Status but then cancel');
 		$I->cancelPopup();
 
 		$I->wantTo('Test with delete Order Status then accept');
-		$I->click(\OrderStatusManagerPage::$buttonDelete);
+		$I->click(OrderStatusManagerPage::$buttonDelete);
 		$I->acceptPopup();
 
 		try
 		{
-			$I->waitForText(\DiscountPage::$messageDeleteSuccess, 5, \DiscountPage::$selectorSuccess);
-			$I->see(\DiscountPage::$messageDeleteSuccess, \DiscountPage::$selectorSuccess);
+			$I->waitForText(DiscountPage::$messageDeleteSuccess, 5, DiscountPage::$selectorSuccess);
+			$I->see(DiscountPage::$messageDeleteSuccess, DiscountPage::$selectorSuccess);
 		}catch (\Exception $e)
 		{
-			$I->waitForText(\DiscountPage::$messageNoItemOnTable, 10, \DiscountPage::$selectorAlert);
-			$I->see(\DiscountPage::$messageNoItemOnTable, \DiscountPage::$selectorAlert);
+			$I->waitForText(DiscountPage::$messageNoItemOnTable, 10, DiscountPage::$selectorAlert);
+			$I->see(DiscountPage::$messageNoItemOnTable, DiscountPage::$selectorAlert);
 		}
 
 		$I->dontSee($changeName);
