@@ -34,12 +34,12 @@ class QuotationManagerJoomla3Steps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$I->amOnPage(QuotationManagerPage::$URL);
 		$userQuotationPage = new QuotationManagerPage();
-		$I->amOnPage(\QuotationManagerPage::$URL);
-		$I->click(\QuotationManagerPage::$buttonNew);
+		$I->amOnPage(QuotationManagerPage::$URL);
+		$I->click(QuotationManagerPage::$buttonNew);
 		$I->waitForElementVisible(QuotationManagerPage::$userId, 30);
-		$I->click(\QuotationManagerPage::$userId);
-		$I->waitForElementVisible(\QuotationManagerPage::$userSearch, 30);
-		$I->fillField(\QuotationManagerPage::$userSearch, $nameUser);
+		$I->click(QuotationManagerPage::$userId);
+		$I->waitForElementVisible(QuotationManagerPage::$userSearch, 30);
+		$I->fillField(QuotationManagerPage::$userSearch, $nameUser);
 		$I->waitForElementVisible($userQuotationPage->xPathSearch($nameUser), 30);
 		$I->click($userQuotationPage->xPathSearch($nameUser));
 		$I->scrollTo(QuotationManagerPage::$newProductLink);
