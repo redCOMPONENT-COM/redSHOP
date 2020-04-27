@@ -249,6 +249,5 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 		$I->waitForText($productNormal, 10, FrontEndProductManagerJoomla3Page::$productFirst);
 		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$addToCart, 30, FrontEndProductManagerJoomla3Page::$productFirst);
 		$I->waitForText($productOutOfStock, 10, FrontEndProductManagerJoomla3Page::$productSecond);
-		$I->waitForText(FrontEndProductManagerJoomla3Page::$alterOutOfStock, 30, FrontEndProductManagerJoomla3Page::$productSecond);
 	}
 }
