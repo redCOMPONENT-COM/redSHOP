@@ -9,6 +9,7 @@
 namespace Configuration;
 use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
+use Facebook\WebDriver\WebDriverKeys;
 use FrontEndProductManagerJoomla3Page;
 use ProductManagerPage as ProductManagerPage;
 
@@ -186,5 +187,66 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 				$I->waitForElementNotVisible($productFrontEndManagerPage->product($productName), 30);
 				break;
 		}
+	}
+
+	/**
+	 * @param $productLayout
+	 * @throws \Exception
+	 */
+	public function configProductLayout($productLayout)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+		$config = new ConfigurationPage();
+
+		if (isset($productLayout['defaultTemplate']))
+		{
+			$I->waitForElement(ConfigurationPage::$defaultProductTemplate, 30);
+			$I->selectOption(ConfigurationPage::$defaultProductTemplate, $productLayout['defaultTemplate']);
+		}
+
+		if (isset($productLayout['defaultSorting']))
+		{
+			$I->waitForElementVisible(ConfigurationPage::$defaultSort, 30);
+			$I->click(ConfigurationPage::$defaultSort);
+			$I->fillField(ConfigurationPage::$inputDefaultSort,$productLayout['defaultSorting']);
+			$I->pressKey(ConfigurationPage::$inputDefaultSort, WebDriverKeys::ENTER);
+		}
+
+		if (isset($productLayout['displayOutOfStockAfterNormal']))
+		{
+			switch ($productLayout['displayOutOfStockAfterNormal'])
+			{
+				case 'Yes':
+					$I->waitForElementVisible($config->displayOutOfStockAfterNormal(1), 30);
+					$I->click($config->displayOutOfStockAfterNormal(1));
+					break;
+
+				case 'No':
+					$I->waitForElementVisible($config->displayOutOfStockAfterNormal(0), 30);
+					$I->click($config->displayOutOfStockAfterNormal(0));
+					break;
+			}
+		}
+	}
+
+	/**
+	 * @param $categoryName
+	 * @param $productNormal
+	 * @param $productOutOfStock
+	 * @throws \Exception
+	 */
+	public function checkDisplayOutOfStockAfterNormal($categoryName, $productNormal, $productOutOfStock)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->waitForText($productNormal,10, FrontEndProductManagerJoomla3Page::$productFirst);
+		$I->waitForText($productOutOfStock,10, FrontEndProductManagerJoomla3Page::$productSecond);
 	}
 }
