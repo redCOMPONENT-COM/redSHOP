@@ -1,6 +1,6 @@
 if (!String.prototype.trim) {
     // Code for trim.
-    String.prototype.trim = function () {
+    String.prototype.trim = function() {
         return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
     };
 }
@@ -139,10 +139,13 @@ function deleteRow(r) {
     if (window.confirm("Are you sure you want to delete field value?")) {
         var i = r.parentNode.parentNode.rowIndex;
 
-        if (document.querySelectorAll("#extra_table input[name*='extra_value']").length == 2) {
+        if (document.querySelectorAll("#extra_table input[name*='extra_value']").length == 2)
+        {
             document.getElementById('extra_table').deleteRow(i);
             document.querySelectorAll("#extra_table input.button")[0].style.display = "none";
-        } else {
+        }
+        else
+        {
             document.getElementById('extra_table').deleteRow(i);
         }
     }
@@ -194,9 +197,8 @@ function delete_accessory(accessory_id, category_id, child_product_id) {
     } else { // code for IE6, IE5
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {}
     }
     var linktocontroller = "index.php?option=com_redshop&view=product_detail&task=removeAccessory";
     linktocontroller = linktocontroller + "&accessory_id=" + accessory_id;

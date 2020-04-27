@@ -259,7 +259,7 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
 
         if ($attribute->attribute_show_fe == 0) {
             $target = '<div class="attribute_wrapper">';
-            $replacement = '<div class="attribute_wrapper" style="pointer-events: none; opacity: 0.4">';
+            $replacement = '<div class="attribute_wrapper" style="display: none;">';
             $attributeTemplateData = str_replace($target, $replacement, $attributeTemplateData);
         }
 
