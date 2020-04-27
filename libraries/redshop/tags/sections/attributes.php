@@ -256,6 +256,13 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
         $relatedProductId,
         $product
     ) {
+
+        if ($attribute->attribute_show_fe == 0) {
+            $target = '<div class="attribute_wrapper">';
+            $replacement = '<div class="attribute_wrapper" style="pointer-events: none; opacity: 0.4">';
+            $attributeTemplateData = str_replace($target, $replacement, $attributeTemplateData);
+        }
+
         $subDisplay  = false;
         $replaceAttr = [];
 
@@ -284,7 +291,9 @@ class RedshopTagsSectionsAttributes extends RedshopTagsAbstract
             $propertyIds,
             'property'
         );
+
         $attributeTable                   = '';
+
         if ($attribute->text != "" && count($property) > 0) {
             $attributeTable .= $attributeTemplateData;
 
