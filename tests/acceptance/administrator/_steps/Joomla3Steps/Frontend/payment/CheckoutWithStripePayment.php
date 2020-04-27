@@ -79,6 +79,7 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 			$I->acceptPopup();
 		}catch (\Exception $e)
 		{
+			$I->acceptPopup();
 		}
 
 		$I->switchToIFrame(StripePaymentPage::$nameIframeStripe);

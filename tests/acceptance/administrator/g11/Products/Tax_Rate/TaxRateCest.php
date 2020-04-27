@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,11 +23,13 @@ class TaxRateCest
 {
 	/**
 	 * @var  string
+	 * @since 1.4.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxRateName = '';
 
@@ -39,41 +41,49 @@ class TaxRateCest
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxRateNameEdit = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxGroupName = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxRateValue = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $countryName = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $stateName = '';
 
 	/**
 	 * @var integer
+	 * @since 1.4.0
 	 */
 	public $taxRateValueNegative;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $taxRateValueString;
 
 	/**
 	 * TaxRateCest constructor.
+	 * @since 1.4.0
 	 */
 	public function __construct()
 	{
@@ -95,6 +105,8 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function createVATGroupSave(AcceptanceTester $client, $scenario)
 	{
@@ -132,8 +144,9 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
-	 *
+	 * @throws \Exception
 	 * @depends createVATGroupSave
+	 * @since 1.4.0
 	 */
 	public function editTAXRatesName(AcceptanceTester $client, $scenario)
 	{
@@ -156,6 +169,8 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addTAXRatesSaveClose(AcceptanceTester $client, $scenario)
 	{
@@ -163,7 +178,7 @@ class TaxRateCest
 		$client->wantTo('Test TAX Rates Save and Close creation in Administrator');
 		$client = new TaxRateSteps($scenario);
 		$client->addTAXRatesSaveClose($this->taxRateName, $this->taxGroupName, $this->taxRateValue, $this->countryName, $this->stateName);
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 		$client->searchTAXRates($this->taxRateName);
 	}
 
@@ -174,6 +189,8 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function checkCancel(AcceptanceTester $client, $scenario)
 	{
@@ -181,15 +198,15 @@ class TaxRateCest
 		$client->wantTo('check Cancel creation in Administrator');
 		$client = new TaxRateSteps($scenario);
 		$client->checkCancel();
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 
 		$client->wantTo('Test delete button in Administrator');
 		$client->deleteButton();
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 
 		$client->wantTo('Test delete button in Administrator');
 		$client->deleteTAXRatesOK($this->taxRateName);
-		$client->see(\TaxRatePage::$namePage, \TaxRatePage::$selectorPageTitle);
+		$client->see(TaxRatePage::$namePage, TaxRatePage::$selectorPageTitle);
 	}
 
 	/**
@@ -199,6 +216,8 @@ class TaxRateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function addTAXRatesMissingNameSave(AcceptanceTester $client, $scenario)
 	{

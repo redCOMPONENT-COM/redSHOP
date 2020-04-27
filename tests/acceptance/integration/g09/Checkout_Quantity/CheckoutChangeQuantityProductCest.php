@@ -1,15 +1,17 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\CheckoutChangeQuantityProductSteps;
 use Configuration\ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps;
+
 /**
  * Class CheckoutChangeQuantityCest
  *
@@ -17,82 +19,97 @@ use AcceptanceTester\UserManagerJoomla3Steps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.1
+ * @since    2.1.0
  */
 class CheckoutChangeQuantityProductCest
 {
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $categoryName;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $productName;
 
 	/**
 	 * @var int
+	 * @since 2.1.0
 	 */
 	public $productPrice;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $total;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $subtotal;
 
 	/**
 	 * @var int
+	 * @since 2.1.0
 	 */
 	public $randomProductNumber;
 
 	/**
 	 * @var int
+	 * @since 2.1.0
 	 */
 	public $randomProductPrice;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $userName;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $password;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $email;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $shopperGroup;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $group;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $firstName;
 
 	/**
 	 * @var string
+	 * @since 2.1.0
 	 */
 	public $lastName;
 
 	/**
 	 * @var \Faker\Generator
+	 * @since 2.1.0
 	 */
 	public $faker;
 
@@ -105,13 +122,13 @@ class CheckoutChangeQuantityProductCest
 	public function __construct()
 	{
 		//Product & Category
-		$this->faker = Faker\Factory::create();
-		$this->productName = $this->faker->bothify('Product Name ?##?');;
-		$this->categoryName = $this->faker->bothify('Category Name ?##?');
-		$this->subtotal = "DKK 1.000,00";
-		$this->total = "DKK 1.000,00";
+		$this->faker              = Faker\Factory::create();
+		$this->productName         = $this->faker->bothify('Product Name ?##?');;
+		$this->categoryName        = $this->faker->bothify('Category Name ?##?');
+		$this->subtotal            = "DKK 1.000,00";
+		$this->total               = "DKK 1.000,00";
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice = 100;
+		$this->randomProductPrice  = 100;
 
 		$this->cartSetting = array(
 			"addCart"           => 'product',
@@ -130,18 +147,19 @@ class CheckoutChangeQuantityProductCest
 		);
 
 		//User
-		$this->userName = $this->faker->bothify('QuantityChangeCest ?##?');
-		$this->password = $this->faker->bothify('123456');
-		$this->email = $this->faker->email;
+		$this->userName     = $this->faker->bothify('QuantityChangeCest ?##?');
+		$this->password     = $this->faker->bothify('123456');
+		$this->email        = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
-		$this->group = 'Super User';
-		$this->firstName = $this->faker->bothify('QuantityChangeCest FN ?##?');
-		$this->lastName = "LastName";
+		$this->group        = 'Super User';
+		$this->firstName    = $this->faker->bothify('QuantityChangeCest FN ?##?');
+		$this->lastName     = "LastName";
 	}
-
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -162,6 +180,8 @@ class CheckoutChangeQuantityProductCest
 	 * @param  mixed $scenario
 	 *
 	 * @return  void
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function changeQuantityInCart(AcceptanceTester $I, $scenario)
 	{

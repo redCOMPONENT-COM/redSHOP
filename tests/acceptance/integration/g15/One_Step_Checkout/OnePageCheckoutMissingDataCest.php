@@ -16,14 +16,171 @@ use Configuration\ConfigurationSteps as ConfigurationSteps;
  */
 class OnePageCheckoutMissingDataCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.1.2
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $categoryName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $productName;
+
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	public $productPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $total;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $subtotal;
+
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	public $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 2.1.2
+	 */
+	public $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $userName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $password;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $lastName;
+
+	/**
+	 * @var integer
+	 * @since 2.1.2
+	 */
+	public $minimumPerProduct;
+
+	/**
+	 * @var integer
+	 * @since 2.1.2
+	 */
+	public $minimumQuantity;
+
+	/**
+	 * @var integer
+	 * @since 2.1.2
+	 */
+	public $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $discountStart;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	public $discountEnd;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $business;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $private;
+
+	/**
+	 * @var string
+	 * @since 2.1.2
+	 */
+	protected $createAccount;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $cartSetting;
+
+	/**
+	 * @var array
+	 * @since 2.1.2
+	 */
+	protected $customerBussinesInformation;
+
+	/**
+	 * OnePageCheckoutMissingDataCest constructor.
+	 * @since 2.1.2
+	 */
 	public function __construct()
 	{
 		$this->faker                  = Faker\Factory::create();
-		$this->ProductName            =  $this->faker->bothify('ProductName ?####?');
-		$this->CategoryName           =  $this->faker->bothify('CategoryName ?####?');
-		$this->ManufactureName        = $this->faker->bothify('ManufactureName ?#####');
-		$this->MassDiscountAmoutTotal = 90;
-		$this->MassDiscountPercent    = 0.3;
+		$this->productName            =  $this->faker->bothify('productName ?####?');
+		$this->categoryName           =  $this->faker->bothify('categoryName ?####?');
 		$this->minimumPerProduct      = 1;
 		$this->minimumQuantity        = 1;
 		$this->maximumQuantity        = $this->faker->numberBetween(100, 1000);
@@ -79,15 +236,6 @@ class OnePageCheckoutMissingDataCest
 			"minimumOrder"      => 0,
 			"enableQuotation"   => 'no'
 		);
-
-		$this->buttonCartLeadEdit = 'Back to current view';
-		$this->shippingWithVat    = "DKK 0,00";
-
-		$this->shippingMethod     = 'redSHOP - Standard Shipping';
-		$this->shipping           = array(
-			'shippingName' => $this->faker->bothify('TestingShippingRate ?##?'),
-			'shippingRate' => 10
-		);
 	}
 
 	/**
@@ -107,41 +255,41 @@ class OnePageCheckoutMissingDataCest
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategoryManagerJoomla3Steps($scenario);
-		$I->addCategorySave($this->CategoryName);
+		$I->addCategorySave($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('I Want to add product inside the category');
-		$I->createProductSaveClose($this->ProductName, $this->CategoryName, $this->randomProductNumber, $this->randomProductPrice);
+		$I->createProductSaveClose($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice);
 
 		$I = new CheckoutMissingData($scenario);
-		$I->addToCart($this->CategoryName, $this->ProductName );
+		$I->addToCart($this->categoryName, $this->productName );
 		$I->wantToTest('Check out with missing user');
-		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'user');
-		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'user');
+		$I->onePageCheckoutMissingWithUserPrivate($this->productName, $this->customerInformation, 'user');
+		$I->onePageCheckoutMissingWithUserBusiness($this->productName, $this->customerBussinesInformation, 'user');
 
 		$I->wantToTest('Check out with missing click accept Terms');
-		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'acceptTerms');
-		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'acceptTerms');
+		$I->onePageCheckoutMissingWithUserPrivate($this->productName, $this->customerInformation, 'acceptTerms');
+		$I->onePageCheckoutMissingWithUserBusiness($this->productName, $this->customerBussinesInformation, 'acceptTerms');
 
 		$I->wantToTest('Check out with wrong address email');
 		$this->customerInformation['email'] = "test";
-		$I->onePageCheckoutMissingWithUserPrivate($this->ProductName, $this->customerInformation, 'wrongEmail');
+		$I->onePageCheckoutMissingWithUserPrivate($this->productName, $this->customerInformation, 'wrongEmail');
 		$this->customerBussinesInformation['email'] = "test";
-		$I->onePageCheckoutMissingWithUserBusiness($this->ProductName, $this->customerBussinesInformation, 'wrongEmail');
+		$I->onePageCheckoutMissingWithUserBusiness($this->productName, $this->customerBussinesInformation, 'wrongEmail');
 		$this->customerInformation['email'] =  "test@test" . rand() . ".com";
 		$this->customerBussinesInformation['email'] = "test@test" . rand() . ".com";
 
 		$I->wantToTest('Check out with wrong phone number');
 		$this->customerInformation['phone'] = "test";
-		$I->onePageCheckoutMissingWithUserPrivate( $this->ProductName, $this->customerInformation, 'wrongPhone');
+		$I->onePageCheckoutMissingWithUserPrivate( $this->productName, $this->customerInformation, 'wrongPhone');
 		$this->customerBussinesInformation['phone'] = "test";
-		$I->onePageCheckoutMissingWithUserBusiness( $this->ProductName, $this->customerBussinesInformation, 'wrongPhone');
+		$I->onePageCheckoutMissingWithUserBusiness( $this->productName, $this->customerBussinesInformation, 'wrongPhone');
 		$this->customerBussinesInformation['phone'] = "8787878787";
 		$this->customerInformation['phone'] = "8787878787";
 
 		$I->wantToTest('Check out with wrong EAN Number');
 		$this->customerBussinesInformation['eanNumber'] = "test";
-		$I->onePageCheckoutMissingWithUserBusiness( $this->ProductName, $this->customerBussinesInformation, 'wrongEAN');
+		$I->onePageCheckoutMissingWithUserBusiness( $this->productName, $this->customerBussinesInformation, 'wrongEAN');
 	}
 
 	/**
@@ -160,10 +308,10 @@ class OnePageCheckoutMissingDataCest
 
 		$I = new ProductManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Product  in Administrator');
-		$I->deleteProduct($this->ProductName);
+		$I->deleteProduct($this->productName);
 
 		$I = new CategoryManagerJoomla3Steps($scenario);
 		$I->wantTo('Delete Category in Administrator');
-		$I->deleteCategory($this->CategoryName);
+		$I->deleteCategory($this->categoryName);
 	}
 }

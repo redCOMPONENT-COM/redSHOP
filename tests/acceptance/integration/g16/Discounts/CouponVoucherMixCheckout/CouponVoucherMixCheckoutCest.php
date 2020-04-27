@@ -1,10 +1,15 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
+use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
+use AcceptanceTester\VoucherManagerJoomla3Steps as VoucherManagerJoomla3Steps;
+use Configuration\ConfigurationSteps as ConfigurationSteps;
 
 /**
  * Class CouponCheckoutProductCest
@@ -13,15 +18,334 @@
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since    1.4.0
  */
-use Step\AbstractStep;
-use AcceptanceTester\UserManagerJoomla3Steps as UserManagerJoomla3Steps;
-use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutManagerJoomla3Steps;
-use AcceptanceTester\VoucherManagerJoomla3Steps as VoucherManagerJoomla3Steps;
-use Configuration\ConfigurationSteps as ConfigurationSteps;
 class CouponVoucherMixCheckoutCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 1.4.0
+	 */
+	protected $faker;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $dataCoupon;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $dataCouponSecond;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $discount;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $categoryName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $productName;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $productPrice;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $total;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $subtotal;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $userName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $password;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $lastName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $shopperName;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $minimumPerProduct;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $minimumQuantity;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $discountStart;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $discountEnd;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $customerInformation;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $productNameDiscount;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $randomProductNumberDiscount;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $randomDiscountPrice;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $randomVoucherCode;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $voucherAmount;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $voucherCount;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $startDate;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $endDate;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $randomVoucherCodeSecond;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $voucherAmountSecond;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $voucherCountSecond;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $startDateSecond;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $endDateSecond;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $randomVoucherCodeDiscount;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $voucherAmountDiscount;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $voucherCountDiscount;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $startDateDiscount;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $endDateDiscount;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $randomVoucherCodeDiscountSecond;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $voucherAmountDiscountSecond;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	protected $voucherCountDiscountSecond;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $startDateDiscountSecond;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $endDateDiscountSecond;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $orderInfo;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $applyDiscountCouponCode;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $applyDiscountVoucherCode;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $haveDiscount;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $orderInfoSecond;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $orderInfoDiscount;
+
 	/**
 	 * CouponCheckoutProductCest constructor.
 	 */
@@ -44,7 +368,6 @@ class CouponVoucherMixCheckoutCest
 
 		//create category and product
 		$this->categoryName        = 'Testing Category ' . $this->faker->randomNumber();
-		$this->noPage              = $this->faker->randomNumber();
 		$this->productName         = 'Testing ProductManagement' . rand(99, 999);
 		$this->productNameDiscount = 'Testing ProductManagement Discount' . rand(99, 999);
 		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
@@ -83,14 +406,14 @@ class CouponVoucherMixCheckoutCest
 		$this->endDateDiscountSecond           = "07-01-2030";
 
 		//create user
-		$this->userName = $this->faker->bothify('UserName ?##?');
-		$this->password = 'test';
-		$this->email = $this->faker->email;
+		$this->userName     = $this->faker->bothify('UserName ?##?');
+		$this->password     = 'test';
+		$this->email        = $this->faker->email;
 		$this->shopperGroup = 'Default Private';
-		$this->firstName = $this->faker->bothify('FirstName FN ?##?');
-		$this->lastName = 'Last';
-		$this->shopperName = 'Default Private';
-		$this->group = 'Administrator';
+		$this->firstName    = $this->faker->bothify('FirstName FN ?##?');
+		$this->lastName     = 'Last';
+		$this->shopperName  = 'Default Private';
+		$this->group        = 'Administrator';
 
 		// price discount
 		$this->discount = array();
@@ -129,7 +452,6 @@ class CouponVoucherMixCheckoutCest
 		$this->orderInfo['priceTotal'] = '';
 		$this->orderInfo['priceDiscount'] = '';
 		$this->orderInfo['priceEnd'] = '';
-
 	}
 
 	/**
@@ -138,6 +460,7 @@ class CouponVoucherMixCheckoutCest
 	 *
 	 * The method check for voucher/coupon/discount
 	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	public function testProductsCouponFrontEnd(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
@@ -205,6 +528,7 @@ class CouponVoucherMixCheckoutCest
 	 *
 	 * The method check for Discount + voucher/coupon
 	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function checkWithDiscountVoucherOrCoupon(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
@@ -270,6 +594,7 @@ class CouponVoucherMixCheckoutCest
 	 *
 	 * The method check for Discount + voucher (single) + coupon (single
 	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function checkWithSignVoucherCoupon(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
@@ -333,6 +658,7 @@ class CouponVoucherMixCheckoutCest
 	 *
 	 * The method check for Discount + voucher (multiple) + coupon (multiple)
 	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	public function checkWithSignVoucherCouponMulti(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
@@ -402,8 +728,9 @@ class CouponVoucherMixCheckoutCest
 	}
 
 	/**
-	 * Function to Test Coupon Creation in Backend
-	 *
+	 * @param AcceptanceTester $I
+	 * @param $scenario
+	 * @since 1.4.0
 	 */
 	private function createCoupon(AcceptanceTester $I, $scenario)
 	{
@@ -415,12 +742,12 @@ class CouponVoucherMixCheckoutCest
 	}
 
 	/**
-	 *
 	 * Create category
 	 *
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	private function createCategory(AcceptanceTester $I, $scenario)
 	{
@@ -434,6 +761,7 @@ class CouponVoucherMixCheckoutCest
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	private function createProductSave(AcceptanceTester $I, $scenario)
 	{
@@ -447,6 +775,7 @@ class CouponVoucherMixCheckoutCest
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	private function createProductHaveDiscount(AcceptanceTester $I, $scenario)
 	{
@@ -460,6 +789,7 @@ class CouponVoucherMixCheckoutCest
 	 * @param AcceptanceTester $I
 	 * @param                  $scenario
 	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	public function clearUp(AcceptanceTester $I, $scenario)
 	{
