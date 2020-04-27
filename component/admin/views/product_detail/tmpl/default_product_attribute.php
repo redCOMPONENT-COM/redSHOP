@@ -90,6 +90,10 @@ defined('_JEXEC') or die;
                                 jQuery('[name="attribute[' + i + '][required]"]').prop('checked', true);
                             }
 
+                            if (objattribute.attribute_show_fe == 1) {
+                                jQuery('[name="attribute[' + i + '][attribute_show_fe]"]').prop('checked', true);
+                            }
+
                             // Append attribute property
                             for (j = 0; j < objattribute.propeties.length; j++) {
                                 var objPropeties = objattribute.propeties[j];

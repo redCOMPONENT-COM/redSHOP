@@ -75,5 +75,16 @@
             <option value="1">JPUBLISHED</option>
             <option value="0">JUNPUBLISHED</option>
         </field>
+        <field
+                name="attribute_show_fe"
+                type="radio"
+                class="btn-group btn-group-yesno"
+                default="1"
+                label="COM_REDSHOP_SHOW_ATTRIBUTE_FE"
+                description="COM_REDSHOP_SHOW_ATTRIBUTE_FE"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
     </fieldset>
 </form>

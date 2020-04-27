@@ -293,6 +293,7 @@ class RedshopControllerProduct_Detail extends RedshopController
             $attributesSave['attribute_required']       = isset($attribute['required']) && ($attribute['required'] == 'on' || $attribute['required'] == '1') ? '1' : '0';
             $attributesSave['allow_multiple_selection'] = isset($attribute['allow_multiple_selection']) && ($attribute['allow_multiple_selection'] == 'on' || $attribute['allow_multiple_selection'] == '1') ? '1' : '0';
             $attributesSave['hide_attribute_price']     = isset($attribute['hide_attribute_price']) && ($attribute['hide_attribute_price'] == 'on' || $attribute['hide_attribute_price'] == '1') ? '1' : '0';
+            $attributesSave['attribute_show_fe']        = isset($attribute['attribute_show_fe']) && ($attribute['attribute_show_fe'] == 'on' || $attribute['attribute_show_fe'] == '1') ? '1' : '0';
             $attributesSave['display_type']             = $attribute['display_type'];
 
             $attribute_array = $model->store_attr($attributesSave);

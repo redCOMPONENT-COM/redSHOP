@@ -175,7 +175,7 @@ JText::script('COM_REDSHOP_DESCRIPTION');
 
                             <div class="form-group">
                                 <input type="checkbox"
-                                       name="<?php echo $attrPref; ?>[show_fe]" <?php echo $attributeShowFE; ?>
+                                       name="<?php echo $attrPref; ?>[attribute_show_fe]" <?php echo $attributeShowFE; ?>
                                        value="1"/>
                                 <label>
                                     <?php echo JText::_('COM_REDSHOP_SHOW_ATTRIBUTE_FE'); ?>

@@ -103,6 +103,7 @@ class RedshopControllerAttribute_Set_Detail extends RedshopController
             $attributesSave['hide_attribute_price']     = ($attribute[$a]['hide_attribute_price'] == 'on'
                 || $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
             $attributesSave['attribute_published']      = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
+            $attributesSave['attribute_show_fe']      = ($attribute[$a]['attribute_show_fe'] == 'on' || $attribute[$a]['attribute_show_fe'] == '1') ? '1' : '0';
             $attributesSave['display_type']             = $attribute[$a]['display_type'];
             $attribute_array                            = $model->store_attr($attributesSave);
             $property                                   = array_merge(array(), $attribute[$a]['property']);

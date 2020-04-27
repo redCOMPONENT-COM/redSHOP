@@ -4671,7 +4671,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                     'allow_multiple_selection' => $allow_multiple_selection,
                     'hide_attribute_price'     => $hide_attribute_price,
                     'attribute_published'      => $attribute_published,
-                    'attribute_show_fe'      => $attribute_show_fe,
+                    'attribute_show_fe'        => $attribute_show_fe,
                     'display_type'             => $display_type,
                     'attribute_set_id'         => $attr[$i]->attribute_set_id
                 );

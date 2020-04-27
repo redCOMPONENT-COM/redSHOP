@@ -182,6 +182,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
             $allow_multiple_selection = $attr[$i]->allow_multiple_selection;
             $hide_attribute_price     = $attr[$i]->hide_attribute_price;
             $attribute_published      = $attr[$i]->attribute_published;
+            $attribute_show_fe        = $attr[$i]->attribute_show_fe;
             $display_type             = $attr[$i]->display_type;
             $ordering                 = $attr[$i]->ordering;
 
@@ -207,6 +208,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                 'allow_multiple_selection' => $allow_multiple_selection,
                 'hide_attribute_price'     => $hide_attribute_price,
                 'attribute_published'      => $attribute_published,
+                'attribute_show_fe'      => $attribute_show_fe,
                 'display_type'             => $display_type
             );
         }
@@ -805,6 +807,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
                         $attribute['attribute_required']       = $product_attribute->attribute_required;
                         $attribute['allow_multiple_selection'] = $product_attribute->allow_multiple_selection;
                         $attribute['hide_attribute_price']     = $product_attribute->hide_attribute_price;
+                        $attribute['attribute_show_fe']        = $product_attribute->attribute_show_fe;
                         $attribute['product_id']               = $product_attribute->product_id;
                         $attribute['ordering']                 = $product_attribute->ordering;
                         $attribute['attribute_set_id']         = $attribute_set_id;

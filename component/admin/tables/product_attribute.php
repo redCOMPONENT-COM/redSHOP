@@ -31,6 +31,8 @@ class Tableproduct_attribute extends JTable
 
     public $attribute_published = 1;
 
+    public $attribute_show_fe = 1;
+
     public $display_type = null;
 
     public $extra_field = null;
