@@ -64,6 +64,7 @@ JText::script('COM_REDSHOP_DESCRIPTION');
             $multipleSelection  = ($attributeData['allow_multiple_selection'] == 1) ? ' checked="checked"' : '';
             $hideAttributePrice = ($attributeData['hide_attribute_price'] == 1) ? ' checked="checked"' : '';
             $attributePublished = ($attributeData['attribute_published'] == 1) ? ' checked="checked"' : '';
+            $attributeShowFE    = ($attributeData['attribute_show_fe'] == 1) ? ' checked="checked"' : '';
             $attrPref           = 'attribute[' . $keyAttr . ']';
             ?>
 
@@ -168,6 +169,16 @@ JText::script('COM_REDSHOP_DESCRIPTION');
                                        value="1"/>
                                 <label>
                                     <?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>
+                                </label>
+
+                            </div>
+
+                            <div class="form-group">
+                                <input type="checkbox"
+                                       name="<?php echo $attrPref; ?>[show_fe]" <?php echo $attributeShowFE; ?>
+                                       value="1"/>
+                                <label>
+                                    <?php echo JText::_('COM_REDSHOP_SHOW_ATTRIBUTE_FE'); ?>
                                 </label>
 
                             </div>

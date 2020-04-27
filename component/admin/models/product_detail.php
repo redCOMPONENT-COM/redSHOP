@@ -4650,6 +4650,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                 $hide_attribute_price     = $attr[$i]->hide_attribute_price;
                 $ordering                 = $attr[$i]->ordering;
                 $attribute_published      = $attr[$i]->attribute_published;
+                $attribute_show_fe        = $attr[$i]->attribute_show_fe;
                 $display_type             = $attr[$i]->display_type;
 
                 for ($j = 0, $jn = count($prop); $j < $jn; $j++) {
@@ -4670,6 +4671,7 @@ class RedshopModelProduct_Detail extends RedshopModel
                     'allow_multiple_selection' => $allow_multiple_selection,
                     'hide_attribute_price'     => $hide_attribute_price,
                     'attribute_published'      => $attribute_published,
+                    'attribute_show_fe'      => $attribute_show_fe,
                     'display_type'             => $display_type,
                     'attribute_set_id'         => $attr[$i]->attribute_set_id
                 );

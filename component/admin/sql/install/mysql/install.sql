@@ -1262,6 +1262,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute` (
   `display_type` VARCHAR(255) NOT NULL,
   `attribute_published` INT(11) NOT NULL DEFAULT '1',
   `attribute_description` VARCHAR(255) NOT NULL,
+  `attribute_show_fe` TINYINT(1) NULL DEFAULT '1',
   PRIMARY KEY (`attribute_id`),
   INDEX `idx_product_id` (`product_id` ASC),
   INDEX `idx_attribute_name` (`attribute_name` ASC),
