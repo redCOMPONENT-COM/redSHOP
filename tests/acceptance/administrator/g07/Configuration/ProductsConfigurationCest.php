@@ -19,6 +19,12 @@ use AcceptanceTester\ProductManagerJoomla3Steps;
 class ProductsConfigurationCest
 {
 	/**
+	 * @var \Faker\Generator
+	 * @since 3.0.2
+	 */
+	protected $faker;
+
+	/**
 	 * @var string
 	 * @since 2.1.2
 	 */
@@ -128,17 +134,14 @@ class ProductsConfigurationCest
 		$this->nameAttribute                = 'Testing Attribute' . rand(99, 999);
 		$this->valueAttribute               = '10';
 		$this->priceAttribute               = '10';
-
-		$this->productName     = $this->faker->bothify('product normal ?##?');
-		$this->productNumber   = rand(999, 9999);
-		$this->productPrice    = 24;
-		$this->quantityInStock = 1;
-		$this->preOrder        = 0;
-
-		$this->productOutOfStockName   = $this->faker->bothify('product out of stock ?##');
-		$this->productOutOfStockNumber = rand(999, 9999);
-
-		$this->categoryName = $this->faker->bothify('Category name ?##?');
+		$this->productName                  = $this->faker->bothify('product normal ?##?');
+		$this->productNumber               = rand(999, 9999);
+		$this->productPrice                = 24;
+		$this->quantityInStock             = 1;
+		$this->preOrder                    = 0;
+		$this->productOutOfStockName       = $this->faker->bothify('product out of stock ?##');
+		$this->productOutOfStockNumber     = rand(999, 9999);
+		$this->categoryName                = $this->faker->bothify('Category name ?##?');
 
 		$this->productLayout = [
 			'defaultTemplate' => "product",

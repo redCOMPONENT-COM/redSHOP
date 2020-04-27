@@ -246,7 +246,7 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
 		$I->click($productFrontEndManagerPage->productCategory($categoryName));
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
-		$I->waitForText($productNormal,10, FrontEndProductManagerJoomla3Page::$productFirst);
-		$I->waitForText($productOutOfStock,10, FrontEndProductManagerJoomla3Page::$productSecond);
+		$I->waitForText($productNormal, 10, FrontEndProductManagerJoomla3Page::$productFirst);
+		$I->waitForText($productOutOfStock, 10, FrontEndProductManagerJoomla3Page::$productSecond);
 	}
 }
