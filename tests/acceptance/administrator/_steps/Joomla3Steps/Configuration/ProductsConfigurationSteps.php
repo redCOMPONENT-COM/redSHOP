@@ -192,6 +192,7 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 	/**
 	 * @param $productLayout
 	 * @throws \Exception
+	 * @since 3.0.2
 	 */
 	public function configProductLayout($productLayout)
 	{
@@ -237,6 +238,7 @@ class ProductsConfigurationSteps extends AdminManagerJoomla3Steps
 	 * @param $productNormal
 	 * @param $productOutOfStock
 	 * @throws \Exception
+	 * @since 3.0.2
 	 */
 	public function checkDisplayOutOfStockAfterNormal($categoryName, $productNormal, $productOutOfStock)
 	{

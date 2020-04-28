@@ -135,17 +135,18 @@ class ProductsConfigurationCest
 		$this->valueAttribute               = '10';
 		$this->priceAttribute               = '10';
 		$this->productName                  = $this->faker->bothify('product normal ?##?');
-		$this->productNumber               = rand(999, 9999);
-		$this->productPrice                = 24;
-		$this->quantityInStock             = 1;
-		$this->preOrder                    = 0;
-		$this->productOutOfStockName       = $this->faker->bothify('product out of stock ?##');
-		$this->productOutOfStockNumber     = rand(999, 9999);
-		$this->categoryName                = $this->faker->bothify('Category name ?##?');
+		$this->productNumber                = rand(999, 9999);
+		$this->productPrice                 = 24;
+		$this->quantityInStock              = 1;
+		$this->preOrder                     = 0;
+		$this->productOutOfStockName        = $this->faker->bothify('product out of stock ?##');
+		$this->productOutOfStockNumber      = rand(999, 9999);
+		$this->categoryName                 = $this->faker->bothify('Category name ?##?');
 
-		$this->productLayout = [
-			'defaultTemplate' => "product",
-			'defaultSorting' => "Sort by product name asc",
+		$this->productLayout =
+		[
+			'defaultTemplate'              => "product",
+			'defaultSorting'               => "Sort by product name asc",
 			'displayOutOfStockAfterNormal' => "Yes"
 		];
 	}
@@ -217,7 +218,7 @@ class ProductsConfigurationCest
 	 * @throws Exception
 	 * @since 3.0.2
 	 */
-	public function configProductLayout(ProductsConfigurationSteps $I, $scenario)
+	public function checkConfigProductLayout(ProductsConfigurationSteps $I, $scenario)
 	{
 		$I->wantTo("config product layout");
 		$I->configProductLayout($this->productLayout);
@@ -226,9 +227,11 @@ class ProductsConfigurationCest
 		$I->addCategorySaveClose($this->categoryName);
 
 		$I = new ProductManagerJoomla3Steps($scenario);
+		$I->wantTo('Create a product');
 		$I->createProductSaveClose($this->productOutOfStockName, $this->categoryName, $this->productOutOfStockNumber, $this->productPrice);
 		$I->createProductInStock($this->productName, $this->productNumber, $this->productPrice, $this->categoryName, $this->quantityInStock, $this->preOrder);
 		$I = new ProductsConfigurationSteps($scenario);
+		$I->wantTo('check display out of stock product after normal product');
 		$I->checkDisplayOutOfStockAfterNormal($this->categoryName, $this->productName, $this->productOutOfStockName);
 	}
 
