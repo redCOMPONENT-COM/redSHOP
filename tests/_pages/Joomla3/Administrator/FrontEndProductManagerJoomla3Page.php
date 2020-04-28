@@ -959,4 +959,16 @@ class FrontEndProductManagerJoomla3Page extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $addToCartProductRelated = "//div[@class='mod_redshop_products_addtocart']//span[contains(text(),'Add to cart')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $productFirst = "(//div[@class='category_box_inside'])[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $productSecond = "(//div[@class='category_box_inside'])[2]";
 }

@@ -328,13 +328,13 @@ class GiftCardCheckoutProductCest
 	{
 		$I->doAdministratorLogin();
 		$I = new AcceptanceTester($scenario);
-		$I->amOnPage(\CouponPage::$url);
+		$I->amOnPage(CouponPage::$url);
 		$I->executeJS('window.scrollTo(0,0)');
 		$I->click(['link' => 'ID']);
-		$I->waitForElement(\CouponPage::$selectValueCoupon, 30);
-		$I->click(\CouponPage::$selectValueCoupon);
-		$I->waitForElement(\CouponPage::$idFromCode, 30);
-		$this->couponCode = $I->grabValueFrom(\CouponPage::$idFromCode);
+		$I->waitForElement(CouponPage::$selectValueCoupon, 30);
+		$I->click(CouponPage::$selectValueCoupon);
+		$I->waitForElement(CouponPage::$idFromCode, 30);
+		$this->couponCode = $I->grabValueFrom(CouponPage::$idFromCode);
 	}
 
 	/**

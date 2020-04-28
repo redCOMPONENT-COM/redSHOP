@@ -767,4 +767,32 @@ class ConfigurationPage extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $showDiscontinuedProductsNo = '#show_discontinued_products_0-lbl';
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $defaultProductTemplate = "#default_product_template";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $defaultSort = "//div[@id='s2id_default_product_ordering_method']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $inputDefaultSort = "//input[@id='s2id_autogen26_search']";
+
+	/**
+	 * @param $option
+	 * @return string
+	 * @since 2.1.3
+	 */
+	public function displayOutOfStockAfterNormal($option)
+	{
+		return $path = "//label[@for='display_out_of_stock_after_".$option."']";
+	}
 }

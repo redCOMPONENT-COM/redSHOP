@@ -74,11 +74,13 @@ class CheckoutWithStripePayment extends CheckoutWithEWAYPayment
 
 		try
 		{
-			$I->wait(3);
+			$I->wait(4);
 			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
 			$I->acceptPopup();
 		}catch (\Exception $e)
 		{
+			$I->reloadPage();
+			$I->canSeeInPopup(StripePaymentPage::$messagePopupStripe);
 			$I->acceptPopup();
 		}
 
