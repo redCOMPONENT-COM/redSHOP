@@ -4555,11 +4555,13 @@ class RedshopModelProduct_Detail extends RedshopModel
 
             // Copy new image for this media
             $fileName = md5(basename($value)) . '.' . JFile::getExt($value);
+	        $typeFile = explode('.', $fileName);
             $file = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $fileName;
 
             JFile::move(JPATH_ROOT . '/' . $value, $file);
 
             $mediaTable->set('media_name', $fileName);
+	        $mediaTable->set('media_mimetype', 'image/'.$typeFile[1]);
 
             if (!$mediaTable->store()) {
                 continue;
