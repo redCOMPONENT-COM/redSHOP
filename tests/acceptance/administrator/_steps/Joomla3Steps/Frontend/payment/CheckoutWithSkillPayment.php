@@ -31,7 +31,7 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 		$I = $this;
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
 		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 60);
-		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$productFrontEndManagerPage = new \FrontEndProductManagerJoomla3Page;
 		$I->addToCart($categoryName, $productName);
 		$I->amOnPage(FrontEndProductManagerJoomla3Page::$cartPageUrL);
 		$I->waitForElementVisible(['link' => $productName], 30);
@@ -64,7 +64,7 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 		try
 		{
 			$I->wantTo("checkout with card");
-			$I->waitForElementVisible(SkillPaymentPage::$inputCart, 10);
+			$I->waitForElementVisible(SkillPaymentPage::$inputCart, 30);
 			$I->fillField(SkillPaymentPage::$inputCart, $checkoutAccountDetail['debitCardNumber']);
 			$I->waitForElementVisible(SkillPaymentPage::$inputMonth, 30);
 			$I->fillField(SkillPaymentPage::$inputMonth, $checkoutAccountDetail['cardExpiryMonth']);
@@ -85,7 +85,7 @@ class CheckoutWithSkillPayment extends \CheckoutMissingData
 		}
 		catch (\Exception $e)
 		{
-			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 10, FrontEndProductManagerJoomla3Page::$h1);
+			$I->waitForText(FrontEndProductManagerJoomla3Page::$orderReceipt, 30, FrontEndProductManagerJoomla3Page::$h1);
 		}
 	}
 }
