@@ -449,6 +449,7 @@ class RedshopModelCategory extends RedshopModelForm
 
             // Generate new image using MD5
             $newFileName = md5(basename($category->name) . $scope) . '.' . JFile::getExt($file);
+	        $typeFile = explode('.', $newFileName);
 
             if (!JFile::move(
                 $file,
@@ -463,6 +464,7 @@ class RedshopModelCategory extends RedshopModelForm
 
             // Update media data with new file name.
             $table->media_name = $newFileName;
+	        $table->media_mimetype = 'image/'.$typeFile[1];
             $table->store();
         }
     }
