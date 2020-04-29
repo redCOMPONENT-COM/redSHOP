@@ -1,4 +1,5 @@
 <?php
+
 /**
  * sh404SEF - SEO extension for redSHOP
  *

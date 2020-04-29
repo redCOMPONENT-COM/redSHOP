@@ -24,16 +24,16 @@ extract($displayData);
 ?>
 
 <td valign="top" width="100" align="right" class="key">
-	<?php echo $extraFieldLabel ?>
+    <?php echo $extraFieldLabel ?>
 </td>
 <td>
-	<?php echo JHtml::_(
-		'redshopcalendar.calendar',
-		$date,
-		$rowData->name,
-		$rowData->name,
-		null,
-		array('class' => 'form-control', 'size' => $rowData->size > 0 ? $rowData->size : 20, 'maxlength' => '15')
-	);
-	?>
+    <?php echo JHtml::_(
+        'redshopcalendar.calendar',
+        $date,
+        $rowData->name,
+        $rowData->name,
+        null,
+        array('class' => 'form-control', 'size' => $rowData->size > 0 ? $rowData->size : 20, 'maxlength' => '15')
+    );
+    ?>
 </td>

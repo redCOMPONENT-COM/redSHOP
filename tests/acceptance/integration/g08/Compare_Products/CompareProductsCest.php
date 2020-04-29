@@ -1,39 +1,160 @@
 <?php
+/**
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
 use Configuration\ConfigurationSteps;
 
+/**
+ * Class CompareProductsCest
+ * @since 3.0.2
+ */
 class CompareProductsCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 3.0.2
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $ProductName;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $CategoryName;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $minimumPerProduct;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $discountStart;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $discountEnd;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $productNumber;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $productPrice;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $subtotal;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $Discount;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $Total;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $productNameCompares;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $productNumberCompares;
+
+	/**
+	 * @var int
+	 * @since 3.0.2
+	 */
+	protected $productPriceCompares;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $productPriceDKK;
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	protected $productPriceComparesDKK;
 
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
-		$this->ProductName = 'ProductName' . rand(100, 999);
-		$this->CategoryName = "CategoryName" . rand(1, 100);
+		$this->faker             = Faker\Factory::create();
+		$this->ProductName       = $this->faker->bothify('Testing Product ??####?');
+		$this->CategoryName      = $this->faker->bothify('CategoryName ?###?');;
 		$this->minimumPerProduct = 1;
-		$this->minimumQuantity = 1;
-		$this->maximumQuantity = $this->faker->numberBetween(100, 1000);
-		$this->discountStart = "12-12-2016";
-		$this->discountEnd = "23-05-2017";
-		$this->productNumber = $this->faker->numberBetween(999, 9999);
-		$this->productPrice = 100;
+		$this->minimumQuantity   = 1;
+		$this->maximumQuantity   = $this->faker->numberBetween(100, 1000);
+		$this->discountStart     = "12-12-2016";
+		$this->discountEnd       = "23-05-2017";
+		$this->productNumber     = $this->faker->numberBetween(999, 9999);
+		$this->productPrice      = 100;
 
-		$this->subtotal="DKK 100,00";
-		$this->Discount ="DKK 50,00";
-		$this->Total="DKK 50,00";
+		$this->subtotal = "DKK 100,00";
+		$this->Discount = "DKK 50,00";
+		$this->Total    = "DKK 50,00";
 
-		$this->productNameCompares = 'ProductNameCompares' . rand(100, 999);
+		$this->productNameCompares   = $this->faker->bothify('Product Compare ??####?');
 		$this->productNumberCompares = $this->faker->numberBetween(999, 9999);
-		$this->productPriceCompares = 80;
+		$this->productPriceCompares  = 80;
 
-		$this->productPriceDKK="DKK 100,00";
-		$this->productPriceComparesDKK="DKK 80,00";
-
+		$this->productPriceDKK         = "DKK 100,00";
+		$this->productPriceComparesDKK = "DKK 80,00";
 	}
 
-
+	/**
+	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
 	public function _before(AcceptanceTester $I)
 	{
 		$I->doAdministratorLogin();
@@ -42,6 +163,8 @@ class CompareProductsCest
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
+	 * @throws \Exception
+	 * @since 3.0.2
 	 */
 	public function compareProducts(AcceptanceTester $I, $scenario)
 	{
@@ -68,6 +191,12 @@ class CompareProductsCest
 		$I->comparesProducts($this->CategoryName, $this->ProductName,$this->productNameCompares);
 	}
 
+	/**
+	 * @param ProductSteps $I
+	 * @param $scenario
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
 	public function deleteDataEnd(ProductSteps $I, $scenario)
 	{
 		$I->wantTo('Delete Product in Administrator');

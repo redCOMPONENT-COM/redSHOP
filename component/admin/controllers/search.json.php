@@ -18,14 +18,14 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerSearch extends RedshopController
 {
-	/**
-	 * Method for searching
-	 *
-	 * @return	json
-	 */
-	public function search()
-	{
-		echo $this->getModel('search')->search();
-		JFactory::getApplication()->close();
-	}
+    /**
+     * Method for searching
+     *
+     * @return    json
+     */
+    public function search()
+    {
+        echo $this->getModel('search')->search();
+        JFactory::getApplication()->close();
+    }
 }

@@ -18,33 +18,32 @@ defined('_JEXEC') or die;
  */
 class RedshopModelSupplier extends RedshopModelForm
 {
-	/**
-	 * The unique columns.
-	 *
-	 * @var  array
-	 */
-	protected $copyUniqueColumns = array('name');
+    /**
+     * The unique columns.
+     *
+     * @var  array
+     */
+    protected $copyUniqueColumns = array('name');
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   1.6
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$app  = JFactory::getApplication();
-		$data = $app->getUserState('com_redshop.edit.supplier.data', array());
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     *
+     * @since   1.6
+     */
+    protected function loadFormData()
+    {
+        // Check the session for previously entered form data.
+        $app  = JFactory::getApplication();
+        $data = $app->getUserState('com_redshop.edit.supplier.data', array());
 
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
+        if (empty($data)) {
+            $data = $this->getItem();
+        }
 
-		$this->preprocessData('com_redshop.supplier', $data);
+        $this->preprocessData('com_redshop.supplier', $data);
 
-		return $data;
-	}
+        return $data;
+    }
 }

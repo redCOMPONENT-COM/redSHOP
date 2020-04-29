@@ -12,9 +12,9 @@ namespace Redshop\Extension;
 
 defined('_JEXEC') || die;
 
-use Twig\TwigFunction;
 use Joomla\Registry\Registry;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Registry integration for Twig.
@@ -23,39 +23,39 @@ use Twig\Extension\AbstractExtension;
  */
 final class JRegistry extends AbstractExtension
 {
-	/**
-	 *
-	 * @return array
-	 *
-	 * @since 2.1.5
-	 */
-	public function getFunctions() : array
-	{
-		return [
-			new TwigFunction('jregistry', [$this, 'getRegistry'])
-		];
-	}
+    /**
+     *
+     * @return array
+     *
+     * @since 2.1.5
+     */
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('jregistry', [$this, 'getRegistry'])
+        ];
+    }
 
-	/**
-	 * @param   null  $data
-	 *
-	 * @return Registry
-	 *
-	 * @since 2.1.5
-	 */
-	public function getRegistry($data = null)
-	{
-		return new Registry($data);
-	}
+    /**
+     * @param   null  $data
+     *
+     * @return Registry
+     *
+     * @since 2.1.5
+     */
+    public function getRegistry($data = null)
+    {
+        return new Registry($data);
+    }
 
-	/**
-	 *
-	 * @return string
-	 *
-	 * @since 2.1.5
-	 */
-	public function getName() : string
-	{
-		return 'jregistry';
-	}
+    /**
+     *
+     * @return string
+     *
+     * @since 2.1.5
+     */
+    public function getName(): string
+    {
+        return 'jregistry';
+    }
 }

@@ -1,5 +1,5 @@
-(function($) {
-    var initLayout = function() {
+(function ($) {
+    var initLayout = function () {
         var hash = window.location.hash.replace('#', '');
         var currentTab = $('ul.navigationTabs a')
             .bind('click', showTab)
@@ -14,34 +14,34 @@
         $('#colorpickerHolder2').ColorPicker({
             flat: true,
             color: '#00ff00',
-            onSubmit: function(hsb, hex, rgb) {
+            onSubmit: function (hsb, hex, rgb) {
                 $('#colorSelector2 div').css('backgroundColor', '#' + hex);
             }
         });
 
         $('#colorpickerField1, #colorpickerField2, #colorpickerField3').ColorPicker({
-                onSubmit: function(hsb, hex, rgb, el) {
-                    $(el).val(hex);
-                    $(el).ColorPickerHide();
-                },
-                onBeforeShow: function() {
-                    $(this).ColorPickerSetColor(this.value);
-                }
-            })
-            .bind('keyup', function() {
+            onSubmit: function (hsb, hex, rgb, el) {
+                $(el).val(hex);
+                $(el).ColorPickerHide();
+            },
+            onBeforeShow: function () {
+                $(this).ColorPickerSetColor(this.value);
+            }
+        })
+            .bind('keyup', function () {
                 $(this).ColorPickerSetColor(this.value);
             });
         $('#colorSelector').ColorPicker({
             color: '#0000ff',
-            onShow: function(colpkr) {
+            onShow: function (colpkr) {
                 $(colpkr).fadeIn(500);
                 return false;
             },
-            onHide: function(colpkr) {
+            onHide: function (colpkr) {
                 $(colpkr).fadeOut(500);
                 return false;
             },
-            onChange: function(hsb, hex, rgb) {
+            onChange: function (hsb, hex, rgb) {
                 $('#colorSelector div').css('backgroundColor', '#' + hex);
                 document.getElementById('color_code_1').value = "#" + hex;
 
@@ -49,7 +49,7 @@
         });
     };
 
-    var showTab = function(e) {
+    var showTab = function (e) {
         var tabIndex = $('ul.navigationTabs a')
             .removeClass('active')
             .index(this);

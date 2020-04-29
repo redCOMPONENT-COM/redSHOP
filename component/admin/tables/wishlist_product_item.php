@@ -18,10 +18,10 @@ defined('_JEXEC') or die;
  */
 class RedshopTableWishlist_Product_Item extends RedshopTable
 {
-	/**
-	 * The table name without the prefix.
-	 *
-	 * @var  string
-	 */
-	protected $_tableName = 'redshop_wishlist_product_item';
+    /**
+     * The table name without the prefix.
+     *
+     * @var  string
+     */
+    protected $_tableName = 'redshop_wishlist_product_item';
 }

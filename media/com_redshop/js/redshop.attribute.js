@@ -635,7 +635,7 @@ function collectAttributes(productId, accessoryId, relatedProductId, withoutVAT)
 	mainprice = price_without_vat;
 
 	// Apply vat here in last. Just apply in case price is not below 0.
-	if (mainprice > 0 && withoutVAT == false) {
+	if (mainprice > 0 && (withoutVAT == false || withoutVAT == undefined)) {
 		mainprice = mainprice * (1 + redSHOP.RSConfig._('BASE_TAX'));
 	}
 

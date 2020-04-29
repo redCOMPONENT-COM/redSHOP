@@ -54,7 +54,7 @@ gulp.task('clean:components.redshop:media', function () {
             '!' + config.wwwDir + '/media/' + componentName + '/templates',
             '!' + config.wwwDir + '/media/' + componentName + '/templates/**'
         ],
-        { force: true }
+        {force: true}
     );
 });
 
@@ -66,7 +66,7 @@ gulp.task('watch:components.redshop:media:js', function () {
             var deployFile = path.join(destinationPath, file.path.substring(file.path.indexOf("com_redshop") + 11, file.path.length));
 
             // Delete files
-            del(deployFile, { force: true });
+            del(deployFile, {force: true});
 
             // Copy files
             return gulp.src(file.path)
@@ -81,7 +81,7 @@ gulp.task('watch:components.redshop:media:css', function () {
                 file.path.substring(file.path.indexOf("com_redshop") + 11, file.path.length));
 
             // Delete files
-            del(deployFile, { force: true });
+            del(deployFile, {force: true});
 
             // Copy files
             return gulp.src(file.path)
@@ -97,7 +97,7 @@ gulp.task('watch:components.redshop:media:css', function () {
 // Copy: Front-end language
 // Clean: Front-end language
 gulp.task('clean:components.redshop:frontend:lang', function () {
-    return del(config.wwwDir + '/language/**/*.' + componentName + '.*', { force: true });
+    return del(config.wwwDir + '/language/**/*.' + componentName + '.*', {force: true});
 });
 
 gulp.task('copy:components.redshop:frontend:lang', function (cb) {
@@ -128,7 +128,7 @@ gulp.task('clean:components.redshop:frontend:files', function () {
         config.wwwDir + '/components/com_redshop/views/**/*.html.php',
         config.wwwDir + '/components/com_redshop/views/**/tmpl/*.php',
         config.wwwDir + '/components/com_redshop/*.php'
-    ], { force: true });
+    ], {force: true});
 });
 
 // Copy: Front-end files
@@ -151,7 +151,7 @@ gulp.task('watch:components.redshop:frontend:files', function (cb) {
                 file.path.substring(file.path.indexOf("site") + 4, file.path.length));
 
             // Delete files
-            del(deployFile, { force: true });
+            del(deployFile, {force: true});
 
             // Copy files
             return gulp.src(file.path)
@@ -185,12 +185,12 @@ gulp.task('clean:components.redshop:backend', function () {
         '!' + config.wwwDir + '/administrator/components/' + componentName,
         '!' + config.wwwDir + '/administrator/components/' + componentName + '/config',
         '!' + config.wwwDir + '/administrator/components/' + componentName + '/config/*.php'
-    ], { force: true });
+    ], {force: true});
 });
 
 // Clean: Admin language
 gulp.task('clean:components.redshop:backend:lang', function () {
-    return del(config.wwwDir + '/administrator/language/**/*.' + componentName + '.*', { force: true });
+    return del(config.wwwDir + '/administrator/language/**/*.' + componentName + '.*', {force: true});
 });
 
 // Copy: Admin language
@@ -206,7 +206,7 @@ gulp.task('watch:components.redshop:backend:lang', function () {
 
 // Clean: redSHOP.xml file
 gulp.task('clean:components.redshop:backend:redshop.xml', function () {
-    return del(config.wwwDir + '/administrator/components/' + componentName + '/redshop.xml', { force: true });
+    return del(config.wwwDir + '/administrator/components/' + componentName + '/redshop.xml', {force: true});
 });
 
 // Copy: redSHOP.xml file
@@ -221,7 +221,7 @@ gulp.task('watch:components.redshop:backend:redshop.xml', function () {
 
 // Clean: install.php file
 gulp.task('clean:components.redshop:backend:install.php', function () {
-    return del(config.wwwDir + '/administrator/components/' + componentName + '/install.php', { force: true });
+    return del(config.wwwDir + '/administrator/components/' + componentName + '/install.php', {force: true});
 });
 
 // Copy: install.php file
@@ -255,7 +255,7 @@ gulp.task('watch:components.redshop:backend:files', function (cb) {
                 file.path.substring(file.path.indexOf("admin") + 5, file.path.length));
 
             // Delete files
-            del(deployFile, { force: true });
+            del(deployFile, {force: true});
 
             // Copy files
             return gulp.src(file.path)
@@ -324,7 +324,6 @@ gulp.task('copy:components.redshop',
 gulp.task('watch:components.redshop:media',
     gulp.series('watch:components.redshop:media:js', 'watch:components.redshop:media:css')
 );
-
 
 
 /// Watcher will watching for scss changes in Src/assets,

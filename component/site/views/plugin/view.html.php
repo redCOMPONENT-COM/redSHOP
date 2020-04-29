@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 
 class RedshopViewPlugin extends RedshopView
 {
-	public function display($tpl = null)
-	{
-		ob_clean();
+    public function display($tpl = null)
+    {
+        ob_clean();
 
-		// Flush();
-		parent::display($tpl);
-	}
+        // Flush();
+        parent::display($tpl);
+    }
 }

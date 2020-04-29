@@ -16,286 +16,272 @@ defined('_JEXEC') || die;
  */
 class RedshopTagsSectionsShippingMethod extends RedshopTagsAbstract
 {
-	public $tags = array('{shipping_heading}', '{show_when_one_rate}');
+    /**
+     * @var  string
+     */
+    public static $shipping_rate_id;
+    public $tags = array('{shipping_heading}', '{show_when_one_rate}');
+    /**
+     * The dispatcher.
+     *
+     * @var  JEventDispatcher
+     */
+    public $dispatcher;
+    /**
+     * @var  integer
+     */
+    public $rateExist = 0;
 
-	/**
-	 * The dispatcher.
-	 *
-	 * @var  JEventDispatcher
-	 */
-	public $dispatcher;
+    public function init()
+    {
+        $this->dispatcher = $this->getDispatcher('redshop_shipping');
+    }
 
-	/**
-	 * @var  integer
-	 */
-	public $rateExist = 0;
+    public function replace()
+    {
+        $subTemplate    = $this->getTemplateBetweenLoop('{shipping_method_loop_start}', '{shipping_method_loop_end}');
+        $shippingMethod = RedshopHelperOrder::getShippingMethodInfo();
 
-	/**
-	 * @var  string
-	 */
-	public static $shipping_rate_id;
+        $this->addReplace('{shipping_heading}', JText::_('COM_REDSHOP_SHIPPING_METHOD'));
 
-	public function init()
-	{
-		$this->dispatcher = $this->getDispatcher('redshop_shipping');
-	}
+        if (!empty($subTemplate)) {
+            $templateMiddle = $subTemplate['template'];
 
-	public function replace()
-	{
-		$subTemplate          = $this->getTemplateBetweenLoop('{shipping_method_loop_start}', '{shipping_method_loop_end}');
-		$shippingMethod       = RedshopHelperOrder::getShippingMethodInfo();
+            $templateRateMiddle = "";
 
-		$this->addReplace('{shipping_heading}', JText::_('COM_REDSHOP_SHIPPING_METHOD'));
+            $template1 = $this->getTemplateBetweenLoop('{shipping_rate_loop_start}', '{shipping_rate_loop_end}');
 
-		if (!empty($subTemplate))
-		{
-			$templateMiddle = $subTemplate['template'];
+            if (!empty($template1)) {
+                $templateRateMiddle = $template1['template'];
+            }
 
-			$templateRateMiddle = "";
+            $rateData = "";
 
-			$template1 = $this->getTemplateBetweenLoop('{shipping_rate_loop_start}', '{shipping_rate_loop_end}');
+            if ($templateMiddle != "" && count($shippingMethod) > 0) {
+                $shippingRate = $this->dispatcher->trigger('onListRates', array(&$this->data));
 
-			if (!empty($template1))
-			{
-				$templateRateMiddle = $template1['template'];
-			}
+                if (count($shippingRate) <= 1 && count($shippingRate[0]) <= 1) {
+                    $this->addReplace('{show_when_one_rate}', 'none');
+                }
 
-			$rateData = "";
+                for ($s = 0, $sn = count($shippingMethod); $s < $sn; $s++) {
+                    $rateData .= $this->replaceShippingMethod(
+                        $templateMiddle,
+                        $templateRateMiddle,
+                        $shippingRate[$s],
+                        $shippingMethod[$s]
+                    );
+                    $this->replaceExtraField($rateData, $shippingMethod[$s]);
+                }
+            }
 
-			if ($templateMiddle != "" && count($shippingMethod) > 0)
-			{
-				$shippingRate = $this->dispatcher->trigger('onListRates', array(&$this->data));
+            $this->addReplace('{show_when_one_rate}', 'block');
+            $this->template = $subTemplate['begin'] . $rateData . $subTemplate['end'];
+        }
 
-				if (count($shippingRate) <= 1 && count($shippingRate[0]) <= 1)
-				{
-					$this->addReplace('{show_when_one_rate}', 'none');
-				}
+        if ($this->rateExist == 0) {
+            $this->template = "<div></div>";
+        }
 
-				for ($s = 0, $sn = count($shippingMethod); $s < $sn; $s++)
-				{
-					$rateData .= $this->replaceShippingMethod($templateMiddle, $templateRateMiddle, $shippingRate[$s], $shippingMethod[$s]);
-					$this->replaceExtraField($rateData, $shippingMethod[$s]);
-				}
-			}
+        return parent::replace();
+    }
 
-			$this->addReplace('{show_when_one_rate}', 'block');
-			$this->template = $subTemplate['begin'] . $rateData . $subTemplate['end'];
-		}
+    /**
+     * Replace shipping method
+     *
+     * @param   string  $templateMiddle
+     * @param   string  $templateRateMiddle
+     * @param   array   $shippingRate
+     * @param   object  $shippingMethod
+     *
+     * @return  string|boolean
+     *
+     * @since   3.0
+     */
+    public function replaceShippingMethod($templateMiddle, $templateRateMiddle, $shippingRate, $shippingMethod)
+    {
+        if (isset($shippingRate) === false) {
+            return false;
+        }
 
-		if ($this->rateExist == 0)
-		{
-			$this->template = "<div></div>";
-		}
+        $rate                   = $shippingRate;
+        $rateData               = '';
+        $this->replacements     = array();
+        self::$shipping_rate_id = $this->data['shipping_rate_id'];
 
-		return parent::replace();
-	}
+        if (!empty($rate)) {
+            if (empty(self::$shipping_rate_id)) {
+                self::$shipping_rate_id = $rate[0]->value;
+            }
 
-	/**
-	 * Replace shipping method
-	 *
-	 * @param   string  $templateMiddle
-	 * @param   string  $templateRateMiddle
-	 * @param   array   $shippingRate
-	 * @param   object  $shippingMethod
-	 *
-	 * @return  string|boolean
-	 *
-	 * @since   3.0
-	 */
-	public function replaceShippingMethod($templateMiddle, $templateRateMiddle, $shippingRate, $shippingMethod)
-	{
-		if (isset($shippingRate) === false)
-		{
-			return false;
-		}
+            $rs = $shippingMethod;
 
-		$rate                   = $shippingRate;
-		$rateData               = '';
-		$this->replacements     = array();
-		self::$shipping_rate_id = $this->data['shipping_rate_id'];
+            $rateData                                         .= $templateMiddle;
+            $this->replacements['{shipping_method_title}']    = JText::_($rs->name);
+            $this->replacements['{shipping_rate_loop_start}'] = '';
+            $this->replacements['{shipping_rate_loop_end}']   = '';
 
-		if (!empty($rate))
-		{
-			if (empty(self::$shipping_rate_id))
-			{
-				self::$shipping_rate_id = $rate[0]->value;
-			}
+            $rateData = $this->strReplace($this->replacements, $rateData);
 
-			$rs = $shippingMethod;
+            if ($templateRateMiddle != "") {
+                $data = "";
 
-			$rateData .= $templateMiddle;
-			$this->replacements['{shipping_method_title}'] = JText::_($rs->name);
-			$this->replacements['{shipping_rate_loop_start}'] = '';
-			$this->replacements['{shipping_rate_loop_end}'] = '';
+                for ($i = 0, $in = count($rate); $i < $in; $i++) {
+                    $data .= $this->replaceShippingRate($templateRateMiddle, $rate[$i], $shippingMethod, $i);
+                }
 
-			$rateData = $this->strReplace($this->replacements, $rateData);
+                return str_replace($templateRateMiddle, $data, $rateData);
+            }
+        }
 
-			if ($templateRateMiddle != "")
-			{
-				$data = "";
+        return $rateData;
+    }
 
-				for ($i = 0, $in = count($rate); $i < $in; $i++)
-				{
-					$data .= $this->replaceShippingRate($templateRateMiddle, $rate[$i], $shippingMethod, $i);
-				}
+    /**
+     * Replace shipping rate
+     *
+     * @param   string   $templateRateMiddle
+     * @param   object   $rate
+     * @param   object   $shippingMethod
+     * @param   integer  $index
+     *
+     * @return  string|boolean
+     *
+     * @since   3.0
+     */
+    public function replaceShippingRate($templateRateMiddle, $rate, $shippingMethod, $index)
+    {
+        if (isset($rate->shipping_rate_state) && !empty($rate->shipping_rate_state)) {
+            if (Redshop\Cart\Cart::isDiffCountryState($rate, $this->data['users_info_id'], $_POST)) {
+                return false;
+            }
+        }
 
-				return str_replace($templateRateMiddle, $data, $rateData);
-			}
-		}
+        $this->replacements = array();
+        $checked            = '';
+        $data               = $templateRateMiddle;
+        $mainLocation       = "";
+        $displayRate        = (trim($rate->rate) > 0) ? " (" . RedshopHelperProductPrice::formattedPrice(
+                (double)trim($rate->rate)
+            ) . " )" : "";
 
-		return $rateData;
-	}
+        if ((isset($rate->checked) && $rate->checked) || $this->rateExist == 0) {
+            $checked = "checked";
+        }
 
-	/**
-	 * Replace shipping rate
-	 *
-	 * @param   string   $templateRateMiddle
-	 * @param   object   $rate
-	 * @param   object   $shippingMethod
-	 * @param   integer  $index
-	 *
-	 * @return  string|boolean
-	 *
-	 * @since   3.0
-	 */
-	public function replaceShippingRate($templateRateMiddle, $rate, $shippingMethod, $index)
-	{
-		if (isset($rate->shipping_rate_state) && !empty($rate->shipping_rate_state))
-		{
-			if (Redshop\Cart\Cart::isDiffCountryState($rate, $this->data['users_info_id'], $_POST))
-			{
-				return false;
-			}
-		}
+        if ($checked == "checked") {
+            self::$shipping_rate_id = $rate->value;
+        }
 
-		$this->replacements = array();
-		$checked            = '';
-		$data               = $templateRateMiddle;
-		$mainLocation       = "";
-		$displayRate        = (trim($rate->rate) > 0) ? " (" . RedshopHelperProductPrice::formattedPrice((double) trim($rate->rate)) . " )" : "";
+        $className = $shippingMethod->element;
 
-		if ((isset($rate->checked) && $rate->checked) || $this->rateExist == 0)
-		{
-			$checked = "checked";
-		}
+        $shippingRateName = RedshopLayoutHelper::render(
+            'tags.shipping_method.shipping_rate_name',
+            array(
+                'shippingMethod' => $shippingMethod,
+                'index'          => $index,
+                'checked'        => $checked,
+                'rateText'       => html_entity_decode($rate->text),
+                'className'      => $className,
+                'rate'           => $rate
+            ),
+            '',
+            RedshopLayoutHelper::$layoutOption
+        );
 
-		if ($checked == "checked")
-		{
-			self::$shipping_rate_id = $rate->value;
-		}
+        $shippingRateShortDesc = '';
 
-		$className = $shippingMethod->element;
+        if (isset($rate->shortdesc) === true) {
+            $shippingRateShortDesc = html_entity_decode($rate->shortdesc);
+        }
 
-		$shippingRateName = RedshopLayoutHelper::render(
-			'tags.shipping_method.shipping_rate_name',
-			array(
-				'shippingMethod' => $shippingMethod,
-				'index' => $index,
-				'checked' => $checked,
-				'rateText' => html_entity_decode($rate->text),
-				'className' => $className,
-				'rate' => $rate
-			),
-			'',
-			RedshopLayoutHelper::$layoutOption
-		);
+        $shippingRateDesc = '';
 
-		$shippingRateShortDesc = '';
+        if (isset($rate->longdesc) === true) {
+            $shippingRateDesc = html_entity_decode($rate->longdesc);
+        }
 
-		if (isset($rate->shortdesc) === true)
-		{
-			$shippingRateShortDesc = html_entity_decode($rate->shortdesc);
-		}
+        $this->rateExist++;
+        $this->replacements['{shipping_rate_name}']       = $shippingRateName;
+        $this->replacements['{shipping_rate_short_desc}'] = $shippingRateShortDesc;
+        $this->replacements['{shipping_rate_desc}']       = $shippingRateDesc;
+        $this->replacements['{shipping_rate}']            = $displayRate;
 
-		$shippingRateDesc = '';
+        if (strpos($data, "{shipping_location}") !== false) {
+            $shippingLocation = RedshopHelperOrder::getShippingLocationInfo($rate->text);
 
-		if (isset($rate->longdesc) === true)
-		{
-			$shippingRateDesc = html_entity_decode($rate->longdesc);
-		}
+            for ($k = 0, $kn = count($shippingLocation); $k < $kn; $k++) {
+                if ($shippingLocation[$k] != '') {
+                    $mainLocation = $shippingLocation[$k]->shipping_location_info;
+                }
+            }
 
-		$this->rateExist++;
-		$this->replacements['{shipping_rate_name}'] = $shippingRateName;
-		$this->replacements['{shipping_rate_short_desc}'] = $shippingRateShortDesc;
-		$this->replacements['{shipping_rate_desc}'] = $shippingRateDesc;
-		$this->replacements['{shipping_rate}'] = $displayRate;
+            $this->replacements['{shipping_location}'] = $mainLocation;
+        }
 
-		if (strpos($data, "{shipping_location}") !== false)
-		{
-			$shippingLocation = RedshopHelperOrder::getShippingLocationInfo($rate->text);
+        $data = $this->strReplace($this->replacements, $data);
 
-			for ($k = 0, $kn = count($shippingLocation); $k < $kn; $k++)
-			{
-				if ($shippingLocation[$k] != '')
-				{
-					$mainLocation = $shippingLocation[$k]->shipping_location_info;
-				}
-			}
+        $this->dispatcher->trigger('onReplaceShippingTemplate', array($this->data, &$data, $className, $checked));
 
-			$this->replacements['{shipping_location}'] = $mainLocation;
-		}
+        return str_replace('{gls_shipping_location}', '', $data);
+    }
 
-		$this->dispatcher->trigger('onReplaceShippingTemplate', array($this->data, &$data, $className, $checked));
+    /**
+     * Replace extra field
+     *
+     * @param   string  $template
+     * @param   object  $shippingMethod
+     *
+     * @return  void
+     *
+     * @since   3.0
+     */
+    public function replaceExtraField(&$template, $shippingMethod)
+    {
+        if ($this->isTagExists('{shipping_extrafields}')) {
+            $paymentParamsNew  = new JRegistry($shippingMethod->params);
+            $extraFieldPayment = $paymentParamsNew->get('extrafield_shipping');
+            $extraFieldHidden  = "";
+            $extraFieldTotal   = "";
 
-		$this->replacements['{gls_shipping_location}'] = '';
+            if (!empty($extraFieldPayment)) {
+                $countExtrafield = count($extraFieldPayment);
 
-		return $this->strReplace($this->replacements, $data);
-	}
+                for ($ui = 0; $ui < $countExtrafield; $ui++) {
+                    $productUserFields = Redshop\Fields\SiteHelper::listAllUserFields(
+                        $extraFieldPayment[$ui],
+                        19,
+                        '',
+                        0,
+                        0,
+                        0
+                    );
+                    $extraFieldTotal   .= $productUserFields[0] . " " . $productUserFields[1] . "<br>";
 
-	/**
-	 * Replace extra field
-	 *
-	 * @param   string   $template
-	 * @param   object   $shippingMethod
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function replaceExtraField(&$template, $shippingMethod)
-	{
-		if ($this->isTagExists('{shipping_extrafields}'))
-		{
-			$paymentParamsNew  = new JRegistry($shippingMethod->params);
-			$extraFieldPayment = $paymentParamsNew->get('extrafield_shipping');
-			$extraFieldHidden  = "";
-			$extraFieldTotal   = "";
+                    // @Todo check later
+                    $extraFieldHidden .= RedshopLayoutHelper::render(
+                        'tags.common.input',
+                        array(
+                            'name'  => 'extrafields[]',
+                            'type'  => 'hidden',
+                            'value' => $extraFieldPayment[$ui]
+                        ),
+                        '',
+                        RedshopLayoutHelper::$layoutOption
+                    );
+                }
 
-			if (!empty($extraFieldPayment))
-			{
-				$countExtrafield = count($extraFieldPayment);
+                $shippingExtraField = RedshopLayoutHelper::render(
+                    'tags.shipping_method.shipping_extrafield',
+                    array('extraFieldTotal' => $extraFieldTotal),
+                    '',
+                    RedshopLayoutHelper::$layoutOption
+                );
 
-				for ($ui = 0; $ui < $countExtrafield; $ui++)
-				{
-					$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($extraFieldPayment[$ui], 19, '', 0, 0, 0);
-					$extraFieldTotal .= $productUserFields[0] . " " . $productUserFields[1] . "<br>";
-
-					// @Todo check later
-					$extraFieldHidden .= RedshopLayoutHelper::render(
-						'tags.common.input',
-						array(
-							'name' => 'extrafields[]',
-							'type' => 'hidden',
-							'value' => $extraFieldPayment[$ui]
-						),
-						'',
-						RedshopLayoutHelper::$layoutOption
-					);
-				}
-
-				$shippingExtraField = RedshopLayoutHelper::render(
-					'tags.shipping_method.shipping_extrafield',
-					array('extraFieldTotal' => $extraFieldTotal),
-					'',
-					RedshopLayoutHelper::$layoutOption
-				);
-
-				$template = str_replace("{shipping_extrafields}", $shippingExtraField, $template);
-			}
-			else
-			{
-				$template = str_replace("{shipping_extrafields}", "", $template);
-			}
-		}
-	}
+                $template = str_replace("{shipping_extrafields}", $shippingExtraField, $template);
+            } else {
+                $template = str_replace("{shipping_extrafields}", "", $template);
+            }
+        }
+    }
 }

@@ -19,7 +19,7 @@ gulp.task("getAdminFiles", function () {
             "plugins/**/en-GB.*.ini",
             "modules/admin/**/*.ini"
         ],
-        { base: "./" }
+        {base: "./"}
     ).pipe(through.obj(function (file, enc, cb) {
         iniJsons.push({
             "source": "/" + upath.toUnix(file.relative),
@@ -36,7 +36,7 @@ gulp.task("getSiteFiles", function () {
             "libraries/redshop/language/**/*.ini",
             "modules/site/**/*.ini"
         ],
-        { base: "./" }
+        {base: "./"}
     ).pipe(through.obj(function (file, enc, cb) {
         iniJsons.push({
             "source": "/" + upath.toUnix(file.relative),

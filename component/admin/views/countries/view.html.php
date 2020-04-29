@@ -16,22 +16,21 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       2.0.0.2.1
  */
-
 class RedshopViewCountries extends RedshopViewList
 {
-	/**
-	 * Column for render published state.
-	 *
-	 * @var    array
-	 * @since  2.0.7
-	 */
-	protected $stateColumns = array();
+    /**
+     * Column for render published state.
+     *
+     * @var    array
+     * @since  2.0.7
+     */
+    protected $stateColumns = array();
 
-	/**
-	 * Display check-in button or not.
-	 *
-	 * @var   boolean
-	 * @since  2.0.7
-	 */
-	protected $checkIn = false;
+    /**
+     * Display check-in button or not.
+     *
+     * @var   boolean
+     * @since  2.0.7
+     */
+    protected $checkIn = false;
 }

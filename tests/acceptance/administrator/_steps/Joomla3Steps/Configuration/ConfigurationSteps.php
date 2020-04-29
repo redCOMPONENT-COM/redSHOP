@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nhung nguyen
- * Date: 5/25/2017
- * Time: 3:51 PM
+ * @package     redSHOP
+ * @subpackage  Steps Class
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Configuration;
@@ -11,108 +11,146 @@ use AcceptanceTester\AdminManagerJoomla3Steps;
 use ConfigurationPage;
 use OrderManagerPage;
 
+/**
+ * Class ConfigurationSteps
+ * @package Configuration
+ * @since 1.4.0
+ */
 class ConfigurationSteps extends AdminManagerJoomla3Steps
 {
+	/**
+	 * Function setting  enable stock room
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function featureUsedStockRoom()
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$featureSetting);
-		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
-		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$stockRoomYes);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$ratingTab, 60);
+		$I->waitForElement(ConfigurationPage::$stockRoomTab, 60);
+		$I->click(ConfigurationPage::$stockRoomYes);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * Function setting  disable stock room
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function featureOffStockRoom()
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$featureSetting);
-		$I->waitForElement(\ConfigurationPage::$ratingTab, 60);
-		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$stockRoomNo);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$ratingTab, 60);
+		$I->waitForElement(ConfigurationPage::$stockRoomTab, 60);
+		$I->click(ConfigurationPage::$stockRoomNo);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
-
+	/**
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function featureEditInLineYes()
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$featureSetting);
-		$I->waitForElement(\ConfigurationPage::$editInline, 60);
-		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$eidtInLineYes);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$editInline, 60);
+		$I->waitForElement(ConfigurationPage::$stockRoomTab, 60);
+		$I->click(ConfigurationPage::$eidtInLineYes);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function featureEditInLineNo()
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$featureSetting);
-		$I->waitForElement(\ConfigurationPage::$editInline, 60);
-		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$editInLineNo);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$editInline, 60);
+		$I->waitForElement(ConfigurationPage::$stockRoomTab, 60);
+		$I->click(ConfigurationPage::$editInLineNo);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function featureComparisonNo()
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$featureSetting);
-		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
-		$I->waitForElement(\ConfigurationPage::$stockRoomTab, 60);
-		$I->click(\ConfigurationPage::$comparisonNo);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$comparisonTab, 60);
+		$I->waitForElement(ConfigurationPage::$stockRoomTab, 60);
+		$I->click(ConfigurationPage::$comparisonNo);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function featureComparisonYes()
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$featureSetting);
-		$I->waitForElement(\ConfigurationPage::$comparisonTab, 60);
-		$I->click(\ConfigurationPage::$comparisonYes);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$featureSetting);
+		$I->waitForElement(ConfigurationPage::$comparisonTab, 60);
+		$I->click(ConfigurationPage::$comparisonYes);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function featurePriceNo()
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$price);
-		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->click(\ConfigurationPage::$showPriceNo);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$price);
+		$I->waitForElement(ConfigurationPage::$priceTab, 60);
+		$I->click(ConfigurationPage::$showPriceNo);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
+	/**
+	 * @throws \Exception
+	 * @since 1.4.0
+	 */
 	public function featurePriceYes()
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$price);
-		$I->waitForElement(\ConfigurationPage::$priceTab, 60);
-		$I->click(\ConfigurationPage::$showPriceYes);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$price);
+		$I->waitForElement(ConfigurationPage::$priceTab, 60);
+		$I->click(ConfigurationPage::$showPriceYes);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
 	/**
@@ -181,21 +219,23 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	 * @param $vatAfter
 	 * @param $calculationBase
 	 * @param $vatNumber
+	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function setupVAT($country, $state, $vatDefault, $vatCalculation, $vatAfter, $vatNumber, $calculationBase, $requiVAT)
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$price);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$price);
 
-		$I->click(\ConfigurationPage::$countryPrice);
-		$I->waitForElement(\ConfigurationPage::$countrySearchPrice, 5);
-		$I->fillField(\ConfigurationPage::$countrySearchPrice, $country);
-		$userConfigurationPage = new \ConfigurationPage();
+		$I->click(ConfigurationPage::$countryPrice);
+		$I->waitForElement(ConfigurationPage::$countrySearchPrice, 5);
+		$I->fillField(ConfigurationPage::$countrySearchPrice, $country);
+		$userConfigurationPage = new ConfigurationPage();
 		$I->waitForElement($userConfigurationPage->returnChoice($country), 30);
 		if ($country == 'Denmark')
 		{
-			$I->pressKey(\ConfigurationPage::$countrySearchPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+			$I->pressKey(ConfigurationPage::$countrySearchPrice, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 		}
 		else{
 			$I->click($userConfigurationPage->returnChoice($country));
@@ -204,49 +244,49 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		// Get state
 		if (isset($state))
 		{
-			$I->click(\ConfigurationPage::$statePrice);
-			$I->waitForElement(\ConfigurationPage::$stateSearchPrice, 5);
-			$I->fillField(\ConfigurationPage::$stateSearchPrice, $state);
+			$I->click(ConfigurationPage::$statePrice);
+			$I->waitForElement(ConfigurationPage::$stateSearchPrice, 5);
+			$I->fillField(ConfigurationPage::$stateSearchPrice, $state);
 			$I->waitForElement($userConfigurationPage->returnChoice($state), 30);
 			$I->click($userConfigurationPage->returnChoice($state));
 		}
 
 		// Get default vat
-		$I->click(\ConfigurationPage::$vatGroup);
-		$I->waitForElement(\ConfigurationPage::$vatSearchGroup, 5);
-		$I->fillField(\ConfigurationPage::$vatSearchGroup, $vatDefault);
+		$I->click(ConfigurationPage::$vatGroup);
+		$I->waitForElement(ConfigurationPage::$vatSearchGroup, 5);
+		$I->fillField(ConfigurationPage::$vatSearchGroup, $vatDefault);
 		$I->waitForElement($userConfigurationPage->returnChoice($vatDefault), 30);
-		$I->click(\ConfigurationPage::$varFirstResults);
+		$I->click(ConfigurationPage::$varFirstResults);
 
 		//get vat base on
-		$I->click(\ConfigurationPage::$vatDefaultBase);
-		$I->waitForElement(\ConfigurationPage::$vatSearchDefaultBase, 5);
-		$I->fillField(\ConfigurationPage::$vatSearchDefaultBase, $vatCalculation);
+		$I->click(ConfigurationPage::$vatDefaultBase);
+		$I->waitForElement(ConfigurationPage::$vatSearchDefaultBase, 5);
+		$I->fillField(ConfigurationPage::$vatSearchDefaultBase, $vatCalculation);
 		$I->waitForElement($userConfigurationPage->returnChoice($vatCalculation), 30);
-		$I->click(\ConfigurationPage::$searchDefaultFirstResult);
+		$I->click(ConfigurationPage::$searchDefaultFirstResult);
 
 		//apply vat on discount
 		switch ($vatAfter)
 		{
 			case 'after':
-				$I->click(\ConfigurationPage::$applyDiscountAfter);
+				$I->click(ConfigurationPage::$applyDiscountAfter);
 				break;
 			case 'before':
-				$I->click(\ConfigurationPage::$applyDiscountBefore);
+				$I->click(ConfigurationPage::$applyDiscountBefore);
 				break;
 		}
 
 		// value after discount
-		$I->fillField(\ConfigurationPage::$vatAfterDiscount, $vatNumber);
+		$I->fillField(ConfigurationPage::$vatAfterDiscount, $vatNumber);
 
 		//get value calculation based on
 		switch ($calculationBase)
 		{
 			case 'billing':
-				$I->click(\ConfigurationPage::$calculationBaseBilling);
+				$I->click(ConfigurationPage::$calculationBaseBilling);
 				break;
 			case 'shipping':
-				$I->click(\ConfigurationPage::$calculationBaseShipping);
+				$I->click(ConfigurationPage::$calculationBaseShipping);
 				break;
 		}
 
@@ -255,16 +295,16 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		switch ($requiVAT)
 		{
 			case 'yes':
-				$I->click(\ConfigurationPage::$vatNumberYes);
+				$I->click(ConfigurationPage::$vatNumberYes);
 				break;
 			case 'no':
-				$I->click(\ConfigurationPage::$vatNumberNo);
+				$I->click(ConfigurationPage::$vatNumberNo);
 				break;
 		}
 
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
 	/**
@@ -275,144 +315,145 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	public function cartSetting($cartSetting)
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$cartCheckout);
-		$userConfiguration = new \ConfigurationPage();
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$cartCheckout);
+		$userConfiguration = new ConfigurationPage();
 
 		switch ($cartSetting['addCart'])
 		{
 			case 'product':
-				$I->waitForElementVisible(\ConfigurationPage::$addCartProduct, 30);
-				$I->click(\ConfigurationPage::$addCartProduct);
+				$I->waitForElementVisible(ConfigurationPage::$addCartProduct, 30);
+				$I->click(ConfigurationPage::$addCartProduct);
 				break;
 			case 'attribute':
-				$I->waitForElementVisible(\ConfigurationPage::$addCartAttibute, 30);
-				$I->click(\ConfigurationPage::$addCartAttibute);
+				$I->waitForElementVisible(ConfigurationPage::$addCartAttibute, 30);
+				$I->click(ConfigurationPage::$addCartAttibute);
 				break;
 		}
 
 		switch ($cartSetting['allowPreOrder'])
 		{
 			case 'yes':
-				$I->waitForElementVisible(\ConfigurationPage::$allowPreOrOderYes, 30);
-				$I->click(\ConfigurationPage::$allowPreOrOderYes);
+				$I->waitForElementVisible(ConfigurationPage::$allowPreOrOderYes, 30);
+				$I->click(ConfigurationPage::$allowPreOrOderYes);
 				break;
 			case 'no':
-				$I->waitForElementVisible(\ConfigurationPage::$allowPreorderNo, 30);
-				$I->click(\ConfigurationPage::$allowPreorderNo);
+				$I->waitForElementVisible(ConfigurationPage::$allowPreorderNo, 30);
+				$I->click(ConfigurationPage::$allowPreorderNo);
 				break;
 		}
 
 		switch ($cartSetting['enableQuotation'])
 		{
 			case 'yes':
-				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationYes, 30);
-				$I->click(\ConfigurationPage::$enableQuotationYes);
+				$I->waitForElementVisible(ConfigurationPage::$enableQuotationYes, 30);
+				$I->click(ConfigurationPage::$enableQuotationYes);
 				break;
 			case 'no':
-				$I->waitForElementVisible(\ConfigurationPage::$enableQuotationNo, 30);
-				$I->click(\ConfigurationPage::$enableQuotationNo);
+				$I->waitForElementVisible(ConfigurationPage::$enableQuotationNo, 30);
+				$I->click(ConfigurationPage::$enableQuotationNo);
 				break;
 		}
 
-		$I->fillField(\ConfigurationPage::$cartTimeOut, $cartSetting['cartTimeOut']);
+		$I->fillField(ConfigurationPage::$cartTimeOut, $cartSetting['cartTimeOut']);
 
 		switch ($cartSetting['enabledAjax'])
 		{
 			case 'yes':
-				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxYes, 30);
-				$I->click(\ConfigurationPage::$enableAjaxYes);
+				$I->waitForElementVisible(ConfigurationPage::$enableAjaxYes, 30);
+				$I->click(ConfigurationPage::$enableAjaxYes);
 				break;
 			case 'no':
-				$I->waitForElementVisible(\ConfigurationPage::$enableAjaxNo, 30);
-				$I->click(\ConfigurationPage::$enableAjaxNo);
+				$I->waitForElementVisible(ConfigurationPage::$enableAjaxNo, 30);
+				$I->click(ConfigurationPage::$enableAjaxNo);
 				break;
 		}
 
 		//choice default cart/checkout item ID
 		if ($cartSetting['defaultCart'] != null)
 		{
-			$I->click(\ConfigurationPage::$defaultCart);
-			$I->waitForElement(\ConfigurationPage::$defaultCartSearch, 5);
-			$I->fillField(\ConfigurationPage::$defaultCartSearch, $cartSetting['defaultCart']);
+			$I->click(ConfigurationPage::$defaultCart);
+			$I->waitForElement(ConfigurationPage::$defaultCartSearch, 5);
+			$I->fillField(ConfigurationPage::$defaultCartSearch, $cartSetting['defaultCart']);
 			$I->waitForElement($userConfiguration->returnChoice($cartSetting['defaultCart']));
 			$I->click($userConfiguration->returnChoice($cartSetting['defaultCart']));
 		}
 
 		//Choice add to cart button lead
-		$I->waitForElementVisible(\ConfigurationPage::$buttonCartLead, 30);
+		$I->waitForElementVisible(ConfigurationPage::$buttonCartLead, 30);
 		$I->wait(0.5);
-		$I->click(\ConfigurationPage::$buttonCartLead);
-		$I->waitForElementVisible(\ConfigurationPage::$buttonCartSearch, 30);
-		$I->fillField(\ConfigurationPage::$buttonCartSearch, $cartSetting['buttonCartLead']);
+		$I->click(ConfigurationPage::$buttonCartLead);
+		$I->waitForElementVisible(ConfigurationPage::$buttonCartSearch, 30);
+		$I->fillField(ConfigurationPage::$buttonCartSearch, $cartSetting['buttonCartLead']);
 		$I->waitForElement($userConfiguration->returnChoice($cartSetting['buttonCartLead']),30);
-		$I->click(\ConfigurationPage::$firstCartSearch);
+		$I->click(ConfigurationPage::$firstCartSearch);
 
 		switch ($cartSetting['onePage'])
 		{
 			case 'yes':
-				$I->waitForElementVisible(\ConfigurationPage::$onePageYes, 30);
-				$I->click(\ConfigurationPage::$onePageYes);
+				$I->waitForElementVisible(ConfigurationPage::$onePageYes, 30);
+				$I->click(ConfigurationPage::$onePageYes);
 				break;
 			case 'no':
-				$I->waitForElementVisible(\ConfigurationPage::$onePageNo, 30);
-				$I->click(\ConfigurationPage::$onePageNo);
+				$I->waitForElementVisible(ConfigurationPage::$onePageNo, 30);
+				$I->click(ConfigurationPage::$onePageNo);
 				break;
 		}
 
 		switch ($cartSetting['showShippingCart'])
 		{
 			case 'yes':
-				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartYes, 30);
-				$I->click(\ConfigurationPage::$showShippingCartYes);
+				$I->waitForElementVisible(ConfigurationPage::$showShippingCartYes, 30);
+				$I->click(ConfigurationPage::$showShippingCartYes);
 				break;
 			case 'no':
-				$I->waitForElementVisible(\ConfigurationPage::$showShippingCartNo, 30);
-				$I->click(\ConfigurationPage::$showShippingCartNo);
+				$I->waitForElementVisible(ConfigurationPage::$showShippingCartNo, 30);
+				$I->click(ConfigurationPage::$showShippingCartNo);
 				break;
 		}
 
 		switch ($cartSetting['attributeImage'])
 		{
 			case 'yes':
-				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartYes, 30);
-				$I->click(\ConfigurationPage::$attributeImageInCartYes);
+				$I->waitForElementVisible(ConfigurationPage::$attributeImageInCartYes, 30);
+				$I->click(ConfigurationPage::$attributeImageInCartYes);
 				break;
 			case 'no':
-				$I->waitForElementVisible(\ConfigurationPage::$attributeImageInCartNo, 30);
-				$I->click(\ConfigurationPage::$attributeImageInCartNo);
+				$I->waitForElementVisible(ConfigurationPage::$attributeImageInCartNo, 30);
+				$I->click(ConfigurationPage::$attributeImageInCartNo);
 				break;
 		}
 
 		switch ($cartSetting['quantityChange'])
 		{
 			case 'yes':
-				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartYes, 30);
-				$I->click(\ConfigurationPage::$quantityChangeInCartYes);
+				$I->waitForElementVisible(ConfigurationPage::$quantityChangeInCartYes, 30);
+				$I->click(ConfigurationPage::$quantityChangeInCartYes);
 				break;
 			case 'no':
-				$I->waitForElementVisible(\ConfigurationPage::$quantityChangeInCartNo, 30);
-				$I->click(\ConfigurationPage::$quantityChangeInCartNo);
+				$I->waitForElementVisible(ConfigurationPage::$quantityChangeInCartNo, 30);
+				$I->click(ConfigurationPage::$quantityChangeInCartNo);
 				break;
 		}
 
-		$I->fillField(\ConfigurationPage::$quantityInCart, $cartSetting['quantityInCart']);
-		$I->fillField(\ConfigurationPage::$minimunOrderTotal, $cartSetting['quantityInCart']);
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->waitForElement(\ConfigurationPage::$selectorPageTitle, 60);
-		$I->assertSystemMessageContains(\ConfigurationPage::$messageSaveSuccess);
+		$I->fillField(ConfigurationPage::$quantityInCart, $cartSetting['quantityInCart']);
+		$I->fillField(ConfigurationPage::$minimunOrderTotal, $cartSetting['quantityInCart']);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
 	}
 
 	/**
 	 * @param array $discount
 	 * @throws \Exception
+	 * @since 1.4.0
 	 */
 	public function priceDiscount($discount = array())
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$I->click(\ConfigurationPage::$price);
-		$userConfiguration = new \ConfigurationPage();
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->click(ConfigurationPage::$price);
+		$userConfiguration = new ConfigurationPage();
 
 		if(isset($discount['enable']))
 		{
@@ -420,20 +461,20 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			{
 				if(isset($discount['allow']))
 				{
-					$I->click(\ConfigurationPage::$allowedDiscountId);
-					$I->waitForElement(\ConfigurationPage::$allowDiscountSearch, 30);
-					$I->fillField(\ConfigurationPage::$allowDiscountSearch, $discount['allow']);
+					$I->click(ConfigurationPage::$allowedDiscountId);
+					$I->waitForElement(ConfigurationPage::$allowDiscountSearch, 30);
+					$I->fillField(ConfigurationPage::$allowDiscountSearch, $discount['allow']);
 					$I->waitForElement($userConfiguration->returnChoice($discount['allow']), 30);
-					$I->pressKey(\ConfigurationPage::$allowDiscountSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+					$I->pressKey(ConfigurationPage::$allowDiscountSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 				}
 
 				if (isset($discount['enableCoupon']))
 				{
 					if ($discount['enableCoupon'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$enableCouponYes);
+						$I->click(ConfigurationPage::$enableCouponYes);
 					}else{
-						$I->click(\ConfigurationPage::$enableCouponNo);
+						$I->click(ConfigurationPage::$enableCouponNo);
 					}
 				}
 
@@ -441,9 +482,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['couponInfo'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$enableCouponInfoYes);
+						$I->click(ConfigurationPage::$enableCouponInfoYes);
 					}else{
-						$I->click(\ConfigurationPage::$enableCouponInfoNo);
+						$I->click(ConfigurationPage::$enableCouponInfoNo);
 					}
 				}
 
@@ -451,9 +492,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['enableVoucher'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$enableVoucherYes);
+						$I->click(ConfigurationPage::$enableVoucherYes);
 					}else{
-						$I->click(\ConfigurationPage::$enableVoucherNo);
+						$I->click(ConfigurationPage::$enableVoucherNo);
 					}
 				}
 
@@ -462,9 +503,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['spendTime'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$spendTimeDiscountYes);
+						$I->click(ConfigurationPage::$spendTimeDiscountYes);
 					}else{
-						$I->click(\ConfigurationPage::$spendTimeDiscountNo);
+						$I->click(ConfigurationPage::$spendTimeDiscountNo);
 					}
 				}
 
@@ -472,9 +513,9 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['applyForProductDiscount'] == 'yes')
 					{
-						$I->click(\ConfigurationPage::$applyDiscountForProductAlreadyDiscountYes);
+						$I->click(ConfigurationPage::$applyDiscountForProductAlreadyDiscountYes);
 					}else{
-						$I->click(\ConfigurationPage::$applyDiscountForProductAlreadyDiscountNo);
+						$I->click(ConfigurationPage::$applyDiscountForProductAlreadyDiscountNo);
 					}
 				}
 
@@ -482,36 +523,37 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 				{
 					if ($discount['calculate'] == 'total')
 					{
-						$I->click(\ConfigurationPage::$calculateShippingBasedTotal);
+						$I->click(ConfigurationPage::$calculateShippingBasedTotal);
 					}else{
-						$I->click(\ConfigurationPage::$calculateShippingBasedSubTotal);
+						$I->click(ConfigurationPage::$calculateShippingBasedSubTotal);
 					}
 				}
 
 				if(isset($discount['valueOfDiscount']))
 				{
-					$I->click(\ConfigurationPage::$valueDiscountCouponId);
-					$I->waitForElement(\ConfigurationPage::$valueDiscountCouponSearch, 30);
-					$I->fillField(\ConfigurationPage::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
+					$I->click(ConfigurationPage::$valueDiscountCouponId);
+					$I->waitForElement(ConfigurationPage::$valueDiscountCouponSearch, 30);
+					$I->fillField(ConfigurationPage::$valueDiscountCouponSearch, $discount['valueOfDiscount']);
 					$I->waitForElement($userConfiguration->returnChoice($discount['valueOfDiscount']), 30);
 //					$I->click($userConfiguration->returnChoice($discount['valueOfDiscount']));
-					$I->pressKey(\ConfigurationPage::$valueDiscountCouponSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
+					$I->pressKey(ConfigurationPage::$valueDiscountCouponSearch, \Facebook\WebDriver\WebDriverKeys::ARROW_DOWN, \Facebook\WebDriver\WebDriverKeys::ENTER);
 				}
 			}
 		}
-		$I->click(\ConfigurationPage::$buttonSave);
-		$I->see(\ConfigurationPage::$namePage, \ConfigurationPage::$selectorPageTitle);
+		$I->click(ConfigurationPage::$buttonSave);
+		$I->see(ConfigurationPage::$namePage, ConfigurationPage::$selectorPageTitle);
 	}
 
 	/**
 	 * @param $name
+	 * @since 1.4.0
 	 */
 	public function searchOrder($name)
 	{
 		$I = $this;
 		$I->wantTo('Search the User ');
-		$I->amOnPage(\OrderManagerPage::$URL);
-		$I->filterListBySearchOrder($name, \OrderManagerPage::$filter);
+		$I->amOnPage(OrderManagerPage::$URL);
+		$I->filterListBySearchOrder($name, OrderManagerPage::$filter);
 	}
 
 	/**
@@ -528,23 +570,23 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 	public function checkPriceTotal($price, $order, $firstName, $lastName, $productName, $categoryName, $paymentMethod)
 	{
 		$I = $this;
-		$I->amOnPage(\ConfigurationPage::$URL);
-		$currencySymbol = $I->grabValueFrom(\ConfigurationPage::$currencySymbol);
-		$decimalSeparator = $I->grabValueFrom(\ConfigurationPage::$decimalSeparator);
-		$numberOfPriceDecimals = $I->grabValueFrom(\ConfigurationPage::$numberOfPriceDecimals);
+		$I->amOnPage(ConfigurationPage::$URL);
+		$currencySymbol = $I->grabValueFrom(ConfigurationPage::$currencySymbol);
+		$decimalSeparator = $I->grabValueFrom(ConfigurationPage::$decimalSeparator);
+		$numberOfPriceDecimals = $I->grabValueFrom(ConfigurationPage::$numberOfPriceDecimals);
 		$numberOfPriceDecimals = (int)$numberOfPriceDecimals;
 		$NumberZero = null;
 		for  ( $b = 1; $b <= $numberOfPriceDecimals; $b++)
 		{
 			$NumberZero = $NumberZero."0";
 		}
-		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->amOnPage(OrderManagerPage::$URL);
 		$I->searchOrder($order);
 		$I->wait(0.5);
-		$I->waitForElementVisible(\OrderManagerPage::$iconEdit, 30);
-		$I->click(\OrderManagerPage::$iconEdit);
-		$I->waitForElementVisible(\OrderManagerPage::$quantityp1, 30);
-		$quantity = $I->grabValueFrom(\OrderManagerPage::$quantityp1);
+		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);
+		$I->click(OrderManagerPage::$iconEdit);
+		$I->waitForElementVisible(OrderManagerPage::$quantityp1, 30);
+		$quantity = $I->grabValueFrom(OrderManagerPage::$quantityp1);
 		$quantity = (int)$quantity;
 		$priceProduct = $currencySymbol.' '.$price.$decimalSeparator.$NumberZero;
 		$priceTotal = 'Total: '.$currencySymbol.' '.$price*$quantity.$decimalSeparator.$NumberZero;
@@ -646,6 +688,36 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 			case 'No':
 				$I->waitForElementVisible(ConfigurationPage::$purchaseParentNo, 30);
 				$I->click(ConfigurationPage::$purchaseParentNo);
+				break;
+		}
+
+		$I->click(ConfigurationPage::$buttonSaveClose);
+		$I->waitForElement(ConfigurationPage::$selectorPageTitle, 60);
+		$I->assertSystemMessageContains(ConfigurationPage::$messageSaveSuccess);
+	}
+
+	/**
+	 * @param $setProductDiscontinue
+	 * @throws \Exception
+	 * @since 3.0.2
+	 */
+	public function configShowDiscontinuedProducts($setProductDiscontinue)
+	{
+		$I = $this;
+		$I->amOnPage(ConfigurationPage::$URL);
+		$I->waitForElementVisible(ConfigurationPage::$productTab, 30);
+		$I->click(ConfigurationPage::$productTab);
+
+		switch ($setProductDiscontinue)
+		{
+			case 'Yes':
+				$I->waitForElementVisible(ConfigurationPage::$showDiscontinuedProductsYes, 30);
+				$I->click(ConfigurationPage::$showDiscontinuedProductsYes);
+				break;
+
+			case 'No':
+				$I->waitForElementVisible(ConfigurationPage::$showDiscontinuedProductsNo, 30);
+				$I->click(ConfigurationPage::$showDiscontinuedProductsNo);
 				break;
 		}
 
@@ -829,7 +901,7 @@ class ConfigurationSteps extends AdminManagerJoomla3Steps
 		$I = $this;
 		$currencyUnit = $I->getCurrencyValue();
 
-		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->amOnPage(OrderManagerPage::$URL);
 		$I->searchOrder($customerInformation["firstName"]);
 		$I->wait(0.5);
 		$I->waitForElementVisible(OrderManagerPage::$iconEdit, 30);

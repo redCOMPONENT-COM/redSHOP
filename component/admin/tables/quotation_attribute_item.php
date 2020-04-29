@@ -11,42 +11,41 @@ defined('_JEXEC') or die;
 
 class Tablequotation_attribute_item extends JTable
 {
-	public $quotation_att_item_id = null;
+    public $quotation_att_item_id = null;
 
-	public $quotation_item_id = null;
+    public $quotation_item_id = null;
 
-	public $section_id = null;
+    public $section_id = null;
 
-	public $section = null;
+    public $section = null;
 
-	public $parent_section_id = null;
+    public $parent_section_id = null;
 
-	public $section_name = null;
+    public $section_name = null;
 
-	public $section_vat = null;
+    public $section_vat = null;
 
-	public $section_price = null;
+    public $section_price = null;
 
-	public $section_oprand = null;
+    public $section_oprand = null;
 
-	public $is_accessory_att = null;
+    public $is_accessory_att = null;
 
-	public function __construct(&$db)
-	{
-		$this->_table_prefix = '#__redshop_';
+    public function __construct(&$db)
+    {
+        $this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'quotation_attribute_item', 'quotation_att_item_id', $db);
-	}
+        parent::__construct($this->_table_prefix . 'quotation_attribute_item', 'quotation_att_item_id', $db);
+    }
 
-	public function bind($array, $ignore = '')
-	{
-		if (array_key_exists('params', $array) && is_array($array['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = $registry->toString();
-		}
+    public function bind($array, $ignore = '')
+    {
+        if (array_key_exists('params', $array) && is_array($array['params'])) {
+            $registry = new JRegistry;
+            $registry->loadArray($array['params']);
+            $array['params'] = $registry->toString();
+        }
 
-		return parent::bind($array, $ignore);
-	}
+        return parent::bind($array, $ignore);
+    }
 }

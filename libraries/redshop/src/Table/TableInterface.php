@@ -18,18 +18,18 @@ defined('_JEXEC') or die;
  */
 interface TableInterface
 {
-	/**
-	 * Gets the name of the latest extending class.
-	 * For a class named ContentTableArticles will return Articles
-	 *
-	 * @return  string
-	 */
-	public function getInstanceName();
+    /**
+     * Gets the name of the latest extending class.
+     * For a class named ContentTableArticles will return Articles
+     *
+     * @return  string
+     */
+    public function getInstanceName();
 
-	/**
-	 * Get the class prefix
-	 *
-	 * @return  string
-	 */
-	public function getInstancePrefix();
+    /**
+     * Get the class prefix
+     *
+     * @return  string
+     */
+    public function getInstancePrefix();
 }

@@ -14,10 +14,10 @@ extract($displayData);
 
 <?php if (count($stockroomDetails) > 0) : ?>
     <div class="redshop_stockrooms">
-		<?php foreach ($stockroomDetails as $stockroomDetail) : ?>
+        <?php foreach ($stockroomDetails as $stockroomDetail) : ?>
             <div class="redshop_stockroom">
                 <span><?php echo $stockroomDetail->stockroom_name ?></span>:<span><?php echo $stockroomDetail->quantity ?></span>
             </div>
-		<?php endforeach; ?>
+        <?php endforeach; ?>
     </div>
 <?php endif; ?>

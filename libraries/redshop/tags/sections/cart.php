@@ -9,7 +9,7 @@
 
 defined('_JEXEC') || die;
 
-use \Redshop\Traits\Replace;
+use Redshop\Traits\Replace;
 
 /**
  * Tags replacer abstract class

@@ -23,14 +23,16 @@ class Helper
      */
     public static function getStatisticDashboard()
     {
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
 
         // Todo: We didn't use JDatabase because $query->unionAll() is not working, please change to use $query->unionAll() when Joomla fixed it
         $query->select('SUM(' . $db->qn('order_total') . ') AS total')
             ->from($db->qn('#__redshop_orders'))
-            ->where($db->qn('order_status')
-                . ' IN (' . $db->q(implode(',', ['C', 'PR', 'S'])) . ')');
+            ->where(
+                $db->qn('order_status')
+                . ' IN (' . $db->q(implode(',', ['C', 'PR', 'S'])) . ')'
+            );
 
         // Orders
         $q1 = $db->getQuery(true);

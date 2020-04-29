@@ -18,110 +18,111 @@ defined('_JEXEC') or die;
  */
 class RedshopModelTemplates extends RedshopModelList
 {
-	/**
-	 * Construct class
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @since   2.x
-	 */
-	public function __construct($config = array())
-	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = array(
-				'id', 't.id',
-				'name', 't.name',
-				'section', 't.section',
-				'published', 't.published'
-			);
-		}
+    /**
+     * Construct class
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @since   2.x
+     */
+    public function __construct($config = array())
+    {
+        if (empty($config['filter_fields'])) {
+            $config['filter_fields'] = array(
+                'id',
+                't.id',
+                'name',
+                't.name',
+                'section',
+                't.section',
+                'published',
+                't.published'
+            );
+        }
 
-		parent::__construct($config);
-	}
+        parent::__construct($config);
+    }
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function populateState($ordering = 't.id', $direction = 'asc')
-	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+    /**
+     * Method to build an SQL query to load the list data.
+     *
+     * @return      string  An SQL query
+     */
+    public function getListQuery()
+    {
+        $db    = JFactory::getDbo();
+        $query = $db->getQuery(true);
 
-		$section = $this->getUserStateFromRequest($this->context . '.filter.section', 'filter_section');
-		$this->setState('filter.section', $section);
+        $query->select('t.*')
+            ->from($db->qn('#__redshop_template', 't'));
 
-		// List state information.
-		parent::populateState($ordering, $direction);
-	}
+        // Filter by search in name.
+        $search = $this->getState('filter.search');
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirementt.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string  A store id.
-	 *
-	 * @since   1.6
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.section');
+        if (!empty($search)) {
+            $search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $query->where($db->qn('t.name') . ' LIKE ' . $search);
+        }
 
-		return parent::getStoreId($id);
-	}
+        // Filter by search in name.
+        $filterSection = $this->getState('filter.section');
 
-	/**
-	 * Method to build an SQL query to load the list data.
-	 *
-	 * @return      string  An SQL query
-	 */
-	public function getListQuery()
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+        if (!empty($filterSection)) {
+            $query->where($db->qn('t.section') . ' = ' . $db->q($filterSection));
+        }
 
-		$query->select('t.*')
-			->from($db->qn('#__redshop_template', 't'));
+        // Add the list ordering clause.
+        $orderCol  = $this->state->get('list.ordering', 'id');
+        $orderDirn = $this->state->get('list.direction', 'asc');
 
-		// Filter by search in name.
-		$search = $this->getState('filter.search');
+        $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-		if (!empty($search))
-		{
-			$search = $db->q('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where($db->qn('t.name') . ' LIKE ' . $search);
-		}
+        return $query;
+    }
 
-		// Filter by search in name.
-		$filterSection = $this->getState('filter.section');
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @param   string  $ordering   An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function populateState($ordering = 't.id', $direction = 'asc')
+    {
+        $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+        $this->setState('filter.search', $search);
 
-		if (!empty($filterSection))
-		{
-			$query->where($db->qn('t.section') . ' = ' . $db->q($filterSection));
-		}
+        $section = $this->getUserStateFromRequest($this->context . '.filter.section', 'filter_section');
+        $this->setState('filter.section', $section);
 
-		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.ordering', 'id');
-		$orderDirn = $this->state->get('list.direction', 'asc');
+        // List state information.
+        parent::populateState($ordering, $direction);
+    }
 
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+    /**
+     * Method to get a store id based on model configuration state.
+     *
+     * This is necessary because the model is used by the component and
+     * different modules that might need different sets of data or different
+     * ordering requirementt.
+     *
+     * @param   string  $id  A prefix for the store id.
+     *
+     * @return  string  A store id.
+     *
+     * @since   1.6
+     */
+    protected function getStoreId($id = '')
+    {
+        // Compile the store id.
+        $id .= ':' . $this->getState('filter.search');
+        $id .= ':' . $this->getState('filter.section');
 
-		return $query;
-	}
+        return parent::getStoreId($id);
+    }
 }

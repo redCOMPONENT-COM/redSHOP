@@ -20,58 +20,54 @@ JFormHelper::loadFieldClass('predefinedlist');
  */
 class JFormFieldRpublished extends JFormFieldPredefinedList
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var  string
-	 */
-	protected $type = 'Rpublished';
+    /**
+     * Cached array of the category items.
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected static $options = array();
+    /**
+     * The form field type.
+     *
+     * @var  string
+     */
+    protected $type = 'Rpublished';
+    /**
+     * The array of values
+     *
+     * @var  string
+     */
+    protected $predefinedOptions = array(
+        1   => 'JPUBLISHED',
+        0   => 'JUNPUBLISHED',
+        2   => 'JARCHIVED',
+        -2  => 'JTRASHED',
+        '*' => 'JALL'
+    );
 
-	/**
-	 * Cached array of the category items.
-	 *
-	 * @var    array
-	 * @since  1.0
-	 */
-	protected static $options = array();
+    /**
+     * Method to get the options to populate list
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   1.0
+     */
+    protected function getOptions()
+    {
+        // Hash for caching
+        $hash = md5($this->element);
+        $type = strtolower($this->type);
 
-	/**
-	 * The array of values
-	 *
-	 * @var  string
-	 */
-	protected $predefinedOptions = array(
-		1   => 'JPUBLISHED',
-		0   => 'JUNPUBLISHED',
-		2   => 'JARCHIVED',
-		-2  => 'JTRASHED',
-		'*' => 'JALL'
-	);
+        if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions)) {
+            // B/C with statuses options
+            if (!isset($this->element['filter']) && isset($this->element['statuses'])) {
+                $this->element['filter'] = (string)$this->element['statuses'];
+            }
 
-	/**
-	 * Method to get the options to populate list
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   1.0
-	 */
-	protected function getOptions()
-	{
-		// Hash for caching
-		$hash = md5($this->element);
-		$type = strtolower($this->type);
+            static::$options[$type][$hash] = parent::getOptions();
+        }
 
-		if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions))
-		{
-			// B/C with statuses options
-			if (!isset($this->element['filter']) && isset($this->element['statuses']))
-			{
-				$this->element['filter'] = (string) $this->element['statuses'];
-			}
-
-			static::$options[$type][$hash] = parent::getOptions();
-		}
-
-		return static::$options[$type][$hash];
-	}
+        return static::$options[$type][$hash];
+    }
 }

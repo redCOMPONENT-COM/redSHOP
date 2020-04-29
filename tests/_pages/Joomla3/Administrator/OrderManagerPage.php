@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Page Class
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,13 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
- * @since  2.4
+ * @since  1.4.0
  */
 class OrderManagerPage extends AdminJ3Page
 {
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $URL = '/administrator/index.php?option=com_redshop&view=order';
 
@@ -28,46 +29,55 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $userId = "//div[@id='s2id_user_id']/a";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $userSearch = "//input[@id='s2id_autogen1_search']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $address = "#address";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $zipcode = "#zipcode";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $fistName = "//input[@id='firstname']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $city = "#city";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $phone = "#phone";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $close = "#toolbar-cancel";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $filter = "#filter";
 
@@ -79,86 +89,103 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $applyUser = "#toolbar-apply";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $productId = "#s2id_product1";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $productsSearch = "#s2id_autogen2_search";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $quanlityFirst = "#quantityproduct1";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $quantityp1 = "#quantity";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $nameProductSuccess = "#order_product_detail_3";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $statusOrder = "#s2id_status";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $statusSearch = "#s2id_autogen2_search";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $statusPaymentStatus = "#s2id_order_paymentstatus";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $statusPaymentSearch = "#s2id_autogen3_search";
 
 	/**
 	 * @var array
+	 * @since 1.4.0
 	 */
-	public static $nameButtonStatus = ['name' => 'order_status'];
+	public static $nameButtonStatus = "//input[@name='order_status']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $deleteFirst = "//input[@id='cb0']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $iconEdit = '(//a[@title="Edit order"])[1]';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $nameXpath = "//td[4]/a";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $fieldAttribute = "//select[@class='inputbox']";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $valueAttribute = "(//select[@class='inputbox']/option[2])[1]";
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $adminFinalPriceEnd = "#tdtotalprdproduct1";
 
@@ -190,6 +217,7 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $buttonSavePay = "Save + Pay";
 
@@ -207,6 +235,7 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public static $messageDeleteSuccess = "Order detail deleted successfully";
 
@@ -236,9 +265,39 @@ class OrderManagerPage extends AdminJ3Page
 
 	/**
 	 * @var string
-	 *  @since 3.0.1
+	 * @since 3.0.1
 	 */
 	public static $orderDetailTable = "//th[contains(text(),'Order Details')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $paymentTitle = "//h3[contains(text(),'Payment Method')]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $checkboxPaymentPayPal = "(//input[@value ='rs_payment_paypal'])[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $checkboxPaymentBanktransfer = "(//input[@value ='rs_payment_banktransfer'])[1]";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $updatePaymentMethod = "//form[@id='updatepaymentmethod']//input[@id='add']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $messageUpdatePaymentSuccess = "Payment Method Updated";
 
 	/**
 	 * Function to get Path $userName in Order item
@@ -246,6 +305,7 @@ class OrderManagerPage extends AdminJ3Page
 	 * @param $userName
 	 *
 	 * @return string
+	 * @since 1.4.0
 	 */
 	public function returnSearch($userName)
 	{

@@ -4,9 +4,9 @@
  * Author: Stefan Petre www.eyecon.ro
  *
  */
-(function($) {
+(function ($) {
     EYE.extend({
-        getPosition: function(e, forceIt) {
+        getPosition: function (e, forceIt) {
             var x = 0;
             var y = 0;
             var es = e.style;
@@ -58,7 +58,7 @@
                 y: y
             };
         },
-        getSize: function(e) {
+        getSize: function (e) {
             var w = parseInt(jQuery.curCSS(e, 'width'), 10);
             var h = parseInt(jQuery.curCSS(e, 'height'), 10);
             var wb = 0;
@@ -86,7 +86,7 @@
                 hb: hb
             };
         },
-        getClient: function(e) {
+        getClient: function (e) {
             var h, w;
             if (e) {
                 w = e.clientWidth;
@@ -101,7 +101,7 @@
                 h: h
             };
         },
-        getScroll: function(e) {
+        getScroll: function (e) {
             var t = 0,
                 l = 0,
                 w = 0,
@@ -141,7 +141,7 @@
                 ih: ih
             };
         },
-        getMargins: function(e, toInteger) {
+        getMargins: function (e, toInteger) {
             var t = jQuery.curCSS(e, 'marginTop') || '';
             var r = jQuery.curCSS(e, 'marginRight') || '';
             var b = jQuery.curCSS(e, 'marginBottom') || '';
@@ -161,7 +161,7 @@
                     l: l
                 };
         },
-        getPadding: function(e, toInteger) {
+        getPadding: function (e, toInteger) {
             var t = jQuery.curCSS(e, 'paddingTop') || '';
             var r = jQuery.curCSS(e, 'paddingRight') || '';
             var b = jQuery.curCSS(e, 'paddingBottom') || '';
@@ -181,7 +181,7 @@
                     l: l
                 };
         },
-        getBorder: function(e, toInteger) {
+        getBorder: function (e, toInteger) {
             var t = jQuery.curCSS(e, 'borderTopWidth') || '';
             var r = jQuery.curCSS(e, 'borderRightWidth') || '';
             var b = jQuery.curCSS(e, 'borderBottomWidth') || '';
@@ -201,7 +201,7 @@
                     l: l
                 };
         },
-        traverseDOM: function(nodeEl, func) {
+        traverseDOM: function (nodeEl, func) {
             func(nodeEl);
             nodeEl = nodeEl.firstChild;
             while (nodeEl) {
@@ -209,25 +209,25 @@
                 nodeEl = nodeEl.nextSibling;
             }
         },
-        getInnerWidth: function(el, scroll) {
+        getInnerWidth: function (el, scroll) {
             var offsetW = el.offsetWidth;
             return scroll ? Math.max(el.scrollWidth, offsetW) - offsetW + el.clientWidth : el.clientWidth;
         },
-        getInnerHeight: function(el, scroll) {
+        getInnerHeight: function (el, scroll) {
             var offsetH = el.offsetHeight;
             return scroll ? Math.max(el.scrollHeight, offsetH) - offsetH + el.clientHeight : el.clientHeight;
         },
-        getExtraWidth: function(el) {
+        getExtraWidth: function (el) {
             if ($.boxModel)
                 return (parseInt($.curCSS(el, 'paddingLeft')) || 0) + (parseInt($.curCSS(el, 'paddingRight')) || 0) + (parseInt($.curCSS(el, 'borderLeftWidth')) || 0) + (parseInt($.curCSS(el, 'borderRightWidth')) || 0);
             return 0;
         },
-        getExtraHeight: function(el) {
+        getExtraHeight: function (el) {
             if ($.boxModel)
                 return (parseInt($.curCSS(el, 'paddingTop')) || 0) + (parseInt($.curCSS(el, 'paddingBottom')) || 0) + (parseInt($.curCSS(el, 'borderTopWidth')) || 0) + (parseInt($.curCSS(el, 'borderBottomWidth')) || 0);
             return 0;
         },
-        isChildOf: function(parentEl, el, container) {
+        isChildOf: function (parentEl, el, container) {
             if (parentEl == el) {
                 return true;
             }
@@ -248,7 +248,7 @@
             }
             return false;
         },
-        centerEl: function(el, axis) {
+        centerEl: function (el, axis) {
             var clientScroll = EYE.getScroll();
             var size = EYE.getSize(el);
             if (!axis || axis == 'vertically')
@@ -262,7 +262,7 @@
         }
     });
     if (!$.easing.easeout) {
-        $.easing.easeout = function(p, n, firstNum, delta, duration) {
+        $.easing.easeout = function (p, n, firstNum, delta, duration) {
             return -delta * ((n = n / duration - 1) * n * n * n - 1) + firstNum;
         };
     }

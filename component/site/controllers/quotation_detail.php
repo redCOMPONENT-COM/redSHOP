@@ -19,71 +19,75 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerQuotation_detail extends RedshopController
 {
-	/**
-	 * update status function
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function updatestatus()
-	{
-		$post = $this->input->post->getArray();
+    /**
+     * update status function
+     *
+     * @access public
+     * @return void
+     */
+    public function updatestatus()
+    {
+        $post = $this->input->post->getArray();
 
-		$Itemid = $this->input->get('Itemid');
-		$encr   = $this->input->get('encr');
-		$model  = $this->getModel('quotation_detail');
+        $Itemid = $this->input->get('Itemid');
+        $encr   = $this->input->get('encr');
+        $model  = $this->getModel('quotation_detail');
 
-		// Update Status
-		RedshopHelperQuotation::updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
+        // Update Status
+        RedshopHelperQuotation::updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
 
-		// Add Customer Note
-		$model->addQuotationCustomerNote($post);
+        // Add Customer Note
+        $model->addQuotationCustomerNote($post);
 
-		Redshop\Mail\Quotation::sendMail($post['quotation_id'], $post['quotation_status']);
+        Redshop\Mail\Quotation::sendMail($post['quotation_id'], $post['quotation_status']);
 
-		$msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
+        $msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
-	}
+        $this->setRedirect(
+            'index.php?option=com_redshop&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid,
+            $msg
+        );
+    }
 
-	/**
-	 * checkout function
-	 *
-	 * @access public
-	 * @return void
-	 * @throws  Exception
-	 */
-	public function checkout()
-	{
-		$Itemid = $this->input->get('Itemid');
-		$post   = $this->input->post->getArray();
-		$encr   = $this->input->get('encr');
+    /**
+     * checkout function
+     *
+     * @access public
+     * @return void
+     * @throws  Exception
+     */
+    public function checkout()
+    {
+        $Itemid = $this->input->get('Itemid');
+        $post   = $this->input->post->getArray();
+        $encr   = $this->input->get('encr');
 
-		$model   = $this->getModel('quotation_detail');
-		$session = JFactory::getSession();
+        $model   = $this->getModel('quotation_detail');
+        $session = JFactory::getSession();
 
-		$cart        = array();
-		$cart['idx'] = 0;
-		\Redshop\Cart\Helper::setCart($cart);
+        $cart        = array();
+        $cart['idx'] = 0;
+        \Redshop\Cart\Helper::setCart($cart);
 
-		$quotationProducts = RedshopHelperQuotation::getQuotationProduct($post['quotation_id']);
+        $quotationProducts = RedshopHelperQuotation::getQuotationProduct($post['quotation_id']);
 
-		for ($q = 0, $qn = count($quotationProducts); $q < $qn; $q++)
-		{
-			$model->addtocart($quotationProducts[$q]);
-		}
+        for ($q = 0, $qn = count($quotationProducts); $q < $qn; $q++) {
+            $model->addtocart($quotationProducts[$q]);
+        }
 
-		$cart = $session->get('cart');
+        $cart = $session->get('cart');
 
-		$quotationDetail       = RedshopHelperQuotation::getQuotationDetail($post['quotation_id']);
-		$cart['customer_note'] = $quotationDetail->quotation_note;
-		$cart['quotation_id']  = $quotationDetail->quotation_id;
-		$cart['cart_discount'] = $quotationDetail->quotation_discount;
-		$cart['quotation']     = 1;
-		\Redshop\Cart\Helper::setCart($cart);
+        $quotationDetail       = RedshopHelperQuotation::getQuotationDetail($post['quotation_id']);
+        $cart['customer_note'] = $quotationDetail->quotation_note;
+        $cart['quotation_id']  = $quotationDetail->quotation_id;
+        $cart['cart_discount'] = $quotationDetail->quotation_discount;
+        $cart['quotation']     = 1;
+        \Redshop\Cart\Helper::setCart($cart);
 
-		$model->modifyQuotation($quotationDetail->user_id);
-		$Itemid = RedshopHelperRouter::getCheckoutItemId();
-		$this->setRedirect('index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
-	}
+        $model->modifyQuotation($quotationDetail->user_id);
+        $Itemid = RedshopHelperRouter::getCheckoutItemId();
+        $this->setRedirect(
+            'index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid
+        );
+    }
 }

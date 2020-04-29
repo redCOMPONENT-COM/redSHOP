@@ -16,48 +16,48 @@ defined('_JEXEC') or die;
 /**
  * Catalog sample
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.0.1
  */
 class Sample
 {
-	/**
-	 * Method for get catalog sample list
-	 *
-	 * @return array
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public static function getCatalogSampleList()
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('c.*')
-			->from($db->qn('#__redshop_catalog_sample', 'c'))
-			->where($db->qn('c.published') . ' = 1');
+    /**
+     * Method for get catalog sample list
+     *
+     * @return array
+     *
+     * @since 3.0.1
+     */
+    public static function getCatalogSampleList()
+    {
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('c.*')
+            ->from($db->qn('#__redshop_catalog_sample', 'c'))
+            ->where($db->qn('c.published') . ' = 1');
 
-		return \Redshop\DB\Tool::safeSelect($db, $query, true);
-	}
+        return \Redshop\DB\Tool::safeSelect($db, $query, true);
+    }
 
-	/**
-	 * Method for get catalog sample color list
-	 *
-	 * @param integer $sampleId Sample Id
-	 *
-	 * @return  array
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public static function getCatalogSampleColorList($sampleId = 0)
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('c.*')
-			->from($db->qn('#__redshop_catalog_colour', 'c'));
+    /**
+     * Method for get catalog sample color list
+     *
+     * @param   integer  $sampleId  Sample Id
+     *
+     * @return  array
+     *
+     * @since 3.0.1
+     */
+    public static function getCatalogSampleColorList($sampleId = 0)
+    {
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select('c.*')
+            ->from($db->qn('#__redshop_catalog_colour', 'c'));
 
-		if ($sampleId) {
-			$query->where($db->qn('c.sample_id') . ' = ' . (int)$sampleId);
-		}
+        if ($sampleId) {
+            $query->where($db->qn('c.sample_id') . ' = ' . (int)$sampleId);
+        }
 
-		return \Redshop\DB\Tool::safeSelect($db, $query, true);
-	}
+        return \Redshop\DB\Tool::safeSelect($db, $query, true);
+    }
 }
