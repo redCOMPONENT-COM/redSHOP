@@ -135,4 +135,64 @@ class RatingManagerSteps extends ProductCheckoutManagerJoomla3Steps
 		$I->waitForText(RatingManagerPage::$messageDeleteRatingSuccess, 10);
 		$I->dontSee($rating['title']);
 	}
+
+	/**
+	 * @param $rating
+	 * @param $categoryName
+	 * @param $function
+	 * @throws Exception
+	 * @since 3.0.2
+	 */
+	public function createRatingOnFrontEnd($rating, $categoryName, $function)
+	{
+		$I = $this;
+		$I->amOnPage(FrontEndProductManagerJoomla3Page::$URL);
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$categoryDiv, 30);
+		$productFrontEndManagerPage = new FrontEndProductManagerJoomla3Page;
+		$I->click($productFrontEndManagerPage->productCategory($categoryName));
+		$I->waitForElement(FrontEndProductManagerJoomla3Page::$productList, 30);
+		$I->click($productFrontEndManagerPage->product($rating['product']));
+
+		$I->waitForElementVisible(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
+		$I->click(FrontEndProductManagerJoomla3Page::$buttonWriteReview);
+
+		$I->executeJS('jQuery(".iframe").attr("name", "product-rating-iframe")');
+		$I->wait(0.5);
+		$I->switchToIFrame('product-rating-iframe');
+		$I->waitForElementVisible(RatingManagerPage::$inputTitleFrontEnd, 30);
+		$I->fillField(RatingManagerPage::$inputTitleFrontEnd, $rating['title']);
+		$ratingPage = new RatingManagerPage();
+
+		if (isset($rating['numberRating']))
+		{
+			$I->waitForElementVisible($ratingPage->returnIdRatingFrontEnd($rating['numberRating']), 30);
+			$I->click($ratingPage->returnIdRatingFrontEnd($rating['numberRating']));
+		}
+
+		if (isset($rating['comment']))
+		{
+			$I->waitForElementVisible(RatingManagerPage::$textAreaCommentFrontEnd, 30);
+			$I->fillField(RatingManagerPage::$textAreaCommentFrontEnd, $rating['comment']);
+		}
+
+		if($function == 'no')
+		{
+			if (isset($rating['userName']))
+			{
+				$I->waitForElementVisible(RatingManagerPage::$inputUserName, 30);
+				$I->fillField(RatingManagerPage::$inputUserName, $rating['userName']);
+			}
+
+			if (isset($rating['email']))
+			{
+				$I->waitForElementVisible(RatingManagerPage::$inputEmail, 30);
+				$I->fillField(RatingManagerPage::$inputEmail, $rating['email']);
+			}
+		}
+
+		$I->waitForElementVisible(RatingManagerPage::$buttonSendReview, 10);
+		$I->click(RatingManagerPage::$buttonSendReview);
+		$I->waitForText(RatingManagerPage::$messageSaveRatingSuccessFrontEnd, 30);
+	}
+
 }

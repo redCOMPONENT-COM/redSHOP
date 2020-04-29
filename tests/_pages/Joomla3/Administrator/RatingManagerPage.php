@@ -52,7 +52,19 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $inputTitleFrontEnd = "#jform_title";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $textAreaComment = "#comment";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $textAreaCommentFrontEnd  = "#jform_comment";
 
 	/**
 	 * @var string
@@ -65,6 +77,18 @@ class RatingManagerPage extends AdminJ3Page
 	 * @since 3.0.2
 	 */
 	public static $inputSearchUser = "#s2id_autogen1_search";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $inputUserName = "#jform_username";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $inputEmail= "#jform_email";
 
 	/**
 	 * @var string
@@ -94,7 +118,19 @@ class RatingManagerPage extends AdminJ3Page
 	 * @var string
 	 * @since 3.0.2
 	 */
+	public static $buttonSendReview = "//input[@value='Send Review']";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
 	public static $messageSaveRatingSuccess = "Rating details saved";
+
+	/**
+	 * @var string
+	 * @since 3.0.2
+	 */
+	public static $messageSaveRatingSuccessFrontEnd = "Email has been sent successfully";
 
 	/**
 	 * @var string
@@ -137,4 +173,15 @@ class RatingManagerPage extends AdminJ3Page
 	{
 		return "#published" . $number;
 	}
+
+	/**
+	 * @param $number
+	 * @return string
+	 * @since 3.0.2
+	 */
+	public function returnIdRatingFrontEnd($number)
+	{
+		return '//label[@for ="jform_user_rating'.$number.'"]';
+	}
+
 }

@@ -9,6 +9,7 @@
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
+use Configuration\ConfigurationSteps;
 
 /**
  * Class RatingManagerCest
@@ -125,6 +126,18 @@ class RatingManagerCest
 	protected $rating;
 
 	/**
+	 * @var array
+	 * @since 3.0.2
+	 */
+	protected $ratingFrontEnd;
+
+	/**
+	 * @var array
+	 * @since 3.0.2
+	 */
+	protected $configRating;
+
+	/**
 	 * RatingManagerCest constructor.
 	 * @since 3.0.2
 	 */
@@ -160,6 +173,21 @@ class RatingManagerCest
 			"favoured"     => 'yes',
 			"published"    => 'yes'
 		);
+
+		$this->ratingFrontEnd = array(
+			"title"        => $this->faker->bothify('Title rating ?##?'),
+			"numberRating" => 5,
+			"comment"      => $this->faker->bothify('Comment rating ?##?'),
+			"product"      => $this->productName,
+			"email"        => $this->faker->email,
+			"userName"     => $this->faker->name,
+		);
+
+		$this->configRating =
+			array(
+				"numberRating"  => 3,
+				"loginRequired" => 'no',
+			);
 	}
 
 	/**
@@ -194,15 +222,23 @@ class RatingManagerCest
 
 	/**
 	 * @param RatingManagerSteps $I
+	 * @param $scenario
 	 * @throws Exception
-	 * @since 3.0.2
 	 */
-	public function checkRating(RatingManagerSteps $I)
+	public function checkRating(RatingManagerSteps $I, $scenario)
 	{
 		$I->wantTo("create new rating on backend");
 		$I->createRating($this->rating);
-		$I->wantTo("create new rating on backend");
+		$I->wantTo("delete rating on backend");
 		$I->deleteRating($this->rating);
+
+		$I = new ConfigurationSteps($scenario);
+		$I->wantTo("create new rating on front end");
+		$I->configRating($this->configRating);
+		$I = new RatingManagerSteps($scenario);
+		$I->createRatingOnFrontEnd($this->ratingFrontEnd, $this->categoryName, 'no');
+		$I->wantTo("delete rating on backend");
+		$I->deleteRating($this->ratingFrontEnd);
 	}
 
 	/**
