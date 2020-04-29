@@ -20,84 +20,77 @@ defined('_JEXEC') or die;
  */
 class Module
 {
-	/**
-	 * @var  Registry
-	 */
-	public static $params;
+    /**
+     * @var  Registry
+     */
+    public static $params;
 
-	/**
-	 * Get cart module calculate
-	 *
-	 * @param   array $cart Cart data
-	 *
-	 * @return  float
-	 * @throws  \Exception
-	 *
-	 * @since   2.1.0
-	 */
-	public static function calculate($cart = array())
-	{
-		$cart = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
+    /**
+     * Get cart module calculate
+     *
+     * @param   array  $cart  Cart data
+     *
+     * @return  float
+     * @throws  \Exception
+     *
+     * @since   2.1.0
+     */
+    public static function calculate($cart = array())
+    {
+        $cart = empty($cart) ? \Redshop\Cart\Helper::getCart() : $cart;
 
-		$cartParams       = self::getParams();
-		$showWithShipping = (boolean) $cartParams->get('show_with_shipping', true);
-		$showWithDiscount = (boolean) $cartParams->get('show_with_discount', true);
-		$showWithVat      = (boolean) $cartParams->get('show_with_vat', true);
-		$total            = !$showWithVat ? $cart['product_subtotal_excl_vat'] : $cart['product_subtotal'];
-		$shipping         = $cart['shipping'];
-		$discountTotal    = $cart['coupon_discount'] + $cart['voucher_discount'] + $cart['cart_discount'];
-		$modCartTotal     = $total;
+        $cartParams       = self::getParams();
+        $showWithShipping = (boolean)$cartParams->get('show_with_shipping', true);
+        $showWithDiscount = (boolean)$cartParams->get('show_with_discount', true);
+        $showWithVat      = (boolean)$cartParams->get('show_with_vat', true);
+        $total            = !$showWithVat ? $cart['product_subtotal_excl_vat'] : $cart['product_subtotal'];
+        $shipping         = $cart['shipping'];
+        $discountTotal    = $cart['coupon_discount'] + $cart['voucher_discount'] + $cart['cart_discount'];
+        $modCartTotal     = $total;
 
-		if ($showWithShipping && $showWithDiscount)
-		{
-			$modCartTotal = $total + $shipping - $discountTotal;
-		}
-		elseif (!$showWithShipping && $showWithDiscount)
-		{
-			$modCartTotal = $total - $discountTotal;
-		}
-		elseif ($showWithShipping && !$showWithDiscount)
-		{
-			$modCartTotal = $total + $shipping;
-		}
+        if ($showWithShipping && $showWithDiscount) {
+            $modCartTotal = $total + $shipping - $discountTotal;
+        } elseif (!$showWithShipping && $showWithDiscount) {
+            $modCartTotal = $total - $discountTotal;
+        } elseif ($showWithShipping && !$showWithDiscount) {
+            $modCartTotal = $total + $shipping;
+        }
 
-		$layout = \JFactory::getApplication()->input->getCmd('layout');
-		$view   = \JFactory::getApplication()->input->getCmd('view');
+        $layout = \JFactory::getApplication()->input->getCmd('layout');
+        $view   = \JFactory::getApplication()->input->getCmd('view');
 
-		if (!array_key_exists('payment_amount', $cart) || $view != 'checkout' || $layout == 'default')
-		{
-			return $modCartTotal;
-		}
+        if (!array_key_exists('payment_amount', $cart) || $view != 'checkout' || $layout == 'default') {
+            return $modCartTotal;
+        }
 
-		$modCartTotal = $cart['payment_oprand'] == '+' ? $modCartTotal + $cart['payment_amount'] : $modCartTotal - $cart['payment_amount'];
+        $modCartTotal = $cart['payment_oprand'] == '+' ? $modCartTotal + $cart['payment_amount'] : $modCartTotal - $cart['payment_amount'];
 
-		return $modCartTotal;
-	}
+        return $modCartTotal;
+    }
 
-	/**
-	 * Method for get parameters of module cart
-	 *
-	 * @return  Registry
-	 *
-	 * @since   2.1.0
-	 */
-	public static function getParams()
-	{
-		if (null === self::$params)
-		{
-			$db = \JFactory::getDbo();
+    /**
+     * Method for get parameters of module cart
+     *
+     * @return  Registry
+     *
+     * @since   2.1.0
+     */
+    public static function getParams()
+    {
+        if (null === self::$params) {
+            $db = \JFactory::getDbo();
 
-			$query = $db->getQuery(true)
-				->select($db->qn('params'))
-				->from($db->qn('#__modules'))
-				->where($db->qn('module') . ' = ' . $db->quote('mod_redshop_cart'))
-				->where($db->qn('published') . ' = 1');
+            $query = $db->getQuery(true)
+                ->select($db->qn('params'))
+                ->from($db->qn('#__modules'))
+                ->where($db->qn('module') . ' = ' . $db->quote('mod_redshop_cart'))
+                ->where($db->qn('published') . ' = 1');
 
-			$params = $db->setQuery($query)->loadResult();
+            $params = $db->setQuery($query)->loadResult();
 
-			self::$params = new Registry($params);
-		}
+            self::$params = new Registry($params);
+        }
 
-		return self::$params;
-	}
+        return self::$params;
+    }
 }

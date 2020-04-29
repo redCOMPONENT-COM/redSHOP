@@ -9,9 +9,9 @@
         <table name="redshop_fields_data">
             <field type="referenceid" name="data_id" translate="0">ID</field>
             <field type="htmltext" name="data_txt" translate="1" ebuttons="readmore,pagebreak">Data</field>
-            <field type="text" name="alt_text" translate="1" >Alt Text</field>
-            <field type="text" name="image_link" translate="1" >Image Link</field>
-            <field type="text" name="user_email" translate="1" >User Email</field>
+            <field type="text" name="alt_text" translate="1">Alt Text</field>
+            <field type="text" name="image_link" translate="1">Image Link</field>
+            <field type="text" name="user_email" translate="1">User Email</field>
         </table>
         <component>
             <form>com_redshop#fielddata#cid#task#!edit</form>

@@ -1,8 +1,8 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,32 +16,37 @@ use Codeception\Scenario;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    1.4
+ * @since    1.4.0
  */
 class TemplateCest
 {
 	/**
 	 * @var  string
+	 * @since 1.4.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $name = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $section = '';
 
 	/**
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $newName = '';
 
 	/**
 	 * TemplateCest constructor.
+	 * @since 1.4.0
 	 */
 	public function __construct()
 	{
@@ -51,13 +56,15 @@ class TemplateCest
 		$this->newName = 'updated' . $this->name;
 	}
 
-    /**
-     * @param AcceptanceTester $I
-     */
-    public function _before(AcceptanceTester $I)
-    {
-        $I->doAdministratorLogin();
-    }
+	/**
+	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 1.4.0
+	 */
+	public function _before(AcceptanceTester $I)
+	{
+		$I->doAdministratorLogin();
+	}
 
 	/**
 	 * Function to Test Template Creation in Backend
@@ -66,6 +73,7 @@ class TemplateCest
 	 * @param   Scenario          $scenario  Scenario for test.
 	 *
 	 * @return  void
+	 * @since 1.4.0
 	 */
 	public function createTemplate(AcceptanceTester $I, $scenario)
 	{
@@ -83,6 +91,7 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends createTemplate
+	 * @since 1.4.0
 	 */
 	public function updateTemplate(AcceptanceTester $I, $scenario)
 	{
@@ -100,6 +109,7 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends updateTemplate
+	 * @since 1.4.0
 	 */
 	public function changeTemplateStateUnpublish(AcceptanceTester $I, $scenario)
 	{
@@ -118,6 +128,7 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends changeTemplateStateUnpublish
+	 * @since 1.4.0
 	 */
 	public function changeTemplateStatePublish(AcceptanceTester $I, $scenario)
 	{
@@ -136,6 +147,7 @@ class TemplateCest
 	 * @return  void
 	 *
 	 * @depends changeTemplateStatePublish
+	 * @since 1.4.0
 	 */
 	public function deleteTemplate(AcceptanceTester $I, $scenario)
 	{

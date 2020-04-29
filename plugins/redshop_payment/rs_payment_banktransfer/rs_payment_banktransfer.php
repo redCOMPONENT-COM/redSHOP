@@ -17,28 +17,26 @@ defined('_JEXEC') or die;
  */
 class PlgRedshop_PaymentRs_Payment_BankTransfer extends JPlugin
 {
-	/**
-	 * Event onPrePayment Plugin method with the same name as the event will be called automatically.
-	 *
-	 * @param   string  $element  plugin name
-	 * @param   array   $data     data params
-	 *
-	 * @return  boolean
-	 * @throws  Exception
-	 */
-	public function onPrePayment($element, $data)
-	{
-		if ($element != 'rs_payment_banktransfer')
-		{
-			return false;
-		}
+    /**
+     * Event onPrePayment Plugin method with the same name as the event will be called automatically.
+     *
+     * @param   string  $element  plugin name
+     * @param   array   $data     data params
+     *
+     * @return  boolean
+     * @throws  Exception
+     */
+    public function onPrePayment($element, $data)
+    {
+        if ($element != 'rs_payment_banktransfer') {
+            return false;
+        }
 
-		// Send the Order mail
-		if (Redshop::getConfig()->get('ORDER_MAIL_AFTER'))
-		{
-			Redshop\Mail\Order::sendMail($data['order_id']);
-		}
+        // Send the Order mail
+        if (Redshop::getConfig()->get('ORDER_MAIL_AFTER')) {
+            Redshop\Mail\Order::sendMail($data['order_id']);
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

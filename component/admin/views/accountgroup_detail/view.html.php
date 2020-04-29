@@ -20,7 +20,8 @@ class RedshopViewAccountgroup_detail extends RedshopViewAdmin
     protected $displaySidebar = false;
 
     /**
-     * @param null $tpl
+     * @param   null  $tpl
+     *
      * @return mixed|void
      */
     public function display($tpl = null)
@@ -30,9 +31,9 @@ class RedshopViewAccountgroup_detail extends RedshopViewAdmin
         JToolBarHelper::save();
         JToolBarHelper::apply();
 
-        $lists = array();
+        $lists  = array();
         $detail = $this->get('data');
-        $isNew = ($detail->accountgroup_id < 1);
+        $isNew  = ($detail->accountgroup_id < 1);
 
         $text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -42,12 +43,15 @@ class RedshopViewAccountgroup_detail extends RedshopViewAdmin
             \JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
         }
 
-        \JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_accountgroup48');
+        \JToolBarHelper::title(
+            JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP') . ': <small><small>[ ' . $text . ' ]</small></small>',
+            'redshop_accountgroup48'
+        );
 
         $lists['published'] = \JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-        $this->detail = $detail;
-        $this->lists = $lists;
+        $this->detail     = $detail;
+        $this->lists      = $lists;
         $this->requestUrl = $uri->toString();
 
         parent::display($tpl);

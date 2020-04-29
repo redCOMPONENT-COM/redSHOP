@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 
 class RedshopViewOrdertracker extends RedshopView
 {
-	public function display($tpl = null)
-	{
-		$app = JFactory::getApplication();
+    public function display($tpl = null)
+    {
+        $app = JFactory::getApplication();
 
-		$params = $app->getParams('com_redshop');
+        $params = $app->getParams('com_redshop');
 
-		// Request variables
-		$this->params = $params;
-		parent::display($tpl);
-	}
+        // Request variables
+        $this->params = $params;
+        parent::display($tpl);
+    }
 }

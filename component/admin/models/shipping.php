@@ -12,113 +12,116 @@ defined('_JEXEC') or die;
 
 class RedshopModelShipping extends RedshopModel
 {
-	public $_data = null;
+    public $_data = null;
 
-	public $_total = null;
+    public $_total = null;
 
-	public $_pagination = null;
+    public $_pagination = null;
 
-	public $_table_prefix = null;
+    public $_table_prefix = null;
 
-	public $_context = null;
+    public $_context = null;
 
-	public function __construct()
-	{
-		parent::__construct();
-		$app = JFactory::getApplication();
+    public function __construct()
+    {
+        parent::__construct();
+        $app = JFactory::getApplication();
 
-		$this->_context      = 'shipping_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit               = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-	}
+        $this->_context      = 'shipping_id';
+        $this->_table_prefix = '#__redshop_';
+        $limit               = $app->getUserStateFromRequest(
+            $this->_context . 'limit',
+            'limit',
+            $app->getCfg('list_limit'),
+            0
+        );
+        $limitstart          = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $limitstart          = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $this->setState('limit', $limit);
+        $this->setState('limitstart', $limitstart);
+    }
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query       = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
+    public function getData()
+    {
+        if (empty($this->_data)) {
+            $query       = $this->_buildQuery();
+            $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+        }
 
-		return $this->_data;
-	}
+        return $this->_data;
+    }
 
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query        = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
+    public function _buildQuery()
+    {
+        $orderby = $this->_buildContentOrderBy();
+        $query   = 'SELECT s.* FROM #__extensions AS s '
+            . 'WHERE s.folder="redshop_shipping" '
+            . $orderby;
 
-		return $this->_total;
-	}
+        return $query;
+    }
 
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
+    public function _buildContentOrderBy()
+    {
+        $db  = JFactory::getDbo();
+        $app = JFactory::getApplication();
 
-		return $this->_pagination;
-	}
+        $filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-	public function _buildQuery()
-	{
-		$orderby = $this->_buildContentOrderBy();
-		$query   = 'SELECT s.* FROM #__extensions AS s '
-			. 'WHERE s.folder="redshop_shipping" '
-			. $orderby;
+        $orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
-		return $query;
-	}
+        return $orderby;
+    }
 
-	public function _buildContentOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
+    public function getPagination()
+    {
+        if (empty($this->_pagination)) {
+            jimport('joomla.html.pagination');
+            $this->_pagination = new JPagination(
+                $this->getTotal(),
+                $this->getState('limitstart'),
+                $this->getState('limit')
+            );
+        }
 
-		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+        return $this->_pagination;
+    }
 
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
+    public function getTotal()
+    {
+        if (empty($this->_total)) {
+            $query        = $this->_buildQuery();
+            $this->_total = $this->_getListCount($query);
+        }
 
-		return $orderby;
-	}
+        return $this->_total;
+    }
 
-	public function saveOrder(&$cid, $order = array())
-	{
-		$db  = JFactory::getDbo();
-		$row = $this->getTable('shipping_detail');
+    public function saveOrder(&$cid, $order = array())
+    {
+        $db  = JFactory::getDbo();
+        $row = $this->getTable('shipping_detail');
 
-		$total = count($cid);
-		$order = (empty($order)) ? JFactory::getApplication()->input->post->get('order', array(0), 'array') : $order;
-		$order = \Joomla\Utilities\ArrayHelper::toInteger($order, array(0));
+        $total = count($cid);
+        $order = (empty($order)) ? JFactory::getApplication()->input->post->get('order', array(0), 'array') : $order;
+        $order = \Joomla\Utilities\ArrayHelper::toInteger($order, array(0));
 
-		// Update ordering values
-		for ($i = 0; $i < $total; $i++)
-		{
-			$row->load((int) $cid[$i]);
+        // Update ordering values
+        for ($i = 0; $i < $total; $i++) {
+            $row->load((int)$cid[$i]);
 
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
+            if ($row->ordering != $order[$i]) {
+                $row->ordering = $order[$i];
 
-				if (!$row->store())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
-			}
-		}
+                if (!$row->store()) {
+                    throw new Exception($db->getErrorMsg());
+                }
+            }
+        }
 
-		$row->reorder();
+        $row->reorder();
 
-		return true;
-	}
+        return true;
+    }
 }

@@ -9,6 +9,8 @@
 
 namespace Redshop\Promotion;
 
+use Joomla\CMS\Language\Text;
+
 defined('_JEXEC') or die;
 
 /**
@@ -35,7 +37,7 @@ class Discount
         if ($useDiscountCalculator) {
             $discountCalc = self::discountCalculator($data);
 
-            $calculatorPrice = $discountCalc['product_price'];
+            $calculatorPrice     = $discountCalc['product_price'];
             $productNetPricesTax = $discountCalc['product_price_tax'];
 
             $discounts = array();
@@ -62,88 +64,87 @@ class Discount
                 switch ($discountCalcMethod) {
                     case "volume":
                         $calcOutput .= \JText::_(
-                                'COM_REDSHOP_DISCOUNT_CALC_HEIGHT'
-                            ) . " " . $calcHeight . "<br />";
+                            'COM_REDSHOP_DISCOUNT_CALC_HEIGHT'
+                        ) . " " . $calcHeight . "<br />";
                         $calcOutputs['calcHeight'] = $calcHeight;
 
                         $calcOutput .= \JText::_(
-                                'COM_REDSHOP_DISCOUNT_CALC_WIDTH'
-                            ) . " " . $calcWidth . "<br />";
-                        $calcOutputs['calcWidth']  = $calcWidth;
+                            'COM_REDSHOP_DISCOUNT_CALC_WIDTH'
+                        ) . " " . $calcWidth . "<br />";
+                        $calcOutputs['calcWidth'] = $calcWidth;
 
                         $calcOutput .= \JText::_(
-                                'COM_REDSHOP_DISCOUNT_CALC_LENGTH'
-                            ) . " " . $calcDepth . "<br />";
-                        $calcOutputs['calcDepth']  = $calcDepth;
+                            'COM_REDSHOP_DISCOUNT_CALC_LENGTH'
+                        ) . " " . $calcDepth . "<br />";
+                        $calcOutputs['calcDepth'] = $calcDepth;
 
                         if ($calcPricePerPiece != "") {
                             $calcOutput .= \JText::_(
-                                    'COM_REDSHOP_PRICE_PER_PIECE'
-                                ) . " " . $calcPricePerPiece . "<br />";
+                                'COM_REDSHOP_PRICE_PER_PIECE'
+                            ) . " " . $calcPricePerPiece . "<br />";
                             $calcOutputs['calcPricePerPiece'] = $calcDepth;
                         }
 
                         if ($totalPiece != "") {
                             $calcOutput .= \JText::_(
-                                    'COM_REDSHOP_TOTAL_PIECE'
-                                ) . " " . $totalPiece . "<br />";
+                                'COM_REDSHOP_TOTAL_PIECE'
+                            ) . " " . $totalPiece . "<br />";
                             $calcOutputs['totalPiece'] = $totalPiece;
                         }
 
                         break;
 
                     case "area":
-
                         $calcOutput .= \JText::_(
-                                'COM_REDSHOP_DISCOUNT_CALC_DEPTH'
-                            ) . " " . $calcDepth . "<br />";
+                            'COM_REDSHOP_DISCOUNT_CALC_DEPTH'
+                        ) . " " . $calcDepth . "<br />";
                         $calcOutputs['calcDepth'] = $calcDepth;
 
                         $calcOutput .= \JText::_(
-                                'COM_REDSHOP_DISCOUNT_CALC_WIDTH'
-                            ) . " " . $calcWidth . "<br />";
+                            'COM_REDSHOP_DISCOUNT_CALC_WIDTH'
+                        ) . " " . $calcWidth . "<br />";
                         $calcOutputs['calcWidth'] = $calcWidth;
 
                         if ($calcPricePerPiece != "") {
                             $calcOutput .= \JText::_(
-                                    'COM_REDSHOP_PRICE_PER_PIECE'
-                                ) . " " . $calcPricePerPiece . "<br />";
+                                'COM_REDSHOP_PRICE_PER_PIECE'
+                            ) . " " . $calcPricePerPiece . "<br />";
                             $calcOutputs['calcPricePerPiece'] = $calcDepth;
                         }
 
                         if ($totalPiece != "") {
                             $calcOutput .= \JText::_(
-                                    'COM_REDSHOP_TOTAL_PIECE'
-                                ) . " " . $totalPiece . "<br />";
+                                'COM_REDSHOP_TOTAL_PIECE'
+                            ) . " " . $totalPiece . "<br />";
                             $calcOutputs['totalPiece'] = $totalPiece;
                         }
 
                         break;
 
                     case "circumference":
-
                         $calcOutput .= \JText::_(
-                                'COM_REDSHOP_DISCOUNT_CALC_RADIUS'
-                            ) . " " . $calcRadius . "<br />";
+                            'COM_REDSHOP_DISCOUNT_CALC_RADIUS'
+                        ) . " " . $calcRadius . "<br />";
                         $calcOutputs['calcRadius'] = $calcRadius;
 
                         if ($calcPricePerPiece != "") {
                             $calcOutput .= \JText::_(
-                                    'COM_REDSHOP_PRICE_PER_PIECE'
-                                ) . " " . $calcPricePerPiece . "<br />";
+                                'COM_REDSHOP_PRICE_PER_PIECE'
+                            ) . " " . $calcPricePerPiece . "<br />";
                             $calcOutputs['calcPricePerPiece'] = $calcDepth;
                         }
 
                         if ($totalPiece != "") {
                             $calcOutput .= \JText::_(
-                                    'COM_REDSHOP_TOTAL_PIECE'
-                                ) . " " . $totalPiece . "<br />";
+                                'COM_REDSHOP_TOTAL_PIECE'
+                            ) . " " . $totalPiece . "<br />";
                             $calcOutputs['totalPiece'] = $totalPiece;
                         }
                         break;
                 }
 
                 $calcOutput .= \JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
+                $calcOutput              .= \JText::_('COM_REDSHOP_DISCOUNT_CALC_UNIT') . " " . $data['calcUnit'];
                 $calcOutputs['calcUnit'] = $data['calcUnit'];
 
                 // Extra selected value data
@@ -296,7 +297,7 @@ class Discount
             $discountCalcData[0]->price_per_piece    = $totalProductPriceNoVat;
         }
 
-        $areaPrice       = 0;
+        $areaPrice        = 0;
         $pricePerPieceTax = 0;
 
         if (count($discountCalcData)) {
@@ -420,7 +421,7 @@ class Discount
     {
         $area = floatval($area);
 
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select("*")
             ->from($db->quoteName("#__redshop_product_discount_calc"))

@@ -12,41 +12,45 @@ defined('_JEXEC') or die;
 
 class RedshopViewAttribute_set extends RedshopViewAdmin
 {
-	public function display($tpl = null)
-	{
-		global $context;
+    public function display($tpl = null)
+    {
+        global $context;
 
-		$app = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_SET'));
+        $document = JFactory::getDocument();
+        $document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_SET'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET'), 'redshop_attribute_bank48');
+        JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET'), 'redshop_attribute_bank48');
 
-		JToolbarHelper::addNew();
-		JToolbarHelper::EditList();
-		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-		JToolBarHelper::deleteList();
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
+        JToolbarHelper::addNew();
+        JToolbarHelper::EditList();
+        JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+        JToolBarHelper::deleteList();
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
+        $uri = JFactory::getURI();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'attribute_set_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+        $filter_order     = $app->getUserStateFromRequest(
+            $context . 'filter_order',
+            'filter_order',
+            'attribute_set_id'
+        );
+        $filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists              = array();
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+        $lists              = array();
+        $lists['order']     = $filter_order;
+        $lists['order_Dir'] = $filter_order_Dir;
 
-		$products   = $this->get('Data');
-		$pagination = $this->get('Pagination');
+        $products   = $this->get('Data');
+        $pagination = $this->get('Pagination');
 
-		$this->lists       = $lists;
-		$this->products    = $products;
-		$this->pagination  = $pagination;
-		$this->request_url = $uri->toString();
+        $this->lists       = $lists;
+        $this->products    = $products;
+        $this->pagination  = $pagination;
+        $this->request_url = $uri->toString();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

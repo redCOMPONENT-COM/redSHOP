@@ -16,260 +16,267 @@ defined('_JEXEC') || die;
  */
 class RedshopTagsSectionsAjaxCartDetailBox extends RedshopTagsAbstract
 {
-	public $tags = array(
-		'{product_name}',
-		'{product_price}',
-		'{product_image}'
-	);
+    public $tags = array(
+        '{product_name}',
+        '{product_price}',
+        '{product_image}'
+    );
 
-	public $input;
+    public $input;
 
-	public function init()
-	{
-		$this->input = JFactory::getApplication()->input;
-	}
+    public function init()
+    {
+        $this->input = JFactory::getApplication()->input;
+    }
 
-	public function replace()
-	{
-		$product          = $this->data['product'];
-		$layout           = $this->input->getString('layout', '');
-		$relatedprdId     = $this->input->getInt('relatedprd_id', 0);
-		$productUserField = \Redshop\Product\Product::getProductUserfieldFromTemplate($this->template);
-		$dataUserField    = $this->replaceUserField($product, $productUserField);
-		$this->template   = $dataUserField['template'];
-		$countNoUserField = $dataUserField['countNoUserField'];
+    public function replace()
+    {
+        $product          = $this->data['product'];
+        $layout           = $this->input->getString('layout', '');
+        $relatedprdId     = $this->input->getInt('relatedprd_id', 0);
+        $productUserField = \Redshop\Product\Product::getProductUserfieldFromTemplate($this->template);
+        $dataUserField    = $this->replaceUserField($product, $productUserField);
+        $this->template   = $dataUserField['template'];
+        $countNoUserField = $dataUserField['countNoUserField'];
 
-		$this->addReplace('{product_name}', $product->product_name);
+        $this->addReplace('{product_name}', $product->product_name);
 
-		if ($product->product_price != 0)
-		{
-			$htmlPrice = RedshopHelperProductPrice::formattedPrice($product->product_price);
+        if ($product->product_price != 0) {
+            $htmlPrice = RedshopHelperProductPrice::formattedPrice($product->product_price);
 
-			$tagPrice = RedshopLayoutHelper::render(
-				'tags.common.price',
-				array(
-					'price' => $product->product_price,
-					'htmlPrice' => $htmlPrice,
-					'class' => 'product_price product_price' . $product->product_id
-				),
-				'',
-				RedshopLayoutHelper::$layoutOption
-			);
-		}
-		else
-		{
-			$tagPrice = '';
-		}
+            $tagPrice = RedshopLayoutHelper::render(
+                'tags.common.price',
+                array(
+                    'price'     => $product->product_price,
+                    'htmlPrice' => $htmlPrice,
+                    'class'     => 'product_price product_price' . $product->product_id
+                ),
+                '',
+                RedshopLayoutHelper::$layoutOption
+            );
+        } else {
+            $tagPrice = '';
+        }
 
-		$this->addReplace('{product_price}', $tagPrice);
+        $this->addReplace('{product_price}', $tagPrice);
 
-		if ($this->isTagExists('{product_image}'))
-		{
-			if ($product->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
-			{
-				$thumbUrl = RedshopHelperMedia::getImagePath(
-					$product->product_full_image,
-					'',
-					'thumb',
-					'product',
-					Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
-					Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT'),
-					Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
-				);
+        if ($this->isTagExists('{product_image}')) {
+            if ($product->product_full_image && file_exists(
+                    REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image
+                )) {
+                $thumbUrl = RedshopHelperMedia::getImagePath(
+                    $product->product_full_image,
+                    '',
+                    'thumb',
+                    'product',
+                    Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE'),
+                    Redshop::getConfig()->get('PRODUCT_MAIN_IMAGE_HEIGHT'),
+                    Redshop::getConfig()->get('USE_IMAGE_SIZE_SWAPPING')
+                );
 
-				$productImage = RedshopLayoutHelper::render(
-					'tags.product.image',
-					array(
-						'fullImage' => REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image,
-						'title' => $product->product_name,
-						'attr' => "rel='lightbox[product7]'",
-						'thumbUrl' => $thumbUrl
-					),
-					'',
-					array(
-						'component'  => 'com_redshop',
-						'layoutType' => 'Twig',
-						'layoutOf'   => 'library'
-					)
-				);
-			}
-			else
-			{
-				$productImage = '';
-			}
+                $productImage = RedshopLayoutHelper::render(
+                    'tags.product.image',
+                    array(
+                        'fullImage' => REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image,
+                        'title'     => $product->product_name,
+                        'attr'      => "rel='lightbox[product7]'",
+                        'thumbUrl'  => $thumbUrl
+                    ),
+                    '',
+                    array(
+                        'component'  => 'com_redshop',
+                        'layoutType' => 'Twig',
+                        'layoutOf'   => 'library'
+                    )
+                );
+            } else {
+                $productImage = '';
+            }
 
-			$this->addReplace('{product_image}', $productImage);
-		}
+            $this->addReplace('{product_image}', $productImage);
+        }
 
-		$data                         = array();
-		$data['property_data']        = $this->input->getString('property_data', '');
-		$data['subproperty_data']     = $this->input->getString('subproperty_data', '');
-		$data['accessory_data']       = $this->input->getString('accessory_data', '');
-		$data['acc_quantity_data']    = $this->input->getString('acc_quantity_data', '');
-		$data['acc_property_data']    = $this->input->getString('acc_property_data', '');
-		$data['acc_subproperty_data'] = $this->input->getString('acc_subproperty_data', '');
+        $data                         = array();
+        $data['property_data']        = $this->input->getString('property_data', '');
+        $data['subproperty_data']     = $this->input->getString('subproperty_data', '');
+        $data['accessory_data']       = $this->input->getString('accessory_data', '');
+        $data['acc_quantity_data']    = $this->input->getString('acc_quantity_data', '');
+        $data['acc_property_data']    = $this->input->getString('acc_property_data', '');
+        $data['acc_subproperty_data'] = $this->input->getString('acc_subproperty_data', '');
 
-		$selectAcc = RedshopHelperProduct::getSelectedAccessoryArray($data);
-		$selectAtt = RedshopHelperProduct::getSelectedAttributeArray($data);
+        $selectAcc = RedshopHelperProduct::getSelectedAccessoryArray($data);
+        $selectAtt = RedshopHelperProduct::getSelectedAttributeArray($data);
 
-		$childProduct = RedshopHelperProduct::getChildProduct($product->product_id);
+        $childProduct = RedshopHelperProduct::getChildProduct($product->product_id);
 
-		if (count($childProduct) > 0 && Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 0)
-		{
-			$isChilds = true;
-		}
-		else
-		{
-			$isChilds = false;
-		}
+        if (count($childProduct) > 0 && Redshop::getConfig()->get('PURCHASE_PARENT_WITH_CHILD') == 0) {
+            $isChilds = true;
+        } else {
+            $isChilds = false;
+        }
 
-		// Get attribute Template data
-		// Product attribute  Start
-		$attributes_set = array();
+        // Get attribute Template data
+        // Product attribute  Start
+        $attributes_set = array();
 
-		if ($product->attribute_set_id > 0)
-		{
-			$attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
-		}
+        if ($product->attribute_set_id > 0) {
+            $attributes_set = \Redshop\Product\Attribute::getProductAttribute(0, $product->attribute_set_id, 0, 1);
+        }
 
-		$attributeTemplate = \Redshop\Template\Helper::getAttribute($this->template);
-		$attributes        = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
-		$attributes        = array_merge($attributes, $attributes_set);
-		$totalatt          = count($attributes);
-		$this->template    = RedshopHelperAttribute::replaceAttributeData($product->product_id, 0, $relatedprdId, $attributes, $this->template, $attributeTemplate, $isChilds, $selectAtt);
+        $attributeTemplate = \Redshop\Template\Helper::getAttribute($this->template);
+        $attributes        = \Redshop\Product\Attribute::getProductAttribute($product->product_id);
+        $attributes        = array_merge($attributes, $attributes_set);
+        $totalatt          = count($attributes);
+        $this->template    = RedshopHelperAttribute::replaceAttributeData(
+            $product->product_id,
+            0,
+            $relatedprdId,
+            $attributes,
+            $this->template,
+            $attributeTemplate,
+            $isChilds,
+            $selectAtt
+        );
 
-		// Product attribute  End
+        // Product attribute  End
 
-		// Product accessory Start /////////////////////////////////
-		$accessory      = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
-		$totalAccessory = count($accessory);
+        // Product accessory Start /////////////////////////////////
+        $accessory      = RedshopHelperAccessory::getProductAccessories(0, $product->product_id);
+        $totalAccessory = count($accessory);
 
-		$this->template = RedshopHelperProductAccessory::replaceAccessoryData($product->product_id, $relatedprdId, $accessory, $this->template, $isChilds, $selectAcc);
+        $this->template = RedshopHelperProductAccessory::replaceAccessoryData(
+            $product->product_id,
+            $relatedprdId,
+            $accessory,
+            $this->template,
+            $isChilds,
+            $selectAcc
+        );
 
-		// Product accessory End /////////////////////////////////
+        // Product accessory End /////////////////////////////////
 
-		// Cart
-		$this->template = Redshop\Cart\Render::replace($product->product_id, $product->category_id, 0, $relatedprdId, $this->template, $isChilds, $productUserField[1], $totalatt, $totalAccessory, $countNoUserField);
+        // Cart
+        $this->template = Redshop\Cart\Render::replace(
+            $product->product_id,
+            $product->category_id,
+            0,
+            $relatedprdId,
+            $this->template,
+            $isChilds,
+            $productUserField[1],
+            $totalatt,
+            $totalAccessory,
+            $countNoUserField
+        );
 
-		$hidden = RedshopLayoutHelper::render(
-			'tags.common.input',
-			array(
-				'name' => 'isAjaxBoxOpen',
-				'id' => 'isAjaxBoxOpen',
-				'type' => 'hidden',
-				'value' => $layout,
-				'attr' => '',
-				'class' => ''
-			),
-			'',
-			array(
-				'component'  => 'com_redshop',
-				'layoutType' => 'Twig',
-				'layoutOf'   => 'library'
-			)
-		);
-		$this->template = $this->template . $hidden;
+        $hidden         = RedshopLayoutHelper::render(
+            'tags.common.input',
+            array(
+                'name'  => 'isAjaxBoxOpen',
+                'id'    => 'isAjaxBoxOpen',
+                'type'  => 'hidden',
+                'value' => $layout,
+                'attr'  => '',
+                'class' => ''
+            ),
+            '',
+            array(
+                'component'  => 'com_redshop',
+                'layoutType' => 'Twig',
+                'layoutOf'   => 'library'
+            )
+        );
+        $this->template = $this->template . $hidden;
 
-		return parent::replace();
-	}
+        return parent::replace();
+    }
 
-	public function replaceUserField($product, $productUserField)
-	{
-		$subTemplate = $this->getTemplateBetweenLoop('{if product_userfield}', '{product_userfield end if}');
+    public function replaceUserField($product, $productUserField)
+    {
+        $subTemplate = $this->getTemplateBetweenLoop('{if product_userfield}', '{product_userfield end if}');
 
-		$template = $subTemplate['template'];
+        $template = $subTemplate['template'];
 
-		$extrafieldNames = $this->input->getString('extrafieldNames', '');
-		$nextrafield     = $this->input->getInt('nextrafield', 1);
-		$countNoUserField = 0;
+        $extrafieldNames  = $this->input->getString('extrafieldNames', '');
+        $nextrafield      = $this->input->getInt('nextrafield', 1);
+        $countNoUserField = 0;
 
-		$templateUserfield = $productUserField[0];
-		$userfieldArr      = $productUserField[1];
+        $templateUserfield = $productUserField[0];
+        $userfieldArr      = $productUserField[1];
 
-		if ($templateUserfield != "")
-		{
-			$ufield = "";
-			$cart   = \Redshop\Cart\Helper::getCart();
+        if ($templateUserfield != "") {
+            $ufield = "";
+            $cart   = \Redshop\Cart\Helper::getCart();
 
-			$idx    = 0;
-			$cartId = '';
+            $idx    = 0;
+            $cartId = '';
 
-			for ($j = 0; $j < $idx; $j++)
-			{
-				if ($cart[$j]['product_id'] == $product->product_id)
-				{
-					$cartId = $j;
-				}
-			}
+            for ($j = 0; $j < $idx; $j++) {
+                if ($cart[$j]['product_id'] == $product->product_id) {
+                    $cartId = $j;
+                }
+            }
 
-			for ($ui = 0; $ui < count($userfieldArr); $ui++)
-			{
-				if (!$idx)
-				{
-					$cartId = "";
-				}
+            for ($ui = 0; $ui < count($userfieldArr); $ui++) {
+                if (!$idx) {
+                    $cartId = "";
+                }
 
-				$productUserFields = Redshop\Fields\SiteHelper::listAllUserFields($userfieldArr[$ui], 12, '', $cartId, 1, $product->product_id);
-				$ufield .= $productUserFields[0];
+                $productUserFields = Redshop\Fields\SiteHelper::listAllUserFields(
+                    $userfieldArr[$ui],
+                    12,
+                    '',
+                    $cartId,
+                    1,
+                    $product->product_id
+                );
+                $ufield            .= $productUserFields[0];
 
-				if ($productUserFields[0] != "")
-				{
-					$countNoUserField++;
-				}
+                if ($productUserFields[0] != "") {
+                    $countNoUserField++;
+                }
 
-				if ($nextrafield <= 0)
-				{
-					$this->replacements['{' . $userfieldArr[$ui] . '_lbl}'] = ' ';
-					$this->replacements['{' . $userfieldArr[$ui] . '}']     = ' ';
-				}
-				else
-				{
-					if ($extrafieldNames)
-					{
-						$extrafieldName = @ explode(',', $extrafieldNames);
+                if ($nextrafield <= 0) {
+                    $this->replacements['{' . $userfieldArr[$ui] . '_lbl}'] = ' ';
+                    $this->replacements['{' . $userfieldArr[$ui] . '}']     = ' ';
+                } else {
+                    if ($extrafieldNames) {
+                        $extrafieldName = @ explode(',', $extrafieldNames);
 
-						if (!in_array($userfieldArr[$ui], $extrafieldName))
-						{
-							$this->replacements['{' . $userfieldArr[$ui] . '_lbl}'] = ' ';
-							$this->replacements['{' . $userfieldArr[$ui] . '}']     = ' ';
-						}
-						else
-						{
-							$this->replacements['{' . $userfieldArr[$ui] . '_lbl}'] = $productUserFields[0];
-							$this->replacements['{' . $userfieldArr[$ui] . '}']     = $productUserFields[1];
-						}
-					}
-					else
-					{
-						$this->replacements['{' . $userfieldArr[$ui] . '_lbl}'] = ' ';
-						$this->replacements['{' . $userfieldArr[$ui] . '}']     = ' ';
-					}
-				}
-			}
+                        if (!in_array($userfieldArr[$ui], $extrafieldName)) {
+                            $this->replacements['{' . $userfieldArr[$ui] . '_lbl}'] = ' ';
+                            $this->replacements['{' . $userfieldArr[$ui] . '}']     = ' ';
+                        } else {
+                            $this->replacements['{' . $userfieldArr[$ui] . '_lbl}'] = $productUserFields[0];
+                            $this->replacements['{' . $userfieldArr[$ui] . '}']     = $productUserFields[1];
+                        }
+                    } else {
+                        $this->replacements['{' . $userfieldArr[$ui] . '_lbl}'] = ' ';
+                        $this->replacements['{' . $userfieldArr[$ui] . '}']     = ' ';
+                    }
+                }
+            }
 
-			if ($ufield != "")
-			{
-				$template = RedshopLayoutHelper::render(
-					'tags.product.userfieldform',
-					array('content' => $template),
-					'',
-					array(
-						'component'  => 'com_redshop',
-						'layoutType' => 'Twig',
-						'layoutOf'   => 'library'
-					)
-				);
-			}
-		}
-		else
-		{
-			$countNoUserField = 0;
-		}
+            if ($ufield != "") {
+                $template = RedshopLayoutHelper::render(
+                    'tags.product.userfieldform',
+                    array('content' => $template),
+                    '',
+                    array(
+                        'component'  => 'com_redshop',
+                        'layoutType' => 'Twig',
+                        'layoutOf'   => 'library'
+                    )
+                );
+            }
+        } else {
+            $countNoUserField = 0;
+        }
 
-		$template = $this->strReplace($this->replacements, $template);
+        $template = $this->strReplace($this->replacements, $template);
 
-		$template = $subTemplate['begin'] . $template . $subTemplate['end'];
+        $template = $subTemplate['begin'] . $template . $subTemplate['end'];
 
-		return array('template' => $template, 'countNoUserField' => $countNoUserField);
-	}
+        return array('template' => $template, 'countNoUserField' => $countNoUserField);
+    }
 }

@@ -1,6 +1,5 @@
 var gulp = require("gulp");
 var path = require("path");
-var gutil = require('gulp-util');
 var zip = require("gulp-zip");
 var fs = require("fs");
 // Get console args
@@ -50,8 +49,7 @@ function moduleRelease(group, name) {
                 return releaseExt(arraySrc, fileName, destDir);
             });
         });
-    }
-    else {
+    } else {
         return releaseExt(arraySrc, fileName + '.zip', destDir);
     }
 }
@@ -74,12 +72,10 @@ gulp.task('release:module', function (cb) {
                 moduleRelease(groups[i], modules[j]);
             }
         }
-    }
-    else if (modSource && !modName) {
+    } else if (modSource && !modName) {
         try {
             fs.statSync('./modules/' + modSource);
-        }
-        catch (e) {
+        } catch (e) {
             console.error("Folder not exist: " + basePath + '/' + plgGroup);
             return;
         }
@@ -89,12 +85,10 @@ gulp.task('release:module', function (cb) {
         for (i = 0; i < modules.length; i++) {
             moduleRelease(modSource, modules[i]);
         }
-    }
-    else {
+    } else {
         try {
             fs.statSync('./modules/' + modSource + '/' + modName);
-        }
-        catch (e) {
+        } catch (e) {
             console.error("Folder not exist: " + basePath + '/' + modSource + '/' + modName);
             return;
         }

@@ -1,0 +1,4 @@
+<form name="orderby_form" action='' method="post">{{ jtext('COM_REDSHOP_SELECT_ORDER_BY') }} {{ orderSelect }}
+    <input type="hidden" name="filter_by"
+           value="{{ redSHOPCall('JFactory', 'getApplication', []).input.get('filter_by', '') }}"/>
+</form>

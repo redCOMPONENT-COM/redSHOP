@@ -23,16 +23,16 @@ use Twig\Environment;
  */
 class PlgTwigJuser extends BaseTwigPlugin
 {
-	/**
-	 * @param   Environment  $environment
-	 * @param                $params
-	 *
-	 *
-	 * @since 1.0.0
-	 */
-	public function onTwigAfterLoad(Environment $environment, $params)
-	{
-		$environment->addExtension(new TwigJUser);
-		$environment->addGlobal('juser', Factory::getUser());
-	}
+    /**
+     * @param   Environment  $environment
+     * @param                $params
+     *
+     *
+     * @since 1.0.0
+     */
+    public function onTwigAfterLoad(Environment $environment, $params)
+    {
+        $environment->addExtension(new TwigJUser);
+        $environment->addGlobal('juser', Factory::getUser());
+    }
 }

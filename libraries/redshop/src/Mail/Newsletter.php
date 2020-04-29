@@ -18,126 +18,140 @@ defined('_JEXEC') or die;
  */
 class Newsletter
 {
-	/**
-	 * Send newsletter cancellation mail
-	 *
-	 * @param   string  $email  Email
-	 *
-	 * @return  boolean
-	 *
-	 * @since   2.1.0
-	 */
-	public static function sendCancellationMail($email = "")
-	{
-		$mailSection = "newsletter_cancellation";
-		$mailInfo    = Helper::getTemplate(0, $mailSection);
+    /**
+     * Send newsletter cancellation mail
+     *
+     * @param   string  $email  Email
+     *
+     * @return  boolean
+     *
+     * @since   2.1.0
+     */
+    public static function sendCancellationMail($email = "")
+    {
+        $mailSection = "newsletter_cancellation";
+        $mailInfo    = Helper::getTemplate(0, $mailSection);
 
-		if (empty($mailInfo))
-		{
-			return false;
-		}
+        if (empty($mailInfo)) {
+            return false;
+        }
 
-		$config  = \JFactory::getConfig();
-		$mailBcc = null;
-		$message = $mailInfo[0]->mail_body;
-		$subject = $mailInfo[0]->mail_subject;
+        $config  = \JFactory::getConfig();
+        $mailBcc = null;
+        $message = $mailInfo[0]->mail_body;
+        $subject = $mailInfo[0]->mail_subject;
 
-		if (trim($mailInfo[0]->mail_bcc) != "")
-		{
-			$mailBcc = explode(",", $mailInfo[0]->mail_bcc);
-		}
+        if (trim($mailInfo[0]->mail_bcc) != "") {
+            $mailBcc = explode(",", $mailInfo[0]->mail_bcc);
+        }
 
-		$search[]  = "{shopname}";
-		$replace[] = \Redshop::getConfig()->get('SHOP_NAME');
-		$subject   = str_replace($search, $replace, $subject);
-		$message   = str_replace($search, $replace, $message);
+        $search[]  = "{shopname}";
+        $replace[] = \Redshop::getConfig()->get('SHOP_NAME');
+        $subject   = str_replace($search, $replace, $subject);
+        $message   = str_replace($search, $replace, $message);
 
-		Helper::imgInMail($message);
+        Helper::imgInMail($message);
 
-		$from     = $config->get('mailfrom');
-		$fromName = $config->get('fromname');
+        $from     = $config->get('mailfrom');
+        $fromName = $config->get('fromname');
 
-		// Send the e-mail
-		if ($email != "")
-		{
-			return Helper::sendEmail($from, $fromName, $email, $subject, $message, 1, null,
-				$mailBcc, null, $mailSection, func_get_args()
-			);
-		}
+        // Send the e-mail
+        if ($email != "") {
+            return Helper::sendEmail(
+                $from,
+                $fromName,
+                $email,
+                $subject,
+                $message,
+                1,
+                null,
+                $mailBcc,
+                null,
+                $mailSection,
+                func_get_args()
+            );
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Send newsletter confirmation mail
-	 *
-	 * @param   integer  $subscriptionId  Subscription id
-	 *
-	 * @return  boolean
-	 *
-	 * @since   2.1.0
-	 */
-	public static function sendConfirmationMail($subscriptionId)
-	{
-		if (!\Redshop::getConfig()->getBool('NEWSLETTER_CONFIRMATION') || !$subscriptionId)
-		{
-			return false;
-		}
+    /**
+     * Send newsletter confirmation mail
+     *
+     * @param   integer  $subscriptionId  Subscription id
+     *
+     * @return  boolean
+     *
+     * @since   2.1.0
+     */
+    public static function sendConfirmationMail($subscriptionId)
+    {
+        if (!\Redshop::getConfig()->getBool('NEWSLETTER_CONFIRMATION') || !$subscriptionId) {
+            return false;
+        }
 
-		$config  = \JFactory::getConfig();
-		$url     = \JUri::root();
-		$db      = \JFactory::getDbo();
-		$mailBcc = null;
+        $config  = \JFactory::getConfig();
+        $url     = \JUri::root();
+        $db      = \JFactory::getDbo();
+        $mailBcc = null;
 
-		$mailSection = "newsletter_confirmation";
-		$mailInfo    = Helper::getTemplate(0, $mailSection);
+        $mailSection = "newsletter_confirmation";
+        $mailInfo    = Helper::getTemplate(0, $mailSection);
 
-		if (empty($mailInfo))
-		{
-			return false;
-		}
+        if (empty($mailInfo)) {
+            return false;
+        }
 
-		$message = $mailInfo[0]->mail_body;
-		$subject = $mailInfo[0]->mail_subject;
+        $message = $mailInfo[0]->mail_body;
+        $subject = $mailInfo[0]->mail_subject;
 
-		if (trim($mailInfo[0]->mail_bcc) != "")
-		{
-			$mailBcc = explode(",", $mailInfo[0]->mail_bcc);
-		}
+        if (trim($mailInfo[0]->mail_bcc) != "") {
+            $mailBcc = explode(",", $mailInfo[0]->mail_bcc);
+        }
 
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_newsletter_subscription'))
-			->where($db->qn('subscription_id') . ' = ' . (int) $subscriptionId);
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_newsletter_subscription'))
+            ->where($db->qn('subscription_id') . ' = ' . (int)$subscriptionId);
 
-		$list      = $db->setQuery($query)->loadObject();
-		$link      = '<a href="' . $url . 'index.php?option=com_redshop&view=newsletter&sid=' . $subscriptionId . '">' .
-			\JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
-		$search[]  = "{shopname}";
-		$replace[] = \Redshop::getConfig()->get('SHOP_NAME');
-		$search[]  = "{link}";
-		$replace[] = $link;
-		$search[]  = "{name}";
-		$replace[] = $list->name;
+        $list      = $db->setQuery($query)->loadObject();
+        $link      = '<a href="' . $url . 'index.php?option=com_redshop&view=newsletter&sid=' . $subscriptionId . '">' .
+            \JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
+        $search[]  = "{shopname}";
+        $replace[] = \Redshop::getConfig()->get('SHOP_NAME');
+        $search[]  = "{link}";
+        $replace[] = $link;
+        $search[]  = "{name}";
+        $replace[] = $list->name;
 
-		$email   = $list->email;
-		$subject = str_replace($search, $replace, $subject);
-		$message = str_replace($search, $replace, $message);
+        $email   = $list->email;
+        $subject = str_replace($search, $replace, $subject);
+        $message = str_replace($search, $replace, $message);
 
-		Helper::imgInMail($message);
+        Helper::imgInMail($message);
 
-		$from     = $config->get('mailfrom');
-		$fromName = $config->get('fromname');
+        $from     = $config->get('mailfrom');
+        $fromName = $config->get('fromname');
 
-		// Send the e-mail
-		if ($email != "")
-		{
-			if (!Helper::sendEmail($from, $fromName, $email, $subject, $message, 1, null, $mailBcc, null, $mailSection, func_get_args()))
-			{
-				\JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
-			}
-		}
+        // Send the e-mail
+        if ($email != "") {
+            if (!Helper::sendEmail(
+                $from,
+                $fromName,
+                $email,
+                $subject,
+                $message,
+                1,
+                null,
+                $mailBcc,
+                null,
+                $mailSection,
+                func_get_args()
+            )) {
+                \JError::raiseWarning(21, \JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

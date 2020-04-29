@@ -18,71 +18,68 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityField extends RedshopEntity
 {
-	/**
-	 * @var    array
-	 *
-	 * @since  2.0.6
-	 */
-	protected $fieldValues;
+    /**
+     * @var    array
+     *
+     * @since  2.0.6
+     */
+    protected $fieldValues;
 
-	/**
-	 * Method for get field values
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.6
-	 */
-	public function getFieldValues()
-	{
-		if (null == $this->fieldValues)
-		{
-			$this->loadFieldValues();
-		}
+    /**
+     * Method for get field values
+     *
+     * @return  array
+     *
+     * @since   2.0.6
+     */
+    public function getFieldValues()
+    {
+        if (null == $this->fieldValues) {
+            $this->loadFieldValues();
+        }
 
-		return $this->fieldValues;
-	}
+        return $this->fieldValues;
+    }
 
-	/**
-	 * Method for get group of this field
-	 *
-	 * @return  null|RedshopEntityField_Group
-	 *
-	 * @since   2.1.0
-	 */
-	public function getGroup()
-	{
-		if (!$this->hasId() || $this->get('groupId') === null)
-		{
-			return null;
-		}
+    /**
+     * Method for load field values
+     *
+     * @return  self
+     *
+     * @since   2.0.6
+     */
+    protected function loadFieldValues()
+    {
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		return RedshopEntityField_Group::getInstance((int) $this->get('groupId'));
-	}
+        $db = JFactory::getDbo();
 
-	/**
-	 * Method for load field values
-	 *
-	 * @return  self
-	 *
-	 * @since   2.0.6
-	 */
-	protected function loadFieldValues()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+        $query = $db->getQuery(true)
+            ->select('*')
+            ->from($db->qn('#__redshop_fields_value'))
+            ->where($db->qn('field_id') . ' = ' . (int)$this->getId())
+            ->order($db->qn('value_id') . ' ASC');
 
-		$db = JFactory::getDbo();
+        $this->fieldValues = $db->setQuery($query)->loadObjectList();
 
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__redshop_fields_value'))
-			->where($db->qn('field_id') . ' = ' . (int) $this->getId())
-			->order($db->qn('value_id') . ' ASC');
+        return $this;
+    }
 
-		$this->fieldValues = $db->setQuery($query)->loadObjectList();
+    /**
+     * Method for get group of this field
+     *
+     * @return  null|RedshopEntityField_Group
+     *
+     * @since   2.1.0
+     */
+    public function getGroup()
+    {
+        if (!$this->hasId() || $this->get('groupId') === null) {
+            return null;
+        }
 
-		return $this;
-	}
+        return RedshopEntityField_Group::getInstance((int)$this->get('groupId'));
+    }
 }

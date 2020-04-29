@@ -31,8 +31,9 @@ class RedshopControllerProduct_mini extends RedshopController
     }
 
     /**
-     * @param bool $cachable
-     * @param array $urlparams
+     * @param   bool   $cachable
+     * @param   array  $urlparams
+     *
      * @return JControllerLegacy|void
      */
     public function display($cachable = false, $urlparams = array())

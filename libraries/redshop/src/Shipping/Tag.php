@@ -180,53 +180,6 @@ class Tag
     }
 
     /**
-     * Replace Shipping Address block {shipping_address}
-     *
-     * @param   string   $templateHtml     Template content
-     * @param   object   $shippingAddress  Shipping address
-     * @param   boolean  $sendMail         Is in send mail
-     * @param   boolean  $shippingEnable   Enable shipping or not
-     *
-     * @return  void
-     * @throws  \Exception
-     *
-     * @since   2.1.0
-     */
-    protected static function replaceShippingAddressBlock(&$templateHtml, $shippingAddress, $sendMail, $shippingEnable)
-    {
-        if (null === $shippingAddress || $shippingAddress === new \stdClass || $shippingEnable === false) {
-            $templateHtml = str_replace("{shipping_address}", '', $templateHtml);
-
-            return;
-        }
-
-        $shippingLayout = $sendMail === true ? 'mail.shipping' : 'cart.shipping';
-
-        \JPluginHelper::importPlugin('redshop_shipping');
-        \RedshopHelperUtility::getDispatcher()->trigger('onBeforeRenderShippingAddress', array(&$shippingAddress));
-
-        $html = \RedshopLayoutHelper::render(
-            $shippingLayout,
-            array('shippingaddresses' => $shippingAddress),
-            null,
-            array('client' => 0)
-        );
-
-        $section = $shippingAddress->is_company == 1 ? \RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS :
-            \RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
-
-        // Additional functionality - more flexible way
-        $templateHtml = \Redshop\Helper\ExtraFields::displayExtraFields(
-            $section,
-            $shippingAddress->users_info_id,
-            "",
-            $templateHtml
-        );
-
-        $templateHtml = str_replace("{shipping_address}", $html, $templateHtml);
-    }
-
-    /**
      * Replace Shipping Address block {shipping_address_start}...{shipping_address_end}
      *
      * @param   string   $templateHtml     Template content
@@ -384,6 +337,97 @@ class Tag
     }
 
     /**
+     * Replace Shipping Address block {shipping_address}
+     *
+     * @param   string   $templateHtml     Template content
+     * @param   object   $shippingAddress  Shipping address
+     * @param   boolean  $sendMail         Is in send mail
+     * @param   boolean  $shippingEnable   Enable shipping or not
+     *
+     * @return  void
+     * @throws  \Exception
+     *
+     * @since   2.1.0
+     */
+    protected static function replaceShippingAddressBlock(&$templateHtml, $shippingAddress, $sendMail, $shippingEnable)
+    {
+        if (null === $shippingAddress || $shippingAddress === new \stdClass || $shippingEnable === false) {
+            $templateHtml = str_replace("{shipping_address}", '', $templateHtml);
+
+            return;
+        }
+
+        $shippingLayout = $sendMail === true ? 'mail.shipping' : 'cart.shipping';
+
+        \JPluginHelper::importPlugin('redshop_shipping');
+        \RedshopHelperUtility::getDispatcher()->trigger('onBeforeRenderShippingAddress', array(&$shippingAddress));
+
+        $html = \RedshopLayoutHelper::render(
+            $shippingLayout,
+            array('shippingaddresses' => $shippingAddress),
+            null,
+            array('client' => 0)
+        );
+
+        $section = $shippingAddress->is_company == 1 ? \RedshopHelperExtrafields::SECTION_COMPANY_SHIPPING_ADDRESS :
+            \RedshopHelperExtrafields::SECTION_PRIVATE_SHIPPING_ADDRESS;
+
+        // Additional functionality - more flexible way
+        $templateHtml = \Redshop\Helper\ExtraFields::displayExtraFields(
+            $section,
+            $shippingAddress->users_info_id,
+            "",
+            $templateHtml
+        );
+
+        $templateHtml = str_replace("{shipping_address}", $html, $templateHtml);
+    }
+
+    /**
+     * @param   string  $templateDesc
+     * @param   int     $shippingRateId
+     * @param   int     $shippingBoxPostId
+     * @param   int     $userId
+     * @param   int     $usersInfoId
+     * @param   int     $orderTotal
+     * @param   int     $orderSubtotal
+     * @param   array   $post
+     *
+     * @return array
+     * @since 3.0
+     */
+    public static function replaceShippingTemplate(
+        $templateDesc = "",
+        $shippingRateId = 0,
+        $shippingBoxPostId = 0,
+        $userId = 0,
+        $usersInfoId = 0,
+        $orderTotal = 0,
+        $orderSubtotal = 0,
+        $post = array()
+    ) {
+        $templateDesc = \RedshopTagsReplacer::_(
+            'shippingmethod',
+            $templateDesc,
+            array(
+                'user_id'          => $userId,
+                'users_info_id'    => $usersInfoId,
+                'shipping_box_id'  => $shippingBoxPostId,
+                'ordertotal'       => $orderTotal,
+                'order_subtotal'   => $orderSubtotal,
+                'post'             => $post,
+                'shipping_rate_id' => $shippingRateId
+            )
+        );
+
+        $shippingRateId = \RedshopTagsSectionsShippingMethod::$shipping_rate_id;
+        \Joomla\CMS\Plugin\PluginHelper::importPlugin('redshop_checkout');
+        \JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$templateDesc));
+
+        return array("template_desc" => $templateDesc, "shipping_rate_id" => $shippingRateId);
+    }
+
+    /**
      * @param   string  $boxTemplateDesc
      * @param   int     $shippingBoxPostId
      *
@@ -434,7 +478,7 @@ class Tag
         }
 
         $boxTemplateDesc = str_replace("{shipping_box_list}", $shippingBoxList, $boxTemplateDesc);
-        $style             = 'none';
+        $style           = 'none';
 
         $shippingMethod = \RedshopHelperOrder::getShippingMethodInfo();
 
@@ -451,50 +495,5 @@ class Tag
         $boxTemplateDesc = "<div style='display:$style;'>" . $boxTemplateDesc . "</div>";
 
         return $boxTemplateDesc;
-    }
-
-    /**
-     * @param   string  $templateDesc
-     * @param   int     $shippingRateId
-     * @param   int     $shippingBoxPostId
-     * @param   int     $userId
-     * @param   int     $usersInfoId
-     * @param   int     $orderTotal
-     * @param   int     $orderSubtotal
-     * @param   array   $post
-     *
-     * @return array
-     * @since 3.0
-     */
-    public static function replaceShippingTemplate(
-        $templateDesc = "",
-        $shippingRateId = 0,
-        $shippingBoxPostId = 0, 
-        $userId = 0, 
-        $usersInfoId = 0, 
-        $orderTotal = 0,
-        $orderSubtotal = 0,
-        $post = array()
-    )
-    {
-        $templateDesc = \RedshopTagsReplacer::_(
-            'shippingmethod',
-            $templateDesc,
-            array(
-                'user_id' => $userId,
-                'users_info_id' => $usersInfoId,
-                'shipping_box_id' => $shippingBoxPostId,
-                'ordertotal' => $orderTotal,
-                'order_subtotal' => $orderSubtotal,
-                'post' => $post,
-                'shipping_rate_id' => $shippingRateId
-            )
-        );
-
-        $shippingRateId = \RedshopTagsSectionsShippingMethod::$shipping_rate_id;
-        \Joomla\CMS\Plugin\PluginHelper::importPlugin('redshop_checkout');
-        \JDispatcher::getInstance()->trigger('onRenderShippingMethod', array(&$templateDesc));
-
-        return array("template_desc" => $templateDesc, "shipping_rate_id" => $shippingRateId);
     }
 }

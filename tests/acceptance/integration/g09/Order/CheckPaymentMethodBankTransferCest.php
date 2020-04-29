@@ -1,63 +1,193 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-/**
- * Class CouponCheckoutProductCest
- *
- * @package  AcceptanceTester
- *
- * @link     http://codeception.com/docs/07-AdvancedUsage
- *
- * @since    1.4
- */
+
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
 use AcceptanceTester\CategoryManagerJoomla3Steps as CategorySteps;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
 use AcceptanceTester\UserManagerJoomla3Steps as UserSteps;
 use AcceptanceTester\OrderManagerJoomla3Steps as OrderSteps;
 
+/**
+ * Class CheckPaymentMethodBankTransferCest
+ * @since 1.4.0
+ */
 class CheckPaymentMethodBankTransferCest
 {
 	/**
+	 * @var \Faker\Generator
+	 * @since 1.4.0
+	 */
+	public $faker;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $categoryName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $productName;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $productPrice;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $total;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $subtotal;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $randomProductNumber;
+
+	/**
+	 * @var int
+	 * @since 1.4.0
+	 */
+	public $randomProductPrice;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $userName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $password;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $email;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $group;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $firstName;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $lastName;
+
+	/**
+	 * @var array
+	 * @since 1.4.0
+	 */
+	protected $cartSetting;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $paymentMethod;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $minimumPerProduct;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $minimumQuantity;
+
+	/**
+	 * @var integer
+	 * @since 1.4.0
+	 */
+	public $maximumQuantity;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $productStart;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $productEnd;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $userNameDelete;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	protected $searchOrder;
+
+	/**
 	 * CheckPaymentMethodBankTransferCest constructor.
+	 * @since 1.4.0
 	 */
 	public function __construct()
 	{
-		$this->faker                        = Faker\Factory::create();
-		$this->randomCategoryName           = $this->faker->bothify('CategoryTesting ??####?');
-		$this->randomProductName            = $this->faker->bothify('TestingProductManagement ??####?');
-		$this->minimumPerProduct            = 2;
-		$this->minimumQuantity              = 2;
-		$this->maximumQuantity              = 5;
-		$this->productStart                 = "2018-05-05";
-		$this->productEnd                   = "2018-07-08";
-		$this->randomProductNumber          = $this->faker->numberBetween(999, 9999);
-		$this->randomProductPrice           = rand(9, 19);
-		$this->discountPriceThanPrice       = 100;
-		$this->statusProducts               = 'Product on sale';
-		$this->searchCategory               = 'Category';
-		$this->newProductName               = 'New-Test Product' . rand(99, 999);
-		$this->priceProductForThan          = 10;
-		$this->totalAmount                  = $this->faker->numberBetween(100, 999);
-		$this->discountAmount               = $this->faker->numberBetween(10, 100);
-		$this->userName                    = $this->faker->bothify('UserAdministratorCest ?##?');
-		$this->password                    = $this->faker->bothify('Password ?##?');
-		$this->email                       = $this->faker->email;
-		$this->emailsave                   = $this->faker->email;
-		$this->shopperGroup                = 'Default Private';
-		$this->group                       = 'Registered';
-		$this->firstName                   = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
-		$this->lastName                    = 'Last';
-		$this->firstNameSave               = "FirstName";
-		$this->lastNameSave                = "LastName";
-		$this->emailWrong                  = "email";
-		$this->userNameDelete              = $this->firstName;
-		$this->searchOrder                 = $this->firstName.' '.$this->lastName ;
-		$this->paymentMethod               = 'RedSHOP - Bank Transfer Payment';
+		$this->faker               = Faker\Factory::create();
+		$this->categoryName        = $this->faker->bothify('CategoryTesting ??####?');
+		$this->productName         = $this->faker->bothify('TestingProductManagement ??####?');
+		$this->minimumPerProduct   = 2;
+		$this->minimumQuantity     = 2;
+		$this->maximumQuantity     = 5;
+		$this->productStart        = "2018-05-05";
+		$this->productEnd          = "2018-07-08";
+		$this->randomProductNumber = $this->faker->numberBetween(999, 9999);
+		$this->randomProductPrice  = rand(9, 19);
+		$this->userName            = $this->faker->bothify('UserAdministratorCest ?##?');
+		$this->password            = $this->faker->bothify('Password ?##?');
+		$this->email               = $this->faker->email;
+		$this->shopperGroup        = 'Default Private';
+		$this->group               = 'Registered';
+		$this->firstName           = $this->faker->bothify('ManageUserAdministratorCest FN ?##?');
+		$this->lastName            = 'Last';
+		$this->userNameDelete      = $this->firstName;
+		$this->searchOrder         = $this->firstName.' '.$this->lastName ;
+		$this->paymentMethod       = 'RedSHOP - Bank Transfer Payment';
 
 		$this->cartSetting = array(
 			"addCart"           => 'product',
@@ -80,6 +210,7 @@ class CheckPaymentMethodBankTransferCest
 	 * @param AcceptanceTester $I
 	 * @param \Codeception\Scenario $scenario
 	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	public function checkPaymentMethodOnOrderDetail(AcceptanceTester $I, \Codeception\Scenario $scenario)
 	{
@@ -90,15 +221,15 @@ class CheckPaymentMethodBankTransferCest
 
 		$I->wantTo('Test User creation with save button in Administrator');
 		$I = new UserSteps($scenario);
-		$I->addUser($this->userName, $this->password, $this->emailsave, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
+		$I->addUser($this->userName, $this->password, $this->email, $this->group, $this->shopperGroup, $this->firstName, $this->lastName, 'saveclose');
 
 		$I->wantTo('Create Category in Administrator');
 		$I = new CategorySteps($scenario);
-		$I->addCategorySave($this->randomCategoryName);
+		$I->addCategorySave($this->categoryName);
 
 		$I->wantTo('I want to add product inside the category');
 		$I = new ProductSteps($scenario);
-		$I->createProductSave($this->randomProductName, $this->randomCategoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->productStart, $this->productEnd);
+		$I->createProductSave($this->productName, $this->categoryName, $this->randomProductNumber, $this->randomProductPrice, $this->minimumPerProduct, $this->minimumQuantity, $this->maximumQuantity, $this->productStart, $this->productEnd);
 
 		$I->wantTo('setup up one page checkout at admin');
 		$I = new ConfigurationSteps($scenario);
@@ -106,17 +237,18 @@ class CheckPaymentMethodBankTransferCest
 
 		$I->wantTo('Add products in cart');
 		$I = new OrderSteps($scenario);
-		$I->addProductToCartWithBankTransfer($this->randomProductName, $this->randomCategoryName, $this->randomProductPrice, $this->userName, $this->password );
+		$I->addProductToCartWithBankTransfer($this->productName, $this->categoryName, $this->randomProductPrice, $this->userName, $this->password );
 
 		$I = new ConfigurationSteps($scenario);
 		$I->wantTo('Check Order');
-		$I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName, $this->randomProductName, $this->randomCategoryName, $this->paymentMethod);
+		$I->checkPriceTotal($this->randomProductPrice, $this->searchOrder, $this->firstName, $this->lastName, $this->productName, $this->categoryName, $this->paymentMethod);
 	}
 
 	/**
 	 * @param AcceptanceTester $I
 	 * @param $scenario
 	 * @throws Exception
+	 * @since 1.4.0
 	 */
 	public function clearAllData(AcceptanceTester $I, $scenario)
 	{
@@ -129,11 +261,11 @@ class CheckPaymentMethodBankTransferCest
 
 		$I->wantTo('Deletion Product in Administrator');
 		$I = new ProductSteps($scenario);
-		$I->deleteProduct($this->randomProductName);
+		$I->deleteProduct($this->productName);
 
 		$I->wantTo('Deletion Category in Administrator');
 		$I = new CategorySteps($scenario);
-		$I->deleteCategory($this->randomCategoryName);
+		$I->deleteCategory($this->categoryName);
 
 		$I->wantTo('Deletion of User in Administrator');
 		$I = new UserSteps($scenario);

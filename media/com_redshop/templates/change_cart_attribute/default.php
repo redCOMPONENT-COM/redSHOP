@@ -3,5 +3,5 @@
 {attribute_template:attributes}
 
 <div class="buttons">
-	{apply_button} {cancel_button}
+    {apply_button} {cancel_button}
 </div>

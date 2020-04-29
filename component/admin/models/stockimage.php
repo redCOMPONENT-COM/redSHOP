@@ -12,113 +12,116 @@ defined('_JEXEC') or die;
 
 class RedshopModelStockimage extends RedshopModel
 {
-	public $_data = null;
+    public $_data = null;
 
-	public $_total = null;
+    public $_total = null;
 
-	public $_pagination = null;
+    public $_pagination = null;
 
-	public $_table_prefix = null;
+    public $_table_prefix = null;
 
-	public $_context = null;
+    public $_context = null;
 
-	public function __construct()
-	{
-		parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
 
-		$app = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
-		$this->_context      = 'stock_amount_id';
-		$this->_table_prefix = '#__redshop_';
+        $this->_context      = 'stock_amount_id';
+        $this->_table_prefix = '#__redshop_';
 
-		$limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		$this->setState('filter', $filter);
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
-	}
+        $limit      = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+        $limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+        $filter     = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
+        $limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+        $this->setState('filter', $filter);
+        $this->setState('limit', $limit);
+        $this->setState('limitstart', $limitstart);
+    }
 
-	public function getData()
-	{
-		if (empty($this->_data))
-		{
-			$query       = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
+    public function getData()
+    {
+        if (empty($this->_data)) {
+            $query       = $this->_buildQuery();
+            $this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+        }
 
-		return $this->_data;
-	}
+        return $this->_data;
+    }
 
-	public function getTotal()
-	{
-		if (empty($this->_total))
-		{
-			$query        = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
+    public function _buildQuery()
+    {
+        $filter  = $this->getState('filter');
+        $orderby = $this->_buildOrderBy();
 
-		return $this->_total;
-	}
+        $where = '';
 
-	public function getPagination()
-	{
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
-		}
+        if ($filter) {
+            $where = " WHERE si.stock_amount_image_tooltip LIKE '%" . $filter . "%' ";
+        }
 
-		return $this->_pagination;
-	}
+        $query = "SELECT * FROM " . $this->_table_prefix . "stockroom_amount_image AS si "
+            . "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id=si.stockroom_id "
+            . $where
+            . $orderby;
 
-	public function _buildQuery()
-	{
-		$filter  = $this->getState('filter');
-		$orderby = $this->_buildOrderBy();
+        return $query;
+    }
 
-		$where = '';
+    public function _buildOrderBy()
+    {
+        $db  = JFactory::getDbo();
+        $app = JFactory::getApplication();
 
-		if ($filter)
-		{
-			$where = " WHERE si.stock_amount_image_tooltip LIKE '%" . $filter . "%' ";
-		}
+        $filter_order     = $app->getUserStateFromRequest(
+            $this->_context . 'filter_order',
+            'filter_order',
+            'stock_amount_id'
+        );
+        $filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "stockroom_amount_image AS si "
-			. "LEFT JOIN " . $this->_table_prefix . "stockroom AS s ON s.stockroom_id=si.stockroom_id "
-			. $where
-			. $orderby;
+        $orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
-		return $query;
-	}
+        return $orderby;
+    }
 
-	public function _buildOrderBy()
-	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
+    public function getPagination()
+    {
+        if (empty($this->_pagination)) {
+            jimport('joomla.html.pagination');
+            $this->_pagination = new JPagination(
+                $this->getTotal(),
+                $this->getState('limitstart'),
+                $this->getState('limit')
+            );
+        }
 
-		$filter_order     = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'stock_amount_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+        return $this->_pagination;
+    }
 
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
+    public function getTotal()
+    {
+        if (empty($this->_total)) {
+            $query        = $this->_buildQuery();
+            $this->_total = $this->_getListCount($query);
+        }
 
-		return $orderby;
-	}
+        return $this->_total;
+    }
 
-	public function getStockAmountOption($select = 0)
-	{
-		$option   = array();
-		$option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
-		$option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));
-		$option[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_LOWER_THAN'));
+    public function getStockAmountOption($select = 0)
+    {
+        $option   = array();
+        $option[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
+        $option[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_HIGHER_THAN'));
+        $option[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_EQUAL'));
+        $option[] = JHTML::_('select.option', 3, JText::_('COM_REDSHOP_LOWER_THAN'));
 
-		if ($select != 0)
-		{
-			$option = $option[$select]->text;
-		}
+        if ($select != 0) {
+            $option = $option[$select]->text;
+        }
 
-		return $option;
-	}
+        return $option;
+    }
 }

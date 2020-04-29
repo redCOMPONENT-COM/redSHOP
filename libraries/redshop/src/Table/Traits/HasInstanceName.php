@@ -18,26 +18,25 @@ defined('_JEXEC') or die;
  */
 trait HasInstanceName
 {
-	/**
-	 * Name of the instance.
-	 *
-	 * @var    string
-	 */
-	protected $instanceName;
+    /**
+     * Name of the instance.
+     *
+     * @var    string
+     */
+    protected $instanceName;
 
-	/**
-	 * Gets the name of the latest extending class.
-	 * For a class named ContentTableArticles will return Articles
-	 *
-	 * @return  string
-	 */
-	public function getInstanceName()
-	{
-		if (null === $this->instanceName)
-		{
-			$this->instanceName = strtolower(str_replace('Table', '', strstr(get_class($this), 'Table')));
-		}
+    /**
+     * Gets the name of the latest extending class.
+     * For a class named ContentTableArticles will return Articles
+     *
+     * @return  string
+     */
+    public function getInstanceName()
+    {
+        if (null === $this->instanceName) {
+            $this->instanceName = strtolower(str_replace('Table', '', strstr(get_class($this), 'Table')));
+        }
 
-		return $this->instanceName;
-	}
+        return $this->instanceName;
+    }
 }

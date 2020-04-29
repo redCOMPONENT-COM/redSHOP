@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class RedshopEntityOrder_Item_Accessory extends RedshopEntity
 {
-	/**
-	 * Get the associated table
-	 *
-	 * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
-	 *
-	 * @return  RedshopTable
-	 */
-	public function getTable($name = null)
-	{
-		return JTable::getInstance('Order_Acc_Item', 'Table');
-	}
+    /**
+     * Get the associated table
+     *
+     * @param   string  $name  Main name of the Table. Example: Article for ContentTableArticle
+     *
+     * @return  RedshopTable
+     */
+    public function getTable($name = null)
+    {
+        return JTable::getInstance('Order_Acc_Item', 'Table');
+    }
 }

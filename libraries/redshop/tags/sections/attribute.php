@@ -16,37 +16,37 @@ defined('_JEXEC') or die;
  */
 class RedshopTagsSectionsAttribute extends RedshopTagsAbstract
 {
-	/**
-	 * @var    array
-	 *
-	 * @since  2.0.4
-	 */
-	public $tags = array(
-		'{product_attribute}'
-	);
+    /**
+     * @var    array
+     *
+     * @since  2.0.4
+     */
+    public $tags = array(
+        '{product_attribute}'
+    );
 
-	/**
-	 * Init
-	 *
-	 * @return  void
-	 *
-	 * @since   2.0.4
-	 */
-	public function init()
-	{
-		$productAttribute = isset($this->data['product_attribute']) ? $this->data['product_attribute'] : '';
+    /**
+     * Init
+     *
+     * @return  void
+     *
+     * @since   2.0.4
+     */
+    public function init()
+    {
+        $productAttribute = isset($this->data['product_attribute']) ? $this->data['product_attribute'] : '';
 
-		$html = RedshopLayoutHelper::render(
-			'tags.product.product_attribute',
-			array(
-				'productAttribute' => $productAttribute,
-			),
-			'',
-			array(
-				'component' => 'com_redshop'
-			)
-		);
+        $html = RedshopLayoutHelper::render(
+            'tags.product.product_attribute',
+            array(
+                'productAttribute' => $productAttribute,
+            ),
+            '',
+            array(
+                'component' => 'com_redshop'
+            )
+        );
 
-		$this->addReplace('{product_attribute}', $html);
-	}
+        $this->addReplace('{product_attribute}', $html);
+    }
 }

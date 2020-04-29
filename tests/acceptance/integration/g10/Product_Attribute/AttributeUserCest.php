@@ -1,10 +1,9 @@
 <?php
 /**
- * 1. create new product with attribute
- * 2. create user belong shopper group
- * 3. go to frontpage and add to cart for product
- * 4. add to cart with product attibute
- * 5. go to checkout final
+ * @package     redSHOP
+ * @subpackage  Cest
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use AcceptanceTester\ProductManagerJoomla3Steps as ProductSteps;
@@ -14,6 +13,7 @@ use AcceptanceTester\ProductCheckoutManagerJoomla3Steps as ProductCheckoutSteps;
 use AcceptanceTester\ShippingSteps as ShippingSteps;
 use AcceptanceTester\TaxRateSteps as TaxRateSteps;
 use AcceptanceTester\TaxGroupSteps as TaxGroupSteps;
+use AcceptanceTester\UserManagerJoomla3Steps;
 use Configuration\ConfigurationSteps as ConfigurationSteps;
 
 /**
@@ -24,77 +24,266 @@ use Configuration\ConfigurationSteps as ConfigurationSteps;
 class AttributeUserCest
 {
 	/**
-	 * @var string
-	 */
-	public $category;
-
-	/**
-	 * @var string
-	 */
-	public $shopperName;
-
-	/**
-	 * @var string
-	 */
-	public $shopperType;
-
-	/**
-	 * @var string
-	 */
-	public $customerType;
-
-	/**
-	 * @var string
-	 */
-	public $shopperGroupPortal;
-
-	/**
 	 * @var \Faker\Generator
+	 * @since  2.1.0
 	 */
 	public $faker;
 
 	/**
 	 * @var string
+	 * @since  2.1.0
+	 */
+	public $category;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	public $shopperName;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	public $shopperType;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	public $customerType;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	public $shopperGroupPortal;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
 	 */
 	public $taxGroupName;
 
 	/**
 	 * @var integer
+	 * @since  2.1.0
 	 */
 	public $noPage;
 
 	/**
 	 * @var string
+	 * @since  2.1.0
 	 */
 	public $productName;
 
 	/**
 	 * @var integer
+	 * @since  2.1.0
 	 */
 	public $productPrice = 70;
 
 	/**
 	 * @var string
+	 * @since  2.1.0
 	 */
 	public $minimumPerProduct = '1';
 
 	/**
 	 * @var int|string
+	 * @since  2.1.0
 	 */
 	public $productNumber = '1';
 
 	/**
 	 * @var integer
+	 * @since  2.1.0
 	 */
 	public $minimumQuantity = 1;
 
 	/**
+	 * @var int
+	 * @since  2.1.0
+	 */
+	protected $maximumQuantity;
+
+	/**
 	 * @var array
+	 * @since  2.1.0
 	 */
 	public $attributes;
 
 	/**
+	 * @var int
+	 * @since  2.1.0
+	 */
+	protected $shippingRate;
+
+	/**
+	 * @var int
+	 * @since  2.1.0
+	 */
+	protected $shippingCheckout;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $catalog;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $showPrice;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $enableQuotation;
+
+	/**
+	 * @var null
+	 * @since  2.1.0
+	 */
+	protected $showVat;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $userName;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $lastName;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $subTotal;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $vatPrice;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $total;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $shippingPrice;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $shippingMethod;
+
+	/**
+	 * @var array
+	 * @since  2.1.0
+	 */
+	protected $shipping;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $taxRateName;
+
+	/**
+	 * @var float
+	 * @since  2.1.0
+	 */
+	protected $taxRateValue;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $countryName;
+
+	/**
+	 * @var int
+	 * @since  2.1.0
+	 */
+	protected $taxRateValueNegative;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $taxRateValueString;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $vatCalculation;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $vatAfter;
+
+	/**
+	 * @var int
+	 * @since  2.1.0
+	 */
+	protected $vatNumber;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $calculationBase;
+
+	/**
+	 * @var string
+	 * @since  2.1.0
+	 */
+	protected $requiredVAT;
+
+	/**
 	 * AttributeUserCest constructor.
+	 * @since  2.1.0
 	 */
 	public function __construct()
 	{
@@ -162,7 +351,7 @@ class AttributeUserCest
 		$this->vatAfter        = 'after';
 		$this->vatNumber       = 0;
 		$this->calculationBase = 'billing';
-		$this->requiVAT        = 'no';
+		$this->requiredVAT     = 'no';
 	}
 
 	/**
@@ -172,6 +361,7 @@ class AttributeUserCest
 	 * @return  void
 	 *
 	 * @throws  Exception
+	 * @since  2.1.0
 	 */
 	public function testProductAdministrator(AcceptanceTester $client, \Codeception\Scenario $scenario)
 	{
@@ -190,7 +380,7 @@ class AttributeUserCest
 
 		$client->wantTo('Configuration for apply VAT');
 		(new ConfigurationSteps($scenario))->setupVAT($this->countryName, null, $this->taxGroupName, $this->vatCalculation,
-			$this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT
+			$this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiredVAT
 		);
 
 		$client->wantTo('Create new product with attribute');
@@ -205,12 +395,12 @@ class AttributeUserCest
 		);
 
 		$client->wantTo('Test User creation with save button in Administrator');
-		(new \AcceptanceTester\UserManagerJoomla3Steps($scenario))->addUser(
+		(new UserManagerJoomla3Steps($scenario))->addUser(
 			$this->userName, $this->userName, $this->email, $this->group, $this->shopperName, $this->firstName, $this->lastName, 'save'
 		);
 
 		$client->wantTo('Add shipping rate');
-		(new \AcceptanceTester\ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping);
+		(new ShippingSteps($scenario))->createShippingRateStandard($this->shippingMethod, $this->shipping);
 	}
 
 	/**
@@ -220,6 +410,7 @@ class AttributeUserCest
 	 * @return  void
 	 *
 	 * @throws Exception
+	 * @since 2.1.0
 	 */
 	public function checkoutWithAttributeProduct(AcceptanceTester $client, \Codeception\Scenario $scenario)
 	{
@@ -234,6 +425,7 @@ class AttributeUserCest
 	 * @param AcceptanceTester $client
 	 * @param $scenario
 	 * @throws Exception
+	 * @since  2.1.0
 	 */
 	public function clearUpDatabase(AcceptanceTester $client, $scenario)
 	{
@@ -251,11 +443,11 @@ class AttributeUserCest
 		$client = new CategorySteps($scenario);
 		$client->deleteCategory($this->category);
 		$client->wantTo('Delete User creation in Administrator');
-		$client = new \AcceptanceTester\UserManagerJoomla3Steps(($scenario));
+		$client = new UserManagerJoomla3Steps(($scenario));
 		$client->deleteUser($this->firstName);
 		$client->wantTo('Configuration for apply VAT');
 		(new ConfigurationSteps($scenario))->setupVAT($this->countryName, null, 'Select', $this->vatCalculation,
-			$this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiVAT
+			$this->vatAfter, $this->vatNumber, $this->calculationBase, $this->requiredVAT
 		);
 	}
 }

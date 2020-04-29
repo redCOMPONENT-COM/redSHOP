@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.8" client="site" type="plugin" group="twig" method="upgrade">
-	<name>PLG_TWIG_JHTML</name>
-	<version>1.0.0</version>
-	<redshop>2.1.5</redshop>
-	<creationDate>Jan 2020</creationDate>
-	<author>redCOMPONENT.com</author>
-	<authorEmail>email@redcomponent.com</authorEmail>
-	<authorUrl>www.redcomponent.com</authorUrl>
-	<copyright>(C) 2020 redCOMPONENT.com</copyright>
-	<license>GNU General Public License version 2 or later, see LICENSE.</license>
-	<description>PLG_TWIG_JHTML_DESC</description>
-	<files>
-		<folder>language</folder>
-		<filename plugin="jhtml">jhtml.php</filename>
-		<filename>jhtml.xml</filename>
-	</files>
+    <name>PLG_TWIG_JHTML</name>
+    <version>1.0.0</version>
+    <redshop>2.1.5</redshop>
+    <creationDate>Jan 2020</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>(C) 2020 redCOMPONENT.com</copyright>
+    <license>GNU General Public License version 2 or later, see LICENSE.</license>
+    <description>PLG_TWIG_JHTML_DESC</description>
+    <files>
+        <folder>language</folder>
+        <filename plugin="jhtml">jhtml.php</filename>
+        <filename>jhtml.xml</filename>
+    </files>
 </extension>

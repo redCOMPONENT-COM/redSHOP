@@ -16,12 +16,12 @@
         }
 
         var ops = $.extend({
-            orderingIcon:'add-on', //class name of order icon
-            orderingWrapper:'input-prepend', //ordering control wrapper class name
-            orderingGroup:'sortable-group-id', //sortable-group-id
-            sortableClassName:'dndlist-sortable',
-            placeHolderClassName:'dnd-list-highlight dndlist-place-holder',
-            sortableHandle:'.sortable-handler'
+            orderingIcon: 'add-on', //class name of order icon
+            orderingWrapper: 'input-prepend', //ordering control wrapper class name
+            orderingGroup: 'sortable-group-id', //sortable-group-id
+            sortableClassName: 'dndlist-sortable',
+            placeHolderClassName: 'dnd-list-highlight dndlist-place-holder',
+            sortableHandle: '.sortable-handler'
         }, options);
 
         $('tr', tableWrapper).removeClass(ops.sortableClassName).addClass(ops.sortableClassName);
@@ -33,14 +33,14 @@
         var _handle = $(ops.sortableHandle, $(tableWrapper)).length > 0 ? ops.sortableHandle : '';
 
         $(tableWrapper).sortable({
-            axis:'y',
-            cursor:'move',
-            handle:_handle,
-            items:'tr.' + ops.sortableClassName,
-            placeholder:ops.placeHolderClassName,
-            helper:function (e, ui) {
+            axis: 'y',
+            cursor: 'move',
+            handle: _handle,
+            items: 'tr.' + ops.sortableClassName,
+            placeholder: ops.placeHolderClassName,
+            helper: function (e, ui) {
                 //hard set left position to fix y-axis drag problem on Safari
-                $(ui).css({'left':'0px'})
+                $(ui).css({'left': '0px'})
 
                 ui.children().each(function () {
                     $(this).width($(this).width());
@@ -49,7 +49,7 @@
                 return ui;
             },
 
-            start:function (e, ui) {
+            start: function (e, ui) {
                 root.sortableGroupId = ui.item.attr(ops.orderingGroup);
                 if (root.sortableGroupId) {
                     root.sortableRange = $('tr[' + ops.orderingGroup + '=' + root.sortableGroupId + ']');
@@ -60,20 +60,20 @@
                 root.disableOtherGroupSort(e, ui);
 
                 //Proceed nested list
-                if (nestedList){
+                if (nestedList) {
                     root.hideChidlrenNodes(ui.item.attr('item-id'));
                     root.hideSameLevelChildrenNodes(ui.item.attr('level'));
                     $(tableWrapper).sortable('refresh');
                 }
             },
 
-            stop:function (e, ui) {
+            stop: function (e, ui) {
                 $('td', $(this)).removeClass('dndlist-dragged-row');
-                $(ui.item).css({opacity:0});
+                $(ui.item).css({opacity: 0});
                 $(ui.item).animate({
-                    opacity:1,
-                }, 800, function (){
-                    $(ui.item).css('opacity','');
+                    opacity: 1,
+                }, 800, function () {
+                    $(ui.item).css('opacity', '');
                 });
 
 
@@ -85,7 +85,7 @@
                     root.cloneMarkedCheckboxes();
 
                     // Detach task field if exists
-                    var f  = $('#' + formId);
+                    var f = $('#' + formId);
                     var ft = $('input[name|="task"]', f);
 
                     if (ft.length) ft.detach();
@@ -101,7 +101,7 @@
                 }
                 root.disabledOrderingElements = '';
                 //Proceed nested list
-                if (nestedList){
+                if (nestedList) {
                     root.showChildrenNodes(ui.item);
                     root.showSameLevelChildrenNodes(ui.item);
                     $(tableWrapper).sortable('refresh');
@@ -117,12 +117,12 @@
         this.showChildrenNodes = function (item) {
             item.after(root.childrenNodes)
             root.childrenNodes.show();
-            root.childrenNodes="";
+            root.childrenNodes = "";
         }
 
         this.hideSameLevelChildrenNodes = function (level) {
             root.sameLevelNodes = root.getSameLevelNodes(level);
-            root.sameLevelNodes.each(function (){
+            root.sameLevelNodes.each(function () {
                 _childrenNodes = root.getChildrenNodes($(this).attr('item-id'));
                 _childrenNodes.addClass('child-nodes-tmp-hide');
                 _childrenNodes.hide();
@@ -216,12 +216,12 @@
                 //recalculate order number
                 if (ui.originalPosition.top > ui.position.top) //if item moved up
                 {
-                    if (ui.item.position().top != ui.originalPosition.top){
+                    if (ui.item.position().top != ui.originalPosition.top) {
                         $('[type=text]:hidden', ui.item).attr('value', parseInt($('[type=text]:hidden', ui.item.next()).attr('value')));
                     }
                     $(range).each(function () {
                         var _top = $(this).position().top;
-                        if ( ui.item.get(0) !== $(this).get(0)){
+                        if (ui.item.get(0) !== $(this).get(0)) {
                             if (_top > ui.item.position().top && _top <= ui.originalPosition.top) {
                                 if (sortDir == 'asc') {
                                     var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) + 1;
@@ -234,12 +234,12 @@
                         }
                     });
                 } else if (ui.originalPosition.top < ui.position.top) {
-                    if (ui.item.position().top != ui.originalPosition.top){
+                    if (ui.item.position().top != ui.originalPosition.top) {
                         $('[type=text]:hidden', ui.item).attr('value', parseInt($('[type=text]:hidden', ui.item.prev()).attr('value')));
                     }
                     $(range).each(function () {
                         var _top = $(this).position().top;
-                        if ( ui.item.get(0) !== $(this).get(0)){
+                        if (ui.item.get(0) !== $(this).get(0)) {
                             if (_top < ui.item.position().top && _top >= ui.originalPosition.top) {
                                 if (sortDir == 'asc') {
                                     var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) - 1;
@@ -259,7 +259,7 @@
             $('[name="order[]"]', $(tableWrapper)).attr('name', 'order-tmp');
             $('[type=checkbox]', root.sortableRange).each(function () {
                 var _shadow = $(this).clone();
-                $(_shadow).attr({'checked':'checked', 'shadow':'shadow', 'id':''});
+                $(_shadow).attr({'checked': 'checked', 'shadow': 'shadow', 'id': ''});
                 $('#' + formId).append($(_shadow));
 
                 $('[name="order-tmp"]', $(this).parents('tr')).attr('name', 'order[]');
@@ -272,11 +272,11 @@
         }
 
         this.getChildrenNodes = function (parentId) {
-            return $('tr[parents~="'+parentId+'"]');
+            return $('tr[parents~="' + parentId + '"]');
         }
 
         this.getSameLevelNodes = function (level) {
-            return $('tr[level='+level+']');
+            return $('tr[level=' + level + ']');
         }
 
     }

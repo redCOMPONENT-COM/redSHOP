@@ -1,0 +1,16 @@
+{% set db = redSHOPCall('JFactory', 'getDbo', []) %}
+{% if catId != 0 %}
+<div class="category_product__front">
+    {% else %}
+    <div class="category">
+        {% endif %}
+        {% if catId != 0 %}
+            <h1 class="componentheading{{ db.escape(params.get('pageclass_sfx')) }}">
+                {% if params.get('page_title') != pageHeadingTag %}
+                    {{ db.escape(params.get('page_title')) }}
+                {% else %}
+                    {{ pageHeadingTag }}
+                {% endif %}
+            </h1>
+        {% endif %}
+    </div>

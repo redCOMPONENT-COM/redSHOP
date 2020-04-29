@@ -9,10 +9,9 @@ var del = require("del");
 var fs = require("fs");
 var rename = require("gulp-rename");
 var xml2js = require("xml2js");
-var parser = new xml2js.Parser({ explicitArray: false });
+var parser = new xml2js.Parser({explicitArray: false});
 var path = require("path");
 var composer = require("gulp-composer");
-var gutil = require("gulp-util");
 
 var libraryName = "redshop";
 var extPath = "./libraries/" + libraryName;
@@ -21,15 +20,14 @@ var wwwPath = config.wwwDir + "/libraries/" + libraryName;
 var libraryFiles = [];
 
 
-
 // Clean: library
 gulp.task("clean:libraries.redshop:library", function () {
-    return del(wwwPath, { force: true });
+    return del(wwwPath, {force: true});
 });
 
 // Clean: manifest
 gulp.task("clean:libraries.redshop:manifest", function () {
-    return del(config.wwwDir + "/administrator/manifests/libraries/" + manifestFile, { force: true });
+    return del(config.wwwDir + "/administrator/manifests/libraries/" + manifestFile, {force: true});
 });
 
 // Clean
@@ -68,7 +66,7 @@ gulp.task("copy:libraries.redshop:vendor", function () {
         "!" + extPath + "/vendor/**/Vagrant*",
         "!" + extPath + "/vendor/**/.*.yml",
         "!" + extPath + "/vendor/**/.editorconfig"
-    ], { base: extPath })
+    ], {base: extPath})
         .pipe(gulp.dest(wwwPath));
 });
 
@@ -110,7 +108,7 @@ function getLibraryFiles(callback) {
 // Copy: library
 gulp.task("copy:libraries.redshop:library", function (cb) {
     getLibraryFiles(function (src) {
-        return gulp.src(src, { base: extPath })
+        return gulp.src(src, {base: extPath})
             .pipe(gulp.dest(wwwPath))
             .on("end", cb);
     });
@@ -146,10 +144,9 @@ gulp.task("watch:libraries.redshop:library", function () {
                 // Copy files
                 gulp.src(event.path)
                     .pipe(gulp.dest(path.dirname(deployFile)));
-            }
-            else if (event.type == "deleted") {
+            } else if (event.type == "deleted") {
                 // Delete files
-                del(deployFile, { force: true });
+                del(deployFile, {force: true});
             }
 
             browserSync.reload();

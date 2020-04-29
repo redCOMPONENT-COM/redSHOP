@@ -40,7 +40,7 @@ defined('_JEXEC') or die;
                     <div class="row">
                         <div class="form-group">
                             <label for="name" class="col-md-4">
-								<?php echo JText::_('COM_REDSHOP_SHIPPING_NAME'); ?>:
+                                <?php echo JText::_('COM_REDSHOP_SHIPPING_NAME'); ?>:
                             </label>
                             <div class="col-md-8">
                                 <strong><?php echo JText::_($this->detail->name) ?></strong>
@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
                     <div class="row">
                         <div class="form-group">
                             <label for="name" class="col-md-4">
-								<?php echo JText::_('COM_REDSHOP_SHIPPING_CLASS'); ?>:
+                                <?php echo JText::_('COM_REDSHOP_SHIPPING_CLASS'); ?>:
                             </label>
                             <div class="col-md-8">
                                 <strong><?php echo JText::_($this->detail->element) ?></strong>
@@ -60,10 +60,10 @@ defined('_JEXEC') or die;
                     <div class="row">
                         <div class="form-group">
                             <label for="name" class="col-md-4">
-								<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:
+                                <?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>:
                             </label>
                             <div class="col-md-8">
-								<?php echo $this->lists['published'] ?>
+                                <?php echo $this->lists['published'] ?>
                             </div>
                         </div>
                     </div>
@@ -76,11 +76,11 @@ defined('_JEXEC') or die;
                     <h3 class="text-primary"><?php echo JText::_('COM_REDSHOP_CONFIG') ?></h3>
                 </div>
                 <div class="box-body">
-					<?php
-					JPluginHelper::importPlugin('redshop_shipping');
-					$dispatcher = RedshopHelperUtility::getDispatcher();
-					$payment    = $dispatcher->trigger('onShowConfig', array($this->detail));
-					?>
+                    <?php
+                    JPluginHelper::importPlugin('redshop_shipping');
+                    $dispatcher = RedshopHelperUtility::getDispatcher();
+                    $payment    = $dispatcher->trigger('onShowConfig', array($this->detail));
+                    ?>
                 </div>
             </div>
         </div>

@@ -20,222 +20,207 @@ JLoader::import('redshop.library');
  */
 class PlgSearchRedshop_Products extends JPlugin
 {
-	/**
-	 * Auto load language
-	 *
-	 * @var  string
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Auto load language
+     *
+     * @var  string
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Determine areas searchable by this plugin.
-	 *
-	 * @return  array  An array of search areas.
-	 */
-	public function onContentSearchAreas()
-	{
-		$areas = array(
-			'redshop_products' => JText::_('PLG_SEARCH_REDSHOP_PRODUCTS_SECTION_NAME')
-		);
+    /**
+     * Search content (redSHOP Products).
+     *
+     * The SQL must return the following fields that are used in a common display
+     * routine: href, title, section, created, text, browsernav.
+     *
+     * @param   string  $text      Target search string.
+     * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+     * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+     * @param   mixed   $areas     An array if the search is to be restricted to areas or null to search all areas.
+     *
+     * @return  array  Search results.
+     * @throws  Exception
+     *
+     * @since   1.6
+     */
+    public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
+    {
+        if (is_array($areas)) {
+            if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+                return array();
+            }
+        }
 
-		return $areas;
-	}
+        $text = trim($text);
 
-	/**
-	 * Search content (redSHOP Products).
-	 *
-	 * The SQL must return the following fields that are used in a common display
-	 * routine: href, title, section, created, text, browsernav.
-	 *
-	 * @param   string  $text      Target search string.
-	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
-	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
-	 * @param   mixed   $areas     An array if the search is to be restricted to areas or null to search all areas.
-	 *
-	 * @return  array  Search results.
-	 * @throws  Exception
-	 *
-	 * @since   1.6
-	 */
-	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
-	{
-		if (is_array($areas))
-		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
-		}
+        if ($text == '') {
+            return array();
+        }
 
-		$text = trim($text);
+        $db = JFactory::getDbo();
 
-		if ($text == '')
-		{
-			return array();
-		}
+        $section         = ($this->params->get('showSection')) ? JText::_('PLG_SEARCH_REDSHOP_PRODUCTS') : '';
+        $searchShortDesc = $this->params->get('searchShortDesc', 0);
+        $searchFullDesc  = $this->params->get('searchFullDesc', 0);
 
-		$db = JFactory::getDbo();
+        // Prepare Extra Field Query.
+        $extraQuery = $db->getQuery(true)
+            ->select('DISTINCT(' . $db->qn('itemid') . ')')
+            ->from($db->qn('#__redshop_fields_data'))
+            ->where($db->qn('section') . ' = 1');
 
-		$section         = ($this->params->get('showSection')) ? JText::_('PLG_SEARCH_REDSHOP_PRODUCTS') : '';
-		$searchShortDesc = $this->params->get('searchShortDesc', 0);
-		$searchFullDesc  = $this->params->get('searchFullDesc', 0);
+        // Create the base select statement.
+        $query = $db->getQuery(true)
+            ->select(
+                array(
+                    $db->qn('product_id'),
+                    $db->qn('product_name', 'title'),
+                    $db->qn('product_number', 'number'),
+                    $db->qn('product_s_desc', 'text'),
+                    '"' . $section . '" AS ' . $db->qn('section'),
+                    '"" AS ' . $db->qn('created'),
+                    '"2" AS ' . $db->qn('browsernav'),
+                    $db->qn('cat_in_sefurl')
+                )
+            )
+            ->from($db->qn('#__redshop_product'));
 
-		// Prepare Extra Field Query.
-		$extraQuery = $db->getQuery(true)
-			->select('DISTINCT(' . $db->qn('itemid') . ')')
-			->from($db->qn('#__redshop_fields_data'))
-			->where($db->qn('section') . ' = 1');
+        // Building Where clause
+        switch ($phrase) {
+            case 'exact':
+                $text = $db->quote('%' . $db->escape($text, true) . '%', false);
 
-		// Create the base select statement.
-		$query = $db->getQuery(true)
-			->select(
-				array(
-					$db->qn('product_id'),
-					$db->qn('product_name', 'title'),
-					$db->qn('product_number', 'number'),
-					$db->qn('product_s_desc', 'text'),
-					'"' . $section . '" AS ' . $db->qn('section'),
-					'"" AS ' . $db->qn('created'),
-					'"2" AS ' . $db->qn('browsernav'),
-					$db->qn('cat_in_sefurl')
-				)
-			)
-			->from($db->qn('#__redshop_product'));
+                // Also search in Extra Field Data
+                $extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
+                $whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery . ')';
 
-		// Building Where clause
-		switch ($phrase)
-		{
-			case 'exact':
-				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
+                $wheres = array(
+                    $db->qn('product_name') . ' LIKE ' . $text,
+                    $db->qn('product_number') . ' LIKE ' . $text
+                );
 
-				// Also search in Extra Field Data
-				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
-				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery . ')';
+                if ($searchShortDesc) {
+                    $wheres[] = $db->qn('product_s_desc') . ' LIKE ' . $text;
+                }
 
-				$wheres = array(
-					$db->qn('product_name') . ' LIKE ' . $text,
-					$db->qn('product_number') . ' LIKE ' . $text
-				);
+                if ($searchFullDesc) {
+                    $wheres[] = $db->qn('product_desc') . ' LIKE ' . $text;
+                }
 
-				if ($searchShortDesc)
-				{
-					$wheres[] = $db->qn('product_s_desc') . ' LIKE ' . $text;
-				}
+                $where = '(('
+                    . implode(' OR ', $wheres)
+                    . $whereAppend
+                    . '))';
 
-				if ($searchFullDesc)
-				{
-					$wheres[] = $db->qn('product_desc') . ' LIKE ' . $text;
-				}
+                $query->where($where);
 
-				$where = '(('
-					. implode(' OR ', $wheres)
-					. $whereAppend
-					. '))';
+                break;
 
-				$query->where($where);
+            case 'all':
+            case 'any':
+            default:
+                $words    = explode(' ', $text);
+                $wheres   = array();
+                $orsField = array();
 
-				break;
+                foreach ($words as $word) {
+                    $word = $db->quote('%' . $db->escape($word, true) . '%', false);
 
-			case 'all':
-			case 'any':
-			default:
-				$words    = explode(' ', $text);
-				$wheres   = array();
-				$orsField = array();
+                    $ors = array(
+                        $db->qn('product_name') . ' LIKE ' . $word,
+                        $db->qn('product_number') . ' LIKE ' . $word
+                    );
 
-				foreach ($words as $word)
-				{
-					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
+                    if ($searchShortDesc) {
+                        $ors[] = $db->qn('product_s_desc') . ' LIKE ' . $word;
+                    }
 
-					$ors = array(
-						$db->qn('product_name') . ' LIKE ' . $word,
-						$db->qn('product_number') . ' LIKE ' . $word
-					);
+                    if ($searchFullDesc) {
+                        $ors[] = $db->qn('product_desc') . ' LIKE ' . $word;
+                    }
 
-					if ($searchShortDesc)
-					{
-						$ors[] = $db->qn('product_s_desc') . ' LIKE ' . $word;
-					}
+                    $wheres[] = implode(' OR ', $ors);
 
-					if ($searchFullDesc)
-					{
-						$ors[] = $db->qn('product_desc') . ' LIKE ' . $word;
-					}
+                    // Prepare extra field info where clause
+                    $orsField[] = $db->qn('data_txt') . ' LIKE ' . $word;
+                }
 
-					$wheres[] = implode(' OR ', $ors);
+                // Also search in Extra Field Data
+                $extraQuery->where('(' . implode(' OR ', $orsField) . ')');
+                $whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery->__toString() . ')';
 
-					// Prepare extra field info where clause
-					$orsField[] = $db->qn('data_txt') . ' LIKE ' . $word;
-				}
+                $where = '(('
+                    . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres)
+                    . $whereAppend
+                    . '))';
 
-				// Also search in Extra Field Data
-				$extraQuery->where('(' . implode(' OR ', $orsField) . ')');
-				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery->__toString() . ')';
+                $query->where($where);
 
-				$where = '(('
-						. implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres)
-						. $whereAppend
-						. '))';
+                break;
+        }
 
-				$query->where($where);
+        // Building Ordering
+        switch ($ordering) {
+            case 'oldest':
+                $query->order($db->qn('product_id') . ' ASC');
+                break;
 
-				break;
-		}
+            case 'popular':
+                $query->order($db->qn('visited') . ' ASC');
+                break;
 
-		// Building Ordering
-		switch ($ordering)
-		{
-			case 'oldest':
-				$query->order($db->qn('product_id') . ' ASC');
-				break;
+            case 'alpha':
+                $query->order($db->qn('product_name') . ' ASC');
+                break;
 
-			case 'popular':
-				$query->order($db->qn('visited') . ' ASC');
-				break;
+            case 'newest':
+            default:
+                $query->order($db->qn('product_id') . ' DESC');
 
-			case 'alpha':
-				$query->order($db->qn('product_name') . ' ASC');
-				break;
+                break;
+        }
 
-			case 'newest':
-			default:
-				$query->order($db->qn('product_id') . ' DESC');
+        // Shopper group - choose from manufactures Start
+        $shopperGroupManufacturers = RedshopHelperShopper_Group::getShopperGroupManufacturers();
 
-				break;
-		}
+        if (!empty($shopperGroupManufacturers)) {
+            $query->where($db->qn('manufacturer_id') . ' IN (' . $shopperGroupManufacturers . ')');
+        }
 
-		// Shopper group - choose from manufactures Start
-		$shopperGroupManufacturers = RedshopHelperShopper_Group::getShopperGroupManufacturers();
+        // Only published products
+        $query->where($db->qn('published') . ' = 1');
 
-		if (!empty($shopperGroupManufacturers))
-		{
-			$query->where($db->qn('manufacturer_id') . ' IN (' . $shopperGroupManufacturers . ')');
-		}
+        // Set the query and load the result.
+        $db->setQuery($query, 0, $this->params->def('search_limit', 50));
 
-		// Only published products
-		$query->where($db->qn('published') . ' = 1');
+        try {
+            $rows = $db->loadObjectList();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
 
-		// Set the query and load the result.
-		$db->setQuery($query, 0, $this->params->def('search_limit', 50));
+        $return = array();
 
-		try
-		{
-			$rows = $db->loadObjectList();
-		}
-		catch (Exception $e)
-		{
-			throw new Exception($e->getMessage(), $e->getCode());
-		}
+        foreach ($rows as $key => $row) {
+            $itemId    = RedshopHelperRouter::getItemId($row->product_id, $row->cat_in_sefurl);
+            $row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $itemId;
+            $return[]  = $row;
+        }
 
-		$return = array();
+        return $return;
+    }
 
-		foreach ($rows as $key => $row)
-		{
-			$itemId    = RedshopHelperRouter::getItemId($row->product_id, $row->cat_in_sefurl);
-			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->cat_in_sefurl . "&Itemid=" . $itemId;
-			$return[]  = $row;
-		}
+    /**
+     * Determine areas searchable by this plugin.
+     *
+     * @return  array  An array of search areas.
+     */
+    public function onContentSearchAreas()
+    {
+        $areas = array(
+            'redshop_products' => JText::_('PLG_SEARCH_REDSHOP_PRODUCTS_SECTION_NAME')
+        );
 
-		return $return;
-	}
+        return $areas;
+    }
 }

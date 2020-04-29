@@ -8,6 +8,7 @@
  */
 
 namespace Redshop\Entity\Traits\Product;
+
 use Redshop\Repositories\Product;
 
 /**
@@ -18,150 +19,141 @@ use Redshop\Repositories\Product;
  */
 trait Categories
 {
-	/**
-	 * @var   \RedshopEntitiesCollection  Collections of categories
-	 *
-	 * @since 2.1.0
-	 */
-	protected $categories = null;
+    /**
+     * @var   \RedshopEntitiesCollection  Collections of categories
+     *
+     * @since 2.1.0
+     */
+    protected $categories = null;
 
-	/**
-	 * @param   boolean $reload Force reload even it's cached
-	 *
-	 * @return  \RedshopEntitiesCollection
-	 *
-	 * @since   2.1.0
-	 */
-	public function getCategories($reload = false)
-	{
-		if (null === $this->categories || $reload === true)
-		{
-			$this->loadCategories();
-		}
+    /**
+     * Method for check if this product exist in category.
+     *
+     * @param   integer  $id  ID of category
+     *
+     * @return  boolean
+     * @since   2.1.0
+     */
+    public function inCategory($id)
+    {
+        return in_array($id, is_array($this->getCategories()->ids()) ? $this->getCategories()->ids() : array());
+    }
 
-		return $this->categories;
-	}
+    /**
+     * @param   boolean  $reload  Force reload even it's cached
+     *
+     * @return  \RedshopEntitiesCollection
+     *
+     * @since   2.1.0
+     */
+    public function getCategories($reload = false)
+    {
+        if (null === $this->categories || $reload === true) {
+            $this->loadCategories();
+        }
 
-	/**
-	 * Method for set categories to this product
-	 *
-	 * @param   array   $ids            Array of categories' ids
-	 * @param   boolean $removeAssigned Remove all assigned categories
-	 *
-	 * @return  mixed                     A database cursor resource on success, boolean false on failure.
-	 * @since   2.1.0
-	 */
-	public function setCategories($ids, $removeAssigned = false)
-	{
-		// Merge with assigned categories
-		if ($removeAssigned === false)
-		{
-			$categoryIds = array_merge($this->getCategories()->ids(), $ids);
-		}
-		else
-		{
-			// Or just reset it with new ids
-			$categoryIds = $ids;
-		}
+        return $this->categories;
+    }
 
-		$categoryIds = array_unique($categoryIds);
+    /**
+     * Method for set categories to this product
+     *
+     * @param   array    $ids             Array of categories' ids
+     * @param   boolean  $removeAssigned  Remove all assigned categories
+     *
+     * @return  mixed                     A database cursor resource on success, boolean false on failure.
+     * @since   2.1.0
+     */
+    public function setCategories($ids, $removeAssigned = false)
+    {
+        // Merge with assigned categories
+        if ($removeAssigned === false) {
+            $categoryIds = array_merge($this->getCategories()->ids(), $ids);
+        } else {
+            // Or just reset it with new ids
+            $categoryIds = $ids;
+        }
 
-		$db = \JFactory::getDbo();
+        $categoryIds = array_unique($categoryIds);
 
-		// Delete old assigned categories
-		$query = $db->getQuery(true)
-			->delete($db->qn('#__redshop_product_category_xref'))
-			->where($db->qn('product_id') . ' = ' . (int) $this->get('product_id'));
-		$db->setQuery($query)->execute();
+        $db = \JFactory::getDbo();
 
-		// Assign new category
-		$query->clear()
-			->insert($db->qn('#__redshop_product_category_xref'))
-			->columns($db->qn(array('category_id', 'product_id')));
+        // Delete old assigned categories
+        $query = $db->getQuery(true)
+            ->delete($db->qn('#__redshop_product_category_xref'))
+            ->where($db->qn('product_id') . ' = ' . (int)$this->get('product_id'));
+        $db->setQuery($query)->execute();
 
-		foreach ($categoryIds as $id)
-		{
-			$query->values((int) $id . ' , ' . (int) $this->get('product_id'));
-		}
+        // Assign new category
+        $query->clear()
+            ->insert($db->qn('#__redshop_product_category_xref'))
+            ->columns($db->qn(array('category_id', 'product_id')));
 
-		if (!$db->setQuery($query)->execute())
-		{
-			return false;
-		}
+        foreach ($categoryIds as $id) {
+            $query->values((int)$id . ' , ' . (int)$this->get('product_id'));
+        }
 
-		// Reload new categories for this product
-		$this->loadCategories();
+        if (!$db->setQuery($query)->execute()) {
+            return false;
+        }
 
-		return true;
-	}
+        // Reload new categories for this product
+        $this->loadCategories();
 
-	/**
-	 * Method for check if this product exist in category.
-	 *
-	 * @param   integer $id ID of category
-	 *
-	 * @return  boolean
-	 * @since   2.1.0
-	 */
-	public function inCategory($id)
-	{
-		return in_array($id, is_array($this->getCategories()->ids()) ? $this->getCategories()->ids() : array());
-	}
+        return true;
+    }
 
-	/**
-	 * Method for load child categories
-	 *
-	 * @return  self
-	 *
-	 * @since   2.1.0
-	 */
-	protected function loadCategories()
-	{
-		if (!$this->hasId())
-		{
-			return $this;
-		}
+    /**
+     * Get an item property
+     *
+     * @param   string  $property  Property to get
+     * @param   mixed   $default   Default value to assign if property === null | property === ''
+     *
+     * @return  string
+     * @since   2.1.0
+     */
+    abstract public function get($property, $default = null);
 
-		$this->categories = new \RedshopEntitiesCollection;
-		$categories = Product::getCategoryIds($this->getId());
+    /**
+     * Method for load child categories
+     *
+     * @return  self
+     *
+     * @since   2.1.0
+     */
+    protected function loadCategories()
+    {
+        if (!$this->hasId()) {
+            return $this;
+        }
 
-		if (empty($categories))
-		{
-			return $this;
-		}
+        $this->categories = new \RedshopEntitiesCollection;
+        $categories       = Product::getCategoryIds($this->getId());
 
-		foreach ($categories as $categoryId)
-		{
-			$this->categories->add(\RedshopEntityCategory::getInstance($categoryId));
-		}
+        if (empty($categories)) {
+            return $this;
+        }
 
-		return $this;
-	}
+        foreach ($categories as $categoryId) {
+            $this->categories->add(\RedshopEntityCategory::getInstance($categoryId));
+        }
 
-	/**
-	 * Get an item property
-	 *
-	 * @param   string $property Property to get
-	 * @param   mixed  $default  Default value to assign if property === null | property === ''
-	 *
-	 * @return  string
-	 * @since   2.1.0
-	 */
-	abstract public function get($property, $default = null);
+        return $this;
+    }
 
-	/**
-	 * Check if we have an identifier loaded
-	 *
-	 * @return  boolean
-	 * @since   2.1.0
-	 */
-	abstract public function hasId();
+    /**
+     * Check if we have an identifier loaded
+     *
+     * @return  boolean
+     * @since   2.1.0
+     */
+    abstract public function hasId();
 
-	/**
-	 * Get the id
-	 *
-	 * @return  integer | null
-	 * @since   2.1.0
-	 */
-	abstract public function getId();
+    /**
+     * Get the id
+     *
+     * @return  integer | null
+     * @since   2.1.0
+     */
+    abstract public function getId();
 }

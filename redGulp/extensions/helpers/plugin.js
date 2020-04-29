@@ -8,9 +8,9 @@ var browserSync = require('browser-sync');
 var del = require('del');
 
 /**
- * 
- * @param {*} group 
- * @param {*} name 
+ *
+ * @param {*} group
+ * @param {*} name
  */
 function releasePlugin(group, name) {
     var baseTask = 'plugins.' + group + '.' + name;
@@ -21,12 +21,12 @@ function releasePlugin(group, name) {
 
     // Clean: plugin
     gulp.task('clean:' + baseTask + ':plugin', function () {
-        return del(wwwExtPath, { force: true });
+        return del(wwwExtPath, {force: true});
     });
 
     // Clean: lang
     gulp.task('clean:' + baseTask + ':language', function () {
-        return del(config.wwwDir + '/language/**/*.plg_' + group + '_' + name + '.*', { force: true });
+        return del(config.wwwDir + '/language/**/*.plg_' + group + '_' + name + '.*', {force: true});
     });
 
     // Clean
@@ -40,14 +40,13 @@ function releasePlugin(group, name) {
 
     // Copy: plugin
     gulp.task('copy:' + baseTask + ':plugin',
-        gulp.series('clean:' + baseTask + ':plugin')
-        , function () {
+        function (cb) {
             return gulp.src([
                 extPath + '/**',
                 '!' + extPath + '/language',
                 '!' + extPath + '/language/**'
             ])
-                .pipe(gulp.dest(wwwExtPath));
+                .pipe(gulp.dest(wwwExtPath)).on('end', cb);
         });
 
     // Copy: Language
@@ -69,10 +68,10 @@ function releasePlugin(group, name) {
     // Watch: plugin
     gulp.task('watch:' + baseTask + ':plugin', function (cb) {
         gulp.watch([
-            extPath + '/**/*',
-            '!' + extPath + '/language',
-            '!' + extPath + '/language/**'
-        ],
+                extPath + '/**/*',
+                '!' + extPath + '/language',
+                '!' + extPath + '/language/**'
+            ],
             gulp.series('copy:' + baseTask, browserSync.reload)
         ).on('end', cb);
     });
@@ -80,8 +79,8 @@ function releasePlugin(group, name) {
     // Watch: Language
     gulp.task('watch:' + baseTask + ':language', function (cb) {
         gulp.watch([
-            extPath + '/language/**'
-        ],
+                extPath + '/language/**'
+            ],
             gulp.series('copy:' + baseTask + ':language', browserSync.reload)).on('end', cb);
     });
 

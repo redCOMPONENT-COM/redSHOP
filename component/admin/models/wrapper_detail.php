@@ -46,7 +46,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
     public function setId($id)
     {
-        $this->_id = $id;
+        $this->_id   = $id;
         $this->_data = null;
     }
 
@@ -78,14 +78,14 @@ class RedshopModelWrapper_detail extends RedshopModel
     public function _initData()
     {
         if (empty($this->_data)) {
-            $detail = new stdClass;
-            $detail->wrapper_id = 0;
-            $detail->product_id = $this->_productid;
-            $detail->category_id = 0;
-            $detail->wrapper_price = 0.00;
-            $detail->wrapper_name = null;
-            $detail->wrapper_image = null;
-            $detail->published = 1;
+            $detail                     = new stdClass;
+            $detail->wrapper_id         = 0;
+            $detail->product_id         = $this->_productid;
+            $detail->category_id        = 0;
+            $detail->wrapper_price      = 0.00;
+            $detail->wrapper_name       = null;
+            $detail->wrapper_image      = null;
+            $detail->published          = 1;
             $detail->wrapper_use_to_all = 0;
 
             $this->_data = $detail;
@@ -98,6 +98,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
     /**
      * @param $productId
+     *
      * @return mixed
      */
     public function getProductName($productId)
@@ -108,7 +109,8 @@ class RedshopModelWrapper_detail extends RedshopModel
     }
 
     /**
-     * @param int $productId
+     * @param   int  $productId
+     *
      * @return array
      */
     public function getProductInfo($productId = 0)
@@ -116,13 +118,14 @@ class RedshopModelWrapper_detail extends RedshopModel
         $product = \Redshop\Product\Product::getProductById($productId);
 
         return [
-            'text' => $product->product_name ?? '',
+            'text'  => $product->product_name ?? '',
             'value' => $product->product_id ?? ''
         ];
     }
 
     /**
      * @param $categoryId
+     *
      * @return mixed
      */
     public function getCategoryName($categoryId)
@@ -132,7 +135,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
     public function getCategoryInfo($categoryId = 0)
     {
-        $db = JFactory::getDbo();
+        $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->qn('#__redshop_category'))
@@ -146,12 +149,13 @@ class RedshopModelWrapper_detail extends RedshopModel
     }
 
     /**
-     * @param int $productId
+     * @param   int  $productId
+     *
      * @return mixed
      */
     public function getProductInfoWrapper($productId = 0)
     {
-        $db = \JFactory::getDbo();
+        $db    = \JFactory::getDbo();
         $query = $db->getQuery(true);
 
         $query->select($db->qn('product_name', 'text') . ', ' . $db->qn('product_id', 'value'))
@@ -159,7 +163,9 @@ class RedshopModelWrapper_detail extends RedshopModel
             ->where($db->qn('published') . ' = ' . $db->q('1'));
 
         if (isset($productId) & $productId > 0) {
-                $query->where($db->qn('product_id') , ' IN (' . $db->q($productId) . ')');
+            $query->where($db->qn('product_id') . ' IN (' . $productId . ')');
+        } else {
+            $query->where($db->qn('product_id') . ' = "" ');
         }
 
         $db->setQuery($query);
@@ -168,24 +174,25 @@ class RedshopModelWrapper_detail extends RedshopModel
     }
 
     /**
-     * @param $name
-     * @param $list
-     * @param $selectList
-     * @param $displayId
-     * @param $displayName
-     * @param bool $multiple
+     * @param         $name
+     * @param         $list
+     * @param         $selectList
+     * @param         $displayId
+     * @param         $displayName
+     * @param   bool  $multiple
+     *
      * @return string
      */
     public function getMultiselectBox($name, $list, $selectList, $displayId, $displayName, $multiple = false)
     {
         $multiple = $multiple ? "multiple='multiple'" : "";
-        $id = str_replace('[]', '', $name);
-        $size = 10;
-        $data = [];
+        $id       = str_replace('[]', '', $name);
+        $size     = 10;
+        $data     = [];
 
         for ($i = 0, $in = count($list); $i < $in; $i++) {
-            $e = new stdClass;
-            $e->name = $list[$i]->$displayName;
+            $e        = new stdClass;
+            $e->name  = $list[$i]->$displayName;
             $e->value = $list[$i]->$displayId;
 
             for ($j = 0, $jn = count($selectList); $j < $jn; $j++) {
@@ -201,10 +208,10 @@ class RedshopModelWrapper_detail extends RedshopModel
         return \RedshopLayoutHelper::render(
             'tags.common.select',
             [
-                'name'  => $name,
-                'id'    => $id,
-                'size'  => $size,
-                'list'  => $data
+                'name' => $name,
+                'id'   => $id,
+                'size' => $size,
+                'list' => $data
             ],
             '',
             \RedshopLayoutHelper::$layoutOption
@@ -213,6 +220,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
     /**
      * @param $data
+     *
      * @return bool|JTable
      * @throws Exception
      */
@@ -227,14 +235,14 @@ class RedshopModelWrapper_detail extends RedshopModel
             return false;
         }
 
-        $input = JFactory::getApplication()->input;
-        $wrapperFile = $input->files->get('wrapper_image', '', 'array');
+        $input        = JFactory::getApplication()->input;
+        $wrapperFile  = $input->files->get('wrapper_image', '', 'array');
         $wrapperImage = "";
 
         if ($wrapperFile['name'] != "") {
             $wrapperImage = RedshopHelperMedia::cleanFileName($wrapperFile['name']);
 
-            $src = $wrapperFile['tmp_name'];
+            $src  = $wrapperFile['tmp_name'];
             $dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper/' . $wrapperImage;
 
             if ($data['wrapper_name'] == "") {
@@ -284,7 +292,9 @@ class RedshopModelWrapper_detail extends RedshopModel
 
         if (isset($data['thumb_image_delete'])) {
             $row->product_thumb_image = "";
-            $unlinkPath = JPath::clean(REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/' . $data['old_thumb_image']);
+            $unlinkPath               = JPath::clean(
+                REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/' . $data['old_thumb_image']
+            );
 
             if (\JFile::exists($unlinkPath)) {
                 \JFile::delete($unlinkPath);
@@ -295,7 +305,8 @@ class RedshopModelWrapper_detail extends RedshopModel
     }
 
     /**
-     * @param array $wrapperIds
+     * @param   array  $wrapperIds
+     *
      * @return bool
      * @throws Exception
      */
@@ -305,8 +316,9 @@ class RedshopModelWrapper_detail extends RedshopModel
     }
 
     /**
-     * @param array $wrapperIds
-     * @param int $publish
+     * @param   array  $wrapperIds
+     * @param   int    $publish
+     *
      * @return bool
      * @throws Exception
      */
@@ -316,8 +328,9 @@ class RedshopModelWrapper_detail extends RedshopModel
     }
 
     /**
-     * @param array $wrapperIds
-     * @param int $status
+     * @param   array  $wrapperIds
+     * @param   int    $status
+     *
      * @return bool
      * @throws Exception
      */

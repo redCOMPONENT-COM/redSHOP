@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
  * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -26,6 +26,7 @@ class SupplierCest extends AbstractCest
 	 * Name field, which is use for search
 	 *
 	 * @var string
+	 * @since 1.4.0
 	 */
 	public $nameField = 'name';
 
@@ -33,6 +34,7 @@ class SupplierCest extends AbstractCest
 	 * Method for set new data.
 	 *
 	 * @return  array
+	 * @since 1.4.0
 	 */
 	protected function prepareNewData()
 	{
@@ -72,6 +74,7 @@ class SupplierCest extends AbstractCest
 	 * @return  void
 	 *
 	 * @depends testItemCreateSaveClose
+	 * @since 1.4.0
 	 */
 	public function deleteDataSaveClose(\AcceptanceTester $tester, Codeception\Scenario $scenario)
 	{
@@ -88,6 +91,7 @@ class SupplierCest extends AbstractCest
 	 * Method for set new data.
 	 *
 	 * @return  array
+	 * @since 1.4.0
 	 */
 	protected function prepareEditData()
 	{
@@ -104,6 +108,7 @@ class SupplierCest extends AbstractCest
 	 * @param   Codeception\Scenario  $scenario  Scenario
 	 *
 	 * @return  void
+	 * @since 1.4.0
 	 */
 	public function addSupplierSaveMissingName(AcceptanceTester $tester, Codeception\Scenario $scenario)
 	{
@@ -122,6 +127,7 @@ class SupplierCest extends AbstractCest
 	 * @param   Scenario          $scenario  Scenario
 	 *
 	 * @return  void
+	 * @since 1.4.0
 	 */
 	public function checkCancelButton(AcceptanceTester $client, $scenario)
 	{
@@ -140,6 +146,7 @@ class SupplierCest extends AbstractCest
 	 * @param   Scenario          $scenario  Scenario
 	 *
 	 * @return  void
+	 * @since 1.4.0
 	 */
 	public function addSupplierWrongEmail(AcceptanceTester $client, $scenario)
 	{

@@ -1,14 +1,16 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Cest
- * @copyright   Copyright (C) 2008 - 2019 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 use AcceptanceTester\CategoryManagerJoomla3Steps;
 use AcceptanceTester\ProductManagerJoomla3Steps;
 use AcceptanceTester\UserManagerJoomla3Steps;
 use AcceptanceTester\OrderManagerJoomla3Steps;
+
 /**
  * Class OrderBackendProductAttributeCest
  *
@@ -16,10 +18,152 @@ use AcceptanceTester\OrderManagerJoomla3Steps;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage
  *
- * @since    2.4
+ * @since    2.4.0
  */
 class OrderBackendProductAttributeCest
 {
+	/**
+	 * @var \Faker\Generator
+	 * @since 2.4.0
+	 */
+	protected $faker;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $productName;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $categoryName;
+
+	/**
+	 * @var int
+	 * @since 2.4.0
+	 */
+	protected $minimumPerProduct;
+
+	/**
+	 * @var int
+	 * @since 2.4.0
+	 */
+	protected $minimumQuantity;
+
+	/**
+	 * @var int
+	 * @since 2.4.0
+	 */
+	protected $maximumQuantity;
+
+	/**
+	 * @var int
+	 * @since 2.4.0
+	 */
+	protected $productNumber;
+
+	/**
+	 * @var int
+	 * @since 2.4.0
+	 */
+	protected $price;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $nameAttribute;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $valueAttribute;
+
+	/**
+	 * @var int
+	 * @since 2.4.0
+	 */
+	protected $priceAttribute;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $userName;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $password;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $email;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $shopperGroup;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $group;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $lastName;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $address;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $zipcode;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $city;
+
+	/**
+	 * @var string
+	 * @since 2.4.0
+	 */
+	protected $phone;
+
+	/**
+	 * @var int
+	 * @since 2.4.0
+	 */
+	protected $subtotal;
+
+	/**
+	 * OrderBackendProductAttributeCest constructor.
+	 * @since 2.4.0
+	 */
 	public function __construct()
 	{
 		$this->faker                = Faker\Factory::create();
@@ -49,6 +193,8 @@ class OrderBackendProductAttributeCest
 
 	/**
 	 * @param AcceptanceTester $I
+	 * @throws Exception
+	 * @since 2.4.0
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -63,6 +209,7 @@ class OrderBackendProductAttributeCest
 	 * @return  void
 	 *
 	 * @throws  Exception
+	 * @since 2.4.0
 	 */
 	public function OrderBackendProductAttribute(AcceptanceTester $I, $scenario)
 	{

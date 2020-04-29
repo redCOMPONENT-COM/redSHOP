@@ -4,7 +4,7 @@
         <field
                 name="giftcard_id"
                 type="hidden"
-                />
+        />
         <field
                 name="giftcard_name"
                 type="redshop.text"
@@ -14,7 +14,7 @@
                 class="form-control"
                 default=""
                 required="true"
-                />
+        />
         <field
                 name="customer_amount"
                 type="redshop.radio"
@@ -23,7 +23,7 @@
                 label-class="radio-inline"
                 default="0"
                 required="true"
-                >
+        >
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
@@ -37,7 +37,7 @@
                 filter="float"
                 size="1"
                 required="true"
-                />
+        />
         <field
                 name="giftcard_value"
                 type="redshop.text"
@@ -47,7 +47,7 @@
                 class="form-control"
                 filter="float"
                 required="true"
-                />
+        />
         <field
                 name="giftcard_validity"
                 type="redshop.text"
@@ -57,7 +57,7 @@
                 class="form-control"
                 filter="integer"
                 required="true"
-                />
+        />
         <field
                 name="free_shipping"
                 type="redshop.radio"
@@ -65,7 +65,7 @@
                 default="0"
                 label="COM_REDSHOP_GIFTCARD_FREE_SHIPPING"
                 description="COM_REDSHOP_GIFTCARD_FREE_SHIPPING_DESC"
-                >
+        >
             <option value="1">JYES</option>
             <option value="0">JNO</option>
         </field>
@@ -75,26 +75,26 @@
                 label="COM_REDSHOP_GIFTCARD_BGIMAGE"
                 description="COM_REDSHOP_GIFTCARD_BGIMAGE_TOOLTIP"
                 required="false"
-                />
+        />
         <field
                 name="giftcard_bgimage"
                 type="hidden"
                 default=""
                 readonly="true"
-                />
+        />
         <field
                 name="giftcard_image_file"
                 type="file"
                 label="COM_REDSHOP_GIFTCARD_IMAGE"
                 description="COM_REDSHOP_GIFTCARD_IMAGE_TOOLTIP"
                 required="false"
-                />
+        />
         <field
                 name="giftcard_image"
                 type="hidden"
                 default=""
                 readonly="true"
-                />
+        />
         <field
                 name="published"
                 type="redshop.radio"
@@ -114,7 +114,7 @@
                 description="COM_REDSHOP_TOOLTIP_ECONOMIC_ACCOUNTGROUP_LBL"
                 class="form-control"
                 size="1"
-                />
+        />
     </fieldset>
     <fieldset name="description">
         <field
@@ -125,6 +125,6 @@
                 size="1"
                 filter="safehtml"
                 required="false"
-                />
+        />
     </fieldset>
 </form>

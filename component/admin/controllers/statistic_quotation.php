@@ -18,53 +18,55 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerStatistic_Quotation extends RedshopControllerAdmin
 {
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  object  The model.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function getModel($name = 'Statistic_Quotation', $prefix = 'RedshopModel', $config = array('ignore_request' => true))
-	{
-		$model = parent::getModel($name, $prefix, $config);
+    /**
+     * Export customers CSV.
+     *
+     * @return  mixed.
+     *
+     * @since   2.0.0.3
+     */
+    public function exportQuotation()
+    {
+        $model = $this->getModel();
+        $data  = $model->getQuotations();
 
-		return $model;
-	}
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-type: text/x-csv");
+        header("Content-type: text/csv");
+        header("Content-type: application/csv");
+        header('Content-Disposition: attachment; filename=Quotation.csv');
 
-	/**
-	 * Export customers CSV.
-	 *
-	 * @return  mixed.
-	 *
-	 * @since   2.0.0.3
-	 */
-	public function exportQuotation()
-	{
-		$model         = $this->getModel();
-		$data          = $model->getQuotations();
+        ob_clean();
 
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-type: text/x-csv");
-		header("Content-type: text/csv");
-		header("Content-type: application/csv");
-		header('Content-Disposition: attachment; filename=Quotation.csv');
+        echo "Date, Quotation count, Total sale\n";
 
-		ob_clean();
+        foreach ($data as $key => $value) {
+            echo $value->viewdate . " ,";
+            echo $value->count . " ,";
+            echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . ' ' . $value->quotation_total . "\n";
+        }
 
-		echo "Date, Quotation count, Total sale\n";
+        exit();
+    }
 
-		foreach ($data as $key => $value)
-		{
-			echo $value->viewdate . " ,";
-			echo $value->count . " ,";
-			echo Redshop::getConfig()->get('REDCURRENCY_SYMBOL') . ' ' . $value->quotation_total . "\n";
-		}
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name  The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  object  The model.
+     *
+     * @since   2.0.0.3
+     */
+    public function getModel(
+        $name = 'Statistic_Quotation',
+        $prefix = 'RedshopModel',
+        $config = array('ignore_request' => true)
+    ) {
+        $model = parent::getModel($name, $prefix, $config);
 
-		exit();
-	}
+        return $model;
+    }
 }
